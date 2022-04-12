@@ -1,0 +1,87 @@
+.contact-request-page {
+  &#{&} {
+    @include phone {
+      margin-top: 5rem;
+    }
+  }
+
+  & &__app-bar {
+    @include app-bar-bottom;
+  }
+
+  & &__stepper {
+    &__step--disabled {
+      span,
+      svg {
+        color: $color-grey-700;
+      }
+    }
+  }
+
+  & &__grid {
+    margin-top: 3rem;
+
+    @include phone {
+      margin: 0;
+      padding: 0;
+    }
+
+    &__stepper-container {
+      @include phone {
+        @include phone-divider-border-bottom;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+      }
+    }
+
+    &__heading-container {
+      @include phone {
+        @include phone-divider-border-bottom;
+        margin: 1rem 0;
+        padding: 1rem 0 1rem 2rem;
+      }
+    }
+
+    &__steps-container {
+      @include phone {
+        @include phone-divider-border-bottom;
+        margin-bottom: 2rem;
+        padding: 1rem 2rem 5rem;
+      }
+    }
+
+    &__form-container {
+      padding: 3rem;
+
+      @include phone {
+        @include phone-divider-border-top;
+        @include phone-divider-border-bottom;
+        padding: 2rem;
+      }
+    }
+
+    &__inner-container {
+      margin-left: 5rem;
+      max-width: 80%;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 3rem;
+    margin-top: 5rem;
+
+    @include phone {
+      margin: 2rem;
+    }
+  }
+
+  & &__lang-pair {
+    color: $color-secondary;
+    margin-left: 0.5rem;
+
+    @include phone {
+      margin-left: 0;
+      margin-top: 0.5rem;
+    }
+  }
+}

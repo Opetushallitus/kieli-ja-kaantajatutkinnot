@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  akt-backend:
+    build: ./backend/akt
+    ports:
+      - "8080:8080"
+    command: "./mvnw clean install -DskipTests"
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false}"
+      ]
+    networks:
+      - akt-dev
+    working_dir: /app
+    volumes:
+      - $HOME/.m2:/root/.m2
+      - ./backend/akt:/app
+    depends_on:
+      - akt-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - AKT_UNSECURE=${AKT_UNSECURE}
+  akt-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.akt
+    ports:
+      - "4000:4000"
+    working_dir: /app/reactjs
+    networks:
+      - akt-dev
+    volumes:
+      - ./frontend/packages/akt:/app/reactjs/packages/akt
+      - /app/reactjs/node_modules
+
+  akt-postgres:
+    build: ./backend/akt/db
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - akt-dev
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  akt-dev: {}
+
+volumes:
+  nodemodules: {}

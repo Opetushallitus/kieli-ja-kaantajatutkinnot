@@ -1,0 +1,13 @@
+.clerk-send-email-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__form-container {
+    padding: 3rem;
+  }
+
+  &__form-contents {
+    padding: 3rem 5rem;
+  }
+}

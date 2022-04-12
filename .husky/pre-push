@@ -1,0 +1,7 @@
+# #!/bin/sh
+# . "$(dirname "$0")/_/husky.sh"
+
+# # Run Frontend linters
+# npm --prefix src/main/reactjs/ run lint
+
+# mvn validate -Dplugin.prettier.goal=check

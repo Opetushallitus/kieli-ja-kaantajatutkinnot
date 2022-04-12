@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<databaseChangeLog logicalFilePath="migrations.xml"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2021-11-02-create-meeting_date-table" author="terova">
+        <createTable tableName="meeting_date">
+            <column autoIncrement="true" name="meeting_date_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="meeting_date_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-authorisation_basis-table" author="terova">
+        <createTable tableName="authorisation_basis">
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="authorisation_basis_pkey"/>
+            </column>
+        </createTable>
+        <insert tableName="authorisation_basis">
+            <column name="name" value="AUT"/>
+        </insert>
+        <insert tableName="authorisation_basis">
+            <column name="name" value="KKT"/>
+        </insert>
+        <insert tableName="authorisation_basis">
+            <column name="name" value="VIR"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-translator-table" author="terova">
+        <createTable tableName="translator">
+            <column autoIncrement="true" name="translator_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="translator_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="onr_oid" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-authorisation-table" author="terova">
+        <createTable tableName="authorisation">
+            <column autoIncrement="true" name="authorisation_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="authorisation_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="translator_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="basis" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="meeting_date_id" type="BIGINT"/>
+            <column name="aut_date" type="DATE"/>
+            <column name="kkt_check" type="TEXT"/>
+            <column name="vir_date" type="DATE"/>
+            <column name="assurance_date" type="DATE"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="authorisation" baseColumnNames="translator_id"
+                                 referencedTableName="translator" referencedColumnNames="translator_id"
+                                 constraintName="fk_authorisation_translator"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="authorisation" baseColumnNames="basis"
+                                 referencedTableName="authorisation_basis" referencedColumnNames="name"
+                                 constraintName="fk_authorisation_authorisation_basis"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="authorisation" baseColumnNames="meeting_date_id"
+                                 referencedTableName="meeting_date" referencedColumnNames="meeting_date_id"
+                                 constraintName="fk_authorisation_meeting_date"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <sql>
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_by_basis
+                    CHECK (basis = 'AUT' AND meeting_date_id IS NOT NULL AND aut_date IS NOT NULL AND kkt_check IS     NULL AND vir_date IS     NULL AND assurance_date IS NOT NULL
+                        OR basis = 'KKT' AND meeting_date_id IS NOT NULL AND aut_date IS     NULL AND kkt_check IS NOT NULL AND vir_date IS     NULL AND assurance_date IS NOT NULL
+                        OR basis = 'VIR' AND meeting_date_id IS NOT NULL AND aut_date IS     NULL AND kkt_check IS     NULL AND vir_date IS NOT NULL AND assurance_date IS NOT NULL
+                        OR basis = 'VIR' AND meeting_date_id IS     NULL AND aut_date IS     NULL AND kkt_check IS     NULL AND vir_date IS NOT NULL AND assurance_date IS NULL)
+        </sql>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-language_pair-table" author="terova">
+        <createTable tableName="language_pair">
+            <column autoIncrement="true" name="language_pair_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="language_pair_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="authorisation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_to_publish" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="language_pair" baseColumnNames="authorisation_id"
+                                 referencedTableName="authorisation" referencedColumnNames="authorisation_id"
+                                 constraintName="fk_language_pair_authorisation"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <createIndex tableName="language_pair" indexName="language_pair_uniq" unique="true">
+            <column name="authorisation_id"/>
+            <column name="from_lang"/>
+            <column name="to_lang"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-authorisation_term-table" author="terova">
+        <createTable tableName="authorisation_term">
+            <column autoIncrement="true" name="authorisation_term_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="authorisation_term_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="authorisation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="begin_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="authorisation_term" baseColumnNames="authorisation_id"
+                                 referencedTableName="authorisation" referencedColumnNames="authorisation_id"
+                                 constraintName="fk_authorisation_term_authorisation"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <sql><![CDATA[
+            ALTER TABLE authorisation_term
+                ADD CONSTRAINT ck_authorisation_term_end_date
+                    CHECK (end_date IS NULL OR begin_date < end_date)
+            ]]></sql>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-email-table" author="terova">
+        <createTable tableName="email">
+            <column autoIncrement="true" name="email_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="sender" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sent_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="error" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-authorisation_term_reminder-table" author="terova">
+        <createTable tableName="authorisation_term_reminder">
+            <column autoIncrement="true" name="authorisation_term_reminder_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="authorisation_term_reminder_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="authorisation_term_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="authorisation_term_reminder" baseColumnNames="authorisation_term_id"
+                                 referencedTableName="authorisation_term" referencedColumnNames="authorisation_term_id"
+                                 constraintName="fk_authorisation_term_reminder_authorisation_term"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="authorisation_term_reminder" baseColumnNames="email_id"
+                                 referencedTableName="email" referencedColumnNames="email_id"
+                                 constraintName="fk_authorisation_term_reminder_email"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2021-12-14-create-contact_request-table" author="mikhuttu">
+        <createTable tableName="contact_request">
+            <column autoIncrement="true" name="contact_request_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="contact_request_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="TEXT"/>
+            <column name="message" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-14-create-contact_request_translator-table" author="mikhuttu">
+        <createTable tableName="contact_request_translator">
+            <column autoIncrement="true" name="contact_request_translator_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="contact_request_translator_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="contact_request_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="translator_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="contact_request_translator" baseColumnNames="contact_request_id"
+                                 referencedTableName="contact_request" referencedColumnNames="contact_request_id"
+                                 constraintName="fk_contact_request_translator_contact_request"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="contact_request_translator" baseColumnNames="translator_id"
+                                 referencedTableName="translator" referencedColumnNames="translator_id"
+                                 constraintName="fk_contact_request_translator_translator"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2021-12-17-add-language_pair-check-constraint" author="terova">
+        <sql><![CDATA[
+            ALTER TABLE language_pair
+                ADD CONSTRAINT ck_language_pair_from_to CHECK (from_lang <> to_lang AND
+                                                                (from_lang IN ('fi', 'sv') OR to_lang IN ('fi', 'sv')))
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2021-12-21-create-shedlock-table" author="terova">
+        <createTable tableName="shedlock">
+            <column name="name" type="VARCHAR(64)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="lock_until" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2021-12-21-add-enum-email_type" author="terova">
+        <createTable tableName="email_type">
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="email_type_pkey"/>
+            </column>
+        </createTable>
+        <insert tableName="email_type">
+            <column name="name" value="CONTACT_REQUEST"/>
+        </insert>
+        <addColumn tableName="email">
+            <column name="email_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="email" baseColumnNames="email_type"
+                                 referencedTableName="email_type" referencedColumnNames="name"
+                                 constraintName="fk_email_email_type"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2021-12-21-add-column-email_ext_id" author="terova">
+        <addColumn tableName="email">
+            <column name="ext_id" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2022-01-03-add-meeting_date-date-uniq" author="terova">
+        <addUniqueConstraint tableName="meeting_date" columnNames="date"/>
+    </changeSet>
+
+    <changeSet id="2022-01-04-add-new-email-types" author="mikhuttu">
+        <insert tableName="email_type">
+            <column name="name" value="AUTHORISATION_EXPIRY"/>
+        </insert>
+        <insert tableName="email_type">
+            <column name="name" value="INFORMAL"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2022-01-05-language_pair-uppercase" author="terova">
+        <sql><![CDATA[
+            ALTER TABLE language_pair DROP CONSTRAINT ck_language_pair_from_to;
+            UPDATE language_pair
+            SET from_lang=UPPER(from_lang),
+                to_lang=UPPER(to_lang);
+            ALTER TABLE language_pair
+                ADD CONSTRAINT ck_language_pair_from_to CHECK (from_lang <> to_lang AND
+                                                               (from_lang IN ('FI', 'SV') OR to_lang IN ('FI', 'SV')))
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-01-07-add-person_details" author="terova">
+        <dropColumn tableName="translator">
+            <column name="onr_oid"/>
+        </dropColumn>
+        <addColumn tableName="translator">
+            <column name="identity_number" type="VARCHAR(255)">
+                <constraints unique="true" />
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="TEXT"/>
+            <column name="phone_number" type="TEXT"/>
+            <column name="street" type="TEXT"/>
+            <column name="town" type="TEXT"/>
+            <column name="postal_code" type="TEXT"/>
+            <column name="country" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2022-01-14-move_language_pair_to_authorisation" author="terova">
+        <addColumn tableName="authorisation">
+            <column name="from_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_to_publish" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <dropTable tableName="language_pair"/>
+    </changeSet>
+
+    <changeSet id="2022-01-20-add-column-authorisation_diary_number" author="mikhuttu">
+        <addColumn tableName="authorisation">
+            <column name="diary_number" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2022-01-21-change_email_columns" author="mikhuttu">
+        <dropColumn tableName="email">
+            <column name="sender"/>
+        </dropColumn>
+        <addColumn tableName="email">
+            <column name="recipient_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <renameColumn tableName="email" oldColumnName="recipient" newColumnName="recipient_address"/>
+    </changeSet>
+
+    <changeSet id="2022-01-21-modify_translator_email" author="mikhuttu">
+        <modifyDataType tableName="translator" columnName="email" newDataType="VARCHAR(255)"/>
+        <addUniqueConstraint tableName="translator" columnNames="email"/>
+    </changeSet>
+
+    <changeSet id="2022-02-01-new_contact_request_email_types" author="mikhuttu">
+        <insert tableName="email_type">
+            <column name="name" value="CONTACT_REQUEST_CLERK"/>
+        </insert>
+        <insert tableName="email_type">
+            <column name="name" value="CONTACT_REQUEST_REQUESTER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2022-02-01-rename_email_type_contact_request" author="mikhuttu">
+        <insert tableName="email_type">
+            <column name="name" value="CONTACT_REQUEST_TRANSLATOR"/>
+        </insert>
+        <update tableName="email">
+            <column name="email_type" value="CONTACT_REQUEST_TRANSLATOR"/>
+            <where>email_type = 'CONTACT_REQUEST'</where>
+        </update>
+        <delete tableName="email_type">
+            <where>name = 'CONTACT_REQUEST'</where>
+        </delete>
+    </changeSet>
+
+    <changeSet id="2022-02-08-check_from_lang_and_to_lang" author="terova">
+        <sql><![CDATA[
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_from_to CHECK (from_lang <> to_lang AND
+                                                               (from_lang IN ('FI', 'SV', 'SEIN', 'SEKO', 'SEPO') OR
+                                                                to_lang IN ('FI', 'SV', 'SEIN', 'SEKO', 'SEPO')))
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-02-09-add-column-translator_extra_information" author="mikhuttu">
+        <addColumn tableName="translator">
+            <column name="extra_information" type="TEXT"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2022-02-28-move_authorisation_term_contents_under_authorisation" author="mikhuttu">
+        <dropForeignKeyConstraint baseTableName="authorisation_term"
+                                  constraintName="fk_authorisation_term_authorisation"/>
+
+        <dropForeignKeyConstraint baseTableName="authorisation_term_reminder"
+                                  constraintName="fk_authorisation_term_reminder_authorisation_term"/>
+
+        <delete tableName="authorisation_term_reminder"/>
+        <delete tableName="authorisation_term"/>
+
+        <dropTable tableName="authorisation_term"/>
+        <dropColumn tableName="authorisation_term_reminder" columnName="authorisation_term_id"/>
+
+        <addColumn tableName="authorisation_term_reminder">
+            <column name="authorisation_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="authorisation_term_reminder" baseColumnNames="authorisation_id"
+                                 referencedTableName="authorisation" referencedColumnNames="authorisation_id"
+                                 constraintName="fk_authorisation_term_reminder_authorisation"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addColumn tableName="authorisation">
+            <column name="term_begin_date" type="DATE"/>
+            <column name="term_end_date" type="DATE"/>
+        </addColumn>
+
+        <sql><![CDATA[
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_term_end_date
+                    CHECK (term_end_date IS NULL OR term_begin_date < term_end_date)
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-03-03-drop_authorisation_unused_date_columns" author="mikhuttu">
+        <sql>
+            ALTER TABLE authorisation DROP CONSTRAINT ck_authorisation_by_basis
+        </sql>
+        <sql>
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_aut_date
+                    CHECK (basis = 'AUT' OR aut_date IS NULL)
+        </sql>
+
+        <dropColumn tableName="authorisation" columnName="kkt_check"/>
+        <dropColumn tableName="authorisation" columnName="vir_date"/>
+        <dropColumn tableName="authorisation" columnName="assurance_date"/>
+    </changeSet>
+
+    <changeSet id="2022-03-03-nullable_authorisation_diary_number" author="mikhuttu">
+        <dropColumn tableName="authorisation" columnName="diary_number"/>
+
+        <addColumn tableName="authorisation">
+            <column name="diary_number" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2022-03-04-add_translator_is_assurance_given" author="mikhuttu">
+        <addColumn tableName="translator">
+            <column name="is_assurance_given" type="BOOL" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <dropDefaultValue tableName="translator" columnName="is_assurance_given"/>
+    </changeSet>
+
+    <changeSet id="2022-03-11-modify_authorisation_aut_date_constraint" author="mikhuttu">
+        <sql>
+            ALTER TABLE authorisation DROP CONSTRAINT ck_authorisation_aut_date
+        </sql>
+        <sql>
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_aut_date
+                    CHECK ((basis = 'AUT' AND aut_date IS NOT NULL) OR (basis != 'AUT' AND aut_date IS NULL))
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-03-24-translator_named_constraints_hsql" author="terova" dbms="hsqldb">
+        <dropColumn tableName="translator" columnName="identity_number"/>
+        <addColumn tableName="translator">
+            <column name="identity_number" type="VARCHAR(255)"/>
+        </addColumn>
+        <addUniqueConstraint tableName="translator" columnNames="identity_number" constraintName="uk_translator_identity_number"/>
+
+        <dropColumn tableName="translator" columnName="email"/>
+        <addColumn tableName="translator">
+            <column name="email" type="VARCHAR(255)"/>
+        </addColumn>
+        <addUniqueConstraint tableName="translator" columnNames="email" constraintName="uk_translator_email"/>
+    </changeSet>
+
+    <changeSet id="2022-03-24-translator_named_constraints_postgresql" author="terova" dbms="postgresql">
+        <dropUniqueConstraint tableName="translator" constraintName="translator_identity_number_key" />
+        <addUniqueConstraint tableName="translator" columnNames="identity_number" constraintName="uk_translator_identity_number"/>
+
+        <dropUniqueConstraint tableName="translator" constraintName="translator_email_key" />
+        <addUniqueConstraint tableName="translator" columnNames="email" constraintName="uk_translator_email"/>
+    </changeSet>
+
+</databaseChangeLog>

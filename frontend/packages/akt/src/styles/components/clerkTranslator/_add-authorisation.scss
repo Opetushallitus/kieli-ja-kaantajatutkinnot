@@ -1,0 +1,7 @@
+.add-authorisation {
+  &__fields {
+    align-items: flex-end;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

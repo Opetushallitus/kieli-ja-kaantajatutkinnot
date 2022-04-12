@@ -1,0 +1,9 @@
+package fi.oph.akt.model;
+
+public enum EmailType {
+  AUTHORISATION_EXPIRY,
+  CONTACT_REQUEST_CLERK,
+  CONTACT_REQUEST_REQUESTER,
+  CONTACT_REQUEST_TRANSLATOR,
+  INFORMAL,
+}

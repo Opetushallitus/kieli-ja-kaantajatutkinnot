@@ -1,0 +1,13 @@
+{
+  "akt": {
+    "component": {
+      "header": {
+        "lang": {
+          "fi": "Suomeksi",
+          "sv": "På Svenska",
+          "en": "In English"
+        }
+      }
+    }
+  }
+}

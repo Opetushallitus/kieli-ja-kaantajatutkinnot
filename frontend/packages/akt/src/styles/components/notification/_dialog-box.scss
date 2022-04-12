@@ -1,0 +1,19 @@
+.dialog-box {
+  &--success {
+    & [role='dialog'] {
+      @include dialog-border($color-green-600);
+    }
+  }
+
+  &--error {
+    & [role='dialog'] {
+      @include dialog-border($color-red-500);
+    }
+  }
+
+  &--info {
+    & [role='dialog'] {
+      @include dialog-border($color-secondary);
+    }
+  }
+}

@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+html,
+body,
+#root {
+  background-color: $color-background-root;
+  font-family: Roboto;
+  font-size: 62.5%;
+  height: 100%;
+
+  & h1 {
+    @include phone {
+      font-size: 2rem;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.app {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content'
+    'footer';
+  grid-template-rows: fit-content($size-header) auto fit-content($size-footer);
+  height: 100%;
+  margin: auto;
+  max-width: $breakpoint-xxl;
+
+  .header {
+    grid-area: header;
+    z-index: 1;
+
+    @include phone {
+      @include phone-divider-border-bottom;
+    }
+  }
+
+  .content {
+    background-color: $color-background-content;
+    display: flex;
+    grid-area: content;
+
+    &__container {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      margin: 2rem auto;
+      max-width: $breakpoint-xl;
+      padding: 3rem;
+
+      @include phone {
+        justify-content: unset;
+        margin: 0 auto;
+        padding: 0;
+      }
+    }
+  }
+
+  .footer {
+    grid-area: footer;
+  }
+}

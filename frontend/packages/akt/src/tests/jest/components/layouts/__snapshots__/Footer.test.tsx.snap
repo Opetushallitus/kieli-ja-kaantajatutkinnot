@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should render Footer correctly 1`] = `
+<footer>
+  <img
+    alt="accessibility.waveAriaLabel"
+    className="footer__wave"
+    src="test"
+  />
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 footer css-3su884-MuiPaper-root"
+  >
+    <div
+      className="footer__info-row"
+    >
+      <div
+        className="footer__container footer__container--links"
+      >
+        <a
+          className="custom-button-link"
+          href="/akt/saavutettavuusseloste"
+          onClick={[Function]}
+        >
+          <button
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            links.accessibility.text
+          </button>
+        </a>
+        <a
+          aria-label="links.aktHomepage.ariaLabel"
+          className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root  css-1y942vo-MuiButtonBase-root-MuiButton-root"
+          href="links.aktHomepage.link"
+          onBlur={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          rel="noreferrer"
+          tabIndex={0}
+          target="_blank"
+        >
+          links.aktHomepage.text
+          <span
+            className="MuiButton-endIcon MuiButton-iconSizeMedium css-9tj150-MuiButton-endIcon"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="OpenInNewIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+              />
+            </svg>
+          </span>
+        </a>
+        <a
+          className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root footer__container--links__contact-email css-1y942vo-MuiButtonBase-root-MuiButton-root"
+          href="mailto:contactEmail"
+          onBlur={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          rel="noreferrer"
+          tabIndex={0}
+          target="_blank"
+        >
+          contactEmail
+        </a>
+      </div>
+      <div
+        className="footer__container footer__container--contact-details"
+      >
+        <h3
+          className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+        >
+          address.name
+        </h3>
+        <br />
+        <p
+          className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          address.street
+        </p>
+        <p
+          className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          address.zipCity
+        </p>
+        <br />
+        <div
+          className="columns gapped-xxs"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1 inline-text css-ahj2mt-MuiTypography-root"
+          >
+            address.phone.title
+          </p>
+          <a
+            aria-label="accessibility.ophPhone"
+            className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
+            href="tel:address.phone.number"
+            onBlur={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            rel="noreferrer"
+            tabIndex={0}
+            target="_blank"
+          >
+            address.phone.number
+          </a>
+        </div>
+      </div>
+      <div
+        className="footer__container"
+      >
+        <img
+          alt="aktLogo"
+          className="footer__container__logo--akt"
+          src="test"
+        />
+      </div>
+    </div>
+    <div
+      className="footer__logo-row"
+    >
+      <div
+        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren footer__logo-row__divider css-1ws8119-MuiDivider-root"
+        role="separator"
+      >
+        <span
+          className="MuiDivider-wrapper css-qywfm8-MuiDivider-wrapper"
+        >
+          <img
+            alt="ophLogo"
+            className="footer__container__logo--oph"
+            src="test"
+          />
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+`;

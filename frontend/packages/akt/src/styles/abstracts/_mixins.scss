@@ -1,0 +1,56 @@
+@mixin phone-divider-border-top() {
+  border-radius: 0;
+  border-top: 1px solid $color-grey-400;
+  box-shadow: none;
+}
+
+@mixin phone-divider-border-bottom() {
+  border-bottom: 1px solid $color-grey-400;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@mixin app-bar-bottom() {
+  bottom: 0;
+  position: fixed;
+  top: auto;
+
+  &__tool-bar {
+    margin: 1.5rem 0;
+
+    button {
+      padding: 0.8rem 2rem;
+    }
+  }
+}
+
+@mixin dialog-border($color) {
+  border-radius: 0;
+  border-top: 1rem $color solid;
+}
+
+@mixin header-text {
+  color: $color-secondary-dark;
+  font-size: 1.6rem;
+  font-weight: normal;
+  text-transform: none;
+}
+
+// Media Queries
+@mixin phone {
+  @media (max-width: map-get($breakpoints, 'phone')) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: map-get($breakpoints, 'tablet')) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (max-width: map-get($breakpoints, 'desktop')) {
+    @content;
+  }
+}

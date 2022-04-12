@@ -1,0 +1,28 @@
+{
+  "akt": {
+    "common": {
+      "aktLogo": "Auktorisoidun kääntäjän tutkintojärjestelmän logo",
+      "appTitle": "Auktorisoitujen kääntäjien rekisteri",
+      "back": "Takaisin",
+      "backToHomePage": "Takaisin etusivulle",
+      "cancel": "Peruuta",
+      "contactEmail": "auktoris.lautakunta@oph.fi",
+      "delete": "Poista",
+      "edit": "Muokkaa",
+      "frontPage": "Etusivu",
+      "loadingContent": "Sisältöä ladataan",
+      "meetingDates": "Kokouspäivät",
+      "newTab": "Avaa uudessa välilehdessä",
+      "next": "Seuraava",
+      "no": "Ei",
+      "ophLogo": "Opetushallituksen logo",
+      "phase": "Vaihe",
+      "register": "Rekisteri",
+      "save": "Tallenna",
+      "send": "Lähetä",
+      "yes": "Kyllä",
+      "add": "Lisää",
+      "addAuthorisation": "Lisää auktorisointi"
+    }
+  }
+}
