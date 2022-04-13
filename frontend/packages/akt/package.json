@@ -11,7 +11,7 @@
     "lint": "yarn eslint && yarn tslint && yarn stylelint",
     "format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test:jest": "yarn g:jest --updateSnapshot",
+    "test:jest": "yarn g:jest",
     "test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
     "start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",

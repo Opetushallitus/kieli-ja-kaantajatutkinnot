@@ -20,7 +20,7 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
   >
     <div
       aria-label="accessibility.langSelectorAriaLabel"
-      className="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl lang-selector__select css-1aa5qj0-MuiInputBase-root-MuiInput-root"
+      className="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl lang-selector__select css-1nbvhrz-MuiInputBase-root-MuiInput-root-MuiSelect-root"
       data-testid="lang-selector"
       onClick={[Function]}
     >

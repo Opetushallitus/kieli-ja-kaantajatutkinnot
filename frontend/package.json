@@ -3,7 +3,7 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
-    "g:tsc": "cd $INIT_CWD && jest",
+    "g:tsc": "cd $INIT_CWD && tsc",
     "g:eslint": "cd $INIT_CWD && eslint",
     "g:stylelint": "cd $INIT_CWD && stylelint",
     "g:prettier": "cd $INIT_CWD && prettier",
