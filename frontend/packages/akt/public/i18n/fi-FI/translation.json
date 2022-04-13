@@ -123,7 +123,7 @@
       },
       "contactRequestForm": {
         "cancelRequestDialog": {
-          "description": "Haluatko peruuttaa yhteydenottopyynnön? Menetät täyttämäsi tiedot",
+          "description": "Haluatko peruuttaa yhteydenottopyynnön? Menetät täyttämäsi tiedot.",
           "title": "Peruuta yhteydenottopyyntö"
         },
         "characters": "merkkiä",
