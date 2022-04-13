@@ -15,6 +15,7 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { AppRoutes, Color, Duration, Severity, Variant } from 'enums/app';
+import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   resetNewClerkTranslatorDetails,
@@ -45,6 +46,7 @@ export const ClerkNewTranslatorPage = () => {
 
   const dispatch = useAppDispatch();
   const onAuthorisationAdd = (authorisation: Authorisation) => {
+    setHasLocalChanges(true);
     dispatch(
       updateNewClerkTranslator({
         ...translator,
@@ -114,6 +116,9 @@ export const ClerkNewTranslatorPage = () => {
     }
   }, [id, dispatch, navigate, status, t]);
 
+  const [hasLocalChanges, setHasLocalChanges] = useState(false);
+  useNavigationProtection(hasLocalChanges);
+
   return (
     <Box className="clerk-new-translator-page">
       <H1>{t('title')}</H1>
@@ -123,7 +128,9 @@ export const ClerkNewTranslatorPage = () => {
       >
         <div className="rows gapped">
           <TopControls />
-          <NewTranslatorBasicInformation />
+          <NewTranslatorBasicInformation
+            onDetailsChange={() => setHasLocalChanges(true)}
+          />
           <CustomModal
             data-testid="authorisation-details__add-authorisation-modal"
             open={open}

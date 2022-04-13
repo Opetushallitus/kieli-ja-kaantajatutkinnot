@@ -152,8 +152,10 @@ export const StepHeading = ({ step }: { step: ContactRequestFormStep }) => {
 
 export const StepContents = ({
   disableNext,
+  onDataChanged,
 }: {
   disableNext: (disabled: boolean) => void;
+  onDataChanged: () => void;
 }) => {
   const { activeStep } = useAppSelector(contactRequestSelector);
 
@@ -161,7 +163,12 @@ export const StepContents = ({
     case ContactRequestFormStep.VerifyTranslators:
       return <VerifySelectedTranslators disableNext={disableNext} />;
     case ContactRequestFormStep.FillContactDetails:
-      return <FillContactDetails disableNext={disableNext} />;
+      return (
+        <FillContactDetails
+          disableNext={disableNext}
+          onDataChanged={onDataChanged}
+        />
+      );
     case ContactRequestFormStep.WriteMessage:
       return <WriteMessage disableNext={disableNext} />;
     case ContactRequestFormStep.PreviewAndSend:

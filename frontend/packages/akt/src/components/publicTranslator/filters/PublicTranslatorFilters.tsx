@@ -67,6 +67,7 @@ export const PublicTranslatorFilters = ({
     errors: [],
   };
   const [filters, setFilters] = useState(defaultFiltersState);
+  const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
   const defaultValuesState: PublicTranslatorFilterValues = {
     fromLang: null,
     toLang: null,
@@ -119,6 +120,7 @@ export const PublicTranslatorFilters = ({
     } else {
       dispatch(addPublicTranslatorFilter(filters));
       setShowTable(true);
+      setSearchButtonDisabled(true);
     }
   };
 
@@ -138,12 +140,14 @@ export const PublicTranslatorFilters = ({
     dispatch(emptySelectedTranslators);
     scrollToSearch();
     setShowTable(false);
+    setSearchButtonDisabled(true);
   };
 
   const handleComboboxInputChange =
     (inputName: SearchFilter) =>
     ({}, newInputValue: string) => {
       setInputValues({ ...inputValues, [inputName]: newInputValue });
+      setSearchButtonDisabled(false);
     };
 
   const handleComboboxFilterChange =
@@ -169,6 +173,7 @@ export const PublicTranslatorFilters = ({
         setValues((prevState) => ({ ...prevState, [filterName]: value }));
       }
       dispatch(removePublicTranslatorFilterError(filterName));
+      setSearchButtonDisabled(false);
     };
 
   const handleTextFieldFilterChange =
@@ -176,12 +181,13 @@ export const PublicTranslatorFilters = ({
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const target = event.target as HTMLInputElement;
       setValues((prevState) => ({ ...prevState, [filterName]: target.value }));
-      debounce(() =>
+      debounce(() => {
         setFilters((prevState) => ({
           ...prevState,
           [filterName]: target.value,
-        }))
-      );
+        }));
+        setSearchButtonDisabled(false);
+      });
     };
 
   const getComboBoxAttributes = (fieldName: SearchFilter) => ({
@@ -194,7 +200,9 @@ export const PublicTranslatorFilters = ({
   });
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key == KeyboardKey.Enter) handleSearchBtnClick();
+    if (event.key == KeyboardKey.Enter && !searchButtonDisabled) {
+      handleSearchBtnClick();
+    }
   };
 
   const isLangFilterDisabled = selectedTranslators.length > 0;
@@ -310,6 +318,7 @@ export const PublicTranslatorFilters = ({
           </CustomButton>
         )}
         <CustomButton
+          disabled={searchButtonDisabled}
           data-testid="public-translator-filters__search-btn"
           color={Color.Secondary}
           variant={Variant.Contained}

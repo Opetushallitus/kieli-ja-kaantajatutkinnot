@@ -10,14 +10,14 @@ import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslator
 
 export const ControlButtons = ({
   isViewMode,
-  onCancelBtnClick,
-  onEditBtnClick,
-  onSaveBtnClick,
+  onCancel,
+  onEdit,
+  onSave,
 }: {
   isViewMode: boolean;
-  onCancelBtnClick: () => void;
-  onEditBtnClick: () => void;
-  onSaveBtnClick: () => void;
+  onCancel: () => void;
+  onEdit: () => void;
+  onSave: () => void;
 }) => {
   const translateCommon = useCommonTranslation();
   const { translatorDetailsStatus } = useAppSelector(
@@ -33,7 +33,7 @@ export const ControlButtons = ({
         variant={Variant.Contained}
         color={Color.Secondary}
         startIcon={<EditIcon />}
-        onClick={onEditBtnClick}
+        onClick={onEdit}
       >
         {translateCommon('edit')}
       </CustomButton>
@@ -45,7 +45,7 @@ export const ControlButtons = ({
           data-testid="clerk-translator-overview__translator-details__cancel-btn"
           variant={Variant.Text}
           color={Color.Secondary}
-          onClick={onCancelBtnClick}
+          onClick={onCancel}
           disabled={isLoading}
         >
           {translateCommon('cancel')}
@@ -55,7 +55,7 @@ export const ControlButtons = ({
             data-testid="clerk-translator-overview__translator-details__save-btn"
             variant={Variant.Contained}
             color={Color.Secondary}
-            onClick={onSaveBtnClick}
+            onClick={onSave}
             disabled={isLoading}
           >
             {translateCommon('save')}

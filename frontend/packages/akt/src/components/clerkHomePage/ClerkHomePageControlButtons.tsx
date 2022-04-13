@@ -17,6 +17,7 @@ export const ClerkHomePageControlButtons = () => {
   return (
     <>
       <CustomButton
+        data-testid="clerk-translator-registry__reset-filters-btn"
         color={Color.Secondary}
         variant={Variant.Outlined}
         onClick={() => dispatch(resetClerkTranslatorFilters)}

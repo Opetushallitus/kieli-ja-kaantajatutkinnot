@@ -11,7 +11,10 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { AppRoutes, Severity } from 'enums/app';
-import { fetchClerkTranslatorOverview } from 'redux/actions/clerkTranslatorOverview';
+import {
+  fetchClerkTranslatorOverview,
+  resetClerkTranslatorOverview,
+} from 'redux/actions/clerkTranslatorOverview';
 import { showNotifierToast } from 'redux/actions/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
@@ -60,6 +63,12 @@ export const ClerkTranslatorOverviewPage = () => {
     selectedTranslatorId,
     t,
   ]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkTranslatorOverview);
+    };
+  }, [dispatch]);
 
   return (
     <Box className="clerk-translator-overview-page">

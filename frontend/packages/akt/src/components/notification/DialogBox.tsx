@@ -30,6 +30,7 @@ export const DialogBox = () => {
   const handleDialogClose = (id: string) => {
     dispatch(removeNotifierDialog(id));
     setActiveDialog(undefined);
+    activeDialog?.onClose && activeDialog.onClose();
   };
 
   const dispatchAction = (action: string | (() => void), id: string) => {

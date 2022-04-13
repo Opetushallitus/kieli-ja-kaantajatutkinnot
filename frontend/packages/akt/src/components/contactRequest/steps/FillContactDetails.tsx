@@ -19,8 +19,10 @@ import { StringUtils } from 'utils/string';
 
 export const FillContactDetails = ({
   disableNext,
+  onDataChanged,
 }: {
   disableNext: (disabled: boolean) => void;
+  onDataChanged: () => void;
 }) => {
   // I18n
   const { t } = useAppTranslation({
@@ -64,6 +66,7 @@ export const FillContactDetails = ({
         handleContactDetailsErrors(fieldName)(event);
       }
 
+      onDataChanged();
       dispatch(
         setContactRequest({
           [fieldName]: event.target.value,

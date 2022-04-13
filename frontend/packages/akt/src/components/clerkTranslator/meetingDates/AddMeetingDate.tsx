@@ -9,9 +9,11 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { Color, Variant } from 'enums/app';
+import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 import { DateUtils } from 'utils/date';
+import { StringUtils } from 'utils/string';
 
 export const AddMeetingDate = () => {
   const dayjs = DateUtils.dayjs();
@@ -27,7 +29,7 @@ export const AddMeetingDate = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleOnClick = () => {
+  const handleAddDate = () => {
     value && dispatch(addMeetingDate(dayjs(value)));
   };
 
@@ -42,6 +44,8 @@ export const AddMeetingDate = () => {
 
     return true;
   };
+
+  useNavigationProtection(!StringUtils.isBlankString(value));
 
   return (
     <div className="columns gapped">
@@ -60,7 +64,7 @@ export const AddMeetingDate = () => {
               color={Color.Secondary}
               startIcon={<AddIcon />}
               disabled={isAddButtonDisabled() || isLoading}
-              onClick={handleOnClick}
+              onClick={handleAddDate}
             >
               {t('buttons.add')}
             </CustomButton>

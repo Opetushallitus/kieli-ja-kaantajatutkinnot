@@ -83,7 +83,6 @@ export const clerkTranslatorReducer: Reducer<ClerkUIState, ClerkStateAction> = (
         ...state,
         filters: { ...state.filters, ...filters },
       };
-    // TODO: should clear content in name search component
     case CLERK_TRANSLATOR_RESET_FILTERS:
       return {
         ...state,

@@ -6,6 +6,7 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { Severity, UIMode, Variant } from 'enums/app';
+import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import {
   ClerkTranslator,
   ClerkTranslatorBasicInformation,
@@ -32,9 +33,10 @@ export const ClerkTranslatorDetails = () => {
   // Local State
   const [translatorDetails, setTranslatorDetails] =
     useState(selectedTranslator);
+  const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode !== UIMode.EditTranslatorDetails;
-  const resetLocalStateFromRedux = useCallback(() => {
+  const resetLocalTranslatorDetails = useCallback(() => {
     setTranslatorDetails(selectedTranslator);
   }, [selectedTranslator]);
 
@@ -43,6 +45,13 @@ export const ClerkTranslatorDetails = () => {
     keyPrefix: 'akt.component.clerkTranslatorOverview',
   });
   const translateCommon = useCommonTranslation();
+
+  const resetToInitialState = useCallback(() => {
+    dispatch(resetClerkTranslatorDetailsUpdate);
+    resetLocalTranslatorDetails();
+    setHasLocalChanges(false);
+    setCurrentUIMode(UIMode.View);
+  }, [dispatch, resetLocalTranslatorDetails]);
 
   useEffect(() => {
     if (
@@ -61,14 +70,12 @@ export const ClerkTranslatorDetails = () => {
       currentUIMode === UIMode.EditTranslatorDetails
     ) {
       // Flow was reset through the cancel dialog -> reset UI state.
-      dispatch(resetClerkTranslatorDetailsUpdate);
-      resetLocalStateFromRedux();
-      setCurrentUIMode(UIMode.View);
+      resetToInitialState();
     }
   }, [
     currentUIMode,
     dispatch,
-    resetLocalStateFromRedux,
+    resetToInitialState,
     t,
     translatorDetailsStatus,
   ]);
@@ -84,18 +91,18 @@ export const ClerkTranslatorDetails = () => {
         ...translatorDetails,
         [field]: fieldValue,
       };
-
+      setHasLocalChanges(true);
       setTranslatorDetails(updatedTranslatorDetails as ClerkTranslator);
     };
 
-  const handleSaveBtnClick = () => {
+  const onSave = () => {
     dispatch(
       updateClerkTranslatorDetails(translatorDetails as ClerkTranslator)
     );
   };
 
-  const handleEditBtnClick = () => {
-    resetLocalStateFromRedux();
+  const onEdit = () => {
+    resetLocalTranslatorDetails();
     setCurrentUIMode(UIMode.EditTranslatorDetails);
   };
 
@@ -120,6 +127,15 @@ export const ClerkTranslatorDetails = () => {
     dispatch(showNotifierDialog(dialog));
   };
 
+  const onCancel = () => {
+    if (!hasLocalChanges) {
+      resetToInitialState();
+    } else {
+      openCancelDialog();
+    }
+  };
+  useNavigationProtection(hasLocalChanges);
+
   return (
     <ClerkTranslatorDetailsFields
       translator={translatorDetails}
@@ -129,9 +145,9 @@ export const ClerkTranslatorDetails = () => {
       editDisabled={isViewMode}
       topControlButtons={
         <ControlButtons
-          onCancelBtnClick={openCancelDialog}
-          onEditBtnClick={handleEditBtnClick}
-          onSaveBtnClick={handleSaveBtnClick}
+          onCancel={onCancel}
+          onEdit={onEdit}
+          onSave={onSave}
           isViewMode={isViewMode}
         />
       }

@@ -18,6 +18,7 @@ import {
 } from 'configs/i18n';
 import { Color, TextFieldVariant, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
+import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
 import { AutocompleteValue } from 'interfaces/components/combobox';
 import { MeetingDate } from 'interfaces/meetingDate';
@@ -65,6 +66,8 @@ export const AddAuthorisation = ({
   const [authorisation, setAuthorisation] =
     useState<Authorisation>(newAuthorisation);
   const [autDate, setAutDate] = useState('');
+  const [isAuthorisationDataChanged, setIsAuthorisationDataChanged] =
+    useState(false);
 
   const translateCommon = useCommonTranslation();
   const translateLanguage = useKoodistoLanguagesTranslation();
@@ -89,6 +92,7 @@ export const AddAuthorisation = ({
           [fieldName]: value?.value,
         },
       });
+      setIsAuthorisationDataChanged(true);
     };
 
   const handleBasisChange = ({}, value: AutocompleteValue) => {
@@ -99,6 +103,7 @@ export const AddAuthorisation = ({
     if (value?.value !== AuthorisationBasisEnum.AUT) {
       setAutDate('');
     }
+    setIsAuthorisationDataChanged(true);
   };
 
   const handleTermBeginDateChange = ({}, value: AutocompleteValue) => {
@@ -110,6 +115,7 @@ export const AddAuthorisation = ({
       termBeginDate,
       termEndDate,
     });
+    setIsAuthorisationDataChanged(true);
   };
 
   const handleAutDateChange = (value: string) => {
@@ -118,6 +124,7 @@ export const AddAuthorisation = ({
       ...authorisation,
       autDate: dayjs(value),
     });
+    setIsAuthorisationDataChanged(true);
   };
 
   const handleSwitchValueChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +132,7 @@ export const AddAuthorisation = ({
       ...authorisation,
       permissionToPublish: event?.target.checked,
     });
+    setIsAuthorisationDataChanged(true);
   };
 
   const handleDiaryNumberChange = (
@@ -134,6 +142,7 @@ export const AddAuthorisation = ({
       ...authorisation,
       diaryNumber: event?.target.value,
     });
+    setIsAuthorisationDataChanged(true);
   };
 
   const getLanguageSelectValue = (language?: string) =>
@@ -185,6 +194,8 @@ export const AddAuthorisation = ({
   };
 
   const testIdPrefix = 'add-authorisation-field';
+
+  useNavigationProtection(isAuthorisationDataChanged);
 
   return (
     <>

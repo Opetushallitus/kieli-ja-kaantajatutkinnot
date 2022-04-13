@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIError } from 'enums/api';
 import { Duration, NotifierTypes, Severity } from 'enums/app';
-import { Dialog, NotifierButtonAction, Toast } from 'interfaces/notifier';
+import { Dialog, DialogButtonAction, Toast } from 'interfaces/notifier';
 import { Utils } from 'utils';
 
 export class NotifierUtils {
@@ -11,8 +11,9 @@ export class NotifierUtils {
     title: string,
     severity: Severity,
     description: string,
-    actions: NotifierButtonAction[],
-    timeOut: number | undefined = undefined
+    actions: DialogButtonAction[],
+    timeOut: number | undefined = undefined,
+    onClose?: () => void
   ) {
     const notifier: Dialog = {
       id: Utils.createUniqueId(),
@@ -22,6 +23,7 @@ export class NotifierUtils {
       description,
       actions,
       timeOut,
+      onClose,
     };
 
     return notifier;
@@ -37,7 +39,6 @@ export class NotifierUtils {
       type: NotifierTypes.Toast,
       severity,
       description,
-      actions: [],
       timeOut,
     };
 

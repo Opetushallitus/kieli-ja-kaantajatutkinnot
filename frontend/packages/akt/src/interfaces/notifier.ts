@@ -1,7 +1,8 @@
 import { Action } from 'redux';
 
 import { Color, NotifierTypes, Severity, Variant } from 'enums/app';
-export interface NotifierButtonAction {
+
+export interface DialogButtonAction {
   title: string;
   variant: `${Variant}`;
   action: string | (() => void);
@@ -15,7 +16,6 @@ export interface Notifier {
   severity: `${Severity}`;
   description: string;
   timeOut?: number;
-  actions?: Array<NotifierButtonAction>;
 }
 
 export interface Toast extends Notifier {
@@ -25,6 +25,8 @@ export interface Toast extends Notifier {
 export interface Dialog extends Notifier {
   type: NotifierTypes.Dialog;
   title: string;
+  onClose?: () => void;
+  actions?: Array<DialogButtonAction>;
 }
 
 export interface NotifierState {

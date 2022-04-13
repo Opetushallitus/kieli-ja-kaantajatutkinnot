@@ -6,7 +6,11 @@ import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
 import { updateNewClerkTranslator } from 'redux/actions/clerkNewTranslator';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 
-export const NewTranslatorBasicInformation = () => {
+export const NewTranslatorBasicInformation = ({
+  onDetailsChange,
+}: {
+  onDetailsChange: () => void;
+}) => {
   // Redux
   const { translator } = useAppSelector(clerkNewTranslatorSelector);
   const dispatch = useAppDispatch();
@@ -14,6 +18,7 @@ export const NewTranslatorBasicInformation = () => {
   const onTranslatorDetailsChange = (
     translatorDetails: ClerkTranslatorBasicInformation
   ) => {
+    onDetailsChange();
     dispatch(updateNewClerkTranslator({ ...translator, ...translatorDetails }));
   };
 

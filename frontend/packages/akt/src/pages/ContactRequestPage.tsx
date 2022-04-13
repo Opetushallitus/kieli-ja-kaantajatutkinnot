@@ -9,6 +9,7 @@ import { H1, Text } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
+import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 import { setContactRequest } from 'redux/actions/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
@@ -25,6 +26,7 @@ export const ContactRequestPage = () => {
   const { isPhone } = useWindowProperties();
   // State
   const [disableNext, setDisableNext] = useState(false);
+  const [hasLocalChanges, setHasLocalChanges] = useState(false);
 
   // Redux
   const dispatch = useAppDispatch();
@@ -43,6 +45,8 @@ export const ContactRequestPage = () => {
       })
     );
   }, [dispatch, from, to, selectedTranslators]);
+
+  useNavigationProtection(hasLocalChanges);
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
   const showControlButtons =
@@ -74,9 +78,17 @@ export const ContactRequestPage = () => {
       {activeStep === ContactRequestFormStep.VerifyTranslators &&
         renderHeaderGrid()}
       <div className="contact-request-page__grid__steps-container">
-        <StepContents disableNext={disableNextCb} />
+        <StepContents
+          disableNext={disableNextCb}
+          onDataChanged={() => setHasLocalChanges(true)}
+        />
       </div>
-      {showControlButtons && <ControlButtons disableNext={disableNext} />}
+      {showControlButtons && (
+        <ControlButtons
+          hasLocalChanges={hasLocalChanges}
+          disableNext={disableNext}
+        />
+      )}
     </>
   );
   const renderDesktopView = () => (
@@ -87,9 +99,17 @@ export const ContactRequestPage = () => {
           <div className="contact-request-page__grid__form-container">
             <div className="contact-request-page__grid__inner-container">
               <ContactRequestStepper />
-              <StepContents disableNext={disableNextCb} />
+              <StepContents
+                disableNext={disableNextCb}
+                onDataChanged={() => setHasLocalChanges(true)}
+              />
             </div>
-            {showControlButtons && <ControlButtons disableNext={disableNext} />}
+            {showControlButtons && (
+              <ControlButtons
+                hasLocalChanges={hasLocalChanges}
+                disableNext={disableNext}
+              />
+            )}
           </div>
         </Paper>
       </Grid>

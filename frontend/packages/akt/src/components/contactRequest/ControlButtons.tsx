@@ -26,7 +26,13 @@ import {
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { NotifierUtils } from 'utils/notifier';
 
-export const ControlButtons = ({ disableNext }: { disableNext: boolean }) => {
+export const ControlButtons = ({
+  disableNext,
+  hasLocalChanges,
+}: {
+  disableNext: boolean;
+  hasLocalChanges: boolean;
+}) => {
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.contactRequestForm',
@@ -72,6 +78,14 @@ export const ControlButtons = ({ disableNext }: { disableNext: boolean }) => {
     dispatch(showNotifierDialog(notifier));
   };
 
+  const handleCancelBtnClick = () => {
+    if (hasLocalChanges) {
+      dispatchCancelNotifier();
+    } else {
+      dispatch({ type: NOTIFIER_ACTION_CONTACT_REQUEST_RESET });
+    }
+  };
+
   const dispatchStepIncrement = () => {
     dispatch(increaseFormStep);
   };
@@ -85,7 +99,7 @@ export const ControlButtons = ({ disableNext }: { disableNext: boolean }) => {
       <CustomButton
         variant={Variant.Text}
         color={Color.Secondary}
-        onClick={dispatchCancelNotifier}
+        onClick={handleCancelBtnClick}
         data-testid="contact-request-page__cancel-btn"
         disabled={isLoading}
       >

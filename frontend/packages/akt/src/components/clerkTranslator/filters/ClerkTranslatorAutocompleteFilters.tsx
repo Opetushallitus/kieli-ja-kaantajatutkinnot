@@ -46,6 +46,12 @@ export const ClerkTranslatorAutocompleteFilters = () => {
     });
   }, [debounce, dispatch, name]);
 
+  useEffect(() => {
+    if (filters.name === undefined) {
+      setName('');
+    }
+  }, [filters.name]);
+
   const handleFilterChange =
     (filter: keyof ClerkTranslatorFilter) =>
     ({}, value: AutocompleteValue) => {
