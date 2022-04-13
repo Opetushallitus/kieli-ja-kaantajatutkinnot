@@ -47,6 +47,7 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:format
       - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:test:jest
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v3
