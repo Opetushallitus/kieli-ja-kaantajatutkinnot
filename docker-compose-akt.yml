@@ -20,7 +20,7 @@ services:
     depends_on:
       - akt-postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://akt-postgres:5432/akt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - AKT_UNSECURE=${AKT_UNSECURE}
@@ -39,13 +39,13 @@ services:
 
   akt-postgres:
     build: ./backend/akt/db
-    container_name: postgres
+    container_name: akt-postgres
     ports:
       - "5432:5432"
     networks:
       - akt-dev
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=akt-postgres
       - POSTGRES_PASSWORD=postgres
 
 networks:

@@ -60,8 +60,8 @@ cypress
 
 **/.pnp.*
 **/.yarn/*
-**/!.yarn/patches
-**/!.yarn/plugins
+!**/.yarn/patches
+!**/.yarn/plugins
 !**/.yarn/releases
-**/!.yarn/sdks
-**/!.yarn/versions
+!**/.yarn/sdks
+!**/.yarn/versions

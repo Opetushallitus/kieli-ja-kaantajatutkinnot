@@ -15,7 +15,7 @@
     "test:cypress": "TZ=Europe/Helsinki cypress run",
     "test:cypress:open": "TZ=Europe/Helsinki cypress open",
     "start": "webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
-    "start:docker-compose": "webpack serve --config webpack.config.js --env proxy=http://backend:8080",
+    "start:docker-compose": "webpack serve --config webpack.config.js --env proxy=http://akt-backend:8080",
     "start:ci:e2e": "webpack serve --config webpack.config.js --no-open & npm run test:cypress",
     "qa": "npm run lint && npm run format && npm run test:jest && npm run start:ci:e2e",
     "build": "webpack --env prod"

@@ -1,45 +1,5 @@
 # AKT - Auktorisoidun kääntäjän tutkintojärjestelmä
 
-- Maven 3.1+
-- JDK 17
-- PostgreSQL 12.9
-- node v16.13.1 (no need to install if you only build)
-- npm 8.1.3 (no need to install if you only build)
-
-## Development
-
-Create and start database, backend, and frontend containers:
-
-```sh
-docker-compose up
-```
-
-Or
-
-Start up a certain service:
-
-```sh
-docker-compose up frontend | backend | postgres
-```
-
-To disable default Spring Security configurations, create the following environment variable and restart the containers:
-
-```sh
-export AKT_UNSECURE=true
-docker-compose up
-```
-
-In case of errors, clean cache and recreate volumes:
-
-```sh
-docker-compose down
-docker-compose up --build --force-recreate --renew-anon-volumes
-```
-
-The React app runs on > <http://localhost:4000>.
-
-&nbsp;
-
 ## Backend
 
 ### Build and Run
@@ -109,7 +69,7 @@ Set `AKT_UNSECURE=true` environment variable as shown [here](#development).
 
 ### Styling
 
-[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter.  It enforces a consistent style by parsing your code and re-printing it with its own rules. 
+[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules.
 
 To reformat all Java files, run:
 
@@ -127,7 +87,6 @@ If you are using an IDE such as IntelliJ, you might want to configure it to orga
 
 For IntelliJ, you can use the following configurations:
 
-
 `ìmport *` is disabled:
 Code Style -> Java -> Imports:
 
@@ -142,7 +101,7 @@ Names count to use static import with '*': 999
 
 ```sh
 npm install
-npm run start  # Starts Webpack DevServer 
+npm run start  # Starts Webpack DevServer
 ```
 
 ```sh
@@ -215,6 +174,7 @@ I18next is used as an internationalization framework. Localizations are stored i
 For inspection and modification by OPH clerks, it's possible to create an excel sheet as shown below:
 
 &nbsp;
+
 #### JSON to XLSX
 
 ```sh
@@ -243,7 +203,5 @@ cd scripts
 The above script fetches language codes from the Koodisto service and transforms them into localization files. The created localization files are stored in git.
 
 [prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-
 [eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-
 [stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
