@@ -5,19 +5,19 @@
   "license": "MIT",
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
-    "eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
-    "stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
-    "tslint": "yarn g:tsc --pretty --noEmit",
-    "lint": "yarn eslint && yarn tslint && yarn stylelint",
-    "format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test:jest": "yarn g:jest",
-    "test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
-    "test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
-    "start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
-    "start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akt-backend:8080",
-    "start:ci:e2e": "yarn g:webpack serve --config webpack.config.js --no-open & yarn test:cypress",
-    "qa": "yarn lint && yarn format && yarn test:jest && yarn start:ci:e2e",
-    "build": "yarn g:webpack --env prod"
+    "akt:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "akt:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
+    "akt:tslint": "yarn g:tsc --pretty --noEmit",
+    "akt:lint": "yarn akt:eslint && yarn akt:tslint && yarn akt:stylelint",
+    "akt:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "akt:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "akt:test:jest": "yarn g:jest",
+    "akt:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
+    "akt:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
+    "akt:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
+    "akt:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akt-backend:8080",
+    "akt:start:ci:e2e": "yarn g:webpack serve --config webpack.config.js --no-open & yarn akt:test:cypress",
+    "akt:qa": "yarn akt:lint && yarn akt:format && yarn akt:test:jest && yarn akt:start:ci:e2e",
+    "akt:build": "yarn g:webpack --env prod"
   }
 }

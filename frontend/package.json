@@ -9,14 +9,7 @@
     "g:prettier": "cd $INIT_CWD && prettier",
     "g:jest": "cd $INIT_CWD && jest",
     "g:webpack": "cd $INIT_CWD && webpack",
-    "g:cypress": "cd $INIT_CWD && cypress",
-    "akt:start": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt start",
-    "akt:lint": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt lint",
-    "akt:format": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt format",
-    "akt:test:jest": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt test:jest",
-    "akt:test:cypress": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt test:cypress",
-    "akt:build": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt build",
-    "akt:start:docker-compose": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt start:docker-compose"
+    "g:cypress": "cd $INIT_CWD && cypress"
   },
   "workspaces": [
     "packages/*"
