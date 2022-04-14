@@ -212,6 +212,7 @@ export const AddAuthorisation = ({
               excludedLanguage={authorisation.languagePair.to || undefined}
               value={getLanguageSelectValue(authorisation.languagePair.from)}
               onChange={handleLanguageSelectChange('from')}
+              translateLanguage={translateLanguage}
             />
           </div>
           <div className="rows gapped-xs">
@@ -225,6 +226,7 @@ export const AddAuthorisation = ({
               excludedLanguage={authorisation.languagePair.from || undefined}
               value={getLanguageSelectValue(authorisation.languagePair.to)}
               onChange={handleLanguageSelectChange('to')}
+              translateLanguage={translateLanguage}
             />
           </div>
           <div className="rows gapped-xs">

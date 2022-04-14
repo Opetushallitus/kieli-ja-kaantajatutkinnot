@@ -2,7 +2,7 @@
 
 exports[`OPHLogoViewer should render OPHLogoViewer correctly 1`] = `
 <img
-  alt="ophLogo"
+  alt="Opetushallituksen logo"
   src="test"
 />
 `;

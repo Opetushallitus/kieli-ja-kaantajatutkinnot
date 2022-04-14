@@ -9,33 +9,41 @@ import { SkeletonVariant } from 'enums/app';
 
 export const ClerkHomePageSkeleton = () => {
   const translateCommon = useCommonTranslation();
+  const ariaLabel = translateCommon('loadingContent');
 
   return (
     <>
       <CustomSkeleton
         className="full-max-width"
         variant={SkeletonVariant.Rectangular}
+        ariaLabel={ariaLabel}
       >
         <H2>{translateCommon('register')}</H2>
       </CustomSkeleton>
-      <CustomSkeleton variant={SkeletonVariant.Rectangular}>
+      <CustomSkeleton
+        ariaLabel={ariaLabel}
+        variant={SkeletonVariant.Rectangular}
+      >
         <ClerkTranslatorToggleFilters />
       </CustomSkeleton>
       <CustomSkeleton
         className="full-max-width"
         variant={SkeletonVariant.Rectangular}
+        ariaLabel={ariaLabel}
       >
         <ClerkTranslatorAutocompleteFilters />
       </CustomSkeleton>
       <CustomSkeleton
         className="full-max-width"
         variant={SkeletonVariant.Rectangular}
+        ariaLabel={ariaLabel}
       >
         <ClerkHomePageControlButtons />
       </CustomSkeleton>
       <CustomSkeleton
         className="full-max-width full-height"
         variant={SkeletonVariant.Rectangular}
+        ariaLabel={ariaLabel}
       >
         <ClerkTranslatorListing />
       </CustomSkeleton>

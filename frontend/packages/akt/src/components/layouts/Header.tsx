@@ -6,7 +6,7 @@ import { SkipLink } from 'components/elements/SkipLink';
 import { LangSelector } from 'components/i18n/LangSelector';
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { AppRoutes, Direction } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 
@@ -14,6 +14,8 @@ export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.header.accessibility',
   });
+  const translateCommon = useCommonTranslation();
+
   const [isClerkUI] = useAuthentication();
   const logoRedirectURL = isClerkUI
     ? AppRoutes.ClerkHomePage
@@ -29,6 +31,7 @@ export const Header = (): JSX.Element => {
               <OPHLogoViewer
                 className="header__left__logo"
                 direction={Direction.Horizontal}
+                alt={translateCommon('ophLogo')}
               />
             </Link>
           </div>

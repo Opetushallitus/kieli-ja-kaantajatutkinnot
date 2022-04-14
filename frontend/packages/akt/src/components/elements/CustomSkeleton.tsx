@@ -1,10 +1,13 @@
 import { Skeleton, SkeletonProps } from '@mui/material';
 import { FC } from 'react';
 
-import { useCommonTranslation } from 'configs/i18n';
+type CustomSkeletonProps = SkeletonProps & {
+  ariaLabel: string;
+};
 
-export const CustomSkeleton: FC<SkeletonProps> = ({ ...props }) => {
-  const translateCommon = useCommonTranslation();
-
-  return <Skeleton {...props} aria-label={translateCommon('loadingContent')} />;
+export const CustomSkeleton: FC<CustomSkeletonProps> = ({
+  ariaLabel,
+  ...props
+}) => {
+  return <Skeleton {...props} aria-label={ariaLabel} />;
 };
