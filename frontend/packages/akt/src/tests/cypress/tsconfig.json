@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": "../../../src",
+    "types": ["cypress", "@testing-library/cypress", "./support/types"],
+    "esModuleInterop": true
+  },
+  "include": ["../../../node_modules/cypress/", "./**/*.ts"]
+}

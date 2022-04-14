@@ -5,13 +5,11 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
   className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
 >
   <div
-    aria-expanded={false}
     aria-owns={null}
     className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseDown={[Function]}
-    role="combobox"
   >
     <div
       className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -23,7 +21,7 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
         <input
           aria-activedescendant={null}
           aria-autocomplete="list"
-          aria-controls={null}
+          aria-expanded={false}
           aria-invalid={false}
           autoCapitalize="none"
           autoComplete="off"
@@ -35,7 +33,9 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
           onChange={[Function]}
           onFocus={[Function]}
           onMouseDown={[Function]}
+          readOnly={false}
           required={false}
+          role="combobox"
           spellCheck="false"
           type="text"
           value=""
@@ -82,16 +82,13 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
           className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="css-nnbavb"
+            className="css-hdw1oc"
           >
             <span
               className="notranslate"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#8203;",
-                }
-              }
-            />
+            >
+              ​
+            </span>
           </legend>
         </fieldset>
       </div>

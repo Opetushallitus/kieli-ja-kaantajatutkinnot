@@ -3,13 +3,13 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
-    "akt:start": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt start",
-    "akt:lint": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt lint",
-    "akt:format": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt format",
-    "akt:test:jest": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt test:jest",
-    "akt:test:cypress": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt test:cypress",
-    "akt:build": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt build",
-    "akt:start:docker-compose": "yarn workspace @oph-kieli-ja-kaantajatutkinnot/akt start:docker-compose"
+    "g:tsc": "cd $INIT_CWD && tsc",
+    "g:eslint": "cd $INIT_CWD && eslint",
+    "g:stylelint": "cd $INIT_CWD && stylelint",
+    "g:prettier": "cd $INIT_CWD && prettier",
+    "g:jest": "cd $INIT_CWD && jest",
+    "g:webpack": "cd $INIT_CWD && webpack",
+    "g:cypress": "cd $INIT_CWD && cypress"
   },
   "workspaces": [
     "packages/*"
@@ -35,8 +35,7 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.1.3",
-    "reselect": "^4.1.5",
-    "stylelint-config-sass-guidelines": "^9.0.1"
+    "reselect": "^4.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -60,7 +59,7 @@
     "babel-loader": "^8.2.3",
     "compression-webpack-plugin": "^9.0.1",
     "copy-webpack-plugin": "^10.0.0",
-    "css-loader": "^6.5.0",
+    "css-loader": "^6.7.1",
     "cypress": "^9.5.4",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
@@ -80,10 +79,11 @@
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
-    "stylelint": "^14.3.0",
+    "stylelint": "^14.6.1",
     "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-sass-guidelines": "^9.0.1",
     "stylelint-prettier": "^2.0.0",
-    "stylelint-webpack-plugin": "^3.1.1",
+    "stylelint-webpack-plugin": "^3.2.0",
     "typescript": "^4.5.2",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.1",

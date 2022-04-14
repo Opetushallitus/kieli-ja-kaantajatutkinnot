@@ -46,14 +46,15 @@ jobs:
       - name: Format
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:format
-      # - name: Run Jest Tests
-      #   run: yarn akt:test:jest
-      # - name: Run Cypress Tests
-      #   uses: cypress-io/github-action@v3
-      #   with:
-      #     working-directory: ${{ env.FRONTEND_DIR }}
-      #     start: yarn akt:start
-      #     command: yarn akt:test:cypress
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn akt:test:jest
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v3
+        with:
+          working-directory: ${{ env.FRONTEND_DIR }}
+          start: yarn akt:start
+          command: yarn akt:test:cypress
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:build
