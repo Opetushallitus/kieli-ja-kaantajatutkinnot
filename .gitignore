@@ -40,7 +40,6 @@
 **/.sts4-cache
 
 **/.idea/
-**/.vscode/
 **/node_modules/
 dist
 **/.DS_Store
