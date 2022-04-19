@@ -1,0 +1,25 @@
+.public-translator-filters {
+  &__filter-box {
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, auto));
+  }
+
+  &__filter {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    flex: 1;
+
+    &__language-pair {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
+  &__btn-box {
+    display: flex;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+}

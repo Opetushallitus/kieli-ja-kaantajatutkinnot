@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: Roboto;
+  font-size: 62.5%;
+  background-color: $color-background-root;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: fit-content($size-header) auto fit-content($size-footer);
+  grid-template-areas:
+    'header'
+    'content'
+    'footer';
+  height: 100%;
+  max-width: $breakpoint-xxl;
+  margin: auto;
+}
+
+.header {
+  grid-area: header;
+  z-index: 1;
+}
+
+.content {
+  grid-area: content;
+  display: flex;
+  background-color: $color-background-content;
+
+  &__container {
+    padding: 3rem;
+    max-width: $breakpoint-xl;
+    margin: 2rem auto;
+  }
+}
+
+.footer {
+  grid-area: footer;
+}

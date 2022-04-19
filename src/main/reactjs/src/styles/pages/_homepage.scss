@@ -1,0 +1,16 @@
+.homepage {
+  & &__grid-container {
+    display: block;
+
+    &__result-box {
+      padding: 3rem;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+}

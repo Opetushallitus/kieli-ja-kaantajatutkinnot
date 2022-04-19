@@ -1,0 +1,199 @@
+{
+  "akt": {
+    "component": {
+      "header": {
+        "lang": {
+          "fi": "Suomeksi",
+          "sv": "På Svenska",
+          "en": "In English"
+        },
+        "ophLink": {
+          "text": "oph.fi",
+          "address": "https://www.oph.fi/fi"
+        },
+        "logo": {
+          "alt": "Etusivu"
+        }
+      },
+      "table": {
+        "title": "Hakutulokset",
+        "pagination": {
+          "rowsPerPage": "Näytä sivulla"
+        },
+        "selectedItems": "valittu"
+      },
+      "footer": {
+        "links": {
+          "opintopolku": {
+            "text": "Opintopolku",
+            "link": "https://opintopolku.fi/konfo/fi"
+          },
+          "accessibility": {
+            "text": "Saavutettavuusseloste",
+            "link": "https://www.oph.fi/fi/tietoa-meista/opetushallituksen-saavutettavuusseloste"
+          },
+          "aktHomepage": {
+            "text": "Tietoa auktorisoidun kääntäjän tutkinnosta",
+            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto"
+          }
+        },
+        "address": {
+          "name": "Opetushallitus",
+          "street": "Hakaniemenranta 6",
+          "zipCity": "PL 380, 00531 Helsinki",
+          "phone": {
+            "title": "Puhelin",
+            "number": "+358 29 533 1000"
+          },
+          "fax": {
+            "title": "Faksi",
+            "number": "+358 29 533 1035"
+          }
+        },
+        "logo": {
+          "alt": "Etusivu"
+        }
+      },
+      "publicTranslatorFilters": {
+        "languagePair": {
+          "title": "Haku kieliparilla",
+          "fromPlaceholder": "Mistä *",
+          "fromHelperText": "Valitse kieli",
+          "toPlaceholder": "Mihin *",
+          "toHelperText": "Valitse kieli"
+        },
+        "name": {
+          "title": "Haku nimellä",
+          "placeholder": "Nimi"
+        },
+        "town": {
+          "title": "Haku asuinkunnalla",
+          "placeholder": "Asuinkunta"
+        },
+        "buttons": {
+          "empty": "Tyhjennä valinnat",
+          "search": "Hae"
+        },
+        "toasts": {
+          "selectLanguagePair": "Valitse kielipari"
+        }
+      },
+      "clerkTranslatorListing": {
+        "header": {
+          "name": "Nimi",
+          "languagePairs": "Kieliparit",
+          "authorisationBasis": "Auk. peruste",
+          "authorisationBeginDate": "Auk. tod. pvm",
+          "authorisationEndDate": "Umpeutuu",
+          "permissionToPublish": "Julkaistu"
+        },
+        "permissionToPublish": {
+          "true": "Kyllä",
+          "false": "Ei"
+        }
+      },
+      "clerkTranslatorFilters": {
+        "authorisationStatus": {
+          "authorised": "Auktorisoidut",
+          "expiring": "Umpeutuvat",
+          "expired": "Umpeutuneet"
+        },
+        "languagePair": {
+          "title": "Haku kieliparilla",
+          "fromPlaceholder": "Mistä",
+          "toPlaceholder": "Mihin"
+        },
+        "name": {
+          "title": "Haku nimellä",
+          "placeholder": "Nimi"
+        },
+        "town": {
+          "title": "Haku asuinkunnalla",
+          "placeholder": "Asuinkunta"
+        },
+        "buttons": {
+          "empty": "Tyhjennä valinnat"
+        }
+      },
+      "contactRequestForm": {
+        "title": "Yhteydenottopyynnön jättäminen",
+        "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
+        "buttons": {
+          "cancel": "Peruuta",
+          "previous": "Takaisin",
+          "next": "Seuraava",
+          "submit": "Lähetä"
+        },
+        "steps": {
+          "verifySelectedTranslators": "Vahvista kääntäjät",
+          "fillContactDetails": "Täytä yhteystiedot",
+          "writeMessage": "Kirjoita viesti",
+          "previewAndSend": "Esikatsele ja lähetä",
+          "done": "Valmis"
+        },
+        "doneStep": {
+          "title": "Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä.",
+          "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
+          "button": "Etusivu"
+        },
+        "chosenTranslatorsForLanguagePair": "Valitut kääntäjät kieliparista",
+        "characters": "merkki(ä)",
+        "formLabels": {
+          "firstName": "Etunimi",
+          "lastName": "Sukunimi",
+          "email": "Sähköpostiosoite",
+          "phoneNumber": "Puhelinnumero",
+          "contactInfo": "Yhteystiedot",
+          "message": "Viesti",
+          "writeMessageHere": "Viesti"
+        },
+        "errorDialog": {
+          "title": "Virhe lähetettäessä yhteydenottopyyntöä.",
+          "description": "Kokeile myöhemmin uudelleen. Jos ongelma toistuu, ota yhteyttä sähköpostilla: ",
+          "back": "Takaisin"
+        },
+        "cancelRequestDialog": {
+          "title": "Peruuta yhteydenottopyyntö",
+          "description": "Haluatko peruuttaa yhteydenottopyynnön? Menetät täyttämäsi tiedot",
+          "back": "Takaisin",
+          "yes": "Kyllä"
+        }
+      }
+    },
+    "pages": {
+      "homepage": {
+        "title": "Auktorisoitujen kääntäjien rekisteri",
+        "description": "Auktorisoitujen kääntäjien tutkintolautakunta ylläpitää rekisteriä auktorisoiduista kääntäjistä. Hakukoneella voit hakea kääntäjiä joko nimen tai käännöskielen mukaan. Voit jättää valitsemellesi kääntäjille yhteydenottopyynnön alla olevalla hakulomakkeella.",
+        "filters": {
+          "title": "Hae auktorisoitua kääntäjää"
+        },
+        "noSearchResults": "Ei hakutuloksia",
+        "requestContact": "Ota yhteyttä"
+      },
+      "clerkHomepage": {
+        "title": "Auktorisoitujen kääntäjien rekisteri",
+        "register": "Rekisteri",
+        "sendEmail": "Lähetä sähköposti"
+      },
+      "translator": {
+        "name": "Nimi",
+        "languagePairs": "Kieliparit",
+        "town": "Asuinkunta"
+      },
+      "notFoundPage": {
+        "title": "Valitettavasti etsimääsi sivua ei löytynyt",
+        "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
+        "homePageBtn": "Etusivu"
+      }
+    },
+    "errors": {
+      "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen.",
+      "textBox": {
+        "required": "Tieto on pakollinen",
+        "maxLength": "Tekstin pituus ei saa ylittää 1000 merkkiä",
+        "emailFormat": "Sähköpostiosoite on virheellinen",
+        "telFormat": "Puhelinnumero on virheellinen"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.header {
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem;
+  }
+
+  &__left {
+    flex-grow: 1;
+
+    &__logo {
+      height: 5.5rem;
+    }
+  }
+
+  &__right {
+    display: flex;
+    gap: 2rem;
+    color: $color-secondary-dark;
+
+    & > a {
+      text-transform: lowercase;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+  justify-content: space-evenly;
+  padding: 5rem;
+
+  &__wave {
+    background-color: $color-background-content;
+  }
+
+  &__container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1.5rem;
+    font-size: 1rem;
+    color: $color-secondary-dark;
+
+    & > a {
+      text-transform: initial;
+      padding: 6px 0;
+      color: $color-secondary-dark;
+    }
+  }
+}

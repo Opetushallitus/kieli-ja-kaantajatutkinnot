@@ -1,0 +1,28 @@
+.rows {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.columns {
+  display: flex;
+  flex-direction: row;
+  max-height: 100%;
+  align-items: center;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.gapped {
+  gap: 2rem;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}

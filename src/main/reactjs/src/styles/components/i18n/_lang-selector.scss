@@ -1,0 +1,18 @@
+.lang-selector {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-right: 2px;
+  }
+
+  & &__select {
+    margin-top: 2px;
+
+    &,
+    &__icon,
+    & > svg {
+      color: $color-secondary-dark;
+    }
+  }
+}

@@ -1,0 +1,344 @@
+[
+  {
+    "koodiUri": "kieli_98",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_98",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "98",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2009-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Non-official language",
+        "kuvaus": "Non-official language",
+        "lyhytNimi": "Non-official language",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "ei virallinen kieli",
+        "kuvaus": "ei virallinen kieli",
+        "lyhytNimi": "ei virallinen kieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "inte officielt språk",
+        "kuvaus": "inte officielt språk",
+        "lyhytNimi": "inte officielt språk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "kieli_fi",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_fi",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "FI",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "suomi",
+        "kuvaus": "suomi",
+        "lyhytNimi": "suomi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Finnish",
+        "kuvaus": "Finnish",
+        "lyhytNimi": "Finnish",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "finska",
+        "kuvaus": "finska",
+        "lyhytNimi": "finska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "kieli_sv",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_sv",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "SV",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "ruotsi",
+        "kuvaus": "ruotsi",
+        "lyhytNimi": "ruotsi",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "Swedish",
+        "kuvaus": "Swedish",
+        "lyhytNimi": "Swedish",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "svenska",
+        "kuvaus": "svenska",
+        "lyhytNimi": "svenska",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "kieli_99",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_99",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "99",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Other",
+        "kuvaus": "Other",
+        "lyhytNimi": "Other",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "okänt",
+        "kuvaus": "okänt",
+        "lyhytNimi": "okänt",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      },
+      {
+        "nimi": "tuntematon",
+        "kuvaus": "tuntematon",
+        "lyhytNimi": "tuntematon",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      }
+    ]
+  },
+  {
+    "koodiUri": "kieli_xx",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_xx",
+    "version": 0,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "XX",
+    "paivitysPvm": "2013-10-28",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "Other languages",
+        "kuvaus": "Other languages",
+        "lyhytNimi": "Other languages",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "EN"
+      },
+      {
+        "nimi": "muu kieli",
+        "kuvaus": "muu kieli",
+        "lyhytNimi": "muu kieli",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "FI"
+      },
+      {
+        "nimi": "övrigt språk",
+        "kuvaus": "övrigt språk",
+        "lyhytNimi": "övrigt språk",
+        "kayttoohje": null,
+        "kasite": null,
+        "sisaltaaMerkityksen": null,
+        "eiSisallaMerkitysta": null,
+        "huomioitavaKoodi": null,
+        "sisaltaaKoodiston": null,
+        "kieli": "SV"
+      }
+    ]
+  },
+  {
+    "koodiUri": "kieli_vk",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/kieli_vk",
+    "version": 1,
+    "versio": 1,
+    "koodisto": {
+      "koodistoUri": "kieli",
+      "organisaatioOid": "1.2.246.562.10.00000000001",
+      "koodistoVersios": [
+        1
+      ]
+    },
+    "koodiArvo": "VK",
+    "paivitysPvm": "2019-06-12",
+    "paivittajaOid": "1.2.246.562.24.25909319372",
+    "voimassaAlkuPvm": "1990-01-01",
+    "voimassaLoppuPvm": "2001-01-01",
+    "tila": "LUONNOS",
+    "metadata": [
+      {
+        "nimi": "teckenspråk",
+        "kuvaus": "teckenspråk",
+        "lyhytNimi": "teckenspråk",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "SV"
+      },
+      {
+        "nimi": "Sign language",
+        "kuvaus": "Sign language",
+        "lyhytNimi": "Sign language",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "EN"
+      },
+      {
+        "nimi": "viittomakieli",
+        "kuvaus": "viittomakieli",
+        "lyhytNimi": "viittomakieli",
+        "kayttoohje": "",
+        "kasite": "",
+        "sisaltaaMerkityksen": "",
+        "eiSisallaMerkitysta": "",
+        "huomioitavaKoodi": "",
+        "sisaltaaKoodiston": "",
+        "kieli": "FI"
+      }
+    ]
+  }
+]
