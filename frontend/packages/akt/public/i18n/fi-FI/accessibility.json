@@ -1,89 +1,89 @@
 {
   "akt": {
     "accessibility": {
-      "heading": {
-        "title": "Auktorisoitujen kääntäjien rekisterin saavutettavuusseloste",
-        "description": "Tämä saavutettavuusseloste koskee palvelua akt.opintopolku.fi ja on laadittu / päivitetty 28.2.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio."
-      },
       "content": {
-        "status": {
-          "title": "Digipalvelun saavutettavuuden tila",
-          "description": "Täyttää saavutettavuusvaatimukset osittain"
-        },
-        "nonAccessible": {
-          "title": "Ei-saavutettava sisältö",
-          "description": "Verkkosivusto ei ole vielä kaikilta osin vaatimusten mukainen"
+        "administrativeAgency": {
+          "description": "Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta meille eli sivuston ylläpitäjälle. Vastauksessa voi mennä 14 päivää. Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana,",
+          "extraDescription": "Etelä-Suomen aluehallintoviraston sivulla kerrotaan tarkasti, miten ilmoituksen voi tehdä ja miten asia käsitellään.",
+          "links": {
+            "link": "https://www.saavutettavuusvaatimukset.fi/kayttajan-oikeudet/",
+            "title": "voit tehdä ilmoituksen Etelä-Suomen aluehallintovirastoon (avautuu uuteen ikkunaan)."
+          },
+          "title": "Valvontaviranomainen"
         },
         "caveats": {
           "description": "Saavuttamaton sisältö ja sen puutteet",
           "extraDescription": "Saavutettavuusvaatimukset jotka eivät täyty",
           "items": [
             {
-              "title": "Havaittava: Otsikkotasojen eteneminen",
+              "claim": "1.3.1 Informaatio ja suhteet",
               "description": "Otsikkotasot eivät etene kaikilla sivuilla järjestyksessä",
-              "claim": "1.3.1 Informaatio ja suhteet"
+              "title": "Havaittava: Otsikkotasojen eteneminen"
             },
             {
-              "title": "Havaittava: Puuttuva taulukon otsikko",
+              "claim": "1.3.1 Informaatio ja suhteet",
               "description": "Taulukon ensimmäisen sarakkeen otsikko on tyhjä",
-              "claim": "1.3.1 Informaatio ja suhteet"
+              "title": "Havaittava: Puuttuva taulukon otsikko"
             },
             {
-              "title": "Hallittava: Combobox -elementeissä puutteita",
+              "claim": "2.1.2 Ei näppäimistöansaa",
               "description": "Combobox -elementit sisältävät näppäimistöansan joillain selaimilla sekä ruudunlukijoilla. Ruudunlukija saattaa myös antaa väärät ohjeistukset Comboxin käyttämiseen.",
-              "claim": "2.1.2 Ei näppäimistöansaa"
+              "title": "Hallittava: Combobox -elementeissä puutteita"
             },
             {
-              "title": "Hallittava: Nimilappu puuttuu kielenvalintakomponentista",
+              "claim": "2.4.6 Otsikot ja nimilaput",
               "description": "Kielenvalintakomponentissa ei ole perinteistä nimilappua. Aria-label kuitenkin löytyy.",
-              "claim": "2.4.6 Otsikot ja nimilaput"
+              "title": "Hallittava: Nimilappu puuttuu kielenvalintakomponentista"
             },
             {
-              "title": "Hallittava: Nimilappu puuttuu taulukon “Näytä sivulla” -komponentista",
+              "claim": "2.4.6 Otsikot ja nimilaput",
               "description": "Taulukon “Näytä sivulla” -komponentissa ei ole perinteistä nimilappua. Aria-label kuitenkin löytyy.",
-              "claim": "2.4.6 Otsikot ja nimilaput"
+              "title": "Hallittava: Nimilappu puuttuu taulukon “Näytä sivulla” -komponentista"
             }
           ]
         },
-        "feedback": {
-          "title": "Palaute ja yhteystiedot",
-          "subtitle": "Huomasitko saavutettavuuspuutteen digipalvelussamme? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
-          "description": "Sähköpostilla: {{email}}"
-        },
-        "administrativeAgency": {
-          "title": "Valvontaviranomainen",
-          "links": {
-            "title": "voit tehdä ilmoituksen Etelä-Suomen aluehallintovirastoon (avautuu uuteen ikkunaan).",
-            "link": "https://www.saavutettavuusvaatimukset.fi/kayttajan-oikeudet/"
-          },
-          "description": "Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta meille eli sivuston ylläpitäjälle. Vastauksessa voi mennä 14 päivää. Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana,",
-          "extraDescription": "Etelä-Suomen aluehallintoviraston sivulla kerrotaan tarkasti, miten ilmoituksen voi tehdä ja miten asia käsitellään."
-        },
         "contactAdministrativeAgency": {
-          "title": "Valvontaviranomaisen yhteystiedot",
           "details": {
             "name": "Etelä-Suomen aluehallintovirasto",
-            "unit": "Saavutettavuuden valvonnan yksikkö",
-            "phone": "Puhelinnumero vaihde 0295 016 000"
+            "phone": "Puhelinnumero vaihde 0295 016 000",
+            "unit": "Saavutettavuuden valvonnan yksikkö"
           },
           "links": {
-            "website": {
-              "title": "Saavutettavuusvaatimukset-verkkosivusto",
-              "link": "https://saavutettavuusvaatimukset.fi",
-              "ariaLabel": "Saavutettavuusvaatimukset-verkkosivusto, avaa uudessa välilehdessä"
-            },
             "email": {
-              "title": "saavutettavuus@avi.fi",
-              "link": "saavutettavuus@avi.fi"
+              "link": "saavutettavuus@avi.fi",
+              "title": "saavutettavuus@avi.fi"
+            },
+            "website": {
+              "ariaLabel": "Saavutettavuusvaatimukset-verkkosivusto, avaa uudessa välilehdessä",
+              "link": "https://saavutettavuusvaatimukset.fi",
+              "title": "Saavutettavuusvaatimukset-verkkosivusto"
             }
-          }
+          },
+          "title": "Valvontaviranomaisen yhteystiedot"
+        },
+        "feedback": {
+          "description": "Sähköpostilla: {{email}}",
+          "subtitle": "Huomasitko saavutettavuuspuutteen digipalvelussamme? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
+          "title": "Palaute ja yhteystiedot"
         },
         "furtherImprove": {
-          "title": "Teemme jatkuvasti työtä saavutettavuuden parantamiseksi",
-          "subtitle": "Tarjoamme tukea käyttäjille joille digipalvelut eivät ole saavutettavissa",
           "description": "Olemme sitoutuneet digipalveluiden saavutettavuuden parantamiseen.",
-          "extraDescription": "Huomasitko saavutettavuuspuutteen? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi."
+          "extraDescription": "Huomasitko saavutettavuuspuutteen? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
+          "subtitle": "Tarjoamme tukea käyttäjille joille digipalvelut eivät ole saavutettavissa",
+          "title": "Teemme jatkuvasti työtä saavutettavuuden parantamiseksi"
+        },
+        "nonAccessible": {
+          "description": "Verkkosivusto ei ole vielä kaikilta osin vaatimusten mukainen",
+          "title": "Ei-saavutettava sisältö"
+        },
+        "status": {
+          "description": "Täyttää saavutettavuusvaatimukset osittain",
+          "title": "Digipalvelun saavutettavuuden tila"
         }
+      },
+      "heading": {
+        "description": "Tämä saavutettavuusseloste koskee palvelua akt.opintopolku.fi ja on laadittu / päivitetty 28.2.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio.",
+        "title": "Auktorisoitujen kääntäjien rekisterin saavutettavuusseloste"
       }
     }
   }

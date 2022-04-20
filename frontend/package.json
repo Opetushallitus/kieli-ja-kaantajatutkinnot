@@ -1,20 +1,4 @@
 {
-  "name": "@oph-kieli-ja-kaantajatutkinnot/root",
-  "private": true,
-  "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
-  "scripts": {
-    "g:tsc": "cd $INIT_CWD && tsc",
-    "g:eslint": "cd $INIT_CWD && eslint",
-    "g:stylelint": "cd $INIT_CWD && stylelint",
-    "g:prettier": "cd $INIT_CWD && prettier",
-    "g:jest": "cd $INIT_CWD && jest",
-    "g:webpack": "cd $INIT_CWD && webpack",
-    "g:cypress": "cd $INIT_CWD && cypress"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "packageManager": "yarn@3.2.0",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
@@ -88,5 +72,21 @@
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.8.1"
-  }
+  },
+  "name": "@oph-kieli-ja-kaantajatutkinnot/root",
+  "packageManager": "yarn@3.2.0",
+  "private": true,
+  "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
+  "scripts": {
+    "g:cypress": "cd $INIT_CWD && cypress",
+    "g:eslint": "cd $INIT_CWD && eslint",
+    "g:jest": "cd $INIT_CWD && jest",
+    "g:prettier": "cd $INIT_CWD && prettier",
+    "g:stylelint": "cd $INIT_CWD && stylelint",
+    "g:tsc": "cd $INIT_CWD && tsc",
+    "g:webpack": "cd $INIT_CWD && webpack"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
