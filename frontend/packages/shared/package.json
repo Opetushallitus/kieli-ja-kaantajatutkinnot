@@ -1,0 +1,14 @@
+{
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
+  "version": "0.0.1",
+  "description": "Authorised Translator’s System",
+  "main": "./src/index.tsx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

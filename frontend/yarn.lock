@@ -2113,7 +2113,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oph-kieli-ja-kaantajatutkinnot/akt@workspace:packages/akt":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt":
+  version: 0.0.0-use.local
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt"
+  languageName: unknown
+  linkType: soft
+
+"@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@oph-kieli-ja-kaantajatutkinnot/akt@workspace:packages/akt"
   languageName: unknown
@@ -2200,6 +2206,12 @@ __metadata:
     webpack: ^5.72.0
     webpack-cli: ^4.9.2
     webpack-dev-server: ^4.8.1
+  languageName: unknown
+  linkType: soft
+
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+  version: 0.0.0-use.local
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
   linkType: soft
 
