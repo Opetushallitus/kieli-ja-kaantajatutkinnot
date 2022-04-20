@@ -48,7 +48,14 @@ docker-compose -f <service-docker-compose-file-name.yml> up --build --force-recr
 
 After starting the services, the frontend runs on > <http://localhost:4000>
 
-&nbsp;
+### Visual Studio Code
+
+The project uses shared workspace config. Install the following vscode plugins:
+
+- [eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
+- [sort-json](https://marketplace.visualstudio.com/items?itemName=richie5um2.vscode-sort-json)
 
 ## Commit message conventions
 

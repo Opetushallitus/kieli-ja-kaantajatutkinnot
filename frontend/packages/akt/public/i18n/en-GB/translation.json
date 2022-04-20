@@ -3,9 +3,9 @@
     "component": {
       "header": {
         "lang": {
+          "en": "In English",
           "fi": "Suomeksi",
-          "sv": "På Svenska",
-          "en": "In English"
+          "sv": "På Svenska"
         }
       }
     }

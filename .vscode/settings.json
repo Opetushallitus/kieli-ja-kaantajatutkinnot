@@ -1,0 +1,16 @@
+{
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"],
+  "sortJSON.contextMenu": {
+    "sortJSON": true,
+    "sortJSONAlphaNum": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true,
+    "source.fixAll.sortJSON": true
+  },
+  "eslint.validate": ["typescript", "typescriptreact", "javascript"]
+}
