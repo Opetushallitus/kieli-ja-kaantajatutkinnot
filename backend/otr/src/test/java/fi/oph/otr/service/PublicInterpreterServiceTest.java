@@ -47,11 +47,37 @@ class PublicInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    createInterpreter("not published", false, "FI", "SE", today, tomorrow);
-    final Kielipari expectedLanguagePair1 = createInterpreter("published1", true, "FI", "EN", today, tomorrow);
-    final Kielipari expectedLanguagePair2 = createInterpreter("published2", true, "NO", "FI", yesterday, today);
-    createInterpreter("in future", true, "FI", "DN", tomorrow, nextWeek);
-    createInterpreter("in past", true, "FI", "IT", previousWeek, yesterday);
+    createLanguagePair(createLegalInterpreter(createInterpreter("not published"), false), "FI", "SE", today, tomorrow);
+    final Kielipari expectedLanguagePair1 = createLanguagePair(
+      createLegalInterpreter(createInterpreter("published1"), true),
+      "FI",
+      "EN",
+      today,
+      tomorrow
+    );
+    final Kielipari expectedLanguagePair2 = createLanguagePair(
+      createLegalInterpreter(createInterpreter("published2"), true),
+      "NO",
+      "FI",
+      yesterday,
+      today
+    );
+    createLanguagePair(
+      createLegalInterpreter(createInterpreterDeleted("deleted1"), true),
+      "DE",
+      "FI",
+      yesterday,
+      today
+    );
+    createLanguagePair(
+      createLegalInterpreterDeleted(createInterpreter("deleted2"), true),
+      "FI",
+      "DE",
+      yesterday,
+      today
+    );
+    createLanguagePair(createLegalInterpreter(createInterpreter("in future"), true), "FI", "DN", tomorrow, nextWeek);
+    createLanguagePair(createLegalInterpreter(createInterpreter("in past"), true), "FI", "IT", previousWeek, yesterday);
 
     final List<InterpreterDTO> published = publicInterpreterService.list();
     assertEquals(2, published.size());
@@ -70,24 +96,42 @@ class PublicInterpreterServiceTest {
     assertEquals(expected.getKieleen().getKoodi(), publishedLanguagePair1.to());
   }
 
-  private Kielipari createInterpreter(
-    final String oid,
-    final boolean publish,
+  private Tulkki createInterpreter(final String oid) {
+    final Tulkki interpreter = Factory.interpreter(oid);
+    entityManager.persist(interpreter);
+    return interpreter;
+  }
+
+  private Tulkki createInterpreterDeleted(final String oid) {
+    final Tulkki interpreter = Factory.interpreter(oid);
+    interpreter.markPoistettu();
+    entityManager.persist(interpreter);
+    return interpreter;
+  }
+
+  private Oikeustulkki createLegalInterpreter(final Tulkki interpreter, final boolean publish) {
+    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
+    legalInterpreter.setJulkaisulupa(publish);
+    entityManager.persist(legalInterpreter);
+    return legalInterpreter;
+  }
+
+  private Oikeustulkki createLegalInterpreterDeleted(final Tulkki interpreter, final boolean publish) {
+    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
+    legalInterpreter.markPoistettu();
+    legalInterpreter.setJulkaisulupa(publish);
+    entityManager.persist(legalInterpreter);
+    return legalInterpreter;
+  }
+
+  private Kielipari createLanguagePair(
+    final Oikeustulkki legalInterpreter,
     final String from,
     final String to,
     final LocalDate begin,
     final LocalDate end
   ) {
-    final Tulkki interpreter = Factory.interpreter();
-    interpreter.setHenkiloOid(oid);
-
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    legalInterpreter.setJulkaisulupa(publish);
-
     final Kielipari languagePair = Factory.languagePair(legalInterpreter, from, to, begin, end);
-
-    entityManager.persist(interpreter);
-    entityManager.persist(legalInterpreter);
     entityManager.persist(languagePair);
     return languagePair;
   }
