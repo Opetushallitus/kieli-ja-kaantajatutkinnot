@@ -1,6 +1,6 @@
+import { composeWithDevToolsDevelopmentOnly } from '@redux-devtools/extension';
 import createSagaMiddleware from '@redux-saga/core';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { authorisationReducer } from 'redux/reducers/authorisation';
 import { clerkNewTranslatorReducer } from 'redux/reducers/clerkNewTranslator';
@@ -19,7 +19,9 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewareEnhancer = applyMiddleware(sagaMiddleware);
 
 export default () => {
-  const composeEnhancers = composeWithDevTools({ serialize: true });
+  const composeEnhancers = composeWithDevToolsDevelopmentOnly({
+    serialize: true,
+  });
   const store = createStore(
     combineReducers({
       publicTranslator: publicTranslatorReducer,
