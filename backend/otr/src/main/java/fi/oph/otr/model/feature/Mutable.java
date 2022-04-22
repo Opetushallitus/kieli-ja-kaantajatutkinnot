@@ -89,7 +89,7 @@ public abstract class Mutable implements Creatable, Modifyable, Serializable {
     setMuokattu(now);
 
     final String currentUser = getCurrentUserId();
-    if (getMuokkaaja() == null) {
+    if (getLuoja() == null) {
       setLuoja(currentUser);
       setMuokkaaja(currentUser);
     }

@@ -26,7 +26,7 @@ public class PublicInterpreterService {
   private final LanguagePairRepository languagePairRepository;
 
   @Transactional(readOnly = true)
-  public List<InterpreterDTO> listForPublicListing() {
+  public List<InterpreterDTO> list() {
     final Map<Long, List<TranslatorLanguagePairProjection>> legalInterpreterLanguagePairs = languagePairRepository
       .findLanguagePairsForPublicListing()
       .stream()

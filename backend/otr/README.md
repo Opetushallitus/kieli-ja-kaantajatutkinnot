@@ -59,14 +59,6 @@ Set `OTR_UNSECURE=true` environment variable as shown [here](#development).
 
 &nbsp;
 
-### Scheduled tasks
-
-`EmailScheduledSending` does scheduling of sending unsent emails. Every 10 seconds (`FIXED_DELAY`) it fetches a batch of at most 10 unsent emails (`BATCH_SIZE`), and tries to send them. If there are loads of emails in the queue, it may send at max. 3600 emails in an hour.
-
-`ExpiringAuthorisationsEmailCreator` does scheduling of finding expiring authorisations, and creating reminder emails about them. It is run every 12 hours (`FIXED_DELAY`). The reminder emails that are created are eventually sent via `EmailScheduledSending`.
-
-&nbsp;
-
 ### Styling
 
 [Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter.  It enforces a consistent style by parsing your code and re-printing it with its own rules. 
@@ -164,43 +156,6 @@ In order to make requests work in swagger UI, the application needs to be run wi
 ```sh
 mvn spring-boot:run -Dtomcat.util.http.parser.HttpParser.requestTargetAllow=|{}
 ```
-
-## Localizations
-
-### Frontend localizations
-
-I18next is used as an internationalization framework. Localizations are stored in JSON files and committed to git.
-
-For inspection and modification by OPH clerks, it's possible to create an excel sheet as shown below:
-
-&nbsp;
-
-#### JSON to XLSX
-
-```sh
-npx i18n-json-to-xlsx-converter --convert common.json, translation.json
-```
-
-#### XLSX to JSON
-
-```sh
-npx i18n-json-to-xlsx-converter --convert translation.xlsx
-```
-
-&nbsp;
-
-### External localisations
-
-#### Koodisto
-
-Koodisto service is used to fetch language translations. To update translations run:
-
-```sh
-cd scripts
-./koodisto_langs.sh
-```
-
-The above script fetches language codes from the Koodisto service and transforms them into localization files. The created localization files are stored in git.
 
 [prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 [eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
