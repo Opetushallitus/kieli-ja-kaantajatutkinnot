@@ -71,7 +71,7 @@ export const PublicTranslatorFilters = ({
     errors: [],
   };
   const [filters, setFilters] = useState(defaultFiltersState);
-  const [searchButtonDisabled, setSearchButtonDisabled] = useState(true);
+  const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const defaultValuesState: PublicTranslatorFilterValues = {
     fromLang: null,
     toLang: null,
