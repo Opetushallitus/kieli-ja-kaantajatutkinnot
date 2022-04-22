@@ -2,11 +2,10 @@ package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
-import fi.oph.otr.model.Kielipari;
 import fi.oph.otr.model.Tulkki;
+import fi.oph.otr.repository.InterpreterLanguagePairProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
-import fi.oph.otr.repository.TranslatorLanguagePairProjection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,13 +25,13 @@ public class PublicInterpreterService {
   private final LanguagePairRepository languagePairRepository;
 
   @Transactional(readOnly = true)
-  public List<InterpreterDTO> listForPublicListing() {
-    final Map<Long, List<TranslatorLanguagePairProjection>> legalInterpreterLanguagePairs = languagePairRepository
+  public List<InterpreterDTO> list() {
+    final Map<Long, List<InterpreterLanguagePairProjection>> interpreterLanguagePairs = languagePairRepository
       .findLanguagePairsForPublicListing()
       .stream()
-      .collect(Collectors.groupingBy(TranslatorLanguagePairProjection::translatorId));
+      .collect(Collectors.groupingBy(InterpreterLanguagePairProjection::interpreterId));
 
-    final List<Tulkki> interpreters = interpreterRepository.findAllById(legalInterpreterLanguagePairs.keySet());
+    final List<Tulkki> interpreters = interpreterRepository.findAllById(interpreterLanguagePairs.keySet());
     return interpreters
       .stream()
       .map(i ->
@@ -43,7 +42,7 @@ public class PublicInterpreterService {
           .lastName("Sukunumi:" + i.getHenkiloOid())
           .area("") // TODO
           .languages(
-            legalInterpreterLanguagePairs
+            interpreterLanguagePairs
               .get(i.getId())
               .stream()
               .map(t -> LanguagePairDTO.builder().from(t.from()).to(t.to()).build())
@@ -51,6 +50,6 @@ public class PublicInterpreterService {
           )
           .build()
       )
-      .collect(Collectors.toList());
+      .toList();
   }
 }

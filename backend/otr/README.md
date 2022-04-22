@@ -59,17 +59,9 @@ Set `OTR_UNSECURE=true` environment variable as shown [here](#development).
 
 &nbsp;
 
-### Scheduled tasks
-
-`EmailScheduledSending` does scheduling of sending unsent emails. Every 10 seconds (`FIXED_DELAY`) it fetches a batch of at most 10 unsent emails (`BATCH_SIZE`), and tries to send them. If there are loads of emails in the queue, it may send at max. 3600 emails in an hour.
-
-`ExpiringAuthorisationsEmailCreator` does scheduling of finding expiring authorisations, and creating reminder emails about them. It is run every 12 hours (`FIXED_DELAY`). The reminder emails that are created are eventually sent via `EmailScheduledSending`.
-
-&nbsp;
-
 ### Styling
 
-[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter.  It enforces a consistent style by parsing your code and re-printing it with its own rules. 
+[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter.  It enforces a consistent style by parsing your code and re-printing it with its own rules.
 
 To reformat all Java files, run:
 
