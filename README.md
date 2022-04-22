@@ -14,8 +14,8 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 Below are listed the OPH services which are a part of this mono-repo. Every service has its own readme as well.
 
-- [AKT](./backend/akt/README.md)
-- [OTR](./backend/otr/README.md)
+- [AKT](./docs/akt.md)
+- [OTR](./docs/otr.md)
 
 ## Development
 
