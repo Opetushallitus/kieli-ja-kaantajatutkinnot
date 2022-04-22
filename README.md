@@ -65,11 +65,15 @@ A commit message should be structured as follows:
 
 ```sh
 
-<service>[scope]: <description>
+service(scope): <description>
 
 service:     AKT, VKT, OTR, YKI, and SHARED
 scope:       Frontend, Backend
 description: Informal description
+
+For example:
+
+AKT(Frontend): Add new component
 ```
 
 ## Branching naming conventions

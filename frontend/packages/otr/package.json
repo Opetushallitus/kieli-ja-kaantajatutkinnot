@@ -1,0 +1,23 @@
+{
+  "description": "Oikeustulkkirekisteri",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@oph-kieli-ja-kaantajatutkinnot/otr",
+  "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
+  "scripts": {
+    "otr:build": "yarn g:webpack --env prod",
+    "otr:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "otr:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "otr:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "otr:lint": "yarn otr:eslint && yarn otr:tslint && yarn otr:stylelint",
+    "otr:qa": "yarn otr:lint && yarn otr:format && yarn otr:test:jest && yarn otr:start:ci:e2e",
+    "otr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
+    "otr:start:ci:e2e": "yarn g:webpack serve --config webpack.config.js --no-open & yarn otr:test:cypress",
+    "otr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://otr-backend:8080",
+    "otr:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
+    "otr:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
+    "otr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
+    "otr:test:jest": "yarn g:jest",
+    "otr:tslint": "yarn g:tsc --pretty --noEmit"
+  }
+}

@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  otr-backend:
+    build: ./backend/otr
+    ports:
+      - "8080:8080"
+    command: "./mvnw clean install -DskipTests"
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${otr_UNSECURE:-false}"
+      ]
+    networks:
+      - otr-dev
+    working_dir: /app
+    volumes:
+      - $HOME/.m2:/root/.m2
+      - ./backend/otr:/app
+    depends_on:
+      - otr-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://otr-postgres:5432/otr-postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - otr_UNSECURE=${otr_UNSECURE}
+  otr-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.otr
+    ports:
+      - "4000:4000"
+    working_dir: /app/reactjs
+    networks:
+      - otr-dev
+    volumes:
+      - ./frontend/packages/otr:/app/reactjs/packages/otr
+      - /app/reactjs/node_modules
+
+  otr-postgres:
+    build: ./backend/otr/db
+    container_name: otr-postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - otr-dev
+    environment:
+      - POSTGRES_DB=otr-postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  otr-dev: {}
+
+volumes:
+  nodemodules: {}
