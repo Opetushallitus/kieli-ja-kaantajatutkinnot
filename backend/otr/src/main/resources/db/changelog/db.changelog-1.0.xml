@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<databaseChangeLog logicalFilePath="migrations.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="init-01" author="terova">
+        <createTable tableName="tulkki">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tulkki_pkey"/>
+            </column>
+            <column name="henkilo_oid" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="muokattu" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="muokkaaja" type="TEXT"/>
+            <column defaultValueComputed="now()" name="luotu" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="luoja" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="poistettu" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="poistohetki" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="poistaja" type="TEXT"/>
+            <column defaultValueNumeric="0" name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-02" author="terova">
+        <createTable tableName="oikeustulkki">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="oikeustulkki_pkey"/>
+            </column>
+            <column name="tulkki" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lisatiedot" type="TEXT"/>
+            <column name="muokattu" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="muokkaaja" type="TEXT"/>
+            <column defaultValueComputed="now()" name="luotu" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="luoja" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="tutkinto_tyyppi" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="julklaisulupa_email" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="julklaisulupa_puhelinnumero" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="julklaisulupa_muu_yhteystieto" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="false" name="poistettu" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="poistohetki" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="poistaja" type="TEXT"/>
+            <column defaultValueNumeric="0" name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="muu_yhteystieto" type="TEXT"/>
+            <column defaultValueBoolean="false" name="julkaisulupa" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-03" author="terova">
+        <createTable tableName="kielipari">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="kielipari_pkey"/>
+            </column>
+            <column name="oikeustulkki" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kielesta" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kieleen" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voimassaolo_alkaa" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voimassaolo_paattyy" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-04" author="terova">
+        <createTable tableName="sijainti">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sijainti_pkey"/>
+            </column>
+            <column name="oikeustulkki" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tyyppi" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="koodi" type="VARCHAR(16)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-05" author="terova">
+        <createTable tableName="oikeustulkki_muokkaus">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="oikeustulkki_muokkaus_pkey"/>
+            </column>
+            <column name="oikeustulkki" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="muokattu" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="muokkaaja" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="muokkausviesti" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-06" author="terova">
+        <createTable tableName="sahkoposti_muistutus">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sahkoposti_muistutus_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="luotu" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="oikeustulkki" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lahetetty" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="lahettaja" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vastaanottaja" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="template_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sahkoposti_id" type="BIGINT"/>
+            <column name="kieli" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="virhe" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="init-07" author="terova">
+        <addUniqueConstraint columnNames="oikeustulkki, kielesta, kieleen"
+                             constraintName="kielipari_oikeustulkki_kielesta_kieleen_key" tableName="kielipari"/>
+    </changeSet>
+    <changeSet id="init-08" author="terova">
+        <addForeignKeyConstraint baseColumnNames="oikeustulkki" baseTableName="kielipari"
+                                 constraintName="kielipari_oikeustulkki_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="oikeustulkki" validate="true"/>
+    </changeSet>
+    <changeSet id="init-09" author="terova">
+        <addForeignKeyConstraint baseColumnNames="oikeustulkki" baseTableName="oikeustulkki_muokkaus"
+                                 constraintName="oikeustulkki_muokkaus_oikeustulkki_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="oikeustulkki" validate="true"/>
+    </changeSet>
+    <changeSet id="init-10" author="terova">
+        <addForeignKeyConstraint baseColumnNames="tulkki" baseTableName="oikeustulkki"
+                                 constraintName="oikeustulkki_tulkki_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="tulkki" validate="true"/>
+    </changeSet>
+    <changeSet id="init-11" author="terova">
+        <addForeignKeyConstraint baseColumnNames="oikeustulkki" baseTableName="sahkoposti_muistutus"
+                                 constraintName="sahkoposti_muistutus_oikeustulkki_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="oikeustulkki" validate="true"/>
+    </changeSet>
+    <changeSet id="init-12" author="terova">
+        <addForeignKeyConstraint baseColumnNames="oikeustulkki" baseTableName="sijainti"
+                                 constraintName="sijainti_oikeustulkki_fkey" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="oikeustulkki" validate="true"/>
+    </changeSet>
+
+    <changeSet id="init-13" author="terova">
+        <sql><![CDATA[
+            ALTER TABLE sijainti
+                ADD CONSTRAINT sijainti_tyyppi_check CHECK (tyyppi IN ('MAAKUNTA', 'KOKO_SUOMI') AND
+                                                            ((tyyppi = 'KOKO_SUOMI' AND koodi IS NULL) OR (tyyppi != 'KOKO_SUOMI' AND koodi IS NOT NULL)));
+            ]]></sql>
+    </changeSet>
+    <changeSet id="init-14" author="terova">
+        <sql><![CDATA[
+            ALTER TABLE oikeustulkki
+                ADD CONSTRAINT tutkinto_tyyppi_check CHECK (tutkinto_tyyppi IN ('OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO',
+                                                                                'MUU_KORKEAKOULUTUTKINTO'));
+            ]]></sql>
+    </changeSet>
+</databaseChangeLog>
