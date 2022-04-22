@@ -18,7 +18,10 @@ import { CustomButton } from 'components/elements/CustomButton';
 import { LanguageSelect } from 'components/elements/LanguageSelect';
 import { Caption, H3 } from 'components/elements/Text';
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
-import { useAppTranslation } from 'configs/i18n';
+import {
+  useAppTranslation,
+  useKoodistoLanguagesTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
   Color,
@@ -57,6 +60,7 @@ export const PublicTranslatorFilters = ({
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.publicTranslatorFilters',
   });
+  const translateLanguage = useKoodistoLanguagesTranslation();
 
   // State
   const defaultFiltersState = {
@@ -265,6 +269,7 @@ export const PublicTranslatorFilters = ({
               aria-label={`${t('languagePair.fromAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
+              translateLanguage={translateLanguage}
             />
             <LanguageSelect
               data-testid="public-translator-filters__to-language-select"
@@ -278,6 +283,7 @@ export const PublicTranslatorFilters = ({
               aria-label={`${t('languagePair.toAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
+              translateLanguage={translateLanguage}
             />
           </Box>
         </div>

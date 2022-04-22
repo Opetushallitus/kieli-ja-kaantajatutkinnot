@@ -72,6 +72,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             languages={langs.from}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('fromLang')}
+            translateLanguage={translateLanguage}
           />
           <LanguageSelect
             autoHighlight
@@ -82,6 +83,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             languages={langs.to}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('toLang')}
+            translateLanguage={translateLanguage}
           />
         </div>
       </div>

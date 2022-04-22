@@ -37,11 +37,15 @@ export const ContactRequestStepper = () => {
   };
   const text = `${activeStep}/${maxStep}`;
 
+  const ariaLabel = `${translateCommon('phase')} ${text}: ${t(
+    ContactRequestFormStep[activeStep]
+  )}`;
+
   return isPhone ? (
     <CircularStepper
       value={value}
+      ariaLabel={ariaLabel}
       phaseText={text}
-      phaseDescription={t(ContactRequestFormStep[activeStep])}
       size={90}
     />
   ) : (

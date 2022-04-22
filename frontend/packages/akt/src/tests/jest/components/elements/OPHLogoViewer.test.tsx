@@ -6,7 +6,12 @@ import { Direction } from 'enums/app';
 describe('OPHLogoViewer', () => {
   it('should render OPHLogoViewer correctly', () => {
     const tree = renderer
-      .create(<OPHLogoViewer direction={Direction.Horizontal} />)
+      .create(
+        <OPHLogoViewer
+          direction={Direction.Horizontal}
+          alt="Opetushallituksen logo"
+        />
+      )
       .toJSON();
 
     expect(tree).toMatchSnapshot();
