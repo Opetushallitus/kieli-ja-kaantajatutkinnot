@@ -15,6 +15,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 Below are listed the OPH services which are a part of this mono-repo. Every service has its own readme as well.
 
 - [AKT](./backend/akt/README.md)
+- [OTR](./backend/otr/README.md)
 
 ## Development
 
@@ -85,5 +86,5 @@ Used prefixes are `feature`, `hotfix`, and `release`. Below are some examples.
 ```sh
 feature/<ticket-number>         ---->   feature/OPHAKTKEH-250
 hotfix/<service-name>           ---->   hotfix/akt
-release/<service-name/<date>    ---->   release/akt/20220412
+release/<service-name/<date>    ---->   release/akt/2022-04-12
 ```
