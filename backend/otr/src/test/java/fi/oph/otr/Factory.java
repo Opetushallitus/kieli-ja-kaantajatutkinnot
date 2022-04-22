@@ -14,15 +14,15 @@ public class Factory {
   }
 
   public static Oikeustulkki legalInterpreter(final Tulkki interpreter) {
-    final Oikeustulkki o = new Oikeustulkki();
-    o.setTulkki(interpreter);
-    o.setTutkintoTyyppi(Oikeustulkki.TutkintoTyyppi.OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO);
-    o.setJulkaisulupa(true);
-    o.setJulkaisulupaEmail(true);
-    o.setJulkaisulupaMuuYhteystieto(true);
+    final Oikeustulkki legalInterpreter = new Oikeustulkki();
+    legalInterpreter.setTulkki(interpreter);
+    legalInterpreter.setTutkintoTyyppi(Oikeustulkki.TutkintoTyyppi.OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO);
+    legalInterpreter.setJulkaisulupa(true);
+    legalInterpreter.setJulkaisulupaEmail(true);
+    legalInterpreter.setJulkaisulupaMuuYhteystieto(true);
 
-    interpreter.getOikeustulkit().add(o);
-    return o;
+    interpreter.getOikeustulkit().add(legalInterpreter);
+    return legalInterpreter;
   }
 
   public static Kielipari languagePair(

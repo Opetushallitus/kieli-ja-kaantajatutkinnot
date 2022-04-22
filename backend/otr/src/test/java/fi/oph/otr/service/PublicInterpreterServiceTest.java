@@ -47,14 +47,13 @@ class PublicInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    createInterpreter("not published 1", false, "fin", "swe", today, tomorrow);
-    final Kielipari expectedLanguagePair1 = createInterpreter("published1", true, "fin", "eng", today, tomorrow);
-    final Kielipari expectedLanguagePair2 = createInterpreter("published2", true, "nor", "fin", yesterday, today);
-    createInterpreter("not published 2", false, "fin", "ger", today, tomorrow);
-    createInterpreter("in future", true, "fin", "dan", tomorrow, nextWeek);
-    createInterpreter("in past", true, "fin", "ita", previousWeek, yesterday);
+    createInterpreter("not published", false, "FI", "SE", today, tomorrow);
+    final Kielipari expectedLanguagePair1 = createInterpreter("published1", true, "FI", "EN", today, tomorrow);
+    final Kielipari expectedLanguagePair2 = createInterpreter("published2", true, "NO", "FI", yesterday, today);
+    createInterpreter("in future", true, "FI", "DN", tomorrow, nextWeek);
+    createInterpreter("in past", true, "FI", "IT", previousWeek, yesterday);
 
-    final List<InterpreterDTO> published = publicInterpreterService.listForPublicListing();
+    final List<InterpreterDTO> published = publicInterpreterService.list();
     assertEquals(2, published.size());
 
     final InterpreterDTO publishedInterpreter1 = published.get(0);

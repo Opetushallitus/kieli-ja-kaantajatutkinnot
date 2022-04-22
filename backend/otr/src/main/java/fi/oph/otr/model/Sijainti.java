@@ -34,6 +34,7 @@ import org.hibernate.annotations.Immutable;
 @Table(
   name = "sijainti",
   schema = "public",
+  // FIXME There is no such constraint in database. Remove this constraint from annotation, or add constraint to database.
   uniqueConstraints = @UniqueConstraint(columnNames = { "oikeustulkki", "tyyppi", "koodi" })
 )
 public class Sijainti implements Serializable {

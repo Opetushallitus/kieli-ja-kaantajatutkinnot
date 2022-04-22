@@ -3,9 +3,6 @@ postgresql.username={{postgres_app_user}}
 postgresql.password={{host_postgresql_otr_app_password}}
 
 url-alb={{host_alb}}
-email.sending-enabled=true
-ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
-
 
 host-cas: {{host_cas}}
 host-alb: {{host_alb}}
