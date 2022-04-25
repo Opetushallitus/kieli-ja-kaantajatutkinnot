@@ -9,7 +9,7 @@ services:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${otr_UNSECURE:-false}"
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}"
       ]
     networks:
       - otr-dev
@@ -23,7 +23,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://otr-postgres:5432/otr-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
-      - otr_UNSECURE=${otr_UNSECURE}
+      - OTR_UNSECURE=${OTR_UNSECURE}
   otr-frontend:
     build:
       context: ./frontend

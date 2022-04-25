@@ -69,7 +69,7 @@ A commit message should be structured as follows:
 service(scope): <description>
 
 service:     AKT, VKT, OTR, YKI, and SHARED
-scope:       Frontend, Backend
+scope:       Frontend, Backend, Docs, Infra
 description: Informal description
 
 For example:
