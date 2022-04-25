@@ -123,7 +123,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateUpdateThrowsAPIExceptionForMeetingDateWithAuthorisations() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
@@ -187,7 +187,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateDeleteThrowsAPIExceptionForMeetingDateWithAuthorisations() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);

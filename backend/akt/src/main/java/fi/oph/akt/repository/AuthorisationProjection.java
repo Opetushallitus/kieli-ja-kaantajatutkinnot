@@ -9,10 +9,10 @@ public record AuthorisationProjection(
   long translatorId,
   AuthorisationBasis authorisationBasis,
   String diaryNumber,
-  LocalDate autDate,
   String fromLang,
   String toLang,
   boolean permissionToPublish,
   LocalDate termBeginDate,
-  LocalDate termEndDate
+  LocalDate termEndDate,
+  LocalDate examinationDate
 ) {}

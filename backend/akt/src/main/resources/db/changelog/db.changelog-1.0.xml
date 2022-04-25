@@ -637,4 +637,50 @@
         <addUniqueConstraint tableName="translator" columnNames="email" constraintName="uk_translator_email"/>
     </changeSet>
 
+    <changeSet id="2021-04-25-create-examination_date-table" author="mikhuttu">
+        <createTable tableName="examination_date">
+            <column autoIncrement="true" name="examination_date_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="examination_date_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="date" type="DATE">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2022-04-25-change_authorisation_aut_date_to_examination_date" author="mikhuttu">
+        <sql>
+            ALTER TABLE authorisation DROP CONSTRAINT ck_authorisation_aut_date
+        </sql>
+        <dropColumn tableName="authorisation" columnName="aut_date"/>
+
+        <addColumn tableName="authorisation">
+            <column name="examination_date_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="authorisation" baseColumnNames="examination_date_id"
+                                 referencedTableName="examination_date" referencedColumnNames="examination_date_id"
+                                 constraintName="fk_authorisation_examination_date"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <sql>
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_examination_date
+                    CHECK ((basis = 'AUT' AND examination_date_id IS NOT NULL) OR
+                           (basis != 'AUT' AND examination_date_id IS NULL))
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
