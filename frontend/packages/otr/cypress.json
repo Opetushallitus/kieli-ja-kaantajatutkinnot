@@ -1,0 +1,14 @@
+{
+  "baseUrl": "http://localhost:4000",
+  "video": false,
+  "defaultCommandTimeout": 15000,
+  "chromeWebSecurity": false,
+  "retries": 1,
+  "fixturesFolder": "./src/tests/cypress/fixtures/json",
+  "integrationFolder": "./src/tests/cypress/integration",
+  "screenshotsFolder": "./src/tests/cypress/screenshots",
+  "videosFolder": "./src/tests/cypress/videos",
+  "downloadsFolder": "./src/tests/cypress/downloads",
+  "supportFile": "./src/tests/cypress/support/index.ts",
+  "pluginsFile": "./src/tests/cypress/plugins/index.ts"
+}

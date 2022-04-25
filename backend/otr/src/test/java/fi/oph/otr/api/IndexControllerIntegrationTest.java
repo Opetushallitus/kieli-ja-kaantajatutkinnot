@@ -46,8 +46,8 @@ class IndexControllerIntegrationTest {
 
   @Test
   public void testStaticAssetIsReturned() throws Exception {
-    final String expectedContent = TestUtil.readResourceAsString("static/otr/static/assets/svg/otr_logo.svg");
-    assertGetContent("/otr/static/assets/svg/otr_logo.svg", "image/svg+xml", expectedContent);
+    final String expectedContent = TestUtil.readResourceAsString("static/otr/static/assets/svg/footer_wave.svg");
+    assertGetContent("/otr/static/assets/svg/footer_wave.svg", "image/svg+xml", expectedContent);
   }
 
   private void assertIndexHtml(String url) throws Exception {

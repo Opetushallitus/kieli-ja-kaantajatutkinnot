@@ -2119,6 +2119,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr":
+  version: 0.0.0-use.local
+  resolution: "@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr"
+  languageName: unknown
+  linkType: soft
+
 "@oph-kieli-ja-kaantajatutkinnot/root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@oph-kieli-ja-kaantajatutkinnot/root@workspace:."

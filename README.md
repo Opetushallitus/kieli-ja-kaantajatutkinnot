@@ -14,7 +14,8 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 Below are listed the OPH services which are a part of this mono-repo. Every service has its own readme as well.
 
-- [AKT](./backend/akt/README.md)
+- [AKT](./docs/akt.md)
+- [OTR](./docs/otr.md)
 
 ## Development
 
@@ -65,11 +66,15 @@ A commit message should be structured as follows:
 
 ```sh
 
-<service>[scope]: <description>
+service(scope): <description>
 
 service:     AKT, VKT, OTR, YKI, and SHARED
-scope:       Frontend, Backend
+scope:       Frontend, Backend, Docs, Infra
 description: Informal description
+
+For example:
+
+AKT(Frontend): Add new component
 ```
 
 ## Branching naming conventions
@@ -81,5 +86,5 @@ Used prefixes are `feature`, `hotfix`, and `release`. Below are some examples.
 ```sh
 feature/<ticket-number>         ---->   feature/OPHAKTKEH-250
 hotfix/<service-name>           ---->   hotfix/akt
-release/<service-name/<date>    ---->   release/akt/20220412
+release/<service-name/<date>    ---->   release/akt/2022-04-12
 ```

@@ -1,0 +1,50 @@
+/* Positioning */
+.centered {
+  &#{&} {
+    text-align: center;
+  }
+}
+
+.inline-text {
+  display: inline-block;
+}
+
+.inline-text-box {
+  &#{&} {
+    & > * {
+      display: inline;
+      vertical-align: unset;
+    }
+
+    & > *:not(:first-child) {
+      padding-left: map-get($spacing, 'xxs');
+    }
+  }
+}
+
+/* Font Weigh */
+.bold {
+  &#{&} {
+    font-weight: bold !important;
+    padding-left: map-get($spacing, 'xxs');
+  }
+}
+
+/* Colors */
+.color-red-500 {
+  &#{&} {
+    color: $color-red-500;
+  }
+}
+
+.color-secondary-dark {
+  &#{&} {
+    color: $color-secondary-dark;
+  }
+}
+
+.color-disabled {
+  &#{&} {
+    color: rgba(0, 0, 0, 0.38);
+  }
+}
