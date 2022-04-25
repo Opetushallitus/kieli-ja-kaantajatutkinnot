@@ -65,11 +65,11 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('it should enable / disable search button correctly', () => {
-    onPublicTranslatorFilters.expectSearchButtonTo('be.disabled');
+    onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
     onPublicTranslatorFilters.selectFromLangByName('suomi');
     onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
     onPublicTranslatorFilters.emptySearch();
-    onPublicTranslatorFilters.expectSearchButtonTo('be.disabled');
+    onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
     onPublicTranslatorFilters.fillOutName('aaltonen a');
     onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
     onPublicTranslatorFilters.search();
