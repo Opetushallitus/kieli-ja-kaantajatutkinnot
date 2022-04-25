@@ -144,7 +144,7 @@ export const PublicTranslatorFilters = ({
     dispatch(emptySelectedTranslators);
     scrollToSearch();
     setShowTable(false);
-    setSearchButtonDisabled(true);
+    setSearchButtonDisabled(false);
   };
 
   const handleComboboxInputChange =
