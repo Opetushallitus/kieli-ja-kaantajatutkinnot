@@ -5,6 +5,7 @@ import fi.oph.akt.api.dto.LanguagePairsDictDTO;
 import fi.oph.akt.api.dto.clerk.AuthorisationDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorResponseDTO;
+import fi.oph.akt.api.dto.clerk.ExaminationDateDTO;
 import fi.oph.akt.api.dto.clerk.MeetingDateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationDTOCommonFields;
@@ -60,10 +61,13 @@ public class ClerkTranslatorService {
   private final ExaminationDateRepository examinationDateRepository;
 
   @Resource
-  private final MeetingDateService meetingDateService;
+  private final ExaminationDateService examinationDateService;
 
   @Resource
   private final MeetingDateRepository meetingDateRepository;
+
+  @Resource
+  private final MeetingDateService meetingDateService;
 
   @Resource
   private final TranslatorRepository translatorRepository;
@@ -89,6 +93,7 @@ public class ClerkTranslatorService {
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
     final List<String> towns = getDistinctTowns(translators);
     final List<MeetingDateDTO> meetingDateDTOS = meetingDateService.listMeetingDatesWithoutAudit();
+    final List<ExaminationDateDTO> examinationDateDTOS = examinationDateService.listExaminationDatesWithoutAudit();
 
     return ClerkTranslatorResponseDTO
       .builder()
@@ -96,6 +101,7 @@ public class ClerkTranslatorService {
       .langs(languagePairsDictDTO)
       .towns(towns)
       .meetingDates(meetingDateDTOS)
+      .examinationDates(examinationDateDTOS)
       .build();
   }
 

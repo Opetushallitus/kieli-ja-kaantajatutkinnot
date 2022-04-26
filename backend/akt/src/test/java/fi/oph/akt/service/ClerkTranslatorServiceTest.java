@@ -12,6 +12,7 @@ import fi.oph.akt.Factory;
 import fi.oph.akt.api.dto.clerk.AuthorisationDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorResponseDTO;
+import fi.oph.akt.api.dto.clerk.ExaminationDateDTO;
 import fi.oph.akt.api.dto.clerk.MeetingDateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationDTOCommonFields;
@@ -91,6 +92,10 @@ class ClerkTranslatorServiceTest {
 
   @BeforeEach
   public void setup() {
+    final ExaminationDateService examinationDateService = new ExaminationDateService(
+      examinationDateRepository,
+      auditService
+    );
     final MeetingDateService meetingDateService = new MeetingDateService(meetingDateRepository, auditService);
 
     clerkTranslatorService =
@@ -98,8 +103,9 @@ class ClerkTranslatorServiceTest {
         authorisationRepository,
         authorisationTermReminderRepository,
         examinationDateRepository,
-        meetingDateService,
+        examinationDateService,
         meetingDateRepository,
+        meetingDateService,
         translatorRepository,
         auditService
       );
@@ -135,12 +141,8 @@ class ClerkTranslatorServiceTest {
 
   @Test
   public void listShouldReturnAllMeetingDates() {
-    final MeetingDate meetingDate1 = Factory.meetingDate();
-    final MeetingDate meetingDate2 = Factory.meetingDate();
-
-    meetingDate1.setDate(LocalDate.parse("2020-01-01"));
-    meetingDate2.setDate(LocalDate.parse("2020-10-06"));
-
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.of(2020, 1, 1));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2020, 10, 6));
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
 
@@ -158,6 +160,31 @@ class ClerkTranslatorServiceTest {
     assertEquals(meetingDate2.getDate(), meetingDateDTOS.get(0).date());
     assertEquals(meetingDate1.getId(), meetingDateDTOS.get(1).id());
     assertEquals(meetingDate1.getDate(), meetingDateDTOS.get(1).date());
+  }
+
+  @Test
+  public void listShouldReturnAllExaminationDates() {
+    final ExaminationDate examinationDate1 = Factory.examinationDate(LocalDate.of(2020, 1, 1));
+    final ExaminationDate examinationDate2 = Factory.examinationDate(LocalDate.of(2020, 10, 6));
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.autAuthorisation(translator, meetingDate, examinationDate1);
+
+    entityManager.persist(examinationDate1);
+    entityManager.persist(examinationDate2);
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
+    final List<ExaminationDateDTO> examinationDateDTOS = responseDTO.examinationDates();
+
+    assertEquals(2, examinationDateDTOS.size());
+
+    assertEquals(examinationDate2.getId(), examinationDateDTOS.get(0).id());
+    assertEquals(examinationDate2.getDate(), examinationDateDTOS.get(0).date());
+    assertEquals(examinationDate1.getId(), examinationDateDTOS.get(1).id());
+    assertEquals(examinationDate1.getDate(), examinationDateDTOS.get(1).date());
   }
 
   @Test

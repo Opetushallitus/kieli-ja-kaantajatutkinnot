@@ -10,6 +10,7 @@ import fi.oph.akt.repository.MeetingDateRepository;
 import fi.oph.akt.util.exception.APIException;
 import fi.oph.akt.util.exception.APIExceptionType;
 import java.util.List;
+import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MeetingDateService {
 
+  @Resource
   private final MeetingDateRepository meetingDateRepository;
+
+  @Resource
   private final AuditService auditService;
 
   @Transactional(readOnly = true)
   public List<MeetingDateDTO> listMeetingDatesWithoutAudit() {
-    return meetingDateRepository.findAllByOrderByDateDesc().stream().map(this::toDto).toList();
+    return meetingDateRepository.findAllByOrderByDateDesc().stream().map(this::toDTO).toList();
   }
 
   @Transactional
@@ -38,7 +42,7 @@ public class MeetingDateService {
       throw new APIException(APIExceptionType.MEETING_DATE_CREATE_DUPLICATE_DATE);
     }
 
-    final MeetingDateDTO result = toDto(meetingDate);
+    final MeetingDateDTO result = toDTO(meetingDate);
     auditService.logById(AktOperation.CREATE_MEETING_DATE, meetingDate.getId());
     return result;
   }
@@ -59,7 +63,7 @@ public class MeetingDateService {
       throw new APIException(APIExceptionType.MEETING_DATE_UPDATE_DUPLICATE_DATE);
     }
 
-    final MeetingDateDTO result = toDto(meetingDate);
+    final MeetingDateDTO result = toDTO(meetingDate);
     auditService.logById(AktOperation.UPDATE_MEETING_DATE, meetingDate.getId());
     return result;
   }
@@ -76,7 +80,7 @@ public class MeetingDateService {
     auditService.logById(AktOperation.DELETE_MEETING_DATE, meetingDateId);
   }
 
-  private MeetingDateDTO toDto(final MeetingDate meetingDate) {
+  private MeetingDateDTO toDTO(final MeetingDate meetingDate) {
     return MeetingDateDTO
       .builder()
       .id(meetingDate.getId())
