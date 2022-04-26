@@ -2119,6 +2119,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr":
+  version: 0.0.0-use.local
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
+  languageName: unknown
+  linkType: soft
+
 "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:."
@@ -2201,12 +2207,6 @@ __metadata:
 "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
-  languageName: unknown
-  linkType: soft
-
-"@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr":
-  version: 0.0.0-use.local
-  resolution: "@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr"
   languageName: unknown
   linkType: soft
 
