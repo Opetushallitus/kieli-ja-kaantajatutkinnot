@@ -29,12 +29,13 @@ export function* fetchClerkTranslators() {
 }
 
 export function* storeApiResults(response: ClerkState) {
-  const { translators, langs, meetingDates } = response;
+  const { translators, langs, meetingDates, examinationDates } = response;
   yield put({
     type: CLERK_TRANSLATOR_RECEIVED,
     translators,
     langs,
     meetingDates,
+    examinationDates,
   });
 }
 

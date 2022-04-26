@@ -7,6 +7,7 @@ import {
   ClerkTranslatorResponse,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
+import { ExaminationDateResponse } from 'interfaces/examinationDate';
 import { MeetingDateResponse } from 'interfaces/meetingDate';
 import { DateUtils } from 'utils/date';
 
@@ -70,6 +71,15 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeExaminationDate(examinationDate: ExaminationDateResponse) {
+    const dayjs = DateUtils.dayjs();
+
+    return {
+      ...examinationDate,
+      date: dayjs(examinationDate.date),
+    };
+  }
+
   static deserializeClerkTranslators(response: ClerkStateResponse) {
     const { langs } = response;
     const translators = response.translators.map(
@@ -78,8 +88,11 @@ export class SerializationUtils {
     const meetingDates = response.meetingDates.map(
       SerializationUtils.deserializeMeetingDate
     );
+    const examinationDates = response.examinationDates.map(
+      SerializationUtils.deserializeExaminationDate
+    );
 
-    return { translators, langs, meetingDates };
+    return { translators, langs, meetingDates, examinationDates };
   }
 
   static deserializeClerkTranslator(
