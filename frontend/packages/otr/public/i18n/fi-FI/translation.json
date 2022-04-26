@@ -1,0 +1,107 @@
+{
+  "otr": {
+    "component": {
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "ophPhone": "Opetushallituksen puhelinnumero",
+          "waveAriaLabel": "Aaltoileva vektorikuvio"
+        },
+        "address": {
+          "name": "Opetushallitus",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Puhelin"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "PL 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Saavutettavuusseloste"
+          },
+          "otrHomepage": {
+            "ariaLabel": "Oikeustulkkirekisteri (oph.fi), avaa uudessa välilehdessä",
+            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
+            "text": "Tietoa Oikeustulkkirekisteristä (oph.fi)"
+          }
+        }
+      },
+      "header": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+        },
+        "clerk": {
+          "backToOph": "Takaisin Opintopolkuun",
+          "logOut": "Kirjaudu ulos"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "publicInterpreterFilters": {
+        "name": {
+          "placeholder": "Nimi",
+          "title": "Haku oikeustulkin nimellä"
+        },
+        "buttons": {
+          "empty": "Tyhjennä",
+          "newSearch": "Tee uusi haku",
+          "search": "Näytä tulokset"
+        },
+        "languagePair": {
+          "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
+          "fromHelperText": "Valitse kieli",
+          "fromPlaceholder": "Mistä *",
+          "title": "Haku kieliparilla",
+          "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
+          "toHelperText": "Valitse kieli",
+          "toPlaceholder": "Mihin *"
+        },
+        "toasts": {
+          "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
+          "selectLanguagePair": "Valitse kielipari",
+          "translatorsSelected": "Voit valita vain yhden kieliparin yhteydenottoon"
+        },
+        "town": {
+          "placeholder": "Asuinkunta",
+          "title": "Haku kääntäjän asuinkunnalla"
+        }
+      },
+      "table": {
+        "pagination": {
+          "rowsPerPage": "Näytä sivulla"
+        },
+        "selectedItems": "valittu",
+        "title": "Hakutulokset"
+      }
+    },
+    "errors": {
+      "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
+    },
+    "pages": {
+      "homepage": {
+        "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
+        "descriptionExtra": "Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi tulkkien yhteystietoja",
+        "filters": {
+          "title": "Etsi oikeustulkkia"
+        },
+        "noSearchResults": "Ei hakutuloksia",
+        "note": "Huomaa, että kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä.",
+        "title": "Oikeustulkkirekisteri"
+      },
+      "notFoundPage": {
+        "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
+        "title": "Valitettavasti etsimääsi sivua ei löytynyt"
+      },
+      "translator": {
+        "name": "Nimi",
+        "area": "Toiminta-alue",
+        "languagePairs": "Kieliparit"
+      }
+    }
+  }
+}

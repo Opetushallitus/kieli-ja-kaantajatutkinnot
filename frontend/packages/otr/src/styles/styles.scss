@@ -15,8 +15,16 @@
 @import 'base/base';
 
 // Components
+@import 'components/i18n/lang-selector';
+@import 'components/layouts/header';
+@import 'components/layouts/footer';
+@import 'components/elements/skip-link';
+@import 'components/elements/header-separator';
+@import 'components/publicTranslator/public-translator-listing';
+@import 'components/publicTranslator/public-translator-filters';
 
 // Pages
+@import 'pages/public-homepage';
 
 // Vendors
 @import 'vendors/init-spinner';

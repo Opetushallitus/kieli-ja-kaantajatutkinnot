@@ -1,13 +1,21 @@
 import { ThemeProvider } from '@mui/material/styles';
+import { Provider } from 'react-redux';
 
+import { initI18n } from 'configs/i18n';
 import { theme } from 'configs/materialUI';
+import { store } from 'configs/redux';
 import { AppRouter } from 'routers/AppRouter';
 import 'public/assets/svg/footer_wave.svg'; // Fixme: Remove
 
 import 'styles/styles.scss';
 
+// Initialize I18next
+initI18n();
+
 export const App = () => (
-  <ThemeProvider theme={theme}>
-    <AppRouter />
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <AppRouter />
+    </ThemeProvider>
+  </Provider>
 );
