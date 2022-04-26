@@ -165,13 +165,13 @@ class MeetingDateServiceTest {
 
   @Test
   public void testMeetingDateDelete() {
-    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now());
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now());
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().plusDays(1));
 
-    entityManager.persist(meetingDate);
+    entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
 
-    final long id = meetingDate.getId();
+    final long id = meetingDate1.getId();
     meetingDateService.deleteMeetingDate(id);
 
     assertEquals(
