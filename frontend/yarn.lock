@@ -2121,19 +2121,7 @@ __metadata:
 
 "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@oph-kieli-ja-kaantajatutkinnot/akt@workspace:packages/akt"
-  languageName: unknown
-  linkType: soft
-
-"@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr":
-  version: 0.0.0-use.local
-  resolution: "@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr"
-  languageName: unknown
-  linkType: soft
-
-"@oph-kieli-ja-kaantajatutkinnot/root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@oph-kieli-ja-kaantajatutkinnot/root@workspace:."
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.root@workspace:."
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/plugin-transform-runtime": ^7.17.0
@@ -2184,6 +2172,7 @@ __metadata:
     jest: ^27.5.1
     mini-css-extract-plugin: ^2.6.0
     normalize.css: ^8.0.1
+    postcss: ^8.4.12
     prettier: ^2.6.2
     react: ^18.0.0
     react-dom: ^18.0.0
@@ -2212,6 +2201,12 @@ __metadata:
 "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
+  languageName: unknown
+  linkType: soft
+
+"@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr":
+  version: 0.0.0-use.local
+  resolution: "@oph-kieli-ja-kaantajatutkinnot/otr@workspace:packages/otr"
   languageName: unknown
   linkType: soft
 
