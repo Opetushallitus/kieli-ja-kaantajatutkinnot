@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import ReactDOM from 'react-dom';
 
 import { CustomModal } from 'components/elements/CustomModal';
 
@@ -7,7 +8,7 @@ import { CustomModal } from 'components/elements/CustomModal';
 
 describe('CustomModal', () => {
   it('should render correctly when not open', () => {
-    const { container } = render(
+    const { baseElement } = render(
       <CustomModal
         open={false}
         onCloseModal={() => {
@@ -15,14 +16,13 @@ describe('CustomModal', () => {
         }}
       >
         <div>Sisältöä tarvitaan</div>
-      </CustomModal>,
-      { container: document.body }
+      </CustomModal>
     );
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 
   it('should render correctly when it is opened', () => {
-    const { container } = render(
+    const { baseElement } = render(
       <CustomModal
         open={true}
         onCloseModal={() => {
@@ -33,9 +33,8 @@ describe('CustomModal', () => {
         modalTitle="Title for the modal"
       >
         <div>Lisää tekstiä</div>
-      </CustomModal>,
-      { container: document.body }
+      </CustomModal>
     );
-    expect(container).toMatchSnapshot();
+    expect(baseElement).toMatchSnapshot();
   });
 });

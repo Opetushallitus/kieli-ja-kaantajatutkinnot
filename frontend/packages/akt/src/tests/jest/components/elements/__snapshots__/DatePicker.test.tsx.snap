@@ -11,6 +11,8 @@ exports[`DatePicker should render correctly 1`] = `
     <label
       className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary MuiFormLabel-filled css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
       data-shrink={true}
+      htmlFor=":r0:"
+      id=":r0:-label"
     >
       test label
     </label>
@@ -23,6 +25,7 @@ exports[`DatePicker should render correctly 1`] = `
         autoFocus={false}
         className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
         disabled={false}
+        id=":r0:"
         max="1.1.2100"
         min="1.1.1900"
         onAnimationStart={[Function]}

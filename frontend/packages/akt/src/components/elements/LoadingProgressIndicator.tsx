@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import { CustomCircularProgress } from 'components/elements/CustomCircularProgress';
 import { Color } from 'enums/app';
@@ -7,10 +7,9 @@ interface LoadingProgressIndicatorProps {
   isLoading: boolean;
 }
 
-export const LoadingProgressIndicator: FC<LoadingProgressIndicatorProps> = ({
-  isLoading,
-  children,
-}) => {
+export const LoadingProgressIndicator: FC<
+  PropsWithChildren<LoadingProgressIndicatorProps>
+> = ({ isLoading, children }) => {
   return (
     <div className="loading-progress-indicator">
       <div className="loading-progress-indicator__container">

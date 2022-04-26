@@ -28,7 +28,7 @@ class MeetingDatesPage {
   }
 
   setDateForNewMeetingDate(date: string) {
-    this.elements.datePicker().type(date);
+    this.elements.datePicker().should('be.visible').type(date);
   }
 
   expectAddButtonDisabled() {

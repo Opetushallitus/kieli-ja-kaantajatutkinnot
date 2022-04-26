@@ -35,28 +35,46 @@ class ClerkHomePage {
   }
 
   filterByAuthorisationStatus(status: AuthorisationStatus) {
-    this.elements.authorisationStatusButton(status).click();
+    this.elements
+      .authorisationStatusButton(status)
+      .should('be.visible')
+      .click();
   }
 
   filterByAuthorisationBasis(basis: AuthorisationBasis) {
-    this.elements.authorisationBasisSelect().type(basis + '{enter}');
+    this.elements
+      .authorisationBasisSelect()
+      .should('be.visible')
+      .type(basis + '{enter}');
   }
 
   filterByPermissionToPublishBasis(permissionToPublish: boolean) {
     const basis = permissionToPublish ? 'Kyllä' : 'Ei';
-    this.elements.permissionToPublishBasisSelect().type(basis + '{enter}');
+    this.elements
+      .permissionToPublishBasisSelect()
+      .should('be.visible')
+      .type(basis + '{enter}');
   }
 
   filterByFromLang(lang: string) {
-    this.elements.fromLanguageSelect().type(lang + '{enter}');
+    this.elements
+      .fromLanguageSelect()
+      .should('be.visible')
+      .type(lang + '{enter}');
   }
 
   filterByToLang(lang: string) {
-    this.elements.toLanguageSelect().type(lang + '{enter}');
+    this.elements
+      .toLanguageSelect()
+      .should('be.visible')
+      .type(lang + '{enter}');
   }
 
   filterByName(name: string) {
-    this.elements.nameField().type(name + '{enter}');
+    this.elements
+      .nameField()
+      .should('be.visible')
+      .type(name + '{enter}');
     // Ensure debounced name filter gets applied by waiting for more than 300ms
     cy.tick(400);
   }

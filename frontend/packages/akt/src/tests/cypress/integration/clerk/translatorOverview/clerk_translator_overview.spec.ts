@@ -34,6 +34,7 @@ describe('ClerkTranslatorOverview:Page', () => {
   it('should display correctly translator and authorisations details', () => {
     cy.openClerkHomePage();
     onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
 
     onClerkTranslatorOverviewPage.expectTranslatorDetailsFields(
       translatorResponse

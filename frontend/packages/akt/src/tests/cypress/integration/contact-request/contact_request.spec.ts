@@ -98,11 +98,14 @@ describe('ContactRequestPage', () => {
     verifyTranslatorsStep();
     onContactRequestPage.next();
 
-    onContactRequestPage.blurFieldByLabel(/etunimi/i);
-    onContactRequestPage.blurFieldByLabel(/sukunimi/i);
+    onContactRequestPage.fillFieldByLabel(/etunimi/i, ' ');
+    onContactRequestPage.fillFieldByLabel(/sukunimi/i, ' ');
+    onContactRequestPage.fillFieldByLabel(/sähköpostiosoite/i, ' ');
     onContactRequestPage.blurFieldByLabel(/sähköpostiosoite/i);
 
-    cy.findAllByText(/tieto on pakollinen/i).should('have.length', 3);
+    cy.findAllByText(/tieto on pakollinen/i)
+      .should('be.visible')
+      .should('have.length', 3);
   });
 
   it('should show an error if the format of email and phone number fields are not correct', () => {
