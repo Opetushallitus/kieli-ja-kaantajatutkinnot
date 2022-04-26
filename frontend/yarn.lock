@@ -2166,6 +2166,7 @@ __metadata:
     eslint-plugin-eslint-comments: ^3.2.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jsx-a11y: ^6.5.1
+    eslint-plugin-no-only-tests: ^2.6.0
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-react: ^7.29.4
     eslint-plugin-react-hooks: ^4.4.0
@@ -5432,6 +5433,13 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 311ab993ed982d0cc7cb0ba02fbc4b36c4a94e9434f31e97f13c4d67e8ecb8aec36baecfd759ff70498846e7e11d7a197eb04c39ad64934baf3354712fd0bc9d
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-no-only-tests@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "eslint-plugin-no-only-tests@npm:2.6.0"
+  checksum: 4e3c9cc7e09c13e855fd7af4a8969128f766dcf32a0680715ebcaa903c7fe44db8e45e994c8b908443a6019cbd9ea1b51f413bf968a0c58214aded930a863df9
   languageName: node
   linkType: hard
 

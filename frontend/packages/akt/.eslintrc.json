@@ -20,6 +20,7 @@
       }
     }
   },
+  "plugins": ["no-only-tests"],
   "extends": [
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
@@ -62,6 +63,7 @@
     "sort-imports": [
       "error",
       { "ignoreCase": true, "ignoreDeclarationSort": true }
-    ]
+    ],
+    "no-only-tests/no-only-tests": "error"
   }
 }

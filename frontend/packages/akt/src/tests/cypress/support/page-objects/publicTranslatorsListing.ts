@@ -7,11 +7,11 @@ class PublicTranslatorsListing {
   };
 
   clickTranslatorRow(id: string) {
-    this.elements.translatorRow(id).click();
+    this.elements.translatorRow(id).should('be.be.visible').click();
   }
 
   openContactRequest() {
-    this.elements.contactRequestBtn().click();
+    this.elements.contactRequestBtn().should('be.be.visible').click();
   }
 
   selectTranslatorRows = (ids: Array<string>) => {

@@ -36,7 +36,7 @@ class ContactRequestPage {
   }
 
   deselectTranslator(id: string) {
-    this.elements.deselectTranslatorButton(id).click();
+    this.elements.deselectTranslatorButton(id).should('be.visible').click();
   }
 
   fillFieldByLabel(label: Matcher, text: string) {
