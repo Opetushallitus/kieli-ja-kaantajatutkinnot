@@ -150,7 +150,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.clickAddAuthorisationBtn();
 
     onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
-      'autDate',
+      'examinationDate',
       'input',
       true
     );
@@ -164,7 +164,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'kkt'
     );
     onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
-      'autDate',
+      'examinationDate',
       'input',
       true
     );
@@ -174,7 +174,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'aut'
     );
     onClerkTranslatorOverviewPage.expectEnabledAddAuthorisationField(
-      'autDate',
+      'examinationDate',
       'input',
       true
     );

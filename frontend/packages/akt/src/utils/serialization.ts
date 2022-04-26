@@ -18,13 +18,13 @@ export class SerializationUtils {
 
     const termBeginDate = stringToDate(authorisation.termBeginDate);
     const termEndDate = stringToDate(authorisation.termEndDate);
-    const autDate = stringToDate(authorisation.autDate);
+    const examinationDate = stringToDate(authorisation.examinationDate);
 
     return {
       ...authorisation,
       termBeginDate,
       termEndDate,
-      autDate,
+      examinationDate,
     };
   }
 
@@ -34,7 +34,7 @@ export class SerializationUtils {
       basis,
       termBeginDate,
       termEndDate,
-      autDate,
+      examinationDate,
       permissionToPublish,
       diaryNumber,
     } = authorisation;
@@ -48,7 +48,7 @@ export class SerializationUtils {
       permissionToPublish,
       diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
       ...(basis === AuthorisationBasisEnum.AUT && {
-        autDate: DateUtils.serializeDate(autDate),
+        examinationDate: DateUtils.serializeDate(examinationDate),
       }),
     };
   }

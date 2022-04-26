@@ -22,9 +22,12 @@ export enum APIResponseStatus {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
-  AuthorisationBasisAndAutDateMismatch = 'authorisationBasisAndAutDateMismatch',
+  AuthorisationBasisAndExaminationDateMismatch = 'authorisationBasisAndExaminationDateMismatch',
   AuthorisationDeleteLastAuthorisation = 'authorisationDeleteLastAuthorisation',
+  AuthorisationMissingExaminationDate = 'authorisationMissingExaminationDate',
   AuthorisationMissingMeetingDate = 'authorisationMissingMeetingDate',
+  ExaminationDateCreateDuplicateDate = 'examinationDateCreateDuplicateDate',
+  ExaminationDateDeleteHasAuthorisations = 'examinationDateDeleteHasAuthorisations',
   MeetingDateCreateDuplicateDate = 'meetingDateCreateDuplicateDate',
   MeetingDateDeleteHasAuthorisations = 'meetingDateDeleteHasAuthorisations',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',
