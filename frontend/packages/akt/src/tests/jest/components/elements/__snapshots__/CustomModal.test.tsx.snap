@@ -5,6 +5,9 @@ exports[`CustomModal should render correctly when it is opened 1`] = `
   style="padding-right: 1024px; overflow: hidden;"
 >
   <div
+    aria-hidden="true"
+  />
+  <div
     aria-labelledby="testAriaLabel"
     class="MuiModal-root css-79ws1d-MuiModal-root"
     role="presentation"
@@ -44,4 +47,8 @@ exports[`CustomModal should render correctly when it is opened 1`] = `
 </body>
 `;
 
-exports[`CustomModal should render correctly when not open 1`] = `<body />`;
+exports[`CustomModal should render correctly when not open 1`] = `
+<body>
+  <div />
+</body>
+`;

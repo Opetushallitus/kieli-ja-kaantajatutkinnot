@@ -7,8 +7,8 @@ exports[`CustomTextField should render correctly with error 1`] = `
   <label
     className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
     data-shrink={false}
-    htmlFor="mui-2"
-    id="mui-2-label"
+    htmlFor=":r1:"
+    id=":r1:-label"
   >
     test label
   </label>
@@ -21,7 +21,7 @@ exports[`CustomTextField should render correctly with error 1`] = `
       autoFocus={false}
       className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
       disabled={false}
-      id="mui-2"
+      id=":r1:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
@@ -53,6 +53,8 @@ exports[`CustomTextField should render correctly with text 1`] = `
   <label
     className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary MuiFormLabel-filled css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
     data-shrink={true}
+    htmlFor=":r0:"
+    id=":r0:-label"
   >
     test label
   </label>
@@ -65,6 +67,7 @@ exports[`CustomTextField should render correctly with text 1`] = `
       autoFocus={false}
       className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
       disabled={false}
+      id=":r0:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}

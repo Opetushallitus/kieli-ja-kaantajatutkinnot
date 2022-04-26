@@ -13,7 +13,7 @@ class PublicTranslatorFilters {
   };
 
   selectOptionByName(name: string) {
-    cy.findByRole('option', { name }).click();
+    cy.findByRole('option', { name }).should('be.visible').click();
   }
 
   selectFromLangByName(from: string) {
@@ -39,17 +39,17 @@ class PublicTranslatorFilters {
   }
 
   filterByTown(town: string) {
-    this.elements.town().click();
+    this.elements.town().should('be.visible').click();
     this.selectOptionByName(town);
     this.search();
   }
 
   fillOutName(name: string) {
-    this.elements.name().type(name);
+    this.elements.name().should('be.visible').type(name);
   }
 
   fillOutTown(town: string) {
-    this.elements.town().type(town);
+    this.elements.town().should('be.visible').type(town);
   }
 
   enterKeyOnTown() {
@@ -57,19 +57,19 @@ class PublicTranslatorFilters {
   }
 
   emptySearch() {
-    this.elements.empty().click();
+    this.elements.empty().should('be.visible').click();
   }
 
   search() {
-    this.elements.search().click();
+    this.elements.search().should('be.visible').click();
   }
 
   clickFromLang() {
-    this.elements.fromLang().click();
+    this.elements.fromLang().should('be.visible').click();
   }
 
   clickToLang() {
-    this.elements.toLang().click();
+    this.elements.toLang().should('be.visible').click();
   }
 
   expectSearchButtonTo(assert: string) {
