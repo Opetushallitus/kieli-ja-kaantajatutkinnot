@@ -15,7 +15,7 @@ public record AuthorisationCreateDTO(
   LocalDate termEndDate,
   @NonNull @NotNull Boolean permissionToPublish,
   String diaryNumber,
-  LocalDate autDate
+  LocalDate examinationDate
 )
   implements AuthorisationDTOCommonFields {
   // Workaround for bug in IntelliJ lombok plugin

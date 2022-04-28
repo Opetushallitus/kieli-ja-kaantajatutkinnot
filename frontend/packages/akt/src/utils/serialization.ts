@@ -7,6 +7,7 @@ import {
   ClerkTranslatorResponse,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
+import { ExaminationDateResponse } from 'interfaces/examinationDate';
 import { MeetingDateResponse } from 'interfaces/meetingDate';
 import { DateUtils } from 'utils/date';
 
@@ -18,13 +19,13 @@ export class SerializationUtils {
 
     const termBeginDate = stringToDate(authorisation.termBeginDate);
     const termEndDate = stringToDate(authorisation.termEndDate);
-    const autDate = stringToDate(authorisation.autDate);
+    const examinationDate = stringToDate(authorisation.examinationDate);
 
     return {
       ...authorisation,
       termBeginDate,
       termEndDate,
-      autDate,
+      examinationDate,
     };
   }
 
@@ -34,7 +35,7 @@ export class SerializationUtils {
       basis,
       termBeginDate,
       termEndDate,
-      autDate,
+      examinationDate,
       permissionToPublish,
       diaryNumber,
     } = authorisation;
@@ -48,7 +49,7 @@ export class SerializationUtils {
       permissionToPublish,
       diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
       ...(basis === AuthorisationBasisEnum.AUT && {
-        autDate: DateUtils.serializeDate(autDate),
+        examinationDate: DateUtils.serializeDate(examinationDate),
       }),
     };
   }
@@ -70,6 +71,15 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeExaminationDate(examinationDate: ExaminationDateResponse) {
+    const dayjs = DateUtils.dayjs();
+
+    return {
+      ...examinationDate,
+      date: dayjs(examinationDate.date),
+    };
+  }
+
   static deserializeClerkTranslators(response: ClerkStateResponse) {
     const { langs } = response;
     const translators = response.translators.map(
@@ -78,8 +88,11 @@ export class SerializationUtils {
     const meetingDates = response.meetingDates.map(
       SerializationUtils.deserializeMeetingDate
     );
+    const examinationDates = response.examinationDates.map(
+      SerializationUtils.deserializeExaminationDate
+    );
 
-    return { translators, langs, meetingDates };
+    return { translators, langs, meetingDates, examinationDates };
   }
 
   static deserializeClerkTranslator(

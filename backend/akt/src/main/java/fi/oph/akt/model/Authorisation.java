@@ -55,9 +55,6 @@ public class Authorisation extends BaseEntity {
   @Column(name = "diary_number")
   private String diaryNumber;
 
-  @Column(name = "aut_date")
-  private LocalDate autDate;
-
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "translator_id", referencedColumnName = "translator_id", nullable = false)
   private Translator translator;
@@ -66,10 +63,17 @@ public class Authorisation extends BaseEntity {
   @JoinColumn(name = "meeting_date_id", referencedColumnName = "meeting_date_id")
   private MeetingDate meetingDate;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "examination_date_id", referencedColumnName = "examination_date_id")
+  private ExaminationDate examinationDate;
+
   @OneToMany(mappedBy = "authorisation")
   private Collection<AuthorisationTermReminder> reminders = new ArrayList<>();
 
-  public boolean isBasisAndAutDateConsistent() {
-    return (basis == AuthorisationBasis.AUT && autDate != null) || (basis != AuthorisationBasis.AUT && autDate == null);
+  public boolean isBasisAndExaminationDateConsistent() {
+    return (
+      (basis == AuthorisationBasis.AUT && examinationDate != null) ||
+      (basis != AuthorisationBasis.AUT && examinationDate == null)
+    );
   }
 }

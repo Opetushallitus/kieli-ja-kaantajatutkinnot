@@ -5,6 +5,7 @@ import fi.oph.akt.api.dto.LanguagePairsDictDTO;
 import fi.oph.akt.api.dto.clerk.AuthorisationDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akt.api.dto.clerk.ClerkTranslatorResponseDTO;
+import fi.oph.akt.api.dto.clerk.ExaminationDateDTO;
 import fi.oph.akt.api.dto.clerk.MeetingDateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akt.api.dto.clerk.modify.AuthorisationDTOCommonFields;
@@ -17,11 +18,13 @@ import fi.oph.akt.audit.AktOperation;
 import fi.oph.akt.audit.AuditService;
 import fi.oph.akt.model.Authorisation;
 import fi.oph.akt.model.AuthorisationTermReminder;
+import fi.oph.akt.model.ExaminationDate;
 import fi.oph.akt.model.MeetingDate;
 import fi.oph.akt.model.Translator;
 import fi.oph.akt.repository.AuthorisationProjection;
 import fi.oph.akt.repository.AuthorisationRepository;
 import fi.oph.akt.repository.AuthorisationTermReminderRepository;
+import fi.oph.akt.repository.ExaminationDateRepository;
 import fi.oph.akt.repository.MeetingDateRepository;
 import fi.oph.akt.repository.TranslatorRepository;
 import fi.oph.akt.util.AuthorisationProjectionComparator;
@@ -55,10 +58,16 @@ public class ClerkTranslatorService {
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
 
   @Resource
-  private final MeetingDateService meetingDateService;
+  private final ExaminationDateRepository examinationDateRepository;
+
+  @Resource
+  private final ExaminationDateService examinationDateService;
 
   @Resource
   private final MeetingDateRepository meetingDateRepository;
+
+  @Resource
+  private final MeetingDateService meetingDateService;
 
   @Resource
   private final TranslatorRepository translatorRepository;
@@ -84,6 +93,7 @@ public class ClerkTranslatorService {
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
     final List<String> towns = getDistinctTowns(translators);
     final List<MeetingDateDTO> meetingDateDTOS = meetingDateService.listMeetingDatesWithoutAudit();
+    final List<ExaminationDateDTO> examinationDateDTOS = examinationDateService.listExaminationDatesWithoutAudit();
 
     return ClerkTranslatorResponseDTO
       .builder()
@@ -91,6 +101,7 @@ public class ClerkTranslatorService {
       .langs(languagePairsDictDTO)
       .towns(towns)
       .meetingDates(meetingDateDTOS)
+      .examinationDates(examinationDateDTOS)
       .build();
   }
 
@@ -154,7 +165,7 @@ public class ClerkTranslatorService {
           .termEndDate(authProjection.termEndDate())
           .permissionToPublish(authProjection.permissionToPublish())
           .diaryNumber(authProjection.diaryNumber())
-          .autDate(authProjection.autDate())
+          .examinationDate(authProjection.examinationDate())
           .build();
       })
       .toList();
@@ -188,7 +199,9 @@ public class ClerkTranslatorService {
     }
 
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
-    dto.authorisations().forEach(authDto -> createAuthorisation(translator, meetingDates, authDto));
+    final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
+
+    dto.authorisations().forEach(authDto -> createAuthorisation(translator, meetingDates, examinationDates, authDto));
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
     auditService.logById(AktOperation.CREATE_TRANSLATOR, translator.getId());
@@ -269,7 +282,9 @@ public class ClerkTranslatorService {
   public ClerkTranslatorDTO createAuthorisation(final long translatorId, final AuthorisationCreateDTO dto) {
     final Translator translator = translatorRepository.getById(translatorId);
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
-    final Authorisation authorisation = createAuthorisation(translator, meetingDates, dto);
+    final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
+
+    final Authorisation authorisation = createAuthorisation(translator, meetingDates, examinationDates, dto);
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
     auditService.logAuthorisation(AktOperation.CREATE_AUTHORISATION, translator, authorisation.getId());
@@ -279,13 +294,14 @@ public class ClerkTranslatorService {
   private Authorisation createAuthorisation(
     final Translator translator,
     final Map<LocalDate, MeetingDate> meetingDates,
+    final Map<LocalDate, ExaminationDate> examinationDates,
     final AuthorisationCreateDTO dto
   ) {
     final Authorisation authorisation = new Authorisation();
     translator.getAuthorisations().add(authorisation);
     authorisation.setTranslator(translator);
 
-    copyDtoFieldsToAuthorisation(dto, authorisation, meetingDates);
+    copyDtoFieldsToAuthorisation(dto, authorisation, meetingDates, examinationDates);
     authorisationRepository.saveAndFlush(authorisation);
 
     return authorisation;
@@ -297,7 +313,9 @@ public class ClerkTranslatorService {
     authorisation.assertVersion(dto.version());
 
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
-    copyDtoFieldsToAuthorisation(dto, authorisation, meetingDates);
+    final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
+
+    copyDtoFieldsToAuthorisation(dto, authorisation, meetingDates, examinationDates);
     authorisationRepository.flush();
 
     final Translator translator = authorisation.getTranslator();
@@ -310,11 +328,17 @@ public class ClerkTranslatorService {
   private void copyDtoFieldsToAuthorisation(
     final AuthorisationDTOCommonFields dto,
     final Authorisation authorisation,
-    final Map<LocalDate, MeetingDate> meetingDates
+    final Map<LocalDate, MeetingDate> meetingDates,
+    final Map<LocalDate, ExaminationDate> examinationDates
   ) {
     final MeetingDate meetingDate = meetingDates.get(dto.termBeginDate());
     if (meetingDate == null) {
       throw new APIException(APIExceptionType.AUTHORISATION_MISSING_MEETING_DATE);
+    }
+
+    final ExaminationDate examinationDate = examinationDates.get(dto.examinationDate());
+    if (dto.examinationDate() != null && examinationDate == null) {
+      throw new APIException(APIExceptionType.AUTHORISATION_MISSING_EXAMINATION_DATE);
     }
 
     authorisation.setBasis(dto.basis());
@@ -324,11 +348,11 @@ public class ClerkTranslatorService {
     authorisation.setTermEndDate(dto.termEndDate());
     authorisation.setPermissionToPublish(dto.permissionToPublish());
     authorisation.setDiaryNumber(dto.diaryNumber());
-    authorisation.setAutDate(dto.autDate());
     authorisation.setMeetingDate(meetingDate);
+    authorisation.setExaminationDate(examinationDate);
 
-    if (!authorisation.isBasisAndAutDateConsistent()) {
-      throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_AUT_DATE_MISMATCH);
+    if (!authorisation.isBasisAndExaminationDateConsistent()) {
+      throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_EXAMINATION_DATE_MISMATCH);
     }
   }
 
@@ -373,5 +397,12 @@ public class ClerkTranslatorService {
       .findAll()
       .stream()
       .collect(Collectors.toMap(MeetingDate::getDate, Function.identity()));
+  }
+
+  private Map<LocalDate, ExaminationDate> getLocalDateExaminationDateMap() {
+    return examinationDateRepository
+      .findAll()
+      .stream()
+      .collect(Collectors.toMap(ExaminationDate::getDate, Function.identity()));
   }
 }

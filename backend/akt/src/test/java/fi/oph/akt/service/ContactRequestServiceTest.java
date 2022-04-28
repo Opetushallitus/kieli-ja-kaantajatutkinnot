@@ -169,7 +169,7 @@ class ContactRequestServiceTest {
   public void createContactRequestShouldSaveClerkEmailIfContactedTranslatorDoesntHaveEmailAddress() {
     final MeetingDate meetingDate = createMeetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     authorisation.setFromLang(FROM_LANG);
     authorisation.setToLang(TO_LANG);
@@ -238,7 +238,7 @@ class ContactRequestServiceTest {
   public void createContactRequestShouldThrowIllegalArgumentExceptionIfSomeContactedTranslatorsAreNotPubliclyListed() {
     final MeetingDate meetingDate = createMeetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     authorisation.setFromLang(FROM_LANG);
     authorisation.setToLang(TO_LANG);
@@ -307,7 +307,7 @@ class ContactRequestServiceTest {
         translator.setLastName("Suku" + i);
         translator.setEmail("etu.suku" + i + "@invalid");
 
-        final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+        final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
         authorisation.setFromLang(FROM_LANG);
         authorisation.setToLang(TO_LANG);
 

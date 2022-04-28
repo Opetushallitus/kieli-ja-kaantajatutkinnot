@@ -42,7 +42,7 @@ const newAuthorisation: Authorisation = {
   termEndDate: undefined,
   permissionToPublish: true,
   diaryNumber: '',
-  autDate: undefined,
+  examinationDate: undefined,
 };
 
 export const AddAuthorisation = ({
@@ -65,7 +65,7 @@ export const AddAuthorisation = ({
 
   const [authorisation, setAuthorisation] =
     useState<Authorisation>(newAuthorisation);
-  const [autDate, setAutDate] = useState('');
+  const [examinationDate, setExaminationDate] = useState('');
   const [isAuthorisationDataChanged, setIsAuthorisationDataChanged] =
     useState(false);
 
@@ -101,7 +101,7 @@ export const AddAuthorisation = ({
       basis: value?.value as AuthorisationBasis,
     });
     if (value?.value !== AuthorisationBasisEnum.AUT) {
-      setAutDate('');
+      setExaminationDate('');
     }
     setIsAuthorisationDataChanged(true);
   };
@@ -118,11 +118,11 @@ export const AddAuthorisation = ({
     setIsAuthorisationDataChanged(true);
   };
 
-  const handleAutDateChange = (value: string) => {
-    setAutDate(value);
+  const handleExaminationDateChange = (value: string) => {
+    setExaminationDate(value);
     setAuthorisation({
       ...authorisation,
-      autDate: dayjs(value),
+      examinationDate: dayjs(value),
     });
     setIsAuthorisationDataChanged(true);
   };
@@ -158,7 +158,8 @@ export const AddAuthorisation = ({
   };
 
   const isAddButtonDisabled = () => {
-    const { languagePair, diaryNumber, autDate, ...otherProps } = authorisation;
+    const { languagePair, diaryNumber, examinationDate, ...otherProps } =
+      authorisation;
 
     const isOtherPropsNotDefined = Object.values(otherProps).some((p) =>
       StringUtils.isBlankString(p)
@@ -169,16 +170,16 @@ export const AddAuthorisation = ({
 
     const isDiaryNumberBlank = StringUtils.isBlankString(diaryNumber);
 
-    const isAutDateNotDefinedOrInvalid =
+    const isExaminationDateNotDefinedOrInvalid =
       otherProps.basis === AuthorisationBasisEnum.AUT &&
-      (!autDate || !dayjs(autDate).isValid());
+      (!examinationDate || !dayjs(examinationDate).isValid());
 
     return (
       isLoading ||
       isOtherPropsNotDefined ||
       isLangPropsNotDefined ||
       isDiaryNumberBlank ||
-      isAutDateNotDefinedOrInvalid
+      isExaminationDateNotDefinedOrInvalid
     );
   };
 
@@ -244,13 +245,13 @@ export const AddAuthorisation = ({
             />
           </div>
           <div className="rows gapped-xs">
-            <Text className="bold">{t('fieldLabel.autDate')}</Text>
+            <Text className="bold">{t('fieldLabel.examinationDate')}</Text>
             <DatePicker
-              label={t('fieldPlaceholders.autDate')}
-              value={autDate}
-              setValue={handleAutDateChange}
+              label={t('fieldPlaceholders.examinationDate')}
+              value={examinationDate}
+              setValue={handleExaminationDateChange}
               disabled={authorisation.basis !== AuthorisationBasisEnum.AUT}
-              dataTestId={`${testIdPrefix}-autDate`}
+              dataTestId={`${testIdPrefix}-examinationDate`}
             />
           </div>
         </div>

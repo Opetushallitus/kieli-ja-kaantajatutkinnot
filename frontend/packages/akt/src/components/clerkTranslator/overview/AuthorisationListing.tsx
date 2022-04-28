@@ -124,8 +124,8 @@ export const AuthorisationListing = ({
                   {a.basis === AuthorisationBasisEnum.AUT && (
                     <Tooltip
                       title={`${t(
-                        'fields.autDate'
-                      )}: ${DateUtils.formatOptionalDate(a.autDate)}`}
+                        'fields.examinationDate'
+                      )}: ${DateUtils.formatOptionalDate(a.examinationDate)}`}
                       arrow
                       placement="bottom"
                     >

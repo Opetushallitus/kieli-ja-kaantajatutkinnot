@@ -1,6 +1,10 @@
 TRUNCATE translator CASCADE;
+TRUNCATE examination_date CASCADE;
 TRUNCATE meeting_date CASCADE;
 TRUNCATE email CASCADE;
+
+INSERT INTO examination_date(date)
+VALUES ('2020-10-04'), ('2021-09-13'), ('2022-11-22');
 
 INSERT INTO meeting_date(date)
 VALUES ('2020-12-30'), ('2021-03-09'), ('2021-06-10'), ('2021-08-15'), ('2021-11-18'), ('2022-01-01'), ('2022-05-14'),
@@ -92,7 +96,7 @@ WITH translator_ids AS (
     WHERE mod(translator_id, 24) = 0
 )
 INSERT
-INTO authorisation(translator_id, basis, meeting_date_id, aut_date, from_lang, to_lang, permission_to_publish)
+INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish)
 SELECT translator_id,
        -- 11 KKT
        -- 13 VIR
@@ -112,7 +116,7 @@ SELECT translator_id,
            WHEN mod(i, 11) = 0 THEN NULL
            WHEN mod(i, 13) = 0 THEN NULL
            WHEN mod(i, 17) = 0 THEN NULL
-           ELSE now() END,
+           ELSE (SELECT min(examination_date_id) FROM examination_date) END,
        from_langs[mod(i, array_length(from_langs, 1)) + 1],
        to_langs[mod(i, array_length(to_langs, 1)) + 1],
        mod(i, 21) <> 0
@@ -129,11 +133,11 @@ DELETE FROM authorisation WHERE meeting_date_id IS NOT NULL AND translator_id IN
 );
 
 -- add inverse language pairs related to most non VIR-unauthorised authorisations
-INSERT INTO authorisation(translator_id, basis, meeting_date_id, aut_date, from_lang, to_lang, permission_to_publish)
+INSERT INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish)
 SELECT translator_id,
        basis,
        meeting_date_id,
-       aut_date,
+       examination_date_id,
        -- note to_lang and from_lang are swapped
        to_lang,
        from_lang,

@@ -95,7 +95,7 @@ class PublicTranslatorServiceTest {
   @Test
   public void listShouldNotReturnTranslatorsWithOnlyFormerVIRAuthorisations() {
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, null);
+    final Authorisation authorisation = Factory.formerVirAuthorisation(translator);
 
     authorisation.setPermissionToPublish(true);
 
@@ -127,7 +127,7 @@ class PublicTranslatorServiceTest {
       .range(0, towns.size())
       .forEach(i -> {
         final Translator translator = Factory.translator();
-        final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+        final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
         translator.setTown(towns.get(i));
 
@@ -217,7 +217,7 @@ class PublicTranslatorServiceTest {
     final boolean permissionToPublish,
     final String toLang
   ) {
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
     authorisation.setFromLang("FI");
     authorisation.setToLang(toLang);
     authorisation.setTermBeginDate(termBeginDate);

@@ -42,7 +42,7 @@ const getAuthorisationDetails = (isReponse: boolean) => {
         diaryNumber: '10000',
         termBeginDate: getDateWithProperType('2021-03-09', isReponse),
         termEndDate: getDateWithProperType('2021-09-09', isReponse),
-        autDate: getDateWithProperType('2022-03-07', isReponse),
+        examinationDate: getDateWithProperType('2022-03-07', isReponse),
       },
       {
         id: 10001,
@@ -56,7 +56,7 @@ const getAuthorisationDetails = (isReponse: boolean) => {
         diaryNumber: '10001',
         termBeginDate: getDateWithProperType('2022-01-01', isReponse),
         termEndDate: getDateWithProperType('2022-07-01', isReponse),
-        autDate: getDateWithProperType('2022-03-03', isReponse),
+        examinationDate: getDateWithProperType('2022-03-03', isReponse),
       },
       {
         id: 10002,
@@ -70,7 +70,7 @@ const getAuthorisationDetails = (isReponse: boolean) => {
         diaryNumber: '10002',
         termBeginDate: getDateWithProperType('2020-01-01', isReponse),
         termEndDate: getDateWithProperType('2022-01-01', isReponse),
-        autDate: getDateWithProperType('2020-01-01', isReponse),
+        examinationDate: getDateWithProperType('2020-01-01', isReponse),
       },
       {
         id: 10003,

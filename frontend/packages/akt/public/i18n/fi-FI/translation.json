@@ -70,7 +70,7 @@
             "add": "Lisää auktorisointi"
           },
           "fields": {
-            "autDate": "Tutkintopäivä",
+            "examinationDate": "Tutkintopäivä",
             "basis": "Peruste",
             "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
@@ -225,7 +225,7 @@
       },
       "newAuthorisation": {
         "fieldLabel": {
-          "autDate": "Tutkintopäivä (vain AUT)",
+          "examinationDate": "Tutkintopäivä (vain AUT)",
           "basis": "Auktorisoinnin peruste",
           "diaryNumber": "Auktorisoinnin asiatunnus",
           "from": "Kielipari (mistä)",
@@ -234,7 +234,7 @@
           "to": "Kielipari (mihin)"
         },
         "fieldPlaceholders": {
-          "autDate": "Tutkintopäivä",
+          "examinationDate": "Tutkintopäivä",
           "basis": "Peruste",
           "diaryNumber": "Asiatunnus",
           "from": "Mistä",
@@ -301,9 +301,12 @@
     "errors": {
       "api": {
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
-        "authorisationBasisAndAutDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja AUT tutkintopäivä ovat ristiriidassa keskenään",
+        "authorisationBasisAndExaminationDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja tutkintopäivä ovat ristiriidassa keskenään",
         "authorisationDeleteLastAuthorisation": "Auktorisoinnin poisto epäonnistui, koska kääntäjän viimeistä auktorisointia ei voi poistaa",
+        "authorisationMissingExaminationDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole tutkintopäivää",
         "authorisationMissingMeetingDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole kokouspäivää",
+        "examinationDateCreateDuplicateDate": "Tutkintopäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo tutkintopäivä",
+        "examinationDateDeleteHasAuthorisations": "Tutkintopäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
         "meetingDateCreateDuplicateDate": "Kokouspäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateDeleteHasAuthorisations": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",

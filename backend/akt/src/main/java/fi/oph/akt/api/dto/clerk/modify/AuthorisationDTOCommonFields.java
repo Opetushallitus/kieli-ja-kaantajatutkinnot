@@ -18,5 +18,5 @@ public interface AuthorisationDTOCommonFields {
 
   String diaryNumber();
 
-  LocalDate autDate();
+  LocalDate examinationDate();
 }

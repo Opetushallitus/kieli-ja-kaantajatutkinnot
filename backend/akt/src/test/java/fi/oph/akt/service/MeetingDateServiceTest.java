@@ -123,7 +123,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateUpdateThrowsAPIExceptionForMeetingDateWithAuthorisations() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
@@ -165,13 +165,13 @@ class MeetingDateServiceTest {
 
   @Test
   public void testMeetingDateDelete() {
-    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now());
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now());
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().plusDays(1));
 
-    entityManager.persist(meetingDate);
+    entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
 
-    final long id = meetingDate.getId();
+    final long id = meetingDate1.getId();
     meetingDateService.deleteMeetingDate(id);
 
     assertEquals(
@@ -187,7 +187,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateDeleteThrowsAPIExceptionForMeetingDateWithAuthorisations() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);

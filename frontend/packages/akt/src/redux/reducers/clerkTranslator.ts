@@ -7,6 +7,7 @@ import {
   ClerkTranslator,
   ClerkTranslatorFilter,
 } from 'interfaces/clerkTranslator';
+import { ExaminationDate } from 'interfaces/examinationDate';
 import { LanguagePairsDict } from 'interfaces/languagePair';
 import { MeetingDate } from 'interfaces/meetingDate';
 import {
@@ -26,6 +27,7 @@ const defaultState = {
   translators: [],
   langs: { from: [], to: [] },
   meetingDates: [],
+  examinationDates: [],
   selectedTranslators: [],
   filters: {
     authorisationStatus: AuthorisationStatus.Authorised,
@@ -46,12 +48,15 @@ export const clerkTranslatorReducer: Reducer<ClerkUIState, ClerkStateAction> = (
       const translators = action.translators as Array<ClerkTranslator>;
       const langs = action.langs as LanguagePairsDict;
       const meetingDates = action.meetingDates as Array<MeetingDate>;
+      const examinationDates =
+        action.examinationDates as Array<ExaminationDate>;
 
       return {
         ...state,
         translators,
         langs,
         meetingDates,
+        examinationDates,
         status: APIResponseStatus.Success,
       };
     case CLERK_TRANSLATOR_ERROR:

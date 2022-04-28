@@ -105,7 +105,9 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     final String translatorEmail
   ) {
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = meetingDate != null
+      ? Factory.kktAuthorisation(translator, meetingDate)
+      : Factory.formerVirAuthorisation(translator);
 
     translator.setEmail(translatorEmail);
     authorisation.setTermEndDate(termEndDate);

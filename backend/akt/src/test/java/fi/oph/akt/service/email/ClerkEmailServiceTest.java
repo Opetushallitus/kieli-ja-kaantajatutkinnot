@@ -100,7 +100,7 @@ public class ClerkEmailServiceTest {
         translator.setLastName("Suku" + i);
         translator.setEmail("etu.suku" + i + "@invalid");
 
-        final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+        final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
@@ -140,7 +140,7 @@ public class ClerkEmailServiceTest {
   public void createInformalEmailsShouldSaveEmailToGivenTranslatorsWithDuplicateTranslatorIds() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     translator.setEmail("foo.bar@invalid");
 
@@ -164,7 +164,7 @@ public class ClerkEmailServiceTest {
   public void createInformalEmailsShouldIgnoreTranslatorsWithoutEmailAddress() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
@@ -200,7 +200,7 @@ public class ClerkEmailServiceTest {
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2050, 1, 10));
     final MeetingDate meetingDate3 = Factory.meetingDate(LocalDate.of(2060, 1, 10));
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate1);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
 
     translator.setFirstName("Etu");
     translator.setLastName("Suku");
@@ -248,7 +248,7 @@ public class ClerkEmailServiceTest {
   public void testCreateAuthorisationExpiryEmailWithoutUpcomingMeetingDates() {
     final MeetingDate meetingDate = Factory.meetingDate(LocalDate.of(2020, 1, 10));
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     translator.setFirstName("Etu");
     translator.setLastName("Suku");
@@ -289,7 +289,7 @@ public class ClerkEmailServiceTest {
   public void testCreateAuthorisationExpiryEmailWithTranslatorWithoutEmailAddress() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.authorisation(translator, meetingDate);
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
