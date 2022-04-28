@@ -57,15 +57,6 @@
       }
     }
 
-    &__logo--akt {
-      height: 16rem;
-
-      @include phone {
-        align-self: center;
-        height: 15rem;
-      }
-    }
-
     &__logo--oph {
       height: 8rem;
       margin: 0 4rem;

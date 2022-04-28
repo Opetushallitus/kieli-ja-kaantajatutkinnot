@@ -27,8 +27,6 @@ export const PublicTranslatorGrid = () => {
   const [showTable, setShowTable] = useState(false);
   const hasResults = translators.length > 0 && showTable;
   const hasNoResults = !hasResults && showTable;
-  // const hasNoResults = true;
-  // const hasResults = false;
   const isLoading = status === APIResponseStatus.InProgress;
 
   return (

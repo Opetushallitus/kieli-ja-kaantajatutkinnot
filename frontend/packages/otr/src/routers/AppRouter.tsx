@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { Notifier } from 'components/notification/Notifier';
+import { AppRoutes } from 'enums/app';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
@@ -15,7 +16,10 @@ export const AppRouter: FC = () => {
         <main className="content" id="main-content">
           <div className="content__container">
             <Routes>
-              <Route path={'/otr/etusivu'} element={<PublicHomePage />} />
+              <Route
+                path={AppRoutes.PublicHomePage}
+                element={<PublicHomePage />}
+              />
             </Routes>
           </div>
         </main>

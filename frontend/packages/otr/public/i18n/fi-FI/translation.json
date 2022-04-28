@@ -80,6 +80,9 @@
       }
     },
     "errors": {
+      "api": {
+        "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen"
+      },
       "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
     },
     "pages": {

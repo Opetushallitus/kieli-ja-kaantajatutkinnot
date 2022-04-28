@@ -1,16 +1,10 @@
 export enum AppConstants {
-  CallerID = '1.2.246.562.10.00000000001.akt',
+  CallerID = '1.2.246.562.10.00000000001.otr',
 }
 
 export enum AppRoutes {
-  PublicHomePage = '/akt/etusivu',
-  ClerkHomePage = '/akt/virkailija',
-  MeetingDatesPage = '/akt/virkailija/kokouspaivat',
-  ClerkSendEmailPage = '/akt/virkailija/laheta-sahkoposti',
-  ClerkLocalLogoutPage = '/akt/cas/localLogout',
-  ClerkTranslatorOverviewPage = '/akt/virkailija/kaantaja/:translatorId',
-  ClerkNewTranslatorPage = '/akt/virkailija/lisaa-kaantaja',
-  AccessibilityStatementPage = '/akt/saavutettavuusseloste',
+  PublicHomePage = '/otr/etusivu',
+  AccessibilityStatementPage = '/otr/saavutettavuusseloste',
   NotFoundPage = '*',
 }
 
@@ -126,11 +120,6 @@ export enum Screenwidth {
   Desktop = 1024,
 }
 
-export enum PermissionToPublish {
-  Yes = 'Kyllä',
-  No = 'Ei',
-}
-
 export enum AppLanguage {
   Finnish = 'fi-FI',
   Swedish = 'sv-SE',
@@ -146,9 +135,4 @@ export enum UIMode {
   View = 'view',
   EditTranslatorDetails = 'editTranslatorDetails',
   EditAuthorisationDetails = 'editAuthorisationDetails',
-}
-
-export enum HeaderTabNav {
-  Register = 'register',
-  MeetingDates = 'meetingDates',
 }
