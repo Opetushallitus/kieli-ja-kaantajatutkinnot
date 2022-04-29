@@ -1,10 +1,14 @@
 {
-  "testEnvironment": "jsdom",
-  "moduleDirectories": ["node_modules", "src"],
-  "setupFiles": ["./src/tests/jest/__mocks__/globalMocks.ts"],
-  "testPathIgnorePatterns": ["./src/tests/cypress"],
-  "setupFilesAfterEnv": ["./jest-setup.ts"],
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
   "moduleNameMapper": {
-    "\\.svg": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts"
-  }
+    "\\.(css|less|sass|scss)$": "<rootDir>/configs/jest/__mocks__/styleMocks.ts",
+    "\\.svg": "<rootDir>/configs/jest/__mocks__/fileMocks.ts"
+  },
+  "setupFilesAfterEnv": [
+    "./jest-setup.ts"
+  ],
+  "testEnvironment": "jsdom"
 }
