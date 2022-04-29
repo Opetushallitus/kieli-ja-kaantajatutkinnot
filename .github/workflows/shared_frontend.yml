@@ -38,26 +38,17 @@ jobs:
         run: |
           yarn install --immutable
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-      # - name: Run Linters
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn shared:lint
-      # - name: Format
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn shared:format
-      # - name: Run Jest Tests
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn shared:test:jest
+      - name: Run Linters
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:lint
+      - name: Format
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:format
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:test:jest
       - name: Publish to GitHub Packages
         working-directory: ${{ env.FRONTEND_DIR }}/packages/shared
         run: yarn npm publish
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Build
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn akt:build
-      # - uses: actions/cache@v3
-      #   id: akt-frontend-build
-      #   with:
-      #     path: ${{ env.BACKEND_DIR }}/src/main/resources/static
-      #     key: ${{ runner.os }}-akt-frontend-build-${{ github.sha }}

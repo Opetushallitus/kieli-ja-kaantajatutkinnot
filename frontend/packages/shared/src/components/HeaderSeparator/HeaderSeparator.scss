@@ -1,0 +1,13 @@
+.header-separator {
+  background-color: $color-secondary;
+  height: 0.8rem;
+  margin-bottom: 2rem;
+  width: 5rem;
+
+  @include phone {
+    height: 0.4rem;
+    margin: 0;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  }
+}
