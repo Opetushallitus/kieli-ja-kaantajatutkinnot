@@ -2,6 +2,7 @@ package fi.oph.otr;
 
 import fi.oph.otr.model.Kielipari;
 import fi.oph.otr.model.Oikeustulkki;
+import fi.oph.otr.model.Sijainti;
 import fi.oph.otr.model.Tulkki;
 import fi.oph.otr.model.embeddable.Kieli;
 import java.time.LocalDate;
@@ -11,6 +12,10 @@ public class Factory {
 
   public static Tulkki interpreter() {
     return new Tulkki(UUID.randomUUID().toString());
+  }
+
+  public static Tulkki interpreter(final String oid) {
+    return new Tulkki(oid);
   }
 
   public static Oikeustulkki legalInterpreter(final Tulkki interpreter) {
@@ -33,8 +38,13 @@ public class Factory {
     final LocalDate end
   ) {
     final Kielipari languagePair = new Kielipari(legalInterpreter, new Kieli(from), new Kieli(to), begin, end);
-
     legalInterpreter.getKielet().add(languagePair);
     return languagePair;
+  }
+
+  public static Sijainti location(final Oikeustulkki legalInterpreter, final Sijainti.Tyyppi type, final String code) {
+    final Sijainti loc = new Sijainti(legalInterpreter, type, code);
+    legalInterpreter.getSijainnit().add(loc);
+    return loc;
   }
 }

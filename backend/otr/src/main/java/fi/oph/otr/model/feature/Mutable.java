@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
@@ -56,10 +57,10 @@ public abstract class Mutable implements Creatable, Modifyable, Serializable {
   @Column(name = "poistohetki")
   private LocalDateTime poistohetki;
 
-  public void markPoistettu(String poistaja) {
+  public void markPoistettu() {
     this.poistohetki = LocalDateTime.now();
     this.poistettu = true;
-    this.poistaja = poistaja;
+    this.poistaja = getCurrentUserId();
   }
 
   protected void setLuotu(LocalDateTime luotu) {
@@ -102,5 +103,13 @@ public abstract class Mutable implements Creatable, Modifyable, Serializable {
 
     final String currentUser = getCurrentUserId();
     setMuokkaaja(currentUser);
+  }
+
+  public void assertVersion(final long version) {
+    if (version != getVersion()) {
+      throw new OptimisticLockException(
+        "Current version: " + getVersion() + " does not match given version: " + version
+      );
+    }
   }
 }
