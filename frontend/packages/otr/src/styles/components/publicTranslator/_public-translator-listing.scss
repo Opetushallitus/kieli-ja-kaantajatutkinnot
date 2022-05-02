@@ -1,0 +1,9 @@
+.public-translator-listing {
+  &__checkbox {
+    &#{&} {
+      @include phone {
+        padding-top: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.footer {
+  &__wave {
+    background-color: $color-background-content;
+  }
+
+  &__info-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+    justify-content: space-evenly;
+    padding-top: 4rem;
+
+    @include phone {
+      justify-content: flex-start;
+      padding: 1rem;
+    }
+  }
+
+  &__logo-row {
+    padding: 3rem 3rem 5rem;
+
+    @include phone {
+      padding: 0 1rem 10rem;
+    }
+
+    &__divider {
+      &#{&} {
+        &::before,
+        &::after {
+          border-top: thin solid $color-secondary-dark;
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+
+  &__container {
+    align-items: flex-start;
+    color: $color-secondary-dark;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    padding: 1.5rem;
+
+    &--links,
+    &--contact-details {
+      margin-top: 3rem;
+
+      @include phone {
+        margin-top: 0;
+      }
+
+      &__contact-email {
+        &#{&} {
+          font-weight: normal;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+
+    &__logo--oph {
+      height: 8rem;
+      margin: 0 4rem;
+
+      @include phone {
+        margin: 0 2rem;
+      }
+    }
+
+    & a,
+    & > a > button {
+      color: $color-secondary-dark;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1.9rem;
+      margin: 0;
+      padding: 6px 0;
+      text-decoration: none;
+      text-transform: initial;
+
+      @include phone {
+        font-size: 1.5rem;
+      }
+    }
+
+    &:last-of-type {
+      @include phone {
+        order: -1;
+      }
+    }
+  }
+}
