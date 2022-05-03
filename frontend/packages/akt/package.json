@@ -1,5 +1,5 @@
 {
-  "name": "@oph-kieli-ja-kaantajatutkinnot/akt",
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.akt",
   "description": "Authorised Translator’s System",
   "license": "MIT",
   "main": "index.js",

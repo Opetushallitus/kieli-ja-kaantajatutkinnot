@@ -1,5 +1,5 @@
 {
-  "name": "@oph-kieli-ja-kaantajatutkinnot/otr",
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.otr",
   "description": "Oikeustulkkirekisteri",
   "license": "MIT",
   "main": "index.js",

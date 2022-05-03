@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OPHLogoViewer should render OPHLogoViewer correctly 1`] = `
+<img
+  alt="Opetushallituksen logo"
+  src="test"
+/>
+`;

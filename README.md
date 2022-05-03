@@ -74,7 +74,7 @@ description: Informal description
 
 For example:
 
-AKT(Frontend): Add new component
+AKT(Frontend): Added new translations
 ```
 
 ## Branching naming conventions

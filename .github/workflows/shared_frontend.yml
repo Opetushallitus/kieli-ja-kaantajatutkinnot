@@ -1,0 +1,54 @@
+name: Shared Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/shared_frontend.yml
+      - "frontend/packages/shared/**"
+env:
+  FRONTEND_DIR: ./frontend
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          yarn install --immutable
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - name: Run Linters
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:lint
+      - name: Format
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:format
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn shared:test:jest
+      - name: Publish to GitHub Packages
+        working-directory: ${{ env.FRONTEND_DIR }}/packages/shared
+        run: yarn npm publish
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

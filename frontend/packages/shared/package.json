@@ -1,0 +1,51 @@
+{
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
+  "version": "1.0.0",
+  "description": "Shared Frontend Package",
+  "exports": {
+    "./components": "./src/components/index.tsx",
+    "./enums": "./src/enums/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./interfaces": "./src/interfaces/index.ts",
+    "./styles": "./src/styles/shared-styles.scss",
+    "./utils": "./src/utils/index.ts"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot.git"
+  },
+  "scripts": {
+    "shared:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "shared:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "shared:lint": "yarn shared:eslint && yarn shared:tslint && yarn shared:stylelint",
+    "shared:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
+    "shared:test:jest": "yarn g:jest",
+    "shared:tslint": "yarn g:tsc --pretty --noEmit"
+  },
+  "typesVersions": {
+    "*": {
+      "components": [
+        "src/components/index.tsx"
+      ],
+      "enums": [
+        "src/enums/index.ts"
+      ],
+      "hooks": [
+        "src/hooks/index.ts"
+      ],
+      "interfaces": [
+        "src/interfaces/index.ts"
+      ],
+      "styles": [
+        "src/utils/index.ts"
+      ],
+      "utils": [
+        "src/styles/shared-styles.scss"
+      ]
+    }
+  }
+}

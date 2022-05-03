@@ -1,0 +1,69 @@
+/* Widths */
+.full-max-width {
+  &#{&} {
+    max-width: 100%;
+  }
+}
+
+.half-max-width {
+  max-width: 50%;
+}
+
+/* Heights */
+.full-height {
+  &#{&} {
+    height: 100vh;
+  }
+}
+
+.half-height {
+  &#{&} {
+    height: 50vh;
+  }
+}
+
+/* Margins */
+.margin-top-sm {
+  &#{&} {
+    margin-top: map-get($spacing, 'sm');
+  }
+}
+
+.margin-top-lg {
+  &#{&} {
+    margin-top: map-get($spacing, 'lg');
+  }
+}
+
+.margin-top-xxl {
+  &#{&} {
+    margin-top: map-get($spacing, 'xxl');
+  }
+}
+
+.margin-right-xs {
+  &#{&} {
+    margin-right: map-get($spacing, 'xs');
+  }
+}
+
+/* Gaps */
+.gapped {
+  gap: map-get($spacing, 'lg');
+}
+
+.gapped-xxl {
+  gap: map-get($spacing, 'xxl');
+}
+
+.gapped-sm {
+  gap: map-get($spacing, 'sm');
+}
+
+.gapped-xs {
+  gap: map-get($spacing, 'xs');
+}
+
+.gapped-xxs {
+  gap: map-get($spacing, 'xxs');
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@oph-kieli-ja-kaantajatutkinnot/root",
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.root",
   "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
@@ -75,6 +75,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",
     "mini-css-extract-plugin": "^2.6.0",
+    "postcss": "^8.4.12",
     "prettier": "^2.6.2",
     "react-test-renderer": "^18.0.0",
     "sass": "^1.50.1",

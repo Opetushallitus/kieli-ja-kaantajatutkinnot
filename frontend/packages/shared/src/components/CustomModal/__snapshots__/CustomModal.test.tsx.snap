@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomModal should render correctly when it is opened 1`] = `
+<body
+  style="padding-right: 1024px; overflow: hidden;"
+>
+  <div
+    aria-hidden="true"
+  />
+  <div
+    aria-labelledby="testAriaLabel"
+    class="MuiModal-root css-79ws1d-MuiModal-root"
+    role="presentation"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="custom-modal"
+      tabindex="-1"
+    >
+      <div
+        class="rows gapped"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+          id="testAriaLabel"
+        >
+          Title for the modal
+        </h2>
+        <div>
+          Lisää tekstiä
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;
+
+exports[`CustomModal should render correctly when not open 1`] = `
+<body>
+  <div />
+</body>
+`;
