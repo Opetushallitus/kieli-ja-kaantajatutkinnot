@@ -14,17 +14,13 @@ public class Factory {
     return new Tulkki(UUID.randomUUID().toString());
   }
 
-  public static Tulkki interpreter(final String oid) {
-    return new Tulkki(oid);
-  }
-
   public static Oikeustulkki legalInterpreter(final Tulkki interpreter) {
     final Oikeustulkki legalInterpreter = new Oikeustulkki();
     legalInterpreter.setTulkki(interpreter);
     legalInterpreter.setTutkintoTyyppi(Oikeustulkki.TutkintoTyyppi.OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO);
     legalInterpreter.setJulkaisulupa(true);
     legalInterpreter.setJulkaisulupaEmail(true);
-    legalInterpreter.setJulkaisulupaMuuYhteystieto(true);
+    legalInterpreter.setJulkaisulupaPuhelinnumero(true);
 
     interpreter.getOikeustulkit().add(legalInterpreter);
     return legalInterpreter;
