@@ -1,13 +1,13 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",
     "./enums": "./src/enums/index.ts",
     "./hooks": "./src/hooks/index.ts",
     "./interfaces": "./src/interfaces/index.ts",
-    "./styles": "./src/styles/styles.scss",
+    "./styles": "./src/styles/shared-styles.scss",
     "./utils": "./src/utils/index.ts"
   },
   "license": "MIT",
@@ -44,7 +44,7 @@
         "src/utils/index.ts"
       ],
       "utils": [
-        "src/styles/styles.scss"
+        "src/styles/shared-styles.scss"
       ]
     }
   }
