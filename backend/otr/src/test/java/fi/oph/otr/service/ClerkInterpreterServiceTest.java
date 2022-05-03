@@ -75,23 +75,22 @@ class ClerkInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    final String oid1 = createInterpreter("not published 1", false, "FI", "SE", today, tomorrow);
-    final String oid2 = createInterpreter("published1", true, "FI", "EN", today, tomorrow);
-    final String oid3 = createInterpreter("published2", true, "NO", "FI", yesterday, today);
-    final String oid4 = createInterpreter("not published 2", false, "FI", "GE", previousWeek, tomorrow);
-    final String oid5 = createInterpreter("in future", true, "FI", "DA", tomorrow, nextWeek);
-    final String oid6 = createInterpreter("in past", true, "FI", "IT", previousWeek, yesterday);
+    final long id1 = createInterpreter(false, "FI", "SE", today, tomorrow);
+    final long id2 = createInterpreter(true, "FI", "EN", today, tomorrow);
+    final long id3 = createInterpreter(true, "NO", "FI", yesterday, today);
+    final long id4 = createInterpreter(false, "FI", "GE", previousWeek, tomorrow);
+    final long id5 = createInterpreter(true, "FI", "DA", tomorrow, nextWeek);
+    final long id6 = createInterpreter(true, "FI", "IT", previousWeek, yesterday);
 
     final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.listInterpreters();
     assertEquals(
-      Set.of(oid1, oid2, oid3, oid4, oid5, oid6),
-      interpreters.stream().map(ClerkInterpreterDTO::oid).collect(Collectors.toSet())
+      Set.of(id1, id2, id3, id4, id5, id6),
+      interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet())
     );
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
   }
 
-  private String createInterpreter(
-    final String oid,
+  private long createInterpreter(
     final boolean publish,
     final String from,
     final String to,
@@ -99,7 +98,6 @@ class ClerkInterpreterServiceTest {
     final LocalDate end
   ) {
     final Tulkki interpreter = Factory.interpreter();
-    interpreter.setHenkiloOid(oid);
 
     final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
     legalInterpreter.setJulkaisulupa(publish);
@@ -111,7 +109,7 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(legalInterpreter);
     entityManager.persist(languagePair);
     entityManager.persist(location);
-    return oid;
+    return interpreter.getId();
   }
 
   @Test
@@ -122,7 +120,6 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
-      .oid("a")
       .identityNumber("241202-xyz")
       .firstName("Erkki E Merkki")
       .nickName("Erkki")
@@ -156,7 +153,6 @@ class ClerkInterpreterServiceTest {
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
     assertFalse(interpreterDTO.deleted());
-    assertEquals(createDTO.oid(), interpreterDTO.oid());
     assertEquals(1, interpreterDTO.legalInterpreters().size());
 
     final ClerkLegalInterpreterDTO legalInterpreterDTO = interpreterDTO.legalInterpreters().get(0);
@@ -187,8 +183,8 @@ class ClerkInterpreterServiceTest {
   public void testGetInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    createInterpreter("a", false, "FI", "SE", today, tomorrow);
-    createInterpreter("b", true, "FI", "EN", today, tomorrow);
+    createInterpreter(false, "FI", "SE", today, tomorrow);
+    createInterpreter(true, "FI", "EN", today, tomorrow);
 
     final List<Long> ids = interpreterRepository.findAll().stream().map(Tulkki::getId).toList();
     assertEquals(2, ids.size());
@@ -197,7 +193,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreter() {
-    createInterpreter("a", false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
+    createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
     final Long id = interpreterRepository.findAll().stream().map(Tulkki::getId).findFirst().orElseThrow();
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
@@ -205,7 +201,6 @@ class ClerkInterpreterServiceTest {
       .builder()
       .id(original.id())
       .version(original.version())
-      .oid(original.oid())
       .identityNumber(original.identityNumber())
       .firstName(original.firstName())
       .nickName(original.nickName())
@@ -221,8 +216,8 @@ class ClerkInterpreterServiceTest {
   public void testDeleteInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    createInterpreter("a", false, "FI", "SE", today, tomorrow);
-    createInterpreter("b", true, "FI", "EN", today, tomorrow);
+    createInterpreter(false, "FI", "SE", today, tomorrow);
+    createInterpreter(true, "FI", "EN", today, tomorrow);
 
     final List<Long> ids = interpreterRepository.findAll().stream().map(Tulkki::getId).toList();
     final Long idToDelete = ids.get(0);
@@ -351,8 +346,8 @@ class ClerkInterpreterServiceTest {
   public void testDeleteLegalInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    createInterpreter("a", false, "FI", "SE", today, tomorrow);
-    createInterpreter("b", true, "FI", "EN", today, tomorrow);
+    createInterpreter(false, "FI", "SE", today, tomorrow);
+    createInterpreter(true, "FI", "EN", today, tomorrow);
 
     final List<Long> ids = legalInterpreterRepository.findAll().stream().map(Oikeustulkki::getId).toList();
     final Long idToDelete = ids.get(0);

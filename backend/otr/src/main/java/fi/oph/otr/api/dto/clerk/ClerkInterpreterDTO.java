@@ -11,7 +11,6 @@ public record ClerkInterpreterDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Long version,
   @NonNull @NotNull Boolean deleted,
-  @NonNull @NotBlank String oid,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String nickName,
