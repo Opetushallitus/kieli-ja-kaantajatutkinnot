@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +82,6 @@ public class ClerkInterpreterService {
       .id(interpreter.getId())
       .version(interpreter.getVersion())
       .deleted(interpreter.isPoistettu())
-      .oid(interpreter.getHenkiloOid())
       // FIXME fetch details from onr
       .identityNumber("TODO")
       .firstName("Etunimi:" + interpreter.getHenkiloOid())
@@ -130,8 +130,8 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO create(final ClerkInterpreterCreateDTO dto) {
-    final Tulkki interpreter = new Tulkki(dto.oid());
-    // TODO set person data to ONR
+    // TODO set person data to ONR and get OID
+    final Tulkki interpreter = new Tulkki(UUID.randomUUID().toString());
     interpreterRepository.save(interpreter);
     dto
       .legalInterpreters()
