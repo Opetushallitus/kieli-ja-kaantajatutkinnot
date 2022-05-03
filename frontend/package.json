@@ -1,5 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.root",
+  "packageManager": "yarn@3.2.0",
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
