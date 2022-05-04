@@ -5,8 +5,7 @@ package fi.oph.otr.util.exception;
  * The respective frontend enum is `APIError`.
  */
 public enum APIExceptionType {
-  // TODO
-  TODO;
+  LEGAL_INTERPRETER_REGION_UNKNOWN;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

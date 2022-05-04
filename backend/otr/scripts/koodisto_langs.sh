@@ -3,7 +3,7 @@
 # Fetch language list from koodisto, save returned json for backend to use, generate frontend localisation files.
 
 LANGS_LIST=../src/main/resources/koodisto/koodisto_kielet.json
-FRONTEND_PATH=../src/main/reactjs/public/i18n/koodisto/langs
+FRONTEND_PATH=../../../frontend/packages/otr/public/i18n/koodisto/langs
 
 mkdir -p $FRONTEND_PATH
 curl -H "Caller-Id:kehittaja-otr" "https://virkailija.opintopolku.fi/koodisto-service/rest/json/kielikoodistoopetushallinto/koodi" --create-dirs -o $LANGS_LIST

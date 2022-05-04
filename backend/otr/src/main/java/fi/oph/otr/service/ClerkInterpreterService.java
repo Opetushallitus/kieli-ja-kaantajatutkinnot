@@ -19,10 +19,14 @@ import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.LegalInterpreterRepository;
 import fi.oph.otr.repository.LocationRepository;
+import fi.oph.otr.util.exception.APIException;
+import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,6 +50,9 @@ public class ClerkInterpreterService {
 
   @Resource
   private final LocationRepository locationRepository;
+
+  @Resource
+  private final RegionService regionService;
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> listInterpreters() {
@@ -105,7 +112,14 @@ public class ClerkInterpreterService {
               .permissionToPublish(legalInterpreter.isJulkaisulupa())
               .otherContactInfo(legalInterpreter.getMuuYhteystieto())
               .extraInformation(legalInterpreter.getLisatiedot())
-              .areas(legalInterpreterLocations.get(legalInterpreter.getId()).stream().map(Sijainti::getKoodi).toList())
+              .areas(
+                legalInterpreterLocations
+                  .getOrDefault(legalInterpreter.getId(), Collections.emptyList())
+                  .stream()
+                  .map(Sijainti::getKoodi)
+                  .filter(Objects::nonNull)
+                  .toList()
+              )
               .languages(
                 legalInterpreterLanguagePairs
                   .get(legalInterpreter.getId())
@@ -142,15 +156,23 @@ public class ClerkInterpreterService {
 
   private void createLegalInterpreter(final Tulkki interpreter, final ClerkLegalInterpreterCreateDTO dto) {
     final Oikeustulkki legalInterpreter = new Oikeustulkki();
+    copyFromDTO(dto, legalInterpreter);
     interpreter.getOikeustulkit().add(legalInterpreter);
     legalInterpreter.setTulkki(interpreter);
-    copyFromDTO(dto, legalInterpreter);
     legalInterpreterRepository.saveAndFlush(legalInterpreter);
     locationRepository.saveAllAndFlush(legalInterpreter.getSijainnit());
     languagePairRepository.saveAllAndFlush(legalInterpreter.getKielet());
   }
 
   private void copyFromDTO(final ClerkLegalInterpreterDTOCommonFields dto, final Oikeustulkki legalInterpreter) {
+    dto
+      .areas()
+      .forEach(regionCode -> {
+        if (!regionService.listKoodistoCodes().contains(regionCode)) {
+          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN);
+        }
+      });
+
     legalInterpreter.setTutkintoTyyppi(dto.examinationType().toDbEnum());
     legalInterpreter.setJulkaisulupaEmail(dto.permissionToPublishEmail());
     legalInterpreter.setJulkaisulupaPuhelinnumero(dto.permissionToPublishPhone());
@@ -161,7 +183,7 @@ public class ClerkInterpreterService {
     final Set<Sijainti> locations = dto
       .areas()
       .stream()
-      .map(a -> new Sijainti(legalInterpreter, Sijainti.Tyyppi.MAAKUNTA, a)) // TODO
+      .map(regionCode -> new Sijainti(legalInterpreter, Sijainti.Tyyppi.MAAKUNTA, regionCode))
       .collect(Collectors.toSet());
     final List<Kielipari> languagePairs = dto
       .languages()

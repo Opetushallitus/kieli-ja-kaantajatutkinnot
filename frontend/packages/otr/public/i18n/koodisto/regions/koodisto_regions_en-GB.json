@@ -1,0 +1,27 @@
+{
+  "otr": {
+    "koodisto": {
+      "languages": {
+        "01": "Helsinki-Uusimaa Region",
+        "02": "Southwest Finland",
+        "04": "Satakunta Region",
+        "05": "Häme Region",
+        "06": "Tampere Region",
+        "07": "Päijät-Häme Region",
+        "08": "Kymenlaakso Region",
+        "09": "South Karelia",
+        "10": "South Savo Region",
+        "11": "Pohjois-Savo Region",
+        "12": "North Karelia",
+        "13": "Central Finland",
+        "14": "South Ostrobothnia",
+        "15": "Ostrobothnia",
+        "16": "Central Ostrobothnia",
+        "17": "North Ostrobothnia",
+        "18": "Kainuu Region",
+        "19": "Lapland",
+        "21": "Åland"
+      }
+    }
+  }
+}
