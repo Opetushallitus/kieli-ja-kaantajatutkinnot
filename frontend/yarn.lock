@@ -2116,6 +2116,8 @@ __metadata:
 "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt"
+  dependencies:
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.0"
   languageName: unknown
   linkType: soft
 
@@ -2204,7 +2206,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.0":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
