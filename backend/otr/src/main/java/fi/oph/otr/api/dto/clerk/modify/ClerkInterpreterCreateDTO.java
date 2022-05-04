@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -14,10 +15,16 @@ public record ClerkInterpreterCreateDTO(
   @NonNull @NotBlank String nickName,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String email,
+  @NonNull @NotNull Boolean permissionToPublishEmail,
   String phoneNumber,
+  @NonNull @NotNull Boolean permissionToPublishPhone,
+  String otherContactInfo,
+  @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
   String street,
   String postalCode,
   String town,
+  String extraInformation,
+  @NonNull @NotEmpty List<String> areas,
   @NonNull @NotEmpty @Valid List<ClerkLegalInterpreterCreateDTO> legalInterpreters
 )
   implements ClerkInterpreterDTOCommonFields {

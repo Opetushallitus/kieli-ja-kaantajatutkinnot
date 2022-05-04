@@ -1,5 +1,7 @@
 package fi.oph.otr.api.dto.clerk;
 
+import java.util.List;
+
 public interface ClerkInterpreterDTOCommonFields {
   String identityNumber();
 
@@ -11,11 +13,23 @@ public interface ClerkInterpreterDTOCommonFields {
 
   String email();
 
+  Boolean permissionToPublishEmail();
+
   String phoneNumber();
+
+  Boolean permissionToPublishPhone();
+
+  String otherContactInfo();
+
+  Boolean permissionToPublishOtherContactInfo();
 
   String street();
 
   String postalCode();
 
   String town();
+
+  String extraInformation();
+
+  List<String> areas();
 }
