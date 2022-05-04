@@ -73,8 +73,8 @@ export const PublicTranslatorListingRow = ({
     }
   };
 
-  const getAreasDescription = (areas?: Array<string>) => {
-    if (areas && areas.length > 0) {
+  const getAreasDescription = (areas: Array<string>) => {
+    if (areas.length > 0) {
       return areas.join(', ');
     }
 

@@ -1,6 +1,8 @@
 package fi.oph.otr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.InterpreterDTO;
@@ -10,6 +12,7 @@ import fi.oph.otr.model.Oikeustulkki;
 import fi.oph.otr.model.Tulkki;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
+import fi.oph.otr.repository.LegalInterpreterRepository;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Resource;
@@ -27,6 +30,9 @@ class PublicInterpreterServiceTest {
   private InterpreterRepository interpreterRepository;
 
   @Resource
+  private LegalInterpreterRepository legalInterpreterRepository;
+
+  @Resource
   private LanguagePairRepository languagePairRepository;
 
   @Resource
@@ -36,7 +42,8 @@ class PublicInterpreterServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicInterpreterService = new PublicInterpreterService(interpreterRepository, languagePairRepository);
+    publicInterpreterService =
+      new PublicInterpreterService(interpreterRepository, legalInterpreterRepository, languagePairRepository);
   }
 
   @Test
@@ -47,79 +54,88 @@ class PublicInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    createLanguagePair(createLegalInterpreter(createInterpreter("not published"), false), "FI", "SE", today, tomorrow);
-    final Kielipari expectedLanguagePair1 = createLanguagePair(
-      createLegalInterpreter(createInterpreter("published1"), true),
-      "FI",
-      "EN",
-      today,
-      tomorrow
-    );
-    final Kielipari expectedLanguagePair2 = createLanguagePair(
-      createLegalInterpreter(createInterpreter("published2"), true),
-      "NO",
-      "FI",
-      yesterday,
-      today
-    );
-    createLanguagePair(
-      createLegalInterpreter(createInterpreterDeleted("deleted1"), true),
-      "DE",
-      "FI",
-      yesterday,
-      today
-    );
-    createLanguagePair(
-      createLegalInterpreterDeleted(createInterpreter("deleted2"), true),
-      "FI",
-      "DE",
-      yesterday,
-      today
-    );
-    createLanguagePair(createLegalInterpreter(createInterpreter("in future"), true), "FI", "DN", tomorrow, nextWeek);
-    createLanguagePair(createLegalInterpreter(createInterpreter("in past"), true), "FI", "IT", previousWeek, yesterday);
+    final Tulkki interpreter1 = createInterpreter();
+    final Tulkki interpreter2 = createInterpreter();
+    final Tulkki interpreter3 = createInterpreter();
+    final Tulkki interpreter4 = createInterpreter();
+    final Tulkki interpreter5 = createInterpreterDeleted();
+    final Tulkki interpreter6 = createInterpreter();
 
-    final List<InterpreterDTO> published = publicInterpreterService.list();
-    assertEquals(2, published.size());
+    final Oikeustulkki legalInterpreter1 = createLegalInterpreter(interpreter1);
+    final Oikeustulkki legalInterpreter2 = createLegalInterpreter(interpreter2);
+    final Oikeustulkki legalInterpreter3 = createLegalInterpreter(interpreter3);
+    final Oikeustulkki legalInterpreter4 = createLegalInterpreter(interpreter4);
+    final Oikeustulkki legalInterpreter5 = createLegalInterpreter(interpreter5);
+    final Oikeustulkki legalInterpreter6 = createLegalInterpreterDeleted(interpreter6);
 
-    final InterpreterDTO publishedInterpreter1 = published.get(0);
-    assertLanguagePair(expectedLanguagePair1, publishedInterpreter1);
+    legalInterpreter1.setJulkaisulupaEmail(false);
+    legalInterpreter1.setJulkaisulupaMuuYhteystieto(true);
+    legalInterpreter1.setMuuYhteystieto("oikeustulkki.company@invalid");
+    legalInterpreter2.setJulkaisulupaPuhelinnumero(false);
+    legalInterpreter3.setJulkaisulupa(false);
 
-    final InterpreterDTO publishedInterpreter2 = published.get(1);
-    assertLanguagePair(expectedLanguagePair2, publishedInterpreter2);
+    final Kielipari languagePair11 = createLanguagePair(legalInterpreter1, "FI", "EN", today, tomorrow);
+    final Kielipari languagePair12 = createLanguagePair(legalInterpreter1, "NO", "FI", yesterday, today);
+    final Kielipari languagePair21 = createLanguagePair(legalInterpreter2, "SE", "FI", yesterday, nextWeek);
+    // Hidden, no publish permission
+    createLanguagePair(legalInterpreter3, "FI", "RU", yesterday, nextWeek);
+    // Hidden, in past
+    createLanguagePair(legalInterpreter4, "FI", "IT", previousWeek, yesterday);
+    // Hidden, in future
+    createLanguagePair(legalInterpreter4, "FI", "DN", tomorrow, nextWeek);
+    // Interpreter marked deleted
+    createLanguagePair(legalInterpreter5, "DE", "FI", yesterday, nextWeek);
+    // Legal interpreter marked deleted
+    createLanguagePair(legalInterpreter6, "FR", "FI", yesterday, nextWeek);
+
+    final List<InterpreterDTO> interpreters = publicInterpreterService.list();
+    assertEquals(2, interpreters.size());
+
+    final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
+    assertNull(publishedInterpreter1.email());
+    assertNotNull(publishedInterpreter1.phoneNumber());
+    assertEquals(legalInterpreter1.getMuuYhteystieto(), publishedInterpreter1.otherContactInfo());
+
+    assertEquals(2, publishedInterpreter1.languages().size());
+    assertLanguagePair(languagePair11, publishedInterpreter1.languages().get(0));
+    assertLanguagePair(languagePair12, publishedInterpreter1.languages().get(1));
+
+    final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
+    assertNotNull(publishedInterpreter2.email());
+    assertNull(publishedInterpreter2.phoneNumber());
+    assertNull(publishedInterpreter2.otherContactInfo());
+
+    assertEquals(1, publishedInterpreter2.languages().size());
+    assertLanguagePair(languagePair21, publishedInterpreter2.languages().get(0));
   }
 
-  private void assertLanguagePair(final Kielipari expected, final InterpreterDTO actualInterpreterDTO) {
-    assertEquals(1, actualInterpreterDTO.languages().size());
-    final LanguagePairDTO publishedLanguagePair1 = actualInterpreterDTO.languages().get(0);
-    assertEquals(expected.getKielesta().getKoodi(), publishedLanguagePair1.from());
-    assertEquals(expected.getKieleen().getKoodi(), publishedLanguagePair1.to());
+  private void assertLanguagePair(final Kielipari expected, final LanguagePairDTO languagePairDTO) {
+    assertEquals(expected.getKielesta().getKoodi(), languagePairDTO.from());
+    assertEquals(expected.getKieleen().getKoodi(), languagePairDTO.to());
   }
 
-  private Tulkki createInterpreter(final String oid) {
-    final Tulkki interpreter = Factory.interpreter(oid);
+  private Tulkki createInterpreter() {
+    final Tulkki interpreter = Factory.interpreter();
     entityManager.persist(interpreter);
     return interpreter;
   }
 
-  private Tulkki createInterpreterDeleted(final String oid) {
-    final Tulkki interpreter = Factory.interpreter(oid);
+  private Tulkki createInterpreterDeleted() {
+    final Tulkki interpreter = Factory.interpreter();
     interpreter.markPoistettu();
     entityManager.persist(interpreter);
     return interpreter;
   }
 
-  private Oikeustulkki createLegalInterpreter(final Tulkki interpreter, final boolean publish) {
+  private Oikeustulkki createLegalInterpreter(final Tulkki interpreter) {
     final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    legalInterpreter.setJulkaisulupa(publish);
     entityManager.persist(legalInterpreter);
     return legalInterpreter;
   }
 
-  private Oikeustulkki createLegalInterpreterDeleted(final Tulkki interpreter, final boolean publish) {
+  private Oikeustulkki createLegalInterpreterDeleted(final Tulkki interpreter) {
     final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
     legalInterpreter.markPoistettu();
-    legalInterpreter.setJulkaisulupa(publish);
     entityManager.persist(legalInterpreter);
     return legalInterpreter;
   }

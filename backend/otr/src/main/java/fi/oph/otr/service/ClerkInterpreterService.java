@@ -86,7 +86,7 @@ public class ClerkInterpreterService {
       .identityNumber("TODO")
       .firstName("Etunimi:" + interpreter.getHenkiloOid())
       .nickName("Kutsumanimi:" + interpreter.getHenkiloOid())
-      .lastName("Sukunumi:" + interpreter.getHenkiloOid())
+      .lastName("Sukunimi:" + interpreter.getHenkiloOid())
       .email("TODOfoo@bar.invalid")
       .legalInterpreters(
         legalInterpreters

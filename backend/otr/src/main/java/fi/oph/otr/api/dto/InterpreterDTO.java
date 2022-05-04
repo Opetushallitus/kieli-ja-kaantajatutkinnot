@@ -7,7 +7,10 @@ import lombok.NonNull;
 public record InterpreterDTO(
   @NonNull String firstName,
   @NonNull String lastName,
-  @NonNull String area,
+  String email,
+  String phoneNumber,
+  String otherContactInfo,
+  @NonNull List<String> areas,
   @NonNull List<LanguagePairDTO> languages
 ) {
   // Workaround for bug in IntelliJ lombok plugin

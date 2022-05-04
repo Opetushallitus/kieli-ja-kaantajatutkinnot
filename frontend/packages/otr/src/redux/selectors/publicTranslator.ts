@@ -96,6 +96,6 @@ const filterByArea = (
   filters: PublicTranslatorFilter
 ) => {
   return publicTranslator.areas
-    ?.map((area) => area.toLowerCase())
+    .map((area) => area.toLowerCase())
     .includes(filters.area.toLowerCase());
 };

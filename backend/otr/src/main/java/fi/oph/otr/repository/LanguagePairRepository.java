@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LanguagePairRepository extends JpaRepository<Kielipari, Long> {
   @Query(
-    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(o.tulkki.id, kp.kielesta.koodi, kp.kieleen.koodi) FROM Kielipari kp" +
+    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(t.id, kp.kielesta.koodi, kp.kieleen.koodi) FROM Kielipari kp" +
     " JOIN kp.oikeustulkki o" +
     " JOIN o.tulkki t" +
     " WHERE kp.voimassaoloAlkaa <= CURRENT_DATE" +

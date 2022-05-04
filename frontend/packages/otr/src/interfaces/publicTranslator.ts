@@ -9,7 +9,10 @@ import { WithId } from 'interfaces/with';
 export interface PublicTranslator extends WithId {
   firstName: string;
   lastName: string;
-  areas?: Array<string>;
+  email?: string;
+  phoneNumber?: string;
+  otherContactInfo?: string;
+  areas: Array<string>;
   languages: Array<LanguagePair>;
 }
 
