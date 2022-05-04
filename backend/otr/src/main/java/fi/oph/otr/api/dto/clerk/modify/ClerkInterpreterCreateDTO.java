@@ -24,7 +24,7 @@ public record ClerkInterpreterCreateDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull @NotEmpty List<String> areas,
+  @NonNull List<String> areas,
   @NonNull @NotEmpty @Valid List<ClerkLegalInterpreterCreateDTO> legalInterpreters
 )
   implements ClerkInterpreterDTOCommonFields {

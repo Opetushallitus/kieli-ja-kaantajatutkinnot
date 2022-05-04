@@ -12,7 +12,6 @@ import fi.oph.otr.model.Oikeustulkki;
 import fi.oph.otr.model.Tulkki;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
-import fi.oph.otr.repository.LegalInterpreterRepository;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Resource;
@@ -30,9 +29,6 @@ class PublicInterpreterServiceTest {
   private InterpreterRepository interpreterRepository;
 
   @Resource
-  private LegalInterpreterRepository legalInterpreterRepository;
-
-  @Resource
   private LanguagePairRepository languagePairRepository;
 
   @Resource
@@ -42,8 +38,7 @@ class PublicInterpreterServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicInterpreterService =
-      new PublicInterpreterService(interpreterRepository, legalInterpreterRepository, languagePairRepository);
+    publicInterpreterService = new PublicInterpreterService(interpreterRepository, languagePairRepository);
   }
 
   @Test
@@ -61,32 +56,32 @@ class PublicInterpreterServiceTest {
     final Tulkki interpreter5 = createInterpreterDeleted();
     final Tulkki interpreter6 = createInterpreter();
 
-    final Oikeustulkki legalInterpreter1 = createLegalInterpreter(interpreter1);
-    final Oikeustulkki legalInterpreter2 = createLegalInterpreter(interpreter2);
-    final Oikeustulkki legalInterpreter3 = createLegalInterpreter(interpreter3);
-    final Oikeustulkki legalInterpreter4 = createLegalInterpreter(interpreter4);
-    final Oikeustulkki legalInterpreter5 = createLegalInterpreter(interpreter5);
-    final Oikeustulkki legalInterpreter6 = createLegalInterpreterDeleted(interpreter6);
+    final Oikeustulkki qualification1 = createQualification(interpreter1);
+    final Oikeustulkki qualification2 = createQualification(interpreter2);
+    final Oikeustulkki qualification3 = createQualification(interpreter3);
+    final Oikeustulkki qualification4 = createQualification(interpreter4);
+    final Oikeustulkki qualification5 = createQualification(interpreter5);
+    final Oikeustulkki qualification6 = createQualificationDeleted(interpreter6);
 
-    legalInterpreter1.setJulkaisulupaEmail(false);
-    legalInterpreter1.setJulkaisulupaMuuYhteystieto(true);
-    legalInterpreter1.setMuuYhteystieto("oikeustulkki.company@invalid");
-    legalInterpreter2.setJulkaisulupaPuhelinnumero(false);
-    legalInterpreter3.setJulkaisulupa(false);
+    interpreter1.setPermissionToPublishEmail(false);
+    interpreter1.setPermissionToPublishOtherContactInfo(true);
+    interpreter1.setOtherContactInformation("oikeustulkki.company@invalid");
+    interpreter2.setPermissionToPublishPhone(false);
+    qualification3.setPermissionToPublish(false);
 
-    final Kielipari languagePair11 = createLanguagePair(legalInterpreter1, "FI", "EN", today, tomorrow);
-    final Kielipari languagePair12 = createLanguagePair(legalInterpreter1, "NO", "FI", yesterday, today);
-    final Kielipari languagePair21 = createLanguagePair(legalInterpreter2, "SE", "FI", yesterday, nextWeek);
+    final Kielipari languagePair11 = createLanguagePair(qualification1, "FI", "EN", today, tomorrow);
+    final Kielipari languagePair12 = createLanguagePair(qualification1, "NO", "FI", yesterday, today);
+    final Kielipari languagePair21 = createLanguagePair(qualification2, "SE", "FI", yesterday, nextWeek);
     // Hidden, no publish permission
-    createLanguagePair(legalInterpreter3, "FI", "RU", yesterday, nextWeek);
+    createLanguagePair(qualification3, "FI", "RU", yesterday, nextWeek);
     // Hidden, in past
-    createLanguagePair(legalInterpreter4, "FI", "IT", previousWeek, yesterday);
+    createLanguagePair(qualification4, "FI", "IT", previousWeek, yesterday);
     // Hidden, in future
-    createLanguagePair(legalInterpreter4, "FI", "DN", tomorrow, nextWeek);
+    createLanguagePair(qualification4, "FI", "DN", tomorrow, nextWeek);
     // Interpreter marked deleted
-    createLanguagePair(legalInterpreter5, "DE", "FI", yesterday, nextWeek);
+    createLanguagePair(qualification5, "DE", "FI", yesterday, nextWeek);
     // Legal interpreter marked deleted
-    createLanguagePair(legalInterpreter6, "FR", "FI", yesterday, nextWeek);
+    createLanguagePair(qualification6, "FR", "FI", yesterday, nextWeek);
 
     final List<InterpreterDTO> interpreters = publicInterpreterService.list();
     assertEquals(2, interpreters.size());
@@ -94,7 +89,7 @@ class PublicInterpreterServiceTest {
     final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
     assertNull(publishedInterpreter1.email());
     assertNotNull(publishedInterpreter1.phoneNumber());
-    assertEquals(legalInterpreter1.getMuuYhteystieto(), publishedInterpreter1.otherContactInfo());
+    assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
 
     assertEquals(2, publishedInterpreter1.languages().size());
     assertLanguagePair(languagePair11, publishedInterpreter1.languages().get(0));
@@ -110,8 +105,8 @@ class PublicInterpreterServiceTest {
   }
 
   private void assertLanguagePair(final Kielipari expected, final LanguagePairDTO languagePairDTO) {
-    assertEquals(expected.getKielesta().getKoodi(), languagePairDTO.from());
-    assertEquals(expected.getKieleen().getKoodi(), languagePairDTO.to());
+    assertEquals(expected.getFromLang(), languagePairDTO.from());
+    assertEquals(expected.getToLang(), languagePairDTO.to());
   }
 
   private Tulkki createInterpreter() {
@@ -122,32 +117,32 @@ class PublicInterpreterServiceTest {
 
   private Tulkki createInterpreterDeleted() {
     final Tulkki interpreter = Factory.interpreter();
-    interpreter.markPoistettu();
+    interpreter.markDeleted();
     entityManager.persist(interpreter);
     return interpreter;
   }
 
-  private Oikeustulkki createLegalInterpreter(final Tulkki interpreter) {
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    entityManager.persist(legalInterpreter);
-    return legalInterpreter;
+  private Oikeustulkki createQualification(final Tulkki interpreter) {
+    final Oikeustulkki qualification = Factory.qualification(interpreter);
+    entityManager.persist(qualification);
+    return qualification;
   }
 
-  private Oikeustulkki createLegalInterpreterDeleted(final Tulkki interpreter) {
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    legalInterpreter.markPoistettu();
-    entityManager.persist(legalInterpreter);
-    return legalInterpreter;
+  private Oikeustulkki createQualificationDeleted(final Tulkki interpreter) {
+    final Oikeustulkki qualification = Factory.qualification(interpreter);
+    qualification.markDeleted();
+    entityManager.persist(qualification);
+    return qualification;
   }
 
   private Kielipari createLanguagePair(
-    final Oikeustulkki legalInterpreter,
+    final Oikeustulkki qualification,
     final String from,
     final String to,
     final LocalDate begin,
     final LocalDate end
   ) {
-    final Kielipari languagePair = Factory.languagePair(legalInterpreter, from, to, begin, end);
+    final Kielipari languagePair = Factory.languagePair(qualification, from, to, begin, end);
     entityManager.persist(languagePair);
     return languagePair;
   }

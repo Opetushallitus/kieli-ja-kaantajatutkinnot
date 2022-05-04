@@ -1,50 +1,52 @@
 package fi.oph.otr.model;
 
 import fi.oph.otr.model.feature.Mutable;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Immutable;
 
-/**
- * User: tommiratamaa
- * Date: 30.5.2016
- * Time: 11.08
- */
 @Entity
-@Immutable
 @Getter
 @Setter
-@Table(name = "tulkki", schema = "public")
+@Table(name = "interpreter")
 public class Tulkki extends Mutable {
 
   @Id
-  @Column(name = "id", nullable = false, updatable = false, unique = true)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  //  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tulkki_id_seq")
-  //  @SequenceGenerator(name = "tulkki_id_seq", sequenceName = "tulkki_id_seq", allocationSize = 1)
-  private Long id;
+  @Column(name = "interpreter_id", nullable = false)
+  private long id;
 
-  @Column(name = "henkilo_oid", nullable = false, unique = true, updatable = false)
-  private String henkiloOid;
+  @Column(name = "onr_id", nullable = false, unique = true)
+  @Size(max = 255)
+  private String onrId;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "tulkki", cascade = CascadeType.ALL)
-  private Set<Oikeustulkki> oikeustulkit = new HashSet<>(0);
+  @Column(name = "permission_to_publish_email", nullable = false)
+  private boolean permissionToPublishEmail;
 
-  protected Tulkki() {}
+  @Column(name = "permission_to_publish_phone", nullable = false)
+  private boolean permissionToPublishPhone;
 
-  public Tulkki(String oid) {
-    this.henkiloOid = oid;
-  }
+  @Column(name = "other_contact_information")
+  private String otherContactInformation;
+
+  @Column(name = "permission_to_publish_other_contact_information", nullable = false)
+  private boolean permissionToPublishOtherContactInfo;
+
+  @Column(name = "extra_information")
+  private String extraInformation;
+
+  @OneToMany(mappedBy = "interpreter")
+  private List<Oikeustulkki> qualifications = new ArrayList<>();
+
+  @OneToMany(mappedBy = "interpreter")
+  private List<Sijainti> regions = new ArrayList<>();
 }

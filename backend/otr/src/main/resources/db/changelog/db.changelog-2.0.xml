@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<databaseChangeLog logicalFilePath="migrations.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2022-05-04-interpreter-table-changes" author="mikhuttu">
+        <dropForeignKeyConstraint baseTableName="oikeustulkki" constraintName="oikeustulkki_tulkki_fkey"/>
+
+        <renameColumn tableName="tulkki" oldColumnName="id" newColumnName="interpreter_id"/>
+        <renameColumn tableName="tulkki" oldColumnName="muokattu" newColumnName="modified_at"/>
+        <renameColumn tableName="tulkki" oldColumnName="muokkaaja" newColumnName="modified_by"/>
+        <renameColumn tableName="tulkki" oldColumnName="luotu" newColumnName="created_at"/>
+        <renameColumn tableName="tulkki" oldColumnName="luoja" newColumnName="created_by"/>
+        <renameColumn tableName="tulkki" oldColumnName="poistohetki" newColumnName="deleted_at"/>
+        <renameColumn tableName="tulkki" oldColumnName="poistaja" newColumnName="deleted_by"/>
+
+        <dropColumn tableName="tulkki" columnName="poistettu"/>
+        <dropNotNullConstraint tableName="tulkki" columnName="created_by"/>
+        <modifyDataType tableName="tulkki" columnName="version" newDataType="INT"/>
+
+        <renameTable oldTableName="tulkki" newTableName="interpreter"/>
+
+        <dropPrimaryKey tableName="interpreter"/>
+        <addPrimaryKey tableName="interpreter" columnNames="interpreter_id"/>
+
+        <dropNotNullConstraint tableName="interpreter" columnName="created_by"/>
+
+        <addColumn tableName="interpreter">
+            <column name="onr_id" type="VARCHAR(255)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_to_publish_email" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_to_publish_phone" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="other_contact_information" type="TEXT"/>
+            <column name="permission_to_publish_other_contact_information" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="extra_information" type="TEXT"/>
+        </addColumn>
+
+        <sql>
+            UPDATE interpreter SET onr_id = henkilo_oid
+        </sql>
+        <sql>
+            UPDATE interpreter i SET permission_to_publish_email = (
+                SELECT o.julklaisulupa_email FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
+            )
+        </sql>
+        <sql>
+            UPDATE interpreter i SET permission_to_publish_phone = (
+                SELECT o.julklaisulupa_puhelinnumero FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
+            )
+        </sql>
+        <sql>
+            UPDATE interpreter i SET other_contact_information = (
+                SELECT o.muu_yhteystieto FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
+            )
+        </sql>
+        <sql>
+            UPDATE interpreter i SET permission_to_publish_other_contact_information = (
+                SELECT o.julklaisulupa_muu_yhteystieto FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
+            )
+        </sql>
+        <sql>
+            UPDATE interpreter i SET extra_information = (
+                SELECT o.lisatiedot FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
+            )
+        </sql>
+
+        <dropColumn tableName="interpreter" columnName="henkilo_oid"/>
+        <addUniqueConstraint tableName="interpreter" columnNames="onr_id" constraintName="uk_interpreter_onr_id"/>
+
+        <dropDefaultValue tableName="interpreter" columnName="onr_id"/>
+        <dropDefaultValue tableName="interpreter" columnName="permission_to_publish_email"/>
+        <dropDefaultValue tableName="interpreter" columnName="permission_to_publish_phone"/>
+        <dropDefaultValue tableName="interpreter" columnName="permission_to_publish_other_contact_information"/>
+    </changeSet>
+
+    <changeSet id="2022-05-04-qualification-table-changes" author="mikhuttu">
+        <dropForeignKeyConstraint baseTableName="kielipari" constraintName="kielipari_oikeustulkki_fkey"/>
+        <dropForeignKeyConstraint baseTableName="oikeustulkki_muokkaus" constraintName="oikeustulkki_muokkaus_oikeustulkki_fkey"/>
+        <dropForeignKeyConstraint baseTableName="sahkoposti_muistutus" constraintName="sahkoposti_muistutus_oikeustulkki_fkey"/>
+        <dropForeignKeyConstraint baseTableName="sijainti" constraintName="sijainti_oikeustulkki_fkey"/>
+
+        <renameColumn tableName="oikeustulkki" oldColumnName="id" newColumnName="qualification_id"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="tulkki" newColumnName="interpreter_id"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="julkaisulupa" newColumnName="permission_to_publish"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="muokattu" newColumnName="modified_at"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="muokkaaja" newColumnName="modified_by"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="luotu" newColumnName="created_at"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="luoja" newColumnName="created_by"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="poistohetki" newColumnName="deleted_at"/>
+        <renameColumn tableName="oikeustulkki" oldColumnName="poistaja" newColumnName="deleted_by"/>
+
+        <dropColumn tableName="oikeustulkki" columnName="lisatiedot"/>
+        <dropColumn tableName="oikeustulkki" columnName="julklaisulupa_email"/>
+        <dropColumn tableName="oikeustulkki" columnName="julklaisulupa_puhelinnumero"/>
+        <dropColumn tableName="oikeustulkki" columnName="julklaisulupa_muu_yhteystieto"/>
+        <dropColumn tableName="oikeustulkki" columnName="muu_yhteystieto"/>
+
+        <dropDefaultValue tableName="oikeustulkki" columnName="permission_to_publish"/>
+        <dropColumn tableName="oikeustulkki" columnName="poistettu"/>
+        <dropNotNullConstraint tableName="oikeustulkki" columnName="created_by"/>
+        <modifyDataType tableName="oikeustulkki" columnName="version" newDataType="INT"/>
+
+        <renameTable oldTableName="oikeustulkki" newTableName="qualification"/>
+
+        <dropPrimaryKey tableName="qualification"/>
+        <addPrimaryKey tableName="qualification" columnNames="qualification_id"/>
+
+        <addColumn tableName="qualification">
+            <column name="examination_type" type="VARCHAR(255)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE qualification SET examination_type = 'LEGAL_INTERPRETER_EXAM' WHERE tutkinto_tyyppi = 'OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO'
+        </sql>
+        <sql>
+            UPDATE qualification SET examination_type = 'OTHER' WHERE tutkinto_tyyppi = 'MUU_KORKEAKOULUTUTKINTO'
+        </sql>
+        <sql>
+            ALTER TABLE qualification DROP CONSTRAINT tutkinto_tyyppi_check
+        </sql>
+
+        <dropDefaultValue tableName="qualification" columnName="examination_type"/>
+        <dropColumn tableName="qualification" columnName="tutkinto_tyyppi"/>
+
+        <createTable tableName="qualification_examination_type">
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="qualification_examination_type_pkey"/>
+            </column>
+        </createTable>
+        <insert tableName="qualification_examination_type">
+            <column name="name" value="LEGAL_INTERPRETER_EXAM"/>
+        </insert>
+        <insert tableName="qualification_examination_type">
+            <column name="name" value="OTHER"/>
+        </insert>
+
+        <addForeignKeyConstraint baseTableName="qualification" baseColumnNames="examination_type"
+                                 referencedTableName="qualification_examination_type" referencedColumnNames="name"
+                                 constraintName="fk_qualification_examination_type"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addForeignKeyConstraint baseTableName="qualification" baseColumnNames="interpreter_id"
+                                 referencedTableName="interpreter" referencedColumnNames="interpreter_id"
+                                 constraintName="fk_qualification_interpreter"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-05-04-language-pair-table-changes" author="mikhuttu">
+        <dropUniqueConstraint tableName="kielipari" constraintName="kielipari_oikeustulkki_kielesta_kieleen_key"/>
+
+        <renameColumn tableName="kielipari" oldColumnName="id" newColumnName="language_pair_id"/>
+        <renameColumn tableName="kielipari" oldColumnName="oikeustulkki" newColumnName="qualification_id"/>
+        <renameColumn tableName="kielipari" oldColumnName="kielesta" newColumnName="from_lang"/>
+        <renameColumn tableName="kielipari" oldColumnName="kieleen" newColumnName="to_lang"/>
+        <renameColumn tableName="kielipari" oldColumnName="voimassaolo_alkaa" newColumnName="begin_date"/>
+        <renameColumn tableName="kielipari" oldColumnName="voimassaolo_paattyy" newColumnName="end_date"/>
+
+        <renameTable oldTableName="kielipari" newTableName="language_pair"/>
+
+        <dropPrimaryKey tableName="language_pair"/>
+        <addPrimaryKey tableName="language_pair" columnNames="language_pair_id"/>
+
+        <addColumn tableName="language_pair">
+            <column name="modified_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="deleted_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="language_pair" baseColumnNames="qualification_id"
+                                 referencedTableName="qualification" referencedColumnNames="qualification_id"
+                                 constraintName="fk_language_pair_qualification"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <sql><![CDATA[
+            ALTER TABLE language_pair
+                ADD CONSTRAINT ck_language_pair_from_to CHECK (from_lang <> to_lang)
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-05-04-region-table-changes" author="mikhuttu">
+        <renameColumn tableName="sijainti" oldColumnName="id" newColumnName="region_id"/>
+        <renameColumn tableName="sijainti" oldColumnName="oikeustulkki" newColumnName="interpreter_id"/>
+        <renameColumn tableName="sijainti" oldColumnName="koodi" newColumnName="code"/>
+
+        <sql>
+            ALTER TABLE sijainti DROP CONSTRAINT sijainti_tyyppi_check
+        </sql>
+        <dropColumn tableName="sijainti" columnName="tyyppi"/>
+
+        <renameTable oldTableName="sijainti" newTableName="region"/>
+
+        <dropPrimaryKey tableName="region"/>
+        <addPrimaryKey tableName="region" columnNames="region_id"/>
+
+        <sql>
+            DELETE FROM region WHERE code IS NULL
+        </sql>
+        <addNotNullConstraint tableName="region" columnName="code"/>
+
+        <sql>
+            DELETE FROM region WHERE interpreter_id IN (
+                SELECT q.qualification_id FROM qualification q WHERE q.deleted_at IS NOT NULL AND EXISTS (
+                    SELECT 1 FROM qualification qu WHERE qu.deleted_at IS NULL and qu.interpreter_id = q.interpreter_id
+                )
+            )
+        </sql>
+        <sql>
+            UPDATE region r SET interpreter_id = (
+                SELECT q.interpreter_id FROM qualification q WHERE r.interpreter_id = q.qualification_id ORDER BY q.deleted_at DESC LIMIT 1
+            )
+        </sql>
+
+        <addColumn tableName="region">
+            <column name="modified_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="deleted_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addUniqueConstraint tableName="region"
+                             columnNames="interpreter_id, code"
+                             constraintName="uk_unique_interpreter_code"/>
+
+        <addForeignKeyConstraint baseTableName="region" baseColumnNames="interpreter_id"
+                                 referencedTableName="interpreter" referencedColumnNames="interpreter_id"
+                                 constraintName="fk_region_interpreter"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-05-04-add-dropped-foreign-key-constraints" author="mikhuttu">
+        <addForeignKeyConstraint baseTableName="oikeustulkki_muokkaus" baseColumnNames="oikeustulkki"
+                                 referencedTableName="qualification" referencedColumnNames="qualification_id"
+                                 constraintName="fk_oikeustulkki_muokkaus_oikeustulkki"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addForeignKeyConstraint baseTableName="sahkoposti_muistutus" baseColumnNames="oikeustulkki"
+                                 referencedTableName="qualification" referencedColumnNames="qualification_id"
+                                 constraintName="fk_sahkoposti_muistutus_oikeustulkki"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-05-04-rename-sequences" author="mikhuttu" dbms="postgresql">
+        <sql>
+            ALTER SEQUENCE IF EXISTS tulkki_id_seq RENAME TO interpreter_id_seq
+        </sql>
+        <sql>
+            ALTER SEQUENCE IF EXISTS oikeustulkki_id_seq RENAME TO qualification_id_seq
+        </sql>
+        <sql>
+            ALTER SEQUENCE IF EXISTS kielipari_id_seq RENAME TO language_pair_id_seq
+        </sql>
+        <sql>
+            ALTER SEQUENCE IF EXISTS sijainti_id_seq RENAME TO region_id_seq
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
