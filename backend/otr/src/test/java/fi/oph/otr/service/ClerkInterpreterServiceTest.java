@@ -125,18 +125,22 @@ class ClerkInterpreterServiceTest {
       .nickName("Erkki")
       .lastName("Esimerkki")
       .email("erkki@esimerkki.invalid")
+      .permissionToPublishEmail(false)
+      .phoneNumber("+358401234567")
+      .permissionToPublishPhone(true)
+      .otherContactInfo("other")
+      .permissionToPublishOtherContactInfo(false)
+      .street("Tulkintie 44")
+      .postalCode("00100")
+      .town("Helsinki")
+      .extraInformation("extra")
+      .areas(List.of("a", "b"))
       .legalInterpreters(
         List.of(
           ClerkLegalInterpreterCreateDTO
             .builder()
             .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
-            .permissionToPublishEmail(false)
-            .permissionToPublishPhone(true)
-            .permissionToPublishOtherContactInfo(false)
             .permissionToPublish(true)
-            .otherContactInfo("other")
-            .extraInformation("extra")
-            .areas(List.of("a", "b"))
             .languages(
               List.of(
                 ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
@@ -150,22 +154,25 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.create(createDTO);
 
+    // TODO (OPHOTRKEH-34): check that locations have been added
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
     assertFalse(interpreterDTO.deleted());
+    assertFalse(interpreterDTO.permissionToPublishEmail());
+    assertTrue(interpreterDTO.permissionToPublishPhone());
+    assertEquals(createDTO.otherContactInfo(), interpreterDTO.otherContactInfo());
+    assertFalse(interpreterDTO.permissionToPublishOtherContactInfo());
+    assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
+    assertEquals(Set.of("a", "b"), Set.copyOf(interpreterDTO.areas()));
     assertEquals(1, interpreterDTO.legalInterpreters().size());
 
     final ClerkLegalInterpreterDTO legalInterpreterDTO = interpreterDTO.legalInterpreters().get(0);
+    assertEquals(0, legalInterpreterDTO.version());
+    assertFalse(legalInterpreterDTO.deleted());
     assertEquals(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM, legalInterpreterDTO.examinationType());
-    assertFalse(legalInterpreterDTO.permissionToPublishEmail());
-    assertTrue(legalInterpreterDTO.permissionToPublishPhone());
-    assertFalse(legalInterpreterDTO.permissionToPublishOtherContactInfo());
     assertTrue(legalInterpreterDTO.permissionToPublish());
-    assertEquals("other", legalInterpreterDTO.otherContactInfo());
-    assertEquals("extra", legalInterpreterDTO.extraInformation());
-    assertEquals(Set.of("a", "b"), Set.copyOf(legalInterpreterDTO.areas()));
-
     assertEquals(2, legalInterpreterDTO.languages().size());
+
     assertEquals(Set.of("FI", "SE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::from));
     assertEquals(Set.of("SE", "DE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::to));
     assertEquals(Set.of(today, yesterday), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::beginDate));
@@ -206,10 +213,25 @@ class ClerkInterpreterServiceTest {
       .nickName(original.nickName())
       .lastName(original.lastName())
       .email(original.email())
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(false)
+      .otherContactInfo("interpreter@test.invalid")
+      .permissionToPublishOtherContactInfo(true)
+      .extraInformation("extra")
+      .areas(List.of("x"))
       .build();
 
     final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDto);
+
+    // TODO (OPHOTRKEH-34): check that locations have been updated
     assertEquals(original.id(), updated.id());
+    // assertEquals(original.version() + 1, updated.version());
+    assertFalse(updated.deleted());
+    assertFalse(updated.permissionToPublishEmail());
+    assertFalse(updated.permissionToPublishPhone());
+    assertEquals(updateDto.otherContactInfo(), updated.otherContactInfo());
+    assertTrue(updated.permissionToPublishOtherContactInfo());
+    assertEquals(updateDto.extraInformation(), updated.extraInformation());
   }
 
   @Test
@@ -224,7 +246,14 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(idToDelete);
 
-    interpreterRepository.findAll().forEach(i -> assertEquals(Objects.equals(idToDelete, i.getId()), i.isPoistettu()));
+    interpreterRepository
+      .findAll()
+      .forEach(i -> {
+        final boolean isDeleted = Objects.equals(idToDelete, i.getId());
+
+        assertEquals(isDeleted, i.isPoistettu());
+        i.getOikeustulkit().forEach(li -> assertEquals(isDeleted, li.isPoistettu()));
+      });
     assertTrue(dto.deleted());
   }
 
@@ -237,12 +266,10 @@ class ClerkInterpreterServiceTest {
     final Tulkki interpreter1 = Factory.interpreter();
     final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
     final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
-    final Sijainti location1 = Factory.location(legalInterpreter1, Sijainti.Tyyppi.KOKO_SUOMI, null);
 
     final Tulkki interpreter2 = Factory.interpreter();
     final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
     final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
-    final Sijainti location2 = Factory.location(legalInterpreter2, Sijainti.Tyyppi.KOKO_SUOMI, null);
 
     entityManager.persist(interpreter1);
     entityManager.persist(interpreter2);
@@ -250,21 +277,13 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(legalInterpreter2);
     entityManager.persist(languagePair1);
     entityManager.persist(languagePair2);
-    entityManager.persist(location1);
-    entityManager.persist(location2);
 
     final long interpreterId = interpreter2.getId();
 
     final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
       .builder()
       .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
-      .permissionToPublishEmail(false)
-      .permissionToPublishPhone(true)
-      .permissionToPublishOtherContactInfo(false)
       .permissionToPublish(true)
-      .otherContactInfo("other")
-      .extraInformation("extra")
-      .areas(List.of("a", "b"))
       .languages(
         List.of(
           ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
@@ -283,30 +302,24 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateLegalInterpreter() {
-    final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    final Kielipari langPair = Factory.languagePair(legalInterpreter, "FI", "EN", LocalDate.now(), LocalDate.now());
-    final Sijainti location = Factory.location(legalInterpreter, Sijainti.Tyyppi.MAAKUNTA, "x");
-    entityManager.persist(interpreter);
-    entityManager.persist(legalInterpreter);
-    entityManager.persist(langPair);
-    entityManager.persist(location);
-
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final Tulkki interpreter = Factory.interpreter();
+    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
+    final Kielipari langPair = Factory.languagePair(legalInterpreter, "FI", "EN", today, today);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(legalInterpreter);
+    entityManager.persist(langPair);
+
     final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
       .builder()
       .id(legalInterpreter.getId())
       .version(legalInterpreter.getVersion())
       .examinationType(ClerkLegalInterpreterExaminationTypeDTO.OTHER)
-      .permissionToPublishEmail(false)
-      .permissionToPublishPhone(true)
-      .permissionToPublishOtherContactInfo(false)
       .permissionToPublish(true)
-      .otherContactInfo("other")
-      .extraInformation("extra")
-      .areas(List.of("a", "b"))
       .languages(
         List.of(
           ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
@@ -320,23 +333,15 @@ class ClerkInterpreterServiceTest {
     assertEquals(1, dto.legalInterpreters().size());
     final ClerkLegalInterpreterDTO legalInterpreterDTO = dto.legalInterpreters().get(0);
 
+    assertEquals(updateDTO.version() + 1, legalInterpreterDTO.version());
     assertEquals(ClerkLegalInterpreterExaminationTypeDTO.OTHER, legalInterpreterDTO.examinationType());
-    assertFalse(legalInterpreterDTO.permissionToPublishEmail());
-    assertTrue(legalInterpreterDTO.permissionToPublishPhone());
-    assertFalse(legalInterpreterDTO.permissionToPublishOtherContactInfo());
     assertTrue(legalInterpreterDTO.permissionToPublish());
-    assertEquals("other", legalInterpreterDTO.otherContactInfo());
-    assertEquals("extra", legalInterpreterDTO.extraInformation());
-    assertEquals(Set.of("a", "b"), Set.copyOf(legalInterpreterDTO.areas()));
-
     assertEquals(2, legalInterpreterDTO.languages().size());
+
     assertEquals(Set.of("FI", "SE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::from));
     assertEquals(Set.of("SE", "DE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::to));
     assertEquals(Set.of(today, yesterday), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::beginDate));
     assertEquals(Set.of(today, tomorrow), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::endDate));
-
-    final List<Sijainti> locs = locationRepository.findAll();
-    assertEquals(2, locs.size());
 
     final List<Kielipari> langs = languagePairRepository.findAll();
     assertEquals(2, langs.size());
