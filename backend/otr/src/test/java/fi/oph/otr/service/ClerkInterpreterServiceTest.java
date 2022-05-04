@@ -10,19 +10,18 @@ import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTO;
-import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterExaminationTypeDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
 import fi.oph.otr.model.Kielipari;
 import fi.oph.otr.model.Oikeustulkki;
-import fi.oph.otr.model.Sijainti;
+import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.Tulkki;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
-import fi.oph.otr.repository.LegalInterpreterRepository;
-import fi.oph.otr.repository.LocationRepository;
+import fi.oph.otr.repository.QualificationRepository;
+import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import java.time.LocalDate;
@@ -46,13 +45,13 @@ class ClerkInterpreterServiceTest {
   private InterpreterRepository interpreterRepository;
 
   @Resource
-  private LegalInterpreterRepository legalInterpreterRepository;
+  private QualificationRepository qualificationRepository;
 
   @Resource
   private LanguagePairRepository languagePairRepository;
 
   @Resource
-  private LocationRepository locationRepository;
+  private RegionRepository regionRepository;
 
   @Resource
   private TestEntityManager entityManager;
@@ -70,9 +69,9 @@ class ClerkInterpreterServiceTest {
     clerkInterpreterService =
       new ClerkInterpreterService(
         interpreterRepository,
-        legalInterpreterRepository,
+        qualificationRepository,
         languagePairRepository,
-        locationRepository,
+        regionRepository,
         regionService,
         languageService
       );
@@ -93,7 +92,7 @@ class ClerkInterpreterServiceTest {
     final long id5 = createInterpreter(true, "FI", "DA", tomorrow, nextWeek);
     final long id6 = createInterpreter(true, "FI", "IT", previousWeek, yesterday);
 
-    final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.listInterpreters();
+    final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.list();
     assertEquals(
       Set.of(id1, id2, id3, id4, id5, id6),
       interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet())
@@ -109,17 +108,14 @@ class ClerkInterpreterServiceTest {
     final LocalDate end
   ) {
     final Tulkki interpreter = Factory.interpreter();
+    final Oikeustulkki qualification = Factory.qualification(interpreter);
+    final Kielipari languagePair = Factory.languagePair(qualification, from, to, begin, end);
 
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    legalInterpreter.setJulkaisulupa(publish);
-
-    final Kielipari languagePair = Factory.languagePair(legalInterpreter, from, to, begin, end);
-    final Sijainti location = Factory.location(legalInterpreter, Sijainti.Tyyppi.KOKO_SUOMI, null);
+    qualification.setPermissionToPublish(publish);
 
     entityManager.persist(interpreter);
-    entityManager.persist(legalInterpreter);
+    entityManager.persist(qualification);
     entityManager.persist(languagePair);
-    entityManager.persist(location);
     return interpreter.getId();
   }
 
@@ -150,7 +146,7 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkLegalInterpreterCreateDTO
             .builder()
-            .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .languages(
               List.of(
@@ -163,7 +159,7 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.create(createDTO);
+    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
 
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
@@ -176,17 +172,17 @@ class ClerkInterpreterServiceTest {
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.areas()));
     assertEquals(1, interpreterDTO.legalInterpreters().size());
 
-    final ClerkLegalInterpreterDTO legalInterpreterDTO = interpreterDTO.legalInterpreters().get(0);
-    assertEquals(0, legalInterpreterDTO.version());
-    assertFalse(legalInterpreterDTO.deleted());
-    assertEquals(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM, legalInterpreterDTO.examinationType());
-    assertTrue(legalInterpreterDTO.permissionToPublish());
-    assertEquals(2, legalInterpreterDTO.languages().size());
+    final ClerkLegalInterpreterDTO qualificationDTO = interpreterDTO.legalInterpreters().get(0);
+    assertEquals(0, qualificationDTO.version());
+    assertFalse(qualificationDTO.deleted());
+    assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualificationDTO.examinationType());
+    assertTrue(qualificationDTO.permissionToPublish());
+    assertEquals(2, qualificationDTO.languages().size());
 
-    assertEquals(Set.of("FI", "SE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::from));
-    assertEquals(Set.of("SE", "DE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::to));
-    assertEquals(Set.of(today, yesterday), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::beginDate));
-    assertEquals(Set.of(today, tomorrow), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::endDate));
+    assertEquals(Set.of("FI", "SE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::from));
+    assertEquals(Set.of("SE", "DE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::to));
+    assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
+    assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
   }
 
   private <T> Set<T> collectFromLanguages(
@@ -223,7 +219,7 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkLegalInterpreterCreateDTO
             .builder()
-            .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .languages(
               List.of(
@@ -236,7 +232,10 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    final APIException ex = assertThrows(APIException.class, () -> clerkInterpreterService.create(createDTO));
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createInterpreter(createDTO)
+    );
     assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
   }
 
@@ -278,7 +277,7 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDto);
 
     assertEquals(original.id(), updated.id());
-    // assertEquals(original.version() + 1, updated.version());
+    assertEquals(original.version() + 1, updated.version());
     assertFalse(updated.deleted());
     assertFalse(updated.permissionToPublishEmail());
     assertFalse(updated.permissionToPublishPhone());
@@ -332,33 +331,33 @@ class ClerkInterpreterServiceTest {
 
     interpreterRepository
       .findAll()
-      .forEach(i -> {
-        final boolean isDeleted = Objects.equals(idToDelete, i.getId());
+      .forEach(interpreter -> {
+        final boolean isDeleted = Objects.equals(idToDelete, interpreter.getId());
 
-        assertEquals(isDeleted, i.isPoistettu());
-        i.getOikeustulkit().forEach(li -> assertEquals(isDeleted, li.isPoistettu()));
+        assertEquals(isDeleted, interpreter.isDeleted());
+        interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
       });
     assertTrue(dto.deleted());
   }
 
   @Test
-  public void testCreateLegalInterpreter() {
+  public void testCreateQualification() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
     final Tulkki interpreter1 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
-    final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
+    final Oikeustulkki qualification1 = Factory.qualification(interpreter1);
+    final Kielipari languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
 
     final Tulkki interpreter2 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
-    final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
+    final Oikeustulkki qualification2 = Factory.qualification(interpreter2);
+    final Kielipari languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
 
     entityManager.persist(interpreter1);
     entityManager.persist(interpreter2);
-    entityManager.persist(legalInterpreter1);
-    entityManager.persist(legalInterpreter2);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
     entityManager.persist(languagePair1);
     entityManager.persist(languagePair2);
 
@@ -366,7 +365,7 @@ class ClerkInterpreterServiceTest {
 
     final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
       .builder()
-      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+      .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
       .permissionToPublish(true)
       .languages(
         List.of(
@@ -376,32 +375,30 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    assertEquals(2, legalInterpreterRepository.count());
+    final ClerkInterpreterDTO result = clerkInterpreterService.createQualification(interpreterId, dto);
 
-    final ClerkInterpreterDTO result = clerkInterpreterService.createLegalInterpreter(interpreterId, dto);
-
-    assertEquals(3, legalInterpreterRepository.count());
+    assertEquals(3, qualificationRepository.count());
     assertEquals(2, result.legalInterpreters().size());
   }
 
   @Test
-  public void testCreateLegalInterpreterFailsForUnknownLanguage() {
+  public void testCreateQualificationFailsForUnknownLanguage() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
     final Tulkki interpreter1 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
-    final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
+    final Oikeustulkki qualification1 = Factory.qualification(interpreter1);
+    final Kielipari languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
 
     final Tulkki interpreter2 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
-    final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
+    final Oikeustulkki qualification2 = Factory.qualification(interpreter2);
+    final Kielipari languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
 
     entityManager.persist(interpreter1);
     entityManager.persist(interpreter2);
-    entityManager.persist(legalInterpreter1);
-    entityManager.persist(legalInterpreter2);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
     entityManager.persist(languagePair1);
     entityManager.persist(languagePair2);
 
@@ -409,7 +406,7 @@ class ClerkInterpreterServiceTest {
 
     final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
       .builder()
-      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+      .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
       .permissionToPublish(true)
       .languages(
         List.of(
@@ -424,36 +421,33 @@ class ClerkInterpreterServiceTest {
         )
       )
       .build();
-    assertEquals(2, legalInterpreterRepository.count());
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkInterpreterService.createLegalInterpreter(interpreterId, dto)
+      () -> clerkInterpreterService.createQualification(interpreterId, dto)
     );
-    assertEquals(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN, ex.getExceptionType());
-
-    assertEquals(2, legalInterpreterRepository.count());
+    assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
-  public void testUpdateLegalInterpreter() {
+  public void testUpdateQualification() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
     final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    final Kielipari langPair = Factory.languagePair(legalInterpreter, "FI", "EN", today, today);
+    final Oikeustulkki qualification = Factory.qualification(interpreter);
+    final Kielipari languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
-    entityManager.persist(legalInterpreter);
-    entityManager.persist(langPair);
+    entityManager.persist(qualification);
+    entityManager.persist(languagePair);
 
     final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
       .builder()
-      .id(legalInterpreter.getId())
-      .version(legalInterpreter.getVersion())
-      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.OTHER)
+      .id(qualification.getId())
+      .version(qualification.getVersion())
+      .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
       .languages(
         List.of(
@@ -463,44 +457,44 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.updateLegalInterpreter(updateDTO);
+    final ClerkInterpreterDTO dto = clerkInterpreterService.updateQualification(updateDTO);
 
     assertEquals(1, dto.legalInterpreters().size());
-    final ClerkLegalInterpreterDTO legalInterpreterDTO = dto.legalInterpreters().get(0);
+    final ClerkLegalInterpreterDTO qualificationDTO = dto.legalInterpreters().get(0);
 
-    assertEquals(updateDTO.version() + 1, legalInterpreterDTO.version());
-    assertEquals(ClerkLegalInterpreterExaminationTypeDTO.OTHER, legalInterpreterDTO.examinationType());
-    assertTrue(legalInterpreterDTO.permissionToPublish());
-    assertEquals(2, legalInterpreterDTO.languages().size());
+    assertEquals(updateDTO.version() + 1, qualificationDTO.version());
+    assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
+    assertTrue(qualificationDTO.permissionToPublish());
+    assertEquals(2, qualificationDTO.languages().size());
 
-    assertEquals(Set.of("FI", "SE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::from));
-    assertEquals(Set.of("SE", "DE"), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::to));
-    assertEquals(Set.of(today, yesterday), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::beginDate));
-    assertEquals(Set.of(today, tomorrow), collectFromLanguages(legalInterpreterDTO, ClerkLanguagePairDTO::endDate));
+    assertEquals(Set.of("FI", "SE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::from));
+    assertEquals(Set.of("SE", "DE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::to));
+    assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
+    assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
 
     final List<Kielipari> langs = languagePairRepository.findAll();
     assertEquals(2, langs.size());
   }
 
   @Test
-  public void testUpdateLegalInterpreterFailsForUnknownLanguage() {
+  public void testUpdateQualificationFailsForUnknownLanguage() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
     final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
-    final Kielipari langPair = Factory.languagePair(legalInterpreter, "FI", "EN", today, today);
+    final Oikeustulkki qualification = Factory.qualification(interpreter);
+    final Kielipari languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
-    entityManager.persist(legalInterpreter);
-    entityManager.persist(langPair);
+    entityManager.persist(qualification);
+    entityManager.persist(languagePair);
 
     final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
       .builder()
-      .id(legalInterpreter.getId())
-      .version(legalInterpreter.getVersion())
-      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.OTHER)
+      .id(qualification.getId())
+      .version(qualification.getVersion())
+      .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
       .languages(
         List.of(
@@ -518,33 +512,31 @@ class ClerkInterpreterServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkInterpreterService.updateLegalInterpreter(updateDTO)
+      () -> clerkInterpreterService.updateQualification(updateDTO)
     );
-    assertEquals(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN, ex.getExceptionType());
+    assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
-  public void testDeleteLegalInterpreter() {
+  public void testDeleteQualification() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     createInterpreter(false, "FI", "SE", today, tomorrow);
     createInterpreter(true, "FI", "EN", today, tomorrow);
 
-    final List<Long> ids = legalInterpreterRepository.findAll().stream().map(Oikeustulkki::getId).toList();
+    final List<Long> ids = qualificationRepository.findAll().stream().map(Oikeustulkki::getId).toList();
     final Long idToDelete = ids.get(0);
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteLegalInterpreter(idToDelete);
+    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(idToDelete);
 
-    legalInterpreterRepository
-      .findAll()
-      .forEach(i -> assertEquals(Objects.equals(idToDelete, i.getId()), i.isPoistettu()));
+    qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(idToDelete, q.getId()), q.isDeleted()));
 
-    dto.legalInterpreters().forEach(i -> assertEquals(Objects.equals(idToDelete, i.id()), i.deleted()));
+    dto.legalInterpreters().forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
 
     clerkInterpreterService
-      .listInterpreters()
+      .list()
       .stream()
       .flatMap(i -> i.legalInterpreters().stream())
-      .forEach(i -> assertEquals(Objects.equals(idToDelete, i.id()), i.deleted()));
+      .forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
   }
 }

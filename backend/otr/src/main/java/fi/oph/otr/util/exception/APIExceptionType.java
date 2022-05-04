@@ -6,7 +6,7 @@ package fi.oph.otr.util.exception;
  */
 public enum APIExceptionType {
   INTERPRETER_REGION_UNKNOWN,
-  LEGAL_INTERPRETER_LANGUAGE_UNKNOWN;
+  QUALIFICATION_LANGUAGE_UNKNOWN;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

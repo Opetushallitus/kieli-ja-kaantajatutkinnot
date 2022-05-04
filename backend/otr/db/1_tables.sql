@@ -72,7 +72,7 @@ CREATE TABLE public.oikeustulkki (
     version bigint DEFAULT 0 NOT NULL,
     muu_yhteystieto text,
     julkaisulupa boolean DEFAULT false NOT NULL,
-    CONSTRAINT tutkinto_tyyppi_check CHECK (((tutkinto_tyyppi)::text = ANY ((ARRAY['OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO'::character varying, 'MUU_KORKEAKOULUTUTKINTO'::character varying])::text[])))
+    CONSTRAINT tutkinto_tyyppi_check CHECK (((tutkinto_tyyppi)::text = ANY (ARRAY[('OIKEUSTULKIN_ERIKOISAMMATTITUTKINTO'::character varying)::text, ('MUU_KORKEAKOULUTUTKINTO'::character varying)::text])))
 );
 
 
@@ -164,7 +164,7 @@ CREATE TABLE public.sijainti (
     oikeustulkki bigint NOT NULL,
     tyyppi character varying(10) NOT NULL,
     koodi character varying(16),
-    CONSTRAINT sijainti_tyyppi_check CHECK ((((tyyppi)::text = ANY ((ARRAY['MAAKUNTA'::character varying, 'KOKO_SUOMI'::character varying])::text[])) AND ((((tyyppi)::text = 'KOKO_SUOMI'::text) AND (koodi IS NULL)) OR (((tyyppi)::text <> 'KOKO_SUOMI'::text) AND (koodi IS NOT NULL)))))
+    CONSTRAINT sijainti_tyyppi_check CHECK ((((tyyppi)::text = ANY (ARRAY[('MAAKUNTA'::character varying)::text, ('KOKO_SUOMI'::character varying)::text])) AND ((((tyyppi)::text = 'KOKO_SUOMI'::text) AND (koodi IS NULL)) OR (((tyyppi)::text <> 'KOKO_SUOMI'::text) AND (koodi IS NOT NULL)))))
 );
 
 

@@ -9,14 +9,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LanguagePairRepository extends JpaRepository<Kielipari, Long> {
   @Query(
-    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(t.id, kp.kielesta.koodi, kp.kieleen.koodi) FROM Kielipari kp" +
-    " JOIN kp.oikeustulkki o" +
-    " JOIN o.tulkki t" +
-    " WHERE kp.voimassaoloAlkaa <= CURRENT_DATE" +
-    " AND CURRENT_DATE <= kp.voimassaoloPaattyy" +
-    " AND o.julkaisulupa = true" +
-    " AND o.poistettu = false" +
-    " AND t.poistettu = false"
+    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(i.id, lp.fromLang, lp.toLang) FROM Kielipari lp" +
+    " JOIN lp.qualification q" +
+    " JOIN q.interpreter i" +
+    " WHERE lp.beginDate <= CURRENT_DATE" +
+    " AND CURRENT_DATE <= lp.endDate" +
+    " AND q.permissionToPublish = true" +
+    " AND q.deletedAt IS NULL" +
+    " AND i.deletedAt IS NULL"
   )
   List<InterpreterLanguagePairProjection> findLanguagePairsForPublicListing();
 }

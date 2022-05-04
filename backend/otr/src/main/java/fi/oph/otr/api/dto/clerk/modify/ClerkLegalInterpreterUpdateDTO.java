@@ -2,7 +2,7 @@ package fi.oph.otr.api.dto.clerk.modify;
 
 import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTOCommonFields;
-import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterExaminationTypeDTO;
+import fi.oph.otr.model.QualificationExaminationType;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -12,8 +12,8 @@ import lombok.NonNull;
 
 public record ClerkLegalInterpreterUpdateDTO(
   @NonNull @NotNull Long id,
-  @NonNull @NotNull Long version,
-  @NonNull @NotNull ClerkLegalInterpreterExaminationTypeDTO examinationType,
+  @NonNull @NotNull Integer version,
+  @NonNull @NotNull QualificationExaminationType examinationType,
   @NonNull @NotNull Boolean permissionToPublish,
   @NonNull @NotEmpty @Valid List<ClerkLanguagePairDTO> languages
 )
