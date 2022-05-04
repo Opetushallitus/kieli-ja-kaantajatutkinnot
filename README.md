@@ -1,5 +1,7 @@
 # Kieli- ja kääntäjätutkinnot
 
+[![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml) [![OTR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml) [![Shared Frontend](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml)
+
 This mono-repo contains the language and translator services of the Finnish National Agency for Education.
 
 ## Technologies
@@ -12,10 +14,12 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 ## Services
 
-Below are listed the OPH services which are a part of this mono-repo. Every service has its own readme as well.
+Below are listed the OPH services which are a part of this mono-repo.
 
 - [AKT](./docs/akt.md)
 - [OTR](./docs/otr.md)
+
+In addition, the shared frontend content can be found [here](./docs/shared_frontend.md).
 
 ## Development
 

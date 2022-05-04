@@ -7,6 +7,8 @@ on:
       - .github/workflows/akt.yml
       - "backend/akt/**"
       - "frontend/packages/akt/**"
+      - "!**/*.md"
+
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/akt

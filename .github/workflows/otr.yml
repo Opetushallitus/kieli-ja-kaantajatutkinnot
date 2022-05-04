@@ -7,6 +7,8 @@ on:
       - .github/workflows/otr.yml
       - "backend/otr/**"
       - "frontend/packages/otr/**"
+      - "!**/*.md"
+
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/otr

@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/shared_frontend.yml
       - "frontend/packages/shared/**"
+      - "!**/*.md"
 env:
   FRONTEND_DIR: ./frontend
 
@@ -48,6 +49,7 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn shared:test:jest
       - name: Publish to GitHub Packages
+        if: github.ref == 'refs/heads/dev'
         working-directory: ${{ env.FRONTEND_DIR }}/packages/shared
         run: yarn npm publish
         env:
