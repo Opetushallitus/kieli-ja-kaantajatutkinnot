@@ -55,6 +55,7 @@
         <logger name="fi.oph.akt.audit.LoggerImpl" level="INFO" additivity="false">
             <appender-ref ref="AUDIT" />
         </logger>
+        <logger name="liquibase" level="INFO"/>
     </springProfile>
 
 </configuration>
