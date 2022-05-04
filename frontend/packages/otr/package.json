@@ -19,5 +19,8 @@
     "otr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
     "otr:test:jest": "yarn g:jest",
     "otr:tslint": "yarn g:tsc --pretty --noEmit"
+  },
+  "dependencies": {
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.0"
   }
 }
