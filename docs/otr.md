@@ -1,4 +1,4 @@
-# OTR - Oikeustulkkirekisteri
+# OTR - Oikeustulkkirekisteri [![OTR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml)
 
 ## Backend
 
@@ -61,7 +61,7 @@ Set `OTR_UNSECURE=true` environment variable as shown [here](#development).
 
 ### Styling
 
-[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter.  It enforces a consistent style by parsing your code and re-printing it with its own rules.
+[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules.
 
 To reformat all Java files, run:
 

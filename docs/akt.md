@@ -1,4 +1,4 @@
-# AKT - Auktorisoidun kääntäjän tutkintojärjestelmä
+# AKT - Auktorisoidun kääntäjän tutkintojärjestelmä [![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml)
 
 ## Backend
 
