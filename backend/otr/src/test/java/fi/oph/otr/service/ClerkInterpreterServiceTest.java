@@ -64,13 +64,17 @@ class ClerkInterpreterServiceTest {
     final RegionService regionService = new RegionService();
     regionService.init();
 
+    final LanguageService languageService = new LanguageService();
+    languageService.init();
+
     clerkInterpreterService =
       new ClerkInterpreterService(
         interpreterRepository,
         legalInterpreterRepository,
         languagePairRepository,
         locationRepository,
-        regionService
+        regionService,
+        languageService
       );
   }
 
@@ -332,6 +336,53 @@ class ClerkInterpreterServiceTest {
       () -> clerkInterpreterService.createLegalInterpreter(interpreterId, dto)
     );
     assertEquals(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
+
+    assertEquals(1, legalInterpreterRepository.count());
+  }
+
+  @Test
+  public void testCreateLegalInterpreterFailsForUnknownLanguage() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+    final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final Tulkki interpreter = Factory.interpreter();
+    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
+    final Kielipari languagePair = Factory.languagePair(legalInterpreter, "GR", "SE", yesterday, today);
+    final Sijainti location = Factory.location(legalInterpreter, Sijainti.Tyyppi.KOKO_SUOMI, null);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(legalInterpreter);
+    entityManager.persist(languagePair);
+    entityManager.persist(location);
+
+    final long interpreterId = interpreter.getId();
+
+    final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
+      .builder()
+      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(true)
+      .permissionToPublishOtherContactInfo(false)
+      .permissionToPublish(true)
+      .otherContactInfo("other")
+      .extraInformation("extra")
+      .areas(List.of("01"))
+      .languages(
+        List.of(
+          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
+          ClerkLanguagePairDTO.builder().from("SE").to("XX").beginDate(yesterday).endDate(today).build()
+        )
+      )
+      .build();
+
+    assertEquals(1, legalInterpreterRepository.count());
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createLegalInterpreter(interpreterId, dto)
+    );
+    assertEquals(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN, ex.getExceptionType());
 
     assertEquals(1, legalInterpreterRepository.count());
   }

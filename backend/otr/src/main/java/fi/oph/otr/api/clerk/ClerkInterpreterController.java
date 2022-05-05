@@ -8,6 +8,7 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
 import fi.oph.otr.service.ClerkInterpreterService;
+import fi.oph.otr.service.LanguageService;
 import fi.oph.otr.service.RegionService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
@@ -34,10 +35,18 @@ public class ClerkInterpreterController {
   private static final String TAG_LEGAL_INTERPRETER = "Legal interpreter API";
 
   @Resource
+  private LanguageService languageService;
+
+  @Resource
   private RegionService regionService;
 
   @Resource
   private ClerkInterpreterService clerkInterpreterService;
+
+  @GetMapping(path = "/lang-codes")
+  public Set<String> listKoodistoLangCodes() {
+    return languageService.listKoodistoCodes();
+  }
 
   @GetMapping(path = "/region-codes")
   public Set<String> listKoodistoRegionCodes() {

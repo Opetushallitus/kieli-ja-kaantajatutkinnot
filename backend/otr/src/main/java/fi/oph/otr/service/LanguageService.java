@@ -20,20 +20,29 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegionService {
+public class LanguageService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RegionService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(LanguageService.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  static final String UNKNOWN_REGION = "99";
-  private static final Set<String> IGNORED_CODES = Set.of(UNKNOWN_REGION);
+  static final String UNOFFICIAL_LANGUAGE = "98";
+  static final String UNKNOWN_LANGUAGE = "99";
+  static final String OTHER_LANGUAGE = "XX";
+  static final String SIGN_LANGUAGE = "VK";
+
+  private static final Set<String> IGNORED_CODES = Set.of(
+    UNOFFICIAL_LANGUAGE,
+    UNKNOWN_LANGUAGE,
+    OTHER_LANGUAGE,
+    SIGN_LANGUAGE
+  );
 
   private static Map<String, Localisation> localisationByCode;
 
   @PostConstruct
   public void init() {
-    init("koodisto/koodisto_maakunta.json", IGNORED_CODES);
+    init("koodisto/koodisto_kielet.json", IGNORED_CODES);
   }
 
   private void init(final String path, final Set<String> ignoredCodes) {

@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,9 @@ public class ClerkInterpreterService {
 
   @Resource
   private final RegionService regionService;
+
+  @Resource
+  private final LanguageService languageService;
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> listInterpreters() {
@@ -168,8 +172,18 @@ public class ClerkInterpreterService {
     dto
       .areas()
       .forEach(regionCode -> {
-        if (!regionService.listKoodistoCodes().contains(regionCode)) {
+        if (!regionService.containsKoodistoCode(regionCode)) {
           throw new APIException(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN);
+        }
+      });
+
+    dto
+      .languages()
+      .stream()
+      .flatMap(languagePair -> Stream.of(languagePair.from(), languagePair.to()))
+      .forEach(languageCode -> {
+        if (!languageService.containsKoodistoCode(languageCode)) {
+          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN);
         }
       });
 
