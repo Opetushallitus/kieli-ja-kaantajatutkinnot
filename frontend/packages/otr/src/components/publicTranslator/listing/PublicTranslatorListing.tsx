@@ -4,7 +4,7 @@ import { Color } from 'shared/enums';
 
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { useAppTranslation } from 'configs/i18n';
 import { APIResponseStatus } from 'enums/api';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 
@@ -20,7 +20,6 @@ export const PublicTranslatorListing = ({
   translators: Array<PublicTranslator>;
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
-  const translateCommon = useCommonTranslation();
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -47,7 +46,9 @@ export const PublicTranslatorListing = ({
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
-          rowsPerPageLabel={translateCommon('otr.common.rowsPerPage')}
+          rowsPerPageLabel={t(
+            'otr.components.publicInterpreterListing.rowsPerPageLabel'
+          )}
           stickyHeader
         />
       );

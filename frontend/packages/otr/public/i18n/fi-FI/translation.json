@@ -52,6 +52,9 @@
           "newSearch": "Tee uusi haku",
           "search": "Näytä tulokset"
         },
+        "captions": {
+          "langPair": "(* Pakollinen yhteydenottoon)"
+        },
         "languagePair": {
           "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
           "fromHelperText": "Valitse kieli",
@@ -70,6 +73,9 @@
           "placeholder": "Asuinkunta",
           "title": "Haku kääntäjän asuinkunnalla"
         }
+      },
+      "publicInterpreterListing": {
+        "rowsPerPageLabel": "Riviä per sivu"
       },
       "table": {
         "pagination": {
