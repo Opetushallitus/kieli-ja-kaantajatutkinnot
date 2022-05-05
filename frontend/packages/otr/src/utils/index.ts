@@ -1,7 +1,8 @@
 import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-validator';
 import { TFunction } from 'i18next';
+import { TextFieldTypes } from 'shared/enums';
 
-import { CustomTextFieldErrors, TextFieldTypes } from 'enums/app';
+import { CustomTextFieldErrors } from 'enums/app';
 
 export class Utils {
   static scrollToTop() {

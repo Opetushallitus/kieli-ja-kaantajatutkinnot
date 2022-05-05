@@ -2,7 +2,8 @@
   "otr": {
     "common": {
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
-      "ophLogo": "Opetushallituksen logo"
+      "ophLogo": "Opetushallituksen logo",
+      "rowsPerPage": "Riviä per sivu"
     }
   }
 }

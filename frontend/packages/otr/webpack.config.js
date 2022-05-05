@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -58,6 +59,9 @@ module.exports = (env) => {
           test: /\.[tj]sx?$/,
           loader: 'babel-loader',
           exclude: /node_modules/,
+          options: {
+            ...JSON.parse(fs.readFileSync(path.resolve(__dirname, '.babelrc'))),
+          },
         },
         {
           test: /\.s?css$/,
@@ -86,7 +90,11 @@ module.exports = (env) => {
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+      modules: [
+        path.resolve(__dirname, 'src'),
+        path.resolve(__dirname, '..', 'shared', 'src'),
+        'node_modules',
+      ],
       alias: {
         public: path.resolve(__dirname, 'public/'),
       },

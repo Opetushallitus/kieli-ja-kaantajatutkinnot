@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
+import { H3 } from 'shared/components';
 
-import { H3 } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 

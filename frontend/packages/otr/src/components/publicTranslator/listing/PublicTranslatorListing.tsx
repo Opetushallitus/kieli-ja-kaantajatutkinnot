@@ -1,13 +1,11 @@
 import { Box } from '@mui/system';
+import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
+import { Color } from 'shared/enums';
 
-import { CustomCircularProgress } from 'components/elements/CustomCircularProgress';
-import { H3 } from 'components/elements/Text';
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
-import { PaginatedTable } from 'components/tables/Table';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { APIResponseStatus } from 'enums/api';
-import { Color } from 'enums/app';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 
 const getRowDetails = (translator: PublicTranslator) => {
@@ -22,6 +20,7 @@ export const PublicTranslatorListing = ({
   translators: Array<PublicTranslator>;
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
+  const translateCommon = useCommonTranslation();
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -48,6 +47,7 @@ export const PublicTranslatorListing = ({
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
+          rowsPerPageLabel={translateCommon('otr.common.rowsPerPage')}
           stickyHeader
         />
       );
