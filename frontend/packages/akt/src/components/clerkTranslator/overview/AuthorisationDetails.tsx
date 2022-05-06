@@ -18,11 +18,13 @@ import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import { addAuthorisation } from 'redux/actions/authorisation';
 import { deleteAuthorisation } from 'redux/actions/clerkTranslatorOverview';
+import { loadExaminationDates } from 'redux/actions/examinationDate';
 import { loadMeetingDates } from 'redux/actions/meetingDate';
 import { showNotifierDialog } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
+import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
 import { NotifierUtils } from 'utils/notifier';
@@ -37,7 +39,11 @@ export const AuthorisationDetails = () => {
   const { selectedTranslator } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
-  const { passed } = useAppSelector(selectMeetingDatesByMeetingStatus);
+  const passedMeetingDates = useAppSelector(
+    selectMeetingDatesByMeetingStatus
+  ).passed;
+  const examinationDates = useAppSelector(selectExaminationDatesByStatus);
+  const passedExaminationDates = examinationDates.passed;
 
   const { status } = useAppSelector(authorisationSelector);
   const dispatch = useAppDispatch();
@@ -63,6 +69,7 @@ export const AuthorisationDetails = () => {
 
   useEffect(() => {
     dispatch(loadMeetingDates);
+    dispatch(loadExaminationDates);
   }, [dispatch]);
 
   if (!selectedTranslator) {
@@ -143,7 +150,8 @@ export const AuthorisationDetails = () => {
       >
         <AddAuthorisation
           translatorId={selectedTranslator.id}
-          meetingDates={passed}
+          meetingDates={passedMeetingDates}
+          examinationDates={passedExaminationDates}
           onCancel={handleCloseModal}
           onAuthorisationAdd={handleAddAuthorisation}
           isLoading={status === APIResponseStatus.InProgress}

@@ -26,11 +26,19 @@ import {
   resetNewClerkTranslatorRequestStatus,
   updateNewClerkTranslator,
 } from 'redux/actions/clerkNewTranslator';
+import { loadExaminationDates } from 'redux/actions/examinationDate';
 import { loadMeetingDates } from 'redux/actions/meetingDate';
 import { showNotifierDialog, showNotifierToast } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
-import { meetingDatesSelector } from 'redux/selectors/meetingDate';
+import {
+  examinationDatesSelector,
+  selectExaminationDatesByStatus,
+} from 'redux/selectors/examinationDate';
+import {
+  meetingDatesSelector,
+  selectMeetingDatesByMeetingStatus,
+} from 'redux/selectors/meetingDate';
 import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkNewTranslatorPage = () => {
@@ -47,6 +55,15 @@ export const ClerkNewTranslatorPage = () => {
   // Redux
   const { translator, status, id } = useAppSelector(clerkNewTranslatorSelector);
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
+  const passedMeetingDates = useAppSelector(
+    selectMeetingDatesByMeetingStatus
+  ).passed;
+  const examinationDatesState = useAppSelector(
+    examinationDatesSelector
+  ).examinationDates;
+  const passedExaminationDates = useAppSelector(
+    selectExaminationDatesByStatus
+  ).passed;
 
   const dispatch = useAppDispatch();
   const onAuthorisationAdd = (authorisation: Authorisation) => {
@@ -103,6 +120,15 @@ export const ClerkNewTranslatorPage = () => {
   }, [dispatch, meetingDatesState]);
 
   useEffect(() => {
+    if (
+      !examinationDatesState.dates.length &&
+      examinationDatesState.status === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadExaminationDates);
+    }
+  }, [dispatch, examinationDatesState]);
+
+  useEffect(() => {
     if (status === APIResponseStatus.Success) {
       const successToast = NotifierUtils.createNotifierToast(
         Severity.Success,
@@ -143,7 +169,8 @@ export const ClerkNewTranslatorPage = () => {
             modalTitle={translateCommon('addAuthorisation')}
           >
             <AddAuthorisation
-              meetingDates={meetingDatesState.meetingDates}
+              meetingDates={passedMeetingDates}
+              examinationDates={passedExaminationDates}
               onAuthorisationAdd={onAuthorisationAdd}
               onCancel={handleCloseModal}
             />

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
@@ -6,7 +6,6 @@ import {
   CustomButton,
   CustomSwitch,
   CustomTextField,
-  DatePicker,
   LanguageSelect,
   languageToComboBoxOption,
   LoadingProgressIndicator,
@@ -14,6 +13,7 @@ import {
   valueAsOption,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
 
 import {
@@ -24,12 +24,14 @@ import {
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
+import { ExaminationDate } from 'interfaces/examinationDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
 
 interface AddAuthorisationProps {
   translatorId?: number;
   meetingDates: Array<MeetingDate>;
+  examinationDates: Array<ExaminationDate>;
   isLoading?: boolean;
   onCancel: () => void;
   onAuthorisationAdd(authorisation: Authorisation): void;
@@ -45,26 +47,30 @@ const newAuthorisation: Authorisation = {
   examinationDate: undefined,
 };
 
+const dateToOption = (date: Dayjs): ComboBoxOption => {
+  return {
+    value: date.toISOString(),
+    label: DateUtils.formatOptionalDate(date),
+  };
+};
+
 export const AddAuthorisation = ({
   translatorId,
   meetingDates,
+  examinationDates,
   isLoading,
   onAuthorisationAdd,
   onCancel,
 }: AddAuthorisationProps) => {
-  const currentDate = dayjs();
   const availableMeetingDateValues = meetingDates
-    .filter((m) => m.date.isBefore(currentDate, 'day'))
-    .map((m) => {
-      return {
-        value: m.date.toISOString(),
-        label: DateUtils.formatOptionalDate(dayjs(m.date)),
-      };
-    });
+    .map((m) => m.date)
+    .map(dateToOption);
+  const availableExaminationDates = examinationDates
+    .map((m) => m.date)
+    .map(dateToOption);
 
   const [authorisation, setAuthorisation] =
     useState<Authorisation>(newAuthorisation);
-  const [examinationDate, setExaminationDate] = useState('');
   const [isAuthorisationDataChanged, setIsAuthorisationDataChanged] =
     useState(false);
 
@@ -95,13 +101,14 @@ export const AddAuthorisation = ({
     };
 
   const handleBasisChange = ({}, value: AutocompleteValue) => {
+    const basis = value?.value as AuthorisationBasis;
+
     setAuthorisation({
       ...authorisation,
-      basis: value?.value as AuthorisationBasis,
+      basis,
+      examinationDate:
+        basis === AuthorisationBasisEnum.AUT ? undefined : undefined,
     });
-    if (value?.value !== AuthorisationBasisEnum.AUT) {
-      setExaminationDate('');
-    }
     setIsAuthorisationDataChanged(true);
   };
 
@@ -117,11 +124,10 @@ export const AddAuthorisation = ({
     setIsAuthorisationDataChanged(true);
   };
 
-  const handleExaminationDateChange = (value: string) => {
-    setExaminationDate(value);
+  const handleExaminationDateChange = ({}, value: AutocompleteValue) => {
     setAuthorisation({
       ...authorisation,
-      examinationDate: dayjs(value),
+      examinationDate: value?.value ? dayjs(value?.value) : undefined,
     });
     setIsAuthorisationDataChanged(true);
   };
@@ -148,12 +154,11 @@ export const AddAuthorisation = ({
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
   const getTermBeginDate = () => {
-    return authorisation.termBeginDate
-      ? {
-          value: authorisation.termBeginDate.toISOString(),
-          label: DateUtils.formatOptionalDate(authorisation.termBeginDate),
-        }
-      : null;
+    if (authorisation.termBeginDate) {
+      return dateToOption(authorisation.termBeginDate);
+    } else {
+      return null;
+    }
   };
 
   const isAddButtonDisabled = () => {
@@ -190,6 +195,14 @@ export const AddAuthorisation = ({
     if (!translatorId) {
       setAuthorisation(newAuthorisation);
       onCancel();
+    }
+  };
+
+  const getExaminationDate = () => {
+    if (authorisation.examinationDate) {
+      return dateToOption(authorisation.examinationDate);
+    } else {
+      return null;
     }
   };
 
@@ -245,12 +258,13 @@ export const AddAuthorisation = ({
           </div>
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.examinationDate')}</Text>
-            <DatePicker
+            <ComboBox
               label={t('fieldPlaceholders.examinationDate')}
-              value={examinationDate}
-              setValue={handleExaminationDateChange}
+              value={getExaminationDate()}
+              values={availableExaminationDates}
+              variant={TextFieldVariant.Outlined}
+              onChange={handleExaminationDateChange}
               disabled={authorisation.basis !== AuthorisationBasisEnum.AUT}
-              dataTestId={`${testIdPrefix}-examinationDate`}
             />
           </div>
         </div>
