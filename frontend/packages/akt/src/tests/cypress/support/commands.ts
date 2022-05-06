@@ -8,6 +8,10 @@ Cypress.Commands.add('openClerkHomePage', () => {
   cy.visit(AppRoutes.ClerkHomePage);
 });
 
+Cypress.Commands.add('openExaminationDatesPage', () => {
+  cy.visit(AppRoutes.ExaminationDatesPage);
+});
+
 Cypress.Commands.add('openMeetingDatesPage', () => {
   cy.visit(AppRoutes.MeetingDatesPage);
 });
