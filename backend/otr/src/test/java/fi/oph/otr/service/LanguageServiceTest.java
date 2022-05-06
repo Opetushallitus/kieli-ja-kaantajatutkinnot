@@ -24,11 +24,10 @@ class LanguageServiceTest {
   public void testListKoodistoLangCodes() {
     final Set<String> codes = languageService.listKoodistoCodes();
 
-    assertEquals(198, codes.size());
+    assertEquals(200, codes.size());
     assertFalse(codes.contains(LanguageService.UNOFFICIAL_LANGUAGE));
     assertFalse(codes.contains(LanguageService.UNKNOWN_LANGUAGE));
     assertFalse(codes.contains(LanguageService.OTHER_LANGUAGE));
-    assertFalse(codes.contains(LanguageService.SIGN_LANGUAGE));
     assertTrue(codes.contains("FI"));
     assertTrue(codes.contains("SV"));
   }

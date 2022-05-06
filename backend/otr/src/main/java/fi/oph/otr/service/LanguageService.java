@@ -29,14 +29,7 @@ public class LanguageService {
   static final String UNOFFICIAL_LANGUAGE = "98";
   static final String UNKNOWN_LANGUAGE = "99";
   static final String OTHER_LANGUAGE = "XX";
-  static final String SIGN_LANGUAGE = "VK";
-
-  private static final Set<String> IGNORED_CODES = Set.of(
-    UNOFFICIAL_LANGUAGE,
-    UNKNOWN_LANGUAGE,
-    OTHER_LANGUAGE,
-    SIGN_LANGUAGE
-  );
+  private static final Set<String> IGNORED_CODES = Set.of(UNOFFICIAL_LANGUAGE, UNKNOWN_LANGUAGE, OTHER_LANGUAGE);
 
   private static Map<String, Localisation> localisationByCode;
 

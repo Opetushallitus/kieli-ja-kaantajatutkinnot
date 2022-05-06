@@ -6,12 +6,12 @@ LANGS_LIST=../src/main/resources/koodisto/koodisto_kielet.json
 FRONTEND_PATH=../../../frontend/packages/otr/public/i18n/koodisto/langs
 
 mkdir -p $FRONTEND_PATH
-curl -H "Caller-Id:kehittaja-otr" "https://virkailija.opintopolku.fi/koodisto-service/rest/json/kielikoodistoopetushallinto/koodi" --create-dirs -o $LANGS_LIST
+curl -H "Caller-Id:kehittaja-otr" "https://virkailija.opintopolku.fi/koodisto-service/rest/json/kieletepavirallinen/koodi" --create-dirs -o $LANGS_LIST
 
 function extract_frontend_localisation() {
   lang=$1
   locale=$2
-  jq_extract_cmd="[.[] | {key: select(.koodiArvo != \"98\" and .koodiArvo != \"99\" and .koodiArvo != \"VK\" and .koodiArvo != \"XX\").koodiArvo, value: .metadata[] | select(.kieli | contains(\"${lang}\")).nimi }] | sort_by(.key) | from_entries"
+  jq_extract_cmd="[.[] | {key: select(.koodiArvo != \"98\" and .koodiArvo != \"99\" and .koodiArvo != \"XX\").koodiArvo, value: .metadata[] | select(.kieli | contains(\"${lang}\")).nimi }] | sort_by(.key) | from_entries"
   jq_obj_wrap_cmd='. | {otr:{koodisto:{languages:.}}}'
   output="${FRONTEND_PATH}/koodisto_langs_${locale}.json"
   echo "Command for jq: $jq_extract_cmd"
