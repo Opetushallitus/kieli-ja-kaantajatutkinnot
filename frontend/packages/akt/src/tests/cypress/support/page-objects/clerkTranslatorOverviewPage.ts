@@ -30,17 +30,9 @@ class ClerkTranslatorOverviewPage {
         .findByTestId(`clerk-translator__basic-information__${field}`)
         .should('be.visible')
         .find(`div>${fieldType}`),
-    addAuthorisationField: (
-      field: string,
-      fieldType: string,
-      isDatePicker = false
-    ) =>
+    addAuthorisationField: (field: string, fieldType: string) =>
       cy
-        .findByTestId(
-          `add-authorisation-field-${field}${
-            isDatePicker ? '__date-picker' : ''
-          }`
-        )
+        .findByTestId(`add-authorisation-field-${field}`)
         .find(`div>${fieldType}`),
 
     permissionToPublishSwitch: () =>
@@ -128,23 +120,15 @@ class ClerkTranslatorOverviewPage {
     this.elements.permissionToPublishSwitch().click();
   }
 
-  expectDisabledAddAuthorisationField(
-    fieldName: string,
-    fieldType: string,
-    isDatePicker = false
-  ) {
+  expectDisabledAddAuthorisationField(fieldName: string, fieldType: string) {
     this.elements
-      .addAuthorisationField(fieldName, fieldType, isDatePicker)
+      .addAuthorisationField(fieldName, fieldType)
       .should('be.disabled');
   }
 
-  expectEnabledAddAuthorisationField(
-    fieldName: string,
-    fieldType: string,
-    isDatePicker = false
-  ) {
+  expectEnabledAddAuthorisationField(fieldName: string, fieldType: string) {
     this.elements
-      .addAuthorisationField(fieldName, fieldType, isDatePicker)
+      .addAuthorisationField(fieldName, fieldType)
       .should('be.enabled');
   }
 

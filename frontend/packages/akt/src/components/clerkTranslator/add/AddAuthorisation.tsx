@@ -259,6 +259,7 @@ export const AddAuthorisation = ({
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.examinationDate')}</Text>
             <ComboBox
+              data-testid={`${testIdPrefix}-examinationDate`}
               label={t('fieldPlaceholders.examinationDate')}
               value={getExaminationDate()}
               values={availableExaminationDates}
