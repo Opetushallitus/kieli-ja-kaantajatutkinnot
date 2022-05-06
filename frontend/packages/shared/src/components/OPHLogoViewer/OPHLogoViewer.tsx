@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { AppLanguage, Direction } from '../../enums/app';
+import { AppLanguage, Direction } from '../../enums/common';
 import OPHLogoENHorizontal from '../../static/svg/oph_logo_horiz_en.svg';
 import OPHLogoHorizontal from '../../static/svg/oph_logo_horiz_fi_sv.svg';
 import OPHLogoENVertical from '../../static/svg/oph_logo_vert_en.svg';
@@ -11,7 +11,7 @@ interface OPHLogoViewerProps {
   direction: Direction;
   className?: string;
   alt: string;
-  currentLang: AppLanguage;
+  currentLang: string;
 }
 
 export const OPHLogoViewer: FC<OPHLogoViewerProps> = ({

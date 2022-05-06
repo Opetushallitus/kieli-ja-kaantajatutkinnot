@@ -4,6 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = (env) => {
+  const STATIC_PATH = 'shared/static';
   const mode = env.prod ? 'production' : 'development';
 
   return {

@@ -1,11 +1,14 @@
+@use '../../styles/abstracts/maps';
+@use '../../styles/abstracts/variables';
+
 @mixin phone-divider-border-top() {
   border-radius: 0;
-  border-top: 1px solid $color-grey-400;
+  border-top: 1px solid variables.$color-grey-400;
   box-shadow: none;
 }
 
 @mixin phone-divider-border-bottom() {
-  border-bottom: 1px solid $color-grey-400;
+  border-bottom: 1px solid variables.$color-grey-400;
   border-radius: 0;
   box-shadow: none;
 }
@@ -38,19 +41,19 @@
 
 // Media Queries
 @mixin phone {
-  @media (max-width: map-get($breakpoints, 'phone')) {
+  @media (max-width: map-get(maps.$breakpoints, 'phone')) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media (max-width: map-get($breakpoints, 'tablet')) {
+  @media (max-width: map-get(maps.$breakpoints, 'tablet')) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media (max-width: map-get($breakpoints, 'desktop')) {
+  @media (max-width: map-get(maps.$breakpoints, 'desktop')) {
     @content;
   }
 }

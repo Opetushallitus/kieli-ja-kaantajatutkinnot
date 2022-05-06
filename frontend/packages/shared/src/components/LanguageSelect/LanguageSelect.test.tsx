@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import { TextFieldVariant } from '../../enums/app';
+import { TextFieldVariant } from '../../enums/common';
 import { LanguageSelect } from './LanguageSelect';
 
 describe('LanguageSelect', () => {

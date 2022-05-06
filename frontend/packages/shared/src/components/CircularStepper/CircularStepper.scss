@@ -1,3 +1,5 @@
+@use '../../styles/abstracts/variables';
+
 .circular-stepper {
   display: inline-flex;
   position: relative;
@@ -16,10 +18,10 @@
   svg {
     background: radial-gradient(
       ellipse at center,
-      $color-primary 0%,
-      $color-primary 56%,
-      $color-primary-dark 59%,
-      $color-primary-dark 100%
+      variables.$color-primary 0%,
+      variables.$color-primary 56%,
+      variables.$color-primary-dark 59%,
+      variables.$color-primary-dark 100%
     );
     border-radius: 50%;
   }
