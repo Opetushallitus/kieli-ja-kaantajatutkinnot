@@ -9,6 +9,7 @@ import { clerkTranslatorEmailReducer } from 'redux/reducers/clerkTranslatorEmail
 import { clerkTranslatorOverviewReducer } from 'redux/reducers/clerkTranslatorOverview';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { contactRequestReducer } from 'redux/reducers/contactRequest';
+import { examinationDateReducer } from 'redux/reducers/examinationDate';
 import { meetingDateReducer } from 'redux/reducers/meetingDate';
 import { notifierReducer } from 'redux/reducers/notifier';
 import { publicTranslatorReducer } from 'redux/reducers/publicTranslator';
@@ -33,6 +34,7 @@ export default () => {
       publicUIView: publicUIViewReducer,
       clerkUser: clerkUserReducer,
       notifier: notifierReducer,
+      examinationDate: examinationDateReducer,
       meetingDate: meetingDateReducer,
       authorisation: authorisationReducer,
     }),

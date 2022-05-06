@@ -19,7 +19,7 @@ export interface MeetingDateFilter {
 export interface MeetingDatesState {
   status: APIResponseStatus;
   filters: MeetingDateFilter;
-  meetingDates: MeetingDate[];
+  meetingDates: Array<MeetingDate>;
 }
 
 export interface AddMeetingDateState {

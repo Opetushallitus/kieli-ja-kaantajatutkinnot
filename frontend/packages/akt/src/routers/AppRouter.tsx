@@ -11,6 +11,7 @@ import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
 import { ClerkNewTranslatorPage } from 'pages/clerk/ClerkNewTranslatorPage';
 import { ClerkSendEmailPage } from 'pages/clerk/ClerkSendEmailPage';
 import { ClerkTranslatorOverviewPage } from 'pages/clerk/ClerkTranslatorOverviewPage';
+import { ExaminationDatesPage } from 'pages/ExaminationDatesPage';
 import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
@@ -37,6 +38,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkHomePage}
                 element={<ClerkHomePage />}
+              />
+              <Route
+                path={AppRoutes.ExaminationDatesPage}
+                element={<ExaminationDatesPage />}
               />
               <Route
                 path={AppRoutes.MeetingDatesPage}

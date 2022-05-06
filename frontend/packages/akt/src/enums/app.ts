@@ -6,6 +6,7 @@ export enum AppRoutes {
   PublicHomePage = '/akt/etusivu',
   ClerkHomePage = '/akt/virkailija',
   MeetingDatesPage = '/akt/virkailija/kokouspaivat',
+  ExaminationDatesPage = '/akt/virkailija/tutkintopaivat',
   ClerkSendEmailPage = '/akt/virkailija/laheta-sahkoposti',
   ClerkLocalLogoutPage = '/akt/cas/localLogout',
   ClerkTranslatorOverviewPage = '/akt/virkailija/kaantaja/:translatorId',
@@ -24,6 +25,7 @@ export enum CustomTextFieldErrors {
 
 export enum HeaderTabNav {
   Register = 'register',
+  ExaminationDates = 'examinationDates',
   MeetingDates = 'meetingDates',
 }
 

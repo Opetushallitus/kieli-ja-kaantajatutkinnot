@@ -25,6 +25,8 @@ export const ClerkNavTabs = (): JSX.Element => {
       setValue(HeaderTabNav.Register);
     } else if (pathname === AppRoutes.MeetingDatesPage) {
       setValue(HeaderTabNav.MeetingDates);
+    } else if (pathname === AppRoutes.ExaminationDatesPage) {
+      setValue(HeaderTabNav.ExaminationDates);
     } else setValue(false);
   }, [pathname]);
 
@@ -41,6 +43,12 @@ export const ClerkNavTabs = (): JSX.Element => {
         value={HeaderTabNav.Register}
         label={translateCommon(HeaderTabNav.Register)}
         onClick={() => navigate(AppRoutes.ClerkHomePage)}
+      />
+      <Tab
+        data-testid={'clerk-nav-tab__examination-dates'}
+        value={HeaderTabNav.ExaminationDates}
+        label={translateCommon(HeaderTabNav.ExaminationDates)}
+        onClick={() => navigate(AppRoutes.ExaminationDatesPage)}
       />
       <Tab
         data-testid={'clerk-nav-tab__meeting-dates'}
