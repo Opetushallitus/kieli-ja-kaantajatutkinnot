@@ -1,6 +1,6 @@
 import { AutocompleteProps } from '@mui/material';
 
-import { TextFieldVariant } from '../enums/app';
+import { TextFieldVariant } from '../enums/common';
 
 export type ComboBoxOption = { label: string; value: string };
 export type AutocompleteValue = ComboBoxOption | null;

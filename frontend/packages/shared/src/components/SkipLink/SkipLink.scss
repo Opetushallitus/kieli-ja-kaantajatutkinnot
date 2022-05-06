@@ -1,8 +1,10 @@
+@use '../../styles/abstracts/variables';
+
 .skip-link {
   &#{&} {
     align-items: center;
-    background-color: $color-background-content;
-    color: $color-secondary-dark;
+    background-color: variables.$color-background-content;
+    color: variables.$color-secondary-dark;
     display: inline-flex;
     left: 1.5rem;
     margin: 0;

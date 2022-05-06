@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import { AppLanguage, Direction } from '../../enums/app';
+import { AppLanguage, Direction } from '../../enums/common';
 import { OPHLogoViewer } from './OPHLogoViewer';
 
 describe('OPHLogoViewer', () => {

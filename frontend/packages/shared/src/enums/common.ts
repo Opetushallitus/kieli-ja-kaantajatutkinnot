@@ -17,6 +17,11 @@ export enum TextFieldTypes {
   PersonalIdentityCode = 'personalIdentityCode',
 }
 
+export enum NotifierTypes {
+  Dialog = 'dialog',
+  Toast = 'toast',
+}
+
 export enum Severity {
   Info = 'info',
   Success = 'success',
