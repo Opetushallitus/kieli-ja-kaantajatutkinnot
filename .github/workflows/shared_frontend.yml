@@ -9,6 +9,7 @@ on:
       - "!**/*.md"
 env:
   FRONTEND_DIR: ./frontend
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -54,4 +55,3 @@ jobs:
         run: yarn npm publish
         env:
           YARN_NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
