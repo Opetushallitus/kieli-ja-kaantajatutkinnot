@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+  vkt-backend:
+    build: ./backend/vkt
+    ports:
+      - "8080:8080"
+    command: "./mvnw clean install -DskipTests"
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${VKT_UNSECURE:-false}"
+      ]
+    networks:
+      - vkt-dev
+    working_dir: /app
+    volumes:
+      - $HOME/.m2:/root/.m2
+      - ./backend/vkt:/app
+    depends_on:
+      - vkt-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:5432/vkt-postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - VKT_UNSECURE=${VKT_UNSECURE}
+  vkt-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.vkt
+    ports:
+      - "4000:4000"
+    working_dir: /app/reactjs
+    networks:
+      - vkt-dev
+    volumes:
+      - ./frontend/packages/vkt:/app/reactjs/packages/vkt
+      - /app/reactjs/node_modules
+
+  vkt-postgres:
+    build: ./backend/vkt/db
+    container_name: vkt-postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - vkt-dev
+    environment:
+      - POSTGRES_DB=vkt-postgres
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  vkt-dev: {}
+
+volumes:
+  nodemodules: {}
