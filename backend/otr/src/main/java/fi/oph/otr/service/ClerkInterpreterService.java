@@ -1,6 +1,7 @@
 package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
+import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTOCommonFields;
@@ -19,7 +20,10 @@ import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.LegalInterpreterRepository;
 import fi.oph.otr.repository.LocationRepository;
+import fi.oph.otr.util.LegalInterpreterData;
+import fi.oph.otr.util.LocationData;
 import fi.oph.otr.util.exception.NotFoundException;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -49,83 +53,109 @@ public class ClerkInterpreterService {
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> listInterpreters() {
-    final Map<Long, List<Kielipari>> languagePairs = languagePairRepository
-      .findAll()
-      .stream()
-      .collect(Collectors.groupingBy(lp -> lp.getOikeustulkki().getId()));
-
-    final Map<Long, List<Sijainti>> locations = locationRepository
-      .findAll()
-      .stream()
-      .collect(Collectors.groupingBy(loc -> loc.getOikeustulkki().getId()));
-
     final Map<Long, List<Oikeustulkki>> legalInterpreters = legalInterpreterRepository
       .findAll()
       .stream()
       .collect(Collectors.groupingBy(li -> li.getTulkki().getId()));
 
+    final Map<Long, List<Kielipari>> languagePairs = languagePairRepository
+      .findAll()
+      .stream()
+      .collect(Collectors.groupingBy(lp -> lp.getOikeustulkki().getId()));
+
     return interpreterRepository
       .findAll()
       .stream()
-      .map(i -> toDTO(i, legalInterpreters, languagePairs, locations))
+      .map(i -> createClerkInterpreterDTO(i, legalInterpreters.get(i.getId()), languagePairs))
       .toList();
   }
 
-  private ClerkInterpreterDTO toDTO(
+  private ClerkInterpreterDTO createClerkInterpreterDTO(
     final Tulkki interpreter,
-    final Map<Long, List<Oikeustulkki>> legalInterpreters,
-    final Map<Long, List<Kielipari>> legalInterpreterLanguagePairs,
-    final Map<Long, List<Sijainti>> legalInterpreterLocations
+    final List<Oikeustulkki> legalInterpreters,
+    final Map<Long, List<Kielipari>> legalInterpreterLanguagePairs
   ) {
+    final List<ClerkLegalInterpreterDTO> legalInterpreterDTOS = legalInterpreters
+      .stream()
+      .map(li -> createLegalInterpreterDTO(li, legalInterpreterLanguagePairs.get(li.getId())))
+      .toList();
+
+    final LegalInterpreterData liData = getLegalInterpreterData(legalInterpreters);
+    final List<String> areas = liData.areas().stream().map(LocationData::code).toList();
+
+    // FIXME fetch details from onr
     return ClerkInterpreterDTO
       .builder()
       .id(interpreter.getId())
       .version(interpreter.getVersion())
       .deleted(interpreter.isPoistettu())
-      // FIXME fetch details from onr
       .identityNumber("TODO")
       .firstName("Etunimi:" + interpreter.getHenkiloOid())
       .nickName("Kutsumanimi:" + interpreter.getHenkiloOid())
       .lastName("Sukunimi:" + interpreter.getHenkiloOid())
       .email("TODOfoo@bar.invalid")
-      .legalInterpreters(
-        legalInterpreters
-          .get(interpreter.getId())
-          .stream()
-          .map(legalInterpreter ->
-            ClerkLegalInterpreterDTO
-              .builder()
-              .id(legalInterpreter.getId())
-              .version(legalInterpreter.getVersion())
-              .deleted(legalInterpreter.isPoistettu())
-              .examinationType(ClerkLegalInterpreterExaminationTypeDTO.fromDbEnum(legalInterpreter.getTutkintoTyyppi()))
-              .permissionToPublishEmail(legalInterpreter.isJulkaisulupaEmail())
-              .permissionToPublishPhone(legalInterpreter.isJulkaisulupaPuhelinnumero())
-              .permissionToPublishOtherContactInfo(legalInterpreter.isJulkaisulupaMuuYhteystieto())
-              .permissionToPublish(legalInterpreter.isJulkaisulupa())
-              .otherContactInfo(legalInterpreter.getMuuYhteystieto())
-              .extraInformation(legalInterpreter.getLisatiedot())
-              .areas(legalInterpreterLocations.get(legalInterpreter.getId()).stream().map(Sijainti::getKoodi).toList())
-              .languages(
-                legalInterpreterLanguagePairs
-                  .get(legalInterpreter.getId())
-                  .stream()
-                  .map(langPair ->
-                    ClerkLanguagePairDTO
-                      .builder()
-                      .from(langPair.getKielesta().getKoodi())
-                      .to(langPair.getKieleen().getKoodi())
-                      .beginDate(langPair.getVoimassaoloAlkaa())
-                      .endDate(langPair.getVoimassaoloPaattyy())
-                      .build()
-                  )
-                  .toList()
-              )
-              .build()
-          )
-          .toList()
-      )
+      .permissionToPublishEmail(liData.permissionToPublishEmail())
+      .phoneNumber(null)
+      .permissionToPublishPhone(liData.permissionToPublishPhone())
+      .otherContactInfo(liData.otherContactInfo())
+      .permissionToPublishOtherContactInfo(liData.permissionToPublishOtherContactInfo())
+      .street(null)
+      .postalCode(null)
+      .town(null)
+      .extraInformation(liData.extraInformation())
+      .areas(areas)
+      .legalInterpreters(legalInterpreterDTOS)
       .build();
+  }
+
+  private ClerkLegalInterpreterDTO createLegalInterpreterDTO(
+    final Oikeustulkki legalInterpreter,
+    final List<Kielipari> languagePairs
+  ) {
+    final List<ClerkLanguagePairDTO> languagePairDTOS = languagePairs
+      .stream()
+      .map(langPair ->
+        ClerkLanguagePairDTO
+          .builder()
+          .from(langPair.getKielesta().getKoodi())
+          .to(langPair.getKieleen().getKoodi())
+          .beginDate(langPair.getVoimassaoloAlkaa())
+          .endDate(langPair.getVoimassaoloPaattyy())
+          .build()
+      )
+      .toList();
+
+    return ClerkLegalInterpreterDTO
+      .builder()
+      .id(legalInterpreter.getId())
+      .version(legalInterpreter.getVersion())
+      .deleted(legalInterpreter.isPoistettu())
+      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.fromDbEnum(legalInterpreter.getTutkintoTyyppi()))
+      .permissionToPublish(legalInterpreter.isJulkaisulupa())
+      .languages(languagePairDTOS)
+      .build();
+  }
+
+  private LegalInterpreterData getLegalInterpreterData(final List<Oikeustulkki> legalInterpreters) {
+    final Oikeustulkki legalInterpreter = legalInterpreters
+      .stream()
+      .min(Comparator.comparing(Oikeustulkki::isPoistettu))
+      .get();
+
+    final List<LocationData> areas = legalInterpreter
+      .getSijainnit()
+      .stream()
+      .map(loc -> new LocationData(loc.getTyyppi(), loc.getKoodi()))
+      .toList();
+
+    return new LegalInterpreterData(
+      legalInterpreter.isJulkaisulupaEmail(),
+      legalInterpreter.isJulkaisulupaPuhelinnumero(),
+      legalInterpreter.getMuuYhteystieto(),
+      legalInterpreter.isJulkaisulupaMuuYhteystieto(),
+      legalInterpreter.getLisatiedot(),
+      areas
+    );
   }
 
   @Transactional
@@ -133,36 +163,58 @@ public class ClerkInterpreterService {
     // TODO set person data to ONR and get OID
     final Tulkki interpreter = new Tulkki(UUID.randomUUID().toString());
     interpreterRepository.save(interpreter);
+
+    final LegalInterpreterData liData = getLegalInterpreterData(dto);
     dto
       .legalInterpreters()
-      .forEach(legalInterpreterCreateDTO -> createLegalInterpreter(interpreter, legalInterpreterCreateDTO));
+      .forEach(legalInterpreterCreateDTO -> createLegalInterpreter(interpreter, legalInterpreterCreateDTO, liData));
+
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
   }
 
-  private void createLegalInterpreter(final Tulkki interpreter, final ClerkLegalInterpreterCreateDTO dto) {
+  private LegalInterpreterData getLegalInterpreterData(final ClerkInterpreterDTOCommonFields dto) {
+    // TODO
+    final List<LocationData> areas = dto
+      .areas()
+      .stream()
+      .map(a -> new LocationData(Sijainti.Tyyppi.MAAKUNTA, a))
+      .toList();
+
+    return new LegalInterpreterData(
+      dto.permissionToPublishEmail(),
+      dto.permissionToPublishPhone(),
+      dto.otherContactInfo(),
+      dto.permissionToPublishOtherContactInfo(),
+      dto.extraInformation(),
+      areas
+    );
+  }
+
+  private void createLegalInterpreter(
+    final Tulkki interpreter,
+    final ClerkLegalInterpreterCreateDTO dto,
+    final LegalInterpreterData liData
+  ) {
     final Oikeustulkki legalInterpreter = new Oikeustulkki();
     interpreter.getOikeustulkit().add(legalInterpreter);
     legalInterpreter.setTulkki(interpreter);
-    copyFromDTO(dto, legalInterpreter);
+
+    copyFromLegalInterpreterDTO(legalInterpreter, dto);
+    copyFromLegalInterpreterData(legalInterpreter, liData);
+
     legalInterpreterRepository.saveAndFlush(legalInterpreter);
-    locationRepository.saveAllAndFlush(legalInterpreter.getSijainnit());
     languagePairRepository.saveAllAndFlush(legalInterpreter.getKielet());
+    locationRepository.saveAllAndFlush(legalInterpreter.getSijainnit());
   }
 
-  private void copyFromDTO(final ClerkLegalInterpreterDTOCommonFields dto, final Oikeustulkki legalInterpreter) {
+  private void copyFromLegalInterpreterDTO(
+    final Oikeustulkki legalInterpreter,
+    final ClerkLegalInterpreterDTOCommonFields dto
+  ) {
     legalInterpreter.setTutkintoTyyppi(dto.examinationType().toDbEnum());
-    legalInterpreter.setJulkaisulupaEmail(dto.permissionToPublishEmail());
-    legalInterpreter.setJulkaisulupaPuhelinnumero(dto.permissionToPublishPhone());
-    legalInterpreter.setJulkaisulupaMuuYhteystieto(dto.permissionToPublishOtherContactInfo());
     legalInterpreter.setJulkaisulupa(dto.permissionToPublish());
-    legalInterpreter.setMuuYhteystieto(dto.otherContactInfo());
-    legalInterpreter.setLisatiedot(dto.extraInformation());
-    final Set<Sijainti> locations = dto
-      .areas()
-      .stream()
-      .map(a -> new Sijainti(legalInterpreter, Sijainti.Tyyppi.MAAKUNTA, a)) // TODO
-      .collect(Collectors.toSet());
+
     final List<Kielipari> languagePairs = dto
       .languages()
       .stream()
@@ -177,8 +229,23 @@ public class ClerkInterpreterService {
       )
       .toList();
 
-    legalInterpreter.getSijainnit().addAll(locations);
     legalInterpreter.getKielet().addAll(languagePairs);
+  }
+
+  private void copyFromLegalInterpreterData(final Oikeustulkki legalInterpreter, final LegalInterpreterData liData) {
+    legalInterpreter.setJulkaisulupaEmail(liData.permissionToPublishEmail());
+    legalInterpreter.setJulkaisulupaPuhelinnumero(liData.permissionToPublishPhone());
+    legalInterpreter.setMuuYhteystieto(liData.otherContactInfo());
+    legalInterpreter.setJulkaisulupaMuuYhteystieto(liData.permissionToPublishOtherContactInfo());
+    legalInterpreter.setLisatiedot(liData.extraInformation());
+
+    final List<Sijainti> locations = liData
+      .areas()
+      .stream()
+      .map(locationData -> new Sijainti(legalInterpreter, locationData.locationType(), locationData.code()))
+      .toList();
+
+    legalInterpreter.getSijainnit().addAll(locations);
   }
 
   @Transactional(readOnly = true)
@@ -196,8 +263,24 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
     final Tulkki interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
+
     // TODO update clerk information to ONR
-    return getInterpreter(dto.id());
+
+    final LegalInterpreterData liData = getLegalInterpreterData(dto);
+    final Set<Oikeustulkki> legalInterpreters = interpreter.getOikeustulkit();
+
+    legalInterpreters.forEach(legalInterpreter -> {
+      final Set<Sijainti> locationsToDelete = new HashSet<>(legalInterpreter.getSijainnit());
+      legalInterpreter.getSijainnit().removeAll(locationsToDelete);
+      locationRepository.deleteAllInBatch(locationsToDelete);
+
+      copyFromLegalInterpreterData(legalInterpreter, liData);
+      locationRepository.saveAllAndFlush(legalInterpreter.getSijainnit());
+    });
+
+    legalInterpreterRepository.saveAllAndFlush(legalInterpreters);
+    interpreterRepository.saveAndFlush(interpreter);
+    return getInterpreter(interpreter.getId());
   }
 
   @Transactional
@@ -214,7 +297,10 @@ public class ClerkInterpreterService {
     final ClerkLegalInterpreterCreateDTO dto
   ) {
     final Tulkki interpreter = interpreterRepository.getById(interpreterId);
-    createLegalInterpreter(interpreter, dto);
+    final Set<Oikeustulkki> legalInterpreters = interpreter.getOikeustulkit();
+    final LegalInterpreterData liData = getLegalInterpreterData(legalInterpreters.stream().toList());
+
+    createLegalInterpreter(interpreter, dto, liData);
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
   }
@@ -228,14 +314,8 @@ public class ClerkInterpreterService {
     legalInterpreter.getKielet().removeAll(langPairsToDelete);
     languagePairRepository.deleteAllInBatch(langPairsToDelete);
 
-    final Set<Sijainti> locationsToDelete = new HashSet<>(legalInterpreter.getSijainnit());
-    legalInterpreter.getSijainnit().removeAll(locationsToDelete);
-    locationRepository.deleteAllInBatch(locationsToDelete);
-
-    copyFromDTO(dto, legalInterpreter);
-
+    copyFromLegalInterpreterDTO(legalInterpreter, dto);
     legalInterpreterRepository.saveAndFlush(legalInterpreter);
-    locationRepository.saveAllAndFlush(legalInterpreter.getSijainnit());
     languagePairRepository.saveAllAndFlush(legalInterpreter.getKielet());
 
     return getInterpreter(legalInterpreter.getTulkki().getId());
