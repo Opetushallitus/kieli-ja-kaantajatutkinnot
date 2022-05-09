@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - .github/workflows/otr.yml
       - "backend/otr/**"
       - "frontend/packages/otr/**"
       - "!**/*.md"
 
 env:
+  APP_NAME_TAG: "OTR"
+  DEPLOY_TAG: "[deploy]"
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/otr
 
@@ -19,6 +20,7 @@ concurrency:
 
 jobs:
   frontend:
+    if: contains(github.event.head_commit.message, APP_NAME_TAG)
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -67,6 +69,7 @@ jobs:
           key: ${{ runner.os }}-otr-frontend-build-${{ github.sha }}
 
   backend:
+    if: contains(github.event.head_commit.message, APP_NAME_TAG)
     needs: frontend
     runs-on: ubuntu-latest
     steps:
@@ -101,6 +104,9 @@ jobs:
           key: ${{ runner.os }}-otr-backend-build-${{ github.sha }}
 
   deploy:
+    if: |
+      contains(github.event.head_commit.message, APP_NAME_TAG) && 
+      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, DEPLOY_TAG)
     needs: backend
     runs-on: ubuntu-latest
     steps:
