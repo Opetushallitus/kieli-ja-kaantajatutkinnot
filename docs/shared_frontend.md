@@ -32,3 +32,21 @@ In this project directory, you can run:
     │   └── styles              # SCSS styles
     │   └── utils               # Utils
     └── ...
+
+## How to install the package?
+
+1. Create an access token as instructed [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), and select ONLY `read:packages` as the scope
+2. Add created token to your bash profile:
+
+   ```sh
+    PROFILE_ADDRESS=~/.zshrc  # Depends on your current active profile. ~/.zshrc or ~/.bashrc
+    echo 'export GITHUB_REGISTRY_TOKEN="created_token_here"' >> $PROFILE_ADDRESS
+   ```
+
+3. Reload bash profile configs
+
+   ```sh
+     source $PROFILE_ADDRESS
+   ```
+
+4. Run `yarn add @opetushallitus/kieli-ja-kaantajatutkinnot.shared@version` to install the package

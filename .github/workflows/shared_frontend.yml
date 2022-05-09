@@ -9,6 +9,7 @@ on:
       - "!**/*.md"
 env:
   FRONTEND_DIR: ./frontend
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

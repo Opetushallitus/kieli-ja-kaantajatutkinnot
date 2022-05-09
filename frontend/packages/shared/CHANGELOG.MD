@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.3] - 2022-05-09
+
+### Added
+
+- Installation instructions
+
 ## [1.0.2] - 2022-05-09
 
 ### Fixed
@@ -19,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- missing style imports on shared components
+- Missing style imports on shared components
 
 ### Changed
 
