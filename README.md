@@ -103,7 +103,7 @@ To reformat all Java files in a project, run:
 mvn validate
 ```
 
-CI/CD validates that the files are formatted properly (maven profile `travis`).
+CI/CD validates that the files are formatted properly.
 
 &nbsp;
 

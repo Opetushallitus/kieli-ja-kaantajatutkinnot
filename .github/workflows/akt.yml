@@ -13,6 +13,7 @@ env:
   DEPLOY_TAG: "[deploy]"
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/akt
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -96,7 +97,7 @@ jobs:
           timezoneLinux: "Europe/Helsinki"
       - name: Build with Maven
         working-directory: ${{ env.BACKEND_DIR }}
-        run: mvn clean install
+        run: mvn clean install -Dplugin.prettier.goal=check
       - uses: actions/cache@v3
         id: akt-backend-build
         with:
