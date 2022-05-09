@@ -21,7 +21,7 @@ class LanguageServiceTest {
   }
 
   @Test
-  public void testListKoodistoLangCodes() {
+  public void testListKoodistoCodes() {
     final Set<String> codes = languageService.listKoodistoCodes();
 
     assertEquals(200, codes.size());

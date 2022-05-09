@@ -169,23 +169,8 @@ public class ClerkInterpreterService {
   }
 
   private void copyFromDTO(final ClerkLegalInterpreterDTOCommonFields dto, final Oikeustulkki legalInterpreter) {
-    dto
-      .areas()
-      .forEach(regionCode -> {
-        if (!regionService.containsKoodistoCode(regionCode)) {
-          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN);
-        }
-      });
-
-    dto
-      .languages()
-      .stream()
-      .flatMap(languagePair -> Stream.of(languagePair.from(), languagePair.to()))
-      .forEach(languageCode -> {
-        if (!languageService.containsKoodistoCode(languageCode)) {
-          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN);
-        }
-      });
+    validateRegions(dto);
+    validateLanguages(dto);
 
     legalInterpreter.setTutkintoTyyppi(dto.examinationType().toDbEnum());
     legalInterpreter.setJulkaisulupaEmail(dto.permissionToPublishEmail());
@@ -197,6 +182,7 @@ public class ClerkInterpreterService {
     final Set<Sijainti> locations = dto
       .areas()
       .stream()
+      .distinct()
       .map(regionCode -> new Sijainti(legalInterpreter, Sijainti.Tyyppi.MAAKUNTA, regionCode))
       .collect(Collectors.toSet());
     final List<Kielipari> languagePairs = dto
@@ -215,6 +201,29 @@ public class ClerkInterpreterService {
 
     legalInterpreter.getSijainnit().addAll(locations);
     legalInterpreter.getKielet().addAll(languagePairs);
+  }
+
+  private void validateRegions(final ClerkLegalInterpreterDTOCommonFields dto) {
+    dto
+      .areas()
+      .forEach(regionCode -> {
+        final boolean b = regionService.containsKoodistoCode(regionCode);
+        if (!b) {
+          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN);
+        }
+      });
+  }
+
+  private void validateLanguages(final ClerkLegalInterpreterDTOCommonFields dto) {
+    dto
+      .languages()
+      .stream()
+      .flatMap(languagePair -> Stream.of(languagePair.from(), languagePair.to()))
+      .forEach(languageCode -> {
+        if (!languageService.containsKoodistoCode(languageCode)) {
+          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN);
+        }
+      });
   }
 
   @Transactional(readOnly = true)
