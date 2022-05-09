@@ -59,34 +59,6 @@ Set `OTR_UNSECURE=true` environment variable as shown [here](#development).
 
 &nbsp;
 
-### Styling
-
-[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules.
-
-To reformat all Java files, run:
-
-```sh
-mvn validate
-```
-
-CI/CD validates that the files are formatted properly (maven profile `travis`).
-
-&nbsp;
-
-#### Organizing imports
-
-If you are using an IDE such as IntelliJ, you might want to configure it to organize imports.
-
-For IntelliJ, you can use the following configurations:
-
-`ìmport *` is disabled:
-Code Style -> Java -> Imports:
-
-```text
-Class count to use import with '*': 999
-Names count to use static import with '*': 999
-```
-
 ## Frontend
 
 ### Build and Run
@@ -113,22 +85,6 @@ Unit and Integration tests
 ```sh
 npm run test:jest
 npm run test:jest -- -u  # Regenerate snapshots
-```
-
-### Styling
-
-In order to keep code clean and easily maintainable please use the following VS Code Extensions.
-
-- [prettier]
-- [eslint]
-- [stylelint]
-
-  To use the above-mentioned plugins properly, use [these](https://wiki.eduuni.fi/display/OPHPALV/Yhteiset+VSCode+asetukset) VSCode settings.
-
-To reformat all frontend files, run:
-
-```sh
-npm run lint
 ```
 
 ## Documentation
@@ -193,7 +149,3 @@ cd scripts
 ```
 
 The above script fetches language codes from the Koodisto service and transforms them into localization files. The created localization files are stored in git.
-
-[prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-[eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-[stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
