@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.2] - 2022-05-09
+
+### Fixed
+
+- Added missing import
+
 ## [1.0.1] - 2022-05-06
 
 ### Fixed
