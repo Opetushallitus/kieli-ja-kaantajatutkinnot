@@ -32,3 +32,19 @@ In this project directory, you can run:
     │   └── styles              # SCSS styles
     │   └── utils               # Utils
     └── ...
+
+## How to install the package?
+
+1. Create an access token as instructed [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), and select ONLY `read:packages` as the scope
+2. Add the created token to yarn configs in `kieli-ja-kaantajatutkinnot/frontend/.yarnrc.yml` with the property name `npmAuthToken` as shown below
+
+   ```sh
+     "opetushallitus":
+       npmRegistryServer: "https://npm.pkg.github.com"
+       npmAlwaysAuth: true
+       npmAuthToken: "created-token-here"    # <-- Add this line!
+   ```
+
+3. Run `yarn add @opetushallitus/kieli-ja-kaantajatutkinnot.shared@version` to install the package
+
+N:B: Do not push your token to git!
