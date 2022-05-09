@@ -9,10 +9,9 @@ on:
       - "!**/*.md"
 
 env:
-  APP_NAME_TAG: "OTR"
-  DEPLOY_TAG: "[deploy]"
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/otr
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,7 +19,7 @@ concurrency:
 
 jobs:
   frontend:
-    if: contains(github.event.head_commit.message, APP_NAME_TAG)
+    if: contains(github.event.head_commit.message, 'OTR')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -69,7 +68,7 @@ jobs:
           key: ${{ runner.os }}-otr-frontend-build-${{ github.sha }}
 
   backend:
-    if: contains(github.event.head_commit.message, APP_NAME_TAG)
+    if: contains(github.event.head_commit.message, 'OTR')
     needs: frontend
     runs-on: ubuntu-latest
     steps:
@@ -105,8 +104,8 @@ jobs:
 
   deploy:
     if: |
-      contains(github.event.head_commit.message, APP_NAME_TAG) && 
-      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, DEPLOY_TAG)
+      contains(github.event.head_commit.message, 'OTR') && 
+      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, '[deploy]')
     needs: backend
     runs-on: ubuntu-latest
     steps:

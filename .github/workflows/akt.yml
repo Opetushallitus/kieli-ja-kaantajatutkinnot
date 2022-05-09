@@ -9,8 +9,6 @@ on:
       - "!**/*.md"
 
 env:
-  APP_NAME_TAG: "AKT"
-  DEPLOY_TAG: "[deploy]"
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/akt
   GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -21,7 +19,7 @@ concurrency:
 
 jobs:
   frontend:
-    if: contains(github.event.head_commit.message, APP_NAME_TAG)
+    if: contains(github.event.head_commit.message, 'AKT')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -70,7 +68,7 @@ jobs:
           key: ${{ runner.os }}-akt-frontend-build-${{ github.sha }}
 
   backend:
-    if: contains(github.event.head_commit.message, APP_NAME_TAG)
+    if: contains(github.event.head_commit.message, 'AKT')
     needs: frontend
     runs-on: ubuntu-latest
     steps:
@@ -106,8 +104,8 @@ jobs:
 
   deploy:
     if: |
-      contains(github.event.head_commit.message, APP_NAME_TAG) && 
-      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, DEPLOY_TAG)
+      contains(github.event.head_commit.message, 'AKT') && 
+      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, '[deploy]')
     needs: backend
     runs-on: ubuntu-latest
     steps:
