@@ -50,7 +50,7 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         REACT_ENV_PRODUCTION: JSON.stringify(Boolean(env.prod)),
       }),
-      ...getESLintPluginPlugin(mode),
+      ...getESLintPlugin(mode),
       ...getStylelintPlugin(env),
     ],
     module: {
@@ -125,7 +125,7 @@ const getStylelintPlugin = (env) => {
   return [];
 };
 
-const getESLintPluginPlugin = (mode) => {
+const getESLintPlugin = (mode) => {
   if (mode === 'development') {
     const ESLintPlugin = require('eslint-webpack-plugin');
     return [
