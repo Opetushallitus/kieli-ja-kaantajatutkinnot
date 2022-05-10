@@ -1,6 +1,6 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
+import { CircularStepper } from 'shared/components';
 
-import { CircularStepper } from 'components/elements/CircularStepper';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';

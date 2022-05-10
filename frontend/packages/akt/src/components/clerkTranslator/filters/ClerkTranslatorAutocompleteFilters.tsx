@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-
-import { ComboBox, valueAsOption } from 'components/elements/ComboBox';
-import { CustomTextField } from 'components/elements/CustomTextField';
 import {
+  AutocompleteValue,
+  ComboBox,
+  CustomTextField,
+  H3,
   LanguageSelect,
   languageToComboBoxOption,
-} from 'components/elements/LanguageSelect';
-import { H3 } from 'components/elements/Text';
+  valueAsOption,
+} from 'shared/components';
+
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
@@ -15,7 +17,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PermissionToPublish, TextFieldVariant } from 'enums/app';
 import { useDebounce } from 'hooks/useDebounce';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
-import { AutocompleteValue } from 'interfaces/components/combobox';
 import { setClerkTranslatorFilters } from 'redux/actions/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 
-import { CustomButton } from 'components/elements/CustomButton';
-import { LoadingProgressIndicator } from 'components/elements/LoadingProgressIndicator';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';

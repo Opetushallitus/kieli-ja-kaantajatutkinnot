@@ -2,15 +2,13 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { Box, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
 import { NewTranslatorBasicInformation } from 'components/clerkTranslator/new/NewTranslatorBasicInformation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
 import { TopControls } from 'components/clerkTranslator/overview/TopControls';
-import { CustomButton } from 'components/elements/CustomButton';
-import { CustomModal } from 'components/elements/CustomModal';
-import { H1, H2 } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';

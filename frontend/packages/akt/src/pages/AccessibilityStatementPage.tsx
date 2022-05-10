@@ -5,11 +5,16 @@ import {
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import {
+  CustomButtonLink,
+  ExtLink,
+  H1,
+  H2,
+  H3,
+  HeaderSeparator,
+  Text,
+} from 'shared/components';
 
-import { CustomButtonLink } from 'components/elements/CustomButtonLink';
-import { ExtLink } from 'components/elements/ExtLink';
-import { HeaderSeparator } from 'components/elements/HeaderSeparator';
-import { H1, H2, H3, Text } from 'components/elements/Text';
 import {
   useAccessibilityTranslation,
   useCommonTranslation,

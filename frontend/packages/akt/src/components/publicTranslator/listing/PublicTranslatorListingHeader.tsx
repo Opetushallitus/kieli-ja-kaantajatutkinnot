@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
+import { H3 } from 'shared/components';
 
-import { H3 } from 'components/elements/Text';
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import { useAppTranslation } from 'configs/i18n';
 import { useWindowProperties } from 'hooks/useWindowProperties';

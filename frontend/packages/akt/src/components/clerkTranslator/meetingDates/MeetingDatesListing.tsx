@@ -2,9 +2,8 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC } from 'react';
+import { CustomIconButton, H3, Text } from 'shared/components';
 
-import { CustomIconButton } from 'components/elements/CustomIconButton';
-import { H3, Text } from 'components/elements/Text';
 import { PaginatedTable } from 'components/tables/Table';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';

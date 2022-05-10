@@ -1,11 +1,11 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { H1 } from 'shared/components';
 
 import { AuthorisationDetails } from 'components/clerkTranslator/overview/AuthorisationDetails';
 import { ClerkTranslatorDetails } from 'components/clerkTranslator/overview/ClerkTranslatorDetails';
 import { TopControls } from 'components/clerkTranslator/overview/TopControls';
-import { H1 } from 'components/elements/Text';
 import { ClerkTranslatorOverviewPageSkeleton } from 'components/skeletons/ClerkTranslatorOverviewPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';

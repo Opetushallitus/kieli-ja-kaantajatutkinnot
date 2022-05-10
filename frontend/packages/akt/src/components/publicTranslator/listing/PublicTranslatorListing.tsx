@@ -1,7 +1,6 @@
 import { Box } from '@mui/system';
+import { CustomCircularProgress, H2, H3 } from 'shared/components';
 
-import { CustomCircularProgress } from 'components/elements/CustomCircularProgress';
-import { H2, H3 } from 'components/elements/Text';
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
 import { PaginatedTable } from 'components/tables/Table';

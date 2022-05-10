@@ -1,12 +1,19 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
+import {
+  CustomButtonLink,
+  ExtLink,
+  H3,
+  OPHLogoViewer,
+  Svg,
+  Text,
+} from 'shared/components';
 
-import { CustomButtonLink } from 'components/elements/CustomButtonLink';
-import { ExtLink } from 'components/elements/ExtLink';
-import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
-import { Svg } from 'components/elements/Svg';
-import { H3, Text } from 'components/elements/Text';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useAppTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
 import { AppRoutes, Direction, Variant } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import AKTLogo from 'public/assets/svg/akt_logo.svg';
@@ -80,6 +87,7 @@ export const Footer = () => {
                   className="footer__container__logo--oph"
                   direction={Direction.Vertical}
                   alt={translateCommon('ophLogo')}
+                  currentLang={getCurrentLang()}
                 />
               </Divider>
             </div>

@@ -1,6 +1,6 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
+import { H2, H3, Text } from 'shared/components';
 
-import { H2, H3, Text } from 'components/elements/Text';
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,

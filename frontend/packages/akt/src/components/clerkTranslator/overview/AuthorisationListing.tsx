@@ -10,11 +10,13 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
+import {
+  CustomIconButton,
+  CustomSwitch,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 
-import { CustomIconButton } from 'components/elements/CustomIconButton';
-import { CustomSwitch } from 'components/elements/CustomSwitch';
-import { LoadingProgressIndicator } from 'components/elements/LoadingProgressIndicator';
-import { Text } from 'components/elements/Text';
 import {
   useAppTranslation,
   useCommonTranslation,

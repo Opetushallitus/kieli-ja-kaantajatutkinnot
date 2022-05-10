@@ -1,12 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { CustomTextField, H3 } from 'shared/components';
 
 import {
   ChosenTranslators,
   ChosenTranslatorsHeading,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { H3 } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { TextFieldTypes } from 'enums/app';

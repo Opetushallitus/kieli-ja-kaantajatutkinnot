@@ -1,4 +1,5 @@
-import { ToggleFilterGroup } from 'components/elements/ToggleFilterGroup';
+import { ToggleFilterGroup } from 'shared/components';
+
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingStatus } from 'enums/meetingDate';

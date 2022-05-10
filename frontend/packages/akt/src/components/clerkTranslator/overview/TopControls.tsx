@@ -1,6 +1,6 @@
 import ArrowBackIosOutlined from '@mui/icons-material/ArrowBackIosOutlined';
+import { CustomButtonLink } from 'shared/components';
 
-import { CustomButtonLink } from 'components/elements/CustomButtonLink';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes, Variant } from 'enums/app';
 

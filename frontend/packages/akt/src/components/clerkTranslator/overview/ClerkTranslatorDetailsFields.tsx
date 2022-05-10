@@ -1,8 +1,6 @@
 import { ChangeEvent, useState } from 'react';
+import { CustomSwitch, CustomTextField, H3 } from 'shared/components';
 
-import { CustomSwitch } from 'components/elements/CustomSwitch';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { H3 } from 'components/elements/Text';
 import {
   translateOutsideComponent,
   useAppTranslation,

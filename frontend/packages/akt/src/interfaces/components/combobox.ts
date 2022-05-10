@@ -1,9 +1,9 @@
 import { AutocompleteProps } from '@mui/material';
+import { AutocompleteValue } from 'shared/components';
 
 import { TextFieldVariant } from 'enums/app';
 
 export type ComboBoxOption = { label: string; value: string };
-export type AutocompleteValue = ComboBoxOption | null;
 export interface ComboBoxProps {
   label?: string;
   showInputLabel?: boolean;
