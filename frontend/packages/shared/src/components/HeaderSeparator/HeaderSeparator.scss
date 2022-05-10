@@ -1,10 +1,13 @@
+@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/mixins';
+
 .header-separator {
-  background-color: $color-secondary;
+  background-color: variables.$color-secondary;
   height: 0.8rem;
   margin-bottom: 2rem;
   width: 5rem;
 
-  @include phone {
+  @include mixins.phone {
     height: 0.4rem;
     margin: 0;
     margin-bottom: 1rem;

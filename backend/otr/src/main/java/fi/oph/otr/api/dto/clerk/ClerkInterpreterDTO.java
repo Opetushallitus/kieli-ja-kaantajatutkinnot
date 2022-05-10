@@ -16,10 +16,16 @@ public record ClerkInterpreterDTO(
   @NonNull @NotBlank String nickName,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String email,
+  @NonNull @NotNull Boolean permissionToPublishEmail,
   String phoneNumber,
+  @NonNull @NotNull Boolean permissionToPublishPhone,
+  String otherContactInfo,
+  @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
   String street,
   String postalCode,
   String town,
+  String extraInformation,
+  @NonNull @NotEmpty List<String> areas,
   @NonNull @NotEmpty List<ClerkLegalInterpreterDTO> legalInterpreters
 )
   implements ClerkInterpreterDTOCommonFields {

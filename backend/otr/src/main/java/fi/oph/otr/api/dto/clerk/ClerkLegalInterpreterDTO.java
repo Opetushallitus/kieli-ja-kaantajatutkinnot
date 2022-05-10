@@ -11,13 +11,7 @@ public record ClerkLegalInterpreterDTO(
   @NonNull @NotNull Long version,
   @NonNull @NotNull Boolean deleted,
   @NonNull @NotNull ClerkLegalInterpreterExaminationTypeDTO examinationType,
-  @NonNull @NotNull Boolean permissionToPublishEmail,
-  @NonNull @NotNull Boolean permissionToPublishPhone,
-  @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
   @NonNull @NotNull Boolean permissionToPublish,
-  String otherContactInfo,
-  String extraInformation,
-  @NonNull List<String> areas,
   @NonNull @NotEmpty List<ClerkLanguagePairDTO> languages
 )
   implements ClerkLegalInterpreterDTOCommonFields {

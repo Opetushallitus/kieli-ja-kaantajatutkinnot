@@ -1,6 +1,11 @@
 export * from './Text/Text';
 export { CircularStepper } from './CircularStepper/CircularStepper';
-export { ComboBox } from './ComboBox/ComboBox';
+export {
+  sortOptionsByLabels,
+  valueAsOption,
+  ComboBox,
+  AutocompleteValue,
+} from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
 export { CustomButtonLink } from './CustomButtonLink/CustomButtonLink';
 export { CustomCircularProgress } from './CustomCircularProgress/CustomCircularProgress';

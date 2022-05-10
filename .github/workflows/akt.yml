@@ -4,12 +4,14 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - .github/workflows/akt.yml
       - "backend/akt/**"
       - "frontend/packages/akt/**"
+      - "!**/*.md"
+
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend/akt
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,6 +19,7 @@ concurrency:
 
 jobs:
   frontend:
+    if: contains(github.event.head_commit.message, 'AKT')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -53,6 +56,7 @@ jobs:
         uses: cypress-io/github-action@v3
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
+          install-command: yarn install --immutable
           start: yarn akt:start
           command: yarn akt:test:cypress
       - name: Build
@@ -65,6 +69,7 @@ jobs:
           key: ${{ runner.os }}-akt-frontend-build-${{ github.sha }}
 
   backend:
+    if: contains(github.event.head_commit.message, 'AKT')
     needs: frontend
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +96,7 @@ jobs:
           timezoneLinux: "Europe/Helsinki"
       - name: Build with Maven
         working-directory: ${{ env.BACKEND_DIR }}
-        run: mvn clean install
+        run: mvn clean install -Dplugin.prettier.goal=check
       - uses: actions/cache@v3
         id: akt-backend-build
         with:
@@ -99,6 +104,9 @@ jobs:
           key: ${{ runner.os }}-akt-backend-build-${{ github.sha }}
 
   deploy:
+    if: |
+      contains(github.event.head_commit.message, 'AKT') && 
+      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, '[deploy]')
     needs: backend
     runs-on: ubuntu-latest
     steps:

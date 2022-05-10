@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+## [Released]
+
+## [1.0.4] - 2022-05-10
+
+### Fixed
+
+- Package.json type definitions
+
+## [1.0.3] - 2022-05-09
+
+### Added
+
+- Installation instructions
+
+## [1.0.2] - 2022-05-09
+
+### Fixed
+
+- Added missing import
+
+## [1.0.1] - 2022-05-06
+
+### Fixed
+
+- Missing style imports on shared components
+
+### Changed
+
+- Logoviewer props
+
+### Added
+
+- DialogType enums
+
 ## [1.0.0] - 2022-05-03
 
 ### Added

@@ -1,5 +1,7 @@
 # Kieli- ja kääntäjätutkinnot
 
+[![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml) [![OTR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml) [![Shared Frontend](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml)
+
 This mono-repo contains the language and translator services of the Finnish National Agency for Education.
 
 ## Technologies
@@ -10,12 +12,18 @@ This mono-repo contains the language and translator services of the Finnish Nati
 - node v16.14.2
 - yarn 3.2.0 (to enable it, run the following command: `corepack enable`)
 
+&nbsp;
+
 ## Services
 
-Below are listed the OPH services which are a part of this mono-repo. Every service has its own readme as well.
+Below are listed the OPH services which are a part of this mono-repo.
 
 - [AKT](./docs/akt.md)
 - [OTR](./docs/otr.md)
+
+In addition, the shared frontend content can be found [here](./docs/shared_frontend.md).
+
+&nbsp;
 
 ## Development
 
@@ -49,16 +57,75 @@ docker-compose -f <service-docker-compose-file-name.yml> up --build --force-recr
 
 After starting the services, the frontend runs on > <http://localhost:4000>
 
+&nbsp;
+
+## Deployment
+
+Deployments are created automatically when a new push is done into `dev` branch. To create a new deployment from other branches use `[deploy]` in the commit messages.
+
+```sh
+
+For example:
+
+AKT(Frontend): Added new translations [deploy]
+```
+
+&nbsp;
+
+## Frontend conventions
+
 ### Visual Studio Code
 
-The project uses shared workspace config. Install the following vscode plugins:
+The project uses the shared workspace configs. In order to keep code clean and easily maintainable please use the following VS Code Extensions.
 
 - [eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
 - [sort-json](https://marketplace.visualstudio.com/items?itemName=richie5um2.vscode-sort-json)
 
-## Commit message conventions
+To reformat all frontend files, run:
+
+```sh
+npm run <project-name>:lint
+```
+
+&nbsp;
+
+## Backend conventions
+
+### Styling
+
+[Prettier Java](https://github.com/HubSpot/prettier-maven-plugin) is used as a code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules.
+
+To reformat all Java files in a project, run:
+
+```sh
+mvn validate
+```
+
+CI/CD validates that the files are formatted properly.
+
+&nbsp;
+
+### Organizing imports
+
+If you are using an IDE such as IntelliJ, you might want to configure it to organize imports.
+
+For IntelliJ, you can use the following configurations:
+
+`ìmport *` is disabled:
+Code Style -> Java -> Imports:
+
+```text
+Class count to use import with '*': 999
+Names count to use static import with '*': 999
+```
+
+&nbsp;
+
+## Git conventions
+
+### Commit message conventions
 
 To create a useful revision history the guidelines of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) are broadly followed.
 
@@ -77,7 +144,7 @@ For example:
 AKT(Frontend): Added new translations
 ```
 
-## Branching naming conventions
+### Branching naming conventions
 
 Jira ticket numbers are used as branch names without any extra suffixes.
 

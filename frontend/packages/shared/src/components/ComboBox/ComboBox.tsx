@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 
 type ComboBoxOption = { label: string; value: string };
-type AutocompleteValue = ComboBoxOption | null;
+export type AutocompleteValue = ComboBoxOption | null;
 interface ComboBoxProps {
   label?: string;
   showInputLabel?: boolean;

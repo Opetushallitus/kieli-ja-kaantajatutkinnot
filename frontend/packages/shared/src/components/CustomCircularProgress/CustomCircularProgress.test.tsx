@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 
 import { CustomCircularProgress } from './CustomCircularProgress';
-import { Color } from 'enums/app';
+import { Color } from 'enums/common';
 
 describe('CustomCircularProgress', () => {
   it('should render correctly', () => {

@@ -1,7 +1,10 @@
+@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/maps';
+
 .custom-modal {
-  background: $color-primary;
+  background: variables.$color-primary;
   left: 50%;
-  padding: map-get($spacing, 'lg');
+  padding: map-get(maps.$spacing, 'lg');
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);

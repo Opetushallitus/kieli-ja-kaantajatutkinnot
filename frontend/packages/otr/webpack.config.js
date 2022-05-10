@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
@@ -47,12 +46,10 @@ module.exports = (env) => {
           },
         ],
       }),
-      new ESLintPlugin({
-        extensions: ['ts', 'tsx'],
-      }),
       new webpack.DefinePlugin({
         REACT_ENV_PRODUCTION: JSON.stringify(Boolean(env.prod)),
       }),
+      ...getESLintPlugin(mode),
       ...getStylelintPlugin(env),
     ],
     module: {
@@ -116,6 +113,18 @@ const getStylelintPlugin = (env) => {
   if (!env.isCypress) {
     const StylelintPlugin = require('stylelint-webpack-plugin');
     return [new StylelintPlugin()];
+  }
+  return [];
+};
+
+const getESLintPlugin = (mode) => {
+  if (mode === 'development') {
+    const ESLintPlugin = require('eslint-webpack-plugin');
+    return [
+      new ESLintPlugin({
+        extensions: ['ts', 'tsx'],
+      }),
+    ];
   }
   return [];
 };

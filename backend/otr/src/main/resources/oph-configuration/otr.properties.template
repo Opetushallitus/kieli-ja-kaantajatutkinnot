@@ -1,6 +1,6 @@
 postgresql.url={{host_postgresql_otr}}
 postgresql.username={{postgres_app_user}}
-postgresql.password={{host_postgresql_otr_app_password}}
+postgresql.password={{oikeustulkkirekisteri_db_app_password}}
 
 url-alb={{host_alb}}
 

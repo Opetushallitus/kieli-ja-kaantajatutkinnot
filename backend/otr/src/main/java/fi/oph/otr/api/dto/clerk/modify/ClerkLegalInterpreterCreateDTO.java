@@ -12,13 +12,7 @@ import lombok.NonNull;
 
 public record ClerkLegalInterpreterCreateDTO(
   @NonNull @NotNull ClerkLegalInterpreterExaminationTypeDTO examinationType,
-  @NonNull @NotNull Boolean permissionToPublishEmail,
-  @NonNull @NotNull Boolean permissionToPublishPhone,
-  @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
   @NonNull @NotNull Boolean permissionToPublish,
-  String otherContactInfo,
-  String extraInformation,
-  @NonNull List<String> areas,
   @NonNull @NotEmpty @Valid List<ClerkLanguagePairDTO> languages
 )
   implements ClerkLegalInterpreterDTOCommonFields {
