@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.6] - 2022-05-10
+
+### Fixed
+
+- Absolute imports in Table component
+
 ## [1.0.5] - 2022-05-10
 
 ### Fixed
