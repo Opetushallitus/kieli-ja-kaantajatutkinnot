@@ -15,10 +15,14 @@ export { CustomSelect } from './CustomSelect/CustomSelect';
 export { CustomSkeleton } from './CustomSkeleton/CustomSkeleton';
 export { CustomSwitch } from './CustomSwitch/CustomSwitch';
 export { CustomTextField } from './CustomTextField/CustomTextField';
+export type { CustomTextFieldProps } from './CustomTextField/CustomTextField';
 export { DatePicker } from './DatePicker/DatePicker';
 export { ExtLink } from './ExtLink/ExtLink';
 export { HeaderSeparator } from './HeaderSeparator/HeaderSeparator';
-export { LanguageSelect } from './LanguageSelect/LanguageSelect';
+export {
+  LanguageSelect,
+  languageToComboBoxOption,
+} from './LanguageSelect/LanguageSelect';
 export { LoadingProgressIndicator } from './LoadingProgressIndicator/LoadingProgressIndicator';
 export { OPHLogoViewer } from './OPHLogoViewer/OPHLogoViewer';
 export { SkipLink } from './SkipLink/SkipLink';

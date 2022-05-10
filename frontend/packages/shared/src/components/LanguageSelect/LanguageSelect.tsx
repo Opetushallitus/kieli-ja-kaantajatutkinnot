@@ -5,7 +5,7 @@ import {
 } from '../../interfaces/comboBox';
 import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
 
-export interface LanguageSelectProps {
+interface LanguageSelectProps {
   excludedLanguage: string | undefined;
   languages: Array<string>;
   translateLanguage: (l: string) => string;

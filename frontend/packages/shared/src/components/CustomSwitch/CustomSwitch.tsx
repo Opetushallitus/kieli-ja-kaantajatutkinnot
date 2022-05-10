@@ -5,6 +5,7 @@ import {
   SwitchProps,
 } from '@mui/material';
 
+import { Color } from '../../enums/common';
 import { Caption, Text } from '../Text/Text';
 
 interface CustomSwitchProps extends SwitchProps {
@@ -38,7 +39,7 @@ export const CustomSwitch = ({
             <Switch
               data-testid={dataTestId}
               checked={value}
-              color={'secondary'}
+              color={Color.Secondary}
               onChange={onChange}
             />
           }
