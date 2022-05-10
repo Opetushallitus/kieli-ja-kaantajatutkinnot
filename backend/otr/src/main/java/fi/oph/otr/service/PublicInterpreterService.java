@@ -27,14 +27,14 @@ public class PublicInterpreterService {
 
   @Transactional(readOnly = true)
   public List<InterpreterDTO> list() {
-    final Map<Long, List<InterpreterLanguagePairProjection>> intepreterLanguagePairs = languagePairRepository
+    final Map<Long, List<InterpreterLanguagePairProjection>> interpreterLanguagePairs = languagePairRepository
       .findLanguagePairsForPublicListing()
       .stream()
       .collect(Collectors.groupingBy(InterpreterLanguagePairProjection::interpreterId));
 
-    final List<Tulkki> interpreters = interpreterRepository.findAllById(intepreterLanguagePairs.keySet());
+    final List<Tulkki> interpreters = interpreterRepository.findAllById(interpreterLanguagePairs.keySet());
 
-    return interpreters.stream().map(i -> toDTO(i, intepreterLanguagePairs.get(i.getId()))).toList();
+    return interpreters.stream().map(i -> toDTO(i, interpreterLanguagePairs.get(i.getId()))).toList();
   }
 
   private InterpreterDTO toDTO(
