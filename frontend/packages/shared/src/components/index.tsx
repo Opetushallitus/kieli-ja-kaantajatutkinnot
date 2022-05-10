@@ -4,8 +4,8 @@ export {
   sortOptionsByLabels,
   valueAsOption,
   ComboBox,
-  AutocompleteValue,
 } from './ComboBox/ComboBox';
+export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
 export { CustomButtonLink } from './CustomButtonLink/CustomButtonLink';
 export { CustomCircularProgress } from './CustomCircularProgress/CustomCircularProgress';
