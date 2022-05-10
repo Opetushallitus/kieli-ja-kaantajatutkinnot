@@ -7,7 +7,7 @@ import {
 import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 
 import { PaginatedTableProps } from '../../interfaces/table';
-import { WithId } from 'interfaces/with';
+import { WithId } from '../../interfaces/with';
 
 export function PaginatedTable<T extends WithId>({
   header,
