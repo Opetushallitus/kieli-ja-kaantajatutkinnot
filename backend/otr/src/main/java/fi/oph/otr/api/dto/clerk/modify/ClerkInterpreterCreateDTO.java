@@ -24,8 +24,8 @@ public record ClerkInterpreterCreateDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull List<String> areas,
-  @NonNull @NotEmpty @Valid List<ClerkLegalInterpreterCreateDTO> legalInterpreters
+  @NonNull List<String> regions,
+  @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications
 )
   implements ClerkInterpreterDTOCommonFields {
   // Workaround for bug in IntelliJ lombok plugin

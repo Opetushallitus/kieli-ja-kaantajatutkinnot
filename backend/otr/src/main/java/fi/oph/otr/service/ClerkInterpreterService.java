@@ -3,12 +3,12 @@ package fi.oph.otr.service;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
-import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTO;
-import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTOCommonFields;
+import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
+import fi.oph.otr.api.dto.clerk.ClerkQualificationDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.LanguagePair;
@@ -94,7 +94,7 @@ public class ClerkInterpreterService {
     final List<Qualification> qualifications,
     final Map<Long, List<LanguagePair>> qualificationLanguagePairs
   ) {
-    final List<ClerkLegalInterpreterDTO> qualificationDTOs = qualifications
+    final List<ClerkQualificationDTO> qualificationDTOs = qualifications
       .stream()
       .map(q -> createQualificationDTO(q, qualificationLanguagePairs.get(q.getId())))
       .toList();
@@ -121,12 +121,12 @@ public class ClerkInterpreterService {
       .postalCode(null)
       .town(null)
       .extraInformation(interpreter.getExtraInformation())
-      .areas(regions)
-      .legalInterpreters(qualificationDTOs)
+      .regions(regions)
+      .qualifications(qualificationDTOs)
       .build();
   }
 
-  private ClerkLegalInterpreterDTO createQualificationDTO(
+  private ClerkQualificationDTO createQualificationDTO(
     final Qualification qualification,
     final List<LanguagePair> languagePairs
   ) {
@@ -143,7 +143,7 @@ public class ClerkInterpreterService {
       )
       .toList();
 
-    return ClerkLegalInterpreterDTO
+    return ClerkQualificationDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
@@ -157,7 +157,7 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) {
     validateRegions(dto);
-    dto.legalInterpreters().forEach(this::validateLanguages);
+    dto.qualifications().forEach(this::validateLanguages);
 
     // TODO set person data to ONR and get OID
     final Interpreter interpreter = new Interpreter();
@@ -167,7 +167,7 @@ public class ClerkInterpreterService {
     interpreterRepository.save(interpreter);
     regionRepository.saveAllAndFlush(interpreter.getRegions());
 
-    dto.legalInterpreters().forEach(qualificationCreateDTO -> createQualification(interpreter, qualificationCreateDTO));
+    dto.qualifications().forEach(qualificationCreateDTO -> createQualification(interpreter, qualificationCreateDTO));
 
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
@@ -175,7 +175,7 @@ public class ClerkInterpreterService {
 
   private void validateRegions(final ClerkInterpreterDTOCommonFields dto) {
     dto
-      .areas()
+      .regions()
       .forEach(regionCode -> {
         if (!regionService.containsKoodistoCode(regionCode)) {
           throw new APIException(APIExceptionType.INTERPRETER_REGION_UNKNOWN);
@@ -183,7 +183,7 @@ public class ClerkInterpreterService {
       });
   }
 
-  private void validateLanguages(final ClerkLegalInterpreterDTOCommonFields dto) {
+  private void validateLanguages(final ClerkQualificationDTOCommonFields dto) {
     dto
       .languages()
       .stream()
@@ -203,7 +203,7 @@ public class ClerkInterpreterService {
     interpreter.setExtraInformation(dto.extraInformation());
 
     final List<Region> regions = dto
-      .areas()
+      .regions()
       .stream()
       .map(regionCode -> {
         final Region region = new Region();
@@ -216,7 +216,7 @@ public class ClerkInterpreterService {
     interpreter.getRegions().addAll(regions);
   }
 
-  private void createQualification(final Interpreter interpreter, final ClerkLegalInterpreterCreateDTO dto) {
+  private void createQualification(final Interpreter interpreter, final ClerkQualificationCreateDTO dto) {
     final Qualification qualification = new Qualification();
     interpreter.getQualifications().add(qualification);
     qualification.setInterpreter(interpreter);
@@ -228,7 +228,7 @@ public class ClerkInterpreterService {
 
   private void copyFromQualificationDTO(
     final Qualification qualification,
-    final ClerkLegalInterpreterDTOCommonFields dto
+    final ClerkQualificationDTOCommonFields dto
   ) {
     qualification.setExaminationType(dto.examinationType());
     qualification.setPermissionToPublish(dto.permissionToPublish());
@@ -289,7 +289,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkLegalInterpreterCreateDTO dto) {
+  public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkQualificationCreateDTO dto) {
     validateLanguages(dto);
 
     final Interpreter interpreter = interpreterRepository.getById(interpreterId);
@@ -299,7 +299,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO updateQualification(final ClerkLegalInterpreterUpdateDTO dto) {
+  public ClerkInterpreterDTO updateQualification(final ClerkQualificationUpdateDTO dto) {
     validateLanguages(dto);
 
     final Qualification qualification = qualificationRepository.getById(dto.id());

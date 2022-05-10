@@ -5,8 +5,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.service.ClerkInterpreterService;
 import fi.oph.otr.service.LanguageService;
 import fi.oph.otr.service.RegionService;
@@ -93,14 +93,14 @@ public class ClerkInterpreterController {
   @ResponseStatus(HttpStatus.CREATED)
   public ClerkInterpreterDTO createQualification(
     @PathVariable final long interpreterId,
-    @RequestBody @Valid final ClerkLegalInterpreterCreateDTO dto
+    @RequestBody @Valid final ClerkQualificationCreateDTO dto
   ) {
     return clerkInterpreterService.createQualification(interpreterId, dto);
   }
 
   @Operation(tags = TAG_QUALIFICATION, summary = "Update qualification")
   @PutMapping(path = "/qualification", consumes = APPLICATION_JSON_VALUE)
-  public ClerkInterpreterDTO updateQualification(@RequestBody @Valid final ClerkLegalInterpreterUpdateDTO dto) {
+  public ClerkInterpreterDTO updateQualification(@RequestBody @Valid final ClerkQualificationUpdateDTO dto) {
     return clerkInterpreterService.updateQualification(dto);
   }
 

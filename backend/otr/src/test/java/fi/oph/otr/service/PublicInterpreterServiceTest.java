@@ -101,7 +101,7 @@ class PublicInterpreterServiceTest {
     assertNull(publishedInterpreter1.email());
     assertNotNull(publishedInterpreter1.phoneNumber());
     assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
-    assertEquals(Set.of(), Set.copyOf(publishedInterpreter1.areas()));
+    assertEquals(Set.of(), Set.copyOf(publishedInterpreter1.regions()));
 
     assertEquals(2, publishedInterpreter1.languages().size());
     assertLanguagePair(languagePair11, publishedInterpreter1.languages().get(0));
@@ -111,7 +111,7 @@ class PublicInterpreterServiceTest {
     assertNotNull(publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());
     assertNull(publishedInterpreter2.otherContactInfo());
-    assertEquals(Set.of("01", "02"), Set.copyOf(publishedInterpreter2.areas()));
+    assertEquals(Set.of("01", "02"), Set.copyOf(publishedInterpreter2.regions()));
 
     assertEquals(1, publishedInterpreter2.languages().size());
     assertLanguagePair(languagePair21, publishedInterpreter2.languages().get(0));

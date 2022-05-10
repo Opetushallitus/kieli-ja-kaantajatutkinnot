@@ -9,11 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
-import fi.oph.otr.api.dto.clerk.ClerkLegalInterpreterDTO;
+import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
-import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
+import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
@@ -160,10 +160,10 @@ class ClerkInterpreterServiceTest {
       .postalCode("00100")
       .town("Helsinki")
       .extraInformation("extra")
-      .areas(List.of("01", "02"))
-      .legalInterpreters(
+      .regions(List.of("01", "02"))
+      .qualifications(
         List.of(
-          ClerkLegalInterpreterCreateDTO
+          ClerkQualificationCreateDTO
             .builder()
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
@@ -188,10 +188,10 @@ class ClerkInterpreterServiceTest {
     assertEquals(createDTO.otherContactInfo(), interpreterDTO.otherContactInfo());
     assertFalse(interpreterDTO.permissionToPublishOtherContactInfo());
     assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
-    assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.areas()));
-    assertEquals(1, interpreterDTO.legalInterpreters().size());
+    assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
+    assertEquals(1, interpreterDTO.qualifications().size());
 
-    final ClerkLegalInterpreterDTO qualificationDTO = interpreterDTO.legalInterpreters().get(0);
+    final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
     assertEquals(0, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
     assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualificationDTO.examinationType());
@@ -205,7 +205,7 @@ class ClerkInterpreterServiceTest {
   }
 
   private <T> Set<T> collectFromLanguages(
-    final ClerkLegalInterpreterDTO dto,
+    final ClerkQualificationDTO dto,
     final Function<ClerkLanguagePairDTO, T> getter
   ) {
     return dto.languages().stream().map(getter).collect(Collectors.toSet());
@@ -233,10 +233,10 @@ class ClerkInterpreterServiceTest {
       .postalCode("00100")
       .town("Helsinki")
       .extraInformation("extra")
-      .areas(List.of("01", "This region does not exist"))
-      .legalInterpreters(
+      .regions(List.of("01", "This region does not exist"))
+      .qualifications(
         List.of(
-          ClerkLegalInterpreterCreateDTO
+          ClerkQualificationCreateDTO
             .builder()
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
@@ -266,7 +266,7 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
     assertEquals(id, interpreterDTO.id());
-    assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.areas()));
+    assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
   }
 
   @Test
@@ -289,7 +289,7 @@ class ClerkInterpreterServiceTest {
       .otherContactInfo("interpreter@test.invalid")
       .permissionToPublishOtherContactInfo(true)
       .extraInformation("extra")
-      .areas(List.of("01"))
+      .regions(List.of("01"))
       .build();
 
     final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDto);
@@ -302,7 +302,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(updateDto.otherContactInfo(), updated.otherContactInfo());
     assertTrue(updated.permissionToPublishOtherContactInfo());
     assertEquals(updateDto.extraInformation(), updated.extraInformation());
-    assertEquals(List.of("01"), updated.areas());
+    assertEquals(List.of("01"), updated.regions());
   }
 
   @Test
@@ -325,7 +325,7 @@ class ClerkInterpreterServiceTest {
       .otherContactInfo("interpreter@test.invalid")
       .permissionToPublishOtherContactInfo(true)
       .extraInformation("extra")
-      .areas(List.of("This region code does not exist"))
+      .regions(List.of("This region code does not exist"))
       .build();
 
     final APIException ex = assertThrows(
@@ -381,7 +381,7 @@ class ClerkInterpreterServiceTest {
 
     final long interpreterId = interpreter2.getId();
 
-    final ClerkLegalInterpreterCreateDTO createDTO = ClerkLegalInterpreterCreateDTO
+    final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
       .builder()
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(false)
@@ -394,10 +394,10 @@ class ClerkInterpreterServiceTest {
       .build();
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createQualification(interpreterId, createDTO);
-    assertEquals(2, interpreterDTO.legalInterpreters().size());
+    assertEquals(2, interpreterDTO.qualifications().size());
 
-    final ClerkLegalInterpreterDTO qualificationDTO = interpreterDTO
-      .legalInterpreters()
+    final ClerkQualificationDTO qualificationDTO = interpreterDTO
+      .qualifications()
       .stream()
       .filter(dto -> dto.examinationType() == QualificationExaminationType.OTHER && !dto.permissionToPublish())
       .toList()
@@ -437,7 +437,7 @@ class ClerkInterpreterServiceTest {
 
     final long interpreterId = interpreter2.getId();
 
-    final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
+    final ClerkQualificationCreateDTO dto = ClerkQualificationCreateDTO
       .builder()
       .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
       .permissionToPublish(true)
@@ -476,7 +476,7 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(qualification);
     entityManager.persist(languagePair);
 
-    final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
+    final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
@@ -492,8 +492,8 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.updateQualification(updateDTO);
 
-    assertEquals(1, dto.legalInterpreters().size());
-    final ClerkLegalInterpreterDTO qualificationDTO = dto.legalInterpreters().get(0);
+    assertEquals(1, dto.qualifications().size());
+    final ClerkQualificationDTO qualificationDTO = dto.qualifications().get(0);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
@@ -521,7 +521,7 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(qualification);
     entityManager.persist(languagePair);
 
-    final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
+    final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
@@ -562,12 +562,12 @@ class ClerkInterpreterServiceTest {
 
     qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(idToDelete, q.getId()), q.isDeleted()));
 
-    dto.legalInterpreters().forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
+    dto.qualifications().forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
 
     clerkInterpreterService
       .list()
       .stream()
-      .flatMap(i -> i.legalInterpreters().stream())
+      .flatMap(i -> i.qualifications().stream())
       .forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
   }
 }

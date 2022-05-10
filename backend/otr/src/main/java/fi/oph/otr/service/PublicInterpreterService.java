@@ -82,7 +82,7 @@ public class PublicInterpreterService {
       .otherContactInfo(
         interpreter.isPermissionToPublishOtherContactInfo() ? interpreter.getOtherContactInformation() : null
       )
-      .areas(regions)
+      .regions(regions)
       .languages(languagePairs)
       .build();
   }

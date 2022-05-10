@@ -24,7 +24,7 @@ public record ClerkInterpreterUpdateDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull List<String> areas
+  @NonNull List<String> regions
 )
   implements ClerkInterpreterDTOCommonFields {
   // Workaround for bug in IntelliJ lombok plugin

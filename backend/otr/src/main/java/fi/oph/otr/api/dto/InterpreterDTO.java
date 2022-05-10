@@ -10,7 +10,7 @@ public record InterpreterDTO(
   String email,
   String phoneNumber,
   String otherContactInfo,
-  @NonNull List<String> areas,
+  @NonNull List<String> regions,
   @NonNull List<LanguagePairDTO> languages
 ) {
   // Workaround for bug in IntelliJ lombok plugin
