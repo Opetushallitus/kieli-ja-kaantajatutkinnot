@@ -7,11 +7,9 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record InformalEmailRequestDTO(
   @NonNull @NotBlank @Size(max = 255) String subject,
   @NonNull @NotBlank @Size(max = 6000) String body,
   @NonNull @NotEmpty List<Long> translatorIds
-) {
-  @Builder
-  public InformalEmailRequestDTO {}
-}
+) {}

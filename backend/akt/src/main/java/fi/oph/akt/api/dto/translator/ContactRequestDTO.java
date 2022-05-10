@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record ContactRequestDTO(
   @NonNull @NotBlank @Size(max = 255) String firstName,
   @NonNull @NotBlank @Size(max = 255) String lastName,
@@ -16,9 +17,4 @@ public record ContactRequestDTO(
   @NonNull @NotBlank @Size(max = 10) String fromLang,
   @NonNull @NotBlank @Size(max = 10) String toLang,
   @NonNull @NotEmpty List<Long> translatorIds
-) {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public ContactRequestDTO {}
-}
+) {}

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record AuthorisationDTO(
   @NonNull Long id,
   @NonNull Integer version,
@@ -16,9 +17,4 @@ public record AuthorisationDTO(
   @NonNull Boolean permissionToPublish,
   String diaryNumber,
   LocalDate examinationDate
-) {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public AuthorisationDTO {}
-}
+) {}
