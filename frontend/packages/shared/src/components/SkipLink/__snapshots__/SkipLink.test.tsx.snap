@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkipLink should render correctly 1`] = `
+<a
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-jm3o3b-MuiTypography-root-MuiLink-root"
+  href="http://example.invalid"
+  onBlur={[Function]}
+  onFocus={[Function]}
+>
+  <p
+    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+  >
+    Link that looks like text
+  </p>
+</a>
+`;

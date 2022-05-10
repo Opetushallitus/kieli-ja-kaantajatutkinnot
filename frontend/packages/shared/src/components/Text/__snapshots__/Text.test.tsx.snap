@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Caption should render correctly 1`] = `
+<span
+  className="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+>
+  This is a caption
+</span>
+`;
+
+exports[`H1 should render correctly 1`] = `
+<h1
+  className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
+>
+  This is an H1
+</h1>
+`;
+
+exports[`H2 should render correctly 1`] = `
+<h2
+  className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+>
+  This is an H2
+</h2>
+`;
+
+exports[`H3 should render correctly 1`] = `
+<h3
+  className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+>
+  This is an H3
+</h3>
+`;
+
+exports[`H4 should render correctly 1`] = `
+<h4
+  className="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+>
+  This is an H4
+</h4>
+`;
+
+exports[`H5 should render correctly 1`] = `
+<h5
+  className="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+>
+  This is an H5
+</h5>
+`;
+
+exports[`H6 should render correctly 1`] = `
+<h6
+  className="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+>
+  This is an H6
+</h6>
+`;
+
+exports[`Text should render correctly 1`] = `
+<p
+  className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+>
+  This is just text
+</p>
+`;
