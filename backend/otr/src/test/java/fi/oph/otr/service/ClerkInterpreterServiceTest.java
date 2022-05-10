@@ -124,7 +124,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreate() {
+  public void testCreateInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -197,7 +197,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateFailsForUnknownRegion() {
+  public void testCreateInterpreterFailsForUnknownRegion() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -342,54 +342,6 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateInterpreterFailsForUnknownRegion() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
-
-    final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
-      .builder()
-      .identityNumber("241202-xyz")
-      .firstName("Erkki E Merkki")
-      .nickName("Erkki")
-      .lastName("Esimerkki")
-      .email("erkki@esimerkki.invalid")
-      .permissionToPublishEmail(false)
-      .phoneNumber("+358401234567")
-      .permissionToPublishPhone(true)
-      .otherContactInfo("other")
-      .permissionToPublishOtherContactInfo(false)
-      .street("Tulkintie 44")
-      .postalCode("00100")
-      .town("Helsinki")
-      .extraInformation("extra")
-      .areas(List.of("01", "This region code does not exist"))
-      .legalInterpreters(
-        List.of(
-          ClerkLegalInterpreterCreateDTO
-            .builder()
-            .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
-            .permissionToPublish(true)
-            .languages(
-              List.of(
-                ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-                ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-              )
-            )
-            .build()
-        )
-      )
-      .build();
-
-    assertEquals(0, interpreterRepository.count());
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkInterpreterService.create(createDTO));
-    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
-
-    assertEquals(0, interpreterRepository.count());
-  }
-
-  @Test
   public void testCreateLegalInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -438,52 +390,49 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
+    final Tulkki interpreter1 = Factory.interpreter();
+    final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
+    final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
+
+    final Tulkki interpreter2 = Factory.interpreter();
+    final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
+    final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
+
+    entityManager.persist(interpreter1);
+    entityManager.persist(interpreter2);
+    entityManager.persist(legalInterpreter1);
+    entityManager.persist(legalInterpreter2);
+    entityManager.persist(languagePair1);
+    entityManager.persist(languagePair2);
+
+    final long interpreterId = interpreter2.getId();
+
+    final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
       .builder()
-      .identityNumber("241202-xyz")
-      .firstName("Erkki E Merkki")
-      .nickName("Erkki")
-      .lastName("Esimerkki")
-      .email("erkki@esimerkki.invalid")
-      .permissionToPublishEmail(false)
-      .phoneNumber("+358401234567")
-      .permissionToPublishPhone(true)
-      .otherContactInfo("other")
-      .permissionToPublishOtherContactInfo(false)
-      .street("Tulkintie 44")
-      .postalCode("00100")
-      .town("Helsinki")
-      .extraInformation("extra")
-      .areas(List.of("01", "02"))
-      .legalInterpreters(
+      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+      .permissionToPublish(true)
+      .languages(
         List.of(
-          ClerkLegalInterpreterCreateDTO
+          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
+          ClerkLanguagePairDTO
             .builder()
-            .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
-            .permissionToPublish(true)
-            .languages(
-              List.of(
-                ClerkLanguagePairDTO
-                  .builder()
-                  .from("This language code does not exist")
-                  .to("SE")
-                  .beginDate(today)
-                  .endDate(tomorrow)
-                  .build(),
-                ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-              )
-            )
+            .from("SE")
+            .to("This language code does not exist")
+            .beginDate(yesterday)
+            .endDate(today)
             .build()
         )
       )
       .build();
+    assertEquals(2, legalInterpreterRepository.count());
 
-    assertEquals(0, interpreterRepository.count());
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkInterpreterService.create(createDTO));
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createLegalInterpreter(interpreterId, dto)
+    );
     assertEquals(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN, ex.getExceptionType());
 
-    assertEquals(0, interpreterRepository.count());
+    assertEquals(2, legalInterpreterRepository.count());
   }
 
   @Test
