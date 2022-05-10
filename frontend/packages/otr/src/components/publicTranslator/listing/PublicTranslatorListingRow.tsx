@@ -39,7 +39,7 @@ export const PublicTranslatorListingRow = ({
   const selected = filteredSelectedIds.includes(translator.id);
 
   const { fromLang, toLang } = filters;
-  const { firstName, lastName, languages, areas } = translator;
+  const { firstName, lastName, languages, regions } = translator;
 
   const { isPhone } = useWindowProperties();
   const translateLanguage = useKoodistoLanguagesTranslation();
@@ -74,12 +74,12 @@ export const PublicTranslatorListingRow = ({
     }
   };
 
-  const getAreasDescription = (areas: Array<string>) => {
-    if (areas.length > 0) {
-      return areas.join(', ');
+  const getRegionsDescription = (regions: Array<string>) => {
+    if (regions.length > 0) {
+      return regions.join(', ');
     }
 
-    return '-';
+    return t('component.publicInterpreterListing.wholeFinland');
   };
 
   const renderPhoneTableCells = () => (
@@ -100,7 +100,7 @@ export const PublicTranslatorListingRow = ({
             </div>
             <div>
               <H3>{t('pages.translator.town')}</H3>
-              <Text>{getAreasDescription(areas)}</Text>
+              <Text>{getRegionsDescription(regions)}</Text>
             </div>
           </div>
           <Checkbox
@@ -131,7 +131,7 @@ export const PublicTranslatorListingRow = ({
         ))}
       </TableCell>
       <TableCell>
-        <Text>{getAreasDescription(areas)}</Text>
+        <Text>{getRegionsDescription(regions)}</Text>
       </TableCell>
     </>
   );

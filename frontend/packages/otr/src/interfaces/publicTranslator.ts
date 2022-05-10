@@ -12,7 +12,7 @@ export interface PublicTranslator extends WithId {
   email?: string;
   phoneNumber?: string;
   otherContactInfo?: string;
-  areas: Array<string>;
+  regions: Array<string>;
   languages: Array<LanguagePair>;
 }
 
@@ -20,7 +20,7 @@ export interface PublicTranslatorFilter {
   fromLang: string;
   toLang: string;
   name: string;
-  area: string;
+  region: string;
   errors: Array<SearchFilter>;
 }
 
@@ -28,7 +28,7 @@ export interface PublicTranslatorFilterValues {
   fromLang: AutocompleteValue;
   toLang: AutocompleteValue;
   name: string;
-  area: AutocompleteValue;
+  region: AutocompleteValue;
 }
 
 export interface PublicTranslatorResponse {

@@ -75,7 +75,8 @@
         }
       },
       "publicInterpreterListing": {
-        "rowsPerPageLabel": "Riviä per sivu"
+        "rowsPerPageLabel": "Riviä per sivu",
+        "wholeFinland": "Koko Suomi"
       },
       "table": {
         "pagination": {
