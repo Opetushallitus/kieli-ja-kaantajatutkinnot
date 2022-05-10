@@ -141,7 +141,7 @@ npx i18n-json-to-xlsx-converter --convert translation.xlsx
 
 #### Koodisto
 
-Koodisto service is used to fetch language translations. To update translations run:
+Koodisto service is used to fetch language and region translations. To update translations run:
 
 ```sh
 cd scripts
@@ -149,3 +149,13 @@ cd scripts
 ```
 
 The above script fetches language codes from the Koodisto service and transforms them into localization files. The created localization files are stored in git.
+
+Regions are updated same way:
+```sh
+cd scripts
+./koodisto_regions.sh
+```
+
+[prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+[eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+[stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint

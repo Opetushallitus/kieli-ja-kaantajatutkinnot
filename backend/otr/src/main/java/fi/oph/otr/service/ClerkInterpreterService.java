@@ -22,14 +22,18 @@ import fi.oph.otr.repository.LegalInterpreterRepository;
 import fi.oph.otr.repository.LocationRepository;
 import fi.oph.otr.util.LegalInterpreterData;
 import fi.oph.otr.util.LocationData;
+import fi.oph.otr.util.exception.APIException;
+import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,6 +54,12 @@ public class ClerkInterpreterService {
 
   @Resource
   private final LocationRepository locationRepository;
+
+  @Resource
+  private final RegionService regionService;
+
+  @Resource
+  private final LanguageService languageService;
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> listInterpreters() {
@@ -81,7 +91,7 @@ public class ClerkInterpreterService {
       .toList();
 
     final LegalInterpreterData liData = getLegalInterpreterData(legalInterpreters);
-    final List<String> areas = liData.areas().stream().map(LocationData::code).toList();
+    final List<String> areas = liData.areas().stream().map(LocationData::code).filter(Objects::nonNull).toList();
 
     // FIXME fetch details from onr
     return ClerkInterpreterDTO
@@ -161,6 +171,10 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO create(final ClerkInterpreterCreateDTO dto) {
     // TODO set person data to ONR and get OID
+
+    validateRegions(dto);
+    dto.legalInterpreters().forEach(this::validateLanguages);
+
     final Tulkki interpreter = new Tulkki(UUID.randomUUID().toString());
     interpreterRepository.save(interpreter);
 
@@ -171,6 +185,28 @@ public class ClerkInterpreterService {
 
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
+  }
+
+  private void validateRegions(final ClerkInterpreterDTOCommonFields dto) {
+    dto
+      .areas()
+      .forEach(regionCode -> {
+        if (!regionService.containsKoodistoCode(regionCode)) {
+          throw new APIException(APIExceptionType.INTERPRETER_REGION_UNKNOWN);
+        }
+      });
+  }
+
+  private void validateLanguages(final ClerkLegalInterpreterDTOCommonFields dto) {
+    dto
+      .languages()
+      .stream()
+      .flatMap(languagePair -> Stream.of(languagePair.from(), languagePair.to()))
+      .forEach(languageCode -> {
+        if (!languageService.containsKoodistoCode(languageCode)) {
+          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN);
+        }
+      });
   }
 
   private LegalInterpreterData getLegalInterpreterData(final ClerkInterpreterDTOCommonFields dto) {
@@ -261,6 +297,8 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
+    validateRegions(dto);
+
     final Tulkki interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
 
@@ -296,6 +334,8 @@ public class ClerkInterpreterService {
     final long interpreterId,
     final ClerkLegalInterpreterCreateDTO dto
   ) {
+    validateLanguages(dto);
+
     final Tulkki interpreter = interpreterRepository.getById(interpreterId);
     final Set<Oikeustulkki> legalInterpreters = interpreter.getOikeustulkit();
     final LegalInterpreterData liData = getLegalInterpreterData(legalInterpreters.stream().toList());
@@ -307,6 +347,8 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateLegalInterpreter(final ClerkLegalInterpreterUpdateDTO dto) {
+    validateLanguages(dto);
+
     final Oikeustulkki legalInterpreter = legalInterpreterRepository.getById(dto.id());
     legalInterpreter.assertVersion(dto.version());
 

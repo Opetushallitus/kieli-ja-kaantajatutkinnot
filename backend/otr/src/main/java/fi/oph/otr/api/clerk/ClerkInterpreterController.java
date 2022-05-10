@@ -8,8 +8,11 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
 import fi.oph.otr.service.ClerkInterpreterService;
+import fi.oph.otr.service.LanguageService;
+import fi.oph.otr.service.RegionService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -32,7 +35,25 @@ public class ClerkInterpreterController {
   private static final String TAG_LEGAL_INTERPRETER = "Legal interpreter API";
 
   @Resource
+  private LanguageService languageService;
+
+  @Resource
+  private RegionService regionService;
+
+  @Resource
   private ClerkInterpreterService clerkInterpreterService;
+
+  @GetMapping(path = "/lang-codes")
+  public Set<String> listKoodistoLangCodes() {
+    return languageService.listKoodistoCodes();
+  }
+
+  @GetMapping(path = "/region-codes")
+  public Set<String> listKoodistoRegionCodes() {
+    return regionService.listKoodistoCodes();
+  }
+
+  // INTERPRETER
 
   @GetMapping
   @Operation(tags = TAG_INTERPRETER, summary = "List all interpreters")
@@ -64,6 +85,8 @@ public class ClerkInterpreterController {
   public ClerkInterpreterDTO deleteInterpreter(@PathVariable final long interpreterId) {
     return clerkInterpreterService.deleteInterpreter(interpreterId);
   }
+
+  // LEGAL INTERPRETER
 
   @Operation(tags = TAG_LEGAL_INTERPRETER, summary = "Create new legal interpreter")
   @PostMapping(path = "/{interpreterId:\\d+}/legalinterpreter", consumes = APPLICATION_JSON_VALUE)
