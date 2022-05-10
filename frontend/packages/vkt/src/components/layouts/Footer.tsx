@@ -9,6 +9,7 @@ import {
   Text,
 } from 'shared/components';
 import { Direction, Variant } from 'shared/enums';
+import { FooterWave } from 'shared/statics';
 
 import {
   getCurrentLang,
@@ -17,7 +18,6 @@ import {
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 // import { useAuthentication } from 'hooks/useAuthentication';
-import FooterWave from 'public/assets/svg/footer_wave.svg';
 
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'vkt.component.footer' });
