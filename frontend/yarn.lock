@@ -2208,7 +2208,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.4":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -10224,6 +10224,13 @@ __metadata:
   version: 1.0.0
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.0%2F588f954d7304815bd60061c509921614ad3f5c7a4260afb41d38a49e78045544"
   checksum: 1c8d7a581d54a9173f45d99283d44fd865113d63875eaea749d4cd4b8fb268d53e34cbcea3cd8dbcb97886755afd48b7d9ff0d3a44308e14a905d8d9c1868831
+  languageName: node
+  linkType: hard
+
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.4":
+  version: 1.0.4
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.4::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.4%2F24a1541c4e758293020d0b8e3ab702f4d8ca5b64cc6d4a033729d53c20ac8e7c"
+  checksum: 0bd262cf32aef16dd67e24672cb969573ac925c707f58bfb1dd23eb17499a7e7f3bc9cc7541cf420c6179ffe16d5caa34db2580887b96d6c064b3e47d29ee55a
   languageName: node
   linkType: hard
 

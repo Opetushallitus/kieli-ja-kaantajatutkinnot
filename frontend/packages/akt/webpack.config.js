@@ -58,7 +58,7 @@ module.exports = (env) => {
         {
           test: /\.[tj]sx?$/,
           loader: 'babel-loader',
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!(shared)\/).*/,
           options: {
             ...JSON.parse(fs.readFileSync(path.resolve(__dirname, '.babelrc'))),
           },
@@ -70,7 +70,7 @@ module.exports = (env) => {
             'css-loader',
             'sass-loader',
           ],
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!(shared)\/).*/,
         },
         {
           test: /\.(woff(2)?|ttf|eot)$/,
