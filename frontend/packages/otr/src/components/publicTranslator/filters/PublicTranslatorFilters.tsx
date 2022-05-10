@@ -8,27 +8,31 @@ import {
   useRef,
   useState,
 } from 'react';
+import {
+  AutocompleteValue,
+  Caption,
+  ComboBox,
+  CustomButton,
+  H3,
+  LanguageSelect,
+  valueAsOption,
+} from 'shared/components';
+import {
+  Color,
+  KeyboardKey,
+  Severity,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
 
-import { ComboBox, valueAsOption } from 'components/elements/ComboBox';
-import { CustomButton } from 'components/elements/CustomButton';
-import { LanguageSelect } from 'components/elements/LanguageSelect';
-import { Caption, H3 } from 'components/elements/Text';
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import {
-  Color,
-  KeyboardKey,
-  SearchFilter,
-  Severity,
-  TextFieldVariant,
-  Variant,
-} from 'enums/app';
+import { SearchFilter } from 'enums/app';
 import { useDebounce } from 'hooks/useDebounce';
 import { useWindowProperties } from 'hooks/useWindowProperties';
-import { AutocompleteValue } from 'interfaces/components/combobox';
 import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
+import { Severity, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { Severity, Variant } from 'enums/app';
 import { useCallbackPrompt } from 'hooks/navigation/useCallbackPrompt';
 import { showNotifierDialog } from 'redux/actions/notifier';
 import { NotifierUtils } from 'utils/notifier';

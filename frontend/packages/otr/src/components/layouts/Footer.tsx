@@ -1,20 +1,28 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
+import {
+  CustomButtonLink,
+  ExtLink,
+  H3,
+  OPHLogoViewer,
+  Svg,
+  Text,
+} from 'shared/components';
+import { Direction, Variant } from 'shared/enums';
 
-import { CustomButtonLink } from 'components/elements/CustomButtonLink';
-import { ExtLink } from 'components/elements/ExtLink';
-import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
-import { Svg } from 'components/elements/Svg';
-import { H3, Text } from 'components/elements/Text';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { AppRoutes, Direction, Variant } from 'enums/app';
+import {
+  getCurrentLang,
+  useAppTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
+import { AppRoutes } from 'enums/app';
 // import { useAuthentication } from 'hooks/useAuthentication';
-// import AKTLogo from 'public/assets/svg/akt_logo.svg';
 import FooterWave from 'public/assets/svg/footer_wave.svg';
 
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'otr.component.footer' });
   const translateCommon = useCommonTranslation();
+  const currentLang = getCurrentLang();
   // const [isClerkUI] = useAuthentication();
 
   return (
@@ -66,6 +74,7 @@ export const Footer = () => {
         <div className="footer__logo-row">
           <Divider className="footer__logo-row__divider">
             <OPHLogoViewer
+              currentLang={currentLang}
               className="footer__container__logo--oph"
               direction={Direction.Vertical}
               alt={translateCommon('ophLogo')}

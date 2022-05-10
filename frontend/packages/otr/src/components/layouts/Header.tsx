@@ -1,11 +1,15 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { OPHLogoViewer, SkipLink } from 'shared/components';
+import { Direction } from 'shared/enums';
 
-import { OPHLogoViewer } from 'components/elements/OPHLogoViewer';
-import { SkipLink } from 'components/elements/SkipLink';
 import { LangSelector } from 'components/i18n/LangSelector';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { AppRoutes, Direction } from 'enums/app';
+import {
+  getCurrentLang,
+  useAppTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
+import { AppRoutes } from 'enums/app';
 // import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
@@ -13,6 +17,7 @@ export const Header = (): JSX.Element => {
     keyPrefix: 'otr.component.header.accessibility',
   });
   const translateCommon = useCommonTranslation();
+  const currentLang = getCurrentLang();
 
   //   const [isClerkUI] = useAuthentication();
   //   const logoRedirectURL = isClerkUI
@@ -27,6 +32,7 @@ export const Header = (): JSX.Element => {
           <div className="header__left">
             <Link to={AppRoutes.PublicHomePage}>
               <OPHLogoViewer
+                currentLang={currentLang}
                 className="header__left__logo"
                 direction={Direction.Horizontal}
                 alt={translateCommon('ophLogo')}
