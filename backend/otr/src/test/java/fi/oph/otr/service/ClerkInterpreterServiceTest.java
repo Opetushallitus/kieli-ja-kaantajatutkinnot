@@ -197,6 +197,50 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testCreateFailsForUnknownRegion() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+    final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
+      .builder()
+      .identityNumber("241202-xyz")
+      .firstName("Erkki E Merkki")
+      .nickName("Erkki")
+      .lastName("Esimerkki")
+      .email("erkki@esimerkki.invalid")
+      .permissionToPublishEmail(false)
+      .phoneNumber("+358401234567")
+      .permissionToPublishPhone(true)
+      .otherContactInfo("other")
+      .permissionToPublishOtherContactInfo(false)
+      .street("Tulkintie 44")
+      .postalCode("00100")
+      .town("Helsinki")
+      .extraInformation("extra")
+      .areas(List.of("01", "This region does not exist"))
+      .legalInterpreters(
+        List.of(
+          ClerkLegalInterpreterCreateDTO
+            .builder()
+            .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+            .permissionToPublish(true)
+            .languages(
+              List.of(
+                ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
+                ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
+              )
+            )
+            .build()
+        )
+      )
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkInterpreterService.create(createDTO));
+    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
+  }
+
+  @Test
   public void testGetInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -242,6 +286,36 @@ class ClerkInterpreterServiceTest {
     assertTrue(updated.permissionToPublishOtherContactInfo());
     assertEquals(updateDto.extraInformation(), updated.extraInformation());
     assertEquals(List.of("01"), updated.areas());
+  }
+
+  @Test
+  public void testUpdateInterpreterFailsForUnknownRegion() {
+    createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
+    final Long id = interpreterRepository.findAll().stream().map(Tulkki::getId).findFirst().orElseThrow();
+    final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
+
+    final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
+      .builder()
+      .id(original.id())
+      .version(original.version())
+      .identityNumber(original.identityNumber())
+      .firstName(original.firstName())
+      .nickName(original.nickName())
+      .lastName(original.lastName())
+      .email(original.email())
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(false)
+      .otherContactInfo("interpreter@test.invalid")
+      .permissionToPublishOtherContactInfo(true)
+      .extraInformation("extra")
+      .areas(List.of("This region code does not exist"))
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.updateInterpreter(updateDto)
+    );
+    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
@@ -310,13 +384,56 @@ class ClerkInterpreterServiceTest {
     assertEquals(0, interpreterRepository.count());
 
     final APIException ex = assertThrows(APIException.class, () -> clerkInterpreterService.create(createDTO));
-    assertEquals(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
+    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
 
     assertEquals(0, interpreterRepository.count());
   }
 
   @Test
-  public void testCreateInterpreterFailsForUnknownLanguage() {
+  public void testCreateLegalInterpreter() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+    final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final Tulkki interpreter1 = Factory.interpreter();
+    final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
+    final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
+
+    final Tulkki interpreter2 = Factory.interpreter();
+    final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
+    final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
+
+    entityManager.persist(interpreter1);
+    entityManager.persist(interpreter2);
+    entityManager.persist(legalInterpreter1);
+    entityManager.persist(legalInterpreter2);
+    entityManager.persist(languagePair1);
+    entityManager.persist(languagePair2);
+
+    final long interpreterId = interpreter2.getId();
+
+    final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
+      .builder()
+      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
+      .permissionToPublish(true)
+      .languages(
+        List.of(
+          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
+          ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
+        )
+      )
+      .build();
+
+    assertEquals(2, legalInterpreterRepository.count());
+
+    final ClerkInterpreterDTO result = clerkInterpreterService.createLegalInterpreter(interpreterId, dto);
+
+    assertEquals(3, legalInterpreterRepository.count());
+    assertEquals(2, result.legalInterpreters().size());
+  }
+
+  @Test
+  public void testCreateLegalInterpreterFailsForUnknownLanguage() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -370,49 +487,6 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateLegalInterpreter() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
-
-    final Tulkki interpreter1 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter1 = Factory.legalInterpreter(interpreter1);
-    final Kielipari languagePair1 = Factory.languagePair(legalInterpreter1, "GR", "SE", yesterday, today);
-
-    final Tulkki interpreter2 = Factory.interpreter();
-    final Oikeustulkki legalInterpreter2 = Factory.legalInterpreter(interpreter2);
-    final Kielipari languagePair2 = Factory.languagePair(legalInterpreter2, "SE", "GR", yesterday, tomorrow);
-
-    entityManager.persist(interpreter1);
-    entityManager.persist(interpreter2);
-    entityManager.persist(legalInterpreter1);
-    entityManager.persist(legalInterpreter2);
-    entityManager.persist(languagePair1);
-    entityManager.persist(languagePair2);
-
-    final long interpreterId = interpreter2.getId();
-
-    final ClerkLegalInterpreterCreateDTO dto = ClerkLegalInterpreterCreateDTO
-      .builder()
-      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.LEGAL_INTERPRETER_EXAM)
-      .permissionToPublish(true)
-      .languages(
-        List.of(
-          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-          ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-        )
-      )
-      .build();
-
-    assertEquals(2, legalInterpreterRepository.count());
-
-    final ClerkInterpreterDTO result = clerkInterpreterService.createLegalInterpreter(interpreterId, dto);
-
-    assertEquals(3, legalInterpreterRepository.count());
-    assertEquals(2, result.legalInterpreters().size());
-  }
-
-  @Test
   public void testUpdateLegalInterpreter() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -457,6 +531,47 @@ class ClerkInterpreterServiceTest {
 
     final List<Kielipari> langs = languagePairRepository.findAll();
     assertEquals(2, langs.size());
+  }
+
+  @Test
+  public void testUpdateLegalInterpreterFailsForUnknownLanguage() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+    final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final Tulkki interpreter = Factory.interpreter();
+    final Oikeustulkki legalInterpreter = Factory.legalInterpreter(interpreter);
+    final Kielipari langPair = Factory.languagePair(legalInterpreter, "FI", "EN", today, today);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(legalInterpreter);
+    entityManager.persist(langPair);
+
+    final ClerkLegalInterpreterUpdateDTO updateDTO = ClerkLegalInterpreterUpdateDTO
+      .builder()
+      .id(legalInterpreter.getId())
+      .version(legalInterpreter.getVersion())
+      .examinationType(ClerkLegalInterpreterExaminationTypeDTO.OTHER)
+      .permissionToPublish(true)
+      .languages(
+        List.of(
+          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
+          ClerkLanguagePairDTO
+            .builder()
+            .from("SE")
+            .to("This language code does not exist")
+            .beginDate(yesterday)
+            .endDate(today)
+            .build()
+        )
+      )
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.updateLegalInterpreter(updateDTO)
+    );
+    assertEquals(APIExceptionType.LEGAL_INTERPRETER_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test

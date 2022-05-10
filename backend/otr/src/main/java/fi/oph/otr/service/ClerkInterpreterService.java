@@ -187,17 +187,17 @@ public class ClerkInterpreterService {
     return getInterpreter(interpreter.getId());
   }
 
-  private void validateRegions(final ClerkInterpreterCreateDTO dto) {
+  private void validateRegions(final ClerkInterpreterDTOCommonFields dto) {
     dto
       .areas()
       .forEach(regionCode -> {
         if (!regionService.containsKoodistoCode(regionCode)) {
-          throw new APIException(APIExceptionType.LEGAL_INTERPRETER_REGION_UNKNOWN);
+          throw new APIException(APIExceptionType.INTERPRETER_REGION_UNKNOWN);
         }
       });
   }
 
-  private void validateLanguages(final ClerkLegalInterpreterCreateDTO dto) {
+  private void validateLanguages(final ClerkLegalInterpreterDTOCommonFields dto) {
     dto
       .languages()
       .stream()
@@ -297,6 +297,8 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
+    validateRegions(dto);
+
     final Tulkki interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
 
@@ -332,6 +334,8 @@ public class ClerkInterpreterService {
     final long interpreterId,
     final ClerkLegalInterpreterCreateDTO dto
   ) {
+    validateLanguages(dto);
+
     final Tulkki interpreter = interpreterRepository.getById(interpreterId);
     final Set<Oikeustulkki> legalInterpreters = interpreter.getOikeustulkit();
     final LegalInterpreterData liData = getLegalInterpreterData(legalInterpreters.stream().toList());
@@ -343,6 +347,8 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateLegalInterpreter(final ClerkLegalInterpreterUpdateDTO dto) {
+    validateLanguages(dto);
+
     final Oikeustulkki legalInterpreter = legalInterpreterRepository.getById(dto.id());
     legalInterpreter.assertVersion(dto.version());
 
