@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.4] - 2022-05-10
+
+### Fixed
+
+- Package.json type definitions
+
 ## [1.0.3] - 2022-05-09
 
 ### Added
