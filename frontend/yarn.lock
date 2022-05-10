@@ -2117,7 +2117,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.0"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7"
   languageName: unknown
   linkType: soft
 
@@ -2145,6 +2145,7 @@ __metadata:
     "@fontsource/roboto": ^4.5.5
     "@mui/icons-material": ^5.6.2
     "@mui/material": ^5.6.2
+    "@opetushallitus/kieli-ja-kaantajatutkinnot.shared": 1.0.7
     "@redux-devtools/extension": ^3.2.2
     "@testing-library/cypress": ^8.0.2
     "@testing-library/jest-dom": ^5.16.4
@@ -2208,7 +2209,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7, @opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -10217,13 +10218,6 @@ __metadata:
   dependencies:
     kind-of: ^6.0.2
   checksum: 39b3dd9630a774aba288a680e7d2901f5c0eae7b8387fc5c8ea559918b29b3da144b7bdb990d7ccd9e11be05508ac9e459ce51d01fd65e583282f6ffafcba2e7
-  languageName: node
-  linkType: hard
-
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.0":
-  version: 1.0.0
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.0%2F588f954d7304815bd60061c509921614ad3f5c7a4260afb41d38a49e78045544"
-  checksum: 1c8d7a581d54a9173f45d99283d44fd865113d63875eaea749d4cd4b8fb268d53e34cbcea3cd8dbcb97886755afd48b7d9ff0d3a44308e14a905d8d9c1868831
   languageName: node
   linkType: hard
 
