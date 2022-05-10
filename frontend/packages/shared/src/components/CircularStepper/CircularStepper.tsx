@@ -1,5 +1,6 @@
 import { CircularProgress, CircularProgressProps } from '@mui/material';
 
+import { Color } from '../../enums/common';
 import { H3 } from '../Text/Text';
 import './CircularStepper.scss';
 
@@ -19,7 +20,7 @@ export const CircularStepper = ({
       <CircularProgress
         aria-label={ariaLabel}
         className="circular-stepper__progress"
-        color={'secondary'}
+        color={Color.Secondary}
         variant="determinate"
         {...rest}
       />

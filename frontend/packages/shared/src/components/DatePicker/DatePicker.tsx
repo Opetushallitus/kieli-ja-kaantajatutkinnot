@@ -4,7 +4,7 @@ import { Dayjs } from 'dayjs';
 
 import { DateUtils } from '../../utils/date/date';
 
-export interface DatePickerProps {
+interface DatePickerProps {
   value?: string;
   setValue: (value: string) => void;
   label: string;

@@ -1,3 +1,4 @@
+import { Color, Variant } from '../../enums/common';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 interface ToggleFilter<T> {
@@ -24,8 +25,10 @@ export function ToggleFilterGroup<T>({
           className="border-radius-unset"
           key={i}
           data-testid={testId}
-          color="secondary"
-          variant={activeStatus === status ? 'contained' : 'outlined'}
+          color={Color.Secondary}
+          variant={
+            activeStatus === status ? Variant.Contained : Variant.Outlined
+          }
           onClick={() => onButtonClick(status)}
         >
           <div className="columns gapped">
