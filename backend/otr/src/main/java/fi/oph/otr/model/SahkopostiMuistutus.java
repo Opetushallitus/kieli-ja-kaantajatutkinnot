@@ -41,7 +41,7 @@ public class SahkopostiMuistutus implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "oikeustulkki", nullable = false)
-  private Oikeustulkki oikeustulkki;
+  private Qualification oikeustulkki;
 
   @Column(name = "lahetetty")
   private LocalDateTime lahetetty;

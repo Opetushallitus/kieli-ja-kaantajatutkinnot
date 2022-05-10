@@ -1,6 +1,5 @@
 package fi.oph.otr.model;
 
-import fi.oph.otr.model.feature.Mutable;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "language_pair")
-public class Kielipari extends Mutable {
+public class LanguagePair extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +41,5 @@ public class Kielipari extends Mutable {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "qualification_id", nullable = false)
-  private Oikeustulkki qualification;
+  private Qualification qualification;
 }

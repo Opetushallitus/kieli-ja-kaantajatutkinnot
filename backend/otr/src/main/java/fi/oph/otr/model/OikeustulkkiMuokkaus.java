@@ -38,7 +38,7 @@ public class OikeustulkkiMuokkaus implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "oikeustulkki", nullable = false)
-  private Oikeustulkki oikeustulkki;
+  private Qualification oikeustulkki;
 
   @Column(name = "muokattu", nullable = false)
   private LocalDateTime muokattu = LocalDateTime.now();

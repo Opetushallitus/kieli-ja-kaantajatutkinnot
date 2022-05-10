@@ -1,6 +1,5 @@
 package fi.oph.otr.model;
 
-import fi.oph.otr.model.feature.Mutable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -18,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "interpreter")
-public class Tulkki extends Mutable {
+public class Interpreter extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +44,8 @@ public class Tulkki extends Mutable {
   private String extraInformation;
 
   @OneToMany(mappedBy = "interpreter")
-  private List<Oikeustulkki> qualifications = new ArrayList<>();
+  private List<Qualification> qualifications = new ArrayList<>();
 
   @OneToMany(mappedBy = "interpreter")
-  private List<Sijainti> regions = new ArrayList<>();
+  private List<Region> regions = new ArrayList<>();
 }

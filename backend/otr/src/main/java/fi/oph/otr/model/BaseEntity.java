@@ -1,4 +1,4 @@
-package fi.oph.otr.model.feature;
+package fi.oph.otr.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Getter
 @Setter
 @MappedSuperclass
-public class Mutable {
+public class BaseEntity {
 
   @Version
   @Column(name = "version", nullable = false)

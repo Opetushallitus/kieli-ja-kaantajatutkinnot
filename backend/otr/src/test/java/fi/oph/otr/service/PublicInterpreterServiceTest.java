@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
-import fi.oph.otr.model.Kielipari;
-import fi.oph.otr.model.Oikeustulkki;
-import fi.oph.otr.model.Tulkki;
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.LanguagePair;
+import fi.oph.otr.model.Qualification;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import java.time.LocalDate;
@@ -49,19 +49,19 @@ class PublicInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    final Tulkki interpreter1 = createInterpreter();
-    final Tulkki interpreter2 = createInterpreter();
-    final Tulkki interpreter3 = createInterpreter();
-    final Tulkki interpreter4 = createInterpreter();
-    final Tulkki interpreter5 = createInterpreterDeleted();
-    final Tulkki interpreter6 = createInterpreter();
+    final Interpreter interpreter1 = createInterpreter();
+    final Interpreter interpreter2 = createInterpreter();
+    final Interpreter interpreter3 = createInterpreter();
+    final Interpreter interpreter4 = createInterpreter();
+    final Interpreter interpreter5 = createInterpreterDeleted();
+    final Interpreter interpreter6 = createInterpreter();
 
-    final Oikeustulkki qualification1 = createQualification(interpreter1);
-    final Oikeustulkki qualification2 = createQualification(interpreter2);
-    final Oikeustulkki qualification3 = createQualification(interpreter3);
-    final Oikeustulkki qualification4 = createQualification(interpreter4);
-    final Oikeustulkki qualification5 = createQualification(interpreter5);
-    final Oikeustulkki qualification6 = createQualificationDeleted(interpreter6);
+    final Qualification qualification1 = createQualification(interpreter1);
+    final Qualification qualification2 = createQualification(interpreter2);
+    final Qualification qualification3 = createQualification(interpreter3);
+    final Qualification qualification4 = createQualification(interpreter4);
+    final Qualification qualification5 = createQualification(interpreter5);
+    final Qualification qualification6 = createQualificationDeleted(interpreter6);
 
     interpreter1.setPermissionToPublishEmail(false);
     interpreter1.setPermissionToPublishOtherContactInfo(true);
@@ -69,9 +69,9 @@ class PublicInterpreterServiceTest {
     interpreter2.setPermissionToPublishPhone(false);
     qualification3.setPermissionToPublish(false);
 
-    final Kielipari languagePair11 = createLanguagePair(qualification1, "FI", "EN", today, tomorrow);
-    final Kielipari languagePair12 = createLanguagePair(qualification1, "NO", "FI", yesterday, today);
-    final Kielipari languagePair21 = createLanguagePair(qualification2, "SE", "FI", yesterday, nextWeek);
+    final LanguagePair languagePair11 = createLanguagePair(qualification1, "FI", "EN", today, tomorrow);
+    final LanguagePair languagePair12 = createLanguagePair(qualification1, "NO", "FI", yesterday, today);
+    final LanguagePair languagePair21 = createLanguagePair(qualification2, "SE", "FI", yesterday, nextWeek);
     // Hidden, no publish permission
     createLanguagePair(qualification3, "FI", "RU", yesterday, nextWeek);
     // Hidden, in past
@@ -104,45 +104,45 @@ class PublicInterpreterServiceTest {
     assertLanguagePair(languagePair21, publishedInterpreter2.languages().get(0));
   }
 
-  private void assertLanguagePair(final Kielipari expected, final LanguagePairDTO languagePairDTO) {
+  private void assertLanguagePair(final LanguagePair expected, final LanguagePairDTO languagePairDTO) {
     assertEquals(expected.getFromLang(), languagePairDTO.from());
     assertEquals(expected.getToLang(), languagePairDTO.to());
   }
 
-  private Tulkki createInterpreter() {
-    final Tulkki interpreter = Factory.interpreter();
+  private Interpreter createInterpreter() {
+    final Interpreter interpreter = Factory.interpreter();
     entityManager.persist(interpreter);
     return interpreter;
   }
 
-  private Tulkki createInterpreterDeleted() {
-    final Tulkki interpreter = Factory.interpreter();
+  private Interpreter createInterpreterDeleted() {
+    final Interpreter interpreter = Factory.interpreter();
     interpreter.markDeleted();
     entityManager.persist(interpreter);
     return interpreter;
   }
 
-  private Oikeustulkki createQualification(final Tulkki interpreter) {
-    final Oikeustulkki qualification = Factory.qualification(interpreter);
+  private Qualification createQualification(final Interpreter interpreter) {
+    final Qualification qualification = Factory.qualification(interpreter);
     entityManager.persist(qualification);
     return qualification;
   }
 
-  private Oikeustulkki createQualificationDeleted(final Tulkki interpreter) {
-    final Oikeustulkki qualification = Factory.qualification(interpreter);
+  private Qualification createQualificationDeleted(final Interpreter interpreter) {
+    final Qualification qualification = Factory.qualification(interpreter);
     qualification.markDeleted();
     entityManager.persist(qualification);
     return qualification;
   }
 
-  private Kielipari createLanguagePair(
-    final Oikeustulkki qualification,
+  private LanguagePair createLanguagePair(
+    final Qualification qualification,
     final String from,
     final String to,
     final LocalDate begin,
     final LocalDate end
   ) {
-    final Kielipari languagePair = Factory.languagePair(qualification, from, to, begin, end);
+    final LanguagePair languagePair = Factory.languagePair(qualification, from, to, begin, end);
     entityManager.persist(languagePair);
     return languagePair;
   }

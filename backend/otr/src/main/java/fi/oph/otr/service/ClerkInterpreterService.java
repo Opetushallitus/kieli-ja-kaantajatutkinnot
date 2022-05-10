@@ -9,11 +9,11 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
-import fi.oph.otr.model.Kielipari;
-import fi.oph.otr.model.Oikeustulkki;
-import fi.oph.otr.model.Sijainti;
-import fi.oph.otr.model.Tulkki;
-import fi.oph.otr.model.feature.Mutable;
+import fi.oph.otr.model.BaseEntity;
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.LanguagePair;
+import fi.oph.otr.model.Qualification;
+import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
@@ -56,12 +56,12 @@ public class ClerkInterpreterService {
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> list() {
-    final Map<Long, List<Oikeustulkki>> interpreterQualifications = qualificationRepository
+    final Map<Long, List<Qualification>> interpreterQualifications = qualificationRepository
       .findAll()
       .stream()
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
-    final Map<Long, List<Kielipari>> qualificationLanguagePairs = languagePairRepository
+    final Map<Long, List<LanguagePair>> qualificationLanguagePairs = languagePairRepository
       .findAll()
       .stream()
       .collect(Collectors.groupingBy(lp -> lp.getQualification().getId()));
@@ -74,9 +74,9 @@ public class ClerkInterpreterService {
   }
 
   private ClerkInterpreterDTO createClerkInterpreterDTO(
-    final Tulkki interpreter,
-    final List<Oikeustulkki> qualifications,
-    final Map<Long, List<Kielipari>> qualificationLanguagePairs
+    final Interpreter interpreter,
+    final List<Qualification> qualifications,
+    final Map<Long, List<LanguagePair>> qualificationLanguagePairs
   ) {
     final List<ClerkLegalInterpreterDTO> qualificationDTOs = qualifications
       .stream()
@@ -84,7 +84,7 @@ public class ClerkInterpreterService {
       .toList();
 
     // TODO: fetch regions in list() method as a map
-    final List<String> regions = interpreter.getRegions().stream().map(Sijainti::getCode).toList();
+    final List<String> regions = interpreter.getRegions().stream().map(Region::getCode).toList();
 
     // FIXME fetch details from onr
     return ClerkInterpreterDTO
@@ -112,8 +112,8 @@ public class ClerkInterpreterService {
   }
 
   private ClerkLegalInterpreterDTO createQualificationDTO(
-    final Oikeustulkki qualification,
-    final List<Kielipari> languagePairs
+    final Qualification qualification,
+    final List<LanguagePair> languagePairs
   ) {
     final List<ClerkLanguagePairDTO> languages = languagePairs
       .stream()
@@ -145,7 +145,7 @@ public class ClerkInterpreterService {
     dto.legalInterpreters().forEach(this::validateLanguages);
 
     // TODO set person data to ONR and get OID
-    final Tulkki interpreter = new Tulkki();
+    final Interpreter interpreter = new Interpreter();
     interpreter.setOnrId(UUID.randomUUID().toString());
 
     copyFromInterpreterDTO(interpreter, dto);
@@ -180,18 +180,18 @@ public class ClerkInterpreterService {
       });
   }
 
-  private void copyFromInterpreterDTO(final Tulkki interpreter, final ClerkInterpreterDTOCommonFields dto) {
+  private void copyFromInterpreterDTO(final Interpreter interpreter, final ClerkInterpreterDTOCommonFields dto) {
     interpreter.setPermissionToPublishEmail(dto.permissionToPublishEmail());
     interpreter.setPermissionToPublishPhone(dto.permissionToPublishPhone());
     interpreter.setOtherContactInformation(dto.otherContactInfo());
     interpreter.setPermissionToPublishOtherContactInfo(dto.permissionToPublishOtherContactInfo());
     interpreter.setExtraInformation(dto.extraInformation());
 
-    final List<Sijainti> regions = dto
+    final List<Region> regions = dto
       .areas()
       .stream()
       .map(regionCode -> {
-        final Sijainti region = new Sijainti();
+        final Region region = new Region();
         region.setInterpreter(interpreter);
         region.setCode(regionCode);
         return region;
@@ -201,8 +201,8 @@ public class ClerkInterpreterService {
     interpreter.getRegions().addAll(regions);
   }
 
-  private void createQualification(final Tulkki interpreter, final ClerkLegalInterpreterCreateDTO dto) {
-    final Oikeustulkki qualification = new Oikeustulkki();
+  private void createQualification(final Interpreter interpreter, final ClerkLegalInterpreterCreateDTO dto) {
+    final Qualification qualification = new Qualification();
     interpreter.getQualifications().add(qualification);
     qualification.setInterpreter(interpreter);
 
@@ -212,17 +212,17 @@ public class ClerkInterpreterService {
   }
 
   private void copyFromQualificationDTO(
-    final Oikeustulkki qualification,
+    final Qualification qualification,
     final ClerkLegalInterpreterDTOCommonFields dto
   ) {
     qualification.setExaminationType(dto.examinationType());
     qualification.setPermissionToPublish(dto.permissionToPublish());
 
-    final List<Kielipari> languagePairs = dto
+    final List<LanguagePair> languagePairs = dto
       .languages()
       .stream()
       .map(languagePairDTO -> {
-        final Kielipari languagePair = new Kielipari();
+        final LanguagePair languagePair = new LanguagePair();
         languagePair.setQualification(qualification);
         languagePair.setFromLang(languagePairDTO.from());
         languagePair.setToLang(languagePairDTO.to());
@@ -250,10 +250,10 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
     validateRegions(dto);
 
-    final Tulkki interpreter = interpreterRepository.getById(dto.id());
+    final Interpreter interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
 
-    final List<Sijainti> regionsToDelete = new ArrayList<>(interpreter.getRegions());
+    final List<Region> regionsToDelete = new ArrayList<>(interpreter.getRegions());
     interpreter.getRegions().removeAll(regionsToDelete);
     regionRepository.deleteAllInBatch(regionsToDelete);
 
@@ -267,9 +267,9 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO deleteInterpreter(final long id) {
-    final Tulkki interpreter = interpreterRepository.getById(id);
+    final Interpreter interpreter = interpreterRepository.getById(id);
     interpreter.markDeleted();
-    interpreter.getQualifications().forEach(Mutable::markDeleted);
+    interpreter.getQualifications().forEach(BaseEntity::markDeleted);
     return getInterpreter(id);
   }
 
@@ -277,7 +277,7 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkLegalInterpreterCreateDTO dto) {
     validateLanguages(dto);
 
-    final Tulkki interpreter = interpreterRepository.getById(interpreterId);
+    final Interpreter interpreter = interpreterRepository.getById(interpreterId);
     createQualification(interpreter, dto);
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
@@ -287,10 +287,10 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO updateQualification(final ClerkLegalInterpreterUpdateDTO dto) {
     validateLanguages(dto);
 
-    final Oikeustulkki qualification = qualificationRepository.getById(dto.id());
+    final Qualification qualification = qualificationRepository.getById(dto.id());
     qualification.assertVersion(dto.version());
 
-    final List<Kielipari> langPairsToDelete = new ArrayList<>(qualification.getLanguagePairs());
+    final List<LanguagePair> langPairsToDelete = new ArrayList<>(qualification.getLanguagePairs());
     qualification.getLanguagePairs().removeAll(langPairsToDelete);
     languagePairRepository.deleteAllInBatch(langPairsToDelete);
 
@@ -303,7 +303,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO deleteQualification(final long qualificationId) {
-    final Oikeustulkki qualification = qualificationRepository.getById(qualificationId);
+    final Qualification qualification = qualificationRepository.getById(qualificationId);
     qualification.markDeleted();
     return getInterpreter(qualification.getInterpreter().getId());
   }

@@ -14,10 +14,10 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkLegalInterpreterUpdateDTO;
-import fi.oph.otr.model.Kielipari;
-import fi.oph.otr.model.Oikeustulkki;
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.LanguagePair;
+import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
-import fi.oph.otr.model.Tulkki;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
@@ -107,9 +107,9 @@ class ClerkInterpreterServiceTest {
     final LocalDate begin,
     final LocalDate end
   ) {
-    final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki qualification = Factory.qualification(interpreter);
-    final Kielipari languagePair = Factory.languagePair(qualification, from, to, begin, end);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
+    final LanguagePair languagePair = Factory.languagePair(qualification, from, to, begin, end);
 
     qualification.setPermissionToPublish(publish);
 
@@ -246,7 +246,7 @@ class ClerkInterpreterServiceTest {
     createInterpreter(false, "FI", "SE", today, tomorrow);
     createInterpreter(true, "FI", "EN", today, tomorrow);
 
-    final List<Long> ids = interpreterRepository.findAll().stream().map(Tulkki::getId).toList();
+    final List<Long> ids = interpreterRepository.findAll().stream().map(Interpreter::getId).toList();
     assertEquals(2, ids.size());
     ids.forEach(id -> assertEquals(id, clerkInterpreterService.getInterpreter(id).id()));
   }
@@ -254,7 +254,7 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testUpdateInterpreter() {
     createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
-    final Long id = interpreterRepository.findAll().stream().map(Tulkki::getId).findFirst().orElseThrow();
+    final Long id = interpreterRepository.findAll().stream().map(Interpreter::getId).findFirst().orElseThrow();
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -290,7 +290,7 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
     createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
-    final Long id = interpreterRepository.findAll().stream().map(Tulkki::getId).findFirst().orElseThrow();
+    final Long id = interpreterRepository.findAll().stream().map(Interpreter::getId).findFirst().orElseThrow();
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -324,7 +324,7 @@ class ClerkInterpreterServiceTest {
     createInterpreter(false, "FI", "SE", today, tomorrow);
     createInterpreter(true, "FI", "EN", today, tomorrow);
 
-    final List<Long> ids = interpreterRepository.findAll().stream().map(Tulkki::getId).toList();
+    final List<Long> ids = interpreterRepository.findAll().stream().map(Interpreter::getId).toList();
     final Long idToDelete = ids.get(0);
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(idToDelete);
@@ -346,13 +346,13 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Tulkki interpreter1 = Factory.interpreter();
-    final Oikeustulkki qualification1 = Factory.qualification(interpreter1);
-    final Kielipari languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
+    final Interpreter interpreter1 = Factory.interpreter();
+    final Qualification qualification1 = Factory.qualification(interpreter1);
+    final LanguagePair languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
 
-    final Tulkki interpreter2 = Factory.interpreter();
-    final Oikeustulkki qualification2 = Factory.qualification(interpreter2);
-    final Kielipari languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
+    final Interpreter interpreter2 = Factory.interpreter();
+    final Qualification qualification2 = Factory.qualification(interpreter2);
+    final LanguagePair languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
 
     entityManager.persist(interpreter1);
     entityManager.persist(interpreter2);
@@ -387,13 +387,13 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Tulkki interpreter1 = Factory.interpreter();
-    final Oikeustulkki qualification1 = Factory.qualification(interpreter1);
-    final Kielipari languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
+    final Interpreter interpreter1 = Factory.interpreter();
+    final Qualification qualification1 = Factory.qualification(interpreter1);
+    final LanguagePair languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
 
-    final Tulkki interpreter2 = Factory.interpreter();
-    final Oikeustulkki qualification2 = Factory.qualification(interpreter2);
-    final Kielipari languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
+    final Interpreter interpreter2 = Factory.interpreter();
+    final Qualification qualification2 = Factory.qualification(interpreter2);
+    final LanguagePair languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
 
     entityManager.persist(interpreter1);
     entityManager.persist(interpreter2);
@@ -435,9 +435,9 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki qualification = Factory.qualification(interpreter);
-    final Kielipari languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
+    final LanguagePair languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
@@ -472,7 +472,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
     assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
 
-    final List<Kielipari> langs = languagePairRepository.findAll();
+    final List<LanguagePair> langs = languagePairRepository.findAll();
     assertEquals(2, langs.size());
   }
 
@@ -482,9 +482,9 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Tulkki interpreter = Factory.interpreter();
-    final Oikeustulkki qualification = Factory.qualification(interpreter);
-    final Kielipari languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
+    final LanguagePair languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
@@ -524,7 +524,7 @@ class ClerkInterpreterServiceTest {
     createInterpreter(false, "FI", "SE", today, tomorrow);
     createInterpreter(true, "FI", "EN", today, tomorrow);
 
-    final List<Long> ids = qualificationRepository.findAll().stream().map(Oikeustulkki::getId).toList();
+    final List<Long> ids = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
     final Long idToDelete = ids.get(0);
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(idToDelete);

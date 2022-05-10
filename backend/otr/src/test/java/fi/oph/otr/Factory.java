@@ -1,17 +1,17 @@
 package fi.oph.otr;
 
-import fi.oph.otr.model.Kielipari;
-import fi.oph.otr.model.Oikeustulkki;
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.LanguagePair;
+import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
-import fi.oph.otr.model.Sijainti;
-import fi.oph.otr.model.Tulkki;
+import fi.oph.otr.model.Region;
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class Factory {
 
-  public static Tulkki interpreter() {
-    final Tulkki interpreter = new Tulkki();
+  public static Interpreter interpreter() {
+    final Interpreter interpreter = new Interpreter();
     interpreter.setOnrId(UUID.randomUUID().toString());
     interpreter.setPermissionToPublishEmail(true);
     interpreter.setPermissionToPublishPhone(true);
@@ -19,8 +19,8 @@ public class Factory {
     return interpreter;
   }
 
-  public static Oikeustulkki qualification(final Tulkki interpreter) {
-    final Oikeustulkki qualification = new Oikeustulkki();
+  public static Qualification qualification(final Interpreter interpreter) {
+    final Qualification qualification = new Qualification();
     qualification.setInterpreter(interpreter);
     qualification.setExaminationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM);
     qualification.setPermissionToPublish(true);
@@ -29,14 +29,14 @@ public class Factory {
     return qualification;
   }
 
-  public static Kielipari languagePair(
-    final Oikeustulkki qualification,
+  public static LanguagePair languagePair(
+    final Qualification qualification,
     final String from,
     final String to,
     final LocalDate begin,
     final LocalDate end
   ) {
-    final Kielipari languagePair = new Kielipari();
+    final LanguagePair languagePair = new LanguagePair();
     languagePair.setQualification(qualification);
     languagePair.setFromLang(from);
     languagePair.setToLang(to);
@@ -46,8 +46,8 @@ public class Factory {
     return languagePair;
   }
 
-  public static Sijainti region(final Tulkki interpreter, final String code) {
-    final Sijainti region = new Sijainti();
+  public static Region region(final Interpreter interpreter, final String code) {
+    final Region region = new Region();
     region.setInterpreter(interpreter);
     region.setCode(code);
     interpreter.getRegions().add(region);
