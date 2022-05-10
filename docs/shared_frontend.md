@@ -49,4 +49,4 @@ In this project directory, you can run:
      source $PROFILE_ADDRESS
    ```
 
-4. Run `yarn add @opetushallitus/kieli-ja-kaantajatutkinnot.shared@version` to install the package
+4. (Optional) Run `yarn add shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@version` to install the package
