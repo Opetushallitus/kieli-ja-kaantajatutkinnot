@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record AuthorisationCreateDTO(
   @NonNull @NotNull AuthorisationBasis basis,
   @NonNull @NotBlank String from,
@@ -17,9 +18,4 @@ public record AuthorisationCreateDTO(
   String diaryNumber,
   LocalDate examinationDate
 )
-  implements AuthorisationDTOCommonFields {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public AuthorisationCreateDTO {}
-}
+  implements AuthorisationDTOCommonFields {}

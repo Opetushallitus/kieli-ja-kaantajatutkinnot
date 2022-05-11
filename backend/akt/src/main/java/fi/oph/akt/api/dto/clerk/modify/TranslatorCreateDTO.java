@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record TranslatorCreateDTO(
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
@@ -21,9 +22,4 @@ public record TranslatorCreateDTO(
   @NonNull @NotNull Boolean isAssuranceGiven,
   @NonNull @NotEmpty List<AuthorisationCreateDTO> authorisations
 )
-  implements TranslatorDTOCommonFields {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public TranslatorCreateDTO {}
-}
+  implements TranslatorDTOCommonFields {}

@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record PublicTranslatorDTO(
   @NonNull Long id,
   @NonNull String firstName,
@@ -12,9 +13,4 @@ public record PublicTranslatorDTO(
   String town,
   String country,
   @NonNull List<LanguagePairDTO> languagePairs
-) {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public PublicTranslatorDTO {}
-}
+) {}

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record ClerkTranslatorDTO(
   @NonNull Long id,
   @NonNull Integer version,
@@ -19,9 +20,4 @@ public record ClerkTranslatorDTO(
   String extraInformation,
   @NonNull Boolean isAssuranceGiven,
   @NonNull List<AuthorisationDTO> authorisations
-) {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public ClerkTranslatorDTO {}
-}
+) {}
