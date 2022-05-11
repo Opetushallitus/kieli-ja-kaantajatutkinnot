@@ -38,6 +38,8 @@ services:
     volumes:
       - ./frontend/packages/otr:/app/reactjs/packages/otr
       - /app/reactjs/node_modules
+    environment:
+      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
   otr-postgres:
     build: ./backend/otr/db
