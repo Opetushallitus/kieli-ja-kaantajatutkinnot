@@ -28,6 +28,7 @@ class ClerkTranslatorOverviewPage {
     translatorDetailsField: (field: string, fieldType: string) =>
       cy
         .findByTestId(`clerk-translator__basic-information__${field}`)
+        .should('be.visible')
         .find(`div>${fieldType}`),
     addAuthorisationField: (
       field: string,
