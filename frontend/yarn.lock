@@ -2310,7 +2310,6 @@ __metadata:
     "@fontsource/roboto": ^4.5.5
     "@mui/icons-material": ^5.6.2
     "@mui/material": ^5.6.2
-    "@opetushallitus/kieli-ja-kaantajatutkinnot.shared": 1.0.7
     "@redux-devtools/extension": ^3.2.2
     "@testing-library/cypress": ^8.0.2
     "@testing-library/jest-dom": ^5.16.4
@@ -2375,7 +2374,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7, @opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.7":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
