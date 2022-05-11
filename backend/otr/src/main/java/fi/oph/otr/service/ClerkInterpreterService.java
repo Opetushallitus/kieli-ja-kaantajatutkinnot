@@ -14,10 +14,12 @@ import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
+import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
+import fi.oph.otr.util.ListUtil;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
@@ -56,6 +58,11 @@ public class ClerkInterpreterService {
 
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> list() {
+    final Map<Long, List<InterpreterRegionProjection>> interpreterRegionProjections = regionRepository
+      .listInterpreterRegionProjections()
+      .stream()
+      .collect(Collectors.groupingBy(InterpreterRegionProjection::interpreterId));
+
     final Map<Long, List<Qualification>> interpreterQualifications = qualificationRepository
       .findAll()
       .stream()
@@ -69,12 +76,20 @@ public class ClerkInterpreterService {
     return interpreterRepository
       .findAll()
       .stream()
-      .map(i -> createClerkInterpreterDTO(i, interpreterQualifications.get(i.getId()), qualificationLanguagePairs))
+      .map(interpreter -> {
+        final List<InterpreterRegionProjection> regionProjections = ListUtil.getOrEmptyList(
+          interpreterRegionProjections.get(interpreter.getId())
+        );
+        final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
+
+        return createClerkInterpreterDTO(interpreter, regionProjections, qualifications, qualificationLanguagePairs);
+      })
       .toList();
   }
 
   private ClerkInterpreterDTO createClerkInterpreterDTO(
     final Interpreter interpreter,
+    final List<InterpreterRegionProjection> regionProjections,
     final List<Qualification> qualifications,
     final Map<Long, List<LanguagePair>> qualificationLanguagePairs
   ) {
@@ -83,8 +98,7 @@ public class ClerkInterpreterService {
       .map(q -> createQualificationDTO(q, qualificationLanguagePairs.get(q.getId())))
       .toList();
 
-    // TODO: fetch regions in list() method as a map
-    final List<String> regions = interpreter.getRegions().stream().map(Region::getCode).toList();
+    final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
 
     // FIXME fetch details from onr
     return ClerkInterpreterDTO
