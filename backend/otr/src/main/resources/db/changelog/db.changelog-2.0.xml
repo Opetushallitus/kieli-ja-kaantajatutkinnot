@@ -25,8 +25,6 @@
         <dropPrimaryKey tableName="interpreter"/>
         <addPrimaryKey tableName="interpreter" columnNames="interpreter_id"/>
 
-        <dropNotNullConstraint tableName="interpreter" columnName="created_by"/>
-
         <addColumn tableName="interpreter">
             <column name="onr_id" type="VARCHAR(255)" defaultValue="">
                 <constraints nullable="false"/>
@@ -47,6 +45,8 @@
         <sql>
             UPDATE interpreter SET onr_id = henkilo_oid
         </sql>
+
+        <!-- Set values of fields moved to `interpreter` table to match those of interpreters' non-deleted qualifications -->
         <sql>
             UPDATE interpreter i SET permission_to_publish_email = (
                 SELECT o.julklaisulupa_email FROM oikeustulkki o WHERE o.tulkki = i.interpreter_id ORDER BY o.poistettu ASC LIMIT 1
@@ -114,6 +114,7 @@
         <dropPrimaryKey tableName="qualification"/>
         <addPrimaryKey tableName="qualification" columnNames="qualification_id"/>
 
+        <!-- Change original `tutkinto_tyyppi` into `examination_type` enum -->
         <addColumn tableName="qualification">
             <column name="examination_type" type="VARCHAR(255)" defaultValue="">
                 <constraints nullable="false"/>
@@ -217,6 +218,8 @@
         </sql>
         <addNotNullConstraint tableName="region" columnName="code"/>
 
+        <!-- Delete regions belonging to deleted qualifications.
+             Column `interpreter_id` in `region` used to be `oikeustulkki` for `sijainti` -->
         <sql>
             DELETE FROM region WHERE interpreter_id IN (
                 SELECT q.qualification_id FROM qualification q WHERE q.deleted_at IS NOT NULL AND EXISTS (
@@ -224,6 +227,7 @@
                 )
             )
         </sql>
+        <!-- Update regions so that `interpreter_id` matches the id of interpreter and not that of qualification  -->
         <sql>
             UPDATE region r SET interpreter_id = (
                 SELECT q.interpreter_id FROM qualification q WHERE r.interpreter_id = q.qualification_id ORDER BY q.deleted_at DESC LIMIT 1
@@ -246,7 +250,7 @@
 
         <addUniqueConstraint tableName="region"
                              columnNames="interpreter_id, code"
-                             constraintName="uk_unique_interpreter_code"/>
+                             constraintName="uk_region_interpreter_code"/>
 
         <addForeignKeyConstraint baseTableName="region" baseColumnNames="interpreter_id"
                                  referencedTableName="interpreter" referencedColumnNames="interpreter_id"
