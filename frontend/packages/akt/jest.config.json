@@ -1,10 +1,27 @@
 {
-  "testEnvironment": "jsdom",
-  "moduleDirectories": ["node_modules", "src"],
-  "setupFiles": ["./src/tests/jest/__mocks__/globalMocks.ts"],
-  "testPathIgnorePatterns": ["./src/tests/cypress"],
-  "setupFilesAfterEnv": ["./jest-setup.ts"],
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
   "moduleNameMapper": {
-    "\\.svg": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts"
-  }
+    "\\.scss": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
+    "\\.svg": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
+    "^shared(.*)$": "<rootDir>../../node_modules/shared/src/$1"
+  },
+  "setupFiles": [
+    "./src/tests/jest/__mocks__/globalMocks.ts"
+  ],
+  "setupFilesAfterEnv": [
+    "./jest-setup.ts"
+  ],
+  "testEnvironment": "jsdom",
+  "testPathIgnorePatterns": [
+    "./src/tests/cypress"
+  ],
+  "transform": {
+    "^.+\\.(ts|tsx)$": "babel-jest"
+  },
+  "transformIgnorePatterns": [
+    "<rootDir>../../node_modules/(?!shared)"
+  ]
 }
