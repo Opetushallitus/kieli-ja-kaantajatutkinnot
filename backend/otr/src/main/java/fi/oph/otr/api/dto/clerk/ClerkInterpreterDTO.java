@@ -9,7 +9,7 @@ import lombok.NonNull;
 
 public record ClerkInterpreterDTO(
   @NonNull @NotNull Long id,
-  @NonNull @NotNull Long version,
+  @NonNull @NotNull Integer version,
   @NonNull @NotNull Boolean deleted,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
@@ -25,7 +25,7 @@ public record ClerkInterpreterDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull @NotEmpty List<String> areas,
+  @NonNull List<String> areas,
   @NonNull @NotEmpty List<ClerkLegalInterpreterDTO> legalInterpreters
 )
   implements ClerkInterpreterDTOCommonFields {

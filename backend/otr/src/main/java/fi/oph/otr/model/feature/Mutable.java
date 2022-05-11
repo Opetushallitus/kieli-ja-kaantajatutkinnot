@@ -1,6 +1,5 @@
 package fi.oph.otr.model.feature;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -12,72 +11,33 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-/**
- * User: tommiratamaa
- * Date: 30.5.2016
- * Time: 12.42
- */
+@Getter
+@Setter
 @MappedSuperclass
-public abstract class Mutable implements Creatable, Modifyable, Serializable {
+public class Mutable {
 
-  @Getter
-  @Column(name = "luotu", nullable = false, updatable = false)
-  private LocalDateTime luotu = LocalDateTime.now();
-
-  @Getter
-  @Setter
-  @Column(name = "luoja", nullable = false, updatable = false)
-  private String luoja;
-
-  @Getter
-  @Setter
   @Version
   @Column(name = "version", nullable = false)
-  private Long version;
+  private int version;
 
-  @Getter
-  @Setter
-  @Column(name = "muokattu")
-  private LocalDateTime muokattu;
+  @Column(name = "created_by")
+  private String createdBy;
 
-  @Getter
-  @Setter
-  @Column(name = "muokkaaja")
-  private String muokkaaja;
+  @Column(name = "modified_by")
+  private String modifiedBy;
 
-  @Getter
-  @Column(name = "poistettu", nullable = false)
-  private boolean poistettu;
+  @Column(name = "deleted_by")
+  private String deletedBy;
 
-  @Getter
-  @Column(name = "poistaja")
-  private String poistaja;
+  @Column(name = "created_at", nullable = false)
+  private LocalDateTime createdAt;
 
-  @Getter
-  @Column(name = "poistohetki")
-  private LocalDateTime poistohetki;
+  // This is nullable for entities db level, same goes for entities in AKT
+  @Column(name = "modified_at", nullable = false)
+  private LocalDateTime modifiedAt;
 
-  public void markPoistettu() {
-    this.poistohetki = LocalDateTime.now();
-    this.poistettu = true;
-    this.poistaja = getCurrentUserId();
-  }
-
-  protected void setLuotu(LocalDateTime luotu) {
-    this.luotu = luotu;
-  }
-
-  protected void setPoistettu(boolean poistettu) {
-    this.poistettu = poistettu;
-  }
-
-  protected void setPoistaja(String poistaja) {
-    this.poistaja = poistaja;
-  }
-
-  protected void setPoistohetki(LocalDateTime poistohetki) {
-    this.poistohetki = poistohetki;
-  }
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
 
   private String getCurrentUserId() {
     return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -86,30 +46,39 @@ public abstract class Mutable implements Creatable, Modifyable, Serializable {
   @PrePersist
   protected void prePersist() {
     final LocalDateTime now = LocalDateTime.now();
-    setLuotu(now);
-    setMuokattu(now);
+    setCreatedAt(now);
+    setModifiedAt(now);
 
     final String currentUser = getCurrentUserId();
-    if (getLuoja() == null) {
-      setLuoja(currentUser);
-      setMuokkaaja(currentUser);
+    if (getCreatedBy() == null) {
+      setCreatedBy(currentUser);
+      setModifiedBy(currentUser);
     }
   }
 
   @PreUpdate
   void preUpdate() {
     final LocalDateTime now = LocalDateTime.now();
-    setMuokattu(now);
+    setModifiedAt(now);
 
     final String currentUser = getCurrentUserId();
-    setMuokkaaja(currentUser);
+    setModifiedBy(currentUser);
   }
 
-  public void assertVersion(final long version) {
+  public void assertVersion(final int version) {
     if (version != getVersion()) {
       throw new OptimisticLockException(
         "Current version: " + getVersion() + " does not match given version: " + version
       );
     }
+  }
+
+  public boolean isDeleted() {
+    return getDeletedAt() != null;
+  }
+
+  public void markDeleted() {
+    this.deletedAt = LocalDateTime.now();
+    this.deletedBy = getCurrentUserId();
   }
 }

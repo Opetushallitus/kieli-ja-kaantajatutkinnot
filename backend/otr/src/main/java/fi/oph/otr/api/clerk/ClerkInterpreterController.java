@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClerkInterpreterController {
 
   private static final String TAG_INTERPRETER = "Interpreter API";
-  private static final String TAG_LEGAL_INTERPRETER = "Legal interpreter API";
+  private static final String TAG_QUALIFICATION = "Qualification API";
 
   @Resource
   private LanguageService languageService;
@@ -58,14 +58,14 @@ public class ClerkInterpreterController {
   @GetMapping
   @Operation(tags = TAG_INTERPRETER, summary = "List all interpreters")
   public List<ClerkInterpreterDTO> listInterpreters() {
-    return clerkInterpreterService.listInterpreters();
+    return clerkInterpreterService.list();
   }
 
   @Operation(tags = TAG_INTERPRETER, summary = "Create new interpreter")
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public ClerkInterpreterDTO createInterpreter(@RequestBody @Valid final ClerkInterpreterCreateDTO dto) {
-    return clerkInterpreterService.create(dto);
+    return clerkInterpreterService.createInterpreter(dto);
   }
 
   @Operation(tags = TAG_INTERPRETER, summary = "Get interpreter")
@@ -86,27 +86,27 @@ public class ClerkInterpreterController {
     return clerkInterpreterService.deleteInterpreter(interpreterId);
   }
 
-  // LEGAL INTERPRETER
+  // QUALIFICATION
 
-  @Operation(tags = TAG_LEGAL_INTERPRETER, summary = "Create new legal interpreter")
-  @PostMapping(path = "/{interpreterId:\\d+}/legalinterpreter", consumes = APPLICATION_JSON_VALUE)
+  @Operation(tags = TAG_QUALIFICATION, summary = "Create new qualification")
+  @PostMapping(path = "/{interpreterId:\\d+}/qualification", consumes = APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public ClerkInterpreterDTO createLegalInterpreter(
+  public ClerkInterpreterDTO createQualification(
     @PathVariable final long interpreterId,
     @RequestBody @Valid final ClerkLegalInterpreterCreateDTO dto
   ) {
-    return clerkInterpreterService.createLegalInterpreter(interpreterId, dto);
+    return clerkInterpreterService.createQualification(interpreterId, dto);
   }
 
-  @Operation(tags = TAG_LEGAL_INTERPRETER, summary = "Update legal interpreter")
-  @PutMapping(path = "/legalinterpreter", consumes = APPLICATION_JSON_VALUE)
-  public ClerkInterpreterDTO updateLegalInterpreter(@RequestBody @Valid final ClerkLegalInterpreterUpdateDTO dto) {
-    return clerkInterpreterService.updateLegalInterpreter(dto);
+  @Operation(tags = TAG_QUALIFICATION, summary = "Update qualification")
+  @PutMapping(path = "/qualification", consumes = APPLICATION_JSON_VALUE)
+  public ClerkInterpreterDTO updateQualification(@RequestBody @Valid final ClerkLegalInterpreterUpdateDTO dto) {
+    return clerkInterpreterService.updateQualification(dto);
   }
 
-  @Operation(tags = TAG_LEGAL_INTERPRETER, summary = "Delete legal interpreter")
-  @DeleteMapping(path = "/legalinterpreter/{legalInterpreterId:\\d+}")
-  public ClerkInterpreterDTO deleteLegalInterpreter(@PathVariable final long legalInterpreterId) {
-    return clerkInterpreterService.deleteLegalInterpreter(legalInterpreterId);
+  @Operation(tags = TAG_QUALIFICATION, summary = "Delete qualification")
+  @DeleteMapping(path = "/qualification/{qualificationId:\\d+}")
+  public ClerkInterpreterDTO deleteQualification(@PathVariable final long qualificationId) {
+    return clerkInterpreterService.deleteQualification(qualificationId);
   }
 }

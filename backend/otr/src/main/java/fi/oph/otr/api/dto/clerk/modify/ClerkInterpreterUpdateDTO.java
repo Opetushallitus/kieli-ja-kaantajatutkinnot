@@ -3,14 +3,13 @@ package fi.oph.otr.api.dto.clerk.modify;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
 public record ClerkInterpreterUpdateDTO(
   @NonNull @NotNull Long id,
-  @NonNull @NotNull Long version,
+  @NonNull @NotNull Integer version,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String nickName,
@@ -25,7 +24,7 @@ public record ClerkInterpreterUpdateDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull @NotEmpty List<String> areas
+  @NonNull List<String> areas
 )
   implements ClerkInterpreterDTOCommonFields {
   // Workaround for bug in IntelliJ lombok plugin
