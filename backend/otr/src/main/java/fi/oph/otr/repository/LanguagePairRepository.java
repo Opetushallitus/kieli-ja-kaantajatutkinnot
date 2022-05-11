@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LanguagePairRepository extends JpaRepository<LanguagePair, Long> {
   @Query(
-    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(i.id, lp.fromLang, lp.toLang) FROM LanguagePair lp" +
+    "SELECT new fi.oph.otr.repository.InterpreterLanguagePairProjection(i.id, lp.fromLang, lp.toLang)" +
+    " FROM LanguagePair lp" +
     " JOIN lp.qualification q" +
     " JOIN q.interpreter i" +
     " WHERE lp.beginDate <= CURRENT_DATE" +
