@@ -9,9 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.8] - 2022-05-11
+
+### Added
+
+- Exported static files
+
+### Changed
+
+- Directory static to statics
+
 ## [1.0.7] - 2022-05-10
 
 ### Changed
+
 - Refactor shared elements
 - Increase snapshot test coverage for shared elements
 
