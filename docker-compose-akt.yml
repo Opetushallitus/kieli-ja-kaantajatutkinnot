@@ -38,6 +38,8 @@ services:
     volumes:
       - ./frontend/packages/akt:/app/reactjs/packages/akt
       - /app/reactjs/node_modules
+    environment:
+      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
   akt-postgres:
     build: ./backend/akt/db
