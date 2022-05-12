@@ -19,11 +19,11 @@ import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
-import fi.oph.otr.util.ListUtil;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -77,8 +77,9 @@ public class ClerkInterpreterService {
       .findAll()
       .stream()
       .map(interpreter -> {
-        final List<InterpreterRegionProjection> regionProjections = ListUtil.getOrEmptyList(
-          interpreterRegionProjections.get(interpreter.getId())
+        final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
+          interpreter.getId(),
+          Collections.emptyList()
         );
         final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
 

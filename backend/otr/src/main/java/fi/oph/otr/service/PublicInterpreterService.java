@@ -8,7 +8,7 @@ import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.RegionRepository;
-import fi.oph.otr.util.ListUtil;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,8 +47,9 @@ public class PublicInterpreterService {
     return interpreters
       .stream()
       .map(interpreter -> {
-        final List<InterpreterRegionProjection> regionProjections = ListUtil.getOrEmptyList(
-          interpreterRegionProjections.get(interpreter.getId())
+        final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
+          interpreter.getId(),
+          Collections.emptyList()
         );
         final List<InterpreterLanguagePairProjection> languagePairProjections = interpreterLanguagePairs.get(
           interpreter.getId()
