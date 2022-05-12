@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import OPHLogoENHorizontal from '../../static/svg/oph_logo_horiz_en.svg';
+import OPHLogoENHorizontal from '../../statics/svg/oph_logo_horiz_en.svg';
 import { Svg } from './Svg';
 
 describe('Svg', () => {
