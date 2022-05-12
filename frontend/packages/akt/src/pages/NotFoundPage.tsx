@@ -1,7 +1,6 @@
 import { FC } from 'react';
+import { CustomButton, H1, Text } from 'shared/components';
 
-import { CustomButton } from 'components/elements/CustomButton';
-import { H1, Text } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 

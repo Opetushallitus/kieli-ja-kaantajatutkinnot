@@ -1,12 +1,15 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
+import {
+  CustomButton,
+  CustomModal,
+  H3,
+  Text,
+  ToggleFilterGroup,
+} from 'shared/components';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
-import { CustomButton } from 'components/elements/CustomButton';
-import { CustomModal } from 'components/elements/CustomModal';
-import { H3, Text } from 'components/elements/Text';
-import { ToggleFilterGroup } from 'components/elements/ToggleFilterGroup';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';

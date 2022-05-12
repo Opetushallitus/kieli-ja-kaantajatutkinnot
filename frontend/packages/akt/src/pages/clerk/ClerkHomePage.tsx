@@ -1,13 +1,12 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
+import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 
 import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
 import { ClerkTranslatorAutocompleteFilters } from 'components/clerkTranslator/filters/ClerkTranslatorAutocompleteFilters';
 import { ClerkTranslatorToggleFilters } from 'components/clerkTranslator/filters/ClerkTranslatorToggleFilters';
 import { ClerkTranslatorListing } from 'components/clerkTranslator/listing/ClerkTranslatorListing';
-import { CustomButtonLink } from 'components/elements/CustomButtonLink';
-import { H1, H2, Text } from 'components/elements/Text';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';

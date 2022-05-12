@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
+import { CustomTextFieldProps } from 'shared/components';
 
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
-import { CustomTextFieldProps } from 'interfaces/components/customTextField';
 
 export type ClerkTranslatorTextFieldProps = {
   translator?: ClerkTranslatorBasicInformation;

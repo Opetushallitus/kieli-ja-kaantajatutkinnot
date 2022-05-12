@@ -1,12 +1,12 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
 import { useEffect } from 'react';
+import { Text } from 'shared/components';
 
 import {
   ChosenTranslatorsHeading,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
-import { Text } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Color } from 'enums/app';

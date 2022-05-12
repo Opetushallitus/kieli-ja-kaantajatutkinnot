@@ -1,8 +1,8 @@
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import { SelectChangeEvent } from '@mui/material';
 import { FC } from 'react';
+import { CustomSelect } from 'shared/components';
 
-import { CustomSelect } from 'components/elements/CustomSelect';
 import {
   changeLang,
   getCurrentLang,

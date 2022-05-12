@@ -59,9 +59,6 @@ module.exports = (env) => {
           test: /\.[tj]sx?$/,
           loader: 'babel-loader',
           exclude: /node_modules\/(?!(shared)\/).*/,
-          options: {
-            ...JSON.parse(fs.readFileSync(path.resolve(__dirname, '.babelrc'))),
-          },
         },
         {
           test: /\.s?css$/,

@@ -1,16 +1,18 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-
-import { ComboBox, valueAsOption } from 'components/elements/ComboBox';
-import { CustomButton } from 'components/elements/CustomButton';
-import { CustomSwitch } from 'components/elements/CustomSwitch';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { DatePicker } from 'components/elements/DatePicker';
 import {
+  AutocompleteValue,
+  ComboBox,
+  CustomButton,
+  CustomSwitch,
+  CustomTextField,
+  DatePicker,
   LanguageSelect,
   languageToComboBoxOption,
-} from 'components/elements/LanguageSelect';
-import { LoadingProgressIndicator } from 'components/elements/LoadingProgressIndicator';
-import { Text } from 'components/elements/Text';
+  LoadingProgressIndicator,
+  Text,
+  valueAsOption,
+} from 'shared/components';
+
 import {
   useAppTranslation,
   useCommonTranslation,
@@ -20,7 +22,6 @@ import { Color, TextFieldVariant, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
-import { AutocompleteValue } from 'interfaces/components/combobox';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { Utils } from 'utils';
 import { AuthorisationUtils } from 'utils/authorisation';

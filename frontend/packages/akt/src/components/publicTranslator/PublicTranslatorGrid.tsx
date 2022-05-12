@@ -1,8 +1,7 @@
 import { Alert, Grid, Paper } from '@mui/material';
 import { useState } from 'react';
+import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 
-import { HeaderSeparator } from 'components/elements/HeaderSeparator';
-import { H1, H2, Text } from 'components/elements/Text';
 import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
 import { PublicTranslatorListing } from 'components/publicTranslator/listing/PublicTranslatorListing';
 import { PublicTranslatorGridSkeleton } from 'components/skeletons/PublicTranslatorGridSkeleton';

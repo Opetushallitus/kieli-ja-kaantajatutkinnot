@@ -3,8 +3,8 @@ import {
   LogoutOutlined as LogoutIcon,
 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { CustomButton } from 'shared/components';
 
-import { CustomButton } from 'components/elements/CustomButton';
 import { useAppTranslation } from 'configs/i18n';
 import { AppRoutes, Variant } from 'enums/app';
 import { ExternalRoutes } from 'enums/external';

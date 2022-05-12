@@ -1,10 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
+import {
+  CustomButton,
+  DatePicker,
+  H3,
+  LoadingProgressIndicator,
+} from 'shared/components';
 
-import { CustomButton } from 'components/elements/CustomButton';
-import { DatePicker } from 'components/elements/DatePicker';
-import { LoadingProgressIndicator } from 'components/elements/LoadingProgressIndicator';
-import { H3 } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';

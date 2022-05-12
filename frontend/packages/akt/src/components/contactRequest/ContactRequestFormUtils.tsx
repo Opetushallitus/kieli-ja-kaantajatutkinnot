@@ -1,13 +1,12 @@
 import { Typography } from '@mui/material';
 import { useEffect } from 'react';
+import { CustomTextField, H3, Text } from 'shared/components';
 
 import { Done } from 'components/contactRequest/steps/Done';
 import { FillContactDetails } from 'components/contactRequest/steps/FillContactDetails';
 import { PreviewAndSend } from 'components/contactRequest/steps/PreviewAndSend';
 import { VerifySelectedTranslators } from 'components/contactRequest/steps/VerifySelectedTranslators';
 import { WriteMessage } from 'components/contactRequest/steps/WriteMessage';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { H3, Text } from 'components/elements/Text';
 import {
   useAppTranslation,
   useCommonTranslation,

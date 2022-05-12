@@ -1,11 +1,11 @@
+import { CustomTextField, H3 } from 'shared/components';
+
 import {
   ChosenTranslators,
   ChosenTranslatorsHeading,
   DisplayContactInfo,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { H3 } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';

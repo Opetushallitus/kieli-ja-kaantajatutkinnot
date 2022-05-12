@@ -1,11 +1,10 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { H1, HeaderSeparator, Text } from 'shared/components';
 
 import { StepContents } from 'components/contactRequest/ContactRequestFormUtils';
 import { ContactRequestStepper } from 'components/contactRequest/ContactRequestStepper';
 import { ControlButtons } from 'components/contactRequest/ControlButtons';
-import { HeaderSeparator } from 'components/elements/HeaderSeparator';
-import { H1, Text } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';

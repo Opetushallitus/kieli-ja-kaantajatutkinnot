@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
+import { CustomButton, H2, Text } from 'shared/components';
 
 import { StepHeading } from 'components/contactRequest/ContactRequestFormUtils';
-import { CustomButton } from 'components/elements/CustomButton';
-import { H2, Text } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { Duration } from 'enums/app';

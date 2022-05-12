@@ -9,8 +9,8 @@ import {
 import { Box } from '@mui/system';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { H2, H3, Text } from 'shared/components';
 
-import { H2, H3, Text } from 'components/elements/Text';
 import { PaginatedTable } from 'components/tables/Table';
 import {
   useAppTranslation,

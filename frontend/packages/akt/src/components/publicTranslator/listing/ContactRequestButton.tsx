@@ -1,4 +1,5 @@
-import { CustomButton } from 'components/elements/CustomButton';
+import { CustomButton } from 'shared/components';
+
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Color, PublicUIViews, Variant } from 'enums/app';

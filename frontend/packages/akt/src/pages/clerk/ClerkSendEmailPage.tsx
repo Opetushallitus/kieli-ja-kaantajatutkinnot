@@ -1,10 +1,8 @@
 import { Box, Paper } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { CustomButton, CustomTextField, H1, H2, Text } from 'shared/components';
 
-import { CustomButton } from 'components/elements/CustomButton';
-import { CustomTextField } from 'components/elements/CustomTextField';
-import { H1, H2, Text } from 'components/elements/Text';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
