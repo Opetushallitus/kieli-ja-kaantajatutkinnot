@@ -125,7 +125,7 @@ jobs:
         run: |
           git clone https://github.com/Opetushallitus/ci-tools.git
           source ci-tools/common/setup-tools.sh
-          export ARTIFACT_NAME="oikeustulkkirekisteri"
+          export ARTIFACT_NAME="vkt"
           mv target/vkt-*.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
           cp -vr src/main/resources/oph-configuration $DOCKER_BUILD_DIR/config/
           export BASE_IMAGE="baseimage-fatjar-openjdk17:master"
