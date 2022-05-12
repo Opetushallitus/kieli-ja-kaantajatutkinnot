@@ -1,10 +1,10 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { CircularStepper } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
 export const ContactRequestStepper = () => {

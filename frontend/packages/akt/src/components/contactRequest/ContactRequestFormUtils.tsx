@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { CustomTextField, H3, Text } from 'shared/components';
+import { useFocus, useWindowProperties } from 'shared/hooks';
 
 import { Done } from 'components/contactRequest/steps/Done';
 import { FillContactDetails } from 'components/contactRequest/steps/FillContactDetails';
@@ -14,8 +15,6 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useFocus } from 'hooks/useFocus';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import {
   publicTranslatorsSelector,

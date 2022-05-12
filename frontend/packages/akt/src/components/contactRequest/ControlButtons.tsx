@@ -5,12 +5,12 @@ import {
 import { AppBar, Toolbar } from '@mui/material';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { ContactRequest } from 'interfaces/contactRequest';
 import {
   decreaseFormStep,

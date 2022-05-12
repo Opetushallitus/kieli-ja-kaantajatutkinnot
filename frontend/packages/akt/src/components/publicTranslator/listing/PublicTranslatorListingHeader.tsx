@@ -1,9 +1,9 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { H3 } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import { useAppTranslation } from 'configs/i18n';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 
 export const PublicTranslatorListingHeader = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akt.pages.translator' });

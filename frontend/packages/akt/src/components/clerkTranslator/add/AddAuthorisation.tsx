@@ -20,7 +20,7 @@ import {
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { Utils } from 'utils';

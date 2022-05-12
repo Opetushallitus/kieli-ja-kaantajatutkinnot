@@ -1,6 +1,7 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
 import { H2, H3, Text } from 'shared/components';
 import { Color, Severity } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
@@ -8,7 +9,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {

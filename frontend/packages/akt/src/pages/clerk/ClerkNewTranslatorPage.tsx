@@ -14,7 +14,7 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import { AppRoutes } from 'enums/app';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   resetNewClerkTranslatorDetails,

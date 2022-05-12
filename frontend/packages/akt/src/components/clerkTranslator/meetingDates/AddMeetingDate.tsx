@@ -11,7 +11,7 @@ import { Color, Variant } from 'shared/enums';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 import { DateUtils } from 'utils/date';

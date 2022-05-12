@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import {
   ChosenTranslators,
@@ -11,7 +12,6 @@ import {
 import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import {
   setContactRequest,
   setMessageError,

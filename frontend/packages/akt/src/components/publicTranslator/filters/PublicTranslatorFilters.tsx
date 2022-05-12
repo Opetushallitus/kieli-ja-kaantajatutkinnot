@@ -25,6 +25,7 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
+import { useDebounce, useWindowProperties } from 'shared/hooks';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import {
@@ -33,8 +34,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
-import { useDebounce } from 'hooks/useDebounce';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {

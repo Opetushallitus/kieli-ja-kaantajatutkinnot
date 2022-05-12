@@ -9,6 +9,7 @@ import {
   valueAsOption,
 } from 'shared/components';
 import { TextFieldVariant } from 'shared/enums';
+import { useDebounce } from 'shared/hooks';
 
 import {
   useAppTranslation,
@@ -16,7 +17,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PermissionToPublish } from 'enums/app';
-import { useDebounce } from 'hooks/useDebounce';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
 import { setClerkTranslatorFilters } from 'redux/actions/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
