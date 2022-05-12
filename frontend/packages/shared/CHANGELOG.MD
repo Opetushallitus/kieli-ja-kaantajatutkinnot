@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.9] - 2022-05-12
+
+### Added
+
+- More utils from AKT
+- More hooks from AKT
+
 ## [1.0.8] - 2022-05-11
 
 ### Added
