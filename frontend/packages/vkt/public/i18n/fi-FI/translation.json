@@ -1,0 +1,47 @@
+{
+  "vkt": {
+    "component": {
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "ophPhone": "Opetushallituksen puhelinnumero",
+          "waveAriaLabel": "Aaltoileva vektorikuvio"
+        },
+        "address": {
+          "name": "Opetushallitus",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Puhelin"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "PL 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Saavutettavuusseloste"
+          },
+          "vktHomepage": {
+            "ariaLabel": "Valtiohallinnon kielitutkinto (oph.fi), avaa uudessa välilehdessä",
+            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot",
+            "text": "Valtiohallinnon kielitutkinto (oph.fi)"
+          }
+        }
+      },
+      "header": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+        },
+        "clerk": {
+          "backToOph": "Takaisin Opintopolkuun",
+          "logOut": "Kirjaudu ulos"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      }
+    }
+  }
+}

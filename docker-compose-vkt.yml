@@ -38,6 +38,8 @@ services:
     volumes:
       - ./frontend/packages/vkt:/app/reactjs/packages/vkt
       - /app/reactjs/node_modules
+    environment:
+      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
   vkt-postgres:
     build: ./backend/vkt/db
