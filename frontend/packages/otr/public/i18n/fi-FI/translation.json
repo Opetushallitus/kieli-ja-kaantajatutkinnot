@@ -59,7 +59,7 @@
           "title": "Haku kieliparilla",
           "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
           "toHelperText": "Valitse kieli",
-          "toPlaceholder": "Kaikki"
+          "toPlaceholder": "kaikki"
         },
         "toasts": {
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",

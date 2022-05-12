@@ -4,6 +4,7 @@ import {
   Dispatch,
   KeyboardEvent,
   SetStateAction,
+  SyntheticEvent,
   useMemo,
   useRef,
   useState,
@@ -14,6 +15,7 @@ import {
   CustomButton,
   H3,
   LanguageSelect,
+  languageToComboBoxOption,
   valueAsOption,
 } from 'shared/components';
 import {
@@ -70,6 +72,8 @@ const regions = [
   'Varsinais-Suomi',
 ];
 
+const DEFAULT_LANG = 'FI';
+
 export const PublicTranslatorFilters = ({
   showTable,
   setShowTable,
@@ -83,26 +87,28 @@ export const PublicTranslatorFilters = ({
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
 
-  // State
+  // Defaults
   const defaultFiltersState = {
-    fromLang: '',
+    fromLang: DEFAULT_LANG,
     toLang: '',
     name: '',
     region: '',
     errors: [],
   };
-  const [filters, setFilters] = useState(defaultFiltersState);
-  const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
+
   const defaultValuesState: PublicTranslatorFilterValues = {
-    fromLang: null,
+    fromLang: languageToComboBoxOption(translateLanguage, DEFAULT_LANG),
     toLang: null,
     name: '',
     region: null,
   };
-  const debounce = useDebounce(300);
 
+  // State
+  const [filters, setFilters] = useState(defaultFiltersState);
+  const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const [values, setValues] = useState(defaultValuesState);
   const [inputValues, setInputValues] = useState(defaultFiltersState);
+  const debounce = useDebounce(300);
   const filtersGridRef = useRef<HTMLInputElement>(null);
   const { isPhone } = useWindowProperties();
 
@@ -158,7 +164,7 @@ export const PublicTranslatorFilters = ({
 
   const handleComboboxInputChange =
     (inputName: SearchFilter) =>
-    ({}, newInputValue: string) => {
+    (_event: SyntheticEvent, newInputValue: string) => {
       setInputValues({ ...inputValues, [inputName]: newInputValue });
       setSearchButtonDisabled(false);
     };

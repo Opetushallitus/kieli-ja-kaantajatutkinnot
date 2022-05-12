@@ -26,7 +26,7 @@ const defaultState = {
   translators: [],
   filters: {
     errors: [],
-    fromLang: '',
+    fromLang: 'FI',
     toLang: '',
     name: '',
     region: '',
