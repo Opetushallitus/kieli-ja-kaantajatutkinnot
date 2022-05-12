@@ -5,7 +5,6 @@ import { initI18n } from 'configs/i18n';
 import { theme } from 'configs/materialUI';
 import { store } from 'configs/redux';
 import { AppRouter } from 'routers/AppRouter';
-import 'public/assets/svg/footer_wave.svg'; // Fixme: Remove
 
 import 'styles/styles.scss';
 
