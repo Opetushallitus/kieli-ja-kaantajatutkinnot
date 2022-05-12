@@ -9,7 +9,7 @@ services:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}",
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}"
       ]
     networks:
       - otr-dev

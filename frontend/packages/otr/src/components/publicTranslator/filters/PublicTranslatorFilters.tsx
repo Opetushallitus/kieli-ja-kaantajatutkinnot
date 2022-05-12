@@ -36,7 +36,6 @@ import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {
   addPublicTranslatorFilter,
-  addPublicTranslatorFilterError,
   emptyPublicTranslatorFilters,
   emptySelectedTranslators,
   removePublicTranslatorFilterError,
@@ -133,27 +132,9 @@ export const PublicTranslatorFilters = ({
 
   // Handlers
   const handleSearchBtnClick = () => {
-    if (
-      (filters.fromLang && !filters.toLang) ||
-      (!filters.fromLang && filters.toLang)
-    ) {
-      // If one of the fields are not defined show an error
-      const langFields = [SearchFilter.FromLang, SearchFilter.ToLang];
-      langFields.forEach((field) => {
-        if (!filters[field] && !hasError(field))
-          dispatch(addPublicTranslatorFilterError(field));
-      });
-
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('toasts.selectLanguagePair')
-      );
-      dispatch(showNotifierToast(toast));
-    } else {
-      dispatch(addPublicTranslatorFilter(filters));
-      setShowTable(true);
-      setSearchButtonDisabled(true);
-    }
+    dispatch(addPublicTranslatorFilter(filters));
+    setShowTable(true);
+    setSearchButtonDisabled(true);
   };
 
   const scrollToSearch = () => {
