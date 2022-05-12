@@ -2,6 +2,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
 import { useEffect } from 'react';
 import { Text } from 'shared/components';
+import { Color } from 'shared/enums';
 
 import {
   ChosenTranslatorsHeading,
@@ -9,7 +10,6 @@ import {
 } from 'components/contactRequest/ContactRequestFormUtils';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { Color } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { removeSelectedTranslator } from 'redux/actions/publicTranslator';
 import { selectedPublicTranslatorsForLanguagePair } from 'redux/selectors/publicTranslator';

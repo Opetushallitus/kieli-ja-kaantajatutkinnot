@@ -14,12 +14,13 @@ import {
   HeaderSeparator,
   Text,
 } from 'shared/components';
+import { Variant } from 'shared/enums';
 
 import {
   useAccessibilityTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { AppRoutes, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import { Utils } from 'utils';
 

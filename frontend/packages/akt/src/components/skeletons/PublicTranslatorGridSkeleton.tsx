@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { CustomSkeleton, H1, Text } from 'shared/components';
+import { SkeletonVariant } from 'shared/enums';
 
 import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { SkeletonVariant } from 'enums/app';
 
 export const PublicTranslatorGridSkeleton = ({
   showTable,

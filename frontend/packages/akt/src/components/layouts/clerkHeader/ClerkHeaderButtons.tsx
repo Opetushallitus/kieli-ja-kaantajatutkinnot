@@ -4,9 +4,10 @@ import {
 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { CustomButton } from 'shared/components';
+import { Variant } from 'shared/enums';
 
 import { useAppTranslation } from 'configs/i18n';
-import { AppRoutes, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { ExternalRoutes } from 'enums/external';
 
 export const ClerkHeaderButtons = () => {

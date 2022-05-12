@@ -12,13 +12,13 @@ import {
   Text,
   valueAsOption,
 } from 'shared/components';
+import { Color, TextFieldVariant, Variant } from 'shared/enums';
 
 import {
   useAppTranslation,
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { Color, TextFieldVariant, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';

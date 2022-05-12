@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { OPHLogoViewer, SkipLink } from 'shared/components';
+import { Direction } from 'shared/enums';
 
 import { LangSelector } from 'components/i18n/LangSelector';
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
@@ -10,7 +11,7 @@ import {
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { AppRoutes, Direction } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {

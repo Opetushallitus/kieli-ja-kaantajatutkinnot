@@ -1,9 +1,9 @@
 import { Skeleton } from '@mui/material';
+import { SkeletonVariant } from 'shared/enums';
 
 import { AuthorisationDetails } from 'components/clerkTranslator/overview/AuthorisationDetails';
 import { ClerkTranslatorDetails } from 'components/clerkTranslator/overview/ClerkTranslatorDetails';
 import { TopControls } from 'components/clerkTranslator/overview/TopControls';
-import { SkeletonVariant } from 'enums/app';
 
 export const ClerkTranslatorOverviewPageSkeleton = () => {
   return (

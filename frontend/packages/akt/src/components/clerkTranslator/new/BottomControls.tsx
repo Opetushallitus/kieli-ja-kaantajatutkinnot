@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Variant } from 'enums/app';
 import {
   resetNewClerkTranslatorDetails,
   resetNewClerkTranslatorRequestStatus,

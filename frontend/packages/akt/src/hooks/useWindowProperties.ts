@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-
-import { Screenwidth } from 'enums/app';
+import { Screenwidth } from 'shared/enums';
 
 const getProperties = () => {
   const { innerWidth: width, innerHeight: height } = window;

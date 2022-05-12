@@ -8,13 +8,14 @@ import {
   languageToComboBoxOption,
   valueAsOption,
 } from 'shared/components';
+import { TextFieldVariant } from 'shared/enums';
 
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { PermissionToPublish, TextFieldVariant } from 'enums/app';
+import { PermissionToPublish } from 'enums/app';
 import { useDebounce } from 'hooks/useDebounce';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
 import { setClerkTranslatorFilters } from 'redux/actions/clerkTranslator';

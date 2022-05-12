@@ -16,6 +16,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
+import { Color, Severity, Variant } from 'shared/enums';
 
 import {
   useAppTranslation,
@@ -24,7 +25,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Severity, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { updateAuthorisationPublishPermission } from 'redux/actions/clerkTranslatorOverview';

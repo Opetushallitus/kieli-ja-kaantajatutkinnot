@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from 'react';
 import { CustomSwitch, CustomTextField, H3 } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
 
 import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { TextFieldTypes } from 'enums/app';
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';

@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
 
 import {
   ChosenTranslators,
@@ -9,7 +10,6 @@ import {
 } from 'components/contactRequest/ContactRequestFormUtils';
 import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { TextFieldTypes } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 import {

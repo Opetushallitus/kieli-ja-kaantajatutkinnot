@@ -18,6 +18,13 @@ import {
   sortOptionsByLabels,
   valueAsOption,
 } from 'shared/components';
+import {
+  Color,
+  KeyboardKey,
+  Severity,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import {
@@ -25,14 +32,7 @@ import {
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import {
-  Color,
-  KeyboardKey,
-  SearchFilter,
-  Severity,
-  TextFieldVariant,
-  Variant,
-} from 'enums/app';
+import { SearchFilter } from 'enums/app';
 import { useDebounce } from 'hooks/useDebounce';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';

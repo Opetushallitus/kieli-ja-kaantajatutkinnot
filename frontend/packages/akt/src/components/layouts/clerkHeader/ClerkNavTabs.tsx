@@ -1,9 +1,10 @@
 import { Tab, Tabs } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Color } from 'shared/enums';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { AppRoutes, Color, HeaderTabNav } from 'enums/app';
+import { AppRoutes, HeaderTabNav } from 'enums/app';
 
 export const ClerkNavTabs = (): JSX.Element => {
   const { t } = useAppTranslation({

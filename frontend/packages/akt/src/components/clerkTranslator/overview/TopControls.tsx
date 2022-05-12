@@ -1,8 +1,9 @@
 import ArrowBackIosOutlined from '@mui/icons-material/ArrowBackIosOutlined';
 import { CustomButtonLink } from 'shared/components';
+import { Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
-import { AppRoutes, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 
 export const TopControls = () => {
   const translateCommon = useCommonTranslation();

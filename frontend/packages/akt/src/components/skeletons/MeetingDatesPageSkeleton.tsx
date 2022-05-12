@@ -1,10 +1,10 @@
 import { CustomSkeleton, H2 } from 'shared/components';
+import { SkeletonVariant } from 'shared/enums';
 
 import { AddMeetingDate } from 'components/clerkTranslator/meetingDates/AddMeetingDate';
 import { MeetingDatesListing } from 'components/clerkTranslator/meetingDates/MeetingDatesListing';
 import { MeetingDatesToggleFilters } from 'components/clerkTranslator/meetingDates/MeetingDatesToggleFilters';
 import { useCommonTranslation } from 'configs/i18n';
-import { SkeletonVariant } from 'enums/app';
 
 export const MeetingDatesPageSkeleton = () => {
   const translateCommon = useCommonTranslation();

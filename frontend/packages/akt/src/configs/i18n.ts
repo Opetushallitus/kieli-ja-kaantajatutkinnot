@@ -5,8 +5,8 @@ import {
   useTranslation,
   UseTranslationOptions,
 } from 'react-i18next';
+import { AppLanguage, I18nNamespace } from 'shared/enums';
 
-import { AppLanguage, I18nNamespace } from 'enums/app';
 import accessibilityEN from 'public/i18n/en-GB/accessibility.json';
 import commonEN from 'public/i18n/en-GB/common.json';
 import transEN from 'public/i18n/en-GB/translation.json';

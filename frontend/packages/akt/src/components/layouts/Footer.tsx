@@ -8,6 +8,7 @@ import {
   Svg,
   Text,
 } from 'shared/components';
+import { Direction, Variant } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
 import {
@@ -15,7 +16,7 @@ import {
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { AppRoutes, Direction, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import AKTLogo from 'public/assets/svg/akt_logo.svg';
 

@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
+import { Duration, NotifierTypes, Severity } from 'shared/enums';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIError } from 'enums/api';
-import { Duration, NotifierTypes, Severity } from 'enums/app';
 import { Dialog, DialogButtonAction, Toast } from 'interfaces/notifier';
 import { Utils } from 'utils';
 

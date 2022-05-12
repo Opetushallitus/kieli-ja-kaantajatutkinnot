@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
+import { Color } from 'shared/enums';
 
 import {
   useAppTranslation,
@@ -18,7 +19,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { AppRoutes, Color } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   deselectAllTranslators,

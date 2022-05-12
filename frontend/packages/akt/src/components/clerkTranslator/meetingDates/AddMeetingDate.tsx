@@ -6,11 +6,11 @@ import {
   H3,
   LoadingProgressIndicator,
 } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Variant } from 'enums/app';
 import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
