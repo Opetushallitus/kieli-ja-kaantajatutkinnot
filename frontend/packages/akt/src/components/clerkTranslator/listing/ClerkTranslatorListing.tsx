@@ -9,9 +9,8 @@ import {
 import { Box } from '@mui/system';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { H2, H3, Text } from 'shared/components';
+import { H2, H3, PaginatedTable, Text } from 'shared/components';
 
-import { PaginatedTable } from 'components/tables/Table';
 import {
   useAppTranslation,
   useCommonTranslation,
@@ -252,6 +251,7 @@ export const ClerkTranslatorListing: FC = () => {
             getRowDetails={getRowDetails}
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
+            rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             className={'clerk-translator__listing table-layout-auto'}
             stickyHeader
           />

@@ -2,9 +2,8 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC } from 'react';
-import { CustomIconButton, H3, Text } from 'shared/components';
+import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 
-import { PaginatedTable } from 'components/tables/Table';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
@@ -130,6 +129,7 @@ export const MeetingDatesListing: FC = () => {
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           className={'meeting-dates__listing table-layout-auto'}
+          rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
           stickyHeader
         />
       );
