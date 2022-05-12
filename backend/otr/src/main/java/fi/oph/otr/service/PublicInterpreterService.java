@@ -2,8 +2,8 @@ package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
-import fi.oph.otr.model.Sijainti;
-import fi.oph.otr.model.Tulkki;
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterLanguagePairProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
@@ -32,17 +32,17 @@ public class PublicInterpreterService {
       .stream()
       .collect(Collectors.groupingBy(InterpreterLanguagePairProjection::interpreterId));
 
-    final List<Tulkki> interpreters = interpreterRepository.findAllById(interpreterLanguagePairs.keySet());
+    final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterLanguagePairs.keySet());
 
     return interpreters.stream().map(i -> toDTO(i, interpreterLanguagePairs.get(i.getId()))).toList();
   }
 
   private InterpreterDTO toDTO(
-    final Tulkki interpreter,
+    final Interpreter interpreter,
     final List<InterpreterLanguagePairProjection> languagePairProjections
   ) {
     // TODO: fetch regions in list() method as a map
-    final List<String> regions = interpreter.getRegions().stream().map(Sijainti::getCode).toList();
+    final List<String> regions = interpreter.getRegions().stream().map(Region::getCode).toList();
 
     final List<LanguagePairDTO> languagePairs = languagePairProjections
       .stream()

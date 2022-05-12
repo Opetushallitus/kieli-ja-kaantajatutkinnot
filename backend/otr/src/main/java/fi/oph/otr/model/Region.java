@@ -1,6 +1,5 @@
 package fi.oph.otr.model;
 
-import fi.oph.otr.model.feature.Mutable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "region", uniqueConstraints = @UniqueConstraint(columnNames = { "interpreter_id", "code" }))
-public class Sijainti extends Mutable {
+public class Region extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +29,5 @@ public class Sijainti extends Mutable {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "interpreter_id", referencedColumnName = "interpreter_id", nullable = false)
-  private Tulkki interpreter;
+  private Interpreter interpreter;
 }
