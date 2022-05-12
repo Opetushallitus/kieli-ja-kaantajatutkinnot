@@ -1,5 +1,6 @@
+import { HTTPStatusCode } from 'shared/enums';
+
 import { APIEndpoints, APIError } from 'enums/api';
-import { HTTPStatusCode } from 'enums/app';
 import { MeetingStatus } from 'enums/meetingDate';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onMeetingDatesPage } from 'tests/cypress/support/page-objects/meetingDatesPage';
