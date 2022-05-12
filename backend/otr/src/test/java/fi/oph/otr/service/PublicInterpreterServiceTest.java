@@ -10,10 +10,13 @@ import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
+import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.LanguagePairRepository;
+import fi.oph.otr.repository.RegionRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,13 +35,17 @@ class PublicInterpreterServiceTest {
   private LanguagePairRepository languagePairRepository;
 
   @Resource
+  private RegionRepository regionRepository;
+
+  @Resource
   private TestEntityManager entityManager;
 
   private PublicInterpreterService publicInterpreterService;
 
   @BeforeEach
   public void setup() {
-    publicInterpreterService = new PublicInterpreterService(interpreterRepository, languagePairRepository);
+    publicInterpreterService =
+      new PublicInterpreterService(interpreterRepository, languagePairRepository, regionRepository);
   }
 
   @Test
@@ -83,6 +90,10 @@ class PublicInterpreterServiceTest {
     // Legal interpreter marked deleted
     createLanguagePair(qualification6, "FR", "FI", yesterday, nextWeek);
 
+    createRegion(interpreter2, "01");
+    createRegion(interpreter2, "02");
+    createRegion(interpreter3, "03");
+
     final List<InterpreterDTO> interpreters = publicInterpreterService.list();
     assertEquals(2, interpreters.size());
 
@@ -90,6 +101,7 @@ class PublicInterpreterServiceTest {
     assertNull(publishedInterpreter1.email());
     assertNotNull(publishedInterpreter1.phoneNumber());
     assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
+    assertEquals(Set.of(), Set.copyOf(publishedInterpreter1.areas()));
 
     assertEquals(2, publishedInterpreter1.languages().size());
     assertLanguagePair(languagePair11, publishedInterpreter1.languages().get(0));
@@ -99,6 +111,7 @@ class PublicInterpreterServiceTest {
     assertNotNull(publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());
     assertNull(publishedInterpreter2.otherContactInfo());
+    assertEquals(Set.of("01", "02"), Set.copyOf(publishedInterpreter2.areas()));
 
     assertEquals(1, publishedInterpreter2.languages().size());
     assertLanguagePair(languagePair21, publishedInterpreter2.languages().get(0));
@@ -145,5 +158,11 @@ class PublicInterpreterServiceTest {
     final LanguagePair languagePair = Factory.languagePair(qualification, from, to, begin, end);
     entityManager.persist(languagePair);
     return languagePair;
+  }
+
+  private Region createRegion(final Interpreter interpreter, final String code) {
+    final Region region = Factory.region(interpreter, code);
+    entityManager.persist(region);
+    return region;
   }
 }
