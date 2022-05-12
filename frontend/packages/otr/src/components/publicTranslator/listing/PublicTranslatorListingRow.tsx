@@ -27,16 +27,26 @@ export const PublicTranslatorListingRow = ({
   const filteredSelectedIds = useAppSelector(selectFilteredPublicSelectedIds);
   const selected = filteredSelectedIds.includes(translator.id);
 
+<<<<<<< HEAD
   const [isOpen, setIsOpen] = useState(false);
 
+=======
+>>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
   const { firstName, lastName, languages, regions } = translator;
+  const [isOpen, setIsOpen] = useState(false);
 
   const { isPhone } = useWindowProperties();
   const translateLanguage = useKoodistoLanguagesTranslation();
 
+<<<<<<< HEAD
   const getAreasDescription = (areas: Array<string>) => {
     if (areas.length > 0) {
       return areas.join(', ');
+=======
+  const getRegionsDescription = (regions: Array<string>) => {
+    if (regions.length > 0) {
+      return regions.join(', ');
+>>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
     }
 
     return t('component.publicInterpreterListing.wholeFinland');
@@ -53,12 +63,19 @@ export const PublicTranslatorListingRow = ({
         data-testid={`public-translators__id-${translator.id}-row`}
         selected={selected}
         className="public-translator-listing-row"
+<<<<<<< HEAD
+=======
+        onClick={() => setIsOpen((prevState) => !prevState)}
+>>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
       >
         <TableCell align="left">
           <CustomIconButton
             aria-label={t('component.publicInterpreterListing.row.ariaLabel')}
             size="small"
+<<<<<<< HEAD
             onClick={() => setIsOpen((prev) => !prev)}
+=======
+>>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
             aria-pressed={isOpen}
           >
             {isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -77,7 +94,11 @@ export const PublicTranslatorListingRow = ({
           ))}
         </TableCell>
         <TableCell>
+<<<<<<< HEAD
           <Text>{getAreasDescription(regions)}</Text>
+=======
+          <Text>{getRegionsDescription(regions)}</Text>
+>>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
         </TableCell>
       </TableRow>
       <TableRow>
