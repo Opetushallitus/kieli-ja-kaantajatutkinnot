@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record ClerkInterpreterCreateDTO(
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
@@ -27,9 +28,4 @@ public record ClerkInterpreterCreateDTO(
   @NonNull List<String> regions,
   @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications
 )
-  implements ClerkInterpreterDTOCommonFields {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public ClerkInterpreterCreateDTO {}
-}
+  implements ClerkInterpreterDTOCommonFields {}

@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record InterpreterDTO(
   @NonNull String firstName,
   @NonNull String lastName,
@@ -12,9 +13,4 @@ public record InterpreterDTO(
   String otherContactInfo,
   @NonNull List<String> regions,
   @NonNull List<LanguagePairDTO> languages
-) {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public InterpreterDTO {}
-}
+) {}
