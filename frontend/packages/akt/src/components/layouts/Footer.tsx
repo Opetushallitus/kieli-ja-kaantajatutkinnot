@@ -8,6 +8,7 @@ import {
   Svg,
   Text,
 } from 'shared/components';
+import { FooterWave } from 'shared/statics';
 
 import {
   getCurrentLang,
@@ -17,7 +18,6 @@ import {
 import { AppRoutes, Direction, Variant } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import AKTLogo from 'public/assets/svg/akt_logo.svg';
-import FooterWave from 'public/assets/svg/footer_wave.svg';
 
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akt.component.footer' });
