@@ -1,26 +1,17 @@
-import { Checkbox, TableCell, TableRow } from '@mui/material';
-import { H2, H3, Text } from 'shared/components';
-import { Color, Severity } from 'shared/enums';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { TableCell, TableRow } from '@mui/material';
+import Collapse from '@mui/material/Collapse';
+import { useState } from 'react';
+import { CustomIconButton, Text } from 'shared/components';
 
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { SearchFilter } from 'enums/app';
+import { useAppSelector } from 'configs/redux';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicTranslator } from 'interfaces/publicTranslator';
-import { showNotifierToast } from 'redux/actions/notifier';
-import {
-  addPublicTranslatorFilterError,
-  addSelectedTranslator,
-  removeSelectedTranslator,
-} from 'redux/actions/publicTranslator';
-import {
-  publicTranslatorsSelector,
-  selectFilteredPublicSelectedIds,
-} from 'redux/selectors/publicTranslator';
-import { NotifierUtils } from 'utils/notifier';
+import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicTranslator';
 
 export const PublicTranslatorListingRow = ({
   translator,
@@ -33,116 +24,97 @@ export const PublicTranslatorListingRow = ({
   });
 
   // Redux
-  const dispatch = useAppDispatch();
-  const { filters } = useAppSelector(publicTranslatorsSelector);
   const filteredSelectedIds = useAppSelector(selectFilteredPublicSelectedIds);
   const selected = filteredSelectedIds.includes(translator.id);
 
-  const { fromLang, toLang } = filters;
+  const [isOpen, setIsOpen] = useState(false);
+
   const { firstName, lastName, languages, regions } = translator;
 
   const { isPhone } = useWindowProperties();
   const translateLanguage = useKoodistoLanguagesTranslation();
 
-  const checkboxAriaLabel = selected
-    ? t('component.table.accessibility.checkboxSelectedAriaLabel')
-    : t('component.table.accessibility.checkboxUnselectedAriaLabel');
-
-  const handleRowClick = () => {
-    const langFields = [SearchFilter.FromLang, SearchFilter.ToLang];
-
-    // Dispatch an error if the language pairs are not defined
-    langFields.forEach((field) => {
-      if (!filters[field] && !filters.errors?.includes(field))
-        dispatch(addPublicTranslatorFilterError(field));
-    });
-
-    if (!fromLang || !toLang) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t(
-          'component.publicTranslatorFilters.toasts.contactRequestNeedsLanguagePairs'
-        )
-      );
-      dispatch(showNotifierToast(toast));
-    } else {
-      if (selected) {
-        dispatch(removeSelectedTranslator(translator.id));
-      } else {
-        dispatch(addSelectedTranslator(translator.id));
-      }
-    }
-  };
-
-  const getRegionsDescription = (regions: Array<string>) => {
-    if (regions.length > 0) {
-      return regions.join(', ');
+  const getAreasDescription = (areas: Array<string>) => {
+    if (areas.length > 0) {
+      return areas.join(', ');
     }
 
     return t('component.publicInterpreterListing.wholeFinland');
   };
 
-  const renderPhoneTableCells = () => (
-    <TableCell>
-      <div className="rows gapped">
-        <H2>{`${lastName} ${firstName}`}</H2>
-        <div className="columns gapped space-between">
-          <div className="rows gapped">
-            <div>
-              <H3>{t('pages.translator.languagePairs')}</H3>
-              {languages.map(({ from, to }, k) => (
-                <Text key={k}>
-                  {translateLanguage(from)}
-                  {` - `}
-                  {translateLanguage(to)}
-                </Text>
-              ))}
-            </div>
-            <div>
-              <H3>{t('pages.translator.town')}</H3>
-              <Text>{getRegionsDescription(regions)}</Text>
-            </div>
-          </div>
-          <Checkbox
-            className="public-translator-listing__checkbox"
-            checked={selected}
-            color={Color.Secondary}
-            inputProps={{
-              'aria-label': checkboxAriaLabel,
-            }}
-          />
-        </div>
-      </div>
-    </TableCell>
-  );
+  const renderPhoneRow = () => {
+    // TODO
+    return <div />;
+  };
 
-  const renderDesktopTableCells = () => (
+  const renderDesktopRow = () => (
     <>
-      <TableCell>
-        <Text>{`${lastName} ${firstName}`}</Text>
-      </TableCell>
-      <TableCell>
-        {languages.map(({ from, to }, k) => (
-          <Text key={k}>
-            {translateLanguage(from)}
-            {` - `}
-            {translateLanguage(to)}
-          </Text>
-        ))}
-      </TableCell>
-      <TableCell>
-        <Text>{getRegionsDescription(regions)}</Text>
-      </TableCell>
+      <TableRow
+        data-testid={`public-translators__id-${translator.id}-row`}
+        selected={selected}
+        className="public-translator-listing-row"
+      >
+        <TableCell align="left">
+          <CustomIconButton
+            aria-label={t('component.publicInterpreterListing.row.ariaLabel')}
+            size="small"
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-pressed={isOpen}
+          >
+            {isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </CustomIconButton>
+        </TableCell>
+        <TableCell>
+          <Text>{`${lastName} ${firstName}`}</Text>
+        </TableCell>
+        <TableCell>
+          {languages.map(({ from, to }, k) => (
+            <Text key={k}>
+              {translateLanguage(from)}
+              {` - `}
+              {translateLanguage(to)}
+            </Text>
+          ))}
+        </TableCell>
+        <TableCell>
+          <Text>{getAreasDescription(regions)}</Text>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+          <Collapse in={isOpen} timeout="auto" unmountOnExit>
+            <div className="columns public-translator-listing-row__extra-details">
+              <div className="rows margin-right-xs">
+                <Text className="bold">
+                  {t(
+                    'component.publicInterpreterListing.row.extraDetails.email'
+                  )}
+                  :
+                </Text>
+                <Text className="bold">
+                  {t(
+                    'component.publicInterpreterListing.row.extraDetails.phoneNumber'
+                  )}
+                  :
+                </Text>
+                <Text className="bold">
+                  {t(
+                    'component.publicInterpreterListing.row.extraDetails.otherContactInfo'
+                  )}
+                  :
+                </Text>
+              </div>
+              <div className="rows">
+                <Text>{translator.email}</Text>
+                <Text>{translator.phoneNumber}</Text>
+                <Text>{translator.otherContactInfo}</Text>
+              </div>
+            </div>
+          </Collapse>
+        </TableCell>
+      </TableRow>
     </>
   );
 
-  return (
-    <TableRow
-      data-testid={`public-translators__id-${translator.id}-row`}
-      selected={selected}
-      onClick={handleRowClick}
-    >
-      {isPhone ? renderPhoneTableCells() : renderDesktopTableCells()}
-    </TableRow>
-  );
+  return isPhone ? renderPhoneRow() : renderDesktopRow();
 };

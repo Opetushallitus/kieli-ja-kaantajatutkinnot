@@ -12,6 +12,7 @@ export const PublicTranslatorListingHeader = () => {
     <TableHead>
       {!isPhone && (
         <TableRow>
+          <TableCell />
           <TableCell>
             <H3>{t('name')}</H3>
           </TableCell>

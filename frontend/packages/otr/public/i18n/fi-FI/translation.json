@@ -75,6 +75,14 @@
         }
       },
       "publicInterpreterListing": {
+        "row": {
+          "ariaLabel": "Avaa lisätiedot",
+          "extraDetails": {
+            "email": "Sähköposti",
+            "otherContactInfo": "Muu yhteystieto",
+            "phoneNumber": "Puhelinnumero"
+          }
+        },
         "rowsPerPageLabel": "Riviä per sivu",
         "wholeFinland": "Koko Suomi"
       },
