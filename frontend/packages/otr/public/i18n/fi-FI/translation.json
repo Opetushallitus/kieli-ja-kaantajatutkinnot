@@ -52,9 +52,6 @@
           "newSearch": "Tee uusi haku",
           "search": "Näytä tulokset"
         },
-        "captions": {
-          "langPair": "(* Pakollinen yhteydenottoon)"
-        },
         "languagePair": {
           "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
           "fromHelperText": "Valitse kieli",
@@ -62,7 +59,7 @@
           "title": "Haku kieliparilla",
           "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
           "toHelperText": "Valitse kieli",
-          "toPlaceholder": "Mihin *"
+          "toPlaceholder": "Kaikki"
         },
         "toasts": {
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
@@ -70,8 +67,8 @@
           "translatorsSelected": "Voit valita vain yhden kieliparin yhteydenottoon"
         },
         "town": {
-          "placeholder": "Asuinkunta",
-          "title": "Haku kääntäjän asuinkunnalla"
+          "placeholder": "Toiminta-alue",
+          "title": "Haku oikeustulkin toiminta-alueella"
         }
       },
       "publicInterpreterListing": {
@@ -103,12 +100,11 @@
     "pages": {
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
-        "descriptionExtra": "Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi tulkkien yhteystietoja",
         "filters": {
           "title": "Etsi oikeustulkkia"
         },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Huomaa, että kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä.",
+        "note": "Oikeustulkeilla on aina molemman suuntainen pätevyys esim. suomi <-> englanti englanti <-> suomi",
         "title": "Oikeustulkkirekisteri"
       },
       "notFoundPage": {

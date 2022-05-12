@@ -6,7 +6,7 @@ import { Severity } from 'shared/enums';
 import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
 import { PublicTranslatorListing } from 'components/publicTranslator/listing/PublicTranslatorListing';
 import { PublicTranslatorGridSkeleton } from 'components/skeletons/PublicTranslatorGridSkeleton';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import {
@@ -17,7 +17,6 @@ import {
 export const PublicTranslatorGrid = () => {
   // I18
   const { t } = useAppTranslation({ keyPrefix: 'otr.pages.homepage' });
-  const translateCommon = useCommonTranslation();
   // Redux
   const { status } = useAppSelector(publicTranslatorsSelector);
   const translators = useAppSelector(selectFilteredPublicTranslators);
@@ -34,10 +33,6 @@ export const PublicTranslatorGrid = () => {
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
         <Text>{t('description')}</Text>
-        <Text className="margin-top-lg">
-          {`${t('descriptionExtra')}:`}
-          <span className="bold">{translateCommon('contactEmail')}</span>
-        </Text>
       </Grid>
       <Grid item className="public-homepage__grid-container__item-filters">
         <Paper elevation={3} className="public-homepage__filters">

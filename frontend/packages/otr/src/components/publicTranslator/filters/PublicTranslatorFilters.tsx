@@ -10,7 +10,6 @@ import {
 } from 'react';
 import {
   AutocompleteValue,
-  Caption,
   ComboBox,
   CustomButton,
   H3,
@@ -277,9 +276,6 @@ export const PublicTranslatorFilters = ({
         <div className="public-translator-filters__filter">
           <div className="columns gapped-xxs">
             <H3>{t('languagePair.title')}</H3>
-            <Caption className="public-translator-filters__filter_">
-              {t('captions.langPair')}
-            </Caption>
           </div>
           <Box
             className="public-translator-filters__filter__language-pair"

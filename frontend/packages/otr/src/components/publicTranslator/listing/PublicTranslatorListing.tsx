@@ -47,7 +47,7 @@ export const PublicTranslatorListing = ({
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           rowsPerPageLabel={t(
-            'otr.components.publicInterpreterListing.rowsPerPageLabel'
+            'component.publicInterpreterListing.rowsPerPageLabel'
           )}
           stickyHeader
         />
