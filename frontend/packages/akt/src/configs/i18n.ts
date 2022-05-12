@@ -10,15 +10,18 @@ import { DateUtils } from 'shared/utils';
 
 import accessibilityEN from 'public/i18n/en-GB/accessibility.json';
 import commonEN from 'public/i18n/en-GB/common.json';
+import privacyEN from 'public/i18n/en-GB/privacy.json';
 import transEN from 'public/i18n/en-GB/translation.json';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
+import privacyFI from 'public/i18n/fi-FI/privacy.json';
 import transFI from 'public/i18n/fi-FI/translation.json';
 import koodistoLangsEN from 'public/i18n/koodisto/langs/koodisto_langs_en-GB.json';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 import koodistoLangsSV from 'public/i18n/koodisto/langs/koodisto_langs_sv-SE.json';
 import accessibilitySV from 'public/i18n/sv-SE/accessibility.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
+import privacySV from 'public/i18n/sv-SE/privacy.json';
 import transSV from 'public/i18n/sv-SE/translation.json';
 
 // Defaults and resources
@@ -32,22 +35,25 @@ export const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
-    [I18nNamespace.Common]: commonFI,
-    [I18nNamespace.Translation]: transFI,
     [I18nNamespace.Accessibility]: accessibilityFI,
+    [I18nNamespace.Common]: commonFI,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsFI,
+    [I18nNamespace.Privacy]: privacyFI,
+    [I18nNamespace.Translation]: transFI,
   },
   [langSV]: {
-    [I18nNamespace.Common]: commonSV,
-    [I18nNamespace.Translation]: transSV,
     [I18nNamespace.Accessibility]: accessibilitySV,
+    [I18nNamespace.Common]: commonSV,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsSV,
+    [I18nNamespace.Privacy]: privacySV,
+    [I18nNamespace.Translation]: transSV,
   },
   [langEN]: {
-    [I18nNamespace.Common]: commonEN,
-    [I18nNamespace.Translation]: transEN,
     [I18nNamespace.Accessibility]: accessibilityEN,
+    [I18nNamespace.Common]: commonEN,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsEN,
+    [I18nNamespace.Privacy]: privacyEN,
+    [I18nNamespace.Translation]: transEN,
   },
 };
 
@@ -90,12 +96,12 @@ export const useAppTranslation = (
   return useTranslation(ns, options);
 };
 
-export const useKoodistoLanguagesTranslation = () => {
+export const useAccessibilityTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.koodisto.languages',
+      keyPrefix: 'akt.accessibility',
     },
-    I18nNamespace.KoodistoLanguages
+    I18nNamespace.Accessibility
   );
 
   return t;
@@ -112,12 +118,23 @@ export const useCommonTranslation = () => {
   return t;
 };
 
-export const useAccessibilityTranslation = () => {
+export const useKoodistoLanguagesTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.accessibility',
+      keyPrefix: 'akt.koodisto.languages',
     },
-    I18nNamespace.Accessibility
+    I18nNamespace.KoodistoLanguages
+  );
+
+  return t;
+};
+
+export const usePrivacyTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'akt.privacy',
+    },
+    I18nNamespace.Privacy
   );
 
   return t;

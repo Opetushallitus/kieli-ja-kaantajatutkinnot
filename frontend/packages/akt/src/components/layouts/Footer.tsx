@@ -47,6 +47,12 @@ export const Footer = () => {
                 >
                   {t('links.accessibility.text')}
                 </CustomButtonLink>
+                <CustomButtonLink
+                  to={AppRoutes.PrivacyPolicyPage}
+                  variant={Variant.Text}
+                >
+                  {t('links.privacy.text')}
+                </CustomButtonLink>
                 <ExtLink
                   text={t('links.aktHomepage.text')}
                   href={t('links.aktHomepage.link')}

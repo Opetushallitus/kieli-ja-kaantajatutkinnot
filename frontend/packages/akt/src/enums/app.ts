@@ -12,6 +12,7 @@ export enum AppRoutes {
   ClerkTranslatorOverviewPage = '/akt/virkailija/kaantaja/:translatorId',
   ClerkNewTranslatorPage = '/akt/virkailija/lisaa-kaantaja',
   AccessibilityStatementPage = '/akt/saavutettavuusseloste',
+  PrivacyPolicyPage = '/akt/tietosuojaseloste',
   NotFoundPage = '*',
 }
 
