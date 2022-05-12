@@ -21,9 +21,9 @@ import {
   MEETING_DATE_REMOVE_ERROR,
   MEETING_DATE_REMOVE_SUCCESS,
 } from 'redux/actionTypes/meetingDate';
-import { DateUtils } from 'utils/date';
+import { getDayjs } from 'utils/dayjs';
 
-const dayjs = DateUtils.dayjs();
+const dayjs = getDayjs();
 
 const defaultState = {
   meetingDates: {

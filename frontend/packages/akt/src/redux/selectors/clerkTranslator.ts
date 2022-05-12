@@ -10,12 +10,12 @@ import {
   ClerkTranslatorFilter,
 } from 'interfaces/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
+import { getDayjs } from 'utils/dayjs';
 
 export const clerkTranslatorsSelector = (state: RootState) =>
   state.clerkTranslator;
 
-const dayjs = DateUtils.dayjs();
+const dayjs = getDayjs();
 
 export const selectTranslatorsByAuthorisationStatus = createSelector(
   (state: RootState) => state.clerkTranslator.translators,

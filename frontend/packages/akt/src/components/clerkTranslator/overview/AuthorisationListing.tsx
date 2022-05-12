@@ -17,6 +17,7 @@ import {
   Text,
 } from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -32,7 +33,7 @@ import { showNotifierDialog } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
+import { getDayjs } from 'utils/dayjs';
 import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationListing = ({
@@ -56,7 +57,7 @@ export const AuthorisationListing = ({
   );
 
   const isLoading = authorisationDetailsStatus === APIResponseStatus.InProgress;
-  const dayjs = DateUtils.dayjs();
+  const dayjs = getDayjs();
   const currentDate = dayjs();
 
   const defaultClassName = 'clerk-translator-details__authorisations-table';

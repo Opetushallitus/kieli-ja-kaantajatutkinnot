@@ -15,6 +15,7 @@ import {
   Text,
 } from 'shared/components';
 import { Variant } from 'shared/enums';
+import { CommonUtils } from 'shared/utils';
 
 import {
   useAccessibilityTranslation,
@@ -22,7 +23,6 @@ import {
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
-import { Utils } from 'utils';
 
 const BackButton = () => {
   const translateCommon = useCommonTranslation();
@@ -54,7 +54,7 @@ export const AccessibilityStatementPage = () => {
   );
 
   useEffect(() => {
-    Utils.scrollToTop();
+    CommonUtils.scrollToTop();
   }, [pathname]);
 
   return (

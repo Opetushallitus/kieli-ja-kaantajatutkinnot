@@ -1,3 +1,5 @@
+import { DateUtils } from 'shared/utils';
+
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation, AuthorisationResponse } from 'interfaces/authorisation';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
@@ -9,7 +11,7 @@ import {
 } from 'interfaces/clerkTranslator';
 import { ExaminationDateResponse } from 'interfaces/examinationDate';
 import { MeetingDateResponse } from 'interfaces/meetingDate';
-import { DateUtils } from 'utils/date';
+import { getDayjs } from 'utils/dayjs';
 
 export class SerializationUtils {
   static deserializeAuthorisation(
@@ -63,7 +65,7 @@ export class SerializationUtils {
   }
 
   static deserializeMeetingDate(meetingDate: MeetingDateResponse) {
-    const dayjs = DateUtils.dayjs();
+    const dayjs = getDayjs();
 
     return {
       ...meetingDate,
@@ -72,7 +74,7 @@ export class SerializationUtils {
   }
 
   static deserializeExaminationDate(examinationDate: ExaminationDateResponse) {
-    const dayjs = DateUtils.dayjs();
+    const dayjs = getDayjs();
 
     return {
       ...examinationDate,

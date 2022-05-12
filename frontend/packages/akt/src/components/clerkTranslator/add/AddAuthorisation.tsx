@@ -13,6 +13,7 @@ import {
   valueAsOption,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -23,10 +24,7 @@ import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
 import { MeetingDate } from 'interfaces/meetingDate';
-import { Utils } from 'utils';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
-import { StringUtils } from 'utils/string';
 
 interface AddAuthorisationProps {
   translatorId?: number;
@@ -79,7 +77,7 @@ export const AddAuthorisation = ({
   useEffect(() => {
     setAuthorisation((prevState) => ({
       ...prevState,
-      tempId: Utils.createUniqueId(),
+      tempId: CommonUtils.createUniqueId(),
     }));
   }, []);
 

@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -17,7 +18,6 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { DateUtils } from 'utils/date';
 import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (meetingDate: MeetingDate) => {

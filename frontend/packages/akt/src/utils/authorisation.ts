@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { DateUtils } from 'shared/utils';
 
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import {
@@ -7,7 +8,7 @@ import {
 } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
-import { DateUtils } from 'utils/date';
+import { getDayjs } from 'utils/dayjs';
 
 export class AuthorisationUtils {
   static isAuthorisationEffective(
@@ -72,7 +73,7 @@ export class AuthorisationUtils {
   }
 
   private static getAuthorisationStatus(authorisation: Authorisation) {
-    const dayjs = DateUtils.dayjs();
+    const dayjs = getDayjs();
     const currentDate = dayjs();
     let status!: AuthorisationStatus;
 

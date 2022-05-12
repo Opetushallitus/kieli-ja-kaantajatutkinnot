@@ -1,4 +1,5 @@
 import { CustomTextField, H3 } from 'shared/components';
+import { InputFieldUtils } from 'shared/utils';
 
 import {
   ChosenTranslators,
@@ -10,7 +11,6 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { Utils } from 'utils';
 
 export const PreviewAndSend = () => {
   const { t } = useAppTranslation({
@@ -19,9 +19,9 @@ export const PreviewAndSend = () => {
   const { request } = useAppSelector(contactRequestSelector);
 
   const getMessageHelperText = () => {
-    return `${request?.message?.length} / ${Utils.getMaxTextAreaLength()} ${t(
-      'characters'
-    )}`;
+    return `${
+      request?.message?.length
+    } / ${InputFieldUtils.getMaxTextAreaLength()} ${t('characters')}`;
   };
 
   return (

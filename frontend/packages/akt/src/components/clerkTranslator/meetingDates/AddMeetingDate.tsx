@@ -7,6 +7,7 @@ import {
   LoadingProgressIndicator,
 } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { DateUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -14,11 +15,10 @@ import { APIResponseStatus } from 'enums/api';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
-import { DateUtils } from 'utils/date';
-import { StringUtils } from 'utils/string';
+import { getDayjs } from 'utils/dayjs';
 
 export const AddMeetingDate = () => {
-  const dayjs = DateUtils.dayjs();
+  const dayjs = getDayjs();
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.addMeetingDate',

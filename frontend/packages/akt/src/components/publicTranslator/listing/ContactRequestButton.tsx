@@ -1,12 +1,12 @@
 import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { CommonUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicUIViews } from 'enums/app';
 import { setPublicUIView } from 'redux/actions/publicUIView';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
-import { Utils } from 'utils';
 
 export const ContactRequestButton = () => {
   const { selectedTranslators } = useAppSelector(publicTranslatorsSelector);
@@ -15,7 +15,7 @@ export const ContactRequestButton = () => {
 
   const handleButtonClick = () => {
     dispatch(setPublicUIView(PublicUIViews.ContactRequest));
-    Utils.scrollToTop();
+    CommonUtils.scrollToTop();
   };
 
   return (
