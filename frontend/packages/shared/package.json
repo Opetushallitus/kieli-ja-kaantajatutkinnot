@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-  "version": "0.0.0-dayjs-locales-v2",
+  "version": "1.0.10",
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",

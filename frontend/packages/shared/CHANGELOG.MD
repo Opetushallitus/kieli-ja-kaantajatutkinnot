@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.10] - 2022-05-13
+
+## Added
+
+- Imported dayjs locales for Finnish, Swedish and English as part of DateUtils.
+- Exposed function to globally set dayjs locale within DateUtils.
+
 ## [1.0.9] - 2022-05-12
 
 ### Added
