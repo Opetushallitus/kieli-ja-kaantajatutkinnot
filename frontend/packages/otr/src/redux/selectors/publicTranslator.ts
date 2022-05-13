@@ -52,7 +52,7 @@ export const filterPublicTranslators = (
   const isNotBlank = (v: string) => !StringUtils.isBlankString(v);
   let filteredData = translators;
   // SearchFilter data only if the criteria are defined
-  if (isNotBlank(filters.fromLang) && isNotBlank(filters.toLang)) {
+  if (isNotBlank(filters.fromLang) || isNotBlank(filters.toLang)) {
     filteredData = filteredData.filter((t) => filterByLanguagePair(t, filters));
   }
   if (isNotBlank(filters.name)) {
@@ -69,11 +69,19 @@ const filterByLanguagePair = (
   publicTranslator: PublicTranslator,
   filters: PublicTranslatorFilter
 ) => {
-  return publicTranslator.languages.find(
-    (l) =>
-      l.from.toLowerCase() === filters.fromLang.toLowerCase() &&
-      l.to.toLowerCase() === filters.toLang.toLowerCase()
-  );
+  return publicTranslator.languages.find((l) => {
+    const fromLangCond =
+      l.from.toLowerCase() === filters.fromLang.toLowerCase() ||
+      l.from.toLowerCase() === filters.toLang.toLowerCase();
+
+    const toLangCond =
+      l.to.toLowerCase() === filters.fromLang.toLowerCase() ||
+      l.to.toLowerCase() === filters.toLang.toLowerCase();
+
+    return filters.fromLang && filters.toLang
+      ? fromLangCond && toLangCond
+      : fromLangCond || toLangCond;
+  });
 };
 
 const filterByName = (
