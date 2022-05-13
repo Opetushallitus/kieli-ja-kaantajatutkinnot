@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
@@ -10,9 +12,7 @@ import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { runWithIntercept } from 'tests/cypress/support/utils/api';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
-import { getDayjs } from 'utils/dayjs';
 
-const dayjs = getDayjs();
 const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 const selectedTranslatorIds = ['3', '4', '5'];

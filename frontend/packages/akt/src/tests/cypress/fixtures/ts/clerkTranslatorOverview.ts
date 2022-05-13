@@ -1,7 +1,8 @@
 // Helpers
+import dayjs from 'dayjs';
+
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { ClerkTranslatorResponse } from 'interfaces/clerkTranslator';
-import { getDayjs } from 'utils/dayjs';
 
 // Used by clerk_translator_overview.spec and needs to match translator with id: 2 in clerk_translator_10.json
 const translatorDetails = {
@@ -20,8 +21,6 @@ const translatorDetails = {
     'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.',
   isAssuranceGiven: true,
 };
-
-const dayjs = getDayjs();
 
 const getDateWithProperType = (date: string, isResponse = true) =>
   isResponse ? date : dayjs(date);

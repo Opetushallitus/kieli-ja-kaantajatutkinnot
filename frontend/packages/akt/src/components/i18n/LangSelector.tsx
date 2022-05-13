@@ -2,7 +2,7 @@ import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import { SelectChangeEvent } from '@mui/material';
 import { FC } from 'react';
 import { CustomSelect } from 'shared/components';
-import { TextFieldVariant } from 'shared/enums';
+import { AppLanguage, TextFieldVariant } from 'shared/enums';
 
 import {
   changeLang,
@@ -22,7 +22,9 @@ export const LangSelector: FC = () => {
   ]);
 
   const handleLangChange = (event: SelectChangeEvent) => {
-    changeLang(event.target.value);
+    const language = event.target.value as AppLanguage;
+
+    changeLang(language);
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   UseTranslationOptions,
 } from 'react-i18next';
 import { AppLanguage, I18nNamespace } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import accessibilityEN from 'public/i18n/en-GB/accessibility.json';
 import commonEN from 'public/i18n/en-GB/common.json';
@@ -68,13 +69,17 @@ declare module 'react-i18next' {
 }
 
 export const initI18n = () => {
-  return use(initReactI18next).use(LanguageDetector).init({
+  const i18n = use(initReactI18next).use(LanguageDetector).init({
     resources,
     detection: detectionOptions,
     fallbackLng: langFI,
     load: 'currentOnly',
     debug: !REACT_ENV_PRODUCTION,
   });
+  const currentLanguage = getCurrentLang() as AppLanguage;
+  DateUtils.setDayjsLocale(currentLanguage);
+
+  return i18n;
 };
 
 export const useAppTranslation = (
@@ -130,7 +135,9 @@ export const getSupportedLangs = (): string[] => {
   return supportedLangs;
 };
 
-export const changeLang = (language: string) => {
+export const changeLang = (language: AppLanguage) => {
+  DateUtils.setDayjsLocale(language);
+
   return changeLanguage(language);
 };
 

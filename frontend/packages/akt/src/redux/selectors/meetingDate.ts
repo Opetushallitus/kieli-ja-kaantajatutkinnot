@@ -1,10 +1,9 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 import { DateUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
 import { MeetingStatus } from 'enums/meetingDate';
-import { getDayjs } from 'utils/dayjs';
 
 export const meetingDatesSelector = (state: RootState) => state.meetingDate;
 
@@ -14,7 +13,6 @@ export const selectMeetingDatesByMeetingStatus = createSelector(
     // TODO Note that this has an *implicit* dependency on the current system time,
     // which we currently fail to take into account properly - the selectors should
     // somehow make the dependency on time explicit!
-    const dayjs = getDayjs();
     const now = dayjs();
     const upcoming = meetingDates.meetingDates
       .filter(({ date }) =>

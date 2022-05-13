@@ -7,6 +7,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
@@ -35,7 +36,6 @@ import {
   selectFilteredSelectedIds,
 } from 'redux/selectors/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { getDayjs } from 'utils/dayjs';
 
 const getRowDetails = (translator: ClerkTranslator) => {
   return <ListingRow translator={translator} />;
@@ -54,7 +54,6 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const { firstName, lastName } = translator;
   const authorisations = translator.authorisations;
 
-  const dayjs = getDayjs();
   const currentDate = dayjs();
   const selected = filteredSelectedIds.includes(translator.id);
 

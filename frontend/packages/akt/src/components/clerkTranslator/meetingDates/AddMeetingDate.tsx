@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import {
   CustomButton,
@@ -15,10 +16,8 @@ import { APIResponseStatus } from 'enums/api';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
-import { getDayjs } from 'utils/dayjs';
 
 export const AddMeetingDate = () => {
-  const dayjs = getDayjs();
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.addMeetingDate',

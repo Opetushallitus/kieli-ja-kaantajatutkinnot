@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
@@ -51,7 +52,6 @@ export const AddAuthorisation = ({
   onAuthorisationAdd,
   onCancel,
 }: AddAuthorisationProps) => {
-  const dayjs = DateUtils.dayjs();
   const currentDate = dayjs();
   const availableMeetingDateValues = meetingDates
     .filter((m) => m.date.isBefore(currentDate, 'day'))

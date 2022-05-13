@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints, APIError } from 'enums/api';
@@ -7,10 +8,8 @@ import { onMeetingDatesPage } from 'tests/cypress/support/page-objects/meetingDa
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { createAPIErrorResponse } from 'tests/cypress/support/utils/api';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
-import { getDayjs } from 'utils/dayjs';
 
 let meetingDates;
-const dayjs = getDayjs();
 const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 const meetingDateToAdd = {
   id: 11,

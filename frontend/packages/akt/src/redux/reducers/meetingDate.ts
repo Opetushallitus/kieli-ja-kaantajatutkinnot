@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Reducer } from 'redux';
 
 import { APIResponseStatus } from 'enums/api';
@@ -21,9 +21,6 @@ import {
   MEETING_DATE_REMOVE_ERROR,
   MEETING_DATE_REMOVE_SUCCESS,
 } from 'redux/actionTypes/meetingDate';
-import { getDayjs } from 'utils/dayjs';
-
-const dayjs = getDayjs();
 
 const defaultState = {
   meetingDates: {

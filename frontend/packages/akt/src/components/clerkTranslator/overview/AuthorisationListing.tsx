@@ -10,6 +10,7 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import {
   CustomIconButton,
   CustomSwitch,
@@ -33,7 +34,6 @@ import { showNotifierDialog } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { getDayjs } from 'utils/dayjs';
 import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationListing = ({
@@ -57,7 +57,6 @@ export const AuthorisationListing = ({
   );
 
   const isLoading = authorisationDetailsStatus === APIResponseStatus.InProgress;
-  const dayjs = getDayjs();
   const currentDate = dayjs();
 
   const defaultClassName = 'clerk-translator-details__authorisations-table';
