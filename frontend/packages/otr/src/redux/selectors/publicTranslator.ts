@@ -58,8 +58,8 @@ export const filterPublicTranslators = (
   if (isNotBlank(filters.name)) {
     filteredData = filteredData.filter((t) => filterByName(t, filters));
   }
-  if (isNotBlank(filters.area)) {
-    filteredData = filteredData.filter((t) => filterByArea(t, filters));
+  if (isNotBlank(filters.region)) {
+    filteredData = filteredData.filter((t) => filterByRegion(t, filters));
   }
 
   return filteredData;
@@ -91,11 +91,11 @@ const filterByName = (
   return isNameIncluded;
 };
 
-const filterByArea = (
+const filterByRegion = (
   publicTranslator: PublicTranslator,
   filters: PublicTranslatorFilter
 ) => {
-  return publicTranslator.areas
-    .map((area) => area.toLowerCase())
-    .includes(filters.area.toLowerCase());
+  return publicTranslator.regions
+    .map((r) => r.toLowerCase())
+    .includes(filters.region.toLowerCase());
 };

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
+@Builder
 public record ClerkInterpreterUpdateDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
@@ -24,11 +25,6 @@ public record ClerkInterpreterUpdateDTO(
   String postalCode,
   String town,
   String extraInformation,
-  @NonNull List<String> areas
+  @NonNull List<String> regions
 )
-  implements ClerkInterpreterDTOCommonFields {
-  // Workaround for bug in IntelliJ lombok plugin
-  // https://github.com/mplushnikov/lombok-intellij-plugin/issues/764
-  @Builder
-  public ClerkInterpreterUpdateDTO {}
-}
+  implements ClerkInterpreterDTOCommonFields {}

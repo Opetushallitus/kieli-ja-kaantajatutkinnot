@@ -12,7 +12,7 @@ export enum SearchFilter {
   FromLang = 'fromLang',
   ToLang = 'toLang',
   Name = 'name',
-  Area = 'area',
+  Region = 'region',
 }
 
 export enum PublicUIViews {

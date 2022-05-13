@@ -50,7 +50,7 @@ import { NotifierUtils } from 'utils/notifier';
 
 const langsFrom = ['FI', 'SV'];
 
-const areas = [
+const regions = [
   'Ahvenanmaa',
   'Etelä-Karjala',
   'Etelä-Pohjanmaa',
@@ -90,7 +90,7 @@ export const PublicTranslatorFilters = ({
     fromLang: '',
     toLang: '',
     name: '',
-    area: '',
+    region: '',
     errors: [],
   };
   const [filters, setFilters] = useState(defaultFiltersState);
@@ -99,7 +99,7 @@ export const PublicTranslatorFilters = ({
     fromLang: null,
     toLang: null,
     name: '',
-    area: null,
+    region: null,
   };
   const debounce = useDebounce(300);
 
@@ -328,14 +328,14 @@ export const PublicTranslatorFilters = ({
           />
         </div>
         <div className="public-translator-filters__filter">
-          <H3> {t('town.title')}</H3>
+          <H3>{t('town.title')}</H3>
           <ComboBox
             data-testid="public-translator-filters__town-combobox"
-            {...getComboBoxAttributes(SearchFilter.Area)}
+            {...getComboBoxAttributes(SearchFilter.Region)}
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={areas.map(valueAsOption)}
+            values={regions.map(valueAsOption)}
             onKeyUp={handleKeyUp}
           />
         </div>

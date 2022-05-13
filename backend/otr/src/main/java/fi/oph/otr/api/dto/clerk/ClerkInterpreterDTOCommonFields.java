@@ -31,5 +31,5 @@ public interface ClerkInterpreterDTOCommonFields {
 
   String extraInformation();
 
-  List<String> areas();
+  List<String> regions();
 }
