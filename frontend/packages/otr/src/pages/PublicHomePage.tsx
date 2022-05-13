@@ -1,15 +1,15 @@
 import { Box, Grid } from '@mui/material';
 import { FC, useEffect } from 'react';
 
-import { PublicTranslatorGrid } from 'components/publicTranslator/PublicTranslatorGrid';
+import { PublicInterpreterGrid } from 'components/publicInterpreter/PublicInterpreterGrid';
 import { useAppDispatch } from 'configs/redux';
-import { loadPublicTranslators } from 'redux/actions/publicTranslator';
+import { loadPublicInterpreters } from 'redux/actions/publicInterpreter';
 
 export const PublicHomePage: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadPublicTranslators);
+    dispatch(loadPublicInterpreters);
   }, [dispatch]);
 
   return (
@@ -20,7 +20,7 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicTranslatorGrid />
+        <PublicInterpreterGrid />
       </Grid>
     </Box>
   );

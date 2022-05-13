@@ -10,13 +10,13 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { useWindowProperties } from 'hooks/useWindowProperties';
-import { PublicTranslator } from 'interfaces/publicTranslator';
-import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicTranslator';
+import { PublicInterpreter } from 'interfaces/publicInterpreter';
+import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicInterpreter';
 
-export const PublicTranslatorListingRow = ({
-  translator,
+export const PublicInterpreterListingRow = ({
+  interpreter,
 }: {
-  translator: PublicTranslator;
+  interpreter: PublicInterpreter;
 }) => {
   // I18n
   const { t } = useAppTranslation({
@@ -25,14 +25,18 @@ export const PublicTranslatorListingRow = ({
 
   // Redux
   const filteredSelectedIds = useAppSelector(selectFilteredPublicSelectedIds);
-  const selected = filteredSelectedIds.includes(translator.id);
+  const selected = filteredSelectedIds.includes(interpreter.id);
 
+<<<<<<< HEAD:frontend/packages/otr/src/components/publicTranslator/listing/PublicTranslatorListingRow.tsx
 <<<<<<< HEAD
   const [isOpen, setIsOpen] = useState(false);
 
 =======
 >>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
   const { firstName, lastName, languages, regions } = translator;
+=======
+  const { firstName, lastName, languages, regions } = interpreter;
+>>>>>>> 29def9c (OTR(Frontend): Rename translator --> interpreter):frontend/packages/otr/src/components/publicInterpreter/listing/PublicInterpreterListingRow.tsx
   const [isOpen, setIsOpen] = useState(false);
 
   const { isPhone } = useWindowProperties();
@@ -60,11 +64,15 @@ export const PublicTranslatorListingRow = ({
   const renderDesktopRow = () => (
     <>
       <TableRow
-        data-testid={`public-translators__id-${translator.id}-row`}
+        data-testid={`public-interpreters__id-${interpreter.id}-row`}
         selected={selected}
+<<<<<<< HEAD:frontend/packages/otr/src/components/publicTranslator/listing/PublicTranslatorListingRow.tsx
         className="public-translator-listing-row"
 <<<<<<< HEAD
 =======
+=======
+        className="public-interpreter-listing-row"
+>>>>>>> 29def9c (OTR(Frontend): Rename translator --> interpreter):frontend/packages/otr/src/components/publicInterpreter/listing/PublicInterpreterListingRow.tsx
         onClick={() => setIsOpen((prevState) => !prevState)}
 >>>>>>> e0d4cfe (OTR(Frontend): Added Collapseable row for desktop)
       >
@@ -104,7 +112,7 @@ export const PublicTranslatorListingRow = ({
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
           <Collapse in={isOpen} timeout="auto" unmountOnExit>
-            <div className="columns public-translator-listing-row__extra-details">
+            <div className="columns public-interpreter-listing-row__extra-details">
               <div className="rows margin-right-xs">
                 <Text className="bold">
                   {t(
@@ -126,9 +134,9 @@ export const PublicTranslatorListingRow = ({
                 </Text>
               </div>
               <div className="rows">
-                <Text>{translator.email}</Text>
-                <Text>{translator.phoneNumber}</Text>
-                <Text>{translator.otherContactInfo}</Text>
+                <Text>{interpreter.email}</Text>
+                <Text>{interpreter.phoneNumber}</Text>
+                <Text>{interpreter.otherContactInfo}</Text>
               </div>
             </div>
           </Collapse>

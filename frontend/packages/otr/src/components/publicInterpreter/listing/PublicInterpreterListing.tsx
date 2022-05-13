@@ -2,22 +2,22 @@ import { Box } from '@mui/system';
 import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
 import { Color } from 'shared/enums';
 
-import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
-import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
+import { PublicInterpreterListingHeader } from 'components/publicInterpreter/listing/PublicInterpreterListingHeader';
+import { PublicInterpreterListingRow } from 'components/publicInterpreter/listing/PublicInterpreterListingRow';
 import { useAppTranslation } from 'configs/i18n';
 import { APIResponseStatus } from 'enums/api';
-import { PublicTranslator } from 'interfaces/publicTranslator';
+import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
-const getRowDetails = (translator: PublicTranslator) => {
-  return <PublicTranslatorListingRow translator={translator} />;
+const getRowDetails = (interpreter: PublicInterpreter) => {
+  return <PublicInterpreterListingRow interpreter={interpreter} />;
 };
 
-export const PublicTranslatorListing = ({
+export const PublicInterpreterListing = ({
   status,
-  translators,
+  interpreters,
 }: {
   status: APIResponseStatus;
-  translators: Array<PublicTranslator>;
+  interpreters: Array<PublicInterpreter>;
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
 
@@ -40,9 +40,9 @@ export const PublicTranslatorListing = ({
     case APIResponseStatus.Success:
       return (
         <PaginatedTable
-          className="translator-listing"
-          data={translators}
-          header={<PublicTranslatorListingHeader />}
+          className="interpreter-listing"
+          data={interpreters}
+          header={<PublicInterpreterListingHeader />}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}

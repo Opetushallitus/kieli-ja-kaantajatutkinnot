@@ -3,40 +3,40 @@ import { StringUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
 import {
-  PublicTranslator,
-  PublicTranslatorFilter,
-} from 'interfaces/publicTranslator';
+  PublicInterpreter,
+  PublicInterpreterFilter,
+} from 'interfaces/publicInterpreter';
 
-export const publicTranslatorsSelector = (state: RootState) =>
-  state.publicTranslator;
+export const publicInterpretersSelector = (state: RootState) =>
+  state.publicInterpreter;
 
-export const selectFilteredPublicTranslators = createSelector(
-  (state: RootState) => state.publicTranslator.translators,
-  (state: RootState) => state.publicTranslator.filters,
-  (translators, filters) => {
-    const filteredArray = filterPublicTranslators(translators, filters);
+export const selectFilteredPublicInterpreters = createSelector(
+  (state: RootState) => state.publicInterpreter.interpreters,
+  (state: RootState) => state.publicInterpreter.filters,
+  (interpreters, filters) => {
+    const filteredArray = filterPublicInterpreters(interpreters, filters);
 
     return filteredArray;
   }
 );
 
 export const selectFilteredPublicSelectedIds = createSelector(
-  selectFilteredPublicTranslators,
-  (state: RootState) => state.publicTranslator.selectedTranslators,
-  (filteredTranslators, selectedTranslators) => {
+  selectFilteredPublicInterpreters,
+  (state: RootState) => state.publicInterpreter.selectedInterpreters,
+  (filteredTranslators, selectedInterpreters) => {
     const filteredIds = new Set(filteredTranslators.map((t) => t.id));
 
-    return selectedTranslators.filter((id) => filteredIds.has(id));
+    return selectedInterpreters.filter((id) => filteredIds.has(id));
   }
 );
 
-export const selectedPublicTranslatorsForLanguagePair = createSelector(
-  (state: RootState) => state.publicTranslator.selectedTranslators,
-  (state: RootState) => state.publicTranslator.translators,
-  (state: RootState) => state.publicTranslator.filters,
-  (selectedTranslators, translators, filters) => {
-    const selectedIds = new Set(selectedTranslators);
-    const filtered = translators
+export const selectedPublicInterpretersForLanguagePair = createSelector(
+  (state: RootState) => state.publicInterpreter.selectedInterpreters,
+  (state: RootState) => state.publicInterpreter.interpreters,
+  (state: RootState) => state.publicInterpreter.filters,
+  (selectedInterpreters, interpreters, filters) => {
+    const selectedIds = new Set(selectedInterpreters);
+    const filtered = interpreters
       .filter(({ id }) => selectedIds.has(id))
       .filter((t) => filterByLanguagePair(t, filters));
 
@@ -45,12 +45,12 @@ export const selectedPublicTranslatorsForLanguagePair = createSelector(
 );
 
 // Helpers
-export const filterPublicTranslators = (
-  translators: Array<PublicTranslator>,
-  filters: PublicTranslatorFilter
+export const filterPublicInterpreters = (
+  interpreters: Array<PublicInterpreter>,
+  filters: PublicInterpreterFilter
 ) => {
   const isNotBlank = (v: string) => !StringUtils.isBlankString(v);
-  let filteredData = translators;
+  let filteredData = interpreters;
   // SearchFilter data only if the criteria are defined
   if (isNotBlank(filters.fromLang) || isNotBlank(filters.toLang)) {
     filteredData = filteredData.filter((t) => filterByLanguagePair(t, filters));
@@ -66,10 +66,10 @@ export const filterPublicTranslators = (
 };
 
 const filterByLanguagePair = (
-  publicTranslator: PublicTranslator,
-  filters: PublicTranslatorFilter
+  publicInterpreter: PublicInterpreter,
+  filters: PublicInterpreterFilter
 ) => {
-  return publicTranslator.languages.find((l) => {
+  return publicInterpreter.languages.find((l) => {
     const fromLangCond =
       l.from.toLowerCase() === filters.fromLang.toLowerCase() ||
       l.from.toLowerCase() === filters.toLang.toLowerCase();
@@ -85,12 +85,12 @@ const filterByLanguagePair = (
 };
 
 const filterByName = (
-  publicTranslator: PublicTranslator,
-  filters: PublicTranslatorFilter
+  publicInterpreter: PublicInterpreter,
+  filters: PublicInterpreterFilter
 ) => {
   const nameCombs = [
-    `${publicTranslator.firstName} ${publicTranslator.lastName}`,
-    `${publicTranslator.lastName} ${publicTranslator.firstName}`,
+    `${publicInterpreter.firstName} ${publicInterpreter.lastName}`,
+    `${publicInterpreter.lastName} ${publicInterpreter.firstName}`,
   ];
   const isNameIncluded = nameCombs.some((name) =>
     name.toLowerCase().includes(filters.name.toLowerCase().trim())
@@ -100,10 +100,10 @@ const filterByName = (
 };
 
 const filterByRegion = (
-  publicTranslator: PublicTranslator,
-  filters: PublicTranslatorFilter
+  publicInterpreter: PublicInterpreter,
+  filters: PublicInterpreterFilter
 ) => {
-  return publicTranslator.regions
+  return publicInterpreter.regions
     .map((r) => r.toLowerCase())
     .includes(filters.region.toLowerCase());
 };

@@ -6,7 +6,7 @@ import { SearchFilter } from 'enums/app';
 import { LanguagePair } from 'interfaces/languagePair';
 import { WithId } from 'interfaces/with';
 
-export interface PublicTranslator extends WithId {
+export interface PublicInterpreter extends WithId {
   firstName: string;
   lastName: string;
   email?: string;
@@ -16,7 +16,7 @@ export interface PublicTranslator extends WithId {
   languages: Array<LanguagePair>;
 }
 
-export interface PublicTranslatorFilter {
+export interface PublicInterpreterFilter {
   fromLang: string;
   toLang: string;
   name: string;
@@ -24,28 +24,28 @@ export interface PublicTranslatorFilter {
   errors: Array<SearchFilter>;
 }
 
-export interface PublicTranslatorFilterValues {
+export interface PublicInterpreterFilterValues {
   fromLang: AutocompleteValue;
   toLang: AutocompleteValue;
   name: string;
   region: AutocompleteValue;
 }
 
-export interface PublicTranslatorResponse {
-  translators: Array<PublicTranslator>;
+export interface PublicInterpreterResponse {
+  interpreters: Array<PublicInterpreter>;
 }
 
-export interface PublicTranslatorState extends PublicTranslatorResponse {
+export interface PublicInterpreterState extends PublicInterpreterResponse {
   status: APIResponseStatus;
-  selectedTranslators: Array<number>;
-  filters: PublicTranslatorFilter;
+  selectedInterpreters: Array<number>;
+  filters: PublicInterpreterFilter;
 }
 
-export interface PublicTranslatorAction
+export interface PublicInterpreterAction
   extends Action<string>,
-    Partial<PublicTranslatorResponse> {
+    Partial<PublicInterpreterResponse> {
   index?: number;
-  filters?: PublicTranslatorFilter;
+  filters?: PublicInterpreterFilter;
   filterErrorName?: SearchFilter;
   error?: Error;
 }

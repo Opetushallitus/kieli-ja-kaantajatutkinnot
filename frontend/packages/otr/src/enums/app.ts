@@ -16,8 +16,7 @@ export enum SearchFilter {
 }
 
 export enum PublicUIViews {
-  PublicTranslatorListing = 'PublicTranslatorListing',
-  ContactRequest = 'ContactRequest',
+  PublicInterpreterListing = 'PublicInterpreterListing',
 }
 
 export enum CustomTextFieldErrors {
@@ -26,11 +25,4 @@ export enum CustomTextFieldErrors {
   EmailFormat = 'errors.customTextField.emailFormat',
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
-}
-
-// TODO: check this
-export enum UIMode {
-  View = 'view',
-  EditTranslatorDetails = 'editTranslatorDetails',
-  EditAuthorisationDetails = 'editAuthorisationDetails',
 }

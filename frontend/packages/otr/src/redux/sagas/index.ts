@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 
-import { watchFetchPublicTranslators } from 'redux/sagas/publicTranslator';
+import { watchFetchPublicInterpreters } from 'redux/sagas/publicInterpreter';
 
 export default function* rootSaga() {
-  yield all([watchFetchPublicTranslators()]);
+  yield all([watchFetchPublicInterpreters()]);
 }
