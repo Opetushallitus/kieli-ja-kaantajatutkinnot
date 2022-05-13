@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { Duration, NotifierTypes, Severity } from 'shared/enums';
+import { CommonUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIError } from 'enums/api';
 import { Dialog, DialogButtonAction, Toast } from 'interfaces/notifier';
-import { Utils } from 'utils';
 
 export class NotifierUtils {
   static createNotifierDialog(
@@ -16,7 +16,7 @@ export class NotifierUtils {
     onClose?: () => void
   ) {
     const notifier: Dialog = {
-      id: Utils.createUniqueId(),
+      id: CommonUtils.createUniqueId(),
       type: NotifierTypes.Dialog,
       title,
       severity,
@@ -35,7 +35,7 @@ export class NotifierUtils {
     timeOut: number | undefined = Duration.Medium
   ) {
     const notifier: Toast = {
-      id: Utils.createUniqueId(),
+      id: CommonUtils.createUniqueId(),
       type: NotifierTypes.Toast,
       severity,
       description,

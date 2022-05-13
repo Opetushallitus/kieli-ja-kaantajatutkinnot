@@ -1,10 +1,10 @@
 import { Action } from 'redux';
 import { AutocompleteValue } from 'shared/components';
+import { WithId } from 'shared/interfaces';
 
 import { APIResponseStatus } from 'enums/api';
 import { SearchFilter } from 'enums/app';
 import { LanguagePair } from 'interfaces/languagePair';
-import { WithId } from 'interfaces/with';
 
 export interface PublicInterpreter extends WithId {
   firstName: string;

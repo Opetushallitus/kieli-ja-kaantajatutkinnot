@@ -15,10 +15,6 @@ export enum SearchFilter {
   Region = 'region',
 }
 
-export enum PublicUIViews {
-  PublicInterpreterListing = 'PublicInterpreterListing',
-}
-
 export enum CustomTextFieldErrors {
   Required = 'errors.customTextField.required',
   MaxLength = 'errors.customTextField.maxLength',
