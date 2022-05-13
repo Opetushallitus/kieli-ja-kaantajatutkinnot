@@ -20,12 +20,6 @@ export class DateUtils {
     }
   }
 
-  static dayjs() {
-    dayjs.locale();
-
-    return dayjs;
-  }
-
   static formatOptionalDate(date?: Dayjs) {
     if (!date) {
       return '-';
@@ -36,8 +30,6 @@ export class DateUtils {
 
   static optionalStringToDate(dateString?: string) {
     if (dateString) {
-      const dayjs = DateUtils.dayjs();
-
       return dayjs(dateString);
     }
   }

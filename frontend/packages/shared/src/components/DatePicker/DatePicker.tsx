@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { DateUtils } from '../../utils/date/date';
 
@@ -25,7 +25,6 @@ export const DatePicker = ({
 }: DatePickerProps): JSX.Element => {
   const MIN_DATE = '1900-01-01';
   const MAX_DATE = '2100-01-01';
-  const dayjs = DateUtils.dayjs();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
