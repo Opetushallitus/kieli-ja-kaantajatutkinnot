@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Added
 
 - Table styles
+- LangSelector component
+
+### Fixed
+
+- Test performance
 
 ## [1.0.10] - 2022-05-13
 

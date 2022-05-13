@@ -1,4 +1,4 @@
-import { Icecream } from '@mui/icons-material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import renderer from 'react-test-renderer';
 
 import { CustomIconButton } from './CustomIconButton';
@@ -13,7 +13,7 @@ describe('CustomIconButton', () => {
     const tree = renderer
       .create(
         <CustomIconButton>
-          <Icecream />
+          <HelpOutlineIcon />
         </CustomIconButton>
       )
       .toJSON();
