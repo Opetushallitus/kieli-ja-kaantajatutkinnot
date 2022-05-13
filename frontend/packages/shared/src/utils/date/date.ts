@@ -1,6 +1,25 @@
 import dayjs, { Dayjs } from 'dayjs';
 
+import 'dayjs/locale/fi';
+import 'dayjs/locale/sv-fi';
+import 'dayjs/locale/en-gb';
+import { AppLanguage } from '../../enums';
+
 export class DateUtils {
+  static setDayjsLocale(locale: AppLanguage) {
+    switch (locale) {
+      case AppLanguage.Finnish:
+        dayjs.locale('fi');
+        break;
+      case AppLanguage.Swedish:
+        dayjs.locale('sv-fi');
+        break;
+      case AppLanguage.English:
+        dayjs.locale('en-gb');
+        break;
+    }
+  }
+
   static dayjs() {
     dayjs.locale();
 
