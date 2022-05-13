@@ -2,6 +2,7 @@ import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import { SelectChangeEvent } from '@mui/material';
 import { FC } from 'react';
 import { CustomSelect } from 'shared/components';
+import { AppLanguage, TextFieldVariant } from 'shared/enums';
 
 import {
   changeLang,
@@ -9,7 +10,6 @@ import {
   getSupportedLangs,
   useAppTranslation,
 } from 'configs/i18n';
-import { TextFieldVariant } from 'enums/app';
 
 export const LangSelector: FC = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akt.component.header' });
@@ -22,7 +22,9 @@ export const LangSelector: FC = () => {
   ]);
 
   const handleLangChange = (event: SelectChangeEvent) => {
-    changeLang(event.target.value);
+    const language = event.target.value as AppLanguage;
+
+    changeLang(language);
   };
 
   return (

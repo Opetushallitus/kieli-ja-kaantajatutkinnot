@@ -1,13 +1,14 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
 import { H2, H3, Text } from 'shared/components';
+import { Color, Severity } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { Color, SearchFilter, Severity } from 'enums/app';
-import { useWindowProperties } from 'hooks/useWindowProperties';
+import { SearchFilter } from 'enums/app';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {

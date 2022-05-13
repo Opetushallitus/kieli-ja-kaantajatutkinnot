@@ -1,8 +1,9 @@
 import { CustomButton, CustomButtonLink } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, Color, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { resetClerkTranslatorFilters } from 'redux/actions/clerkTranslator';
 import { selectFilteredSelectedIds } from 'redux/selectors/clerkTranslator';
 

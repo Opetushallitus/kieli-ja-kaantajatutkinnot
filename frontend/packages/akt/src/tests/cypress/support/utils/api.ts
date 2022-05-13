@@ -1,7 +1,7 @@
 import { RouteHandler } from 'cypress/types/net-stubbing';
+import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints, APIError } from 'enums/api';
-import { HTTPStatusCode } from 'enums/app';
 
 export const runWithIntercept = (
   endpoint: APIEndpoints,

@@ -2,13 +2,13 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC } from 'react';
-import { CustomIconButton, H3, Text } from 'shared/components';
+import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
+import { Color, Severity, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
-import { PaginatedTable } from 'components/tables/Table';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Severity, Variant } from 'enums/app';
 import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { removeMeetingDate } from 'redux/actions/meetingDate';
@@ -18,7 +18,6 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { DateUtils } from 'utils/date';
 import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (meetingDate: MeetingDate) => {
@@ -130,6 +129,7 @@ export const MeetingDatesListing: FC = () => {
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           className={'meeting-dates__listing table-layout-auto'}
+          rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
           stickyHeader
         />
       );

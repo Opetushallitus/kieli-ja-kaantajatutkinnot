@@ -10,12 +10,15 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import {
   CustomIconButton,
   CustomSwitch,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
+import { Color, Severity, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -24,7 +27,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Severity, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { updateAuthorisationPublishPermission } from 'redux/actions/clerkTranslatorOverview';
@@ -32,7 +34,6 @@ import { showNotifierDialog } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
 import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationListing = ({
@@ -56,7 +57,6 @@ export const AuthorisationListing = ({
   );
 
   const isLoading = authorisationDetailsStatus === APIResponseStatus.InProgress;
-  const dayjs = DateUtils.dayjs();
   const currentDate = dayjs();
 
   const defaultClassName = 'clerk-translator-details__authorisations-table';

@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
@@ -10,12 +10,9 @@ import {
   ClerkTranslatorFilter,
 } from 'interfaces/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
 
 export const clerkTranslatorsSelector = (state: RootState) =>
   state.clerkTranslator;
-
-const dayjs = DateUtils.dayjs();
 
 export const selectTranslatorsByAuthorisationStatus = createSelector(
   (state: RootState) => state.clerkTranslator.translators,

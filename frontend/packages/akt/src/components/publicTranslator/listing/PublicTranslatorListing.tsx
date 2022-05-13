@@ -1,13 +1,17 @@
 import { Box } from '@mui/system';
-import { CustomCircularProgress, H2, H3 } from 'shared/components';
+import {
+  CustomCircularProgress,
+  H2,
+  H3,
+  PaginatedTable,
+} from 'shared/components';
+import { Color } from 'shared/enums';
 
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
-import { PaginatedTable } from 'components/tables/Table';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color } from 'enums/app';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
@@ -61,6 +65,7 @@ export const PublicTranslatorListing = ({
             getRowDetails={getRowDetails}
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
+            rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             stickyHeader
           />
         </>

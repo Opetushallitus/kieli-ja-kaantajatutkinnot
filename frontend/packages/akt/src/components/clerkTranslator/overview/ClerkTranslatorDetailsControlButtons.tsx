@@ -1,10 +1,10 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Variant } from 'enums/app';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 
 export const ControlButtons = ({

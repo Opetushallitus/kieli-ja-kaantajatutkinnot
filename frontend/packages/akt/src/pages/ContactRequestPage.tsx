@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { H1, HeaderSeparator, Text } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { StepContents } from 'components/contactRequest/ContactRequestFormUtils';
 import { ContactRequestStepper } from 'components/contactRequest/ContactRequestStepper';
@@ -8,8 +9,7 @@ import { ControlButtons } from 'components/contactRequest/ControlButtons';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
-import { useWindowProperties } from 'hooks/useWindowProperties';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { setContactRequest } from 'redux/actions/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';

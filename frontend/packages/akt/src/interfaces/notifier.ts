@@ -1,6 +1,5 @@
 import { Action } from 'redux';
-
-import { Color, NotifierTypes, Severity, Variant } from 'enums/app';
+import { Color, NotifierTypes, Severity, Variant } from 'shared/enums';
 
 export interface DialogButtonAction {
   title: string;

@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import {
   CustomButton,
@@ -6,19 +7,17 @@ import {
   H3,
   LoadingProgressIndicator,
 } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
+import { DateUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { Color, Variant } from 'enums/app';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
-import { DateUtils } from 'utils/date';
-import { StringUtils } from 'utils/string';
 
 export const AddMeetingDate = () => {
-  const dayjs = DateUtils.dayjs();
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.addMeetingDate',

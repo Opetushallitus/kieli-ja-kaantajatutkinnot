@@ -1,4 +1,5 @@
-import { Severity, Variant } from 'enums/app';
+import { Severity, Variant } from 'shared/enums';
+
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { NotifierUtils } from 'utils/notifier';
 

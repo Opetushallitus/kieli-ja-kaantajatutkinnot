@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect';
+import { StringUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
 import {
   PublicTranslator,
   PublicTranslatorFilter,
 } from 'interfaces/publicTranslator';
-import { StringUtils } from 'utils/string';
 
 export const publicTranslatorsSelector = (state: RootState) =>
   state.publicTranslator;

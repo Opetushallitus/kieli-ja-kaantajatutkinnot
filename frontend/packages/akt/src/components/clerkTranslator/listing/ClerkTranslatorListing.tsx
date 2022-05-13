@@ -7,11 +7,13 @@ import {
   TableRow,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { H2, H3, Text } from 'shared/components';
+import { H2, H3, PaginatedTable, Text } from 'shared/components';
+import { Color } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
-import { PaginatedTable } from 'components/tables/Table';
 import {
   useAppTranslation,
   useCommonTranslation,
@@ -19,7 +21,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { AppRoutes, Color } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   deselectAllTranslators,
@@ -34,7 +36,6 @@ import {
   selectFilteredSelectedIds,
 } from 'redux/selectors/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
 
 const getRowDetails = (translator: ClerkTranslator) => {
   return <ListingRow translator={translator} />;
@@ -53,7 +54,6 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const { firstName, lastName } = translator;
   const authorisations = translator.authorisations;
 
-  const dayjs = DateUtils.dayjs();
   const currentDate = dayjs();
   const selected = filteredSelectedIds.includes(translator.id);
 
@@ -252,6 +252,7 @@ export const ClerkTranslatorListing: FC = () => {
             getRowDetails={getRowDetails}
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
+            rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             className={'clerk-translator__listing table-layout-auto'}
             stickyHeader
           />

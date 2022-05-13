@@ -2,6 +2,7 @@ import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1 } from 'shared/components';
+import { Severity } from 'shared/enums';
 
 import { AuthorisationDetails } from 'components/clerkTranslator/overview/AuthorisationDetails';
 import { ClerkTranslatorDetails } from 'components/clerkTranslator/overview/ClerkTranslatorDetails';
@@ -10,7 +11,7 @@ import { ClerkTranslatorOverviewPageSkeleton } from 'components/skeletons/ClerkT
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { AppRoutes, Severity } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import {
   fetchClerkTranslatorOverview,
   resetClerkTranslatorOverview,

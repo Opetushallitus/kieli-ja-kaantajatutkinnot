@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
@@ -12,21 +13,19 @@ import {
   Text,
   valueAsOption,
 } from 'shared/components';
+import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { Color, TextFieldVariant, Variant } from 'enums/app';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
 import { MeetingDate } from 'interfaces/meetingDate';
-import { Utils } from 'utils';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { DateUtils } from 'utils/date';
-import { StringUtils } from 'utils/string';
 
 interface AddAuthorisationProps {
   translatorId?: number;
@@ -53,7 +52,6 @@ export const AddAuthorisation = ({
   onAuthorisationAdd,
   onCancel,
 }: AddAuthorisationProps) => {
-  const dayjs = DateUtils.dayjs();
   const currentDate = dayjs();
   const availableMeetingDateValues = meetingDates
     .filter((m) => m.date.isBefore(currentDate, 'day'))
@@ -79,7 +77,7 @@ export const AddAuthorisation = ({
   useEffect(() => {
     setAuthorisation((prevState) => ({
       ...prevState,
-      tempId: Utils.createUniqueId(),
+      tempId: CommonUtils.createUniqueId(),
     }));
   }, []);
 

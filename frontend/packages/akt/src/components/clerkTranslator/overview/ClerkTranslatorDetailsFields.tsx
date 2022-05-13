@@ -1,16 +1,16 @@
 import { ChangeEvent, useState } from 'react';
 import { CustomSwitch, CustomTextField, H3 } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
+import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { TextFieldTypes } from 'enums/app';
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
-import { Utils } from 'utils';
 
 const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
   switch (field) {
@@ -38,7 +38,11 @@ const getFieldError = (
     field == ClerkTranslatorTextFieldEnum.FirstName ||
     field == ClerkTranslatorTextFieldEnum.LastName;
 
-  const error = Utils.inspectCustomTextFieldErrors(type, value, required);
+  const error = InputFieldUtils.inspectCustomTextFieldErrors(
+    type,
+    value,
+    required
+  );
 
   return error ? t(`akt.${error}`) : '';
 };

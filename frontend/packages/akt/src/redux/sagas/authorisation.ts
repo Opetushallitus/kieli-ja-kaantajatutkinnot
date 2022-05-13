@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { Severity } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { Severity } from 'enums/app';
 import { AddAuthorisationAction } from 'interfaces/authorisation';
 import {
   CLERK_TRANSLATOR_AUTHORISATION_ADD,

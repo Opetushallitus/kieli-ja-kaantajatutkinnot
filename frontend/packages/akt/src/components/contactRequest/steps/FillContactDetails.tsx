@@ -1,5 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
+import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import {
   ChosenTranslators,
@@ -8,13 +10,10 @@ import {
 } from 'components/contactRequest/ContactRequestFormUtils';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { TextFieldTypes } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactDetails } from 'interfaces/contactRequest';
 import { setContactRequest } from 'redux/actions/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { Utils } from 'utils';
-import { StringUtils } from 'utils/string';
 
 export const FillContactDetails = ({
   disableNext,
@@ -77,7 +76,7 @@ export const FillContactDetails = ({
     (fieldName: keyof ContactDetails) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { type, value, required } = event.target;
-      const error = Utils.inspectCustomTextFieldErrors(
+      const error = InputFieldUtils.inspectCustomTextFieldErrors(
         type as TextFieldTypes,
         value,
         required

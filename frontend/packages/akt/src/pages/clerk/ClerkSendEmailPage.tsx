@@ -2,11 +2,13 @@ import { Box, Paper } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, CustomTextField, H1, H2, Text } from 'shared/components';
+import { Color, Severity, TextFieldTypes, Variant } from 'shared/enums';
+import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { AppRoutes, Color, Severity, TextFieldTypes, Variant } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import {
   resetClerkTranslatorEmail,
   setClerkTranslatorEmail,
@@ -23,9 +25,7 @@ import {
   selectFilteredSelectedTranslators,
 } from 'redux/selectors/clerkTranslator';
 import { selectClerkTranslatorEmail } from 'redux/selectors/clerkTranslatorEmail';
-import { Utils } from 'utils/index';
 import { NotifierUtils } from 'utils/notifier';
-import { StringUtils } from 'utils/string';
 
 const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   // i18n
@@ -145,7 +145,7 @@ export const ClerkSendEmailPage = () => {
     (field: 'subject' | 'message') =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { value, required } = event.target;
-      const error = Utils.inspectCustomTextFieldErrors(
+      const error = InputFieldUtils.inspectCustomTextFieldErrors(
         field == 'subject' ? TextFieldTypes.Text : TextFieldTypes.Textarea,
         value,
         required

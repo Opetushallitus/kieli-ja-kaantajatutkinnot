@@ -1,10 +1,10 @@
 import { Action } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { Severity, Variant } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { Severity, Variant } from 'enums/app';
 import {
   CONTACT_REQUEST_ERROR,
   CONTACT_REQUEST_SEND,

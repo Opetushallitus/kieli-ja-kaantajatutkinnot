@@ -1,11 +1,11 @@
 import { CustomSkeleton, H2 } from 'shared/components';
+import { SkeletonVariant } from 'shared/enums';
 
 import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
 import { ClerkTranslatorAutocompleteFilters } from 'components/clerkTranslator/filters/ClerkTranslatorAutocompleteFilters';
 import { ClerkTranslatorToggleFilters } from 'components/clerkTranslator/filters/ClerkTranslatorToggleFilters';
 import { ClerkTranslatorListing } from 'components/clerkTranslator/listing/ClerkTranslatorListing';
 import { useCommonTranslation } from 'configs/i18n';
-import { SkeletonVariant } from 'enums/app';
 
 export const ClerkHomePageSkeleton = () => {
   const translateCommon = useCommonTranslation();

@@ -3,6 +3,7 @@ import { Box, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
+import { Color, Duration, Severity, Variant } from 'shared/enums';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
@@ -12,8 +13,8 @@ import { TopControls } from 'components/clerkTranslator/overview/TopControls';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
-import { AppRoutes, Color, Duration, Severity, Variant } from 'enums/app';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { AppRoutes } from 'enums/app';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   resetNewClerkTranslatorDetails,

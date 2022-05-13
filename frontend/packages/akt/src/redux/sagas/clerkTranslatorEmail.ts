@@ -1,9 +1,9 @@
 import { call, put, select } from '@redux-saga/core/effects';
+import { Severity } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { Severity } from 'enums/app';
 import {
   CLERK_TRANSLATOR_EMAIL_CANCEL,
   CLERK_TRANSLATOR_EMAIL_ERROR,

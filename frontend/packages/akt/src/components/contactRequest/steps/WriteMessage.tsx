@@ -1,5 +1,8 @@
 import { ChangeEvent, useEffect } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
+import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import {
   ChosenTranslators,
@@ -9,20 +12,16 @@ import {
 } from 'components/contactRequest/ContactRequestFormUtils';
 import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { TextFieldTypes } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import {
   setContactRequest,
   setMessageError,
 } from 'redux/actions/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { Utils } from 'utils';
-import { StringUtils } from 'utils/string';
 
 const getErrorForMessage = (message?: string) => {
   const t = translateOutsideComponent();
-  const error = Utils.inspectCustomTextFieldErrors(
+  const error = InputFieldUtils.inspectCustomTextFieldErrors(
     TextFieldTypes.Textarea,
     message,
     true
@@ -69,7 +68,7 @@ export const WriteMessage = ({
   const getHelperMessage = () => {
     const value = request?.message;
     const errorToShow = messageError ? `${messageError}.` : '';
-    const maxLength = Utils.getMaxTextAreaLength();
+    const maxLength = InputFieldUtils.getMaxTextAreaLength();
 
     return `${errorToShow} ${value?.length} / ${maxLength} ${t('characters')}`;
   };
