@@ -2282,7 +2282,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@0.0.0-dayjs-locales-v2"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.10"
   languageName: unknown
   linkType: soft
 
@@ -10506,10 +10506,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@0.0.0-dayjs-locales-v2":
-  version: 0.0.0-dayjs-locales-v2
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:0.0.0-dayjs-locales-v2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F0.0.0-dayjs-locales-v2%2F1579c55c21cd675e8fa25a34f5b89c00b7268f432a7cc96b37dd5291e9f45d5c"
-  checksum: c7a6f140b4c43934e4cab0fcd25efadeeb108df531b3e43a9ff067e23bbee87d92df8f47d433e654613f5357233aecca1a3349b7885c071ccd8cd3bbbebcd03d
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.10":
+  version: 1.0.10
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.10::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.10%2F39dd794702f0504a2f83a4b01b3233a25a24737b3f3383e9e26e079435a57579"
+  checksum: 61beda4ab8a72f10c435653747c40eb328cf838089cdd4e4baaf3db5494cb534903d376870e40eef5a5569521bae6320f0b8601474a67473454ca5f91839635e
   languageName: node
   linkType: hard
 
