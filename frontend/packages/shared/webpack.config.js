@@ -27,12 +27,12 @@ module.exports = (env) => {
         {
           test: /\.[tj]sx?$/,
           loader: 'babel-loader',
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!(shared)\/).*/,
         },
         {
           test: /\.s?css$/,
           use: ['style-loader', 'css-loader', 'sass-loader'],
-          exclude: /node_modules/,
+          exclude: /node_modules\/(?!(shared)\/).*/,
         },
         {
           test: /\.svg$/,

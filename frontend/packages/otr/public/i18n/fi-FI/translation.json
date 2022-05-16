@@ -52,9 +52,6 @@
           "newSearch": "Tee uusi haku",
           "search": "Näytä tulokset"
         },
-        "captions": {
-          "langPair": "(* Pakollinen yhteydenottoon)"
-        },
         "languagePair": {
           "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
           "fromHelperText": "Valitse kieli",
@@ -62,19 +59,27 @@
           "title": "Haku kieliparilla",
           "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
           "toHelperText": "Valitse kieli",
-          "toPlaceholder": "Mihin *"
+          "toPlaceholder": "kaikki"
         },
         "toasts": {
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
-          "selectLanguagePair": "Valitse kielipari",
-          "translatorsSelected": "Voit valita vain yhden kieliparin yhteydenottoon"
+          "interpreterSelected": "Voit valita vain yhden kieliparin yhteydenottoon",
+          "selectLanguagePair": "Valitse kielipari"
         },
         "town": {
-          "placeholder": "Asuinkunta",
-          "title": "Haku kääntäjän asuinkunnalla"
+          "placeholder": "Toiminta-alue",
+          "title": "Haku oikeustulkin toiminta-alueella"
         }
       },
       "publicInterpreterListing": {
+        "row": {
+          "ariaLabel": "Avaa lisätiedot",
+          "extraDetails": {
+            "email": "Sähköposti",
+            "otherContactInfo": "Muu yhteystieto",
+            "phoneNumber": "Puhelinnumero"
+          }
+        },
         "rowsPerPageLabel": "Riviä per sivu",
         "wholeFinland": "Koko Suomi"
       },
@@ -95,22 +100,21 @@
     "pages": {
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
-        "descriptionExtra": "Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi tulkkien yhteystietoja",
         "filters": {
           "title": "Etsi oikeustulkkia"
         },
+        "interpreter": {
+          "name": "Nimi",
+          "area": "Toiminta-alue",
+          "languagePairs": "Kieliparit"
+        },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Huomaa, että kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä.",
+        "note": "Oikeustulkeilla on aina molemman suuntainen pätevyys esim. suomi <-> englanti englanti <-> suomi",
         "title": "Oikeustulkkirekisteri"
       },
       "notFoundPage": {
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
         "title": "Valitettavasti etsimääsi sivua ei löytynyt"
-      },
-      "translator": {
-        "name": "Nimi",
-        "area": "Toiminta-alue",
-        "languagePairs": "Kieliparit"
       }
     }
   }

@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { CustomSkeleton, H1, Text } from 'shared/components';
 import { SkeletonVariant } from 'shared/enums';
 
-import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
+import { PublicInterpreterFilters } from 'components/publicInterpreter/filters/PublicInterpreterFilters';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 
-export const PublicTranslatorGridSkeleton = ({
+export const PublicInterpreterGridSkeleton = ({
   showTable,
   setShowTable,
 }: {
@@ -37,7 +37,7 @@ export const PublicTranslatorGridSkeleton = ({
         variant={SkeletonVariant.Rectangular}
         ariaLabel={ariaLabel}
       >
-        <PublicTranslatorFilters
+        <PublicInterpreterFilters
           showTable={showTable}
           setShowTable={setShowTable}
         />

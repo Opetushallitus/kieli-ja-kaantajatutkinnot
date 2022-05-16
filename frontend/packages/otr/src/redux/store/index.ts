@@ -3,7 +3,7 @@ import createSagaMiddleware from '@redux-saga/core';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 
 import { notifierReducer } from 'redux/reducers/notifier';
-import { publicTranslatorReducer } from 'redux/reducers/publicTranslator';
+import { publicInterpreterReducer } from 'redux/reducers/publicInterpreter';
 import rootSaga from 'redux/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -15,7 +15,7 @@ export default () => {
   });
   const store = createStore(
     combineReducers({
-      publicTranslator: publicTranslatorReducer,
+      publicInterpreter: publicInterpreterReducer,
       notifier: notifierReducer,
     }),
     composeEnhancers(middlewareEnhancer)

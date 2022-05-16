@@ -15,22 +15,10 @@ export enum SearchFilter {
   Region = 'region',
 }
 
-export enum PublicUIViews {
-  PublicTranslatorListing = 'PublicTranslatorListing',
-  ContactRequest = 'ContactRequest',
-}
-
 export enum CustomTextFieldErrors {
   Required = 'errors.customTextField.required',
   MaxLength = 'errors.customTextField.maxLength',
   EmailFormat = 'errors.customTextField.emailFormat',
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
-}
-
-// TODO: check this
-export enum UIMode {
-  View = 'view',
-  EditTranslatorDetails = 'editTranslatorDetails',
-  EditAuthorisationDetails = 'editAuthorisationDetails',
 }

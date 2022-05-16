@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { AppConstants } from 'enums/app';
+
 const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
@@ -11,7 +13,7 @@ axiosInstance.interceptors.request.use((config) => {
 
   config.headers = {
     ...config.headers,
-    'Caller-Id': '1.2.246.562.10.00000000001.otr', // Fixme
+    'Caller-Id': AppConstants.CallerID,
     'Content-Type': 'application/json',
   };
 

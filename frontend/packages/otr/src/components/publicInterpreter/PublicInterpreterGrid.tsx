@@ -3,28 +3,27 @@ import { useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Severity } from 'shared/enums';
 
-import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
-import { PublicTranslatorListing } from 'components/publicTranslator/listing/PublicTranslatorListing';
-import { PublicTranslatorGridSkeleton } from 'components/skeletons/PublicTranslatorGridSkeleton';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { PublicInterpreterFilters } from 'components/publicInterpreter/filters/PublicInterpreterFilters';
+import { PublicInterpreterListing } from 'components/publicInterpreter/listing/PublicInterpreterListing';
+import { PublicInterpreterGridSkeleton } from 'components/skeletons/PublicInterpreterGridSkeleton';
+import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIResponseStatus } from 'enums/api';
 import {
-  publicTranslatorsSelector,
-  selectFilteredPublicTranslators,
-} from 'redux/selectors/publicTranslator';
+  publicInterpretersSelector,
+  selectFilteredPublicInterpreters,
+} from 'redux/selectors/publicInterpreter';
 
-export const PublicTranslatorGrid = () => {
+export const PublicInterpreterGrid = () => {
   // I18
   const { t } = useAppTranslation({ keyPrefix: 'otr.pages.homepage' });
-  const translateCommon = useCommonTranslation();
   // Redux
-  const { status } = useAppSelector(publicTranslatorsSelector);
-  const translators = useAppSelector(selectFilteredPublicTranslators);
+  const { status } = useAppSelector(publicInterpretersSelector);
+  const interpreters = useAppSelector(selectFilteredPublicInterpreters);
 
   // State
   const [showTable, setShowTable] = useState(false);
-  const hasResults = translators.length > 0 && showTable;
+  const hasResults = interpreters.length > 0 && showTable;
   const hasNoResults = !hasResults && showTable;
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -34,15 +33,11 @@ export const PublicTranslatorGrid = () => {
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
         <Text>{t('description')}</Text>
-        <Text className="margin-top-lg">
-          {`${t('descriptionExtra')}:`}
-          <span className="bold">{translateCommon('contactEmail')}</span>
-        </Text>
       </Grid>
       <Grid item className="public-homepage__grid-container__item-filters">
         <Paper elevation={3} className="public-homepage__filters">
           {isLoading ? (
-            <PublicTranslatorGridSkeleton
+            <PublicInterpreterGridSkeleton
               showTable={hasResults && showTable}
               setShowTable={setShowTable}
             />
@@ -57,7 +52,7 @@ export const PublicTranslatorGrid = () => {
               >
                 {t('note')}
               </Alert>
-              <PublicTranslatorFilters
+              <PublicInterpreterFilters
                 showTable={hasResults && showTable}
                 setShowTable={setShowTable}
               />
@@ -67,7 +62,10 @@ export const PublicTranslatorGrid = () => {
       </Grid>
       <Grid item className="public-homepage__grid-container__result-box">
         {hasResults && (
-          <PublicTranslatorListing status={status} translators={translators} />
+          <PublicInterpreterListing
+            status={status}
+            interpreters={interpreters}
+          />
         )}
         {hasNoResults && (
           <H2 className="public-homepage__grid-container__result-box__no-results">

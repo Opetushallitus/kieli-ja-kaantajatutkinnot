@@ -5,11 +5,10 @@
 @import 'base/base';
 
 // Components
-@import 'components/i18n/lang-selector';
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
-@import 'components/publicTranslator/public-translator-listing';
-@import 'components/publicTranslator/public-translator-filters';
+@import 'components/publicInterpreter/public-interpreter-listing';
+@import 'components/publicInterpreter/public-interpreter-filters';
 
 // Pages
 @import 'pages/public-homepage';

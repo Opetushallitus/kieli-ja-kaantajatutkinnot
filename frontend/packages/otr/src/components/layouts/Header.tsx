@@ -1,11 +1,12 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { OPHLogoViewer, SkipLink } from 'shared/components';
+import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
 import { Direction } from 'shared/enums';
 
-import { LangSelector } from 'components/i18n/LangSelector';
 import {
+  changeLang,
   getCurrentLang,
+  getSupportedLangs,
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
@@ -14,10 +15,17 @@ import { AppRoutes } from 'enums/app';
 
 export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
-    keyPrefix: 'otr.component.header.accessibility',
+    keyPrefix: 'otr.component.header',
   });
   const translateCommon = useCommonTranslation();
   const currentLang = getCurrentLang();
+  const [finnish, swedish, english] = getSupportedLangs();
+
+  const langDict = new Map<string, string>([
+    [t('lang.fi'), finnish],
+    [t('lang.sv'), swedish],
+    [t('lang.en'), english],
+  ]);
 
   //   const [isClerkUI] = useAuthentication();
   //   const logoRedirectURL = isClerkUI
@@ -26,7 +34,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      <SkipLink href="#main-content" text={t('continueToMain')} />
+      <SkipLink href="#main-content" text={t('accessibility.continueToMain')} />
       <AppBar className="header" position="static">
         <Toolbar className="header__toolbar">
           <div className="header__left">
@@ -41,7 +49,12 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__center"></div>
           <div className="header__right">
-            <LangSelector />
+            <LangSelector
+              langDict={langDict}
+              langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
+              changeLang={changeLang}
+              getCurrentLang={getCurrentLang}
+            />
           </div>
         </Toolbar>
       </AppBar>

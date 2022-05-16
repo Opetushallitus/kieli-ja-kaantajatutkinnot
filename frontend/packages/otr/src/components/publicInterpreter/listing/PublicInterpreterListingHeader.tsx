@@ -4,14 +4,17 @@ import { H3 } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { useWindowProperties } from 'hooks/useWindowProperties';
 
-export const PublicTranslatorListingHeader = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'otr.pages.translator' });
+export const PublicInterpreterListingHeader = () => {
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.pages.homepage.interpreter',
+  });
   const { isPhone } = useWindowProperties();
 
   return (
     <TableHead>
       {!isPhone && (
         <TableRow>
+          <TableCell />
           <TableCell>
             <H3>{t('name')}</H3>
           </TableCell>

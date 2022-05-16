@@ -4,17 +4,18 @@ import {
   Dispatch,
   KeyboardEvent,
   SetStateAction,
+  SyntheticEvent,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import {
   AutocompleteValue,
-  Caption,
   ComboBox,
   CustomButton,
   H3,
   LanguageSelect,
+  languageToComboBoxOption,
   valueAsOption,
 } from 'shared/components';
 import {
@@ -33,19 +34,18 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
 import { useDebounce } from 'hooks/useDebounce';
 import { useWindowProperties } from 'hooks/useWindowProperties';
-import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
+import { PublicInterpreterFilterValues } from 'interfaces/publicInterpreter';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {
-  addPublicTranslatorFilter,
-  addPublicTranslatorFilterError,
-  emptyPublicTranslatorFilters,
+  addPublicInterpreterFilter,
+  emptyPublicInterpreterFilters,
   emptySelectedTranslators,
-  removePublicTranslatorFilterError,
-} from 'redux/actions/publicTranslator';
+  removePublicInterpreterFilterError,
+} from 'redux/actions/publicInterpreter';
 import {
-  filterPublicTranslators,
-  publicTranslatorsSelector,
-} from 'redux/selectors/publicTranslator';
+  filterPublicInterpreters,
+  publicInterpretersSelector,
+} from 'redux/selectors/publicInterpreter';
 import { NotifierUtils } from 'utils/notifier';
 
 const langsFrom = ['FI', 'SV'];
@@ -72,7 +72,9 @@ const regions = [
   'Varsinais-Suomi',
 ];
 
-export const PublicTranslatorFilters = ({
+const DEFAULT_LANG = 'FI';
+
+export const PublicInterpreterFilters = ({
   showTable,
   setShowTable,
 }: {
@@ -85,26 +87,28 @@ export const PublicTranslatorFilters = ({
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
 
-  // State
+  // Defaults
   const defaultFiltersState = {
-    fromLang: '',
+    fromLang: DEFAULT_LANG,
     toLang: '',
     name: '',
     region: '',
     errors: [],
   };
-  const [filters, setFilters] = useState(defaultFiltersState);
-  const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
-  const defaultValuesState: PublicTranslatorFilterValues = {
-    fromLang: null,
+
+  const defaultValuesState: PublicInterpreterFilterValues = {
+    fromLang: languageToComboBoxOption(translateLanguage, DEFAULT_LANG),
     toLang: null,
     name: '',
     region: null,
   };
-  const debounce = useDebounce(300);
 
+  // State
+  const [filters, setFilters] = useState(defaultFiltersState);
+  const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const [values, setValues] = useState(defaultValuesState);
   const [inputValues, setInputValues] = useState(defaultFiltersState);
+  const debounce = useDebounce(300);
   const filtersGridRef = useRef<HTMLInputElement>(null);
   const { isPhone } = useWindowProperties();
 
@@ -112,21 +116,21 @@ export const PublicTranslatorFilters = ({
   const dispatch = useAppDispatch();
   const {
     filters: reduxFilters,
-    selectedTranslators,
-    translators,
-  } = useAppSelector(publicTranslatorsSelector);
+    selectedInterpreters,
+    interpreters,
+  } = useAppSelector(publicInterpretersSelector);
 
   const langsTo = Array.from(
     new Set(
-      translators.flatMap(({ languages }) =>
+      interpreters.flatMap(({ languages }) =>
         (languages ?? []).map((language) => language.to)
       )
     )
   );
 
   const filteredTranslatorCount = useMemo(() => {
-    return filterPublicTranslators(translators, filters).length;
-  }, [translators, filters]);
+    return filterPublicInterpreters(interpreters, filters).length;
+  }, [interpreters, filters]);
 
   const hasError = (fieldName: SearchFilter) => {
     return reduxFilters.errors.includes(fieldName);
@@ -134,27 +138,9 @@ export const PublicTranslatorFilters = ({
 
   // Handlers
   const handleSearchBtnClick = () => {
-    if (
-      (filters.fromLang && !filters.toLang) ||
-      (!filters.fromLang && filters.toLang)
-    ) {
-      // If one of the fields are not defined show an error
-      const langFields = [SearchFilter.FromLang, SearchFilter.ToLang];
-      langFields.forEach((field) => {
-        if (!filters[field] && !hasError(field))
-          dispatch(addPublicTranslatorFilterError(field));
-      });
-
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('toasts.selectLanguagePair')
-      );
-      dispatch(showNotifierToast(toast));
-    } else {
-      dispatch(addPublicTranslatorFilter(filters));
-      setShowTable(true);
-      setSearchButtonDisabled(true);
-    }
+    dispatch(addPublicInterpreterFilter(filters));
+    setShowTable(true);
+    setSearchButtonDisabled(true);
   };
 
   const scrollToSearch = () => {
@@ -169,7 +155,7 @@ export const PublicTranslatorFilters = ({
     setFilters(defaultFiltersState);
     setInputValues(defaultFiltersState);
     setValues(defaultValuesState);
-    dispatch(emptyPublicTranslatorFilters);
+    dispatch(emptyPublicInterpreterFilters);
     dispatch(emptySelectedTranslators);
     scrollToSearch();
     setShowTable(false);
@@ -178,7 +164,7 @@ export const PublicTranslatorFilters = ({
 
   const handleComboboxInputChange =
     (inputName: SearchFilter) =>
-    ({}, newInputValue: string) => {
+    (_event: SyntheticEvent, newInputValue: string) => {
       setInputValues({ ...inputValues, [inputName]: newInputValue });
       setSearchButtonDisabled(false);
     };
@@ -205,7 +191,7 @@ export const PublicTranslatorFilters = ({
         }));
         setValues((prevState) => ({ ...prevState, [filterName]: value }));
       }
-      dispatch(removePublicTranslatorFilterError(filterName));
+      dispatch(removePublicInterpreterFilterError(filterName));
       setSearchButtonDisabled(false);
     };
 
@@ -238,13 +224,13 @@ export const PublicTranslatorFilters = ({
     }
   };
 
-  const isLangFilterDisabled = selectedTranslators.length > 0;
+  const isLangFilterDisabled = selectedInterpreters.length > 0;
 
   const showTranslatorsAlreadySelectedToast = () => {
     if (isLangFilterDisabled) {
       const toast = NotifierUtils.createNotifierToast(
         Severity.Error,
-        t('toasts.translatorsSelected')
+        t('toasts.interpreterSelected')
       );
 
       dispatch(showNotifierToast(toast));
@@ -256,11 +242,11 @@ export const PublicTranslatorFilters = ({
     showTable && (
       <AppBar
         color={Color.Primary}
-        className="public-translator-filters__app-bar"
+        className="public-interpreter-filters__app-bar"
       >
-        <Toolbar className="space-around public-translator-filters__app-bar__tool-bar">
+        <Toolbar className="space-around public-interpreter-filters__app-bar__tool-bar">
           <CustomButton
-            data-testid="public-translator-filters__empty-btn"
+            data-testid="public-interpreter-filters__empty-btn"
             color={Color.Secondary}
             variant={Variant.Outlined}
             onClick={handleEmptyBtnClick}
@@ -272,21 +258,18 @@ export const PublicTranslatorFilters = ({
     );
 
   return (
-    <div className="public-translator-filters" ref={filtersGridRef}>
-      <div className="public-translator-filters__filter-box">
-        <div className="public-translator-filters__filter">
+    <div className="public-interpreter-filters" ref={filtersGridRef}>
+      <div className="public-interpreter-filters__filter-box">
+        <div className="public-interpreter-filters__filter">
           <div className="columns gapped-xxs">
             <H3>{t('languagePair.title')}</H3>
-            <Caption className="public-translator-filters__filter_">
-              {t('captions.langPair')}
-            </Caption>
           </div>
           <Box
-            className="public-translator-filters__filter__language-pair"
+            className="public-interpreter-filters__filter__language-pair"
             onClick={showTranslatorsAlreadySelectedToast}
           >
             <LanguageSelect
-              data-testid="public-translator-filters__from-language-select"
+              data-testid="public-interpreter-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
               showError={hasError(SearchFilter.FromLang)}
               label={t('languagePair.fromPlaceholder')}
@@ -300,7 +283,7 @@ export const PublicTranslatorFilters = ({
               translateLanguage={translateLanguage}
             />
             <LanguageSelect
-              data-testid="public-translator-filters__to-language-select"
+              data-testid="public-interpreter-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
               showError={hasError(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
@@ -315,10 +298,10 @@ export const PublicTranslatorFilters = ({
             />
           </Box>
         </div>
-        <div className="public-translator-filters__filter">
+        <div className="public-interpreter-filters__filter">
           <H3>{t('name.title')}</H3>
           <TextField
-            data-testid="public-translator-filters__name-field"
+            data-testid="public-interpreter-filters__name-field"
             id="outlined-search"
             label={t('name.placeholder')}
             type="search"
@@ -327,10 +310,10 @@ export const PublicTranslatorFilters = ({
             onChange={handleTextFieldFilterChange(SearchFilter.Name)}
           />
         </div>
-        <div className="public-translator-filters__filter">
+        <div className="public-interpreter-filters__filter">
           <H3>{t('town.title')}</H3>
           <ComboBox
-            data-testid="public-translator-filters__town-combobox"
+            data-testid="public-interpreter-filters__town-combobox"
             {...getComboBoxAttributes(SearchFilter.Region)}
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
@@ -340,10 +323,10 @@ export const PublicTranslatorFilters = ({
           />
         </div>
       </div>
-      <div className="public-translator-filters__btn-box">
+      <div className="public-interpreter-filters__btn-box">
         {!isPhone && (
           <CustomButton
-            data-testid="public-translator-filters__empty-btn"
+            data-testid="public-interpreter-filters__empty-btn"
             color={Color.Secondary}
             variant={Variant.Outlined}
             onClick={handleEmptyBtnClick}
@@ -353,7 +336,7 @@ export const PublicTranslatorFilters = ({
         )}
         <CustomButton
           disabled={searchButtonDisabled}
-          data-testid="public-translator-filters__search-btn"
+          data-testid="public-interpreter-filters__search-btn"
           color={Color.Secondary}
           variant={Variant.Contained}
           onClick={handleSearchBtnClick}
