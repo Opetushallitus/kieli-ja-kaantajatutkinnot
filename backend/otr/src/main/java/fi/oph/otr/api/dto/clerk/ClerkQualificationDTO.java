@@ -16,6 +16,7 @@ public record ClerkQualificationDTO(
   @NonNull @NotNull LocalDate beginDate,
   @NonNull @NotNull LocalDate endDate,
   @NonNull @NotNull QualificationExaminationType examinationType,
-  @NonNull @NotNull Boolean permissionToPublish
+  @NonNull @NotNull Boolean permissionToPublish,
+  String diaryNumber
 )
   implements ClerkQualificationDTOCommonFields {}

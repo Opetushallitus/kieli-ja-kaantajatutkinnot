@@ -28,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -166,6 +165,7 @@ class ClerkInterpreterServiceTest {
             .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
+            .diaryNumber("123")
             .build(),
           ClerkQualificationCreateDTO
             .builder()
@@ -174,6 +174,7 @@ class ClerkInterpreterServiceTest {
             .endDate(today)
             .examinationType(QualificationExaminationType.OTHER)
             .permissionToPublish(false)
+            .diaryNumber("234")
             .build()
         )
       )
@@ -200,6 +201,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(tomorrow, qualification1.endDate());
     assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualification1.examinationType());
     assertTrue(qualification1.permissionToPublish());
+    assertEquals("123", qualification1.diaryNumber());
 
     final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().get(1);
     assertEquals(LanguagePairDTO.builder().from("SE").to("DE").build(), qualification2.languagePair());
@@ -207,6 +209,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(today, qualification2.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualification2.examinationType());
     assertFalse(qualification2.permissionToPublish());
+    assertEquals("234", qualification2.diaryNumber());
   }
 
   @Test
@@ -241,6 +244,7 @@ class ClerkInterpreterServiceTest {
             .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
+            .diaryNumber("123")
             .build()
         )
       )
@@ -372,6 +376,7 @@ class ClerkInterpreterServiceTest {
       .endDate(tomorrow)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(false)
+      .diaryNumber("1000")
       .build();
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createQualification(
@@ -383,7 +388,7 @@ class ClerkInterpreterServiceTest {
     final ClerkQualificationDTO qualificationDTO = interpreterDTO
       .qualifications()
       .stream()
-      .filter(dto -> dto.examinationType() == QualificationExaminationType.OTHER && !dto.permissionToPublish())
+      .filter(dto -> dto.diaryNumber() != null && dto.diaryNumber().equals("1000"))
       .toList()
       .get(0);
 
@@ -393,6 +398,8 @@ class ClerkInterpreterServiceTest {
     assertEquals(LanguagePairDTO.builder().from("FI").to("CS").build(), qualificationDTO.languagePair());
     assertEquals(today, qualificationDTO.beginDate());
     assertEquals(tomorrow, qualificationDTO.endDate());
+    assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
+    assertFalse(qualificationDTO.permissionToPublish());
   }
 
   @Test
@@ -413,6 +420,7 @@ class ClerkInterpreterServiceTest {
       .endDate(tomorrow)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(false)
+      .diaryNumber("1001")
       .build();
 
     final APIException ex = assertThrows(
@@ -442,6 +450,7 @@ class ClerkInterpreterServiceTest {
       .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
+      .diaryNumber("2000")
       .build();
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.updateQualification(updateDTO);
@@ -456,6 +465,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(end, qualificationDTO.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
     assertTrue(qualificationDTO.permissionToPublish());
+    assertEquals("2000", qualificationDTO.diaryNumber());
   }
 
   @Test
@@ -478,6 +488,7 @@ class ClerkInterpreterServiceTest {
       .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
+      .diaryNumber("2000")
       .build();
 
     final APIException ex = assertThrows(

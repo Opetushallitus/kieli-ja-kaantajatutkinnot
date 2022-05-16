@@ -14,4 +14,6 @@ public interface ClerkQualificationDTOCommonFields {
   QualificationExaminationType examinationType();
 
   Boolean permissionToPublish();
+
+  String diaryNumber();
 }

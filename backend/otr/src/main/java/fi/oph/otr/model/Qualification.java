@@ -48,6 +48,10 @@ public class Qualification extends BaseEntity {
   @Column(name = "permission_to_publish", nullable = false)
   private boolean permissionToPublish;
 
+  @Size(max = 255)
+  @Column(name = "diary_number")
+  private String diaryNumber;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "interpreter_id", referencedColumnName = "interpreter_id", nullable = false)
   private Interpreter interpreter;

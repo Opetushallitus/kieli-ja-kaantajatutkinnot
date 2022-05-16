@@ -133,6 +133,7 @@ public class ClerkInterpreterService {
       .endDate(qualification.getEndDate())
       .examinationType(qualification.getExaminationType())
       .permissionToPublish(qualification.isPermissionToPublish())
+      .diaryNumber(qualification.getDiaryNumber())
       .build();
   }
 
@@ -215,6 +216,7 @@ public class ClerkInterpreterService {
     qualification.setEndDate(dto.endDate());
     qualification.setExaminationType(dto.examinationType());
     qualification.setPermissionToPublish(dto.permissionToPublish());
+    qualification.setDiaryNumber(dto.diaryNumber());
   }
 
   @Transactional(readOnly = true)
