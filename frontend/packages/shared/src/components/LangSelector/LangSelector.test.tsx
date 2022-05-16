@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
 
+import { AppLanguage } from '../../enums';
 import { LangSelector } from './LangSelector';
 
 describe('LangSelector', () => {
@@ -56,13 +57,13 @@ describe('LangSelector', () => {
   const createLangSelectorMocks = () => {
     const getCurrentLang = jest.fn();
     const changeLang = jest.fn();
-    const langDict = new Map<string, string>([
-      ['lang.fi', 'fi-FI'],
-      ['lang.sv', 'sv-SE'],
-      ['lang.en', 'en-GB'],
+    const langDict = new Map<string, AppLanguage>([
+      ['lang.fi', AppLanguage.Finnish],
+      ['lang.sv', AppLanguage.Swedish],
+      ['lang.en', AppLanguage.English],
     ]);
 
-    getCurrentLang.mockReturnValue('fi-FI');
+    getCurrentLang.mockReturnValue(AppLanguage.Finnish);
 
     return { getCurrentLang, langDict, changeLang };
   };

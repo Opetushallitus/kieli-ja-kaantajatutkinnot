@@ -3,15 +3,15 @@ import { SelectChangeEvent } from '@mui/material';
 import { TFunction } from 'i18next';
 import { FC } from 'react';
 
-import { TextFieldVariant } from '../../enums';
+import { AppLanguage, TextFieldVariant } from '../../enums';
 import { CustomSelect } from '../CustomSelect/CustomSelect';
 
 import './LangSelector.scss';
 
 interface LangSelectorProps {
-  changeLang: (language: string) => Promise<TFunction>;
-  getCurrentLang: () => string;
-  langDict: Map<string, string>;
+  changeLang: (language: AppLanguage) => Promise<TFunction>;
+  getCurrentLang: () => AppLanguage;
+  langDict: Map<string, AppLanguage>;
   langSelectorAriaLabel: string;
 }
 
@@ -22,7 +22,8 @@ export const LangSelector: FC<LangSelectorProps> = ({
   langSelectorAriaLabel,
 }) => {
   const handleLangChange = (event: SelectChangeEvent) => {
-    changeLang(event.target.value);
+    const language = event.target.value as AppLanguage;
+    changeLang(language);
   };
 
   return (
