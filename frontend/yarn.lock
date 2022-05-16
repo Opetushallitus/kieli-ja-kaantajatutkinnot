@@ -2312,8 +2312,10 @@ __metadata:
     "@mui/material": ^5.6.2
     "@redux-devtools/extension": ^3.2.2
     "@testing-library/cypress": ^8.0.2
+    "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.1.1
+    "@testing-library/user-event": ^14.2.0
     "@types/jest": ^27.4.1
     "@types/node": ^16.11.6
     "@types/react": ^18.0.6
@@ -2499,7 +2501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.1.0, @testing-library/dom@npm:^8.5.0":
+"@testing-library/dom@npm:^8.1.0, @testing-library/dom@npm:^8.13.0, @testing-library/dom@npm:^8.5.0":
   version: 8.13.0
   resolution: "@testing-library/dom@npm:8.13.0"
   dependencies:
@@ -2543,6 +2545,15 @@ __metadata:
     react: ^18.0.0
     react-dom: ^18.0.0
   checksum: 9a0043be5623630936e6badcd87bcbed14d6d6c64c2b16413b66de90c36670bbd6766b7fc6c09cfc67aa6c1c49d8123ed97d3897c4103836c77de40349b187c6
+  languageName: node
+  linkType: hard
+
+"@testing-library/user-event@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@testing-library/user-event@npm:14.2.0"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: b34f19bbfe938d03778831b9c083d451c53f983f6f6c0db05a572b71ba5323c4125097bb4b8c97595bc9b946610d2c2f65cf1e113f047eed7a3078f28a1027e2
   languageName: node
   linkType: hard
 

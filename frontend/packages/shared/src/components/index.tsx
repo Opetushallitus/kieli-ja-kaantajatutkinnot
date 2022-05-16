@@ -29,3 +29,4 @@ export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
 export { PaginatedTable } from './Table/Table';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
+export { LangSelector } from './LangSelector/LangSelector';

@@ -1,0 +1,55 @@
+@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/mixins';
+
+.table {
+  table-layout: fixed;
+
+  &__head-box {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1.3rem;
+
+    @include mixins.phone {
+      @include mixins.phone-divider-border-bottom;
+      display: grid;
+      justify-content: start;
+      padding: 0;
+    }
+
+    &__pagination {
+      margin-left: auto;
+
+      @include mixins.phone {
+        margin: 0;
+        padding: 0;
+      }
+
+      & > div {
+        @include mixins.phone {
+          padding: 0;
+        }
+      }
+    }
+
+    & &__chip {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+
+  & > tbody {
+    tr:nth-child(even) {
+      background: variables.$color-primary-light;
+    }
+
+    tr:hover {
+      background: variables.$color-blue-200;
+    }
+
+    & tr[class*='selected'],
+    & tr[class*='selected']:hover {
+      background: variables.$color-blue-200;
+    }
+  }
+}
