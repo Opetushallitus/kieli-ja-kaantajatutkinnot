@@ -285,4 +285,66 @@
         </sql>
     </changeSet>
 
+    <changeSet id="2022-05-16-drop-table-oikeustulkki_muokkaus" author="mikhuttu">
+        <dropTable tableName="oikeustulkki_muokkaus"/>
+        <sql>DROP TABLE IF EXISTS oikeustulkki_muokkaus_id_seq</sql>
+    </changeSet>
+
+    <changeSet id="2022-05-16-move-language-pair-under-qualification" author="mikhuttu">
+        <addColumn tableName="qualification">
+            <column name="from_lang" type="VARCHAR(10)"/>
+            <column name="to_lang" type="VARCHAR(10)"/>
+            <column name="begin_date" type="DATE"/>
+            <column name="end_date" type="DATE"/>
+        </addColumn>
+
+        <sql>
+            INSERT INTO qualification (interpreter_id, modified_at, modified_by, created_at, created_by, deleted_at,
+                                       deleted_by, version, permission_to_publish, examination_type,
+                                       from_lang, to_lang, begin_date, end_date)
+            SELECT
+                q.interpreter_id, q.modified_at, q.modified_by, q.created_at, q.created_by, q.deleted_at,
+                q.deleted_by, q.version, q.permission_to_publish, q.examination_type,
+                lp.from_lang, lp.to_lang, lp.begin_date, lp.end_date
+            FROM
+                qualification q, language_pair lp
+            WHERE
+                q.qualification_id = lp.qualification_id
+        </sql>
+
+        <dropTable tableName="language_pair"/>
+        <sql>DROP TABLE IF EXISTS language_pair_id_seq</sql>
+
+        <!-- Delete original qualifications -->
+        <!-- TODO: This fails if there are rows in `sahkoposti_muistutus` table.
+                   Production database has as of 2022/05/16 8 reminders in database in total. We could manually
+                   delete them and re-insert them after production update if they have to be preserved. We could
+                   also edit this migration later to support data migration for them. -->
+        <sql>DELETE FROM qualification WHERE from_lang IS NULL</sql>
+
+        <addNotNullConstraint tableName="qualification" columnName="from_lang"/>
+        <addNotNullConstraint tableName="qualification" columnName="to_lang"/>
+        <addNotNullConstraint tableName="qualification" columnName="begin_date"/>
+        <addNotNullConstraint tableName="qualification" columnName="end_date"/>
+
+        <sql><![CDATA[
+            ALTER TABLE qualification
+                ADD CONSTRAINT ck_qualification_from_lang_to_lang CHECK (from_lang <> to_lang)
+            ]]>
+        </sql>
+
+        <!-- This constraint didn't exist in language_pair table but holds for production data -->
+        <sql><![CDATA[
+            ALTER TABLE qualification
+                ADD CONSTRAINT ck_qualification_begin_date_end_date CHECK (begin_date < end_date)
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="2022-05-16-add-diary-number-to-qualification" author="mikhuttu">
+        <addColumn tableName="qualification">
+            <column name="diary_number" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
