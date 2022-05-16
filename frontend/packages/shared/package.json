@@ -51,5 +51,8 @@
         "src/utils/index.ts"
       ]
     }
+  },
+  "dependencies": {
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@0.0.21"
   }
 }

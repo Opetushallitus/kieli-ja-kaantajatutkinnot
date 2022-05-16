@@ -1,9 +1,28 @@
-.public-interpreter-listing-row {
-  > td {
-    border-bottom: unset;
+.public-interpreter-listing {
+  // Unset defaults
+  tbody {
+    tr:nth-child(even) {
+      background: unset;
+    }
+
+    tr:nth-child(4n + 3),
+    tr:nth-child(4n + 4) {
+      background: $color-primary-light;
+    }
   }
 
-  &__extra-details {
-    padding: map-get($spacing, 'lg') 0;
+  &-row {
+    & > td {
+      border-bottom: unset;
+    }
+
+    &__collapse {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    &__extra-details {
+      padding: map-get($spacing, 'lg') 0;
+    }
   }
 }

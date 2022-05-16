@@ -110,8 +110,13 @@ export const PublicInterpreterListingRow = ({
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
-          <Collapse in={isOpen} timeout="auto" unmountOnExit>
+        <TableCell colSpan={4}>
+          <Collapse
+            className="public-interpreter-listing-row__collapse"
+            in={isOpen}
+            timeout="auto"
+            unmountOnExit
+          >
             <div className="columns public-interpreter-listing-row__extra-details">
               <div className="rows margin-right-xs">
                 <Text className="bold">

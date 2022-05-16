@@ -40,7 +40,7 @@ export const PublicInterpreterListing = ({
     case APIResponseStatus.Success:
       return (
         <PaginatedTable
-          className="interpreter-listing"
+          className="public-interpreter-listing"
           data={interpreters}
           header={<PublicInterpreterListingHeader />}
           getRowDetails={getRowDetails}
