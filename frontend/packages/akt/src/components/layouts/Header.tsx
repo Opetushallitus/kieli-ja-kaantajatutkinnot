@@ -1,13 +1,14 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { OPHLogoViewer, SkipLink } from 'shared/components';
-import { Direction } from 'shared/enums';
+import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
+import { AppLanguage, Direction } from 'shared/enums';
 
-import { LangSelector } from 'components/i18n/LangSelector';
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import {
+  changeLang,
   getCurrentLang,
+  getSupportedLangs,
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
@@ -16,9 +17,16 @@ import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.header.accessibility',
+    keyPrefix: 'akt.component.header',
   });
   const translateCommon = useCommonTranslation();
+  const [finnish, swedish, english] = getSupportedLangs();
+
+  const langDict = new Map<string, AppLanguage>([
+    [t('lang.fi'), finnish],
+    [t('lang.sv'), swedish],
+    [t('lang.en'), english],
+  ]);
 
   const [isClerkUI] = useAuthentication();
   const logoRedirectURL = isClerkUI
@@ -27,7 +35,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      <SkipLink href="#main-content" text={t('continueToMain')} />
+      <SkipLink href="#main-content" text={t('accessibility.continueToMain')} />
       <AppBar className="header" position="static">
         <Toolbar className="header__toolbar">
           <div className="header__left">
@@ -43,7 +51,12 @@ export const Header = (): JSX.Element => {
           <div className="header__center">{isClerkUI && <ClerkNavTabs />}</div>
           <div className="header__right">
             {isClerkUI && <ClerkHeaderButtons />}
-            <LangSelector />
+            <LangSelector
+              changeLang={changeLang}
+              getCurrentLang={getCurrentLang}
+              langDict={langDict}
+              langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
+            />
           </div>
         </Toolbar>
       </AppBar>

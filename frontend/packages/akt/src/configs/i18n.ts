@@ -127,11 +127,11 @@ export const translateOutsideComponent = () => {
   return t;
 };
 
-export const getCurrentLang = (): string => {
-  return i18n.language;
+export const getCurrentLang = (): AppLanguage => {
+  return i18n.language as AppLanguage;
 };
 
-export const getSupportedLangs = (): string[] => {
+export const getSupportedLangs = (): Array<AppLanguage> => {
   return supportedLangs;
 };
 
@@ -141,6 +141,6 @@ export const changeLang = (language: AppLanguage) => {
   return changeLanguage(language);
 };
 
-export const onLangChanged = (callback: (language: string) => void) => {
+export const onLangChanged = (callback: (language: AppLanguage) => void) => {
   return i18n.on('languageChanged', callback);
 };
