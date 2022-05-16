@@ -3,10 +3,10 @@ package fi.oph.otr.service;
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
-import fi.oph.otr.repository.InterpreterLanguagePairProjection;
+import fi.oph.otr.repository.InterpreterQualificationProjection;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
-import fi.oph.otr.repository.LanguagePairRepository;
+import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +25,7 @@ public class PublicInterpreterService {
   private final InterpreterRepository interpreterRepository;
 
   @Resource
-  private final LanguagePairRepository languagePairRepository;
+  private final QualificationRepository qualificationRepository;
 
   @Resource
   private final RegionRepository regionRepository;
@@ -37,12 +37,12 @@ public class PublicInterpreterService {
       .stream()
       .collect(Collectors.groupingBy(InterpreterRegionProjection::interpreterId));
 
-    final Map<Long, List<InterpreterLanguagePairProjection>> interpreterLanguagePairs = languagePairRepository
-      .findLanguagePairsForPublicListing()
+    final Map<Long, List<InterpreterQualificationProjection>> interpreterQualifications = qualificationRepository
+      .findQualificationsForPublicListing()
       .stream()
-      .collect(Collectors.groupingBy(InterpreterLanguagePairProjection::interpreterId));
+      .collect(Collectors.groupingBy(InterpreterQualificationProjection::interpreterId));
 
-    final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterLanguagePairs.keySet());
+    final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterQualifications.keySet());
 
     return interpreters
       .stream()
@@ -51,11 +51,11 @@ public class PublicInterpreterService {
           interpreter.getId(),
           Collections.emptyList()
         );
-        final List<InterpreterLanguagePairProjection> languagePairProjections = interpreterLanguagePairs.get(
+        final List<InterpreterQualificationProjection> qualificationProjections = interpreterQualifications.get(
           interpreter.getId()
         );
 
-        return toDTO(interpreter, regionProjections, languagePairProjections);
+        return toDTO(interpreter, regionProjections, qualificationProjections);
       })
       .toList();
   }
@@ -63,13 +63,13 @@ public class PublicInterpreterService {
   private InterpreterDTO toDTO(
     final Interpreter interpreter,
     final List<InterpreterRegionProjection> regionProjections,
-    final List<InterpreterLanguagePairProjection> languagePairProjections
+    final List<InterpreterQualificationProjection> qualificationProjections
   ) {
     final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
 
-    final List<LanguagePairDTO> languagePairs = languagePairProjections
+    final List<LanguagePairDTO> languagePairs = qualificationProjections
       .stream()
-      .map(t -> LanguagePairDTO.builder().from(t.fromLang()).to(t.toLang()).build())
+      .map(qp -> LanguagePairDTO.builder().from(qp.fromLang()).to(qp.toLang()).build())
       .toList();
 
     return InterpreterDTO

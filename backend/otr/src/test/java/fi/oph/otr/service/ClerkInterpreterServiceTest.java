@@ -7,20 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.otr.Factory;
+import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
-import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.Interpreter;
-import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterRepository;
-import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -50,9 +48,6 @@ class ClerkInterpreterServiceTest {
   private QualificationRepository qualificationRepository;
 
   @Resource
-  private LanguagePairRepository languagePairRepository;
-
-  @Resource
   private RegionRepository regionRepository;
 
   @Resource
@@ -72,7 +67,6 @@ class ClerkInterpreterServiceTest {
       new ClerkInterpreterService(
         interpreterRepository,
         qualificationRepository,
-        languagePairRepository,
         regionRepository,
         regionService,
         languageService
@@ -122,13 +116,15 @@ class ClerkInterpreterServiceTest {
   ) {
     final Interpreter interpreter = Factory.interpreter();
     final Qualification qualification = Factory.qualification(interpreter);
-    final LanguagePair languagePair = Factory.languagePair(qualification, from, to, begin, end);
 
+    qualification.setFromLang(from);
+    qualification.setToLang(to);
+    qualification.setBeginDate(begin);
+    qualification.setEndDate(end);
     qualification.setPermissionToPublish(publish);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
-    entityManager.persist(languagePair);
 
     regionCodes.forEach(code -> {
       final Region region = Factory.region(interpreter, code);
@@ -165,14 +161,19 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkQualificationCreateDTO
             .builder()
+            .languagePair(LanguagePairDTO.builder().from("FI").to("SE").build())
+            .beginDate(today)
+            .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
-            .languages(
-              List.of(
-                ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-                ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-              )
-            )
+            .build(),
+          ClerkQualificationCreateDTO
+            .builder()
+            .languagePair(LanguagePairDTO.builder().from("SE").to("DE").build())
+            .beginDate(yesterday)
+            .endDate(today)
+            .examinationType(QualificationExaminationType.OTHER)
+            .permissionToPublish(false)
             .build()
         )
       )
@@ -189,26 +190,23 @@ class ClerkInterpreterServiceTest {
     assertFalse(interpreterDTO.permissionToPublishOtherContactInfo());
     assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
-    assertEquals(1, interpreterDTO.qualifications().size());
+    assertEquals(2, interpreterDTO.qualifications().size());
 
-    final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
-    assertEquals(0, qualificationDTO.version());
-    assertFalse(qualificationDTO.deleted());
-    assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualificationDTO.examinationType());
-    assertTrue(qualificationDTO.permissionToPublish());
-    assertEquals(2, qualificationDTO.languages().size());
+    final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().get(0);
+    assertEquals(0, qualification1.version());
+    assertFalse(qualification1.deleted());
+    assertEquals(LanguagePairDTO.builder().from("FI").to("SE").build(), qualification1.languagePair());
+    assertEquals(today, qualification1.beginDate());
+    assertEquals(tomorrow, qualification1.endDate());
+    assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualification1.examinationType());
+    assertTrue(qualification1.permissionToPublish());
 
-    assertEquals(Set.of("FI", "SE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::from));
-    assertEquals(Set.of("SE", "DE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::to));
-    assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
-    assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
-  }
-
-  private <T> Set<T> collectFromLanguages(
-    final ClerkQualificationDTO dto,
-    final Function<ClerkLanguagePairDTO, T> getter
-  ) {
-    return dto.languages().stream().map(getter).collect(Collectors.toSet());
+    final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().get(1);
+    assertEquals(LanguagePairDTO.builder().from("SE").to("DE").build(), qualification2.languagePair());
+    assertEquals(yesterday, qualification2.beginDate());
+    assertEquals(today, qualification2.endDate());
+    assertEquals(QualificationExaminationType.OTHER, qualification2.examinationType());
+    assertFalse(qualification2.permissionToPublish());
   }
 
   @Test
@@ -238,14 +236,11 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkQualificationCreateDTO
             .builder()
+            .languagePair(LanguagePairDTO.builder().from("FI").to("SE").build())
+            .beginDate(today)
+            .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
-            .languages(
-              List.of(
-                ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-                ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-              )
-            )
             .build()
         )
       )
@@ -266,6 +261,7 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
     assertEquals(id, interpreterDTO.id());
+    assertEquals(1, interpreterDTO.qualifications().size());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
   }
 
@@ -362,38 +358,26 @@ class ClerkInterpreterServiceTest {
   public void testCreateQualification() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Interpreter interpreter1 = Factory.interpreter();
-    final Qualification qualification1 = Factory.qualification(interpreter1);
-    final LanguagePair languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
 
-    final Interpreter interpreter2 = Factory.interpreter();
-    final Qualification qualification2 = Factory.qualification(interpreter2);
-    final LanguagePair languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
-
-    entityManager.persist(interpreter1);
-    entityManager.persist(interpreter2);
-    entityManager.persist(qualification1);
-    entityManager.persist(qualification2);
-    entityManager.persist(languagePair1);
-    entityManager.persist(languagePair2);
-
-    final long interpreterId = interpreter2.getId();
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
 
     final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
       .builder()
+      .languagePair(LanguagePairDTO.builder().from("FI").to("CS").build())
+      .beginDate(today)
+      .endDate(tomorrow)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(false)
-      .languages(
-        List.of(
-          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-          ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-        )
-      )
       .build();
 
-    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createQualification(interpreterId, createDTO);
+    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createQualification(
+      interpreter.getId(),
+      createDTO
+    );
     assertEquals(2, interpreterDTO.qualifications().size());
 
     final ClerkQualificationDTO qualificationDTO = interpreterDTO
@@ -406,139 +390,94 @@ class ClerkInterpreterServiceTest {
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
-    assertEquals(2, qualificationDTO.languages().size());
-
-    assertEquals(Set.of("FI", "SE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::from));
-    assertEquals(Set.of("SE", "DE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::to));
-    assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
-    assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
+    assertEquals(LanguagePairDTO.builder().from("FI").to("CS").build(), qualificationDTO.languagePair());
+    assertEquals(today, qualificationDTO.beginDate());
+    assertEquals(tomorrow, qualificationDTO.endDate());
   }
 
   @Test
   public void testCreateQualificationFailsForUnknownLanguage() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
 
-    final Interpreter interpreter1 = Factory.interpreter();
-    final Qualification qualification1 = Factory.qualification(interpreter1);
-    final LanguagePair languagePair1 = Factory.languagePair(qualification1, "GR", "SE", yesterday, today);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
 
-    final Interpreter interpreter2 = Factory.interpreter();
-    final Qualification qualification2 = Factory.qualification(interpreter2);
-    final LanguagePair languagePair2 = Factory.languagePair(qualification2, "SE", "GR", yesterday, tomorrow);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
 
-    entityManager.persist(interpreter1);
-    entityManager.persist(interpreter2);
-    entityManager.persist(qualification1);
-    entityManager.persist(qualification2);
-    entityManager.persist(languagePair1);
-    entityManager.persist(languagePair2);
-
-    final long interpreterId = interpreter2.getId();
-
-    final ClerkQualificationCreateDTO dto = ClerkQualificationCreateDTO
+    final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
       .builder()
-      .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
-      .permissionToPublish(true)
-      .languages(
-        List.of(
-          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-          ClerkLanguagePairDTO
-            .builder()
-            .from("SE")
-            .to("This language code does not exist")
-            .beginDate(yesterday)
-            .endDate(today)
-            .build()
-        )
-      )
+      .languagePair(LanguagePairDTO.builder().from("FI").to("XX").build())
+      .beginDate(today)
+      .endDate(tomorrow)
+      .examinationType(QualificationExaminationType.OTHER)
+      .permissionToPublish(false)
       .build();
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> clerkInterpreterService.createQualification(interpreterId, dto)
+      () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
     );
     assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
   public void testUpdateQualification() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
+    final LocalDate begin = LocalDate.now().minusMonths(1);
+    final LocalDate end = LocalDate.now().plusMonths(1);
 
     final Interpreter interpreter = Factory.interpreter();
     final Qualification qualification = Factory.qualification(interpreter);
-    final LanguagePair languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
-    entityManager.persist(languagePair);
 
     final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
+      .languagePair(LanguagePairDTO.builder().from("SE").to("NO").build())
+      .beginDate(begin)
+      .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
-      .languages(
-        List.of(
-          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-          ClerkLanguagePairDTO.builder().from("SE").to("DE").beginDate(yesterday).endDate(today).build()
-        )
-      )
       .build();
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.updateQualification(updateDTO);
+    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.updateQualification(updateDTO);
 
-    assertEquals(1, dto.qualifications().size());
-    final ClerkQualificationDTO qualificationDTO = dto.qualifications().get(0);
+    assertEquals(1, interpreterDTO.qualifications().size());
+    final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
+    assertEquals(LanguagePairDTO.builder().from("SE").to("NO").build(), qualificationDTO.languagePair());
+    assertEquals(begin, qualificationDTO.beginDate());
+    assertEquals(end, qualificationDTO.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
     assertTrue(qualificationDTO.permissionToPublish());
-    assertEquals(2, qualificationDTO.languages().size());
-
-    assertEquals(Set.of("FI", "SE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::from));
-    assertEquals(Set.of("SE", "DE"), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::to));
-    assertEquals(Set.of(today, yesterday), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::beginDate));
-    assertEquals(Set.of(today, tomorrow), collectFromLanguages(qualificationDTO, ClerkLanguagePairDTO::endDate));
   }
 
   @Test
   public void testUpdateQualificationFailsForUnknownLanguage() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
+    final LocalDate begin = LocalDate.now().minusMonths(1);
+    final LocalDate end = LocalDate.now().plusMonths(1);
 
     final Interpreter interpreter = Factory.interpreter();
     final Qualification qualification = Factory.qualification(interpreter);
-    final LanguagePair languagePair = Factory.languagePair(qualification, "FI", "EN", today, today);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
-    entityManager.persist(languagePair);
 
     final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
+      .languagePair(LanguagePairDTO.builder().from("XX").to("FI").build())
+      .beginDate(begin)
+      .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
       .permissionToPublish(true)
-      .languages(
-        List.of(
-          ClerkLanguagePairDTO.builder().from("FI").to("SE").beginDate(today).endDate(tomorrow).build(),
-          ClerkLanguagePairDTO
-            .builder()
-            .from("SE")
-            .to("This language code does not exist")
-            .beginDate(yesterday)
-            .endDate(today)
-            .build()
-        )
-      )
       .build();
 
     final APIException ex = assertThrows(
