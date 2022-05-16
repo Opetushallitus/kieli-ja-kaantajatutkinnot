@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.12] - 2022-05-16
+
+## Changed
+
+- Expose more accurate types from LangSelectorProps
+
 ## [1.0.11] - 2022-05-13
 
 ## Added
