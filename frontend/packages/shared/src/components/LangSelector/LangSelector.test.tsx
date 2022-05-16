@@ -6,12 +6,12 @@ import { LangSelector } from './LangSelector';
 
 describe('LangSelector', () => {
   it('should render LangSelector correctly', () => {
-    const { getCurrentLang, langDict } = createLangSelectorMocks();
+    const { getCurrentLang, langDict, changeLang } = createLangSelectorMocks();
     const tree = renderer
       .create(
         <LangSelector
           langDict={langDict}
-          changeLang={jest.fn()}
+          changeLang={changeLang}
           langSelectorAriaLabel="aria-label"
           getCurrentLang={getCurrentLang}
         />
@@ -22,12 +22,12 @@ describe('LangSelector', () => {
   });
 
   it('should show the Finnish language as a default language', () => {
-    const { getCurrentLang, langDict } = createLangSelectorMocks();
+    const { getCurrentLang, langDict, changeLang } = createLangSelectorMocks();
 
     render(
       <LangSelector
         langDict={langDict}
-        changeLang={jest.fn()}
+        changeLang={changeLang}
         langSelectorAriaLabel="aria-label"
         getCurrentLang={getCurrentLang}
       />
@@ -37,12 +37,12 @@ describe('LangSelector', () => {
   });
 
   it('should show a list of all available languages', async () => {
-    const { getCurrentLang, langDict } = createLangSelectorMocks();
+    const { getCurrentLang, langDict, changeLang } = createLangSelectorMocks();
 
     render(
       <LangSelector
         langDict={langDict}
-        changeLang={jest.fn()}
+        changeLang={changeLang}
         langSelectorAriaLabel="aria-label"
         getCurrentLang={getCurrentLang}
       />
@@ -55,6 +55,7 @@ describe('LangSelector', () => {
   // Helper
   const createLangSelectorMocks = () => {
     const getCurrentLang = jest.fn();
+    const changeLang = jest.fn();
     const langDict = new Map<string, string>([
       ['lang.fi', 'fi-FI'],
       ['lang.sv', 'sv-SE'],
@@ -63,6 +64,6 @@ describe('LangSelector', () => {
 
     getCurrentLang.mockReturnValue('fi-FI');
 
-    return { getCurrentLang, langDict };
+    return { getCurrentLang, langDict, changeLang };
   };
 });
