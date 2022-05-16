@@ -74,18 +74,12 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testAllAreListed() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate nextWeek = tomorrow.plusDays(7);
-    final LocalDate previousWeek = today.minusDays(7);
-    final LocalDate yesterday = today.minusDays(1);
-
-    final long id1 = createInterpreter(false, "FI", "SE", today, tomorrow);
-    final long id2 = createInterpreter(true, "FI", "EN", today, tomorrow);
-    final long id3 = createInterpreter(true, "NO", "FI", yesterday, today);
-    final long id4 = createInterpreter(false, "FI", "GE", previousWeek, tomorrow);
-    final long id5 = createInterpreter(true, "FI", "DA", tomorrow, nextWeek);
-    final long id6 = createInterpreter(true, "FI", "IT", previousWeek, yesterday);
+    final long id1 = createInterpreter();
+    final long id2 = createInterpreter();
+    final long id3 = createInterpreter();
+    final long id4 = createInterpreter();
+    final long id5 = createInterpreter();
+    final long id6 = createInterpreter();
 
     final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.list();
     assertEquals(
@@ -95,32 +89,13 @@ class ClerkInterpreterServiceTest {
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
   }
 
-  private long createInterpreter(
-    final boolean publish,
-    final String from,
-    final String to,
-    final LocalDate begin,
-    final LocalDate end
-  ) {
-    return createInterpreterWithRegions(publish, from, to, begin, end, Collections.emptyList());
+  private long createInterpreter() {
+    return createInterpreterWithRegions(Collections.emptyList());
   }
 
-  private long createInterpreterWithRegions(
-    final boolean publish,
-    final String from,
-    final String to,
-    final LocalDate begin,
-    final LocalDate end,
-    final List<String> regionCodes
-  ) {
+  private long createInterpreterWithRegions(final List<String> regionCodes) {
     final Interpreter interpreter = Factory.interpreter();
     final Qualification qualification = Factory.qualification(interpreter);
-
-    qualification.setFromLang(from);
-    qualification.setToLang(to);
-    qualification.setBeginDate(begin);
-    qualification.setEndDate(end);
-    qualification.setPermissionToPublish(publish);
 
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
@@ -216,7 +191,6 @@ class ClerkInterpreterServiceTest {
   public void testCreateInterpreterFailsForUnknownRegion() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final LocalDate yesterday = LocalDate.now().minusDays(1);
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
@@ -259,11 +233,9 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testGetInterpreter() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    final long id = createInterpreterWithRegions(false, "FI", "SE", today, tomorrow, List.of("01", "02"));
-
+    final long id = createInterpreterWithRegions(List.of("01", "02"));
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
+
     assertEquals(id, interpreterDTO.id());
     assertEquals(1, interpreterDTO.qualifications().size());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
@@ -271,8 +243,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreter() {
-    createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
-    final Long id = interpreterRepository.findAll().stream().map(Interpreter::getId).findFirst().orElseThrow();
+    final long id = createInterpreter();
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -307,8 +278,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
-    createInterpreter(false, "FI", "SE", LocalDate.now(), LocalDate.now().plusDays(1));
-    final Long id = interpreterRepository.findAll().stream().map(Interpreter::getId).findFirst().orElseThrow();
+    final long id = createInterpreter();
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -337,20 +307,15 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testDeleteInterpreter() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    createInterpreter(false, "FI", "SE", today, tomorrow);
-    createInterpreter(true, "FI", "EN", today, tomorrow);
+    final long id = createInterpreter();
+    createInterpreter();
 
-    final List<Long> ids = interpreterRepository.findAll().stream().map(Interpreter::getId).toList();
-    final Long idToDelete = ids.get(0);
-
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(idToDelete);
+    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
 
     interpreterRepository
       .findAll()
       .forEach(interpreter -> {
-        final boolean isDeleted = Objects.equals(idToDelete, interpreter.getId());
+        final boolean isDeleted = Objects.equals(id, interpreter.getId());
 
         assertEquals(isDeleted, interpreter.isDeleted());
         interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
@@ -500,24 +465,22 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testDeleteQualification() {
-    final LocalDate today = LocalDate.now();
-    final LocalDate tomorrow = LocalDate.now().plusDays(1);
-    createInterpreter(false, "FI", "SE", today, tomorrow);
-    createInterpreter(true, "FI", "EN", today, tomorrow);
+    createInterpreter();
+    createInterpreter();
 
-    final List<Long> ids = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
-    final Long idToDelete = ids.get(0);
+    final List<Long> qualificationIds = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
+    final Long id = qualificationIds.get(0);
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(idToDelete);
+    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(id);
 
-    qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(idToDelete, q.getId()), q.isDeleted()));
+    qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(id, q.getId()), q.isDeleted()));
 
-    dto.qualifications().forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
+    dto.qualifications().forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
 
     clerkInterpreterService
       .list()
       .stream()
       .flatMap(i -> i.qualifications().stream())
-      .forEach(q -> assertEquals(Objects.equals(idToDelete, q.id()), q.deleted()));
+      .forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
   }
 }
