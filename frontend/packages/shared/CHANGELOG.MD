@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.13] - 2022-05-17
+
+## Added
+
+- KoodistoRegions and Privacy I18n namespaces
+
 ## [1.0.12] - 2022-05-16
 
 ## Changed
