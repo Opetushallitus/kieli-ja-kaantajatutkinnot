@@ -1,6 +1,5 @@
 package fi.oph.otr.service;
 
-import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
@@ -117,18 +116,13 @@ public class ClerkInterpreterService {
   }
 
   private ClerkQualificationDTO createQualificationDTO(final Qualification qualification) {
-    final LanguagePairDTO languagePairDTO = LanguagePairDTO
-      .builder()
-      .from(qualification.getFromLang())
-      .to(qualification.getToLang())
-      .build();
-
     return ClerkQualificationDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
       .deleted(qualification.isDeleted())
-      .languagePair(languagePairDTO)
+      .fromLang(qualification.getFromLang())
+      .toLang(qualification.getToLang())
       .beginDate(qualification.getBeginDate())
       .endDate(qualification.getEndDate())
       .examinationType(qualification.getExaminationType())
@@ -168,7 +162,7 @@ public class ClerkInterpreterService {
 
   private void validateLanguagePair(final ClerkQualificationDTOCommonFields dto) {
     Stream
-      .of(dto.languagePair().from(), dto.languagePair().to())
+      .of(dto.fromLang(), dto.toLang())
       .forEach(languageCode -> {
         if (!languageService.containsKoodistoCode(languageCode)) {
           throw new APIException(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN);
@@ -210,8 +204,8 @@ public class ClerkInterpreterService {
     final Qualification qualification,
     final ClerkQualificationDTOCommonFields dto
   ) {
-    qualification.setFromLang(dto.languagePair().from());
-    qualification.setToLang(dto.languagePair().to());
+    qualification.setFromLang(dto.fromLang());
+    qualification.setToLang(dto.toLang());
     qualification.setBeginDate(dto.beginDate());
     qualification.setEndDate(dto.endDate());
     qualification.setExaminationType(dto.examinationType());

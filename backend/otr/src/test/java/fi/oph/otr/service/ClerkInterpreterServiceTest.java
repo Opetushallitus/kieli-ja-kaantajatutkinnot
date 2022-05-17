@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.otr.Factory;
-import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
@@ -135,7 +134,8 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkQualificationCreateDTO
             .builder()
-            .languagePair(LanguagePairDTO.builder().from("FI").to("SE").build())
+            .fromLang("FI")
+            .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
@@ -144,7 +144,8 @@ class ClerkInterpreterServiceTest {
             .build(),
           ClerkQualificationCreateDTO
             .builder()
-            .languagePair(LanguagePairDTO.builder().from("SE").to("DE").build())
+            .fromLang("SE")
+            .toLang("DE")
             .beginDate(yesterday)
             .endDate(today)
             .examinationType(QualificationExaminationType.OTHER)
@@ -171,7 +172,8 @@ class ClerkInterpreterServiceTest {
     final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().get(0);
     assertEquals(0, qualification1.version());
     assertFalse(qualification1.deleted());
-    assertEquals(LanguagePairDTO.builder().from("FI").to("SE").build(), qualification1.languagePair());
+    assertEquals("FI", qualification1.fromLang());
+    assertEquals("SE", qualification1.toLang());
     assertEquals(today, qualification1.beginDate());
     assertEquals(tomorrow, qualification1.endDate());
     assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualification1.examinationType());
@@ -179,7 +181,8 @@ class ClerkInterpreterServiceTest {
     assertEquals("123", qualification1.diaryNumber());
 
     final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().get(1);
-    assertEquals(LanguagePairDTO.builder().from("SE").to("DE").build(), qualification2.languagePair());
+    assertEquals("SE", qualification2.fromLang());
+    assertEquals("DE", qualification2.toLang());
     assertEquals(yesterday, qualification2.beginDate());
     assertEquals(today, qualification2.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualification2.examinationType());
@@ -213,7 +216,8 @@ class ClerkInterpreterServiceTest {
         List.of(
           ClerkQualificationCreateDTO
             .builder()
-            .languagePair(LanguagePairDTO.builder().from("FI").to("SE").build())
+            .fromLang("FI")
+            .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
             .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
@@ -336,7 +340,8 @@ class ClerkInterpreterServiceTest {
 
     final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
       .builder()
-      .languagePair(LanguagePairDTO.builder().from("FI").to("CS").build())
+      .fromLang("FI")
+      .toLang("CS")
       .beginDate(today)
       .endDate(tomorrow)
       .examinationType(QualificationExaminationType.OTHER)
@@ -360,7 +365,8 @@ class ClerkInterpreterServiceTest {
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
-    assertEquals(LanguagePairDTO.builder().from("FI").to("CS").build(), qualificationDTO.languagePair());
+    assertEquals("FI", qualificationDTO.fromLang());
+    assertEquals("CS", qualificationDTO.toLang());
     assertEquals(today, qualificationDTO.beginDate());
     assertEquals(tomorrow, qualificationDTO.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
@@ -380,7 +386,8 @@ class ClerkInterpreterServiceTest {
 
     final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
       .builder()
-      .languagePair(LanguagePairDTO.builder().from("FI").to("XX").build())
+      .fromLang("FI")
+      .toLang("XX")
       .beginDate(today)
       .endDate(tomorrow)
       .examinationType(QualificationExaminationType.OTHER)
@@ -410,7 +417,8 @@ class ClerkInterpreterServiceTest {
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
-      .languagePair(LanguagePairDTO.builder().from("SE").to("NO").build())
+      .fromLang("SE")
+      .toLang("NO")
       .beginDate(begin)
       .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
@@ -425,7 +433,8 @@ class ClerkInterpreterServiceTest {
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
     assertFalse(qualificationDTO.deleted());
-    assertEquals(LanguagePairDTO.builder().from("SE").to("NO").build(), qualificationDTO.languagePair());
+    assertEquals("SE", qualificationDTO.fromLang());
+    assertEquals("NO", qualificationDTO.toLang());
     assertEquals(begin, qualificationDTO.beginDate());
     assertEquals(end, qualificationDTO.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
@@ -448,7 +457,8 @@ class ClerkInterpreterServiceTest {
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
-      .languagePair(LanguagePairDTO.builder().from("XX").to("FI").build())
+      .fromLang("XX")
+      .toLang("FI")
       .beginDate(begin)
       .endDate(end)
       .examinationType(QualificationExaminationType.OTHER)
