@@ -38,6 +38,7 @@ services:
     volumes:
       - ./frontend/packages/akt:/app/reactjs/packages/akt
       - /app/reactjs/node_modules
+      - /app/reactjs/packages/akt/node_modules
     environment:
       - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
