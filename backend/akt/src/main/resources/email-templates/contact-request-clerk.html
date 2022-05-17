@@ -8,7 +8,7 @@
             [[${requesterName}]] (email: [[${requesterEmail}]], puh.: [[${requesterPhone}]]) lähetti yhteydenottopyynnön seuraaville kääntäjille, joiden sähköpostiosoite ei ollut tiedossa:
         </p>
         <ul th:each="translator : ${translators}">
-            <li><a th:href="@{https://virkailija.opintopolku.fi/akt/virkailija/kaantaja/{id}(id=${translator.id})}">[[${translator.name}]]</a></li>
+            <li><a th:href="@{https://{aktHost}/akt/virkailija/kaantaja/{id}(aktHost=${aktHost},id=${translator.id})}">[[${translator.name}]]</a></li>
         </ul>
         <br/>
 

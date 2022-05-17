@@ -16,11 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +45,9 @@ public class ContactRequestService {
 
   @Resource
   private final TranslatorRepository translatorRepository;
+
+  @Resource
+  private final Environment environment;
 
   @Transactional
   public ContactRequest createContactRequest(final ContactRequestDTO contactRequestDTO) {
@@ -188,7 +191,9 @@ public class ContactRequestService {
       "requesterEmail",
       getRequesterEmail(contactRequestDTO),
       "requesterPhone",
-      requesterPhone.isEmpty() ? "-" : requesterPhone
+      requesterPhone.isEmpty() ? "-" : requesterPhone,
+      "aktHost",
+      environment.getRequiredProperty("host-virkailija")
     );
 
     final String recipientName = "Auktoris - OPH";
