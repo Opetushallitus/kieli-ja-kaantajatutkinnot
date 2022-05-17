@@ -1,22 +1,22 @@
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 import { useState } from 'react';
+import {
+  CustomButton,
+  DatePicker,
+  H3,
+  LoadingProgressIndicator,
+} from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { DateUtils, StringUtils } from 'shared/utils';
 
-import { CustomButton } from 'components/elements/CustomButton';
-import { DatePicker } from 'components/elements/DatePicker';
-import { LoadingProgressIndicator } from 'components/elements/LoadingProgressIndicator';
-import { H3 } from 'components/elements/Text';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
-import { Color, Variant } from 'enums/app';
-import { useNavigationProtection } from 'hooks/navigation/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addExaminationDate } from 'redux/actions/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
-import { DateUtils } from 'utils/date';
-import { StringUtils } from 'utils/string';
 
 export const AddExaminationDate = () => {
-  const dayjs = DateUtils.dayjs();
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
     keyPrefix: 'akt.component.addExaminationDate',

@@ -1,6 +1,6 @@
 import { Action } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import { WithId, WithVersion } from 'interfaces/with';
 

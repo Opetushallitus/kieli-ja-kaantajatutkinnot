@@ -2,7 +2,7 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
 import { ClerkTranslatorAutocompleteFilters } from 'components/clerkTranslator/filters/ClerkTranslatorAutocompleteFilters';
@@ -11,7 +11,6 @@ import { ClerkTranslatorListing } from 'components/clerkTranslator/listing/Clerk
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { loadClerkTranslators } from 'redux/actions/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';

@@ -1,14 +1,13 @@
 import { Alert, Grid, Paper } from '@mui/material';
 import { useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { Severity } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PublicTranslatorFilters } from 'components/publicTranslator/filters/PublicTranslatorFilters';
 import { PublicTranslatorListing } from 'components/publicTranslator/listing/PublicTranslatorListing';
 import { PublicTranslatorGridSkeleton } from 'components/skeletons/PublicTranslatorGridSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import {
   publicTranslatorsSelector,
   selectFilteredPublicTranslators,

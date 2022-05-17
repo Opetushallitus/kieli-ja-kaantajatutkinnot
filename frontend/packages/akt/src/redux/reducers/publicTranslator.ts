@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { SearchFilter } from 'enums/app';
 import { LanguagePairsDict } from 'interfaces/languagePair';
 import {

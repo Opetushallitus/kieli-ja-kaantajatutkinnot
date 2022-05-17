@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import { Reducer } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import {
   ExaminationDate,
@@ -14,9 +15,6 @@ import {
   EXAMINATION_DATE_LOAD,
   EXAMINATION_DATE_RECEIVED,
 } from 'redux/actionTypes/examinationDate';
-import { DateUtils } from 'utils/date';
-
-const dayjs = DateUtils.dayjs();
 
 const defaultState = {
   examinationDates: {

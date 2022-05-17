@@ -10,14 +10,6 @@ export enum APIEndpoints {
   MeetingDate = '/akt/api/v1/clerk/meetingDate',
 }
 
-export enum APIResponseStatus {
-  NotStarted = 'NOT_STARTED',
-  InProgress = 'IN_PROGRESS',
-  Success = 'SUCCESS',
-  Error = 'ERROR',
-  Cancelled = 'CANCELLED',
-}
-
 /**
  * Certain errors expected to be returned by the backend.
  * The respective backend enum is `APIExceptionType`.

@@ -1,15 +1,15 @@
+import dayjs from 'dayjs';
+import { HTTPStatusCode } from 'shared/enums';
+
 import { APIEndpoints, APIError } from 'enums/api';
-import { HTTPStatusCode } from 'enums/app';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onExaminationDatesPage } from 'tests/cypress/support/page-objects/examinationDatesPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { createAPIErrorResponse } from 'tests/cypress/support/utils/api';
 import { useFixedDate } from 'tests/cypress/support/utils/date';
-import { DateUtils } from 'utils/date';
 
 let examinationDates;
-const dayjs = DateUtils.dayjs();
 const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 const examinationDateToAdd = {
   id: 11,

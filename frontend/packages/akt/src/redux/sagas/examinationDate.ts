@@ -1,5 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { DateUtils } from 'shared/utils';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -22,7 +23,6 @@ import {
   RemoveExaminationDateActionType,
 } from 'redux/actionTypes/examinationDate';
 import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
-import { DateUtils } from 'utils/date';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 

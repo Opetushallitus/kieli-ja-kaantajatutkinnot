@@ -1,6 +1,5 @@
 import { Action } from 'redux';
-
-import { APIResponseStatus } from 'enums/api';
+import { APIResponseStatus } from 'shared/enums';
 
 export interface ClerkUser {
   oid: string;

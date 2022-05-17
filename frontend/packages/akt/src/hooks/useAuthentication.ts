@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { APIResponseStatus } from 'shared/enums';
 
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { loadClerkUser } from 'redux/actions/clerkUser';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';

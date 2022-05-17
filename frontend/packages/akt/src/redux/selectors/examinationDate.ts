@@ -1,9 +1,9 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
+import { DateUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
 import { ExaminationDateStatus } from 'enums/examinationDate';
-import { DateUtils } from 'utils/date';
 
 export const examinationDatesSelector = (state: RootState) =>
   state.examinationDate;
@@ -11,7 +11,6 @@ export const examinationDatesSelector = (state: RootState) =>
 export const selectExaminationDatesByStatus = createSelector(
   (state: RootState) => state.examinationDate.examinationDates,
   (examinationDates) => {
-    const dayjs = DateUtils.dayjs();
     const now = dayjs();
     const upcoming = examinationDates.dates
       .filter(({ date }) =>

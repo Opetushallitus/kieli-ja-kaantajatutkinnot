@@ -2,14 +2,12 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC } from 'react';
+import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
-import { CustomIconButton } from 'components/elements/CustomIconButton';
-import { H3, Text } from 'components/elements/Text';
-import { PaginatedTable } from 'components/tables/Table';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
-import { Color, Severity, Variant } from 'enums/app';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { ExaminationDate } from 'interfaces/examinationDate';
 import { removeExaminationDate } from 'redux/actions/examinationDate';
@@ -19,7 +17,6 @@ import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
 } from 'redux/selectors/examinationDate';
-import { DateUtils } from 'utils/date';
 import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (examinationDate: ExaminationDate) => {
@@ -137,6 +134,7 @@ export const ExaminationDatesListing: FC = () => {
           rowsPerPageOptions={[10, 20, 50]}
           className={'examination-dates__listing table-layout-auto'}
           stickyHeader
+          rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
         />
       );
   }

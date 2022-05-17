@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -20,7 +20,6 @@ import {
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {

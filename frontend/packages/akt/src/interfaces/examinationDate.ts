@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { Action } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { WithId, WithVersion } from 'interfaces/with';
 

@@ -1,14 +1,14 @@
 import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
+import { H1, H2, Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { AddExaminationDate } from 'components/clerkTranslator/examinationDates/AddExaminationDate';
 import { ExaminationDatesListing } from 'components/clerkTranslator/examinationDates/ExaminationDatesListing';
 import { ExaminationDatesToggleFilters } from 'components/clerkTranslator/examinationDates/ExaminationDatesToggleFilters';
-import { H1, H2, Text } from 'components/elements/Text';
 import { MeetingDatesPageSkeleton } from 'components/skeletons/MeetingDatesPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { loadExaminationDates } from 'redux/actions/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
