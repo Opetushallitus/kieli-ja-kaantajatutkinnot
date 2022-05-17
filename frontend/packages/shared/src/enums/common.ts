@@ -63,10 +63,12 @@ export enum HTTPStatusCode {
 }
 
 export enum I18nNamespace {
-  Common = 'common',
-  Translation = 'translation',
-  KoodistoLanguages = 'koodistoLanguages',
   Accessibility = 'accessibility',
+  Common = 'common',
+  KoodistoLanguages = 'koodistoLanguages',
+  KoodistoRegions = 'koodistoRegions',
+  Privacy = 'privacy',
+  Translation = 'translation',
 }
 
 export enum KeyboardKey {
