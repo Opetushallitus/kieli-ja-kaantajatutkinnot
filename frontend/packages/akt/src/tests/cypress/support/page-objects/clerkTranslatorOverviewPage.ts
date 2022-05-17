@@ -43,8 +43,8 @@ class ClerkTranslatorOverviewPage {
         )
         .find(`div>${fieldType}`),
 
-    addAuthorisationCanPublishSwitch: () =>
-      cy.findByTestId('add-authorisation-field-canPublish'),
+    permissionToPublishSwitch: () =>
+      cy.findByTestId('add-authorisation-field-permissionToPublish'),
 
     authorisationRow: (id: number) =>
       cy.findByTestId(`authorisations-table__id-${id}-row`),
@@ -124,8 +124,8 @@ class ClerkTranslatorOverviewPage {
     });
   }
 
-  toggleAddAuthorisationCanPublishSwitch() {
-    this.elements.addAuthorisationCanPublishSwitch().click();
+  toggleAddAuthorisationPermissionToPublishSwitch() {
+    this.elements.permissionToPublishSwitch().click();
   }
 
   expectDisabledAddAuthorisationField(
