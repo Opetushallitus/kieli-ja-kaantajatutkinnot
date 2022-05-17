@@ -61,7 +61,9 @@ class TemplateRendererTest {
         "requesterEmail",
         "john.doe@unknown.invalid",
         "requesterPhone",
-        "+358 400 888 777"
+        "+358 400 888 777",
+        "aktHost",
+        "virkailija.opintopolku.fi"
       )
     );
 
