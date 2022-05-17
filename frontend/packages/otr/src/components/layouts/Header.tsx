@@ -1,7 +1,7 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
-import { Direction } from 'shared/enums';
+import { AppLanguage, Direction } from 'shared/enums';
 
 import {
   changeLang,
@@ -21,7 +21,7 @@ export const Header = (): JSX.Element => {
   const currentLang = getCurrentLang();
   const [finnish, swedish, english] = getSupportedLangs();
 
-  const langDict = new Map<string, string>([
+  const langDict = new Map<string, AppLanguage>([
     [t('lang.fi'), finnish],
     [t('lang.sv'), swedish],
     [t('lang.en'), english],
