@@ -287,7 +287,12 @@
 
     <changeSet id="2022-05-16-drop-table-oikeustulkki_muokkaus" author="mikhuttu">
         <dropTable tableName="oikeustulkki_muokkaus"/>
-        <sql>DROP TABLE IF EXISTS oikeustulkki_muokkaus_id_seq</sql>
+        <sql>DROP SEQUENCE IF EXISTS oikeustulkki_muokkaus_id_seq</sql>
+    </changeSet>
+
+    <changeSet id="2022-05-16-drop-table-sahkoposti_muistutus" author="mikhuttu">
+        <dropTable tableName="sahkoposti_muistutus"/>
+        <sql>DROP SEQUENCE IF EXISTS sahkoposti_muistutus_id_seq</sql>
     </changeSet>
 
     <changeSet id="2022-05-16-move-language-pair-under-qualification" author="mikhuttu">
@@ -298,6 +303,7 @@
             <column name="end_date" type="DATE"/>
         </addColumn>
 
+        <!-- Create a new qualification for each existing language pair -->
         <sql>
             INSERT INTO qualification (interpreter_id, modified_at, modified_by, created_at, created_by, deleted_at,
                                        deleted_by, version, permission_to_publish, examination_type,
@@ -313,13 +319,9 @@
         </sql>
 
         <dropTable tableName="language_pair"/>
-        <sql>DROP TABLE IF EXISTS language_pair_id_seq</sql>
+        <sql>DROP SEQUENCE IF EXISTS language_pair_id_seq</sql>
 
         <!-- Delete original qualifications -->
-        <!-- TODO: This fails if there are rows in `sahkoposti_muistutus` table.
-                   Production database has as of 2022/05/16 8 reminders in database in total. We could manually
-                   delete them and re-insert them after production update if they have to be preserved. We could
-                   also edit this migration later to support data migration for them. -->
         <sql>DELETE FROM qualification WHERE from_lang IS NULL</sql>
 
         <addNotNullConstraint tableName="qualification" columnName="from_lang"/>
