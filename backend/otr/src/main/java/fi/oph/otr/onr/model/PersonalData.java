@@ -28,7 +28,7 @@ public class PersonalData {
   @NonNull
   private String identityNumber;
 
-  @NonNull
+  @NonNull // FIXME email should be required when saving to ONR, optional when reading from ONR?
   private String email;
 
   private String phoneNumber;

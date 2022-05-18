@@ -10,6 +10,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
@@ -19,6 +20,8 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
+import fi.oph.otr.audit.AuditService;
+import fi.oph.otr.audit.OtrOperation;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
@@ -68,6 +71,9 @@ class ClerkInterpreterServiceTest {
   @MockBean
   private OnrService onrService;
 
+  @MockBean
+  private AuditService auditService;
+
   @Resource
   private TestEntityManager entityManager;
 
@@ -99,7 +105,8 @@ class ClerkInterpreterServiceTest {
         regionRepository,
         regionService,
         languageService,
-        onrService
+        onrService,
+        auditService
       );
   }
 
@@ -127,6 +134,8 @@ class ClerkInterpreterServiceTest {
     final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.list();
     assertEquals(Set.of(id1, id2, id3), interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet()));
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
+    verify(auditService).logOperation(OtrOperation.LIST_INTERPRETERS);
+    verifyNoMoreInteractions(auditService);
   }
 
   private PersonalData createPersonalData(
@@ -329,6 +338,9 @@ class ClerkInterpreterServiceTest {
     assertEquals(QualificationExaminationType.OTHER, qualification2.examinationType());
     assertFalse(qualification2.permissionToPublish());
     assertEquals("234", qualification2.diaryNumber());
+
+    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -396,6 +408,9 @@ class ClerkInterpreterServiceTest {
 
     verify(onrService).updatePersonalData(any());
     verify(onrService, times(0)).insertPersonalData(any());
+
+    verify(auditService).logById(OtrOperation.CREATE_INTERPRETER, interpreterDTO.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -496,6 +511,9 @@ class ClerkInterpreterServiceTest {
     assertTrue(interpreterDTO.isIndividualised());
     assertEquals(1, interpreterDTO.qualifications().size());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
+
+    verify(auditService).logById(OtrOperation.GET_INTERPRETER, interpreterDTO.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -560,6 +578,8 @@ class ClerkInterpreterServiceTest {
     assertEquals(List.of("01"), updated.regions());
 
     verify(onrService).updatePersonalData(any());
+    verify(auditService).logById(OtrOperation.UPDATE_INTERPRETER, updated.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -615,6 +635,8 @@ class ClerkInterpreterServiceTest {
     assertEquals(List.of("01", "02"), updated.regions());
 
     verify(onrService).updatePersonalData(any());
+    verify(auditService).logById(OtrOperation.UPDATE_INTERPRETER, updated.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -625,7 +647,8 @@ class ClerkInterpreterServiceTest {
     final long id = createInterpreter(meetingDate, "1");
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
-    reset(onrService); // We are testing update, previous interactions were for create.
+    // We are testing update, previous interactions were just setup.
+    reset(onrService, auditService);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
       .builder()
@@ -670,6 +693,8 @@ class ClerkInterpreterServiceTest {
         interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
       });
     assertTrue(dto.deleted());
+    verify(auditService).logById(OtrOperation.DELETE_INTERPRETER, id);
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -719,6 +744,9 @@ class ClerkInterpreterServiceTest {
     assertEquals(tomorrow, qualificationDTO.endDate());
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
     assertFalse(qualificationDTO.permissionToPublish());
+
+    verify(auditService).logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -853,6 +881,9 @@ class ClerkInterpreterServiceTest {
     assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
     assertTrue(qualificationDTO.permissionToPublish());
     assertEquals("2000", qualificationDTO.diaryNumber());
+
+    verify(auditService).logQualification(OtrOperation.UPDATE_QUALIFICATION, interpreter, qualificationDTO.id());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -903,6 +934,8 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
 
     dto.qualifications().forEach(q -> assertEquals(Objects.equals(qualification1.getId(), q.id()), q.deleted()));
+    verify(auditService).logQualification(OtrOperation.DELETE_QUALIFICATION, interpreter, qualification1.getId());
+    verifyNoMoreInteractions(auditService);
   }
 
   @Test
@@ -931,6 +964,6 @@ class ClerkInterpreterServiceTest {
   ) {
     final APIException ex = assertThrows(APIException.class, executable);
     assertEquals(expectedApiExceptionType, ex.getExceptionType());
-    verifyNoInteractions(onrService);
+    verifyNoInteractions(onrService, auditService);
   }
 }

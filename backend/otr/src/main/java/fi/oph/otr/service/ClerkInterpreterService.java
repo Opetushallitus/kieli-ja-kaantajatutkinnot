@@ -8,6 +8,8 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
+import fi.oph.otr.audit.AuditService;
+import fi.oph.otr.audit.OtrOperation;
 import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
@@ -61,8 +63,17 @@ public class ClerkInterpreterService {
   @Resource
   private final OnrService onrService;
 
+  @Resource
+  private final AuditService auditService;
+
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> list() {
+    final List<ClerkInterpreterDTO> result = listWithoutAudit();
+    auditService.logOperation(OtrOperation.LIST_INTERPRETERS);
+    return result;
+  }
+
+  private List<ClerkInterpreterDTO> listWithoutAudit() {
     final Map<Long, List<InterpreterRegionProjection>> interpreterRegionProjections = regionRepository
       .listInterpreterRegionProjections()
       .stream()
@@ -179,7 +190,10 @@ public class ClerkInterpreterService {
       .forEach(qualificationCreateDTO -> createQualification(interpreter, meetingDates, qualificationCreateDTO));
 
     interpreterRepository.saveAndFlush(interpreter);
-    return getInterpreter(interpreter.getId());
+
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
+    auditService.logById(OtrOperation.CREATE_INTERPRETER, interpreter.getId());
+    return result;
   }
 
   private void validateRegions(final ClerkInterpreterDTOCommonFields dto) {
@@ -254,7 +268,7 @@ public class ClerkInterpreterService {
     interpreter.getRegions().addAll(regions);
   }
 
-  private void createQualification(
+  private Qualification createQualification(
     final Interpreter interpreter,
     final Map<LocalDate, MeetingDate> meetingDates,
     final ClerkQualificationCreateDTO dto
@@ -264,7 +278,7 @@ public class ClerkInterpreterService {
     qualification.setInterpreter(interpreter);
 
     copyFromQualificationDTO(qualification, meetingDates, dto);
-    qualificationRepository.saveAndFlush(qualification);
+    return qualificationRepository.saveAndFlush(qualification);
   }
 
   private void copyFromQualificationDTO(
@@ -286,8 +300,14 @@ public class ClerkInterpreterService {
 
   @Transactional(readOnly = true)
   public ClerkInterpreterDTO getInterpreter(final long interpreterId) {
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreterId);
+    auditService.logById(OtrOperation.GET_INTERPRETER, interpreterId);
+    return result;
+  }
+
+  private ClerkInterpreterDTO getInterpreterWithoutAudit(final long interpreterId) {
     // This could be optimized, by fetching only one interpreter and it's data, but is it worth of the programming work?
-    for (ClerkInterpreterDTO i : list()) {
+    for (ClerkInterpreterDTO i : listWithoutAudit()) {
       if (i.id() == interpreterId) {
         return i;
       }
@@ -313,7 +333,9 @@ public class ClerkInterpreterService {
     regionRepository.saveAll(interpreter.getRegions());
     interpreterRepository.saveAndFlush(interpreter);
 
-    return getInterpreter(interpreter.getId());
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
+    auditService.logById(OtrOperation.UPDATE_INTERPRETER, interpreter.getId());
+    return result;
   }
 
   @Transactional
@@ -321,7 +343,10 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     interpreter.markDeleted();
     interpreter.getQualifications().forEach(BaseEntity::markDeleted);
-    return getInterpreter(id);
+
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(id);
+    auditService.logById(OtrOperation.DELETE_INTERPRETER, id);
+    return result;
   }
 
   @Transactional
@@ -332,9 +357,12 @@ public class ClerkInterpreterService {
 
     final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
 
-    createQualification(interpreter, meetingDates, dto);
+    final Qualification qualification = createQualification(interpreter, meetingDates, dto);
     interpreterRepository.saveAndFlush(interpreter);
-    return getInterpreter(interpreter.getId());
+
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
+    auditService.logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualification.getId());
+    return result;
   }
 
   @Transactional
@@ -348,7 +376,11 @@ public class ClerkInterpreterService {
     copyFromQualificationDTO(qualification, meetingDates, dto);
     qualificationRepository.saveAndFlush(qualification);
 
-    return getInterpreter(qualification.getInterpreter().getId());
+    final Interpreter interpreter = qualification.getInterpreter();
+
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
+    auditService.logQualification(OtrOperation.UPDATE_QUALIFICATION, interpreter, qualification.getId());
+    return result;
   }
 
   @Transactional
@@ -360,7 +392,10 @@ public class ClerkInterpreterService {
     }
 
     qualification.markDeleted();
-    return getInterpreter(qualification.getInterpreter().getId());
+
+    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
+    auditService.logQualification(OtrOperation.DELETE_QUALIFICATION, interpreter, qualificationId);
+    return result;
   }
 
   private Map<LocalDate, MeetingDate> getLocalDateMeetingDateMap() {

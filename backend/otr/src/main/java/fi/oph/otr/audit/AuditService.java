@@ -1,5 +1,6 @@
 package fi.oph.otr.audit;
 
+import fi.oph.otr.model.Interpreter;
 import fi.vm.sade.auditlog.Audit;
 import fi.vm.sade.auditlog.Changes;
 import fi.vm.sade.auditlog.Target;
@@ -29,6 +30,29 @@ public class AuditService {
 
   public void logById(final OtrOperation operation, final long id) {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.EMPTY);
+  }
+
+  public void logPersonSearchByIdentityNumber(final String identityNumber) {
+    log(
+      OtrOperation.PERSON_SEARCH_BY_IDENTITY_NUMBER,
+      new Target.Builder().setField("identityNumber", identityNumber).build(),
+      Changes.EMPTY
+    );
+  }
+
+  public void logQualification(
+    final OtrOperation operation,
+    final Interpreter interpreter,
+    final long qualificationId
+  ) {
+    log(
+      operation,
+      new Target.Builder()
+        .setField("interpreterId", Long.toString(interpreter.getId()))
+        .setField("qualificationId", Long.toString(qualificationId))
+        .build(),
+      Changes.EMPTY
+    );
   }
 
   private void log(final OtrOperation operation, final Target target, final Changes changes) {
