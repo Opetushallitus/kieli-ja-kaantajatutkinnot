@@ -121,7 +121,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onClerkTranslatorOverviewPage.clickAddAuthorisationBtn();
     onClerkTranslatorOverviewPage.fillOutAddAuthorisationFields();
-    onClerkTranslatorOverviewPage.toggleAddAuthorisationCanPublishSwitch();
+    onClerkTranslatorOverviewPage.toggleAddAuthorisationPermissionToPublishSwitch();
 
     cy.intercept(`${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`, {
       ...translatorResponse,

@@ -227,7 +227,7 @@
         "fieldLabel": {
           "examinationDate": "Tutkintopäivä (vain AUT)",
           "basis": "Auktorisoinnin peruste",
-          "diaryNumber": "Auktorisoinnin asiatunnus",
+          "diaryNumber": "Asiatunnus",
           "from": "Kielipari (mistä)",
           "termBeginDate": "Auktorisoinnin alkamispäivä",
           "termEndDate": "Auktorisoinnin päättymispäivä",
@@ -243,7 +243,7 @@
           "to": "Mihin"
         },
         "switch": {
-          "canPublish": "Saa julkaista internetissä",
+          "permissionToPublish": "Julkaisulupa",
           "inEffect": "Voimassa"
         },
         "toasts": {

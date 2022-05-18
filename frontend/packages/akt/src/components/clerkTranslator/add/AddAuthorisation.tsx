@@ -286,9 +286,9 @@ export const AddAuthorisation = ({
             />
           </div>
           <div className="rows gapped-xs">
-            <Text className="bold">{t('switch.canPublish')}</Text>
+            <Text className="bold">{t('switch.permissionToPublish')}</Text>
             <CustomSwitch
-              dataTestId={`${testIdPrefix}-canPublish`}
+              dataTestId={`${testIdPrefix}-permissionToPublish`}
               value={authorisation.permissionToPublish}
               leftLabel={translateCommon('no')}
               rightLabel={translateCommon('yes')}
