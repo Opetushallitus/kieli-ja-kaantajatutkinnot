@@ -6,6 +6,7 @@ import {
   UseTranslationOptions,
 } from 'react-i18next';
 import { AppLanguage, I18nNamespace } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import accessibilityEN from 'public/i18n/en-GB/accessibility.json';
 import commonEN from 'public/i18n/en-GB/common.json';
@@ -122,18 +123,20 @@ export const translateOutsideComponent = () => {
   return t;
 };
 
-export const getCurrentLang = (): string => {
-  return i18n.language;
+export const getCurrentLang = (): AppLanguage => {
+  return i18n.language as AppLanguage;
 };
 
-export const getSupportedLangs = (): string[] => {
+export const getSupportedLangs = (): Array<AppLanguage> => {
   return supportedLangs;
 };
 
-export const changeLang = (language: string) => {
+export const changeLang = (language: AppLanguage) => {
+  DateUtils.setDayjsLocale(language);
+
   return changeLanguage(language);
 };
 
-export const onLangChanged = (callback: (language: string) => void) => {
+export const onLangChanged = (callback: (language: AppLanguage) => void) => {
   return i18n.on('languageChanged', callback);
 };

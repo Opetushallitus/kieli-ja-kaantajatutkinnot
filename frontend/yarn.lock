@@ -2290,7 +2290,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.11"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.13"
   languageName: unknown
   linkType: soft
 
@@ -10517,17 +10517,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.11":
-  version: 1.0.11
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.11::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.11%2Ff1e7fb3e521744568acf7145fc5f095f1ab4d210acf3a595215e49194e03b187"
-  checksum: 40c784c053c038b06810390b3047147e4252376e8a0c1506662528a8c340f515eb7b1491fc42f4eca2b61e935dda818e9f7547acacea7447fdf63cf7aa80f2fa
-  languageName: node
-  linkType: hard
-
 "shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.12":
   version: 1.0.12
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.12::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.12%2Fdb8c7d8765ee5eb509171b5138036674d38e5f044d9dae84a5494973a3b6fa01"
   checksum: 35d1353ed81f0d86563e20f42247b055a67a3606deab6b7e02f8f74a349d66dab19b77ef58d55ff63600ccc8d9b7f235c48b342eac2357f36eafe2bfddfb7cdf
+  languageName: node
+  linkType: hard
+
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.13":
+  version: 1.0.13
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.13::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.13%2Fccaca0d07e8ea8571a7bf7445834b32632486140c65fe79897b607e21dbbc014"
+  checksum: 8a1a05197b931f84a8ba3531e45551d559d48ea2f8093c9940c4577acfcead50baad4785f3ec22efc5b0868800c6dfe93bd249b886443f427f4953fe3e9a1d10
   languageName: node
   linkType: hard
 

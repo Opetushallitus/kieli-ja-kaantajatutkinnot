@@ -1,11 +1,10 @@
 import { Box } from '@mui/system';
 import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 
 import { PublicInterpreterListingHeader } from 'components/publicInterpreter/listing/PublicInterpreterListingHeader';
 import { PublicInterpreterListingRow } from 'components/publicInterpreter/listing/PublicInterpreterListingRow';
 import { useAppTranslation } from 'configs/i18n';
-import { APIResponseStatus } from 'enums/api';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
 const getRowDetails = (interpreter: PublicInterpreter) => {

@@ -1,8 +1,8 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { H3 } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation } from 'configs/i18n';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 
 export const PublicInterpreterListingHeader = () => {
   const { t } = useAppTranslation({

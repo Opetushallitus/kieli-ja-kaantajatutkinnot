@@ -25,6 +25,7 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
+import { useDebounce, useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
@@ -32,8 +33,6 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
-import { useDebounce } from 'hooks/useDebounce';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicInterpreterFilterValues } from 'interfaces/publicInterpreter';
 import { showNotifierToast } from 'redux/actions/notifier';
 import {
