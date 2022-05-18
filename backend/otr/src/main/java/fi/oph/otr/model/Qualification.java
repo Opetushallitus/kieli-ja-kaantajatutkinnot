@@ -1,7 +1,6 @@
 package fi.oph.otr.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,8 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +27,20 @@ public class Qualification extends BaseEntity {
   @Column(name = "qualification_id", nullable = false)
   private long id;
 
+  @Column(name = "from_lang", nullable = false, length = 10)
+  @Size(min = 1, max = 10)
+  private String fromLang;
+
+  @Column(name = "to_lang", nullable = false, length = 10)
+  @Size(min = 1, max = 10)
+  private String toLang;
+
+  @Column(name = "begin_date", nullable = false)
+  private LocalDate beginDate;
+
+  @Column(name = "end_date", nullable = false)
+  private LocalDate endDate;
+
   @Column(name = "examination_type", nullable = false)
   @Enumerated(value = EnumType.STRING)
   private QualificationExaminationType examinationType;
@@ -35,10 +48,11 @@ public class Qualification extends BaseEntity {
   @Column(name = "permission_to_publish", nullable = false)
   private boolean permissionToPublish;
 
+  @Size(max = 255)
+  @Column(name = "diary_number")
+  private String diaryNumber;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "interpreter_id", referencedColumnName = "interpreter_id", nullable = false)
   private Interpreter interpreter;
-
-  @OneToMany(mappedBy = "qualification")
-  private List<LanguagePair> languagePairs = new ArrayList<>();
 }

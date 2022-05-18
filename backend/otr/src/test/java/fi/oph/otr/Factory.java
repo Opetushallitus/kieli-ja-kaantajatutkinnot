@@ -1,7 +1,6 @@
 package fi.oph.otr;
 
 import fi.oph.otr.model.Interpreter;
-import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.Region;
@@ -22,28 +21,15 @@ public class Factory {
   public static Qualification qualification(final Interpreter interpreter) {
     final Qualification qualification = new Qualification();
     qualification.setInterpreter(interpreter);
+    qualification.setFromLang("FI");
+    qualification.setToLang("EN");
+    qualification.setBeginDate(LocalDate.now());
+    qualification.setEndDate(LocalDate.now().plusYears(1));
     qualification.setExaminationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM);
     qualification.setPermissionToPublish(true);
 
     interpreter.getQualifications().add(qualification);
     return qualification;
-  }
-
-  public static LanguagePair languagePair(
-    final Qualification qualification,
-    final String from,
-    final String to,
-    final LocalDate begin,
-    final LocalDate end
-  ) {
-    final LanguagePair languagePair = new LanguagePair();
-    languagePair.setQualification(qualification);
-    languagePair.setFromLang(from);
-    languagePair.setToLang(to);
-    languagePair.setBeginDate(begin);
-    languagePair.setEndDate(end);
-    qualification.getLanguagePairs().add(languagePair);
-    return languagePair;
   }
 
   public static Region region(final Interpreter interpreter, final String code) {

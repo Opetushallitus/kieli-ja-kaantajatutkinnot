@@ -8,11 +8,10 @@ import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
-import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterRepository;
-import fi.oph.otr.repository.LanguagePairRepository;
+import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,7 +31,7 @@ class PublicInterpreterServiceTest {
   private InterpreterRepository interpreterRepository;
 
   @Resource
-  private LanguagePairRepository languagePairRepository;
+  private QualificationRepository qualificationRepository;
 
   @Resource
   private RegionRepository regionRepository;
@@ -45,7 +44,7 @@ class PublicInterpreterServiceTest {
   @BeforeEach
   public void setup() {
     publicInterpreterService =
-      new PublicInterpreterService(interpreterRepository, languagePairRepository, regionRepository);
+      new PublicInterpreterService(interpreterRepository, qualificationRepository, regionRepository);
   }
 
   @Test
@@ -63,36 +62,29 @@ class PublicInterpreterServiceTest {
     final Interpreter interpreter5 = createInterpreterDeleted();
     final Interpreter interpreter6 = createInterpreter();
 
-    final Qualification qualification1 = createQualification(interpreter1);
-    final Qualification qualification2 = createQualification(interpreter2);
-    final Qualification qualification3 = createQualification(interpreter3);
-    final Qualification qualification4 = createQualification(interpreter4);
-    final Qualification qualification5 = createQualification(interpreter5);
-    final Qualification qualification6 = createQualificationDeleted(interpreter6);
-
     interpreter1.setPermissionToPublishEmail(false);
     interpreter1.setPermissionToPublishOtherContactInfo(true);
     interpreter1.setOtherContactInformation("oikeustulkki.company@invalid");
     interpreter2.setPermissionToPublishPhone(false);
-    qualification3.setPermissionToPublish(false);
-
-    final LanguagePair languagePair11 = createLanguagePair(qualification1, "FI", "EN", today, tomorrow);
-    final LanguagePair languagePair12 = createLanguagePair(qualification1, "NO", "FI", yesterday, today);
-    final LanguagePair languagePair21 = createLanguagePair(qualification2, "SE", "FI", yesterday, nextWeek);
-    // Hidden, no publish permission
-    createLanguagePair(qualification3, "FI", "RU", yesterday, nextWeek);
-    // Hidden, in past
-    createLanguagePair(qualification4, "FI", "IT", previousWeek, yesterday);
-    // Hidden, in future
-    createLanguagePair(qualification4, "FI", "DN", tomorrow, nextWeek);
-    // Interpreter marked deleted
-    createLanguagePair(qualification5, "DE", "FI", yesterday, nextWeek);
-    // Legal interpreter marked deleted
-    createLanguagePair(qualification6, "FR", "FI", yesterday, nextWeek);
 
     createRegion(interpreter2, "01");
     createRegion(interpreter2, "02");
     createRegion(interpreter3, "03");
+
+    final Qualification qualification11 = createQualification(interpreter1, "FI", "EN", today, tomorrow, true);
+    final Qualification qualification12 = createQualification(interpreter1, "NO", "FI", yesterday, today, true);
+    final Qualification qualification21 = createQualification(interpreter2, "SE", "FI", yesterday, nextWeek, true);
+
+    // Hidden, no publish permission
+    createQualification(interpreter3, "FI", "RU", yesterday, nextWeek, false);
+    // Hidden, in past
+    createQualification(interpreter4, "FI", "IT", previousWeek, yesterday, true);
+    // Hidden, in future
+    createQualification(interpreter4, "FI", "DN", tomorrow, nextWeek, true);
+    // Hidden, interpreter marked deleted
+    createQualification(interpreter5, "DE", "FI", yesterday, nextWeek, true);
+    // Hidden, deleted
+    createQualificationDeleted(interpreter6, "FR", "FI", yesterday, nextWeek, true);
 
     final List<InterpreterDTO> interpreters = publicInterpreterService.list();
     assertEquals(2, interpreters.size());
@@ -104,8 +96,8 @@ class PublicInterpreterServiceTest {
     assertEquals(Set.of(), Set.copyOf(publishedInterpreter1.regions()));
 
     assertEquals(2, publishedInterpreter1.languages().size());
-    assertLanguagePair(languagePair11, publishedInterpreter1.languages().get(0));
-    assertLanguagePair(languagePair12, publishedInterpreter1.languages().get(1));
+    assertLanguagePairDTO(qualification11, publishedInterpreter1.languages().get(0));
+    assertLanguagePairDTO(qualification12, publishedInterpreter1.languages().get(1));
 
     final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
     assertNotNull(publishedInterpreter2.email());
@@ -114,12 +106,12 @@ class PublicInterpreterServiceTest {
     assertEquals(Set.of("01", "02"), Set.copyOf(publishedInterpreter2.regions()));
 
     assertEquals(1, publishedInterpreter2.languages().size());
-    assertLanguagePair(languagePair21, publishedInterpreter2.languages().get(0));
+    assertLanguagePairDTO(qualification21, publishedInterpreter2.languages().get(0));
   }
 
-  private void assertLanguagePair(final LanguagePair expected, final LanguagePairDTO languagePairDTO) {
-    assertEquals(expected.getFromLang(), languagePairDTO.from());
-    assertEquals(expected.getToLang(), languagePairDTO.to());
+  private void assertLanguagePairDTO(final Qualification qualification, final LanguagePairDTO languagePairDTO) {
+    assertEquals(qualification.getFromLang(), languagePairDTO.from());
+    assertEquals(qualification.getToLang(), languagePairDTO.to());
   }
 
   private Interpreter createInterpreter() {
@@ -135,29 +127,41 @@ class PublicInterpreterServiceTest {
     return interpreter;
   }
 
-  private Qualification createQualification(final Interpreter interpreter) {
+  private Qualification createQualification(
+    final Interpreter interpreter,
+    final String fromLang,
+    final String toLang,
+    final LocalDate beginDate,
+    final LocalDate endDate,
+    final boolean permissionToPublish
+  ) {
     final Qualification qualification = Factory.qualification(interpreter);
+    qualification.setFromLang(fromLang);
+    qualification.setToLang(toLang);
+    qualification.setBeginDate(beginDate);
+    qualification.setEndDate(endDate);
+    qualification.setPermissionToPublish(permissionToPublish);
     entityManager.persist(qualification);
     return qualification;
   }
 
-  private Qualification createQualificationDeleted(final Interpreter interpreter) {
+  private Qualification createQualificationDeleted(
+    final Interpreter interpreter,
+    final String fromLang,
+    final String toLang,
+    final LocalDate beginDate,
+    final LocalDate endDate,
+    final boolean permissionToPublish
+  ) {
     final Qualification qualification = Factory.qualification(interpreter);
+    qualification.setFromLang(fromLang);
+    qualification.setToLang(toLang);
+    qualification.setBeginDate(beginDate);
+    qualification.setEndDate(endDate);
+    qualification.setPermissionToPublish(permissionToPublish);
     qualification.markDeleted();
     entityManager.persist(qualification);
     return qualification;
-  }
-
-  private LanguagePair createLanguagePair(
-    final Qualification qualification,
-    final String from,
-    final String to,
-    final LocalDate begin,
-    final LocalDate end
-  ) {
-    final LanguagePair languagePair = Factory.languagePair(qualification, from, to, begin, end);
-    entityManager.persist(languagePair);
-    return languagePair;
   }
 
   private Region createRegion(final Interpreter interpreter, final String code) {

@@ -2,7 +2,6 @@ package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
-import fi.oph.otr.api.dto.clerk.ClerkLanguagePairDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
@@ -11,12 +10,10 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
-import fi.oph.otr.model.LanguagePair;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
-import fi.oph.otr.repository.LanguagePairRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -45,9 +42,6 @@ public class ClerkInterpreterService {
   private final QualificationRepository qualificationRepository;
 
   @Resource
-  private final LanguagePairRepository languagePairRepository;
-
-  @Resource
   private final RegionRepository regionRepository;
 
   @Resource
@@ -68,35 +62,30 @@ public class ClerkInterpreterService {
       .stream()
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
-    final Map<Long, List<LanguagePair>> qualificationLanguagePairs = languagePairRepository
-      .findAll()
-      .stream()
-      .collect(Collectors.groupingBy(lp -> lp.getQualification().getId()));
-
     return interpreterRepository
       .findAll()
       .stream()
       .map(interpreter -> {
+        final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
+
         final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
           interpreter.getId(),
           Collections.emptyList()
         );
-        final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
 
-        return createClerkInterpreterDTO(interpreter, regionProjections, qualifications, qualificationLanguagePairs);
+        return createClerkInterpreterDTO(interpreter, qualifications, regionProjections);
       })
       .toList();
   }
 
   private ClerkInterpreterDTO createClerkInterpreterDTO(
     final Interpreter interpreter,
-    final List<InterpreterRegionProjection> regionProjections,
     final List<Qualification> qualifications,
-    final Map<Long, List<LanguagePair>> qualificationLanguagePairs
+    final List<InterpreterRegionProjection> regionProjections
   ) {
     final List<ClerkQualificationDTO> qualificationDTOs = qualifications
       .stream()
-      .map(q -> createQualificationDTO(q, qualificationLanguagePairs.get(q.getId())))
+      .map(this::createQualificationDTO)
       .toList();
 
     final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
@@ -126,38 +115,26 @@ public class ClerkInterpreterService {
       .build();
   }
 
-  private ClerkQualificationDTO createQualificationDTO(
-    final Qualification qualification,
-    final List<LanguagePair> languagePairs
-  ) {
-    final List<ClerkLanguagePairDTO> languages = languagePairs
-      .stream()
-      .map(langPair ->
-        ClerkLanguagePairDTO
-          .builder()
-          .from(langPair.getFromLang())
-          .to(langPair.getToLang())
-          .beginDate(langPair.getBeginDate())
-          .endDate(langPair.getEndDate())
-          .build()
-      )
-      .toList();
-
+  private ClerkQualificationDTO createQualificationDTO(final Qualification qualification) {
     return ClerkQualificationDTO
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
       .deleted(qualification.isDeleted())
+      .fromLang(qualification.getFromLang())
+      .toLang(qualification.getToLang())
+      .beginDate(qualification.getBeginDate())
+      .endDate(qualification.getEndDate())
       .examinationType(qualification.getExaminationType())
       .permissionToPublish(qualification.isPermissionToPublish())
-      .languages(languages)
+      .diaryNumber(qualification.getDiaryNumber())
       .build();
   }
 
   @Transactional
   public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) {
     validateRegions(dto);
-    dto.qualifications().forEach(this::validateLanguages);
+    dto.qualifications().forEach(this::validateLanguagePair);
 
     // TODO set person data to ONR and get OID
     final Interpreter interpreter = new Interpreter();
@@ -183,11 +160,9 @@ public class ClerkInterpreterService {
       });
   }
 
-  private void validateLanguages(final ClerkQualificationDTOCommonFields dto) {
-    dto
-      .languages()
-      .stream()
-      .flatMap(languagePair -> Stream.of(languagePair.from(), languagePair.to()))
+  private void validateLanguagePair(final ClerkQualificationDTOCommonFields dto) {
+    Stream
+      .of(dto.fromLang(), dto.toLang())
       .forEach(languageCode -> {
         if (!languageService.containsKoodistoCode(languageCode)) {
           throw new APIException(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN);
@@ -223,31 +198,19 @@ public class ClerkInterpreterService {
 
     copyFromQualificationDTO(qualification, dto);
     qualificationRepository.saveAndFlush(qualification);
-    languagePairRepository.saveAllAndFlush(qualification.getLanguagePairs());
   }
 
   private void copyFromQualificationDTO(
     final Qualification qualification,
     final ClerkQualificationDTOCommonFields dto
   ) {
+    qualification.setFromLang(dto.fromLang());
+    qualification.setToLang(dto.toLang());
+    qualification.setBeginDate(dto.beginDate());
+    qualification.setEndDate(dto.endDate());
     qualification.setExaminationType(dto.examinationType());
     qualification.setPermissionToPublish(dto.permissionToPublish());
-
-    final List<LanguagePair> languagePairs = dto
-      .languages()
-      .stream()
-      .map(languagePairDTO -> {
-        final LanguagePair languagePair = new LanguagePair();
-        languagePair.setQualification(qualification);
-        languagePair.setFromLang(languagePairDTO.from());
-        languagePair.setToLang(languagePairDTO.to());
-        languagePair.setBeginDate(languagePairDTO.beginDate());
-        languagePair.setEndDate(languagePairDTO.endDate());
-        return languagePair;
-      })
-      .toList();
-
-    qualification.getLanguagePairs().addAll(languagePairs);
+    qualification.setDiaryNumber(dto.diaryNumber());
   }
 
   @Transactional(readOnly = true)
@@ -290,7 +253,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkQualificationCreateDTO dto) {
-    validateLanguages(dto);
+    validateLanguagePair(dto);
 
     final Interpreter interpreter = interpreterRepository.getById(interpreterId);
     createQualification(interpreter, dto);
@@ -300,17 +263,11 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateQualification(final ClerkQualificationUpdateDTO dto) {
-    validateLanguages(dto);
+    validateLanguagePair(dto);
 
     final Qualification qualification = qualificationRepository.getById(dto.id());
     qualification.assertVersion(dto.version());
-
-    final List<LanguagePair> langPairsToDelete = new ArrayList<>(qualification.getLanguagePairs());
-    qualification.getLanguagePairs().removeAll(langPairsToDelete);
-    languagePairRepository.deleteAllInBatch(langPairsToDelete);
-
     copyFromQualificationDTO(qualification, dto);
-    languagePairRepository.saveAll(qualification.getLanguagePairs());
     qualificationRepository.saveAndFlush(qualification);
 
     return getInterpreter(qualification.getInterpreter().getId());
