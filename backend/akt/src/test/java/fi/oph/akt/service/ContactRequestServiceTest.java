@@ -34,6 +34,7 @@ import org.mockito.Captor;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -67,6 +68,9 @@ class ContactRequestServiceTest {
   private TranslatorRepository translatorRepository;
 
   @Resource
+  private Environment environment;
+
+  @Resource
   private TestEntityManager entityManager;
 
   @Captor
@@ -85,7 +89,8 @@ class ContactRequestServiceTest {
         contactRequestTranslatorRepository,
         emailService,
         templateRenderer,
-        translatorRepository
+        translatorRepository,
+        environment
       );
   }
 
