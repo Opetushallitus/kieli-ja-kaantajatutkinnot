@@ -3,13 +3,13 @@ import { TableCell, TableRow } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import { useState } from 'react';
 import { CustomIconButton, Text } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { useWindowProperties } from 'hooks/useWindowProperties';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicInterpreter';
 
