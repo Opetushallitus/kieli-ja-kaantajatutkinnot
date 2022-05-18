@@ -38,6 +38,7 @@ services:
     volumes:
       - ./frontend/packages/otr:/app/reactjs/packages/otr
       - /app/reactjs/node_modules
+      - /app/reactjs/packages/otr/node_modules
     environment:
       - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 
