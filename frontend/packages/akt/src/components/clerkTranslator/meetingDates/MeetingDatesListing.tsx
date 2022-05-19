@@ -127,7 +127,7 @@ export const MeetingDatesListing: FC = () => {
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
-          className={'meeting-dates__listing table-layout-auto'}
+          className="meeting-dates__listing table-layout-auto"
           rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
           stickyHeader
         />
