@@ -2,6 +2,8 @@ package fi.oph.akt.util.prod;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class TranslatorRowTest {
@@ -20,22 +22,23 @@ class TranslatorRowTest {
   }
 
   private String resolveCity(final String city, final String country) {
-    return TranslatorRow.builder().city(city).country(country).build().resolveCity();
+    return TranslatorRow.builder().city(city).country(country).build().resolveCity(Map.of());
   }
 
   @Test
   public void testResolveCountry() {
-    assertEquals("", resolveCountry(""));
-    assertEquals("", resolveCountry(" "));
-    assertEquals("foo", resolveCountry(" foo "));
-    assertEquals("Deutschland", resolveCountry(" Deutschland "));
-    assertEquals("Deutschland", resolveCountry(" Deutshland "));
-    assertEquals("Deutschland", resolveCountry(" DEUTSCHLAND "));
-    assertEquals("Deutschland", resolveCountry(" Saksa "));
-    assertEquals("Netherlands", resolveCountry(" NETHERLANS "));
+    assertEquals(null, resolveCountry(""));
+    assertEquals(null, resolveCountry(" "));
+    assertEquals(null, resolveCountry(" sUomi "));
+    assertEquals("'foo'", resolveCountry(" foo "));
+    assertEquals("'Deutschland'", resolveCountry(" Deutschland "));
+    assertEquals("'Deutschland'", resolveCountry(" Deutshland "));
+    assertEquals("'Deutschland'", resolveCountry(" DEUTSCHLAND "));
+    assertEquals("'Deutschland'", resolveCountry(" Saksa "));
+    assertEquals("'Netherlands'", resolveCountry(" NETHERLANS "));
   }
 
   private String resolveCountry(final String country) {
-    return TranslatorRow.builder().country(country).build().resolveCountry();
+    return TranslatorRow.builder().country(country).build().resolveCountry(Set.of());
   }
 }

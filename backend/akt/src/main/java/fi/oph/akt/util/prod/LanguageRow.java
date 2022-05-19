@@ -41,16 +41,15 @@ public record LanguageRow(
   @Builder
   public LanguageRow {}
 
-  public boolean shouldBeImported(final Map<String, String> langs) {
+  public boolean shouldBeImported(final Map<String, String> langs, final Set<Integer> knownEmptyRows) {
     final String origFrom = convertLangNameToKoodistoName(from);
     final String origTo = convertLangNameToKoodistoName(to);
     final String from = langs.get(origFrom);
     final String to = langs.get(origTo);
     if (from == null || to == null) {
-      if (translatorId != 4575) {
-        System.out.println("Invalid language: " + translatorId + " from:" + origFrom + " to:" + origTo);
+      if (!knownEmptyRows.contains(translatorId)) {
+        throw new RuntimeException("Invalid language: " + translatorId + " from:" + origFrom + " to:" + origTo);
       }
-      System.out.println("Skipping language " + this);
       return false;
     }
     return true;
@@ -69,7 +68,6 @@ public record LanguageRow(
       case "tsekki" -> "tšekki";
       case "kroaatti" -> "kroatia";
       case "persia" -> "persia, farsi";
-      case "koltansaame" -> "kolttasaame";
       case "kurdi (sorani)" -> "kurdi sorani";
       case "kurmandzi" -> "kurdi kurmandzi";
       case "kurdi (kurmandzi)" -> "kurdi kurmandzi";
@@ -77,22 +75,21 @@ public record LanguageRow(
     };
   }
 
-  public String resolveAutDate(final Set<Integer> translatorIdsHavingAutWithoutExamDate) {
+  public LocalDate resolveAutDate(final Set<Integer> translatorIdsHavingAutWithoutExamDate) {
     if (Objects.equals("AUT", authorisationBasis)) {
       if (authorisationExamDate == null) {
         if (translatorIdsHavingAutWithoutExamDate.contains(translatorId)) {
           System.out.println("FIXME known AUT but authorisationExamDate is null, " + translatorId);
-          return toStringSqlQuoted(LocalDate.of(1900, 1, 1));
+          return LocalDate.of(1900, 1, 1);
         }
         throw new RuntimeException("AUT but authorisationExamDate is null " + translatorId);
       }
-      return toStringSqlQuoted(authorisationExamDate);
+      return authorisationExamDate;
     }
     return null;
   }
 
   public LocalDate resolveMeetingDate() {
-    // FIXME
     return firstNonNull(
       authorisationCertificateDate,
       authorisationExamCertificateDate,
@@ -107,7 +104,6 @@ public record LanguageRow(
   }
 
   private Optional<LocalDate> resolveStartDate() {
-    // FIXME mikä aloituspäivä pitää valita jos authorisationCertificateDate ei ole ja KKT tai AUT?
     return firstNonNull(
       authorisationCertificateDate,
       officialCertificateDate,
@@ -126,7 +122,7 @@ public record LanguageRow(
     if (authorisationStatusDateEnd != null && !Objects.equals(authorisationStatusDateEnd, beginDate)) {
       return authorisationStatusDateEnd;
     }
-    System.out.println("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId);
+    System.out.println("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
     return beginDate.plusYears(5);
   }
 
