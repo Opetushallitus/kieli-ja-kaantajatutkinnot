@@ -15,8 +15,6 @@ import {
   CustomButton,
   H3,
   LanguageSelect,
-  languageToComboBoxOption,
-  valueAsOption,
 } from 'shared/components';
 import { Color, KeyboardKey, TextFieldVariant, Variant } from 'shared/enums';
 import { useDebounce, useWindowProperties } from 'shared/hooks';
@@ -28,6 +26,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
 import { PublicInterpreterFilterValues } from 'interfaces/publicInterpreter';
+import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
 import {
   addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
@@ -36,31 +35,9 @@ import {
   filterPublicInterpreters,
   publicInterpretersSelector,
 } from 'redux/selectors/publicInterpreter';
+import { RegionUtils } from 'utils/regions';
 
 const LANGS_FROM = ['FI', 'SV'];
-const DEFAULT_LANG = 'FI';
-
-const regions = [
-  'Ahvenanmaa',
-  'Etelä-Karjala',
-  'Etelä-Pohjanmaa',
-  'Etelä-Savo',
-  'Kainuu',
-  'Kanta-Häme',
-  'Keski-Pohjanmaa',
-  'Keski-Suomi',
-  'Kymenlaakso',
-  'Lappi',
-  'Pirkanmaa',
-  'Pohjanmaa',
-  'Pohjois-Karjala',
-  'Pohjois-Pohjanmaa',
-  'Pohjois-Savo',
-  'Päijät-Häme',
-  'Satakunta',
-  'Uusimaa',
-  'Varsinais-Suomi',
-];
 
 export const PublicInterpreterFilters = ({
   showTable,
@@ -75,9 +52,14 @@ export const PublicInterpreterFilters = ({
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
 
+  const memoizedKoodistoRegions = useMemo(
+    () => Object.keys(koodistoRegionsFI.otr.koodisto.regions),
+    []
+  );
+
   // Defaults
   const defaultFiltersState = {
-    fromLang: DEFAULT_LANG,
+    fromLang: '',
     toLang: '',
     name: '',
     region: '',
@@ -85,7 +67,7 @@ export const PublicInterpreterFilters = ({
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: languageToComboBoxOption(translateLanguage, DEFAULT_LANG),
+    fromLang: null,
     toLang: null,
     name: '',
     region: null,
@@ -285,7 +267,9 @@ export const PublicInterpreterFilters = ({
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={regions.map(valueAsOption)}
+            values={RegionUtils.createRegionAutocompleteValues(
+              memoizedKoodistoRegions
+            )}
             onKeyUp={handleKeyUp}
           />
         </div>

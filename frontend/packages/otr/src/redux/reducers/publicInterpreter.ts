@@ -19,7 +19,7 @@ const defaultState = {
   interpreters: [],
   filters: {
     errors: [],
-    fromLang: 'FI',
+    fromLang: '',
     toLang: '',
     name: '',
     region: '',

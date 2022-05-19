@@ -55,11 +55,11 @@
         "languagePair": {
           "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
           "fromHelperText": "Valitse kieli",
-          "fromPlaceholder": "Mistä *",
+          "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",
           "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
           "toHelperText": "Valitse kieli",
-          "toPlaceholder": "kaikki"
+          "toPlaceholder": "Mihin"
         },
         "toasts": {
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
