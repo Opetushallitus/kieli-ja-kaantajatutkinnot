@@ -18,13 +18,7 @@ import {
   languageToComboBoxOption,
   valueAsOption,
 } from 'shared/components';
-import {
-  Color,
-  KeyboardKey,
-  Severity,
-  TextFieldVariant,
-  Variant,
-} from 'shared/enums';
+import { Color, KeyboardKey, TextFieldVariant, Variant } from 'shared/enums';
 import { useDebounce, useWindowProperties } from 'shared/hooks';
 
 import {
@@ -34,20 +28,17 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
 import { PublicInterpreterFilterValues } from 'interfaces/publicInterpreter';
-import { showNotifierToast } from 'redux/actions/notifier';
 import {
   addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
-  emptySelectedTranslators,
-  removePublicInterpreterFilterError,
 } from 'redux/actions/publicInterpreter';
 import {
   filterPublicInterpreters,
   publicInterpretersSelector,
 } from 'redux/selectors/publicInterpreter';
-import { NotifierUtils } from 'utils/notifier';
 
-const langsFrom = ['FI', 'SV'];
+const LANGS_FROM = ['FI', 'SV'];
+const DEFAULT_LANG = 'FI';
 
 const regions = [
   'Ahvenanmaa',
@@ -70,8 +61,6 @@ const regions = [
   'Uusimaa',
   'Varsinais-Suomi',
 ];
-
-const DEFAULT_LANG = 'FI';
 
 export const PublicInterpreterFilters = ({
   showTable,
@@ -113,11 +102,9 @@ export const PublicInterpreterFilters = ({
 
   // Redux
   const dispatch = useAppDispatch();
-  const {
-    filters: reduxFilters,
-    selectedInterpreters,
-    interpreters,
-  } = useAppSelector(publicInterpretersSelector);
+  const { filters: reduxFilters, interpreters } = useAppSelector(
+    publicInterpretersSelector
+  );
 
   const langsTo = Array.from(
     new Set(
@@ -155,7 +142,6 @@ export const PublicInterpreterFilters = ({
     setInputValues(defaultFiltersState);
     setValues(defaultValuesState);
     dispatch(emptyPublicInterpreterFilters);
-    dispatch(emptySelectedTranslators);
     scrollToSearch();
     setShowTable(false);
     setSearchButtonDisabled(false);
@@ -190,7 +176,6 @@ export const PublicInterpreterFilters = ({
         }));
         setValues((prevState) => ({ ...prevState, [filterName]: value }));
       }
-      dispatch(removePublicInterpreterFilterError(filterName));
       setSearchButtonDisabled(false);
     };
 
@@ -223,19 +208,6 @@ export const PublicInterpreterFilters = ({
     }
   };
 
-  const isLangFilterDisabled = selectedInterpreters.length > 0;
-
-  const showTranslatorsAlreadySelectedToast = () => {
-    if (isLangFilterDisabled) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('toasts.interpreterSelected')
-      );
-
-      dispatch(showNotifierToast(toast));
-    }
-  };
-
   const renderPhoneBottomAppBar = () =>
     isPhone &&
     showTable && (
@@ -264,10 +236,7 @@ export const PublicInterpreterFilters = ({
           <div className="columns gapped-xxs">
             <H3>{t('languagePair.title')}</H3>
           </div>
-          <Box
-            className="public-interpreter-filters__filter__language-pair"
-            onClick={showTranslatorsAlreadySelectedToast}
-          >
+          <Box className="public-interpreter-filters__filter__language-pair">
             <LanguageSelect
               data-testid="public-interpreter-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
@@ -276,9 +245,8 @@ export const PublicInterpreterFilters = ({
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
               excludedLanguage={filters.toLang}
-              languages={langsFrom}
+              languages={LANGS_FROM}
               aria-label={`${t('languagePair.fromAriaLabel')}`}
-              disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
               translateLanguage={translateLanguage}
             />
@@ -292,7 +260,6 @@ export const PublicInterpreterFilters = ({
               excludedLanguage={filters.fromLang}
               languages={langsTo}
               aria-label={`${t('languagePair.toAriaLabel')}`}
-              disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
               translateLanguage={translateLanguage}
             />

@@ -21,30 +21,6 @@ export const selectFilteredPublicInterpreters = createSelector(
   }
 );
 
-export const selectFilteredPublicSelectedIds = createSelector(
-  selectFilteredPublicInterpreters,
-  (state: RootState) => state.publicInterpreter.selectedInterpreters,
-  (filteredTranslators, selectedInterpreters) => {
-    const filteredIds = new Set(filteredTranslators.map((t) => t.id));
-
-    return selectedInterpreters.filter((id) => filteredIds.has(id));
-  }
-);
-
-export const selectedPublicInterpretersForLanguagePair = createSelector(
-  (state: RootState) => state.publicInterpreter.selectedInterpreters,
-  (state: RootState) => state.publicInterpreter.interpreters,
-  (state: RootState) => state.publicInterpreter.filters,
-  (selectedInterpreters, interpreters, filters) => {
-    const selectedIds = new Set(selectedInterpreters);
-    const filtered = interpreters
-      .filter(({ id }) => selectedIds.has(id))
-      .filter((t) => filterByLanguagePair(t, filters));
-
-    return filtered;
-  }
-);
-
 // Helpers
 export const filterPublicInterpreters = (
   interpreters: Array<PublicInterpreter>,

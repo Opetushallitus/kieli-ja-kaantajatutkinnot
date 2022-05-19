@@ -37,7 +37,6 @@ export interface PublicInterpreterResponse {
 
 export interface PublicInterpreterState extends PublicInterpreterResponse {
   status: APIResponseStatus;
-  selectedInterpreters: Array<number>;
   filters: PublicInterpreterFilter;
 }
 

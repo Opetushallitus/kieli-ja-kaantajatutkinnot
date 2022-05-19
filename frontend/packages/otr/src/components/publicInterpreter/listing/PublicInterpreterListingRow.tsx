@@ -8,9 +8,7 @@ import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
-import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicInterpreter';
 import { RegionUtils } from 'utils/regions';
 
 export const PublicInterpreterListingRow = ({
@@ -23,10 +21,6 @@ export const PublicInterpreterListingRow = ({
     keyPrefix: 'otr',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
-
-  // Redux
-  const filteredSelectedIds = useAppSelector(selectFilteredPublicSelectedIds);
-  const selected = filteredSelectedIds.includes(interpreter.id);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,7 +36,6 @@ export const PublicInterpreterListingRow = ({
     <>
       <TableRow
         data-testid={`public-interpreters__id-${interpreter.id}-row`}
-        selected={selected}
         className="public-interpreter-listing-row"
       >
         <TableCell align="left">
