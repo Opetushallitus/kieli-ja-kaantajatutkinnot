@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { Action } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { MeetingStatus } from 'enums/meetingDate';
 import { WithId, WithVersion } from 'interfaces/with';
 import {
@@ -19,7 +19,7 @@ export interface MeetingDateFilter {
 export interface MeetingDatesState {
   status: APIResponseStatus;
   filters: MeetingDateFilter;
-  meetingDates: MeetingDate[];
+  meetingDates: Array<MeetingDate>;
 }
 
 export interface AddMeetingDateState {

@@ -8,26 +8,30 @@ import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { MeetingStatus } from 'enums/meetingDate';
-import { MeetingDate } from 'interfaces/meetingDate';
-import { removeMeetingDate } from 'redux/actions/meetingDate';
+import { ExaminationDateStatus } from 'enums/examinationDate';
+import { ExaminationDate } from 'interfaces/examinationDate';
+import { removeExaminationDate } from 'redux/actions/examinationDate';
 import { showNotifierDialog } from 'redux/actions/notifier';
 import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import {
-  meetingDatesSelector,
-  selectMeetingDatesByMeetingStatus,
-} from 'redux/selectors/meetingDate';
+  examinationDatesSelector,
+  selectExaminationDatesByStatus,
+} from 'redux/selectors/examinationDate';
 import { NotifierUtils } from 'utils/notifier';
 
-const getRowDetails = (meetingDate: MeetingDate) => {
-  return <ListingRow meetingDate={meetingDate} />;
+const getRowDetails = (examinationDate: ExaminationDate) => {
+  return <ListingRow examinationDate={examinationDate} />;
 };
 
-const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
+const ListingRow = ({
+  examinationDate,
+}: {
+  examinationDate: ExaminationDate;
+}) => {
   const dispatch = useAppDispatch();
 
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.meetingDatesListing.removal',
+    keyPrefix: 'akt.component.examinationDatesListing.removal',
   });
   const translateCommon = useCommonTranslation();
 
@@ -45,7 +49,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () => dispatch(removeMeetingDate(meetingDate.id)),
+          action: () => dispatch(removeExaminationDate(examinationDate.id)),
         },
       ]
     );
@@ -53,16 +57,16 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
     dispatch(showNotifierDialog(notifier));
   };
 
-  const formattedDate = DateUtils.formatOptionalDate(meetingDate.date);
+  const formattedDate = DateUtils.formatOptionalDate(examinationDate.date);
 
   return (
-    <TableRow data-testid={`meeting-date__id-${meetingDate.id}-row`}>
+    <TableRow data-testid={`examination-date__id-${examinationDate.id}-row`}>
       <TableCell>
         <Text>{formattedDate}</Text>
       </TableCell>
       <TableCell align="right">
         <CustomIconButton
-          data-testid="meeting-dates-page__add-button"
+          data-testid="examination-dates-page__add-button"
           onClick={dispatchConfirmRemoveNotifier}
           aria-label={`${t('ariaLabel')} ${formattedDate}`}
         >
@@ -75,7 +79,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
 
 const ListingHeader: FC = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.meetingDatesListing',
+    keyPrefix: 'akt.component.examinationDatesListing',
   });
   const translateCommon = useCommonTranslation();
 
@@ -93,14 +97,13 @@ const ListingHeader: FC = () => {
   );
 };
 
-export const MeetingDatesListing: FC = () => {
+export const ExaminationDatesListing: FC = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akt' });
   const {
-    meetingDates: { status, filters },
-  } = useAppSelector(meetingDatesSelector);
-  const { upcoming, passed } = useAppSelector(
-    selectMeetingDatesByMeetingStatus
-  );
+    examinationDates: { status },
+    filter,
+  } = useAppSelector(examinationDatesSelector);
+  const { upcoming, passed } = useAppSelector(selectExaminationDatesByStatus);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -121,15 +124,17 @@ export const MeetingDatesListing: FC = () => {
       return (
         <PaginatedTable
           data={
-            filters.meetingStatus === MeetingStatus.Upcoming ? upcoming : passed
+            filter.examinationDateStatus === ExaminationDateStatus.Upcoming
+              ? upcoming
+              : passed
           }
           header={<ListingHeader />}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
-          className={'meeting-dates__listing table-layout-auto'}
-          rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
+          className={'examination-dates__listing table-layout-auto'}
           stickyHeader
+          rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
         />
       );
   }

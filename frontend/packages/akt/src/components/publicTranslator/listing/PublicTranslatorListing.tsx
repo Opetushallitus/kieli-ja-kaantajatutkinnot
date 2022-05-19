@@ -5,13 +5,12 @@ import {
   H3,
   PaginatedTable,
 } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 

@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { Reducer } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { MeetingStatus } from 'enums/meetingDate';
 import {
   MeetingDate,

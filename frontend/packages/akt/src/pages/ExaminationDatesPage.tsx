@@ -3,19 +3,19 @@ import { FC, useEffect } from 'react';
 import { H1, H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { AddMeetingDate } from 'components/clerkTranslator/meetingDates/AddMeetingDate';
-import { MeetingDatesListing } from 'components/clerkTranslator/meetingDates/MeetingDatesListing';
-import { MeetingDatesToggleFilters } from 'components/clerkTranslator/meetingDates/MeetingDatesToggleFilters';
+import { AddExaminationDate } from 'components/clerkTranslator/examinationDates/AddExaminationDate';
+import { ExaminationDatesListing } from 'components/clerkTranslator/examinationDates/ExaminationDatesListing';
+import { ExaminationDatesToggleFilters } from 'components/clerkTranslator/examinationDates/ExaminationDatesToggleFilters';
 import { MeetingDatesPageSkeleton } from 'components/skeletons/MeetingDatesPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadMeetingDates } from 'redux/actions/meetingDate';
-import { meetingDatesSelector } from 'redux/selectors/meetingDate';
+import { loadExaminationDates } from 'redux/actions/examinationDate';
+import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
-export const MeetingDatesPage: FC = () => {
+export const ExaminationDatesPage: FC = () => {
   const {
-    meetingDates: { status, meetingDates },
-  } = useAppSelector(meetingDatesSelector);
+    examinationDates: { status, dates },
+  } = useAppSelector(examinationDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
 
@@ -23,52 +23,52 @@ export const MeetingDatesPage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadMeetingDates);
+      dispatch(loadExaminationDates);
     }
   }, [dispatch, status]);
 
-  const renderMeetingDatesPageGrids = () => (
+  const renderExaminationDatesPageGrids = () => (
     <>
       <Grid item>
         <div
           className="columns gapped"
-          data-testid="meeting-dates-page__heading"
+          data-testid="examination-dates-page__heading"
         >
-          <H2>{t('meetingDatesPage.title')}</H2>
-          <Text>{`(${meetingDates.length})`}</Text>
+          <H2>{t('examinationDatesPage.title')}</H2>
+          <Text>{`(${dates.length})`}</Text>
         </div>
       </Grid>
       <Grid item>
         <Divider />
       </Grid>
       <Grid
-        className="meeting-dates-page__grid-container__date-controls grow columns"
+        className="examination-dates-page__grid-container__date-controls grow columns"
         item
       >
-        <MeetingDatesToggleFilters />
+        <ExaminationDatesToggleFilters />
       </Grid>
       <Grid item>
-        <AddMeetingDate />
+        <AddExaminationDate />
       </Grid>
       <Grid item>
-        <MeetingDatesListing />
+        <ExaminationDatesListing />
       </Grid>
     </>
   );
 
   return (
-    <div className="meeting-dates-page">
+    <div className="examination-dates-page">
       <H1>{t('clerkHomepage.title')}</H1>
       <Paper elevation={3}>
         <Grid
           container
           direction="column"
-          className="meeting-dates-page__grid-container"
+          className="examination-dates-page__grid-container"
         >
           {isLoading ? (
             <MeetingDatesPageSkeleton />
           ) : (
-            renderMeetingDatesPageGrids()
+            renderExaminationDatesPageGrids()
           )}
         </Grid>
       </Paper>

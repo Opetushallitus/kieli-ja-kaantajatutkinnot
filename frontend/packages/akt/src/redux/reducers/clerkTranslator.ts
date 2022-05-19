@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { ClerkStateAction, ClerkUIState } from 'interfaces/clerkState';
 import {

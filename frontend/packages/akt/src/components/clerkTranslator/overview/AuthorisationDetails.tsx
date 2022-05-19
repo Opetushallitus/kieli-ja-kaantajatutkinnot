@@ -7,13 +7,12 @@ import {
   Text,
   ToggleFilterGroup,
 } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';

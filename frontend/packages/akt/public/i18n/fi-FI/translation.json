@@ -1,6 +1,15 @@
 {
   "akt": {
     "component": {
+      "addExaminationDate": {
+        "buttons": {
+          "add": "Lisää tutkintopäivä"
+        },
+        "datePicker": {
+          "label": "Tutkintopäivämäärä"
+        },
+        "header": "Lisää tutkintopäivä"
+      },
       "addMeetingDate": {
         "buttons": {
           "add": "Lisää kokouspäivä"
@@ -162,6 +171,20 @@
             "deselectTranslator": "Poista kääntäjä"
           }
         }
+      },
+      "examinationDatesListing": {
+        "header": "Tutkintopäivä",
+        "removal": {
+          "ariaLabel": "Poista tutkintopäivä",
+          "dialog": {
+            "description": "Tutkintopäivän poisto on mahdollista, jos siihen ei liity yhtään auktorisointia.",
+            "header": "Haluatko varmasti poistaa tutkintopäivän?"
+          }
+        }
+      },
+      "examinationDatesToggleFilters": {
+        "upcoming": "Tulevat",
+        "passed": "Menneet"
       },
       "footer": {
         "accessibility": {
@@ -390,6 +413,9 @@
       },
       "meetingDatesPage": {
         "title": "Kokouspäivät"
+      },
+      "examinationDatesPage": {
+        "title": "Tutkintopäivät"
       },
       "notFoundPage": {
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",

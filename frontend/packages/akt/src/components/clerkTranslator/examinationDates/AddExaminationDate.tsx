@@ -13,32 +13,32 @@ import { DateUtils, StringUtils } from 'shared/utils';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { addMeetingDate } from 'redux/actions/meetingDate';
-import { meetingDatesSelector } from 'redux/selectors/meetingDate';
+import { addExaminationDate } from 'redux/actions/examinationDate';
+import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
-export const AddMeetingDate = () => {
+export const AddExaminationDate = () => {
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.addMeetingDate',
+    keyPrefix: 'akt.component.addExaminationDate',
   });
 
   const {
-    meetingDates: { meetingDates, status },
-  } = useAppSelector(meetingDatesSelector);
+    examinationDates: { dates, status },
+  } = useAppSelector(examinationDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
 
   const handleAddDate = () => {
-    value && dispatch(addMeetingDate(dayjs(value)));
+    value && dispatch(addExaminationDate(dayjs(value)));
   };
 
   const isAddButtonDisabled = () => {
     if (value) {
       const date = dayjs(value);
 
-      return meetingDates.some((meetingDate) =>
-        DateUtils.isDatePartEqual(meetingDate.date, date)
+      return dates.some((examinationDate) =>
+        DateUtils.isDatePartEqual(examinationDate.date, date)
       );
     }
 
@@ -59,7 +59,7 @@ export const AddMeetingDate = () => {
           />
           <LoadingProgressIndicator isLoading={isLoading}>
             <CustomButton
-              data-testid="meeting-dates-page__add-btn"
+              data-testid="examination-dates-page__add-btn"
               variant={Variant.Outlined}
               color={Color.Secondary}
               startIcon={<AddIcon />}

@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { AutocompleteValue } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
-import { APIResponseStatus } from 'enums/api';
 import { SearchFilter } from 'enums/app';
 import { LanguagePair, LanguagePairsDict } from 'interfaces/languagePair';
 import { WithId } from 'interfaces/with';

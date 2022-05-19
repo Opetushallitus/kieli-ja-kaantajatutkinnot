@@ -56,7 +56,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeMeetingDates(response: MeetingDateResponse[]) {
+  static deserializeMeetingDates(response: Array<MeetingDateResponse>) {
     const meetingDates = response.map(
       SerializationUtils.deserializeMeetingDate
     );
@@ -76,6 +76,12 @@ export class SerializationUtils {
       ...examinationDate,
       date: dayjs(examinationDate.date),
     };
+  }
+
+  static deserializeExaminationDates(response: Array<ExaminationDateResponse>) {
+    const dates = response.map(SerializationUtils.deserializeExaminationDate);
+
+    return { dates };
   }
 
   static deserializeClerkTranslators(response: ClerkStateResponse) {

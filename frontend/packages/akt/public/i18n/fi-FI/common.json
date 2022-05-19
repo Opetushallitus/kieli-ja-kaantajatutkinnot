@@ -14,6 +14,7 @@
       "frontPage": "Etusivu",
       "loadingContent": "Sisältöä ladataan",
       "meetingDates": "Kokouspäivät",
+      "examinationDates": "Tutkintopäivät",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

@@ -1,11 +1,10 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIResponseStatus } from 'enums/api';
 import { UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
