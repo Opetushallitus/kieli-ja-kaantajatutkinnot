@@ -13,7 +13,6 @@ import lombok.NonNull;
 public record ClerkInterpreterCreateDTO(
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String nickName,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
@@ -24,6 +23,7 @@ public record ClerkInterpreterCreateDTO(
   String street,
   String postalCode,
   String town,
+  String country,
   String extraInformation,
   @NonNull List<String> regions,
   @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications

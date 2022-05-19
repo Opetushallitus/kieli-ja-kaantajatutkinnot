@@ -14,7 +14,6 @@ public record ClerkInterpreterDTO(
   @NonNull @NotNull Boolean deleted,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String nickName,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
@@ -25,6 +24,7 @@ public record ClerkInterpreterDTO(
   String street,
   String postalCode,
   String town,
+  String country,
   String extraInformation,
   @NonNull List<String> regions,
   @NonNull @NotEmpty List<ClerkQualificationDTO> qualifications

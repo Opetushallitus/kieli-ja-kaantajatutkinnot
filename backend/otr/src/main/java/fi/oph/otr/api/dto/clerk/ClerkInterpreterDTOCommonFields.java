@@ -7,8 +7,6 @@ public interface ClerkInterpreterDTOCommonFields {
 
   String firstName();
 
-  String nickName();
-
   String lastName();
 
   String email();
@@ -28,6 +26,8 @@ public interface ClerkInterpreterDTOCommonFields {
   String postalCode();
 
   String town();
+
+  String country();
 
   String extraInformation();
 
