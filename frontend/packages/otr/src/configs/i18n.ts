@@ -17,6 +17,9 @@ import transFI from 'public/i18n/fi-FI/translation.json';
 import koodistoLangsEN from 'public/i18n/koodisto/langs/koodisto_langs_en-GB.json';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 import koodistoLangsSV from 'public/i18n/koodisto/langs/koodisto_langs_sv-SE.json';
+import koodistoRegionsEN from 'public/i18n/koodisto/regions/koodisto_regions_en-GB.json';
+import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
+import koodistoRegionsSV from 'public/i18n/koodisto/regions/koodisto_regions_sv-SE.json';
 import accessibilitySV from 'public/i18n/sv-SE/accessibility.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
 import transSV from 'public/i18n/sv-SE/translation.json';
@@ -36,18 +39,21 @@ const resources = {
     [I18nNamespace.Translation]: transFI,
     [I18nNamespace.Accessibility]: accessibilityFI,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsFI,
+    [I18nNamespace.KoodistoRegions]: koodistoRegionsFI,
   },
   [langSV]: {
     [I18nNamespace.Common]: commonSV,
     [I18nNamespace.Translation]: transSV,
     [I18nNamespace.Accessibility]: accessibilitySV,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsSV,
+    [I18nNamespace.KoodistoRegions]: koodistoRegionsSV,
   },
   [langEN]: {
     [I18nNamespace.Common]: commonEN,
     [I18nNamespace.Translation]: transEN,
     [I18nNamespace.Accessibility]: accessibilityEN,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsEN,
+    [I18nNamespace.KoodistoRegions]: koodistoRegionsEN,
   },
 };
 
@@ -92,6 +98,17 @@ export const useKoodistoLanguagesTranslation = () => {
       keyPrefix: 'otr.koodisto.languages',
     },
     I18nNamespace.KoodistoLanguages
+  );
+
+  return t;
+};
+
+export const useKoodistoRegionsTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'otr.koodisto.regions',
+    },
+    I18nNamespace.KoodistoRegions
   );
 
   return t;

@@ -80,15 +80,7 @@
             "phoneNumber": "Puhelinnumero"
           }
         },
-        "rowsPerPageLabel": "Riviä per sivu",
-        "wholeFinland": "Koko Suomi"
-      },
-      "table": {
-        "pagination": {
-          "rowsPerPage": "Näytä sivulla"
-        },
-        "selectedItems": "valittu",
-        "title": "Hakutulokset"
+        "rowsPerPageLabel": "Näytä sivulla"
       }
     },
     "errors": {

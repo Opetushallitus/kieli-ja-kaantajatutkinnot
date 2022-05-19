@@ -6,6 +6,7 @@ import {
   PublicInterpreter,
   PublicInterpreterFilter,
 } from 'interfaces/publicInterpreter';
+import { RegionUtils } from 'utils/regions';
 
 export const publicInterpretersSelector = (state: RootState) =>
   state.publicInterpreter;
@@ -104,6 +105,6 @@ const filterByRegion = (
   filters: PublicInterpreterFilter
 ) => {
   return publicInterpreter.regions
-    .map((r) => r.toLowerCase())
+    .map((r) => RegionUtils.translateRegion(r).toLowerCase())
     .includes(filters.region.toLowerCase());
 };
