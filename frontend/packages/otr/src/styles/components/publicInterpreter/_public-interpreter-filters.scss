@@ -3,6 +3,10 @@
     @include app-bar-bottom;
   }
 
+  & &__empty-btn {
+    flex: 1;
+  }
+
   &__filter-box {
     display: grid;
     gap: 4rem;

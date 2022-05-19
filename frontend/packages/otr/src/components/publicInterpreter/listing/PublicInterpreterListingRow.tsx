@@ -1,6 +1,5 @@
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { TableCell, TableRow } from '@mui/material';
-import Collapse from '@mui/material/Collapse';
+import { Collapse, TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 import { CustomIconButton, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
@@ -12,6 +11,7 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 import { selectFilteredPublicSelectedIds } from 'redux/selectors/publicInterpreter';
+import { RegionUtils } from 'utils/regions';
 
 export const PublicInterpreterListingRow = ({
   interpreter,
@@ -22,6 +22,7 @@ export const PublicInterpreterListingRow = ({
   const { t } = useAppTranslation({
     keyPrefix: 'otr',
   });
+  const translateLanguage = useKoodistoLanguagesTranslation();
 
   // Redux
   const filteredSelectedIds = useAppSelector(selectFilteredPublicSelectedIds);
@@ -31,15 +32,6 @@ export const PublicInterpreterListingRow = ({
 
   const { firstName, lastName, languages, regions } = interpreter;
   const { isPhone } = useWindowProperties();
-  const translateLanguage = useKoodistoLanguagesTranslation();
-
-  const getRegionsDescription = (regions: Array<string>) => {
-    if (regions.length > 0) {
-      return regions.join(', ');
-    }
-
-    return t('component.publicInterpreterListing.wholeFinland');
-  };
 
   const renderPhoneRow = () => {
     // TODO
@@ -76,17 +68,15 @@ export const PublicInterpreterListingRow = ({
           ))}
         </TableCell>
         <TableCell>
-          <Text>{getRegionsDescription(regions)}</Text>
+          <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell colSpan={4}>
-          <Collapse
-            className="public-interpreter-listing-row__collapse"
-            in={isOpen}
-            timeout="auto"
-            unmountOnExit
-          >
+        <TableCell
+          className="public-interpreter-listing-row__collapse"
+          colSpan={4}
+        >
+          <Collapse in={isOpen} timeout="auto" unmountOnExit>
             <div className="columns public-interpreter-listing-row__extra-details">
               <div className="rows margin-right-xs">
                 <Text className="bold">

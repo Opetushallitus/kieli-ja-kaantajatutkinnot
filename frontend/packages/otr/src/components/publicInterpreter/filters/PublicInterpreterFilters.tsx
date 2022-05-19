@@ -245,6 +245,7 @@ export const PublicInterpreterFilters = ({
       >
         <Toolbar className="space-around public-interpreter-filters__app-bar__tool-bar">
           <CustomButton
+            className="public-interpreter-filters__empty-btn"
             data-testid="public-interpreter-filters__empty-btn"
             color={Color.Secondary}
             variant={Variant.Outlined}
