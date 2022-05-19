@@ -22,6 +22,8 @@ export class RegionUtils {
       return translatedRegions.join(', ');
     }
 
-    return t('component.publicInterpreterListing.wholeFinland');
+    return t('otr.common.allRegions', {
+      ns: I18nNamespace.Common,
+    });
   }
 }
