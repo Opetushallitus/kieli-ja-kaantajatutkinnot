@@ -90,6 +90,7 @@ class PublicInterpreterServiceTest {
     assertEquals(2, interpreters.size());
 
     final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
+    assertEquals(interpreter1.getId(), publishedInterpreter1.id());
     assertNull(publishedInterpreter1.email());
     assertNotNull(publishedInterpreter1.phoneNumber());
     assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
@@ -100,6 +101,7 @@ class PublicInterpreterServiceTest {
     assertLanguagePairDTO(qualification12, publishedInterpreter1.languages().get(1));
 
     final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
+    assertEquals(interpreter2.getId(), publishedInterpreter2.id());
     assertNotNull(publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());
     assertNull(publishedInterpreter2.otherContactInfo());

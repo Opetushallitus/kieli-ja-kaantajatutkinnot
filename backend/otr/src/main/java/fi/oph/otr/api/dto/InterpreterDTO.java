@@ -6,6 +6,7 @@ import lombok.NonNull;
 
 @Builder
 public record InterpreterDTO(
+  @NonNull Long id,
   @NonNull String firstName,
   @NonNull String lastName,
   String email,

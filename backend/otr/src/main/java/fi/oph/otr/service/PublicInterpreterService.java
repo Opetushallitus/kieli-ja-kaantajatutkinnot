@@ -72,9 +72,10 @@ public class PublicInterpreterService {
       .map(qp -> LanguagePairDTO.builder().from(qp.fromLang()).to(qp.toLang()).build())
       .toList();
 
+    // FIXME fetch details from onr
     return InterpreterDTO
       .builder()
-      // FIXME fetch details from onr
+      .id(interpreter.getId())
       .firstName("Etunimi:" + interpreter.getOnrId())
       .lastName("Sukunimi:" + interpreter.getOnrId())
       .email(interpreter.isPermissionToPublishEmail() ? "tulkki" + interpreter.getId() + "@invalid" : null)
