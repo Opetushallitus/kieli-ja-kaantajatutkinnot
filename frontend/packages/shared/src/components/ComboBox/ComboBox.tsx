@@ -32,10 +32,6 @@ export const sortOptionsByLabels = (options: Array<ComboBoxOption>) => {
   return options.sort(compareOptionLabels);
 };
 
-const autocompleteValueToString = (option: AutocompleteValue): string => {
-  return option?.label || '';
-};
-
 const isOptionEqualToValue = (
   option: AutocompleteValue,
   value: AutocompleteValue
@@ -62,12 +58,18 @@ export const ComboBox = ({
   showError,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
+  const getOptionLabel = (option: AutocompleteValue): string => {
+    const [activeOption] = values.filter((v) => v.value === option?.value);
+
+    return activeOption ? activeOption.label : '';
+  };
+
   return (
     <FormControl fullWidth error={showError}>
       <Autocomplete
         disablePortal
         {...rest}
-        getOptionLabel={autocompleteValueToString}
+        getOptionLabel={getOptionLabel}
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
         renderInput={(params) => (

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.14] - 2022-05-19
+
+## Fixed
+
+- Autocomplete label rendering
+
 ## [1.0.13] - 2022-05-17
 
 ## Added
