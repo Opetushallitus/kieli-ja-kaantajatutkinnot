@@ -1,10 +1,13 @@
 package fi.oph.akt.util.prod;
 
 import static fi.oph.akt.util.prod.RowUtils.sqlEscapeQuotes;
+import static fi.oph.akt.util.prod.RowUtils.toStringSqlQuoted;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import lombok.Builder;
 
 record TranslatorRow(
@@ -96,7 +99,10 @@ record TranslatorRow(
     return sqlEscapeQuotes(address.trim());
   }
 
-  public String resolveCity() {
+  public String resolveCity(final Map<Integer, String> translatorCityFixes) {
+    if (translatorCityFixes.containsKey(id)) {
+      return sqlEscapeQuotes(translatorCityFixes.get(id));
+    }
     final String trimmedCity = fixGermanyAndNetherlands(city.trim());
     final String trimmedCountry = fixGermanyAndNetherlands(country.trim());
     if (
@@ -110,9 +116,18 @@ record TranslatorRow(
     return sqlEscapeQuotes(trimmedCity);
   }
 
-  public String resolveCountry() {
+  public String resolveCountry(final Set<Integer> knownFinnishAddresses) {
+    if (knownFinnishAddresses.contains(id)) {
+      return null;
+    }
     final String trimmedCountry = country.trim();
-    return fixGermanyAndNetherlands(trimmedCountry);
+    if (trimmedCountry.isEmpty()) {
+      return null;
+    }
+    if (trimmedCountry.equalsIgnoreCase("suomi")) {
+      return null;
+    }
+    return toStringSqlQuoted(fixGermanyAndNetherlands(trimmedCountry));
   }
 
   private static String fixGermanyAndNetherlands(final String str) {

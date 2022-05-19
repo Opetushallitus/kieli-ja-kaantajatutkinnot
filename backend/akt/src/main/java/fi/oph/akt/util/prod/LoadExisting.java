@@ -30,7 +30,13 @@ public class LoadExisting {
 
         final String[] addressParts = parts[2].split("&nbsp;");
         final String postal = addressParts[0].trim();
-        final String city = addressParts[1].trim();
+        final String city =
+          addressParts[1].trim()
+            .replace("      ", " ")
+            .replace("     ", " ")
+            .replace("    ", " ")
+            .replace("   ", " ")
+            .replace("  ", " ");
 
         System.out.println(String.format("%s %s %s - %s %s %s", lastName, firstName, from, to, postal, city));
       }

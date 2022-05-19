@@ -52,6 +52,7 @@ public class ProdImport {
 
     final Set<Integer> idsOfKnownDuplicateEmails = getTranslatorIdsOfKnownDuplicateEmails(translators);
     final Set<Integer> idsOfKnownDuplicateSsns = getTranslatorIdsOfKnownDuplicateSsns(translators);
+    final Set<Integer> knownEmptyRows = getTranslatorIdsOfKnownEmptyLanguageRows();
 
     final List<Pair<TranslatorRow, List<LanguageRow>>> translatorsAndLanguages = translators
       .stream()
@@ -67,7 +68,7 @@ public class ProdImport {
         }
         final List<LanguageRow> languages = translatorLanguages
           .stream()
-          .filter(lang -> lang.shouldBeImported(koodistoLangsMap))
+          .filter(lang -> lang.shouldBeImported(koodistoLangsMap, knownEmptyRows))
           .flatMap(lang -> lang.splitRenewals(getTranslatorIdsHavingInvalidDates()).stream())
           .toList();
         return Pair.of(t, languages);
@@ -78,17 +79,39 @@ public class ProdImport {
 
     FileWriter fileWriter = new FileWriter(outFile);
     PrintWriter printWriter = new PrintWriter(fileWriter);
-    printWriter.println("TRUNCATE translator CASCADE;" + "TRUNCATE meeting_date CASCADE;" + "TRUNCATE email CASCADE;");
+    printWriter.println(
+      "TRUNCATE translator CASCADE;" +
+      "TRUNCATE examination_date CASCADE;" +
+      "TRUNCATE meeting_date CASCADE;" +
+      "TRUNCATE email CASCADE;"
+    );
     final Set<LocalDate> meetingDates = translatorsAndLanguages
       .stream()
       .flatMap(p -> p.getSecond().stream())
       .map(LanguageRow::resolveMeetingDate)
       .filter(Objects::nonNull)
       .collect(Collectors.toSet());
-    meetingDates.forEach(date -> {
-      final String insertMeetingDateSql = "INSERT INTO meeting_date(date) VALUES ('%s');".formatted(date);
-      printWriter.println(insertMeetingDateSql);
-    });
+    meetingDates
+      .stream()
+      .sorted()
+      .forEach(date -> {
+        final String insertMeetingDateSql = "INSERT INTO meeting_date(date) VALUES ('%s');".formatted(date);
+        printWriter.println(insertMeetingDateSql);
+      });
+
+    final Set<LocalDate> examinationDates = translatorsAndLanguages
+      .stream()
+      .flatMap(p -> p.getSecond().stream())
+      .map(r -> r.resolveAutDate(getTranslatorIdsOfKnownAutMissingExamDate()))
+      .filter(Objects::nonNull)
+      .collect(Collectors.toSet());
+    examinationDates
+      .stream()
+      .sorted()
+      .forEach(date -> {
+        final String insertMeetingDateSql = "INSERT INTO examination_date(date) VALUES ('%s');".formatted(date);
+        printWriter.println(insertMeetingDateSql);
+      });
 
     translatorsAndLanguages.forEach(pair -> {
       final TranslatorRow t = pair.getFirst();
@@ -97,7 +120,7 @@ public class ProdImport {
       final String insertTranslatorSql =
         (
           "WITH inserted_translator AS (INSERT INTO translator(identity_number, first_name, last_name, email, phone_number, street, town, postal_code, country, extra_information, is_assurance_given)" +
-          " VALUES ('%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', %s)" +
+          " VALUES ('%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %s, '%s', %s)" +
           " RETURNING translator_id)"
         ).formatted(
             sanitizeSsn(idsOfKnownDuplicateSsns, t),
@@ -106,9 +129,9 @@ public class ProdImport {
             sanitizedEmail(idsOfKnownDuplicateEmails, t),
             t.resolvePhone(),
             t.resolveAddress(),
-            t.resolveCity(),
+            t.resolveCity(getTranslatorCityFixes()),
             t.postalCode(),
-            t.resolveCountry(),
+            t.resolveCountry(getTranslatorIdsOfKnownFinnishAddressesButForeignCountry()),
             t.resolveInfo(languages),
             t.resolveIsOathed()
           );
@@ -120,7 +143,7 @@ public class ProdImport {
           final Optional<org.apache.commons.lang3.tuple.Pair<LocalDate, LocalDate>> beginAndEnd = lang.resolveStartAndEndDate();
           final String insertAuthorisationSql =
             (
-              "inserted_authorisation%s AS (INSERT INTO authorisation (translator_id, basis, meeting_date_id, aut_date, from_lang, to_lang, permission_to_publish, diary_number, term_begin_date, term_end_date)" +
+              "inserted_authorisation%s AS (INSERT INTO authorisation (translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish, diary_number, term_begin_date, term_end_date)" +
               " SELECT translator_id, '%s', %s, %s, '%s', '%s', %s, %s, %s, %s" +
               " FROM inserted_translator" +
               " RETURNING authorisation_id)"
@@ -130,7 +153,11 @@ public class ProdImport {
                 lang.resolveMeetingDate() != null
                   ? "(SELECT meeting_date_id FROM meeting_date WHERE date='%s')".formatted(lang.resolveMeetingDate())
                   : "null",
-                lang.resolveAutDate(getTranslatorIdsOfKnownAutMissingExamDate()),
+                lang.resolveAutDate(getTranslatorIdsOfKnownAutMissingExamDate()) != null
+                  ? "(SELECT examination_date_id FROM examination_date WHERE date='%s')".formatted(
+                      lang.resolveAutDate(getTranslatorIdsOfKnownAutMissingExamDate())
+                    )
+                  : "null",
                 lang.resolveFrom(koodistoLangsMap),
                 lang.resolveTo(koodistoLangsMap),
                 t.officialListPublishPermitted(),
@@ -147,16 +174,28 @@ public class ProdImport {
     printWriter.close();
   }
 
+  private static Map<Integer, String> getTranslatorCityFixes() {
+    return Map.of(588, "SALO");
+  }
+
+  private static Set<Integer> getTranslatorIdsOfKnownFinnishAddressesButForeignCountry() {
+    return Set.of(506, 1422, 1975, 2114, 2717, 2753, 2845, 4055, 4465);
+  }
+
+  private static Set<Integer> getTranslatorIdsOfKnownEmptyLanguageRows() {
+    return Set.of(4575, 4498);
+  }
+
   private static Set<Integer> getTranslatorIdsHavingInvalidDates() {
-    return Set.of(4298);
+    return Set.of();
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownAutMissingExamDate() {
-    return Set.of(3978, 4298, 4542);
+    return Set.of();
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownDuplicateEmails(final List<TranslatorRow> translators) {
-    final Set<Integer> known = Set.of(524, 527, 554, 555, 1125, 2600, 2612, 2716, 4291, 4514, 4515, 4586);
+    final Set<Integer> known = Set.of(524, 527, 554, 555, 2612, 2716);
     final List<String> duplicates = translators
       .stream()
       .collect(Collectors.groupingBy(TranslatorRow::email))
@@ -175,7 +214,7 @@ public class ProdImport {
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownDuplicateSsns(final List<TranslatorRow> translators) {
-    final Set<Integer> known = Set.of(3044, 4291, 4504, 4514, 4515, 4586);
+    final Set<Integer> known = Set.of(); // Data is expected to be fixed now, no duplicates should exist.
     final List<String> duplicates = translators
       .stream()
       .collect(Collectors.groupingBy(TranslatorRow::ssn))
@@ -204,8 +243,7 @@ public class ProdImport {
   private static Object sanitizedEmail(final Set<Integer> ids, final TranslatorRow t) {
     final String email = t.email();
     if (ids.contains(t.id())) {
-      System.out.println("FIXME email " + t.id());
-      return "'FIXME-" + t.id() + "-" + email + "'";
+      return "'%s %s <%s>'".formatted(t.firstName(), t.lastName(), email);
     }
     if (email.isBlank() || email.equals("-")) {
       return null;
