@@ -54,3 +54,6 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/otr}
   login: ${virkailija.cas.login:http://localhost:${server.port}/login}
 host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}
+otr:
+  onr:
+    enabled: ${onr.enabled:false}
