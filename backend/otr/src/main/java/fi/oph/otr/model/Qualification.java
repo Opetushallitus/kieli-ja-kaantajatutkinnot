@@ -1,6 +1,8 @@
 package fi.oph.otr.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -55,4 +58,7 @@ public class Qualification extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "interpreter_id", referencedColumnName = "interpreter_id", nullable = false)
   private Interpreter interpreter;
+
+  @OneToMany(mappedBy = "qualification")
+  private List<QualificationReminder> reminders = new ArrayList<>();
 }
