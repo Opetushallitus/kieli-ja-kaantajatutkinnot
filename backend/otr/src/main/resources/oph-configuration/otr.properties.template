@@ -2,8 +2,6 @@ postgresql.url={{host_postgresql_otr}}
 postgresql.username={{postgres_app_user}}
 postgresql.password={{oikeustulkkirekisteri_db_app_password}}
 
-url-alb={{host_alb}}
-
 host-cas: {{host_cas}}
 host-alb: {{host_alb}}
 virkailija.cas.url-base=https://{{host_cas}}
@@ -11,5 +9,9 @@ virkailija.cas.service=https://{{host_virkailija}}/otr/virkailija
 virkailija.cas.url=${virkailija.cas.url-base}/cas
 virkailija.cas.login=${virkailija.cas.url-base}/cas/login
 virkailija.host-virkailija={{host_virkailija}}
+
+url-alb={{host_alb}}
+email.sending-enabled=true
+ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
 
 onr.enabled=false

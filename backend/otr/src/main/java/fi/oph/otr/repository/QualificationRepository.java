@@ -1,6 +1,8 @@
 package fi.oph.otr.repository;
 
 import fi.oph.otr.model.Qualification;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,18 @@ public interface QualificationRepository extends JpaRepository<Qualification, Lo
     " AND i.deletedAt IS NULL"
   )
   List<InterpreterQualificationProjection> findQualificationsForPublicListing();
+
+  @Query(
+    "SELECT q.id" +
+    " FROM Qualification q" +
+    " LEFT JOIN q.reminders qr" +
+    " WHERE q.endDate BETWEEN ?1 AND ?2" +
+    " GROUP BY q.id, qr.id" +
+    " HAVING COUNT(qr.id) = 0 OR MAX(qr.createdAt) < ?3"
+  )
+  List<Long> findExpiringQualifications(
+    LocalDate betweenStart,
+    LocalDate betweenEnd,
+    LocalDateTime previousReminderSentBefore
+  );
 }
