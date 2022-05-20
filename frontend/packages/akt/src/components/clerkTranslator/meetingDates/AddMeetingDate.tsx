@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import {
@@ -6,6 +7,7 @@ import {
   DatePicker,
   H3,
   LoadingProgressIndicator,
+  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils, StringUtils } from 'shared/utils';
@@ -15,6 +17,23 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
+
+const MeetingDateAlreadyExistsNotice = ({ when }: { when: boolean }) => {
+  const { t } = useAppTranslation({
+    keyPrefix: 'akt.component.addMeetingDate',
+  });
+
+  if (when) {
+    return (
+      <>
+        <ErrorOutlineIcon />
+        <Text>{t('meetingDateAlreadyExists')}</Text>
+      </>
+    );
+  }
+
+  return <></>;
+};
 
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
@@ -33,7 +52,7 @@ export const AddMeetingDate = () => {
     value && dispatch(addMeetingDate(dayjs(value)));
   };
 
-  const isAddButtonDisabled = () => {
+  const isSelectedDateAlreadyTaken = () => {
     if (value) {
       const date = dayjs(value);
 
@@ -42,7 +61,11 @@ export const AddMeetingDate = () => {
       );
     }
 
-    return true;
+    return false;
+  };
+
+  const isAddButtonDisabled = () => {
+    return !value || isSelectedDateAlreadyTaken();
   };
 
   useNavigationProtection(!StringUtils.isBlankString(value));
@@ -58,16 +81,21 @@ export const AddMeetingDate = () => {
             label={t('datePicker.label')}
           />
           <LoadingProgressIndicator isLoading={isLoading}>
-            <CustomButton
-              data-testid="meeting-dates-page__add-btn"
-              variant={Variant.Outlined}
-              color={Color.Secondary}
-              startIcon={<AddIcon />}
-              disabled={isAddButtonDisabled() || isLoading}
-              onClick={handleAddDate}
-            >
-              {t('buttons.add')}
-            </CustomButton>
+            <div className="columns gapped-xs">
+              <CustomButton
+                data-testid="meeting-dates-page__add-btn"
+                variant={Variant.Outlined}
+                color={Color.Secondary}
+                startIcon={<AddIcon />}
+                disabled={isAddButtonDisabled() || isLoading}
+                onClick={handleAddDate}
+              >
+                {t('buttons.add')}
+              </CustomButton>
+              <MeetingDateAlreadyExistsNotice
+                when={isSelectedDateAlreadyTaken()}
+              />
+            </div>
           </LoadingProgressIndicator>
         </div>
       </div>
