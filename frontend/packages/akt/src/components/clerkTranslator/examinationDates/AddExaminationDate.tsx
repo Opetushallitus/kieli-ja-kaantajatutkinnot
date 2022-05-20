@@ -18,23 +18,6 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addExaminationDate } from 'redux/actions/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
-const ExaminationDateAlreadyExistsNotice = ({ when }: { when: boolean }) => {
-  const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.addExaminationDate',
-  });
-
-  if (when) {
-    return (
-      <>
-        <ErrorOutlineIcon />
-        <Text>{t('examinationDateAlreadyExists')}</Text>
-      </>
-    );
-  }
-
-  return <></>;
-};
-
 export const AddExaminationDate = () => {
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
@@ -68,6 +51,14 @@ export const AddExaminationDate = () => {
     return !value || isSelectedDateAlreadyTaken();
   };
 
+  const renderDateAlreadyTakenInfo = () =>
+    isSelectedDateAlreadyTaken() ? (
+      <>
+        <ErrorOutlineIcon />
+        <Text>{t('examinationDateAlreadyExists')}</Text>
+      </>
+    ) : null;
+
   useNavigationProtection(!StringUtils.isBlankString(value));
 
   return (
@@ -92,9 +83,7 @@ export const AddExaminationDate = () => {
               >
                 {t('buttons.add')}
               </CustomButton>
-              <ExaminationDateAlreadyExistsNotice
-                when={isSelectedDateAlreadyTaken()}
-              />
+              {renderDateAlreadyTakenInfo()}
             </div>
           </LoadingProgressIndicator>
         </div>

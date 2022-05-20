@@ -18,23 +18,6 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/actions/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
-const MeetingDateAlreadyExistsNotice = ({ when }: { when: boolean }) => {
-  const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.addMeetingDate',
-  });
-
-  if (when) {
-    return (
-      <>
-        <ErrorOutlineIcon />
-        <Text>{t('meetingDateAlreadyExists')}</Text>
-      </>
-    );
-  }
-
-  return <></>;
-};
-
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
@@ -68,6 +51,14 @@ export const AddMeetingDate = () => {
     return !value || isSelectedDateAlreadyTaken();
   };
 
+  const renderDateAlreadyTakenInfo = () =>
+    isSelectedDateAlreadyTaken() ? (
+      <>
+        <ErrorOutlineIcon />
+        <Text>{t('meetingDateAlreadyExists')}</Text>
+      </>
+    ) : null;
+
   useNavigationProtection(!StringUtils.isBlankString(value));
 
   return (
@@ -92,9 +83,7 @@ export const AddMeetingDate = () => {
               >
                 {t('buttons.add')}
               </CustomButton>
-              <MeetingDateAlreadyExistsNotice
-                when={isSelectedDateAlreadyTaken()}
-              />
+              {renderDateAlreadyTakenInfo()}
             </div>
           </LoadingProgressIndicator>
         </div>
