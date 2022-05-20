@@ -1,23 +1,22 @@
 package fi.oph.otr.onr.mock;
 
-import fi.oph.otr.onr.model.Person;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.util.CyclicIterable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class PersonFactory {
+public class PersonalDataFactory {
 
   private final AtomicInteger phoneNumberCounter = new AtomicInteger();
 
-  public Person createPerson(final String onrId) {
+  public PersonalData createPersonalData() {
     final String firstName = firstNames.next();
     final String lastName = lastNames.next();
     final int phoneCounter = phoneNumberCounter.incrementAndGet();
 
-    return Person
+    return PersonalData
       .builder()
-      .onrId(onrId)
       .firstName(firstName)
       .lastName(lastName)
       .identityNumber(identityNumbers.next())

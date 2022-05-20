@@ -12,12 +12,13 @@ import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
-import fi.oph.otr.onr.model.Person;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,21 +94,21 @@ class PublicInterpreterServiceTest {
     // Hidden, deleted
     createQualificationDeleted(interpreter6, "FR", "FI", yesterday, nextWeek, true);
 
-    when(onrService.getPersons(any()))
+    when(onrService.getPersonalDatas(any()))
       .thenReturn(
-        List.of(
-          Person
+        Map.of(
+          interpreter1.getOnrId(),
+          PersonalData
             .builder()
-            .onrId(interpreter1.getOnrId())
             .firstName("Iiro")
             .lastName("Rajala")
             .identityNumber("1")
             .email("iiro.rajala@example.invalid")
             .phoneNumber("+3581234567")
             .build(),
-          Person
+          interpreter2.getOnrId(),
+          PersonalData
             .builder()
-            .onrId(interpreter2.getOnrId())
             .firstName("Ella")
             .lastName("Heinänen")
             .identityNumber("2")

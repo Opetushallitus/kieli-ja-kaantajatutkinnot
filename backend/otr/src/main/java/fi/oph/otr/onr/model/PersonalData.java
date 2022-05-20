@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record Person(
-  @NonNull @NotBlank String onrId,
+public record PersonalData(
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String identityNumber,

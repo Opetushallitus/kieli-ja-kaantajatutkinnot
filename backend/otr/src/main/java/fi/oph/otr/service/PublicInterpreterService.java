@@ -4,7 +4,7 @@ import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.onr.OnrService;
-import fi.oph.otr.onr.model.Person;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterQualificationProjection;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
@@ -13,7 +13,6 @@ import fi.oph.otr.repository.RegionRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
@@ -50,15 +49,14 @@ public class PublicInterpreterService {
 
     final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterQualifications.keySet());
 
-    final Map<String, Person> persons = onrService
-      .getPersons(interpreters.stream().map(Interpreter::getOnrId).toList())
-      .stream()
-      .collect(Collectors.toMap(Person::onrId, Function.identity()));
+    final Map<String, PersonalData> personalDatas = onrService.getPersonalDatas(
+      interpreters.stream().map(Interpreter::getOnrId).toList()
+    );
 
     return interpreters
       .stream()
       .map(interpreter -> {
-        final Person person = persons.get(interpreter.getOnrId());
+        final PersonalData personalData = personalDatas.get(interpreter.getOnrId());
         final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
           interpreter.getId(),
           Collections.emptyList()
@@ -67,14 +65,14 @@ public class PublicInterpreterService {
           interpreter.getId()
         );
 
-        return toDTO(interpreter, person, regionProjections, qualificationProjections);
+        return toDTO(interpreter, personalData, regionProjections, qualificationProjections);
       })
       .toList();
   }
 
   private InterpreterDTO toDTO(
     final Interpreter interpreter,
-    final Person person,
+    final PersonalData personalData,
     final List<InterpreterRegionProjection> regionProjections,
     final List<InterpreterQualificationProjection> qualificationProjections
   ) {
@@ -88,10 +86,10 @@ public class PublicInterpreterService {
     return InterpreterDTO
       .builder()
       .id(interpreter.getId())
-      .firstName(person.firstName())
-      .lastName(person.lastName())
-      .email(interpreter.isPermissionToPublishEmail() ? person.email() : null)
-      .phoneNumber(interpreter.isPermissionToPublishPhone() ? person.phoneNumber() : null)
+      .firstName(personalData.firstName())
+      .lastName(personalData.lastName())
+      .email(interpreter.isPermissionToPublishEmail() ? personalData.email() : null)
+      .phoneNumber(interpreter.isPermissionToPublishPhone() ? personalData.phoneNumber() : null)
       .otherContactInfo(
         interpreter.isPermissionToPublishOtherContactInfo() ? interpreter.getOtherContactInformation() : null
       )
