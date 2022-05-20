@@ -153,14 +153,6 @@ export const AddAuthorisation = ({
   const getLanguageSelectValue = (language?: string) =>
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
-  const getTermBeginDate = () => {
-    if (authorisation.termBeginDate) {
-      return dateToOption(authorisation.termBeginDate);
-    } else {
-      return null;
-    }
-  };
-
   const isAddButtonDisabled = () => {
     const { languagePair, diaryNumber, examinationDate, ...otherProps } =
       authorisation;
@@ -198,13 +190,13 @@ export const AddAuthorisation = ({
     }
   };
 
-  const getExaminationDate = () => {
-    if (authorisation.examinationDate) {
-      return dateToOption(authorisation.examinationDate);
-    } else {
-      return null;
-    }
-  };
+  const selectedTermBeginDate = authorisation.termBeginDate
+    ? dateToOption(authorisation.termBeginDate)
+    : null;
+
+  const selectedExaminationDate = authorisation.examinationDate
+    ? dateToOption(authorisation.examinationDate)
+    : null;
 
   const testIdPrefix = 'add-authorisation-field';
 
@@ -261,7 +253,7 @@ export const AddAuthorisation = ({
             <ComboBox
               data-testid={`${testIdPrefix}-examinationDate`}
               label={t('fieldPlaceholders.examinationDate')}
-              value={getExaminationDate()}
+              value={selectedExaminationDate}
               values={availableExaminationDates}
               variant={TextFieldVariant.Outlined}
               onChange={handleExaminationDateChange}
@@ -277,7 +269,7 @@ export const AddAuthorisation = ({
               autoHighlight
               label={t('fieldPlaceholders.termBeginDate')}
               values={availableMeetingDateValues}
-              value={getTermBeginDate()}
+              value={selectedTermBeginDate}
               variant={TextFieldVariant.Outlined}
               onChange={handleTermBeginDateChange}
             />

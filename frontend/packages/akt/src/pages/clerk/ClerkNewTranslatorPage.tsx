@@ -58,7 +58,7 @@ export const ClerkNewTranslatorPage = () => {
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
   ).passed;
-  const examinationDatesState = useAppSelector(
+  const examinationDates = useAppSelector(
     examinationDatesSelector
   ).examinationDates;
   const passedExaminationDates = useAppSelector(
@@ -121,12 +121,12 @@ export const ClerkNewTranslatorPage = () => {
 
   useEffect(() => {
     if (
-      !examinationDatesState.dates.length &&
-      examinationDatesState.status === APIResponseStatus.NotStarted
+      !examinationDates.dates.length &&
+      examinationDates.status === APIResponseStatus.NotStarted
     ) {
       dispatch(loadExaminationDates);
     }
-  }, [dispatch, examinationDatesState]);
+  }, [dispatch, examinationDates]);
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
