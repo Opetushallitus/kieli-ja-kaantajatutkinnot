@@ -1,107 +1,44 @@
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { Collapse, TableCell, TableRow } from '@mui/material';
+import { TableRow } from '@mui/material';
 import { useState } from 'react';
-import { CustomIconButton, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import {
-  useAppTranslation,
-  useKoodistoLanguagesTranslation,
-} from 'configs/i18n';
+  PublicInterpreterDesktopCells,
+  PublicInterpreterPhoneCells,
+} from 'components/publicInterpreter/listing/rowUtils/Cells';
+import { CollapsibleRow } from 'components/publicInterpreter/listing/rowUtils/CollapsibleRow';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
-import { RegionUtils } from 'utils/regions';
 
 export const PublicInterpreterListingRow = ({
   interpreter,
 }: {
   interpreter: PublicInterpreter;
 }) => {
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'otr',
-  });
-  const translateLanguage = useKoodistoLanguagesTranslation();
-
   const [isOpen, setIsOpen] = useState(false);
 
-  const { firstName, lastName, languages, regions } = interpreter;
+  const { id } = interpreter;
   const { isPhone } = useWindowProperties();
 
-  const renderPhoneRow = () => {
-    // TODO
-    return <div />;
-  };
-
-  const renderDesktopRow = () => (
+  return (
     <>
       <TableRow
-        data-testid={`public-interpreters__id-${interpreter.id}-row`}
+        data-testid={`public-interpreters__id-${id}-row`}
         className="public-interpreter-listing-row"
+        onClick={() => setIsOpen((prev) => !prev)}
       >
-        <TableCell align="left">
-          <CustomIconButton
-            aria-label={t('component.publicInterpreterListing.row.ariaLabel')}
-            size="small"
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-pressed={isOpen}
-          >
-            {isOpen ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </CustomIconButton>
-        </TableCell>
-        <TableCell>
-          <Text>{`${lastName} ${firstName}`}</Text>
-        </TableCell>
-        <TableCell>
-          {languages.map(({ from, to }, k) => (
-            <Text key={k}>
-              {translateLanguage(from)}
-              {` - `}
-              {translateLanguage(to)}
-            </Text>
-          ))}
-        </TableCell>
-        <TableCell>
-          <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
-        </TableCell>
+        {isPhone ? (
+          <PublicInterpreterPhoneCells
+            interpreter={interpreter}
+            isOpen={isOpen}
+          />
+        ) : (
+          <PublicInterpreterDesktopCells
+            interpreter={interpreter}
+            isOpen={isOpen}
+          />
+        )}
       </TableRow>
-      <TableRow>
-        <TableCell
-          className="public-interpreter-listing-row__collapse"
-          colSpan={4}
-        >
-          <Collapse in={isOpen} timeout="auto" unmountOnExit>
-            <div className="columns public-interpreter-listing-row__extra-details">
-              <div className="rows margin-right-xs">
-                <Text className="bold">
-                  {t(
-                    'component.publicInterpreterListing.row.extraDetails.email'
-                  )}
-                  :
-                </Text>
-                <Text className="bold">
-                  {t(
-                    'component.publicInterpreterListing.row.extraDetails.phoneNumber'
-                  )}
-                  :
-                </Text>
-                <Text className="bold">
-                  {t(
-                    'component.publicInterpreterListing.row.extraDetails.otherContactInfo'
-                  )}
-                  :
-                </Text>
-              </div>
-              <div className="rows">
-                <Text>{interpreter.email}</Text>
-                <Text>{interpreter.phoneNumber}</Text>
-                <Text>{interpreter.otherContactInfo}</Text>
-              </div>
-            </div>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+      <CollapsibleRow interpreter={interpreter} isOpen={isOpen} />
     </>
   );
-
-  return isPhone ? renderPhoneRow() : renderDesktopRow();
 };
