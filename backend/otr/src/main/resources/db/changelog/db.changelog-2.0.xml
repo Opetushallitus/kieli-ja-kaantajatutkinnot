@@ -349,4 +349,92 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="2022-05-20-create-email_type-table" author="mikhuttu">
+        <createTable tableName="email_type">
+            <column name="name" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="email_type_pkey"/>
+            </column>
+        </createTable>
+        <insert tableName="email_type">
+            <column name="name" value="QUALIFICATION_EXPIRY"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2022-05-20-create-email-table" author="mikhuttu">
+        <createTable tableName="email">
+            <column autoIncrement="true" name="email_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="email_pkey"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="deleted_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipient_address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sent_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="ext_id" type="TEXT"/>
+            <column name="error" type="TEXT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="email" baseColumnNames="email_type"
+                                 referencedTableName="email_type" referencedColumnNames="name"
+                                 constraintName="fk_email_email_type"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2021-11-02-create-qualification_reminder-table" author="mikhuttu">
+        <createTable tableName="qualification_reminder">
+            <column autoIncrement="true" name="qualification_reminder_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="qualification_reminder_pkey"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="deleted_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="qualification_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="qualification_reminder" baseColumnNames="qualification_id"
+                                 referencedTableName="qualification" referencedColumnNames="qualification_id"
+                                 constraintName="fk_qualification_reminder_qualification"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="qualification_reminder" baseColumnNames="email_id"
+                                 referencedTableName="email" referencedColumnNames="email_id"
+                                 constraintName="fk_qualification_reminder_email"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
 </databaseChangeLog>
