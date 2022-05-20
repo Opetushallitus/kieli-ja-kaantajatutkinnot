@@ -43,7 +43,7 @@ public class ExpiringQualificationsEmailCreator {
 
       qualificationRepository
         .findExpiringQualifications(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
-        .forEach(clerkEmailService::createEmail);
+        .forEach(clerkEmailService::createQualificationExpiryEmail);
     });
   }
 }

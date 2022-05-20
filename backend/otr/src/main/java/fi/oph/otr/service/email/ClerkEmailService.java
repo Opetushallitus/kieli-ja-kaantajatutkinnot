@@ -45,7 +45,7 @@ public class ClerkEmailService {
   private final TemplateRenderer templateRenderer;
 
   @Transactional
-  public void createEmail(final long qualificationId) {
+  public void createQualificationExpiryEmail(final long qualificationId) {
     qualificationRepository.findById(qualificationId).ifPresent(this::createQualificationExpiryData);
   }
 

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmailRepository extends JpaRepository<Email, Long> {
-  @Query("SELECT e.id FROM Email e WHERE e.sentAt IS NULL ORDER BY e.createdAt asc")
+  @Query("SELECT e.id FROM Email e WHERE e.sentAt IS NULL ORDER BY e.modifiedAt asc")
   List<Long> findEmailsToSend(PageRequest pageRequest);
 }
