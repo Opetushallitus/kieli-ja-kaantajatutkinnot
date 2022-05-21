@@ -3,7 +3,6 @@ import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
-import { SearchFilter } from 'enums/app';
 import { LanguagePair } from 'interfaces/languagePair';
 
 export interface PublicInterpreter extends WithId {
@@ -21,7 +20,6 @@ export interface PublicInterpreterFilter {
   toLang: string;
   name: string;
   region: string;
-  errors: Array<SearchFilter>;
 }
 
 export interface PublicInterpreterFilterValues {
@@ -31,20 +29,14 @@ export interface PublicInterpreterFilterValues {
   region: AutocompleteValue;
 }
 
-export interface PublicInterpreterResponse {
+export interface PublicInterpreterState {
+  status: APIResponseStatus;
+  filters: PublicInterpreterFilter;
   interpreters: Array<PublicInterpreter>;
 }
 
-export interface PublicInterpreterState extends PublicInterpreterResponse {
-  status: APIResponseStatus;
-  filters: PublicInterpreterFilter;
-}
-
-export interface PublicInterpreterAction
-  extends Action<string>,
-    Partial<PublicInterpreterResponse> {
+export interface PublicInterpreterAction extends Action<string> {
+  interpreters?: Array<PublicInterpreter>;
   index?: number;
   filters?: PublicInterpreterFilter;
-  filterErrorName?: SearchFilter;
-  error?: Error;
 }
