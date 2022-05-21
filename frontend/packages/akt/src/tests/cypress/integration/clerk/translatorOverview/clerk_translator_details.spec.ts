@@ -151,8 +151,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
       'examinationDate',
-      'input',
-      true
+      'input'
     );
     onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
       'termEndDate',
@@ -165,8 +164,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     );
     onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
       'examinationDate',
-      'input',
-      true
+      'input'
     );
     onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
       'basis',
@@ -175,8 +173,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     );
     onClerkTranslatorOverviewPage.expectEnabledAddAuthorisationField(
       'examinationDate',
-      'input',
-      true
+      'input'
     );
   });
 

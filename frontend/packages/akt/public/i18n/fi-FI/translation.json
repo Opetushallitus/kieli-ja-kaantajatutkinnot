@@ -8,7 +8,8 @@
         "datePicker": {
           "label": "Tutkintopäivämäärä"
         },
-        "header": "Lisää tutkintopäivä"
+        "header": "Lisää tutkintopäivä",
+        "examinationDateAlreadyExists": "Valitsemasi päivä on jo olemassaoleva tutkintopäivä."
       },
       "addMeetingDate": {
         "buttons": {
@@ -17,7 +18,8 @@
         "datePicker": {
           "label": "Kokouspäivämäärä"
         },
-        "header": "Lisää kokouspäivä"
+        "header": "Lisää kokouspäivä",
+        "meetingDateAlreadyExists": "Valitsemasi päivä on jo olemassaoleva kokouspäivä."
       },
       "clerkTranslatorFilters": {
         "authorisationBasis": {

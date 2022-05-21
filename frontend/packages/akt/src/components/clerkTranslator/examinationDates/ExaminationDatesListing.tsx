@@ -104,7 +104,10 @@ export const ExaminationDatesListing: FC = () => {
     filter,
   } = useAppSelector(examinationDatesSelector);
   const { upcoming, passed } = useAppSelector(selectExaminationDatesByStatus);
-
+  const datesToList =
+    filter.examinationDateStatus === ExaminationDateStatus.Upcoming
+      ? upcoming
+      : passed;
   switch (status) {
     case APIResponseStatus.NotStarted:
     case APIResponseStatus.InProgress:
@@ -123,16 +126,12 @@ export const ExaminationDatesListing: FC = () => {
     case APIResponseStatus.Success:
       return (
         <PaginatedTable
-          data={
-            filter.examinationDateStatus === ExaminationDateStatus.Upcoming
-              ? upcoming
-              : passed
-          }
+          data={datesToList}
           header={<ListingHeader />}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
-          className={'examination-dates__listing table-layout-auto'}
+          className="examination-dates__listing table-layout-auto"
           stickyHeader
           rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
         />
