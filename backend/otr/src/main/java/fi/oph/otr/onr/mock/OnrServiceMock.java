@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class OnrServiceMock implements OnrService {
 
+  @Override
   public Map<String, PersonalData> getPersonalDatas(final List<String> onrIds) {
     final Map<String, PersonalData> personalDatas = new HashMap<>();
     final PersonalDataFactory personalDataFactory = new PersonalDataFactory();
@@ -21,5 +22,6 @@ public class OnrServiceMock implements OnrService {
     return UUID.randomUUID().toString();
   }
 
+  @Override
   public void updatePersonalData(final String onrId, final PersonalData personalData) {}
 }

@@ -15,3 +15,4 @@ email.sending-enabled=true
 ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
 
 onr.enabled=false
+onr.service-url=${url-alb}/oppijanumerorekisteri-service

@@ -50,9 +50,10 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "true")
-  public OnrService onrServiceImpl() {
-    LOG.info("OnrServiceImpl in use");
-    return new OnrServiceImpl();
+  public OnrService onrServiceImpl(@Value("${otr.onr.service-url}") String onrServiceUrl) {
+    LOG.info("onrServiceUrl:{}", onrServiceUrl);
+    final WebClient webClient = webClientBuilderWithCallerId().baseUrl(onrServiceUrl).build();
+    return new OnrServiceImpl(webClient);
   }
 
   @Bean
