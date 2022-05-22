@@ -14,5 +14,5 @@ url-alb={{host_alb}}
 email.sending-enabled=true
 ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
 
-onr.enabled=false
+onr.enabled=true
 onr.service-url=${url-alb}/oppijanumerorekisteri-service
