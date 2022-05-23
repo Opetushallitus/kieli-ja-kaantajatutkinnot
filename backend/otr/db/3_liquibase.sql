@@ -83,6 +83,10 @@ init-14	terova	migrations.xml	2022-04-07 16:54:20.656394	14	EXECUTED	8:3cb8287f5
 2022-05-04-region-table-changes	mikhuttu	migrations.xml	2022-05-11 13:10:27.345069	18	EXECUTED	8:f6bccea541d6861fddde547f28840b2b	renameColumn newColumnName=region_id, oldColumnName=id, tableName=sijainti; renameColumn newColumnName=interpreter_id, oldColumnName=oikeustulkki, tableName=sijainti; renameColumn newColumnName=code, oldColumnName=koodi, tableName=sijainti; sql; d...		\N	4.5.0	\N	\N	2274626756
 2022-05-04-add-dropped-foreign-key-constraints	mikhuttu	migrations.xml	2022-05-11 13:10:27.357561	19	EXECUTED	8:10a16dbe330c032202cabd57f9f77d40	addForeignKeyConstraint baseTableName=oikeustulkki_muokkaus, constraintName=fk_oikeustulkki_muokkaus_oikeustulkki, referencedTableName=qualification; addForeignKeyConstraint baseTableName=sahkoposti_muistutus, constraintName=fk_sahkoposti_muistutu...		\N	4.5.0	\N	\N	2274626756
 2022-05-04-rename-sequences	mikhuttu	migrations.xml	2022-05-11 13:10:27.370048	20	EXECUTED	8:d71fa904173fb1cae72d50650380228f	sql; sql; sql; sql		\N	4.5.0	\N	\N	2274626756
+2022-05-16-drop-table-oikeustulkki_muokkaus	mikhuttu	migrations.xml	2022-05-23 11:29:30.744643	21	EXECUTED	8:dca6458dfebc8502819254d6c24f561b	dropTable tableName=oikeustulkki_muokkaus; sql		\N	4.5.0	\N	\N	3305370576
+2022-05-16-drop-table-sahkoposti_muistutus	mikhuttu	migrations.xml	2022-05-23 11:29:30.756478	22	EXECUTED	8:c81b92e5f498db9d0df05e75ff86a280	dropTable tableName=sahkoposti_muistutus; sql		\N	4.5.0	\N	\N	3305370576
+2022-05-16-move-language-pair-under-qualification	mikhuttu	migrations.xml	2022-05-23 11:29:30.786949	23	EXECUTED	8:075bec4b649efe4256037404a1a63c9c	addColumn tableName=qualification; sql; dropTable tableName=language_pair; sql; sql; addNotNullConstraint columnName=from_lang, tableName=qualification; addNotNullConstraint columnName=to_lang, tableName=qualification; addNotNullConstraint columnN...		\N	4.5.0	\N	\N	3305370576
+2022-05-16-add-diary-number-to-qualification	mikhuttu	migrations.xml	2022-05-23 11:29:30.794546	24	EXECUTED	8:6ddf477b9f0177424baff20ba163fbc2	addColumn tableName=qualification		\N	4.5.0	\N	\N	3305370576
 \.
 
 
