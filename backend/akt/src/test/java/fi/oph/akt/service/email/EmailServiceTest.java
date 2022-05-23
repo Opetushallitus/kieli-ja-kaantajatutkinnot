@@ -76,6 +76,32 @@ class EmailServiceTest {
   }
 
   @Test
+  public void saveEmailSavesOnlyTheEmailFromAddressTest() {
+    final EmailData emailData = EmailData
+      .builder()
+      .recipientName("Vastaanottaja")
+      .recipientAddress("Erkki Esimerkki <vastaanottaja@invalid>")
+      .subject("testiotsikko")
+      .body("testiviesti")
+      .build();
+
+    final Long emailId = emailService.saveEmail(EmailType.CONTACT_REQUEST_TRANSLATOR, emailData);
+    final Email email = emailRepository.getById(emailId);
+
+    assertEquals(EmailType.CONTACT_REQUEST_TRANSLATOR, email.getEmailType());
+    assertEquals("Vastaanottaja", email.getRecipientName());
+    assertEquals("vastaanottaja@invalid", email.getRecipientAddress());
+    assertEquals("testiotsikko", email.getSubject());
+    assertEquals("testiviesti", email.getBody());
+    assertNull(email.getSentAt());
+    assertNull(email.getError());
+    assertNull(email.getExtId());
+
+    final List<Email> allEmails = emailRepository.findAll();
+    assertEquals(1, allEmails.size());
+  }
+
+  @Test
   public void sendEmailSuccessTest() throws JsonProcessingException {
     final Email email = Factory.email(EmailType.CONTACT_REQUEST_TRANSLATOR);
     final Email savedEmail = entityManager.persist(email);
@@ -119,5 +145,17 @@ class EmailServiceTest {
     emailService.sendEmail(111);
 
     verifyNoInteractions(emailSenderMock);
+  }
+
+  @Test
+  public void cleanAddressTest() {
+    assertNull(EmailService.cleanAddress(null));
+    assertEquals("", EmailService.cleanAddress(""));
+    assertEquals("a", EmailService.cleanAddress("a"));
+    assertEquals("a@b.c", EmailService.cleanAddress("a@b.c"));
+    assertEquals("<a@b.c", EmailService.cleanAddress("<a@b.c"));
+    assertEquals("a@b.c>", EmailService.cleanAddress("a@b.c>"));
+    assertEquals("a@b.c", EmailService.cleanAddress("<a@b.c>"));
+    assertEquals("a@b.c", EmailService.cleanAddress("Name of the recipient <a@b.c>"));
   }
 }
