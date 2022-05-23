@@ -6,7 +6,7 @@ import { useAppTranslation } from 'configs/i18n';
 
 export const PublicInterpreterListingHeader = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'otr.pages.homepage.interpreter',
+    keyPrefix: 'otr.component.publicInterpreterListing.header',
   });
   const { isPhone } = useWindowProperties();
 
@@ -14,16 +14,17 @@ export const PublicInterpreterListingHeader = () => {
     <TableHead>
       {!isPhone && (
         <TableRow>
-          <TableCell />
           <TableCell>
-            <H3>{t('name')}</H3>
+            <H3 className="public-interpreter-listing__name-header">
+              {t('name')}
+            </H3>
           </TableCell>
           <TableCell>
             <H3>{t('languagePairs')}</H3>
           </TableCell>
           <TableCell>
             <div className="columns space-between">
-              <H3>{t('area')}</H3>
+              <H3>{t('region')}</H3>
             </div>
           </TableCell>
         </TableRow>

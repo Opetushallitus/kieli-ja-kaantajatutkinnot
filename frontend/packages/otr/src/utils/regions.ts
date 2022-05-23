@@ -1,4 +1,5 @@
 import { I18nNamespace } from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 
 import { translateOutsideComponent } from 'configs/i18n';
 
@@ -9,6 +10,18 @@ export class RegionUtils {
     return t(`otr.koodisto.regions.${region}`, {
       ns: I18nNamespace.KoodistoRegions,
     });
+  }
+
+  static getRegionAutocompleteValues(regions: Array<string>) {
+    const regionValues = regions.map(
+      (r) =>
+        ({
+          value: r,
+          label: RegionUtils.translateRegion(r),
+        } as ComboBoxOption)
+    );
+
+    return regionValues.sort(RegionUtils.compareOptionsByLabel);
   }
 
   static translateAndConcatRegions(regions: Array<string>) {
@@ -25,5 +38,9 @@ export class RegionUtils {
     return t('otr.common.allRegions', {
       ns: I18nNamespace.Common,
     });
+  }
+
+  private static compareOptionsByLabel(a: ComboBoxOption, b: ComboBoxOption) {
+    return a.label > b.label ? 1 : -1;
   }
 }

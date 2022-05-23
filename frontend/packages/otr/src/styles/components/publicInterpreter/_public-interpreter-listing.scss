@@ -15,6 +15,10 @@
     }
   }
 
+  & &__name-header {
+    margin-left: 5.5rem;
+  }
+
   &-row {
     & > td {
       border-bottom: unset;
@@ -23,7 +27,16 @@
     &__collapse {
       &#{&} {
         padding-bottom: 0;
+        padding-left: 7rem;
         padding-top: 0;
+
+        @include phone {
+          padding-left: 1.5rem;
+        }
+      }
+
+      &__fields {
+        margin-left: 3rem;
       }
     }
 
