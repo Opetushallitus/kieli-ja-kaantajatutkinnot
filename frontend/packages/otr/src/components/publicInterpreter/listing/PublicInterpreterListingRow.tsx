@@ -5,8 +5,8 @@ import { useWindowProperties } from 'shared/hooks';
 import {
   PublicInterpreterDesktopCells,
   PublicInterpreterPhoneCells,
-} from 'components/publicInterpreter/listing/rowUtils/Cells';
-import { CollapsibleRow } from 'components/publicInterpreter/listing/rowUtils/CollapsibleRow';
+} from 'components/publicInterpreter/listing/row/Cells';
+import { CollapsibleRow } from 'components/publicInterpreter/listing/row/CollapsibleRow';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
 export const PublicInterpreterListingRow = ({

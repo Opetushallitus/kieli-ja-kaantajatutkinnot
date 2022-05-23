@@ -1,7 +1,7 @@
 import { TableCell } from '@mui/material';
 import { H2, H3, Text } from 'shared/components';
 
-import { CollapseToggle } from 'components/publicInterpreter/listing/rowUtils/CollapseToggle';
+import { CollapseToggle } from 'components/publicInterpreter/listing/row/CollapseToggle';
 import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,

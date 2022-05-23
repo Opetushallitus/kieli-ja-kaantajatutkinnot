@@ -12,7 +12,7 @@ export class RegionUtils {
     });
   }
 
-  static createRegionAutocompleteValues(regions: Array<string>) {
+  static getRegionAutocompleteValues(regions: Array<string>) {
     const regionValues = regions.map(
       (r) =>
         ({
@@ -21,7 +21,7 @@ export class RegionUtils {
         } as ComboBoxOption)
     );
 
-    return regionValues.sort(RegionUtils.sortAutocompleteOption);
+    return regionValues.sort(RegionUtils.compareOptionsByLabel);
   }
 
   static translateAndConcatRegions(regions: Array<string>) {
@@ -40,7 +40,7 @@ export class RegionUtils {
     });
   }
 
-  private static sortAutocompleteOption(a: ComboBoxOption, b: ComboBoxOption) {
+  private static compareOptionsByLabel(a: ComboBoxOption, b: ComboBoxOption) {
     return a.label > b.label ? 1 : -1;
   }
 }

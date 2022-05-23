@@ -267,7 +267,7 @@ export const PublicInterpreterFilters = ({
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={RegionUtils.createRegionAutocompleteValues(
+            values={RegionUtils.getRegionAutocompleteValues(
               memoizedKoodistoRegions
             )}
             onKeyUp={handleKeyUp}
