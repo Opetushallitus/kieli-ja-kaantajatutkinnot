@@ -1,8 +1,9 @@
 package fi.oph.otr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.InterpreterDTO;
@@ -10,17 +11,21 @@ import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
+import fi.oph.otr.onr.OnrService;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -36,6 +41,9 @@ class PublicInterpreterServiceTest {
   @Resource
   private RegionRepository regionRepository;
 
+  @MockBean
+  private OnrService onrService;
+
   @Resource
   private TestEntityManager entityManager;
 
@@ -44,7 +52,7 @@ class PublicInterpreterServiceTest {
   @BeforeEach
   public void setup() {
     publicInterpreterService =
-      new PublicInterpreterService(interpreterRepository, qualificationRepository, regionRepository);
+      new PublicInterpreterService(interpreterRepository, qualificationRepository, regionRepository, onrService);
   }
 
   @Test
@@ -86,13 +94,39 @@ class PublicInterpreterServiceTest {
     // Hidden, deleted
     createQualificationDeleted(interpreter6, "FR", "FI", yesterday, nextWeek, true);
 
+    when(onrService.getPersonalDatas(any()))
+      .thenReturn(
+        Map.of(
+          interpreter1.getOnrId(),
+          PersonalData
+            .builder()
+            .firstName("Iiro")
+            .lastName("Rajala")
+            .identityNumber("1")
+            .email("iiro.rajala@example.invalid")
+            .phoneNumber("+3581234567")
+            .build(),
+          interpreter2.getOnrId(),
+          PersonalData
+            .builder()
+            .firstName("Ella")
+            .lastName("Heinänen")
+            .identityNumber("2")
+            .email("ella.heinanen@example.invalid")
+            .phoneNumber("+3582345678")
+            .build()
+        )
+      );
+
     final List<InterpreterDTO> interpreters = publicInterpreterService.list();
     assertEquals(2, interpreters.size());
 
     final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
     assertEquals(interpreter1.getId(), publishedInterpreter1.id());
+    assertEquals("Iiro", publishedInterpreter1.firstName());
+    assertEquals("Rajala", publishedInterpreter1.lastName());
     assertNull(publishedInterpreter1.email());
-    assertNotNull(publishedInterpreter1.phoneNumber());
+    assertEquals("+3581234567", publishedInterpreter1.phoneNumber());
     assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
     assertEquals(Set.of(), Set.copyOf(publishedInterpreter1.regions()));
 
@@ -102,7 +136,9 @@ class PublicInterpreterServiceTest {
 
     final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
     assertEquals(interpreter2.getId(), publishedInterpreter2.id());
-    assertNotNull(publishedInterpreter2.email());
+    assertEquals("Ella", publishedInterpreter2.firstName());
+    assertEquals("Heinänen", publishedInterpreter2.lastName());
+    assertEquals("ella.heinanen@example.invalid", publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());
     assertNull(publishedInterpreter2.otherContactInfo());
     assertEquals(Set.of("01", "02"), Set.copyOf(publishedInterpreter2.regions()));
