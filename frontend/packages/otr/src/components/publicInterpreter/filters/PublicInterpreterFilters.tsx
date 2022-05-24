@@ -15,6 +15,7 @@ import {
   CustomButton,
   H3,
   LanguageSelect,
+  languageToComboBoxOption,
 } from 'shared/components';
 import { Color, KeyboardKey, TextFieldVariant, Variant } from 'shared/enums';
 import { useDebounce, useWindowProperties } from 'shared/hooks';
@@ -37,7 +38,7 @@ import {
 } from 'redux/selectors/publicInterpreter';
 import { RegionUtils } from 'utils/regions';
 
-const LANGS_FROM = ['FI', 'SV'];
+const DEFAULT_FROM_LANG = 'FI';
 
 export const PublicInterpreterFilters = ({
   showTable,
@@ -59,7 +60,7 @@ export const PublicInterpreterFilters = ({
 
   // Defaults
   const defaultFiltersState = {
-    fromLang: '',
+    fromLang: DEFAULT_FROM_LANG,
     toLang: '',
     name: '',
     region: '',
@@ -67,7 +68,7 @@ export const PublicInterpreterFilters = ({
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: null,
+    fromLang: languageToComboBoxOption(translateLanguage, DEFAULT_FROM_LANG),
     toLang: null,
     name: '',
     region: null,
@@ -220,7 +221,8 @@ export const PublicInterpreterFilters = ({
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
               excludedLanguage={filters.toLang}
-              languages={LANGS_FROM}
+              languages={[DEFAULT_FROM_LANG]}
+              disabled={true}
               aria-label={`${t('languagePair.fromAriaLabel')}`}
               onKeyUp={handleKeyUp}
               translateLanguage={translateLanguage}
