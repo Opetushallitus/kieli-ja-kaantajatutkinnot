@@ -71,6 +71,19 @@ class ClerkInterpreterServiceTest {
     final LanguageService languageService = new LanguageService();
     languageService.init();
 
+    when(onrService.getPersonalDatas(any()))
+      .thenReturn(
+        Map.of(
+          "1",
+          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid"),
+          "2",
+          createPersonalData("Anna", "Aaltonen", "111009-abc", "anna@aaltonen.invalid")
+        )
+      );
+
+    when(onrService.getPersonalDatas(List.of("onrId")))
+      .thenReturn(Map.of("onrId", createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")));
+
     clerkInterpreterService =
       new ClerkInterpreterService(
         interpreterRepository,
@@ -330,10 +343,6 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testGetInterpreter() {
     final long id = createInterpreterWithRegions("onrId", List.of("01", "02"));
-
-    when(onrService.getPersonalDatas(List.of("onrId")))
-      .thenReturn(Map.of("onrId", createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")));
-
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
 
     assertEquals(id, interpreterDTO.id());
@@ -348,10 +357,6 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testUpdateInterpreter() {
     final long id = createInterpreter("onrId");
-
-    when(onrService.getPersonalDatas(List.of("onrId")))
-      .thenReturn(Map.of("onrId", createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")));
-
     final Interpreter interpreter = interpreterRepository.getById(id);
     final int initialVersion = interpreter.getVersion();
 
@@ -393,10 +398,6 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
     final long id = createInterpreter("onrId");
-
-    when(onrService.getPersonalDatas(List.of("onrId")))
-      .thenReturn(Map.of("onrId", createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")));
-
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -427,16 +428,6 @@ class ClerkInterpreterServiceTest {
     final long id = createInterpreter("1");
     createInterpreter("2");
 
-    when(onrService.getPersonalDatas(any()))
-      .thenReturn(
-        Map.of(
-          "1",
-          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid"),
-          "2",
-          createPersonalData("Anna", "Aaltonen", "111009-abc", "anna@aaltonen.invalid")
-        )
-      );
-
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
 
     interpreterRepository
@@ -456,9 +447,10 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
-
+    interpreter.setOnrId("onrId");
     entityManager.persist(interpreter);
+
+    final Qualification qualification = Factory.qualification(interpreter);
     entityManager.persist(qualification);
 
     final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
@@ -471,14 +463,6 @@ class ClerkInterpreterServiceTest {
       .permissionToPublish(false)
       .diaryNumber("1000")
       .build();
-
-    when(onrService.getPersonalDatas(List.of(interpreter.getOnrId())))
-      .thenReturn(
-        Map.of(
-          interpreter.getOnrId(),
-          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")
-        )
-      );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createQualification(
       interpreter.getId(),
@@ -539,9 +523,10 @@ class ClerkInterpreterServiceTest {
     final LocalDate end = LocalDate.now().plusMonths(1);
 
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
-
+    interpreter.setOnrId("onrId");
     entityManager.persist(interpreter);
+
+    final Qualification qualification = Factory.qualification(interpreter);
     entityManager.persist(qualification);
 
     final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
@@ -556,14 +541,6 @@ class ClerkInterpreterServiceTest {
       .permissionToPublish(true)
       .diaryNumber("2000")
       .build();
-
-    when(onrService.getPersonalDatas(List.of(interpreter.getOnrId())))
-      .thenReturn(
-        Map.of(
-          interpreter.getOnrId(),
-          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")
-        )
-      );
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.updateQualification(updateDTO);
 
@@ -619,16 +596,6 @@ class ClerkInterpreterServiceTest {
 
     final List<Long> qualificationIds = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
     final Long id = qualificationIds.get(0);
-
-    when(onrService.getPersonalDatas(any()))
-      .thenReturn(
-        Map.of(
-          "1",
-          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid"),
-          "2",
-          createPersonalData("Anna", "Aaltonen", "111009-abc", "anna@aaltonen.invalid")
-        )
-      );
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(id);
 
