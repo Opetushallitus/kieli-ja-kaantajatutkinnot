@@ -1,24 +1,16 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
   PublicInterpreter,
-  PublicInterpreterAction,
+  PublicInterpreterFilter,
   PublicInterpreterState,
 } from 'interfaces/publicInterpreter';
-import {
-  PUBLIC_INTERPRETER_ADD_FILTERS,
-  PUBLIC_INTERPRETER_EMPTY_FILTERS,
-  PUBLIC_INTERPRETER_ERROR,
-  PUBLIC_INTERPRETER_LOADING,
-  PUBLIC_INTERPRETER_RECEIVED,
-} from 'redux/actionTypes/publicInterpreter';
 
-const defaultState = {
+const initialState: PublicInterpreterState = {
   status: APIResponseStatus.NotStarted,
   interpreters: [],
   filters: {
-    errors: [],
     fromLang: '',
     toLang: '',
     name: '',
@@ -26,35 +18,40 @@ const defaultState = {
   },
 };
 
-export const publicInterpreterReducer: Reducer<
-  PublicInterpreterState,
-  PublicInterpreterAction
-> = (state = defaultState, action) => {
-  switch (action.type) {
-    case PUBLIC_INTERPRETER_LOADING:
-      return {
-        ...state,
-        status: APIResponseStatus.InProgress,
-      };
-    case PUBLIC_INTERPRETER_RECEIVED:
-      return {
-        ...state,
-        status: APIResponseStatus.Success,
-        interpreters: <Array<PublicInterpreter>>action.interpreters,
-      };
-    case PUBLIC_INTERPRETER_ERROR:
-      return { ...state, status: APIResponseStatus.Error };
-    case PUBLIC_INTERPRETER_ADD_FILTERS:
-      return {
-        ...state,
-        filters: { ...state.filters, ...action.filters },
-      };
-    case PUBLIC_INTERPRETER_EMPTY_FILTERS:
-      return {
-        ...state,
-        filters: { ...defaultState.filters },
-      };
-    default:
-      return state;
-  }
-};
+const publicInterpreterSlice = createSlice({
+  name: 'publicInterpreter',
+  initialState,
+  reducers: {
+    loadPublicInterpreters(state) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    addPublicInterpreterFilter(
+      state,
+      action: PayloadAction<PublicInterpreterFilter>
+    ) {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    emptyPublicInterpreterFilters(state) {
+      state.filters = initialState.filters;
+    },
+    storeFetchedPublicInterpreters(
+      state,
+      action: PayloadAction<Array<PublicInterpreter>>
+    ) {
+      state.status = APIResponseStatus.Success;
+      state.interpreters = action.payload;
+    },
+    loadingPublicInterpretersFailed(state) {
+      state.status = APIResponseStatus.Error;
+    },
+  },
+});
+
+export const publicInterpreterReducer = publicInterpreterSlice.reducer;
+export const {
+  loadPublicInterpreters,
+  addPublicInterpreterFilter,
+  emptyPublicInterpreterFilters,
+  storeFetchedPublicInterpreters,
+  loadingPublicInterpretersFailed,
+} = publicInterpreterSlice.actions;

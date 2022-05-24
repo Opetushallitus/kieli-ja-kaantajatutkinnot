@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Notifier } from 'interfaces/notifier';
-import { removeNotifierToast } from 'redux/actions/notifier';
+import { removeNotifierToast } from 'redux/reducers/notifier';
 import { notificationSelector } from 'redux/selectors/notifier';
 
 export const Toast = () => {

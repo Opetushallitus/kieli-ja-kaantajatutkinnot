@@ -3,13 +3,13 @@ import { FC, useEffect } from 'react';
 
 import { PublicInterpreterGrid } from 'components/publicInterpreter/PublicInterpreterGrid';
 import { useAppDispatch } from 'configs/redux';
-import { loadPublicInterpreters } from 'redux/actions/publicInterpreter';
+import { loadPublicInterpreters } from 'redux/reducers/publicInterpreter';
 
 export const PublicHomePage: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadPublicInterpreters);
+    dispatch(loadPublicInterpreters());
   }, [dispatch]);
 
   return (

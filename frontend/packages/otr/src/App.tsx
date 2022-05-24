@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import { initI18n } from 'configs/i18n';
 import { theme } from 'configs/materialUI';
-import { store } from 'configs/redux';
+import store from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
 
 import 'styles/styles.scss';

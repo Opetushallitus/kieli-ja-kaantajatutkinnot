@@ -30,7 +30,7 @@ import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-
 import {
   addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
-} from 'redux/actions/publicInterpreter';
+} from 'redux/reducers/publicInterpreter';
 import {
   filterPublicInterpreters,
   publicInterpretersSelector,
@@ -84,9 +84,7 @@ export const PublicInterpreterFilters = ({
 
   // Redux
   const dispatch = useAppDispatch();
-  const { filters: reduxFilters, interpreters } = useAppSelector(
-    publicInterpretersSelector
-  );
+  const { interpreters } = useAppSelector(publicInterpretersSelector);
 
   const langsTo = Array.from(
     new Set(
@@ -99,10 +97,6 @@ export const PublicInterpreterFilters = ({
   const filteredTranslatorCount = useMemo(() => {
     return filterPublicInterpreters(interpreters, filters).length;
   }, [interpreters, filters]);
-
-  const hasError = (fieldName: SearchFilter) => {
-    return reduxFilters.errors.includes(fieldName);
-  };
 
   // Handlers
   const handleSearchBtnClick = () => {
@@ -123,7 +117,7 @@ export const PublicInterpreterFilters = ({
     setFilters(defaultFiltersState);
     setInputValues(defaultFiltersState);
     setValues(defaultValuesState);
-    dispatch(emptyPublicInterpreterFilters);
+    dispatch(emptyPublicInterpreterFilters());
     scrollToSearch();
     setShowTable(false);
     setSearchButtonDisabled(false);
@@ -222,7 +216,6 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
-              showError={hasError(SearchFilter.FromLang)}
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
@@ -235,7 +228,6 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
-              showError={hasError(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
               id="filters-to-lang"

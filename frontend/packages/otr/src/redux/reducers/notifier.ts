@@ -1,49 +1,35 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import {
-  Dialog,
-  NotifierAction,
-  NotifierState,
-  Toast,
-} from 'interfaces/notifier';
-import {
-  NOTIFIER_DIALOG_ADD,
-  NOTIFIER_DIALOG_REMOVE,
-  NOTIFIER_TOAST_ADD,
-  NOTIFIER_TOAST_REMOVE,
-} from 'redux/actionTypes/notifier';
+import { Dialog, NotifierState, Toast } from 'interfaces/notifier';
 
-const defaultState = {
+const initialState: NotifierState = {
   dialogs: [],
   toasts: [],
 };
 
-export const notifierReducer: Reducer<NotifierState, NotifierAction> = (
-  state = defaultState,
-  action
-) => {
-  switch (action.type) {
-    case NOTIFIER_DIALOG_ADD:
-      return {
-        ...state,
-        dialogs: [...state.dialogs, <Dialog>action.notifier],
-      };
-    case NOTIFIER_DIALOG_REMOVE:
-      return {
-        ...state,
-        dialogs: state.dialogs.filter((d) => d.id != action.id),
-      };
-    case NOTIFIER_TOAST_ADD:
-      return {
-        ...state,
-        toasts: [...state.toasts, <Toast>action.notifier],
-      };
-    case NOTIFIER_TOAST_REMOVE:
-      return {
-        ...state,
-        toasts: state.toasts.filter((d) => d.id != action.id),
-      };
-    default:
-      return state;
-  }
-};
+const notifierSlice = createSlice({
+  name: 'notifier',
+  initialState,
+  reducers: {
+    removeNotifierDialog(state, action: PayloadAction<string>) {
+      state.dialogs = state.dialogs.filter((d) => d.id != action.payload);
+    },
+    removeNotifierToast(state, action: PayloadAction<string>) {
+      state.toasts = state.toasts.filter((d) => d.id != action.payload);
+    },
+    showNotifierDialog(state, action: PayloadAction<Dialog>) {
+      state.dialogs = [...state.dialogs, action.payload];
+    },
+    showNotifierToast(state, action: PayloadAction<Toast>) {
+      state.toasts = [...state.toasts, action.payload];
+    },
+  },
+});
+
+export const notifierReducer = notifierSlice.reducer;
+export const {
+  removeNotifierDialog,
+  removeNotifierToast,
+  showNotifierDialog,
+  showNotifierToast,
+} = notifierSlice.actions;
