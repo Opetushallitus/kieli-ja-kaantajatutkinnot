@@ -20,7 +20,7 @@ public class EmailScheduledSending {
 
   private static final String INITIAL_DELAY = "PT10S";
 
-  private static final String FIXED_DELAY = "PT1H";
+  private static final String FIXED_DELAY = "PT10S";
 
   private static final String LOCK_AT_LEAST = "PT0S";
 

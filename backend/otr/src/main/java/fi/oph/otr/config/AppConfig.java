@@ -34,7 +34,11 @@ public class AppConfig {
   public EmailSender emailSender(@Value("${otr.email.ryhmasahkoposti-service-url}") String emailServiceUrl) {
     LOG.info("emailServiceUrl:{}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
-    return new EmailSenderViestintapalvelu(webClient);
+    return new EmailSenderViestintapalvelu(
+      webClient,
+      ConfigEnums.SERVICENAME.value(),
+      ConfigEnums.EMAIL_SENDER_NAME.value()
+    );
   }
 
   @Bean
@@ -63,6 +67,6 @@ public class AppConfig {
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
-    return WebClient.builder().defaultHeader("Caller-Id", "1.2.246.562.10.00000000001.otr");
+    return WebClient.builder().defaultHeader("Caller-Id", ConfigEnums.CALLER_ID.value());
   }
 }
