@@ -17,7 +17,7 @@ public class OnrServiceMock implements OnrService {
     return personalDatas;
   }
 
-  public String savePersonalData(final PersonalData personalData) {
+  public String insertPersonalData(final PersonalData personalData) {
     return UUID.randomUUID().toString();
   }
 

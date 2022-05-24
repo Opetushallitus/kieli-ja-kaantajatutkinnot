@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -221,7 +220,7 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    when(onrService.savePersonalData(any())).thenReturn("onrId");
+    when(onrService.insertPersonalData(any())).thenReturn("onrId");
     when(onrService.getPersonalDatas(List.of("onrId")))
       .then(onMock ->
         Map.of(

@@ -146,8 +146,7 @@ public class ClerkInterpreterService {
     validateRegions(dto);
     dto.qualifications().forEach(this::validateLanguagePair);
 
-    // TODO: check from personal data cache that there is no existing interpreter with provided identity number
-    final String onrId = onrService.savePersonalData(createPersonalData(dto));
+    final String onrId = onrService.insertPersonalData(createPersonalData(dto));
 
     final Interpreter interpreter = new Interpreter();
     interpreter.setOnrId(onrId);
@@ -258,7 +257,6 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
 
-    // TODO: check from personal data cache that there is no other existing interpreter with provided identity number
     onrService.updatePersonalData(interpreter.getOnrId(), createPersonalData(dto));
 
     final List<Region> regionsToDelete = new ArrayList<>(interpreter.getRegions());

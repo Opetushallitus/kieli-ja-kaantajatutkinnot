@@ -7,7 +7,7 @@ import java.util.Map;
 public interface OnrService {
   Map<String, PersonalData> getPersonalDatas(List<String> onrIds);
 
-  String savePersonalData(PersonalData personalData);
+  String insertPersonalData(PersonalData personalData);
 
   void updatePersonalData(String onrId, PersonalData personalData);
 }
