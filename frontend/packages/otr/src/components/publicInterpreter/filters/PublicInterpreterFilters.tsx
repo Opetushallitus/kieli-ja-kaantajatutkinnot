@@ -254,13 +254,13 @@ export const PublicInterpreterFilters = ({
           />
         </div>
         <div className="public-interpreter-filters__filter">
-          <H3>{t('town.title')}</H3>
+          <H3>{t('region.title')}</H3>
           <ComboBox
-            data-testid="public-interpreter-filters__town-combobox"
+            data-testid="public-interpreter-filters__region-combobox"
             {...getComboBoxAttributes(SearchFilter.Region)}
-            placeholder={t('town.placeholder')}
-            label={t('town.placeholder')}
-            id="filters-town"
+            placeholder={t('region.placeholder')}
+            label={t('region.placeholder')}
+            id="filters-region"
             values={RegionUtils.getRegionAutocompleteValues(
               memoizedKoodistoRegions
             )}
