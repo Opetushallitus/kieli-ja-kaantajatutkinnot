@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { ClerkInterpreterListing } from 'components/clerkInterpreter/ClerkInterpreterListing';
+import { ClerkInterpreterListing } from 'components/clerkInterpreter/listing/ClerkInterpreterListing';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';

@@ -2,8 +2,8 @@ import { Box } from '@mui/system';
 import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
-import { ClerkInterpreterListingHeader } from 'components/clerkInterpreter/ClerkInterpreterListingHeader';
-import { ClerkInterpreterListingRow } from 'components/clerkInterpreter/ClerkInterpreterListingRow';
+import { ClerkInterpreterListingHeader } from 'components/clerkInterpreter/listing/ClerkInterpreterListingHeader';
+import { ClerkInterpreterListingRow } from 'components/clerkInterpreter/listing/ClerkInterpreterListingRow';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
