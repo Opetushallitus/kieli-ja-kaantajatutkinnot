@@ -8,12 +8,12 @@ export interface ClerkInterpreter extends WithId, WithVersion {
   identityNumber: string;
   firstName: string;
   lastName: string;
-  nickName: string;
   email: string;
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;
   permissionToPublishOtherContactInfo: boolean;
   qualifications: Array<Qualification>;
+  regions: Array<string>;
   // Optional fields
   phoneNumber?: string;
   otherContactInfo?: string;
@@ -21,8 +21,6 @@ export interface ClerkInterpreter extends WithId, WithVersion {
   postalCode?: string;
   town?: string;
   extraInformation?: string;
-  // TODO Marked as optional, should actually be a required field?
-  regions: Array<string>;
 }
 
 export interface ClerkInterpreterResponse
