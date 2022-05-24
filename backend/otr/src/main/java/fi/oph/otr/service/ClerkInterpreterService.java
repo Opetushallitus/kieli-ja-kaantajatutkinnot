@@ -12,6 +12,8 @@ import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
+import fi.oph.otr.onr.OnrService;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
@@ -23,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Resource;
@@ -50,6 +51,9 @@ public class ClerkInterpreterService {
   @Resource
   private final LanguageService languageService;
 
+  @Resource
+  private final OnrService onrService;
+
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> list() {
     final Map<Long, List<InterpreterRegionProjection>> interpreterRegionProjections = regionRepository
@@ -62,10 +66,16 @@ public class ClerkInterpreterService {
       .stream()
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
-    return interpreterRepository
-      .findAll()
+    final List<Interpreter> interpreters = interpreterRepository.findAll();
+
+    final Map<String, PersonalData> personalDatas = onrService.getPersonalDatas(
+      interpreters.stream().map(Interpreter::getOnrId).toList()
+    );
+
+    return interpreters
       .stream()
       .map(interpreter -> {
+        final PersonalData personalData = personalDatas.get(interpreter.getOnrId());
         final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
 
         final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
@@ -73,13 +83,14 @@ public class ClerkInterpreterService {
           Collections.emptyList()
         );
 
-        return createClerkInterpreterDTO(interpreter, qualifications, regionProjections);
+        return createClerkInterpreterDTO(interpreter, personalData, qualifications, regionProjections);
       })
       .toList();
   }
 
   private ClerkInterpreterDTO createClerkInterpreterDTO(
     final Interpreter interpreter,
+    final PersonalData personalData,
     final List<Qualification> qualifications,
     final List<InterpreterRegionProjection> regionProjections
   ) {
@@ -90,25 +101,24 @@ public class ClerkInterpreterService {
 
     final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
 
-    // FIXME fetch details from onr
     return ClerkInterpreterDTO
       .builder()
       .id(interpreter.getId())
       .version(interpreter.getVersion())
       .deleted(interpreter.isDeleted())
-      .identityNumber("TODO")
-      .firstName("Etunimi:" + interpreter.getOnrId())
-      .nickName("Kutsumanimi:" + interpreter.getOnrId())
-      .lastName("Sukunimi:" + interpreter.getOnrId())
-      .email("TODOfoo@bar.invalid")
+      .identityNumber(personalData.identityNumber())
+      .firstName(personalData.firstName())
+      .lastName(personalData.lastName())
+      .email(personalData.email())
       .permissionToPublishEmail(interpreter.isPermissionToPublishEmail())
-      .phoneNumber(null)
+      .phoneNumber(personalData.phoneNumber())
       .permissionToPublishPhone(interpreter.isPermissionToPublishPhone())
       .otherContactInfo(interpreter.getOtherContactInformation())
       .permissionToPublishOtherContactInfo(interpreter.isPermissionToPublishOtherContactInfo())
-      .street(null)
-      .postalCode(null)
-      .town(null)
+      .street(personalData.street())
+      .postalCode(personalData.postalCode())
+      .town(personalData.town())
+      .country(personalData.country())
       .extraInformation(interpreter.getExtraInformation())
       .regions(regions)
       .qualifications(qualificationDTOs)
@@ -136,9 +146,10 @@ public class ClerkInterpreterService {
     validateRegions(dto);
     dto.qualifications().forEach(this::validateLanguagePair);
 
-    // TODO set person data to ONR and get OID
+    final String onrId = onrService.insertPersonalData(createPersonalData(dto));
+
     final Interpreter interpreter = new Interpreter();
-    interpreter.setOnrId(UUID.randomUUID().toString());
+    interpreter.setOnrId(onrId);
 
     copyFromInterpreterDTO(interpreter, dto);
     interpreterRepository.save(interpreter);
@@ -168,6 +179,21 @@ public class ClerkInterpreterService {
           throw new APIException(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN);
         }
       });
+  }
+
+  private PersonalData createPersonalData(final ClerkInterpreterDTOCommonFields dto) {
+    return PersonalData
+      .builder()
+      .firstName(dto.firstName())
+      .lastName(dto.lastName())
+      .identityNumber(dto.identityNumber())
+      .email(dto.email())
+      .phoneNumber(dto.phoneNumber())
+      .street(dto.street())
+      .postalCode(dto.postalCode())
+      .town(dto.town())
+      .country(dto.country())
+      .build();
   }
 
   private void copyFromInterpreterDTO(final Interpreter interpreter, final ClerkInterpreterDTOCommonFields dto) {
@@ -231,11 +257,12 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getById(dto.id());
     interpreter.assertVersion(dto.version());
 
+    onrService.updatePersonalData(interpreter.getOnrId(), createPersonalData(dto));
+
     final List<Region> regionsToDelete = new ArrayList<>(interpreter.getRegions());
     interpreter.getRegions().removeAll(regionsToDelete);
     regionRepository.deleteAllInBatch(regionsToDelete);
 
-    // TODO update information to ONR
     copyFromInterpreterDTO(interpreter, dto);
     regionRepository.saveAll(interpreter.getRegions());
     interpreterRepository.saveAndFlush(interpreter);

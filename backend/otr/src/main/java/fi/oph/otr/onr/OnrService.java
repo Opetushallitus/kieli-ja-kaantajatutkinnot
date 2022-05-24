@@ -5,5 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface OnrService {
-  Map<String, PersonalData> getPersonalDatas(final List<String> onrIds);
+  Map<String, PersonalData> getPersonalDatas(List<String> onrIds);
+
+  String insertPersonalData(PersonalData personalData);
+
+  void updatePersonalData(String onrId, PersonalData personalData);
 }

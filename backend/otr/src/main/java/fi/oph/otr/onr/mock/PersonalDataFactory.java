@@ -10,7 +10,7 @@ public class PersonalDataFactory {
 
   private final AtomicInteger phoneNumberCounter = new AtomicInteger();
 
-  public PersonalData createPersonalData() {
+  public PersonalData create() {
     final String firstName = firstNames.next();
     final String lastName = lastNames.next();
     final int phoneCounter = phoneNumberCounter.incrementAndGet();
