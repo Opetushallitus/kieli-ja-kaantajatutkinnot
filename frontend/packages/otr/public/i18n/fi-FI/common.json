@@ -5,6 +5,7 @@
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
       "loadingContent": "Sisältöä ladataan",
       "ophLogo": "Opetushallituksen logo",
+      "rowsPerPageLabel": "Näytä sivulla",
       "searchResults": "Hakutulokset"
     }
   }

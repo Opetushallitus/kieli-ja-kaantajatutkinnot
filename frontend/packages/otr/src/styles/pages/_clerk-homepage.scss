@@ -1,0 +1,15 @@
+.clerk-homepage {
+  flex: 1;
+
+  & &__grid-container {
+    gap: 2rem;
+    padding: 2.5rem;
+    padding-bottom: 4rem;
+
+    &__register-controls {
+      & > button {
+        border-radius: 0;
+      }
+    }
+  }
+}

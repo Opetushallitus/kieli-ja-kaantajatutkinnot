@@ -4,6 +4,7 @@ export enum AppConstants {
 
 export enum AppRoutes {
   PublicHomePage = '/otr/etusivu',
+  ClerkHomePage = '/otr/virkailija',
   AccessibilityStatementPage = '/otr/saavutettavuusseloste',
   NotFoundPage = '*',
 }

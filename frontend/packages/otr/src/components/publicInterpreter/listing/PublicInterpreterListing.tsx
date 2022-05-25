@@ -57,9 +57,7 @@ export const PublicInterpreterListing = ({
             getRowDetails={getRowDetails}
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
-            rowsPerPageLabel={t(
-              'component.publicInterpreterListing.rowsPerPageLabel'
-            )}
+            rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
             stickyHeader
           />
         </>

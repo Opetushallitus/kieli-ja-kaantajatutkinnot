@@ -34,7 +34,7 @@ const publicInterpreterSlice = createSlice({
     emptyPublicInterpreterFilters(state) {
       state.filters = initialState.filters;
     },
-    storeFetchedPublicInterpreters(
+    storePublicInterpreters(
       state,
       action: PayloadAction<Array<PublicInterpreter>>
     ) {
@@ -52,6 +52,6 @@ export const {
   loadPublicInterpreters,
   addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
-  storeFetchedPublicInterpreters,
+  storePublicInterpreters,
   loadingPublicInterpretersFailed,
 } = publicInterpreterSlice.actions;

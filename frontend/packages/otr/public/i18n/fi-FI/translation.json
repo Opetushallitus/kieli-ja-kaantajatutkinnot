@@ -1,6 +1,17 @@
 {
   "otr": {
     "component": {
+      "clerkInterpreterListing": {
+        "header": {
+          "name": "Nimi",
+          "languagePairs": "Kieliparit",
+          "region": "Toiminta-alue",
+          "validFor": "Voimassa"
+        },
+        "row": {
+          "detailsButton": "Lisätiedot"
+        }
+      },
       "footer": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
@@ -84,8 +95,7 @@
             "otherContactInfo": "Muu yhteystieto",
             "phoneNumber": "Puhelinnumero"
           }
-        },
-        "rowsPerPageLabel": "Näytä sivulla"
+        }
       }
     },
     "errors": {
@@ -95,6 +105,11 @@
       "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
     },
     "pages": {
+      "clerkHomepage": {
+        "addInterpreter": "Lisää oikeustulkki",
+        "title": "Oikeustulkkirekisteri",
+        "register": "Rekisteri"
+      },
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
         "filters": {
