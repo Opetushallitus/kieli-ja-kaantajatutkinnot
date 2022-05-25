@@ -53,13 +53,14 @@ public class ProdImport {
     final Set<Integer> idsOfKnownDuplicateEmails = getTranslatorIdsOfKnownDuplicateEmails(translators);
     final Set<Integer> idsOfKnownDuplicateSsns = getTranslatorIdsOfKnownDuplicateSsns(translators);
     final Set<Integer> knownEmptyRows = getTranslatorIdsOfKnownEmptyLanguageRows();
+    final Set<Integer> translatorIdsWhichAreVirButEndDateIsReturned = getTranslatorIdsWhichAreVirButEndDateIsReturned();
 
     final List<Pair<TranslatorRow, List<LanguageRow>>> translatorsAndLanguages = translators
       .stream()
       .map(t -> {
         final List<LanguageRow> translatorLanguages = translatorLanguagesMap.getOrDefault(t.id(), new ArrayList<>());
         if (t.lastName().isBlank()) {
-          System.out.println("Skipping empty translator id" + t.id());
+          System.out.println("Skipping empty translator id:" + t.id());
           return null;
         }
         if (translatorLanguages.isEmpty()) {
@@ -69,7 +70,11 @@ public class ProdImport {
         final List<LanguageRow> languages = translatorLanguages
           .stream()
           .filter(lang -> lang.shouldBeImported(koodistoLangsMap, knownEmptyRows))
-          .flatMap(lang -> lang.splitRenewals(getTranslatorIdsHavingInvalidDates()).stream())
+          .flatMap(lang ->
+            lang
+              .splitRenewals(getTranslatorIdsHavingInvalidDates(), translatorIdsWhichAreVirButEndDateIsReturned)
+              .stream()
+          )
           .toList();
         return Pair.of(t, languages);
       })
@@ -140,7 +145,9 @@ public class ProdImport {
         .range(0, languages.size())
         .forEach(i -> {
           final LanguageRow lang = languages.get(i);
-          final Optional<org.apache.commons.lang3.tuple.Pair<LocalDate, LocalDate>> beginAndEnd = lang.resolveStartAndEndDate();
+          final Optional<org.apache.commons.lang3.tuple.Pair<LocalDate, LocalDate>> beginAndEnd = lang.resolveStartAndEndDate(
+            translatorIdsWhichAreVirButEndDateIsReturned
+          );
           final String insertAuthorisationSql =
             (
               "inserted_authorisation%s AS (INSERT INTO authorisation (translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish, diary_number, term_begin_date, term_end_date)" +
@@ -172,6 +179,10 @@ public class ProdImport {
       printWriter.println(sql);
     });
     printWriter.close();
+  }
+
+  private static Set<Integer> getTranslatorIdsWhichAreVirButEndDateIsReturned() {
+    return Set.of(4479);
   }
 
   private static Map<Integer, String> getTranslatorCityFixes() {

@@ -99,8 +99,11 @@ public record LanguageRow(
       .orElse(null);
   }
 
-  public Optional<Pair<LocalDate, LocalDate>> resolveStartAndEndDate() {
-    return resolveStartDate().map(start -> Pair.of(start, resolveEndDate(start)));
+  public Optional<Pair<LocalDate, LocalDate>> resolveStartAndEndDate(
+    final Set<Integer> translatorIdsWhichAreVirButEndDateIsReturned
+  ) {
+    return resolveStartDate()
+      .map(start -> Pair.of(start, resolveEndDate(start, translatorIdsWhichAreVirButEndDateIsReturned)));
   }
 
   private Optional<LocalDate> resolveStartDate() {
@@ -112,16 +115,23 @@ public record LanguageRow(
     );
   }
 
-  private LocalDate resolveEndDate(final LocalDate beginDate) {
+  private LocalDate resolveEndDate(
+    final LocalDate beginDate,
+    final Set<Integer> translatorIdsWhichAreVirButEndDateIsReturned
+  ) {
     if (authorisationBasis.isBlank() || Objects.equals("VIR", authorisationBasis)) {
       if (authorisationStatusDateEnd != null) {
-        System.out.println("FIXME VIR but authorisationStatusDateEnd defined, id:" + translatorId);
+        if (translatorIdsWhichAreVirButEndDateIsReturned.contains(translatorId)) {
+          return authorisationStatusDateEnd;
+        }
+        throw new RuntimeException("VIR but authorisationStatusDateEnd defined, id:" + translatorId);
       }
       return null;
     }
     if (authorisationStatusDateEnd != null && !Objects.equals(authorisationStatusDateEnd, beginDate)) {
       return authorisationStatusDateEnd;
     }
+//        throw new RuntimeException("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
     System.out.println("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
     return beginDate.plusYears(5);
   }
@@ -140,13 +150,19 @@ public record LanguageRow(
     return authorisationBasis.isBlank() ? "VIR" : authorisationBasis;
   }
 
-  public List<LanguageRow> splitRenewals(final Set<Integer> translatorIdsHavingInvalidDates) {
-    if (authorisationRenewDate != null && !"VIR".equals(resolveBasis())) {
+  public List<LanguageRow> splitRenewals(
+    final Set<Integer> translatorIdsHavingInvalidDates,
+    final Set<Integer> translatorIdsWhichAreVirButEndDateIsReturned
+  ) {
+    if (
+      (authorisationRenewDate != null && !"VIR".equals(resolveBasis())) ||
+      translatorIdsWhichAreVirButEndDateIsReturned.contains(translatorId)
+    ) {
       if (translatorIdsHavingInvalidDates.contains(translatorId)) {
         System.out.println("FIXME invalid begin, end and renewal dates id:" + translatorId);
         return List.of(this);
       }
-      return resolveStartAndEndDate()
+      return resolveStartAndEndDate(translatorIdsWhichAreVirButEndDateIsReturned)
         .map(dates -> {
           final LocalDate firstBegin = dates.getLeft();
           final LocalDate firstEnd = authorisationRenewDate;
