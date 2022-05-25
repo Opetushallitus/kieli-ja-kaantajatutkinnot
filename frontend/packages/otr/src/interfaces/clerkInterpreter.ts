@@ -20,6 +20,7 @@ export interface ClerkInterpreter extends WithId, WithVersion {
   street?: string;
   postalCode?: string;
   town?: string;
+  country?: string;
   extraInformation?: string;
 }
 
