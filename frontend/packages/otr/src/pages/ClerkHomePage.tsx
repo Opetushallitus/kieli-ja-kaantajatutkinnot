@@ -4,6 +4,9 @@ import { FC } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
+import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
+import { ClerkInterpreterAutocompleteFilters } from 'components/clerkInterpreter/filters/ClerkInterpreterAutocompleteFilters';
+import { ClerkInterpreterToggleFilters } from 'components/clerkInterpreter/filters/ClerkInterpreterToggleFilters';
 import { ClerkInterpreterListing } from 'components/clerkInterpreter/listing/ClerkInterpreterListing';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
@@ -43,6 +46,21 @@ export const ClerkHomePage: FC = () => {
       </Grid>
       <Grid item>
         <Divider />
+      </Grid>
+      <Grid item>
+        <div className="columns">
+          <div className="clerk-homepage__grid-container__register-controls grow columns">
+            <ClerkInterpreterToggleFilters />
+          </div>
+        </div>
+      </Grid>
+      <Grid item>
+        <ClerkInterpreterAutocompleteFilters />
+      </Grid>
+      <Grid item>
+        <div className="columns space-between">
+          <ClerkHomePageControlButtons />
+        </div>
       </Grid>
       <Grid item>
         <ClerkInterpreterListing />

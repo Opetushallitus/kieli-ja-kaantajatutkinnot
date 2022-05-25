@@ -7,6 +7,10 @@
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
+      "examinationType": {
+        "degreeStudies": "Korkeakouluopinnot",
+        "legalInterpreterExam": "Oikeustulkkauksen erikoisammattitutkinto"
+      },
       "loadingContent": "Sisältöä ladataan",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
@@ -14,6 +18,10 @@
       },
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
+      "permissionToPublish": {
+        "no": "Ei",
+        "yes": "Kyllä"
+      },
       "rowsPerPageLabel": "Näytä sivulla",
       "save": "Tallenna",
       "searchResults": "Hakutulokset",

@@ -1,6 +1,25 @@
 {
   "otr": {
     "component": {
+      "clerkInterpreterFilters": {
+        "examinationType": {
+          "placeholder": "Kaikki",
+          "title": "Suoritettu tutkinto"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Mistä",
+          "title": "Haku kieliparilla",
+          "toPlaceholder": "Mihin"
+        },
+        "name": {
+          "placeholder": "Nimi",
+          "title": "Haku oikeustulkin nimellä"
+        },
+        "permissionToPublish": {
+          "placeholder": "Kaikki",
+          "title": "Julkaisulupa"
+        }
+      },
       "clerkInterpreterListing": {
         "header": {
           "name": "Nimi",
