@@ -25,12 +25,15 @@ const clerkInterpreterSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;
     },
-    errorLoading(state) {
+    loadingClerkInterpretersFailed(state) {
       state.status = APIResponseStatus.Error;
     },
   },
 });
 
 export const clerkInterpreterReducer = clerkInterpreterSlice.reducer;
-export const { loadClerkInterpreters, storeClerkInterpreters, errorLoading } =
-  clerkInterpreterSlice.actions;
+export const {
+  loadClerkInterpreters,
+  storeClerkInterpreters,
+  loadingClerkInterpretersFailed,
+} = clerkInterpreterSlice.actions;

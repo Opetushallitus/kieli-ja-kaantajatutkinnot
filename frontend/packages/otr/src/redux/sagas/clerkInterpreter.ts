@@ -3,21 +3,15 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
+import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import {
-  ClerkInterpreter,
-  ClerkInterpreterResponse,
-} from 'interfaces/clerkInterpreter';
-import {
-  errorLoading,
+  loadClerkInterpreters,
+  loadingClerkInterpretersFailed,
   storeClerkInterpreters,
 } from 'redux/reducers/clerkInterpreter';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* storeResponse(interpreters: Array<ClerkInterpreter>) {
-  yield put(storeClerkInterpreters(interpreters));
-}
-
-export function* fetchClerkInterpreters() {
+function* fetchClerkInterpreters() {
   try {
     const response: AxiosResponse<Array<ClerkInterpreterResponse>> = yield call(
       axiosInstance.get,
@@ -26,15 +20,12 @@ export function* fetchClerkInterpreters() {
     const interpreters = response.data.map(
       SerializationUtils.deserializeClerkInterpreterResponse
     );
-    yield call(storeResponse, interpreters);
+    yield put(storeClerkInterpreters(interpreters));
   } catch (error) {
-    yield put(errorLoading());
+    yield put(loadingClerkInterpretersFailed());
   }
 }
 
 export function* watchFetchClerkInterpreters() {
-  yield takeLatest(
-    'clerkInterpreter/loadClerkInterpreters',
-    fetchClerkInterpreters
-  );
+  yield takeLatest(loadClerkInterpreters, fetchClerkInterpreters);
 }

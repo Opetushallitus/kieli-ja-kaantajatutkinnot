@@ -1,29 +1,21 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import { Divider, Grid, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { ClerkInterpreterListing } from 'components/clerkInterpreter/listing/ClerkInterpreterListing';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkHomePage: FC = () => {
   const { interpreters, status } = useAppSelector(clerkInterpretersSelector);
   const isLoading = status === APIResponseStatus.InProgress;
-  const dispatch = useAppDispatch();
 
   const { t } = useAppTranslation({ keyPrefix: 'otr.pages.clerkHomepage' });
-
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadClerkInterpreters());
-    }
-  }, [dispatch, status]);
 
   const renderClerkHomePageGrids = () => (
     <>

@@ -1,12 +1,14 @@
 import { Box } from '@mui/system';
+import { useEffect } from 'react';
 import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ClerkInterpreterListingHeader } from 'components/clerkInterpreter/listing/ClerkInterpreterListingHeader';
 import { ClerkInterpreterListingRow } from 'components/clerkInterpreter/listing/ClerkInterpreterListingRow';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import { loadClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 const getRowDetails = (interpreter: ClerkInterpreter) => {
@@ -15,7 +17,12 @@ const getRowDetails = (interpreter: ClerkInterpreter) => {
 
 export const ClerkInterpreterListing = () => {
   const { status, interpreters } = useAppSelector(clerkInterpretersSelector);
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (status === APIResponseStatus.NotStarted) {
+      dispatch(loadClerkInterpreters());
+    }
+  }, [dispatch, status]);
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
   const translateCommon = useCommonTranslation();
 
