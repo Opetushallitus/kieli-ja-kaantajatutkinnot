@@ -83,6 +83,8 @@ class PublicInterpreterServiceTest {
     final Qualification qualification12 = createQualification(interpreter1, "NO", "FI", yesterday, today, true);
     final Qualification qualification21 = createQualification(interpreter2, "SE", "FI", yesterday, nextWeek, true);
 
+    // Hidden, duplicate of qualification 21
+    createQualification(interpreter2, "SE", "FI", yesterday, nextWeek, true);
     // Hidden, no publish permission
     createQualification(interpreter3, "FI", "RU", yesterday, nextWeek, false);
     // Hidden, in past
