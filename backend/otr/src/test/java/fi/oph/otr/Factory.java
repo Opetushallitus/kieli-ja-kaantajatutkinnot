@@ -1,8 +1,11 @@
 package fi.oph.otr;
 
+import fi.oph.otr.model.Email;
+import fi.oph.otr.model.EmailType;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
+import fi.oph.otr.model.QualificationReminder;
 import fi.oph.otr.model.Region;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -38,5 +41,24 @@ public class Factory {
     region.setCode(code);
     interpreter.getRegions().add(region);
     return region;
+  }
+
+  public static Email email() {
+    final Email email = new Email();
+    email.setEmailType(EmailType.QUALIFICATION_EXPIRY);
+    email.setRecipientName("Ville Vastaanottaja");
+    email.setRecipientAddress("ville.vastaanottaja@invalid");
+    email.setSubject("Otsikko");
+    email.setBody("Sisältö on tässä");
+
+    return email;
+  }
+
+  public static QualificationReminder qualificationReminder(final Qualification qualification, final Email email) {
+    final QualificationReminder reminder = new QualificationReminder();
+    reminder.setQualification(qualification);
+    reminder.setEmail(email);
+    qualification.getReminders().add(reminder);
+    return reminder;
   }
 }

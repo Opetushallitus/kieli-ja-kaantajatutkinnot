@@ -55,5 +55,8 @@ cas:
   login: ${virkailija.cas.login:http://localhost:${server.port}/login}
 host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}
 otr:
+  email:
+    sending-enabled: ${email.sending-enabled:false}
+    ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}
   onr:
     enabled: ${onr.enabled:false}

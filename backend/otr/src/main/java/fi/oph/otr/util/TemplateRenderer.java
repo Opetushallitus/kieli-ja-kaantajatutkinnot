@@ -12,20 +12,8 @@ public class TemplateRenderer {
 
   private final TemplateEngine templateEngine;
 
-  public String renderAuthorisationExpiryEmailBody(final Map<String, Object> params) {
-    return renderTemplate("authorisation-expiry", params);
-  }
-
-  public String renderContactRequestClerkEmailBody(final Map<String, Object> params) {
-    return renderTemplate("contact-request-clerk", params);
-  }
-
-  public String renderContactRequestRequesterEmailBody(final Map<String, Object> params) {
-    return renderTemplate("contact-request-requester", params);
-  }
-
-  public String renderContactRequestTranslatorEmailBody(final Map<String, Object> params) {
-    return renderTemplate("contact-request-translator", params);
+  public String renderQualificationExpiryEmailBody(final Map<String, Object> params) {
+    return renderTemplate("qualification-expiry", params);
   }
 
   private String renderTemplate(final String template, final Map<String, Object> params) {

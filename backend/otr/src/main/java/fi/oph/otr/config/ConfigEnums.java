@@ -2,6 +2,7 @@ package fi.oph.otr.config;
 
 public enum ConfigEnums {
   CALLER_ID("1.2.246.562.10.00000000001.otr"),
+  EMAIL_SENDER_NAME("Oikeustulkkirekisteri"),
   SERVICENAME("otr");
 
   private final String value;

@@ -11,6 +11,6 @@ public class AuditConfiguration {
 
   @Bean
   public Audit audit() {
-    return new Audit(new LoggerImpl(), "otr", ApplicationType.VIRKAILIJA);
+    return new Audit(new LoggerImpl(), ConfigEnums.SERVICENAME.value(), ApplicationType.VIRKAILIJA);
   }
 }
