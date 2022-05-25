@@ -91,6 +91,7 @@ init-14	terova	migrations.xml	2022-04-07 16:54:20.656394	14	EXECUTED	8:3cb8287f5
 2022-05-20-create-email-table	mikhuttu	migrations.xml	2022-05-25 09:06:10.496692	26	EXECUTED	8:494bdd4265fc4b1d40ac0e4601c64ecb	createTable tableName=email; addForeignKeyConstraint baseTableName=email, constraintName=fk_email_email_type, referencedTableName=email_type		\N	4.5.0	\N	\N	3469570229
 2021-11-02-create-qualification_reminder-table	mikhuttu	migrations.xml	2022-05-25 09:06:10.507125	27	EXECUTED	8:c1799406058d3dc5666ab6e05813a2c1	createTable tableName=qualification_reminder; addForeignKeyConstraint baseTableName=qualification_reminder, constraintName=fk_qualification_reminder_qualification, referencedTableName=qualification; addForeignKeyConstraint baseTableName=qualificat...		\N	4.5.0	\N	\N	3469570229
 2022-05-20-create-shedlock-table	mikhuttu	migrations.xml	2022-05-25 09:06:10.513148	28	EXECUTED	8:8d3e6aaeff0d8838d329ebbaa95bc096	createTable tableName=shedlock		\N	4.5.0	\N	\N	3469570229
+2022-05-25-qualification-from_lang-constraint	mikhuttu	migrations.xml	2022-05-25 10:26:06.079658	29	EXECUTED	8:8f0bf74902bb4a3960c328ca2c8ec108	sql		\N	4.5.0	\N	\N	3474365948
 \.
 
 

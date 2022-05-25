@@ -454,4 +454,13 @@
         </createTable>
     </changeSet>
 
+    <!-- For each row in production `kielipari` table, `kielesta` is `FI` and `kieleen` is the other language  -->
+    <changeSet id="2022-05-25-qualification-from_lang-constraint" author="mikhuttu">
+        <sql><![CDATA[
+            ALTER TABLE qualification
+                ADD CONSTRAINT ck_qualification_from_lang CHECK (from_lang = 'FI')
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

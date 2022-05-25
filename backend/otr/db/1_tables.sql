@@ -131,6 +131,7 @@ CREATE TABLE public.qualification (
     end_date date NOT NULL,
     diary_number character varying(255),
     CONSTRAINT ck_qualification_begin_date_end_date CHECK ((begin_date < end_date)),
+    CONSTRAINT ck_qualification_from_lang CHECK (((from_lang)::text = 'FI'::text)),
     CONSTRAINT ck_qualification_from_lang_to_lang CHECK (((from_lang)::text <> (to_lang)::text))
 );
 

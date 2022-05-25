@@ -80,11 +80,11 @@ class PublicInterpreterServiceTest {
     createRegion(interpreter3, "03");
 
     final Qualification qualification11 = createQualification(interpreter1, "FI", "EN", today, tomorrow, true);
-    final Qualification qualification12 = createQualification(interpreter1, "NO", "FI", yesterday, today, true);
-    final Qualification qualification21 = createQualification(interpreter2, "SE", "FI", yesterday, nextWeek, true);
+    final Qualification qualification12 = createQualification(interpreter1, "FI", "NO", yesterday, today, true);
+    final Qualification qualification21 = createQualification(interpreter2, "FI", "SE", yesterday, nextWeek, true);
 
     // Hidden, duplicate of qualification 21
-    createQualification(interpreter2, "SE", "FI", yesterday, nextWeek, true);
+    createQualification(interpreter2, "FI", "SE", yesterday, nextWeek, true);
     // Hidden, no publish permission
     createQualification(interpreter3, "FI", "RU", yesterday, nextWeek, false);
     // Hidden, in past
@@ -92,9 +92,9 @@ class PublicInterpreterServiceTest {
     // Hidden, in future
     createQualification(interpreter4, "FI", "DN", tomorrow, nextWeek, true);
     // Hidden, interpreter marked deleted
-    createQualification(interpreter5, "DE", "FI", yesterday, nextWeek, true);
+    createQualification(interpreter5, "FI", "DE", yesterday, nextWeek, true);
     // Hidden, deleted
-    createQualificationDeleted(interpreter6, "FR", "FI", yesterday, nextWeek, true);
+    createQualificationDeleted(interpreter6, "FI", "FR", yesterday, nextWeek, true);
 
     when(onrService.getPersonalDatas(any()))
       .thenReturn(
