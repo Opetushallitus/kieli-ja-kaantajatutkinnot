@@ -11,7 +11,7 @@ const initialState: PublicInterpreterState = {
   status: APIResponseStatus.NotStarted,
   interpreters: [],
   filters: {
-    fromLang: '',
+    fromLang: 'FI',
     toLang: '',
     name: '',
     region: '',

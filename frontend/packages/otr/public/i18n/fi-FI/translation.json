@@ -61,14 +61,14 @@
           "toHelperText": "Valitse kieli",
           "toPlaceholder": "Mihin"
         },
+        "region": {
+          "placeholder": "Toiminta-alue",
+          "title": "Haku oikeustulkin toiminta-alueella"
+        },
         "toasts": {
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
           "interpreterSelected": "Voit valita vain yhden kieliparin yhteydenottoon",
           "selectLanguagePair": "Valitse kielipari"
-        },
-        "town": {
-          "placeholder": "Toiminta-alue",
-          "title": "Haku oikeustulkin toiminta-alueella"
         }
       },
       "publicInterpreterListing": {

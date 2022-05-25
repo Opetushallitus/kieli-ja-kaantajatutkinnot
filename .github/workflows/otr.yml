@@ -49,9 +49,9 @@ jobs:
       - name: Format
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn otr:format
-      # - name: Run Jest Tests
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn otr:test:jest
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn otr:test:jest
       # - name: Run Cypress Tests
       #   uses: cypress-io/github-action@v3
       #   with:
