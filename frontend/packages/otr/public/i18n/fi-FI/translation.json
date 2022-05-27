@@ -33,7 +33,7 @@
           },
           "otrHomepage": {
             "ariaLabel": "Oikeustulkkirekisteri (oph.fi), avaa uudessa välilehdessä",
-            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
+            "link": "https://www.oph.fi/fi/palvelut/oikeustulkkirekisteri",
             "text": "Tietoa Oikeustulkkirekisteristä (oph.fi)"
           }
         }
@@ -107,8 +107,8 @@
     "pages": {
       "clerkHomepage": {
         "addInterpreter": "Lisää oikeustulkki",
-        "title": "Oikeustulkkirekisteri",
-        "register": "Rekisteri"
+        "register": "Rekisteri",
+        "title": "Oikeustulkkirekisteri"
       },
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",

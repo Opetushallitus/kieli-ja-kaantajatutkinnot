@@ -26,7 +26,7 @@ export const PublicInterpreterPhoneCells = ({
     <TableCell>
       <div className="rows gapped">
         <H2>{`${lastName} ${firstName}`}</H2>
-        <div className="columns gapped space-between">
+        <div className="columns gapped space-between align-items-start">
           <div className="rows gapped">
             <div>
               <H3>{t('header.languagePairs')}</H3>

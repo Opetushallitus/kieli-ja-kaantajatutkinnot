@@ -11,8 +11,26 @@
     }
 
     tr:hover {
-      background: $color-blue-200;
+      cursor: pointer;
     }
+
+    // FIXME
+    // tr:hover {
+    //   background: $color-blue-200;
+    // }
+    // &:hover ~ .public-interpreter-listing-row {
+    //   background: $color-blue-200;
+    // }
+
+    // {
+    //   &:hover &:hover ~ .public-interpreter-listing-row {
+    //     background: $color-blue-200;
+    //   }
+
+    //   &:hover ~ .public-interpreter-listing-row--collapsible {
+    //     background: $color-blue-200;
+    //   }
+    // }
   }
 
   & &__name-header {
@@ -20,28 +38,38 @@
   }
 
   &-row {
+    // FIXME
+    // &:hover + .public-interpreter-listing-row--collapsible {
+    //   background: $color-blue-200;
+    // }
+
     & > td {
       border-bottom: unset;
     }
 
-    &__collapse {
-      &#{&} {
+    &--collapsible {
+      td {
         padding-bottom: 0;
         padding-left: 7rem;
         padding-top: 0;
 
         @include phone {
-          padding-left: 1.5rem;
+          padding-left: 1.2rem;
         }
-      }
 
-      &__fields {
-        margin-left: 3rem;
+        &__fields {
+          margin-left: 3rem;
+        }
       }
     }
 
     &__extra-details {
       padding: map-get($spacing, 'lg') 0;
+
+      &__box {
+        display: inline-grid;
+        grid-template-columns: repeat(2, minmax(17rem, 1fr));
+      }
     }
   }
 }

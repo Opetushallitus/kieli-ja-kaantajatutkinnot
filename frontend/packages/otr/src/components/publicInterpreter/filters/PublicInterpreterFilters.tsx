@@ -187,7 +187,8 @@ export const PublicInterpreterFilters = ({
 
   const renderPhoneBottomAppBar = () =>
     isPhone &&
-    showTable && (
+    showTable &&
+    searchButtonDisabled && (
       <AppBar
         color={Color.Primary}
         className="public-interpreter-filters__app-bar"
