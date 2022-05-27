@@ -89,12 +89,12 @@
           "region": "Toiminta-alue"
         },
         "row": {
-          "ariaLabel": "Avaa lisätiedot",
-          "extraDetails": {
+          "additionalContactDetail": {
             "email": "Sähköposti",
             "otherContactInfo": "Muu yhteystieto",
             "phoneNumber": "Puhelinnumero"
-          }
+          },
+          "ariaLabel": "Avaa lisätiedot"
         }
       }
     },

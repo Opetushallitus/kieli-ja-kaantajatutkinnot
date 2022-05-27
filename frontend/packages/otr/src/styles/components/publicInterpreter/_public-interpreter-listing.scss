@@ -1,36 +1,20 @@
 .public-interpreter-listing {
   // Unset defaults
   tbody {
+    tr:hover {
+      background-color: unset;
+      cursor: pointer;
+    }
+
     tr:nth-child(even) {
-      background: unset;
+      background-color: unset;
+      cursor: auto;
     }
 
     tr:nth-child(4n + 3),
     tr:nth-child(4n + 4) {
-      background: $color-primary-light;
+      background-color: $color-primary-light;
     }
-
-    tr:hover {
-      cursor: pointer;
-    }
-
-    // FIXME
-    // tr:hover {
-    //   background: $color-blue-200;
-    // }
-    // &:hover ~ .public-interpreter-listing-row {
-    //   background: $color-blue-200;
-    // }
-
-    // {
-    //   &:hover &:hover ~ .public-interpreter-listing-row {
-    //     background: $color-blue-200;
-    //   }
-
-    //   &:hover ~ .public-interpreter-listing-row--collapsible {
-    //     background: $color-blue-200;
-    //   }
-    // }
   }
 
   & &__name-header {
@@ -38,11 +22,6 @@
   }
 
   &-row {
-    // FIXME
-    // &:hover + .public-interpreter-listing-row--collapsible {
-    //   background: $color-blue-200;
-    // }
-
     & > td {
       border-bottom: unset;
     }
@@ -63,12 +42,25 @@
       }
     }
 
-    &__extra-details {
+    &__additional-contact-details {
       padding: map-get($spacing, 'lg') 0;
+
+      @include phone {
+        gap: 1rem;
+      }
 
       &__box {
         display: inline-grid;
-        grid-template-columns: repeat(2, minmax(17rem, 1fr));
+        grid-template-columns: 1fr 5fr;
+
+        @include phone {
+          display: flex;
+          flex-direction: column;
+
+          p:last-of-type {
+            padding-left: 0.5rem;
+          }
+        }
       }
     }
   }

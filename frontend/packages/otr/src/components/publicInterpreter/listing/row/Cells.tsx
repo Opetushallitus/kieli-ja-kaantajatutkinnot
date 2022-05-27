@@ -24,9 +24,9 @@ export const PublicInterpreterPhoneCells = ({
 
   return (
     <TableCell>
-      <div className="rows gapped">
-        <H2>{`${lastName} ${firstName}`}</H2>
-        <div className="columns gapped space-between align-items-start">
+      <div className="columns space-between">
+        <div className="rows gapped">
+          <H2>{`${lastName} ${firstName}`}</H2>
           <div className="rows gapped">
             <div>
               <H3>{t('header.languagePairs')}</H3>
@@ -43,8 +43,8 @@ export const PublicInterpreterPhoneCells = ({
               <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
             </div>
           </div>
-          <CollapseToggle isOpen={isOpen} />
         </div>
+        <CollapseToggle isOpen={isOpen} />
       </div>
     </TableCell>
   );

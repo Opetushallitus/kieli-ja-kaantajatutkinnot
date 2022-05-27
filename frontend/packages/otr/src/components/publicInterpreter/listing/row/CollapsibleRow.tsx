@@ -7,6 +7,23 @@ import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
 const getInterpreterDetail = (field?: string) => field ?? '-';
 
+const AdditionalContactDetail = ({
+  label,
+  contactDetail,
+}: {
+  label: string;
+  contactDetail: string;
+}) => {
+  const { isPhone } = useWindowProperties();
+
+  return (
+    <div className="public-interpreter-listing-row__additional-contact-details__box">
+      <Text className="bold">{isPhone ? label : `${label}: `}</Text>
+      <Text>{contactDetail}</Text>
+    </div>
+  );
+};
+
 export const CollapsibleRow = ({
   isOpen,
   interpreter,
@@ -18,32 +35,25 @@ export const CollapsibleRow = ({
     keyPrefix: 'otr.component.publicInterpreterListing',
   });
   const { isPhone } = useWindowProperties();
+  const numOfCells = isPhone ? 0 : 3;
 
   return (
-    <TableRow className=" public-interpreter-listing-row public-interpreter-listing-row--collapsible">
-      <TableCell colSpan={isPhone ? 0 : 3}>
+    <TableRow className="public-interpreter-listing-row public-interpreter-listing-row--collapsible">
+      <TableCell colSpan={numOfCells}>
         <Collapse in={isOpen} timeout="auto" unmountOnExit>
-          <div className="columns public-interpreter-listing-row__extra-details">
-            <div className="rows margin-right-xs">
-              <div className="public-interpreter-listing-row__extra-details__box">
-                <Text className="bold">{t('row.extraDetails.email')}:</Text>
-                <Text>{getInterpreterDetail(interpreter.email)}</Text>
-              </div>
-              <div className="public-interpreter-listing-row__extra-details__box">
-                <Text className="bold">
-                  {t('row.extraDetails.phoneNumber')}:
-                </Text>
-                <Text>{getInterpreterDetail(interpreter.phoneNumber)}</Text>
-              </div>
-              <div className="public-interpreter-listing-row__extra-details__box">
-                <Text className="bold">
-                  {t('row.extraDetails.otherContactInfo')}:
-                </Text>
-                <Text>
-                  {getInterpreterDetail(interpreter.otherContactInfo)}
-                </Text>
-              </div>
-            </div>
+          <div className="public-interpreter-listing-row__additional-contact-details rows">
+            <AdditionalContactDetail
+              label={t('row.additionalContactDetail.email')}
+              contactDetail={getInterpreterDetail(interpreter.email)}
+            />
+            <AdditionalContactDetail
+              label={t('row.additionalContactDetail.phoneNumber')}
+              contactDetail={getInterpreterDetail(interpreter.phoneNumber)}
+            />
+            <AdditionalContactDetail
+              label={t('row.additionalContactDetail.otherContactInfo')}
+              contactDetail={getInterpreterDetail(interpreter.otherContactInfo)}
+            />
           </div>
         </Collapse>
       </TableCell>
