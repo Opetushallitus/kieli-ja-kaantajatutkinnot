@@ -9,8 +9,10 @@ import {
   useAppTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import { loadClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
 import { RegionUtils } from 'utils/regions';
 
 export const ClerkInterpreterListingRow = ({
@@ -18,11 +20,22 @@ export const ClerkInterpreterListingRow = ({
 }: {
   interpreter: ClerkInterpreter;
 }) => {
+  const dispatch = useAppDispatch();
   const { firstName, lastName, qualifications, regions } = interpreter;
   const translateLanguage = useKoodistoLanguagesTranslation();
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterListing.row',
   });
+
+  const interpreterDetailsURL = (id: number) =>
+    AppRoutes.ClerkInterpreterOverviewPage.replace(/:interpreterId$/, `${id}`);
+
+  const handleDetailsButtonClick = (
+    e: React.MouseEvent<HTMLAnchorElement> | undefined
+  ) => {
+    e?.stopPropagation();
+    dispatch(loadClerkInterpreterOverview({ id: interpreter.id }));
+  };
 
   return (
     <TableRow>
@@ -52,9 +65,10 @@ export const ClerkInterpreterListingRow = ({
       </TableCell>
       <TableCell>
         <Button
-          to={AppRoutes.ClerkHomePage}
+          to={interpreterDetailsURL(interpreter.id)}
           component={Link}
           color={Color.Secondary}
+          onClick={handleDetailsButtonClick}
           endIcon={<ArrowForwardIosOutlinedIcon />}
         >
           {t('detailsButton')}

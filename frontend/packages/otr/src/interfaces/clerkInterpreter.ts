@@ -33,3 +33,9 @@ export interface ClerkInterpreterState {
   interpreters: Array<ClerkInterpreter>;
   status: APIResponseStatus;
 }
+
+export interface ClerkInterpreterOverviewState {
+  interpreter?: ClerkInterpreter;
+  status: APIResponseStatus;
+  interpreterDetailsStatus: APIResponseStatus;
+}
