@@ -9,8 +9,9 @@ import {
 
 const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
-  status: APIResponseStatus.NotStarted,
+  overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsStatus: APIResponseStatus.NotStarted,
+  authorisationDetailsStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -18,21 +19,27 @@ const clerkInterpreterOverviewSlice = createSlice({
   initialState,
   reducers: {
     loadClerkInterpreterOverview(state, _action: PayloadAction<WithId>) {
-      state.status = APIResponseStatus.InProgress;
+      state.overviewStatus = APIResponseStatus.InProgress;
     },
     storeClerkInterpreterOverview(
       state,
       action: PayloadAction<ClerkInterpreter>
     ) {
-      state.status = APIResponseStatus.Success;
+      state.overviewStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;
     },
     loadingClerkInterpreterOverviewFailed(state) {
-      state.status = APIResponseStatus.Error;
+      state.overviewStatus = APIResponseStatus.Error;
     },
     resetClerkInterpreterOverview(state) {
-      state.status = initialState.status;
+      state.overviewStatus = initialState.overviewStatus;
       state.interpreter = initialState.interpreter;
+    },
+    resetClerkInterpreterDetailsUpdate(state) {
+      state.interpreterDetailsStatus = initialState.interpreterDetailsStatus;
+    },
+    updateClerkInterpreterDetails(state) {
+      state.interpreterDetailsStatus = APIResponseStatus.InProgress;
     },
   },
 });
@@ -44,4 +51,6 @@ export const {
   storeClerkInterpreterOverview,
   loadingClerkInterpreterOverviewFailed,
   resetClerkInterpreterOverview,
+  resetClerkInterpreterDetailsUpdate,
+  updateClerkInterpreterDetails,
 } = clerkInterpreterOverviewSlice.actions;
