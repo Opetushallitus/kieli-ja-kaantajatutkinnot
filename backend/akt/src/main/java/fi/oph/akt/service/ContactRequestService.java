@@ -135,7 +135,8 @@ public class ContactRequestService {
       getMessageLines(contactRequestDTO)
     );
 
-    final String subject = "Yhteydenotto kääntäjärekisteristä";
+    final String subject =
+      "Yhteydenotto auktorisoitujen kääntäjien rekisteristä | Kontaktförfrågan från registret över auktoriserade translatorer";
     final String body = templateRenderer.renderContactRequestTranslatorEmailBody(templateParams);
 
     translators.forEach(translator -> {
@@ -169,7 +170,7 @@ public class ContactRequestService {
       getMessageLines(contactRequestDTO)
     );
 
-    final String subject = "Lähettämäsi yhteydenottopyyntö";
+    final String subject = "Lähettämäsi yhteydenottopyyntö | Din kontaktförfrågan | Request for contact";
     final String body = templateRenderer.renderContactRequestRequesterEmailBody(templateParams);
 
     createEmail(requesterName, requesterEmail, subject, body, EmailType.CONTACT_REQUEST_REQUESTER);
@@ -196,9 +197,9 @@ public class ContactRequestService {
       environment.getRequiredProperty("host-virkailija")
     );
 
-    final String recipientName = "Auktoris - OPH";
+    final String recipientName = "Auktorisoitujen kääntäjien tutkintolautakunta";
     final String recipientAddress = "auktoris.lautakunta@oph.fi";
-    final String subject = "Yhteydenotto kääntäjään jonka postiosoite ei tiedossa";
+    final String subject = "Yhteydenotto kääntäjään jonka sähköposti ei tiedossa";
     final String body = templateRenderer.renderContactRequestClerkEmailBody(templateParams);
 
     createEmail(recipientName, recipientAddress, subject, body, EmailType.CONTACT_REQUEST_CLERK);

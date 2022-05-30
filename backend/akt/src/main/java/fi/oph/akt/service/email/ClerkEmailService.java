@@ -112,7 +112,7 @@ public class ClerkEmailService {
       .ifPresent(recipientAddress -> {
         final String recipientName = translator.getFullName();
 
-        final String emailSubject = "Auktorisointisi on päättymässä";
+        final String emailSubject = "Auktorisointisi on päättymässä | Din auktorisering går mot sitt slut";
 
         final String emailBody = getAuthorisationExpiryEmailBody(
           recipientName,
@@ -141,27 +141,36 @@ public class ClerkEmailService {
     final String toLangCode,
     final LocalDate expiryDate
   ) {
-    final String langPair =
+    final String langPairFI =
       languageService.getLocalisationValue(fromLangCode, Language.FI).orElse(fromLangCode) +
       " - " +
       languageService.getLocalisationValue(toLangCode, Language.FI).orElse(toLangCode);
 
-    final Optional<LocalDate> nextMeetingDateOption = meetingDateRepository
+    final String langPairSV =
+      languageService.getLocalisationValue(fromLangCode, Language.SV).orElse(fromLangCode) +
+      " - " +
+      languageService.getLocalisationValue(toLangCode, Language.SV).orElse(toLangCode);
+
+    final List<LocalDate> upcomingDates = meetingDateRepository
       .findAllByOrderByDateAsc()
       .stream()
       .map(MeetingDate::getDate)
       .filter(date -> date.isAfter(LocalDate.now()))
-      .findFirst();
+      .toList();
 
     final Map<String, Object> templateParams = Map.of(
       "translatorName",
       translatorName,
-      "langPair",
-      langPair,
+      "langPairFI",
+      langPairFI,
+      "langPairSV",
+      langPairSV,
       "expiryDate",
       formatDate(expiryDate),
-      "nextMeetingDate",
-      nextMeetingDateOption.map(this::formatDate).orElse("[ei tiedossa]")
+      "meetingDate1",
+      upcomingDates.size() >= 1 ? formatDate(upcomingDates.get(0)) : "-",
+      "meetingDate2",
+      upcomingDates.size() >= 2 ? formatDate(upcomingDates.get(1)) : "-"
     );
 
     return templateRenderer.renderAuthorisationExpiryEmailBody(templateParams);

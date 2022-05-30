@@ -152,7 +152,13 @@ class ContactRequestServiceTest {
           .stream()
           .filter(e -> e.recipientName().equals(t.getFullName()))
           .filter(e -> e.recipientAddress().equals(t.getEmail()))
-          .filter(e -> e.subject().equals("Yhteydenotto kääntäjärekisteristä"))
+          .filter(e ->
+            e
+              .subject()
+              .equals(
+                "Yhteydenotto auktorisoitujen kääntäjien rekisteristä | Kontaktförfrågan från registret över auktoriserade translatorer"
+              )
+          )
           .filter(e -> e.body().equals("<html>translator</html>"))
           .count()
       )
@@ -164,7 +170,7 @@ class ContactRequestServiceTest {
         .stream()
         .filter(e -> e.recipientName().equals("Sean Sender"))
         .filter(e -> e.recipientAddress().equals("sean.sender@invalid"))
-        .filter(e -> e.subject().equals("Lähettämäsi yhteydenottopyyntö"))
+        .filter(e -> e.subject().equals("Lähettämäsi yhteydenottopyyntö | Din kontaktförfrågan | Request for contact"))
         .filter(e -> e.body().equals("<html>requester</html>"))
         .count()
     );
@@ -200,7 +206,7 @@ class ContactRequestServiceTest {
         .stream()
         .filter(e -> e.recipientName().equals("Sean Sender"))
         .filter(e -> e.recipientAddress().equals("sean.sender@invalid"))
-        .filter(e -> e.subject().equals("Lähettämäsi yhteydenottopyyntö"))
+        .filter(e -> e.subject().equals("Lähettämäsi yhteydenottopyyntö | Din kontaktförfrågan | Request for contact"))
         .filter(e -> e.body().equals("<html>requester</html>"))
         .count()
     );
@@ -209,9 +215,9 @@ class ContactRequestServiceTest {
       1,
       emailDatas
         .stream()
-        .filter(e -> e.recipientName().equals("Auktoris - OPH"))
+        .filter(e -> e.recipientName().equals("Auktorisoitujen kääntäjien tutkintolautakunta"))
         .filter(e -> e.recipientAddress().equals("auktoris.lautakunta@oph.fi"))
-        .filter(e -> e.subject().equals("Yhteydenotto kääntäjään jonka postiosoite ei tiedossa"))
+        .filter(e -> e.subject().equals("Yhteydenotto kääntäjään jonka sähköposti ei tiedossa"))
         .filter(e -> e.body().equals("<html>clerk</html>"))
         .count()
     );

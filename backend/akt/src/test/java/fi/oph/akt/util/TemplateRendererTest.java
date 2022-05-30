@@ -23,12 +23,16 @@ class TemplateRendererTest {
       Map.of(
         "translatorName",
         "Jack Smith",
-        "langPair",
+        "langPairFI",
         "englanti - ruotsi",
+        "langPairSV",
+        "engelska - svenska",
         "expiryDate",
         "06.02.2022",
-        "nextMeetingDate",
-        "13.12.2021"
+        "meetingDate1",
+        "13.12.2021",
+        "meetingDate2",
+        "14.03.2022"
       )
     );
 
@@ -36,18 +40,9 @@ class TemplateRendererTest {
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Jack Smith"));
     assertTrue(renderedContent.contains("englanti - ruotsi"));
+    assertTrue(renderedContent.contains("engelska - svenska"));
     assertTrue(renderedContent.contains("06.02.2022"));
     assertTrue(renderedContent.contains("13.12.2021"));
-  }
-
-  @Test
-  public void testAuthorisationExpiryTemplateIsRenderedProperlyWhenNextMeetingDateIsNotKnown() {
-    final String renderedContent = templateRenderer.renderAuthorisationExpiryEmailBody(
-      Map.of("nextMeetingDate", "[ei tiedossa]")
-    );
-
-    assertNotNull(renderedContent);
-    assertTrue(renderedContent.contains("[ei tiedossa]"));
   }
 
   @Test

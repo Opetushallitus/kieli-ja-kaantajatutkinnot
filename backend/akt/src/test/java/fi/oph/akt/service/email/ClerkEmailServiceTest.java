@@ -71,6 +71,7 @@ public class ClerkEmailServiceTest {
   @BeforeEach
   public void setup() {
     final LanguageService languageService = new LanguageService();
+    languageService.init();
 
     clerkEmailService =
       new ClerkEmailService(
@@ -197,8 +198,8 @@ public class ClerkEmailServiceTest {
   @Test
   public void testCreateAuthorisationExpiryEmail() {
     final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.of(2020, 1, 10));
-    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2050, 1, 10));
-    final MeetingDate meetingDate3 = Factory.meetingDate(LocalDate.of(2060, 1, 10));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2050, 2, 11));
+    final MeetingDate meetingDate3 = Factory.meetingDate(LocalDate.of(2060, 3, 12));
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
 
@@ -219,12 +220,16 @@ public class ClerkEmailServiceTest {
     final Map<String, Object> expectedTemplateParams = Map.of(
       "translatorName",
       "Etu Suku",
-      "langPair",
+      "langPairFI",
       "ruotsi - englanti",
+      "langPairSV",
+      "svenska - engelska",
       "expiryDate",
       "01.12.2049",
-      "nextMeetingDate",
-      "10.01.2050"
+      "meetingDate1",
+      "11.02.2050",
+      "meetingDate2",
+      "12.03.2060"
     );
 
     when(templateRenderer.renderAuthorisationExpiryEmailBody(expectedTemplateParams))
@@ -238,7 +243,7 @@ public class ClerkEmailServiceTest {
 
     assertEquals("Etu Suku", emailData.recipientName());
     assertEquals("etu.suku@invalid", emailData.recipientAddress());
-    assertEquals("Auktorisointisi on päättymässä", emailData.subject());
+    assertEquals("Auktorisointisi on päättymässä | Din auktorisering går mot sitt slut", emailData.subject());
     assertEquals("Auktorisointisi päättyy 01.12.2049", emailData.body());
 
     verify(authorisationTermReminderRepository).save(any());
@@ -265,12 +270,16 @@ public class ClerkEmailServiceTest {
     final Map<String, Object> expectedTemplateParams = Map.of(
       "translatorName",
       "Etu Suku",
-      "langPair",
+      "langPairFI",
       "ruotsi - englanti",
+      "langPairSV",
+      "svenska - engelska",
       "expiryDate",
       "01.12.2049",
-      "nextMeetingDate",
-      "[ei tiedossa]"
+      "meetingDate1",
+      "-",
+      "meetingDate2",
+      "-"
     );
 
     when(templateRenderer.renderAuthorisationExpiryEmailBody(expectedTemplateParams))

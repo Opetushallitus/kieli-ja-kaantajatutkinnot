@@ -10,6 +10,9 @@
         <ul th:each="translator : ${translators}">
             <li><a th:href="@{https://{aktHost}/akt/virkailija/kaantaja/{id}(aktHost=${aktHost},id=${translator.id})}">[[${translator.name}]]</a></li>
         </ul>
+        <p>
+            Huomaa, että kääntäjien tietojen tarkastelu vaatii ensin Opintopolkuun kirjautumisen.
+        </p>
         <br/>
 
         <p>
