@@ -17,7 +17,12 @@
         },
         "permissionToPublish": {
           "placeholder": "Kaikki",
-          "title": "Julkaisulupa"
+          "title": "Kieliparin julkaisulupa"
+        },
+        "qualificationStatus": {
+          "effective": "Voimassa olevat",
+          "expired": "Umpeutuneet",
+          "expiring": "Umpeutumassa"
         }
       },
       "clerkInterpreterListing": {

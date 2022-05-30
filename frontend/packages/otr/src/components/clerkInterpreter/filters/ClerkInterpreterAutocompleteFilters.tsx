@@ -84,12 +84,12 @@ export const ClerkInterpreterAutocompleteFilters = () => {
     switch (permissionToPublish) {
       case PermissionToPublish.No:
         return {
-          label: translateCommon('permissionToPublish.no'),
+          label: translateCommon('no'),
           value: PermissionToPublish.No,
         };
       case PermissionToPublish.Yes:
         return {
-          label: translateCommon('permissionToPublish.yes'),
+          label: translateCommon('yes'),
           value: PermissionToPublish.Yes,
         };
     }

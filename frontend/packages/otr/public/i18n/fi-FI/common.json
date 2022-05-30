@@ -18,10 +18,6 @@
       },
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
-      "permissionToPublish": {
-        "no": "Ei",
-        "yes": "Kyllä"
-      },
       "rowsPerPageLabel": "Näytä sivulla",
       "save": "Tallenna",
       "searchResults": "Hakutulokset",

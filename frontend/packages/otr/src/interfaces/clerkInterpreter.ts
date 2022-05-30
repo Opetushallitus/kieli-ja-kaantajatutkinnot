@@ -1,11 +1,8 @@
 import { APIResponseStatus } from 'shared/enums';
 import { WithId, WithVersion } from 'shared/interfaces';
 
-import {
-  ExaminationType,
-  PermissionToPublish,
-  QualificationStatus,
-} from 'enums/interpreter';
+import { QualificationStatus } from 'enums/clerkInterpreter';
+import { ExaminationType, PermissionToPublish } from 'enums/interpreter';
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export interface ClerkInterpreter extends WithId, WithVersion {

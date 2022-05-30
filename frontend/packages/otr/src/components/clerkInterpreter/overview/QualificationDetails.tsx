@@ -29,14 +29,14 @@ export const QualificationDetails = () => {
     return null;
   }
 
-  const { effective, expired } =
-    QualificationUtils.groupClerkInterpreterQualificationsByStatus(
-      interpreter as ClerkInterpreter
-    );
+  const { effective, expired } = QualificationUtils.getQualificationsByStatus(
+    interpreter as ClerkInterpreter
+  );
 
   const groupedQualifications = {
     [QualificationStatus.Effective]: effective,
     [QualificationStatus.Expired]: expired,
+    [QualificationStatus.Expiring]: [],
   };
 
   const activeQualifications = groupedQualifications[selectedToggleFilter];

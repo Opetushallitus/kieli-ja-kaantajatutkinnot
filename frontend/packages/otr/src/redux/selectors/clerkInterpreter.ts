@@ -1,16 +1,41 @@
+import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 import { StringUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
+import { QualificationStatus } from 'enums/clerkInterpreter';
 import { PermissionToPublish } from 'enums/interpreter';
 import {
   ClerkInterpreter,
   ClerkInterpreterFilters,
 } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const clerkInterpretersSelector = (state: RootState) =>
   state.clerkInterpreter;
+
+export const selectClerkInterpretersByQualificationStatus = createSelector(
+  (state: RootState) => state.clerkInterpreter.interpreters,
+  (interpreters) => {
+    const currentDate = dayjs();
+    const [effective, expired, expiring] = Object.values(
+      QualificationStatus
+    ).map((qualificationStatus) =>
+      interpreters.filter(({ qualifications }) =>
+        qualifications.find((qualification) =>
+          matchesQualificationStatus(
+            { qualificationStatus },
+            qualification,
+            currentDate
+          )
+        )
+      )
+    );
+
+    return { effective, expiring, expired };
+  }
+);
 
 export const selectFilteredClerkInterpreters = createSelector(
   (state: RootState) => state.clerkInterpreter.interpreters,
@@ -39,11 +64,14 @@ const filterByQualificationCriteria = (
   { qualifications }: ClerkInterpreter,
   filters: ClerkInterpreterFilters
 ) => {
+  const currentDate = dayjs();
+
   return qualifications.find(
     (q) =>
       matchesLanguageFilters(filters, q) &&
       matchesExaminationType(filters, q) &&
-      matchesPermissionToPublish(filters, q)
+      matchesPermissionToPublish(filters, q) &&
+      matchesQualificationStatus(filters, q, currentDate)
   );
 };
 
@@ -82,6 +110,30 @@ const matchesLanguageFilters = (
     (matchesLang(toLang, qualification.fromLang) &&
       matchesLang(fromLang, qualification.toLang))
   );
+};
+
+const matchesQualificationStatus = (
+  { qualificationStatus }: ClerkInterpreterFilters,
+  qualification: Qualification,
+  currentDate: Dayjs
+) => {
+  switch (qualificationStatus) {
+    case QualificationStatus.Effective:
+      return QualificationUtils.isQualificationEffective(
+        qualification,
+        currentDate
+      );
+    case QualificationStatus.Expiring:
+      return QualificationUtils.isQualificationExpiring(
+        qualification,
+        currentDate
+      );
+    case QualificationStatus.Expired:
+      return QualificationUtils.isQualificationExpired(
+        qualification,
+        currentDate
+      );
+  }
 };
 
 // Helpers
