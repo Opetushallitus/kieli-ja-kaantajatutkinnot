@@ -49,17 +49,29 @@
         gap: 1rem;
       }
 
+      & &__link {
+        display: inline-block;
+        font-size: 1.6rem;
+        font-weight: normal;
+        justify-self: flex-start;
+        padding: 0;
+        text-transform: lowercase;
+      }
+
+      & &__link,
+      & &__text {
+        @include phone {
+          padding-left: 0.5rem;
+        }
+      }
+
       &__box {
         display: inline-grid;
-        grid-template-columns: 1fr 5fr;
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 
         @include phone {
           display: flex;
           flex-direction: column;
-
-          p:last-of-type {
-            padding-left: 0.5rem;
-          }
         }
       }
     }
