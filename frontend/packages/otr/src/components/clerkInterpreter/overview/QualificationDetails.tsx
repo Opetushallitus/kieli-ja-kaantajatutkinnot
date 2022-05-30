@@ -30,7 +30,7 @@ export const QualificationDetails = () => {
   }
 
   const { effective, expired } =
-    QualificationUtils.groupClerkInterpreterAuthorisationsByStatus(
+    QualificationUtils.groupClerkInterpreterQualificationsByStatus(
       interpreter as ClerkInterpreter
     );
 

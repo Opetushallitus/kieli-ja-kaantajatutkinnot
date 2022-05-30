@@ -10,8 +10,8 @@ import {
 const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
   overviewStatus: APIResponseStatus.NotStarted,
-  interpreterDetailsStatus: APIResponseStatus.NotStarted,
-  qualificationDetailsStatus: APIResponseStatus.NotStarted,
+  interpreterDetailsUpdateStatus: APIResponseStatus.NotStarted,
+  qualificationDetailsUpdateStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -35,11 +35,18 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.overviewStatus = initialState.overviewStatus;
       state.interpreter = initialState.interpreter;
     },
-    resetClerkInterpreterDetailsUpdate(state) {
-      state.interpreterDetailsStatus = initialState.interpreterDetailsStatus;
+    resetClerkInterpreterDetailsUpdate(
+      state,
+      _action: PayloadAction<ClerkInterpreter>
+    ) {
+      state.interpreterDetailsUpdateStatus =
+        initialState.interpreterDetailsUpdateStatus;
     },
-    updateClerkInterpreterDetails(state) {
-      state.interpreterDetailsStatus = APIResponseStatus.InProgress;
+    updateClerkInterpreterDetails(
+      state,
+      _action: PayloadAction<ClerkInterpreter>
+    ) {
+      state.interpreterDetailsUpdateStatus = APIResponseStatus.InProgress;
     },
   },
 });

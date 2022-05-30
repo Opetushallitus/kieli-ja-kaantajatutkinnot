@@ -38,6 +38,23 @@
           }
         },
         "qualifications": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Vaihda julkaisulupaa",
+              "dialog": {
+                "description": "Tämä muuttaa kieliparin näkymistä julkisessa rekisterissä.",
+                "header": "Haluatko varmasti vaihtaa julkaisulupaa?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Poista kielipari",
+              "dialog": {
+                "description": "Tätä toimintoa ei voi peruuttaa!",
+                "confirmButton": "Poista kielipari",
+                "header": "Haluatko varmasti poistaa kieliparin?"
+              }
+            }
+          },
           "buttons": {
             "add": "Lisää tutkinto"
           },

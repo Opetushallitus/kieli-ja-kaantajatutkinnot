@@ -70,7 +70,7 @@ const ClerkInterpreterDetailsTextField = ({
   );
 };
 
-export const ClerkTranslatorDetailsFields = ({
+export const ClerkInterpreterDetailsFields = ({
   interpreter,
   onFieldChange,
   editDisabled,

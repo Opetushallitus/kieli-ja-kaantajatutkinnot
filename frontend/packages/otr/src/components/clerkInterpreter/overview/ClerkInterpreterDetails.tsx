@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
-import { ClerkTranslatorDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
+import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
@@ -19,17 +19,17 @@ import { NotifierUtils } from 'utils/notifier';
 export const ClerkInterpreterDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { interpreter, interpreterDetailsStatus } = useAppSelector(
+  const { interpreter, interpreterDetailsUpdateStatus } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
 
   // Local State
-  const [interpreterDetails, setTranslatorDetails] = useState(interpreter);
+  const [interpreterDetails, setInterpreterDetails] = useState(interpreter);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
-  const resetLocalTranslatorDetails = useCallback(() => {
-    setTranslatorDetails(interpreter);
+  const resetLocalInterpreterDetails = useCallback(() => {
+    setInterpreterDetails(interpreter);
   }, [interpreter]);
 
   // I18n
@@ -38,14 +38,14 @@ export const ClerkInterpreterDetails = () => {
   });
 
   const resetToInitialState = useCallback(() => {
-    resetLocalTranslatorDetails();
+    resetLocalInterpreterDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
-  }, [resetLocalTranslatorDetails]);
+  }, [resetLocalInterpreterDetails]);
 
   useEffect(() => {
     if (
-      interpreterDetailsStatus === APIResponseStatus.Success &&
+      interpreterDetailsUpdateStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditInterpreterDetails
     ) {
       const toast = NotifierUtils.createNotifierToast(
@@ -56,7 +56,7 @@ export const ClerkInterpreterDetails = () => {
       dispatch(resetClerkInterpreterDetailsUpdate);
       setCurrentUIMode(UIMode.View);
     } else if (
-      interpreterDetailsStatus === APIResponseStatus.Cancelled &&
+      interpreterDetailsUpdateStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditInterpreterDetails
     ) {
       // Flow was reset through the cancel dialog -> reset UI state.
@@ -67,19 +67,19 @@ export const ClerkInterpreterDetails = () => {
     dispatch,
     resetToInitialState,
     t,
-    interpreterDetailsStatus,
+    interpreterDetailsUpdateStatus,
   ]);
 
-  const handleTranslatorDetailsChange =
+  const handleInterpreterDetailsChange =
     (field: keyof ClerkInterpreter) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const fieldValue = event.target.value;
-      const updatedTranslatorDetails = {
+      const updatedInterpreterDetails = {
         ...interpreterDetails,
         [field]: fieldValue,
       };
       setHasLocalChanges(true);
-      setTranslatorDetails(updatedTranslatorDetails as ClerkInterpreter);
+      setInterpreterDetails(updatedInterpreterDetails as ClerkInterpreter);
     };
 
   const onSave = () => {
@@ -89,7 +89,7 @@ export const ClerkInterpreterDetails = () => {
   };
 
   const onEdit = () => {
-    resetLocalTranslatorDetails();
+    resetLocalInterpreterDetails();
     setCurrentUIMode(UIMode.EditInterpreterDetails);
   };
 
@@ -99,10 +99,10 @@ export const ClerkInterpreterDetails = () => {
   useNavigationProtection(hasLocalChanges);
 
   return (
-    <ClerkTranslatorDetailsFields
+    <ClerkInterpreterDetailsFields
       interpreter={interpreterDetails}
       onFieldChange={(field: keyof ClerkInterpreter) =>
-        handleTranslatorDetailsChange(field)
+        handleInterpreterDetailsChange(field)
       }
       editDisabled={isViewMode}
       topControlButtons={

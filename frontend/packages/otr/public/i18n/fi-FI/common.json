@@ -8,6 +8,10 @@
       "delete": "Poista",
       "edit": "Muokkaa",
       "loadingContent": "Sisältöä ladataan",
+      "navigationProtection": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko varmasti poistua sivulta?"
+      },
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Näytä sivulla",

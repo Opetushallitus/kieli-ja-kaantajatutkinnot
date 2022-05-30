@@ -38,11 +38,12 @@ export const QualificationListing = ({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
 
-  const { qualificationDetailsStatus } = useAppSelector(
+  const { qualificationDetailsUpdateStatus } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
 
-  const isLoading = qualificationDetailsStatus === APIResponseStatus.InProgress;
+  const isLoading =
+    qualificationDetailsUpdateStatus === APIResponseStatus.InProgress;
 
   const defaultClassName = 'clerk-interpreter-details__qualifications-table';
   const combinedClassNames = isLoading
@@ -118,9 +119,11 @@ export const QualificationListing = ({
                     return;
                   }}
                   aria-label={t('actions.removal.ariaLabel')}
-                  data-testid={`qualifications-table__id-${
-                    q.id || i
-                  }-row__delete-button`}
+                  data-testid={
+                    q.id
+                      ? `qualifications-table__id-${q.id}-row__delete-button`
+                      : `qualifications-table__id-${i}-unsaved}-row__delete-button`
+                  }
                 >
                   <DeleteIcon color={Color.Error} />
                 </CustomIconButton>

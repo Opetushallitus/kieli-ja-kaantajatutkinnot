@@ -7,30 +7,26 @@ import {
   Qualification,
   QualificationsGroupedByStatus,
 } from 'interfaces/qualification';
-import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class QualificationUtils {
   static isQualificationEffective(
     { beginDate, endDate }: Qualification,
     currentDate: Dayjs
   ) {
-    if (endDate) {
-      return DateUtils.isDatePartBeforeOrEqual(currentDate, endDate);
-    } else if (beginDate) {
-      return true;
-    } else {
-      return false;
-    }
+    return (
+      DateUtils.isDatePartBeforeOrEqual(beginDate, currentDate) &&
+      DateUtils.isDatePartBeforeOrEqual(currentDate, endDate)
+    );
   }
 
   static isQualificationExpired(
     { endDate }: Qualification,
     currentDate: Dayjs
   ) {
-    return endDate && !DateUtils.isDatePartBeforeOrEqual(currentDate, endDate);
+    return !DateUtils.isDatePartBeforeOrEqual(currentDate, endDate);
   }
 
-  static groupClerkInterpreterAuthorisationsByStatus(
+  static groupClerkInterpreterQualificationsByStatus(
     clerkInterpreter: ClerkInterpreter
   ) {
     return clerkInterpreter.qualifications.reduce(
@@ -42,10 +38,6 @@ export class QualificationUtils {
       },
       { effective: [], expired: [] }
     );
-  }
-
-  static getKoodistoLangKeys() {
-    return Object.keys(koodistoLangsFI?.akt?.koodisto?.languages);
   }
 
   private static getQualificationStatus(qualification: Qualification) {
