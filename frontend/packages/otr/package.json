@@ -3,6 +3,9 @@
   "description": "Oikeustulkkirekisteri",
   "license": "MIT",
   "main": "index.js",
+  "msw": {
+    "workerDirectory": "public"
+  },
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
     "otr:build": "yarn g:webpack --env prod",
