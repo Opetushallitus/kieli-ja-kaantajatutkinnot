@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
+import { WithId } from 'shared/interfaces';
 
 import {
   ClerkInterpreter,
@@ -16,7 +17,7 @@ const clerkInterpreterOverviewSlice = createSlice({
   name: 'clerkInterpreterOverview',
   initialState,
   reducers: {
-    loadClerkInterpreterOverview(state) {
+    loadClerkInterpreterOverview(state, _action: PayloadAction<WithId>) {
       state.status = APIResponseStatus.InProgress;
     },
     storeClerkInterpreterOverview(

@@ -111,7 +111,12 @@
         "title": "Oikeustulkkirekisteri"
       },
       "clerkInterpreterOverviewPage": {
-        "title": "Oikeustulkin tiedot"
+        "title": "Oikeustulkin tiedot",
+        "toasts": {
+          "notFound": "Valittua kääntäjää ei löytynyt",
+          "updateFailed": "Tietojen tallennus epäonnistui",
+          "updated": "Tiedot tallennettiin"
+        }
       },
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",

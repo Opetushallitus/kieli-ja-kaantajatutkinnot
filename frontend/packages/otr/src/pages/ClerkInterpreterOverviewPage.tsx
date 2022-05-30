@@ -17,7 +17,7 @@ import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { NotifierUtils } from 'utils/notifier';
 
-export const ClerkTranslatorOverviewPage = () => {
+export const ClerkInterpreterOverviewPage = () => {
   // i18n
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
   // Redux
@@ -26,21 +26,21 @@ export const ClerkTranslatorOverviewPage = () => {
     clerkInterpreterOverviewSelector
   );
 
-  const selectedTranslatorId = interpreter?.id;
+  const selectedInterpreterId = interpreter?.id;
   // React Router
   const navigate = useNavigate();
   const params = useParams();
 
   const isLoading =
-    status === APIResponseStatus.InProgress || !selectedTranslatorId;
+    status === APIResponseStatus.InProgress || !selectedInterpreterId;
 
   useEffect(() => {
     if (
       status === APIResponseStatus.NotStarted &&
-      !selectedTranslatorId &&
+      !selectedInterpreterId &&
       params.interpreterId
     ) {
-      // Fetch translator overview
+      // Fetch Interpreter overview
       dispatch(loadClerkInterpreterOverview({ id: +params.interpreterId }));
     } else if (
       status === APIResponseStatus.Error ||
@@ -49,7 +49,7 @@ export const ClerkTranslatorOverviewPage = () => {
       // Show an error
       const toast = NotifierUtils.createNotifierToast(
         Severity.Error,
-        t('pages.clerkTranslatorOverview.toasts.notFound')
+        t('pages.clerkInterpreterOverviewPage.toasts.notFound')
       );
       dispatch(showNotifierToast(toast));
       navigate(AppRoutes.ClerkHomePage);
@@ -59,7 +59,7 @@ export const ClerkTranslatorOverviewPage = () => {
     dispatch,
     navigate,
     params.interpreterId,
-    selectedTranslatorId,
+    selectedInterpreterId,
     t,
   ]);
 

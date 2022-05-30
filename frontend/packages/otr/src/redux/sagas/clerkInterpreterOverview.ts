@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { WithId } from 'shared/interfaces';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -12,7 +13,7 @@ import {
 } from 'redux/reducers/clerkInterpreterOverview';
 import { SerializationUtils } from 'utils/serialization';
 
-function* fetchClerkInterpreterOverview(action: PayloadAction<string>) {
+function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
   try {
     const response: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.get,

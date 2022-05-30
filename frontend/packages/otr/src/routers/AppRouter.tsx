@@ -6,7 +6,7 @@ import { Header } from 'components/layouts/Header';
 import { Notifier } from 'components/notification/Notifier';
 import { AppRoutes } from 'enums/app';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
-import { ClerkTranslatorOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
+import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
@@ -28,7 +28,7 @@ export const AppRouter: FC = () => {
               />
               <Route
                 path={AppRoutes.ClerkInterpreterOverviewPage}
-                element={<ClerkTranslatorOverviewPage />}
+                element={<ClerkInterpreterOverviewPage />}
               />
             </Routes>
           </div>
