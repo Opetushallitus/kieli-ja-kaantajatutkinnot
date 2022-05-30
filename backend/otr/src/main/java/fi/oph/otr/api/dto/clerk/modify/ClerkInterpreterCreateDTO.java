@@ -25,7 +25,7 @@ public record ClerkInterpreterCreateDTO(
   String town,
   String country,
   String extraInformation,
-  @NonNull List<String> regions,
+  @NonNull @NotNull List<String> regions,
   @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications
 )
   implements ClerkInterpreterDTOCommonFields {}
