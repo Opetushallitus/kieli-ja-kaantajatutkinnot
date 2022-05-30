@@ -2,8 +2,8 @@ import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import { PublicHomePage } from 'pages/PublicHomePage';
-import { publicInterpreters10 } from 'tests/jest/__fixtures__/publicInterpreters10';
 import { render } from 'tests/jest/test-utils';
+import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 
 describe('PublicHomePage', () => {
   it('should show number of loaded interpreters in the search button', async () => {
