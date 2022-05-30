@@ -1,194 +1,97 @@
-// import { Add as AddIcon } from '@mui/icons-material';
-// import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
-// import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
-// import { AuthorisationStatus } from 'enums/clerkTranslator';
-// import { Authorisation } from 'interfaces/authorisation';
-// import { ClerkTranslator } from 'interfaces/clerkTranslator';
-// import { useEffect, useState } from 'react';
-// import { addAuthorisation } from 'redux/actions/authorisation';
-// import { deleteAuthorisation } from 'redux/actions/clerkTranslatorOverview';
-// import { loadExaminationDates } from 'redux/actions/examinationDate';
-// import { loadMeetingDates } from 'redux/actions/meetingDate';
-// import { showNotifierDialog } from 'redux/actions/notifier';
-// import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
-// import { authorisationSelector } from 'redux/selectors/authorisation';
-// import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
-// import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
-// import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
-// import {
-//   CustomButton,
-//   CustomModal,
-//   H3,
-//   Text,
-//   ToggleFilterGroup,
-// } from 'shared/components';
-// import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-// import { AuthorisationUtils } from 'utils/authorisation';
+import { Add as AddIcon } from '@mui/icons-material';
+import { useState } from 'react';
+import { CustomButton, H3, Text, ToggleFilterGroup } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
-// import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-// import { useAppDispatch, useAppSelector } from 'configs/redux';
-// import { NotifierUtils } from 'utils/notifier';
+import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
+import { useAppTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
+import { QualificationStatus } from 'enums/clerkInterpreter';
+import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { QualificationUtils } from 'utils/qualifications';
 
-// export const QualificationDetails = () => {
-//   // State
-//   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
-//     AuthorisationStatus.Authorised
-//   );
+export const QualificationDetails = () => {
+  // State
+  const [selectedToggleFilter, setSelectedToggleFilter] = useState(
+    QualificationStatus.Effective
+  );
 
-//   // Redux
-//   const { selectedTranslator } = useAppSelector(
-//     clerkTranslatorOverviewSelector
-//   );
-//   const passedMeetingDates = useAppSelector(
-//     selectMeetingDatesByMeetingStatus
-//   ).passed;
-//   const examinationDates = useAppSelector(selectExaminationDatesByStatus);
-//   const passedExaminationDates = examinationDates.passed;
+  // Redux
+  const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
 
-//   const { status } = useAppSelector(authorisationSelector);
-//   const dispatch = useAppDispatch();
-//   const [open, setOpen] = useState(false);
-//   const handleOpenModal = () => setOpen(true);
-//   const handleCloseModal = () => setOpen(false);
+  // I18n
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
+  });
 
-//   const handleAddAuthorisation = (authorisation: Authorisation) => {
-//     dispatch(addAuthorisation(authorisation));
-//   };
+  if (!interpreter) {
+    return null;
+  }
 
-//   // I18n
-//   const { t } = useAppTranslation({
-//     keyPrefix: 'akt.component.clerkTranslatorOverview.authorisations',
-//   });
-//   const translateCommon = useCommonTranslation();
+  const { effective, expired } =
+    QualificationUtils.groupClerkInterpreterAuthorisationsByStatus(
+      interpreter as ClerkInterpreter
+    );
 
-//   useEffect(() => {
-//     if (status === APIResponseStatus.Success) {
-//       handleCloseModal();
-//     }
-//   }, [status]);
+  const groupedQualifications = {
+    [QualificationStatus.Effective]: effective,
+    [QualificationStatus.Expired]: expired,
+  };
 
-//   useEffect(() => {
-//     dispatch(loadMeetingDates);
-//     dispatch(loadExaminationDates);
-//   }, [dispatch]);
+  const activeQualifications = groupedQualifications[selectedToggleFilter];
+  const toggleFilters = [
+    {
+      status: QualificationStatus.Effective,
+      count: groupedQualifications.effective.length,
+      testId: `clerk-interpreter-overview__qualification-details__toggle-button--${QualificationStatus.Effective}`,
+      label: t('toggleFilters.effective'),
+    },
+    {
+      status: QualificationStatus.Expired,
+      count: groupedQualifications.expired.length,
+      testId: `clerk-interpreter-overview__qualification-details___toggle-button--${QualificationStatus.Expired}`,
+      label: t('toggleFilters.expired'),
+    },
+  ];
 
-//   if (!selectedTranslator) {
-//     return null;
-//   }
+  const filterByQualificationStatus = (status: QualificationStatus) => {
+    setSelectedToggleFilter(status);
+  };
 
-//   const { authorised, expiring, expired, formerVIR } =
-//     AuthorisationUtils.groupClerkTranslatorAuthorisationsByStatus(
-//       selectedTranslator as ClerkTranslator
-//     );
-
-//   // Authorisations with status "Expiring" are shown under Authorised
-//   const groupedAuthorisations = {
-//     [AuthorisationStatus.Authorised]: [...authorised, ...expiring],
-//     [AuthorisationStatus.Expired]: expired,
-//     [AuthorisationStatus.FormerVIR]: formerVIR,
-//     [AuthorisationStatus.Expiring]: [],
-//   };
-
-//   const activeAuthorisations = groupedAuthorisations[selectedToggleFilter];
-//   const toggleFilters = [
-//     {
-//       status: AuthorisationStatus.Authorised,
-//       count: groupedAuthorisations.authorised.length,
-//       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Authorised}`,
-//       label: t('toggleFilters.effectives'),
-//     },
-//     {
-//       status: AuthorisationStatus.Expired,
-//       count: groupedAuthorisations.expired.length,
-//       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Expired}`,
-//       label: t('toggleFilters.expired'),
-//     },
-//     {
-//       status: AuthorisationStatus.FormerVIR,
-//       count: groupedAuthorisations.formerVIR.length,
-//       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.FormerVIR}`,
-//       label: t('toggleFilters.formerVIR'),
-//     },
-//   ];
-
-//   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
-//     setSelectedToggleFilter(status);
-//   };
-
-//   const onAuthorisationRemove = (authorisation: Authorisation) => {
-//     const notifier = NotifierUtils.createNotifierDialog(
-//       t('actions.removal.dialog.header'),
-//       Severity.Info,
-//       t('actions.removal.dialog.description'),
-//       [
-//         {
-//           title: translateCommon('back'),
-//           variant: Variant.Outlined,
-//           action: NOTIFIER_ACTION_DO_NOTHING,
-//         },
-//         {
-//           title: t('actions.removal.dialog.confirmButton'),
-//           variant: Variant.Contained,
-//           action: () =>
-//             dispatch(deleteAuthorisation(authorisation.id as number)),
-//           buttonColor: Color.Error,
-//         },
-//       ]
-//     );
-
-//     dispatch(showNotifierDialog(notifier));
-//   };
-
-//   return (
-//     <>
-//       <CustomModal
-//         data-testid="authorisation-details__add-authorisation-modal"
-//         open={open}
-//         onCloseModal={handleCloseModal}
-//         ariaLabelledBy="modal-title"
-//         modalTitle={translateCommon('addAuthorisation')}
-//       >
-//         <AddAuthorisation
-//           translatorId={selectedTranslator.id}
-//           meetingDates={passedMeetingDates}
-//           examinationDates={passedExaminationDates}
-//           onCancel={handleCloseModal}
-//           onAuthorisationAdd={handleAddAuthorisation}
-//           isLoading={status === APIResponseStatus.InProgress}
-//         />
-//       </CustomModal>
-//       <div className="rows gapped-xs">
-//         <div className="columns margin-top-sm">
-//           <H3 className="grow">{t('header')}</H3>
-//         </div>
-//         <div className="columns margin-top-sm space-between">
-//           <ToggleFilterGroup
-//             filters={toggleFilters}
-//             activeStatus={selectedToggleFilter}
-//             onButtonClick={filterByAuthorisationStatus}
-//           />
-//           <CustomButton
-//             data-testid="clerk-translator-overview__authorisation-details__add-btn"
-//             variant={Variant.Contained}
-//             color={Color.Secondary}
-//             startIcon={<AddIcon />}
-//             onClick={handleOpenModal}
-//           >
-//             {translateCommon('addAuthorisation')}
-//           </CustomButton>
-//         </div>
-//         {activeAuthorisations.length ? (
-//           <AuthorisationListing
-//             authorisations={activeAuthorisations}
-//             onAuthorisationRemove={onAuthorisationRemove}
-//             permissionToPublishReadOnly={false}
-//           />
-//         ) : (
-//           <Text className="centered bold margin-top-lg">
-//             {t('noAuthorisations')}
-//           </Text>
-//         )}
-//       </div>
-//     </>
-//   );
-// };
+  return (
+    <div className="rows gapped-xs">
+      <div className="columns margin-top-sm">
+        <H3 className="grow">{t('header')}</H3>
+      </div>
+      <div className="columns margin-top-sm space-between">
+        <ToggleFilterGroup
+          filters={toggleFilters}
+          activeStatus={selectedToggleFilter}
+          onButtonClick={filterByQualificationStatus}
+        />
+        <CustomButton
+          data-testid="clerk-interpreter-overview__qualifications-details__add-button"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          startIcon={<AddIcon />}
+          onClick={() => {
+            return;
+          }}
+        >
+          {t('buttons.add')}
+        </CustomButton>
+      </div>
+      {activeQualifications.length ? (
+        <QualificationListing
+          qualifications={activeQualifications}
+          permissionToPublishReadOnly={false}
+        />
+      ) : (
+        <Text className="centered bold margin-top-lg">
+          {t('noQualifications')}
+        </Text>
+      )}
+    </div>
+  );
+};

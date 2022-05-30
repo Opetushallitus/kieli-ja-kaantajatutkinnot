@@ -3,12 +3,17 @@
     "common": {
       "allRegions": "Koko Suomi",
       "back": "Takaisin",
+      "cancel": "Peruuta",
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
+      "delete": "Poista",
       "edit": "Muokkaa",
       "loadingContent": "Sisältöä ladataan",
+      "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Näytä sivulla",
-      "searchResults": "Hakutulokset"
+      "save": "Tallenna",
+      "searchResults": "Hakutulokset",
+      "yes": "Kyllä"
     }
   }
 }

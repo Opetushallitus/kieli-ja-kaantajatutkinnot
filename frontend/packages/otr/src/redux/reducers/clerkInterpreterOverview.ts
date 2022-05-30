@@ -11,7 +11,7 @@ const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
   overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsStatus: APIResponseStatus.NotStarted,
-  authorisationDetailsStatus: APIResponseStatus.NotStarted,
+  qualificationDetailsStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({

@@ -37,6 +37,24 @@
             "personalInformation": "Henkilötiedot"
           }
         },
+        "qualifications": {
+          "buttons": {
+            "add": "Lisää tutkinto"
+          },
+          "fields": {
+            "endDate": "Päättymispäivä",
+            "examinationType": "Koulutus",
+            "languagePair": "Kielipari",
+            "permissionToPublish": "Julkaisulupa",
+            "startDate": "Alkamispäivä"
+          },
+          "header": "Kieliparit",
+          "noQualifications": "Valituille kriteereille ei löytynyt tutkintoja",
+          "toggleFilters": {
+            "effective": "Voimassa olevat",
+            "expired": "Umpeutuneet"
+          }
+        },
         "toasts": {
           "notFound": "Valittua tulkkia ei löytynyt",
           "updateFailed": "Tietojen tallennus epäonnistui",

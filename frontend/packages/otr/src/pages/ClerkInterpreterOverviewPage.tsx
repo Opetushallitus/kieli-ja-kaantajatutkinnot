@@ -5,6 +5,7 @@ import { H1 } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
+import { QualificationDetails } from 'components/clerkInterpreter/overview/QualificationDetails';
 import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
 import { ClerkInterpreterOverviewPageSkeleton } from 'components/skeletons/ClerkInterpreterOverviewPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
@@ -84,6 +85,7 @@ export const ClerkInterpreterOverviewPage = () => {
             <TopControls />
             <div className="rows gapped">
               <ClerkInterpreterDetails />
+              <QualificationDetails />
             </div>
           </>
         )}

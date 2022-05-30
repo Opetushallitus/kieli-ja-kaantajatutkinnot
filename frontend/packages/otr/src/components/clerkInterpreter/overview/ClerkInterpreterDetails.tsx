@@ -38,11 +38,10 @@ export const ClerkInterpreterDetails = () => {
   });
 
   const resetToInitialState = useCallback(() => {
-    dispatch(resetClerkInterpreterDetailsUpdate);
     resetLocalTranslatorDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
-  }, [dispatch, resetLocalTranslatorDetails]);
+  }, [resetLocalTranslatorDetails]);
 
   useEffect(() => {
     if (
@@ -94,34 +93,8 @@ export const ClerkInterpreterDetails = () => {
     setCurrentUIMode(UIMode.EditInterpreterDetails);
   };
 
-  // const openCancelDialog = () => {
-  //   const dialog = NotifierUtils.createNotifierDialog(
-  //     t('interpreterDetails.cancelUpdateDialog.title'),
-  //     Severity.Info,
-  //     t('interpreterDetails.cancelUpdateDialog.description'),
-  //     [
-  //       {
-  //         title: translateCommon('back'),
-  //         variant: Variant.Outlined,
-  //         action: NOTIFIER_ACTION_DO_NOTHING,
-  //       },
-  //       {
-  //         title: translateCommon('yes'),
-  //         variant: Variant.Contained,
-  //         action: NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
-  //       },
-  //     ]
-  //   );
-  //   dispatch(showNotifierDialog(dialog));
-  // };
-
   const onCancel = () => {
-    if (!hasLocalChanges) {
-      resetToInitialState();
-    } else {
-      // TODO
-      // openCancelDialog();
-    }
+    resetToInitialState();
   };
   useNavigationProtection(hasLocalChanges);
 

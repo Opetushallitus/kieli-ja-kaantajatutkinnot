@@ -27,7 +27,7 @@ export const ControlButtons = ({
   if (isViewMode) {
     return (
       <CustomButton
-        data-testid="clerk-interpreter-overview__interpreter-details__edit-btn"
+        data-testid="clerk-interpreter-overview__interpreter-details__edit-button"
         variant={Variant.Contained}
         color={Color.Secondary}
         startIcon={<EditIcon />}
@@ -40,7 +40,7 @@ export const ControlButtons = ({
     return (
       <div className="columns gapped">
         <CustomButton
-          data-testid="clerk-interpreter-overview__interpreter-details__cancel-btn"
+          data-testid="clerk-interpreter-overview__interpreter-details__cancel-button"
           variant={Variant.Text}
           color={Color.Secondary}
           onClick={onCancel}
@@ -50,7 +50,7 @@ export const ControlButtons = ({
         </CustomButton>
         <LoadingProgressIndicator isLoading={isLoading}>
           <CustomButton
-            data-testid="clerk-interpreter-overview__interpreter-details__save-btn"
+            data-testid="clerk-interpreter-overview__interpreter-details__save-button"
             variant={Variant.Contained}
             color={Color.Secondary}
             onClick={onSave}

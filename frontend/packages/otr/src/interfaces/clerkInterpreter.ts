@@ -38,5 +38,5 @@ export interface ClerkInterpreterOverviewState {
   interpreter?: ClerkInterpreter;
   overviewStatus: APIResponseStatus;
   interpreterDetailsStatus: APIResponseStatus;
-  authorisationDetailsStatus: APIResponseStatus;
+  qualificationDetailsStatus: APIResponseStatus;
 }

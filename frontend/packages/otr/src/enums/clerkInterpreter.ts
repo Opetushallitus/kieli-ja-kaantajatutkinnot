@@ -1,5 +1,5 @@
 export enum QualificationStatus {
-  Valid = 'valid',
+  Effective = 'effective',
   Expired = 'expired',
 }
 
