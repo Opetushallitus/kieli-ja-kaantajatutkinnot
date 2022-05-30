@@ -39,6 +39,9 @@ const clerkInterpreterSlice = createSlice({
     loadingClerkInterpretersFailed(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetClerkInterpreterFilters(state) {
+      state.filters = initialState.filters;
+    },
     setClerkInterpreterFilters(
       state,
       action: PayloadAction<Partial<ClerkInterpreterFilters>>
@@ -60,6 +63,7 @@ export const clerkInterpreterReducer = clerkInterpreterSlice.reducer;
 export const {
   loadClerkInterpreters,
   loadingClerkInterpretersFailed,
+  resetClerkInterpreterFilters,
   setClerkInterpreterFilters,
   storeClerkInterpreters,
 } = clerkInterpreterSlice.actions;

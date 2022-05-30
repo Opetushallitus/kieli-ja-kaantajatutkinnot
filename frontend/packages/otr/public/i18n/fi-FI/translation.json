@@ -199,6 +199,9 @@
     "pages": {
       "clerkHomepage": {
         "addInterpreter": "Lisää oikeustulkki",
+        "buttons": {
+          "emptySelection": "Tyhjennä valinnat"
+        },
         "register": "Rekisteri",
         "title": "Oikeustulkkirekisteri"
       },
