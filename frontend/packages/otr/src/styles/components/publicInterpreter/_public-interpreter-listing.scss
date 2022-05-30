@@ -1,17 +1,19 @@
 .public-interpreter-listing {
   // Unset defaults
   tbody {
+    tr:hover {
+      background-color: unset;
+      cursor: pointer;
+    }
+
     tr:nth-child(even) {
-      background: unset;
+      background-color: unset;
+      cursor: auto;
     }
 
     tr:nth-child(4n + 3),
     tr:nth-child(4n + 4) {
-      background: $color-primary-light;
-    }
-
-    tr:hover {
-      background: $color-blue-200;
+      background-color: $color-primary-light;
     }
   }
 
@@ -24,24 +26,42 @@
       border-bottom: unset;
     }
 
-    &__collapse {
-      &#{&} {
+    &--collapsible {
+      td {
         padding-bottom: 0;
         padding-left: 7rem;
         padding-top: 0;
 
         @include phone {
-          padding-left: 1.5rem;
+          padding-left: 1.2rem;
         }
-      }
 
-      &__fields {
-        margin-left: 3rem;
+        &__fields {
+          margin-left: 3rem;
+        }
       }
     }
 
-    &__extra-details {
+    &__additional-contact-details {
       padding: map-get($spacing, 'lg') 0;
+
+      @include phone {
+        gap: 1rem;
+      }
+
+      &__box {
+        display: inline-grid;
+        grid-template-columns: 1fr 5fr;
+
+        @include phone {
+          display: flex;
+          flex-direction: column;
+
+          p:last-of-type {
+            padding-left: 0.5rem;
+          }
+        }
+      }
     }
   }
 }
