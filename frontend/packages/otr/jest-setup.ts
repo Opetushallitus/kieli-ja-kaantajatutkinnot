@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
 // eslint-disable-next-line no-restricted-imports
-import { server } from './src/tests/jest/__mocks__/server';
+import { server } from './src/tests/msw/server';
 
 beforeAll(() => server.listen());
 
