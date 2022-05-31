@@ -1,25 +1,47 @@
 import { Collapse, TableCell, TableRow } from '@mui/material';
-import { Text } from 'shared/components';
+import { ExtLink, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation } from 'configs/i18n';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
-const getInterpreterDetail = (field?: string) => field ?? '-';
+// Helpers
+const PLACEHOLDER_TEXT = '-';
+const getInterpreterDetail = (field?: string) => field ?? PLACEHOLDER_TEXT;
+
+enum AdditionalDetailsField {
+  Email = 'email',
+  PhoneNumber = 'phoneNumber',
+  OtherContactInfo = 'otherContactInfo',
+}
 
 const AdditionalContactDetail = ({
+  field,
   label,
   contactDetail,
 }: {
+  field: AdditionalDetailsField;
   label: string;
   contactDetail: string;
 }) => {
   const { isPhone } = useWindowProperties();
+  const linkPrefix = field === AdditionalDetailsField.Email ? 'mailto' : 'tel';
 
   return (
     <div className="public-interpreter-listing-row__additional-contact-details__box">
       <Text className="bold">{isPhone ? label : `${label}: `}</Text>
-      <Text>{contactDetail}</Text>
+      {field === AdditionalDetailsField.OtherContactInfo ||
+      contactDetail === PLACEHOLDER_TEXT ? (
+        <Text className="public-interpreter-listing-row__additional-contact-details__text">
+          {contactDetail}
+        </Text>
+      ) : (
+        <ExtLink
+          className="public-interpreter-listing-row__additional-contact-details__link"
+          text={contactDetail}
+          href={`${linkPrefix}:${contactDetail}`}
+        />
+      )}
     </div>
   );
 };
@@ -37,22 +59,29 @@ export const CollapsibleRow = ({
   const { isPhone } = useWindowProperties();
   const numOfCells = isPhone ? 0 : 3;
 
+  const getAdditionalContactDetailProps = (field: AdditionalDetailsField) => ({
+    field,
+    label: t(`row.additionalContactDetail.${field}`),
+    contactDetail: getInterpreterDetail(interpreter[field]),
+  });
+
   return (
     <TableRow className="public-interpreter-listing-row public-interpreter-listing-row--collapsible">
       <TableCell colSpan={numOfCells}>
         <Collapse in={isOpen} timeout="auto" unmountOnExit>
           <div className="public-interpreter-listing-row__additional-contact-details rows">
             <AdditionalContactDetail
-              label={t('row.additionalContactDetail.email')}
-              contactDetail={getInterpreterDetail(interpreter.email)}
+              {...getAdditionalContactDetailProps(AdditionalDetailsField.Email)}
             />
             <AdditionalContactDetail
-              label={t('row.additionalContactDetail.phoneNumber')}
-              contactDetail={getInterpreterDetail(interpreter.phoneNumber)}
+              {...getAdditionalContactDetailProps(
+                AdditionalDetailsField.PhoneNumber
+              )}
             />
             <AdditionalContactDetail
-              label={t('row.additionalContactDetail.otherContactInfo')}
-              contactDetail={getInterpreterDetail(interpreter.otherContactInfo)}
+              {...getAdditionalContactDetailProps(
+                AdditionalDetailsField.OtherContactInfo
+              )}
             />
           </div>
         </Collapse>
