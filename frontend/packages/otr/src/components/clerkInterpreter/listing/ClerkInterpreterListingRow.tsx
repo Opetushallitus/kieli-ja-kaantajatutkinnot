@@ -24,6 +24,9 @@ export const ClerkInterpreterListingRow = ({
     keyPrefix: 'otr.component.clerkInterpreterListing.row',
   });
 
+  const interpreterDetailsURL = (id: number) =>
+    AppRoutes.ClerkInterpreterOverviewPage.replace(/:interpreterId$/, `${id}`);
+
   return (
     <TableRow>
       <TableCell>
@@ -52,7 +55,7 @@ export const ClerkInterpreterListingRow = ({
       </TableCell>
       <TableCell>
         <Button
-          to={AppRoutes.ClerkHomePage}
+          to={interpreterDetailsURL(interpreter.id)}
           component={Link}
           color={Color.Secondary}
           endIcon={<ArrowForwardIosOutlinedIcon />}

@@ -2,6 +2,7 @@
   "otr": {
     "common": {
       "allRegions": "Koko Suomi",
+      "back": "Takaisin",
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
       "loadingContent": "Sisältöä ladataan",
       "ophLogo": "Opetushallituksen logo",
