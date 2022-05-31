@@ -9,16 +9,22 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @RequiredArgsConstructor
 public class OnrServiceImpl implements OnrService {
 
+  private static final Logger LOG = LoggerFactory.getLogger(OnrServiceImpl.class);
+
   private final WebClient webClient;
 
   @Override
   public Map<String, PersonalData> getPersonalDatas(final List<String> onrIds) {
+    LOG.warn(onrIds.get(0));
+
     final PersonalDataDTO[] personalDataDTOS = webClient
       .post()
       .uri("/henkilo/henkilotByHenkiloOidList")
@@ -28,12 +34,19 @@ public class OnrServiceImpl implements OnrService {
       .bodyToMono(PersonalDataDTO[].class)
       .block();
 
+    if (personalDataDTOS == null || personalDataDTOS[0] == null) {
+      LOG.warn("No PersonalDataDTOs returned");
+    }
+
     final Map<String, PersonalData> personalDatas = new HashMap<>();
 
     if (personalDataDTOS != null) {
       Arrays
         .stream(personalDataDTOS)
         .forEach(personalDataDTO -> {
+          LOG.warn(personalDataDTO.onrId());
+          LOG.warn(personalDataDTO.firstName());
+          LOG.warn(personalDataDTO.lastName());
           final List<ContactDetailsGroupDTO> groups = personalDataDTO.contactDetailsGroups();
 
           final PersonalData personalData = PersonalData
