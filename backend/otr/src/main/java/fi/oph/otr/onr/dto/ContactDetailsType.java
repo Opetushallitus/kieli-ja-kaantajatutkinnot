@@ -2,7 +2,7 @@ package fi.oph.otr.onr.dto;
 
 import java.util.Set;
 
-class ContactDetailsType {
+public class ContactDetailsType {
 
   public static final String EMAIL = "YHTEYSTIETO_SAHKOPOSTI";
 
@@ -16,5 +16,5 @@ class ContactDetailsType {
 
   public static final String COUNTRY = "YHTEYSTIETO_MAA";
 
-  public static Set<String> contactDetailsTypes = Set.of(EMAIL, PHONE_NUMBER, STREET, POSTAL_CODE, TOWN, COUNTRY);
+  public static Set<String> values = Set.of(EMAIL, PHONE_NUMBER, STREET, POSTAL_CODE, TOWN, COUNTRY);
 }

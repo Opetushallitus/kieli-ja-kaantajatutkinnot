@@ -34,19 +34,19 @@ public class OnrServiceImpl implements OnrService {
       Arrays
         .stream(personalDataDTOS)
         .forEach(personalDataDTO -> {
-          final ContactDetailsGroupDTO contactDetailsGroupDTO = personalDataDTO.contactDetails();
+          final List<ContactDetailsGroupDTO> groups = personalDataDTO.contactDetailsGroups();
 
           final PersonalData personalData = PersonalData
             .builder()
             .firstName(personalDataDTO.firstName())
             .lastName(personalDataDTO.lastName())
             .identityNumber(personalDataDTO.identityNumber())
-            .email(contactDetailsGroupDTO.email())
-            .phoneNumber(contactDetailsGroupDTO.phoneNumber())
-            .street(contactDetailsGroupDTO.street())
-            .postalCode(contactDetailsGroupDTO.postalCode())
-            .town(contactDetailsGroupDTO.town())
-            .country(contactDetailsGroupDTO.country())
+            .email(ContactDetailsUtil.getPrimaryEmail(groups))
+            .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(groups))
+            .street(ContactDetailsUtil.getPrimaryStreet(groups))
+            .postalCode(ContactDetailsUtil.getPrimaryPostalCode(groups))
+            .town(ContactDetailsUtil.getPrimaryTown(groups))
+            .country(ContactDetailsUtil.getPrimaryCountry(groups))
             .build();
 
           personalDatas.put(personalDataDTO.onrId(), personalData);

@@ -46,28 +46,8 @@ public class ContactDetailsGroupDTO {
     return this.ryhmaAlkuperaTieto;
   }
 
-  public String email() {
-    return getValue(ContactDetailsType.EMAIL);
-  }
-
-  public String phoneNumber() {
-    return getValue(ContactDetailsType.PHONE_NUMBER);
-  }
-
-  public String street() {
-    return getValue(ContactDetailsType.STREET);
-  }
-
-  public String postalCode() {
-    return getValue(ContactDetailsType.POSTAL_CODE);
-  }
-
-  public String town() {
-    return getValue(ContactDetailsType.TOWN);
-  }
-
-  public String country() {
-    return getValue(ContactDetailsType.COUNTRY);
+  public Set<ContactDetailsDTO> contactDetailsSet() {
+    return this.yhteystieto;
   }
 
   public void setEmail(final String value) {
@@ -94,10 +74,6 @@ public class ContactDetailsGroupDTO {
     setValue(ContactDetailsType.COUNTRY, value);
   }
 
-  private String getValue(final String contactDetailsType) {
-    return findContactDetailsDTO(contactDetailsType).map(ContactDetailsDTO::value).orElse(null);
-  }
-
   private void setValue(final String contactDetailsType, final String value) {
     findContactDetailsDTO(contactDetailsType)
       .ifPresentOrElse(
@@ -107,7 +83,7 @@ public class ContactDetailsGroupDTO {
   }
 
   private Optional<ContactDetailsDTO> findContactDetailsDTO(final String contactDetailsType) {
-    if (ContactDetailsType.contactDetailsTypes.contains(contactDetailsType)) {
+    if (ContactDetailsType.values.contains(contactDetailsType)) {
       return yhteystieto
         .stream()
         .filter(contactDetailsDTO -> contactDetailsDTO.type().equals(contactDetailsType))
