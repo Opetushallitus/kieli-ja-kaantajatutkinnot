@@ -24,6 +24,7 @@ describe('PublicHomePage', () => {
     );
     const interpreterEmail = interpreter?.email as string;
     const interpreterPhoneNumber = interpreter?.phoneNumber as string;
+    Element.prototype.scrollIntoView = jest.fn();
 
     // Render the component
     render(<PublicHomePage />);
