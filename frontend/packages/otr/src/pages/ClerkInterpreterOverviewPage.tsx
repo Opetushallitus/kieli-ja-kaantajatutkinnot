@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { H1 } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
+import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
+import { QualificationDetails } from 'components/clerkInterpreter/overview/QualificationDetails';
 import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
 import { ClerkInterpreterOverviewPageSkeleton } from 'components/skeletons/ClerkInterpreterOverviewPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
@@ -22,7 +24,7 @@ export const ClerkInterpreterOverviewPage = () => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
   // Redux
   const dispatch = useAppDispatch();
-  const { status, interpreter } = useAppSelector(
+  const { overviewStatus, interpreter } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
 
@@ -32,18 +34,18 @@ export const ClerkInterpreterOverviewPage = () => {
   const params = useParams();
 
   const isLoading =
-    status === APIResponseStatus.InProgress || !selectedInterpreterId;
+    overviewStatus === APIResponseStatus.InProgress || !selectedInterpreterId;
 
   useEffect(() => {
     if (
-      status === APIResponseStatus.NotStarted &&
+      overviewStatus === APIResponseStatus.NotStarted &&
       !selectedInterpreterId &&
       params.interpreterId
     ) {
       // Fetch Interpreter overview
       dispatch(loadClerkInterpreterOverview({ id: +params.interpreterId }));
     } else if (
-      status === APIResponseStatus.Error ||
+      overviewStatus === APIResponseStatus.Error ||
       !Number(params.interpreterId)
     ) {
       // Show an error
@@ -55,7 +57,7 @@ export const ClerkInterpreterOverviewPage = () => {
       navigate(AppRoutes.ClerkHomePage);
     }
   }, [
-    status,
+    overviewStatus,
     dispatch,
     navigate,
     params.interpreterId,
@@ -81,7 +83,10 @@ export const ClerkInterpreterOverviewPage = () => {
         ) : (
           <>
             <TopControls />
-            <div className="rows gapped"></div>
+            <div className="rows gapped">
+              <ClerkInterpreterDetails />
+              <QualificationDetails />
+            </div>
           </>
         )}
       </Paper>

@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { WithId, WithVersion } from 'shared/interfaces';
 
+import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType } from 'enums/examinationType';
 
 export interface Qualification extends WithId, WithVersion {
@@ -12,6 +13,7 @@ export interface Qualification extends WithId, WithVersion {
   examinationType: ExaminationType;
   permissionToPublish: boolean;
   diaryNumber?: string;
+  tempId?: string;
 }
 
 export interface QualificationResponse
@@ -19,3 +21,7 @@ export interface QualificationResponse
   beginDate: string;
   endDate: string;
 }
+
+export type QualificationsGroupedByStatus = {
+  [key in QualificationStatus]: Array<Qualification>;
+};

@@ -12,6 +12,72 @@
           "detailsButton": "Lisätiedot"
         }
       },
+      "clerkInterpreterOverview": {
+        "interpreterDetails": {
+          "cancelUpdateDialog": {
+            "description": "Menetät tekemäsi muutokset.",
+            "title": "Haluatko poistua muokkausnäkymästä?"
+          },
+          "fields": {
+            "country": "Maa",
+            "email": "Sähköpostiosoite",
+            "extraInformation": "Lisätiedot",
+            "firstName": "Etunimet",
+            "identityNumber": "Henkilötunnus",
+            "lastName": "Sukunimi",
+            "phoneNumber": "Puhelinnumero",
+            "postalCode": "Postinumero",
+            "street": "Katuosoite",
+            "town": "Postitoimipaikka"
+          },
+          "header": {
+            "address": "Osoite",
+            "contactInformation": "Yhteystiedot",
+            "extraInformation": "Lisätiedot",
+            "personalInformation": "Henkilötiedot"
+          }
+        },
+        "qualifications": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Vaihda julkaisulupaa",
+              "dialog": {
+                "description": "Tämä muuttaa kieliparin näkymistä julkisessa rekisterissä.",
+                "header": "Haluatko varmasti vaihtaa julkaisulupaa?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Poista kielipari",
+              "dialog": {
+                "description": "Tätä toimintoa ei voi peruuttaa!",
+                "confirmButton": "Poista kielipari",
+                "header": "Haluatko varmasti poistaa kieliparin?"
+              }
+            }
+          },
+          "buttons": {
+            "add": "Lisää tutkinto"
+          },
+          "fields": {
+            "endDate": "Päättymispäivä",
+            "examinationType": "Koulutus",
+            "languagePair": "Kielipari",
+            "permissionToPublish": "Julkaisulupa",
+            "startDate": "Alkamispäivä"
+          },
+          "header": "Kieliparit",
+          "noQualifications": "Valituille kriteereille ei löytynyt tutkintoja",
+          "toggleFilters": {
+            "effective": "Voimassa olevat",
+            "expired": "Umpeutuneet"
+          }
+        },
+        "toasts": {
+          "notFound": "Valittua tulkkia ei löytynyt",
+          "updateFailed": "Tietojen tallennus epäonnistui",
+          "updated": "Tiedot tallennettiin"
+        }
+      },
       "footer": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
@@ -101,6 +167,13 @@
     "errors": {
       "api": {
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen"
+      },
+      "customTextField": {
+        "emailFormat": "Sähköpostiosoite on virheellinen",
+        "maxLength": "Teksti on liian pitkä",
+        "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
+        "required": "Tieto on pakollinen",
+        "telFormat": "Puhelinnumero on virheellinen"
       },
       "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
     },

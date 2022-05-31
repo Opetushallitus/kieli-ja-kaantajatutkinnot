@@ -95,7 +95,7 @@ export const PublicInterpreterFilters = ({
     )
   );
 
-  const filteredTranslatorCount = useMemo(() => {
+  const filteredInterpreterCount = useMemo(() => {
     return filterPublicInterpreters(interpreters, filters).length;
   }, [interpreters, filters]);
 
@@ -288,7 +288,7 @@ export const PublicInterpreterFilters = ({
           onClick={handleSearchBtnClick}
           startIcon={<SearchIcon />}
         >
-          {`${t('buttons.search')} (${filteredTranslatorCount})`}
+          {`${t('buttons.search')} (${filteredInterpreterCount})`}
         </CustomButton>
       </div>
       {renderPhoneBottomAppBar()}

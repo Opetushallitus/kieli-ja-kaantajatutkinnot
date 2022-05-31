@@ -24,3 +24,9 @@ export enum CustomTextFieldErrors {
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
 }
+
+export enum UIMode {
+  EditQualificationDetails = 'editQualificationDetails',
+  EditInterpreterDetails = 'editInterpreterDetails',
+  View = 'view',
+}
