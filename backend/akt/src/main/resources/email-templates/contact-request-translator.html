@@ -5,7 +5,7 @@
             Hei,
         </p>
         <p>
-            Sinuun on otettu yhteyttä auktorisoitua käännöstyötä varten. Ohessa sinulle jätetty viesti sekä tiedot sen lähettäjästä.
+            Sinuun on otettu yhteyttä käännöstoimeksiantoa varten. Ohessa sinulle jätetty viesti ja tiedot sen lähettäjästä.
         </p>
         <br/>
 
@@ -24,9 +24,37 @@
         <p>
             Älä vastaa tähän viestiin - viesti on lähetetty automaattisesti.
         </p>
-        <p>
+        <p style="border-bottom: 1px solid black; padding-bottom: 15px;">
             Ystävällisin terveisin<br/>
             Opetushallitus
+        </p>
+
+        <p>
+            Hej,
+        </p>
+        <p>
+            Du har blivit kontaktad gällande ett översättningsuppdrag. Nere meddelandet, som har lämnats till dig.
+        </p>
+        <br/>
+
+        <p>
+            <span th:each="line : ${messageLines}">[[${line}]]<br/></span>
+        </p>
+
+        <p>
+            <strong>Avsändarens uppgifter</strong><br/>
+            <span th:text="${requesterName}"></span><br/>
+            <span th:text="${requesterEmail}"></span><br/>
+            <span th:unless="${requesterPhone.isEmpty()}">[[${requesterPhone}]]<br/></span>
+        </p>
+        <br/>
+
+        <p>
+            Svara inte till detta meddelande, det har skickats automatiskt.
+        </p>
+        <p>
+            Med vänlig hälsning<br/>
+            Utbildningsstyrelsen
         </p>
     </body>
 </html>

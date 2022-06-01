@@ -22,6 +22,10 @@ public class EmailSenderViestintapalvelu implements EmailSender {
 
   private final WebClient webClient;
 
+  private final String callingProcess;
+
+  private final String sender;
+
   @Override
   public String sendEmail(final EmailData emailData) throws JsonProcessingException {
     final Map<String, Object> postData = createPostData(emailData);
@@ -46,9 +50,9 @@ public class EmailSenderViestintapalvelu implements EmailSender {
       "charset",
       "UTF-8",
       "callingProcess",
-      "akt",
+      callingProcess,
       "sender",
-      "AKT",
+      sender,
       "subject",
       emailData.subject(),
       "body",
