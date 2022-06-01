@@ -36,7 +36,9 @@ jobs:
       - uses: actions/cache@v3
         id: yarn-cache
         with:
-          path: "**/node_modules"
+          path: |
+            "**/node_modules"
+            "**/.cache/Cypress"
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
@@ -56,8 +58,9 @@ jobs:
         uses: cypress-io/github-action@v3
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
-          install-command: yarn install --immutable
-          start: yarn akt:start
+          cache-key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          install: false
+          start: yarn akt:start:ci
           command: yarn akt:test:cypress
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}

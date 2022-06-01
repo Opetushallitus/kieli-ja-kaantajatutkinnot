@@ -5,7 +5,7 @@ import webpackConfigs from '../../../../webpack.config';
 
 export default (on) => {
   const options = {
-    webpackOptions: webpackConfigs({ isCypress: true }),
+    webpackOptions: webpackConfigs({ cypress: true }),
     watchOptions: {},
   };
 
