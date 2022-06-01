@@ -41,7 +41,7 @@ const publicInterpreterSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;
     },
-    loadingPublicInterpretersFailed(state) {
+    rejectPublicInterpreters(state) {
       state.status = APIResponseStatus.Error;
     },
   },
@@ -53,5 +53,5 @@ export const {
   addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
   storePublicInterpreters,
-  loadingPublicInterpretersFailed,
+  rejectPublicInterpreters,
 } = publicInterpreterSlice.actions;
