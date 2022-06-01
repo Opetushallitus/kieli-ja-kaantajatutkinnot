@@ -49,7 +49,7 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         REACT_ENV_PRODUCTION: JSON.stringify(Boolean(env.prod)),
       }),
-      ...getESLintPlugin(mode),
+      ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
     ],
     module: {
@@ -114,15 +114,15 @@ module.exports = (env) => {
 
 // Helpers
 const getStylelintPlugin = (env) => {
-  if (!env.isCypress) {
+  if (!env.cypress) {
     const StylelintPlugin = require('stylelint-webpack-plugin');
     return [new StylelintPlugin()];
   }
   return [];
 };
 
-const getESLintPlugin = (mode) => {
-  if (mode === 'development') {
+const getESLintPlugin = (env) => {
+  if (!env.prod && !env.cypress) {
     const ESLintPlugin = require('eslint-webpack-plugin');
     return [
       new ESLintPlugin({

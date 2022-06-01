@@ -123,7 +123,6 @@ describe('MeetingDatesPage', () => {
     ).as('delete');
 
     onDialog.clickButtonByText('Kyllä');
-    cy.wait('@delete');
 
     onMeetingDatesPage.expectRowToContain(0, '1.1.2022');
     onMeetingDatesPage.expectRowToContain(1, '15.8.2021');
