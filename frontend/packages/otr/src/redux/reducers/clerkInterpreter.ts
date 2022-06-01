@@ -19,9 +19,10 @@ const initialState: ClerkInterpreterState = {
 
 const getQualificationLanguages = (interpreters: Array<ClerkInterpreter>) => {
   const languages = new Set<string>();
+  languages.add('FI');
+  languages.add('SV');
   interpreters.forEach(({ qualifications }) => {
-    qualifications.forEach(({ fromLang, toLang }) => {
-      languages.add(fromLang);
+    qualifications.forEach(({ toLang }) => {
       languages.add(toLang);
     });
   });
