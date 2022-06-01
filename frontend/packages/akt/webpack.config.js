@@ -5,8 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
-// Dummy comment
-
 module.exports = (env) => {
   const STATIC_PATH = 'akt/static';
   const mode = env.prod ? 'production' : 'development';
