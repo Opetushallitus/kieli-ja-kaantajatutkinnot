@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.15] - 2022-06-01
+
+## Added
+
+- StringUtils.isNonBlank(value?: string)
+- StringUtils.getWithPlaceHolder(value?: string, placeholder = '-')
+
 ## [1.0.14] - 2022-05-19
 
 ## Fixed
