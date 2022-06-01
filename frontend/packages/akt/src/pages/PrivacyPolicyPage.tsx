@@ -75,7 +75,6 @@ export const PrivacyPolicyPage = () => {
             translations={[
               'gathering.other.description1',
               'gathering.other.description2',
-              'gathering.other.description3',
             ]}
           />
         </div>
@@ -87,13 +86,6 @@ export const PrivacyPolicyPage = () => {
             translations={[
               'reasoning.personal.data.description1',
               'reasoning.personal.data.description2',
-            ]}
-          />
-          <H3>{translatePrivacy('common.otherData')}</H3>
-          <BulletList
-            translations={[
-              'reasoning.other.description1',
-              'reasoning.other.description2',
             ]}
           />
         </div>
@@ -132,15 +124,6 @@ export const PrivacyPolicyPage = () => {
           <H2>{translatePrivacy('protection.title')}</H2>
           <Text>{translatePrivacy('protection.description1')}</Text>
           <Text>{translatePrivacy('protection.description2')}</Text>
-        </div>
-        <div className="rows gapped">
-          <H2>{translatePrivacy('cookies.title')}</H2>
-          <Text>{translatePrivacy('cookies.description1')}</Text>
-          <ExtLink
-            className="privacy-policy-page__content__link"
-            text={translatePrivacy('cookies.externalLink.title')}
-            href={translatePrivacy('cookies.externalLink.link')}
-          />
         </div>
         <div className="rows gapped">
           <H2>{translatePrivacy('preservation.title')}</H2>

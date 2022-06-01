@@ -2,6 +2,7 @@
   "akt": {
     "privacy": {
       "abandonment": {
+        "description": "Opetushallitus ei normaalisti luovuta henkilötietoja. Tietojasi voidaan kuitenkin luovuttaa seuraavissa tilanteissa:",
         "community": {
           "description1": "Henkilötietoja ei pääsääntöisesti näytetä muille Opetushallituksen palvelujen käyttäjille. Joissakin palveluissa käyttäjä voi itse jakaa tietojaan muille käyttäjille esimerkiksi nimimerkin muodossa (blogikirjoituksen kommentointi).",
           "title": "2. Yhteisöt"
@@ -14,7 +15,6 @@
           "description1": "Opetushallitus pyrkii aina toteuttamaan palvelut ja käsittelemään henkilötietoja ensisijaisesti EU:n ja ETA:n alueiden sisällä, käyttäen alueilla sijaitsevia toimijoita ja palveluita. Jos tästä periaatteesta poikkeuksellisesti ja tapauskohtaisesti poiketaan, edellytetään palvelun osalta perusteellisia selvityksiä tietosuojan ja tietoturvan toteutuksesta kyseisessä palvelussa.",
           "title": "4. Kansainväliset tietojen siirrot"
         },
-        "description": "Opetushallitus ei normaalisti luovuta henkilötietoja. Tietojasi voidaan kuitenkin luovuttaa seuraavissa tilanteissa:",
         "legislation": {
           "description1": "henkilötietojasi voidaan lain mukaan luovuttaa muille viranomaisille viranomaiskäyttöön.",
           "title": "6. Pakottavan lainsäädännön edellyttämät luovutukset"
@@ -39,45 +39,36 @@
         "title": "Muutokset tietosuojakäytäntöön"
       },
       "common": {
-        "personalData": "Henkilötiedot",
-        "otherData": "Muut tiedot"
-      },
-      "cookies": {
-        "description1": "Opetushallitus käyttää evästeitä parantaakseen verkkopalveluiden käyttäjäkokemusta. Lisätietoja evästeiden käytöstä saat evästeasetusikkunasta, josta löydät myös listan kaikista sivustolla käytettävistä evästeistä ja voit muuttaa hyväksyntääsi evästeiden käyttöön.",
-        "externalLink": {
-          "link": "https://www.kyberturvallisuuskeskus.fi/fi/toimintamme/saantely-ja-valvonta/evasteet",
-          "title": "Evästeet"
-        },
-        "title": "Miten käytämme evästeitä?"
+        "otherData": "Muut tiedot",
+        "personalData": "Henkilötiedot"
       },
       "gathering": {
+        "other": {
+          "description1": "käyttäjien lähettämät viestit yhteydenottopyyntöjen yhteydessä",
+          "description2": "muut käyttäjän suostumuksella kerätyt tiedot"
+        },
         "personal": {
+          "description": "Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään kääntäjille jätettyjen yhteydenottopyyntöjen yhteydessä.",
           "data": {
             "description1": "yhteystiedot kuten nimi, sähköpostiosoite ja puhelinnumero",
             "description2": "muut käyttäjän suostumuksella kerätyt tiedot",
             "title": "Käyttäjän antamat tiedot:"
           },
-          "description": "Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään kääntäjille jätettyjen yhteydenottopyyntöjen yhteydessä.",
           "usage": {
             "description1": "sanahauista tallentuu lokiin haussa käytetyn laitteen IP-osoite. Lokitietoa säilytetään 21 päivää",
             "title": "Palveluiden käytöstä havainnoidut tiedot:"
           }
         },
-        "other": {
-          "description1": "käyttäjien lähettämät viestit yhteydenottopyyntöjen yhteydessä",
-          "description2": "palvelun ominaisuuksien käyttö- ja selaustiedot Google Analyticsillä, sekä Facebook-pikselillä käyttäjän hyväksyessä evästeet",
-          "description3": "muut käyttäjän suostumuksella kerätyt tiedot"
-        },
         "title": "Mitä tietoja keräämme ja mistä lähteistä?"
       },
       "general": {
+        "description1": "Tässä tietosuojakäytännössä kuvataan, mitä henkilötietoja ja muita tietoja keräämme, ja miten käsittelemme näitä tietoja. Tätä tietosuojakäytäntöä sovelletaan Opetushallituksen tarjoamissa verkkopalveluissa (Oph.fi, Europass.fi, Opetushallitus kouluttaa sekä Opetushallituksen uutiskirjepalvelu).",
+        "description2": "Ennen kuin käyttäjä aloittaa palveluidemme käytön, tulee käyttäjän lukea tämä tietosuojakäytäntö sekä hyväksyä henkilötietojen käsittelyä koskevat menettelyt ja evästeiden käyttö tämän tietosuojakäytännön mukaisesti. Jos käyttäjä ei hyväksy tätä tietosuojakäytäntöä tai palvelun käyttöehtoja, ei hänellä ole oikeutta käyttää palvelua.",
+        "description3": "Opetushallitus noudattaa tietosuojalainsäädäntöä sekä käsittelee henkilötietoja hyvän tiedonhallinta- ja tietojenkäsittelytavan mukaisesti.",
         "externalLink": {
           "link": "https://tietosuoja.fi/mika-on-henkilotieto",
           "title": "Mikä on henkilötieto?"
         },
-        "description1": "Tässä tietosuojakäytännössä kuvataan, mitä henkilötietoja ja muita tietoja keräämme, ja miten käsittelemme näitä tietoja. Tätä tietosuojakäytäntöä sovelletaan Opetushallituksen tarjoamissa verkkopalveluissa (Oph.fi, Europass.fi, Opetushallitus kouluttaa sekä Opetushallituksen uutiskirjepalvelu).",
-        "description2": "Ennen kuin käyttäjä aloittaa palveluidemme käytön, tulee käyttäjän lukea tämä tietosuojakäytäntö sekä hyväksyä henkilötietojen käsittelyä koskevat menettelyt ja evästeiden käyttö tämän tietosuojakäytännön mukaisesti. Jos käyttäjä ei hyväksy tätä tietosuojakäytäntöä tai palvelun käyttöehtoja, ei hänellä ole oikeutta käyttää palvelua.",
-        "description3": "Opetushallitus noudattaa tietosuojalainsäädäntöä sekä käsittelee henkilötietoja hyvän tiedonhallinta- ja tietojenkäsittelytavan mukaisesti.",
         "title": "Yleistä tietosuojakäytännöstä"
       },
       "heading": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste",
@@ -102,28 +93,24 @@
             "title": "Henkilötietoja voidaan Opetushallituksessa käsitellä seuraavia tarkoituksia varten:"
           }
         },
-        "other": {
-          "description1": "Google Analyticsin keräämiä tietoja hyödynnetään Opetushallituksessa verkkosivuston käytön arviointiin ja käyttöraporttien koostamiseen. Google Analytics ei kerää henkilötietoja. IP-osoitteet on anonymisoitu.",
-          "description2": "Facebook-pikseli yhdistää sivustolla vierailun käyttäjään Facebookissa ja antaa meille mahdollisuuden seurata Facebook-mainontamme konversioita, optimoida mainoksiamme Facebookin keräämän tiedon perusteella, rakentaa yleisöjä tuleville mainoskampanjoillemme sekä kohdentaa mainontaa sellaisille käyttäjille, jotka ovat vierailleet verkkosivuillamme. Facebook-pikseli aktivoituu käyttäjän hyväksyessä markkinointievästeet."
-        },
         "title": "Mihin käyttötarkoitukseen tietoja kerätään?"
       },
       "registerHolder": {
         "description1": "Älä epäröi ottaa meihin yhteyttä, jos sinulla on kysyttävää tietosuojakäytännöstämme.",
         "description2": "Rekisterinpitäjänä toimii Opetushallitus (Y-tunnus 2769790-1) ja meihin voi ottaa yhteyttä seuraavasti:",
         "holder": {
+          "name": "Opetushallitus / viestintäyksikkö",
           "address1": "PL 380 (tai Hakaniemenranta 6)",
           "address2": "00530 Helsinki",
           "email": "sähköposti:",
           "emailAddress1": "webmaster@oph.fi",
           "emailAddress2": "kirjaamo@oph.fi",
-          "name": "Opetushallitus / viestintäyksikkö",
+          "or": "tai",
           "phone": "puhelinnumero (vaihde):",
-          "phoneNumber": "029 533 1000",
-          "or": "tai"
+          "phoneNumber": "029 533 1000"
         },
-        "modified": "Tietosuojakäytäntöä muokattu 19.5.2022",
-        "published": "Tietosuojakäytäntö on julkaistu 19.5.2022",
+        "modified": "Tietosuojakäytäntöä muokattu 1.6.2022",
+        "published": "Tietosuojakäytäntö on julkaistu 1.6.2022",
         "title": "Kuka on rekisterinpitäjä ja mihin voit ottaa yhteyttä?"
       },
       "rights": {
