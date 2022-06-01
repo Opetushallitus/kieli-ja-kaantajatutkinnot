@@ -1,4 +1,5 @@
 import { Box } from '@mui/system';
+import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
   H2,
@@ -24,7 +25,15 @@ export const PublicInterpreterListing = ({
   interpreters: Array<PublicInterpreter>;
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
+  const listingHeaderRef = useRef<HTMLDivElement>(null);
   const translateCommon = useCommonTranslation();
+
+  useEffect(() => {
+    listingHeaderRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'nearest',
+    });
+  }, []);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -45,7 +54,7 @@ export const PublicInterpreterListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <div className="columns">
+          <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
               <H2>{translateCommon('searchResults')}</H2>
             </div>
