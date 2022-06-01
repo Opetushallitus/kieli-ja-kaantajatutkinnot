@@ -43,10 +43,7 @@ export const selectFilteredClerkInterpreters = createSelector(
   (interpreters, filters) => {
     let filtered = interpreters;
 
-    const isNotBlank = (val?: string) =>
-      StringUtils.isString(val) && !StringUtils.isBlankString(val);
-
-    if (isNotBlank(filters.name)) {
+    if (StringUtils.isNonBlankString(filters.name)) {
       filtered = filtered.filter((interpreter) =>
         filterByName(interpreter, filters.name as string)
       );
