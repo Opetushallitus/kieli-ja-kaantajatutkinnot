@@ -1,4 +1,5 @@
 import { Box } from '@mui/system';
+import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
   H2,
@@ -29,6 +30,14 @@ export const PublicTranslatorListing = ({
   const { selectedTranslators } = useAppSelector(publicTranslatorsSelector);
   const selected = selectedTranslators.length;
 
+  const listingHeaderRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    listingHeaderRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'nearest',
+    });
+  }, []);
+
   switch (status) {
     case APIResponseStatus.NotStarted:
     case APIResponseStatus.InProgress:
@@ -48,7 +57,7 @@ export const PublicTranslatorListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <div className="columns">
+          <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
               <H2 data-testid="public-translators__selected-count-heading">
                 {selected > 0
