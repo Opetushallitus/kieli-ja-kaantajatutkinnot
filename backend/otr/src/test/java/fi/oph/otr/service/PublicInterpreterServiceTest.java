@@ -102,20 +102,24 @@ class PublicInterpreterServiceTest {
           interpreter1.getOnrId(),
           PersonalData
             .builder()
-            .firstName("Iiro")
             .lastName("Rajala")
+            .firstName("Iiro Aapeli")
+            .nickName("Iiro")
             .identityNumber("1")
             .email("iiro.rajala@example.invalid")
             .phoneNumber("+3581234567")
+            .isIndividualised(true)
             .build(),
           interpreter2.getOnrId(),
           PersonalData
             .builder()
-            .firstName("Ella")
             .lastName("Heinänen")
+            .firstName("Ella Hilda")
+            .nickName("Ella")
             .identityNumber("2")
             .email("ella.heinanen@example.invalid")
             .phoneNumber("+3582345678")
+            .isIndividualised(true)
             .build()
         )
       );
@@ -125,7 +129,7 @@ class PublicInterpreterServiceTest {
 
     final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
     assertEquals(interpreter1.getId(), publishedInterpreter1.id());
-    assertEquals("Iiro", publishedInterpreter1.firstName());
+    assertEquals("Iiro Aapeli", publishedInterpreter1.firstName());
     assertEquals("Rajala", publishedInterpreter1.lastName());
     assertNull(publishedInterpreter1.email());
     assertEquals("+3581234567", publishedInterpreter1.phoneNumber());
@@ -138,7 +142,7 @@ class PublicInterpreterServiceTest {
 
     final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
     assertEquals(interpreter2.getId(), publishedInterpreter2.id());
-    assertEquals("Ella", publishedInterpreter2.firstName());
+    assertEquals("Ella Hilda", publishedInterpreter2.firstName());
     assertEquals("Heinänen", publishedInterpreter2.lastName());
     assertEquals("ella.heinanen@example.invalid", publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());

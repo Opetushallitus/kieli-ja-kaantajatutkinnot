@@ -5,9 +5,11 @@ import java.util.List;
 public interface ClerkInterpreterDTOCommonFields {
   String identityNumber();
 
+  String lastName();
+
   String firstName();
 
-  String lastName();
+  String nickName();
 
   String email();
 

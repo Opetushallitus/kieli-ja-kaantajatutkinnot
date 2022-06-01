@@ -11,10 +11,10 @@ public class PersonalDataDTO {
   private String oidHenkilo;
 
   @NotBlank
-  private String etunimet;
+  private String sukunimi;
 
   @NotBlank
-  private String sukunimi;
+  private String etunimet;
 
   private String kutsumanimi;
 
@@ -30,12 +30,12 @@ public class PersonalDataDTO {
     return this.oidHenkilo;
   }
 
-  public String firstName() {
-    return this.etunimet;
-  }
-
   public String lastName() {
     return this.sukunimi;
+  }
+
+  public String firstName() {
+    return this.etunimet;
   }
 
   public String nickName() {
@@ -54,12 +54,12 @@ public class PersonalDataDTO {
     return this.yhteystiedotRyhma;
   }
 
-  public void setFirstName(final String value) {
-    this.etunimet = value;
-  }
-
   public void setLastName(final String value) {
     this.sukunimi = value;
+  }
+
+  public void setFirstName(final String value) {
+    this.etunimet = value;
   }
 
   public void setNickName(final String value) {
