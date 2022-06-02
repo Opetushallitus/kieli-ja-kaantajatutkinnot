@@ -1,0 +1,23 @@
+name: Install common frontend dependencies
+description: Installs common dependencies used by all workspaces
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Yarn modules
+      uses: actions/cache@v3
+      id: yarn-cache
+      with:
+        path: "**/node_modules"
+        key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+    - name: Install dependencies
+      working-directory: ${{ env.FRONTEND_DIR }}
+      run: |
+        yarn install --immutable
+      shell: bash
+      if: steps.yarn-cache.outputs.cache-hit != 'true'
+    - name: Cache Cypress
+      uses: actions/cache@v3
+      id: cypress-cache
+      with:
+        path: "~/.cache/Cypress"
+        key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}

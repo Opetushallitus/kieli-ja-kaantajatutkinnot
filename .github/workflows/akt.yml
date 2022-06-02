@@ -33,17 +33,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache Yarn modules
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          yarn install --immutable
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - name: Prepare common frontend dependencies
+        uses: ./.github/actions/install-frontend-dependencies
       - name: Run Linters
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:lint
@@ -53,12 +44,6 @@ jobs:
       - name: Run Jest Tests
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn akt:test:jest
-      - name: Cache Cypress
-        uses: actions/cache@v3
-        id: cypress-cache
-        with:
-          path: "~/.cache/Cypress"
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/yarn.lock') }}
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v3
         with:
