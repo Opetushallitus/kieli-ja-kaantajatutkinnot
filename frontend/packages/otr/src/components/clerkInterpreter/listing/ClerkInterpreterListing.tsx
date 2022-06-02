@@ -9,14 +9,18 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { loadClerkInterpreters } from 'redux/reducers/clerkInterpreter';
-import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
+import {
+  clerkInterpretersSelector,
+  selectFilteredClerkInterpreters,
+} from 'redux/selectors/clerkInterpreter';
 
 const getRowDetails = (interpreter: ClerkInterpreter) => {
   return <ClerkInterpreterListingRow interpreter={interpreter} />;
 };
 
 export const ClerkInterpreterListing = () => {
-  const { status, interpreters } = useAppSelector(clerkInterpretersSelector);
+  const { status } = useAppSelector(clerkInterpretersSelector);
+  const filteredInterpreters = useAppSelector(selectFilteredClerkInterpreters);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -46,7 +50,7 @@ export const ClerkInterpreterListing = () => {
       return (
         <PaginatedTable
           className="clerk-interpreter-listing"
-          data={interpreters}
+          data={filteredInterpreters}
           header={<ClerkInterpreterListingHeader />}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}

@@ -1,6 +1,30 @@
 {
   "otr": {
     "component": {
+      "clerkInterpreterFilters": {
+        "examinationType": {
+          "placeholder": "Kaikki",
+          "title": "Suoritettu tutkinto"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Mistä",
+          "title": "Haku kieliparilla",
+          "toPlaceholder": "Mihin"
+        },
+        "name": {
+          "placeholder": "Nimi",
+          "title": "Haku oikeustulkin nimellä"
+        },
+        "permissionToPublish": {
+          "placeholder": "Kaikki",
+          "title": "Kieliparin julkaisulupa"
+        },
+        "qualificationStatus": {
+          "effective": "Voimassa olevat",
+          "expired": "Umpeutuneet",
+          "expiring": "Umpeutumassa"
+        }
+      },
       "clerkInterpreterListing": {
         "header": {
           "name": "Nimi",
@@ -180,6 +204,9 @@
     "pages": {
       "clerkHomepage": {
         "addInterpreter": "Lisää oikeustulkki",
+        "buttons": {
+          "emptySelection": "Tyhjennä valinnat"
+        },
         "register": "Rekisteri",
         "title": "Oikeustulkkirekisteri"
       },

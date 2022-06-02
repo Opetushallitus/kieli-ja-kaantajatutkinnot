@@ -2322,7 +2322,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
     "@reduxjs/toolkit": ^1.8.1
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.14"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.15"
   languageName: unknown
   linkType: soft
 
@@ -2409,7 +2409,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.15":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown

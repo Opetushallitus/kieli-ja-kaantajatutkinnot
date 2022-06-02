@@ -6,7 +6,7 @@ import { APIEndpoints } from 'enums/api';
 import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import {
   loadClerkInterpreters,
-  loadingClerkInterpretersFailed,
+  rejectClerkInterpreters,
   storeClerkInterpreters,
 } from 'redux/reducers/clerkInterpreter';
 import { SerializationUtils } from 'utils/serialization';
@@ -22,7 +22,7 @@ function* fetchClerkInterpreters() {
     );
     yield put(storeClerkInterpreters(interpreters));
   } catch (error) {
-    yield put(loadingClerkInterpretersFailed());
+    yield put(rejectClerkInterpreters());
   }
 }
 

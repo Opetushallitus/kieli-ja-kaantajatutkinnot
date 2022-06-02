@@ -1,13 +1,13 @@
 import { Collapse, TableCell, TableRow } from '@mui/material';
 import { ExtLink, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
+import { StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 
 // Helpers
 const PLACEHOLDER_TEXT = '-';
-const getInterpreterDetail = (field?: string) => field ?? PLACEHOLDER_TEXT;
 
 enum AdditionalDetailsField {
   Email = 'email',
@@ -62,7 +62,7 @@ export const CollapsibleRow = ({
   const getAdditionalContactDetailProps = (field: AdditionalDetailsField) => ({
     field,
     label: t(`row.additionalContactDetail.${field}`),
-    contactDetail: getInterpreterDetail(interpreter[field]),
+    contactDetail: StringUtils.getWithPlaceholder(interpreter[field]),
   });
 
   return (

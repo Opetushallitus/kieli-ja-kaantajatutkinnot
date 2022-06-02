@@ -5,8 +5,8 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 import {
-  loadingPublicInterpretersFailed,
   loadPublicInterpreters,
+  rejectPublicInterpreters,
   storePublicInterpreters,
 } from 'redux/reducers/publicInterpreter';
 
@@ -18,7 +18,7 @@ function* fetchPublicInterpreters() {
     );
     yield put(storePublicInterpreters(response.data));
   } catch (error) {
-    yield put(loadingPublicInterpretersFailed());
+    yield put(rejectPublicInterpreters());
   }
 }
 

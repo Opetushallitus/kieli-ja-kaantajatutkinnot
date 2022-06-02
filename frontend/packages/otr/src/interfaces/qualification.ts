@@ -2,7 +2,7 @@ import { Dayjs } from 'dayjs';
 import { WithId, WithVersion } from 'shared/interfaces';
 
 import { QualificationStatus } from 'enums/clerkInterpreter';
-import { ExaminationType } from 'enums/examinationType';
+import { ExaminationType } from 'enums/interpreter';
 
 export interface Qualification extends WithId, WithVersion {
   deleted: boolean;

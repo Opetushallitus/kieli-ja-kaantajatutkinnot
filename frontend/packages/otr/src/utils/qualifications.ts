@@ -8,6 +8,8 @@ import {
   QualificationsGroupedByStatus,
 } from 'interfaces/qualification';
 
+const EXPIRING_QUALIFICATION_THRESHOLD_MONTHS = 3;
+
 export class QualificationUtils {
   static isQualificationEffective(
     { beginDate, endDate }: Qualification,
@@ -19,6 +21,19 @@ export class QualificationUtils {
     );
   }
 
+  static isQualificationExpiring(
+    { beginDate, endDate }: Qualification,
+    currentDate: Dayjs
+  ) {
+    return (
+      DateUtils.isDatePartBeforeOrEqual(beginDate, currentDate) &&
+      DateUtils.isDatePartBeforeOrEqual(
+        endDate.add(EXPIRING_QUALIFICATION_THRESHOLD_MONTHS, 'month'),
+        currentDate
+      )
+    );
+  }
+
   static isQualificationExpired(
     { endDate }: Qualification,
     currentDate: Dayjs
@@ -26,32 +41,36 @@ export class QualificationUtils {
     return !DateUtils.isDatePartBeforeOrEqual(currentDate, endDate);
   }
 
-  static groupClerkInterpreterQualificationsByStatus(
-    clerkInterpreter: ClerkInterpreter
-  ) {
+  static getQualificationsByStatus(clerkInterpreter: ClerkInterpreter) {
+    const currentDate = dayjs();
+
     return clerkInterpreter.qualifications.reduce(
       (group: QualificationsGroupedByStatus, qualification: Qualification) => {
-        const status = QualificationUtils.getQualificationStatus(qualification);
-        group[status].push(qualification);
+        if (
+          QualificationUtils.isQualificationEffective(
+            qualification,
+            currentDate
+          )
+        ) {
+          group[QualificationStatus.Effective].push(qualification);
+          if (
+            QualificationUtils.isQualificationExpiring(
+              qualification,
+              currentDate
+            )
+          ) {
+            group[QualificationStatus.Expiring].push(qualification);
+          }
+        } else {
+          // Note: taking the else branch without further comparisons
+          // relies on the assumption that there is no qualification
+          // with a begin date set to future.
+          group[QualificationStatus.Expired].push(qualification);
+        }
 
         return group;
       },
-      { effective: [], expired: [] }
+      { effective: [], expired: [], expiring: [] }
     );
-  }
-
-  private static getQualificationStatus(qualification: Qualification) {
-    const currentDate = dayjs();
-    let status!: QualificationStatus;
-
-    if (
-      QualificationUtils.isQualificationEffective(qualification, currentDate)
-    ) {
-      status = QualificationStatus.Effective;
-    } else {
-      status = QualificationStatus.Expired;
-    }
-
-    return status;
   }
 }
