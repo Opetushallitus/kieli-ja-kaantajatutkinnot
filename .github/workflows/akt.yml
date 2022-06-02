@@ -38,7 +38,7 @@ jobs:
         id: yarn-cache
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
@@ -58,7 +58,7 @@ jobs:
         id: cypress-cache
         with:
           path: "~/.cache/Cypress"
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v3
         with:
