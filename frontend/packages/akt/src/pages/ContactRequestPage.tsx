@@ -14,6 +14,8 @@ import { setContactRequest } from 'redux/actions/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
+// Dummy comment to force CI job
+
 export const ContactRequestPage = () => {
   // I18
   const { t } = useAppTranslation({
