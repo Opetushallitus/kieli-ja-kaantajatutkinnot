@@ -32,6 +32,7 @@ public class OnrServiceImpl implements OnrService {
       .uri("/henkilo/hetu=" + identityNumber)
       .retrieve()
       .bodyToMono(PersonalDataDTO.class)
+      .log() // TODO: can be removed later
       .block();
 
     if (personalDataDTO != null) {
@@ -46,13 +47,15 @@ public class OnrServiceImpl implements OnrService {
   public Map<String, PersonalData> getPersonalDatas(final List<String> onrIds) {
     LOG.warn(onrIds.get(0));
 
-    final PersonalDataDTO[] personalDataDTOS = webClient
+    final PersonalDataDTO[] personalDataDTOS = WebClient
+      .create("https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service")
       .post()
       .uri("/henkilo/henkilotByHenkiloOidList")
       .contentType(MediaType.APPLICATION_JSON)
       .bodyValue(onrIds)
       .retrieve()
       .bodyToMono(PersonalDataDTO[].class)
+      .log() // TODO: can be removed later
       .block();
 
     if (personalDataDTOS == null || personalDataDTOS[0] == null) {
@@ -65,9 +68,7 @@ public class OnrServiceImpl implements OnrService {
       Arrays
         .stream(personalDataDTOS)
         .filter(Objects::nonNull)
-        .forEach(personalDataDTO -> {
-          personalDatas.put(personalDataDTO.onrId(), createPersonalData(personalDataDTO));
-        });
+        .forEach(dto -> personalDatas.put(dto.onrId(), createPersonalData(dto)));
     }
 
     return personalDatas;
