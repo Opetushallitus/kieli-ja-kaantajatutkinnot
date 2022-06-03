@@ -27,5 +27,14 @@ describe('PublicHomepage', () => {
     // Region: Kanta-Häme => 1 interpreter (with no regions defined, ie. operating in the whole country)
     onPublicHomePage.filterByRegion('Kanta-Häme');
     onPublicHomePage.expectFilteredInterpretersCount(1);
+
+    // Name: Only 'Aaltonen' left at this point.
+    // Make a typo with the surname, expect 0 results.
+    onPublicHomePage.filterByName('Aaltonenä');
+    onPublicHomePage.expectFilteredInterpretersCount(0);
+
+    // Fix spelling => 1 hit expected.
+    onPublicHomePage.filterByName('Aaltonen');
+    onPublicHomePage.expectFilteredInterpretersCount(1);
   });
 });

@@ -2,6 +2,7 @@ import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox
 
 class PublicHomePage {
   elements = {
+    nameFilter: () => cy.findByTestId('public-interpreter-filters__name-field'),
     regionFilter: () =>
       cy.findByTestId('public-interpreter-filters__region-combobox'),
     searchButton: () =>
@@ -16,12 +17,16 @@ class PublicHomePage {
       .should('contain.text', `Näytä tulokset (${count})`);
   }
 
-  filterByToLang(lang: string) {
-    selectComboBoxOptionByName(this.elements.toLangFilter(), lang);
+  filterByName(name: string) {
+    this.elements.nameFilter().clear().type(name);
   }
 
   filterByRegion(region: string) {
     selectComboBoxOptionByName(this.elements.regionFilter(), region);
+  }
+
+  filterByToLang(lang: string) {
+    selectComboBoxOptionByName(this.elements.toLangFilter(), lang);
   }
 }
 
