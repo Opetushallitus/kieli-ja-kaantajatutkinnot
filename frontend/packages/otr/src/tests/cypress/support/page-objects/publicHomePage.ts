@@ -9,4 +9,4 @@ class PublicHomePage {
   }
 }
 
-export const openPublicHomePage = new PublicHomePage();
+export const onPublicHomePage = new PublicHomePage();
