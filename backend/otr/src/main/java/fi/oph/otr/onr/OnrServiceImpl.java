@@ -27,17 +27,18 @@ public class OnrServiceImpl implements OnrService {
   public Optional<PersonalData> findPersonalDataByIdentityNumber(final String identityNumber) {
     LOG.warn(identityNumber);
 
-    final PersonalDataDTO personalDataDTO = webClient
+    final String personalDataDTO = webClient
       .get()
       .uri("/henkilo/hetu=" + identityNumber)
       .retrieve()
-      .bodyToMono(PersonalDataDTO.class)
+      .bodyToMono(String.class)
       .log() // TODO: can be removed later
       .block();
 
-    if (personalDataDTO != null) {
-      return Optional.of(createPersonalData(personalDataDTO));
-    }
+    LOG.warn(personalDataDTO);
+    //if (personalDataDTO != null) {
+    //  return Optional.of(createPersonalData(personalDataDTO));
+    //}
 
     LOG.warn("No PersonalDataDTO returned");
     return Optional.empty();
@@ -47,8 +48,7 @@ public class OnrServiceImpl implements OnrService {
   public Map<String, PersonalData> getPersonalDatas(final List<String> onrIds) {
     LOG.warn(onrIds.get(0));
 
-    final PersonalDataDTO[] personalDataDTOS = WebClient
-      .create("https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service")
+    final PersonalDataDTO[] personalDataDTOS = webClient
       .post()
       .uri("/henkilo/henkilotByHenkiloOidList")
       .contentType(MediaType.APPLICATION_JSON)
@@ -57,10 +57,6 @@ public class OnrServiceImpl implements OnrService {
       .bodyToMono(PersonalDataDTO[].class)
       .log() // TODO: can be removed later
       .block();
-
-    if (personalDataDTOS == null || personalDataDTOS[0] == null) {
-      LOG.warn("No PersonalDataDTOs returned");
-    }
 
     final Map<String, PersonalData> personalDatas = new HashMap<>();
 

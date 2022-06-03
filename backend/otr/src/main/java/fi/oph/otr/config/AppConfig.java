@@ -68,6 +68,14 @@ public class AppConfig {
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
-    return WebClient.builder().defaultHeader("Caller-Id", ConfigEnums.CALLER_ID.value());
+    final String csrf = ConfigEnums.CALLER_ID.value();
+
+    return WebClient
+      .builder()
+      .defaultHeaders(httpHeaders -> {
+        httpHeaders.set("Caller-Id", ConfigEnums.CALLER_ID.value());
+        httpHeaders.set("CSRF", csrf);
+      })
+      .defaultCookie("CSRF", csrf);
   }
 }
