@@ -11,4 +11,21 @@ describe('PublicHomepage', () => {
       publicInterpreters10.length
     );
   });
+
+  it('should allow combining different options to filter interpreters', () => {
+    onPublicHomePage.expectFilteredInterpretersCount(
+      publicInterpreters10.length
+    );
+    // FI-SV => 2 interpreters
+    onPublicHomePage.filterByToLang('ruotsi');
+    onPublicHomePage.expectFilteredInterpretersCount(2);
+
+    // Region: Uusimaa => 2 interpreters
+    onPublicHomePage.filterByRegion('Uusimaa');
+    onPublicHomePage.expectFilteredInterpretersCount(2);
+
+    // Region: Kanta-Häme => 1 interpreter (with no regions defined, ie. operating in the whole country)
+    onPublicHomePage.filterByRegion('Kanta-Häme');
+    onPublicHomePage.expectFilteredInterpretersCount(1);
+  });
 });
