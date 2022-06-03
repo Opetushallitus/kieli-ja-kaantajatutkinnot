@@ -107,12 +107,19 @@ public record LanguageRow(
   }
 
   private Optional<LocalDate> resolveStartDate() {
-    return firstNonNull(
+    if (authorisationBasis.isBlank()) {
+      return Optional.empty();
+    }
+    final Optional<LocalDate> d = firstNonNull(
       authorisationCertificateDate,
-      officialCertificateDate,
+      //      officialCertificateDate,
       authorisationExamCertificateDate,
       authorisationExamDate
     );
+    if (d.isEmpty()) {
+      System.out.println("FIXME Begin date not found: " + this);
+    }
+    return d;
   }
 
   private LocalDate resolveEndDate(
@@ -131,7 +138,7 @@ public record LanguageRow(
     if (authorisationStatusDateEnd != null && !Objects.equals(authorisationStatusDateEnd, beginDate)) {
       return authorisationStatusDateEnd;
     }
-//        throw new RuntimeException("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
+    //        throw new RuntimeException("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
     System.out.println("FIXME authorisationStatusDateEnd is not defined, id:" + translatorId + " " + this);
     return beginDate.plusYears(5);
   }
