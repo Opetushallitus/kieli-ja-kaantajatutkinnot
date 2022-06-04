@@ -2,6 +2,10 @@
   "otr": {
     "component": {
       "clerkInterpreterFilters": {
+        "name": {
+          "placeholder": "Nimi",
+          "title": "Haku oikeustulkin nimellä"
+        },
         "examinationType": {
           "placeholder": "Kaikki",
           "title": "Suoritettu tutkinto"
@@ -10,10 +14,6 @@
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",
           "toPlaceholder": "Mihin"
-        },
-        "name": {
-          "placeholder": "Nimi",
-          "title": "Haku oikeustulkin nimellä"
         },
         "permissionToPublish": {
           "placeholder": "Kaikki",
@@ -38,6 +38,10 @@
       },
       "clerkInterpreterOverview": {
         "interpreterDetails": {
+          "areaOfOperation": {
+            "all": "Koko Suomi",
+            "regions": "Maakunnat"
+          },
           "cancelUpdateDialog": {
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
@@ -58,7 +62,8 @@
             "address": "Osoite",
             "contactInformation": "Yhteystiedot",
             "extraInformation": "Lisätiedot",
-            "personalInformation": "Henkilötiedot"
+            "personalInformation": "Henkilötiedot",
+            "regions": "Toiminta-alue"
           }
         },
         "qualifications": {
