@@ -53,8 +53,9 @@ export const ClerkInterpreterDetails = () => {
         t('toasts.updated')
       );
       dispatch(showNotifierToast(toast));
-      dispatch(resetClerkInterpreterDetailsUpdate);
+      dispatch(resetClerkInterpreterDetailsUpdate());
       setCurrentUIMode(UIMode.View);
+      setHasLocalChanges(false);
     } else if (
       interpreterDetailsUpdateStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditInterpreterDetails

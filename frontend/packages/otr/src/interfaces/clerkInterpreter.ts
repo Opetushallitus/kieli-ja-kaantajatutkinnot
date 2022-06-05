@@ -5,17 +5,11 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType, PermissionToPublish } from 'enums/interpreter';
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
-export interface ClerkInterpreter extends WithId, WithVersion {
-  deleted: boolean;
+export interface ClerkInterpreterTextFields {
   identityNumber: string;
   firstName: string;
   lastName: string;
   email: string;
-  permissionToPublishEmail: boolean;
-  permissionToPublishPhone: boolean;
-  permissionToPublishOtherContactInfo: boolean;
-  qualifications: Array<Qualification>;
-  regions: Array<string>;
   // Optional fields
   phoneNumber?: string;
   otherContactInfo?: string;
@@ -24,6 +18,17 @@ export interface ClerkInterpreter extends WithId, WithVersion {
   town?: string;
   country?: string;
   extraInformation?: string;
+}
+export interface ClerkInterpreter
+  extends WithId,
+    WithVersion,
+    ClerkInterpreterTextFields {
+  deleted: boolean;
+  permissionToPublishEmail: boolean;
+  permissionToPublishPhone: boolean;
+  permissionToPublishOtherContactInfo: boolean;
+  qualifications: Array<Qualification>;
+  regions: Array<string>;
 }
 
 export interface ClerkInterpreterResponse

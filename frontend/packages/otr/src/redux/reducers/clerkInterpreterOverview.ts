@@ -35,10 +35,7 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.overviewStatus = initialState.overviewStatus;
       state.interpreter = initialState.interpreter;
     },
-    resetClerkInterpreterDetailsUpdate(
-      state,
-      _action: PayloadAction<ClerkInterpreter>
-    ) {
+    resetClerkInterpreterDetailsUpdate(state) {
       state.interpreterDetailsUpdateStatus =
         initialState.interpreterDetailsUpdateStatus;
     },
@@ -47,6 +44,13 @@ const clerkInterpreterOverviewSlice = createSlice({
       _action: PayloadAction<ClerkInterpreter>
     ) {
       state.interpreterDetailsUpdateStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkInterpreterOverviewUpdateSuccess(
+      state,
+      action: PayloadAction<ClerkInterpreter>
+    ) {
+      state.interpreterDetailsUpdateStatus = APIResponseStatus.Success;
+      state.interpreter = action.payload;
     },
   },
 });
@@ -60,4 +64,5 @@ export const {
   resetClerkInterpreterOverview,
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
+  storeClerkInterpreterOverviewUpdateSuccess,
 } = clerkInterpreterOverviewSlice.actions;
