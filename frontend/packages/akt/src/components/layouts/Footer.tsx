@@ -16,18 +16,22 @@ import {
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
-import { AppRoutes } from 'enums/app';
+import { useAppSelector } from 'configs/redux';
+import { AppRoutes, PublicUIViews } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 import AKTLogo from 'public/assets/svg/akt_logo.svg';
+import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akt.component.footer' });
   const translateCommon = useCommonTranslation();
   const [isClerkUI] = useAuthentication();
+  const { currentView } = useAppSelector(publicUIViewSelector);
+  const showFooter = !isClerkUI && currentView != PublicUIViews.ContactRequest;
 
   return (
     <footer>
-      {!isClerkUI && (
+      {showFooter && (
         <>
           <Svg
             className="footer__wave"
