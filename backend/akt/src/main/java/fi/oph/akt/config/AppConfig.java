@@ -31,11 +31,7 @@ public class AppConfig {
   public EmailSender emailSender(@Value("${akt.email.ryhmasahkoposti-service-url}") String emailServiceUrl) {
     LOG.info("emailServiceUrl:{}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
-    return new EmailSenderViestintapalvelu(
-      webClient,
-      ConfigEnums.SERVICENAME.value(),
-      ConfigEnums.EMAIL_SENDER_NAME.value()
-    );
+    return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
 
   @Bean
@@ -50,6 +46,6 @@ public class AppConfig {
   }
 
   private static WebClient.Builder webClientBuilderWithCallerId() {
-    return WebClient.builder().defaultHeader("Caller-Id", ConfigEnums.CALLER_ID.value());
+    return WebClient.builder().defaultHeader("Caller-Id", Constants.CALLER_ID);
   }
 }

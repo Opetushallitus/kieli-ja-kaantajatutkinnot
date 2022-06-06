@@ -227,7 +227,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
-    final Translator translator = translatorRepository.getById(dto.id());
+    final Translator translator = translatorRepository.getReferenceById(dto.id());
     translator.assertVersion(dto.version());
     copyDtoFieldsToTranslator(dto, translator);
 
@@ -264,7 +264,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public void deleteTranslator(final long translatorId) {
-    final Translator translator = translatorRepository.getById(translatorId);
+    final Translator translator = translatorRepository.getReferenceById(translatorId);
     final Collection<Authorisation> authorisations = translator.getAuthorisations();
     final List<AuthorisationTermReminder> reminders = authorisations
       .stream()
@@ -280,7 +280,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public ClerkTranslatorDTO createAuthorisation(final long translatorId, final AuthorisationCreateDTO dto) {
-    final Translator translator = translatorRepository.getById(translatorId);
+    final Translator translator = translatorRepository.getReferenceById(translatorId);
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
     final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
 
@@ -309,7 +309,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public ClerkTranslatorDTO updateAuthorisation(final AuthorisationUpdateDTO dto) {
-    final Authorisation authorisation = authorisationRepository.getById(dto.id());
+    final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
     authorisation.assertVersion(dto.version());
 
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
@@ -358,7 +358,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public ClerkTranslatorDTO updateAuthorisationPublishPermission(final AuthorisationPublishPermissionDTO dto) {
-    final Authorisation authorisation = authorisationRepository.getById(dto.id());
+    final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
     authorisation.assertVersion(dto.version());
     authorisation.setPermissionToPublish(dto.permissionToPublish());
 
@@ -377,7 +377,7 @@ public class ClerkTranslatorService {
 
   @Transactional
   public ClerkTranslatorDTO deleteAuthorisation(final long authorisationId) {
-    final Authorisation authorisation = authorisationRepository.getById(authorisationId);
+    final Authorisation authorisation = authorisationRepository.getReferenceById(authorisationId);
     final Translator translator = authorisation.getTranslator();
     if (translator.getAuthorisations().size() == 1) {
       throw new APIException(APIExceptionType.AUTHORISATION_DELETE_LAST_AUTHORISATION);

@@ -1,6 +1,6 @@
 package fi.oph.akt.config.security;
 
-import fi.oph.akt.config.ConfigEnums;
+import fi.oph.akt.config.Constants;
 import fi.oph.akt.config.CustomAccessDeniedHandler;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
@@ -14,37 +14,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("!dev")
 @Configuration
-@EnableGlobalMethodSecurity(jsr250Enabled = false, prePostEnabled = true, securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-  public static final String AKT_ROLE = "APP_AKT";
+public class WebSecurityConfig {
 
   private final Environment environment;
   private final SessionMappingStorage sessionMappingStorage = new HashMapBackedSessionMappingStorage();
 
   @Autowired
-  public WebSecurityConfig(Environment environment) {
+  public WebSecurityConfig(final Environment environment) {
     this.environment = environment;
   }
 
   @Bean
   public ServiceProperties serviceProperties() {
-    ServiceProperties serviceProperties = new ServiceProperties();
+    final ServiceProperties serviceProperties = new ServiceProperties();
     serviceProperties.setService(
       environment.getRequiredProperty("cas.service") + environment.getRequiredProperty("cas.login-path")
     );
@@ -58,10 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   //
   @Bean
   public CasAuthenticationProvider casAuthenticationProvider() {
-    CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
-    String host = environment.getProperty("host-alb", environment.getRequiredProperty("host-virkailija"));
+    final CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
+    final String host = environment.getProperty("host-alb", environment.getRequiredProperty("host-virkailija"));
 
-    casAuthenticationProvider.setUserDetailsService(new OphUserDetailsServiceImpl(host, ConfigEnums.CALLER_ID.value()));
+    casAuthenticationProvider.setUserDetailsService(new OphUserDetailsServiceImpl(host, Constants.CALLER_ID));
 
     casAuthenticationProvider.setServiceProperties(serviceProperties());
     casAuthenticationProvider.setTicketValidator(ticketValidator());
@@ -71,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public TicketValidator ticketValidator() {
-    Cas20ProxyTicketValidator ticketValidator = new Cas20ProxyTicketValidator(
+    final Cas20ProxyTicketValidator ticketValidator = new Cas20ProxyTicketValidator(
       environment.getRequiredProperty("cas.url")
     );
     ticketValidator.setAcceptAnyProxy(true);
@@ -82,13 +81,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   // CAS filter
   //
   @Bean
-  public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
-    OpintopolkuCasAuthenticationFilter casAuthenticationFilter = new OpintopolkuCasAuthenticationFilter(
+  public CasAuthenticationFilter casAuthenticationFilter(final AuthenticationManager authenticationManager) {
+    final OpintopolkuCasAuthenticationFilter casAuthenticationFilter = new OpintopolkuCasAuthenticationFilter(
       serviceProperties()
     );
-    casAuthenticationFilter.setAuthenticationManager(authenticationManager());
+    casAuthenticationFilter.setAuthenticationManager(authenticationManager);
     casAuthenticationFilter.setFilterProcessesUrl("/virkailija" + environment.getRequiredProperty("cas.login-path"));
     return casAuthenticationFilter;
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(final AuthenticationConfiguration authenticationConfiguration)
+    throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
   }
 
   //
@@ -99,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   //
   @Bean
   public SingleSignOutFilter singleSignOutFilter() {
-    SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+    final SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
     singleSignOutFilter.setIgnoreInitConfiguration(true);
     singleSignOutFilter.setSessionMappingStorage(sessionMappingStorage);
     return singleSignOutFilter;
@@ -110,16 +115,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   //
   @Bean
   public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
-    CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
+    final CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
     casAuthenticationEntryPoint.setLoginUrl(environment.getProperty("cas.login"));
     casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
     return casAuthenticationEntryPoint;
   }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    commonConfig(http)
-      .addFilter(casAuthenticationFilter())
+  @Bean
+  public SecurityFilterChain filterChain(
+    final HttpSecurity http,
+    final CasAuthenticationFilter casAuthenticationFilter
+  ) throws Exception {
+    return commonConfig(http)
+      .addFilter(casAuthenticationFilter)
+      .authenticationProvider(casAuthenticationProvider())
       .exceptionHandling()
       .accessDeniedHandler(CustomAccessDeniedHandler.create())
       .authenticationEntryPoint(casAuthenticationEntryPoint())
@@ -130,14 +139,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
       .invalidateHttpSession(true)
       .and()
-      .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
+      .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
+      .build();
   }
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
       .authorizeRequests()
       .mvcMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
-      .hasRole(AKT_ROLE)
+      .hasRole(Constants.APP_ROLE)
       .antMatchers("/", "/**")
       .permitAll()
       .anyRequest()
@@ -150,10 +160,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
     return http.csrf().csrfTokenRepository(csrfTokenRepository).and();
-  }
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(casAuthenticationProvider());
   }
 }
