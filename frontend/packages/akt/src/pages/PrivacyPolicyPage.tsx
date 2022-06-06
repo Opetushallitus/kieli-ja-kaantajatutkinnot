@@ -1,25 +1,50 @@
+import {
+  ArrowBackIosOutlined as ArrowBackIosOutlinedIcon,
+  OpenInNew as OpenInNewIcon,
+} from '@mui/icons-material';
 import { Grid } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ExtLink, H1, H2, H3, HeaderSeparator, Text } from 'shared/components';
+import {
+  CustomButtonLink,
+  ExtLink,
+  H1,
+  H2,
+  H3,
+  HeaderSeparator,
+  Text,
+} from 'shared/components';
+import { Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
-import { usePrivacyTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePrivacyTranslation } from 'configs/i18n';
+import { AppRoutes } from 'enums/app';
 
-type BulletListProps = {
-  translations: Array<string>;
+const BackButton = () => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <CustomButtonLink
+      to={AppRoutes.PublicHomePage}
+      variant={Variant.Text}
+      startIcon={<ArrowBackIosOutlinedIcon />}
+      className="color-secondary-dark"
+    >
+      {translateCommon('backToHomePage')}
+    </CustomButtonLink>
+  );
 };
 
-const BulletList: FC<BulletListProps> = ({ translations }) => {
+const BulletList = ({ translations }: { translations: Array<string> }) => {
   const translatePrivacy = usePrivacyTranslation();
 
   return (
     <ul>
-      {translations.map((translation, i) => (
-        <li key={i}>
-          <Text>{translatePrivacy(translation)}</Text>
-        </li>
-      ))}
+      <Text>
+        {translations.map((translation, i) => (
+          <li key={i}>{translatePrivacy(translation)}</li>
+        ))}
+      </Text>
     </ul>
   );
 };
@@ -44,6 +69,9 @@ export const PrivacyPolicyPage = () => {
         <HeaderSeparator />
       </Grid>
       <Grid item>
+        <div>
+          <BackButton />
+        </div>
         <div className="rows gapped">
           <H2>{translatePrivacy('general.title')}</H2>
           <Text>{translatePrivacy('general.description1')}</Text>
@@ -51,6 +79,7 @@ export const PrivacyPolicyPage = () => {
             className="privacy-policy-page__content__link"
             text={translatePrivacy('general.externalLink.title')}
             href={translatePrivacy('general.externalLink.link')}
+            endIcon={<OpenInNewIcon />}
           />
           <Text>{translatePrivacy('general.description2')}</Text>
           <Text>{translatePrivacy('general.description3')}</Text>
@@ -157,7 +186,8 @@ export const PrivacyPolicyPage = () => {
                 'registrar.contact.emailAddress1'
               )}`}
               text={translatePrivacy('registrar.contact.emailAddress1')}
-            ></ExtLink>{' '}
+            ></ExtLink>
+            {` ${translatePrivacy('common.or')} `}
             <ExtLink
               className="privacy-policy-page__content__link"
               href={`mailto:${translatePrivacy(
@@ -178,6 +208,9 @@ export const PrivacyPolicyPage = () => {
             <br />
             <i>{translatePrivacy('registrar.modified')}</i>
           </Text>
+        </div>
+        <div>
+          <BackButton />
         </div>
       </Grid>
     </Grid>

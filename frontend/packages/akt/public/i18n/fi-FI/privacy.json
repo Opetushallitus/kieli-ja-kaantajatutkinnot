@@ -6,6 +6,7 @@
         "title": "Muutokset tietosuojakäytäntöön"
       },
       "common": {
+        "or": "tai",
         "otherData": "Muut tiedot",
         "personalData": "Henkilötiedot"
       },
