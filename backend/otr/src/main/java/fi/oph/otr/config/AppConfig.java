@@ -1,5 +1,6 @@
 package fi.oph.otr.config;
 
+import fi.oph.otr.onr.OnrCasInterceptor;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.OnrServiceImpl;
 import fi.oph.otr.onr.mock.OnrServiceMock;
@@ -54,6 +55,14 @@ public class AppConfig {
     LOG.info("onrServiceUrl:{}", onrServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(onrServiceUrl).build();
     return new OnrServiceImpl(webClient);
+  }
+
+  @Bean
+  public OnrCasInterceptor onrInterceptor(
+    @Value("${otr.onr.casInterceptor.checkUrl}") String checkUrl,
+    @Value("${otr.onr.casInterceptor.username}") String username
+  ) {
+    return new OnrCasInterceptor(checkUrl, username);
   }
 
   @Bean

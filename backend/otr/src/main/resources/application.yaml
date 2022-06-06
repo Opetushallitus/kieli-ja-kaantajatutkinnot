@@ -61,3 +61,6 @@ otr:
   onr:
     enabled: ${onr.enabled:true}
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+    casInterceptor:
+      checkUrl: ${onr.casInterceptor.checkUrl:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service/j_spring_cas_security_check}
+      username: ${oppijanumerorekisteri-service.rekisteri.username:username}

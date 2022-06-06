@@ -16,3 +16,5 @@ ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
 
 onr.enabled=true
 onr.service-url=${url-alb}/oppijanumerorekisteri-service
+onr.casInterceptor.checkUrl = ${onr.service-url}/j_spring_cas_security_check
+oppijanumerorekisteri-service.rekisteri.username =
