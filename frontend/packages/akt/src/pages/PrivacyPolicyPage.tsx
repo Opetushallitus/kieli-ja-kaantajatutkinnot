@@ -79,41 +79,41 @@ export const PrivacyPolicyPage = () => {
           />
         </div>
         <div className="rows gapped">
-          <H2>{translatePrivacy('reasoning.title')}</H2>
+          <H2>{translatePrivacy('purpose.title')}</H2>
           <H3>{translatePrivacy('common.personalData')}</H3>
-          <Text>{translatePrivacy('reasoning.personal.data.title')}</Text>
+          <Text>{translatePrivacy('purpose.personal.data.title')}</Text>
           <BulletList
             translations={[
-              'reasoning.personal.data.description1',
-              'reasoning.personal.data.description2',
+              'purpose.personal.data.description1',
+              'purpose.personal.data.description2',
             ]}
           />
         </div>
         <div className="rows gapped">
-          <H2>{translatePrivacy('abandonment.title')}</H2>
-          <Text>{translatePrivacy('abandonment.description')}</Text>
-          <Text>{translatePrivacy('abandonment.consent.title')}</Text>
-          <BulletList translations={['abandonment.consent.description1']} />
-          <Text>{translatePrivacy('abandonment.community.title')}</Text>
-          <BulletList translations={['abandonment.community.description1']} />
-          <Text>{translatePrivacy('abandonment.serviceProvider.title')}</Text>
+          <H2>{translatePrivacy('disclosure.title')}</H2>
+          <Text>{translatePrivacy('disclosure.description')}</Text>
+          <Text>{translatePrivacy('disclosure.consent.title')}</Text>
+          <BulletList translations={['disclosure.consent.description1']} />
+          <Text>{translatePrivacy('disclosure.community.title')}</Text>
+          <BulletList translations={['disclosure.community.description1']} />
+          <Text>{translatePrivacy('disclosure.serviceProvider.title')}</Text>
           <BulletList
             translations={[
-              'abandonment.serviceProvider.description1',
-              'abandonment.serviceProvider.description2',
+              'disclosure.serviceProvider.description1',
+              'disclosure.serviceProvider.description2',
             ]}
           />
-          <Text>{translatePrivacy('abandonment.dataTransfers.title')}</Text>
+          <Text>{translatePrivacy('disclosure.dataTransfers.title')}</Text>
           <BulletList
-            translations={['abandonment.dataTransfers.description1']}
+            translations={['disclosure.dataTransfers.description1']}
           />
-          <Text>{translatePrivacy('abandonment.research.title')}</Text>
-          <BulletList translations={['abandonment.research.description1']} />
-          <Text>{translatePrivacy('abandonment.legislation.title')}</Text>
-          <BulletList translations={['abandonment.legislation.description1']} />
-          <Text>{translatePrivacy('abandonment.thirdCountries.title')}</Text>
+          <Text>{translatePrivacy('disclosure.research.title')}</Text>
+          <BulletList translations={['disclosure.research.description1']} />
+          <Text>{translatePrivacy('disclosure.legislation.title')}</Text>
+          <BulletList translations={['disclosure.legislation.description1']} />
+          <Text>{translatePrivacy('disclosure.thirdCountries.title')}</Text>
           <BulletList
-            translations={['abandonment.thirdCountries.description1']}
+            translations={['disclosure.thirdCountries.description1']}
           />
         </div>
         <div className="rows gapped">
@@ -139,46 +139,44 @@ export const PrivacyPolicyPage = () => {
           <Text>{translatePrivacy('changes.description1')}</Text>
         </div>
         <div className="rows gapped">
-          <H2>{translatePrivacy('registerHolder.title')}</H2>
-          <Text>{translatePrivacy('registerHolder.description1')}</Text>
-          <Text>{translatePrivacy('registerHolder.description2')}</Text>
+          <H2>{translatePrivacy('registrar.title')}</H2>
+          <Text>{translatePrivacy('registrar.description1')}</Text>
+          <Text>{translatePrivacy('registrar.description2')}</Text>
           <Text>
-            {translatePrivacy('registerHolder.holder.name')}
+            {translatePrivacy('registrar.contact.name')}
             <br />
-            {translatePrivacy('registerHolder.holder.address1')}
+            {translatePrivacy('registrar.contact.address1')}
             <br />
-            {translatePrivacy('registerHolder.holder.address2')}
+            {translatePrivacy('registrar.contact.address2')}
           </Text>
           <Text>
-            {translatePrivacy('registerHolder.holder.email')}{' '}
+            {translatePrivacy('registrar.contact.email')}{' '}
             <ExtLink
               className="privacy-policy-page__content__link"
               href={`mailto:${translatePrivacy(
-                'registerHolder.holder.emailAddress1'
+                'registrar.contact.emailAddress1'
               )}`}
-              text={translatePrivacy('registerHolder.holder.emailAddress1')}
+              text={translatePrivacy('registrar.contact.emailAddress1')}
             ></ExtLink>{' '}
             <ExtLink
               className="privacy-policy-page__content__link"
               href={`mailto:${translatePrivacy(
-                'registerHolder.holder.emailAddress2'
+                'registrar.contact.emailAddress2'
               )}`}
-              text={translatePrivacy('registerHolder.holder.emailAddress2')}
+              text={translatePrivacy('registrar.contact.emailAddress2')}
             ></ExtLink>
             <br />
-            {translatePrivacy('registerHolder.holder.phone')}{' '}
+            {translatePrivacy('registrar.contact.phone')}{' '}
             <ExtLink
               className="privacy-policy-page__content__link"
-              href={`tel:${translatePrivacy(
-                'registerHolder.holder.phoneNumber'
-              )}`}
-              text={translatePrivacy('registerHolder.holder.phoneNumber')}
+              href={`tel:${translatePrivacy('registrar.contact.phoneNumber')}`}
+              text={translatePrivacy('registrar.contact.phoneNumber')}
             ></ExtLink>
           </Text>
           <Text>
-            <i>{translatePrivacy('registerHolder.published')}</i>
+            <i>{translatePrivacy('registrar.published')}</i>
             <br />
-            <i>{translatePrivacy('registerHolder.modified')}</i>
+            <i>{translatePrivacy('registrar.modified')}</i>
           </Text>
         </div>
       </Grid>

@@ -1,7 +1,15 @@
 {
   "akt": {
     "privacy": {
-      "abandonment": {
+      "changes": {
+        "description1": "Opetushallitus kehittää jatkuvasti palvelujaan ja voi tehdä ajoittain muutoksia tähän tietosuojakäytäntöön ilman etukäteistä ilmoitusta. Jos tätä tietosuojakäytäntöä kuitenkin olennaisesti muutetaan, Opetushallitus ilmoittaa asiasta tämän tietosuojakäytännön alussa vähintään 30 vuorokauden ajan. Muutokset voivat perustua myös lainsäädännön muutokseen. Suosittelemme, että käyt tutustumassa tähän tietosuojakäytäntöön ajoittain saadaksesi tiedon tietosuojakäytäntöön mahdollisesti tehdyistä muutoksista.",
+        "title": "Muutokset tietosuojakäytäntöön"
+      },
+      "common": {
+        "otherData": "Muut tiedot",
+        "personalData": "Henkilötiedot"
+      },
+      "disclosure": {
         "description": "Opetushallitus ei normaalisti luovuta henkilötietoja. Tietojasi voidaan kuitenkin luovuttaa seuraavissa tilanteissa:",
         "community": {
           "description1": "Henkilötietoja ei pääsääntöisesti näytetä muille Opetushallituksen palvelujen käyttäjille. Joissakin palveluissa käyttäjä voi itse jakaa tietojaan muille käyttäjille esimerkiksi nimimerkin muodossa (blogikirjoituksen kommentointi).",
@@ -33,14 +41,6 @@
           "title": "7. Tietojen siirto kolmansiin maihin"
         },
         "title": "Luovutammeko henkilötietoja?"
-      },
-      "changes": {
-        "description1": "Opetushallitus kehittää jatkuvasti palvelujaan ja voi tehdä ajoittain muutoksia tähän tietosuojakäytäntöön ilman etukäteistä ilmoitusta. Jos tätä tietosuojakäytäntöä kuitenkin olennaisesti muutetaan, Opetushallitus ilmoittaa asiasta tämän tietosuojakäytännön alussa vähintään 30 vuorokauden ajan. Muutokset voivat perustua myös lainsäädännön muutokseen. Suosittelemme, että käyt tutustumassa tähän tietosuojakäytäntöön ajoittain saadaksesi tiedon tietosuojakäytäntöön mahdollisesti tehdyistä muutoksista.",
-        "title": "Muutokset tietosuojakäytäntöön"
-      },
-      "common": {
-        "otherData": "Muut tiedot",
-        "personalData": "Henkilötiedot"
       },
       "gathering": {
         "other": {
@@ -85,7 +85,7 @@
         "description2": "Ilmoitamme palveluiden kautta mahdollisista tietoturvauhkista ja tietoturvaloukkauksista suoraan poliisille ja kyberturvallisuuskeskukselle. Voimme myös sulkea palveluita tilapäisesti henkilötietojen suojaamiseksi.",
         "title": "Mitä teemme suojataksemme henkilötiedot?"
       },
-      "reasoning": {
+      "purpose": {
         "personal": {
           "data": {
             "description1": "käyttäjän jättämään yhteydenottopyyntöön tai palautteeseen vastaamiseen",
@@ -95,10 +95,8 @@
         },
         "title": "Mihin käyttötarkoitukseen tietoja kerätään?"
       },
-      "registerHolder": {
-        "description1": "Älä epäröi ottaa meihin yhteyttä, jos sinulla on kysyttävää tietosuojakäytännöstämme.",
-        "description2": "Rekisterinpitäjänä toimii Opetushallitus (Y-tunnus 2769790-1) ja meihin voi ottaa yhteyttä seuraavasti:",
-        "holder": {
+      "registrar": {
+        "contact": {
           "name": "Opetushallitus / viestintäyksikkö",
           "address1": "PL 380 (tai Hakaniemenranta 6)",
           "address2": "00530 Helsinki",
@@ -109,6 +107,8 @@
           "phone": "puhelinnumero (vaihde):",
           "phoneNumber": "029 533 1000"
         },
+        "description1": "Älä epäröi ottaa meihin yhteyttä, jos sinulla on kysyttävää tietosuojakäytännöstämme.",
+        "description2": "Rekisterinpitäjänä toimii Opetushallitus (Y-tunnus 2769790-1) ja meihin voi ottaa yhteyttä seuraavasti:",
         "modified": "Tietosuojakäytäntöä muokattu 1.6.2022",
         "published": "Tietosuojakäytäntö on julkaistu 1.6.2022",
         "title": "Kuka on rekisterinpitäjä ja mihin voit ottaa yhteyttä?"
