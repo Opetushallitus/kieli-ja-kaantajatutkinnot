@@ -4,10 +4,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 
 module.exports = (env) => {
   const STATIC_PATH = 'akt/static';
   const mode = env.prod ? 'production' : 'development';
+
+  const gitRevisionPlugin = new GitRevisionPlugin({
+    branch: true,
+  });
 
   return {
     mode,
@@ -34,10 +39,6 @@ module.exports = (env) => {
       new MiniCssExtractPlugin({
         filename: `${STATIC_PATH}/css/[name].css`,
       }),
-      new HtmlWebpackPlugin({
-        publicPath: env.prod ? '/akt/' : '/',
-        template: path.join(__dirname, 'public', 'index.html'),
-      }),
       new CopyPlugin({
         patterns: [
           {
@@ -46,8 +47,16 @@ module.exports = (env) => {
           },
         ],
       }),
+      gitRevisionPlugin,
       new webpack.DefinePlugin({
         REACT_ENV_PRODUCTION: JSON.stringify(Boolean(env.prod)),
+      }),
+      new HtmlWebpackPlugin({
+        publicPath: env.prod ? '/akt/' : '/',
+        template: path.join(__dirname, 'public', 'index.html'),
+        templateParameters: {
+          GIT_INFO: `${gitRevisionPlugin.branch()}-${gitRevisionPlugin.commithash()}`,
+        },
       }),
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
