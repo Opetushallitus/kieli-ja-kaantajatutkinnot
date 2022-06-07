@@ -16,15 +16,15 @@ describe('PublicHomepage', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
       publicInterpreters10.length
     );
-    // FI-SV => 2 interpreters
     onPublicHomePage.filterByToLang('ruotsi');
     onPublicHomePage.expectFilteredInterpretersCount(2);
 
-    // Region: Uusimaa => 2 interpreters
     onPublicHomePage.filterByRegion('Uusimaa');
     onPublicHomePage.expectFilteredInterpretersCount(2);
 
-    // Region: Kanta-Häme => 1 interpreter (with no regions defined, ie. operating in the whole country)
+    // No interpreter present in test fixture with a region code corresponding to Kanta-Häme.
+    // The interpreter matching the following criteria instead has no regions listed;
+    // this means that the interpreter is shown as available for work everywhere in Finland.
     onPublicHomePage.filterByRegion('Kanta-Häme');
     onPublicHomePage.expectFilteredInterpretersCount(1);
 
