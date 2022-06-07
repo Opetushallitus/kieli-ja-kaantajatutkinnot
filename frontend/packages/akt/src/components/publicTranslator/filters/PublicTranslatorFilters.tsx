@@ -229,7 +229,7 @@ export const PublicTranslatorFilters = ({
         color={Color.Primary}
         className="public-translator-filters__app-bar"
       >
-        <Toolbar className="space-around public-translator-filters__app-bar__tool-bar">
+        <Toolbar className="public-translator-filters__app-bar__tool-bar space-between">
           <CustomButton
             data-testid="public-translator-filters__empty-btn"
             color={Color.Secondary}
