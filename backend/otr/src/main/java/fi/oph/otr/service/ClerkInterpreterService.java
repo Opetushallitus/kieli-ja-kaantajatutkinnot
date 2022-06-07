@@ -251,7 +251,7 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
     validateRegions(dto);
 
-    final Interpreter interpreter = interpreterRepository.getById(dto.id());
+    final Interpreter interpreter = interpreterRepository.getReferenceById(dto.id());
     interpreter.assertVersion(dto.version());
 
     onrService.updatePersonalData(interpreter.getOnrId(), createPersonalData(dto));
@@ -269,7 +269,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO deleteInterpreter(final long id) {
-    final Interpreter interpreter = interpreterRepository.getById(id);
+    final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     interpreter.markDeleted();
     interpreter.getQualifications().forEach(BaseEntity::markDeleted);
     return getInterpreter(id);
@@ -279,7 +279,7 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkQualificationCreateDTO dto) {
     validateLanguagePair(dto);
 
-    final Interpreter interpreter = interpreterRepository.getById(interpreterId);
+    final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
     createQualification(interpreter, dto);
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
@@ -289,7 +289,7 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO updateQualification(final ClerkQualificationUpdateDTO dto) {
     validateLanguagePair(dto);
 
-    final Qualification qualification = qualificationRepository.getById(dto.id());
+    final Qualification qualification = qualificationRepository.getReferenceById(dto.id());
     qualification.assertVersion(dto.version());
     copyFromQualificationDTO(qualification, dto);
     qualificationRepository.saveAndFlush(qualification);
@@ -299,7 +299,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO deleteQualification(final long qualificationId) {
-    final Qualification qualification = qualificationRepository.getById(qualificationId);
+    final Qualification qualification = qualificationRepository.getReferenceById(qualificationId);
     qualification.markDeleted();
     return getInterpreter(qualification.getInterpreter().getId());
   }

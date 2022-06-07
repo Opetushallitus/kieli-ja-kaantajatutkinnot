@@ -79,7 +79,7 @@ public class ClerkEmailService {
           EmailType.QUALIFICATION_EXPIRY
         );
 
-        final Email email = emailRepository.getById(emailId);
+        final Email email = emailRepository.getReferenceById(emailId);
 
         createQualificationReminder(qualification, email);
       });

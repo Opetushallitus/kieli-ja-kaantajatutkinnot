@@ -60,7 +60,7 @@ class EmailServiceTest {
       .build();
 
     final Long emailId = emailService.saveEmail(EmailType.QUALIFICATION_EXPIRY, emailData);
-    final Email email = emailRepository.getById(emailId);
+    final Email email = emailRepository.getReferenceById(emailId);
 
     assertEquals(EmailType.QUALIFICATION_EXPIRY, email.getEmailType());
     assertEquals("Vastaanottaja", email.getRecipientName());
@@ -83,7 +83,7 @@ class EmailServiceTest {
 
     emailService.sendEmail(savedEmail.getId());
 
-    final Email updatedEmail = emailRepository.getById(savedEmail.getId());
+    final Email updatedEmail = emailRepository.getReferenceById(savedEmail.getId());
     assertNotNull(updatedEmail.getSentAt());
     assertEquals("12345", updatedEmail.getExtId());
     assertNull(updatedEmail.getError());
@@ -105,7 +105,7 @@ class EmailServiceTest {
 
     emailService.sendEmail(savedEmail.getId());
 
-    final Email updatedEmail = emailRepository.getById(savedEmail.getId());
+    final Email updatedEmail = emailRepository.getReferenceById(savedEmail.getId());
     assertNull(updatedEmail.getSentAt());
     assertNull(updatedEmail.getExtId());
     assertEquals("error msg", updatedEmail.getError());
