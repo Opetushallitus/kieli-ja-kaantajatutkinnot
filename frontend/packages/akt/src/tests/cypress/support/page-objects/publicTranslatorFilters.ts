@@ -73,7 +73,7 @@ class PublicTranslatorFilters {
   }
 
   expectSearchButtonTo(assert: string) {
-    this.elements.search().should(assert);
+    this.elements.search().should('be.visible').should(assert);
   }
 
   expectSeachBtnText(text: string) {
