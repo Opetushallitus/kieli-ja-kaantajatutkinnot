@@ -79,5 +79,11 @@ const filterByRegion = (
   publicInterpreter: PublicInterpreter,
   filters: PublicInterpreterFilter
 ) => {
-  return publicInterpreter.regions.includes(filters.region);
+  if (publicInterpreter.regions.length) {
+    return publicInterpreter.regions.includes(filters.region);
+  } else {
+    // If no regions are defined for the interpreter,
+    // we assume that they work anywhere within Finland.
+    return true;
+  }
 };

@@ -1,12 +1,33 @@
+import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox';
+
 class PublicHomePage {
   elements = {
+    nameFilter: () => cy.findByTestId('public-interpreter-filters__name-field'),
+    regionFilter: () =>
+      cy.findByTestId('public-interpreter-filters__region-combobox'),
     searchButton: () =>
       cy.findByTestId('public-interpreter-filters__search-btn'),
+    toLangFilter: () =>
+      cy.findByTestId('public-interpreter-filters__to-language-select'),
   };
 
-  expectSearchButtonText(text: string) {
-    this.elements.searchButton().should('contain.text', text);
+  expectFilteredInterpretersCount(count: number) {
+    this.elements
+      .searchButton()
+      .should('contain.text', `Näytä tulokset (${count})`);
+  }
+
+  filterByName(name: string) {
+    this.elements.nameFilter().clear().type(name);
+  }
+
+  filterByRegion(region: string) {
+    selectComboBoxOptionByName(this.elements.regionFilter(), region);
+  }
+
+  filterByToLang(lang: string) {
+    selectComboBoxOptionByName(this.elements.toLangFilter(), lang);
   }
 }
 
-export const openPublicHomePage = new PublicHomePage();
+export const onPublicHomePage = new PublicHomePage();

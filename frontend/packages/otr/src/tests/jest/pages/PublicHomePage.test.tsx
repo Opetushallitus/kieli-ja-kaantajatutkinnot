@@ -70,7 +70,7 @@ describe('PublicHomePage', () => {
     await userEvent.click(screen.getByRole('option', { name: /05/ }));
     expect(
       await screen.findByTestId('public-interpreter-filters__search-btn')
-    ).toHaveTextContent('2');
+    ).toHaveTextContent('3');
 
     // Type the name
     await userEvent.type(
@@ -80,6 +80,6 @@ describe('PublicHomePage', () => {
     );
     expect(
       await screen.findByTestId('public-interpreter-filters__search-btn')
-    ).toHaveTextContent('1');
+    ).toHaveTextContent('2');
   });
 });
