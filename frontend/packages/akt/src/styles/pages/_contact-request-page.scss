@@ -45,7 +45,7 @@
     &__steps-container {
       @include phone {
         @include phone-divider-border-bottom;
-        margin-bottom: 2rem;
+        margin-bottom: 6rem;
         padding: 1rem 2rem 5rem;
       }
     }

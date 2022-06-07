@@ -101,6 +101,7 @@ export const WriteMessage = ({
             multiline
             fullWidth
             required
+            minRows={isPhone ? 10 : 5}
           />
         </div>
       </div>
