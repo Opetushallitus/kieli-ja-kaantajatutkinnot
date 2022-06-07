@@ -10,7 +10,9 @@ module.exports = (env) => {
   const STATIC_PATH = 'akt/static';
   const mode = env.prod ? 'production' : 'development';
 
-  const gitRevisionPlugin = new GitRevisionPlugin();
+  const gitRevisionPlugin = new GitRevisionPlugin({
+    branch: true,
+  });
 
   return {
     mode,
