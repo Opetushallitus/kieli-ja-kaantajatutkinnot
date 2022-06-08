@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.0.16] - 2022-06-08
+
+## Changed
+
+- Use common webpack config
+
 ## [1.0.15] - 2022-06-01
 
 ## Added
