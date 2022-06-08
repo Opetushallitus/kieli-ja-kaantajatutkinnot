@@ -2,7 +2,6 @@ package fi.oph.otr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
@@ -96,7 +95,7 @@ class PublicInterpreterServiceTest {
     // Hidden, deleted
     createQualificationDeleted(interpreter6, "FI", "FR", yesterday, nextWeek, true);
 
-    when(onrService.getPersonalDatas(any()))
+    when(onrService.getCachedPersonalDatas())
       .thenReturn(
         Map.of(
           interpreter1.getOnrId(),

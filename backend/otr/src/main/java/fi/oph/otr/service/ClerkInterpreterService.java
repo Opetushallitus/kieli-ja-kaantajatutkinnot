@@ -67,10 +67,7 @@ public class ClerkInterpreterService {
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
     final List<Interpreter> interpreters = interpreterRepository.findAll();
-
-    final Map<String, PersonalData> personalDatas = onrService.getPersonalDatas(
-      interpreters.stream().map(Interpreter::getOnrId).toList()
-    );
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     return interpreters
       .stream()
