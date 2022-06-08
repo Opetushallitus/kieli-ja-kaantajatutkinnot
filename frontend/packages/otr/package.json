@@ -16,7 +16,7 @@
     "otr:qa": "yarn otr:lint && yarn otr:format && yarn otr:test:jest && yarn otr:start:ci:e2e",
     "otr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
     "otr:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
-    "otr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://otr-backend:8080",
+    "otr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://otr-backend:8080 --env docker",
     "otr:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "otr:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "otr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
