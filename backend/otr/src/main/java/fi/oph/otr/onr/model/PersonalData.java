@@ -18,4 +18,8 @@ public record PersonalData(
   String town,
   String country,
   @NotNull Boolean isIndividualised
-) {}
+) {
+  public String nickNameOrFirstName() {
+    return nickName != null ? nickName : firstName;
+  }
+}
