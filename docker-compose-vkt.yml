@@ -3,13 +3,13 @@ services:
   vkt-backend:
     build: ./backend/vkt
     ports:
-      - "8080:8080"
+      - "8082:8082"
     command: "./mvnw clean install -DskipTests"
     entrypoint:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${VKT_UNSECURE:-false}"
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${VKT_UNSECURE:-false}",
       ]
     networks:
       - vkt-dev
@@ -20,7 +20,8 @@ services:
     depends_on:
       - vkt-postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:5432/vkt-postgres
+      - SERVER_PORT=8082
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:9002/vkt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - VKT_UNSECURE=${VKT_UNSECURE}
@@ -31,7 +32,7 @@ services:
       args:
         - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
     ports:
-      - "4000:4000"
+      - "4002:4002"
     working_dir: /app/reactjs
     networks:
       - vkt-dev
@@ -45,13 +46,16 @@ services:
   vkt-postgres:
     build: ./backend/vkt/db
     container_name: vkt-postgres
+    expose:
+      - "9002"
     ports:
-      - "5432:5432"
+      - "9002:9002"
     networks:
       - vkt-dev
     environment:
       - POSTGRES_DB=vkt-postgres
       - POSTGRES_PASSWORD=postgres
+      - PGPORT=9002
 
 networks:
   vkt-dev: {}

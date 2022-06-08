@@ -9,7 +9,7 @@ services:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false}"
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false}",
       ]
     networks:
       - akt-dev
@@ -20,9 +20,10 @@ services:
     depends_on:
       - akt-postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://akt-postgres:5432/akt-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://akt-postgres:9000/akt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVER_PORT=8080
       - AKT_UNSECURE=${AKT_UNSECURE}
   akt-frontend:
     build:
@@ -46,12 +47,13 @@ services:
     build: ./backend/akt/db
     container_name: akt-postgres
     ports:
-      - "5432:5432"
+      - "9000:9000"
     networks:
       - akt-dev
     environment:
       - POSTGRES_DB=akt-postgres
       - POSTGRES_PASSWORD=postgres
+      - PGPORT=9000
 
 networks:
   akt-dev: {}
