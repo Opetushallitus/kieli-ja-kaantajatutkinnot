@@ -8,7 +8,7 @@ ARG GITHUB_REGISTRY_TOKEN
 WORKDIR /app/reactjs
 
 # Copy workspace config
-COPY package*.json yarn.lock ./
+COPY package*.json yarn.lock webpack.common.js ./
 COPY .yarn/releases ./.yarn/releases
 COPY .yarnrc.yml ./
 
