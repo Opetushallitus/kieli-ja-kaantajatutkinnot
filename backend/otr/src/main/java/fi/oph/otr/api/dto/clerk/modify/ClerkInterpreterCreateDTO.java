@@ -12,8 +12,9 @@ import lombok.NonNull;
 @Builder
 public record ClerkInterpreterCreateDTO(
   @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
+  @NonNull @NotBlank String firstName,
+  String nickName,
   @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
   String phoneNumber,

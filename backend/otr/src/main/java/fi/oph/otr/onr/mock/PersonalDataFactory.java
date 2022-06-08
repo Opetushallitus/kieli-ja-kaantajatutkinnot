@@ -8,24 +8,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonalDataFactory {
 
-  private final AtomicInteger phoneNumberCounter = new AtomicInteger();
+  private final AtomicInteger counter = new AtomicInteger();
 
   public PersonalData create() {
-    final String firstName = firstNames.next();
+    final int counterValue = counter.incrementAndGet();
     final String lastName = lastNames.next();
-    final int phoneCounter = phoneNumberCounter.incrementAndGet();
+
+    final boolean isMale = counterValue % 2 == 0;
+    final String nickName = isMale ? menNickNames.next() : womenNickNames.next();
+    final String secondName = isMale ? menSecondNames.next() : womenSecondNames.next();
 
     return PersonalData
       .builder()
-      .firstName(firstName)
       .lastName(lastName)
+      .firstName(nickName + " " + secondName)
+      .nickName(counterValue % 9 != 0 ? nickName : null)
       .identityNumber(identityNumbers.next())
-      .email(firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
-      .phoneNumber(phoneCounter % 10 != 0 ? "+35840" + (1000000 + phoneCounter) : null)
+      .email(nickName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
+      .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)
       .street(streets.next())
       .postalCode(postalCodes.next())
       .town(towns.next())
       .country(countries.next())
+      .isIndividualised(counterValue % 11 != 0)
       .build();
   }
 
@@ -33,38 +38,92 @@ public class PersonalDataFactory {
     return new CyclicIterable<>(Arrays.asList(values)).iterator();
   }
 
-  private final Iterator<String> firstNames = cyclicIterator(
+  private final Iterator<String> menNickNames = cyclicIterator(
     "Antti",
     "Eero",
     "Ilkka",
-    "Anneli",
-    "Ella",
-    "Hanna",
-    "Iiris",
     "Jari",
     "Juha",
     "Matti",
     "Pekka",
-    "Liisa",
-    "Maria",
-    "Ninni",
     "Timo",
     "Iiro",
     "Jukka",
-    "Viivi",
-    "Anna",
-    "Iida",
+    "Hugo",
+    "Jaakko",
+    "Lasse",
+    "Kyösti",
+    "Markku",
+    "Kristian",
+    "Mikael",
+    "Nooa",
+    "Otto",
+    "Olli",
+    "Aapo"
+  );
+
+  private final Iterator<String> menSecondNames = cyclicIterator(
     "Kalle",
     "Kari",
     "Marko",
     "Mikko",
+    "Tapani",
+    "Ville",
+    "Jesse",
+    "Joose",
+    "Sakari",
+    "Tero",
+    "Samu",
+    "Roope",
+    "Panu",
+    "Matias",
+    "Seppo",
+    "Rauno",
+    "Aapeli"
+  );
+
+  private final Iterator<String> womenNickNames = cyclicIterator(
+    "Anneli",
+    "Ella",
+    "Hanna",
+    "Iiris",
+    "Liisa",
+    "Maria",
+    "Ninni",
+    "Viivi",
+    "Sointu",
+    "Ulla",
+    "Varpu",
+    "Raili",
+    "Neea",
+    "Noora",
+    "Mirka",
+    "Oona",
+    "Jonna",
+    "Jaana",
+    "Katja",
+    "Jenni",
+    "Reija"
+  );
+
+  private final Iterator<String> womenSecondNames = cyclicIterator(
+    "Anna",
+    "Iida",
     "Kerttu",
     "Kristiina",
     "Marjatta",
-    "Tapani",
-    "Ville",
     "Ronja",
-    "Sara"
+    "Sara",
+    "Helena",
+    "Aino",
+    "Erika",
+    "Emmi",
+    "Aada",
+    "Eveliina",
+    "Nanna",
+    "Olga",
+    "Inkeri",
+    "Petra"
   );
 
   private final Iterator<String> lastNames = cyclicIterator(
