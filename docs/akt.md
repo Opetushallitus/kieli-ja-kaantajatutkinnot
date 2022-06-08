@@ -76,6 +76,8 @@ npm install
 npm run start  # Starts Webpack DevServer
 ```
 
+and the app runs on > <http://localhost:4000/akt/etusivu>
+
 ```sh
 npm run build # Builds the app for production to the dist folder.
 ```
