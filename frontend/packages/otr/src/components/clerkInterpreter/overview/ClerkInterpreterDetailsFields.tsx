@@ -5,7 +5,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { CustomTextField, H3 } from 'shared/components';
+import { CustomTextField, H3, valueAsOption } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 import { InputFieldUtils } from 'shared/utils';
@@ -82,19 +82,19 @@ const ClerkInterpreterDetailsTextField = ({
   );
 };
 
-export const valueAsOption = (value: string) => ({
-  value: value,
-  label: value,
-});
-
 const ClerkInterpreterDetailsRegions = ({
+  regions = [],
+  areaOfOperation,
+  setAreaOfOperation,
   disabled,
+  onChange,
 }: {
+  regions?: string[];
+  areaOfOperation: AreaOfOperation;
+  setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
   disabled: boolean;
+  onChange: (value: ComboBoxOption[]) => void;
 }) => {
-  const [areaOfOperation, setAreaOfOperation] = useState(AreaOfOperation.All);
-  const [regions, setRegions] = useState<ComboBoxOption[]>([]);
-
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.interpreterDetails',
   });
@@ -108,10 +108,13 @@ const ClerkInterpreterDetailsRegions = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setAreaOfOperation(event.target.value as AreaOfOperation);
+    if (event.target.value === AreaOfOperation.All) {
+      onChange([]);
+    }
   };
 
   const handleFilterChange = ({}, value: ComboBoxOption[]) => {
-    setRegions(value);
+    onChange(value);
   };
 
   const options = RegionUtils.getRegionAutocompleteValues(
@@ -146,12 +149,12 @@ const ClerkInterpreterDetailsRegions = ({
         <Autocomplete
           disabled={disabled}
           className="regions"
-          value={regions}
+          value={regions.map((region) => valueAsOption(region))}
           onChange={handleFilterChange}
           multiple
           options={options}
           isOptionEqualToValue={(option, value) => option.value === value.value}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(option) => RegionUtils.translateRegion(option.value)}
           defaultValue={undefined}
           filterSelectedOptions
           renderInput={(params) => (
@@ -165,6 +168,8 @@ const ClerkInterpreterDetailsRegions = ({
 
 export const ClerkInterpreterDetailsFields = ({
   interpreter,
+  areaOfOperation,
+  setAreaOfOperation,
   onFieldChange,
   editDisabled,
   topControlButtons,
@@ -173,7 +178,13 @@ export const ClerkInterpreterDetailsFields = ({
   interpreter?: ClerkInterpreter;
   onFieldChange: (
     field: keyof ClerkInterpreter
-  ) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  ) => (
+    eventOrValue:
+      | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | ComboBoxOption[]
+  ) => void;
+  areaOfOperation: AreaOfOperation;
+  setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
   editDisabled: boolean;
   topControlButtons?: JSX.Element;
   displayFieldErrorBeforeChange: boolean;
@@ -261,7 +272,13 @@ export const ClerkInterpreterDetailsFields = ({
         fullWidth
       />
       <H3>{t('header.regions')}</H3>
-      <ClerkInterpreterDetailsRegions disabled={editDisabled} />
+      <ClerkInterpreterDetailsRegions
+        regions={interpreter?.regions}
+        areaOfOperation={areaOfOperation}
+        setAreaOfOperation={setAreaOfOperation}
+        onChange={onFieldChange('regions')}
+        disabled={editDisabled}
+      />
     </>
   );
 };

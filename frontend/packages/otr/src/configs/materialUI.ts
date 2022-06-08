@@ -66,6 +66,17 @@ export const theme = createTheme({
         },
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        tag: {
+          backgroundColor: secondaryColor,
+          color: primaryColor,
+          '.MuiChip-deleteIcon': {
+            color: secondaryLightColor,
+          },
+        },
+      },
+    },
     MuiStepIcon: {
       styleOverrides: {
         root: {
