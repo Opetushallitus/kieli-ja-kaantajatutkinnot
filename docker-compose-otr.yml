@@ -3,13 +3,13 @@ services:
   otr-backend:
     build: ./backend/otr
     ports:
-      - "8080:8080"
+      - "8081:8081"
     command: "./mvnw clean install -DskipTests"
     entrypoint:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}"
+        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}",
       ]
     networks:
       - otr-dev
@@ -20,9 +20,10 @@ services:
     depends_on:
       - otr-postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://otr-postgres:5432/otr-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://otr-postgres:6431/otr-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVER_PORT=8081
       - OTR_UNSECURE=${OTR_UNSECURE}
   otr-frontend:
     build:
@@ -31,7 +32,7 @@ services:
       args:
         - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
     ports:
-      - "4000:4000"
+      - "4001:4001"
     working_dir: /app/reactjs
     networks:
       - otr-dev
@@ -46,12 +47,14 @@ services:
     build: ./backend/otr/db
     container_name: otr-postgres
     ports:
-      - "5432:5432"
+      - "6431:6431"
     networks:
       - otr-dev
     environment:
+      - SERVER_PORT=8081
       - POSTGRES_DB=otr-postgres
       - POSTGRES_PASSWORD=postgres
+      - PGPORT=6431
 
 networks:
   otr-dev: {}

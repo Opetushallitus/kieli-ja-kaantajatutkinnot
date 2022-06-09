@@ -20,7 +20,7 @@ Using Maven Wrapper
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-and the app runs on > <http://localhost:8080>
+and the app runs on > <http://localhost:8082>
 
 Required packages get installed automatically.
 
@@ -68,6 +68,8 @@ npm install
 npm run start  # Starts Webpack DevServer
 ```
 
+and the app runs on > <http://localhost:4002/vkt/etusivu>
+
 ```sh
 npm run build # Builds the app for production to the dist folder.
 ```
@@ -93,19 +95,19 @@ npm run test:jest -- -u  # Regenerate snapshots
 
 Health check:
 
-> <http://localhost:8080/vkt/api/actuator/health>
+> <http://localhost:8082/vkt/api/actuator/health>
 
 General information about the running application:
 
-> <http://localhost:8080/vkt/api/actuator/info>
+> <http://localhost:8082/vkt/api/actuator/info>
 
 ### OpenAPI
 
-> <http://localhost:8080/vkt/api/api-docs>
+> <http://localhost:8082/vkt/api/api-docs>
 
 ### Swagger
 
-> <http://localhost:8080/vkt/api/swagger-ui.html>
+> <http://localhost:8082/vkt/api/swagger-ui.html>
 
 In order to make requests work in swagger UI, the application needs to be run with parameter:
 

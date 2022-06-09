@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
-module.exports = (appName, env, dirName) => {
+module.exports = (appName, env, dirName, port) => {
   const STATIC_PATH = `${appName}/static`;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
@@ -117,7 +117,7 @@ module.exports = (appName, env, dirName) => {
         directory: path.join(dirName, "public"),
       },
       compress: true,
-      port: 4000,
+      port,
       proxy: {
         [`/${appName}/api`]: env.proxy,
       },
