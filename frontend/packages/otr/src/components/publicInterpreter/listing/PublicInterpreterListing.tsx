@@ -7,6 +7,7 @@ import {
   PaginatedTable,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicInterpreterListingHeader } from 'components/publicInterpreter/listing/PublicInterpreterListingHeader';
 import { PublicInterpreterListingRow } from 'components/publicInterpreter/listing/PublicInterpreterListingRow';
@@ -25,15 +26,18 @@ export const PublicInterpreterListing = ({
   interpreters: Array<PublicInterpreter>;
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
+  const { isPhone } = useWindowProperties();
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   const translateCommon = useCommonTranslation();
 
   useEffect(() => {
-    listingHeaderRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      inline: 'nearest',
-    });
-  }, []);
+    if (isPhone) {
+      listingHeaderRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'nearest',
+      });
+    }
+  }, [isPhone]);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
