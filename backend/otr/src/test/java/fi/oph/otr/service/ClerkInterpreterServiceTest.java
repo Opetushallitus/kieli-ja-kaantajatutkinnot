@@ -342,7 +342,7 @@ class ClerkInterpreterServiceTest {
   @Test
   public void testUpdateInterpreter() {
     final long id = createInterpreter("1");
-    final Interpreter interpreter = interpreterRepository.getById(id);
+    final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     final int initialVersion = interpreter.getVersion();
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
