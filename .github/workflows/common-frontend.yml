@@ -1,0 +1,72 @@
+name: Reusable frontend workflow
+
+on:
+  workflow_call:
+    inputs:
+      app-name:
+        description: "Application name"
+        required: true
+        type: string
+
+env:
+  FRONTEND_DIR: ./frontend
+  BACKEND_DIR: ./backend
+  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  common-frontend:
+    if: contains(github.event.head_commit.message, ${{ inputs.app-name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache Yarn modules
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          yarn install --immutable
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+      - name: Run Linters
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:lint
+      - name: Format
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:format
+      - name: Run Jest Tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:test:jest
+      - name: Cache Cypress
+        uses: actions/cache@v3
+        id: cypress-cache
+        with:
+          path: "~/.cache/Cypress"
+          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v3
+        with:
+          working-directory: ${{ env.FRONTEND_DIR }}
+          install: false
+          start: yarn ${{ inputs.app-name }}:start:ci
+          command: yarn ${{ inputs.app-name }}:test:cypress
+      - name: Build
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: yarn ${{ inputs.app-name }}:build
+      - name: Cache build
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
+          key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}

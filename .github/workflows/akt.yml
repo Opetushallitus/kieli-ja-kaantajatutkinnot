@@ -8,135 +8,26 @@ on:
       - "frontend/packages/akt/**"
       - "!**/*.md"
 
-env:
-  FRONTEND_DIR: ./frontend
-  BACKEND_DIR: ./backend/akt
-  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   frontend:
-    if: contains(github.event.head_commit.message, 'AKT')
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache Yarn modules
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          yarn install --immutable
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-      - name: Run Linters
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn akt:lint
-      - name: Format
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn akt:format
-      - name: Run Jest Tests
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn akt:test:jest
-      - name: Cache Cypress
-        uses: actions/cache@v3
-        id: cypress-cache
-        with:
-          path: "~/.cache/Cypress"
-          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v3
-        with:
-          working-directory: ${{ env.FRONTEND_DIR }}
-          install: false
-          start: yarn akt:start:ci
-          command: yarn akt:test:cypress
-      - name: Build
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn akt:build
-      - name: Cache build
-        uses: actions/cache@v3
-        id: akt-frontend-build
-        with:
-          path: ${{ env.BACKEND_DIR }}/src/main/resources/static
-          key: ${{ runner.os }}-akt-frontend-build-${{ github.sha }}
-
+    uses: ./.github/workflows/common-frontend.yml
+    with:
+      app-name: "akt"
   backend:
-    if: contains(github.event.head_commit.message, 'AKT')
     needs: frontend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Cache local Maven repository
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - uses: actions/cache@v3
-        id: akt-frontend-build
-        with:
-          path: ${{ env.BACKEND_DIR }}/src/main/resources/static
-          key: ${{ runner.os }}-akt-frontend-build-${{ github.sha }}
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: "17"
-          distribution: "temurin"
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Europe/Helsinki"
-      - name: Build with Maven
-        working-directory: ${{ env.BACKEND_DIR }}
-        run: mvn clean install -Dplugin.prettier.goal=check
-      - uses: actions/cache@v3
-        id: akt-backend-build
-        with:
-          path: ${{ env.BACKEND_DIR }}/target/akt-*.jar
-          key: ${{ runner.os }}-akt-backend-build-${{ github.sha }}
-
+    uses: ./.github/workflows/common-backend.yml
+    with:
+      app-name: "akt"
   deploy:
-    if: |
-      contains(github.event.head_commit.message, 'AKT') && 
-      github.ref == 'refs/heads/dev' || contains(github.event.head_commit.message, '[deploy]')
     needs: backend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        id: akt-backend-build
-        with:
-          path: ${{ env.BACKEND_DIR }}/target/akt-*.jar
-          key: ${{ runner.os }}-akt-backend-build-${{ github.sha }}
-      - name: Build Docker container
-        working-directory: ${{ env.BACKEND_DIR }}
-        shell: bash
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          git clone https://github.com/Opetushallitus/ci-tools.git
-          source ci-tools/common/setup-tools.sh
-          export ARTIFACT_NAME="akt"
-          mv target/akt-*.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
-          cp -vr src/main/resources/oph-configuration $DOCKER_BUILD_DIR/config/
-          export BASE_IMAGE="baseimage-fatjar-openjdk17:master"
-          ./ci-tools/common/pull-image.sh
-          ./ci-tools/github-build/build-fatjar.sh $ARTIFACT_NAME
-          ./ci-tools/github-build/upload-image.sh $ARTIFACT_NAME
+    uses: ./.github/workflows/common-deploy.yml
+    with:
+      app-name: "akt"
+      image-name: "akt"
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
