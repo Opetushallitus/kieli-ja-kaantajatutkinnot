@@ -129,7 +129,7 @@ public class ClerkEmailService {
           EmailType.AUTHORISATION_EXPIRY
         );
 
-        final Email email = emailRepository.getById(emailId);
+        final Email email = emailRepository.getReferenceById(emailId);
 
         createAuthorisationTermReminder(authorisation, email);
       });

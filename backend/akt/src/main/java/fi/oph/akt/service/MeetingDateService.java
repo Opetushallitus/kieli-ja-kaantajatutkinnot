@@ -49,7 +49,7 @@ public class MeetingDateService {
 
   @Transactional
   public MeetingDateDTO updateMeetingDate(final MeetingDateUpdateDTO dto) {
-    final MeetingDate meetingDate = meetingDateRepository.getById(dto.id());
+    final MeetingDate meetingDate = meetingDateRepository.getReferenceById(dto.id());
     meetingDate.assertVersion(dto.version());
 
     if (!meetingDate.getAuthorisations().isEmpty()) {
@@ -70,7 +70,7 @@ public class MeetingDateService {
 
   @Transactional
   public void deleteMeetingDate(final long meetingDateId) {
-    final MeetingDate meetingDate = meetingDateRepository.getById(meetingDateId);
+    final MeetingDate meetingDate = meetingDateRepository.getReferenceById(meetingDateId);
 
     if (!meetingDate.getAuthorisations().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_DELETE_HAS_AUTHORISATIONS);

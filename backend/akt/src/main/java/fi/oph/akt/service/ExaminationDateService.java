@@ -48,7 +48,7 @@ public class ExaminationDateService {
 
   @Transactional
   public void deleteExaminationDate(final long examinationDateId) {
-    final ExaminationDate examinationDate = examinationDateRepository.getById(examinationDateId);
+    final ExaminationDate examinationDate = examinationDateRepository.getReferenceById(examinationDateId);
 
     if (!examinationDate.getAuthorisations().isEmpty()) {
       throw new APIException(APIExceptionType.EXAMINATION_DATE_DELETE_HAS_AUTHORISATIONS);
