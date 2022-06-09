@@ -60,3 +60,8 @@ otr:
     ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}
   onr:
     enabled: ${onr.enabled:false}
+    service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
+    cas:
+      url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
+      username: ${oppijanumerorekisteri-service.rekisteri.username:username}
+      password: ${oppijanumerorekisteri-service.rekisteri.password:password}

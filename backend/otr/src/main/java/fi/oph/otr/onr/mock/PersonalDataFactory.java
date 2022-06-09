@@ -22,7 +22,7 @@ public class PersonalDataFactory {
       .builder()
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
-      .nickName(counterValue % 9 != 0 ? nickName : null)
+      .nickName(nickName)
       .identityNumber(identityNumbers.next())
       .email(nickName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
       .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)

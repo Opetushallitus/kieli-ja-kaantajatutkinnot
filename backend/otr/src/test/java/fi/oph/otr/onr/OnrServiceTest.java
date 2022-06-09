@@ -22,7 +22,8 @@ public class OnrServiceTest {
   private final PersonalData personalData = PersonalData
     .builder()
     .lastName("Rajala")
-    .firstName("Iiro")
+    .firstName("Iiro Aapeli")
+    .nickName("Iiro")
     .identityNumber("1")
     .email("iiro.rajala@example.invalid")
     .build();
@@ -30,7 +31,8 @@ public class OnrServiceTest {
   private final PersonalData updatedPersonalData = PersonalData
     .builder()
     .lastName("Karjalainen")
-    .firstName("Eero")
+    .firstName("Eero Aapeli")
+    .nickName("Eero")
     .identityNumber("2")
     .email("eero.karjalainen@example.invalid")
     .build();
@@ -44,13 +46,22 @@ public class OnrServiceTest {
   }
 
   @Test
-  public void testUpdateCache() {
+  public void testUpdateCacheOnSuccess() throws Exception {
     when(onrOperationApi.fetchPersonalDatas(List.of("1"))).thenReturn(Map.of("1", personalData));
     onrService.updateCache(List.of("1"));
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(1, cachedPersonalDatas.size());
     assertEquals(personalData, cachedPersonalDatas.get("1"));
+  }
+
+  @Test
+  public void testUpdateCacheOnFailure() throws Exception {
+    doThrow(new RuntimeException()).when(onrOperationApi).fetchPersonalDatas(List.of("1"));
+    onrService.updateCache(List.of("1"));
+
+    final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
+    assertEquals(0, cachedPersonalDatas.size());
   }
 
   @Test

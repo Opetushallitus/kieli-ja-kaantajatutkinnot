@@ -1,26 +1,19 @@
 package fi.oph.otr.onr.model;
 
-import java.util.Optional;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
 public record PersonalData(
-  @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName,
-  String nickName,
-  @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String email,
+  @NonNull String lastName,
+  @NonNull String firstName,
+  @NonNull String nickName,
+  @NonNull String identityNumber,
+  @NonNull String email,
   String phoneNumber,
   String street,
   String postalCode,
   String town,
   String country,
-  @NotNull Boolean isIndividualised
-) {
-  public String nickNameOrFirstName() {
-    return Optional.ofNullable(nickName).filter(nickName -> !nickName.isBlank()).orElse(firstName);
-  }
-}
+  Boolean isIndividualised // always returned from ONR
+) {}

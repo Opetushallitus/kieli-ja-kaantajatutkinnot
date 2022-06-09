@@ -14,7 +14,7 @@ public record ClerkInterpreterUpdateDTO(
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,
-  String nickName,
+  @NonNull @NotBlank String nickName,
   @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
   String phoneNumber,
