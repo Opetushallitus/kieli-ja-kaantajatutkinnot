@@ -71,7 +71,7 @@ class ClerkInterpreterServiceTest {
     final LanguageService languageService = new LanguageService();
     languageService.init();
 
-    when(onrService.getPersonalDatas(any()))
+    when(onrService.getCachedPersonalDatas())
       .thenReturn(
         Map.of(
           "1",
@@ -80,9 +80,6 @@ class ClerkInterpreterServiceTest {
           createPersonalData("Anna", "Aaltonen", "111009-abc", "anna@aaltonen.invalid")
         )
       );
-
-    when(onrService.getPersonalDatas(List.of("onrId")))
-      .thenReturn(Map.of("onrId", createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid")));
 
     clerkInterpreterService =
       new ClerkInterpreterService(
@@ -100,11 +97,8 @@ class ClerkInterpreterServiceTest {
     final long id1 = createInterpreter("1");
     final long id2 = createInterpreter("2");
     final long id3 = createInterpreter("3");
-    final long id4 = createInterpreter("4");
-    final long id5 = createInterpreter("5");
-    final long id6 = createInterpreter("6");
 
-    when(onrService.getPersonalDatas(any()))
+    when(onrService.getCachedPersonalDatas())
       .thenReturn(
         Map.of(
           "1",
@@ -112,21 +106,12 @@ class ClerkInterpreterServiceTest {
           "2",
           createPersonalData("Etu2", "Suku2", "id2", "etu@suku2"),
           "3",
-          createPersonalData("Etu3", "Suku3", "id3", "etu@suku3"),
-          "4",
-          createPersonalData("Etu4", "Suku4", "id4", "etu@suku4"),
-          "5",
-          createPersonalData("Etu5", "Suku5", "id5", "etu@suku5"),
-          "6",
-          createPersonalData("Etu6", "Suku6", "id6", "etu@suku6")
+          createPersonalData("Etu3", "Suku3", "id3", "etu@suku3")
         )
       );
 
     final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.list();
-    assertEquals(
-      Set.of(id1, id2, id3, id4, id5, id6),
-      interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet())
-    );
+    assertEquals(Set.of(id1, id2, id3), interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet()));
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
   }
 
@@ -234,8 +219,8 @@ class ClerkInterpreterServiceTest {
       .build();
 
     when(onrService.insertPersonalData(any())).thenReturn("onrId");
-    when(onrService.getPersonalDatas(List.of("onrId")))
-      .then(onMock ->
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
         Map.of(
           "onrId",
           createPersonalData(
@@ -342,7 +327,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testGetInterpreter() {
-    final long id = createInterpreterWithRegions("onrId", List.of("01", "02"));
+    final long id = createInterpreterWithRegions("1", List.of("01", "02"));
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
 
     assertEquals(id, interpreterDTO.id());
@@ -356,7 +341,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreter() {
-    final long id = createInterpreter("onrId");
+    final long id = createInterpreter("1");
     final Interpreter interpreter = interpreterRepository.getById(id);
     final int initialVersion = interpreter.getVersion();
 
@@ -397,7 +382,7 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
-    final long id = createInterpreter("onrId");
+    final long id = createInterpreter("1");
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
@@ -447,7 +432,7 @@ class ClerkInterpreterServiceTest {
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
     final Interpreter interpreter = Factory.interpreter();
-    interpreter.setOnrId("onrId");
+    interpreter.setOnrId("1");
     entityManager.persist(interpreter);
 
     final Qualification qualification = Factory.qualification(interpreter);
@@ -523,7 +508,7 @@ class ClerkInterpreterServiceTest {
     final LocalDate end = LocalDate.now().plusMonths(1);
 
     final Interpreter interpreter = Factory.interpreter();
-    interpreter.setOnrId("onrId");
+    interpreter.setOnrId("1");
     entityManager.persist(interpreter);
 
     final Qualification qualification = Factory.qualification(interpreter);

@@ -48,10 +48,7 @@ public class PublicInterpreterService {
       .collect(Collectors.groupingBy(InterpreterQualificationProjection::interpreterId));
 
     final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterQualifications.keySet());
-
-    final Map<String, PersonalData> personalDatas = onrService.getPersonalDatas(
-      interpreters.stream().map(Interpreter::getOnrId).toList()
-    );
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     return interpreters
       .stream()

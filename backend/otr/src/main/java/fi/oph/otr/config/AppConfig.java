@@ -1,8 +1,8 @@
 package fi.oph.otr.config;
 
-import fi.oph.otr.onr.OnrService;
-import fi.oph.otr.onr.OnrServiceImpl;
-import fi.oph.otr.onr.mock.OnrServiceMock;
+import fi.oph.otr.onr.OnrOperationApi;
+import fi.oph.otr.onr.OnrOperationApiImpl;
+import fi.oph.otr.onr.mock.OnrOperationApiMock;
 import fi.oph.otr.service.email.sender.EmailSender;
 import fi.oph.otr.service.email.sender.EmailSenderNoOp;
 import fi.oph.otr.service.email.sender.EmailSenderViestintapalvelu;
@@ -43,16 +43,16 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "false")
-  public OnrService onrServiceMock() {
-    LOG.warn("OnrServiceMock in use");
-    return new OnrServiceMock();
+  public OnrOperationApi onrOperationApiMock() {
+    LOG.warn("OnrOperationApiMock in use");
+    return new OnrOperationApiMock();
   }
 
   @Bean
   @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "true")
-  public OnrService onrServiceImpl() {
-    LOG.info("OnrServiceImpl in use");
-    return new OnrServiceImpl();
+  public OnrOperationApi onrOperationApiImpl() {
+    LOG.info("OnrOperationApiImpl in use");
+    return new OnrOperationApiImpl();
   }
 
   @Bean
