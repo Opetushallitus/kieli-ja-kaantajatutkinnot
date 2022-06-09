@@ -21,7 +21,7 @@ services:
       - vkt-postgres
     environment:
       - SERVER_PORT=8082
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:9002/vkt-postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:6432/vkt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - VKT_UNSECURE=${VKT_UNSECURE}
@@ -47,15 +47,15 @@ services:
     build: ./backend/vkt/db
     container_name: vkt-postgres
     expose:
-      - "9002"
+      - "6432"
     ports:
-      - "9002:9002"
+      - "6432:6432"
     networks:
       - vkt-dev
     environment:
       - POSTGRES_DB=vkt-postgres
       - POSTGRES_PASSWORD=postgres
-      - PGPORT=9002
+      - PGPORT=6432
 
 networks:
   vkt-dev: {}
