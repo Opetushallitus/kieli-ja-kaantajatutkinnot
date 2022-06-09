@@ -1,5 +1,6 @@
 package fi.oph.vkt.config.security;
 
+import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.config.CustomAccessDeniedHandler;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -21,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
@@ -34,32 +34,34 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.memory.UserAttribute;
 import org.springframework.security.core.userdetails.memory.UserAttributeEditor;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.Assert;
 
 @Profile("dev")
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfigDev extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfigDev {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfigDev.class);
 
   @Value("${dev.web.security.off:false}")
   private Boolean devWebSecurityOff;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
     if (devWebSecurityOff) {
       LOG.warn("Web security is OFF");
-      WebSecurityConfig
+      return WebSecurityConfig
         .configCsrf(http)
         .authorizeRequests()
         .antMatchers("/", "/**")
         .permitAll()
         .anyRequest()
-        .authenticated();
-      return;
+        .authenticated()
+        .and()
+        .build();
     }
-    WebSecurityConfig
+    return WebSecurityConfig
       .commonConfig(http)
       // formLogin and httpBasic enabled for development, testing APIs manually is easier.
       .formLogin()
@@ -67,7 +69,9 @@ public class WebSecurityConfigDev extends WebSecurityConfigurerAdapter {
       .httpBasic()
       .and()
       .exceptionHandling()
-      .accessDeniedHandler(CustomAccessDeniedHandler.create());
+      .accessDeniedHandler(CustomAccessDeniedHandler.create())
+      .and()
+      .build();
   }
 
   @Bean
@@ -75,21 +79,21 @@ public class WebSecurityConfigDev extends WebSecurityConfigurerAdapter {
     if (devWebSecurityOff) {
       return new InMemoryUserDetailsManager();
     }
-    UserDetails user = User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build();
+    final UserDetails user = User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build();
 
-    UserDetails clerk = User
+    final UserDetails clerk = User
       .withDefaultPasswordEncoder()
       .username("clerk")
       .password("clerk")
-      .roles(WebSecurityConfig.VKT_ROLE)
+      .roles(Constants.APP_ROLE)
       .build();
 
     // AuditUtil resolves current username as Oid, and will throw exception if username is not Oid. Therefore, let
     // authenticated users to have Oid as username.
     return new InMemoryUserDetailsManager(user, clerk) {
       @Override
-      public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails user = this.users.get(username.toLowerCase());
+      public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+        final UserDetails user = this.users.get(username.toLowerCase());
         if (user == null) {
           throw new UsernameNotFoundException(username);
         }
