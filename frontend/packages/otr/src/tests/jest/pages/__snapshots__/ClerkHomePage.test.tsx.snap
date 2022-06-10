@@ -132,7 +132,9 @@ Object {
                         >
                           expiring
                         </div>
-                        0
+                        <div>
+                          (1)
+                        </div>
                       </div>
                       <span
                         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -152,7 +154,9 @@ Object {
                         >
                           expired
                         </div>
-                        0
+                        <div>
+                          (1)
+                        </div>
                       </div>
                       <span
                         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -833,6 +837,13 @@ Object {
                          - 
                         DE
                       </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
+                      >
+                        FI
+                         - 
+                        DE
+                      </p>
                     </td>
                     <td
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
@@ -843,6 +854,13 @@ Object {
                         1.1.2020
                          - 
                         1.1.2025
+                      </p>
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
+                      >
+                        1.1.2017
+                         - 
+                        1.1.2022
                       </p>
                        
                     </td>
@@ -1627,7 +1645,9 @@ Object {
                       >
                         expiring
                       </div>
-                      0
+                      <div>
+                        (1)
+                      </div>
                     </div>
                     <span
                       class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -1647,7 +1667,9 @@ Object {
                       >
                         expired
                       </div>
-                      0
+                      <div>
+                        (1)
+                      </div>
                     </div>
                     <span
                       class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
@@ -2328,6 +2350,13 @@ Object {
                        - 
                       DE
                     </p>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
+                    >
+                      FI
+                       - 
+                      DE
+                    </p>
                   </td>
                   <td
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
@@ -2338,6 +2367,13 @@ Object {
                       1.1.2020
                        - 
                       1.1.2025
+                    </p>
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
+                    >
+                      1.1.2017
+                       - 
+                      1.1.2022
                     </p>
                      
                   </td>
