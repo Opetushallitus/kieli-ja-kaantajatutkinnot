@@ -1,0 +1,45 @@
+name: Reusable backend workflow
+
+on:
+  workflow_call:
+    inputs:
+      app-name:
+        description: "Application name"
+        required: true
+        type: string
+
+env:
+  BACKEND_DIR: ./backend
+
+jobs:
+  common-backend:
+    if: contains(github.event.head_commit.message, ${{ inputs.app-name }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
+          key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: "17"
+          distribution: "temurin"
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Helsinki"
+      - name: Build with Maven
+        working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
+        run: mvn clean install -Dplugin.prettier.goal=check
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar
+          key: ${{ runner.os }}-${{ inputs.app-name }}-backend-build-${{ github.sha }}
