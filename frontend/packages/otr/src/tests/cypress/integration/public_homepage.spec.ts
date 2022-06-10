@@ -5,7 +5,7 @@ beforeEach(() => {
   cy.openPublicHomePage();
 });
 
-describe('PublicHomepage', () => {
+describe('PublicHomePage', () => {
   it('should show the initial number of interpreters on the search button', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
       publicInterpreters10.length
