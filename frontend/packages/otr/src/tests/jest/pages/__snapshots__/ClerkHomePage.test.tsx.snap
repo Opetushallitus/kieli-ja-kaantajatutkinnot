@@ -69,6 +69,9 @@ Object {
                         </svg>
                       </span>
                       addInterpreter
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </button>
                   </a>
                 </div>
@@ -111,6 +114,9 @@ Object {
                           (10)
                         </div>
                       </div>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </button>
                     <button
                       class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
@@ -128,6 +134,9 @@ Object {
                         </div>
                         0
                       </div>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </button>
                     <button
                       class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
@@ -145,6 +154,9 @@ Object {
                         </div>
                         0
                       </div>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </button>
                   </div>
                 </div>
@@ -222,6 +234,9 @@ Object {
                                     d="M7 10l5 5 5-5z"
                                   />
                                 </svg>
+                                <span
+                                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                                />
                               </button>
                             </div>
                             <fieldset
@@ -295,6 +310,9 @@ Object {
                                     d="M7 10l5 5 5-5z"
                                   />
                                 </svg>
+                                <span
+                                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                                />
                               </button>
                             </div>
                             <fieldset
@@ -423,6 +441,9 @@ Object {
                                   d="M7 10l5 5 5-5z"
                                 />
                               </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
                             </button>
                           </div>
                           <fieldset
@@ -505,6 +526,9 @@ Object {
                                   d="M7 10l5 5 5-5z"
                                 />
                               </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
                             </button>
                           </div>
                           <fieldset
@@ -539,6 +563,9 @@ Object {
                   type="button"
                 >
                   emptySelection
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
                 </button>
               </div>
             </div>
@@ -778,6 +805,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -849,6 +879,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -920,6 +953,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -991,6 +1027,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1062,6 +1101,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1133,6 +1175,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1204,6 +1249,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1275,6 +1323,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1346,6 +1397,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1431,6 +1485,9 @@ Object {
                             />
                           </svg>
                         </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
                       </a>
                     </td>
                   </tr>
@@ -1507,6 +1564,9 @@ Object {
                       </svg>
                     </span>
                     addInterpreter
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </button>
                 </a>
               </div>
@@ -1549,6 +1609,9 @@ Object {
                         (10)
                       </div>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </button>
                   <button
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
@@ -1566,6 +1629,9 @@ Object {
                       </div>
                       0
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </button>
                   <button
                     class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
@@ -1583,6 +1649,9 @@ Object {
                       </div>
                       0
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </button>
                 </div>
               </div>
@@ -1660,6 +1729,9 @@ Object {
                                   d="M7 10l5 5 5-5z"
                                 />
                               </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
                             </button>
                           </div>
                           <fieldset
@@ -1733,6 +1805,9 @@ Object {
                                   d="M7 10l5 5 5-5z"
                                 />
                               </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
                             </button>
                           </div>
                           <fieldset
@@ -1861,6 +1936,9 @@ Object {
                                 d="M7 10l5 5 5-5z"
                               />
                             </svg>
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
                           </button>
                         </div>
                         <fieldset
@@ -1943,6 +2021,9 @@ Object {
                                 d="M7 10l5 5 5-5z"
                               />
                             </svg>
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
                           </button>
                         </div>
                         <fieldset
@@ -1977,6 +2058,9 @@ Object {
                 type="button"
               >
                 emptySelection
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
               </button>
             </div>
           </div>
@@ -2216,6 +2300,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2287,6 +2374,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2358,6 +2448,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2429,6 +2522,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2500,6 +2596,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2571,6 +2670,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2642,6 +2744,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2713,6 +2818,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2784,6 +2892,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
@@ -2869,6 +2980,9 @@ Object {
                           />
                         </svg>
                       </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </a>
                   </td>
                 </tr>
