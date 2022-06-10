@@ -149,6 +149,35 @@
           "sv": "På svenska"
         }
       },
+      "newQualification": {
+        "cancelDialog": {
+          "header": "Haluatko varmasti peruuttaa?"
+        },
+        "fieldLabel": {
+          "basis": "Koulutus",
+          "beginDate": "Rekisteröinnin alkamispäivä",
+          "diaryNumber": "Asiatunnus",
+          "endDate": "Rekisteröinnin päättymispäivä",
+          "from": "Kielipari (mistä)",
+          "to": "Kielipari (mihin)"
+        },
+        "fieldPlaceholders": {
+          "basis": "Peruste",
+          "beginDate": "Alkamispäivä",
+          "diaryNumber": "Asiatunnus",
+          "endDate": "Päättymispäivä",
+          "from": "Mistä",
+          "to": "Mihin"
+        },
+        "switch": {
+          "inEffect": "Voimassa",
+          "permissionToPublish": "Julkaisulupa"
+        },
+        "toasts": {
+          "error": "Kieliparin lisäys ei onnistunut, yritä myöhemmin uudelleen",
+          "success": "Kielipari lisätty onnistuneesti"
+        }
+      },
       "publicInterpreterFilters": {
         "name": {
           "placeholder": "Nimi",
