@@ -13,7 +13,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -21,9 +21,15 @@ import {
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Qualification } from 'interfaces/qualification';
+import { updateQualificationPublishPermission } from 'redux/reducers/clerkInterpreterOverview';
+import {
+  removeNotifierDialog,
+  showNotifierDialog,
+} from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { NotifierUtils } from 'utils/notifier';
 
 export const QualificationListing = ({
   qualifications,
@@ -34,6 +40,7 @@ export const QualificationListing = ({
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
@@ -49,6 +56,30 @@ export const QualificationListing = ({
   const combinedClassNames = isLoading
     ? `${defaultClassName} dimmed`
     : defaultClassName;
+
+  const onPublishPermissionChange = (qualification: Qualification) => {
+    const notifier = NotifierUtils.createNotifierDialog(
+      t('actions.changePermissionToPublish.dialog.header'),
+      Severity.Info,
+      t('actions.changePermissionToPublish.dialog.description'),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+          action: () => dispatch(removeNotifierDialog(notifier.id)),
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => {
+            dispatch(updateQualificationPublishPermission(qualification));
+          },
+        },
+      ]
+    );
+
+    dispatch(showNotifierDialog(notifier));
+  };
 
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
@@ -103,7 +134,7 @@ export const QualificationListing = ({
                   <CustomSwitch
                     value={q.permissionToPublish}
                     onChange={() => {
-                      return;
+                      onPublishPermissionChange(q);
                     }}
                     leftLabel={translateCommon('no')}
                     rightLabel={translateCommon('yes')}
@@ -115,7 +146,7 @@ export const QualificationListing = ({
               </TableCell>
               <TableCell className="centered">
                 <CustomIconButton
-                  onClick={() => {
+                  onChange={() => {
                     return;
                   }}
                   aria-label={t('actions.removal.ariaLabel')}
