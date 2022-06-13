@@ -19,6 +19,8 @@ class PublicHomePage {
 
   filterByName(name: string) {
     this.elements.nameFilter().clear().type(name);
+    // Wait for the 300ms debounce to clear.
+    cy.tick(300);
   }
 
   filterByRegion(region: string) {
