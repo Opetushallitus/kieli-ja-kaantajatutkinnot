@@ -136,19 +136,11 @@ export const PrivacyPolicyPage = () => {
                 'disclosure.serviceProvider.description2',
               ]}
             />
+            <Text>{translatePrivacy('disclosure.research.title')}</Text>
+            <BulletList translations={['disclosure.research.description1']} />
             <Text>{translatePrivacy('disclosure.dataTransfers.title')}</Text>
             <BulletList
               translations={['disclosure.dataTransfers.description1']}
-            />
-            <Text>{translatePrivacy('disclosure.research.title')}</Text>
-            <BulletList translations={['disclosure.research.description1']} />
-            <Text>{translatePrivacy('disclosure.legislation.title')}</Text>
-            <BulletList
-              translations={['disclosure.legislation.description1']}
-            />
-            <Text>{translatePrivacy('disclosure.thirdCountries.title')}</Text>
-            <BulletList
-              translations={['disclosure.thirdCountries.description1']}
             />
           </div>
           <div className="rows gapped-xxs">
