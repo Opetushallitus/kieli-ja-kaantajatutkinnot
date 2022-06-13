@@ -1,17 +1,11 @@
-import dayjs from 'dayjs';
-
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
-import { useFixedDate } from 'tests/cypress/support/utils/date';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 
-const fixedDateForTests = dayjs('2022-06-10T16:00:00+0200');
-
-beforeEach(() => {
-  cy.openPublicHomePage();
-  useFixedDate(fixedDateForTests);
-});
-
 describe('PublicHomePage', () => {
+  beforeEach(() => {
+    cy.openPublicHomePage();
+  });
+
   it('should show the initial number of interpreters on the search button', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
       publicInterpreters10.length
