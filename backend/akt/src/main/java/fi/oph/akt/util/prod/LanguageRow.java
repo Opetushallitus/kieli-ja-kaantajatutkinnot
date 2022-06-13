@@ -90,6 +90,9 @@ public record LanguageRow(
   }
 
   public LocalDate resolveMeetingDate() {
+    if (authorisationBasis.isBlank()) {
+      return null;
+    }
     return firstNonNull(
       authorisationCertificateDate,
       authorisationExamCertificateDate,
