@@ -52,6 +52,9 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.interpreterDetailsUpdateStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;
     },
+    rejectClerkInterpreterOverviewUpdate(state) {
+      state.interpreterDetailsUpdateStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -64,5 +67,6 @@ export const {
   resetClerkInterpreterOverview,
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
+  rejectClerkInterpreterOverviewUpdate,
   storeClerkInterpreterOverviewUpdateSuccess,
 } = clerkInterpreterOverviewSlice.actions;

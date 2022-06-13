@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { WithId } from 'shared/interfaces';
 
@@ -13,11 +13,14 @@ import { storeClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import {
   loadClerkInterpreterOverview,
   loadingClerkInterpreterOverviewFailed,
+  rejectClerkInterpreterOverviewUpdate,
   storeClerkInterpreterOverview,
   storeClerkInterpreterOverviewUpdateSuccess,
   updateClerkInterpreterDetails,
 } from 'redux/reducers/clerkInterpreterOverview';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
@@ -70,7 +73,12 @@ function* updateClerkInterpreterOverview(
 
     yield put(storeClerkInterpreterOverviewUpdateSuccess(interpreter));
   } catch (error) {
-    // yield put(updatingClerkInterpreterOverviewFailed());
+    yield put(rejectClerkInterpreterOverviewUpdate());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
