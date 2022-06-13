@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import liquibase.util.csv.opencsv.CSVReader;
+import liquibase.util.csv.CSVReader;
 import lombok.NonNull;
 import org.springframework.data.util.Pair;
 
@@ -263,11 +263,7 @@ public class ProdImport {
   }
 
   private static List<TranslatorRow> parseTranslators(final String translatorsPath) throws IOException {
-    final CSVReader translatorsCsv = new CSVReader(
-      new InputStreamReader(Files.newInputStream(Path.of(translatorsPath))),
-      ';'
-    );
-    final List<String[]> translatorLines = translatorsCsv.readAll();
+    final List<String[]> translatorLines = readCSV(translatorsPath);
     final List<TranslatorRow> translators = new ArrayList<>();
 
     for (int i = 1; i < translatorLines.size(); i++) {
@@ -304,15 +300,10 @@ public class ProdImport {
     return translators;
   }
 
-  private static Map<Integer, List<LanguageRow>> parseTranslatorLanguages(final String languagesPath)
-    throws IOException {
-    final CSVReader languagesCsv = new CSVReader(
-      new InputStreamReader(Files.newInputStream(Path.of(languagesPath))),
-      ';'
-    );
+  private static Map<Integer, List<LanguageRow>> parseTranslatorLanguages(final String languagesPath) {
+    final List<String[]> languageLines = readCSV(languagesPath);
     final Map<Integer, List<LanguageRow>> translatorLanguagesMap = new HashMap<>();
 
-    final List<String[]> languageLines = languagesCsv.readAll();
     for (int i = 1; i < languageLines.size(); i++) {
       final String[] langsLine = languageLines.get(i);
 
@@ -352,6 +343,28 @@ public class ProdImport {
       translatorLanguagesMap.put(lang.translatorId(), translatorLangList);
     }
     return translatorLanguagesMap;
+  }
+
+  private static List<String[]> readCSV(final String path) {
+    final List<String[]> lines = new ArrayList<>();
+    try (
+      final CSVReader csv = new CSVReader(
+        new InputStreamReader(Files.newInputStream(Path.of(path))),
+        ';',
+        CSVReader.DEFAULT_QUOTE_CHARACTER
+      )
+    ) {
+      // readNext will throw exception when all is done
+      while (true) {
+        final String[] e = csv.readNext();
+        // without this side effect the infinite loop will never exit
+        System.out.print(e.length);
+        lines.add(e);
+      }
+    } catch (final Exception e) {
+      // pass
+    }
+    return lines;
   }
 
   private static Map<String, String> readKoodistoLanguages(final String koodistoLangsPath) {
