@@ -14,6 +14,7 @@ import { ClerkTranslatorOverviewPage } from 'pages/clerk/ClerkTranslatorOverview
 import { ExaminationDatesPage } from 'pages/ExaminationDatesPage';
 import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
+import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
@@ -62,6 +63,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.AccessibilityStatementPage}
                 element={<AccessibilityStatementPage />}
+              />
+              <Route
+                path={AppRoutes.PrivacyPolicyPage}
+                element={<PrivacyPolicyPage />}
               />
               <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
             </Routes>
