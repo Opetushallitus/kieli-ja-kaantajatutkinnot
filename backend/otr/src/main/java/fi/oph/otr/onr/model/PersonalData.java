@@ -1,5 +1,6 @@
 package fi.oph.otr.onr.model;
 
+import java.util.Optional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -20,6 +21,6 @@ public record PersonalData(
   @NotNull Boolean isIndividualised
 ) {
   public String nickNameOrFirstName() {
-    return nickName != null ? nickName : firstName;
+    return Optional.ofNullable(nickName).filter(nickName -> !nickName.isBlank()).orElse(firstName);
   }
 }
