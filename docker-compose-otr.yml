@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   otr-backend:
-    build: ./backend/otr
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.otr
+    working_dir: /app
     ports:
       - "8081:8081"
     command: "./mvnw clean install -DskipTests"
@@ -9,14 +12,13 @@ services:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}",
+        "cd otr; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${OTR_UNSECURE:-false}",
       ]
     networks:
       - otr-dev
-    working_dir: /app
     volumes:
       - $HOME/.m2:/root/.m2
-      - ./backend/otr:/app
+      - ./backend/otr:/app/otr
     depends_on:
       - otr-postgres
     environment:

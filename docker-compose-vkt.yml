@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   vkt-backend:
-    build: ./backend/vkt
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.vkt
+    working_dir: /app
     ports:
       - "8082:8082"
     command: "./mvnw clean install -DskipTests"
@@ -9,21 +12,20 @@ services:
       [
         "sh",
         "-c",
-        "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${VKT_UNSECURE:-false}",
+        "cd vkt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${VKT_UNSECURE:-false}",
       ]
     networks:
       - vkt-dev
-    working_dir: /app
     volumes:
       - $HOME/.m2:/root/.m2
-      - ./backend/vkt:/app
+      - ./backend/vkt:/app/vkt
     depends_on:
       - vkt-postgres
     environment:
-      - SERVER_PORT=8082
       - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:6432/vkt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVER_PORT=8082
       - VKT_UNSECURE=${VKT_UNSECURE}
   vkt-frontend:
     build:

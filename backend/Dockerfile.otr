@@ -2,4 +2,5 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-ADD . .
+ADD ./pom.xml .
+ADD ./otr ./otr
