@@ -13,8 +13,9 @@ public record ClerkInterpreterDTO(
   @NonNull @NotNull Integer version,
   @NonNull @NotNull Boolean deleted,
   @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
+  @NonNull @NotBlank String firstName,
+  String nickName,
   @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
   String phoneNumber,
@@ -26,6 +27,7 @@ public record ClerkInterpreterDTO(
   String town,
   String country,
   String extraInformation,
+  @NonNull @NotNull Boolean isIndividualised,
   @NonNull @NotNull List<String> regions,
   @NonNull @NotEmpty List<ClerkQualificationDTO> qualifications
 )

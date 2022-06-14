@@ -21,16 +21,16 @@ public class OnrServiceTest {
 
   private final PersonalData personalData = PersonalData
     .builder()
-    .firstName("Iiro")
     .lastName("Rajala")
+    .firstName("Iiro")
     .identityNumber("1")
     .email("iiro.rajala@example.invalid")
     .build();
 
   private final PersonalData updatedPersonalData = PersonalData
     .builder()
-    .firstName("Eero")
     .lastName("Karjalainen")
+    .firstName("Eero")
     .identityNumber("2")
     .email("eero.karjalainen@example.invalid")
     .build();

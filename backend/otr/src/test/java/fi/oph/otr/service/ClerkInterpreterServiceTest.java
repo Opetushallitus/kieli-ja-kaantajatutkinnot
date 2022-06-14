@@ -75,9 +75,9 @@ class ClerkInterpreterServiceTest {
       .thenReturn(
         Map.of(
           "1",
-          createPersonalData("Erkki", "Esimerkki", "241202-xyz", "erkki@esimerkki.invalid"),
+          createPersonalData("Esimerkki", "Erkki Pekka", "Erkki", "241202-xyz", "erkki@esimerkki.invalid", true),
           "2",
-          createPersonalData("Anna", "Aaltonen", "111009-abc", "anna@aaltonen.invalid")
+          createPersonalData("Aaltonen", "Anna Maija", "Anna", "111009-abc", "anna@aaltonen.invalid", false)
         )
       );
 
@@ -102,11 +102,11 @@ class ClerkInterpreterServiceTest {
       .thenReturn(
         Map.of(
           "1",
-          createPersonalData("Etu1", "Suku1", "id1", "etu@suku1"),
+          createPersonalData("Suku1", "Etu11 Etu12", "Etu1", "id1", "etu@suku1", true),
           "2",
-          createPersonalData("Etu2", "Suku2", "id2", "etu@suku2"),
+          createPersonalData("Suku2", "Etu21 Etu22", "Etu2", "id2", "etu@suku2", true),
           "3",
-          createPersonalData("Etu3", "Suku3", "id3", "etu@suku3")
+          createPersonalData("Suku3", "Etu31 Etu32", "Etu3", "id3", "etu@suku3", true)
         )
       );
 
@@ -116,29 +116,46 @@ class ClerkInterpreterServiceTest {
   }
 
   private PersonalData createPersonalData(
-    final String firstName,
     final String lastName,
+    final String firstName,
+    final String nickName,
     final String identityNumber,
-    final String email
+    final String email,
+    final Boolean isIndividualised
   ) {
-    return createPersonalData(firstName, lastName, identityNumber, email, null, null, null, null, null);
+    return createPersonalData(
+      lastName,
+      firstName,
+      nickName,
+      identityNumber,
+      email,
+      null,
+      null,
+      null,
+      null,
+      null,
+      isIndividualised
+    );
   }
 
   private PersonalData createPersonalData(
-    final String firstName,
     final String lastName,
+    final String firstName,
+    final String nickName,
     final String identityNumber,
     final String email,
     final String phoneNumber,
     final String street,
     final String postalCode,
     final String town,
-    final String country
+    final String country,
+    final Boolean isIndividualised
   ) {
     return PersonalData
       .builder()
-      .firstName(firstName)
       .lastName(lastName)
+      .firstName(firstName)
+      .nickName(nickName)
       .identityNumber(identityNumber)
       .email(email)
       .phoneNumber(phoneNumber)
@@ -146,6 +163,7 @@ class ClerkInterpreterServiceTest {
       .postalCode(postalCode)
       .town(town)
       .country(country)
+      .isIndividualised(isIndividualised)
       .build();
   }
 
@@ -178,8 +196,9 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
       .identityNumber("241202-xyz")
-      .firstName("Erkki")
       .lastName("Esimerkki")
+      .firstName("Erkki Pekka")
+      .nickName("Erkki")
       .email("erkki@esimerkki.invalid")
       .permissionToPublishEmail(false)
       .phoneNumber("+358401234567")
@@ -224,15 +243,17 @@ class ClerkInterpreterServiceTest {
         Map.of(
           "onrId",
           createPersonalData(
-            createDTO.firstName(),
             createDTO.lastName(),
+            createDTO.firstName(),
+            createDTO.nickName(),
             createDTO.identityNumber(),
             createDTO.email(),
             createDTO.phoneNumber(),
             createDTO.street(),
             createDTO.postalCode(),
             createDTO.town(),
-            createDTO.country()
+            createDTO.country(),
+            false
           )
         )
       );
@@ -243,8 +264,9 @@ class ClerkInterpreterServiceTest {
     assertEquals(0, interpreterDTO.version());
     assertFalse(interpreterDTO.deleted());
     assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
-    assertEquals(createDTO.firstName(), interpreterDTO.firstName());
     assertEquals(createDTO.lastName(), interpreterDTO.lastName());
+    assertEquals(createDTO.firstName(), interpreterDTO.firstName());
+    assertEquals(createDTO.nickName(), interpreterDTO.nickName());
     assertEquals(createDTO.email(), interpreterDTO.email());
     assertFalse(interpreterDTO.permissionToPublishEmail());
     assertEquals(createDTO.phoneNumber(), interpreterDTO.phoneNumber());
@@ -256,6 +278,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(createDTO.town(), interpreterDTO.town());
     assertEquals(createDTO.country(), interpreterDTO.country());
     assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
+    assertFalse(interpreterDTO.isIndividualised());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
     assertEquals(2, interpreterDTO.qualifications().size());
 
@@ -288,8 +311,9 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
       .identityNumber("241202-xyz")
-      .firstName("Erkki")
       .lastName("Esimerkki")
+      .firstName("Erkki Pekka")
+      .nickName("Erkki")
       .email("erkki@esimerkki.invalid")
       .permissionToPublishEmail(false)
       .phoneNumber("+358401234567")
@@ -332,9 +356,11 @@ class ClerkInterpreterServiceTest {
 
     assertEquals(id, interpreterDTO.id());
     assertEquals("241202-xyz", interpreterDTO.identityNumber());
-    assertEquals("Erkki", interpreterDTO.firstName());
     assertEquals("Esimerkki", interpreterDTO.lastName());
+    assertEquals("Erkki Pekka", interpreterDTO.firstName());
+    assertEquals("Erkki", interpreterDTO.nickName());
     assertEquals("erkki@esimerkki.invalid", interpreterDTO.email());
+    assertTrue(interpreterDTO.isIndividualised());
     assertEquals(1, interpreterDTO.qualifications().size());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
   }
@@ -350,8 +376,9 @@ class ClerkInterpreterServiceTest {
       .id(interpreter.getId())
       .version(initialVersion)
       .identityNumber("121212-123")
-      .firstName("Eemeli")
       .lastName("Merkkinen")
+      .firstName("Eemeli Aapo")
+      .nickName("Eemeli")
       .email("eemeli.merkkinen.invalid")
       .permissionToPublishEmail(false)
       .permissionToPublishPhone(false)
@@ -376,7 +403,7 @@ class ClerkInterpreterServiceTest {
     verify(onrService)
       .updatePersonalData(
         interpreter.getOnrId(),
-        createPersonalData("Eemeli", "Merkkinen", "121212-123", "eemeli.merkkinen.invalid")
+        createPersonalData("Merkkinen", "Eemeli Aapo", "Eemeli", "121212-123", "eemeli.merkkinen.invalid", null)
       );
   }
 
@@ -390,8 +417,9 @@ class ClerkInterpreterServiceTest {
       .id(original.id())
       .version(original.version())
       .identityNumber(original.identityNumber())
-      .firstName(original.firstName())
       .lastName(original.lastName())
+      .firstName(original.firstName())
+      .nickName(original.nickName())
       .email(original.email())
       .permissionToPublishEmail(false)
       .permissionToPublishPhone(false)

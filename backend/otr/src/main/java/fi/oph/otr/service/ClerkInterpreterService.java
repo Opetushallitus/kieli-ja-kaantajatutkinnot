@@ -104,8 +104,9 @@ public class ClerkInterpreterService {
       .version(interpreter.getVersion())
       .deleted(interpreter.isDeleted())
       .identityNumber(personalData.identityNumber())
-      .firstName(personalData.firstName())
       .lastName(personalData.lastName())
+      .firstName(personalData.firstName())
+      .nickName(personalData.nickName())
       .email(personalData.email())
       .permissionToPublishEmail(interpreter.isPermissionToPublishEmail())
       .phoneNumber(personalData.phoneNumber())
@@ -117,6 +118,7 @@ public class ClerkInterpreterService {
       .town(personalData.town())
       .country(personalData.country())
       .extraInformation(interpreter.getExtraInformation())
+      .isIndividualised(personalData.isIndividualised())
       .regions(regions)
       .qualifications(qualificationDTOs)
       .build();
@@ -181,8 +183,9 @@ public class ClerkInterpreterService {
   private PersonalData createPersonalData(final ClerkInterpreterDTOCommonFields dto) {
     return PersonalData
       .builder()
-      .firstName(dto.firstName())
       .lastName(dto.lastName())
+      .firstName(dto.firstName())
+      .nickName(dto.nickName())
       .identityNumber(dto.identityNumber())
       .email(dto.email())
       .phoneNumber(dto.phoneNumber())
