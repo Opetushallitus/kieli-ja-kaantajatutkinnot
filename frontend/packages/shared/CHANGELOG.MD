@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.2.0] - 2022-08-23
+
+## Added
+
+- DialogBox
+- Toast
+- Notifier and NotifierProvider
+
+
 ## [1.1.1] - 2022-08-22
 
 ## Fixed
