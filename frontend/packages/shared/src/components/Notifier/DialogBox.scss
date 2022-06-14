@@ -1,0 +1,22 @@
+@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/mixins';
+
+.dialog-box {
+  &--success {
+    & [role='dialog'] {
+      @include mixins.dialog-border(variables.$color-green-600);
+    }
+  }
+
+  &--error {
+    & [role='dialog'] {
+      @include mixins.dialog-border(variables.$color-red-500);
+    }
+  }
+
+  &--info {
+    & [role='dialog'] {
+      @include mixins.dialog-border(variables.$color-secondary);
+    }
+  }
+}
