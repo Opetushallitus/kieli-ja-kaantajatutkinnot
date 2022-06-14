@@ -21,8 +21,8 @@ class LanguageServiceTest {
   }
 
   @Test
-  public void testListKoodistoLangCodes() {
-    final Set<String> codes = languageService.listKoodistoLangCodes();
+  public void testListKoodistoCodes() {
+    final Set<String> codes = languageService.listKoodistoCodes();
 
     assertEquals(198, codes.size());
     assertFalse(codes.contains(LanguageService.UNOFFICIAL_LANGUAGE));

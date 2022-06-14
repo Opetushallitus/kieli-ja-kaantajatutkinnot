@@ -1,0 +1,28 @@
+{
+  "akt": {
+    "koodisto": {
+      "postalCodes": {
+        "00049": "VALTERI",
+        "07231": "ASKOLA",
+        "07510": "ASKOLA",
+        "07530": "ASKOLA",
+        "07580": "ASKOLA",
+        "07590": "ASKOLA",
+        "07680": "ASKOLA",
+        "40049": "VALTERI",
+        "50049": "VALTERI",
+        "70049": "VALTERI",
+        "85320": "SIEVI",
+        "85340": "SIEVI",
+        "85430": "SIEVI",
+        "85450": "SIEVI",
+        "85470": "SIEVI",
+        "90049": "VALTERI",
+        "93700": "KUUSAMO",
+        "93800": "KUUSAMO",
+        "93830": "RUKATUNTURI",
+        "93900": "KUUSAMO"
+      }
+    }
+  }
+}
