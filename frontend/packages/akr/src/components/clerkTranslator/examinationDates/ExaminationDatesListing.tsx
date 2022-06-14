@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -11,13 +12,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { ExaminationDate } from 'interfaces/examinationDate';
 import { removeExaminationDate } from 'redux/actions/examinationDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
 } from 'redux/selectors/examinationDate';
-import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (examinationDate: ExaminationDate) => {
   return <ListingRow examinationDate={examinationDate} />;
@@ -29,6 +27,7 @@ const ListingRow = ({
   examinationDate: ExaminationDate;
 }) => {
   const dispatch = useAppDispatch();
+  const { showDialog } = useDialog();
 
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.examinationDatesListing.removal',
@@ -36,25 +35,17 @@ const ListingRow = ({
   const translateCommon = useCommonTranslation();
 
   const dispatchConfirmRemoveNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('dialog.header'),
-      Severity.Info,
-      t('dialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => dispatch(removeExaminationDate(examinationDate.id)),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+    showDialog(t('dialog.header'), Severity.Info, t('dialog.description'), [
+      {
+        title: translateCommon('back'),
+        variant: Variant.Outlined,
+      },
+      {
+        title: translateCommon('yes'),
+        variant: Variant.Contained,
+        action: () => dispatch(removeExaminationDate(examinationDate.id)),
+      },
+    ]);
   };
 
   const formattedDate = DateUtils.formatOptionalDate(examinationDate.date);

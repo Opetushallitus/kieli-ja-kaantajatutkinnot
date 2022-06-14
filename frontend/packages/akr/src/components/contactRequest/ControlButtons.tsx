@@ -5,7 +5,7 @@ import {
 import { AppBar, Toolbar } from '@mui/material';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -16,13 +16,8 @@ import {
   increaseFormStep,
   sendContactRequest,
 } from 'redux/actions/contactRequest';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import {
-  NOTIFIER_ACTION_CONTACT_REQUEST_RESET,
-  NOTIFIER_ACTION_DO_NOTHING,
-} from 'redux/actionTypes/notifier';
+import { NOTIFIER_ACTION_CONTACT_REQUEST_RESET } from 'redux/actionTypes/notifier';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ControlButtons = ({
   disableNext,
@@ -47,6 +42,8 @@ export const ControlButtons = ({
     status: APIResponseStatus;
   };
 
+  const { showDialog } = useDialog();
+
   const { isPhone } = useWindowProperties();
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -54,31 +51,25 @@ export const ControlButtons = ({
     dispatch(sendContactRequest(request));
   };
 
-  const dispatchCancelNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('cancelRequestDialog.title'),
-      Severity.Info,
-      t('cancelRequestDialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CONTACT_REQUEST_RESET,
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
-  };
-
   const handleCancelBtnClick = () => {
     if (hasLocalChanges) {
-      dispatchCancelNotifier();
+      showDialog(
+        t('cancelRequestDialog.title'),
+        Severity.Info,
+        t('cancelRequestDialog.description'),
+        [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+          {
+            title: translateCommon('yes'),
+            variant: Variant.Contained,
+            action: () =>
+              dispatch({ type: NOTIFIER_ACTION_CONTACT_REQUEST_RESET }),
+          },
+        ]
+      );
     } else {
       dispatch({ type: NOTIFIER_ACTION_CONTACT_REQUEST_RESET });
     }

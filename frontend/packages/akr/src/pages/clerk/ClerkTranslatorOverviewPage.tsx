@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1 } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { AuthorisationDetails } from 'components/clerkTranslator/overview/AuthorisationDetails';
 import { ClerkTranslatorDetails } from 'components/clerkTranslator/overview/ClerkTranslatorDetails';
@@ -15,13 +16,13 @@ import {
   fetchClerkTranslatorOverview,
   resetClerkTranslatorOverview,
 } from 'redux/actions/clerkTranslatorOverview';
-import { showNotifierToast } from 'redux/actions/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorOverviewPage = () => {
   // i18n
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
+
+  const { showToast } = useToast();
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, selectedTranslator } = useAppSelector(
@@ -48,11 +49,10 @@ export const ClerkTranslatorOverviewPage = () => {
       !Number(params.translatorId)
     ) {
       // Show an error
-      const toast = NotifierUtils.createNotifierToast(
+      showToast(
         Severity.Error,
         t('component.clerkTranslatorOverview.toasts.notFound')
       );
-      dispatch(showNotifierToast(toast));
       navigate(AppRoutes.ClerkHomePage);
     }
   }, [
@@ -60,6 +60,7 @@ export const ClerkTranslatorOverviewPage = () => {
     dispatch,
     navigate,
     params.translatorId,
+    showToast,
     selectedTranslatorId,
     t,
   ]);

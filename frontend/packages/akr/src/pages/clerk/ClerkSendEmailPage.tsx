@@ -9,6 +9,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -19,18 +20,15 @@ import {
   setClerkTranslatorEmail,
   setClerkTranslatorEmailRecipients,
 } from 'redux/actions/clerkTranslatorEmail';
-import { showNotifierDialog } from 'redux/actions/notifier';
 import {
   NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_RESET,
   NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
-  NOTIFIER_ACTION_DO_NOTHING,
 } from 'redux/actionTypes/notifier';
 import {
   selectFilteredSelectedIds,
   selectFilteredSelectedTranslators,
 } from 'redux/selectors/clerkTranslator';
 import { selectClerkTranslatorEmail } from 'redux/selectors/clerkTranslatorEmail';
-import { NotifierUtils } from 'utils/notifier';
 
 const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   // i18n
@@ -44,8 +42,10 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   const translatorIds = useAppSelector(selectFilteredSelectedIds);
 
   // Dialogs
+  const { showDialog } = useDialog();
+
   const dispatchCancelNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('dialogs.cancel.title'),
       Severity.Info,
       t('dialogs.cancel.description'),
@@ -53,21 +53,22 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_RESET,
+          action: () =>
+            dispatch({
+              type: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_RESET,
+            }),
         },
       ]
     );
-    dispatch(showNotifierDialog(notifier));
   };
 
   const dispatchSendEmailNotifier = () => {
     dispatch(setClerkTranslatorEmailRecipients(translatorIds));
-    const notifier = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('dialogs.send.title'),
       Severity.Info,
       t('dialogs.send.description', { count: translatorIds.length }),
@@ -75,16 +76,17 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
+          action: () =>
+            dispatch({
+              type: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
+            }),
         },
       ]
     );
-    dispatch(showNotifierDialog(notifier));
   };
 
   return (

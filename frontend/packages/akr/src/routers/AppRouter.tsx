@@ -1,9 +1,9 @@
 import { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Notifier } from 'shared/components';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
-import { Notifier } from 'components/notification/Notifier';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';

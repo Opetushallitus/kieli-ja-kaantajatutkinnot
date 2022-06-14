@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -11,13 +12,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { removeMeetingDate } from 'redux/actions/meetingDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (meetingDate: MeetingDate) => {
   return <ListingRow meetingDate={meetingDate} />;
@@ -26,31 +24,25 @@ const getRowDetails = (meetingDate: MeetingDate) => {
 const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
   const dispatch = useAppDispatch();
 
+  const { showDialog } = useDialog();
+
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.meetingDatesListing.removal',
   });
   const translateCommon = useCommonTranslation();
 
   const dispatchConfirmRemoveNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('dialog.header'),
-      Severity.Info,
-      t('dialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => dispatch(removeMeetingDate(meetingDate.id)),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+    showDialog(t('dialog.header'), Severity.Info, t('dialog.description'), [
+      {
+        title: translateCommon('back'),
+        variant: Variant.Outlined,
+      },
+      {
+        title: translateCommon('yes'),
+        variant: Variant.Contained,
+        action: () => dispatch(removeMeetingDate(meetingDate.id)),
+      },
+    ]);
   };
 
   const formattedDate = DateUtils.formatOptionalDate(meetingDate.date);

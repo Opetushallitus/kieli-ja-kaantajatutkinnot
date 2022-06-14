@@ -1,7 +1,7 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
 import { H2, H3, Text } from 'shared/components';
 import { Color, Severity } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { useToast, useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
@@ -11,7 +11,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
 import { PublicTranslator } from 'interfaces/publicTranslator';
-import { showNotifierToast } from 'redux/actions/notifier';
 import {
   addPublicTranslatorFilterError,
   addSelectedTranslator,
@@ -21,7 +20,6 @@ import {
   publicTranslatorsSelector,
   selectFilteredPublicSelectedIds,
 } from 'redux/selectors/publicTranslator';
-import { NotifierUtils } from 'utils/notifier';
 
 export const PublicTranslatorListingRow = ({
   translator,
@@ -42,6 +40,8 @@ export const PublicTranslatorListingRow = ({
   const { fromLang, toLang } = filters;
   const { firstName, lastName, languagePairs, town, country } = translator;
 
+  const { showToast } = useToast();
+
   const { isPhone } = useWindowProperties();
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCountry = useKoodistoCountriesTranslation();
@@ -60,13 +60,12 @@ export const PublicTranslatorListingRow = ({
     });
 
     if (!fromLang || !toLang) {
-      const toast = NotifierUtils.createNotifierToast(
+      showToast(
         Severity.Error,
         t(
           'component.publicTranslatorFilters.toasts.contactRequestNeedsLanguagePairs'
         )
       );
-      dispatch(showNotifierToast(toast));
     } else {
       if (selected) {
         dispatch(removeSelectedTranslator(translator.id));

@@ -10,6 +10,7 @@ import {
   Severity,
   Variant,
 } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
@@ -28,8 +29,6 @@ import {
 } from 'redux/actions/clerkNewTranslator';
 import { loadExaminationDates } from 'redux/actions/examinationDate';
 import { loadMeetingDates } from 'redux/actions/meetingDate';
-import { showNotifierDialog, showNotifierToast } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 import {
   examinationDatesSelector,
@@ -39,12 +38,14 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkNewTranslatorPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
+
+  const { showToast } = useToast();
+  const { showDialog } = useDialog();
 
   // i18n
   const { t } = useAppTranslation({
@@ -77,34 +78,26 @@ export const ClerkNewTranslatorPage = () => {
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('removeAuthorisationDialog.title'),
-      Severity.Info,
-      '',
-      [
-        {
-          title: translateCommon('no'),
-          variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
-        },
-        {
-          dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () =>
-            dispatch(
-              updateNewClerkTranslator({
-                ...translator,
-                authorisations: translator.authorisations.filter((a) => {
-                  return a.tempId !== authorisation.tempId;
-                }),
-              })
-            ),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+    showDialog(t('removeAuthorisationDialog.title'), Severity.Info, '', [
+      {
+        title: translateCommon('no'),
+        variant: Variant.Outlined,
+      },
+      {
+        dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
+        title: translateCommon('yes'),
+        variant: Variant.Contained,
+        action: () =>
+          dispatch(
+            updateNewClerkTranslator({
+              ...translator,
+              authorisations: translator.authorisations.filter((a) => {
+                return a.tempId !== authorisation.tempId;
+              }),
+            })
+          ),
+      },
+    ]);
   };
 
   // Navigation
@@ -130,21 +123,16 @@ export const ClerkNewTranslatorPage = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
-      const successToast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.success'),
-        Duration.Medium
-      );
+      showToast(Severity.Success, t('toasts.success'), Duration.Medium);
       dispatch(resetNewClerkTranslatorRequestStatus);
       dispatch(resetNewClerkTranslatorDetails);
-      dispatch(showNotifierToast(successToast));
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
       );
     } else if (status === APIResponseStatus.Error) {
       dispatch(resetNewClerkTranslatorRequestStatus);
     }
-  }, [id, dispatch, navigate, status, t]);
+  }, [id, dispatch, navigate, status, showToast, t]);
 
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   useNavigationProtection(

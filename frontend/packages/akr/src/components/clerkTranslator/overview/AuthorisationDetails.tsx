@@ -8,6 +8,7 @@ import {
   ToggleFilterGroup,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
@@ -20,20 +21,19 @@ import { addAuthorisation } from 'redux/actions/authorisation';
 import { deleteAuthorisation } from 'redux/actions/clerkTranslatorOverview';
 import { loadExaminationDates } from 'redux/actions/examinationDate';
 import { loadMeetingDates } from 'redux/actions/meetingDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationDetails = () => {
   // State
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
     AuthorisationStatus.Authorised
   );
+
+  const { showDialog } = useDialog();
 
   // Redux
   const { selectedTranslator } = useAppSelector(
@@ -116,7 +116,7 @@ export const AuthorisationDetails = () => {
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('actions.removal.dialog.header'),
       Severity.Info,
       t('actions.removal.dialog.description'),
@@ -124,7 +124,6 @@ export const AuthorisationDetails = () => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
         },
         {
           title: t('actions.removal.dialog.confirmButton'),
@@ -135,8 +134,6 @@ export const AuthorisationDetails = () => {
         },
       ]
     );
-
-    dispatch(showNotifierDialog(notifier));
   };
 
   return (

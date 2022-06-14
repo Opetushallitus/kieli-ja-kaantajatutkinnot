@@ -18,6 +18,7 @@ import {
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -29,11 +30,8 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { updateAuthorisationPublishPermission } from 'redux/actions/clerkTranslatorOverview';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationListing = ({
   authorisations,
@@ -50,6 +48,8 @@ export const AuthorisationListing = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
+  const { showDialog } = useDialog();
+
   const dispatch = useAppDispatch();
   const { authorisationDetailsStatus } = useAppSelector(
     clerkTranslatorOverviewSelector
@@ -64,7 +64,7 @@ export const AuthorisationListing = ({
     : defaultClassName;
 
   const onPublishPermissionChange = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('actions.changePermissionToPublish.dialog.header'),
       Severity.Info,
       t('actions.changePermissionToPublish.dialog.description'),
@@ -72,7 +72,6 @@ export const AuthorisationListing = ({
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
         },
         {
           title: translateCommon('yes'),
@@ -82,8 +81,6 @@ export const AuthorisationListing = ({
         },
       ]
     );
-
-    dispatch(showNotifierDialog(notifier));
   };
 
   return (

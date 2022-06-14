@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
@@ -17,13 +18,8 @@ import {
   resetClerkTranslatorDetailsUpdate,
   updateClerkTranslatorDetails,
 } from 'redux/actions/clerkTranslatorOverview';
-import { showNotifierDialog, showNotifierToast } from 'redux/actions/notifier';
-import {
-  NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
-  NOTIFIER_ACTION_DO_NOTHING,
-} from 'redux/actionTypes/notifier';
+import { NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorDetails = () => {
   // Redux
@@ -31,6 +27,9 @@ export const ClerkTranslatorDetails = () => {
   const { selectedTranslator, translatorDetailsStatus } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
+
+  const { showToast } = useToast();
+  const { showDialog } = useDialog();
 
   // Local State
   const [translatorDetails, setTranslatorDetails] =
@@ -60,11 +59,7 @@ export const ClerkTranslatorDetails = () => {
       translatorDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditTranslatorDetails
     ) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.updated')
-      );
-      dispatch(showNotifierToast(toast));
+      showToast(Severity.Success, t('toasts.updated'));
       resetToInitialState();
     } else if (
       translatorDetailsStatus === APIResponseStatus.Cancelled &&
@@ -76,6 +71,7 @@ export const ClerkTranslatorDetails = () => {
   }, [
     currentUIMode,
     dispatch,
+    showToast,
     resetToInitialState,
     t,
     translatorDetailsStatus,
@@ -123,7 +119,7 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const openCancelDialog = () => {
-    const dialog = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('translatorDetails.cancelUpdateDialog.title'),
       Severity.Info,
       t('translatorDetails.cancelUpdateDialog.description'),
@@ -131,16 +127,17 @@ export const ClerkTranslatorDetails = () => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
+          action: () =>
+            dispatch({
+              type: NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
+            }),
         },
       ]
     );
-    dispatch(showNotifierDialog(dialog));
   };
 
   const onCancel = () => {

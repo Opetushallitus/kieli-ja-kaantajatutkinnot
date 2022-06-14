@@ -1,20 +1,20 @@
 import { Severity, Variant } from 'shared/enums';
-import { useNavigationProtection as useCommonNavigationProtection } from 'shared/hooks';
+import {
+  useNavigationProtection as useCommonNavigationProtection,
+  useDialog,
+} from 'shared/hooks';
 
 import { useCommonTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NotifierUtils } from 'utils/notifier';
 
 export const useNavigationProtection = (when: boolean) => {
   const translateCommon = useCommonTranslation();
-  const dispatch = useAppDispatch();
+  const { showDialog } = useDialog();
 
   const showConfirmationDialog = (
     confirmNavigation: () => void,
     cancelNavigation: () => void
   ) => {
-    const confirmNavigationDialog = NotifierUtils.createNotifierDialog(
+    showDialog(
       translateCommon('navigationProtection.header'),
       Severity.Info,
       translateCommon('navigationProtection.description'),
@@ -33,7 +33,6 @@ export const useNavigationProtection = (when: boolean) => {
       undefined,
       cancelNavigation
     );
-    dispatch(showNotifierDialog(confirmNavigationDialog));
   };
 
   useCommonNavigationProtection(when, showConfirmationDialog);
