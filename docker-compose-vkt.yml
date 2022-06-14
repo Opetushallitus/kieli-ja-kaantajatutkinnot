@@ -22,10 +22,10 @@ services:
     depends_on:
       - vkt-postgres
     environment:
-      - SERVER_PORT=8082
       - SPRING_DATASOURCE_URL=jdbc:postgresql://vkt-postgres:6432/vkt-postgres
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVER_PORT=8082
       - VKT_UNSECURE=${VKT_UNSECURE}
   vkt-frontend:
     build:

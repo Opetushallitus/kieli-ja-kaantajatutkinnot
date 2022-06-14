@@ -12,7 +12,7 @@ services:
       [
         "sh",
         "-c",
-        "cd akt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false} spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false}",
+        "cd akt; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKT_UNSECURE:-false}",
       ]
     networks:
       - akt-dev
