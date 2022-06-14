@@ -11,9 +11,9 @@
         "personalData": "Henkilötiedot"
       },
       "disclosure": {
-        "description": "Opetushallitus ei normaalisti luovuta henkilötietoja. Tietojasi voidaan kuitenkin luovuttaa seuraavissa tilanteissa:",
+        "description": "Opetushallitus ei normaalisti tee muita kuin lakisääteisiä henkilötietojen luovutuksia muille viranomaisille viranomaiskäyttöön. Tietojasi voidaan kuitenkin muuten luovuttaa seuraavissa tilanteissa:",
         "community": {
-          "description1": "Henkilötietoja ei pääsääntöisesti näytetä muille Opetushallituksen palvelujen käyttäjille. Joissakin palveluissa käyttäjä voi itse jakaa tietojaan muille käyttäjille esimerkiksi nimimerkin muodossa (blogikirjoituksen kommentointi).",
+          "description1": "Henkilötietoja ei pääsääntöisesti näytetä muille Opetushallituksen palvelujen käyttäjille. Joissakin verkkopalveluissa käyttäjä voi itse jakaa tietojaan muille käyttäjille esimerkiksi nimimerkin muodossa (blogikirjoituksen kommentointi).",
           "title": "2. Yhteisöt"
         },
         "consent": {
@@ -21,25 +21,17 @@
           "title": "1. Suostumuksesi"
         },
         "dataTransfers": {
-          "description1": "Opetushallitus pyrkii aina toteuttamaan palvelut ja käsittelemään henkilötietoja ensisijaisesti EU:n ja ETA:n alueiden sisällä, käyttäen alueilla sijaitsevia toimijoita ja palveluita. Jos tästä periaatteesta poikkeuksellisesti ja tapauskohtaisesti poiketaan, edellytetään palvelun osalta perusteellisia selvityksiä tietosuojan ja tietoturvan toteutuksesta kyseisessä palvelussa.",
-          "title": "4. Kansainväliset tietojen siirrot"
-        },
-        "legislation": {
-          "description1": "henkilötietojasi voidaan lain mukaan luovuttaa muille viranomaisille viranomaiskäyttöön.",
-          "title": "6. Pakottavan lainsäädännön edellyttämät luovutukset"
+          "description1": "Opetushallitus pyrkii aina toteuttamaan palvelut ja käsittelemään henkilötietoja ensisijaisesti EU:n ja ETA:n alueiden sisällä, käyttäen alueilla sijaitsevia toimijoita ja palveluita. Emme poikkeustapauksia lukuun ottamatta siirrä tietoja EU:n tai ETA:n ulkopuolelle. Jos tietoja siirretään EU:n tai ETA:n ulkopuolelle, huolehdimme henkilötietojen suojan riittävästä tasosta muun muassa sopimalla henkilötietojen luottamuksellisuuteen ja käsittelyyn liittyvistä asioista lainsäädännön edellyttämällä tavalla, esimerkiksi Euroopan komission hyväksymiä mallisopimuslausekkeita käyttäen, ja muuten siten, että henkilötietojen käsittely tapahtuu tämän tietosuojakäytännön mukaisesti.",
+          "title": "5. Kansainväliset tietojen siirrot"
         },
         "research": {
-          "description1": "Saatamme luovuttaa tietoja tieteellistä tai muuta tutkimusta varten edellyttäen, että kyseiset tiedot on ensin muutettu muotoon, josta yksittäiset henkilöt eivät ole enää tunnistettavissa.",
-          "title": "5. Tutkimuskäyttö"
+          "description1": "Voimme luovuttaa tietoja tieteellistä tai muuta tutkimusta varten edellyttäen, että kyseiset tiedot on ensin muutettu muotoon, josta yksittäiset henkilöt eivät ole enää tunnistettavissa.",
+          "title": "4. Tutkimuskäyttö"
         },
         "serviceProvider": {
           "description1": "Opetushallitus käyttää alihankkijoita ja palveluntarjoajia palvelujensa tekniseen ylläpitoon, asiakaspalveluun, asiakasviestintään ja tutkimukseen. Henkilötietoja voidaan luovuttaa alihankkijoille ja palveluntarjoajille vain siinä määrin, kun he osallistuvat Opetushallituksen palvelujen toteuttamiseen ja tässä tietosuojalausekkeessa kuvattujen käyttötarkoitusten toteuttamiseen.",
           "description2": "Alihankkijat ja palveluntarjoajat eivät saa käyttää heille luovutettuja henkilötietoja muuhun kuin tässä tietosuojalausekkeessa kuvattuihin ja Opetushallituksen määrittämiin käyttötarkoituksiin. Opetushallitus velvoittaa pitämään tiedot salassa ja huolehtia asianmukaisesti tietoturvan ja tietosuojan toteuttamisesta henkilötietojen suojaamiseksi.",
           "title": "3. Alihankkijat ja palveluntarjoajat"
-        },
-        "thirdCountries": {
-          "description1": "Emme poikkeustapauksia lukuun ottamatta siirrä tietoja EU:n tai ETA:n ulkopuolelle. Jos tietoja siirretään EU:n tai ETA:n ulkopuolelle, huolehdimme henkilötietojen suojan riittävästä tasosta muun muassa sopimalla henkilötietojen luottamuksellisuuteen ja käsittelyyn liittyvistä asioista lainsäädännön edellyttämällä tavalla, esimerkiksi Euroopan komission hyväksymiä mallisopimuslausekkeita käyttäen, ja muuten siten, että henkilötietojen käsittely tapahtuu tämän tietosuojakäytännön mukaisesti.",
-          "title": "7. Tietojen siirto kolmansiin maihin"
         },
         "title": "Luovutammeko henkilötietoja?"
       },
@@ -74,7 +66,7 @@
       },
       "heading": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste",
       "preservation": {
-        "description1": "Opetushallitus säilyttää yhteydenottopyyntöjen yhteydessä jätettyjä henkilötietoja ja viestejä toistaiseksi voimassa olevan lainsäädännön mukaisesti. Muita tietoja säilytetään niin kauan, kuin on tarpeen tässä tietosuojakäytännössä kuvattujen käyttötarkoitusten toteuttamiseksi. Kun henkilötietojesi käsittelyperuste on päättynyt, poistamme henkilötietosi.",
+        "description1": "Opetushallitus säilyttää yhteydenottopyyntöjen yhteydessä jätettyjä henkilötietoja ja viestejä kuusi kuukautta. Muita tietoja esim. lokitietoja säilytetään niin kauan kuin on tarpeen tässä tietosuojakäytännössä kuvattujen käyttötarkoitusten toteuttamiseksi, kuitenkin enintään kahden vuoden ajan. Kun henkilötietojesi käsittelyperuste on päättynyt, arkistoimme tai poistamme tietosi.",
         "title": "Kuinka kauan säilytämme tietojasi?"
       },
       "processing": {
@@ -110,8 +102,8 @@
         },
         "description1": "Älä epäröi ottaa meihin yhteyttä, jos sinulla on kysyttävää tietosuojakäytännöstämme.",
         "description2": "Rekisterinpitäjänä toimii Opetushallitus (Y-tunnus 2769790-1) ja meihin voi ottaa yhteyttä seuraavasti:",
-        "modified": "Tietosuojakäytäntöä muokattu 1.6.2022",
-        "published": "Tietosuojakäytäntö on julkaistu 1.6.2022",
+        "modified": "Tietosuojakäytäntöä muokattu 13.6.2022",
+        "published": "Tietosuojakäytäntö on julkaistu 13.6.2022",
         "title": "Kuka on rekisterinpitäjä ja mihin voit ottaa yhteyttä?"
       },
       "rights": {
