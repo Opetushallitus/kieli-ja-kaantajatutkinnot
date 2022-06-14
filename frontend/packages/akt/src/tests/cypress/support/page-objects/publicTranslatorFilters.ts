@@ -33,7 +33,7 @@ class PublicTranslatorFilters {
   }
 
   filterByName(name: string) {
-    this.elements.name().type(name);
+    this.elements.name().should('be.visible').type(name);
     cy.wait(350); // Input debounce
     this.search();
   }
@@ -53,7 +53,7 @@ class PublicTranslatorFilters {
   }
 
   enterKeyOnTown() {
-    this.elements.town().type('{enter}');
+    this.elements.town().should('be.visible').type('{enter}');
   }
 
   emptySearch() {
@@ -77,17 +77,21 @@ class PublicTranslatorFilters {
   }
 
   expectSeachBtnText(text: string) {
-    this.elements.search().should('contain.text', text);
+    this.elements.search().should('be.visible').should('contain.text', text);
   }
 
   expectFromLangSelectValues(values: Array<string>) {
     this.clickFromLang();
-    cy.findAllByRole('option').should('have.length', values.length);
+    cy.findAllByRole('option')
+      .should('be.visible')
+      .should('have.length', values.length);
     values.forEach((value) => cy.findAllByRole('listbox').contains(value));
   }
   expectToLangSelectValues(values: Array<string>) {
     this.clickToLang();
-    cy.findAllByRole('option').should('have.length', values.length);
+    cy.findAllByRole('option')
+      .should('be.visible')
+      .should('have.length', values.length);
     values.forEach((value) => cy.findAllByRole('listbox').contains(value));
   }
 }
