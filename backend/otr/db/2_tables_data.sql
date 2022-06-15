@@ -17,6 +17,15 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Data for Name: email_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.email_type (name) FROM stdin;
+QUALIFICATION_EXPIRY
+\.
+
+
+--
 -- Data for Name: qualification_examination_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 

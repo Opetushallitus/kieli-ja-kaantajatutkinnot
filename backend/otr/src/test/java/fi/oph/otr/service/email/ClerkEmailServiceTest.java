@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import fi.oph.otr.Factory;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
+import fi.oph.otr.onr.OnrService;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.EmailRepository;
 import fi.oph.otr.repository.QualificationReminderRepository;
 import fi.oph.otr.repository.QualificationRepository;
@@ -44,6 +46,9 @@ public class ClerkEmailServiceTest {
   private EmailService emailService;
 
   @MockBean
+  private OnrService onrService;
+
+  @MockBean
   private TemplateRenderer templateRenderer;
 
   @Resource
@@ -64,6 +69,7 @@ public class ClerkEmailServiceTest {
         emailRepository,
         emailService,
         languageService,
+        onrService,
         templateRenderer
       );
   }
@@ -81,9 +87,24 @@ public class ClerkEmailServiceTest {
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          interpreter.getOnrId(),
+          PersonalData
+            .builder()
+            .lastName("Rajala")
+            .firstName("Iiro Aapeli")
+            .nickName("Iiro")
+            .identityNumber("1")
+            .email("iiro.rajala@example.invalid")
+            .build()
+        )
+      );
+
     final Map<String, Object> expectedTemplateParams = Map.of(
       "interpreterName",
-      "Tulkki " + interpreter.getId(), // TODO: get from onr mock
+      "Iiro Rajala",
       "langPair",
       "suomi - englanti",
       "expiryDate",
@@ -99,9 +120,8 @@ public class ClerkEmailServiceTest {
 
     final EmailData emailData = emailDataCaptor.getValue();
 
-    // TODO: get recipient name and address from onr mock
-    assertEquals("Tulkki " + interpreter.getId(), emailData.recipientName());
-    assertEquals("interpreter" + interpreter.getId() + "@example.invalid", emailData.recipientAddress());
+    assertEquals("Iiro Rajala", emailData.recipientName());
+    assertEquals("iiro.rajala@example.invalid", emailData.recipientAddress());
     assertEquals("Merkintäsi oikeustulkkirekisteriin on päättymässä", emailData.subject());
     assertEquals("Merkintäsi päättyy 01.12.2049", emailData.body());
 
