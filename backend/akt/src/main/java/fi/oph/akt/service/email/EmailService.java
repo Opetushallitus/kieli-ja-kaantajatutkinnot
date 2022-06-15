@@ -29,11 +29,18 @@ public class EmailService {
     final Email email = new Email();
     email.setEmailType(type);
     email.setRecipientName(emailData.recipientName());
-    email.setRecipientAddress(emailData.recipientAddress());
+    email.setRecipientAddress(cleanAddress(emailData.recipientAddress()));
     email.setSubject(emailData.subject());
     email.setBody(emailData.body());
 
     return emailRepository.saveAndFlush(email).getId();
+  }
+
+  public static String cleanAddress(final String address) {
+    if (address == null || !address.contains("<") || !address.contains(">")) {
+      return address;
+    }
+    return address.substring(address.indexOf("<") + 1, address.indexOf(">"));
   }
 
   @Transactional
