@@ -63,8 +63,7 @@ export const ClerkTranslatorDetails = () => {
         t('toasts.updated')
       );
       dispatch(showNotifierToast(toast));
-      dispatch(resetClerkTranslatorDetailsUpdate);
-      setCurrentUIMode(UIMode.View);
+      resetToInitialState();
     } else if (
       translatorDetailsStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditTranslatorDetails
