@@ -75,10 +75,8 @@ class TemplateRendererTest {
   public void testContactRequestRequesterTemplateIsRendered() {
     final String renderedContent = templateRenderer.renderContactRequestRequesterEmailBody(
       Map.of(
-        "contactedTranslators",
+        "translators",
         List.of("Jack Smith", "Mark Davis"),
-        "otherTranslators",
-        List.of("James Moore"),
         "requesterName",
         "John Doe",
         "requesterEmail",
@@ -94,7 +92,6 @@ class TemplateRendererTest {
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Jack Smith"));
     assertTrue(renderedContent.contains("Mark Davis"));
-    assertTrue(renderedContent.contains("James Moore"));
     assertTrue(renderedContent.contains("John Doe"));
     assertTrue(renderedContent.contains("john.doe@unknown.invalid"));
     assertTrue(renderedContent.contains("+358 400 888 777"));

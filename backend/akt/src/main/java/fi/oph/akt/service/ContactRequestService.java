@@ -116,7 +116,7 @@ public class ContactRequestService {
     final List<Translator> translatorsWithoutEmail = translatorsByExistingEmail.get(false);
 
     sendTranslatorEmails(translatorsWithEmail, contactRequestDTO);
-    sendRequesterEmail(translatorsWithEmail, translatorsWithoutEmail, contactRequestDTO);
+    sendRequesterEmail(translators, contactRequestDTO);
 
     if (!translatorsWithoutEmail.isEmpty()) {
       sendClerkEmail(translatorsWithoutEmail, contactRequestDTO);
@@ -147,19 +147,13 @@ public class ContactRequestService {
     });
   }
 
-  private void sendRequesterEmail(
-    final List<Translator> contactedTranslators,
-    final List<Translator> otherTranslators,
-    final ContactRequestDTO contactRequestDTO
-  ) {
+  private void sendRequesterEmail(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
     final String requesterName = getRequesterName(contactRequestDTO);
     final String requesterEmail = getRequesterEmail(contactRequestDTO);
 
     final Map<String, Object> templateParams = Map.of(
-      "contactedTranslators",
-      contactedTranslators.stream().map(Translator::getFullName).sorted().toList(),
-      "otherTranslators",
-      otherTranslators.stream().map(Translator::getFullName).sorted().toList(),
+      "translators",
+      translators.stream().map(Translator::getFullName).sorted().toList(),
       "requesterName",
       getRequesterName(contactRequestDTO),
       "requesterEmail",
