@@ -12,7 +12,7 @@ import fi.oph.akt.repository.AuthorisationTermReminderRepository;
 import fi.oph.akt.repository.EmailRepository;
 import fi.oph.akt.repository.MeetingDateRepository;
 import fi.oph.akt.repository.TranslatorRepository;
-import fi.oph.akt.service.LanguageService;
+import fi.oph.akt.service.koodisto.LanguageService;
 import fi.oph.akt.util.TemplateRenderer;
 import fi.oph.akt.util.localisation.Language;
 import java.time.LocalDate;
