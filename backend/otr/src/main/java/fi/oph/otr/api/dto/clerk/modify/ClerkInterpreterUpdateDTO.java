@@ -11,6 +11,7 @@ import lombok.NonNull;
 public record ClerkInterpreterUpdateDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
+  @NonNull @NotNull Boolean isIndividualised,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,

@@ -12,6 +12,7 @@ public record ClerkInterpreterDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotNull Boolean deleted,
+  @NonNull @NotNull Boolean isIndividualised,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,
@@ -27,7 +28,6 @@ public record ClerkInterpreterDTO(
   String town,
   String country,
   String extraInformation,
-  @NonNull @NotNull Boolean isIndividualised,
   @NonNull @NotNull List<String> regions,
   @NonNull @NotEmpty List<ClerkQualificationDTO> qualifications
 )

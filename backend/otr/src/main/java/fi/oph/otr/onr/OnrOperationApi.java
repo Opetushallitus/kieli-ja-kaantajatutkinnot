@@ -12,5 +12,5 @@ public interface OnrOperationApi {
 
   String insertPersonalData(PersonalData personalData);
 
-  void updatePersonalData(String onrId, PersonalData personalData);
+  void updatePersonalData(PersonalData personalData);
 }

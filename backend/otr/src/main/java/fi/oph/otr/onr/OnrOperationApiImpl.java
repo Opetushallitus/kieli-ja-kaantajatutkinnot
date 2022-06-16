@@ -89,6 +89,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     return PersonalData
       .builder()
+      .onrId(personalDataDTO.getOnrId())
+      .individualised(personalDataDTO.getIndividualised())
       .lastName(personalDataDTO.getLastName())
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
@@ -99,7 +101,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .postalCode(ContactDetailsUtil.getPrimaryPostalCode(groups))
       .town(ContactDetailsUtil.getPrimaryTown(groups))
       .country(ContactDetailsUtil.getPrimaryCountry(groups))
-      .isIndividualised(personalDataDTO.getIsIndividualised())
       .build();
   }
 
@@ -111,7 +112,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
   // TODO: update existing personal data in ONR
   @Override
-  public void updatePersonalData(final String onrId, final PersonalData personalData) {
+  public void updatePersonalData(final PersonalData personalData) {
     throw new NotImplementedException();
   }
 

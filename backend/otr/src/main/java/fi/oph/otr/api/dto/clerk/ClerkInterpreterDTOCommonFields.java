@@ -3,6 +3,8 @@ package fi.oph.otr.api.dto.clerk;
 import java.util.List;
 
 public interface ClerkInterpreterDTOCommonFields {
+  Boolean isIndividualised();
+
   String identityNumber();
 
   String lastName();

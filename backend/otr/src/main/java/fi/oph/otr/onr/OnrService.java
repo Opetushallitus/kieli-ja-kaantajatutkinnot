@@ -39,14 +39,33 @@ public class OnrService {
     return api.findPersonalDataByIdentityNumber(identityNumber);
   }
 
-  public String insertPersonalData(final PersonalData personalData) {
+  public String insertPersonalData(final PersonalData data) {
+    // TODO: move setting `individualised` possibly under implementation given this `personalData` is not valid
+    final PersonalData personalData = PersonalData
+      .builder()
+      .individualised(false)
+      .lastName(data.getLastName())
+      .firstName(data.getFirstName())
+      .nickName(data.getNickName())
+      .identityNumber(data.getIdentityNumber())
+      .email(data.getEmail())
+      .phoneNumber(data.getPhoneNumber())
+      .street(data.getStreet())
+      .postalCode(data.getPostalCode())
+      .town(data.getTown())
+      .country(data.getCountry())
+      .build();
+
     final String onrId = api.insertPersonalData(personalData);
+
+    personalData.setOnrId(onrId);
     personalDataCache.put(onrId, personalData);
     return onrId;
   }
 
-  public void updatePersonalData(final String onrId, final PersonalData personalData) {
-    api.updatePersonalData(onrId, personalData);
-    personalDataCache.put(onrId, personalData);
+  public void updatePersonalData(final PersonalData personalData) {
+    personalData.assertOnrUpdatePossible();
+    api.updatePersonalData(personalData);
+    personalDataCache.put(personalData.getOnrId(), personalData);
   }
 }

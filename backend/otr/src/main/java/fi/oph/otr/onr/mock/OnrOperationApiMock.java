@@ -2,21 +2,20 @@ package fi.oph.otr.onr.mock;
 
 import fi.oph.otr.onr.OnrOperationApi;
 import fi.oph.otr.onr.model.PersonalData;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class OnrOperationApiMock implements OnrOperationApi {
 
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) {
-    final Map<String, PersonalData> personalDatas = new HashMap<>();
     final PersonalDataFactory personalDataFactory = new PersonalDataFactory();
 
-    onrIds.forEach(onrId -> personalDatas.put(onrId, personalDataFactory.create()));
-    return personalDatas;
+    return onrIds.stream().collect(Collectors.toMap(Function.identity(), personalDataFactory::create));
   }
 
   @Override
@@ -30,6 +29,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
       switch (identityNumber) {
         case individualised1 -> PersonalData
           .builder()
+          .onrId("1.246.562.24.A00000000001")
+          .individualised(true)
           .lastName("Lehtinen")
           .firstName("Matti Tauno")
           .nickName("Matti")
@@ -39,10 +40,11 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .postalCode("93600")
           .town("Kuusamo")
           .country("FINLAND")
-          .isIndividualised(true)
           .build();
         case individualised2 -> PersonalData
           .builder()
+          .onrId("1.246.562.24.B00000000002")
+          .individualised(true)
           .lastName("Mannonen")
           .firstName("Anna Maria")
           .nickName("Anna")
@@ -52,10 +54,11 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .postalCode("20100")
           .town("Turku")
           .country("SUOMI")
-          .isIndividualised(true)
           .build();
         case manuallyCreated1 -> PersonalData
           .builder()
+          .onrId("1.246.562.24.C00000000003")
+          .individualised(false)
           .lastName("Oppija")
           .firstName("Oona Inkeri")
           .nickName("Oona")
@@ -63,16 +66,16 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .email("oona.oppija@example.invalid")
           .street("Ristikontie 333")
           .town("Helsinki")
-          .isIndividualised(false)
           .build();
         case manuallyCreated2 -> PersonalData
           .builder()
+          .onrId("1.246.562.24.D00000000004")
+          .individualised(false)
           .lastName("Oppija")
           .firstName("Olli Pekka")
           .nickName("Olli")
           .identityNumber(identityNumber)
           .email("olli.oppija@example.invalid")
-          .isIndividualised(false)
           .build();
         default -> null;
       };
@@ -86,5 +89,5 @@ public class OnrOperationApiMock implements OnrOperationApi {
   }
 
   @Override
-  public void updatePersonalData(final String onrId, final PersonalData personalData) {}
+  public void updatePersonalData(final PersonalData personalData) {}
 }

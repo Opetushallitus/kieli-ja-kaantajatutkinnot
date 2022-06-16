@@ -5,6 +5,7 @@ package fi.oph.otr.util.exception;
  * The respective frontend enum is `APIError`.
  */
 public enum APIExceptionType {
+  INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH,
   INTERPRETER_REGION_UNKNOWN,
   QUALIFICATION_LANGUAGE_UNKNOWN;
 

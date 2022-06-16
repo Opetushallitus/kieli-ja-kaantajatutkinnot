@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -75,9 +76,9 @@ class ClerkInterpreterServiceTest {
       .thenReturn(
         Map.of(
           "1",
-          createPersonalData("Esimerkki", "Erkki Pekka", "Erkki", "241202-xyz", "erkki@esimerkki.invalid", true),
+          createPersonalData("1", "Esimerkki", "Erkki Pekka", "Erkki", "241202-xyz", "erkki@esimerkki.invalid", true),
           "2",
-          createPersonalData("Aaltonen", "Anna Maija", "Anna", "111009-abc", "anna@aaltonen.invalid", false)
+          createPersonalData("2", "Aaltonen", "Anna Maija", "Anna", "111009-abc", "anna@aaltonen.invalid", false)
         )
       );
 
@@ -102,11 +103,11 @@ class ClerkInterpreterServiceTest {
       .thenReturn(
         Map.of(
           "1",
-          createPersonalData("Suku1", "Etu11 Etu12", "Etu1", "id1", "etu@suku1", true),
+          createPersonalData("1", "Suku1", "Etu11 Etu12", "Etu1", "id1", "etu@suku1", true),
           "2",
-          createPersonalData("Suku2", "Etu21 Etu22", "Etu2", "id2", "etu@suku2", true),
+          createPersonalData("2", "Suku2", "Etu21 Etu22", "Etu2", "id2", "etu@suku2", true),
           "3",
-          createPersonalData("Suku3", "Etu31 Etu32", "Etu3", "id3", "etu@suku3", true)
+          createPersonalData("3", "Suku3", "Etu31 Etu32", "Etu3", "id3", "etu@suku3", true)
         )
       );
 
@@ -116,6 +117,7 @@ class ClerkInterpreterServiceTest {
   }
 
   private PersonalData createPersonalData(
+    final String onrId,
     final String lastName,
     final String firstName,
     final String nickName,
@@ -124,6 +126,7 @@ class ClerkInterpreterServiceTest {
     final Boolean isIndividualised
   ) {
     return createPersonalData(
+      onrId,
       lastName,
       firstName,
       nickName,
@@ -139,6 +142,7 @@ class ClerkInterpreterServiceTest {
   }
 
   private PersonalData createPersonalData(
+    final String onrId,
     final String lastName,
     final String firstName,
     final String nickName,
@@ -153,6 +157,8 @@ class ClerkInterpreterServiceTest {
   ) {
     return PersonalData
       .builder()
+      .onrId(onrId)
+      .individualised(isIndividualised)
       .lastName(lastName)
       .firstName(firstName)
       .nickName(nickName)
@@ -163,7 +169,6 @@ class ClerkInterpreterServiceTest {
       .postalCode(postalCode)
       .town(town)
       .country(country)
-      .isIndividualised(isIndividualised)
       .build();
   }
 
@@ -243,6 +248,7 @@ class ClerkInterpreterServiceTest {
         Map.of(
           "onrId",
           createPersonalData(
+            "onrId",
             createDTO.lastName(),
             createDTO.firstName(),
             createDTO.nickName(),
@@ -263,6 +269,7 @@ class ClerkInterpreterServiceTest {
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
     assertFalse(interpreterDTO.deleted());
+    assertFalse(interpreterDTO.isIndividualised());
     assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
     assertEquals(createDTO.lastName(), interpreterDTO.lastName());
     assertEquals(createDTO.firstName(), interpreterDTO.firstName());
@@ -278,7 +285,6 @@ class ClerkInterpreterServiceTest {
     assertEquals(createDTO.town(), interpreterDTO.town());
     assertEquals(createDTO.country(), interpreterDTO.country());
     assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
-    assertFalse(interpreterDTO.isIndividualised());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
     assertEquals(2, interpreterDTO.qualifications().size());
 
@@ -304,27 +310,85 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateInterpreterFailsForUnknownRegion() {
+  public void testCreateInterpreterWithExistingStudent() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
+      .onrId("onrId")
+      .isIndividualised(true)
       .identityNumber("241202-xyz")
       .lastName("Esimerkki")
       .firstName("Erkki Pekka")
       .nickName("Erkki")
       .email("erkki@esimerkki.invalid")
       .permissionToPublishEmail(false)
-      .phoneNumber("+358401234567")
       .permissionToPublishPhone(true)
-      .otherContactInfo("other")
       .permissionToPublishOtherContactInfo(false)
-      .street("Tulkintie 44")
-      .postalCode("00100")
-      .town("Helsinki")
-      .country("Suomi")
-      .extraInformation("extra")
+      .regions(List.of("01"))
+      .qualifications(
+        List.of(
+          ClerkQualificationCreateDTO
+            .builder()
+            .fromLang("FI")
+            .toLang("SE")
+            .beginDate(today)
+            .endDate(tomorrow)
+            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .permissionToPublish(true)
+            .diaryNumber("123")
+            .build()
+        )
+      )
+      .build();
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          "onrId",
+          createPersonalData(
+            "onrId",
+            createDTO.lastName(),
+            createDTO.firstName(),
+            createDTO.nickName(),
+            createDTO.identityNumber(),
+            createDTO.email(),
+            createDTO.phoneNumber(),
+            createDTO.street(),
+            createDTO.postalCode(),
+            createDTO.town(),
+            createDTO.country(),
+            createDTO.isIndividualised()
+          )
+        )
+      );
+
+    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
+
+    assertTrue(interpreterDTO.isIndividualised());
+    assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
+
+    verify(onrService).updatePersonalData(any());
+    verify(onrService, times(0)).insertPersonalData(any());
+  }
+
+  @Test
+  public void testCreateInterpreterFailsForUnknownRegion() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
+      .builder()
+      .isIndividualised(true)
+      .identityNumber("241202-xyz")
+      .lastName("Esimerkki")
+      .firstName("Erkki Pekka")
+      .nickName("Erkki")
+      .email("erkki@esimerkki.invalid")
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(true)
+      .permissionToPublishOtherContactInfo(false)
       .regions(List.of("01", "This region does not exist"))
       .qualifications(
         List.of(
@@ -350,6 +414,46 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testCreateInterpreterFailsForOnrIdAndIndividualisedMismatch() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
+      .builder()
+      .onrId("onrId")
+      .identityNumber("241202-xyz")
+      .lastName("Esimerkki")
+      .firstName("Erkki Pekka")
+      .nickName("Erkki")
+      .email("erkki@esimerkki.invalid")
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(true)
+      .permissionToPublishOtherContactInfo(false)
+      .regions(List.of("01"))
+      .qualifications(
+        List.of(
+          ClerkQualificationCreateDTO
+            .builder()
+            .fromLang("FI")
+            .toLang("SE")
+            .beginDate(today)
+            .endDate(tomorrow)
+            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .permissionToPublish(true)
+            .diaryNumber("123")
+            .build()
+        )
+      )
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createInterpreter(createDTO)
+    );
+    assertEquals(APIExceptionType.INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH, ex.getExceptionType());
+  }
+
+  @Test
   public void testGetInterpreter() {
     final long id = createInterpreterWithRegions("1", List.of("01", "02"));
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
@@ -367,14 +471,15 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreter() {
-    final long id = createInterpreter("1");
+    final long id = createInterpreter("onrId");
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     final int initialVersion = interpreter.getVersion();
 
-    final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
+    final ClerkInterpreterUpdateDTO updateDTO = ClerkInterpreterUpdateDTO
       .builder()
       .id(interpreter.getId())
       .version(initialVersion)
+      .isIndividualised(false)
       .identityNumber("121212-123")
       .lastName("Merkkinen")
       .firstName("Eemeli Aapo")
@@ -388,23 +493,41 @@ class ClerkInterpreterServiceTest {
       .regions(List.of("01"))
       .build();
 
-    final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDto);
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          "onrId",
+          createPersonalData(
+            "onrId",
+            updateDTO.lastName(),
+            updateDTO.firstName(),
+            updateDTO.nickName(),
+            updateDTO.identityNumber(),
+            updateDTO.email(),
+            updateDTO.phoneNumber(),
+            updateDTO.street(),
+            updateDTO.postalCode(),
+            updateDTO.town(),
+            updateDTO.country(),
+            updateDTO.isIndividualised()
+          )
+        )
+      );
+
+    final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDTO);
 
     assertEquals(interpreter.getId(), updated.id());
     assertEquals(initialVersion + 1, updated.version());
     assertFalse(updated.deleted());
+    assertFalse(updated.isIndividualised());
     assertFalse(updated.permissionToPublishEmail());
     assertFalse(updated.permissionToPublishPhone());
-    assertEquals(updateDto.otherContactInfo(), updated.otherContactInfo());
+    assertEquals(updateDTO.otherContactInfo(), updated.otherContactInfo());
     assertTrue(updated.permissionToPublishOtherContactInfo());
-    assertEquals(updateDto.extraInformation(), updated.extraInformation());
+    assertEquals(updateDTO.extraInformation(), updated.extraInformation());
     assertEquals(List.of("01"), updated.regions());
 
-    verify(onrService)
-      .updatePersonalData(
-        interpreter.getOnrId(),
-        createPersonalData("Merkkinen", "Eemeli Aapo", "Eemeli", "121212-123", "eemeli.merkkinen.invalid", null)
-      );
+    verify(onrService).updatePersonalData(any());
   }
 
   @Test
@@ -416,6 +539,7 @@ class ClerkInterpreterServiceTest {
       .builder()
       .id(original.id())
       .version(original.version())
+      .isIndividualised(false)
       .identityNumber(original.identityNumber())
       .lastName(original.lastName())
       .firstName(original.firstName())

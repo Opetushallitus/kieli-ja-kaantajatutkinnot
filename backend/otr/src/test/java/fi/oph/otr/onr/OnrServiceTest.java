@@ -1,7 +1,9 @@
 package fi.oph.otr.onr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,20 +30,25 @@ public class OnrServiceTest {
     .email("iiro.rajala@example.invalid")
     .build();
 
-  private final PersonalData updatedPersonalData = PersonalData
-    .builder()
-    .lastName("Karjalainen")
-    .firstName("Eero Aapeli")
-    .nickName("Eero")
-    .identityNumber("2")
-    .email("eero.karjalainen@example.invalid")
-    .build();
+  private PersonalData createUpdatedPersonalData(final String onrId) {
+    return PersonalData
+      .builder()
+      .onrId(onrId)
+      .individualised(true)
+      .lastName("Karjalainen")
+      .firstName("Eero Aapeli")
+      .nickName("Eero")
+      .identityNumber("2")
+      .email("eero.karjalainen@example.invalid")
+      .build();
+  }
 
   @MockBean
   private OnrOperationApi onrOperationApi;
 
   @BeforeEach
   public void setup() {
+    when(onrOperationApi.insertPersonalData(any())).thenReturn("onrId");
     onrService = new OnrService(onrOperationApi);
   }
 
@@ -70,14 +77,21 @@ public class OnrServiceTest {
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(1, cachedPersonalDatas.size());
-    assertEquals(personalData, cachedPersonalDatas.get(onrId));
 
-    verify(onrOperationApi).insertPersonalData(personalData);
+    final PersonalData cached = cachedPersonalDatas.get(onrId);
+    assertNotNull(cached);
+    assertEquals(onrId, cached.getOnrId());
+    assertEquals(false, cached.getIndividualised());
+    assertEquals(personalData.getLastName(), cached.getLastName());
+    assertEquals(personalData.getFirstName(), cached.getFirstName());
+    assertEquals(personalData.getNickName(), cached.getNickName());
+
+    verify(onrOperationApi).insertPersonalData(any());
   }
 
   @Test
   public void testInsertPersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() {
-    doThrow(new RuntimeException()).when(onrOperationApi).insertPersonalData(personalData);
+    doThrow(new RuntimeException()).when(onrOperationApi).insertPersonalData(any());
     assertThrows(RuntimeException.class, () -> onrService.insertPersonalData(personalData));
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
@@ -87,25 +101,39 @@ public class OnrServiceTest {
   @Test
   public void testUpdatePersonalData() {
     final String onrId = onrService.insertPersonalData(personalData);
+    final PersonalData updatedPersonalData = createUpdatedPersonalData(onrId);
 
-    onrService.updatePersonalData(onrId, updatedPersonalData);
+    onrService.updatePersonalData(updatedPersonalData);
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(1, cachedPersonalDatas.size());
     assertEquals(updatedPersonalData, cachedPersonalDatas.get(onrId));
 
-    verify(onrOperationApi).updatePersonalData(onrId, updatedPersonalData);
+    verify(onrOperationApi).updatePersonalData(updatedPersonalData);
   }
 
   @Test
   public void testUpdatePersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() {
     final String onrId = onrService.insertPersonalData(personalData);
+    final PersonalData updatedPersonalData = createUpdatedPersonalData(onrId);
 
-    doThrow(new RuntimeException()).when(onrOperationApi).updatePersonalData(onrId, updatedPersonalData);
-    assertThrows(RuntimeException.class, () -> onrService.updatePersonalData(onrId, updatedPersonalData));
+    doThrow(new RuntimeException()).when(onrOperationApi).updatePersonalData(updatedPersonalData);
+    assertThrows(RuntimeException.class, () -> onrService.updatePersonalData(updatedPersonalData));
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(1, cachedPersonalDatas.size());
-    assertEquals(personalData, cachedPersonalDatas.get(onrId));
+
+    final PersonalData cached = cachedPersonalDatas.get(onrId);
+    assertNotNull(cached);
+    assertEquals(onrId, cached.getOnrId());
+    assertEquals(false, cached.getIndividualised());
+    assertEquals(personalData.getLastName(), cached.getLastName());
+    assertEquals(personalData.getFirstName(), cached.getFirstName());
+    assertEquals(personalData.getNickName(), cached.getNickName());
+  }
+
+  @Test
+  public void testUpdatePersonalDataThrowsExceptionForInvalidPersonalData() {
+    assertThrows(IllegalArgumentException.class, () -> onrService.updatePersonalData(personalData));
   }
 }
