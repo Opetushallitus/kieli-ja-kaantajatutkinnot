@@ -106,6 +106,10 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       newLastName
     );
     onToast.expectText('Tiedot tallennettiin');
+
+    // Ensure navigation protection is no longer enabled after saving.
+    onClerkTranslatorOverviewPage.navigateBackToRegister();
+    cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
   it('should add authorisation succesfully', () => {

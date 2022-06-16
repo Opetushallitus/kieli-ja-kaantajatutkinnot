@@ -1,4 +1,6 @@
-import { AppRoutes } from 'enums/app';
+// Workaround for ts(2669): adding an import or export marks a file as a module,
+// which is needed to augment the global scope as done below.
+export {};
 
 declare global {
   namespace Cypress {
@@ -10,7 +12,7 @@ declare global {
       openMeetingDatesPage(): void;
       goBack(): void;
       goForward(): void;
-      isOnPage(page: AppRoutes): Chainable<Element>;
+      isOnPage(page: string): Chainable<Element>;
     }
   }
 }

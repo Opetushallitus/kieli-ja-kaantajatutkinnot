@@ -147,7 +147,9 @@ export const ClerkNewTranslatorPage = () => {
   }, [id, dispatch, navigate, status, t]);
 
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
-  useNavigationProtection(hasLocalChanges);
+  useNavigationProtection(
+    hasLocalChanges && status !== APIResponseStatus.Success
+  );
 
   return (
     <Box className="clerk-new-translator-page">
