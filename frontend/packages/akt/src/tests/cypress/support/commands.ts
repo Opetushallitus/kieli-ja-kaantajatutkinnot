@@ -28,6 +28,6 @@ Cypress.Commands.add('goForward', () => {
   cy.go(1);
 });
 
-Cypress.Commands.add('isOnPage', (page: AppRoutes) => {
+Cypress.Commands.add('isOnPage', (page: string) => {
   cy.url().should('include', page);
 });

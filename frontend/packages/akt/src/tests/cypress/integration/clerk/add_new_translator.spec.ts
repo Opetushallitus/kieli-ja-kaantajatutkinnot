@@ -1,4 +1,5 @@
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { newTranslatorResponse } from 'tests/cypress/fixtures/ts/clerkNewTranslator';
 import { onClerkNewTranslatorPage } from 'tests/cypress/support/page-objects/clerkNewTranslatorPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -17,7 +18,7 @@ beforeEach(() => {
 });
 
 describe('ClerkAddNewTranslator', () => {
-  it('should add new translator with authrotisation successfully', () => {
+  it('should add new translator with authorisation successfully', () => {
     cy.intercept(
       'POST',
       APIEndpoints.ClerkTranslator,
@@ -37,6 +38,13 @@ describe('ClerkAddNewTranslator', () => {
     onClerkNewTranslatorPage.clickSaveNewClerkButton();
     cy.wait('@createTranslatorResponse');
     onToast.expectText('Kääntäjän tiedot tallennettiin!');
+
+    const expectedTranslatorPage =
+      AppRoutes.ClerkTranslatorOverviewPage.replace(
+        /:translatorId$/,
+        `${newTranslatorResponse.id}`
+      );
+    cy.isOnPage(expectedTranslatorPage);
   });
 
   it('should allow removing added authorisations', () => {
