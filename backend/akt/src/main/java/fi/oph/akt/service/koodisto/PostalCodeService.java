@@ -1,4 +1,4 @@
-package fi.oph.akt.service;
+package fi.oph.akt.service.koodisto;
 
 import java.util.Set;
 import javax.annotation.PostConstruct;

@@ -1,4 +1,4 @@
-package fi.oph.akt.service;
+package fi.oph.akt.service.koodisto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

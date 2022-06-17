@@ -1,4 +1,4 @@
-package fi.oph.akt.service;
+package fi.oph.akt.service.koodisto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
