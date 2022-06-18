@@ -36,6 +36,7 @@ import fi.oph.akt.repository.AuthorisationTermReminderRepository;
 import fi.oph.akt.repository.ExaminationDateRepository;
 import fi.oph.akt.repository.MeetingDateRepository;
 import fi.oph.akt.repository.TranslatorRepository;
+import fi.oph.akt.service.koodisto.CountryService;
 import fi.oph.akt.util.exception.APIException;
 import fi.oph.akt.util.exception.APIExceptionType;
 import java.time.LocalDate;
@@ -98,6 +99,9 @@ class ClerkTranslatorServiceTest {
     );
     final MeetingDateService meetingDateService = new MeetingDateService(meetingDateRepository, auditService);
 
+    final CountryService countryService = new CountryService();
+    countryService.init();
+
     clerkTranslatorService =
       new ClerkTranslatorService(
         authorisationRepository,
@@ -107,6 +111,7 @@ class ClerkTranslatorServiceTest {
         meetingDateRepository,
         meetingDateService,
         translatorRepository,
+        countryService,
         auditService
       );
   }
@@ -131,9 +136,7 @@ class ClerkTranslatorServiceTest {
 
     assertEquals(3, translators.size());
 
-    translators.forEach(clerkTranslatorDTO -> {
-      assertEquals(1, clerkTranslatorDTO.authorisations().size());
-    });
+    translators.forEach(clerkTranslatorDTO -> assertEquals(1, clerkTranslatorDTO.authorisations().size()));
 
     verify(auditService).logOperation(AktOperation.LIST_TRANSLATORS);
     verifyNoMoreInteractions(auditService);
@@ -479,31 +482,30 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
     entityManager.persist(meetingDate);
 
-    final AuthorisationCreateDTO expectedAuth = AuthorisationCreateDTO
-      .builder()
-      .basis(AuthorisationBasis.KKT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(LocalDate.now().plusDays(1))
-      .diaryNumber("012345")
-      .build();
-    final TranslatorCreateDTO createDTO = TranslatorCreateDTO
-      .builder()
-      .identityNumber("aard")
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email("anne@aardvark.invalid")
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(true)
-      .authorisations(List.of(expectedAuth))
-      .build();
+    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).build();
+
+    final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
+
+    assertResponseMatchesGet(response);
+
+    assertTranslatorCommonFields(createDTO, response);
+
+    assertEquals(1, response.authorisations().size());
+    final AuthorisationDTO authDto = response.authorisations().get(0);
+    assertAuthorisationCommonFields(expectedAuth, authDto);
+
+    verify(auditService).logById(AktOperation.CREATE_TRANSLATOR, response.id());
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testTranslatorCreateOkWithCountryCode() {
+    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
+    entityManager.persist(meetingDate);
+
+    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).country("DEU").build();
 
     final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
 
@@ -530,30 +532,9 @@ class ClerkTranslatorServiceTest {
     existingTranslator.setIdentityNumber(identityNumber);
     entityManager.persist(existingTranslator);
 
-    final AuthorisationCreateDTO expectedAuth = AuthorisationCreateDTO
-      .builder()
-      .basis(AuthorisationBasis.KKT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(LocalDate.now().plusDays(1))
-      .diaryNumber("012345")
-      .build();
-    final TranslatorCreateDTO createDTO = TranslatorCreateDTO
-      .builder()
+    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
       .identityNumber(identityNumber)
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email("anne@aardvark.invalid")
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(true)
-      .authorisations(List.of(expectedAuth))
       .build();
 
     final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
@@ -573,35 +554,28 @@ class ClerkTranslatorServiceTest {
     existingTranslator.setEmail(email);
     entityManager.persist(existingTranslator);
 
-    final AuthorisationCreateDTO expectedAuth = AuthorisationCreateDTO
-      .builder()
-      .basis(AuthorisationBasis.KKT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(LocalDate.now().plusDays(1))
-      .diaryNumber("012345")
-      .build();
-    final TranslatorCreateDTO createDTO = TranslatorCreateDTO
-      .builder()
-      .identityNumber("aard")
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email(email)
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(true)
-      .authorisations(List.of(expectedAuth))
-      .build();
+    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).email(email).build();
 
     final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
 
     assertEquals(APIExceptionType.TRANSLATOR_CREATE_DUPLICATE_EMAIL, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testTranslatorCreateFailsOnUnknownCountry() {
+    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
+    entityManager.persist(meetingDate);
+
+    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
+      .country("non existing country code")
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
+
+    assertEquals(APIExceptionType.TRANSLATOR_CREATE_UNKNOWN_COUNTRY, ex.getExceptionType());
     verifyNoInteractions(auditService);
   }
 
@@ -634,22 +608,31 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final TranslatorUpdateDTO updateDTO = TranslatorUpdateDTO
-      .builder()
-      .id(translator.getId())
-      .version(translator.getVersion())
-      .identityNumber("aard")
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email("anne@aardvark.invalid")
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(false)
-      .build();
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).build();
+
+    final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
+
+    assertResponseMatchesGet(response);
+
+    assertEquals(updateDTO.id(), response.id());
+    assertEquals(updateDTO.version() + 1, response.version());
+    assertTranslatorCommonFields(updateDTO, response);
+
+    verify(auditService).logById(AktOperation.UPDATE_TRANSLATOR, response.id());
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testTranslatorUpdateOkWithCountryCode() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).country("DEU").build();
 
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
 
@@ -693,21 +676,8 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
     entityManager.persist(otherTranslator);
 
-    final TranslatorUpdateDTO updateDTO = TranslatorUpdateDTO
-      .builder()
-      .id(translator.getId())
-      .version(translator.getVersion())
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator)
       .identityNumber(identityNumber)
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email("anne@aardvark.invalid")
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(false)
       .build();
 
     final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
@@ -732,26 +702,31 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
     entityManager.persist(otherTranslator);
 
-    final TranslatorUpdateDTO updateDTO = TranslatorUpdateDTO
-      .builder()
-      .id(translator.getId())
-      .version(translator.getVersion())
-      .identityNumber("aard")
-      .firstName("Anne")
-      .lastName("Aardvark")
-      .email(email)
-      .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country("ct")
-      .extraInformation("extra")
-      .isAssuranceGiven(false)
-      .build();
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).email(email).build();
 
     final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
 
     assertEquals(APIExceptionType.TRANSLATOR_UPDATE_DUPLICATE_EMAIL, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testTranslatorUpdateFailsOnUnknownCountry() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator)
+      .country("non existing country code")
+      .build();
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
+
+    assertEquals(APIExceptionType.TRANSLATOR_UPDATE_UNKNOWN_COUNTRY, ex.getExceptionType());
     verifyNoInteractions(auditService);
   }
 
@@ -798,15 +773,8 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
     entityManager.persist(examinationDate);
 
-    final AuthorisationCreateDTO createDTO = AuthorisationCreateDTO
-      .builder()
+    final AuthorisationCreateDTO createDTO = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate())
       .basis(AuthorisationBasis.AUT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(LocalDate.now().plusDays(1))
-      .diaryNumber("012345")
       .examinationDate(examinationDate.getDate())
       .build();
 
@@ -976,15 +944,9 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final AuthorisationCreateDTO createDTO = AuthorisationCreateDTO
-      .builder()
-      .basis(AuthorisationBasis.KKT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
+    final AuthorisationCreateDTO createDTO = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate())
       .termBeginDate(meetingDate.getDate().plusDays(1))
       .termEndDate(meetingDate.getDate().plusYears(1))
-      .diaryNumber("012345")
       .build();
 
     final APIException ex = assertThrows(
@@ -1006,15 +968,8 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final AuthorisationCreateDTO createDTO = AuthorisationCreateDTO
-      .builder()
+    final AuthorisationCreateDTO createDTO = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate())
       .basis(AuthorisationBasis.AUT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(meetingDate.getDate().plusYears(1))
-      .diaryNumber("012345")
       .examinationDate(LocalDate.now())
       .build();
 
@@ -1037,15 +992,8 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final AuthorisationCreateDTO createDTO = AuthorisationCreateDTO
-      .builder()
+    final AuthorisationCreateDTO createDTO = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate())
       .basis(AuthorisationBasis.AUT)
-      .from(FI)
-      .to(SV)
-      .permissionToPublish(true)
-      .termBeginDate(meetingDate.getDate())
-      .termEndDate(LocalDate.now().plusDays(1))
-      .diaryNumber("012345")
       .build();
 
     final APIException ex = assertThrows(
@@ -1063,5 +1011,58 @@ class ClerkTranslatorServiceTest {
     assertNotNull(response);
     assertNotNull(expected);
     assertEquals(expected, response);
+  }
+
+  private AuthorisationCreateDTO.AuthorisationCreateDTOBuilder defaultAuthorisationCreateDTOBuilder(
+    final LocalDate meetingDate
+  ) {
+    return AuthorisationCreateDTO
+      .builder()
+      .basis(AuthorisationBasis.KKT)
+      .from(FI)
+      .to(SV)
+      .permissionToPublish(true)
+      .termBeginDate(meetingDate)
+      .termEndDate(LocalDate.now().plusDays(1))
+      .diaryNumber("012345");
+  }
+
+  private TranslatorCreateDTO.TranslatorCreateDTOBuilder defaultTranslatorCreateDTOBuilder(
+    final AuthorisationCreateDTO authorisation
+  ) {
+    return TranslatorCreateDTO
+      .builder()
+      .identityNumber("aard")
+      .firstName("Anne")
+      .lastName("Aardvark")
+      .email("anne@aardvark.invalid")
+      .phoneNumber("555")
+      .street("st")
+      .town("tw")
+      .postalCode("pstl")
+      .country(null)
+      .extraInformation("extra")
+      .isAssuranceGiven(true)
+      .authorisations(List.of(authorisation));
+  }
+
+  private TranslatorUpdateDTO.TranslatorUpdateDTOBuilder defaultTranslatorUpdateDTOBuilder(
+    final Translator translator
+  ) {
+    return TranslatorUpdateDTO
+      .builder()
+      .id(translator.getId())
+      .version(translator.getVersion())
+      .identityNumber("aard")
+      .firstName("Anne")
+      .lastName("Aardvark")
+      .email("anne@aardvark.invalid")
+      .phoneNumber("555")
+      .street("st")
+      .town("tw")
+      .postalCode("pstl")
+      .country(null)
+      .extraInformation("extra")
+      .isAssuranceGiven(false);
   }
 }

@@ -27,6 +27,7 @@ import fi.oph.akt.repository.AuthorisationTermReminderRepository;
 import fi.oph.akt.repository.ExaminationDateRepository;
 import fi.oph.akt.repository.MeetingDateRepository;
 import fi.oph.akt.repository.TranslatorRepository;
+import fi.oph.akt.service.koodisto.CountryService;
 import fi.oph.akt.util.AuthorisationProjectionComparator;
 import fi.oph.akt.util.exception.APIException;
 import fi.oph.akt.util.exception.APIExceptionType;
@@ -71,6 +72,9 @@ public class ClerkTranslatorService {
 
   @Resource
   private final TranslatorRepository translatorRepository;
+
+  @Resource
+  private final CountryService countryService;
 
   @Resource
   private final AuditService auditService;
@@ -185,6 +189,9 @@ public class ClerkTranslatorService {
   @Transactional
   public ClerkTranslatorDTO createTranslator(final TranslatorCreateDTO dto) {
     final Translator translator = new Translator();
+
+    assertCountryCode(dto.country(), APIExceptionType.TRANSLATOR_CREATE_UNKNOWN_COUNTRY);
+
     copyDtoFieldsToTranslator(dto, translator);
     try {
       translatorRepository.saveAndFlush(translator);
@@ -228,7 +235,10 @@ public class ClerkTranslatorService {
   @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
+
     translator.assertVersion(dto.version());
+    assertCountryCode(dto.country(), APIExceptionType.TRANSLATOR_UPDATE_UNKNOWN_COUNTRY);
+
     copyDtoFieldsToTranslator(dto, translator);
 
     try {
@@ -260,6 +270,12 @@ public class ClerkTranslatorService {
     translator.setCountry(dto.country());
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
+  }
+
+  private void assertCountryCode(final String countryCode, final APIExceptionType exceptionType) {
+    if (countryCode != null && !countryService.containsKoodistoCode(countryCode)) {
+      throw new APIException(exceptionType);
+    }
   }
 
   @Transactional

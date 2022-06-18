@@ -74,10 +74,7 @@ public class PublicTranslatorService {
     final Translator translator,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final String country = Optional
-      .ofNullable(translator.getCountry())
-      .filter(c -> !(Set.of("suomi", "finland").contains(c.toLowerCase())))
-      .orElse(null);
+    final String country = Optional.ofNullable(translator.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
 
     return PublicTranslatorDTO
       .builder()
