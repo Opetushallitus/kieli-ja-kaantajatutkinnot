@@ -31,7 +31,7 @@ SELECT
   '2025-01-01',
   '1234' || interpreter_id::text
 FROM interpreter,
-     (SELECT ('{CS, DA, DE, EL, EN, ES, ET, FR, IS, KO, KTU, LT, MY, NL, NN, PL, PTU, SE, SK, SO, SV, TR, UK, UZ, VKS, ZH}')::text[] AS langs) AS langs;
+     (SELECT ('{CS, DE, EL, ES, ET, FR, IT, KO, KTU, LA, PL, PTU, SE, VKS, ZH}')::text[] AS langs) AS langs;
 
 -- Insert some specific qualifications
 
@@ -42,7 +42,7 @@ SELECT
   TRUE,
   examination_type,
   'FI',
-  'IT',
+  'SV',
   '2018-10-03',
   '2023-10-03'
 FROM qualification
@@ -55,7 +55,7 @@ SELECT
   TRUE,
   examination_type,
   'FI',
-  'LA',
+  'EN',
   '2019-07-14',
   '2024-06-19'
 FROM qualification
