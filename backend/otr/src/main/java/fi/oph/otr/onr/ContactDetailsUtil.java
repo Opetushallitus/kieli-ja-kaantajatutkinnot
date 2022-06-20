@@ -15,11 +15,15 @@ import static java.util.Comparator.nullsLast;
 
 import fi.oph.otr.onr.dto.ContactDetailsDTO;
 import fi.oph.otr.onr.dto.ContactDetailsGroupDTO;
+import fi.oph.otr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.otr.onr.dto.ContactDetailsGroupType;
 import fi.oph.otr.onr.dto.ContactDetailsType;
+import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.util.CustomOrderComparator;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ContactDetailsUtil {
@@ -81,5 +85,37 @@ public class ContactDetailsUtil {
       .map(ContactDetailsDTO::getValue)
       .findFirst()
       .orElse(null);
+  }
+
+  public static ContactDetailsGroupDTO createOtrContactDetailsGroup(final PersonalData personalData) {
+    final Set<ContactDetailsType> otrContactDetailsTypes = Set.of(
+      ContactDetailsType.EMAIL,
+      ContactDetailsType.PHONE_NUMBER
+    );
+
+    final Set<ContactDetailsDTO> contactDetailsSet = Stream
+      .of(
+        createContactDetailsDTO(ContactDetailsType.EMAIL, personalData.getEmail()),
+        createContactDetailsDTO(ContactDetailsType.PHONE_NUMBER, personalData.getPhoneNumber()),
+        createContactDetailsDTO(ContactDetailsType.STREET, personalData.getStreet()),
+        createContactDetailsDTO(ContactDetailsType.POSTAL_CODE, personalData.getPostalCode()),
+        createContactDetailsDTO(ContactDetailsType.TOWN, personalData.getTown()),
+        createContactDetailsDTO(ContactDetailsType.COUNTRY, personalData.getCountry())
+      )
+      .filter(dto -> !personalData.getIndividualised() || otrContactDetailsTypes.contains(dto.getType()))
+      .collect(Collectors.toSet());
+
+    final ContactDetailsGroupDTO contactDetailsGroupDTO = new ContactDetailsGroupDTO();
+    contactDetailsGroupDTO.setType(ContactDetailsGroupType.OTR_OSOITE);
+    contactDetailsGroupDTO.setSource(ContactDetailsGroupSource.OTR);
+    contactDetailsGroupDTO.setContactDetailsSet(contactDetailsSet);
+    return contactDetailsGroupDTO;
+  }
+
+  private static ContactDetailsDTO createContactDetailsDTO(final ContactDetailsType type, final String value) {
+    final ContactDetailsDTO contactDetailsDTO = new ContactDetailsDTO();
+    contactDetailsDTO.setType(type);
+    contactDetailsDTO.setValue(value);
+    return contactDetailsDTO;
   }
 }

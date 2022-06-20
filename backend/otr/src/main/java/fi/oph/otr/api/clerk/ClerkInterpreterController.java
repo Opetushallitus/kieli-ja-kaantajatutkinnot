@@ -8,11 +8,8 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.service.ClerkInterpreterService;
-import fi.oph.otr.service.LanguageService;
-import fi.oph.otr.service.RegionService;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -35,23 +32,7 @@ public class ClerkInterpreterController {
   private static final String TAG_QUALIFICATION = "Qualification API";
 
   @Resource
-  private LanguageService languageService;
-
-  @Resource
-  private RegionService regionService;
-
-  @Resource
   private ClerkInterpreterService clerkInterpreterService;
-
-  @GetMapping(path = "/lang-codes")
-  public Set<String> listKoodistoLangCodes() {
-    return languageService.listKoodistoCodes();
-  }
-
-  @GetMapping(path = "/region-codes")
-  public Set<String> listKoodistoRegionCodes() {
-    return regionService.listKoodistoCodes();
-  }
 
   // INTERPRETER
 
@@ -64,7 +45,8 @@ public class ClerkInterpreterController {
   @Operation(tags = TAG_INTERPRETER, summary = "Create new interpreter")
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public ClerkInterpreterDTO createInterpreter(@RequestBody @Valid final ClerkInterpreterCreateDTO dto) {
+  public ClerkInterpreterDTO createInterpreter(@RequestBody @Valid final ClerkInterpreterCreateDTO dto)
+    throws Exception {
     return clerkInterpreterService.createInterpreter(dto);
   }
 
@@ -76,7 +58,8 @@ public class ClerkInterpreterController {
 
   @Operation(tags = TAG_INTERPRETER, summary = "Update interpreter")
   @PutMapping(consumes = APPLICATION_JSON_VALUE)
-  public ClerkInterpreterDTO updateInterpreter(@RequestBody @Valid final ClerkInterpreterUpdateDTO dto) {
+  public ClerkInterpreterDTO updateInterpreter(@RequestBody @Valid final ClerkInterpreterUpdateDTO dto)
+    throws Exception {
     return clerkInterpreterService.updateInterpreter(dto);
   }
 

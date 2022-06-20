@@ -141,7 +141,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) {
+  public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) throws Exception {
     validateRegions(dto);
     dto.qualifications().forEach(this::validateLanguagePair);
 
@@ -263,7 +263,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
+  public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) throws Exception {
     validateRegions(dto);
 
     final Interpreter interpreter = interpreterRepository.getReferenceById(dto.id());
