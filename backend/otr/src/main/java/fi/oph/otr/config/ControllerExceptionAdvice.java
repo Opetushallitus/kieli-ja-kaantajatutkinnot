@@ -3,6 +3,7 @@ package fi.oph.otr.config;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
+import javax.validation.ConstraintViolationException;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,12 @@ public class ControllerExceptionAdvice {
     final HttpMessageNotReadableException ex
   ) {
     LOG.error("MissingServletRequestParameterException: " + ex.getMessage());
+    return badRequest();
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<Object> handleConstraintViolationException(final ConstraintViolationException ex) {
+    LOG.error("ConstraintViolationException: " + ex.getMessage());
     return badRequest();
   }
 
