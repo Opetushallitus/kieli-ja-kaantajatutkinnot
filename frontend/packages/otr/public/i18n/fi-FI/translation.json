@@ -40,6 +40,7 @@
         "interpreterDetails": {
           "areaOfOperation": {
             "all": "Koko Suomi",
+            "chooseRegion": "Valitse maakunta",
             "regions": "Maakunnat"
           },
           "cancelUpdateDialog": {

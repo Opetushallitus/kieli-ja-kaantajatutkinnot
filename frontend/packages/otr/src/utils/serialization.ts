@@ -8,20 +8,22 @@ import {
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export class SerializationUtils {
-  static deserializeClerkInterpreterResponse(
+  static deserializeClerkInterpreter(
     response: ClerkInterpreterResponse
   ): ClerkInterpreter {
     const qualifications = response.qualifications.map(
-      SerializationUtils.deserializeQualificationResponse
+      SerializationUtils.deserializeQualification
     );
 
     return { ...response, qualifications };
   }
 
-  static serializeClerkInterpreterResponse(interpreter: ClerkInterpreter) {
+  static serializeClerkInterpreter(interpreter: ClerkInterpreter) {
     const {
       id,
       version,
+      deleted,
+      isIndividualised,
       permissionToPublishEmail,
       permissionToPublishPhone,
       permissionToPublishOtherContactInfo,
@@ -36,6 +38,8 @@ export class SerializationUtils {
       ...textFields,
       id,
       version,
+      deleted,
+      isIndividualised,
       permissionToPublishEmail,
       permissionToPublishPhone,
       permissionToPublishOtherContactInfo,
@@ -43,7 +47,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeQualificationResponse(
+  static deserializeQualification(
     qualification: QualificationResponse
   ): Qualification {
     const beginDate = dayjs(qualification.beginDate);

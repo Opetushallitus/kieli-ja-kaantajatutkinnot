@@ -31,7 +31,7 @@ function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
     );
     yield put(
       storeClerkInterpreterOverview(
-        SerializationUtils.deserializeClerkInterpreterResponse(response.data)
+        SerializationUtils.deserializeClerkInterpreter(response.data)
       )
     );
   } catch (error) {
@@ -61,12 +61,12 @@ function* updateClerkInterpreterOverview(
     const response: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkInterpreter}`,
-      SerializationUtils.serializeClerkInterpreterResponse(
+      SerializationUtils.serializeClerkInterpreter(
         action.payload as ClerkInterpreter
       )
     );
 
-    const interpreter = SerializationUtils.deserializeClerkInterpreterResponse(
+    const interpreter = SerializationUtils.deserializeClerkInterpreter(
       response.data
     );
     yield updateClerkInterpreterState(interpreter);

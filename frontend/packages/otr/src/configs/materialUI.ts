@@ -72,7 +72,7 @@ export const theme = createTheme({
           backgroundColor: secondaryColor,
           color: primaryColor,
           '.MuiChip-deleteIcon': {
-            color: secondaryLightColor,
+            color: primaryLightColor,
           },
         },
       },

@@ -18,6 +18,10 @@ import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { NotifierUtils } from 'utils/notifier';
 
+const getAreaOfOperation = (regions: Array<string> = []) => {
+  return regions.length > 0 ? AreaOfOperation.Regions : AreaOfOperation.All;
+};
+
 export const ClerkInterpreterDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
@@ -30,18 +34,12 @@ export const ClerkInterpreterDetails = () => {
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const [areaOfOperation, setAreaOfOperation] = useState(
-    interpreter && interpreter.regions.length > 0
-      ? AreaOfOperation.Regions
-      : AreaOfOperation.All
+    getAreaOfOperation(interpreter?.regions)
   );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
     setInterpreterDetails(interpreter);
-    setAreaOfOperation(
-      interpreter && interpreter.regions.length > 0
-        ? AreaOfOperation.Regions
-        : AreaOfOperation.All
-    );
+    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
   }, [interpreter]);
 
   // I18n
@@ -83,6 +81,10 @@ export const ClerkInterpreterDetails = () => {
     interpreterDetailsUpdateStatus,
   ]);
 
+  useEffect(() => {
+    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
+  }, [interpreter?.regions]);
+
   const handleInterpreterDetailsChange =
     (field: keyof ClerkInterpreter) =>
     (
@@ -112,11 +114,6 @@ export const ClerkInterpreterDetails = () => {
     };
 
   const onSave = () => {
-    setAreaOfOperation(
-      interpreterDetails && interpreterDetails.regions.length > 0
-        ? AreaOfOperation.Regions
-        : AreaOfOperation.All
-    );
     dispatch(
       updateClerkInterpreterDetails(interpreterDetails as ClerkInterpreter)
     );

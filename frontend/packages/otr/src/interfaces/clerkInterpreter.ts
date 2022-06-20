@@ -23,6 +23,7 @@ export interface ClerkInterpreter
   extends WithId,
     WithVersion,
     ClerkInterpreterTextFields {
+  isIndividualised: boolean;
   deleted: boolean;
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;

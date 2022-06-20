@@ -96,7 +96,8 @@ const ClerkInterpreterDetailsRegions = ({
   onChange: (value: ComboBoxOption[]) => void;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix: 'otr.component.clerkInterpreterOverview.interpreterDetails',
+    keyPrefix:
+      'otr.component.clerkInterpreterOverview.interpreterDetails.areaOfOperation',
   });
 
   const memoizedKoodistoRegions = useMemo(
@@ -133,14 +134,14 @@ const ClerkInterpreterDetailsRegions = ({
             disabled={disabled}
             value={AreaOfOperation.All}
             control={<Radio />}
-            label={t(`areaOfOperation.${AreaOfOperation.All}`)}
+            label={t(`${AreaOfOperation.All}`)}
             checked={areaOfOperation === AreaOfOperation.All}
           />
           <FormControlLabel
             disabled={disabled}
             value={AreaOfOperation.Regions}
             control={<Radio />}
-            label={t(`areaOfOperation.${AreaOfOperation.Regions}`)}
+            label={t(`${AreaOfOperation.Regions}`)}
             checked={areaOfOperation === AreaOfOperation.Regions}
           />
         </RadioGroup>
@@ -158,7 +159,7 @@ const ClerkInterpreterDetailsRegions = ({
           defaultValue={undefined}
           filterSelectedOptions
           renderInput={(params) => (
-            <TextField {...params} label="Valitse maakunta" />
+            <TextField {...params} label={t('chooseRegion')} />
           )}
         />
       )}
