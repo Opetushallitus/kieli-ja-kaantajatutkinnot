@@ -8,8 +8,8 @@ export interface Qualification extends WithId, WithVersion {
   deleted: boolean;
   fromLang: string;
   toLang: string;
-  beginDate: Dayjs;
-  endDate: Dayjs;
+  beginDate?: Dayjs;
+  endDate?: Dayjs;
   examinationType: ExaminationType;
   permissionToPublish: boolean;
   diaryNumber?: string;
