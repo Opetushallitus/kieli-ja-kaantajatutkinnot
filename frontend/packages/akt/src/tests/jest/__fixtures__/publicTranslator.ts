@@ -22,7 +22,7 @@ export const expectedResponse: PublicTranslatorResponse = {
       lastName: 'Esimerkki',
       languagePairs: [{ from: 'FI', to: 'SV' }],
       town: 'Espoo',
-      country: 'Suomi',
+      country: 'FIN',
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ export const expectedResponse: PublicTranslatorResponse = {
       lastName: 'Esimerkki 2',
       languagePairs: [{ from: 'FI', to: 'FR' }],
       town: 'Paris',
-      country: 'Ranska',
+      country: 'FRA',
     },
     {
       id: 3,

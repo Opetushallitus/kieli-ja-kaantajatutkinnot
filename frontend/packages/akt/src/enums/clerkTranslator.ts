@@ -23,6 +23,5 @@ export enum ClerkTranslatorTextFieldEnum {
   Street = 'street',
   PostalCode = 'postalCode',
   Town = 'town',
-  Country = 'country',
   ExtraInformation = 'extraInformation',
 }

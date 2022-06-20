@@ -187,7 +187,7 @@
       "street": "Runebergintie 2",
       "postalCode": "01200",
       "town": "Turku",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -232,7 +232,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "06100",
       "town": "Hämeenlinna",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -277,7 +277,7 @@
       "street": "Veturitie 4",
       "postalCode": "13500",
       "town": "Kuopio",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -365,7 +365,7 @@
       "street": "Malminkatu 1",
       "postalCode": "48600",
       "town": "Porvoo",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -410,7 +410,7 @@
       "street": "Runebergintie 2",
       "postalCode": "54460",
       "town": "Vantaa",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -455,7 +455,7 @@
       "street": "3 Ajukneskuilebis",
       "postalCode": "00100",
       "town": "Ääpnevräj",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -500,7 +500,7 @@
       "street": "Veturitie 4",
       "postalCode": "01200",
       "town": "Kouvola",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -588,7 +588,7 @@
       "street": "Malminkatu 1",
       "postalCode": "13500",
       "town": "Oulu",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -632,7 +632,7 @@
       "street": "Runebergintie 2",
       "postalCode": "31600",
       "town": "Rovaniemi",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -675,7 +675,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "48600",
       "town": "Kajaani",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -720,7 +720,7 @@
       "street": "Veturitie 4",
       "postalCode": "54460",
       "town": "Joensuu",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -789,7 +789,7 @@
       "street": "321 Eitnalokkrip",
       "postalCode": "00100",
       "town": "Iknupuakisuu",
-      "country": "Latvia",
+      "country": "LVA",
       "isAssuranceGiven": true,
       "authorisations": [
         {
@@ -833,7 +833,7 @@
       "street": "Malminkatu 1",
       "postalCode": "01200",
       "town": "Kuopio",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -902,7 +902,7 @@
       "street": "Runebergintie 2",
       "postalCode": "06100",
       "town": "Kotka",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -947,7 +947,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "13500",
       "town": "Helsinki",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1016,7 +1016,7 @@
       "street": "Veturitie 4",
       "postalCode": "31600",
       "town": "Turku",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1132,7 +1132,7 @@
       "street": "Malminkatu 1",
       "postalCode": "54460",
       "town": "Kuopio",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1191,7 +1191,7 @@
       "street": "2 Eitnigrebenur",
       "postalCode": "00100",
       "town": "Ithal",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1263,7 +1263,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "01200",
       "town": "Porvoo",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1334,7 +1334,7 @@
       "street": "Veturitie 4",
       "postalCode": "06100",
       "town": "Vantaa",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1476,7 +1476,7 @@
       "street": "Malminkatu 1",
       "postalCode": "31600",
       "town": "Kouvola",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1521,7 +1521,7 @@
       "street": "Runebergintie 2",
       "postalCode": "48600",
       "town": "Tampere",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1590,7 +1590,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "54460",
       "town": "Oulu",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1635,7 +1635,7 @@
       "street": "4 Eitirutev",
       "postalCode": "00100",
       "town": "Imeinavor",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1723,7 +1723,7 @@
       "street": "Malminkatu 1",
       "postalCode": "06100",
       "town": "Joensuu",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1796,7 +1796,7 @@
       "street": "Runebergintie 2",
       "postalCode": "13500",
       "town": "Uusikaupunki",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1841,7 +1841,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "31600",
       "town": "Kuopio",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1885,7 +1885,7 @@
       "street": "Veturitie 4",
       "postalCode": "48600",
       "town": "Kotka",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -1995,7 +1995,7 @@
       "street": "1 Utaknimlam",
       "postalCode": "00100",
       "town": "Ukrut",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2040,7 +2040,7 @@
       "street": "Runebergintie 2",
       "postalCode": "01200",
       "town": "Hämeenlinna",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2085,7 +2085,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "06100",
       "town": "Kuopio",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2130,7 +2130,7 @@
       "street": "Veturitie 4",
       "postalCode": "13500",
       "town": "Lahti",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": false,
       "authorisations": [
@@ -2270,7 +2270,7 @@
       "street": "Malminkatu 1",
       "postalCode": "48600",
       "town": "Vantaa",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2329,7 +2329,7 @@
       "street": "Runebergintie 2",
       "postalCode": "54460",
       "town": "Järvenpää",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2374,7 +2374,7 @@
       "street": "3 Ajukneskuilebis",
       "postalCode": "00100",
       "town": "Alovuok",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2447,7 +2447,7 @@
       "street": "Veturitie 4",
       "postalCode": "01200",
       "town": "Tampere",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2556,7 +2556,7 @@
       "street": "Malminkatu 1",
       "postalCode": "13500",
       "town": "Rovaniemi",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2629,7 +2629,7 @@
       "street": "Runebergintie 2",
       "postalCode": "31600",
       "town": "Kajaani",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2702,7 +2702,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "48600",
       "town": "Joensuu",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2747,7 +2747,7 @@
       "street": "Veturitie 4",
       "postalCode": "54460",
       "town": "Uusikaupunki",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2820,7 +2820,7 @@
       "street": "321 Eitnalokkrip",
       "postalCode": "00100",
       "town": "Oipouk",
-      "country": "Latvia",
+      "country": "LVA",
       "isAssuranceGiven": true,
       "authorisations": [
         {
@@ -2907,7 +2907,7 @@
       "street": "2 Eitnigrebenur",
       "postalCode": "00100",
       "town": "Oovrop",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -2952,7 +2952,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "01200",
       "town": "Vantaa",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": false,
       "authorisations": [
@@ -3025,7 +3025,7 @@
       "street": "Veturitie 4",
       "postalCode": "06100",
       "town": "Järvenpää",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3113,7 +3113,7 @@
       "street": "Malminkatu 1",
       "postalCode": "31600",
       "town": "Tampere",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3182,7 +3182,7 @@
       "street": "Runebergintie 2",
       "postalCode": "48600",
       "town": "Oulu",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3226,7 +3226,7 @@
       "street": "Malminkatu 1",
       "postalCode": "01200",
       "town": "Kotka",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3270,7 +3270,7 @@
       "street": "Runebergintie 2",
       "postalCode": "06100",
       "town": "Helsinki",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3337,7 +3337,7 @@
       "phoneNumber": "+358401000055",
       "street": "Malminkatu 1",
       "town": "Lahti",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3380,7 +3380,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "54460",
       "town": "Rovaniemi",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3425,7 +3425,7 @@
       "street": "4 Eitirutev",
       "postalCode": "00100",
       "town": "Inaajak",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3541,7 +3541,7 @@
       "street": "Malminkatu 1",
       "postalCode": "06100",
       "town": "Uusikaupunki",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3607,7 +3607,7 @@
       "street": "Runebergintie 2",
       "postalCode": "13500",
       "town": "Kuopio",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3678,7 +3678,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "31600",
       "town": "Kotka",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3723,7 +3723,7 @@
       "street": "Veturitie 4",
       "postalCode": "48600",
       "town": "Helsinki",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3861,7 +3861,7 @@
       "street": "1 Utaknimlam",
       "postalCode": "00100",
       "town": "Annilneemäh",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3906,7 +3906,7 @@
       "street": "Runebergintie 2",
       "postalCode": "01200",
       "town": "Kuopio",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -3951,7 +3951,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "06100",
       "town": "Lahti",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4024,7 +4024,7 @@
       "street": "Veturitie 4",
       "postalCode": "13500",
       "town": "Porvoo",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4112,7 +4112,7 @@
       "street": "Malminkatu 1",
       "postalCode": "48600",
       "town": "Järvenpää",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4183,7 +4183,7 @@
       "street": "Runebergintie 2",
       "postalCode": "54460",
       "town": "Kouvola",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": false,
       "authorisations": [
@@ -4255,7 +4255,7 @@
       "street": "3 Ajukneskuilebis",
       "postalCode": "00100",
       "town": "Erepmat",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4298,7 +4298,7 @@
       "street": "Veturitie 4",
       "postalCode": "01200",
       "town": "Oulu",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4410,7 +4410,7 @@
       "street": "Malminkatu 1",
       "postalCode": "13500",
       "town": "Kajaani",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4465,7 +4465,7 @@
       "street": "Runebergintie 2",
       "postalCode": "31600",
       "town": "Joensuu",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4509,7 +4509,7 @@
       "street": "Malminkatu 1",
       "postalCode": "31600",
       "town": "Joensuu",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4568,7 +4568,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "48600",
       "town": "Uusikaupunki",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4613,7 +4613,7 @@
       "street": "Veturitie 4",
       "postalCode": "54460",
       "town": "Kuopio",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4658,7 +4658,7 @@
       "street": "321 Eitnalokkrip",
       "postalCode": "00100",
       "town": "Aktok",
-      "country": "Latvia",
+      "country": "LVA",
       "isAssuranceGiven": true,
       "authorisations": [
         {
@@ -4730,7 +4730,7 @@
       "street": "Malminkatu 1",
       "postalCode": "01200",
       "town": "Helsinki",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4797,7 +4797,7 @@
       "street": "Runebergintie 2",
       "postalCode": "06100",
       "town": "Turku",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4841,7 +4841,7 @@
       "street": "Veturitie 4",
       "postalCode": "31600",
       "town": "Kuopio",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -4955,7 +4955,7 @@
       "street": "Malminkatu 1",
       "postalCode": "54460",
       "town": "Porvoo",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5028,7 +5028,7 @@
       "street": "2 Eitnigrebenur",
       "postalCode": "00100",
       "town": "Aatnav",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5097,7 +5097,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "01200",
       "town": "Järvenpää",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5170,7 +5170,7 @@
       "street": "Veturitie 4",
       "postalCode": "06100",
       "town": "Kouvola",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5258,7 +5258,7 @@
       "street": "Malminkatu 1",
       "postalCode": "31600",
       "town": "Oulu",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": false,
       "authorisations": [
@@ -5329,7 +5329,7 @@
       "street": "Runebergintie 2",
       "postalCode": "48600",
       "town": "Rovaniemi",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5402,7 +5402,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "54460",
       "town": "Kajaani",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5447,7 +5447,7 @@
       "street": "4 Eitirutev",
       "postalCode": "00100",
       "town": "Uusneoj",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5532,7 +5532,7 @@
       "street": "Runebergintie 2",
       "postalCode": "13500",
       "town": "Kotka",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5576,7 +5576,7 @@
       "street": "Malminkatu 1",
       "postalCode": "06100",
       "town": "Kuopio",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -5635,7 +5635,7 @@
       "street": "Veturitie 4",
       "postalCode": "48600",
       "town": "Turku",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [

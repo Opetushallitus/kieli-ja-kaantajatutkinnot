@@ -36,9 +36,10 @@ describe('ClerkTranslatorOverview:Page', () => {
     onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
 
-    onClerkTranslatorOverviewPage.expectTranslatorDetailsFields(
-      translatorResponse
-    );
+    onClerkTranslatorOverviewPage.expectTranslatorDetailsFields({
+      ...translatorResponse,
+      country: 'Suomi',
+    });
   });
 
   it('should display a "not found" message if no translator exists with the id given as the route parameter', () => {

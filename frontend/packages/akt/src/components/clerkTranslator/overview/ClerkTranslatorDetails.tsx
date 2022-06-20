@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
@@ -10,6 +11,7 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   ClerkTranslator,
   ClerkTranslatorBasicInformation,
+  ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
 import {
   resetClerkTranslatorDetailsUpdate,
@@ -79,20 +81,35 @@ export const ClerkTranslatorDetails = () => {
     translatorDetailsStatus,
   ]);
 
-  const handleTranslatorDetailsChange =
-    (field: keyof ClerkTranslatorBasicInformation) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const fieldValue =
-        field === 'isAssuranceGiven'
-          ? (event.target as HTMLInputElement).checked
-          : event.target.value;
-      const updatedTranslatorDetails = {
-        ...translatorDetails,
-        [field]: fieldValue,
-      };
-      setHasLocalChanges(true);
-      setTranslatorDetails(updatedTranslatorDetails as ClerkTranslator);
+  const handleTextFieldChange =
+    (field: keyof ClerkTranslatorTextFields) =>
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      handleFieldChange(field, event.target.value);
     };
+
+  const handleComboBoxChange =
+    (field: keyof ClerkTranslatorBasicInformation) =>
+    ({}, autocompleteValue?: AutocompleteValue) => {
+      handleFieldChange(field, autocompleteValue?.value);
+    };
+
+  const handleCheckBoxChange =
+    (field: keyof ClerkTranslatorBasicInformation) =>
+    (_event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+      handleFieldChange(field, checked);
+    };
+
+  const handleFieldChange = (
+    field: keyof ClerkTranslatorBasicInformation,
+    fieldValue: string | boolean | undefined
+  ) => {
+    const updatedTranslatorDetails = {
+      ...translatorDetails,
+      [field]: fieldValue,
+    };
+    setHasLocalChanges(true);
+    setTranslatorDetails(updatedTranslatorDetails as ClerkTranslator);
+  };
 
   const onSave = () => {
     dispatch(
@@ -138,8 +155,14 @@ export const ClerkTranslatorDetails = () => {
   return (
     <ClerkTranslatorDetailsFields
       translator={translatorDetails}
-      onFieldChange={(field: keyof ClerkTranslatorBasicInformation) =>
-        handleTranslatorDetailsChange(field)
+      onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
+        handleTextFieldChange(field)
+      }
+      onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
+        handleComboBoxChange(field)
+      }
+      onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
+        handleCheckBoxChange(field)
       }
       editDisabled={isViewMode}
       topControlButtons={

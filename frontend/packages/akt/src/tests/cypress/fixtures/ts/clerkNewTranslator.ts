@@ -9,7 +9,7 @@ export const newTranslatorResponse = {
   street: 'Tuntemattomankatu 1',
   postalCode: '99800',
   town: 'Ivalo',
-  country: 'Suomi',
+  country: 'FIN',
   extraInformation: 'Lisätiedot',
   isAssuranceGiven: true,
   authorisations: [

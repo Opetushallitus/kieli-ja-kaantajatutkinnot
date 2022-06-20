@@ -63,7 +63,7 @@ class ClerkNewTranslatorPage {
       .newTranslatorBasicInformationField(fieldName, fieldType)
       .clear()
       .should('have.text', '')
-      .type(value);
+      .type(`${value}{enter}`);
   }
 
   fillOutNewTranslatorBasicInformationExtraInformation(newValue) {

@@ -1,16 +1,27 @@
 import { ChangeEvent, useState } from 'react';
-import { CustomSwitch, CustomTextField, H3 } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import {
+  AutocompleteValue,
+  ComboBox,
+  CustomSwitch,
+  CustomTextField,
+  H3,
+} from 'shared/components';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
+  useKoodistoCountriesTranslation,
 } from 'configs/i18n';
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
-import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
+import {
+  ClerkTranslatorBasicInformation,
+  ClerkTranslatorTextFields,
+} from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
+import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
 
 const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
   switch (field) {
@@ -75,15 +86,23 @@ const ClerkTranslatorDetailsTextField = ({
 
 export const ClerkTranslatorDetailsFields = ({
   translator,
-  onFieldChange,
+  onTextFieldChange,
+  onComboBoxChange,
+  onCheckBoxChange,
   editDisabled,
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
   translator?: ClerkTranslatorBasicInformation;
-  onFieldChange: (
+  onTextFieldChange: (
+    field: keyof ClerkTranslatorTextFields
+  ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onComboBoxChange: (
     field: keyof ClerkTranslatorBasicInformation
-  ) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  ) => ({}, autocompleteValue?: AutocompleteValue) => void;
+  onCheckBoxChange: (
+    field: keyof ClerkTranslatorBasicInformation
+  ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   editDisabled: boolean;
   topControlButtons?: JSX.Element;
   displayFieldErrorBeforeChange: boolean;
@@ -93,6 +112,7 @@ export const ClerkTranslatorDetailsFields = ({
     keyPrefix: 'akt.component.clerkTranslatorOverview.translatorDetails',
   });
   const translateCommon = useCommonTranslation();
+  const translateCountry = useKoodistoCountriesTranslation();
 
   const initialErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
     (acc, val) => {
@@ -111,11 +131,27 @@ export const ClerkTranslatorDetailsFields = ({
     field,
     translator,
     disabled: editDisabled,
-    onChange: onFieldChange(field),
+    onChange: onTextFieldChange(field),
     onBlur: displayFieldErrorOnBlur(field),
     displayError: displayFieldError[field],
     'data-testid': `clerk-translator__basic-information__${field}`,
   });
+
+  const countryCodeToLabel = (code: string) => {
+    const label = translateCountry(code);
+
+    const labelKosovoFixedDuplicate =
+      code === 'XKK' || code === 'XKX' ? `${label} ${code}` : label;
+
+    return {
+      label: labelKosovoFixedDuplicate,
+      value: code,
+    };
+  };
+
+  const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
+    koodistoCountriesFI?.akt?.koodisto?.countries
+  ).map(countryCodeToLabel);
 
   return (
     <>
@@ -149,8 +185,17 @@ export const ClerkTranslatorDetailsFields = ({
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Town)}
         />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Country)}
+        <ComboBox
+          data-testid="clerk-translator__basic-information__country"
+          autoHighlight
+          disabled={editDisabled}
+          label={t('fields.country')}
+          variant={TextFieldVariant.Outlined}
+          values={comboBoxCountryValues}
+          value={
+            translator?.country ? countryCodeToLabel(translator.country) : null
+          }
+          onChange={onComboBoxChange('country')}
         />
       </div>
       <H3>{t('header.contactInformation')}</H3>
@@ -175,7 +220,7 @@ export const ClerkTranslatorDetailsFields = ({
         <CustomSwitch
           dataTestId="clerk-translator__basic-information__assurance-switch"
           disabled={editDisabled}
-          onChange={onFieldChange('isAssuranceGiven')}
+          onChange={onCheckBoxChange('isAssuranceGiven')}
           value={translator?.isAssuranceGiven}
           leftLabel={translateCommon('no')}
           rightLabel={translateCommon('yes')}
