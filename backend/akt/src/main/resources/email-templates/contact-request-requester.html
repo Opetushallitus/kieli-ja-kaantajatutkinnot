@@ -4,28 +4,13 @@
         <p>
             Hei,
         </p>
-        <div th:unless="${contactedTranslators.isEmpty()}">
-            <p>
-                Olet ottanut yhteyttä seuraaviin auktorisoituihin kääntäjiin käännöstoimeksiantoa varten:
-            </p>
-            <ul>
-                <li th:each="name : ${contactedTranslators}">[[${name}]]</li>
-            </ul>
-            <br/>
-        </div>
-
-        <div th:unless="${otherTranslators.isEmpty()}">
-            <p>
-                Seuraaviin kääntäjiin ei voitu ottaa yhteyttä, sillä heidän sähköpostiosoitteensa eivät ole Opetushallituksen tiedossa:
-            </p>
-            <ul>
-                <li th:each="name : ${otherTranslators}">[[${name}]]</li>
-            </ul>
-            <p>
-                Opetushallituksen virkailija pyrkii selvittämään yo. kääntäjien yhteystiedot ja ottaa teihin asian tiimoilta myöhemmin yhteyttä.
-            </p>
-            <br/>
-        </div>
+        <p>
+            Olet ottanut yhteyttä seuraaviin auktorisoituihin kääntäjiin käännöstoimeksiantoa varten:
+        </p>
+        <ul>
+            <li th:each="name : ${translators}">[[${name}]]</li>
+        </ul>
+        <br/>
 
         <p>Tässä jättämäsi viesti sekä yhteystietosi:</p>
 
@@ -52,15 +37,13 @@
         <p>
             Hej,
         </p>
-        <div th:unless="${contactedTranslators.isEmpty()}">
-            <p>
-                Du har kontaktat följande auktoriserade translatorer gällande ett översättningsuppdrag:
-            </p>
-            <ul>
-                <li th:each="name : ${contactedTranslators}">[[${name}]]</li>
-            </ul>
-            <br/>
-        </div>
+        <p>
+            Du har kontaktat följande auktoriserade translatorer gällande ett översättningsuppdrag:
+        </p>
+        <ul>
+            <li th:each="name : ${translators}">[[${name}]]</li>
+        </ul>
+        <br/>
 
         <p>Här ditt meddelande och dina kontaktuppgifter:</p>
 
@@ -87,15 +70,13 @@
         <p>
             Hello,
         </p>
-        <div th:unless="${contactedTranslators.isEmpty()}">
-            <p>
-                You have contacted following authorised translators for translation assignment:
-            </p>
-            <ul>
-                <li th:each="name : ${contactedTranslators}">[[${name}]]</li>
-            </ul>
-            <br/>
-        </div>
+        <p>
+            You have contacted following authorised translators for translation assignment:
+        </p>
+        <ul>
+            <li th:each="name : ${translators}">[[${name}]]</li>
+        </ul>
+        <br/>
 
         <p>Here is your message and contacts:</p>
 
