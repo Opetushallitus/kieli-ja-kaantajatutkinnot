@@ -3,7 +3,7 @@
 
 -- ONR ids reserved for OTR: 1.2.246.562.24.31234500001 - 1.2.246.562.24.31234500053
 
--- 1) Delete initialised data
+-- Delete OTR personal data
 
 DELETE FROM yhteystiedot WHERE yhteystiedotryhma_id IN (
     SELECT id
@@ -11,43 +11,15 @@ DELETE FROM yhteystiedot WHERE yhteystiedotryhma_id IN (
     WHERE ryhmakuvaus = 'yhteystietotyyppi13' AND ryhma_alkuperatieto = 'alkupera7'
 );
 
-DELETE FROM yhteystiedotryhma WHERE henkilo_id IN (
-    SELECT id
-    FROM henkilo
-    WHERE oidhenkilo IN (
-        SELECT
-            CASE i < 10
-                WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
-                ELSE '1.2.246.562.24.312345000' || i::text
-                END
-        FROM generate_series(1, 53) AS i
-    )
+DELETE FROM henkilo WHERE id IN (
+    DELETE FROM yksilointivirhe WHERE henkilo_id IN (
+        DELETE FROM yhteystiedotryhma
+        WHERE ryhmakuvaus = 'yhteystietotyyppi13' AND ryhma_alkuperatieto = 'alkupera7'
+        RETURNING henkilo_id
+    ) RETURNING henkilo_id
 );
 
-DELETE FROM yksilointivirhe WHERE henkilo_id IN (
-    SELECT id
-    FROM henkilo
-    WHERE oidhenkilo IN (
-        SELECT
-            CASE i < 10
-                WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
-                ELSE '1.2.246.562.24.312345000' || i::text
-                END
-        FROM generate_series(1, 53) AS i
-    )
-);
-
-DELETE FROM henkilo
-WHERE oidhenkilo IN (
-    SELECT
-        CASE i < 10
-            WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
-            ELSE '1.2.246.562.24.312345000' || i::text
-            END
-    FROM generate_series(1, 53) AS i
-);
-
--- 2) Initialise database
+-- Initialise database
 
 INSERT INTO henkilo(id, version, etunimet, kutsumanimi, sukunimi, hetu, oidhenkilo)
 SELECT
@@ -137,8 +109,7 @@ SELECT
         WHEN TRUE THEN (SELECT yr.id FROM yhteystiedotryhma yr, henkilo h WHERE yr.henkilo_id = h.id AND h.oidhenkilo = '1.2.246.562.24.3123450000' || i::text)
         ELSE (SELECT yr.id FROM yhteystiedotryhma yr, henkilo h WHERE yr.henkilo_id = h.id AND h.oidhenkilo = '1.2.246.562.24.312345000' || i::text)
         END
-FROM generate_series(1, 53) AS i
-WHERE mod(i, 7) <> 0;
+FROM generate_series(1, 53) AS i;
 
 INSERT INTO yhteystiedot(id, version, yhteystieto_tyyppi, yhteystieto_arvo, yhteystiedotryhma_id)
 SELECT
@@ -187,7 +158,7 @@ INSERT INTO yhteystiedot(id, version, yhteystieto_tyyppi, yhteystieto_arvo, yhte
 SELECT
     (SELECT MAX(id) FROM yhteystiedot) + i,
     0,
-    'YHTEYSTIETO_KUNTA',
+    'YHTEYSTIETO_KAUPUNKI',
     town[mod(i, array_length(town, 1)) + 1],
     CASE i < 10
         WHEN TRUE THEN (SELECT yr.id FROM yhteystiedotryhma yr, henkilo h WHERE yr.henkilo_id = h.id AND h.oidhenkilo = '1.2.246.562.24.3123450000' || i::text)
