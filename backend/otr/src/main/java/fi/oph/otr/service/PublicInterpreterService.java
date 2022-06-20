@@ -83,7 +83,7 @@ public class PublicInterpreterService {
     return InterpreterDTO
       .builder()
       .id(interpreter.getId())
-      .firstName(personalData.nickNameOrFirstName())
+      .firstName(personalData.nickName())
       .lastName(personalData.lastName())
       .email(interpreter.isPermissionToPublishEmail() ? personalData.email() : null)
       .phoneNumber(interpreter.isPermissionToPublishPhone() ? personalData.phoneNumber() : null)

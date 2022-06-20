@@ -107,17 +107,16 @@ class PublicInterpreterServiceTest {
             .identityNumber("1")
             .email("iiro.rajala@example.invalid")
             .phoneNumber("+3581234567")
-            .isIndividualised(true)
             .build(),
           interpreter2.getOnrId(),
           PersonalData
             .builder()
             .lastName("Heinänen")
-            .firstName("Ella Marja") // nickname unknown
+            .firstName("Ella Marja")
+            .nickName("Ella")
             .identityNumber("2")
             .email("ella.heinanen@example.invalid")
             .phoneNumber("+3582345678")
-            .isIndividualised(true)
             .build()
         )
       );
@@ -140,7 +139,7 @@ class PublicInterpreterServiceTest {
 
     final InterpreterDTO publishedInterpreter2 = interpreters.get(1);
     assertEquals(interpreter2.getId(), publishedInterpreter2.id());
-    assertEquals("Ella Marja", publishedInterpreter2.firstName());
+    assertEquals("Ella", publishedInterpreter2.firstName());
     assertEquals("Heinänen", publishedInterpreter2.lastName());
     assertEquals("ella.heinanen@example.invalid", publishedInterpreter2.email());
     assertNull(publishedInterpreter2.phoneNumber());

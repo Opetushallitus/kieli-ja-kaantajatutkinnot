@@ -62,7 +62,7 @@ public class ClerkEmailService {
     final PersonalData personalData = onrService.getCachedPersonalDatas().get(interpreter.getOnrId());
 
     if (personalData != null) {
-      final String recipientName = personalData.nickNameOrFirstName() + " " + personalData.lastName();
+      final String recipientName = personalData.nickName() + " " + personalData.lastName();
       final String recipientAddress = personalData.email();
       final String emailSubject = "Merkintäsi oikeustulkkirekisteriin on päättymässä";
 
@@ -81,7 +81,7 @@ public class ClerkEmailService {
         EmailType.QUALIFICATION_EXPIRY
       );
 
-      final Email email = emailRepository.getById(emailId);
+      final Email email = emailRepository.getReferenceById(emailId);
 
       createQualificationReminder(qualification, email);
     } else {

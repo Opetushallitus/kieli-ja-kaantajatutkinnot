@@ -6,6 +6,9 @@ import fi.oph.otr.onr.mock.OnrOperationApiMock;
 import fi.oph.otr.service.email.sender.EmailSender;
 import fi.oph.otr.service.email.sender.EmailSenderNoOp;
 import fi.oph.otr.service.email.sender.EmailSenderViestintapalvelu;
+import fi.vm.sade.javautils.nio.cas.CasClient;
+import fi.vm.sade.javautils.nio.cas.CasClientBuilder;
+import fi.vm.sade.javautils.nio.cas.CasConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,9 +49,23 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "true")
-  public OnrOperationApi onrOperationApiImpl() {
-    LOG.info("OnrOperationApiImpl in use");
-    return new OnrOperationApiImpl();
+  public OnrOperationApi onrOperationApiImpl(
+    @Value("${otr.onr.service-url}") String onrServiceUrl,
+    @Value("${otr.onr.cas.url}") String casUrl,
+    @Value("${otr.onr.cas.username}") String casUsername,
+    @Value("${otr.onr.cas.password}") String casPassword
+  ) {
+    LOG.info("onrServiceUrl:{}", onrServiceUrl);
+    final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
+      casUsername,
+      casPassword,
+      casUrl,
+      onrServiceUrl,
+      Constants.CALLER_ID,
+      Constants.CALLER_ID
+    );
+    final CasClient casClient = CasClientBuilder.build(casConfig);
+    return new OnrOperationApiImpl(casClient, onrServiceUrl);
   }
 
   @Bean
