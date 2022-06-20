@@ -25,7 +25,7 @@ public class PersonalDataDTO {
   private String identityNumber;
 
   @JsonProperty("yksiloityVTJ")
-  private Boolean isIndividualised;
+  private Boolean individualised;
 
   @JsonProperty("yhteystiedotRyhma")
   private List<ContactDetailsGroupDTO> contactDetailsGroups;

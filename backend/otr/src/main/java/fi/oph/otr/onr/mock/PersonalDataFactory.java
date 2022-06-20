@@ -10,7 +10,7 @@ public class PersonalDataFactory {
 
   private final AtomicInteger counter = new AtomicInteger();
 
-  public PersonalData create() {
+  public PersonalData create(final String onrId) {
     final int counterValue = counter.incrementAndGet();
     final String lastName = lastNames.next();
 
@@ -20,6 +20,8 @@ public class PersonalDataFactory {
 
     return PersonalData
       .builder()
+      .onrId(onrId)
+      .individualised(counterValue % 11 != 0)
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
       .nickName(nickName)
@@ -30,7 +32,6 @@ public class PersonalDataFactory {
       .postalCode(postalCodes.next())
       .town(towns.next())
       .country(countries.next())
-      .isIndividualised(counterValue % 11 != 0)
       .build();
   }
 

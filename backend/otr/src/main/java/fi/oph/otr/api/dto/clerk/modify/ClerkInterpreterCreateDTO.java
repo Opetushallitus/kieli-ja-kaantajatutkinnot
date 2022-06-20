@@ -11,6 +11,8 @@ import lombok.NonNull;
 
 @Builder
 public record ClerkInterpreterCreateDTO(
+  String onrId,
+  Boolean isIndividualised,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,

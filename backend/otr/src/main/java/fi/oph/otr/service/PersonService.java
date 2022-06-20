@@ -20,15 +20,16 @@ public class PersonService {
       .map(personalData ->
         PersonDTO
           .builder()
-          .identityNumber(personalData.identityNumber())
-          .lastName(personalData.lastName())
-          .firstName(personalData.firstName())
-          .nickName(personalData.nickName())
-          .street(personalData.street())
-          .postalCode(personalData.postalCode())
-          .town(personalData.town())
-          .country(personalData.country())
-          .isIndividualised(personalData.isIndividualised())
+          .onrId(personalData.getOnrId())
+          .isIndividualised(personalData.getIndividualised())
+          .identityNumber(personalData.getIdentityNumber())
+          .lastName(personalData.getLastName())
+          .firstName(personalData.getFirstName())
+          .nickName(personalData.getNickName())
+          .street(personalData.getStreet())
+          .postalCode(personalData.getPostalCode())
+          .town(personalData.getTown())
+          .country(personalData.getCountry())
           .build()
       );
   }

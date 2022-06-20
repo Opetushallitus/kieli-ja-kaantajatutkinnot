@@ -103,22 +103,22 @@ public class ClerkInterpreterService {
       .id(interpreter.getId())
       .version(interpreter.getVersion())
       .deleted(interpreter.isDeleted())
-      .identityNumber(personalData.identityNumber())
-      .lastName(personalData.lastName())
-      .firstName(personalData.firstName())
-      .nickName(personalData.nickName())
-      .email(personalData.email())
+      .isIndividualised(personalData.getIndividualised())
+      .identityNumber(personalData.getIdentityNumber())
+      .lastName(personalData.getLastName())
+      .firstName(personalData.getFirstName())
+      .nickName(personalData.getNickName())
+      .email(personalData.getEmail())
       .permissionToPublishEmail(interpreter.isPermissionToPublishEmail())
-      .phoneNumber(personalData.phoneNumber())
+      .phoneNumber(personalData.getPhoneNumber())
       .permissionToPublishPhone(interpreter.isPermissionToPublishPhone())
       .otherContactInfo(interpreter.getOtherContactInformation())
       .permissionToPublishOtherContactInfo(interpreter.isPermissionToPublishOtherContactInfo())
-      .street(personalData.street())
-      .postalCode(personalData.postalCode())
-      .town(personalData.town())
-      .country(personalData.country())
+      .street(personalData.getStreet())
+      .postalCode(personalData.getPostalCode())
+      .town(personalData.getTown())
+      .country(personalData.getCountry())
       .extraInformation(interpreter.getExtraInformation())
-      .isIndividualised(personalData.isIndividualised())
       .regions(regions)
       .qualifications(qualificationDTOs)
       .build();
@@ -145,10 +145,20 @@ public class ClerkInterpreterService {
     validateRegions(dto);
     dto.qualifications().forEach(this::validateLanguagePair);
 
-    final String onrId = onrService.insertPersonalData(createPersonalData(dto));
-
     final Interpreter interpreter = new Interpreter();
-    interpreter.setOnrId(onrId);
+    final PersonalData personalData = createPersonalData(dto.onrId(), dto);
+
+    if (!personalData.isOnrIdAndIndividualisedConsistent()) {
+      throw new APIException(APIExceptionType.INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
+    }
+
+    if (personalData.getOnrId() == null) {
+      final String onrId = onrService.insertPersonalData(personalData);
+      interpreter.setOnrId(onrId);
+    } else {
+      onrService.updatePersonalData(personalData);
+      interpreter.setOnrId(personalData.getOnrId());
+    }
 
     copyFromInterpreterDTO(interpreter, dto);
     interpreterRepository.save(interpreter);
@@ -180,9 +190,11 @@ public class ClerkInterpreterService {
       });
   }
 
-  private PersonalData createPersonalData(final ClerkInterpreterDTOCommonFields dto) {
+  private PersonalData createPersonalData(final String onrId, final ClerkInterpreterDTOCommonFields dto) {
     return PersonalData
       .builder()
+      .onrId(onrId)
+      .individualised(dto.isIndividualised())
       .lastName(dto.lastName())
       .firstName(dto.firstName())
       .nickName(dto.nickName())
@@ -257,7 +269,8 @@ public class ClerkInterpreterService {
     final Interpreter interpreter = interpreterRepository.getReferenceById(dto.id());
     interpreter.assertVersion(dto.version());
 
-    onrService.updatePersonalData(interpreter.getOnrId(), createPersonalData(dto));
+    final PersonalData personalData = createPersonalData(interpreter.getOnrId(), dto);
+    onrService.updatePersonalData(personalData);
 
     final List<Region> regionsToDelete = new ArrayList<>(interpreter.getRegions());
     interpreter.getRegions().removeAll(regionsToDelete);
