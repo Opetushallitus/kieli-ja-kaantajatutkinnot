@@ -110,10 +110,19 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     throw new NotImplementedException();
   }
 
-  // TODO: update existing personal data in ONR
   @Override
-  public void updatePersonalData(final PersonalData personalData) {
-    throw new NotImplementedException();
+  public void updatePersonalData(final PersonalData personalData) throws Exception {
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo")
+      .setMethod(Methods.PUT)
+      .setBody(OBJECT_MAPPER.writeValueAsString(personalData))
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() != HttpStatus.OK.value()) {
+      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+    }
   }
 
   private RequestBuilder defaultRequestBuilder() {

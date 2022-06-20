@@ -63,7 +63,7 @@ public class OnrService {
     return onrId;
   }
 
-  public void updatePersonalData(final PersonalData personalData) {
+  public void updatePersonalData(final PersonalData personalData) throws Exception {
     personalData.assertOnrUpdatePossible();
     api.updatePersonalData(personalData);
     personalDataCache.put(personalData.getOnrId(), personalData);

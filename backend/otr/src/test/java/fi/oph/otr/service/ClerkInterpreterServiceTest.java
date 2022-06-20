@@ -193,7 +193,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateInterpreter() {
+  public void testCreateInterpreter() throws Exception {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -310,7 +310,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testCreateInterpreterWithExistingStudent() {
+  public void testCreateInterpreterWithExistingStudent() throws Exception {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
@@ -470,7 +470,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testUpdateInterpreter() {
+  public void testUpdateInterpreter() throws Exception {
     final long id = createInterpreter("onrId");
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     final int initialVersion = interpreter.getVersion();
