@@ -10,6 +10,7 @@ import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONArray;
@@ -32,14 +33,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) throws Exception {
-    final Request request = new RequestBuilder()
+    final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/henkilotByHenkiloOidList")
       .setMethod(Methods.POST)
       .setBody(JSONArray.toJSONString(onrIds))
-      .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
-      .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-      .addHeader("Caller-Id", Constants.CALLER_ID)
-      .setRequestTimeout((int) TimeUnit.MINUTES.toMillis(2))
       .build();
 
     final Response response = onrClient.executeBlocking(request);
@@ -53,6 +50,29 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       final Map<String, PersonalData> personalDatas = new HashMap<>();
       personalDataDTOS.forEach(dto -> personalDatas.put(dto.getOnrId(), createPersonalData(dto)));
       return personalDatas;
+    } else {
+      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+    }
+  }
+
+  @Override
+  public Optional<PersonalData> findPersonalDataByIdentityNumber(final String identityNumber) throws Exception {
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo/hetu=" + identityNumber)
+      .setMethod(Methods.GET)
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() == HttpStatus.OK.value()) {
+      final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
+        response.getResponseBody(),
+        new TypeReference<>() {}
+      );
+
+      return Optional.of(createPersonalData(personalDataDTO));
+    } else if (response.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
+      return Optional.empty();
     } else {
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
@@ -93,5 +113,13 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   @Override
   public void updatePersonalData(final String onrId, final PersonalData personalData) {
     throw new NotImplementedException();
+  }
+
+  private RequestBuilder defaultRequestBuilder() {
+    return new RequestBuilder()
+      .addHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+      .addHeader("Caller-Id", Constants.CALLER_ID)
+      .setRequestTimeout((int) TimeUnit.MINUTES.toMillis(2));
   }
 }

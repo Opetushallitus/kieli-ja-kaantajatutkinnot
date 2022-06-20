@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -32,6 +33,10 @@ public class OnrService {
 
   public Map<String, PersonalData> getCachedPersonalDatas() {
     return Collections.unmodifiableMap(personalDataCache);
+  }
+
+  public Optional<PersonalData> findPersonalDataByIdentityNumber(final String identityNumber) throws Exception {
+    return api.findPersonalDataByIdentityNumber(identityNumber);
   }
 
   public String insertPersonalData(final PersonalData personalData) {
