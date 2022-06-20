@@ -10,11 +10,11 @@ SELECT
     WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
     ELSE '1.2.246.562.24.312345000' || i::text
     END,
-  i % 4 <> 0,
+  i % 9 <> 0,
+  i % 8 <> 0,
+  CASE mod(i, 7) WHEN 0 THEN 'Tulkintie ' || i::text || ', Kokkola' ELSE NULL END,
   i % 3 <> 0,
-  CASE mod(i, 5) WHEN 0 THEN 'Tulkintie ' || i::text || ', Kokkola' ELSE NULL END,
-  i % 2 <> 0,
-  CASE mod(i, 7) WHEN 0 THEN 'Extra ' || i::text ELSE NULL END
+  CASE mod(i, 11) WHEN 0 THEN 'Extra ' || i::text ELSE NULL END
 FROM generate_series(1, 53) i;
 
 -- Qualifications
