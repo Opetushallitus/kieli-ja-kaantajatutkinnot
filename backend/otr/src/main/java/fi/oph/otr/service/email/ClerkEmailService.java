@@ -10,7 +10,7 @@ import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.EmailRepository;
 import fi.oph.otr.repository.QualificationReminderRepository;
 import fi.oph.otr.repository.QualificationRepository;
-import fi.oph.otr.service.LanguageService;
+import fi.oph.otr.service.koodisto.LanguageService;
 import fi.oph.otr.util.TemplateRenderer;
 import fi.oph.otr.util.localisation.Language;
 import java.time.LocalDate;

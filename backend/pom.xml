@@ -12,10 +12,10 @@
   <!-- lookup parent from repository -->
 
   <groupId>fi.oph</groupId>
-  <artifactId>shared</artifactId>
+  <artifactId>common</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>shared</name>
-  <description>Shared Backend</description>
+  <name>common</name>
+  <description>Common properties and dependencies</description>
   <packaging>pom</packaging>
 
   <properties>

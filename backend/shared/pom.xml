@@ -4,17 +4,17 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-	<groupId>fi.oph</groupId>
-	<artifactId>common</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+    <groupId>fi.oph</groupId>
+    <artifactId>common</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <!-- lookup parent from repository -->
 
   <groupId>fi.oph</groupId>
-  <artifactId>vkt</artifactId>
+  <artifactId>shared</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>vkt</name>
-  <description>Valtionhallinnon kielitutkinnot</description>
+  <name>shared</name>
+  <description>Shared backend</description>
 
 </project>
