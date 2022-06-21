@@ -4,10 +4,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-	<groupId>fi.oph</groupId>
-	<artifactId>common</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+    <groupId>fi.oph</groupId>
+    <artifactId>common</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <!-- lookup parent from repository -->
 
@@ -16,12 +16,19 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>otr</name>
   <description>Oikeustulkkirekisteri</description>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>../shared</module>
+  </modules>
 
   <dependencies>
-      <dependency>
-          <groupId>fi.oph</groupId>
-          <artifactId>shared</artifactId>
-          <version>${project.version}</version>
-      </dependency>
+    <dependency>
+      <groupId>fi.oph</groupId>
+      <artifactId>shared</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+
 </project>
