@@ -65,6 +65,7 @@ export enum HTTPStatusCode {
 export enum I18nNamespace {
   Accessibility = 'accessibility',
   Common = 'common',
+  KoodistoCountries = 'koodistoCountries',
   KoodistoLanguages = 'koodistoLanguages',
   KoodistoRegions = 'koodistoRegions',
   Privacy = 'privacy',
