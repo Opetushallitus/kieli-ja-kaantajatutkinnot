@@ -10,11 +10,6 @@ export const newTranslatorBasicInformationFields = [
     value: 'John',
   },
   {
-    fieldName: 'lastName',
-    fieldType: 'input',
-    value: 'Doeline',
-  },
-  {
     fieldName: 'identityNumber',
     fieldType: 'input',
     value: '010199-1337',
@@ -23,11 +18,6 @@ export const newTranslatorBasicInformationFields = [
     fieldName: 'street',
     fieldType: 'input',
     value: 'Tuntemattomankatu 1',
-  },
-  {
-    fieldName: 'identityNumber',
-    fieldType: 'input',
-    value: '010199-1337',
   },
   {
     fieldName: 'postalCode',
