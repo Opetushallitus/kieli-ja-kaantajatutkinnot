@@ -3,6 +3,8 @@ package fi.oph.akt;
 import fi.oph.akt.model.Authorisation;
 import fi.oph.akt.model.AuthorisationBasis;
 import fi.oph.akt.model.AuthorisationTermReminder;
+import fi.oph.akt.model.ContactRequest;
+import fi.oph.akt.model.ContactRequestTranslator;
 import fi.oph.akt.model.Email;
 import fi.oph.akt.model.EmailType;
 import fi.oph.akt.model.ExaminationDate;
@@ -116,5 +118,31 @@ public class Factory {
     reminder.setEmail(email);
 
     return reminder;
+  }
+
+  public static ContactRequest contactRequest() {
+    final ContactRequest contactRequest = new ContactRequest();
+    contactRequest.setFirstName("Anne");
+    contactRequest.setLastName("Aardvark");
+    contactRequest.setEmail("anne.aardvark@example.invalid");
+    contactRequest.setMessage("Test message");
+    contactRequest.setFromLang("FI");
+    contactRequest.setToLang("EN");
+
+    return contactRequest;
+  }
+
+  public static ContactRequestTranslator contactRequestTranslator(
+    final Translator translator,
+    final ContactRequest contactRequest
+  ) {
+    final ContactRequestTranslator contactRequestTranslator = new ContactRequestTranslator();
+    translator.getContactRequestTranslators().add(contactRequestTranslator);
+    contactRequest.getContactRequestTranslators().add(contactRequestTranslator);
+
+    contactRequestTranslator.setTranslator(translator);
+    contactRequestTranslator.setContactRequest(contactRequest);
+
+    return contactRequestTranslator;
   }
 }

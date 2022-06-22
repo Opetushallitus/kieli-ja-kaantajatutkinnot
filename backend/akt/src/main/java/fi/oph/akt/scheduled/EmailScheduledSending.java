@@ -1,6 +1,7 @@
-package fi.oph.akt.service.email;
+package fi.oph.akt.scheduled;
 
 import fi.oph.akt.repository.EmailRepository;
+import fi.oph.akt.service.email.EmailService;
 import fi.oph.akt.util.SchedulingUtil;
 import java.util.List;
 import javax.annotation.Resource;

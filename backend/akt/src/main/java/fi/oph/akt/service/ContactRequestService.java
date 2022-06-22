@@ -3,15 +3,18 @@ package fi.oph.akt.service;
 import fi.oph.akt.api.dto.translator.ContactRequestDTO;
 import fi.oph.akt.model.ContactRequest;
 import fi.oph.akt.model.ContactRequestTranslator;
+import fi.oph.akt.model.Email;
 import fi.oph.akt.model.EmailType;
 import fi.oph.akt.model.Translator;
 import fi.oph.akt.repository.AuthorisationRepository;
 import fi.oph.akt.repository.ContactRequestRepository;
 import fi.oph.akt.repository.ContactRequestTranslatorRepository;
+import fi.oph.akt.repository.EmailRepository;
 import fi.oph.akt.repository.TranslatorRepository;
 import fi.oph.akt.service.email.EmailData;
 import fi.oph.akt.service.email.EmailService;
 import fi.oph.akt.util.TemplateRenderer;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ContactRequestService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ContactRequestService.class);
 
   @Resource
   private final AuthorisationRepository authorisationRepository;
@@ -36,6 +43,9 @@ public class ContactRequestService {
 
   @Resource
   private final ContactRequestTranslatorRepository contactRequestTranslatorRepository;
+
+  @Resource
+  private final EmailRepository emailRepository;
 
   @Resource
   private final EmailService emailService;
@@ -231,5 +241,42 @@ public class ContactRequestService {
       .build();
 
     emailService.saveEmail(emailType, emailData);
+  }
+
+  @Transactional
+  public void destroyObsoleteContactRequests(final LocalDateTime createdBefore) {
+    final List<ContactRequest> contactRequestsToDelete = contactRequestRepository.findObsoleteContactRequests(
+      createdBefore
+    );
+    final List<ContactRequestTranslator> contactRequestTranslatorsToDelete = contactRequestsToDelete
+      .stream()
+      .flatMap(cr -> cr.getContactRequestTranslators().stream())
+      .toList();
+
+    if (!contactRequestsToDelete.isEmpty()) {
+      LOG.info("Deleting {} obsolete contact requests", contactRequestsToDelete.size());
+      contactRequestTranslatorRepository.deleteAllInBatch(contactRequestTranslatorsToDelete);
+      contactRequestRepository.deleteAllInBatch(contactRequestsToDelete);
+    }
+
+    destroyObsoleteContactRequestEmails(createdBefore);
+  }
+
+  /**
+   * Deletes obsolete contact request emails from OTR database.
+   * Doesn't touch emails saved in viestintapalvelu db.
+   */
+  private void destroyObsoleteContactRequestEmails(final LocalDateTime createdBefore) {
+    final List<EmailType> contactRequestEmailTypes = List.of(
+      EmailType.CONTACT_REQUEST_REQUESTER,
+      EmailType.CONTACT_REQUEST_TRANSLATOR,
+      EmailType.CONTACT_REQUEST_CLERK
+    );
+    final List<Email> emailsToDelete = emailRepository.findObsoleteEmails(createdBefore, contactRequestEmailTypes);
+
+    if (!emailsToDelete.isEmpty()) {
+      LOG.info("Deleting {} emails related to obsolete contact requests", emailsToDelete.size());
+      emailRepository.deleteAllInBatch(emailsToDelete);
+    }
   }
 }

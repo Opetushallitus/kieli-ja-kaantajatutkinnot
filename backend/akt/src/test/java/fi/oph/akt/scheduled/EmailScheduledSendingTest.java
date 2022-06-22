@@ -1,4 +1,4 @@
-package fi.oph.akt.service.email;
+package fi.oph.akt.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -9,6 +9,7 @@ import fi.oph.akt.Factory;
 import fi.oph.akt.model.Email;
 import fi.oph.akt.model.EmailType;
 import fi.oph.akt.repository.EmailRepository;
+import fi.oph.akt.service.email.EmailService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
