@@ -61,7 +61,7 @@ class PublicTranslatorServiceTest {
       List.of("Kaupunki0", "Kaupunki1", "Kaupunki2"),
       translators.stream().map(PublicTranslatorDTO::town).toList()
     );
-    assertEquals(List.of("Maa0", "Maa1", "Maa2"), translators.stream().map(PublicTranslatorDTO::country).toList());
+    assertEquals(Arrays.asList(null, "Maa1", "Maa2"), translators.stream().map(PublicTranslatorDTO::country).toList());
 
     assertEquals(List.of("Kaupunki0", "Kaupunki1", "Kaupunki2"), responseDTO.towns());
 
@@ -193,7 +193,7 @@ class PublicTranslatorServiceTest {
     translator.setFirstName("Etu" + i);
     translator.setLastName("Suku" + i);
     translator.setTown("Kaupunki" + i);
-    translator.setCountry("Maa" + i);
+    translator.setCountry(i == 0 ? "FIN" : "Maa" + i);
     translator.setAssuranceGiven(isAssuranceGiven);
 
     entityManager.persist(translator);

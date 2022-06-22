@@ -10,9 +10,7 @@ import fi.oph.akt.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akt.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akt.api.dto.clerk.modify.TranslatorUpdateDTO;
 import fi.oph.akt.service.ClerkTranslatorService;
-import fi.oph.akt.service.koodisto.LanguageService;
 import io.swagger.v3.oas.annotations.Operation;
-import java.util.Set;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -36,14 +34,6 @@ public class ClerkTranslatorController {
 
   @Resource
   private ClerkTranslatorService clerkTranslatorService;
-
-  @Resource
-  private LanguageService languageService;
-
-  @GetMapping(path = "/lang-codes")
-  public Set<String> listKoodistoLangCodes() {
-    return languageService.listKoodistoCodes();
-  }
 
   // TRANSLATOR
 

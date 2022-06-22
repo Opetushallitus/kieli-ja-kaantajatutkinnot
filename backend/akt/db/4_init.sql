@@ -25,7 +25,7 @@ SELECT 'id' || i::text,
            ELSE town[mod(i, array_length(town, 1)) + 1] END,
        postal_code[mod(i, array_length(postal_code, 1)) + 1],
        CASE mod(i, 7)
-           WHEN 0 THEN 'Latvia'
+           WHEN 0 THEN 'LVA'
            ELSE country[mod(i, array_length(country, 1)) + 1] END,
        extra_information[mod(i, array_length(extra_information, 1)) + 1],
        mod(i, 19) <> 0
@@ -47,7 +47,7 @@ FROM generate_series(1, 4900) AS i,
               'Kotka}')::text[] AS town) AS town_table,
      (SELECT ('{00100, 01200, 06100, 13500, 31600, 48600, ' ||
               '54460}')::text[] AS postal_code) AS postal_code_table,
-     (SELECT ('{Suomi, suomi, SUOMI, Finland, NULL}')::text[] AS country) AS country_table,
+     (SELECT ('{FIN, NULL}')::text[] AS country) AS country_table,
      (SELECT ('{Osoitetiedot päivitetty 1.1.1970., ' ||
               'Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo., ' ||
               'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen, ' ||
