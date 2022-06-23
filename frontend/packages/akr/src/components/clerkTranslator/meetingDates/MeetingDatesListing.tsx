@@ -1,10 +1,10 @@
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -16,12 +16,27 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
+import { NotifierUtils } from 'utils/notifier';
 
-const getRowDetails = (meetingDate: MeetingDate) => {
-  return <ListingRow meetingDate={meetingDate} />;
+const getRowDetails = (
+  enableToastOnRemoveError: () => void,
+  meetingDate: MeetingDate
+) => {
+  return (
+    <ListingRow
+      meetingDate={meetingDate}
+      enableToastOnRemoveError={enableToastOnRemoveError}
+    />
+  );
 };
 
-const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
+const ListingRow = ({
+  meetingDate,
+  enableToastOnRemoveError,
+}: {
+  meetingDate: MeetingDate;
+  enableToastOnRemoveError: () => void;
+}) => {
   const dispatch = useAppDispatch();
 
   const { showDialog } = useDialog();
@@ -40,7 +55,10 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
       {
         title: translateCommon('yes'),
         variant: Variant.Contained,
-        action: () => dispatch(removeMeetingDate(meetingDate.id)),
+        action: () => {
+          enableToastOnRemoveError();
+          dispatch(removeMeetingDate(meetingDate.id));
+        },
       },
     ]);
   };
@@ -89,10 +107,27 @@ export const MeetingDatesListing: FC = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const {
     meetingDates: { status, filters },
+    removeMeetingDate: { error: removeMeetingDateError },
   } = useAppSelector(meetingDatesSelector);
   const { upcoming, passed } = useAppSelector(
     selectMeetingDatesByMeetingStatus
   );
+  const [showToastOnRemoveError, setShowToastOnRemoveError] = useState(true);
+  const enableToastOnRemoveError = useCallback(
+    () => setShowToastOnRemoveError(true),
+    []
+  );
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    if (removeMeetingDateError && showToastOnRemoveError) {
+      setShowToastOnRemoveError(false);
+      showToast(
+        Severity.Error,
+        NotifierUtils.getAPIErrorMessage(removeMeetingDateError)
+      );
+    }
+  }, [removeMeetingDateError, showToast, showToastOnRemoveError]);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -116,7 +151,9 @@ export const MeetingDatesListing: FC = () => {
             filters.meetingStatus === MeetingStatus.Upcoming ? upcoming : passed
           }
           header={<ListingHeader />}
-          getRowDetails={getRowDetails}
+          getRowDetails={(meetingDate) =>
+            getRowDetails(enableToastOnRemoveError, meetingDate)
+          }
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           className="meeting-dates__listing table-layout-auto"

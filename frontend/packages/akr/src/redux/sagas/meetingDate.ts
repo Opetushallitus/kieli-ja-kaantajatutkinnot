@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { DateUtils } from 'shared/utils';
 
@@ -22,8 +22,6 @@ import {
   MEETING_DATE_REMOVE_ERROR,
   MEETING_DATE_REMOVE_SUCCESS,
 } from 'redux/actionTypes/meetingDate';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 export function* removeMeetingDate(action: RemoveMeetingDateActionType) {
@@ -35,13 +33,7 @@ export function* removeMeetingDate(action: RemoveMeetingDateActionType) {
     yield put({ type: MEETING_DATE_REMOVE_SUCCESS });
     yield put({ type: MEETING_DATE_LOAD });
   } catch (error) {
-    yield put({ type: MEETING_DATE_REMOVE_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put({ type: MEETING_DATE_REMOVE_ERROR, error });
   }
 }
 
@@ -53,13 +45,7 @@ export function* addMeetingDate(action: AddMeetingDateActionType) {
     yield put({ type: MEETING_DATE_ADD_SUCCESS });
     yield put({ type: MEETING_DATE_LOAD });
   } catch (error) {
-    yield put({ type: MEETING_DATE_ADD_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put({ type: MEETING_DATE_ADD_ERROR, error });
   }
 }
 

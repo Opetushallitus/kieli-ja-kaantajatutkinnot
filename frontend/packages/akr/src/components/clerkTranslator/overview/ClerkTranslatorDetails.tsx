@@ -20,11 +20,12 @@ import {
 } from 'redux/actions/clerkTranslatorOverview';
 import { NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE } from 'redux/actionTypes/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
+import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { selectedTranslator, translatorDetailsStatus } = useAppSelector(
+  const { selectedTranslator, translatorDetailsStatus, error } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
 
@@ -40,6 +41,7 @@ export const ClerkTranslatorDetails = () => {
   const resetLocalTranslatorDetails = useCallback(() => {
     setTranslatorDetails(selectedTranslator);
   }, [selectedTranslator]);
+  const [showToastOnError, setShowToastOnError] = useState(true);
 
   // I18n
   const { t } = useAppTranslation({
@@ -77,6 +79,13 @@ export const ClerkTranslatorDetails = () => {
     translatorDetailsStatus,
   ]);
 
+  useEffect(() => {
+    if (error && showToastOnError) {
+      setShowToastOnError(false);
+      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+    }
+  }, [error, showToast, showToastOnError]);
+
   const handleTextFieldChange =
     (field: keyof ClerkTranslatorTextFields) =>
     (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -108,6 +117,7 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const onSave = () => {
+    setShowToastOnError(true);
     dispatch(
       updateClerkTranslatorDetails(translatorDetails as ClerkTranslator)
     );

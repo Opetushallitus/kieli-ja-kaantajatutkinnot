@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -22,9 +23,11 @@ export interface ContactRequestState {
   activeStep: ContactRequestFormStep;
   request?: Partial<ContactRequest>;
   messageError: string;
+  error?: AxiosError;
 }
 
 export interface ContactRequestAction extends Action {
   request?: ContactRequest;
   messageError?: string;
+  error?: AxiosError;
 }

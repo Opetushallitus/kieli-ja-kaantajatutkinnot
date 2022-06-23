@@ -40,14 +40,19 @@ export const contactRequestReducer: Reducer<
     case CONTACT_REQUEST_SET:
       return {
         ...state,
+        error: undefined,
         request: { ...state.request, ...action.request },
       };
     case CONTACT_REQUEST_SEND:
-      return { ...state, status: APIResponseStatus.InProgress };
+      return {
+        ...state,
+        status: APIResponseStatus.InProgress,
+        error: undefined,
+      };
     case CONTACT_REQUEST_ERROR:
-      return { ...state, status: APIResponseStatus.Error };
+      return { ...state, status: APIResponseStatus.Error, error: action.error };
     case CONTACT_REQUEST_SUCCESS:
-      return { ...state, status: APIResponseStatus.Success };
+      return { ...state, status: APIResponseStatus.Success, error: undefined };
     case CONTACT_REQUEST_SET_MESSAGE_ERROR:
       return { ...state, messageError: action.messageError ?? '' };
     case CONTACT_REQUEST_STEP_DECREASE:

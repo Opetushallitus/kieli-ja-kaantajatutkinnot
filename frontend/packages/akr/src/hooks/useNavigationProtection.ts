@@ -30,8 +30,7 @@ export const useNavigationProtection = (when: boolean) => {
           action: confirmNavigation,
         },
       ],
-      undefined,
-      cancelNavigation
+      undefined
     );
   };
 

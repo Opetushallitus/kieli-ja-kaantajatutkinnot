@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Reducer } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -10,10 +10,16 @@ import {
   ExaminationDateState,
 } from 'interfaces/examinationDate';
 import {
+  EXAMINATION_DATE_ADD,
+  EXAMINATION_DATE_ADD_ERROR,
   EXAMINATION_DATE_ADD_FILTER,
+  EXAMINATION_DATE_ADD_SUCCESS,
   EXAMINATION_DATE_ERROR,
   EXAMINATION_DATE_LOAD,
   EXAMINATION_DATE_RECEIVED,
+  EXAMINATION_DATE_REMOVE,
+  EXAMINATION_DATE_REMOVE_ERROR,
+  EXAMINATION_DATE_REMOVE_SUCCESS,
 } from 'redux/actionTypes/examinationDate';
 
 const defaultState = {
@@ -60,6 +66,66 @@ export const examinationDateReducer: Reducer<
         examinationDates: {
           ...state.examinationDates,
           status: APIResponseStatus.Error,
+        },
+      };
+
+    // Add examination date
+    case EXAMINATION_DATE_ADD:
+      return {
+        ...state,
+        addExaminationDate: {
+          date: action.date as Dayjs,
+          status: APIResponseStatus.InProgress,
+          error: undefined,
+        },
+      };
+    case EXAMINATION_DATE_ADD_SUCCESS: {
+      return {
+        ...state,
+        addExaminationDate: {
+          ...state.addExaminationDate,
+          status: APIResponseStatus.Success,
+          error: undefined,
+        },
+      };
+    }
+    case EXAMINATION_DATE_ADD_ERROR: {
+      return {
+        ...state,
+        addExaminationDate: {
+          ...state.addExaminationDate,
+          status: APIResponseStatus.Error,
+          error: action.error,
+        },
+      };
+    }
+
+    // Remove examination date
+    case EXAMINATION_DATE_REMOVE:
+      return {
+        ...state,
+        removeExaminationDate: {
+          examinationDateId: action.examinationDateId,
+          status: APIResponseStatus.InProgress,
+          error: undefined,
+        },
+      };
+    case EXAMINATION_DATE_REMOVE_SUCCESS:
+      return {
+        ...state,
+        removeExaminationDate: {
+          ...state.removeExaminationDate,
+          status: APIResponseStatus.Success,
+          error: undefined,
+        },
+      };
+    case EXAMINATION_DATE_REMOVE_ERROR:
+      return {
+        ...state,
+        removeExaminationDate: {
+          ...state.removeExaminationDate,
+          status: APIResponseStatus.Error,
+          error: action.error,
         },
       };
 

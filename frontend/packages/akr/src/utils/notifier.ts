@@ -1,11 +1,10 @@
 import { AxiosError } from 'axios';
-import { Severity } from 'shared/enums';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIError } from 'enums/api';
 
 export class NotifierUtils {
-  static createAxiosErrorNotifierToast(error: AxiosError) {
+  static getAPIErrorMessage(error: AxiosError) {
     const t = translateOutsideComponent();
     const apiError = NotifierUtils.getAPIError(error);
 
@@ -13,7 +12,7 @@ export class NotifierUtils {
       ? t(`akr.errors.api.${apiError}`)
       : t('akr.errors.api.generic');
 
-    return NotifierUtils.createNotifierToast(Severity.Error, message);
+    return message;
   }
 
   private static getAPIError(error: AxiosError) {

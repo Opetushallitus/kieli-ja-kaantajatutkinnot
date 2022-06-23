@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { DateUtils } from 'shared/utils';
 
@@ -22,8 +22,6 @@ import {
   EXAMINATION_DATE_REMOVE_SUCCESS,
   RemoveExaminationDateActionType,
 } from 'redux/actionTypes/examinationDate';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* addExaminationDate(action: AddExaminationDateActionType) {
@@ -34,13 +32,7 @@ function* addExaminationDate(action: AddExaminationDateActionType) {
     yield put({ type: EXAMINATION_DATE_ADD_SUCCESS });
     yield put({ type: EXAMINATION_DATE_LOAD });
   } catch (error) {
-    yield put({ type: EXAMINATION_DATE_ADD_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put({ type: EXAMINATION_DATE_ADD_ERROR, error });
   }
 }
 
@@ -53,13 +45,7 @@ function* removeExaminationDate(action: RemoveExaminationDateActionType) {
     yield put({ type: EXAMINATION_DATE_REMOVE_SUCCESS });
     yield put({ type: EXAMINATION_DATE_LOAD });
   } catch (error) {
-    yield put({ type: EXAMINATION_DATE_REMOVE_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put({ type: EXAMINATION_DATE_REMOVE_ERROR, error });
   }
 }
 

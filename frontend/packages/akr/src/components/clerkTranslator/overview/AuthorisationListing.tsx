@@ -17,8 +17,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -26,10 +25,9 @@ import {
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
-import { updateAuthorisationPublishPermission } from 'redux/actions/clerkTranslatorOverview';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
 
@@ -37,10 +35,12 @@ export const AuthorisationListing = ({
   authorisations,
   permissionToPublishReadOnly,
   onAuthorisationRemove,
+  onPermissionToPublishChange,
 }: {
   authorisations: Array<Authorisation>;
   permissionToPublishReadOnly: boolean;
-  onAuthorisationRemove: (a: Authorisation) => void;
+  onAuthorisationRemove: (authorisation: Authorisation) => void;
+  onPermissionToPublishChange?: (authorisation: Authorisation) => void;
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
@@ -48,9 +48,6 @@ export const AuthorisationListing = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
-  const { showDialog } = useDialog();
-
-  const dispatch = useAppDispatch();
   const { authorisationDetailsStatus } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
@@ -62,26 +59,6 @@ export const AuthorisationListing = ({
   const combinedClassNames = isLoading
     ? `${defaultClassName} dimmed`
     : defaultClassName;
-
-  const onPublishPermissionChange = (authorisation: Authorisation) => {
-    showDialog(
-      t('actions.changePermissionToPublish.dialog.header'),
-      Severity.Info,
-      t('actions.changePermissionToPublish.dialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () =>
-            dispatch(updateAuthorisationPublishPermission(authorisation)),
-        },
-      ]
-    );
-  };
 
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
@@ -157,7 +134,10 @@ export const AuthorisationListing = ({
                 ) : (
                   <CustomSwitch
                     value={a.permissionToPublish}
-                    onChange={() => onPublishPermissionChange(a)}
+                    onChange={() =>
+                      onPermissionToPublishChange &&
+                      onPermissionToPublishChange(a)
+                    }
                     leftLabel={translateCommon('no')}
                     rightLabel={translateCommon('yes')}
                     aria-label={t(

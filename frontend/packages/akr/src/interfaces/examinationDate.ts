@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Dayjs } from 'dayjs';
 import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
@@ -27,11 +28,13 @@ export interface ExaminationDatesState extends ExaminationDates {
 export interface AddExaminationDateState {
   status: APIResponseStatus;
   date: Dayjs;
+  error?: AxiosError;
 }
 
 export interface RemoveExaminationDateState {
   status: APIResponseStatus;
   examinationDateId: number | undefined;
+  error?: AxiosError;
 }
 
 export interface ExaminationDateState {
@@ -48,12 +51,5 @@ export interface ExaminationDateAction
   examinationDateId?: number;
   status?: APIResponseStatus;
   date?: Dayjs;
-}
-
-export interface RemoveExaminationDateAction extends Action<string> {
-  examinationDateId: number;
-}
-
-export interface AddExaminationDateAction extends Action<string> {
-  date: Dayjs;
+  error?: AxiosError;
 }

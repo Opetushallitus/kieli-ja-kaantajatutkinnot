@@ -9,7 +9,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useToast } from 'shared/hooks';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -40,9 +40,20 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   // Redux
   const dispatch = useAppDispatch();
   const translatorIds = useAppSelector(selectFilteredSelectedIds);
+  const { status } = useAppSelector(selectClerkTranslatorEmail);
 
   // Dialogs
   const { showDialog } = useDialog();
+  const { showToast } = useToast();
+
+  const [showToastOnError, setShowToastOnError] = useState(false);
+
+  useEffect(() => {
+    if (status == APIResponseStatus.Error && showToastOnError) {
+      setShowToastOnError(false);
+      showToast(Severity.Error, t('toasts.error'));
+    }
+  }, [showToast, showToastOnError, status, t]);
 
   const dispatchCancelNotifier = () => {
     showDialog(
@@ -80,10 +91,12 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () =>
+          action: () => {
+            setShowToastOnError(true);
             dispatch({
               type: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
-            }),
+            });
+          },
         },
       ]
     );
@@ -115,7 +128,7 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
 export const ClerkSendEmailPage = () => {
   // i18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akr',
+    keyPrefix: 'akr.pages.clerkSendEmailPage',
   });
 
   // Redux
@@ -138,15 +151,18 @@ export const ClerkSendEmailPage = () => {
 
   // Navigation
   const navigate = useNavigate();
+
+  const { showToast } = useToast();
   useEffect(() => {
     if (
       status == APIResponseStatus.Success ||
       status == APIResponseStatus.Cancelled
     ) {
+      showToast(Severity.Success, t('toasts.success'));
       dispatch(resetClerkTranslatorEmail);
       navigate(AppRoutes.ClerkHomePage);
     }
-  }, [dispatch, navigate, status]);
+  }, [dispatch, navigate, showToast, status, t]);
 
   const handleFieldError =
     (field: 'subject' | 'message') =>
@@ -177,22 +193,22 @@ export const ClerkSendEmailPage = () => {
 
   return (
     <Box className="clerk-send-email-page">
-      <H1>{t('pages.clerkSendEmailPage.title')}</H1>
+      <H1>{t('title')}</H1>
       <Paper className="clerk-send-email-page__form-container" elevation={3}>
         <div className="rows gapped clerk-send-email-page__form-contents">
           <div className="rows gapped">
-            <H2>{t('pages.clerkSendEmailPage.sections.recipients')}</H2>
+            <H2>{t('sections.recipients')}</H2>
             <Text>
-              {t('pages.clerkSendEmailPage.selectedCount', {
+              {t('selectedCount', {
                 count: translators.length,
               })}
             </Text>
           </div>
           <div className="rows gapped">
-            <H2>{t('pages.clerkSendEmailPage.sections.subject')}</H2>
+            <H2>{t('sections.subject')}</H2>
             <CustomTextField
               data-testid="clerk-send-email-page__subject"
-              label={t('pages.clerkSendEmailPage.labels.subject')}
+              label={t('labels.subject')}
               value={email.subject}
               onChange={handleSubjectChange}
               onBlur={handleFieldError('subject')}
@@ -202,10 +218,10 @@ export const ClerkSendEmailPage = () => {
             />
           </div>
           <div className="rows gapped">
-            <H2>{t('pages.clerkSendEmailPage.sections.message')}</H2>
+            <H2>{t('sections.message')}</H2>
             <CustomTextField
               data-testid="clerk-send-email-page__message"
-              label={t('pages.clerkSendEmailPage.labels.message')}
+              label={t('labels.message')}
               value={email.body}
               onChange={handleMessageChange}
               onBlur={handleFieldError('message')}
