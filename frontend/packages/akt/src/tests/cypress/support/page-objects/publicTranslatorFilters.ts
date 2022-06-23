@@ -33,8 +33,9 @@ class PublicTranslatorFilters {
   }
 
   filterByName(name: string) {
-    this.elements.name().type(name);
-    cy.wait(350); // Input debounce
+    cy.clock();
+    this.elements.name().should('be.visible').type(name);
+    cy.tick(350); // Input debounce
     this.search();
   }
 
@@ -45,7 +46,9 @@ class PublicTranslatorFilters {
   }
 
   fillOutName(name: string) {
+    cy.clock();
     this.elements.name().should('be.visible').type(name);
+    cy.tick(350);
   }
 
   fillOutTown(town: string) {
@@ -53,7 +56,7 @@ class PublicTranslatorFilters {
   }
 
   enterKeyOnTown() {
-    this.elements.town().type('{enter}');
+    this.elements.town().should('be.visible').type('{enter}');
   }
 
   emptySearch() {
