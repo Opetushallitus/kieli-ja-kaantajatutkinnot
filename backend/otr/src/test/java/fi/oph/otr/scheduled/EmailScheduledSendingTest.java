@@ -1,4 +1,4 @@
-package fi.oph.otr.service.email;
+package fi.oph.otr.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import fi.oph.otr.Factory;
 import fi.oph.otr.model.Email;
 import fi.oph.otr.repository.EmailRepository;
+import fi.oph.otr.service.email.EmailService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
