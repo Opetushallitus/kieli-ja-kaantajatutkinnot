@@ -1,6 +1,7 @@
-package fi.oph.otr.service.email;
+package fi.oph.otr.scheduled;
 
 import fi.oph.otr.repository.EmailRepository;
+import fi.oph.otr.service.email.EmailService;
 import fi.oph.otr.util.SchedulingUtil;
 import java.util.List;
 import javax.annotation.Resource;

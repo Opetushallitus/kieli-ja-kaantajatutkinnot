@@ -1,4 +1,4 @@
-package fi.oph.otr.service.email;
+package fi.oph.otr.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,6 +11,7 @@ import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationReminder;
 import fi.oph.otr.repository.QualificationRepository;
+import fi.oph.otr.service.email.ClerkEmailService;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Resource;

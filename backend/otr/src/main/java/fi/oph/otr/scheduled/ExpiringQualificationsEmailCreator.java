@@ -1,6 +1,7 @@
-package fi.oph.otr.service.email;
+package fi.oph.otr.scheduled;
 
 import fi.oph.otr.repository.QualificationRepository;
+import fi.oph.otr.service.email.ClerkEmailService;
 import fi.oph.otr.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,10 +19,6 @@ public class ExpiringQualificationsEmailCreator {
 
   private static final Logger LOG = LoggerFactory.getLogger(ExpiringQualificationsEmailCreator.class);
 
-  private static final String INITIAL_DELAY = "PT5S";
-
-  private static final String FIXED_DELAY = "PT12H";
-
   private static final String LOCK_AT_LEAST = "PT0S";
 
   private static final String LOCK_AT_MOST = "PT1H";
@@ -32,11 +29,11 @@ public class ExpiringQualificationsEmailCreator {
   @Resource
   private final ClerkEmailService clerkEmailService;
 
-  @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
+  @Scheduled(cron = "0 0 3 * * *")
   @SchedulerLock(name = "checkExpiringQualifications", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void checkExpiringAuthorisations() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.debug("checkExpiringQualifications");
+      LOG.info("checkExpiringQualifications");
       final LocalDate expiryBetweenStart = LocalDate.now();
       final LocalDate expiryBetweenEnd = expiryBetweenStart.plusMonths(3);
       final LocalDateTime previousReminderSentBefore = expiryBetweenStart.minusMonths(4).atStartOfDay();
