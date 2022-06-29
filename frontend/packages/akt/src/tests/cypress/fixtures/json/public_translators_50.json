@@ -111,7 +111,7 @@
       "firstName": "Ilkka",
       "lastName": "Heinonen",
       "town": "Oovrop",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -212,7 +212,7 @@
       "firstName": "Matti",
       "lastName": "Kinnunen",
       "town": "Imeinavor",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -317,7 +317,7 @@
       "firstName": "Iiro",
       "lastName": "Lehtonen",
       "town": "Iknisleh",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -422,7 +422,7 @@
       "firstName": "Kari",
       "lastName": "Nieminen",
       "town": "Aatnav",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "ET",
@@ -511,7 +511,7 @@
       "firstName": "Tapani",
       "lastName": "Saarinen",
       "town": "Inaajak",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -604,7 +604,7 @@
       "firstName": "Eero",
       "lastName": "Valtonen",
       "town": "Ukrut",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -705,7 +705,7 @@
       "firstName": "Juha",
       "lastName": "Hakala",
       "town": "Ääpnevräj",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -802,7 +802,7 @@
       "firstName": "Timo",
       "lastName": "Kallio",
       "town": "Uusneoj",
-      "country": "Latvia",
+      "country": "LVA",
       "languagePairs": [
         {
           "from": "SV",
@@ -834,7 +834,6 @@
       "id": 4106,
       "firstName": "Iida",
       "lastName": "Karjalainen",
-      "country": "Suomi",
       "languagePairs": [
         {
           "from": "FI",

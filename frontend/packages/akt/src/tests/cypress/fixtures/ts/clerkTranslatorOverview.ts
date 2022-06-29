@@ -16,7 +16,7 @@ const translatorDetails = {
   street: 'Sibeliuksenkuja 3',
   postalCode: '06100',
   town: 'Hämeenlinna',
-  country: 'SUOMI',
+  country: 'FIN',
   extraInformation:
     'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.',
   isAssuranceGiven: true,

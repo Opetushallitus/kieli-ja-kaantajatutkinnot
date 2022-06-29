@@ -141,7 +141,7 @@
       "street": "Runebergintie 2",
       "postalCode": "01200",
       "town": "Turku",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -186,7 +186,7 @@
       "street": "Sibeliuksenkuja 3",
       "postalCode": "06100",
       "town": "Hämeenlinna",
-      "country": "SUOMI",
+      "country": "FIN",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -256,7 +256,7 @@
       "street": "Veturitie 4",
       "postalCode": "13500",
       "town": "Kuopio",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -344,7 +344,7 @@
       "street": "Malminkatu 1",
       "postalCode": "48600",
       "town": "Porvoo",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -389,7 +389,7 @@
       "street": "Runebergintie 2",
       "postalCode": "54460",
       "town": "Vantaa",
-      "country": "suomi",
+      "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -434,7 +434,7 @@
       "street": "3 Ajukneskuilebis",
       "postalCode": "00100",
       "town": "Ääpnevräj",
-      "country": "Latvia",
+      "country": "LVA",
       "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -479,7 +479,7 @@
       "street": "Veturitie 4",
       "postalCode": "01200",
       "town": "Kouvola",
-      "country": "Finland",
+      "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
       "isAssuranceGiven": true,
       "authorisations": [
@@ -567,7 +567,7 @@
       "street": "Malminkatu 1",
       "postalCode": "13500",
       "town": "Oulu",
-      "country": "Suomi",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
       "isAssuranceGiven": true,
       "authorisations": [

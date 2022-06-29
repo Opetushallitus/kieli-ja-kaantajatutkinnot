@@ -16,12 +16,12 @@ export interface ClerkTranslatorTextFields {
   street?: string;
   postalCode?: string;
   town?: string;
-  country?: string;
   extraInformation?: string;
 }
 
 export interface ClerkTranslatorBasicInformation
   extends ClerkTranslatorTextFields {
+  country?: string;
   isAssuranceGiven: boolean;
 }
 

@@ -5,6 +5,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import {
   useAppTranslation,
+  useKoodistoCountriesTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -43,6 +44,7 @@ export const PublicTranslatorListingRow = ({
 
   const { isPhone } = useWindowProperties();
   const translateLanguage = useKoodistoLanguagesTranslation();
+  const translateCountry = useKoodistoCountriesTranslation();
 
   const checkboxAriaLabel = selected
     ? t('component.table.accessibility.checkboxSelectedAriaLabel')
@@ -76,11 +78,11 @@ export const PublicTranslatorListingRow = ({
 
   const getTownDescription = (town?: string, country?: string) => {
     if (town && country) {
-      return `${town}, ${country}`;
+      return `${town}, ${translateCountry(country)}`;
     } else if (town) {
       return town;
     } else if (country) {
-      return country;
+      return translateCountry(country);
     }
 
     return '-';

@@ -16,6 +16,9 @@ import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
 import privacyFI from 'public/i18n/fi-FI/privacy.json';
 import transFI from 'public/i18n/fi-FI/translation.json';
+import koodistoCountriesEN from 'public/i18n/koodisto/countries/koodisto_countries_en-GB.json';
+import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
+import koodistoCountriesSV from 'public/i18n/koodisto/countries/koodisto_countries_sv-SE.json';
 import koodistoLangsEN from 'public/i18n/koodisto/langs/koodisto_langs_en-GB.json';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 import koodistoLangsSV from 'public/i18n/koodisto/langs/koodisto_langs_sv-SE.json';
@@ -37,6 +40,7 @@ const resources = {
   [langFI]: {
     [I18nNamespace.Accessibility]: accessibilityFI,
     [I18nNamespace.Common]: commonFI,
+    [I18nNamespace.KoodistoCountries]: koodistoCountriesFI,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsFI,
     [I18nNamespace.Privacy]: privacyFI,
     [I18nNamespace.Translation]: transFI,
@@ -44,6 +48,7 @@ const resources = {
   [langSV]: {
     [I18nNamespace.Accessibility]: accessibilitySV,
     [I18nNamespace.Common]: commonSV,
+    [I18nNamespace.KoodistoCountries]: koodistoCountriesSV,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsSV,
     [I18nNamespace.Privacy]: privacySV,
     [I18nNamespace.Translation]: transSV,
@@ -51,6 +56,7 @@ const resources = {
   [langEN]: {
     [I18nNamespace.Accessibility]: accessibilityEN,
     [I18nNamespace.Common]: commonEN,
+    [I18nNamespace.KoodistoCountries]: koodistoCountriesEN,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsEN,
     [I18nNamespace.Privacy]: privacyEN,
     [I18nNamespace.Translation]: transEN,
@@ -113,6 +119,17 @@ export const useCommonTranslation = () => {
       keyPrefix: 'akt.common',
     },
     I18nNamespace.Common
+  );
+
+  return t;
+};
+
+export const useKoodistoCountriesTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'akt.koodisto.countries',
+    },
+    I18nNamespace.KoodistoCountries
   );
 
   return t;
