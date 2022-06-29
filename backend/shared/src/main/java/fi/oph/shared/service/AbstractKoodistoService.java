@@ -1,10 +1,10 @@
-package fi.oph.otr.service;
+package fi.oph.shared.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.oph.otr.util.localisation.Language;
-import fi.oph.otr.util.localisation.Localisation;
+import fi.oph.shared.util.localisation.Language;
+import fi.oph.shared.util.localisation.Localisation;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

@@ -1,5 +1,6 @@
-package fi.oph.otr.service;
+package fi.oph.otr.service.koodisto;
 
+import fi.oph.shared.service.AbstractKoodistoService;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;

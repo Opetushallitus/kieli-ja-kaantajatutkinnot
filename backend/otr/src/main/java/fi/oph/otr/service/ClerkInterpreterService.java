@@ -18,6 +18,8 @@ import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
+import fi.oph.otr.service.koodisto.LanguageService;
+import fi.oph.otr.service.koodisto.RegionService;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;

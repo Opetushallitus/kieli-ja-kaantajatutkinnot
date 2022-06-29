@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import fi.oph.otr.service.koodisto.LanguageService;
 import fi.oph.otr.util.localisation.Language;
 import java.util.Optional;
 import java.util.Set;
