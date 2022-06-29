@@ -31,7 +31,7 @@ public class ExpiringQualificationsEmailCreator {
 
   @Scheduled(cron = "0 0 3 * * *")
   @SchedulerLock(name = "checkExpiringQualifications", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
-  public void checkExpiringAuthorisations() {
+  public void checkExpiringQualifications() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.info("checkExpiringQualifications");
       final LocalDate expiryBetweenStart = LocalDate.now();
@@ -40,7 +40,13 @@ public class ExpiringQualificationsEmailCreator {
 
       qualificationRepository
         .findExpiringQualifications(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
-        .forEach(clerkEmailService::createQualificationExpiryEmail);
+        .forEach(qualificationId -> {
+          try {
+            clerkEmailService.createQualificationExpiryEmail(qualificationId);
+          } catch (Exception e) {
+            LOG.error("Creation of qualification expiry email failed", e);
+          }
+        });
     });
   }
 }
