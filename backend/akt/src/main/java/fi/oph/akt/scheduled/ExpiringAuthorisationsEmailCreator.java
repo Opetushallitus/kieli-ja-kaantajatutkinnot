@@ -1,6 +1,7 @@
-package fi.oph.akt.service.email;
+package fi.oph.akt.scheduled;
 
 import fi.oph.akt.repository.AuthorisationRepository;
+import fi.oph.akt.service.email.ClerkEmailService;
 import fi.oph.akt.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,10 +19,6 @@ public class ExpiringAuthorisationsEmailCreator {
 
   private static final Logger LOG = LoggerFactory.getLogger(ExpiringAuthorisationsEmailCreator.class);
 
-  private static final String INITIAL_DELAY = "PT5S";
-
-  private static final String FIXED_DELAY = "PT12H";
-
   private static final String LOCK_AT_LEAST = "PT0S";
 
   private static final String LOCK_AT_MOST = "PT1H";
@@ -32,18 +29,24 @@ public class ExpiringAuthorisationsEmailCreator {
   @Resource
   private final ClerkEmailService clerkEmailService;
 
-  @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
+  @Scheduled(cron = "0 0 3 * * *")
   @SchedulerLock(name = "checkExpiringAuthorisations", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void checkExpiringAuthorisations() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.debug("checkExpiringAuthorisations");
+      LOG.info("checkExpiringAuthorisations");
       final LocalDate expiryBetweenStart = LocalDate.now();
       final LocalDate expiryBetweenEnd = expiryBetweenStart.plusMonths(3);
       final LocalDateTime previousReminderSentBefore = expiryBetweenStart.minusMonths(4).atStartOfDay();
 
       authorisationRepository
         .findExpiringAuthorisations(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
-        .forEach(clerkEmailService::createAuthorisationExpiryEmail);
+        .forEach(authorisationId -> {
+          try {
+            clerkEmailService.createAuthorisationExpiryEmail(authorisationId);
+          } catch (Exception e) {
+            LOG.error("Creation of authorisation expiry email failed", e);
+          }
+        });
     });
   }
 }

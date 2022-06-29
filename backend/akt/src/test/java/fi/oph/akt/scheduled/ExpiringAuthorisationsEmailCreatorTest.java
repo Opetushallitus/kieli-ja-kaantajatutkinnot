@@ -1,4 +1,4 @@
-package fi.oph.akt.service.email;
+package fi.oph.akt.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,6 +14,7 @@ import fi.oph.akt.model.EmailType;
 import fi.oph.akt.model.MeetingDate;
 import fi.oph.akt.model.Translator;
 import fi.oph.akt.repository.AuthorisationRepository;
+import fi.oph.akt.service.email.ClerkEmailService;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Resource;

@@ -1,7 +1,9 @@
 package fi.oph.akt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,15 +14,19 @@ import fi.oph.akt.api.dto.translator.ContactRequestDTO;
 import fi.oph.akt.model.Authorisation;
 import fi.oph.akt.model.ContactRequest;
 import fi.oph.akt.model.ContactRequestTranslator;
+import fi.oph.akt.model.Email;
+import fi.oph.akt.model.EmailType;
 import fi.oph.akt.model.MeetingDate;
 import fi.oph.akt.model.Translator;
 import fi.oph.akt.repository.AuthorisationRepository;
 import fi.oph.akt.repository.ContactRequestRepository;
 import fi.oph.akt.repository.ContactRequestTranslatorRepository;
+import fi.oph.akt.repository.EmailRepository;
 import fi.oph.akt.repository.TranslatorRepository;
 import fi.oph.akt.service.email.EmailData;
 import fi.oph.akt.service.email.EmailService;
 import fi.oph.akt.util.TemplateRenderer;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +64,9 @@ class ContactRequestServiceTest {
   @Resource
   private ContactRequestTranslatorRepository contactRequestTranslatorRepository;
 
+  @Resource
+  private EmailRepository emailRepository;
+
   @MockBean
   private EmailService emailService;
 
@@ -87,6 +96,7 @@ class ContactRequestServiceTest {
         authorisationRepository,
         contactRequestRepository,
         contactRequestTranslatorRepository,
+        emailRepository,
         emailService,
         templateRenderer,
         translatorRepository,
@@ -347,5 +357,65 @@ class ContactRequestServiceTest {
       .toLang(toLang)
       .translatorIds(translatorIds)
       .build();
+  }
+
+  @Test
+  public void testOnlyObsoleteContactRequestsAreDestroyed() {
+    final Translator translator1 = Factory.translator();
+    final Translator translator2 = Factory.translator();
+
+    final ContactRequest contactRequest1 = Factory.contactRequest();
+    final ContactRequest contactRequest2 = Factory.contactRequest();
+
+    final ContactRequestTranslator ctr1 = Factory.contactRequestTranslator(translator1, contactRequest1);
+    final ContactRequestTranslator ctr2 = Factory.contactRequestTranslator(translator2, contactRequest1);
+    final ContactRequestTranslator ctr3 = Factory.contactRequestTranslator(translator2, contactRequest2);
+
+    entityManager.persist(translator1);
+    entityManager.persist(translator2);
+    entityManager.persist(contactRequest1);
+    entityManager.persist(contactRequest2);
+    entityManager.persist(ctr1);
+    entityManager.persist(ctr2);
+    entityManager.persist(ctr3);
+
+    contactRequest2.setCreatedAt(LocalDateTime.now().plusMinutes(5));
+    entityManager.merge(contactRequest2);
+
+    contactRequestService.destroyObsoleteContactRequests(LocalDateTime.now().plusMinutes(1));
+
+    assertFalse(contactRequestRepository.existsById(contactRequest1.getId()));
+    assertFalse(contactRequestTranslatorRepository.existsById(ctr1.getId()));
+    assertFalse(contactRequestTranslatorRepository.existsById(ctr2.getId()));
+
+    assertTrue(contactRequestRepository.existsById(contactRequest2.getId()));
+    assertTrue(contactRequestTranslatorRepository.existsById(ctr3.getId()));
+  }
+
+  @Test
+  public void testOnlyObsoleteContactRequestEmailsAreDestroyed() {
+    final Email email1 = Factory.email(EmailType.CONTACT_REQUEST_REQUESTER);
+    final Email email2 = Factory.email(EmailType.CONTACT_REQUEST_TRANSLATOR);
+    final Email email3 = Factory.email(EmailType.CONTACT_REQUEST_CLERK);
+    final Email otherEmail = Factory.email(EmailType.AUTHORISATION_EXPIRY);
+    final Email nonObsoleteEmail = Factory.email(EmailType.CONTACT_REQUEST_REQUESTER);
+
+    entityManager.persist(email1);
+    entityManager.persist(email2);
+    entityManager.persist(email3);
+    entityManager.persist(otherEmail);
+    entityManager.persist(nonObsoleteEmail);
+
+    nonObsoleteEmail.setCreatedAt(LocalDateTime.now().plusMinutes(5));
+    entityManager.merge(nonObsoleteEmail);
+
+    contactRequestService.destroyObsoleteContactRequests(LocalDateTime.now().plusMinutes(1));
+
+    assertFalse(emailRepository.existsById(email1.getId()));
+    assertFalse(emailRepository.existsById(email2.getId()));
+    assertFalse(emailRepository.existsById(email3.getId()));
+
+    assertTrue(emailRepository.existsById(otherEmail.getId()));
+    assertTrue(emailRepository.existsById(nonObsoleteEmail.getId()));
   }
 }
