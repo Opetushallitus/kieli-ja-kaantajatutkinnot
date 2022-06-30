@@ -18,7 +18,7 @@ function* fetchClerkInterpreters() {
       APIEndpoints.ClerkInterpreter
     );
     const interpreters = response.data.map(
-      SerializationUtils.deserializeClerkInterpreterResponse
+      SerializationUtils.deserializeClerkInterpreter
     );
     yield put(storeClerkInterpreters(interpreters));
   } catch (error) {

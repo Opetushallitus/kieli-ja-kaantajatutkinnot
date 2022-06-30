@@ -53,6 +53,30 @@ export const theme = createTheme({
         },
       },
     },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          color: grey700Color,
+          '&.Mui-checked': {
+            color: secondaryColor,
+          },
+          '&.Mui-disabled': {
+            color: grey700Color,
+          },
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        tag: {
+          backgroundColor: secondaryColor,
+          color: primaryColor,
+          '.MuiChip-deleteIcon': {
+            color: primaryLightColor,
+          },
+        },
+      },
+    },
     MuiStepIcon: {
       styleOverrides: {
         root: {

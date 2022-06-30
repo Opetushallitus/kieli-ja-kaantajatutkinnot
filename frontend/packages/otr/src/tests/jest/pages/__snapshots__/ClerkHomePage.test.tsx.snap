@@ -187,7 +187,7 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                     >
                       <div
-                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                         data-testid="clerk-interpreter-filters__from-lang"
                       >
                         <div
@@ -263,7 +263,7 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                     >
                       <div
-                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                         data-testid="clerk-interpreter-filters__to-lang"
                       >
                         <div
@@ -394,7 +394,7 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__examination-type"
                     >
                       <div
@@ -479,7 +479,7 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__permission-to-publish-basis"
                     >
                       <div
@@ -1700,7 +1700,7 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__from-lang"
                     >
                       <div
@@ -1776,7 +1776,7 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__to-lang"
                     >
                       <div
@@ -1907,7 +1907,7 @@ Object {
                   class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                 >
                   <div
-                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                     data-testid="clerk-interpreter-filters__examination-type"
                   >
                     <div
@@ -1992,7 +1992,7 @@ Object {
                   class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                 >
                   <div
-                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
                     data-testid="clerk-interpreter-filters__permission-to-publish-basis"
                   >
                     <div

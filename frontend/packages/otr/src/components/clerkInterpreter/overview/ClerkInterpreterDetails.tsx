@@ -1,11 +1,13 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { APIResponseStatus, Severity } from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
 import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
+import { AreaOfOperation } from 'enums/clerkInterpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import {
@@ -15,6 +17,10 @@ import {
 import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { NotifierUtils } from 'utils/notifier';
+
+const getAreaOfOperation = (regions: Array<string> = []) => {
+  return regions.length > 0 ? AreaOfOperation.Regions : AreaOfOperation.All;
+};
 
 export const ClerkInterpreterDetails = () => {
   // Redux
@@ -27,9 +33,13 @@ export const ClerkInterpreterDetails = () => {
   const [interpreterDetails, setInterpreterDetails] = useState(interpreter);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
+  const [areaOfOperation, setAreaOfOperation] = useState(
+    getAreaOfOperation(interpreter?.regions)
+  );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
     setInterpreterDetails(interpreter);
+    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
   }, [interpreter]);
 
   // I18n
@@ -53,8 +63,9 @@ export const ClerkInterpreterDetails = () => {
         t('toasts.updated')
       );
       dispatch(showNotifierToast(toast));
-      dispatch(resetClerkInterpreterDetailsUpdate);
+      dispatch(resetClerkInterpreterDetailsUpdate());
       setCurrentUIMode(UIMode.View);
+      setHasLocalChanges(false);
     } else if (
       interpreterDetailsUpdateStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditInterpreterDetails
@@ -70,14 +81,34 @@ export const ClerkInterpreterDetails = () => {
     interpreterDetailsUpdateStatus,
   ]);
 
+  useEffect(() => {
+    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
+  }, [interpreter?.regions]);
+
   const handleInterpreterDetailsChange =
     (field: keyof ClerkInterpreter) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const fieldValue = event.target.value;
-      const updatedInterpreterDetails = {
-        ...interpreterDetails,
-        [field]: fieldValue,
-      };
+    (
+      eventOrValue:
+        | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | ComboBoxOption[]
+    ) => {
+      let fieldValue;
+      let updatedInterpreterDetails;
+
+      if (Array.isArray(eventOrValue)) {
+        // from Region ComboBox[]
+        updatedInterpreterDetails = {
+          ...interpreterDetails,
+          [field]: eventOrValue.map((value) => value.value),
+        };
+      } else {
+        // from TextField ChangeEvent
+        fieldValue = eventOrValue.target.value;
+        updatedInterpreterDetails = {
+          ...interpreterDetails,
+          [field]: fieldValue,
+        };
+      }
       setHasLocalChanges(true);
       setInterpreterDetails(updatedInterpreterDetails as ClerkInterpreter);
     };
@@ -101,6 +132,8 @@ export const ClerkInterpreterDetails = () => {
   return (
     <ClerkInterpreterDetailsFields
       interpreter={interpreterDetails}
+      areaOfOperation={areaOfOperation}
+      setAreaOfOperation={setAreaOfOperation}
       onFieldChange={(field: keyof ClerkInterpreter) =>
         handleInterpreterDetailsChange(field)
       }

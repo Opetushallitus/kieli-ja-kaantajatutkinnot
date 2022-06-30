@@ -16,3 +16,8 @@ export enum ClerkInterpreterTextFieldEnum {
   Country = 'country',
   ExtraInformation = 'extraInformation',
 }
+
+export enum AreaOfOperation {
+  All = 'all',
+  Regions = 'regions',
+}
