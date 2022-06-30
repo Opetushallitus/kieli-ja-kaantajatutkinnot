@@ -112,17 +112,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
   @Override
   public void updatePersonalData(final PersonalData personalData) throws Exception {
-    final List<ContactDetailsGroupDTO> contactDetailsGroups = List.of(
-      ContactDetailsUtil.createOtrContactDetailsGroup(personalData)
-    );
-    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
-    personalDataDTO.setOnrId(personalData.getOnrId());
-    personalDataDTO.setLastName(personalData.getLastName());
-    personalDataDTO.setFirstName(personalData.getFirstName());
-    personalDataDTO.setNickName(personalData.getNickName());
-    personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
-    personalDataDTO.setIndividualised(personalData.getIndividualised());
-    personalDataDTO.setContactDetailsGroups(contactDetailsGroups);
+    final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
 
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo")
@@ -135,6 +125,21 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
+  }
+
+  static PersonalDataDTO createPersonalDataDTO(final PersonalData personalData) {
+    final List<ContactDetailsGroupDTO> contactDetailsGroups = List.of(
+      ContactDetailsUtil.createOtrContactDetailsGroup(personalData)
+    );
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOnrId(personalData.getOnrId());
+    personalDataDTO.setLastName(personalData.getLastName());
+    personalDataDTO.setFirstName(personalData.getFirstName());
+    personalDataDTO.setNickName(personalData.getNickName());
+    personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
+    personalDataDTO.setIndividualised(personalData.getIndividualised());
+    personalDataDTO.setContactDetailsGroups(contactDetailsGroups);
+    return personalDataDTO;
   }
 
   private RequestBuilder defaultRequestBuilder() {
