@@ -48,7 +48,7 @@ public class ExpiringQualificationsEmailCreatorTest {
   }
 
   @Test
-  public void testCheckExpiringAuthorisations() {
+  public void testCheckExpiringQualifications() {
     final LocalDate date = LocalDate.now();
 
     final Qualification q1 = createQualification(date);
@@ -65,7 +65,7 @@ public class ExpiringQualificationsEmailCreatorTest {
     createQualificationReminder(remindedQ2);
     createQualificationReminder(remindedQ2);
 
-    emailCreator.checkExpiringAuthorisations();
+    emailCreator.checkExpiringQualifications();
 
     verify(clerkEmailService, times(3)).createQualificationExpiryEmail(longCaptor.capture());
 
