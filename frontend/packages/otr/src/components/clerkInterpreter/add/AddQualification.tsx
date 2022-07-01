@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
@@ -11,7 +11,6 @@ import {
   languageToComboBoxOption,
   LoadingProgressIndicator,
   Text,
-  valueAsOption,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
@@ -33,7 +32,13 @@ interface AddQualificationProps {
   onQualificationAdd(qualification: Qualification): void;
 }
 
-const newQualification: Qualification = {
+interface NewQualification
+  extends Omit<Qualification, 'beginDate' | 'endDate'> {
+  beginDate?: Dayjs;
+  endDate?: Dayjs;
+}
+
+const newQualification: NewQualification = {
   fromLang: '',
   toLang: '',
   examinationType: undefined as unknown as ExaminationType,
@@ -50,7 +55,7 @@ export const AddQualification = ({
   onCancel,
 }: AddQualificationProps) => {
   const [qualification, setQualification] =
-    useState<Qualification>(newQualification);
+    useState<NewQualification>(newQualification);
   const [isQualificationDataChanged, setIsQualificationDataChanged] =
     useState(false);
 
@@ -143,6 +148,21 @@ export const AddQualification = ({
     }
   };
 
+  const examinationTypeToOption = (examinationType: ExaminationType) => {
+    switch (examinationType) {
+      case ExaminationType.LegalInterpreterExam:
+        return {
+          label: translateCommon('examinationType.legalInterpreterExam'),
+          value: ExaminationType.LegalInterpreterExam,
+        };
+      case ExaminationType.Other:
+        return {
+          label: translateCommon('examinationType.degreeStudies'),
+          value: ExaminationType.Other,
+        };
+    }
+  };
+
   const testIdPrefix = 'add-qualification-field';
 
   useNavigationProtection(isQualificationDataChanged);
@@ -185,10 +205,12 @@ export const AddQualification = ({
               data-testid={`${testIdPrefix}-basis`}
               autoHighlight
               label={t('fieldPlaceholders.basis')}
-              values={Object.values(ExaminationType).map(valueAsOption)}
+              values={Object.values(ExaminationType).map(
+                examinationTypeToOption
+              )}
               value={
                 qualification.examinationType
-                  ? valueAsOption(qualification.examinationType)
+                  ? examinationTypeToOption(qualification.examinationType)
                   : null
               }
               variant={TextFieldVariant.Outlined}
@@ -227,7 +249,9 @@ export const AddQualification = ({
                   : ''
               }
               label=""
-              setValue={handleBeginDateChange}
+              setValue={() => {
+                return;
+              }}
               disabled={true}
             />
           </div>
@@ -260,7 +284,9 @@ export const AddQualification = ({
               data-testid="add-qualification-modal__save"
               variant={Variant.Contained}
               color={Color.Secondary}
-              onClick={() => addAndResetQualification(qualification)}
+              onClick={() =>
+                addAndResetQualification(qualification as Qualification)
+              }
               disabled={isAddButtonDisabled()}
             >
               {translateCommon('add')}
@@ -271,7 +297,9 @@ export const AddQualification = ({
             data-testid="add-qualification-modal__save"
             variant={Variant.Contained}
             color={Color.Secondary}
-            onClick={() => addAndResetQualification(qualification)}
+            onClick={() =>
+              addAndResetQualification(qualification as Qualification)
+            }
             disabled={isAddButtonDisabled()}
           >
             {translateCommon('add')}
