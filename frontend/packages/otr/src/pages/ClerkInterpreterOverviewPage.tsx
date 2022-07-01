@@ -17,6 +17,7 @@ import {
 } from 'redux/reducers/clerkInterpreterOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { qualificationSelector } from 'redux/selectors/qualification';
 import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkInterpreterOverviewPage = () => {
@@ -26,6 +27,9 @@ export const ClerkInterpreterOverviewPage = () => {
   const dispatch = useAppDispatch();
   const { overviewStatus, interpreter } = useAppSelector(
     clerkInterpreterOverviewSelector
+  );
+  const { status: addQualificationStatus } = useAppSelector(
+    qualificationSelector
   );
 
   const selectedInterpreterId = interpreter?.id;
@@ -70,6 +74,22 @@ export const ClerkInterpreterOverviewPage = () => {
       dispatch(resetClerkInterpreterOverview());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (addQualificationStatus === APIResponseStatus.Success) {
+      const toast = NotifierUtils.createNotifierToast(
+        Severity.Success,
+        t('component.clerkInterpreterOverview.toasts.updated')
+      );
+      dispatch(showNotifierToast(toast));
+    } else if (addQualificationStatus === APIResponseStatus.Error) {
+      const toast = NotifierUtils.createNotifierToast(
+        Severity.Error,
+        t('component.clerkInterpreterOverview.toasts.updateFailed')
+      );
+      dispatch(showNotifierToast(toast));
+    }
+  }, [addQualificationStatus, dispatch, t]);
 
   return (
     <Box className="clerk-interpreter-overview-page">

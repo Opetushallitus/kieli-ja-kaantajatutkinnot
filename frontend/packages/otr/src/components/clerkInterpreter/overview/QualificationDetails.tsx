@@ -12,10 +12,13 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
 import { useAppTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import { Qualification } from 'interfaces/qualification';
+import { addQualification } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { qualificationSelector } from 'redux/selectors/qualification';
 import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
@@ -28,8 +31,10 @@ export const QualificationDetails = () => {
   );
 
   // Redux
-  const { interpreter, qualificationDetailsUpdateStatus } = useAppSelector(
-    clerkInterpreterOverviewSelector
+  const dispatch = useAppDispatch();
+  const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
+  const { status: addQualificationStatus } = useAppSelector(
+    qualificationSelector
   );
 
   // I18n
@@ -71,8 +76,8 @@ export const QualificationDetails = () => {
     setSelectedToggleFilter(status);
   };
 
-  const handleAddQualification = () => {
-    console.log('adding auth');
+  const handleAddQualification = (qualification: Qualification) => {
+    dispatch(addQualification(qualification));
   };
 
   return (
@@ -88,9 +93,7 @@ export const QualificationDetails = () => {
           interpreterId={interpreter.id}
           onCancel={handleCloseModal}
           onQualificationAdd={handleAddQualification}
-          isLoading={
-            qualificationDetailsUpdateStatus === APIResponseStatus.InProgress
-          }
+          isLoading={addQualificationStatus === APIResponseStatus.InProgress}
         />
       </CustomModal>
       <div className="rows gapped-xs">

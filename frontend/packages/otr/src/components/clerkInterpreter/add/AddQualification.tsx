@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
@@ -6,6 +6,7 @@ import {
   CustomButton,
   CustomSwitch,
   CustomTextField,
+  DatePicker,
   LanguageSelect,
   languageToComboBoxOption,
   LoadingProgressIndicator,
@@ -13,7 +14,6 @@ import {
   valueAsOption,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
-import { ComboBoxOption } from 'shared/interfaces';
 import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
 
 import {
@@ -26,7 +26,7 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Qualification } from 'interfaces/qualification';
 import { QualificationUtils } from 'utils/qualifications';
 
-interface AddAuthorisationProps {
+interface AddQualificationProps {
   interpreterId?: number;
   isLoading?: boolean;
   onCancel: () => void;
@@ -36,26 +36,19 @@ interface AddAuthorisationProps {
 const newQualification: Qualification = {
   fromLang: '',
   toLang: '',
-  examinationType: null as unknown as ExaminationType,
+  examinationType: undefined as unknown as ExaminationType,
   beginDate: undefined,
   endDate: undefined,
   permissionToPublish: true,
   diaryNumber: '',
 };
 
-// const dateToOption = (date: Dayjs): ComboBoxOption => {
-//   return {
-//     value: date.toISOString(),
-//     label: DateUtils.formatOptionalDate(date),
-//   };
-// };
-
 export const AddQualification = ({
   interpreterId,
   isLoading,
   onQualificationAdd,
   onCancel,
-}: AddAuthorisationProps) => {
+}: AddQualificationProps) => {
   const [qualification, setQualification] =
     useState<Qualification>(newQualification);
   const [isQualificationDataChanged, setIsQualificationDataChanged] =
@@ -79,7 +72,7 @@ export const AddQualification = ({
     ({}, value: AutocompleteValue) => {
       setQualification({
         ...qualification,
-        [fieldName]: value?.value,
+        [fieldName]: value?.value ?? '',
       });
       setIsQualificationDataChanged(true);
     };
@@ -94,17 +87,17 @@ export const AddQualification = ({
     setIsQualificationDataChanged(true);
   };
 
-  //   const handleBeginDateChange = ({}, value: AutocompleteValue) => {
-  //     const PERIOD_OF_VALIDITY = 5;
-  //     const beginDate = value?.value ? dayjs(value?.value) : undefined;
-  //     const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
-  //     setQualification({
-  //       ...qualification,
-  //       beginDate,
-  //       endDate,
-  //     });
-  //     setIsQualificationDataChanged(true);
-  //   };
+  const handleBeginDateChange = (value: string) => {
+    const PERIOD_OF_VALIDITY = 5;
+    const beginDate = value ? dayjs(value) : undefined;
+    const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
+    setQualification({
+      ...qualification,
+      beginDate,
+      endDate,
+    });
+    setIsQualificationDataChanged(true);
+  };
 
   const handleSwitchValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQualification({
@@ -128,25 +121,18 @@ export const AddQualification = ({
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
   const isAddButtonDisabled = () => {
-    const { fromLang, toLang, diaryNumber, ...otherProps } = qualification;
+    const { beginDate, examinationType, ...otherProps } = qualification;
 
     const isOtherPropsNotDefined = Object.values(otherProps).some((p) =>
       StringUtils.isBlankString(p)
     );
-    const isLangPropsNotDefined =
-      StringUtils.isBlankString(fromLang) || StringUtils.isBlankString(toLang);
-
-    const isDiaryNumberBlank = StringUtils.isBlankString(diaryNumber);
 
     return (
-      isLoading ||
-      isOtherPropsNotDefined ||
-      isLangPropsNotDefined ||
-      isDiaryNumberBlank
+      isLoading || isOtherPropsNotDefined || !beginDate || !examinationType
     );
   };
 
-  const addAndResetAuthorisation = (qualification: Qualification) => {
+  const addAndResetQualification = (qualification: Qualification) => {
     onQualificationAdd({
       ...qualification,
       ...(interpreterId && { interpreterId }),
@@ -156,10 +142,6 @@ export const AddQualification = ({
       onCancel();
     }
   };
-
-  //   const selecteBeginDate = qualification.beginDate
-  //     ? dateToOption(qualification.beginDate)
-  //     : null;
 
   const testIdPrefix = 'add-qualification-field';
 
@@ -179,7 +161,7 @@ export const AddQualification = ({
               languages={QualificationUtils.getKoodistoLangKeys()}
               excludedLanguage={qualification.toLang || undefined}
               value={getLanguageSelectValue(qualification.fromLang)}
-              onChange={handleLanguageSelectChange('from')}
+              onChange={handleLanguageSelectChange('fromLang')}
               translateLanguage={translateLanguage}
             />
           </div>
@@ -193,7 +175,7 @@ export const AddQualification = ({
               languages={QualificationUtils.getKoodistoLangKeys()}
               excludedLanguage={qualification.fromLang || undefined}
               value={getLanguageSelectValue(qualification.toLang)}
-              onChange={handleLanguageSelectChange('to')}
+              onChange={handleLanguageSelectChange('toLang')}
               translateLanguage={translateLanguage}
             />
           </div>
@@ -223,29 +205,32 @@ export const AddQualification = ({
             />
           </div>
         </div>
-        <div className="add-authorisation__fields gapped align-items-start">
-          {/* <div className="rows gapped-xs"> */}
-          {/* <Text className="bold">{t('fieldLabel.termBeginDate')}</Text>
-            <ComboBox
-              data-testid={`${testIdPrefix}-termBeginDate`}
-              autoHighlight
-              label={t('fieldPlaceholders.termBeginDate')}
-              values={availableMeetingDateValues}
-              value={selectedTermBeginDate}
-              variant={TextFieldVariant.Outlined}
-              onChange={handleTermBeginDateChange}
+        <div className="add-qualification__fields gapped align-items-start">
+          <div className="rows gapped-xs">
+            <Text className="bold">{t('fieldLabel.beginDate')}</Text>
+            <DatePicker
+              value={
+                qualification.beginDate
+                  ? DateUtils.serializeDate(qualification.beginDate)
+                  : ''
+              }
+              label=""
+              setValue={handleBeginDateChange}
             />
           </div>
           <div className="rows gapped-xs">
-            <Text className="bold">{t('fieldLabel.termEndDate')}</Text>
-            <CustomTextField
-              data-testid={`${testIdPrefix}-termEndDate`}
-              label={t('fieldPlaceholders.termEndDate')}
-              value={DateUtils.formatOptionalDate(authorisation?.termEndDate)}
+            <Text className="bold">{t('fieldLabel.endDate')}</Text>
+            <DatePicker
+              value={
+                qualification.endDate
+                  ? DateUtils.serializeDate(qualification.endDate)
+                  : ''
+              }
+              label=""
+              setValue={handleBeginDateChange}
               disabled={true}
             />
-          </div> */}
-
+          </div>
           <div className="rows gapped-xs">
             <Text className="bold">{t('switch.permissionToPublish')}</Text>
             <CustomSwitch
@@ -261,7 +246,7 @@ export const AddQualification = ({
       <div className="columns gapped margin-top-lg flex-end">
         <CustomButton
           disabled={isLoading}
-          data-testid="add-authorisation-modal__cancel"
+          data-testid="add-qualification-modal__cancel"
           className="margin-right-xs"
           onClick={onCancel}
           variant={Variant.Text}
@@ -272,10 +257,10 @@ export const AddQualification = ({
         {isLoading ? (
           <LoadingProgressIndicator isLoading={isLoading}>
             <CustomButton
-              data-testid="add-authorisation-modal__save"
+              data-testid="add-qualification-modal__save"
               variant={Variant.Contained}
               color={Color.Secondary}
-              onClick={() => addAndResetAuthorisation(qualification)}
+              onClick={() => addAndResetQualification(qualification)}
               disabled={isAddButtonDisabled()}
             >
               {translateCommon('add')}
@@ -283,10 +268,10 @@ export const AddQualification = ({
           </LoadingProgressIndicator>
         ) : (
           <CustomButton
-            data-testid="add-authorisation-modal__save"
+            data-testid="add-qualification-modal__save"
             variant={Variant.Contained}
             color={Color.Secondary}
-            onClick={() => addAndResetAuthorisation(qualification)}
+            onClick={() => addAndResetQualification(qualification)}
             disabled={isAddButtonDisabled()}
           >
             {translateCommon('add')}
