@@ -8,8 +8,8 @@ import { ExaminationType } from 'enums/interpreter';
 export interface Qualification extends Partial<WithId>, Partial<WithVersion> {
   fromLang: string;
   toLang: string;
-  beginDate?: Dayjs;
-  endDate?: Dayjs;
+  beginDate: Dayjs;
+  endDate: Dayjs;
   examinationType: ExaminationType;
   permissionToPublish: boolean;
   diaryNumber?: string;
