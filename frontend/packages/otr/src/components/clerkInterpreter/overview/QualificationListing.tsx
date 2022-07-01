@@ -22,6 +22,7 @@ import {
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExaminationType } from 'enums/interpreter';
 import { Qualification } from 'interfaces/qualification';
 import { updateQualificationPublishPermission } from 'redux/reducers/clerkInterpreterOverview';
 import {
@@ -81,6 +82,17 @@ export const QualificationListing = ({
     dispatch(showNotifierDialog(notifier));
   };
 
+  const getExaminationTypeText = (examinationtype: ExaminationType) => {
+    switch (examinationtype) {
+      case ExaminationType.LegalInterpreterExam:
+        return translateCommon('examinationType.legalInterpreterExam');
+      case ExaminationType.Other:
+        return translateCommon('examinationType.degreeStudies');
+      default:
+        return '';
+    }
+  };
+
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
       <Table
@@ -114,7 +126,7 @@ export const QualificationListing = ({
               </TableCell>
               <TableCell>
                 <div className="columns gapped-xs">
-                  <Text>{q.examinationType}</Text>
+                  <Text>{getExaminationTypeText(q.examinationType)}</Text>
                 </div>
               </TableCell>
               <TableCell>
