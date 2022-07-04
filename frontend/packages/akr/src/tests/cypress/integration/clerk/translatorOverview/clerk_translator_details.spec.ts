@@ -14,7 +14,6 @@ import { useFixedDate } from 'tests/cypress/support/utils/date';
 const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 beforeEach(() => {
-  useFixedDate(fixedDateForTests);
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
     translatorResponse
@@ -119,6 +118,8 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should add authorisation succesfully', () => {
+    useFixedDate(fixedDateForTests);
+
     cy.fixture('meeting_dates_10.json')
       .then((dates) => {
         cy.intercept('GET', APIEndpoints.MeetingDate, dates);
@@ -151,6 +152,9 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onToast.expectText('Auktorisointi lisätty onnistuneesti');
     onClerkTranslatorOverviewPage.expectAuthorisationRowToExist(10004);
+    cy.clock().then((clock) => {
+      clock.restore();
+    });
   });
 
   it('should show disabled fields correctly', () => {
