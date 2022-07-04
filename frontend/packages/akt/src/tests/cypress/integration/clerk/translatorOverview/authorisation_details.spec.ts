@@ -22,35 +22,37 @@ beforeEach(() => {
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
     translatorResponse
   ).as('getClerkTranslatorOverview');
+  onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+  cy.wait('@getClerkTranslatorOverview');
 });
+
+const authorisationsByStatus = {
+  [AuthorisationStatus.Authorised]: [{ id: 10001, diaryNumber: '10001' }],
+  [AuthorisationStatus.Expired]: [
+    { id: 10000, diaryNumber: '10000' },
+    { id: 10002, diaryNumber: '10002' },
+  ],
+  [AuthorisationStatus.FormerVIR]: [{ id: 10003, diaryNumber: '10003' }],
+};
 
 describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   it('should display correct details for authorisations', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-
-    onAuthorisationDetails.expectAuthorisationDetails(
-      translatorResponse,
-      AuthorisationStatus.Authorised
+    onAuthorisationDetails.expectVisibleAuthorisations(
+      authorisationsByStatus[AuthorisationStatus.Authorised]
     );
 
     onAuthorisationDetails.clickExpiredToggleBtn();
-    onAuthorisationDetails.expectAuthorisationDetails(
-      translatorResponse,
-      AuthorisationStatus.Expired
+    onAuthorisationDetails.expectVisibleAuthorisations(
+      authorisationsByStatus[AuthorisationStatus.Expired]
     );
 
     onAuthorisationDetails.clickformerVIRToggleBtn();
-    onAuthorisationDetails.expectAuthorisationDetails(
-      translatorResponse,
-      AuthorisationStatus.FormerVIR
+    onAuthorisationDetails.expectVisibleAuthorisations(
+      authorisationsByStatus[AuthorisationStatus.FormerVIR]
     );
   });
 
   it('should open a confirmation dialog when publish permission switch is clicked, and do no changes if user backs out', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-
     onAuthorisationDetails.switchPublishPermission(effectiveAuthorisationId);
     onDialog.expectText('Haluatko varmasti vaihtaa julkaisulupaa?');
     onDialog.clickButtonByText('Takaisin');
@@ -62,9 +64,6 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   });
 
   it('should open a confirmation dialog when publish permission switch is clicked, and change the publish permission if user confirms', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-
     onAuthorisationDetails.expectPublishPermission(
       effectiveAuthorisationId,
       true
@@ -92,9 +91,6 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   });
 
   it('should open a confirmation dialog when a delete icon is clicked, and do no changes if user backs out', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-
     onAuthorisationDetails.clickDeleteButton(effectiveAuthorisationId);
     onDialog.expectText('Haluatko varmasti poistaa auktorisoinnin?');
     onDialog.clickButtonByText('Takaisin');
@@ -103,9 +99,6 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   });
 
   it('should open a confirmation dialog when a delete icon is clicked, and delete authorisation if user confirms', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-
     const deletionResponse = authorisationDeletionResponse(
       translatorResponse,
       effectiveAuthorisationId

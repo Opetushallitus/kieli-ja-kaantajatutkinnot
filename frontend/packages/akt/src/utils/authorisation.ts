@@ -56,9 +56,14 @@ export class AuthorisationUtils {
   static groupClerkTranslatorAuthorisationsByStatus(
     clerkTranslator: ClerkTranslator
   ) {
+    const currentDate = dayjs();
+
     return clerkTranslator.authorisations.reduce(
       (group: AuthorisationsGroupedByStatus, authorisation: Authorisation) => {
-        const status = AuthorisationUtils.getAuthorisationStatus(authorisation);
+        const status = AuthorisationUtils.getAuthorisationStatus(
+          authorisation,
+          currentDate
+        );
         group[status].push(authorisation);
 
         return group;
@@ -71,8 +76,10 @@ export class AuthorisationUtils {
     return Object.keys(koodistoLangsFI?.akt?.koodisto?.languages);
   }
 
-  private static getAuthorisationStatus(authorisation: Authorisation) {
-    const currentDate = dayjs();
+  private static getAuthorisationStatus(
+    authorisation: Authorisation,
+    currentDate: Dayjs
+  ) {
     let status!: AuthorisationStatus;
 
     if (AuthorisationUtils.isAuthorisationForFormerVIR(authorisation)) {
