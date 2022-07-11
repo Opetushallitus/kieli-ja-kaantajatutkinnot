@@ -13,7 +13,7 @@
     "akt:qa": "yarn akt:lint && yarn akt:format && yarn akt:test:jest && yarn akt:start:ci:e2e",
     "akt:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
     "akt:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
-    "akt:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akt-backend:8080 --env docker",
+    "akt:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akr-backend:8080 --env docker",
     "akt:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "akt:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "akt:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",

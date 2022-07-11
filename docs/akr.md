@@ -1,4 +1,4 @@
-# VKT - Valtionhallinnon kielitutkinnot [![VKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml)
+# AKT - Auktorisoidun kääntäjän tutkintojärjestelmä [![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml)
 
 ## Backend
 
@@ -20,7 +20,7 @@ Using Maven Wrapper
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-and the app runs on > <http://localhost:8082>
+and the app runs on > <http://localhost:8080>
 
 Required packages get installed automatically.
 
@@ -55,7 +55,15 @@ In order to disable Spring Boot Security use property:
 
 Or
 
-Set `VKT_UNSECURE=true` environment variable as shown [here](../README.md#development).
+Set `AKR_UNSECURE=true` environment variable as shown [here](../README.md#development).
+
+&nbsp;
+
+### Scheduled tasks
+
+`EmailScheduledSending` does scheduling of sending unsent emails. Every 10 seconds (`FIXED_DELAY`) it fetches a batch of at most 10 unsent emails (`BATCH_SIZE`), and tries to send them. If there are loads of emails in the queue, it may send at max. 3600 emails in an hour.
+
+`ExpiringAuthorisationsEmailCreator` does scheduling of finding expiring authorisations, and creating reminder emails about them. It is run every 12 hours (`FIXED_DELAY`). The reminder emails that are created are eventually sent via `EmailScheduledSending`.
 
 &nbsp;
 
@@ -68,7 +76,7 @@ npm install
 npm run start  # Starts Webpack DevServer
 ```
 
-and the app runs on > <http://localhost:4002/vkt/etusivu>
+and the app runs on > <http://localhost:4000/akt/etusivu>
 
 ```sh
 npm run build # Builds the app for production to the dist folder.
@@ -95,19 +103,19 @@ npm run test:jest -- -u  # Regenerate snapshots
 
 Health check:
 
-> <http://localhost:8082/vkt/api/actuator/health>
+> <http://localhost:8080/akt/api/actuator/health>
 
 General information about the running application:
 
-> <http://localhost:8082/vkt/api/actuator/info>
+> <http://localhost:8080/akt/api/actuator/info>
 
 ### OpenAPI
 
-> <http://localhost:8082/vkt/api/api-docs>
+> <http://localhost:8080/akt/api/api-docs>
 
 ### Swagger
 
-> <http://localhost:8082/vkt/api/swagger-ui.html>
+> <http://localhost:8080/akt/api/swagger-ui.html>
 
 In order to make requests work in swagger UI, the application needs to be run with parameter:
 
@@ -137,6 +145,17 @@ npx i18n-json-to-xlsx-converter --convert common.json, translation.json
 npx i18n-json-to-xlsx-converter --convert translation.xlsx
 ```
 
-[prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-[eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-[stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
+&nbsp;
+
+### External localisations
+
+#### Koodisto
+
+Koodisto service is used to fetch language translations. To update translations run:
+
+```sh
+cd scripts
+./koodisto_langs.sh
+```
+
+The above script fetches language codes from the Koodisto service and transforms them into localization files. The created localization files are stored in git.

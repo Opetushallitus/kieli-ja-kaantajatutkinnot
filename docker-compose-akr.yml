@@ -1,0 +1,64 @@
+version: "3.8"
+services:
+  akr-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.akr
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    command: "./mvnw clean install -DskipTests"
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "cd akr; ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments=-Ddev.web.security.off=${AKR_UNSECURE:-false}",
+      ]
+    networks:
+      - akr-dev
+    volumes:
+      - $HOME/.m2:/root/.m2
+      - ./backend/akr:/app/akr
+    depends_on:
+      - akr-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://akr-postgres:6430/akr-postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SERVER_PORT=8080
+      - AKR_UNSECURE=${AKR_UNSECURE}
+  akr-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.akr
+      args:
+        - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
+    ports:
+      - "4000:4000"
+    working_dir: /app/reactjs
+    networks:
+      - akr-dev
+    volumes:
+      - ./frontend/packages/akt:/app/reactjs/packages/akt
+      - /app/reactjs/node_modules
+      - /app/reactjs/packages/akt/node_modules
+    environment:
+      - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
+
+  akr-postgres:
+    build: ./backend/akr/db
+    container_name: akr-postgres
+    ports:
+      - "6430:6430"
+    networks:
+      - akr-dev
+    environment:
+      - POSTGRES_DB=akr-postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGPORT=6430
+
+networks:
+  akr-dev: {}
+
+volumes:
+  nodemodules: {}

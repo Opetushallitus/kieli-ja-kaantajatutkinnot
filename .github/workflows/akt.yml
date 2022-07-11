@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "backend/akt/**"
+      - "backend/akr/**"
       - "frontend/packages/akt/**"
       - "!**/*.md"
 
@@ -21,12 +21,12 @@ jobs:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml
     with:
-      app-name: "akt"
+      app-name: "akr"
   deploy:
     needs: backend
     uses: ./.github/workflows/common-deploy.yml
     with:
-      app-name: "akt"
+      app-name: "akr"
       image-name: "akt"
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
