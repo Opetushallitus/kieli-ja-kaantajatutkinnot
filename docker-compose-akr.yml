@@ -39,9 +39,9 @@ services:
     networks:
       - akr-dev
     volumes:
-      - ./frontend/packages/akt:/app/reactjs/packages/akt
+      - ./frontend/packages/akr:/app/reactjs/packages/akr
       - /app/reactjs/node_modules
-      - /app/reactjs/packages/akt/node_modules
+      - /app/reactjs/packages/akr/node_modules
     environment:
       - GITHUB_REGISTRY_TOKEN=${GITHUB_REGISTRY_TOKEN}
 

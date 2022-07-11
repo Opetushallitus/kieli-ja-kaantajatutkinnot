@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - "backend/akr/**"
-      - "frontend/packages/akt/**"
+      - "frontend/packages/akr/**"
       - "!**/*.md"
 
 concurrency:
@@ -16,7 +16,7 @@ jobs:
   frontend:
     uses: ./.github/workflows/common-frontend.yml
     with:
-      app-name: "akt"
+      app-name: "akr"
   backend:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml

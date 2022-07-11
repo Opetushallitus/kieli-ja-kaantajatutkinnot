@@ -13,8 +13,8 @@ COPY .yarn/releases ./.yarn/releases
 COPY .yarnrc.yml ./
 
 # Copy packages
-COPY ./packages/akt ./packages/akt
+COPY ./packages/akr ./packages/akr
 
 RUN yarn install
 
-ENTRYPOINT [ "yarn", "akt:start:docker-compose" ]
+ENTRYPOINT [ "yarn", "akr:start:docker-compose" ]

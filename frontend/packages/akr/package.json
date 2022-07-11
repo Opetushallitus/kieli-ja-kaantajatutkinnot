@@ -1,0 +1,26 @@
+{
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.akr",
+  "description": "Authorised Translator’s System",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
+  "scripts": {
+    "akr:build": "yarn g:webpack --env prod",
+    "akr:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "akr:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "akr:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "akr:lint": "yarn akr:eslint && yarn akr:tslint && yarn akr:stylelint",
+    "akr:qa": "yarn akr:lint && yarn akr:format && yarn akr:test:jest && yarn akr:start:ci:e2e",
+    "akr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
+    "akr:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
+    "akr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akr-backend:8080 --env docker",
+    "akr:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
+    "akr:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
+    "akr:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
+    "akr:test:jest": "yarn g:jest",
+    "akr:tslint": "yarn g:tsc --pretty --noEmit"
+  },
+  "dependencies": {
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.17"
+  }
+}

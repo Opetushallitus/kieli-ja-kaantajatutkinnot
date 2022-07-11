@@ -8,6 +8,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = (appName, env, dirName, port) => {
   const STATIC_PATH = `${appName}/static`;
+  const CONTEXT_PATH = appName === 'akr' ? 'akt' : appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
   const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
@@ -50,7 +51,7 @@ module.exports = (appName, env, dirName, port) => {
       }),
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
-      ...getHtmlWebpackPlugin(env, appName, dirName),
+      ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
     ],
   });
 
@@ -111,7 +112,7 @@ module.exports = (appName, env, dirName, port) => {
 
   const getDevServer = () => ({
     devServer: {
-      open: `/${appName}/etusivu`,
+      open: `/${CONTEXT_PATH}/etusivu`,
       historyApiFallback: true,
       static: {
         directory: path.join(dirName, "public"),
@@ -119,7 +120,7 @@ module.exports = (appName, env, dirName, port) => {
       compress: true,
       port,
       proxy: {
-        [`/${appName}/api`]: env.proxy,
+        [`/${CONTEXT_PATH}/api`]: env.proxy,
       },
     },
   });
