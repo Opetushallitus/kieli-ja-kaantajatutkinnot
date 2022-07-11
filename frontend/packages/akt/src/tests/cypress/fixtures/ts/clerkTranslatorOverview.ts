@@ -1,11 +1,7 @@
-// Helpers
-import dayjs from 'dayjs';
-
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
-import { ClerkTranslatorResponse } from 'interfaces/clerkTranslator';
 
 // Used by clerk_translator_overview.spec and needs to match translator with id: 2 in clerk_translator_10.json
-const translatorDetails = {
+export const translatorResponse = {
   id: 2,
   version: 0,
   firstName: 'Ilkka',
@@ -20,74 +16,61 @@ const translatorDetails = {
   extraInformation:
     'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.',
   isAssuranceGiven: true,
-};
-
-const getDateWithProperType = (date: string, isResponse = true) =>
-  isResponse ? date : dayjs(date);
-
-const getAuthorisationDetails = (isReponse: boolean) => {
-  return {
-    authorisations: [
-      {
-        id: 10000,
-        version: 0,
-        languagePair: {
-          from: 'SEKO',
-          to: 'CS',
-        },
-        basis: AuthorisationBasisEnum.AUT,
-        permissionToPublish: true,
-        diaryNumber: '10000',
-        termBeginDate: getDateWithProperType('2021-03-09', isReponse),
-        termEndDate: getDateWithProperType('2021-09-09', isReponse),
-        examinationDate: getDateWithProperType('2022-03-07', isReponse),
+  authorisations: [
+    {
+      id: 10000,
+      version: 0,
+      languagePair: {
+        from: 'SEKO',
+        to: 'CS',
       },
-      {
-        id: 10001,
-        version: 0,
-        languagePair: {
-          from: 'CS',
-          to: 'SEKO',
-        },
-        basis: AuthorisationBasisEnum.AUT,
-        permissionToPublish: true,
-        diaryNumber: '10001',
-        termBeginDate: getDateWithProperType('2022-01-01', isReponse),
-        termEndDate: getDateWithProperType('2022-07-01', isReponse),
-        examinationDate: getDateWithProperType('2022-03-03', isReponse),
+      basis: AuthorisationBasisEnum.AUT,
+      permissionToPublish: true,
+      diaryNumber: '10000',
+      termBeginDate: '2021-03-09',
+      termEndDate: '2021-09-09',
+      examinationDate: '2022-03-07',
+    },
+    {
+      id: 10001,
+      version: 0,
+      languagePair: {
+        from: 'CS',
+        to: 'SEKO',
       },
-      {
-        id: 10002,
-        version: 0,
-        languagePair: {
-          from: 'CS',
-          to: 'SEKO',
-        },
-        basis: AuthorisationBasisEnum.AUT,
-        permissionToPublish: true,
-        diaryNumber: '10002',
-        termBeginDate: getDateWithProperType('2020-01-01', isReponse),
-        termEndDate: getDateWithProperType('2022-01-01', isReponse),
-        examinationDate: getDateWithProperType('2020-01-01', isReponse),
+      basis: AuthorisationBasisEnum.AUT,
+      permissionToPublish: true,
+      diaryNumber: '10001',
+      termBeginDate: '2022-01-01',
+      termEndDate: '2022-07-01',
+      examinationDate: '2022-03-03',
+    },
+    {
+      id: 10002,
+      version: 0,
+      languagePair: {
+        from: 'CS',
+        to: 'SEKO',
       },
-      {
-        id: 10003,
-        version: 0,
-        languagePair: {
-          from: 'CS',
-          to: 'SEKO',
-        },
-        basis: AuthorisationBasisEnum.VIR,
-        permissionToPublish: true,
-        diaryNumber: '10003',
+      basis: AuthorisationBasisEnum.AUT,
+      permissionToPublish: true,
+      diaryNumber: '10002',
+      termBeginDate: '2020-01-01',
+      termEndDate: '2022-01-01',
+      examinationDate: '2020-01-01',
+    },
+    {
+      id: 10003,
+      version: 0,
+      languagePair: {
+        from: 'CS',
+        to: 'SEKO',
       },
-    ],
-  };
-};
-
-export const translatorResponse = <ClerkTranslatorResponse>{
-  ...translatorDetails,
-  ...getAuthorisationDetails(true),
+      basis: AuthorisationBasisEnum.VIR,
+      permissionToPublish: true,
+      diaryNumber: '10003',
+    },
+  ],
 };
 
 export const authorisation = {
@@ -100,6 +83,6 @@ export const authorisation = {
   basis: AuthorisationBasisEnum.KKT,
   permissionToPublish: false,
   diaryNumber: '1337',
-  termBeginDate: getDateWithProperType('2022-01-01'),
-  termEndDate: getDateWithProperType('2022-07-01'),
+  termBeginDate: '2022-01-01',
+  termEndDate: '2022-07-01',
 };

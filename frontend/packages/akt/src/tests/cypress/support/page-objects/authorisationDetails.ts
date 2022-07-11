@@ -1,7 +1,5 @@
-import { AuthorisationStatus } from 'enums/clerkTranslator';
+import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslatorResponse } from 'interfaces/clerkTranslator';
-import { AuthorisationUtils } from 'utils/authorisation';
-import { SerializationUtils } from 'utils/serialization';
 
 const rowTestId = (id: number) => `authorisations-table__id-${id}-row`;
 const toggleBtn = (name: string) =>
@@ -55,18 +53,8 @@ class AuthorisationDetails {
     this.elements.deleteBtn(id).click();
   }
 
-  expectAuthorisationDetails(
-    translator: ClerkTranslatorResponse,
-    status: AuthorisationStatus
-  ) {
-    const deserializedTranslator =
-      SerializationUtils.deserializeClerkTranslator(translator);
-    const authorisations =
-      AuthorisationUtils.groupClerkTranslatorAuthorisationsByStatus(
-        deserializedTranslator
-      );
-
-    authorisations[status].forEach((a) => {
+  expectVisibleAuthorisations(authorisations: Array<Partial<Authorisation>>) {
+    authorisations.forEach((a: Authorisation) => {
       onAuthorisationDetails.expectRowToHaveText(a.id, a.diaryNumber);
     });
   }

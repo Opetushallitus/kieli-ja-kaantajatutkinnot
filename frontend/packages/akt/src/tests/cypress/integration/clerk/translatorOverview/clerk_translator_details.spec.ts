@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, UIMode } from 'enums/app';
 import {
@@ -7,8 +9,12 @@ import {
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
+import { useFixedDate } from 'tests/cypress/support/utils/date';
+
+const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 beforeEach(() => {
+  useFixedDate(fixedDateForTests);
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
     translatorResponse
