@@ -2309,9 +2309,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr":
   version: 0.0.0-use.local
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akt@workspace:packages/akt"
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
     shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.17"
   languageName: unknown

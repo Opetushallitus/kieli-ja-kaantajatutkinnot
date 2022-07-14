@@ -55,7 +55,7 @@ In order to disable Spring Boot Security use property:
 
 Or
 
-Set `OTR_UNSECURE=true` environment variable as shown [here](#development).
+Set `OTR_UNSECURE=true` environment variable as shown [here](../README.md#development).
 
 &nbsp;
 

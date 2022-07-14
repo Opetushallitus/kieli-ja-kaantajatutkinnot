@@ -18,7 +18,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 Below are listed the OPH services which are a part of this mono-repo.
 
-- [AKT](./docs/akt.md)
+- [AKR](./docs/akr.md)
 - [OTR](./docs/otr.md)
 - [VKT](./docs/vkt.md)
 
@@ -45,7 +45,7 @@ docker-compose up frontend | backend | postgres
 To disable default Spring Security configurations, create the following environment variable and restart the containers:
 
 ```sh
-export AKT_UNSECURE=true
+export AKR_UNSECURE=true
 docker-compose -f <service-docker-compose-file-name.yml> up
 ```
 
@@ -68,7 +68,7 @@ Deployments are created automatically when a new push is done into `dev` branch.
 
 For example:
 
-AKT(Frontend): Added new translations [deploy]
+AKR(Frontend): Added new translations [deploy]
 ```
 
 &nbsp;
@@ -136,7 +136,7 @@ A commit message should be structured as follows:
 
 service(scope): <description>
 
-service:     AKT, VKT, OTR, YKI, and SHARED
+service:     AKR, VKT, OTR, YKI, and SHARED
 scope:       Frontend, Backend, Docs, Infra
 description: Informal description
 
@@ -153,6 +153,6 @@ Used prefixes are `feature`, `hotfix`, and `release`. Below are some examples.
 
 ```sh
 feature/<ticket-number>         ---->   feature/OPHAKTKEH-250
-hotfix/<service-name>           ---->   hotfix/akt
-release/<service-name/<date>    ---->   release/akt/2022-04-12
+hotfix/<service-name>           ---->   hotfix/akr
+release/<service-name/<date>    ---->   release/akr/2022-04-12
 ```
