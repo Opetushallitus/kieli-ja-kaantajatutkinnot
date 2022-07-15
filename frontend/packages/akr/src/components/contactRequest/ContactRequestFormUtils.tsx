@@ -26,7 +26,7 @@ export const ChosenTranslatorsHeading = () => {
   const { activeStep } = useAppSelector(contactRequestSelector);
   const { fromLang, toLang } = filters;
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
   const { isPhone } = useWindowProperties();
@@ -74,7 +74,7 @@ export const ChosenTranslators = () => {
 
 export const DisplayContactInfo = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm.formLabels',
+    keyPrefix: 'akr.component.contactRequestForm.formLabels',
   });
   const { request } = useAppSelector(contactRequestSelector);
 
@@ -110,7 +110,7 @@ export const DisplayContactInfo = () => {
 // StepHeading is not shown on mobile devices
 export const StepHeading = ({ step }: { step: ContactRequestFormStep }) => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm.steps',
+    keyPrefix: 'akr.component.contactRequestForm.steps',
   });
   const translateCommon = useCommonTranslation();
 

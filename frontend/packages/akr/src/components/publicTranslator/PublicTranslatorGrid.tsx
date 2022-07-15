@@ -15,7 +15,7 @@ import {
 
 export const PublicTranslatorGrid = () => {
   // I18
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages.homepage' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages.homepage' });
   // Redux
   const { status } = useAppSelector(publicTranslatorsSelector);
   const translators = useAppSelector(selectFilteredPublicTranslators);

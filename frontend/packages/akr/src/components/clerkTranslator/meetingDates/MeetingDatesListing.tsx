@@ -27,7 +27,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
   const dispatch = useAppDispatch();
 
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.meetingDatesListing.removal',
+    keyPrefix: 'akr.component.meetingDatesListing.removal',
   });
   const translateCommon = useCommonTranslation();
 
@@ -75,7 +75,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
 
 const ListingHeader: FC = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.meetingDatesListing',
+    keyPrefix: 'akr.component.meetingDatesListing',
   });
   const translateCommon = useCommonTranslation();
 
@@ -94,7 +94,7 @@ const ListingHeader: FC = () => {
 };
 
 export const MeetingDatesListing: FC = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const {
     meetingDates: { status, filters },
   } = useAppSelector(meetingDatesSelector);

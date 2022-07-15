@@ -11,7 +11,7 @@ import {
 
 export const ExaminationDatesToggleFilters = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.examinationDatesToggleFilters',
+    keyPrefix: 'akr.component.examinationDatesToggleFilters',
   });
 
   const { upcoming, passed } = useAppSelector(selectExaminationDatesByStatus);

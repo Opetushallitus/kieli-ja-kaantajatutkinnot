@@ -23,7 +23,7 @@ function* showSuccessToast() {
   const t = translateOutsideComponent();
   const notifier = NotifierUtils.createNotifierToast(
     Severity.Success,
-    t('akt.pages.clerkSendEmailPage.toasts.success')
+    t('akr.pages.clerkSendEmailPage.toasts.success')
   );
   yield put({ type: NOTIFIER_TOAST_ADD, notifier });
 }
@@ -32,7 +32,7 @@ function* showErrorToast() {
   const t = translateOutsideComponent();
   const notifier = NotifierUtils.createNotifierToast(
     Severity.Error,
-    t('akt.pages.clerkSendEmailPage.toasts.error')
+    t('akr.pages.clerkSendEmailPage.toasts.error')
   );
   yield put({ type: NOTIFIER_TOAST_ADD, notifier });
 }

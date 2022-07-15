@@ -20,7 +20,7 @@ export const ClerkHomePage: FC = () => {
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
 
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages.clerkHomepage' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages.clerkHomepage' });
   const translateCommon = useCommonTranslation();
 
   useEffect(() => {

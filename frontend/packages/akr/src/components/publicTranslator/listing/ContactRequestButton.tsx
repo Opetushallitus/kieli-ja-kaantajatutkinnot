@@ -10,7 +10,7 @@ import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
 export const ContactRequestButton = () => {
   const { selectedTranslators } = useAppSelector(publicTranslatorsSelector);
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages.homepage' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages.homepage' });
   const dispatch = useAppDispatch();
 
   const handleButtonClick = () => {

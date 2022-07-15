@@ -30,7 +30,7 @@ export const PublicTranslatorListingRow = ({
 }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt',
+    keyPrefix: 'akr',
   });
 
   // Redux

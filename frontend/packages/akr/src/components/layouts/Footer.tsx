@@ -23,7 +23,7 @@ import AKTLogo from 'public/assets/svg/akt_logo.svg';
 import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const Footer = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt.component.footer' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.component.footer' });
   const translateCommon = useCommonTranslation();
   const [isClerkUI] = useAuthentication();
   const { currentView } = useAppSelector(publicUIViewSelector);

@@ -47,7 +47,7 @@ export const AuthorisationListing = ({
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorOverview.authorisations',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
   const dispatch = useAppDispatch();

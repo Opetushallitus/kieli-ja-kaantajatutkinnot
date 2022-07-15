@@ -45,12 +45,12 @@ export const AccessibilityStatementPage = () => {
   const { pathname } = useLocation();
 
   const administrativeAgencyContactDetails = Object.keys(
-    accessibilityFI.akt.accessibility.content.contactAdministrativeAgency
+    accessibilityFI.akr.accessibility.content.contactAdministrativeAgency
       .details
   );
 
   const caveats = Object.keys(
-    accessibilityFI.akt.accessibility.content.caveats.items
+    accessibilityFI.akr.accessibility.content.caveats.items
   );
 
   useEffect(() => {

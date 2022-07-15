@@ -24,7 +24,7 @@ import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 export const ClerkTranslatorAutocompleteFilters = () => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorFilters',
+    keyPrefix: 'akr.component.clerkTranslatorFilters',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
   const getLanguageSelectValue = (language?: string) =>

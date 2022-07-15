@@ -17,7 +17,7 @@ import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 export const ContactRequestPage = () => {
   // I18
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm',
   });
   const translateCommon = useCommonTranslation();
 

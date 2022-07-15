@@ -21,7 +21,7 @@ import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorOverviewPage = () => {
   // i18n
-  const { t } = useAppTranslation({ keyPrefix: 'akt' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr' });
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, selectedTranslator } = useAppSelector(

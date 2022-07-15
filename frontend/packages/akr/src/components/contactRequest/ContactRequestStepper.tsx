@@ -11,7 +11,7 @@ export const ContactRequestStepper = () => {
   const { activeStep } = useAppSelector(contactRequestSelector);
   const { isPhone } = useWindowProperties();
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm.steps',
+    keyPrefix: 'akr.component.contactRequestForm.steps',
   });
   const translateCommon = useCommonTranslation();
   const phasePrefix = translateCommon('phase');

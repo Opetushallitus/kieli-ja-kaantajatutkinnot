@@ -35,7 +35,7 @@ import { NotifierUtils } from 'utils/notifier';
 const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   // i18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.pages.clerkSendEmailPage',
+    keyPrefix: 'akr.pages.clerkSendEmailPage',
   });
   const translateCommon = useCommonTranslation();
 
@@ -113,7 +113,7 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
 export const ClerkSendEmailPage = () => {
   // i18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt',
+    keyPrefix: 'akr',
   });
 
   // Redux

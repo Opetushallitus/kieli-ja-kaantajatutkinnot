@@ -12,7 +12,7 @@ function extract_frontend_localisation() {
   lang=$1
   locale=$2
   jq_extract_cmd="[.[] | {key: select(.koodiArvo != \"98\" and .koodiArvo != \"99\" and .koodiArvo != \"VK\" and .koodiArvo != \"XX\").koodiArvo, value: .metadata[] | select(.kieli | contains(\"${lang}\")).nimi }] | sort_by(.key) | from_entries"
-  jq_obj_wrap_cmd='. | {akt:{koodisto:{languages:.}}}'
+  jq_obj_wrap_cmd='. | {akr:{koodisto:{languages:.}}}'
   output="${FRONTEND_PATH}/koodisto_langs_${locale}.json"
   echo "Command for jq: $jq_extract_cmd"
   echo "Outputting to: $output"

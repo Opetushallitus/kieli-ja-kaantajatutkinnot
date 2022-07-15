@@ -9,7 +9,7 @@ import { selectFilteredSelectedIds } from 'redux/selectors/clerkTranslator';
 
 export const ClerkHomePageControlButtons = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.pages.clerkHomepage.buttons',
+    keyPrefix: 'akr.pages.clerkHomepage.buttons',
   });
   const dispatch = useAppDispatch();
   const sendEmailButtonDisabled =

@@ -12,7 +12,7 @@ import { ExternalRoutes } from 'enums/external';
 
 export const ClerkHeaderButtons = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.header.clerk',
+    keyPrefix: 'akr.component.header.clerk',
   });
 
   const generateLogoutURL = () => {

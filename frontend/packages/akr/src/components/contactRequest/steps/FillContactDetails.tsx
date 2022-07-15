@@ -24,7 +24,7 @@ export const FillContactDetails = ({
 }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt',
+    keyPrefix: 'akr',
   });
 
   // State

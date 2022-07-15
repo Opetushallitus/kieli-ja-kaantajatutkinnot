@@ -58,7 +58,7 @@ export const PublicTranslatorFilters = ({
 }) => {
   // I18
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.publicTranslatorFilters',
+    keyPrefix: 'akr.component.publicTranslatorFilters',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
 

@@ -11,7 +11,7 @@ import { resetContactRequestAndRedirect } from 'redux/actions/contactRequest';
 export const Done = () => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm.doneStep',
+    keyPrefix: 'akr.component.contactRequestForm.doneStep',
   });
   const translateCommon = useCommonTranslation();
 

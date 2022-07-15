@@ -14,7 +14,7 @@ import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
 export const PreviewAndSend = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm',
   });
   const { request } = useAppSelector(contactRequestSelector);
 
