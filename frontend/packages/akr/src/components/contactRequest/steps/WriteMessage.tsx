@@ -27,7 +27,7 @@ const getErrorForMessage = (message?: string) => {
     true
   );
 
-  return error ? t(`akt.${error}`) : '';
+  return error ? t(`akr.${error}`) : '';
 };
 
 export const WriteMessage = ({
@@ -37,7 +37,7 @@ export const WriteMessage = ({
 }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm',
   });
 
   //Windows properties

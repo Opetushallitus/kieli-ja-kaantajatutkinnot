@@ -6,7 +6,7 @@ import { ContactRequestButton } from 'components/publicTranslator/listing/Contac
 import { useAppTranslation } from 'configs/i18n';
 
 export const PublicTranslatorListingHeader = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages.translator' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages.translator' });
   const { isPhone } = useWindowProperties();
 
   return (

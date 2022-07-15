@@ -20,7 +20,7 @@ export const VerifySelectedTranslators = ({
   disableNext: (disabled: boolean) => void;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm.verifySelectedTranslatorsStep',
+    keyPrefix: 'akr.component.contactRequestForm.verifySelectedTranslatorsStep',
   });
   const translators = useAppSelector(selectedPublicTranslatorsForLanguagePair);
   const dispatch = useAppDispatch();

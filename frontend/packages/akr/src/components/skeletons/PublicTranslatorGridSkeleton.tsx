@@ -12,7 +12,7 @@ export const PublicTranslatorGridSkeleton = ({
   showTable: boolean;
   setShowTable: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages.homepage' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages.homepage' });
   const translateCommon = useCommonTranslation();
   const ariaLabel = translateCommon('loadingContent');
 

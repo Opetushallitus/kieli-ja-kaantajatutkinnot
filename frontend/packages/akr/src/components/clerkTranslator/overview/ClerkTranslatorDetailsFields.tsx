@@ -55,7 +55,7 @@ const getFieldError = (
     required
   );
 
-  return error ? t(`akt.${error}`) : '';
+  return error ? t(`akr.${error}`) : '';
 };
 
 const ClerkTranslatorDetailsTextField = ({
@@ -67,7 +67,7 @@ const ClerkTranslatorDetailsTextField = ({
 }: ClerkTranslatorTextFieldProps) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorOverview.translatorDetails.fields',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
   });
   const fieldError = getFieldError(translator, field);
 
@@ -109,7 +109,7 @@ export const ClerkTranslatorDetailsFields = ({
 }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorOverview.translatorDetails',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails',
   });
   const translateCommon = useCommonTranslation();
   const translateCountry = useKoodistoCountriesTranslation();
@@ -150,7 +150,7 @@ export const ClerkTranslatorDetailsFields = ({
   };
 
   const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
-    koodistoCountriesFI?.akt?.koodisto?.countries
+    koodistoCountriesFI?.akr?.koodisto?.countries
   ).map(countryCodeToLabel);
 
   return (

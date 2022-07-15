@@ -31,7 +31,7 @@ const ListingRow = ({
   const dispatch = useAppDispatch();
 
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.examinationDatesListing.removal',
+    keyPrefix: 'akr.component.examinationDatesListing.removal',
   });
   const translateCommon = useCommonTranslation();
 
@@ -79,7 +79,7 @@ const ListingRow = ({
 
 const ListingHeader: FC = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.examinationDatesListing',
+    keyPrefix: 'akr.component.examinationDatesListing',
   });
   const translateCommon = useCommonTranslation();
 
@@ -98,7 +98,7 @@ const ListingHeader: FC = () => {
 };
 
 export const ExaminationDatesListing: FC = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const {
     examinationDates: { status },
     filter,

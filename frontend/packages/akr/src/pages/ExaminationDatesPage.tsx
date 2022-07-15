@@ -19,7 +19,7 @@ export const ExaminationDatesPage: FC = () => {
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
 
-  const { t } = useAppTranslation({ keyPrefix: 'akt.pages' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr.pages' });
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {

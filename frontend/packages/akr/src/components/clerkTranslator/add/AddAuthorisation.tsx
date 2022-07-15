@@ -77,7 +77,7 @@ export const AddAuthorisation = ({
   const translateCommon = useCommonTranslation();
   const translateLanguage = useKoodistoLanguagesTranslation();
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.newAuthorisation',
+    keyPrefix: 'akr.component.newAuthorisation',
   });
 
   useEffect(() => {

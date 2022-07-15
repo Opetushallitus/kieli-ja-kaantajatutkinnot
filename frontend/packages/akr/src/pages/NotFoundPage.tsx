@@ -6,7 +6,7 @@ import { AppRoutes } from 'enums/app';
 
 export const NotFoundPage: FC = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.pages.notFoundPage',
+    keyPrefix: 'akr.pages.notFoundPage',
   });
   const translateCommon = useCommonTranslation();
 

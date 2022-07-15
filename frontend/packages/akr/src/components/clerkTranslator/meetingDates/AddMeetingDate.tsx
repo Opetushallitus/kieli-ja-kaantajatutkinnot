@@ -21,7 +21,7 @@ import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.addMeetingDate',
+    keyPrefix: 'akr.component.addMeetingDate',
   });
 
   const {

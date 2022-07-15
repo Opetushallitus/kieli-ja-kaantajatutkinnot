@@ -27,7 +27,7 @@ export const PublicTranslatorListing = ({
   status: APIResponseStatus;
   translators: Array<PublicTranslator>;
 }) => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { isPhone } = useWindowProperties();
   const { selectedTranslators } = useAppSelector(publicTranslatorsSelector);
   const selected = selectedTranslators.length;

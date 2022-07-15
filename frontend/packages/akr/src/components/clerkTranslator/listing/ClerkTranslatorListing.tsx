@@ -43,7 +43,7 @@ const getRowDetails = (translator: ClerkTranslator) => {
 const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorListing',
+    keyPrefix: 'akr.component.clerkTranslatorListing',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
@@ -158,7 +158,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
 
 const ListingHeader: FC = () => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorListing.header',
+    keyPrefix: 'akr.component.clerkTranslatorListing.header',
   });
 
   const dispatch = useAppDispatch();
@@ -213,7 +213,7 @@ const ListingHeader: FC = () => {
 };
 
 export const ClerkTranslatorListing: FC = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'akt' });
+  const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { status, selectedTranslators } = useAppSelector(
     clerkTranslatorsSelector
   );

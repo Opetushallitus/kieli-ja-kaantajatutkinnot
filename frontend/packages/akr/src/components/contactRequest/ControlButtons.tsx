@@ -33,7 +33,7 @@ export const ControlButtons = ({
 }) => {
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm',
   });
   const translateCommon = useCommonTranslation();
 

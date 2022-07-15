@@ -14,7 +14,7 @@ export const ClerkTranslatorToggleFilters = () => {
     selectTranslatorsByAuthorisationStatus
   );
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorFilters.authorisationStatus',
+    keyPrefix: 'akr.component.clerkTranslatorFilters.authorisationStatus',
   });
 
   const dispatch = useAppDispatch();

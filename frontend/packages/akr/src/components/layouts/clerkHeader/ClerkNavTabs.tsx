@@ -8,7 +8,7 @@ import { AppRoutes, HeaderTabNav } from 'enums/app';
 
 export const ClerkNavTabs = (): JSX.Element => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.header.clerk.navLinks',
+    keyPrefix: 'akr.component.header.clerk.navLinks',
   });
   const translateCommon = useCommonTranslation();
   const navigate = useNavigate();

@@ -57,7 +57,7 @@ export const AuthorisationDetails = () => {
 
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorOverview.authorisations',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
   const translateCommon = useCommonTranslation();
 

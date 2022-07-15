@@ -44,7 +44,7 @@ export const ClerkTranslatorDetails = () => {
 
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.clerkTranslatorOverview',
+    keyPrefix: 'akr.component.clerkTranslatorOverview',
   });
   const translateCommon = useCommonTranslation();
 

@@ -17,7 +17,7 @@ import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akt.component.header',
+    keyPrefix: 'akr.component.header',
   });
   const translateCommon = useCommonTranslation();
   const [finnish, swedish, english] = getSupportedLangs();

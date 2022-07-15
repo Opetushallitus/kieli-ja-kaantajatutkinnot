@@ -50,7 +50,7 @@ export function* sendContactRequest(action: Action) {
       yield put({ type: PUBLIC_TRANSLATOR_EMPTY_SELECTIONS });
     } catch (error) {
       const t = translateOutsideComponent();
-      const tPrefix = 'akt.component.contactRequestForm.errorDialog';
+      const tPrefix = 'akr.component.contactRequestForm.errorDialog';
       const notifier = NotifierUtils.createNotifierDialog(
         t(`${tPrefix}.title`),
         Severity.Error,

@@ -73,7 +73,7 @@ export class AuthorisationUtils {
   }
 
   static getKoodistoLangKeys() {
-    return Object.keys(koodistoLangsFI?.akt?.koodisto?.languages);
+    return Object.keys(koodistoLangsFI?.akr?.koodisto?.languages);
   }
 
   private static getAuthorisationStatus(

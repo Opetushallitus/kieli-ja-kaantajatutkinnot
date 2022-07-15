@@ -105,7 +105,7 @@ export const useAppTranslation = (
 export const useAccessibilityTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.accessibility',
+      keyPrefix: 'akr.accessibility',
     },
     I18nNamespace.Accessibility
   );
@@ -116,7 +116,7 @@ export const useAccessibilityTranslation = () => {
 export const useCommonTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.common',
+      keyPrefix: 'akr.common',
     },
     I18nNamespace.Common
   );
@@ -127,7 +127,7 @@ export const useCommonTranslation = () => {
 export const useKoodistoCountriesTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.koodisto.countries',
+      keyPrefix: 'akr.koodisto.countries',
     },
     I18nNamespace.KoodistoCountries
   );
@@ -138,7 +138,7 @@ export const useKoodistoCountriesTranslation = () => {
 export const useKoodistoLanguagesTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.koodisto.languages',
+      keyPrefix: 'akr.koodisto.languages',
     },
     I18nNamespace.KoodistoLanguages
   );
@@ -149,7 +149,7 @@ export const useKoodistoLanguagesTranslation = () => {
 export const usePrivacyTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'akt.privacy',
+      keyPrefix: 'akr.privacy',
     },
     I18nNamespace.Privacy
   );

@@ -20,7 +20,7 @@ function* showSuccessToastOnAdd() {
   const t = translateOutsideComponent();
   const notifier = NotifierUtils.createNotifierToast(
     Severity.Success,
-    t('akt.component.newAuthorisation.toasts.success')
+    t('akr.component.newAuthorisation.toasts.success')
   );
   yield put({ type: NOTIFIER_TOAST_ADD, notifier });
 }

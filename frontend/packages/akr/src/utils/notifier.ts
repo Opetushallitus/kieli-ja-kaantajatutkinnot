@@ -50,8 +50,8 @@ export class NotifierUtils {
     const apiError = NotifierUtils.getAPIError(error);
 
     const message = apiError
-      ? t(`akt.errors.api.${apiError}`)
-      : t('akt.errors.api.generic');
+      ? t(`akr.errors.api.${apiError}`)
+      : t('akr.errors.api.generic');
 
     return NotifierUtils.createNotifierToast(Severity.Error, message);
   }
