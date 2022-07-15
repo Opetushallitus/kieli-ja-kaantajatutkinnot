@@ -14,25 +14,7 @@ export function* cancel() {
     type: CLERK_TRANSLATOR_EMAIL_CANCEL,
   });
 }
-/*
-function* showSuccessToast() {
-  const t = translateOutsideComponent();
-  const notifier = NotifierUtils.createNotifierToast(
-    Severity.Success,
-    t('akr.pages.clerkSendEmailPage.toasts.success')
-  );
-  yield put({ type: NOTIFIER_TOAST_ADD, notifier });
-}
 
-function* showErrorToast() {
-  const t = translateOutsideComponent();
-  const notifier = NotifierUtils.createNotifierToast(
-    Severity.Error,
-    t('akr.pages.clerkSendEmailPage.toasts.error')
-  );
-  yield put({ type: NOTIFIER_TOAST_ADD, notifier });
-}
-*/
 export function* sendEmail() {
   const { email, recipients }: ReturnType<typeof selectClerkTranslatorEmail> =
     yield select(selectClerkTranslatorEmail);
