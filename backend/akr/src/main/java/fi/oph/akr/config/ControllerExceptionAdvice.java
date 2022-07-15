@@ -6,6 +6,7 @@ import fi.oph.akr.util.exception.NotFoundException;
 import java.util.Set;
 import javax.validation.ConstraintViolationException;
 import net.minidev.json.JSONObject;
+import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -42,6 +43,14 @@ public class ControllerExceptionAdvice {
   public ResponseEntity<Object> handleNotFoundException(final NotFoundException ex) {
     LOG.error("NotFoundException: " + ex.getMessage());
     return notFound();
+  }
+
+  @ExceptionHandler(ClientAbortException.class)
+  public void handleClientAbortException(final ClientAbortException ex) {
+    final String message = ex.getMessage();
+    if (!message.endsWith("Broken pipe") && !message.endsWith("Connection reset by peer")) {
+      LOG.error("ClientAbortException: " + message);
+    }
   }
 
   @ExceptionHandler(Exception.class)
