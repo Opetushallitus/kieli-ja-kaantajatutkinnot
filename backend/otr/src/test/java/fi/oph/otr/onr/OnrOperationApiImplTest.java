@@ -1,7 +1,9 @@
 package fi.oph.otr.onr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fi.oph.otr.onr.dto.ContactDetailsDTO;
 import fi.oph.otr.onr.dto.ContactDetailsGroupDTO;
@@ -22,23 +24,49 @@ class OnrOperationApiImplTest {
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
     assertDtoMatchesDefaultData(dto);
+    assertTrue(dto.getIndividualised());
+
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(2, contactDetailsSet.size());
-    assertEquals("e@mail", findByType(contactDetailsSet, ContactDetailsType.EMAIL).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER).getValue());
+    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
   }
 
   @Test
-  void testCreatePersonalDataDTO_IndividualisedWithPHone() {
+  void testCreatePersonalDataDTO_IndividualisedWithPhone() {
     final PersonalData personalData = defaultData().email("e@mail").individualised(true).phoneNumber("040404").build();
 
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
     assertDtoMatchesDefaultData(dto);
+    assertTrue(dto.getIndividualised());
+
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(2, contactDetailsSet.size());
-    assertEquals("e@mail", findByType(contactDetailsSet, ContactDetailsType.EMAIL).getValue());
-    assertEquals("040404", findByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER).getValue());
+    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertEquals("040404", findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
+  }
+
+  @Test
+  void testCreatePersonalDataDTO_IndividualisedAllOtherDetails() {
+    final PersonalData personalData = defaultData()
+      .email("e@mail")
+      .individualised(true)
+      .phoneNumber("040404")
+      .street("Katu 1")
+      .postalCode("12321")
+      .town("Taajama")
+      .country("Maa")
+      .build();
+    final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
+
+    assertDtoMatchesDefaultData(dto);
+    assertTrue(dto.getIndividualised());
+
+    final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
+    assertEquals(2, contactDetailsSet.size());
+    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertEquals("040404", findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
   }
 
   @Test
@@ -48,14 +76,16 @@ class OnrOperationApiImplTest {
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
     assertDtoMatchesDefaultData(dto);
+    assertFalse(dto.getIndividualised());
+
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(6, contactDetailsSet.size());
-    assertEquals("e@mail", findByType(contactDetailsSet, ContactDetailsType.EMAIL).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.STREET).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.POSTAL_CODE).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.TOWN).getValue());
-    assertNull(findByType(contactDetailsSet, ContactDetailsType.COUNTRY).getValue());
+    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.STREET));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.POSTAL_CODE));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.TOWN));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.COUNTRY));
   }
 
   @Test
@@ -72,14 +102,16 @@ class OnrOperationApiImplTest {
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
     assertDtoMatchesDefaultData(dto);
+    assertFalse(dto.getIndividualised());
+
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(6, contactDetailsSet.size());
-    assertEquals("e@mail", findByType(contactDetailsSet, ContactDetailsType.EMAIL).getValue());
-    assertEquals("040404", findByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER).getValue());
-    assertEquals("Katu 1", findByType(contactDetailsSet, ContactDetailsType.STREET).getValue());
-    assertEquals("12321", findByType(contactDetailsSet, ContactDetailsType.POSTAL_CODE).getValue());
-    assertEquals("Taajama", findByType(contactDetailsSet, ContactDetailsType.TOWN).getValue());
-    assertEquals("Maa", findByType(contactDetailsSet, ContactDetailsType.COUNTRY).getValue());
+    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertEquals("040404", findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
+    assertEquals("Katu 1", findValueByType(contactDetailsSet, ContactDetailsType.STREET));
+    assertEquals("12321", findValueByType(contactDetailsSet, ContactDetailsType.POSTAL_CODE));
+    assertEquals("Taajama", findValueByType(contactDetailsSet, ContactDetailsType.TOWN));
+    assertEquals("Maa", findValueByType(contactDetailsSet, ContactDetailsType.COUNTRY));
   }
 
   private Set<ContactDetailsDTO> assertGroupGettingContactDetailsDTOS(final PersonalDataDTO dto) {
@@ -90,10 +122,10 @@ class OnrOperationApiImplTest {
     return contactDetailsGroupDTO.getContactDetailsSet();
   }
 
-  private ContactDetailsDTO findByType(final Set<ContactDetailsDTO> dtos, final ContactDetailsType type) {
+  private String findValueByType(final Set<ContactDetailsDTO> dtos, final ContactDetailsType type) {
     for (final ContactDetailsDTO dto : dtos) {
       if (dto.getType() == type) {
-        return dto;
+        return dto.getValue();
       }
     }
     throw new RuntimeException("DTO not found for type:" + type);
