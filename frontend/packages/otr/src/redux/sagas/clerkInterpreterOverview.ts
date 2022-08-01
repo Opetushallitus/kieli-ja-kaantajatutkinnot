@@ -9,14 +9,18 @@ import {
   ClerkInterpreter,
   ClerkInterpreterResponse,
 } from 'interfaces/clerkInterpreter';
+import { Qualification } from 'interfaces/qualification';
 import { storeClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import {
   loadClerkInterpreterOverview,
   loadingClerkInterpreterOverviewFailed,
   rejectClerkInterpreterOverviewUpdate,
+  rejectQualificationPublishPermissionUpdate,
   storeClerkInterpreterOverview,
   storeClerkInterpreterOverviewUpdateSuccess,
   updateClerkInterpreterDetails,
+  updateQualificationPublishPermission,
+  updateQualificationPublishPermissionSuccess,
 } from 'redux/reducers/clerkInterpreterOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
@@ -82,10 +86,41 @@ function* updateClerkInterpreterOverview(
   }
 }
 
+function* doUpdateQualificationPublishPermission(
+  action: PayloadAction<Qualification>
+) {
+  try {
+    const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
+      axiosInstance.put,
+      APIEndpoints.Qualification,
+      {
+        ...action.payload,
+        permissionToPublish: !action.payload.permissionToPublish,
+      }
+    );
+    const interpreter = SerializationUtils.deserializeClerkInterpreter(
+      apiResponse.data
+    );
+    yield put(storeClerkInterpreterOverview(interpreter));
+    yield put(updateQualificationPublishPermissionSuccess());
+  } catch (error) {
+    yield put(rejectQualificationPublishPermissionUpdate());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
+  }
+}
+
 export function* watchFetchClerkInterpreterOverview() {
   yield takeLatest(loadClerkInterpreterOverview, fetchClerkInterpreterOverview);
   yield takeLatest(
     updateClerkInterpreterDetails,
     updateClerkInterpreterOverview
+  );
+  yield takeLatest(
+    updateQualificationPublishPermission,
+    doUpdateQualificationPublishPermission
   );
 }

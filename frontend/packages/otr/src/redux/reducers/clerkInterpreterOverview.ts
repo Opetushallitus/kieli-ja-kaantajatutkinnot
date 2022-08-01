@@ -6,12 +6,15 @@ import {
   ClerkInterpreter,
   ClerkInterpreterOverviewState,
 } from 'interfaces/clerkInterpreter';
+import { Qualification } from 'interfaces/qualification';
 
 const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
   overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsUpdateStatus: APIResponseStatus.NotStarted,
   qualificationDetailsUpdateStatus: APIResponseStatus.NotStarted,
+  qualification: undefined,
+  qualificationStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -55,6 +58,18 @@ const clerkInterpreterOverviewSlice = createSlice({
     rejectClerkInterpreterOverviewUpdate(state) {
       state.interpreterDetailsUpdateStatus = APIResponseStatus.Error;
     },
+    updateQualificationPublishPermission(
+      state,
+      _action: PayloadAction<Qualification>
+    ) {
+      state.qualificationDetailsUpdateStatus = APIResponseStatus.InProgress;
+    },
+    updateQualificationPublishPermissionSuccess(state) {
+      state.qualificationDetailsUpdateStatus = APIResponseStatus.Success;
+    },
+    rejectQualificationPublishPermissionUpdate(state) {
+      state.qualificationDetailsUpdateStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -69,4 +84,7 @@ export const {
   updateClerkInterpreterDetails,
   rejectClerkInterpreterOverviewUpdate,
   storeClerkInterpreterOverviewUpdateSuccess,
+  updateQualificationPublishPermission,
+  updateQualificationPublishPermissionSuccess,
+  rejectQualificationPublishPermissionUpdate,
 } = clerkInterpreterOverviewSlice.actions;

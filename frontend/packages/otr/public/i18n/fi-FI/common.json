@@ -1,6 +1,7 @@
 {
   "otr": {
     "common": {
+      "add": "Lisää",
       "allRegions": "Koko Suomi",
       "back": "Takaisin",
       "cancel": "Peruuta",
