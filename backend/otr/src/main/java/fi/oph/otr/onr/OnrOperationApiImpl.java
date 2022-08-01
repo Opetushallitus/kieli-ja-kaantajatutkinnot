@@ -110,10 +110,36 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     throw new NotImplementedException();
   }
 
-  // TODO: update existing personal data in ONR
   @Override
-  public void updatePersonalData(final PersonalData personalData) {
-    throw new NotImplementedException();
+  public void updatePersonalData(final PersonalData personalData) throws Exception {
+    final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
+
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo")
+      .setMethod(Methods.PUT)
+      .setBody(OBJECT_MAPPER.writeValueAsString(personalDataDTO))
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() != HttpStatus.OK.value()) {
+      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+    }
+  }
+
+  static PersonalDataDTO createPersonalDataDTO(final PersonalData personalData) {
+    final List<ContactDetailsGroupDTO> contactDetailsGroups = List.of(
+      ContactDetailsUtil.createOtrContactDetailsGroup(personalData)
+    );
+    final PersonalDataDTO personalDataDTO = new PersonalDataDTO();
+    personalDataDTO.setOnrId(personalData.getOnrId());
+    personalDataDTO.setLastName(personalData.getLastName());
+    personalDataDTO.setFirstName(personalData.getFirstName());
+    personalDataDTO.setNickName(personalData.getNickName());
+    personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
+    personalDataDTO.setIndividualised(personalData.getIndividualised());
+    personalDataDTO.setContactDetailsGroups(contactDetailsGroups);
+    return personalDataDTO;
   }
 
   private RequestBuilder defaultRequestBuilder() {

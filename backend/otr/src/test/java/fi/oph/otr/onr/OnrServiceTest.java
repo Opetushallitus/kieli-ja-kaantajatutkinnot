@@ -99,7 +99,7 @@ public class OnrServiceTest {
   }
 
   @Test
-  public void testUpdatePersonalData() {
+  public void testUpdatePersonalData() throws Exception {
     final String onrId = onrService.insertPersonalData(personalData);
     final PersonalData updatedPersonalData = createUpdatedPersonalData(onrId);
 
@@ -113,7 +113,7 @@ public class OnrServiceTest {
   }
 
   @Test
-  public void testUpdatePersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() {
+  public void testUpdatePersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() throws Exception {
     final String onrId = onrService.insertPersonalData(personalData);
     final PersonalData updatedPersonalData = createUpdatedPersonalData(onrId);
 
