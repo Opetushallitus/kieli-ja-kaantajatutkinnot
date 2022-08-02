@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
@@ -77,7 +78,8 @@ public class ClerkEmailServiceTest {
   @Test
   public void testCreateQualificationExpiryEmail() {
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
     qualification.setFromLang("FI");
     qualification.setToLang("EN");
@@ -85,6 +87,7 @@ public class ClerkEmailServiceTest {
     qualification.setEndDate(LocalDate.of(2049, 12, 1));
 
     entityManager.persist(interpreter);
+    entityManager.persist(meetingDate);
     entityManager.persist(qualification);
 
     when(onrService.getCachedPersonalDatas())

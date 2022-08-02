@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
@@ -18,12 +20,14 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRepository;
+import fi.oph.otr.repository.MeetingDateRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -39,6 +43,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,6 +55,9 @@ class ClerkInterpreterServiceTest {
 
   @Resource
   private InterpreterRepository interpreterRepository;
+
+  @Resource
+  private MeetingDateRepository meetingDateRepository;
 
   @Resource
   private QualificationRepository qualificationRepository;
@@ -86,6 +94,7 @@ class ClerkInterpreterServiceTest {
     clerkInterpreterService =
       new ClerkInterpreterService(
         interpreterRepository,
+        meetingDateRepository,
         qualificationRepository,
         regionRepository,
         regionService,
@@ -96,9 +105,12 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testAllAreListed() {
-    final long id1 = createInterpreter("1");
-    final long id2 = createInterpreter("2");
-    final long id3 = createInterpreter("3");
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id1 = createInterpreter(meetingDate, "1");
+    final long id2 = createInterpreter(meetingDate, "2");
+    final long id3 = createInterpreter(meetingDate, "3");
 
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
@@ -173,16 +185,20 @@ class ClerkInterpreterServiceTest {
       .build();
   }
 
-  private long createInterpreter(final String onrId) {
-    return createInterpreterWithRegions(onrId, Collections.emptyList());
+  private long createInterpreter(final MeetingDate meetingDate, final String onrId) {
+    return createInterpreterWithRegions(meetingDate, onrId, Collections.emptyList());
   }
 
-  private long createInterpreterWithRegions(final String onrId, final List<String> regionCodes) {
+  private long createInterpreterWithRegions(
+    final MeetingDate meetingDate,
+    final String onrId,
+    final List<String> regionCodes
+  ) {
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId(onrId);
     entityManager.persist(interpreter);
 
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
     entityManager.persist(qualification);
 
     regionCodes.forEach(code -> {
@@ -198,6 +214,11 @@ class ClerkInterpreterServiceTest {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
     final LocalDate yesterday = LocalDate.now().minusDays(1);
+
+    final MeetingDate meetingDateYesterday = Factory.meetingDate(yesterday);
+    final MeetingDate meetingDateToday = Factory.meetingDate(today);
+    entityManager.persist(meetingDateYesterday);
+    entityManager.persist(meetingDateToday);
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
@@ -315,6 +336,9 @@ class ClerkInterpreterServiceTest {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate(today);
+    entityManager.persist(meetingDate);
+
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
       .onrId("onrId")
@@ -407,17 +431,19 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.INTERPRETER_REGION_UNKNOWN,
       () -> clerkInterpreterService.createInterpreter(createDTO)
     );
-    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
   public void testCreateInterpreterFailsForOnrIdAndIndividualisedMismatch() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final MeetingDate meetingDate = Factory.meetingDate(today);
+    entityManager.persist(meetingDate);
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
@@ -447,16 +473,18 @@ class ClerkInterpreterServiceTest {
       )
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH,
       () -> clerkInterpreterService.createInterpreter(createDTO)
     );
-    assertEquals(APIExceptionType.INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH, ex.getExceptionType());
   }
 
   @Test
   public void testGetInterpreter() {
-    final long id = createInterpreterWithRegions("1", List.of("01", "02"));
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id = createInterpreterWithRegions(meetingDate, "1", List.of("01", "02"));
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
 
     assertEquals(id, interpreterDTO.id());
@@ -472,7 +500,10 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreter() throws Exception {
-    final long id = createInterpreter("onrId");
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id = createInterpreter(meetingDate, "onrId");
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     final int initialVersion = interpreter.getVersion();
 
@@ -533,7 +564,10 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreterWithDuplicateRegions() throws Exception {
-    final long id = createInterpreter("onrId");
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id = createInterpreter(meetingDate, "onrId");
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     final int initialVersion = interpreter.getVersion();
 
@@ -585,8 +619,13 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
-    final long id = createInterpreter("1");
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id = createInterpreter(meetingDate, "1");
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
+
+    reset(onrService); // We are testing update, previous interactions were for create.
 
     final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
       .builder()
@@ -606,17 +645,19 @@ class ClerkInterpreterServiceTest {
       .regions(List.of("This region code does not exist"))
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.INTERPRETER_REGION_UNKNOWN,
       () -> clerkInterpreterService.updateInterpreter(updateDto)
     );
-    assertEquals(APIExceptionType.INTERPRETER_REGION_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
   public void testDeleteInterpreter() {
-    final long id = createInterpreter("1");
-    createInterpreter("2");
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    final long id = createInterpreter(meetingDate, "1");
+    createInterpreter(meetingDate, "2");
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
 
@@ -636,11 +677,13 @@ class ClerkInterpreterServiceTest {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate(today);
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId("1");
-    entityManager.persist(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
-    final Qualification qualification = Factory.qualification(interpreter);
+    entityManager.persist(meetingDate);
+    entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
     final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
@@ -679,13 +722,46 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testQualificationCreateFailsOnMissingMeetingDate() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final MeetingDate meetingDate = Factory.meetingDate(today.minusDays(1));
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
+
+    final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
+      .builder()
+      .fromLang("FI")
+      .toLang("CS")
+      .beginDate(today)
+      .endDate(tomorrow)
+      .examinationType(QualificationExaminationType.OTHER)
+      .permissionToPublish(false)
+      .diaryNumber("1000")
+      .build();
+
+    assertAPIExceptionIsThrown(
+      APIExceptionType.QUALIFICATION_MISSING_MEETING_DATE,
+      () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
+    );
+  }
+
+  @Test
   public void testCreateQualificationFailsForUnknownLanguage() {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate();
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
+    entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
@@ -700,11 +776,10 @@ class ClerkInterpreterServiceTest {
       .diaryNumber("1001")
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN,
       () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
     );
-    assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
@@ -712,9 +787,11 @@ class ClerkInterpreterServiceTest {
     final LocalDate today = LocalDate.now();
     final LocalDate tomorrow = LocalDate.now().plusDays(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate(tomorrow);
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
+    entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
@@ -729,11 +806,10 @@ class ClerkInterpreterServiceTest {
       .diaryNumber("1001")
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.QUALIFICATION_INVALID_TERM,
       () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
     );
-    assertEquals(APIExceptionType.QUALIFICATION_INVALID_TERM, ex.getExceptionType());
   }
 
   @Test
@@ -741,11 +817,13 @@ class ClerkInterpreterServiceTest {
     final LocalDate begin = LocalDate.now().minusMonths(1);
     final LocalDate end = LocalDate.now().plusMonths(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate(begin);
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId("1");
-    entityManager.persist(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
-    final Qualification qualification = Factory.qualification(interpreter);
+    entityManager.persist(meetingDate);
+    entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
     final ClerkQualificationUpdateDTO updateDTO = ClerkQualificationUpdateDTO
@@ -782,9 +860,11 @@ class ClerkInterpreterServiceTest {
     final LocalDate begin = LocalDate.now().minusMonths(1);
     final LocalDate end = LocalDate.now().plusMonths(1);
 
+    final MeetingDate meetingDate = Factory.meetingDate(begin);
     final Interpreter interpreter = Factory.interpreter();
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
+    entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification);
 
@@ -801,21 +881,21 @@ class ClerkInterpreterServiceTest {
       .diaryNumber("2000")
       .build();
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN,
       () -> clerkInterpreterService.updateQualification(updateDTO)
     );
-    assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
   }
 
   @Test
   public void testDeleteQualification() {
+    final MeetingDate meetingDate = Factory.meetingDate();
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId("1");
+    final Qualification qualification1 = Factory.qualification(interpreter, meetingDate);
+    final Qualification qualification2 = Factory.qualification(interpreter, meetingDate);
 
-    final Qualification qualification1 = Factory.qualification(interpreter);
-    final Qualification qualification2 = Factory.qualification(interpreter);
-
+    entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification1);
     entityManager.persist(qualification2);
@@ -827,21 +907,30 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testDeleteLastQualificationFails() {
+    final MeetingDate meetingDate = Factory.meetingDate();
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId("1");
-
-    final Qualification qualification1 = Factory.qualification(interpreter);
-    final Qualification qualification2 = Factory.qualification(interpreter);
+    final Qualification qualification1 = Factory.qualification(interpreter, meetingDate);
+    final Qualification qualification2 = Factory.qualification(interpreter, meetingDate);
     qualification2.setDeletedAt(LocalDateTime.now());
 
+    entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification1);
     entityManager.persist(qualification2);
 
-    final APIException ex = assertThrows(
-      APIException.class,
+    assertAPIExceptionIsThrown(
+      APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION,
       () -> clerkInterpreterService.deleteQualification(qualification1.getId())
     );
-    assertEquals(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION, ex.getExceptionType());
+  }
+
+  private void assertAPIExceptionIsThrown(
+    final APIExceptionType expectedApiExceptionType,
+    final Executable executable
+  ) {
+    final APIException ex = assertThrows(APIException.class, executable);
+    assertEquals(expectedApiExceptionType, ex.getExceptionType());
+    verifyNoInteractions(onrService);
   }
 }

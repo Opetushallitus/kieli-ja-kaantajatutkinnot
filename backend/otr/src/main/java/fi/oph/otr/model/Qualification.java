@@ -59,6 +59,10 @@ public class Qualification extends BaseEntity {
   @JoinColumn(name = "interpreter_id", referencedColumnName = "interpreter_id", nullable = false)
   private Interpreter interpreter;
 
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "meeting_date_id", referencedColumnName = "meeting_date_id", nullable = false)
+  private MeetingDate meetingDate;
+
   @OneToMany(mappedBy = "qualification")
   private List<QualificationReminder> reminders = new ArrayList<>();
 }
