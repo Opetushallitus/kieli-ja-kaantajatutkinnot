@@ -4,4 +4,166 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="2022-05-23-create-table-exam_event" author="terova">
+        <createTable tableName="exam_event">
+            <column autoIncrement="true" name="exam_event_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="exam_event_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_opens" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registration_closes" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_participants" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2022-05-23-create-table-person" author="terova">
+        <createTable tableName="person">
+            <column autoIncrement="true" name="person_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="person_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2022-05-23-create-table-participant" author="terova">
+        <createTable tableName="participant">
+            <column autoIncrement="true" name="participant_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="participant_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="exam_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="person_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="writing" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="speaking" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reading_comprehension" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="speech_comprehension" type="BOOL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="participant" baseColumnNames="exam_event_id"
+                                 referencedTableName="exam_event" referencedColumnNames="exam_event_id"
+                                 constraintName="fk_participant_exam_event"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <addForeignKeyConstraint baseTableName="participant" baseColumnNames="person_id"
+                                 referencedTableName="person" referencedColumnNames="person_id"
+                                 constraintName="fk_participant_person"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-05-23-create-table-payment" author="terova">
+        <createTable tableName="payment">
+            <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="payment_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="participant_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="payment" baseColumnNames="participant_id"
+                                 referencedTableName="participant" referencedColumnNames="participant_id"
+                                 constraintName="fk_payment_participant"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-05-23-create-table-link" author="terova">
+        <createTable tableName="link">
+            <column autoIncrement="true" name="link_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="link_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="participant_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="link" baseColumnNames="participant_id"
+                                 referencedTableName="participant" referencedColumnNames="participant_id"
+                                 constraintName="fk_link_participant"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
 </databaseChangeLog>
