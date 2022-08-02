@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -9,10 +10,12 @@ export interface ClerkTranslatorOverviewState {
   translatorDetailsStatus: APIResponseStatus;
   authorisationDetailsStatus: APIResponseStatus;
   selectedTranslator?: ClerkTranslator;
+  error?: AxiosError;
 }
 
 export interface ClerkTranslatorOverviewAction extends Action, Partial<WithId> {
   translator?: ClerkTranslator;
+  error?: AxiosError;
 }
 
 export interface AuthorisationAction
@@ -20,4 +23,5 @@ export interface AuthorisationAction
     WithId,
     Partial<WithVersion> {
   permissionToPublish?: boolean;
+  error?: AxiosError;
 }

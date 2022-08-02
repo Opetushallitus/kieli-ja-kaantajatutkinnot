@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
@@ -28,9 +28,7 @@ import {
   CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS,
 } from 'redux/actionTypes/clerkTranslatorOverview';
 import { CLERK_TRANSLATOR_RECEIVED } from 'redux/actionTypes/clerkTranslators';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 export function* cancel() {
@@ -96,12 +94,7 @@ function* updateClerkTranslatorDetails(action: ClerkTranslatorOverviewAction) {
   } catch (error) {
     yield put({
       type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_FAIL,
-    });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
+      error,
     });
   }
 }
@@ -131,12 +124,7 @@ function* updateAuthorisationPublishPermission(action: AuthorisationAction) {
   } catch (error) {
     yield put({
       type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_FAIL,
-    });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
+      error,
     });
   }
 }
@@ -157,12 +145,9 @@ function* deleteAuthorisation(action: AuthorisationAction) {
       translator,
     });
   } catch (error) {
-    yield put({ type: CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL });
     yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
+      type: CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL,
+      error,
     });
   }
 }

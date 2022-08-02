@@ -1,5 +1,5 @@
 import { call, put, select, takeLatest } from '@redux-saga/core/effects';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -17,9 +17,7 @@ import {
   CLERK_NEW_TRANSLATOR_SUCCESS,
 } from 'redux/actionTypes/clerkNewTranslator';
 import { CLERK_TRANSLATOR_RECEIVED } from 'redux/actionTypes/clerkTranslators';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 export function* updateClerkTranslatorsState(translator: ClerkTranslator) {
@@ -57,12 +55,7 @@ function* saveNewClerkTranslator(action: ClerkNewTranslatorAction) {
   } catch (error) {
     yield put({
       type: CLERK_NEW_TRANSLATOR_ERROR,
-    });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
+      error,
     });
   }
 }

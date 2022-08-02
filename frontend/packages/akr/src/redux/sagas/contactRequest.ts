@@ -1,9 +1,7 @@
 import { Action } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { Severity, Variant } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
-import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   CONTACT_REQUEST_ERROR,
@@ -12,12 +10,7 @@ import {
   CONTACT_REQUEST_SUCCESS,
   isContactRequestSendAction,
 } from 'redux/actionTypes/contactRequest';
-import {
-  NOTIFIER_ACTION_DO_NOTHING,
-  NOTIFIER_DIALOG_ADD,
-} from 'redux/actionTypes/notifier';
 import { PUBLIC_TRANSLATOR_EMPTY_SELECTIONS } from 'redux/actionTypes/publicTranslator';
-import { NotifierUtils } from 'utils/notifier';
 
 export function* sendContactRequest(action: Action) {
   if (isContactRequestSendAction(action)) {
@@ -49,23 +42,7 @@ export function* sendContactRequest(action: Action) {
       yield put({ type: CONTACT_REQUEST_STEP_INCREASE });
       yield put({ type: PUBLIC_TRANSLATOR_EMPTY_SELECTIONS });
     } catch (error) {
-      const t = translateOutsideComponent();
-      const tPrefix = 'akr.component.contactRequestForm.errorDialog';
-      const notifier = NotifierUtils.createNotifierDialog(
-        t(`${tPrefix}.title`),
-        Severity.Error,
-        t(`${tPrefix}.description`),
-        [
-          {
-            title: t(`${tPrefix}.back`),
-            variant: Variant.Contained,
-            action: NOTIFIER_ACTION_DO_NOTHING,
-          },
-        ]
-      );
-
-      yield put({ type: CONTACT_REQUEST_ERROR });
-      yield put({ type: NOTIFIER_DIALOG_ADD, notifier });
+      yield put({ type: CONTACT_REQUEST_ERROR, error });
     }
   }
 }

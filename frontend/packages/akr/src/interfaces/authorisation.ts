@@ -40,9 +40,11 @@ export type AuthorisationsGroupedByStatus = {
 };
 export interface AddAuthorisationState {
   status: APIResponseStatus;
+  error?: Error;
   authorisation: Authorisation | Record<string, never>;
 }
 
 export interface AddAuthorisationAction extends Action {
   authorisation: Authorisation;
+  error?: Error;
 }

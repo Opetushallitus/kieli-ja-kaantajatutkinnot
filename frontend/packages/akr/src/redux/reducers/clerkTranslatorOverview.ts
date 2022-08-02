@@ -40,6 +40,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
     case CLERK_TRANSLATOR_OVERVIEW_LOAD:
       return {
         ...state,
+        error: undefined,
         selectedTranslator: {
           ...(action.translator as ClerkTranslator),
         },
@@ -55,6 +56,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
     case CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS:
       return {
         ...state,
+        error: undefined,
         translatorDetailsStatus: APIResponseStatus.InProgress,
       };
 
@@ -67,6 +69,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
     case CLERK_TRANSLATOR_OVERVIEW_RESET_UPDATE:
       return {
         ...state,
+        error: undefined,
         translatorDetailsStatus: APIResponseStatus.NotStarted,
       };
 
@@ -76,6 +79,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
     case CLERK_TRANSLATOR_OVERVIEW_FETCH_SUCCESS:
       return {
         ...state,
+        error: undefined,
         selectedTranslator: {
           ...(action.translator as ClerkTranslator),
         },
@@ -85,6 +89,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
     case CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS:
       return {
         ...state,
+        error: undefined,
         selectedTranslator: {
           ...(action.translator as ClerkTranslator),
         },
@@ -102,11 +107,13 @@ export const clerkTranslatorOverviewReducer: Reducer<
       return {
         ...state,
         translatorDetailsStatus: APIResponseStatus.Error,
+        error: action.error,
       };
 
     case CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION:
       return {
         ...state,
+        error: undefined,
         authorisationDetailsStatus: APIResponseStatus.InProgress,
       };
 
@@ -116,6 +123,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
         selectedTranslator: {
           ...(action.translator as ClerkTranslator),
         },
+        error: undefined,
         authorisationDetailsStatus: APIResponseStatus.Success,
       };
 
@@ -123,17 +131,20 @@ export const clerkTranslatorOverviewReducer: Reducer<
       return {
         ...state,
         authorisationDetailsStatus: APIResponseStatus.Error,
+        error: action.error,
       };
 
     case CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION:
       return {
         ...state,
+        error: undefined,
         authorisationDetailsStatus: APIResponseStatus.InProgress,
       };
 
     case CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_SUCCESS:
       return {
         ...state,
+        error: undefined,
         selectedTranslator: {
           ...(action.translator as ClerkTranslator),
         },
@@ -144,6 +155,7 @@ export const clerkTranslatorOverviewReducer: Reducer<
       return {
         ...state,
         authorisationDetailsStatus: APIResponseStatus.Error,
+        error: action.error,
       };
 
     default:

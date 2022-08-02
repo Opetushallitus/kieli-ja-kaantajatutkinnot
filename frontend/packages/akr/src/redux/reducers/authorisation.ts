@@ -26,6 +26,7 @@ export const authorisationReducer: Reducer<
     case CLERK_TRANSLATOR_AUTHORISATION_ADD:
       return {
         ...state,
+        error: undefined,
         authorisation,
         status: APIResponseStatus.InProgress,
       };
@@ -38,6 +39,7 @@ export const authorisationReducer: Reducer<
     case CLERK_TRANSLATOR_AUTHORISATION_ADD_ERROR:
       return {
         ...state,
+        error: action.error,
         authorisation,
         status: APIResponseStatus.Error,
       };

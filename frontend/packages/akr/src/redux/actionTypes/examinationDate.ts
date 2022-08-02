@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Dayjs } from 'dayjs';
 
 export const EXAMINATION_DATE_ADD = 'EXAMINATION_DATE/ADD';
@@ -19,9 +20,11 @@ export const EXAMINATION_DATE_RECEIVED = 'EXAMINATION_DATE/RECEIVED';
 export type AddExaminationDateActionType = {
   type: typeof EXAMINATION_DATE_ADD;
   date: Dayjs;
+  error?: AxiosError;
 };
 
 export type RemoveExaminationDateActionType = {
   type: typeof EXAMINATION_DATE_REMOVE;
   examinationDateId: number;
+  error?: AxiosError;
 };

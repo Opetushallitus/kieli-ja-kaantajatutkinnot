@@ -94,6 +94,7 @@ export const meetingDateReducer: Reducer<
           ...state.removeMeetingDate,
           meetingDateId,
           status: APIResponseStatus.InProgress,
+          error: undefined,
         },
       };
     case MEETING_DATE_REMOVE_SUCCESS:
@@ -102,6 +103,7 @@ export const meetingDateReducer: Reducer<
         removeMeetingDate: {
           ...state.removeMeetingDate,
           status: APIResponseStatus.Success,
+          error: undefined,
         },
       };
     case MEETING_DATE_REMOVE_ERROR:
@@ -110,6 +112,7 @@ export const meetingDateReducer: Reducer<
         removeMeetingDate: {
           ...state.removeMeetingDate,
           status: APIResponseStatus.Error,
+          error: action.error,
         },
       };
 
@@ -123,6 +126,7 @@ export const meetingDateReducer: Reducer<
           ...state.addMeetingDate,
           date,
           status: APIResponseStatus.InProgress,
+          error: undefined,
         },
       };
     case MEETING_DATE_ADD_SUCCESS:
@@ -131,6 +135,7 @@ export const meetingDateReducer: Reducer<
         addMeetingDate: {
           ...state.addMeetingDate,
           status: APIResponseStatus.Success,
+          error: undefined,
         },
       };
     case MEETING_DATE_ADD_ERROR:
@@ -139,6 +144,7 @@ export const meetingDateReducer: Reducer<
         addMeetingDate: {
           ...state.addMeetingDate,
           status: APIResponseStatus.Error,
+          error: action.error,
         },
       };
 

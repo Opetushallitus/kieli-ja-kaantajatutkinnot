@@ -39,7 +39,11 @@ export const clerkNewTranslatorReducer: Reducer<
 > = (state = defaultState, action) => {
   switch (action.type) {
     case CLERK_NEW_TRANSLATOR_SAVE:
-      return { ...state, status: APIResponseStatus.InProgress };
+      return {
+        ...state,
+        status: APIResponseStatus.InProgress,
+        error: undefined,
+      };
     case CLERK_NEW_TRANSLATOR_RESET_REQUEST_STATUS:
       return { ...state, status: APIResponseStatus.NotStarted };
     case CLERK_NEW_TRANSLATOR_RESET_DETAILS:
@@ -49,12 +53,13 @@ export const clerkNewTranslatorReducer: Reducer<
 
       return { ...state, translator };
     case CLERK_NEW_TRANSLATOR_ERROR:
-      return { ...state, status: APIResponseStatus.Error };
+      return { ...state, status: APIResponseStatus.Error, error: action.error };
     case CLERK_NEW_TRANSLATOR_SUCCESS:
       const id = action.id;
 
       return {
         ...state,
+        error: undefined,
         status: APIResponseStatus.Success,
         id,
       };

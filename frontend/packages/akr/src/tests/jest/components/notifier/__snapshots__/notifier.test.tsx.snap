@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DialogBox should render DialogBox correctly 1`] = `
-<div
-  aria-hidden="true"
-/>
-`;
-
-exports[`Toast should render Toast correctly 1`] = `null`;

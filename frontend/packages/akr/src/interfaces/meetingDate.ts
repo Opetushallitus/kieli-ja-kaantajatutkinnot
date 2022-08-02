@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Dayjs } from 'dayjs';
 import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
@@ -25,6 +26,7 @@ export interface MeetingDatesState {
 export interface AddMeetingDateState {
   status: APIResponseStatus;
   date: Dayjs;
+  error?: AxiosError;
 }
 
 export interface MeetingDateState {
@@ -40,6 +42,7 @@ export interface MeetingDateAction
   meetingDateId?: number;
   status?: APIResponseStatus;
   date?: Dayjs;
+  error?: AxiosError;
 }
 
 export interface MeetingDate extends Omit<MeetingDateResponse, 'date'> {
@@ -51,22 +54,17 @@ export interface MeetingDateResponse extends WithId, WithVersion {
 export interface RemoveMeetingDateState {
   status: APIResponseStatus;
   meetingDateId: number | undefined;
-}
-
-export interface RemoveMeetingDateAction extends Action<string> {
-  meetingDateId: number;
-}
-
-export interface AddMeetingDateAction extends Action<string> {
-  date: Dayjs;
+  error?: AxiosError;
 }
 
 export type AddMeetingDateActionType = {
   type: typeof MEETING_DATE_ADD;
   date: Dayjs;
+  error?: AxiosError;
 };
 
 export type RemoveMeetingDateActionType = {
   type: typeof MEETING_DATE_REMOVE;
   meetingDateId: number;
+  error?: AxiosError;
 };
