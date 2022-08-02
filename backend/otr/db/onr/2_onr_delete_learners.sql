@@ -7,21 +7,13 @@
 --    SELECT id
 --    FROM henkilo
 --    WHERE oidhenkilo IN (
---        SELECT
---            CASE i < 10
---                WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
---                ELSE '1.2.246.562.24.312345000' || i::text
---                END
+--        SELECT '1.2.246.562.24.312345000' || lpad(i::text, 2, '0')
 --        FROM generate_series(1, 53) AS i
 --    )
 --);
 
 --DELETE FROM henkilo
 --WHERE oidhenkilo IN (
---    SELECT
---        CASE i < 10
---            WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
---            ELSE '1.2.246.562.24.312345000' || i::text
---            END
+--    SELECT '1.2.246.562.24.312345000' || lpad(i::text, 2, '0')
 --    FROM generate_series(1, 53) AS i
 --);

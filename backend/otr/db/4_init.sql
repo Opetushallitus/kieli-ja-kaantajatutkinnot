@@ -6,10 +6,7 @@ TRUNCATE email CASCADE;
 INSERT INTO interpreter(onr_id, permission_to_publish_email, permission_to_publish_phone, other_contact_information,
                         permission_to_publish_other_contact_information, extra_information)
 SELECT
-  CASE i < 10
-    WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
-    ELSE '1.2.246.562.24.312345000' || i::text
-    END,
+  '1.2.246.562.24.312345000' || lpad(i::text, 2, '0'),
   i % 9 <> 0,
   i % 8 <> 0,
   CASE mod(i, 7) WHEN 0 THEN 'Tulkintie ' || i::text || ', Kokkola' ELSE NULL END,

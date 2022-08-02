@@ -13,10 +13,7 @@ SELECT
     first_names[mod(i, array_length(first_names, 1)) + 1],
     last_names[mod(i, array_length(last_names, 1)) + 1],
     identity_numbers[mod(i, array_length(identity_numbers, 1)) + 1],
-    CASE i < 10
-        WHEN TRUE THEN '1.2.246.562.24.3123450000' || i::text
-        ELSE '1.2.246.562.24.312345000' || i::text
-        END
+    '1.2.246.562.24.312345000' || lpad(i::text, 2, '0')
 FROM generate_series(1, 27) AS i,
     (SELECT ('{Antti, Eero, Ilkka, Jari, Juha, Matti, Pekka, Timo, Iiro, Jukka, Hugo, ' ||
              'Jaakko, Lasse, Kyösti, Markku, Kristian, Mikael, Nooa, Otto, Olli, ' ||
@@ -46,7 +43,7 @@ SELECT
         first_names[mod(i, array_length(first_names, 1)) + 1],
         last_names[mod(i, array_length(last_names, 1)) + 1],
         identity_numbers[mod(i, array_length(identity_numbers, 1)) + 1],
-        '1.2.246.562.24.312345000' || i::text
+        '1.2.246.562.24.312345000' || lpad(i::text, 2, '0')
 FROM generate_series(28, 53) AS i,
      (SELECT ('{Anneli, Ella, Hanna, Iiris, Liisa, Maria, Ninni, Viivi, Sointu, ' ||
               'Ulla, Varpu, Raili, Neea, Noora, Mirka, Oona, Jonna, Jaana, Katja, ' ||

@@ -73,7 +73,7 @@ database whenever needed.
 
 If there is a case where the learners need to be deleted and re-initialised for some reason,
 `2_onr_delete_learners.sql` contains a commented out solution for that. If the learners have
-been updated via some means after their creation outside from the APIs we use, there's a also
+been updated via some means after their creation outside from the APIs we use, there's a
 chance deletion of learners fails due to some foreign key constraint.
 
 &nbsp;
