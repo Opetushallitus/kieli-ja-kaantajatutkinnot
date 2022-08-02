@@ -39,8 +39,7 @@ public class OnrService {
     return api.findPersonalDataByIdentityNumber(identityNumber);
   }
 
-  public String insertPersonalData(final PersonalData data) {
-    // TODO: move setting `individualised` possibly under implementation given this `personalData` is not valid
+  public String insertPersonalData(final PersonalData data) throws Exception {
     final PersonalData personalData = PersonalData
       .builder()
       .individualised(false)
