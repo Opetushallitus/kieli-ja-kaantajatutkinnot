@@ -47,7 +47,7 @@ public class OnrServiceTest {
   private OnrOperationApi onrOperationApi;
 
   @BeforeEach
-  public void setup() {
+  public void setup() throws Exception {
     when(onrOperationApi.insertPersonalData(any())).thenReturn("onrId");
     onrService = new OnrService(onrOperationApi);
   }
@@ -72,7 +72,7 @@ public class OnrServiceTest {
   }
 
   @Test
-  public void testInsertPersonalData() {
+  public void testInsertPersonalData() throws Exception {
     final String onrId = onrService.insertPersonalData(personalData);
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
@@ -90,7 +90,7 @@ public class OnrServiceTest {
   }
 
   @Test
-  public void testInsertPersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() {
+  public void testInsertPersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() throws Exception {
     doThrow(new RuntimeException()).when(onrOperationApi).insertPersonalData(any());
     assertThrows(RuntimeException.class, () -> onrService.insertPersonalData(personalData));
 

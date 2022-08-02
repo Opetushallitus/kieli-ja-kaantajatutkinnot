@@ -10,7 +10,7 @@ public interface OnrOperationApi {
 
   Optional<PersonalData> findPersonalDataByIdentityNumber(String identityNumber) throws Exception;
 
-  String insertPersonalData(PersonalData personalData);
+  String insertPersonalData(PersonalData personalData) throws Exception;
 
   void updatePersonalData(PersonalData personalData) throws Exception;
 }

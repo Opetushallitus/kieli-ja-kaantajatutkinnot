@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONArray;
-import org.apache.commons.lang.NotImplementedException;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
@@ -104,10 +103,24 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .build();
   }
 
-  // TODO: insert personal data in ONR
   @Override
-  public String insertPersonalData(final PersonalData personalData) {
-    throw new NotImplementedException();
+  public String insertPersonalData(final PersonalData personalData) throws Exception {
+    final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
+
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo")
+      .setMethod(Methods.POST)
+      .setBody(OBJECT_MAPPER.writeValueAsString(personalDataDTO))
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() == HttpStatus.CREATED.value()) {
+      final PersonalDataDTO responseDTO = OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
+      return responseDTO.getOnrId();
+    } else {
+      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+    }
   }
 
   @Override
