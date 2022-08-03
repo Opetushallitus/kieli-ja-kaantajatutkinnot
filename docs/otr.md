@@ -59,6 +59,25 @@ Set `OTR_UNSECURE=true` environment variable as shown [here](../README.md#develo
 
 &nbsp;
 
+#### Initialising cloud databases
+
+Under `backend/otr/db` directory there's `4_init.sql` script for initialising interpreters
+in cloud test environment (untuva / pallero). Under `backend/otr/db/onr` there are separate
+scripts for initialsing respective learners and their contact details in `ONR`
+(oppijanumerorekisteri).
+
+Script `0_onr_create_learners.sql` should be run only once just to create learners corresponding
+to onr ids of interpreters initialised to OTR database. Script `1_onr_init_contact_details.sql`
+deletes and initialises OTR contact details for learners. It can be run on cloud test environment
+database whenever needed.
+
+If there is a case where the learners need to be deleted and re-initialised for some reason,
+`2_onr_delete_learners.sql` contains a commented out solution for that. If the learners have
+been updated via some means after their creation outside from the APIs we use, there's a
+chance deletion of learners fails due to some foreign key constraint.
+
+&nbsp;
+
 ## Frontend
 
 ### Build and Run
