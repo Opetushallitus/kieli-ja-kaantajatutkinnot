@@ -29,6 +29,7 @@ import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -809,22 +810,38 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testDeleteQualification() {
-    createInterpreter("1");
-    createInterpreter("2");
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
 
-    final List<Long> qualificationIds = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
-    final Long id = qualificationIds.get(0);
+    final Qualification qualification1 = Factory.qualification(interpreter);
+    final Qualification qualification2 = Factory.qualification(interpreter);
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(id);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
 
-    qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(id, q.getId()), q.isDeleted()));
+    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
 
-    dto.qualifications().forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
+    dto.qualifications().forEach(q -> assertEquals(Objects.equals(qualification1.getId(), q.id()), q.deleted()));
+  }
 
-    clerkInterpreterService
-      .list()
-      .stream()
-      .flatMap(i -> i.qualifications().stream())
-      .forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
+  @Test
+  public void testDeleteLastQualificationFails() {
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
+
+    final Qualification qualification1 = Factory.qualification(interpreter);
+    final Qualification qualification2 = Factory.qualification(interpreter);
+    qualification2.setDeletedAt(LocalDateTime.now());
+
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.deleteQualification(qualification1.getId())
+    );
+    assertEquals(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION, ex.getExceptionType());
   }
 }

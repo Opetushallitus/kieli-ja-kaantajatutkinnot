@@ -321,6 +321,11 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO deleteQualification(final long qualificationId) {
     final Qualification qualification = qualificationRepository.getReferenceById(qualificationId);
+    final Interpreter interpreter = qualification.getInterpreter();
+    if (interpreter.getQualifications().stream().filter(q -> !q.isDeleted()).toList().size() == 1) {
+      throw new APIException(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION);
+    }
+
     qualification.markDeleted();
     return getInterpreter(qualification.getInterpreter().getId());
   }
