@@ -531,6 +531,58 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testUpdateInterpreterWithDuplicateRegions() throws Exception {
+    final long id = createInterpreter("onrId");
+    final Interpreter interpreter = interpreterRepository.getReferenceById(id);
+    final int initialVersion = interpreter.getVersion();
+
+    final ClerkInterpreterUpdateDTO updateDTO = ClerkInterpreterUpdateDTO
+      .builder()
+      .id(interpreter.getId())
+      .version(initialVersion)
+      .isIndividualised(false)
+      .identityNumber("121212-123")
+      .lastName("Merkkinen")
+      .firstName("Eemeli Aapo")
+      .nickName("Eemeli")
+      .email("eemeli.merkkinen.invalid")
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(false)
+      .otherContactInfo("interpreter@test.invalid")
+      .permissionToPublishOtherContactInfo(true)
+      .extraInformation("extra")
+      .regions(List.of("01", "01", "02"))
+      .build();
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          "onrId",
+          createPersonalData(
+            "onrId",
+            updateDTO.lastName(),
+            updateDTO.firstName(),
+            updateDTO.nickName(),
+            updateDTO.identityNumber(),
+            updateDTO.email(),
+            updateDTO.phoneNumber(),
+            updateDTO.street(),
+            updateDTO.postalCode(),
+            updateDTO.town(),
+            updateDTO.country(),
+            updateDTO.isIndividualised()
+          )
+        )
+      );
+
+    final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDTO);
+
+    assertEquals(List.of("01", "02"), updated.regions());
+
+    verify(onrService).updatePersonalData(any());
+  }
+
+  @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
     final long id = createInterpreter("1");
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
@@ -652,6 +704,35 @@ class ClerkInterpreterServiceTest {
       () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
     );
     assertEquals(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN, ex.getExceptionType());
+  }
+
+  @Test
+  public void testCreateQualificationFailsForInvalidTerm() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
+
+    final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
+      .builder()
+      .fromLang("FI")
+      .toLang("EN")
+      .beginDate(tomorrow)
+      .endDate(today)
+      .examinationType(QualificationExaminationType.OTHER)
+      .permissionToPublish(false)
+      .diaryNumber("1001")
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
+    );
+    assertEquals(APIExceptionType.QUALIFICATION_INVALID_TERM, ex.getExceptionType());
   }
 
   @Test

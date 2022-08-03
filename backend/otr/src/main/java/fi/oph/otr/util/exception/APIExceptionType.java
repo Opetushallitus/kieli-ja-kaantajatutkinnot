@@ -7,7 +7,8 @@ package fi.oph.otr.util.exception;
 public enum APIExceptionType {
   INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH,
   INTERPRETER_REGION_UNKNOWN,
-  QUALIFICATION_LANGUAGE_UNKNOWN;
+  QUALIFICATION_LANGUAGE_UNKNOWN,
+  QUALIFICATION_INVALID_TERM;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();
