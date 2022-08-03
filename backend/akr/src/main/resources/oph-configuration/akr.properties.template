@@ -1,6 +1,6 @@
-postgresql.url={{host_postgresql_akt}}
+postgresql.url={{host_postgresql_akr}}
 postgresql.username={{postgres_app_user}}
-postgresql.password={{host_postgresql_akt_app_password}}
+postgresql.password={{host_postgresql_akr_app_password}}
 
 url-alb={{host_alb}}
 email.sending-enabled=true
@@ -10,7 +10,7 @@ ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
 host-cas: {{host_cas}}
 host-alb: {{host_alb}}
 virkailija.cas.url-base=https://{{host_cas}}
-virkailija.cas.service=https://{{host_virkailija}}/akt/virkailija
+virkailija.cas.service=https://{{host_virkailija}}/akr/virkailija
 virkailija.cas.url=${virkailija.cas.url-base}/cas
 virkailija.cas.login=${virkailija.cas.url-base}/cas/login
 virkailija.host-virkailija={{host_virkailija}}

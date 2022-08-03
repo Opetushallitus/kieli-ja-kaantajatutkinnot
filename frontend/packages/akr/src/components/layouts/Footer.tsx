@@ -19,7 +19,7 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes, PublicUIViews } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
-import AKTLogo from 'public/assets/svg/akt_logo.svg';
+import AKRLogo from 'public/assets/svg/akr_logo.svg';
 import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const Footer = () => {
@@ -54,10 +54,10 @@ export const Footer = () => {
                   {t('links.privacy.text')}
                 </CustomButtonLink>
                 <ExtLink
-                  text={t('links.aktHomepage.text')}
-                  href={t('links.aktHomepage.link')}
+                  text={t('links.akrHomepage.text')}
+                  href={t('links.akrHomepage.link')}
                   endIcon={<OpenInNewIcon />}
-                  aria-label={t('links.aktHomepage.ariaLabel')}
+                  aria-label={t('links.akrHomepage.ariaLabel')}
                 />
                 <ExtLink
                   className="footer__container--links__contact-email"
@@ -85,9 +85,9 @@ export const Footer = () => {
               </div>
               <div className="footer__container">
                 <Svg
-                  className={'footer__container__logo--akt'}
-                  src={AKTLogo}
-                  alt={translateCommon('aktLogo')}
+                  className={'footer__container__logo--akr'}
+                  src={AKRLogo}
+                  alt={translateCommon('akrLogo')}
                 />
               </div>
             </div>

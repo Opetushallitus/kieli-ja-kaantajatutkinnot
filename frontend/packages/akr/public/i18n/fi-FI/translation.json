@@ -210,7 +210,7 @@
           "privacy": {
             "text": "Tietosuojaseloste"
           },
-          "aktHomepage": {
+          "akrHomepage": {
             "ariaLabel": "Auktorisoidun kääntäjän tutkintojärjestelmä (oph.fi), avaa uudessa välilehdessä",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
             "text": "Auktorisoidun kääntäjän tutkintojärjestelmä (oph.fi)"

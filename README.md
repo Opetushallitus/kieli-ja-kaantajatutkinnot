@@ -1,6 +1,6 @@
 # Kieli- ja kääntäjätutkinnot
 
-[![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml) [![OTR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml) [![VKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml) [![Shared Frontend](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml)
+[![AKR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akr.yml) [![OTR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/otr.yml) [![VKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/vkt.yml) [![Shared Frontend](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/shared_frontend.yml)
 
 This mono-repo contains the language and translator services of the Finnish National Agency for Education.
 
@@ -142,7 +142,7 @@ description: Informal description
 
 For example:
 
-AKT(Frontend): Added new translations
+AKR(Frontend): Added new translations
 ```
 
 ### Branching naming conventions
@@ -152,7 +152,7 @@ Jira ticket numbers are used as branch names without any extra suffixes.
 Used prefixes are `feature`, `hotfix`, and `release`. Below are some examples.
 
 ```sh
-feature/<ticket-number>         ---->   feature/OPHAKTKEH-250
+feature/<ticket-number>         ---->   feature/OPHAKRKEH-250
 hotfix/<service-name>           ---->   hotfix/akr
 release/<service-name/<date>    ---->   release/akr/2022-04-12
 ```

@@ -65,7 +65,7 @@ class TemplateRendererTest {
     assertNotNull(renderedContent);
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Jack Smith"));
-    assertTrue(renderedContent.contains("https://virkailija.opintopolku.fi/akt/virkailija/kaantaja/1"));
+    assertTrue(renderedContent.contains("https://virkailija.opintopolku.fi/akr/virkailija/kaantaja/1"));
     assertTrue(renderedContent.contains("John Doe"));
     assertTrue(renderedContent.contains("john.doe@unknown.invalid"));
     assertTrue(renderedContent.contains("+358 400 888 777"));

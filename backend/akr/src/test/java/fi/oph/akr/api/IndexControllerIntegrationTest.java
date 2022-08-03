@@ -35,18 +35,18 @@ class IndexControllerIntegrationTest {
   }
 
   @Test
-  public void testIndexHtmlIsReturnedFromAkt() throws Exception {
-    assertIndexHtml("/akt");
+  public void testIndexHtmlIsReturnedFromAkr() throws Exception {
+    assertIndexHtml("/akr");
   }
 
   @Test
-  public void testIndexHtmlIsReturnedFromAktEtusivu() throws Exception {
-    assertIndexHtml("/akt/etusivu");
+  public void testIndexHtmlIsReturnedFromAkrEtusivu() throws Exception {
+    assertIndexHtml("/akr/etusivu");
   }
 
   @Test
-  public void testIndexHtmlIsReturnedFromAktVirkailija() throws Exception {
-    assertIndexHtml("/akt/virkailija");
+  public void testIndexHtmlIsReturnedFromAkrVirkailija() throws Exception {
+    assertIndexHtml("/akr/virkailija");
   }
 
   @Test
@@ -61,8 +61,8 @@ class IndexControllerIntegrationTest {
 
   @Test
   public void testStaticAssetIsReturned() throws Exception {
-    final String expectedContent = TestUtil.readResourceAsString("static/akr/static/assets/svg/akt_logo.svg");
-    assertGetContent("/akr/static/assets/svg/akt_logo.svg", "image/svg+xml", expectedContent);
+    final String expectedContent = TestUtil.readResourceAsString("static/akr/static/assets/svg/akr_logo.svg");
+    assertGetContent("/akr/static/assets/svg/akr_logo.svg", "image/svg+xml", expectedContent);
   }
 
   private void assertIndexHtml(String url) throws Exception {

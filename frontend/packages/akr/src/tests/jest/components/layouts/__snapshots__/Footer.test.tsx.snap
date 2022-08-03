@@ -18,7 +18,7 @@ exports[`Footer should render Footer correctly 1`] = `
       >
         <a
           className="custom-button-link"
-          href="/akt/saavutettavuusseloste"
+          href="/akr/saavutettavuusseloste"
           onClick={[Function]}
         >
           <button
@@ -44,7 +44,7 @@ exports[`Footer should render Footer correctly 1`] = `
         </a>
         <a
           className="custom-button-link"
-          href="/akt/tietosuojaseloste"
+          href="/akr/tietosuojaseloste"
           onClick={[Function]}
         >
           <button
@@ -69,9 +69,9 @@ exports[`Footer should render Footer correctly 1`] = `
           </button>
         </a>
         <a
-          aria-label="links.aktHomepage.ariaLabel"
+          aria-label="links.akrHomepage.ariaLabel"
           className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root  css-1y942vo-MuiButtonBase-root-MuiButton-root"
-          href="links.aktHomepage.link"
+          href="links.akrHomepage.link"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -88,7 +88,7 @@ exports[`Footer should render Footer correctly 1`] = `
           tabIndex={0}
           target="_blank"
         >
-          links.aktHomepage.text
+          links.akrHomepage.text
           <span
             className="MuiButton-endIcon MuiButton-iconSizeMedium css-9tj150-MuiButton-endIcon"
           >
@@ -183,8 +183,8 @@ exports[`Footer should render Footer correctly 1`] = `
         className="footer__container"
       >
         <img
-          alt="aktLogo"
-          className="footer__container__logo--akt"
+          alt="akrLogo"
+          className="footer__container__logo--akr"
           src="test"
         />
       </div>

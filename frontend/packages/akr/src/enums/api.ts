@@ -1,13 +1,13 @@
 export enum APIEndpoints {
-  PublicTranslator = '/akt/api/v1/translator',
-  ClerkTranslator = '/akt/api/v1/clerk/translator',
-  ContactRequest = '/akt/api/v1/translator/contact-request',
-  Authorisation = '/akt/api/v1/clerk/translator/authorisation',
-  AuthorisationPublishPermission = '/akt/api/v1/clerk/translator/authorisation/publishPermission',
-  InformalClerkTranslatorEmail = '/akt/api/v1/clerk/email/informal',
-  ClerkUser = '/akt/api/v1/clerk/user',
-  ExaminationDate = '/akt/api/v1/clerk/examinationDate',
-  MeetingDate = '/akt/api/v1/clerk/meetingDate',
+  PublicTranslator = '/akr/api/v1/translator',
+  ClerkTranslator = '/akr/api/v1/clerk/translator',
+  ContactRequest = '/akr/api/v1/translator/contact-request',
+  Authorisation = '/akr/api/v1/clerk/translator/authorisation',
+  AuthorisationPublishPermission = '/akr/api/v1/clerk/translator/authorisation/publishPermission',
+  InformalClerkTranslatorEmail = '/akr/api/v1/clerk/email/informal',
+  ClerkUser = '/akr/api/v1/clerk/user',
+  ExaminationDate = '/akr/api/v1/clerk/examinationDate',
+  MeetingDate = '/akr/api/v1/clerk/meetingDate',
 }
 
 /**

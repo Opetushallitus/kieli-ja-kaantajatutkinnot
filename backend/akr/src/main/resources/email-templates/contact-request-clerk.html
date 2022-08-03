@@ -8,7 +8,7 @@
             [[${requesterName}]] (email: [[${requesterEmail}]], puh.: [[${requesterPhone}]]) lähetti yhteydenottopyynnön seuraaville kääntäjille, joiden sähköpostiosoite ei ollut tiedossa:
         </p>
         <ul th:each="translator : ${translators}">
-            <li><a th:href="@{https://{akrHost}/akt/virkailija/kaantaja/{id}(akrHost=${akrHost},id=${translator.id})}">[[${translator.name}]]</a></li>
+            <li><a th:href="@{https://{akrHost}/akr/virkailija/kaantaja/{id}(akrHost=${akrHost},id=${translator.id})}">[[${translator.name}]]</a></li>
         </ul>
         <p>
             Huomaa, että kääntäjien tietojen tarkastelu vaatii ensin Opintopolkuun kirjautumisen.

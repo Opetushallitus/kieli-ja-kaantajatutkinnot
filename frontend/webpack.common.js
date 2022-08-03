@@ -8,7 +8,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = (appName, env, dirName, port) => {
   const STATIC_PATH = `${appName}/static`;
-  const CONTEXT_PATH = appName === 'akr' ? 'akt' : appName;
+  const CONTEXT_PATH = appName;
 
   const getMode = () => ({ mode: env.prod ? "production" : "development" });
   const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
