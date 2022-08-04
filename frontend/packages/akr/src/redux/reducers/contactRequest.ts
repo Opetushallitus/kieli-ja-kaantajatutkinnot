@@ -28,6 +28,7 @@ const defaultState = {
     lastName: '',
     message: '',
     phoneNumber: '',
+    confirmation: false,
   },
   messageError: '',
 };

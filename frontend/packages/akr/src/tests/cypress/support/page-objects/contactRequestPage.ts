@@ -13,6 +13,8 @@ class ContactRequestPage {
     homepageButton: () => cy.findByTestId('contact-request-page__homepage-btn'),
     byLabel: (label: Matcher) =>
       cy.get('.contact-request-page').findByLabelText(label),
+    privacyStatementCheckbox: () =>
+      cy.findByTestId('contact-request-page__privacy-statement-checkbox'),
   };
 
   previous() {
@@ -51,12 +53,24 @@ class ContactRequestPage {
     this.elements.byLabel(label).focus().blur();
   }
 
+  confirmPrivacyStatement() {
+    this.elements.privacyStatementCheckbox().should('be.visible').click();
+  }
+
   isNextEnabled() {
     this.elements.nextButton().should('be.enabled');
   }
 
   isNextDisabled() {
     this.elements.nextButton().should('be.disabled');
+  }
+
+  isSubmitEnabled() {
+    this.elements.submitButton().should('be.enabled');
+  }
+
+  isSubmitDisabled() {
+    this.elements.submitButton().should('be.disabled');
   }
 
   expectRequestToBeSent() {
@@ -126,6 +140,7 @@ const assertContactDetails = () => {
 
 export const previewAndSendStep = () => {
   onContactRequestPage.next();
+  onContactRequestPage.confirmPrivacyStatement();
 
   assertSelectedTranslators();
   assertContactDetails();

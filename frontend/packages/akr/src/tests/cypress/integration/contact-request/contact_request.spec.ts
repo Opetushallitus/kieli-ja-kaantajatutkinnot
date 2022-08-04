@@ -28,11 +28,11 @@ beforeEach(() => {
 
 describe('ContactRequestPage', () => {
   it('should not allow proceeding if all translators are deselected', () => {
-    onContactRequestPage.elements.nextButton().should('be.enabled');
+    onContactRequestPage.isNextEnabled();
     TEST_TRANSLATOR_IDS.forEach((id) =>
       onContactRequestPage.deselectTranslator(id)
     );
-    onContactRequestPage.elements.nextButton().should('be.disabled');
+    onContactRequestPage.isNextDisabled();
   });
 
   it('should bring user back to home page if cancel button is clicked', () => {
@@ -122,7 +122,7 @@ describe('ContactRequestPage', () => {
     );
     onContactRequestPage.blurFieldByLabel(/puhelinnumero/i);
 
-    onContactRequestPage.elements.nextButton().should('be.disabled');
+    onContactRequestPage.isNextDisabled();
     cy.findByText(/sähköpostiosoite on virheellinen/i).should('be.visible');
     cy.findByText(/puhelinnumero on virheellinen/i).should('be.visible');
   });
@@ -146,7 +146,7 @@ describe('ContactRequestPage', () => {
     // Assert error message
     cy.findByText(/puhelinnumero on virheellinen/i).should('be.visible');
     // Verify user can still proceed
-    onContactRequestPage.elements.nextButton().should('be.enabled');
+    onContactRequestPage.isNextEnabled();
   });
 
   it('should show an error if the message field is empty or its length exceeds the limit', () => {
@@ -156,12 +156,24 @@ describe('ContactRequestPage', () => {
 
     onContactRequestPage.blurFieldByLabel(/^viesti/i);
     cy.findByText(/tieto on pakollinen/i).should('be.visible');
-    onContactRequestPage.elements.nextButton().should('be.disabled');
+    onContactRequestPage.isNextDisabled();
 
     onContactRequestPage.pasteToFieldByLabel(/^viesti/i, LONG_TEST_MESSAGE);
     onContactRequestPage.elements.byLabel(/^viesti/i).type('{enter}');
 
     cy.findByText(/teksti on liian pitkä/i).should('be.visible');
-    onContactRequestPage.elements.nextButton().should('be.disabled');
+    onContactRequestPage.isNextDisabled();
+  });
+
+  it('should allow submitting the request only if the privacy statement is accepted', () => {
+    verifyTranslatorsStep();
+    fillContactDetailsStep();
+    writeMessageStep();
+    onContactRequestPage.next();
+
+    onContactRequestPage.isSubmitDisabled();
+    onContactRequestPage.confirmPrivacyStatement();
+
+    onContactRequestPage.isSubmitEnabled();
   });
 });

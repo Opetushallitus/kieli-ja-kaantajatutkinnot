@@ -15,6 +15,7 @@ export interface ContactRequest extends ContactDetails {
   message: string;
   translatorIds: Array<number>;
   languagePair: LanguagePair;
+  confirmation: boolean;
 }
 
 export interface ContactRequestState {

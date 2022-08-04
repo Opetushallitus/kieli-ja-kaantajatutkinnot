@@ -8,8 +8,8 @@
         "datePicker": {
           "label": "Tutkintopäivämäärä"
         },
-        "header": "Lisää tutkintopäivä",
-        "examinationDateAlreadyExists": "Valitsemasi päivä on jo olemassaoleva tutkintopäivä."
+        "examinationDateAlreadyExists": "Valitsemasi päivä on jo olemassaoleva tutkintopäivä.",
+        "header": "Lisää tutkintopäivä"
       },
       "addMeetingDate": {
         "buttons": {
@@ -71,8 +71,8 @@
             "removal": {
               "ariaLabel": "Poista auktorisointi",
               "dialog": {
-                "confirmButton": "Poista auktorisointi",
                 "description": "Tätä toimintoa ei voi peruuttaa!",
+                "confirmButton": "Poista auktorisointi",
                 "header": "Haluatko varmasti poistaa auktorisoinnin?"
               }
             }
@@ -81,10 +81,10 @@
             "add": "Lisää auktorisointi"
           },
           "fields": {
-            "examinationDate": "Tutkintopäivä",
             "basis": "Peruste",
             "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
+            "examinationDate": "Tutkintopäivä",
             "isEffective": "Voimassa",
             "languagePair": "Kielipari",
             "permissionToPublish": "Julkaisulupa",
@@ -100,8 +100,8 @@
         },
         "toasts": {
           "notFound": "Valittua kääntäjää ei löytynyt",
-          "updated": "Tiedot tallennettiin",
-          "updateFailed": "Tietojen tallennus epäonnistui"
+          "updateFailed": "Tietojen tallennus epäonnistui",
+          "updated": "Tiedot tallennettiin"
         },
         "translatorDetails": {
           "cancelUpdateDialog": {
@@ -133,20 +133,20 @@
         }
       },
       "contactRequestForm": {
+        "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi auktorisoiduille kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
         "cancelRequestDialog": {
           "description": "Haluatko peruuttaa yhteydenottopyynnön? Menetät täyttämäsi tiedot.",
           "title": "Peruuta yhteydenottopyyntö"
         },
         "characters": "merkkiä",
         "chosenTranslatorsForLanguagePair": "Valitsemasi kääntäjät kielistä",
-        "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi auktorisoiduille kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
         "doneStep": {
           "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
           "title": "Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä."
         },
         "errorDialog": {
-          "back": "Takaisin",
           "description": "Kokeile myöhemmin uudelleen. Jos ongelma toistuu, ota yhteyttä sähköpostilla: auktoris.lautakunta@oph.fi",
+          "back": "Takaisin",
           "title": "Virhe lähetettäessä yhteydenottopyyntöä"
         },
         "formLabels": {
@@ -158,14 +158,19 @@
           "phoneNumber": "Puhelinnumero",
           "writeMessageHere": "Viesti"
         },
+        "privacyStatement": {
+          "ariaLabel": "Tietosuojaseloste",
+          "label": "Olen lukenut tämän palvelun <0>tietosuojaselosteen</0> ja hyväksyn sen.",
+          "linkLabel": "tietosuojaselosteen"
+        },
         "steps": {
-          "active": "Aktiivinen",
-          "completed": "Suoritettu",
           "Done": "Valmis!",
           "FillContactDetails": "Täytä yhteystietosi",
           "PreviewAndSend": "Esikatsele ja lähetä",
           "VerifyTranslators": "Vahvista kääntäjät",
-          "WriteMessage": "Kirjoita viesti"
+          "WriteMessage": "Kirjoita viesti",
+          "active": "Aktiivinen",
+          "completed": "Suoritettu"
         },
         "title": "Yhteydenottopyynnön jättäminen",
         "verifySelectedTranslatorsStep": {
@@ -185,8 +190,8 @@
         }
       },
       "examinationDatesToggleFilters": {
-        "upcoming": "Tulevat",
-        "passed": "Menneet"
+        "passed": "Menneet",
+        "upcoming": "Tulevat"
       },
       "footer": {
         "accessibility": {
@@ -207,13 +212,13 @@
           "accessibility": {
             "text": "Saavutettavuusseloste"
           },
-          "privacy": {
-            "text": "Tietosuojaseloste"
-          },
           "aktHomepage": {
             "ariaLabel": "Auktorisoidun kääntäjän tutkintojärjestelmä (oph.fi), avaa uudessa välilehdessä",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
             "text": "Auktorisoidun kääntäjän tutkintojärjestelmä (oph.fi)"
+          },
+          "privacy": {
+            "text": "Tietosuojaseloste"
           }
         }
       },
@@ -252,34 +257,34 @@
         "upcoming": "Tulevat"
       },
       "newAuthorisation": {
+        "cancelDialog": {
+          "header": "Haluatko varmasti peruuttaa?"
+        },
         "fieldLabel": {
-          "examinationDate": "Tutkintopäivä (vain AUT)",
           "basis": "Auktorisoinnin peruste",
           "diaryNumber": "Asiatunnus",
+          "examinationDate": "Tutkintopäivä (vain AUT)",
           "from": "Kielipari (mistä)",
           "termBeginDate": "Auktorisoinnin alkamispäivä",
           "termEndDate": "Auktorisoinnin päättymispäivä",
           "to": "Kielipari (mihin)"
         },
         "fieldPlaceholders": {
-          "examinationDate": "Tutkintopäivä",
           "basis": "Peruste",
           "diaryNumber": "Asiatunnus",
+          "examinationDate": "Tutkintopäivä",
           "from": "Mistä",
           "termBeginDate": "Alkamispäivä",
           "termEndDate": "Päättymispäivä",
           "to": "Mihin"
         },
         "switch": {
-          "permissionToPublish": "Julkaisulupa",
-          "inEffect": "Voimassa"
+          "inEffect": "Voimassa",
+          "permissionToPublish": "Julkaisulupa"
         },
         "toasts": {
-          "success": "Auktorisointi lisätty onnistuneesti",
-          "error": "Auktorisoinnin lisäys ei onnistunut, yritä myöhemmin uudelleen"
-        },
-        "cancelDialog": {
-          "header": "Haluatko varmasti peruuttaa?"
+          "error": "Auktorisoinnin lisäys ei onnistunut, yritä myöhemmin uudelleen",
+          "success": "Auktorisointi lisätty onnistuneesti"
         }
       },
       "publicTranslatorFilters": {
@@ -305,8 +310,8 @@
           "title": "Haku kääntäjän nimellä"
         },
         "toasts": {
-          "selectLanguagePair": "Valitse kielipari",
           "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
+          "selectLanguagePair": "Valitse kielipari",
           "translatorsSelected": "Voit valita vain yhden kieliparin yhteydenottoon"
         },
         "town": {
@@ -328,13 +333,13 @@
     },
     "errors": {
       "api": {
-        "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
         "authorisationBasisAndExaminationDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja tutkintopäivä ovat ristiriidassa keskenään",
         "authorisationDeleteLastAuthorisation": "Auktorisoinnin poisto epäonnistui, koska kääntäjän viimeistä auktorisointia ei voi poistaa",
         "authorisationMissingExaminationDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole tutkintopäivää",
         "authorisationMissingMeetingDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole kokouspäivää",
         "examinationDateCreateDuplicateDate": "Tutkintopäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo tutkintopäivä",
         "examinationDateDeleteHasAuthorisations": "Tutkintopäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
+        "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
         "meetingDateCreateDuplicateDate": "Kokouspäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateDeleteHasAuthorisations": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
@@ -357,11 +362,24 @@
     },
     "pages": {
       "clerkHomepage": {
-        "title": "Auktorisoitujen kääntäjien rekisteri",
         "buttons": {
-          "sendEmail": "Lähetä sähköposti",
           "emptySelection": "Tyhjennä valinnat",
-          "newTranslator": "Lisää kääntäjä"
+          "newTranslator": "Lisää kääntäjä",
+          "sendEmail": "Lähetä sähköposti"
+        },
+        "title": "Auktorisoitujen kääntäjien rekisteri"
+      },
+      "clerkNewTranslatorPage": {
+        "addedAuthorisationsTitle": "Lisätyt auktorisoinnit",
+        "cancelAddNewTranslatorDialog": {
+          "title": "Haluatko varmasti peruuttaa uuden kääntäjän lisäyksen?"
+        },
+        "removeAuthorisationDialog": {
+          "title": "Haluatko varmasti poistaa auktorisoinnin?"
+        },
+        "title": "Lisää kääntäjä",
+        "toasts": {
+          "success": "Kääntäjän tiedot tallennettiin!"
         }
       },
       "clerkSendEmailPage": {
@@ -395,18 +413,8 @@
       "clerkTranslatorOverviewPage": {
         "title": "Kääntäjän tiedot"
       },
-      "clerkNewTranslatorPage": {
-        "title": "Lisää kääntäjä",
-        "toasts": {
-          "success": "Kääntäjän tiedot tallennettiin!"
-        },
-        "removeAuthorisationDialog": {
-          "title": "Haluatko varmasti poistaa auktorisoinnin?"
-        },
-        "cancelAddNewTranslatorDialog": {
-          "title": "Haluatko varmasti peruuttaa uuden kääntäjän lisäyksen?"
-        },
-        "addedAuthorisationsTitle": "Lisätyt auktorisoinnit"
+      "examinationDatesPage": {
+        "title": "Tutkintopäivät"
       },
       "homepage": {
         "description": "Auktorisoitujen kääntäjien tutkintolautakunta ylläpitää rekisteriä auktorisoiduista kääntäjistä. Hakukoneella voit hakea kääntäjiä joko nimen tai kieliparin mukaan. Voit jättää valitsemillesi kääntäjille yhteydenottopyynnön alla olevalla hakulomakkeella.",
@@ -420,9 +428,6 @@
       },
       "meetingDatesPage": {
         "title": "Kokouspäivät"
-      },
-      "examinationDatesPage": {
-        "title": "Tutkintopäivät"
       },
       "notFoundPage": {
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
