@@ -29,6 +29,7 @@ import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -531,6 +532,58 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testUpdateInterpreterWithDuplicateRegions() throws Exception {
+    final long id = createInterpreter("onrId");
+    final Interpreter interpreter = interpreterRepository.getReferenceById(id);
+    final int initialVersion = interpreter.getVersion();
+
+    final ClerkInterpreterUpdateDTO updateDTO = ClerkInterpreterUpdateDTO
+      .builder()
+      .id(interpreter.getId())
+      .version(initialVersion)
+      .isIndividualised(false)
+      .identityNumber("121212-123")
+      .lastName("Merkkinen")
+      .firstName("Eemeli Aapo")
+      .nickName("Eemeli")
+      .email("eemeli.merkkinen.invalid")
+      .permissionToPublishEmail(false)
+      .permissionToPublishPhone(false)
+      .otherContactInfo("interpreter@test.invalid")
+      .permissionToPublishOtherContactInfo(true)
+      .extraInformation("extra")
+      .regions(List.of("01", "01", "02"))
+      .build();
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          "onrId",
+          createPersonalData(
+            "onrId",
+            updateDTO.lastName(),
+            updateDTO.firstName(),
+            updateDTO.nickName(),
+            updateDTO.identityNumber(),
+            updateDTO.email(),
+            updateDTO.phoneNumber(),
+            updateDTO.street(),
+            updateDTO.postalCode(),
+            updateDTO.town(),
+            updateDTO.country(),
+            updateDTO.isIndividualised()
+          )
+        )
+      );
+
+    final ClerkInterpreterDTO updated = clerkInterpreterService.updateInterpreter(updateDTO);
+
+    assertEquals(List.of("01", "02"), updated.regions());
+
+    verify(onrService).updatePersonalData(any());
+  }
+
+  @Test
   public void testUpdateInterpreterFailsForUnknownRegion() {
     final long id = createInterpreter("1");
     final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
@@ -655,6 +708,35 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testCreateQualificationFailsForInvalidTerm() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
+
+    final ClerkQualificationCreateDTO createDTO = ClerkQualificationCreateDTO
+      .builder()
+      .fromLang("FI")
+      .toLang("EN")
+      .beginDate(tomorrow)
+      .endDate(today)
+      .examinationType(QualificationExaminationType.OTHER)
+      .permissionToPublish(false)
+      .diaryNumber("1001")
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.createQualification(interpreter.getId(), createDTO)
+    );
+    assertEquals(APIExceptionType.QUALIFICATION_INVALID_TERM, ex.getExceptionType());
+  }
+
+  @Test
   public void testUpdateQualification() {
     final LocalDate begin = LocalDate.now().minusMonths(1);
     final LocalDate end = LocalDate.now().plusMonths(1);
@@ -728,22 +810,38 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testDeleteQualification() {
-    createInterpreter("1");
-    createInterpreter("2");
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
 
-    final List<Long> qualificationIds = qualificationRepository.findAll().stream().map(Qualification::getId).toList();
-    final Long id = qualificationIds.get(0);
+    final Qualification qualification1 = Factory.qualification(interpreter);
+    final Qualification qualification2 = Factory.qualification(interpreter);
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(id);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
 
-    qualificationRepository.findAll().forEach(q -> assertEquals(Objects.equals(id, q.getId()), q.isDeleted()));
+    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
 
-    dto.qualifications().forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
+    dto.qualifications().forEach(q -> assertEquals(Objects.equals(qualification1.getId(), q.id()), q.deleted()));
+  }
 
-    clerkInterpreterService
-      .list()
-      .stream()
-      .flatMap(i -> i.qualifications().stream())
-      .forEach(q -> assertEquals(Objects.equals(id, q.id()), q.deleted()));
+  @Test
+  public void testDeleteLastQualificationFails() {
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
+
+    final Qualification qualification1 = Factory.qualification(interpreter);
+    final Qualification qualification2 = Factory.qualification(interpreter);
+    qualification2.setDeletedAt(LocalDateTime.now());
+
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkInterpreterService.deleteQualification(qualification1.getId())
+    );
+    assertEquals(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION, ex.getExceptionType());
   }
 }

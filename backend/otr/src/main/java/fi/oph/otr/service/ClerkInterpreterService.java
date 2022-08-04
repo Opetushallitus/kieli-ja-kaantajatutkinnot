@@ -143,7 +143,7 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) throws Exception {
     validateRegions(dto);
-    dto.qualifications().forEach(this::validateLanguagePair);
+    dto.qualifications().forEach(this::validateQualification);
 
     final Interpreter interpreter = new Interpreter();
     final PersonalData personalData = createPersonalData(dto.onrId(), dto);
@@ -180,7 +180,7 @@ public class ClerkInterpreterService {
       });
   }
 
-  private void validateLanguagePair(final ClerkQualificationDTOCommonFields dto) {
+  private void validateQualification(final ClerkQualificationDTOCommonFields dto) {
     Stream
       .of(dto.fromLang(), dto.toLang())
       .forEach(languageCode -> {
@@ -188,6 +188,10 @@ public class ClerkInterpreterService {
           throw new APIException(APIExceptionType.QUALIFICATION_LANGUAGE_UNKNOWN);
         }
       });
+
+    if (!dto.endDate().isAfter(dto.beginDate())) {
+      throw new APIException(APIExceptionType.QUALIFICATION_INVALID_TERM);
+    }
   }
 
   private PersonalData createPersonalData(final String onrId, final ClerkInterpreterDTOCommonFields dto) {
@@ -218,6 +222,7 @@ public class ClerkInterpreterService {
     final List<Region> regions = dto
       .regions()
       .stream()
+      .distinct()
       .map(regionCode -> {
         final Region region = new Region();
         region.setInterpreter(interpreter);
@@ -293,7 +298,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkQualificationCreateDTO dto) {
-    validateLanguagePair(dto);
+    validateQualification(dto);
 
     final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
     createQualification(interpreter, dto);
@@ -303,7 +308,7 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO updateQualification(final ClerkQualificationUpdateDTO dto) {
-    validateLanguagePair(dto);
+    validateQualification(dto);
 
     final Qualification qualification = qualificationRepository.getReferenceById(dto.id());
     qualification.assertVersion(dto.version());
@@ -316,6 +321,11 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO deleteQualification(final long qualificationId) {
     final Qualification qualification = qualificationRepository.getReferenceById(qualificationId);
+    final Interpreter interpreter = qualification.getInterpreter();
+    if (interpreter.getQualifications().stream().filter(q -> !q.isDeleted()).toList().size() == 1) {
+      throw new APIException(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION);
+    }
+
     qualification.markDeleted();
     return getInterpreter(qualification.getInterpreter().getId());
   }
