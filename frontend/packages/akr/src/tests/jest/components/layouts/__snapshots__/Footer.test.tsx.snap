@@ -18,7 +18,7 @@ exports[`Footer should render Footer correctly 1`] = `
       >
         <a
           className="custom-button-link"
-          href="/akt/saavutettavuusseloste"
+          href="/akr/saavutettavuusseloste"
           onClick={[Function]}
         >
           <button
@@ -44,7 +44,7 @@ exports[`Footer should render Footer correctly 1`] = `
         </a>
         <a
           className="custom-button-link"
-          href="/akt/tietosuojaseloste"
+          href="/akr/tietosuojaseloste"
           onClick={[Function]}
         >
           <button
@@ -183,8 +183,8 @@ exports[`Footer should render Footer correctly 1`] = `
         className="footer__container"
       >
         <img
-          alt="aktLogo"
-          className="footer__container__logo--akt"
+          alt="akrLogo"
+          className="footer__container__logo--akr"
           src="test"
         />
       </div>

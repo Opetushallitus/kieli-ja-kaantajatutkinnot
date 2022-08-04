@@ -3,16 +3,16 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
-  PublicHomePage = '/akt/etusivu',
-  ClerkHomePage = '/akt/virkailija',
-  MeetingDatesPage = '/akt/virkailija/kokouspaivat',
-  ExaminationDatesPage = '/akt/virkailija/tutkintopaivat',
-  ClerkSendEmailPage = '/akt/virkailija/laheta-sahkoposti',
-  ClerkLocalLogoutPage = '/akt/cas/localLogout',
-  ClerkTranslatorOverviewPage = '/akt/virkailija/kaantaja/:translatorId',
-  ClerkNewTranslatorPage = '/akt/virkailija/lisaa-kaantaja',
-  AccessibilityStatementPage = '/akt/saavutettavuusseloste',
-  PrivacyPolicyPage = '/akt/tietosuojaseloste',
+  PublicHomePage = '/akr/etusivu',
+  ClerkHomePage = '/akr/virkailija',
+  MeetingDatesPage = '/akr/virkailija/kokouspaivat',
+  ExaminationDatesPage = '/akr/virkailija/tutkintopaivat',
+  ClerkSendEmailPage = '/akr/virkailija/laheta-sahkoposti',
+  ClerkLocalLogoutPage = '/akr/cas/localLogout',
+  ClerkTranslatorOverviewPage = '/akr/virkailija/kaantaja/:translatorId',
+  ClerkNewTranslatorPage = '/akr/virkailija/lisaa-kaantaja',
+  AccessibilityStatementPage = '/akr/saavutettavuusseloste',
+  PrivacyPolicyPage = '/akr/tietosuojaseloste',
   NotFoundPage = '*',
 }
 

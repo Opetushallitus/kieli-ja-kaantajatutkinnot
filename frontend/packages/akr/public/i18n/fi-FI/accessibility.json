@@ -16,28 +16,28 @@
           "extraDescription": "Saavutettavuusvaatimukset jotka eivät täyty",
           "items": [
             {
-              "claim": "1.3.1 Informaatio ja suhteet",
               "description": "Otsikkotasot eivät etene kaikilla sivuilla järjestyksessä",
+              "claim": "1.3.1 Informaatio ja suhteet",
               "title": "Havaittava: Otsikkotasojen eteneminen"
             },
             {
-              "claim": "1.3.1 Informaatio ja suhteet",
               "description": "Taulukon ensimmäisen sarakkeen otsikko on tyhjä",
+              "claim": "1.3.1 Informaatio ja suhteet",
               "title": "Havaittava: Puuttuva taulukon otsikko"
             },
             {
-              "claim": "2.1.2 Ei näppäimistöansaa",
               "description": "Combobox -elementit sisältävät näppäimistöansan joillain selaimilla sekä ruudunlukijoilla. Ruudunlukija saattaa myös antaa väärät ohjeistukset Comboxin käyttämiseen.",
+              "claim": "2.1.2 Ei näppäimistöansaa",
               "title": "Hallittava: Combobox -elementeissä puutteita"
             },
             {
-              "claim": "2.4.6 Otsikot ja nimilaput",
               "description": "Kielenvalintakomponentissa ei ole perinteistä nimilappua. Aria-label kuitenkin löytyy.",
+              "claim": "2.4.6 Otsikot ja nimilaput",
               "title": "Hallittava: Nimilappu puuttuu kielenvalintakomponentista"
             },
             {
-              "claim": "2.4.6 Otsikot ja nimilaput",
               "description": "Taulukon “Näytä sivulla” -komponentissa ei ole perinteistä nimilappua. Aria-label kuitenkin löytyy.",
+              "claim": "2.4.6 Otsikot ja nimilaput",
               "title": "Hallittava: Nimilappu puuttuu taulukon “Näytä sivulla” -komponentista"
             }
           ]
@@ -82,7 +82,7 @@
         }
       },
       "heading": {
-        "description": "Tämä saavutettavuusseloste koskee palvelua akt.opintopolku.fi ja on laadittu / päivitetty 28.2.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio.",
+        "description": "Tämä saavutettavuusseloste koskee palvelua akr.opintopolku.fi ja on laadittu / päivitetty 28.2.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio.",
         "title": "Auktorisoitujen kääntäjien rekisterin saavutettavuusseloste"
       }
     }

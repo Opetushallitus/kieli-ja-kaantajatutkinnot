@@ -3,7 +3,7 @@
     "common": {
       "add": "Lisää",
       "addAuthorisation": "Lisää auktorisointi",
-      "aktLogo": "Auktorisoidun kääntäjän tutkintojärjestelmän logo",
+      "akrLogo": "Auktorisoidun kääntäjän tutkintojärjestelmän logo",
       "appTitle": "Auktorisoitujen kääntäjien rekisteri",
       "back": "Takaisin",
       "backToHomePage": "Takaisin etusivulle",
@@ -11,10 +11,10 @@
       "contactEmail": "auktoris.lautakunta@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
+      "examinationDates": "Tutkintopäivät",
       "frontPage": "Etusivu",
       "loadingContent": "Sisältöä ladataan",
       "meetingDates": "Kokouspäivät",
-      "examinationDates": "Tutkintopäivät",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

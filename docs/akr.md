@@ -1,4 +1,4 @@
-# AKT - Auktorisoidun kääntäjän tutkintojärjestelmä [![AKT](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akt.yml)
+# AKR - Auktorisoitujen kääntäjien rekisteri[![AKR](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akr.yml/badge.svg?branch=dev)](https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot/actions/workflows/akr.yml)
 
 ## Backend
 
@@ -76,7 +76,7 @@ npm install
 npm run start  # Starts Webpack DevServer
 ```
 
-and the app runs on > <http://localhost:4000/akt/etusivu>
+and the app runs on > <http://localhost:4000/akr/etusivu>
 
 ```sh
 npm run build # Builds the app for production to the dist folder.
@@ -103,19 +103,19 @@ npm run test:jest -- -u  # Regenerate snapshots
 
 Health check:
 
-> <http://localhost:8080/akt/api/actuator/health>
+> <http://localhost:8080/akr/api/actuator/health>
 
 General information about the running application:
 
-> <http://localhost:8080/akt/api/actuator/info>
+> <http://localhost:8080/akr/api/actuator/info>
 
 ### OpenAPI
 
-> <http://localhost:8080/akt/api/api-docs>
+> <http://localhost:8080/akr/api/api-docs>
 
 ### Swagger
 
-> <http://localhost:8080/akt/api/swagger-ui.html>
+> <http://localhost:8080/akr/api/swagger-ui.html>
 
 In order to make requests work in swagger UI, the application needs to be run with parameter:
 

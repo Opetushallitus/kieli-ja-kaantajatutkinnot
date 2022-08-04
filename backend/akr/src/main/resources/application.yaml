@@ -3,7 +3,7 @@ server:
   compression:
     enabled: true
   servlet:
-    context-path: "/akt"
+    context-path: "/akr"
 spring:
   datasource:
     url: ${postgresql.url:jdbc:postgresql://localhost:5432/postgres}
@@ -48,13 +48,13 @@ akr:
     sending-enabled: ${email.sending-enabled:false}
     ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}
 cas:
-  key: akt
+  key: akr
   send-renew: false
   login-path: /login/cas
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  service: ${virkailija.cas.service:http://localhost:${server.port}/akt}
-  url: ${virkailija.cas.url:http://localhost:${server.port}/akt}
+  service: ${virkailija.cas.service:http://localhost:${server.port}/akr}
+  url: ${virkailija.cas.url:http://localhost:${server.port}/akr}
   login: ${virkailija.cas.login:http://localhost:${server.port}/login}
 host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}

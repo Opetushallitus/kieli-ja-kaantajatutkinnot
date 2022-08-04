@@ -24,7 +24,7 @@ Array [
         className="header__left"
       >
         <a
-          href="/akt/etusivu"
+          href="/akr/etusivu"
           onClick={[Function]}
         >
           <img
