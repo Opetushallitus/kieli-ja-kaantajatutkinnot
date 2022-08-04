@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.akr",
-  "description": "Authorised Translator’s System",
+  "description": "Register of Authorised Translators",
   "license": "MIT",
   "main": "index.js",
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
