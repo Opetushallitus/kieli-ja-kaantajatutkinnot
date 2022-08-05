@@ -48,7 +48,7 @@ Object {
                     href="/otr/virkailija"
                   >
                     <button
-                      class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-6d27ud-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-6d27ud-MuiButtonBase-root-MuiButton-root"
                       data-testid="clerk-interpreter-registry__add-new-interpreter"
                       tabindex="0"
                       type="button"
@@ -97,7 +97,7 @@ Object {
                     class="columns"
                   >
                     <button
-                      class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root border-radius-unset css-6d27ud-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium border-radius-unset css-6d27ud-MuiButtonBase-root-MuiButton-root"
                       data-testid="clerk-interpreter-filters__btn--effective"
                       tabindex="0"
                       type="button"
@@ -119,7 +119,7 @@ Object {
                       />
                     </button>
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                       data-testid="clerk-interpreter-filters__btn--expiring"
                       tabindex="0"
                       type="button"
@@ -141,7 +141,7 @@ Object {
                       />
                     </button>
                     <button
-                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                       data-testid="clerk-interpreter-filters__btn--expired"
                       tabindex="0"
                       type="button"
@@ -194,7 +194,7 @@ Object {
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="false"
                             for=":ri:"
                             id=":ri:-label"
@@ -202,7 +202,7 @@ Object {
                             languagePair.fromPlaceholder
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-autocomplete="list"
@@ -210,7 +210,7 @@ Object {
                               aria-invalid="false"
                               autocapitalize="none"
                               autocomplete="off"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                               id=":ri:"
                               role="combobox"
                               spellcheck="false"
@@ -270,7 +270,7 @@ Object {
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="false"
                             for=":rk:"
                             id=":rk:-label"
@@ -278,7 +278,7 @@ Object {
                             languagePair.toPlaceholder
                           </label>
                           <div
-                            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-autocomplete="list"
@@ -286,7 +286,7 @@ Object {
                               aria-invalid="false"
                               autocapitalize="none"
                               autocomplete="off"
-                              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                               id=":rk:"
                               role="combobox"
                               spellcheck="false"
@@ -350,7 +350,7 @@ Object {
                     data-testid="clerk-interpreter-filters__name"
                   >
                     <label
-                      class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                       data-shrink="false"
                       for=":rm:"
                       id=":rm:-label"
@@ -358,11 +358,11 @@ Object {
                       name.placeholder
                     </label>
                     <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1d365f6-MuiInputBase-root-MuiOutlinedInput-root"
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1d365f6-MuiInputBase-root-MuiOutlinedInput-root"
                     >
                       <input
                         aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputTypeSearch css-nyra02-MuiInputBase-input-MuiOutlinedInput-input"
+                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputTypeSearch css-nyra02-MuiInputBase-input-MuiOutlinedInput-input"
                         id=":rm:"
                         type="search"
                         value=""
@@ -401,7 +401,7 @@ Object {
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rn:"
                           id=":rn:-label"
@@ -409,7 +409,7 @@ Object {
                           examinationType.placeholder
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -417,7 +417,7 @@ Object {
                             aria-invalid="false"
                             autocapitalize="none"
                             autocomplete="off"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                             id=":rn:"
                             role="combobox"
                             spellcheck="false"
@@ -486,7 +486,7 @@ Object {
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rp:"
                           id=":rp:-label"
@@ -494,7 +494,7 @@ Object {
                           permissionToPublish.placeholder
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -502,7 +502,7 @@ Object {
                             aria-invalid="false"
                             autocapitalize="none"
                             autocomplete="off"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                             id=":rp:"
                             role="combobox"
                             spellcheck="false"
@@ -561,7 +561,7 @@ Object {
                 class="columns space-between"
               >
                 <button
-                  class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                   data-testid="clerk-interpreter-registry__reset-filters-btn"
                   tabindex="0"
                   type="button"
@@ -583,7 +583,7 @@ Object {
                   class="MuiTablePagination-root table__head-box__pagination css-1jm2zeu-MuiTablePagination-root"
                 >
                   <div
-                    class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
+                    class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
                   >
                     <div
                       class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
@@ -602,7 +602,7 @@ Object {
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-labelledby=":rs: :rr:"
-                        class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+                        class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
                         id=":rr:"
                         role="button"
                         tabindex="0"
@@ -617,7 +617,7 @@ Object {
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-16fnxu0-MuiSvgIcon-root-MuiSelect-icon"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-16fnxu0-MuiSvgIcon-root-MuiSelect-icon"
                         data-testid="ArrowDropDownIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -789,7 +789,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/1"
                         tabindex="0"
                       >
@@ -877,7 +877,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/2"
                         tabindex="0"
                       >
@@ -951,7 +951,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/3"
                         tabindex="0"
                       >
@@ -1025,7 +1025,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/4"
                         tabindex="0"
                       >
@@ -1099,7 +1099,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/5"
                         tabindex="0"
                       >
@@ -1173,7 +1173,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/6"
                         tabindex="0"
                       >
@@ -1247,7 +1247,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/7"
                         tabindex="0"
                       >
@@ -1321,7 +1321,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/8"
                         tabindex="0"
                       >
@@ -1395,7 +1395,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/9"
                         tabindex="0"
                       >
@@ -1483,7 +1483,7 @@ Object {
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                     >
                       <a
-                        class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                         href="/otr/virkailija/tulkki/10"
                         tabindex="0"
                       >
@@ -1561,7 +1561,7 @@ Object {
                   href="/otr/virkailija"
                 >
                   <button
-                    class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-6d27ud-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-6d27ud-MuiButtonBase-root-MuiButton-root"
                     data-testid="clerk-interpreter-registry__add-new-interpreter"
                     tabindex="0"
                     type="button"
@@ -1610,7 +1610,7 @@ Object {
                   class="columns"
                 >
                   <button
-                    class="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root border-radius-unset css-6d27ud-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium border-radius-unset css-6d27ud-MuiButtonBase-root-MuiButton-root"
                     data-testid="clerk-interpreter-filters__btn--effective"
                     tabindex="0"
                     type="button"
@@ -1632,7 +1632,7 @@ Object {
                     />
                   </button>
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                     data-testid="clerk-interpreter-filters__btn--expiring"
                     tabindex="0"
                     type="button"
@@ -1654,7 +1654,7 @@ Object {
                     />
                   </button>
                   <button
-                    class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium border-radius-unset css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                     data-testid="clerk-interpreter-filters__btn--expired"
                     tabindex="0"
                     type="button"
@@ -1707,7 +1707,7 @@ Object {
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":ri:"
                           id=":ri:-label"
@@ -1715,7 +1715,7 @@ Object {
                           languagePair.fromPlaceholder
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -1723,7 +1723,7 @@ Object {
                             aria-invalid="false"
                             autocapitalize="none"
                             autocomplete="off"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                             id=":ri:"
                             role="combobox"
                             spellcheck="false"
@@ -1783,7 +1783,7 @@ Object {
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rk:"
                           id=":rk:-label"
@@ -1791,7 +1791,7 @@ Object {
                           languagePair.toPlaceholder
                         </label>
                         <div
-                          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -1799,7 +1799,7 @@ Object {
                             aria-invalid="false"
                             autocapitalize="none"
                             autocomplete="off"
-                            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                             id=":rk:"
                             role="combobox"
                             spellcheck="false"
@@ -1863,7 +1863,7 @@ Object {
                   data-testid="clerk-interpreter-filters__name"
                 >
                   <label
-                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="false"
                     for=":rm:"
                     id=":rm:-label"
@@ -1871,11 +1871,11 @@ Object {
                     name.placeholder
                   </label>
                   <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1d365f6-MuiInputBase-root-MuiOutlinedInput-root"
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1d365f6-MuiInputBase-root-MuiOutlinedInput-root"
                   >
                     <input
                       aria-invalid="false"
-                      class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputTypeSearch css-nyra02-MuiInputBase-input-MuiOutlinedInput-input"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputTypeSearch css-nyra02-MuiInputBase-input-MuiOutlinedInput-input"
                       id=":rm:"
                       type="search"
                       value=""
@@ -1914,7 +1914,7 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="false"
                         for=":rn:"
                         id=":rn:-label"
@@ -1922,7 +1922,7 @@ Object {
                         examinationType.placeholder
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                       >
                         <input
                           aria-autocomplete="list"
@@ -1930,7 +1930,7 @@ Object {
                           aria-invalid="false"
                           autocapitalize="none"
                           autocomplete="off"
-                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                           id=":rn:"
                           role="combobox"
                           spellcheck="false"
@@ -1999,7 +1999,7 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="false"
                         for=":rp:"
                         id=":rp:-label"
@@ -2007,7 +2007,7 @@ Object {
                         permissionToPublish.placeholder
                       </label>
                       <div
-                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
+                        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-4adc5t-MuiInputBase-root-MuiOutlinedInput-root"
                       >
                         <input
                           aria-autocomplete="list"
@@ -2015,7 +2015,7 @@ Object {
                           aria-invalid="false"
                           autocapitalize="none"
                           autocomplete="off"
-                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
+                          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12qs7hp-MuiInputBase-input-MuiOutlinedInput-input"
                           id=":rp:"
                           role="combobox"
                           spellcheck="false"
@@ -2074,7 +2074,7 @@ Object {
               class="columns space-between"
             >
               <button
-                class="MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rjpv7q-MuiButtonBase-root-MuiButton-root"
                 data-testid="clerk-interpreter-registry__reset-filters-btn"
                 tabindex="0"
                 type="button"
@@ -2096,7 +2096,7 @@ Object {
                 class="MuiTablePagination-root table__head-box__pagination css-1jm2zeu-MuiTablePagination-root"
               >
                 <div
-                  class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
+                  class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
                 >
                   <div
                     class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
@@ -2115,7 +2115,7 @@ Object {
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby=":rs: :rr:"
-                      class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+                      class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
                       id=":rr:"
                       role="button"
                       tabindex="0"
@@ -2130,7 +2130,7 @@ Object {
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-16fnxu0-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-16fnxu0-MuiSvgIcon-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -2302,7 +2302,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/1"
                       tabindex="0"
                     >
@@ -2390,7 +2390,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/2"
                       tabindex="0"
                     >
@@ -2464,7 +2464,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/3"
                       tabindex="0"
                     >
@@ -2538,7 +2538,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/4"
                       tabindex="0"
                     >
@@ -2612,7 +2612,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/5"
                       tabindex="0"
                     >
@@ -2686,7 +2686,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/6"
                       tabindex="0"
                     >
@@ -2760,7 +2760,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/7"
                       tabindex="0"
                     >
@@ -2834,7 +2834,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/8"
                       tabindex="0"
                     >
@@ -2908,7 +2908,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/9"
                       tabindex="0"
                     >
@@ -2996,7 +2996,7 @@ Object {
                     class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-19d1l3d-MuiTableCell-root"
                   >
                     <a
-                      class="MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-15w8nj6-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-15w8nj6-MuiButtonBase-root-MuiButton-root"
                       href="/otr/virkailija/tulkki/10"
                       tabindex="0"
                     >

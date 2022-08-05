@@ -56,7 +56,7 @@ jobs:
           path: "~/.cache/Cypress"
           key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
       - name: Run Cypress Tests
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v4
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
           install: false

@@ -20,7 +20,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
       >
         <span
           aria-disabled={true}
-          className="MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled MuiButtonBase-root Mui-disabled MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled PrivateSwitchBase-root Mui-checked Mui-disabled css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary Mui-checked Mui-disabled Mui-checked Mui-disabled css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
           data-testid="just-a-test-id"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -38,7 +38,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
         >
           <input
             checked={true}
-            className="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+            className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
             disabled={true}
             onChange={[Function]}
             type="checkbox"
@@ -86,7 +86,7 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
         className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
       >
         <span
-          className="MuiSwitch-switchBase MuiSwitch-colorSecondary MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
+          className="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorSecondary css-priqlz-MuiButtonBase-root-MuiSwitch-switchBase"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -102,7 +102,7 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
           tabIndex={null}
         >
           <input
-            className="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+            className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
             onChange={[Function]}
             type="checkbox"
           />
