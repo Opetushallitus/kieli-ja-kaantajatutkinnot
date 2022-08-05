@@ -10,7 +10,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 - JDK 17
 - PostgreSQL 12.9
 - node v16.16.0
-- yarn 3.2.0 (to enable it, run the following command: `corepack enable`)
+- yarn 3.2.2 (to enable it, run the following command: `corepack enable`)
 
 &nbsp;
 

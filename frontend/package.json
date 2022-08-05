@@ -3,7 +3,7 @@
   "engines": {
     "node": "16.16.0"
   },
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@3.2.2",
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
@@ -28,7 +28,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.9.3",
     "@redux-devtools/extension": "^3.2.2",
-    "axios": "0.26.1",
+    "axios": "^0.26.1",
     "dayjs": "^1.11.4",
     "finnish-personal-identity-code-validator": "^2.1.0",
     "i18next": "^21.8.16",
