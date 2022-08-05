@@ -1,11 +1,10 @@
-import { RouteHandler } from 'cypress/types/net-stubbing';
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints, APIError } from 'enums/api';
 
 export const runWithIntercept = (
   endpoint: APIEndpoints,
-  response: RouteHandler,
+  response: unknown,
   effect: () => void
 ) => {
   const alias = `intercepted-${endpoint}`;
