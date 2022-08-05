@@ -7,7 +7,10 @@ on:
         description: "Application name"
         required: true
         type: string
-
+      cypress-base-url:
+        description: "Cypress base url"
+        required: true
+        type: string
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend
@@ -61,6 +64,7 @@ jobs:
           working-directory: ${{ env.FRONTEND_DIR }}
           install: false
           start: yarn ${{ inputs.app-name }}:start:ci
+          wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:test:cypress
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
