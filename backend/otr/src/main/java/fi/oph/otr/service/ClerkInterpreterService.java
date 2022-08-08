@@ -10,21 +10,25 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
+import fi.oph.otr.repository.MeetingDateRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Resource;
@@ -38,6 +42,9 @@ public class ClerkInterpreterService {
 
   @Resource
   private final InterpreterRepository interpreterRepository;
+
+  @Resource
+  private final MeetingDateRepository meetingDateRepository;
 
   @Resource
   private final QualificationRepository qualificationRepository;
@@ -143,7 +150,10 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) throws Exception {
     validateRegions(dto);
-    dto.qualifications().forEach(this::validateQualification);
+
+    final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
+
+    dto.qualifications().forEach(qualificationDTO -> validateQualification(meetingDates, qualificationDTO));
 
     final Interpreter interpreter = new Interpreter();
     final PersonalData personalData = createPersonalData(dto.onrId(), dto);
@@ -164,7 +174,9 @@ public class ClerkInterpreterService {
     interpreterRepository.save(interpreter);
     regionRepository.saveAllAndFlush(interpreter.getRegions());
 
-    dto.qualifications().forEach(qualificationCreateDTO -> createQualification(interpreter, qualificationCreateDTO));
+    dto
+      .qualifications()
+      .forEach(qualificationCreateDTO -> createQualification(interpreter, meetingDates, qualificationCreateDTO));
 
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
@@ -180,7 +192,10 @@ public class ClerkInterpreterService {
       });
   }
 
-  private void validateQualification(final ClerkQualificationDTOCommonFields dto) {
+  private void validateQualification(
+    final Map<LocalDate, MeetingDate> meetingDates,
+    final ClerkQualificationDTOCommonFields dto
+  ) {
     Stream
       .of(dto.fromLang(), dto.toLang())
       .forEach(languageCode -> {
@@ -191,6 +206,11 @@ public class ClerkInterpreterService {
 
     if (!dto.endDate().isAfter(dto.beginDate())) {
       throw new APIException(APIExceptionType.QUALIFICATION_INVALID_TERM);
+    }
+
+    final MeetingDate meetingDate = meetingDates.get(dto.beginDate());
+    if (meetingDate == null) {
+      throw new APIException(APIExceptionType.QUALIFICATION_MISSING_MEETING_DATE);
     }
   }
 
@@ -234,17 +254,22 @@ public class ClerkInterpreterService {
     interpreter.getRegions().addAll(regions);
   }
 
-  private void createQualification(final Interpreter interpreter, final ClerkQualificationCreateDTO dto) {
+  private void createQualification(
+    final Interpreter interpreter,
+    final Map<LocalDate, MeetingDate> meetingDates,
+    final ClerkQualificationCreateDTO dto
+  ) {
     final Qualification qualification = new Qualification();
     interpreter.getQualifications().add(qualification);
     qualification.setInterpreter(interpreter);
 
-    copyFromQualificationDTO(qualification, dto);
+    copyFromQualificationDTO(qualification, meetingDates, dto);
     qualificationRepository.saveAndFlush(qualification);
   }
 
   private void copyFromQualificationDTO(
     final Qualification qualification,
+    final Map<LocalDate, MeetingDate> meetingDates,
     final ClerkQualificationDTOCommonFields dto
   ) {
     qualification.setFromLang(dto.fromLang());
@@ -254,6 +279,9 @@ public class ClerkInterpreterService {
     qualification.setExaminationType(dto.examinationType());
     qualification.setPermissionToPublish(dto.permissionToPublish());
     qualification.setDiaryNumber(dto.diaryNumber());
+
+    final MeetingDate meetingDate = meetingDates.get(dto.beginDate());
+    qualification.setMeetingDate(meetingDate);
   }
 
   @Transactional(readOnly = true)
@@ -298,21 +326,26 @@ public class ClerkInterpreterService {
 
   @Transactional
   public ClerkInterpreterDTO createQualification(final long interpreterId, final ClerkQualificationCreateDTO dto) {
-    validateQualification(dto);
+    final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
+
+    validateQualification(meetingDates, dto);
 
     final Interpreter interpreter = interpreterRepository.getReferenceById(interpreterId);
-    createQualification(interpreter, dto);
+
+    createQualification(interpreter, meetingDates, dto);
     interpreterRepository.saveAndFlush(interpreter);
     return getInterpreter(interpreter.getId());
   }
 
   @Transactional
   public ClerkInterpreterDTO updateQualification(final ClerkQualificationUpdateDTO dto) {
-    validateQualification(dto);
+    final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
+    validateQualification(meetingDates, dto);
 
     final Qualification qualification = qualificationRepository.getReferenceById(dto.id());
     qualification.assertVersion(dto.version());
-    copyFromQualificationDTO(qualification, dto);
+
+    copyFromQualificationDTO(qualification, meetingDates, dto);
     qualificationRepository.saveAndFlush(qualification);
 
     return getInterpreter(qualification.getInterpreter().getId());
@@ -328,5 +361,12 @@ public class ClerkInterpreterService {
 
     qualification.markDeleted();
     return getInterpreter(qualification.getInterpreter().getId());
+  }
+
+  private Map<LocalDate, MeetingDate> getLocalDateMeetingDateMap() {
+    return meetingDateRepository
+      .findAll()
+      .stream()
+      .collect(Collectors.toMap(MeetingDate::getDate, Function.identity()));
   }
 }

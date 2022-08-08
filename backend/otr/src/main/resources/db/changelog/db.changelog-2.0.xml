@@ -463,4 +463,38 @@
         </sql>
     </changeSet>
 
+    <changeSet id="2022-08-02-create-meeting_date-table" author="terova">
+        <createTable tableName="meeting_date">
+            <column autoIncrement="true" name="meeting_date_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="meeting_date_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="deleted_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="deleted_by" type="TEXT"/>
+
+            <column name="date" type="DATE">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_meeting_date_date"/>
+            </column>
+        </createTable>
+
+        <addColumn tableName="qualification">
+            <column name="meeting_date_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="qualification" baseColumnNames="meeting_date_id"
+                                 referencedTableName="meeting_date" referencedColumnNames="meeting_date_id"
+                                 constraintName="fk_qualification_meeting_date"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+
 </databaseChangeLog>

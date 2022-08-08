@@ -3,6 +3,7 @@ package fi.oph.otr;
 import fi.oph.otr.model.Email;
 import fi.oph.otr.model.EmailType;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.QualificationReminder;
@@ -11,6 +12,17 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Factory {
+
+  public static MeetingDate meetingDate() {
+    return meetingDate(LocalDate.now());
+  }
+
+  public static MeetingDate meetingDate(final LocalDate date) {
+    final MeetingDate meetingDate = new MeetingDate();
+    meetingDate.setDate(date);
+
+    return meetingDate;
+  }
 
   public static Interpreter interpreter() {
     final Interpreter interpreter = new Interpreter();
@@ -21,17 +33,19 @@ public class Factory {
     return interpreter;
   }
 
-  public static Qualification qualification(final Interpreter interpreter) {
+  public static Qualification qualification(final Interpreter interpreter, final MeetingDate meetingDate) {
     final Qualification qualification = new Qualification();
     qualification.setInterpreter(interpreter);
+    qualification.setMeetingDate(meetingDate);
     qualification.setFromLang("FI");
     qualification.setToLang("EN");
-    qualification.setBeginDate(LocalDate.now());
-    qualification.setEndDate(LocalDate.now().plusYears(1));
+    qualification.setBeginDate(meetingDate.getDate());
+    qualification.setEndDate(meetingDate.getDate().plusYears(1));
     qualification.setExaminationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM);
     qualification.setPermissionToPublish(true);
 
     interpreter.getQualifications().add(qualification);
+    meetingDate.getQualifications().add(qualification);
     return qualification;
   }
 

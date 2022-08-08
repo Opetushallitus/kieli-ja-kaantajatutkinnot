@@ -6,7 +6,7 @@ server:
     context-path: "/otr"
 spring:
   datasource:
-    url: ${postgresql.url:jdbc:postgresql://localhost:5432/postgres}
+    url: ${postgresql.url:jdbc:postgresql://localhost:6431/otr-postgres}
     username: ${postgresql.username:postgres}
     password: ${postgresql.password:postgres}
   jackson:

@@ -8,6 +8,7 @@ import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.api.dto.LanguagePairDTO;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
@@ -69,6 +70,9 @@ class PublicInterpreterServiceTest {
     final Interpreter interpreter5 = createInterpreterDeleted();
     final Interpreter interpreter6 = createInterpreter();
 
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
     interpreter1.setPermissionToPublishEmail(false);
     interpreter1.setPermissionToPublishOtherContactInfo(true);
     interpreter1.setOtherContactInformation("oikeustulkki.company@invalid");
@@ -78,22 +82,46 @@ class PublicInterpreterServiceTest {
     createRegion(interpreter2, "02");
     createRegion(interpreter3, "03");
 
-    final Qualification qualification11 = createQualification(interpreter1, "FI", "EN", today, tomorrow, true);
-    final Qualification qualification12 = createQualification(interpreter1, "FI", "NO", yesterday, today, true);
-    final Qualification qualification21 = createQualification(interpreter2, "FI", "SE", yesterday, nextWeek, true);
+    final Qualification qualification11 = createQualification(
+      interpreter1,
+      meetingDate,
+      "FI",
+      "EN",
+      today,
+      tomorrow,
+      true
+    );
+    final Qualification qualification12 = createQualification(
+      interpreter1,
+      meetingDate,
+      "FI",
+      "NO",
+      yesterday,
+      today,
+      true
+    );
+    final Qualification qualification21 = createQualification(
+      interpreter2,
+      meetingDate,
+      "FI",
+      "SE",
+      yesterday,
+      nextWeek,
+      true
+    );
 
     // Hidden, duplicate of qualification 21
-    createQualification(interpreter2, "FI", "SE", yesterday, nextWeek, true);
+    createQualification(interpreter2, meetingDate, "FI", "SE", yesterday, nextWeek, true);
     // Hidden, no publish permission
-    createQualification(interpreter3, "FI", "RU", yesterday, nextWeek, false);
+    createQualification(interpreter3, meetingDate, "FI", "RU", yesterday, nextWeek, false);
     // Hidden, in past
-    createQualification(interpreter4, "FI", "IT", previousWeek, yesterday, true);
+    createQualification(interpreter4, meetingDate, "FI", "IT", previousWeek, yesterday, true);
     // Hidden, in future
-    createQualification(interpreter4, "FI", "DN", tomorrow, nextWeek, true);
+    createQualification(interpreter4, meetingDate, "FI", "DN", tomorrow, nextWeek, true);
     // Hidden, interpreter marked deleted
-    createQualification(interpreter5, "FI", "DE", yesterday, nextWeek, true);
+    createQualification(interpreter5, meetingDate, "FI", "DE", yesterday, nextWeek, true);
     // Hidden, deleted
-    createQualificationDeleted(interpreter6, "FI", "FR", yesterday, nextWeek, true);
+    createQualificationDeleted(interpreter6, meetingDate, "FI", "FR", yesterday, nextWeek, true);
 
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
@@ -170,13 +198,14 @@ class PublicInterpreterServiceTest {
 
   private Qualification createQualification(
     final Interpreter interpreter,
+    final MeetingDate meetingDate,
     final String fromLang,
     final String toLang,
     final LocalDate beginDate,
     final LocalDate endDate,
     final boolean permissionToPublish
   ) {
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
     qualification.setFromLang(fromLang);
     qualification.setToLang(toLang);
     qualification.setBeginDate(beginDate);
@@ -188,13 +217,14 @@ class PublicInterpreterServiceTest {
 
   private Qualification createQualificationDeleted(
     final Interpreter interpreter,
+    final MeetingDate meetingDate,
     final String fromLang,
     final String toLang,
     final LocalDate beginDate,
     final LocalDate endDate,
     final boolean permissionToPublish
   ) {
-    final Qualification qualification = Factory.qualification(interpreter);
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
     qualification.setFromLang(fromLang);
     qualification.setToLang(toLang);
     qualification.setBeginDate(beginDate);
