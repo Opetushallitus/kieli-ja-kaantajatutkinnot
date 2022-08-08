@@ -10,7 +10,7 @@
     "akr:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "akr:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "akr:lint": "yarn akr:eslint && yarn akr:tslint && yarn akr:stylelint",
-    "akr:qa": "yarn akr:lint && yarn akr:format && yarn akr:test:jest && yarn akr:start:ci:e2e",
+    "akr:qa": "yarn akr:lint && yarn akr:format && yarn akr:test:jest && yarn akr:start:ci",
     "akr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
     "akr:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
     "akr:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://akr-backend:8080 --env docker",

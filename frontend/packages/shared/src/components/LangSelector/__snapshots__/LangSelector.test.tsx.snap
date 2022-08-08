@@ -20,14 +20,14 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
   >
     <div
       aria-label="aria-label"
-      className="MuiInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl lang-selector__select css-1nbvhrz-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+      className="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl lang-selector__select css-1nbvhrz-MuiInputBase-root-MuiInput-root-MuiSelect-root"
       data-testid="lang-selector"
       onClick={[Function]}
     >
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        className="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+        className="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
         onBlur={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}

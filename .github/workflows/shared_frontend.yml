@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.16.0]
     steps:
       - uses: actions/checkout@v3
       - uses: szenius/set-timezone@v1.0
@@ -34,7 +34,7 @@ jobs:
         id: yarn-cache
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('frontend/package.json') }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |

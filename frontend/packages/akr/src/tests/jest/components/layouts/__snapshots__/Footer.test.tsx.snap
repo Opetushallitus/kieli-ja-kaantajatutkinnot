@@ -22,7 +22,7 @@ exports[`Footer should render Footer correctly 1`] = `
           onClick={[Function]}
         >
           <button
-            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onContextMenu={[Function]}
@@ -48,7 +48,7 @@ exports[`Footer should render Footer correctly 1`] = `
           onClick={[Function]}
         >
           <button
-            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onContextMenu={[Function]}
@@ -70,7 +70,7 @@ exports[`Footer should render Footer correctly 1`] = `
         </a>
         <a
           aria-label="links.aktHomepage.ariaLabel"
-          className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root  css-1y942vo-MuiButtonBase-root-MuiButton-root"
+          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
           href="links.aktHomepage.link"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -106,7 +106,7 @@ exports[`Footer should render Footer correctly 1`] = `
           </span>
         </a>
         <a
-          className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root footer__container--links__contact-email css-1y942vo-MuiButtonBase-root-MuiButton-root"
+          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container--links__contact-email css-1y942vo-MuiButtonBase-root-MuiButton-root"
           href="mailto:contactEmail"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -157,7 +157,7 @@ exports[`Footer should render Footer correctly 1`] = `
           </p>
           <a
             aria-label="accessibility.ophPhone"
-            className="MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButtonBase-root inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
             href="tel:address.phone.number"
             onBlur={[Function]}
             onContextMenu={[Function]}

@@ -7,7 +7,10 @@ on:
         description: "Application name"
         required: true
         type: string
-
+      cypress-base-url:
+        description: "Cypress base url"
+        required: true
+        type: string
 env:
   FRONTEND_DIR: ./frontend
   BACKEND_DIR: ./backend
@@ -19,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.16.0]
     steps:
       - uses: actions/checkout@v3
       - uses: szenius/set-timezone@v1.0
@@ -34,7 +37,7 @@ jobs:
         id: yarn-cache
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-cache-${{ hashFiles('frontend/package.json') }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
@@ -56,11 +59,12 @@ jobs:
           path: "~/.cache/Cypress"
           key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
       - name: Run Cypress Tests
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v4
         with:
           working-directory: ${{ env.FRONTEND_DIR }}
           install: false
           start: yarn ${{ inputs.app-name }}:start:ci
+          wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:test:cypress
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}

@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/common-frontend.yml
     with:
       app-name: "akr"
+      cypress-base-url: "http://localhost:4000"
   backend:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml

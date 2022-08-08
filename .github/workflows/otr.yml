@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/common-frontend.yml
     with:
       app-name: "otr"
+      cypress-base-url: "http://localhost:4001"
   backend:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml
