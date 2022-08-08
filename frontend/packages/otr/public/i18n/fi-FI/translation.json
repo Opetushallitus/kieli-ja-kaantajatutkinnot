@@ -142,7 +142,10 @@
         },
         "clerk": {
           "backToOph": "Takaisin Opintopolkuun",
-          "logOut": "Kirjaudu ulos"
+          "logOut": "Kirjaudu ulos",
+          "navLinks": {
+            "tabsLabel": "Virkailijan URL-osoitteet"
+          }
         },
         "lang": {
           "en": "In English",

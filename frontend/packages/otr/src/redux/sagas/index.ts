@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 
 import { watchFetchClerkInterpreters } from 'redux/sagas/clerkInterpreter';
 import { watchFetchClerkInterpreterOverview } from 'redux/sagas/clerkInterpreterOverview';
+import { watchFetchClerkUser } from 'redux/sagas/clerkUser';
 import { watchFetchPublicInterpreters } from 'redux/sagas/publicInterpreter';
 
 export default function* rootSaga() {
@@ -9,5 +10,6 @@ export default function* rootSaga() {
     watchFetchPublicInterpreters(),
     watchFetchClerkInterpreters(),
     watchFetchClerkInterpreterOverview(),
+    watchFetchClerkUser(),
   ]);
 }

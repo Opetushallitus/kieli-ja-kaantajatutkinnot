@@ -6,6 +6,7 @@ export enum AppRoutes {
   PublicHomePage = '/otr/etusivu',
   ClerkHomePage = '/otr/virkailija',
   ClerkInterpreterOverviewPage = '/otr/virkailija/tulkki/:interpreterId',
+  ClerkLocalLogoutPage = '/otr/cas/localLogout',
   AccessibilityStatementPage = '/otr/saavutettavuusseloste',
   NotFoundPage = '*',
 }
@@ -23,6 +24,10 @@ export enum CustomTextFieldErrors {
   EmailFormat = 'errors.customTextField.emailFormat',
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
+}
+
+export enum HeaderTabNav {
+  Register = 'register',
 }
 
 export enum UIMode {

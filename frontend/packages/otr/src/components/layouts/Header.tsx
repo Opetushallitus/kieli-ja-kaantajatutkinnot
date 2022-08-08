@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 
+import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
+import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import {
   changeLang,
   getCurrentLang,
@@ -11,7 +13,7 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
-// import { useAuthentication } from 'hooks/useAuthentication';
+import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
@@ -27,10 +29,10 @@ export const Header = (): JSX.Element => {
     [t('lang.en'), english],
   ]);
 
-  //   const [isClerkUI] = useAuthentication();
-  //   const logoRedirectURL = isClerkUI
-  //     ? AppRoutes.ClerkHomePage
-  //     : AppRoutes.PublicHomePage;
+  const [isClerkUI] = useAuthentication();
+  const logoRedirectURL = isClerkUI
+    ? AppRoutes.ClerkHomePage
+    : AppRoutes.PublicHomePage;
 
   return (
     <>
@@ -38,7 +40,7 @@ export const Header = (): JSX.Element => {
       <AppBar className="header" position="static">
         <Toolbar className="header__toolbar">
           <div className="header__left">
-            <Link to={AppRoutes.PublicHomePage}>
+            <Link to={logoRedirectURL}>
               <OPHLogoViewer
                 currentLang={currentLang}
                 className="header__left__logo"
@@ -47,8 +49,9 @@ export const Header = (): JSX.Element => {
               />
             </Link>
           </div>
-          <div className="header__center"></div>
+          <div className="header__center">{isClerkUI && <ClerkNavTabs />}</div>
           <div className="header__right">
+            {isClerkUI && <ClerkHeaderButtons />}
             <LangSelector
               langDict={langDict}
               langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}

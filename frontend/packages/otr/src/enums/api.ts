@@ -1,6 +1,7 @@
 export enum APIEndpoints {
   PublicInterpreter = '/otr/api/v1/interpreter',
   ClerkInterpreter = '/otr/api/v1/clerk/interpreter',
+  ClerkUser = '/otr/api/v1/clerk/user',
 }
 
 /**
