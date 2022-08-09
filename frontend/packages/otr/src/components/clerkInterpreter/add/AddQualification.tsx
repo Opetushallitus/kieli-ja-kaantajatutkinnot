@@ -39,7 +39,7 @@ interface NewQualification
 }
 
 const newQualification: NewQualification = {
-  fromLang: '',
+  fromLang: 'FI',
   toLang: '',
   examinationType: undefined as unknown as ExaminationType,
   beginDate: undefined,
@@ -178,7 +178,7 @@ export const AddQualification = ({
               autoHighlight
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
-              languages={QualificationUtils.getKoodistoLangKeys()}
+              languages={['FI']}
               excludedLanguage={qualification.toLang || undefined}
               value={getLanguageSelectValue(qualification.fromLang)}
               onChange={handleLanguageSelectChange('fromLang')}
@@ -238,6 +238,7 @@ export const AddQualification = ({
               }
               label=""
               setValue={handleBeginDateChange}
+              maxDate={dayjs()}
             />
           </div>
           <div className="rows gapped-xs">
