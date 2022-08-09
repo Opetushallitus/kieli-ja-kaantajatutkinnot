@@ -2305,7 +2305,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.15"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.18"
   languageName: unknown
   linkType: soft
 
@@ -10917,10 +10917,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.15":
   version: 1.0.15
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.15::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.15%2F1fb76e7415c075881d2e75dbeba3f75b51889412"
   checksum: 6e3526d56bc8df7f54aea3982588acb60cc3f2a1eeda627e12cc15070e033f9ce3759fc8bc2c77cad41d8bee040716843691beb3ee8db1ecbda2f2aacf5307de
+=======
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.17":
+  version: 1.0.17
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.17::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.17%2F74caeefa5e12ec80ed7d513c036038f12e440374"
+  checksum: edbadacea92cff7ad47da2eb32f5e182691539e3c490e8c7cfda953dbb7aa87daafb0984a18dc395a3f9d9dbc1ff8d1b9d560f55eb5ff5e876c07a94c2adf40b
+>>>>>>> 7c92f51 (OTR(Frontend): Limited fromLanguage to FI and set max date when adding new language pair)
   languageName: node
   linkType: hard
 
