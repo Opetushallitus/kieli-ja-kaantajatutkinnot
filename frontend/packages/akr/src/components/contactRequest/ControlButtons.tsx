@@ -131,7 +131,7 @@ export const ControlButtons = ({
             onClick={onContactRequestSubmit}
             data-testid="contact-request-page__submit-btn"
             endIcon={<ArrowForwardIcon />}
-            disabled={isLoading}
+            disabled={disableNext || isLoading}
           >
             {translateCommon('send')}
           </CustomButton>

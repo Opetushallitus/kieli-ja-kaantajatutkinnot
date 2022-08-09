@@ -170,7 +170,7 @@ export const StepContents = ({
     case ContactRequestFormStep.WriteMessage:
       return <WriteMessage disableNext={disableNext} />;
     case ContactRequestFormStep.PreviewAndSend:
-      return <PreviewAndSend />;
+      return <PreviewAndSend disableNext={disableNext} />;
     case ContactRequestFormStep.Done:
       return <Done />;
     default:
