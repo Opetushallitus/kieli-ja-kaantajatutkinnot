@@ -14,6 +14,7 @@
         "legalInterpreterExam": "Oikeustulkkauksen erikoisammattitutkinto"
       },
       "loadingContent": "Sisältöä ladataan",
+      "meetingDates": "Kokouspäivät",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

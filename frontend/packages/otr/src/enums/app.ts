@@ -5,6 +5,7 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicHomePage = '/otr/etusivu',
   ClerkHomePage = '/otr/virkailija',
+  MeetingDatesPage = '/otr/virkailija/kokouspaivat',
   ClerkInterpreterOverviewPage = '/otr/virkailija/tulkki/:interpreterId',
   ClerkLocalLogoutPage = '/otr/cas/localLogout',
   AccessibilityStatementPage = '/otr/saavutettavuusseloste',
@@ -20,6 +21,7 @@ export enum SearchFilter {
 
 export enum HeaderTabNav {
   Register = 'register',
+  MeetingDates = 'meetingDates',
 }
 
 export enum UIMode {

@@ -23,6 +23,8 @@ export const ClerkNavTabs = (): JSX.Element => {
   useEffect(() => {
     if (pathname === AppRoutes.ClerkHomePage) {
       setSelectedTab(HeaderTabNav.Register);
+    } else if (pathname === AppRoutes.MeetingDatesPage) {
+      setSelectedTab(HeaderTabNav.MeetingDates);
     } else setSelectedTab(false);
   }, [pathname]);
 
@@ -39,6 +41,12 @@ export const ClerkNavTabs = (): JSX.Element => {
         value={HeaderTabNav.Register}
         label={translateCommon(HeaderTabNav.Register)}
         onClick={() => navigate(AppRoutes.ClerkHomePage)}
+      />
+      <Tab
+        data-testid={'clerk-nav-tab__meeting-dates'}
+        value={HeaderTabNav.MeetingDates}
+        label={translateCommon(HeaderTabNav.MeetingDates)}
+        onClick={() => navigate(AppRoutes.MeetingDatesPage)}
       />
     </Tabs>
   );
