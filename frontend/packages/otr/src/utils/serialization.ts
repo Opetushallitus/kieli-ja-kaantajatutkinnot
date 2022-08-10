@@ -49,23 +49,13 @@ export class SerializationUtils {
   }
 
   static serializeQualification(qualification: Qualification) {
-    const { fromLang, toLang } = qualification;
-    const {
-      beginDate,
-      endDate,
-      examinationType,
-      permissionToPublish,
-      diaryNumber,
-    } = qualification;
+    const { beginDate, endDate, diaryNumber, ...rest } = qualification;
 
     return {
-      fromLang,
-      toLang,
-      examinationType,
       beginDate: DateUtils.serializeDate(beginDate),
       endDate: DateUtils.serializeDate(endDate),
-      permissionToPublish,
       diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
+      ...rest,
     };
   }
 
