@@ -5,9 +5,10 @@ export enum QualificationStatus {
 }
 
 export enum ClerkInterpreterTextFieldEnum {
-  FirstName = 'firstName',
-  LastName = 'lastName',
   IdentityNumber = 'identityNumber',
+  LastName = 'lastName',
+  FirstName = 'firstName',
+  NickName = 'nickName',
   Email = 'email',
   PhoneNumber = 'phoneNumber',
   Street = 'street',

@@ -54,6 +54,7 @@
             "firstName": "Etunimet",
             "identityNumber": "Henkilötunnus",
             "lastName": "Sukunimi",
+            "nickName": "Kutsumanimi",
             "phoneNumber": "Puhelinnumero",
             "postalCode": "Postinumero",
             "street": "Katuosoite",
