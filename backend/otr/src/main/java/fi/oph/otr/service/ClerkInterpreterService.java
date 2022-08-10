@@ -27,6 +27,7 @@ import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -168,10 +169,7 @@ public class ClerkInterpreterService {
 
     final Interpreter interpreter = new Interpreter();
     final PersonalData personalData = createPersonalData(dto.onrId(), dto);
-
-    if (!personalData.isOnrIdAndIndividualisedConsistent()) {
-      throw new APIException(APIExceptionType.INTERPRETER_CREATE_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
-    }
+    validatePersonalData(personalData);
 
     if (personalData.getOnrId() == null) {
       final String onrId = onrService.insertPersonalData(personalData);
@@ -244,6 +242,18 @@ public class ClerkInterpreterService {
       .town(dto.town())
       .country(dto.country())
       .build();
+  }
+
+  private void validatePersonalData(final PersonalData personalData) {
+    final String[] firstNames = personalData.getFirstName().split(" ");
+
+    if (Arrays.stream(firstNames).noneMatch(name -> name.equals(personalData.getNickName()))) {
+      throw new APIException(APIExceptionType.INTERPRETER_INVALID_NICK_NAME);
+    }
+
+    if (!personalData.isOnrIdAndIndividualisedConsistent()) {
+      throw new APIException(APIExceptionType.INTERPRETER_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
+    }
   }
 
   private void copyFromInterpreterDTO(final Interpreter interpreter, final ClerkInterpreterDTOCommonFields dto) {
@@ -323,6 +333,7 @@ public class ClerkInterpreterService {
     interpreter.assertVersion(dto.version());
 
     final PersonalData personalData = createPersonalData(interpreter.getOnrId(), dto);
+    validatePersonalData(personalData);
     onrService.updatePersonalData(personalData);
 
     final List<Region> regionsToDelete = new ArrayList<>(interpreter.getRegions());
