@@ -43,8 +43,8 @@ export const DatePicker = ({
           shrink: true,
         }}
         inputProps={{
-          min: DateUtils.formatOptionalDate(minDate ?? dayjs(MIN_DATE)),
-          max: DateUtils.formatOptionalDate(maxDate ?? dayjs(MAX_DATE)),
+          min: DateUtils.serializeDate(minDate ?? dayjs(MIN_DATE)),
+          max: DateUtils.serializeDate(maxDate ?? dayjs(MAX_DATE)),
         }}
       />
     </Stack>
