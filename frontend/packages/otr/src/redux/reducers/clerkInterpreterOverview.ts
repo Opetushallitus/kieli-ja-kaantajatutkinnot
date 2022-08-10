@@ -13,8 +13,6 @@ const initialState: ClerkInterpreterOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsUpdateStatus: APIResponseStatus.NotStarted,
   qualificationDetailsUpdateStatus: APIResponseStatus.NotStarted,
-  qualification: undefined,
-  qualificationStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -37,6 +35,10 @@ const clerkInterpreterOverviewSlice = createSlice({
     resetClerkInterpreterOverview(state) {
       state.overviewStatus = initialState.overviewStatus;
       state.interpreter = initialState.interpreter;
+      state.interpreterDetailsUpdateStatus =
+        initialState.interpreterDetailsUpdateStatus;
+      state.qualificationDetailsUpdateStatus =
+        initialState.qualificationDetailsUpdateStatus;
     },
     resetClerkInterpreterDetailsUpdate(state) {
       state.interpreterDetailsUpdateStatus =

@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { APIResponseStatus, Duration, Severity } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
@@ -60,7 +60,8 @@ export const ClerkInterpreterDetails = () => {
     ) {
       const toast = NotifierUtils.createNotifierToast(
         Severity.Success,
-        t('toasts.updated')
+        t('toasts.updated'),
+        Duration.Short
       );
       dispatch(showNotifierToast(toast));
       dispatch(resetClerkInterpreterDetailsUpdate());

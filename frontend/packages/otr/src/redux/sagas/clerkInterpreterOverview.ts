@@ -93,10 +93,10 @@ function* doUpdateQualificationPublishPermission(
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.Qualification,
-      {
+      SerializationUtils.serializeQualification({
         ...action.payload,
         permissionToPublish: !action.payload.permissionToPublish,
-      }
+      })
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
       apiResponse.data

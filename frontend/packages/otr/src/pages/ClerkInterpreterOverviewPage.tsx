@@ -2,7 +2,7 @@ import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1 } from 'shared/components';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { APIResponseStatus, Duration, Severity } from 'shared/enums';
 
 import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
 import { QualificationDetails } from 'components/clerkInterpreter/overview/QualificationDetails';
@@ -16,6 +16,7 @@ import {
   resetClerkInterpreterOverview,
 } from 'redux/reducers/clerkInterpreterOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
+import { resetQualification } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { qualificationSelector } from 'redux/selectors/qualification';
 import { NotifierUtils } from 'utils/notifier';
@@ -55,7 +56,8 @@ export const ClerkInterpreterOverviewPage = () => {
       // Show an error
       const toast = NotifierUtils.createNotifierToast(
         Severity.Error,
-        t('pages.clerkInterpreterOverviewPage.toasts.notFound')
+        t('pages.clerkInterpreterOverviewPage.toasts.notFound'),
+        Duration.Short
       );
       dispatch(showNotifierToast(toast));
       navigate(AppRoutes.ClerkHomePage);
@@ -71,6 +73,7 @@ export const ClerkInterpreterOverviewPage = () => {
 
   useEffect(() => {
     return () => {
+      dispatch(resetQualification());
       dispatch(resetClerkInterpreterOverview());
     };
   }, [dispatch]);
@@ -79,13 +82,15 @@ export const ClerkInterpreterOverviewPage = () => {
     if (addQualificationStatus === APIResponseStatus.Success) {
       const toast = NotifierUtils.createNotifierToast(
         Severity.Success,
-        t('component.clerkInterpreterOverview.toasts.updated')
+        t('component.clerkInterpreterOverview.toasts.updated'),
+        Duration.Short
       );
       dispatch(showNotifierToast(toast));
     } else if (addQualificationStatus === APIResponseStatus.Error) {
       const toast = NotifierUtils.createNotifierToast(
         Severity.Error,
-        t('component.clerkInterpreterOverview.toasts.updateFailed')
+        t('component.clerkInterpreterOverview.toasts.updateFailed'),
+        Duration.Short
       );
       dispatch(showNotifierToast(toast));
     }
