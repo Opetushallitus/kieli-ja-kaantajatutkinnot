@@ -1,6 +1,7 @@
 package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.clerk.PersonDTO;
+import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.onr.OnrService;
 import java.util.Optional;
 import javax.annotation.Resource;
@@ -14,8 +15,11 @@ public class PersonService {
   @Resource
   private final OnrService onrService;
 
+  @Resource
+  private final AuditService auditService;
+
   public Optional<PersonDTO> findPersonByIdentityNumber(final String identityNumber) throws Exception {
-    return onrService
+    final Optional<PersonDTO> result = onrService
       .findPersonalDataByIdentityNumber(identityNumber)
       .map(personalData ->
         PersonDTO
@@ -32,5 +36,7 @@ public class PersonService {
           .country(personalData.getCountry())
           .build()
       );
+    auditService.logPersonSearchByIdentityNumber(identityNumber);
+    return result;
   }
 }
