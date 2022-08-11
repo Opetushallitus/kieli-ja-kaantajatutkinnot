@@ -1,28 +1,15 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import dayjs, { Dayjs } from 'dayjs';
-import { Reducer } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
 import { MeetingStatus } from 'enums/meetingDate';
 import {
   MeetingDate,
-  MeetingDateAction,
   MeetingDateFilter,
   MeetingDateState,
 } from 'interfaces/meetingDate';
-import {
-  MEETING_DATE_ADD,
-  MEETING_DATE_ADD_ERROR,
-  MEETING_DATE_ADD_FILTER,
-  MEETING_DATE_ADD_SUCCESS,
-  MEETING_DATE_ERROR,
-  MEETING_DATE_LOADING,
-  MEETING_DATE_RECEIVED,
-  MEETING_DATE_REMOVE,
-  MEETING_DATE_REMOVE_ERROR,
-  MEETING_DATE_REMOVE_SUCCESS,
-} from 'redux/actionTypes/meetingDate';
 
-const defaultState = {
+const initialState: MeetingDateState = {
   meetingDates: {
     status: APIResponseStatus.NotStarted,
     meetingDates: [],
@@ -40,109 +27,59 @@ const defaultState = {
   },
 };
 
-export const meetingDateReducer: Reducer<
-  MeetingDateState,
-  MeetingDateAction
-> = (state = defaultState, action) => {
-  const filters = action.filters as MeetingDateFilter;
-  switch (action.type) {
-    // Fetching meetings
-    case MEETING_DATE_LOADING:
-      return {
-        ...state,
-        meetingDates: {
-          ...state.meetingDates,
-          status: APIResponseStatus.InProgress,
-        },
+const meetingDateSlice = createSlice({
+  name: 'meetingDate',
+  initialState,
+  reducers: {
+    loadMeetingDates(state) {
+      state.meetingDates.status = APIResponseStatus.InProgress;
+    },
+    storeMeetingDates(state, action: PayloadAction<Array<MeetingDate>>) {
+      state.meetingDates.status = APIResponseStatus.Success;
+      state.meetingDates.meetingDates = action.payload;
+    },
+    rejectMeetingDates(state) {
+      state.meetingDates.status = APIResponseStatus.Error;
+    },
+    addMeetingDateFilter(state, action: PayloadAction<MeetingDateFilter>) {
+      state.meetingDates.filters = {
+        ...state.meetingDates.filters,
+        ...action.payload,
       };
-    case MEETING_DATE_RECEIVED:
-      const meetingDates = action.meetingDates as Array<MeetingDate>;
+    },
+    removeMeetingDate(state, action: PayloadAction<number>) {
+      state.removeMeetingDate.status = APIResponseStatus.InProgress;
+      state.removeMeetingDate.meetingDateId = action.payload;
+    },
+    removingMeetingDateSucceeded(state) {
+      state.removeMeetingDate.status = APIResponseStatus.Success;
+    },
+    rejectMeetingDateRemove(state) {
+      state.removeMeetingDate.status = APIResponseStatus.Error;
+    },
+    addMeetingDate(state, action: PayloadAction<Dayjs>) {
+      state.addMeetingDate.status = APIResponseStatus.InProgress;
+      state.addMeetingDate.date = action.payload;
+    },
+    addingMeetingDateSucceeded(state) {
+      state.addMeetingDate.status = APIResponseStatus.Success;
+    },
+    rejectMeetingDateAdd(state) {
+      state.addMeetingDate.status = APIResponseStatus.Error;
+    },
+  },
+});
 
-      return {
-        ...state,
-        meetingDates: {
-          ...state.meetingDates,
-          meetingDates,
-          status: APIResponseStatus.Success,
-        },
-      };
-    case MEETING_DATE_ERROR:
-      return {
-        ...state,
-        meetingDates: {
-          ...state.meetingDates,
-          status: APIResponseStatus.Error,
-        },
-      };
-
-    case MEETING_DATE_ADD_FILTER:
-      return {
-        ...state,
-        meetingDates: {
-          ...state.meetingDates,
-          filters: { ...state.meetingDates.filters, ...filters },
-        },
-      };
-
-    // Removing meetings
-    case MEETING_DATE_REMOVE:
-      const { meetingDateId } = action;
-
-      return {
-        ...state,
-        removeMeetingDate: {
-          ...state.removeMeetingDate,
-          meetingDateId,
-          status: APIResponseStatus.InProgress,
-        },
-      };
-    case MEETING_DATE_REMOVE_SUCCESS:
-      return {
-        ...state,
-        removeMeetingDate: {
-          ...state.removeMeetingDate,
-          status: APIResponseStatus.Success,
-        },
-      };
-    case MEETING_DATE_REMOVE_ERROR:
-      return {
-        ...state,
-        removeMeetingDate: {
-          ...state.removeMeetingDate,
-          status: APIResponseStatus.Error,
-        },
-      };
-
-    // Adding meetings
-    case MEETING_DATE_ADD:
-      const date = action.date as Dayjs;
-
-      return {
-        ...state,
-        addMeetingDate: {
-          ...state.addMeetingDate,
-          date,
-          status: APIResponseStatus.InProgress,
-        },
-      };
-    case MEETING_DATE_ADD_SUCCESS:
-      return {
-        ...state,
-        addMeetingDate: {
-          ...state.addMeetingDate,
-          status: APIResponseStatus.Success,
-        },
-      };
-    case MEETING_DATE_ADD_ERROR:
-      return {
-        ...state,
-        addMeetingDate: {
-          ...state.addMeetingDate,
-          status: APIResponseStatus.Error,
-        },
-      };
-
-    default:
-      return state;
-  }
-};
+export const meetingDateReducer = meetingDateSlice.reducer;
+export const {
+  loadMeetingDates,
+  storeMeetingDates,
+  rejectMeetingDates,
+  addMeetingDateFilter,
+  removeMeetingDate,
+  removingMeetingDateSucceeded,
+  rejectMeetingDateRemove,
+  addMeetingDate,
+  addingMeetingDateSucceeded,
+  rejectMeetingDateAdd,
+} = meetingDateSlice.actions;

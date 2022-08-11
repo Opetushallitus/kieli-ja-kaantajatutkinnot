@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
@@ -41,8 +40,4 @@ export type AuthorisationsGroupedByStatus = {
 export interface AddAuthorisationState {
   status: APIResponseStatus;
   authorisation: Authorisation | Record<string, never>;
-}
-
-export interface AddAuthorisationAction extends Action {
-  authorisation: Authorisation;
 }

@@ -5,10 +5,10 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import {
-  resetNewClerkTranslatorDetails,
-  resetNewClerkTranslatorRequestStatus,
-  saveNewClerkTranslator,
-} from 'redux/actions/clerkNewTranslator';
+  resetClerkNewTranslatorDetails,
+  resetClerkNewTranslatorRequestStatus,
+  saveClerkNewTranslator,
+} from 'redux/reducers/clerkNewTranslator';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 
 export const BottomControls = () => {
@@ -23,14 +23,14 @@ export const BottomControls = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetNewClerkTranslatorDetails);
-      dispatch(resetNewClerkTranslatorRequestStatus);
+      dispatch(resetClerkNewTranslatorDetails());
+      dispatch(resetClerkNewTranslatorRequestStatus());
     };
   }, [dispatch]);
 
   // Action handlers
   const onSave = () => {
-    dispatch(saveNewClerkTranslator(translator));
+    dispatch(saveClerkNewTranslator(translator));
   };
 
   const isSaveButtonDisabled = () => {

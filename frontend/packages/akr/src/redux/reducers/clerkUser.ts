@@ -1,43 +1,33 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkUserAction, ClerkUserState } from 'interfaces/clerkUser';
-import {
-  CLERK_USER_ERROR,
-  CLERK_USER_LOAD,
-  CLERK_USER_RECEIVED,
-} from 'redux/actionTypes/clerkUser';
+import { ClerkUser, ClerkUserState } from 'interfaces/clerkUser';
 
-const defaultState = {
+const initialState: ClerkUserState = {
   status: APIResponseStatus.NotStarted,
   isAuthenticated: false,
   oid: '',
 };
 
-export const clerkUserReducer: Reducer<ClerkUserState, ClerkUserAction> = (
-  state = defaultState,
-  action
-) => {
-  switch (action.type) {
-    case CLERK_USER_LOAD:
-      return {
-        ...state,
-        status: APIResponseStatus.InProgress,
-      };
-    case CLERK_USER_RECEIVED:
-      return {
-        ...state,
-        status: APIResponseStatus.Success,
-        isAuthenticated: true,
-        oid: action?.clerkUser.oid,
-      };
-    case CLERK_USER_ERROR:
-      return {
-        ...state,
-        status: APIResponseStatus.Error,
-        isAuthenticated: false,
-      };
-    default:
-      return state;
-  }
-};
+const clerkUserSlice = createSlice({
+  name: 'clerkUser',
+  initialState,
+  reducers: {
+    loadClerkUser(state) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    rejectClerkUser(state) {
+      state.status = APIResponseStatus.Error;
+      state.isAuthenticated = false;
+    },
+    storeClerkUser(state, action: PayloadAction<ClerkUser>) {
+      state.status = APIResponseStatus.Success;
+      state.isAuthenticated = true;
+      state.oid = action.payload.oid;
+    },
+  },
+});
+
+export const clerkUserReducer = clerkUserSlice.reducer;
+export const { loadClerkUser, rejectClerkUser, storeClerkUser } =
+  clerkUserSlice.actions;

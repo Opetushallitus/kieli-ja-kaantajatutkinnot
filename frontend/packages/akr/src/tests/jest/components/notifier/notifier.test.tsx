@@ -6,12 +6,12 @@ import { Toast } from 'components/notification/Toast';
 import { useAppSelector } from 'configs/redux';
 import { NotifierState } from 'interfaces/notifier';
 import {
+  notifierReducer,
   removeNotifierDialog,
   removeNotifierToast,
   showNotifierDialog,
   showNotifierToast,
-} from 'redux/actions/notifier';
-import { notifierReducer } from 'redux/reducers/notifier';
+} from 'redux/reducers/notifier';
 import {
   dialogsArray,
   emptyNotifierState,

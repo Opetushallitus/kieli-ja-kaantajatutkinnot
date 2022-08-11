@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { Action } from 'redux';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ExaminationDateStatus } from 'enums/examinationDate';
@@ -39,21 +38,4 @@ export interface ExaminationDateState {
   addExaminationDate: AddExaminationDateState;
   removeExaminationDate: RemoveExaminationDateState;
   filter: ExaminationDateFilter;
-}
-
-export interface ExaminationDateAction
-  extends Action<string>,
-    Partial<ExaminationDates> {
-  filter?: ExaminationDateFilter;
-  examinationDateId?: number;
-  status?: APIResponseStatus;
-  date?: Dayjs;
-}
-
-export interface RemoveExaminationDateAction extends Action<string> {
-  examinationDateId: number;
-}
-
-export interface AddExaminationDateAction extends Action<string> {
-  date: Dayjs;
 }

@@ -18,7 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PermissionToPublish } from 'enums/app';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
-import { setClerkTranslatorFilters } from 'redux/actions/clerkTranslator';
+import { addClerkTranslatorFilter } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
 export const ClerkTranslatorAutocompleteFilters = () => {
@@ -41,7 +41,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
   useEffect(() => {
     debounce(() => {
       dispatch(
-        setClerkTranslatorFilters({
+        addClerkTranslatorFilter({
           name,
         })
       );
@@ -57,7 +57,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
   const handleFilterChange =
     (filter: keyof ClerkTranslatorFilter) =>
     ({}, value: AutocompleteValue) => {
-      dispatch(setClerkTranslatorFilters({ [filter]: value?.value }));
+      dispatch(addClerkTranslatorFilter({ [filter]: value?.value }));
     };
 
   return (

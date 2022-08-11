@@ -15,7 +15,7 @@ import { DateUtils, StringUtils } from 'shared/utils';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { addExaminationDate } from 'redux/actions/examinationDate';
+import { addExaminationDate } from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
 export const AddExaminationDate = () => {

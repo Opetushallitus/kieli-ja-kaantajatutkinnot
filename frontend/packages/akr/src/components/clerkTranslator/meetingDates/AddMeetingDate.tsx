@@ -15,7 +15,7 @@ import { DateUtils, StringUtils } from 'shared/utils';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { addMeetingDate } from 'redux/actions/meetingDate';
+import { addMeetingDate } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const AddMeetingDate = () => {

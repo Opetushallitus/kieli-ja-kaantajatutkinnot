@@ -3,7 +3,7 @@ import { ToggleFilterGroup } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
-import { setClerkTranslatorFilters } from 'redux/actions/clerkTranslator';
+import { addClerkTranslatorFilter } from 'redux/reducers/clerkTranslator';
 import {
   clerkTranslatorsSelector,
   selectTranslatorsByAuthorisationStatus,
@@ -21,7 +21,7 @@ export const ClerkTranslatorToggleFilters = () => {
   const { filters } = useAppSelector(clerkTranslatorsSelector);
 
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
-    dispatch(setClerkTranslatorFilters({ authorisationStatus: status }));
+    dispatch(addClerkTranslatorFilter({ authorisationStatus: status }));
   };
 
   const filterData = [

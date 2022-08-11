@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
@@ -7,110 +8,103 @@ import {
   ClerkTranslator,
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
+import { storeClerkTranslators } from 'redux/reducers/clerkTranslator';
 import {
-  AuthorisationAction,
-  ClerkTranslatorOverviewAction,
-} from 'interfaces/clerkTranslatorOverview';
-import { startLoadingClerkTranslatorOverview } from 'redux/actions/clerkTranslatorOverview';
-import {
-  CLERK_TRANSLATOR_OVERVIEW_CANCEL_UPDATE,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_FETCH,
-  CLERK_TRANSLATOR_OVERVIEW_FETCH_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_FETCH_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS,
-} from 'redux/actionTypes/clerkTranslatorOverview';
-import { CLERK_TRANSLATOR_RECEIVED } from 'redux/actionTypes/clerkTranslators';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
+  deleteClerkTranslatorAuthorisation,
+  deletingClerkTranslatorAuthorisationSucceeded,
+  loadClerkTranslatorOverviewWithId,
+  loadingClerkTranslatorOverview,
+  loadingClerkTranslatorOverviewSucceeded,
+  rejectClerkTranslatorAuthorisationDelete,
+  rejectClerkTranslatorDetailsUpdate,
+  rejectClerkTranslatorOverview,
+  rejectClerkTranslatorPublishPermissionUpdate,
+  updateClerkTranslatorDetails,
+  updateClerkTranslatorPublishPermission,
+  updatingCLerkTranslatorDetailsSucceeded,
+  updatingClerkTranslatorPublishPermissionSucceeded,
+} from 'redux/reducers/clerkTranslatorOverview';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* cancel() {
-  yield put({ type: CLERK_TRANSLATOR_OVERVIEW_CANCEL_UPDATE });
-}
-
-function* fetchClerkTranslatorOverview(action: ClerkTranslatorOverviewAction) {
+function* fetchClerkTranslatorOverview(action: PayloadAction<number>) {
   try {
-    yield put(startLoadingClerkTranslatorOverview);
+    yield put(loadingClerkTranslatorOverview());
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkTranslator}/${action.id}`
+      `${APIEndpoints.ClerkTranslator}/${action.payload}`
     );
 
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_FETCH_SUCCESS,
-      translator: SerializationUtils.deserializeClerkTranslator(
-        apiResponse.data
-      ),
-    });
+    const translator = SerializationUtils.deserializeClerkTranslator(
+      apiResponse.data
+    );
+    yield put(loadingClerkTranslatorOverviewSucceeded(translator));
   } catch (error) {
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_FETCH_FAIL,
-    });
+    yield put(rejectClerkTranslatorOverview());
   }
 }
 
 export function* updateClerkTranslatorsState(translator: ClerkTranslator) {
-  const { translators, langs, meetingDates } = yield select(
+  const { translators, langs, meetingDates, examinationDates } = yield select(
     clerkTranslatorsSelector
   );
   const translatorIdx = translators.findIndex(
     (t: ClerkTranslator) => t.id === translator.id
   );
-  translators.splice(translatorIdx, 1, translator);
 
-  yield put({
-    type: CLERK_TRANSLATOR_RECEIVED,
-    translators,
-    langs,
-    meetingDates,
-  });
+  const updatedTranslators = [...translators].splice(
+    translatorIdx,
+    1,
+    translator
+  );
+
+  yield put(
+    storeClerkTranslators({
+      translators: updatedTranslators,
+      langs,
+      meetingDates,
+      examinationDates,
+    })
+  );
 }
 
-function* updateClerkTranslatorDetails(action: ClerkTranslatorOverviewAction) {
+function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.ClerkTranslator,
-      SerializationUtils.serializeClerkTranslator(
-        action.translator as ClerkTranslator
-      )
+      SerializationUtils.serializeClerkTranslator(action.payload)
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
     yield updateClerkTranslatorsState(translator);
 
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS,
-      translator,
-    });
+    yield put(updatingCLerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_FAIL,
-    });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put(rejectClerkTranslatorDetailsUpdate());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
-function* updateAuthorisationPublishPermission(action: AuthorisationAction) {
+function* updateAuthorisationPublishPermission(
+  action: PayloadAction<{
+    id: number;
+    version: number;
+    permissionToPublish: boolean;
+  }>
+) {
+  const { id, version, permissionToPublish } = action.payload;
   const requestBody = {
-    id: action.id,
-    version: action.version,
-    permissionToPublish: action.permissionToPublish,
+    id,
+    version,
+    permissionToPublish,
   };
 
   try {
@@ -124,64 +118,51 @@ function* updateAuthorisationPublishPermission(action: AuthorisationAction) {
     );
     yield updateClerkTranslatorsState(translator);
 
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_SUCCESS,
-      translator,
-    });
+    yield put(updatingClerkTranslatorPublishPermissionSucceeded(translator));
   } catch (error) {
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_FAIL,
-    });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put(rejectClerkTranslatorPublishPermissionUpdate());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
-function* deleteAuthorisation(action: AuthorisationAction) {
+function* deleteAuthorisation(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.delete,
-      `${APIEndpoints.Authorisation}/${action.id}`
+      `${APIEndpoints.Authorisation}/${action.payload}`
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
     yield updateClerkTranslatorsState(translator);
 
-    yield put({
-      type: CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_SUCCESS,
-      translator,
-    });
+    yield put(deletingClerkTranslatorAuthorisationSucceeded(translator));
   } catch (error) {
-    yield put({ type: CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put(rejectClerkTranslatorAuthorisationDelete());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
 export function* watchClerkTranslatorOverview() {
+  yield takeLatest(updateClerkTranslatorDetails.type, updateTranslatorDetails);
   yield takeLatest(
-    CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS,
-    updateClerkTranslatorDetails
-  );
-  yield takeLatest(
-    CLERK_TRANSLATOR_OVERVIEW_FETCH,
+    loadClerkTranslatorOverviewWithId.type,
     fetchClerkTranslatorOverview
   );
   yield takeLatest(
-    CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION,
+    updateClerkTranslatorPublishPermission.type,
     updateAuthorisationPublishPermission
   );
   yield takeLatest(
-    CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION,
+    deleteClerkTranslatorAuthorisation.type,
     deleteAuthorisation
   );
 }

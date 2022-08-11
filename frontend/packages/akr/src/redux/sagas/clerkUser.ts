@@ -5,8 +5,11 @@ import { HTTPStatusCode } from 'shared/enums';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkUser } from 'interfaces/clerkUser';
-import { setClerkUser } from 'redux/actions/clerkUser';
-import { CLERK_USER_ERROR, CLERK_USER_LOAD } from 'redux/actionTypes/clerkUser';
+import {
+  loadClerkUser,
+  rejectClerkUser,
+  storeClerkUser,
+} from 'redux/reducers/clerkUser';
 
 export function* fetchClerkUser() {
   try {
@@ -16,15 +19,15 @@ export function* fetchClerkUser() {
     );
 
     if (response.status === HTTPStatusCode.Ok) {
-      yield put(setClerkUser(response.data));
+      yield put(storeClerkUser(response.data));
     } else {
-      yield put({ type: CLERK_USER_ERROR });
+      yield put(rejectClerkUser());
     }
   } catch (error) {
-    yield put({ type: CLERK_USER_ERROR });
+    yield put(rejectClerkUser());
   }
 }
 
 export function* watchFetchClerkUser() {
-  yield takeLatest(CLERK_USER_LOAD, fetchClerkUser);
+  yield takeLatest(loadClerkUser, fetchClerkUser);
 }

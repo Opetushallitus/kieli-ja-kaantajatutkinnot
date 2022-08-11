@@ -23,12 +23,12 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
-  deselectAllTranslators,
+  deselectAllClerkTranslators,
   deselectClerkTranslator,
-  selectAllFilteredTranslators,
+  selectAllFilteredClerkTranslators,
   selectClerkTranslator,
-} from 'redux/actions/clerkTranslator';
-import { loadClerkTranslatorOverview } from 'redux/actions/clerkTranslatorOverview';
+} from 'redux/reducers/clerkTranslator';
+import { loadClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import {
   clerkTranslatorsSelector,
   selectFilteredClerkTranslators,
@@ -168,9 +168,9 @@ const ListingHeader: FC = () => {
   const indeterminate = selectedCount > 0 && selectedCount < filteredCount;
   const onCheckboxClick = () => {
     if (allSelected) {
-      dispatch(deselectAllTranslators);
+      dispatch(deselectAllClerkTranslators());
     } else {
-      dispatch(selectAllFilteredTranslators);
+      dispatch(selectAllFilteredClerkTranslators());
     }
   };
 

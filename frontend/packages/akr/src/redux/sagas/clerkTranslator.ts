@@ -3,18 +3,16 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkState, ClerkStateResponse } from 'interfaces/clerkState';
+import { ClerkStateResponse } from 'interfaces/clerkState';
+import { rejectClerkNewTranslator } from 'redux/reducers/clerkNewTranslator';
 import {
-  CLERK_TRANSLATOR_ERROR,
-  CLERK_TRANSLATOR_LOAD,
-  CLERK_TRANSLATOR_LOADING,
-  CLERK_TRANSLATOR_RECEIVED,
-} from 'redux/actionTypes/clerkTranslators';
+  loadClerkTranslators,
+  storeClerkTranslators,
+} from 'redux/reducers/clerkTranslator';
 import { SerializationUtils } from 'utils/serialization';
 
 export function* fetchClerkTranslators() {
   try {
-    yield put({ type: CLERK_TRANSLATOR_LOADING });
     const apiResponse: AxiosResponse<ClerkStateResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.ClerkTranslator
@@ -22,23 +20,13 @@ export function* fetchClerkTranslators() {
     const deserializedResponse = SerializationUtils.deserializeClerkTranslators(
       apiResponse.data
     );
-    yield call(storeApiResults, deserializedResponse);
+
+    yield put(storeClerkTranslators(deserializedResponse));
   } catch (error) {
-    yield put({ type: CLERK_TRANSLATOR_ERROR, error });
+    yield put(rejectClerkNewTranslator());
   }
 }
 
-export function* storeApiResults(response: ClerkState) {
-  const { translators, langs, meetingDates, examinationDates } = response;
-  yield put({
-    type: CLERK_TRANSLATOR_RECEIVED,
-    translators,
-    langs,
-    meetingDates,
-    examinationDates,
-  });
-}
-
 export function* watchFetchClerkTranslators() {
-  yield takeLatest(CLERK_TRANSLATOR_LOAD, fetchClerkTranslators);
+  yield takeLatest(loadClerkTranslators, fetchClerkTranslators);
 }

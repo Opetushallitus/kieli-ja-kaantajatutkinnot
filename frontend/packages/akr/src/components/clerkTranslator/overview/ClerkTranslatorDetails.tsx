@@ -14,14 +14,11 @@ import {
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
 import {
+  cancelClerkTranslatorDetailsUpdate,
   resetClerkTranslatorDetailsUpdate,
   updateClerkTranslatorDetails,
-} from 'redux/actions/clerkTranslatorOverview';
-import { showNotifierDialog, showNotifierToast } from 'redux/actions/notifier';
-import {
-  NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
-  NOTIFIER_ACTION_DO_NOTHING,
-} from 'redux/actionTypes/notifier';
+} from 'redux/reducers/clerkTranslatorOverview';
+import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -49,7 +46,7 @@ export const ClerkTranslatorDetails = () => {
   const translateCommon = useCommonTranslation();
 
   const resetToInitialState = useCallback(() => {
-    dispatch(resetClerkTranslatorDetailsUpdate);
+    dispatch(resetClerkTranslatorDetailsUpdate());
     resetLocalTranslatorDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
@@ -131,12 +128,12 @@ export const ClerkTranslatorDetails = () => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_DETAILS_CANCEL_UPDATE,
+          action: () => dispatch(cancelClerkTranslatorDetailsUpdate()),
         },
       ]
     );

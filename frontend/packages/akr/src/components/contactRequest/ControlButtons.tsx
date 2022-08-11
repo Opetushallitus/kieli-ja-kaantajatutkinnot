@@ -12,15 +12,12 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactRequest } from 'interfaces/contactRequest';
 import {
-  decreaseFormStep,
-  increaseFormStep,
+  decreaseContactRequestStep,
+  increaseContactRequestStep,
+  resetAndRedirectContactRequest,
   sendContactRequest,
-} from 'redux/actions/contactRequest';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import {
-  NOTIFIER_ACTION_CONTACT_REQUEST_RESET,
-  NOTIFIER_ACTION_DO_NOTHING,
-} from 'redux/actionTypes/notifier';
+} from 'redux/reducers/contactRequest';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -63,12 +60,12 @@ export const ControlButtons = ({
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CONTACT_REQUEST_RESET,
+          action: () => dispatch(resetAndRedirectContactRequest()),
         },
       ]
     );
@@ -80,16 +77,16 @@ export const ControlButtons = ({
     if (hasLocalChanges) {
       dispatchCancelNotifier();
     } else {
-      dispatch({ type: NOTIFIER_ACTION_CONTACT_REQUEST_RESET });
+      dispatch(resetAndRedirectContactRequest());
     }
   };
 
   const dispatchStepIncrement = () => {
-    dispatch(increaseFormStep);
+    dispatch(increaseContactRequestStep());
   };
 
   const dispatchStepDecrement = () => {
-    dispatch(decreaseFormStep);
+    dispatch(decreaseContactRequestStep());
   };
 
   const renderCancelButton = () => (

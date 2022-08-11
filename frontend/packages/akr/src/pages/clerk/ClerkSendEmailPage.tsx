@@ -15,16 +15,13 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
+  cancelClerkTranslatorEmail,
   resetClerkTranslatorEmail,
+  sendClerkTranslatorEmail,
   setClerkTranslatorEmail,
   setClerkTranslatorEmailRecipients,
-} from 'redux/actions/clerkTranslatorEmail';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import {
-  NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_RESET,
-  NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
-  NOTIFIER_ACTION_DO_NOTHING,
-} from 'redux/actionTypes/notifier';
+} from 'redux/reducers/clerkTranslatorEmail';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import {
   selectFilteredSelectedIds,
   selectFilteredSelectedTranslators,
@@ -53,12 +50,12 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_RESET,
+          action: () => dispatch(cancelClerkTranslatorEmail()),
         },
       ]
     );
@@ -75,12 +72,12 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: NOTIFIER_ACTION_CLERK_TRANSLATOR_EMAIL_SEND,
+          action: () => dispatch(sendClerkTranslatorEmail()),
         },
       ]
     );
@@ -141,7 +138,7 @@ export const ClerkSendEmailPage = () => {
       status == APIResponseStatus.Success ||
       status == APIResponseStatus.Cancelled
     ) {
-      dispatch(resetClerkTranslatorEmail);
+      dispatch(resetClerkTranslatorEmail());
       navigate(AppRoutes.ClerkHomePage);
     }
   }, [dispatch, navigate, status]);

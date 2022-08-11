@@ -1,20 +1,20 @@
-import { Action, Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { PublicUIViews } from 'enums/app';
-import { PublicUIView } from 'interfaces/publicUIView';
-import { isSetPublicUIViewActionType } from 'redux/actionTypes/publicUIView';
 
-const defaultState = {
+const initialState = {
   currentView: PublicUIViews.PublicTranslatorListing,
 };
 
-export const publicUIViewReducer: Reducer<PublicUIView, Action> = (
-  state = defaultState,
-  action
-) => {
-  if (isSetPublicUIViewActionType(action)) {
-    return { currentView: action.view };
-  }
+const publicUIViewSlice = createSlice({
+  name: 'publicUIView',
+  initialState,
+  reducers: {
+    setPublicUIView(state, action: PayloadAction<PublicUIViews>) {
+      state.currentView = action.payload;
+    },
+  },
+});
 
-  return state;
-};
+export const publicUIViewReducer = publicUIViewSlice.reducer;
+export const { setPublicUIView } = publicUIViewSlice.actions;

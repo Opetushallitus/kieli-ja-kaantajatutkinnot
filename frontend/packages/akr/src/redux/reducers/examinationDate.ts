@@ -1,22 +1,15 @@
-import dayjs from 'dayjs';
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import dayjs, { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import {
   ExaminationDate,
-  ExaminationDateAction,
   ExaminationDateFilter,
   ExaminationDateState,
 } from 'interfaces/examinationDate';
-import {
-  EXAMINATION_DATE_ADD_FILTER,
-  EXAMINATION_DATE_ERROR,
-  EXAMINATION_DATE_LOAD,
-  EXAMINATION_DATE_RECEIVED,
-} from 'redux/actionTypes/examinationDate';
 
-const defaultState = {
+const initialState: ExaminationDateState = {
   examinationDates: {
     status: APIResponseStatus.NotStarted,
     dates: [],
@@ -32,41 +25,60 @@ const defaultState = {
   filter: { examinationDateStatus: ExaminationDateStatus.Upcoming },
 };
 
-export const examinationDateReducer: Reducer<
-  ExaminationDateState,
-  ExaminationDateAction
-> = (state = defaultState, action) => {
-  switch (action.type) {
-    // Fetch examination dates
-    case EXAMINATION_DATE_LOAD:
-      return {
-        ...state,
-        examinationDates: {
-          ...state.examinationDates,
-          status: APIResponseStatus.InProgress,
-        },
-      };
-    case EXAMINATION_DATE_RECEIVED:
-      return {
-        ...state,
-        examinationDates: {
-          dates: action.dates as Array<ExaminationDate>,
-          status: APIResponseStatus.Success,
-        },
-      };
-    case EXAMINATION_DATE_ERROR:
-      return {
-        ...state,
-        examinationDates: {
-          ...state.examinationDates,
-          status: APIResponseStatus.Error,
-        },
-      };
+const examinationDateSlice = createSlice({
+  name: 'examinationDate',
+  initialState,
+  reducers: {
+    addExaminationDateFilter(
+      state,
+      action: PayloadAction<ExaminationDateFilter>
+    ) {
+      state.filter = action.payload;
+    },
+    loadExaminationDates(state) {
+      state.examinationDates.status = APIResponseStatus.InProgress;
+    },
+    rejectExaminationDates(state) {
+      state.examinationDates.status = APIResponseStatus.Error;
+    },
+    storeExaminationDates(
+      state,
+      action: PayloadAction<Array<ExaminationDate>>
+    ) {
+      state.examinationDates.dates = action.payload;
+      state.examinationDates.status = APIResponseStatus.Success;
+    },
+    removeExaminationDate(state, _action: PayloadAction<number>) {
+      state.removeExaminationDate.status = APIResponseStatus.InProgress;
+    },
+    removingExaminationDateSucceeded(state) {
+      state.removeExaminationDate.status = APIResponseStatus.Success;
+    },
+    rejectExaminationDateRemove(state) {
+      state.removeExaminationDate.status = APIResponseStatus.Error;
+    },
+    addExaminationDate(state, _action: PayloadAction<Dayjs>) {
+      state.addExaminationDate.status = APIResponseStatus.InProgress;
+    },
+    rejectExaminationDateAdd(state) {
+      state.addExaminationDate.status = APIResponseStatus.Error;
+    },
+    addingExaminationDateSucceeded(state) {
+      state.addExaminationDate.status = APIResponseStatus.Success;
+    },
+  },
+});
 
-    // Toggle filters
-    case EXAMINATION_DATE_ADD_FILTER:
-      return { ...state, filter: action.filter as ExaminationDateFilter };
-  }
-
-  return state;
-};
+export const examinationDateReducer = examinationDateSlice.reducer;
+export const {
+  addExaminationDate,
+  addExaminationDateFilter,
+  loadExaminationDates,
+  rejectExaminationDates,
+  storeExaminationDates,
+  removeExaminationDate,
+  removingExaminationDateSucceeded,
+  rejectExaminationDateRemove,
+  rejectExaminationDateAdd,
+  addingExaminationDateSucceeded,
+} = examinationDateSlice.actions;

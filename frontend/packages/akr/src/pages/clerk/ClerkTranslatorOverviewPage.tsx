@@ -12,10 +12,10 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
-  fetchClerkTranslatorOverview,
+  loadClerkTranslatorOverviewWithId,
   resetClerkTranslatorOverview,
-} from 'redux/actions/clerkTranslatorOverview';
-import { showNotifierToast } from 'redux/actions/notifier';
+} from 'redux/reducers/clerkTranslatorOverview';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -42,7 +42,7 @@ export const ClerkTranslatorOverviewPage = () => {
       params.translatorId
     ) {
       // Fetch translator overview
-      dispatch(fetchClerkTranslatorOverview(+params.translatorId));
+      dispatch(loadClerkTranslatorOverviewWithId(+params.translatorId));
     } else if (
       overviewStatus === APIResponseStatus.Error ||
       !Number(params.translatorId)
@@ -66,7 +66,7 @@ export const ClerkTranslatorOverviewPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetClerkTranslatorOverview);
+      dispatch(resetClerkTranslatorOverview());
     };
   }, [dispatch]);
 

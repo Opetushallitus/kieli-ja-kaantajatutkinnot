@@ -1,4 +1,3 @@
-import { Action } from 'redux';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -39,13 +38,4 @@ export interface PublicTranslatorState extends PublicTranslatorResponse {
   status: APIResponseStatus;
   selectedTranslators: Array<number>;
   filters: PublicTranslatorFilter;
-}
-
-export interface PublicTranslatorAction
-  extends Action<string>,
-    Partial<PublicTranslatorResponse> {
-  index?: number;
-  filters?: PublicTranslatorFilter;
-  filterErrorName?: SearchFilter;
-  error?: Error;
 }

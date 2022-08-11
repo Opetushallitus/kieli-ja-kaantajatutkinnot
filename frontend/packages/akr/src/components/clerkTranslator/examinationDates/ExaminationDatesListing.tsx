@@ -10,9 +10,8 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { ExaminationDate } from 'interfaces/examinationDate';
-import { removeExaminationDate } from 'redux/actions/examinationDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
+import { removeExaminationDate } from 'redux/reducers/examinationDate';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
@@ -44,7 +43,7 @@ const ListingRow = ({
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),

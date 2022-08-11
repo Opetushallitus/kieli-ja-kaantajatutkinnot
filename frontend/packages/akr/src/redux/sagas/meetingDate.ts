@@ -1,71 +1,64 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
+import { Dayjs } from 'dayjs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { DateUtils } from 'shared/utils';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
+import { MeetingDateResponse } from 'interfaces/meetingDate';
 import {
-  AddMeetingDateActionType,
-  MeetingDateResponse,
-  MeetingDates,
-  RemoveMeetingDateActionType,
-} from 'interfaces/meetingDate';
-import {
-  MEETING_DATE_ADD,
-  MEETING_DATE_ADD_ERROR,
-  MEETING_DATE_ADD_SUCCESS,
-  MEETING_DATE_ERROR,
-  MEETING_DATE_LOAD,
-  MEETING_DATE_LOADING,
-  MEETING_DATE_RECEIVED,
-  MEETING_DATE_REMOVE,
-  MEETING_DATE_REMOVE_ERROR,
-  MEETING_DATE_REMOVE_SUCCESS,
-} from 'redux/actionTypes/meetingDate';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
+  addingMeetingDateSucceeded,
+  addMeetingDate,
+  loadMeetingDates,
+  rejectMeetingDateAdd,
+  rejectMeetingDateRemove,
+  rejectMeetingDates,
+  removeMeetingDate,
+  removingMeetingDateSucceeded,
+  storeMeetingDates,
+} from 'redux/reducers/meetingDate';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* removeMeetingDate(action: RemoveMeetingDateActionType) {
+export function* deleteMeetingDate(action: PayloadAction<number>) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.MeetingDate}/${action.meetingDateId}`
+      `${APIEndpoints.MeetingDate}/${action.payload}`
     );
-    yield put({ type: MEETING_DATE_REMOVE_SUCCESS });
-    yield put({ type: MEETING_DATE_LOAD });
+    yield put(removingMeetingDateSucceeded());
+    yield put(loadMeetingDates());
   } catch (error) {
-    yield put({ type: MEETING_DATE_REMOVE_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put(rejectMeetingDateRemove());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
-export function* addMeetingDate(action: AddMeetingDateActionType) {
+export function* insertMeetingDate(action: PayloadAction<Dayjs>) {
   try {
     yield call(axiosInstance.post, APIEndpoints.MeetingDate, {
-      date: DateUtils.serializeDate(action.date),
+      date: DateUtils.serializeDate(action.payload),
     });
-    yield put({ type: MEETING_DATE_ADD_SUCCESS });
-    yield put({ type: MEETING_DATE_LOAD });
+    yield put(addingMeetingDateSucceeded());
+    yield put(loadMeetingDates());
   } catch (error) {
-    yield put({ type: MEETING_DATE_ADD_ERROR });
-    yield put({
-      type: NOTIFIER_TOAST_ADD,
-      notifier: NotifierUtils.createAxiosErrorNotifierToast(
-        error as AxiosError
-      ),
-    });
+    yield put(rejectMeetingDateAdd());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
 function* fetchMeetingDates() {
   try {
-    yield put({ type: MEETING_DATE_LOADING });
     const apiResponse: AxiosResponse<Array<MeetingDateResponse>> = yield call(
       axiosInstance.get,
       APIEndpoints.MeetingDate
@@ -74,23 +67,14 @@ function* fetchMeetingDates() {
     const deserializedResponse = SerializationUtils.deserializeMeetingDates(
       apiResponse.data
     );
-    yield call(storeApiResults, deserializedResponse);
+    yield put(storeMeetingDates(deserializedResponse.meetingDates));
   } catch (error) {
-    yield put({ type: MEETING_DATE_ERROR, error });
+    yield put(rejectMeetingDates());
   }
 }
 
-export function* storeApiResults(response: MeetingDates) {
-  const { meetingDates } = response;
-
-  yield put({
-    type: MEETING_DATE_RECEIVED,
-    meetingDates,
-  });
-}
-
 export function* watchMeetingDates() {
-  yield takeLatest(MEETING_DATE_LOAD, fetchMeetingDates);
-  yield takeLatest(MEETING_DATE_ADD, addMeetingDate);
-  yield takeLatest(MEETING_DATE_REMOVE, removeMeetingDate);
+  yield takeLatest(loadMeetingDates, fetchMeetingDates);
+  yield takeLatest(addMeetingDate.type, insertMeetingDate);
+  yield takeLatest(removeMeetingDate.type, deleteMeetingDate);
 }

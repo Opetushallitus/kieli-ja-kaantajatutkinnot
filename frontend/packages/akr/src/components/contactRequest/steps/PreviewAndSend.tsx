@@ -16,7 +16,7 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { setContactRequest } from 'redux/actions/contactRequest';
+import { setContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
 const PrivacyStatementCheckboxLabel = () => {
