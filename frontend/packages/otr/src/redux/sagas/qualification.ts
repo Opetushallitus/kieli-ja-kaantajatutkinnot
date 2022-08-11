@@ -1,14 +1,19 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
+import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 import { loadClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
 import {
   addQualification,
   addQualificationSuccess,
   rejectAddQualification,
+  rejectRemoveQualification,
+  removeQualification,
+  removeQualificationSuccess,
 } from 'redux/reducers/qualification';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -31,6 +36,28 @@ function* onAddQualification(action: PayloadAction<Qualification>) {
   }
 }
 
+function* onRemoveQualification(action: PayloadAction<number>) {
+  try {
+    const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
+      axiosInstance.delete,
+      `${APIEndpoints.ClerkInterpreter}/qualification/${action.payload}`
+    );
+
+    const interpreter = SerializationUtils.deserializeClerkInterpreter(
+      apiResponse.data
+    );
+
+    yield put(removeQualificationSuccess());
+    yield put(loadClerkInterpreterOverview({ id: interpreter.id }));
+  } catch (error) {
+    yield put(rejectRemoveQualification());
+  }
+}
+
 export function* watchAddQualification() {
   yield takeLatest(addQualification, onAddQualification);
+}
+
+export function* watchRemoveQualification() {
+  yield takeLatest(removeQualification, onRemoveQualification);
 }

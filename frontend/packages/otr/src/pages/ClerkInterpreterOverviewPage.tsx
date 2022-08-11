@@ -29,9 +29,7 @@ export const ClerkInterpreterOverviewPage = () => {
   const { overviewStatus, interpreter } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
-  const { status: addQualificationStatus } = useAppSelector(
-    qualificationSelector
-  );
+  const { addQualificationStatus } = useAppSelector(qualificationSelector);
 
   const selectedInterpreterId = interpreter?.id;
   // React Router
@@ -93,6 +91,7 @@ export const ClerkInterpreterOverviewPage = () => {
         Duration.Short
       );
       dispatch(showNotifierToast(toast));
+      dispatch(resetQualification());
     }
   }, [addQualificationStatus, dispatch, t]);
 

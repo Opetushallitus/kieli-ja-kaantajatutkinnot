@@ -7,18 +7,26 @@ import {
   Text,
   ToggleFilterGroup,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 
 import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
-import { addQualification } from 'redux/reducers/qualification';
+import {
+  removeNotifierDialog,
+  showNotifierDialog,
+} from 'redux/reducers/notifier';
+import {
+  addQualification,
+  removeQualification,
+} from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { qualificationSelector } from 'redux/selectors/qualification';
+import { NotifierUtils } from 'utils/notifier';
 import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
@@ -33,14 +41,13 @@ export const QualificationDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
-  const { status: addQualificationStatus } = useAppSelector(
-    qualificationSelector
-  );
+  const { addQualificationStatus } = useAppSelector(qualificationSelector);
 
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
+  const translateCommon = useCommonTranslation();
 
   if (!interpreter) {
     return null;
@@ -78,6 +85,30 @@ export const QualificationDetails = () => {
 
   const handleAddQualification = (qualification: Qualification) => {
     dispatch(addQualification(qualification));
+  };
+
+  const onQualificationRemove = (qualification: Qualification) => {
+    const notifier = NotifierUtils.createNotifierDialog(
+      t('actions.removal.dialog.header'),
+      Severity.Info,
+      t('actions.removal.dialog.description'),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+          action: () => dispatch(removeNotifierDialog(notifier.id)),
+        },
+        {
+          title: t('actions.removal.dialog.confirmButton'),
+          variant: Variant.Contained,
+          action: () =>
+            dispatch(removeQualification(qualification.id as number)),
+          buttonColor: Color.Error,
+        },
+      ]
+    );
+
+    dispatch(showNotifierDialog(notifier));
   };
 
   return (
@@ -120,6 +151,7 @@ export const QualificationDetails = () => {
           <QualificationListing
             qualifications={activeQualifications}
             permissionToPublishReadOnly={false}
+            onQualificationRemove={onQualificationRemove}
           />
         ) : (
           <Text className="centered bold margin-top-lg">

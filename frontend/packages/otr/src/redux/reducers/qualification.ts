@@ -4,7 +4,8 @@ import { APIResponseStatus } from 'shared/enums';
 import { Qualification, QualificationState } from 'interfaces/qualification';
 
 const initialState: QualificationState = {
-  status: APIResponseStatus.NotStarted,
+  addQualificationStatus: APIResponseStatus.NotStarted,
+  removeQualificationStatus: APIResponseStatus.NotStarted,
   qualification: {},
 };
 
@@ -13,18 +14,28 @@ const qualificationSlice = createSlice({
   initialState,
   reducers: {
     resetQualification(state) {
-      state.status = initialState.status;
+      state.removeQualificationStatus = initialState.removeQualificationStatus;
+      state.addQualificationStatus = initialState.addQualificationStatus;
       state.qualification = initialState.qualification;
     },
     addQualification(state, action: PayloadAction<Qualification>) {
-      state.status = APIResponseStatus.InProgress;
+      state.addQualificationStatus = APIResponseStatus.InProgress;
       state.qualification = action.payload;
     },
     rejectAddQualification(state) {
-      state.status = APIResponseStatus.Error;
+      state.addQualificationStatus = APIResponseStatus.Error;
     },
     addQualificationSuccess(state) {
-      state.status = APIResponseStatus.Success;
+      state.addQualificationStatus = APIResponseStatus.Success;
+    },
+    removeQualification(state, _action: PayloadAction<number>) {
+      state.removeQualificationStatus = APIResponseStatus.InProgress;
+    },
+    rejectRemoveQualification(state) {
+      state.addQualificationStatus = APIResponseStatus.Error;
+    },
+    removeQualificationSuccess(state) {
+      state.addQualificationStatus = APIResponseStatus.Success;
     },
   },
 });
@@ -35,4 +46,7 @@ export const {
   rejectAddQualification,
   addQualificationSuccess,
   resetQualification,
+  removeQualification,
+  rejectRemoveQualification,
+  removeQualificationSuccess,
 } = qualificationSlice.actions;

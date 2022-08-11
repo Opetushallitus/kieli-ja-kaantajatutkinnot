@@ -35,9 +35,11 @@ import { NotifierUtils } from 'utils/notifier';
 export const QualificationListing = ({
   qualifications,
   permissionToPublishReadOnly,
+  onQualificationRemove,
 }: {
   qualifications: Array<Qualification>;
   permissionToPublishReadOnly: boolean;
+  onQualificationRemove: (q: Qualification) => void;
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
@@ -111,68 +113,70 @@ export const QualificationListing = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {qualifications.map((q, i) => (
-            <TableRow
-              key={q.id ?? q.tempId}
-              data-testid={`qualifications-table__id-${
-                q.id ?? `${i}-unsaved`
-              }-row`}
-            >
-              <TableCell>
-                <Text>
-                  {`${translateLanguage(q.fromLang)}
-             - ${translateLanguage(q.toLang)}`}
-                </Text>
-              </TableCell>
-              <TableCell>
-                <div className="columns gapped-xs">
-                  <Text>{getExaminationTypeText(q.examinationType)}</Text>
-                </div>
-              </TableCell>
-              <TableCell>
-                <Text>{DateUtils.formatOptionalDate(dayjs(q.beginDate))}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>{DateUtils.formatOptionalDate(dayjs(q.endDate))}</Text>
-              </TableCell>
-              <TableCell>
-                {permissionToPublishReadOnly ? (
+          {qualifications
+            .filter((q) => !q.deleted)
+            .map((q, i) => (
+              <TableRow
+                key={q.id ?? q.tempId}
+                data-testid={`qualifications-table__id-${
+                  q.id ?? `${i}-unsaved`
+                }-row`}
+              >
+                <TableCell>
                   <Text>
-                    {q.permissionToPublish
-                      ? translateCommon('yes')
-                      : translateCommon('no')}
+                    {`${translateLanguage(q.fromLang)}
+             - ${translateLanguage(q.toLang)}`}
                   </Text>
-                ) : (
-                  <CustomSwitch
-                    value={q.permissionToPublish}
-                    onChange={() => {
-                      onPublishPermissionChange(q);
-                    }}
-                    leftLabel={translateCommon('no')}
-                    rightLabel={translateCommon('yes')}
-                    aria-label={t(
-                      'actions.changePermissionToPublish.ariaLabel'
-                    )}
-                  />
-                )}
-              </TableCell>
-              <TableCell className="centered">
-                <CustomIconButton
-                  onChange={() => {
-                    return;
-                  }}
-                  aria-label={t('actions.removal.ariaLabel')}
-                  data-testid={
-                    q.id
-                      ? `qualifications-table__id-${q.id}-row__delete-button`
-                      : `qualifications-table__id-${i}-unsaved}-row__delete-button`
-                  }
-                >
-                  <DeleteIcon color={Color.Error} />
-                </CustomIconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell>
+                  <div className="columns gapped-xs">
+                    <Text>{getExaminationTypeText(q.examinationType)}</Text>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Text>
+                    {DateUtils.formatOptionalDate(dayjs(q.beginDate))}
+                  </Text>
+                </TableCell>
+                <TableCell>
+                  <Text>{DateUtils.formatOptionalDate(dayjs(q.endDate))}</Text>
+                </TableCell>
+                <TableCell>
+                  {permissionToPublishReadOnly ? (
+                    <Text>
+                      {q.permissionToPublish
+                        ? translateCommon('yes')
+                        : translateCommon('no')}
+                    </Text>
+                  ) : (
+                    <CustomSwitch
+                      value={q.permissionToPublish}
+                      onChange={() => {
+                        onPublishPermissionChange(q);
+                      }}
+                      leftLabel={translateCommon('no')}
+                      rightLabel={translateCommon('yes')}
+                      aria-label={t(
+                        'actions.changePermissionToPublish.ariaLabel'
+                      )}
+                    />
+                  )}
+                </TableCell>
+                <TableCell className="centered">
+                  <CustomIconButton
+                    onClick={() => onQualificationRemove(q)}
+                    aria-label={t('actions.removal.ariaLabel')}
+                    data-testid={
+                      q.id
+                        ? `qualifications-table__id-${q.id}-row__delete-button`
+                        : `qualifications-table__id-${i}-unsaved}-row__delete-button`
+                    }
+                  >
+                    <DeleteIcon color={Color.Error} />
+                  </CustomIconButton>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </LoadingProgressIndicator>

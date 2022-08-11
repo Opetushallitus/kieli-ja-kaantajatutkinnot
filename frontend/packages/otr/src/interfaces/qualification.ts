@@ -15,6 +15,7 @@ export interface Qualification extends WithId, WithVersion {
   diaryNumber?: string;
   tempId?: string;
   interpreterId?: number;
+  deleted?: boolean;
 }
 
 export interface QualificationResponse
@@ -30,5 +31,6 @@ export type QualificationsGroupedByStatus = {
 
 export interface QualificationState {
   qualification: Qualification | Record<string, never>;
-  status: APIResponseStatus;
+  addQualificationStatus: APIResponseStatus;
+  removeQualificationStatus: APIResponseStatus;
 }
