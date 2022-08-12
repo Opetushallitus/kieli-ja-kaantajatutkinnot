@@ -68,7 +68,6 @@ class PublicInterpreterServiceTest {
     final Interpreter interpreter3 = createInterpreter();
     final Interpreter interpreter4 = createInterpreter();
     final Interpreter interpreter5 = createInterpreterDeleted();
-    final Interpreter interpreter6 = createInterpreter();
 
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
@@ -120,8 +119,6 @@ class PublicInterpreterServiceTest {
     createQualification(interpreter4, meetingDate, "FI", "DN", tomorrow, nextWeek, true);
     // Hidden, interpreter marked deleted
     createQualification(interpreter5, meetingDate, "FI", "DE", yesterday, nextWeek, true);
-    // Hidden, deleted
-    createQualificationDeleted(interpreter6, meetingDate, "FI", "FR", yesterday, nextWeek, true);
 
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
@@ -211,26 +208,6 @@ class PublicInterpreterServiceTest {
     qualification.setBeginDate(beginDate);
     qualification.setEndDate(endDate);
     qualification.setPermissionToPublish(permissionToPublish);
-    entityManager.persist(qualification);
-    return qualification;
-  }
-
-  private Qualification createQualificationDeleted(
-    final Interpreter interpreter,
-    final MeetingDate meetingDate,
-    final String fromLang,
-    final String toLang,
-    final LocalDate beginDate,
-    final LocalDate endDate,
-    final boolean permissionToPublish
-  ) {
-    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
-    qualification.setFromLang(fromLang);
-    qualification.setToLang(toLang);
-    qualification.setBeginDate(beginDate);
-    qualification.setEndDate(endDate);
-    qualification.setPermissionToPublish(permissionToPublish);
-    qualification.markDeleted();
     entityManager.persist(qualification);
     return qualification;
   }

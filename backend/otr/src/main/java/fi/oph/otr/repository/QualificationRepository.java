@@ -17,7 +17,6 @@ public interface QualificationRepository extends JpaRepository<Qualification, Lo
     " WHERE q.beginDate <= CURRENT_DATE" +
     " AND CURRENT_DATE <= q.endDate" +
     " AND q.permissionToPublish = true" +
-    " AND q.deletedAt IS NULL" +
     " AND i.deletedAt IS NULL" +
     " GROUP BY i.id, q.fromLang, q.toLang"
   )
