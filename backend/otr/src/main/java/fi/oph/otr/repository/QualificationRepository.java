@@ -26,8 +26,11 @@ public interface QualificationRepository extends JpaRepository<Qualification, Lo
   @Query(
     "SELECT q.id" +
     " FROM Qualification q" +
+    " JOIN q.interpreter i" +
     " LEFT JOIN q.reminders qr" +
     " WHERE q.endDate BETWEEN ?1 AND ?2" +
+    " AND q.deletedAt IS NULL" +
+    " AND i.deletedAt IS NULL" +
     " GROUP BY q.id, qr.id" +
     " HAVING COUNT(qr.id) = 0 OR MAX(qr.createdAt) < ?3"
   )

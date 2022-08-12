@@ -60,6 +60,8 @@ public class ExpiringQualificationsEmailCreatorTest {
 
     final Qualification expiredQ = createQualification(meetingDate, date.minusDays(1));
     final Qualification qExpiringLater = createQualification(meetingDate, date.plusMonths(3).plusDays(1));
+    final Qualification qDeleted = createQualification(meetingDate, date, true, false);
+    final Qualification iDeleted = createQualification(meetingDate, date, false, true);
 
     final Qualification remindedQ1 = createQualification(meetingDate, date.plusMonths(1));
     createQualificationReminder(remindedQ1);
@@ -82,12 +84,22 @@ public class ExpiringQualificationsEmailCreatorTest {
   }
 
   private Qualification createQualification(final MeetingDate meetingDate, final LocalDate endDate) {
+    return createQualification(meetingDate, endDate, false, false);
+  }
+
+  private Qualification createQualification(final MeetingDate meetingDate, final LocalDate endDate, final boolean qualificationDeleted, final boolean interpreterDeleted) {
     final Interpreter interpreter = Factory.interpreter();
+    if(interpreterDeleted) {
+      interpreter.markDeleted();
+    }
     entityManager.persist(interpreter);
 
     final Qualification qualification = Factory.qualification(interpreter, meetingDate);
     qualification.setBeginDate(endDate.minusYears(1));
     qualification.setEndDate(endDate);
+    if(qualificationDeleted) {
+      qualification.markDeleted();
+    }
     entityManager.persist(qualification);
 
     return qualification;
