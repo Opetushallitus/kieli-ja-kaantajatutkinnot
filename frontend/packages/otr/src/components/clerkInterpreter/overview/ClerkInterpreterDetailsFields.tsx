@@ -42,9 +42,12 @@ const getFieldError = (
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
   const value = (interpreter && interpreter[field]) || '';
-  const required =
-    field == ClerkInterpreterTextFieldEnum.FirstName ||
-    field == ClerkInterpreterTextFieldEnum.LastName;
+  const required = [
+    ClerkInterpreterTextFieldEnum.LastName,
+    ClerkInterpreterTextFieldEnum.FirstName,
+    ClerkInterpreterTextFieldEnum.NickName,
+    ClerkInterpreterTextFieldEnum.IdentityNumber,
+  ].includes(field);
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -231,6 +234,9 @@ export const ClerkInterpreterDetailsFields = ({
         />
         <ClerkInterpreterDetailsTextField
           {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.FirstName)}
+        />
+        <ClerkInterpreterDetailsTextField
+          {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.NickName)}
         />
         <ClerkInterpreterDetailsTextField
           {...getCommonTextFieldProps(

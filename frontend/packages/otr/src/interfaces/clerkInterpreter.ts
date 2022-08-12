@@ -7,8 +7,9 @@ import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export interface ClerkInterpreterTextFields {
   identityNumber: string;
-  firstName: string;
   lastName: string;
+  firstName: string;
+  nickName: string;
   email: string;
   // Optional fields
   phoneNumber?: string;
@@ -23,13 +24,13 @@ export interface ClerkInterpreter
   extends WithId,
     WithVersion,
     ClerkInterpreterTextFields {
-  isIndividualised: boolean;
   deleted: boolean;
+  isIndividualised: boolean;
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;
   permissionToPublishOtherContactInfo: boolean;
-  qualifications: Array<Qualification>;
   regions: Array<string>;
+  qualifications: Array<Qualification>;
 }
 
 export interface ClerkInterpreterResponse
