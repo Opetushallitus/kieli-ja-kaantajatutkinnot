@@ -81,7 +81,7 @@ public class ClerkInterpreterService {
       .collect(Collectors.groupingBy(InterpreterRegionProjection::interpreterId));
 
     final Map<Long, List<Qualification>> interpreterQualifications = qualificationRepository
-      .findAll()
+      .findExistingQualifications()
       .stream()
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
@@ -92,8 +92,10 @@ public class ClerkInterpreterService {
       .stream()
       .map(interpreter -> {
         final PersonalData personalData = personalDatas.get(interpreter.getOnrId());
-        final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
-
+        final List<Qualification> qualifications = interpreterQualifications.getOrDefault(
+          interpreter.getId(),
+          Collections.emptyList()
+        );
         final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
           interpreter.getId(),
           Collections.emptyList()
@@ -148,7 +150,6 @@ public class ClerkInterpreterService {
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
-      .deleted(qualification.isDeleted())
       .fromLang(qualification.getFromLang())
       .toLang(qualification.getToLang())
       .beginDate(qualification.getBeginDate())

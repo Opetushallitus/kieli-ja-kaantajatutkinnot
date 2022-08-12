@@ -321,7 +321,6 @@ class ClerkInterpreterServiceTest {
 
     final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().get(0);
     assertEquals(0, qualification1.version());
-    assertFalse(qualification1.deleted());
     assertEquals("FI", qualification1.fromLang());
     assertEquals("SE", qualification1.toLang());
     assertEquals(today, qualification1.beginDate());
@@ -718,6 +717,8 @@ class ClerkInterpreterServiceTest {
     createInterpreter(meetingDate, "2");
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
+    assertTrue(dto.deleted());
+    assertEquals(0, dto.qualifications().size());
 
     interpreterRepository
       .findAll()
@@ -727,7 +728,7 @@ class ClerkInterpreterServiceTest {
         assertEquals(isDeleted, interpreter.isDeleted());
         interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
       });
-    assertTrue(dto.deleted());
+
     verify(auditService).logById(OtrOperation.DELETE_INTERPRETER, id);
     verifyNoMoreInteractions(auditService);
   }
@@ -772,7 +773,6 @@ class ClerkInterpreterServiceTest {
 
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
-    assertFalse(qualificationDTO.deleted());
     assertEquals("FI", qualificationDTO.fromLang());
     assertEquals("CS", qualificationDTO.toLang());
     assertEquals(today, qualificationDTO.beginDate());
@@ -908,7 +908,6 @@ class ClerkInterpreterServiceTest {
     final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
-    assertFalse(qualificationDTO.deleted());
     assertEquals("FI", qualificationDTO.fromLang());
     assertEquals("NO", qualificationDTO.toLang());
     assertEquals(begin, qualificationDTO.beginDate());
@@ -967,8 +966,11 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(qualification2);
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
+    assertEquals(1, dto.qualifications().size());
+    assertEquals(qualification2.getId(), dto.qualifications().get(0).id());
 
-    dto.qualifications().forEach(q -> assertEquals(Objects.equals(qualification1.getId(), q.id()), q.deleted()));
+    assertTrue(qualificationRepository.getReferenceById(qualification1.getId()).isDeleted());
+
     verify(auditService).logQualification(OtrOperation.DELETE_QUALIFICATION, interpreter, qualification1.getId());
     verifyNoMoreInteractions(auditService);
   }

@@ -5,7 +5,6 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType } from 'enums/interpreter';
 
 export interface Qualification extends WithId, WithVersion {
-  deleted: boolean;
   fromLang: string;
   toLang: string;
   beginDate: Dayjs;
