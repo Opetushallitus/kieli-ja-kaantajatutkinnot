@@ -328,7 +328,6 @@ class ClerkInterpreterServiceTest {
 
     final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().get(0);
     assertEquals(0, qualification1.version());
-    assertFalse(qualification1.deleted());
     assertEquals("FI", qualification1.fromLang());
     assertEquals("SE", qualification1.toLang());
     assertEquals(today, qualification1.beginDate());
@@ -737,7 +736,6 @@ class ClerkInterpreterServiceTest {
 
     assertNotNull(qualificationDTO);
     assertEquals(0, qualificationDTO.version());
-    assertFalse(qualificationDTO.deleted());
     assertEquals("FI", qualificationDTO.fromLang());
     assertEquals("CS", qualificationDTO.toLang());
     assertEquals(today, qualificationDTO.beginDate());
@@ -873,7 +871,6 @@ class ClerkInterpreterServiceTest {
     final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
-    assertFalse(qualificationDTO.deleted());
     assertEquals("FI", qualificationDTO.fromLang());
     assertEquals("NO", qualificationDTO.toLang());
     assertEquals(begin, qualificationDTO.beginDate());

@@ -154,7 +154,6 @@ public class ClerkInterpreterService {
       .builder()
       .id(qualification.getId())
       .version(qualification.getVersion())
-      .deleted(qualification.isDeleted())
       .fromLang(qualification.getFromLang())
       .toLang(qualification.getToLang())
       .beginDate(qualification.getBeginDate())
