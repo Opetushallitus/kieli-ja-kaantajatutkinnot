@@ -22,15 +22,18 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.model.Email;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
 import fi.oph.otr.model.QualificationExaminationType;
+import fi.oph.otr.model.QualificationReminder;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.MeetingDateRepository;
+import fi.oph.otr.repository.QualificationReminderRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -64,6 +67,9 @@ class ClerkInterpreterServiceTest {
 
   @Resource
   private QualificationRepository qualificationRepository;
+
+  @Resource
+  private QualificationReminderRepository qualificationReminderRepository;
 
   @Resource
   private RegionRepository regionRepository;
@@ -102,6 +108,7 @@ class ClerkInterpreterServiceTest {
         interpreterRepository,
         meetingDateRepository,
         qualificationRepository,
+        qualificationReminderRepository,
         regionRepository,
         regionService,
         languageService,
@@ -683,16 +690,9 @@ class ClerkInterpreterServiceTest {
     createInterpreter(meetingDate, "2");
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
-
-    interpreterRepository
-      .findAll()
-      .forEach(interpreter -> {
-        final boolean isDeleted = Objects.equals(id, interpreter.getId());
-
-        assertEquals(isDeleted, interpreter.isDeleted());
-        interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
-      });
     assertTrue(dto.deleted());
+    assertEquals(0, dto.qualifications().size());
+
     verify(auditService).logById(OtrOperation.DELETE_INTERPRETER, id);
     verifyNoMoreInteractions(auditService);
   }
@@ -925,15 +925,22 @@ class ClerkInterpreterServiceTest {
     interpreter.setOnrId("1");
     final Qualification qualification1 = Factory.qualification(interpreter, meetingDate);
     final Qualification qualification2 = Factory.qualification(interpreter, meetingDate);
+    final Email email = Factory.email();
+    final QualificationReminder qualificationReminder = Factory.qualificationReminder(qualification1, email);
 
     entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
     entityManager.persist(qualification1);
     entityManager.persist(qualification2);
+    entityManager.persist(email);
+    entityManager.persist(qualificationReminder);
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
+    assertEquals(1, dto.qualifications().size());
+    assertEquals(qualification2.getId(), dto.qualifications().get(0).id());
 
-    dto.qualifications().forEach(q -> assertEquals(Objects.equals(qualification1.getId(), q.id()), q.deleted()));
+    assertEquals(0, qualificationReminderRepository.findAll().size());
+
     verify(auditService).logQualification(OtrOperation.DELETE_QUALIFICATION, interpreter, qualification1.getId());
     verifyNoMoreInteractions(auditService);
   }
@@ -943,18 +950,15 @@ class ClerkInterpreterServiceTest {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Interpreter interpreter = Factory.interpreter();
     interpreter.setOnrId("1");
-    final Qualification qualification1 = Factory.qualification(interpreter, meetingDate);
-    final Qualification qualification2 = Factory.qualification(interpreter, meetingDate);
-    qualification2.setDeletedAt(LocalDateTime.now());
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
 
     entityManager.persist(meetingDate);
     entityManager.persist(interpreter);
-    entityManager.persist(qualification1);
-    entityManager.persist(qualification2);
+    entityManager.persist(qualification);
 
     assertAPIExceptionIsThrown(
       APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION,
-      () -> clerkInterpreterService.deleteQualification(qualification1.getId())
+      () -> clerkInterpreterService.deleteQualification(qualification.getId())
     );
   }
 

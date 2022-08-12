@@ -10,16 +10,17 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
-import fi.oph.otr.model.BaseEntity;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
+import fi.oph.otr.model.QualificationReminder;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.MeetingDateRepository;
+import fi.oph.otr.repository.QualificationReminderRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
@@ -27,6 +28,7 @@ import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,9 @@ public class ClerkInterpreterService {
 
   @Resource
   private final QualificationRepository qualificationRepository;
+
+  @Resource
+  private final QualificationReminderRepository qualificationReminderRepository;
 
   @Resource
   private final RegionRepository regionRepository;
@@ -91,8 +96,10 @@ public class ClerkInterpreterService {
       .stream()
       .map(interpreter -> {
         final PersonalData personalData = personalDatas.get(interpreter.getOnrId());
-        final List<Qualification> qualifications = interpreterQualifications.get(interpreter.getId());
-
+        final List<Qualification> qualifications = interpreterQualifications.getOrDefault(
+          interpreter.getId(),
+          Collections.emptyList()
+        );
         final List<InterpreterRegionProjection> regionProjections = interpreterRegionProjections.getOrDefault(
           interpreter.getId(),
           Collections.emptyList()
@@ -341,8 +348,15 @@ public class ClerkInterpreterService {
   @Transactional
   public ClerkInterpreterDTO deleteInterpreter(final long id) {
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
+    final Collection<Qualification> qualifications = interpreter.getQualifications();
+    final List<QualificationReminder> reminders = qualifications
+      .stream()
+      .flatMap(q -> q.getReminders().stream())
+      .toList();
+
+    qualificationReminderRepository.deleteAllInBatch(reminders);
+    qualificationRepository.deleteAllInBatch(qualifications);
     interpreter.markDeleted();
-    interpreter.getQualifications().forEach(BaseEntity::markDeleted);
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(id);
     auditService.logById(OtrOperation.DELETE_INTERPRETER, id);
@@ -387,11 +401,13 @@ public class ClerkInterpreterService {
   public ClerkInterpreterDTO deleteQualification(final long qualificationId) {
     final Qualification qualification = qualificationRepository.getReferenceById(qualificationId);
     final Interpreter interpreter = qualification.getInterpreter();
-    if (interpreter.getQualifications().stream().filter(q -> !q.isDeleted()).toList().size() == 1) {
+    if (interpreter.getQualifications().size() == 1) {
       throw new APIException(APIExceptionType.QUALIFICATION_DELETE_LAST_QUALIFICATION);
     }
+    final Collection<QualificationReminder> reminders = qualification.getReminders();
 
-    qualification.markDeleted();
+    qualificationReminderRepository.deleteAllInBatch(reminders);
+    qualificationRepository.deleteAllInBatch(List.of(qualification));
 
     final ClerkInterpreterDTO result = getInterpreterWithoutAudit(interpreter.getId());
     auditService.logQualification(OtrOperation.DELETE_QUALIFICATION, interpreter, qualificationId);
