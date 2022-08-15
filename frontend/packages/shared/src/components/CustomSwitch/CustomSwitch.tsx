@@ -4,15 +4,17 @@ import {
   Switch,
   SwitchProps,
 } from '@mui/material';
+import { ReactNode } from 'react';
 
 import { Color } from '../../enums/common';
 import { Caption, Text } from '../Text/Text';
+import './CustomSwitch.scss';
 
 interface CustomSwitchProps extends SwitchProps {
   dataTestId?: string;
   leftLabel: string;
   rightLabel: string;
-  errorLabel?: string;
+  errorLabel?: ReactNode;
   value?: boolean;
 }
 
@@ -47,7 +49,11 @@ export const CustomSwitch = ({
         />
       </div>
       {errorLabel && (
-        <Caption data-testid={`${dataTestId}__error-label`} color={'error'}>
+        <Caption
+          className="custom-switch__helper-text"
+          data-testid={`${dataTestId}__error-label`}
+          color={'error'}
+        >
           {errorLabel}
         </Caption>
       )}

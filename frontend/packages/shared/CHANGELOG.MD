@@ -9,7 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.0.18] - 2022-05-19
+## [1.0.19] - 2022-08-15
+
+## Added
+
+- New component InfoText
+- Styles for custom switch
+
+## Fixed
+
+- Datepicker min and max values are now formatted correctly
+
+## [1.0.18] - 2022-08-09
 
 ## Fixed
 

@@ -1,0 +1,7 @@
+.custom-switch {
+  &__helper-text {
+    &#{&} {
+      margin-left: 0.5rem;
+    }
+  }
+}
