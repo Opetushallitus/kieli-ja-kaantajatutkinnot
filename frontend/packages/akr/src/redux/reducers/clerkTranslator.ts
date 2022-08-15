@@ -32,7 +32,7 @@ const clerkTranslatorSlice = createSlice({
     },
     deselectClerkTranslator(state, action: PayloadAction<number>) {
       state.selectedTranslators = state.selectedTranslators.filter(
-        (idx) => idx !== action.payload
+        (id) => id !== action.payload
       );
     },
     loadClerkTranslators(state) {

@@ -13,11 +13,11 @@ const initialState: PublicTranslatorState = {
   selectedTranslators: [],
   translators: [],
   filters: {
-    errors: [],
     fromLang: '',
     toLang: '',
     name: '',
     town: '',
+    errors: [],
   },
   langs: { from: [], to: [] },
   towns: [],
@@ -27,8 +27,42 @@ export const publicTranslatorSlice = createSlice({
   name: 'publicTranslator',
   initialState,
   reducers: {
+    addPublicTranslatorFilterError(state, action: PayloadAction<SearchFilter>) {
+      state.filters.errors.push(action.payload);
+    },
+    deselectPublicTranslator(state, action: PayloadAction<number>) {
+      state.selectedTranslators = state.selectedTranslators.filter(
+        (id) => id !== action.payload
+      );
+    },
+    emptyPublicTranslatorFilters(state) {
+      state.filters = initialState.filters;
+    },
+    emptyPublicTranslatorSelections(state) {
+      state.selectedTranslators = initialState.selectedTranslators;
+    },
     loadPublicTranslators(state) {
       state.status = APIResponseStatus.InProgress;
+    },
+    rejectPublicTranslators(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    removePublicTranslatorFilterError(
+      state,
+      action: PayloadAction<SearchFilter>
+    ) {
+      state.filters.errors = state.filters.errors.filter(
+        (f) => f !== action.payload
+      );
+    },
+    selectPublicTranslator(state, action: PayloadAction<number>) {
+      state.selectedTranslators.push(action.payload);
+    },
+    setPublicTranslatorFilters(
+      state,
+      action: PayloadAction<PublicTranslatorFilter>
+    ) {
+      state.filters = { ...state.filters, ...action.payload };
     },
     storePublicTranslators(
       state,
@@ -39,53 +73,19 @@ export const publicTranslatorSlice = createSlice({
       state.langs = action.payload.langs;
       state.towns = action.payload.towns;
     },
-    rejectPublicTranslators(state) {
-      state.status = APIResponseStatus.Error;
-    },
-    addSelectedPublicTranslator(state, action: PayloadAction<number>) {
-      state.selectedTranslators.push(action.payload);
-    },
-    removeSelectedPublicTranslator(state, action: PayloadAction<number>) {
-      state.selectedTranslators = state.selectedTranslators.filter(
-        (idx) => idx !== action.payload
-      );
-    },
-    emptyPublicTranslatorSelections(state) {
-      state.selectedTranslators = initialState.selectedTranslators;
-    },
-    addPublicTranslatorFilters(
-      state,
-      action: PayloadAction<PublicTranslatorFilter>
-    ) {
-      state.filters = { ...state.filters, ...action.payload };
-    },
-    emptyPublicTranslatorFilters(state) {
-      state.filters = initialState.filters;
-    },
-    addPublicTranslatorFilterError(state, action: PayloadAction<SearchFilter>) {
-      state.filters.errors = [...state.filters.errors, action.payload];
-    },
-    removePublicTranslatorFilterError(
-      state,
-      action: PayloadAction<SearchFilter>
-    ) {
-      state.filters.errors = state.filters.errors.filter(
-        (f) => f !== action.payload
-      );
-    },
   },
 });
 
 export const publicTranslatorReducer = publicTranslatorSlice.reducer;
 export const {
-  loadPublicTranslators,
-  storePublicTranslators,
-  rejectPublicTranslators,
-  addSelectedPublicTranslator,
-  removeSelectedPublicTranslator,
-  emptyPublicTranslatorSelections,
-  addPublicTranslatorFilters,
-  emptyPublicTranslatorFilters,
   addPublicTranslatorFilterError,
+  deselectPublicTranslator,
+  emptyPublicTranslatorFilters,
+  emptyPublicTranslatorSelections,
+  loadPublicTranslators,
+  rejectPublicTranslators,
   removePublicTranslatorFilterError,
+  selectPublicTranslator,
+  setPublicTranslatorFilters,
+  storePublicTranslators,
 } = publicTranslatorSlice.actions;

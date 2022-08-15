@@ -38,10 +38,10 @@ import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
-  addPublicTranslatorFilters,
   emptyPublicTranslatorFilters,
   emptyPublicTranslatorSelections,
   removePublicTranslatorFilterError,
+  setPublicTranslatorFilters,
 } from 'redux/reducers/publicTranslator';
 import {
   filterPublicTranslators,
@@ -122,7 +122,7 @@ export const PublicTranslatorFilters = ({
       );
       dispatch(showNotifierToast(toast));
     } else {
-      dispatch(addPublicTranslatorFilters(filters));
+      dispatch(setPublicTranslatorFilters(filters));
       setShowTable(true);
       setSearchButtonDisabled(true);
     }

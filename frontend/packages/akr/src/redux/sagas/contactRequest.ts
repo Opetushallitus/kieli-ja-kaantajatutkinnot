@@ -8,9 +8,9 @@ import { APIEndpoints } from 'enums/api';
 import { PublicUIViews } from 'enums/app';
 import { ContactRequest } from 'interfaces/contactRequest';
 import {
+  concludeContactRequest,
   increaseContactRequestStep,
   rejectContactRequest,
-  resetAndRedirectContactRequest,
   sendContactRequest,
   sendingContactRequestSucceeded,
 } from 'redux/reducers/contactRequest';
@@ -76,7 +76,7 @@ export function* insertContactRequest(action: PayloadAction<ContactRequest>) {
 export function* watchContactRequest() {
   yield takeLatest(sendContactRequest.type, insertContactRequest);
   yield takeLatest(
-    resetAndRedirectContactRequest.type,
+    concludeContactRequest.type,
     resetTranslatorSelectionsAndRedirect
   );
 }

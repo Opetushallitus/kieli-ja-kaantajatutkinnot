@@ -28,7 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
-import { updateClerkTranslatorPublishPermission } from 'redux/reducers/clerkTranslatorOverview';
+import { updateAuthorisationPublishPermission } from 'redux/reducers/clerkTranslatorOverview';
 import { showNotifierDialog } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
@@ -77,7 +77,12 @@ export const AuthorisationListing = ({
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () =>
-            dispatch(updateClerkTranslatorPublishPermission(authorisation)),
+            dispatch(
+              updateAuthorisationPublishPermission({
+                ...authorisation,
+                permissionToPublish: !authorisation.permissionToPublish,
+              })
+            ),
         },
       ]
     );

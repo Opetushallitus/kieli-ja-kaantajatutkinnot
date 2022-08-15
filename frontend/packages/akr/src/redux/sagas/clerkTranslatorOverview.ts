@@ -4,34 +4,33 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
+import { Authorisation } from 'interfaces/authorisation';
 import {
   ClerkTranslator,
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
-import { storeClerkTranslators } from 'redux/reducers/clerkTranslator';
 import {
-  deleteClerkTranslatorAuthorisation,
-  deletingClerkTranslatorAuthorisationSucceeded,
   loadClerkTranslatorOverviewWithId,
-  loadingClerkTranslatorOverview,
   loadingClerkTranslatorOverviewSucceeded,
-  rejectClerkTranslatorAuthorisationDelete,
+  rejectAuthorisationPublishPermissionUpdate,
+  rejectAuthorisationRemove,
   rejectClerkTranslatorDetailsUpdate,
   rejectClerkTranslatorOverview,
-  rejectClerkTranslatorPublishPermissionUpdate,
+  removeAuthorisation,
+  removingAuthorisationSucceeded,
+  updateAuthorisationPublishPermission,
   updateClerkTranslatorDetails,
-  updateClerkTranslatorPublishPermission,
-  updatingCLerkTranslatorDetailsSucceeded,
-  updatingClerkTranslatorPublishPermissionSucceeded,
+  updatingAuthorisationPublishPermissionSucceeded,
+  updatingClerkTranslatorDetailsSucceeded,
 } from 'redux/reducers/clerkTranslatorOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
+import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* fetchClerkTranslatorOverview(action: PayloadAction<number>) {
   try {
-    yield put(loadingClerkTranslatorOverview());
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.get,
       `${APIEndpoints.ClerkTranslator}/${action.payload}`
@@ -46,28 +45,18 @@ function* fetchClerkTranslatorOverview(action: PayloadAction<number>) {
   }
 }
 
-export function* updateClerkTranslatorsState(translator: ClerkTranslator) {
-  const { translators, langs, meetingDates, examinationDates } = yield select(
-    clerkTranslatorsSelector
-  );
+function updateClerkTranslators(
+  translators: Array<ClerkTranslator>,
+  translator: ClerkTranslator
+) {
+  const updatedTranslators = [...translators];
   const translatorIdx = translators.findIndex(
     (t: ClerkTranslator) => t.id === translator.id
   );
 
-  const updatedTranslators = [...translators].splice(
-    translatorIdx,
-    1,
-    translator
-  );
+  updatedTranslators.splice(translatorIdx, 1, translator);
 
-  yield put(
-    storeClerkTranslators({
-      translators: updatedTranslators,
-      langs,
-      meetingDates,
-      examinationDates,
-    })
-  );
+  return updatedTranslators;
 }
 
 function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
@@ -77,12 +66,14 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
       APIEndpoints.ClerkTranslator,
       SerializationUtils.serializeClerkTranslator(action.payload)
     );
+    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    yield updateClerkTranslatorsState(translator);
+    const updatedTranslators = updateClerkTranslators(translators, translator);
+    yield updateClerkTranslatorsState(updatedTranslators);
 
-    yield put(updatingCLerkTranslatorDetailsSucceeded(translator));
+    yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
     yield put(rejectClerkTranslatorDetailsUpdate());
     yield put(
@@ -94,11 +85,7 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
 }
 
 function* updateAuthorisationPublishPermission(
-  action: PayloadAction<{
-    id: number;
-    version: number;
-    permissionToPublish: boolean;
-  }>
+  action: PayloadAction<Authorisation>
 ) {
   const { id, version, permissionToPublish } = action.payload;
   const requestBody = {
@@ -113,14 +100,16 @@ function* updateAuthorisationPublishPermission(
       APIEndpoints.AuthorisationPublishPermission,
       requestBody
     );
+    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    yield updateClerkTranslatorsState(translator);
+    const updatedTranslators = updateClerkTranslators(translators, translator);
+    yield updateClerkTranslatorsState(updatedTranslators);
 
-    yield put(updatingClerkTranslatorPublishPermissionSucceeded(translator));
+    yield put(updatingAuthorisationPublishPermissionSucceeded(translator));
   } catch (error) {
-    yield put(rejectClerkTranslatorPublishPermissionUpdate());
+    yield put(rejectAuthorisationPublishPermissionUpdate());
     yield put(
       showNotifierToast(
         NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
@@ -135,14 +124,16 @@ function* deleteAuthorisation(action: PayloadAction<number>) {
       axiosInstance.delete,
       `${APIEndpoints.Authorisation}/${action.payload}`
     );
+    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    yield updateClerkTranslatorsState(translator);
+    const updatedTranslators = updateClerkTranslators(translators, translator);
+    yield updateClerkTranslatorsState(updatedTranslators);
 
-    yield put(deletingClerkTranslatorAuthorisationSucceeded(translator));
+    yield put(removingAuthorisationSucceeded(translator));
   } catch (error) {
-    yield put(rejectClerkTranslatorAuthorisationDelete());
+    yield put(rejectAuthorisationRemove());
     yield put(
       showNotifierToast(
         NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
@@ -158,11 +149,8 @@ export function* watchClerkTranslatorOverview() {
     fetchClerkTranslatorOverview
   );
   yield takeLatest(
-    updateClerkTranslatorPublishPermission.type,
+    updateAuthorisationPublishPermission.type,
     updateAuthorisationPublishPermission
   );
-  yield takeLatest(
-    deleteClerkTranslatorAuthorisation.type,
-    deleteAuthorisation
-  );
+  yield takeLatest(removeAuthorisation.type, deleteAuthorisation);
 }

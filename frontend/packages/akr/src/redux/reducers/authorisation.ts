@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { AddAuthorisationState, Authorisation } from 'interfaces/authorisation';
+import { Authorisation } from 'interfaces/authorisation';
 
-const initialState: AddAuthorisationState = {
+export interface AuthorisationState {
+  status: APIResponseStatus;
+  authorisation: Authorisation | Record<string, never>;
+}
+
+const initialState: AuthorisationState = {
   status: APIResponseStatus.NotStarted,
   authorisation: {},
 };

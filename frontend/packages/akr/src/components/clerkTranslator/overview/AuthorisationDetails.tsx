@@ -17,7 +17,7 @@ import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import { addAuthorisation } from 'redux/reducers/authorisation';
-import { deleteClerkTranslatorAuthorisation } from 'redux/reducers/clerkTranslatorOverview';
+import { removeAuthorisation } from 'redux/reducers/clerkTranslatorOverview';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import { showNotifierDialog } from 'redux/reducers/notifier';
@@ -129,9 +129,7 @@ export const AuthorisationDetails = () => {
           title: t('actions.removal.dialog.confirmButton'),
           variant: Variant.Contained,
           action: () =>
-            dispatch(
-              deleteClerkTranslatorAuthorisation(authorisation.id as number)
-            ),
+            dispatch(removeAuthorisation(authorisation.id as number)),
           buttonColor: Color.Error,
         },
       ]

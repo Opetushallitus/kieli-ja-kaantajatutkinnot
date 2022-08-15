@@ -10,13 +10,13 @@ import {
 } from 'interfaces/examinationDate';
 
 const initialState: ExaminationDateState = {
-  examinationDates: {
-    status: APIResponseStatus.NotStarted,
-    dates: [],
-  },
   addExaminationDate: {
     status: APIResponseStatus.NotStarted,
     date: dayjs(),
+  },
+  examinationDates: {
+    status: APIResponseStatus.NotStarted,
+    dates: [],
   },
   removeExaminationDate: {
     status: APIResponseStatus.NotStarted,
@@ -29,17 +29,35 @@ const examinationDateSlice = createSlice({
   name: 'examinationDate',
   initialState,
   reducers: {
+    addExaminationDate(state, _action: PayloadAction<Dayjs>) {
+      state.addExaminationDate.status = APIResponseStatus.InProgress;
+    },
     addExaminationDateFilter(
       state,
       action: PayloadAction<ExaminationDateFilter>
     ) {
       state.filter = action.payload;
     },
+    addingExaminationDateSucceeded(state) {
+      state.addExaminationDate.status = APIResponseStatus.Success;
+    },
     loadExaminationDates(state) {
       state.examinationDates.status = APIResponseStatus.InProgress;
     },
     rejectExaminationDates(state) {
       state.examinationDates.status = APIResponseStatus.Error;
+    },
+    rejectExaminationDateAdd(state) {
+      state.addExaminationDate.status = APIResponseStatus.Error;
+    },
+    rejectExaminationDateRemove(state) {
+      state.removeExaminationDate.status = APIResponseStatus.Error;
+    },
+    removeExaminationDate(state, _action: PayloadAction<number>) {
+      state.removeExaminationDate.status = APIResponseStatus.InProgress;
+    },
+    removingExaminationDateSucceeded(state) {
+      state.removeExaminationDate.status = APIResponseStatus.Success;
     },
     storeExaminationDates(
       state,
@@ -48,24 +66,6 @@ const examinationDateSlice = createSlice({
       state.examinationDates.dates = action.payload;
       state.examinationDates.status = APIResponseStatus.Success;
     },
-    removeExaminationDate(state, _action: PayloadAction<number>) {
-      state.removeExaminationDate.status = APIResponseStatus.InProgress;
-    },
-    removingExaminationDateSucceeded(state) {
-      state.removeExaminationDate.status = APIResponseStatus.Success;
-    },
-    rejectExaminationDateRemove(state) {
-      state.removeExaminationDate.status = APIResponseStatus.Error;
-    },
-    addExaminationDate(state, _action: PayloadAction<Dayjs>) {
-      state.addExaminationDate.status = APIResponseStatus.InProgress;
-    },
-    rejectExaminationDateAdd(state) {
-      state.addExaminationDate.status = APIResponseStatus.Error;
-    },
-    addingExaminationDateSucceeded(state) {
-      state.addExaminationDate.status = APIResponseStatus.Success;
-    },
   },
 });
 
@@ -73,12 +73,12 @@ export const examinationDateReducer = examinationDateSlice.reducer;
 export const {
   addExaminationDate,
   addExaminationDateFilter,
+  addingExaminationDateSucceeded,
   loadExaminationDates,
   rejectExaminationDates,
-  storeExaminationDates,
+  rejectExaminationDateAdd,
+  rejectExaminationDateRemove,
   removeExaminationDate,
   removingExaminationDateSucceeded,
-  rejectExaminationDateRemove,
-  rejectExaminationDateAdd,
-  addingExaminationDateSucceeded,
+  storeExaminationDates,
 } = examinationDateSlice.actions;

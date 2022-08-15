@@ -12,9 +12,9 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactRequest } from 'interfaces/contactRequest';
 import {
+  concludeContactRequest,
   decreaseContactRequestStep,
   increaseContactRequestStep,
-  resetAndRedirectContactRequest,
   sendContactRequest,
 } from 'redux/reducers/contactRequest';
 import { showNotifierDialog } from 'redux/reducers/notifier';
@@ -65,7 +65,7 @@ export const ControlButtons = ({
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () => dispatch(resetAndRedirectContactRequest()),
+          action: () => dispatch(concludeContactRequest()),
         },
       ]
     );
@@ -77,7 +77,7 @@ export const ControlButtons = ({
     if (hasLocalChanges) {
       dispatchCancelNotifier();
     } else {
-      dispatch(resetAndRedirectContactRequest());
+      dispatch(concludeContactRequest());
     }
   };
 

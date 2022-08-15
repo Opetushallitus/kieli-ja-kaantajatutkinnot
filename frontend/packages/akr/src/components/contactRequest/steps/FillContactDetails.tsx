@@ -12,7 +12,7 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactDetails } from 'interfaces/contactRequest';
-import { setContactRequest } from 'redux/reducers/contactRequest';
+import { updateContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
 export const FillContactDetails = ({
@@ -66,7 +66,7 @@ export const FillContactDetails = ({
 
       onDataChanged();
       dispatch(
-        setContactRequest({
+        updateContactRequest({
           [fieldName]: event.target.value,
         })
       );

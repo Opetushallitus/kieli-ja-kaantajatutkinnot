@@ -2,6 +2,7 @@ import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 
+import { updateClerkTranslatorsState } from './clerkTranslator';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
@@ -14,26 +15,16 @@ import {
   saveClerkNewTranslator,
   storeClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
-import { storeClerkTranslators } from 'redux/reducers/clerkTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* updateClerkTranslatorsState(translator: ClerkTranslator) {
-  const { translators, langs, meetingDates, examinationDates } = yield select(
-    clerkTranslatorsSelector
-  );
-  const updatedTranslators = [...translators, translator];
-
-  yield put(
-    storeClerkTranslators({
-      translators: updatedTranslators,
-      langs,
-      meetingDates,
-      examinationDates,
-    })
-  );
+function updateClerkTranslators(
+  translators: Array<ClerkTranslator>,
+  translator: ClerkTranslator
+) {
+  return [...translators, translator];
 }
 
 function* insertNewClerkTranslator(action: PayloadAction<ClerkNewTranslator>) {
@@ -46,7 +37,12 @@ function* insertNewClerkTranslator(action: PayloadAction<ClerkNewTranslator>) {
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    yield updateClerkTranslatorsState(translator);
+    const { translators } = yield select(clerkTranslatorsSelector);
+    const updatedClerkTranslators = updateClerkTranslators(
+      translators,
+      translator
+    );
+    yield updateClerkTranslatorsState(updatedClerkTranslators);
 
     yield put(storeClerkNewTranslator(translator.id));
   } catch (error) {

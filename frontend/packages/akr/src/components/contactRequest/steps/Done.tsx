@@ -6,7 +6,7 @@ import { StepHeading } from 'components/contactRequest/ContactRequestFormUtils';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { resetAndRedirectContactRequest } from 'redux/reducers/contactRequest';
+import { concludeContactRequest } from 'redux/reducers/contactRequest';
 
 export const Done = () => {
   // I18n
@@ -19,7 +19,7 @@ export const Done = () => {
   const dispatch = useAppDispatch();
 
   const resetAndRedirect = () => {
-    dispatch(resetAndRedirectContactRequest());
+    dispatch(concludeContactRequest());
   };
 
   useEffect(() => {

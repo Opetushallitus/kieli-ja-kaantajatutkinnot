@@ -33,8 +33,8 @@ const clerkTranslatorEmailSlice = createSlice({
     sendClerkTranslatorEmail(state) {
       state.status = APIResponseStatus.InProgress;
     },
-    sendingClerkTranslatorEmailSucceeded(State) {
-      State.status = APIResponseStatus.Success;
+    sendingClerkTranslatorEmailSucceeded(state) {
+      state.status = APIResponseStatus.Success;
     },
     setClerkTranslatorEmail(
       state,

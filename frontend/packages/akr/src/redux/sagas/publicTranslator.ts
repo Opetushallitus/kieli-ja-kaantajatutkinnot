@@ -23,10 +23,6 @@ export function* fetchPublicTranslators() {
   }
 }
 
-export function* callFetchPublicTranslators() {
-  yield call(fetchPublicTranslators);
-}
-
 export function* watchFetchPublicTranslators() {
   yield takeLatest(loadPublicTranslators, fetchPublicTranslators);
 }

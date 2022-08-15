@@ -18,7 +18,8 @@ const clerkUserSlice = createSlice({
     },
     rejectClerkUser(state) {
       state.status = APIResponseStatus.Error;
-      state.isAuthenticated = false;
+      state.isAuthenticated = initialState.isAuthenticated;
+      state.oid = initialState.oid;
     },
     storeClerkUser(state, action: PayloadAction<ClerkUser>) {
       state.status = APIResponseStatus.Success;

@@ -16,24 +16,44 @@ const clerkTranslatorOverviewSlice = createSlice({
   name: 'clerkTranslatorOverview',
   initialState,
   reducers: {
-    loadClerkTranslatorOverviewWithId(state, _action: PayloadAction<number>) {
-      state.overviewStatus = APIResponseStatus.NotStarted;
+    cancelClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.Cancelled;
+    },
+    removeAuthorisation(state, _action: PayloadAction<number>) {
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+    },
+    removingAuthorisationSucceeded(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
     },
     loadClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.selectedTranslator = action.payload;
       state.overviewStatus = APIResponseStatus.NotStarted;
     },
-    loadingClerkTranslatorOverview(state) {
+    loadClerkTranslatorOverviewWithId(state, _action: PayloadAction<number>) {
       state.overviewStatus = APIResponseStatus.InProgress;
     },
-    updateClerkTranslatorDetails(
+    loadingClerkTranslatorOverviewSucceeded(
       state,
-      _action: PayloadAction<ClerkTranslator>
+      action: PayloadAction<ClerkTranslator>
     ) {
-      state.translatorDetailsStatus = APIResponseStatus.InProgress;
+      state.overviewStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
     },
-    cancelClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.Cancelled;
+    rejectClerkTranslatorOverview(state) {
+      state.overviewStatus = APIResponseStatus.Error;
+    },
+    rejectClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.Error;
+    },
+    rejectAuthorisationPublishPermissionUpdate(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
+    },
+    rejectAuthorisationRemove(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
     },
     resetClerkTranslatorDetailsUpdate(state) {
       state.translatorDetailsStatus = APIResponseStatus.NotStarted;
@@ -45,14 +65,26 @@ const clerkTranslatorOverviewSlice = createSlice({
       state.selectedTranslator = initialState.selectedTranslator;
       state.translatorDetailsStatus = initialState.translatorDetailsStatus;
     },
-    loadingClerkTranslatorOverviewSucceeded(
+    updateClerkTranslatorDetails(
+      state,
+      _action: PayloadAction<ClerkTranslator>
+    ) {
+      state.translatorDetailsStatus = APIResponseStatus.InProgress;
+    },
+    updateAuthorisationPublishPermission(
+      state,
+      _action: PayloadAction<Authorisation>
+    ) {
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+    },
+    updatingAuthorisationPublishPermissionSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.overviewStatus = APIResponseStatus.Success;
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
-    updatingCLerkTranslatorDetailsSucceeded(
+    updatingClerkTranslatorDetailsSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
@@ -60,62 +92,26 @@ const clerkTranslatorOverviewSlice = createSlice({
       state.translatorDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
-    rejectClerkTranslatorOverview(state) {
-      state.overviewStatus = APIResponseStatus.Error;
-    },
-    rejectClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.Error;
-    },
-    updateClerkTranslatorPublishPermission(
-      state,
-      _action: PayloadAction<Authorisation>
-    ) {
-      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
-    },
-    updatingClerkTranslatorPublishPermissionSucceeded(
-      state,
-      action: PayloadAction<ClerkTranslator>
-    ) {
-      state.authorisationDetailsStatus = APIResponseStatus.Success;
-      state.selectedTranslator = action.payload;
-    },
-    rejectClerkTranslatorPublishPermissionUpdate(state) {
-      state.authorisationDetailsStatus = APIResponseStatus.Error;
-    },
-    deleteClerkTranslatorAuthorisation(state, _action: PayloadAction<number>) {
-      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
-    },
-    deletingClerkTranslatorAuthorisationSucceeded(
-      state,
-      action: PayloadAction<ClerkTranslator>
-    ) {
-      state.authorisationDetailsStatus = APIResponseStatus.Success;
-      state.selectedTranslator = action.payload;
-    },
-    rejectClerkTranslatorAuthorisationDelete(state) {
-      state.authorisationDetailsStatus = APIResponseStatus.Error;
-    },
   },
 });
 
 export const clerkTranslatorOverviewReducer =
   clerkTranslatorOverviewSlice.reducer;
 export const {
+  cancelClerkTranslatorDetailsUpdate,
+  removeAuthorisation,
+  removingAuthorisationSucceeded,
   loadClerkTranslatorOverview,
   loadClerkTranslatorOverviewWithId,
-  loadingClerkTranslatorOverview,
-  updateClerkTranslatorDetails,
-  cancelClerkTranslatorDetailsUpdate,
+  loadingClerkTranslatorOverviewSucceeded,
+  rejectAuthorisationRemove,
+  rejectClerkTranslatorOverview,
+  rejectClerkTranslatorDetailsUpdate,
+  rejectAuthorisationPublishPermissionUpdate,
   resetClerkTranslatorDetailsUpdate,
   resetClerkTranslatorOverview,
-  loadingClerkTranslatorOverviewSucceeded,
-  rejectClerkTranslatorOverview,
-  updatingCLerkTranslatorDetailsSucceeded,
-  rejectClerkTranslatorDetailsUpdate,
-  updateClerkTranslatorPublishPermission,
-  updatingClerkTranslatorPublishPermissionSucceeded,
-  rejectClerkTranslatorPublishPermissionUpdate,
-  deleteClerkTranslatorAuthorisation,
-  deletingClerkTranslatorAuthorisationSucceeded,
-  rejectClerkTranslatorAuthorisationDelete,
+  updateClerkTranslatorDetails,
+  updateAuthorisationPublishPermission,
+  updatingAuthorisationPublishPermissionSucceeded,
+  updatingClerkTranslatorDetailsSucceeded,
 } = clerkTranslatorOverviewSlice.actions;

@@ -14,8 +14,8 @@ import { PublicTranslator } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
-  addSelectedPublicTranslator,
-  removeSelectedPublicTranslator,
+  deselectPublicTranslator,
+  selectPublicTranslator,
 } from 'redux/reducers/publicTranslator';
 import {
   publicTranslatorsSelector,
@@ -69,9 +69,9 @@ export const PublicTranslatorListingRow = ({
       dispatch(showNotifierToast(toast));
     } else {
       if (selected) {
-        dispatch(removeSelectedPublicTranslator(translator.id));
+        dispatch(deselectPublicTranslator(translator.id));
       } else {
-        dispatch(addSelectedPublicTranslator(translator.id));
+        dispatch(selectPublicTranslator(translator.id));
       }
     }
   };

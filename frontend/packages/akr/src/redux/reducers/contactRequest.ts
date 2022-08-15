@@ -42,10 +42,13 @@ const contactRequestSlice = createSlice({
     sendingContactRequestSucceeded(state) {
       state.status = APIResponseStatus.Success;
     },
-    setContactRequest(state, action: PayloadAction<Partial<ContactRequest>>) {
+    updateContactRequest(
+      state,
+      action: PayloadAction<Partial<ContactRequest>>
+    ) {
       state.request = { ...state.request, ...action.payload };
     },
-    resetAndRedirectContactRequest(state) {
+    concludeContactRequest(state) {
       state.status = initialState.status;
       state.activeStep = initialState.activeStep;
       state.request = initialState.request;
@@ -62,6 +65,6 @@ export const {
   setContactRequestMessageError,
   sendContactRequest,
   sendingContactRequestSucceeded,
-  setContactRequest,
-  resetAndRedirectContactRequest,
+  updateContactRequest,
+  concludeContactRequest,
 } = contactRequestSlice.actions;

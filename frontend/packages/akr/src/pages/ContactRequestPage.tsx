@@ -10,7 +10,7 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { setContactRequest } from 'redux/reducers/contactRequest';
+import { updateContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
@@ -38,7 +38,7 @@ export const ContactRequestPage = () => {
 
   useEffect(() => {
     dispatch(
-      setContactRequest({
+      updateContactRequest({
         languagePair: { from, to },
         translatorIds: selectedTranslators,
       })
