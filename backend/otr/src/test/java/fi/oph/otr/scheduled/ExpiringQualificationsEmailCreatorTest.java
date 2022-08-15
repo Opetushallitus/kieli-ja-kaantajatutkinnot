@@ -16,6 +16,7 @@ import fi.oph.otr.service.email.ClerkEmailService;
 import java.time.LocalDate;
 import java.util.List;
 import javax.annotation.Resource;
+import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -70,6 +71,27 @@ public class ExpiringQualificationsEmailCreatorTest {
     createQualificationReminder(remindedQ2);
     createQualificationReminder(remindedQ2);
 
+    final Interpreter interpreter = createInterpreter(false);
+    final Qualification qExpiringButHasEquivalentQualificationNotExpiring = createQualification(
+      interpreter,
+      meetingDate,
+      date,
+      false
+    );
+    final Qualification qNotExpiringWhichPreventsEquivalentQualificationReminder = createQualification(
+      interpreter,
+      meetingDate,
+      date.plusMonths(3).plusDays(1),
+      false
+    );
+
+    final Qualification equivalentToExpiringButDeleted = createQualification(
+      q1.getInterpreter(),
+      meetingDate,
+      date.plusMonths(3).plusDays(1),
+      true
+    );
+
     emailCreator.checkExpiringQualifications();
 
     verify(clerkEmailService, times(3)).createQualificationExpiryEmail(longCaptor.capture());
@@ -87,22 +109,42 @@ public class ExpiringQualificationsEmailCreatorTest {
     return createQualification(meetingDate, endDate, false, false);
   }
 
-  private Qualification createQualification(final MeetingDate meetingDate, final LocalDate endDate, final boolean qualificationDeleted, final boolean interpreterDeleted) {
-    final Interpreter interpreter = Factory.interpreter();
-    if(interpreterDeleted) {
-      interpreter.markDeleted();
-    }
-    entityManager.persist(interpreter);
+  private Qualification createQualification(
+    final MeetingDate meetingDate,
+    final LocalDate endDate,
+    final boolean qualificationDeleted,
+    final boolean interpreterDeleted
+  ) {
+    final Interpreter interpreter = createInterpreter(interpreterDeleted);
+    return createQualification(interpreter, meetingDate, endDate, qualificationDeleted);
+  }
 
+  @NonNull
+  private Qualification createQualification(
+    final Interpreter interpreter,
+    final MeetingDate meetingDate,
+    final LocalDate endDate,
+    final boolean qualificationDeleted
+  ) {
     final Qualification qualification = Factory.qualification(interpreter, meetingDate);
     qualification.setBeginDate(endDate.minusYears(1));
     qualification.setEndDate(endDate);
-    if(qualificationDeleted) {
+    if (qualificationDeleted) {
       qualification.markDeleted();
     }
     entityManager.persist(qualification);
 
     return qualification;
+  }
+
+  @NonNull
+  private Interpreter createInterpreter(final boolean interpreterDeleted) {
+    final Interpreter interpreter = Factory.interpreter();
+    if (interpreterDeleted) {
+      interpreter.markDeleted();
+    }
+    entityManager.persist(interpreter);
+    return interpreter;
   }
 
   private void createQualificationReminder(final Qualification qualification) {
