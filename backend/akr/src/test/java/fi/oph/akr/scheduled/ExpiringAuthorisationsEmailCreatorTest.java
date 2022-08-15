@@ -1,7 +1,6 @@
 package fi.oph.akr.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,7 +17,9 @@ import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.service.email.ClerkEmailService;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,17 +86,38 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     createAuthorisationTermReminder(remindedAuth2);
     createAuthorisationTermReminder(remindedAuth2);
 
+    final Translator t9 = createTranslator("t9@invalid");
+    final Authorisation qExpiringButHasEquivalentAuthorisationNotExpiring = createAuthorisation(t9, meetingDate, date);
+    final Authorisation qNotExpiringWhichPreventsEquivalentAuthorisationReminder = createAuthorisation(
+      t9,
+      meetingDate,
+      date.plusMonths(3).plusDays(1)
+    );
+    final Authorisation qExpiringButHasEquivalentAuthorisationAlsoExpiring = createAuthorisation(
+      t9,
+      meetingDate,
+      date,
+      "DE",
+      "FI"
+    );
+    final Authorisation qExpiringWhichPreventsEquivalentAuthorisationReminder = createAuthorisation(
+      t9,
+      meetingDate,
+      date.plusMonths(1),
+      "DE",
+      "FI"
+    );
+
     emailCreator.checkExpiringAuthorisations();
 
-    verify(clerkEmailService, times(3)).createAuthorisationExpiryEmail(longCaptor.capture());
+    verify(clerkEmailService, times(4)).createAuthorisationExpiryEmail(longCaptor.capture());
 
-    final List<Long> expiringAuthIds = longCaptor.getAllValues();
-
-    assertEquals(3, expiringAuthIds.size());
-
-    assertTrue(expiringAuthIds.contains(auth1.getId()));
-    assertTrue(expiringAuthIds.contains(auth2.getId()));
-    assertTrue(expiringAuthIds.contains(auth3.getId()));
+    final Set<Long> expectedAuthIds = Stream
+      .of(auth1, auth2, auth3, qExpiringWhichPreventsEquivalentAuthorisationReminder)
+      .map(Authorisation::getId)
+      .collect(Collectors.toSet());
+    final Set<Long> authIds = Set.copyOf(longCaptor.getAllValues());
+    assertEquals(expectedAuthIds, authIds);
   }
 
   @Test
@@ -129,21 +151,45 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     final LocalDate termEndDate,
     final String translatorEmail
   ) {
-    final Translator translator = Factory.translator();
+    final Translator translator = createTranslator(translatorEmail);
+    return createAuthorisation(translator, meetingDate, termEndDate);
+  }
+
+  private Authorisation createAuthorisation(
+    final Translator translator,
+    final MeetingDate meetingDate,
+    final LocalDate termEndDate
+  ) {
+    return createAuthorisation(translator, meetingDate, termEndDate, null, null);
+  }
+
+  private Authorisation createAuthorisation(
+    final Translator translator,
+    final MeetingDate meetingDate,
+    final LocalDate termEndDate,
+    final String fromLang,
+    final String toLang
+  ) {
     final Authorisation authorisation = meetingDate != null
       ? Factory.kktAuthorisation(translator, meetingDate)
       : Factory.formerVirAuthorisation(translator);
 
-    translator.setEmail(translatorEmail);
     authorisation.setTermEndDate(termEndDate);
-
-    if (meetingDate != null) {
-      entityManager.persist(meetingDate);
+    if (fromLang != null) {
+      authorisation.setFromLang(fromLang);
     }
-    entityManager.persist(translator);
+    if (toLang != null) {
+      authorisation.setToLang(toLang);
+    }
     entityManager.persist(authorisation);
-
     return authorisation;
+  }
+
+  private Translator createTranslator(final String translatorEmail) {
+    final Translator translator = Factory.translator();
+    translator.setEmail(translatorEmail);
+    entityManager.persist(translator);
+    return translator;
   }
 
   private void createAuthorisationTermReminder(final Authorisation authorisation) {

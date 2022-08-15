@@ -1,10 +1,13 @@
 package fi.oph.akr.scheduled;
 
+import fi.oph.akr.model.Authorisation;
+import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.service.email.ClerkEmailService;
 import fi.oph.akr.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -49,6 +52,9 @@ public class ExpiringAuthorisationsEmailCreator {
       authorisationRepository
         .findExpiringAuthorisations(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
         .forEach(authorisationId -> {
+          if (hasEquivalentAuthorisationExpiringLater(authorisationId)) {
+            return;
+          }
           try {
             clerkEmailService.createAuthorisationExpiryEmail(authorisationId);
           } catch (Exception e) {
@@ -56,5 +62,20 @@ public class ExpiringAuthorisationsEmailCreator {
           }
         });
     });
+  }
+
+  private boolean hasEquivalentAuthorisationExpiringLater(final Long expiringAuthorisationId) {
+    final Authorisation expiringAuthorisation = authorisationRepository.getReferenceById(expiringAuthorisationId);
+    final Translator translator = expiringAuthorisation.getTranslator();
+    return translator
+      .getAuthorisations()
+      .stream()
+      .filter(a -> a.getId() != expiringAuthorisationId)
+      .anyMatch(a ->
+        a.getTermEndDate().isAfter(expiringAuthorisation.getTermEndDate()) &&
+        Objects.equals(expiringAuthorisation.getFromLang(), a.getFromLang()) &&
+        Objects.equals(expiringAuthorisation.getToLang(), a.getToLang()) &&
+        Objects.equals(expiringAuthorisation.getBasis(), a.getBasis())
+      );
   }
 }
