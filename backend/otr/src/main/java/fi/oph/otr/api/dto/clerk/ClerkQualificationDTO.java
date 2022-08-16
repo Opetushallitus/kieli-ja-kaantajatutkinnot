@@ -11,7 +11,6 @@ import lombok.NonNull;
 public record ClerkQualificationDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @NonNull @NotNull Boolean deleted,
   @NonNull @NotBlank String fromLang,
   @NonNull @NotBlank String toLang,
   @NonNull @NotNull LocalDate beginDate,
