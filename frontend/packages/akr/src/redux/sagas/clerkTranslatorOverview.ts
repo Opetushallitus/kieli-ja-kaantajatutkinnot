@@ -10,14 +10,14 @@ import {
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
 import {
-  loadClerkTranslatorOverviewWithId,
-  loadingClerkTranslatorOverviewSucceeded,
+  loadClerkTranslatorOverview,
   rejectAuthorisationPublishPermissionUpdate,
   rejectAuthorisationRemove,
   rejectClerkTranslatorDetailsUpdate,
   rejectClerkTranslatorOverview,
   removeAuthorisation,
   removingAuthorisationSucceeded,
+  storeClerkTranslatorOverview,
   updateAuthorisationPublishPermission,
   updateClerkTranslatorDetails,
   updatingAuthorisationPublishPermissionSucceeded,
@@ -29,7 +29,7 @@ import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* fetchClerkTranslatorOverview(action: PayloadAction<number>) {
+function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.get,
@@ -39,7 +39,7 @@ function* fetchClerkTranslatorOverview(action: PayloadAction<number>) {
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    yield put(loadingClerkTranslatorOverviewSucceeded(translator));
+    yield put(storeClerkTranslatorOverview(translator));
   } catch (error) {
     yield put(rejectClerkTranslatorOverview());
   }
@@ -50,7 +50,7 @@ function updateClerkTranslators(
   translator: ClerkTranslator
 ) {
   const updatedTranslators = [...translators];
-  const translatorIdx = translators.findIndex(
+  const translatorIdx = updatedTranslators.findIndex(
     (t: ClerkTranslator) => t.id === translator.id
   );
 
@@ -84,7 +84,7 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
   }
 }
 
-function* updateAuthorisationPublishPermission(
+function* updateAuthorisationPublishPermissionSaga(
   action: PayloadAction<Authorisation>
 ) {
   const { id, version, permissionToPublish } = action.payload;
@@ -118,7 +118,7 @@ function* updateAuthorisationPublishPermission(
   }
 }
 
-function* deleteAuthorisation(action: PayloadAction<number>) {
+function* removeAuthorisationSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.delete,
@@ -145,12 +145,12 @@ function* deleteAuthorisation(action: PayloadAction<number>) {
 export function* watchClerkTranslatorOverview() {
   yield takeLatest(updateClerkTranslatorDetails.type, updateTranslatorDetails);
   yield takeLatest(
-    loadClerkTranslatorOverviewWithId.type,
-    fetchClerkTranslatorOverview
+    loadClerkTranslatorOverview.type,
+    loadClerkTranslatorOverviewSaga
   );
   yield takeLatest(
     updateAuthorisationPublishPermission.type,
-    updateAuthorisationPublishPermission
+    updateAuthorisationPublishPermissionSaga
   );
-  yield takeLatest(removeAuthorisation.type, deleteAuthorisation);
+  yield takeLatest(removeAuthorisation.type, removeAuthorisationSaga);
 }

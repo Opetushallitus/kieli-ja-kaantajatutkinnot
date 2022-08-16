@@ -12,7 +12,7 @@ import {
   addingAuthorisationSucceeded,
   rejectAuthorisation,
 } from 'redux/reducers/authorisation';
-import { loadClerkTranslatorOverviewWithId } from 'redux/reducers/clerkTranslatorOverview';
+import { loadClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
@@ -27,7 +27,7 @@ function* showSuccessToastOnAdd() {
 }
 
 // TODO: other authorisation actions currently under clerkTranslatorOverview
-export function* insertAuthorisation(action: PayloadAction<Authorisation>) {
+export function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
   try {
     const { translatorId } = action.payload;
     yield call(
@@ -37,7 +37,7 @@ export function* insertAuthorisation(action: PayloadAction<Authorisation>) {
     );
     yield put(addingAuthorisationSucceeded());
     yield call(showSuccessToastOnAdd);
-    yield put(loadClerkTranslatorOverviewWithId(translatorId as number));
+    yield put(loadClerkTranslatorOverview(translatorId as number));
   } catch (error) {
     yield put(rejectAuthorisation());
     yield put(
@@ -49,5 +49,5 @@ export function* insertAuthorisation(action: PayloadAction<Authorisation>) {
 }
 
 export function* watchAddAuthorisation() {
-  yield takeLatest(addAuthorisation.type, insertAuthorisation);
+  yield takeLatest(addAuthorisation.type, addAuthorisationSaga);
 }

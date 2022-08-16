@@ -31,7 +31,7 @@ function* showErrorToast() {
   yield put(showNotifierToast(notifier));
 }
 
-export function* sendEmail() {
+export function* sendClerkTranslatorEmailSaga() {
   const { email, recipients }: ReturnType<typeof selectClerkTranslatorEmail> =
     yield select(selectClerkTranslatorEmail);
   try {
@@ -53,5 +53,5 @@ export function* sendEmail() {
 }
 
 export function* watchClerkTranslatorEmail() {
-  yield takeLatest(sendClerkTranslatorEmail.type, sendEmail);
+  yield takeLatest(sendClerkTranslatorEmail.type, sendClerkTranslatorEmailSaga);
 }

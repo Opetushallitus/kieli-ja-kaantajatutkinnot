@@ -28,7 +28,7 @@ import {
   selectAllFilteredClerkTranslators,
   selectClerkTranslator,
 } from 'redux/reducers/clerkTranslator';
-import { loadClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
+import { setClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import {
   clerkTranslatorsSelector,
   selectFilteredClerkTranslators,
@@ -63,7 +63,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
     e: React.MouseEvent<HTMLAnchorElement> | undefined
   ) => {
     e?.stopPropagation();
-    dispatch(loadClerkTranslatorOverview(translator));
+    dispatch(setClerkTranslatorOverview(translator));
   };
 
   const handleRowClick = () => {

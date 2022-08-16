@@ -15,16 +15,16 @@ import {
   sendingContactRequestSucceeded,
 } from 'redux/reducers/contactRequest';
 import { showNotifierDialog } from 'redux/reducers/notifier';
-import { emptyPublicTranslatorSelections } from 'redux/reducers/publicTranslator';
+import { deselectAllPublicTranslators } from 'redux/reducers/publicTranslator';
 import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { NotifierUtils } from 'utils/notifier';
 
-export function* resetTranslatorSelectionsAndRedirect() {
-  yield put(emptyPublicTranslatorSelections());
+export function* concludeContactRequestSaga() {
+  yield put(deselectAllPublicTranslators());
   yield put(setPublicUIView(PublicUIViews.PublicTranslatorListing));
 }
 
-export function* insertContactRequest(action: PayloadAction<ContactRequest>) {
+export function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
   const {
     firstName,
     lastName,
@@ -51,7 +51,7 @@ export function* insertContactRequest(action: PayloadAction<ContactRequest>) {
     );
     yield put(sendingContactRequestSucceeded());
     yield put(increaseContactRequestStep());
-    yield put(emptyPublicTranslatorSelections());
+    yield put(deselectAllPublicTranslators());
   } catch (error) {
     const t = translateOutsideComponent();
     const tPrefix = 'akr.component.contactRequestForm.errorDialog';
@@ -74,9 +74,6 @@ export function* insertContactRequest(action: PayloadAction<ContactRequest>) {
 }
 
 export function* watchContactRequest() {
-  yield takeLatest(sendContactRequest.type, insertContactRequest);
-  yield takeLatest(
-    concludeContactRequest.type,
-    resetTranslatorSelectionsAndRedirect
-  );
+  yield takeLatest(sendContactRequest.type, sendContactRequestSaga);
+  yield takeLatest(concludeContactRequest.type, concludeContactRequestSaga);
 }

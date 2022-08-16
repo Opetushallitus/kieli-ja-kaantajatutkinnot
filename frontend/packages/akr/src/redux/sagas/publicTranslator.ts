@@ -10,7 +10,7 @@ import {
   storePublicTranslators,
 } from 'redux/reducers/publicTranslator';
 
-export function* fetchPublicTranslators() {
+export function* loadPublicTranslatorsSaga() {
   try {
     const apiResponse: AxiosResponse<PublicTranslatorResponse> = yield call(
       axiosInstance.get,
@@ -23,6 +23,6 @@ export function* fetchPublicTranslators() {
   }
 }
 
-export function* watchFetchPublicTranslators() {
-  yield takeLatest(loadPublicTranslators, fetchPublicTranslators);
+export function* watchPublicTranslators() {
+  yield takeLatest(loadPublicTranslators, loadPublicTranslatorsSaga);
 }

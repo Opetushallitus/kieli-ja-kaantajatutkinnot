@@ -29,19 +29,8 @@ const clerkTranslatorOverviewSlice = createSlice({
       state.authorisationDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
-    loadClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
-      state.selectedTranslator = action.payload;
-      state.overviewStatus = APIResponseStatus.NotStarted;
-    },
-    loadClerkTranslatorOverviewWithId(state, _action: PayloadAction<number>) {
+    loadClerkTranslatorOverview(state, _action: PayloadAction<number>) {
       state.overviewStatus = APIResponseStatus.InProgress;
-    },
-    loadingClerkTranslatorOverviewSucceeded(
-      state,
-      action: PayloadAction<ClerkTranslator>
-    ) {
-      state.overviewStatus = APIResponseStatus.Success;
-      state.selectedTranslator = action.payload;
     },
     rejectClerkTranslatorOverview(state) {
       state.overviewStatus = APIResponseStatus.Error;
@@ -64,6 +53,17 @@ const clerkTranslatorOverviewSlice = createSlice({
       state.overviewStatus = initialState.overviewStatus;
       state.selectedTranslator = initialState.selectedTranslator;
       state.translatorDetailsStatus = initialState.translatorDetailsStatus;
+    },
+    setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
+      state.selectedTranslator = action.payload;
+      state.overviewStatus = APIResponseStatus.NotStarted;
+    },
+    storeClerkTranslatorOverview(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.overviewStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
     },
     updateClerkTranslatorDetails(
       state,
@@ -102,14 +102,14 @@ export const {
   removeAuthorisation,
   removingAuthorisationSucceeded,
   loadClerkTranslatorOverview,
-  loadClerkTranslatorOverviewWithId,
-  loadingClerkTranslatorOverviewSucceeded,
   rejectAuthorisationRemove,
   rejectClerkTranslatorOverview,
   rejectClerkTranslatorDetailsUpdate,
   rejectAuthorisationPublishPermissionUpdate,
   resetClerkTranslatorDetailsUpdate,
   resetClerkTranslatorOverview,
+  setClerkTranslatorOverview,
+  storeClerkTranslatorOverview,
   updateClerkTranslatorDetails,
   updateAuthorisationPublishPermission,
   updatingAuthorisationPublishPermissionSucceeded,

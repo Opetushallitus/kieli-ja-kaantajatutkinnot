@@ -30,6 +30,9 @@ export const publicTranslatorSlice = createSlice({
     addPublicTranslatorFilterError(state, action: PayloadAction<SearchFilter>) {
       state.filters.errors.push(action.payload);
     },
+    deselectAllPublicTranslators(state) {
+      state.selectedTranslators = initialState.selectedTranslators;
+    },
     deselectPublicTranslator(state, action: PayloadAction<number>) {
       state.selectedTranslators = state.selectedTranslators.filter(
         (id) => id !== action.payload
@@ -37,9 +40,6 @@ export const publicTranslatorSlice = createSlice({
     },
     emptyPublicTranslatorFilters(state) {
       state.filters = initialState.filters;
-    },
-    emptyPublicTranslatorSelections(state) {
-      state.selectedTranslators = initialState.selectedTranslators;
     },
     loadPublicTranslators(state) {
       state.status = APIResponseStatus.InProgress;
@@ -62,7 +62,7 @@ export const publicTranslatorSlice = createSlice({
       state,
       action: PayloadAction<PublicTranslatorFilter>
     ) {
-      state.filters = { ...state.filters, ...action.payload };
+      state.filters = action.payload;
     },
     storePublicTranslators(
       state,
@@ -79,9 +79,9 @@ export const publicTranslatorSlice = createSlice({
 export const publicTranslatorReducer = publicTranslatorSlice.reducer;
 export const {
   addPublicTranslatorFilterError,
+  deselectAllPublicTranslators,
   deselectPublicTranslator,
   emptyPublicTranslatorFilters,
-  emptyPublicTranslatorSelections,
   loadPublicTranslators,
   rejectPublicTranslators,
   removePublicTranslatorFilterError,

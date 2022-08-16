@@ -22,7 +22,7 @@ import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* insertExaminationDate(action: PayloadAction<Dayjs>) {
+function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
   try {
     yield call(axiosInstance.post, APIEndpoints.ExaminationDate, {
       date: DateUtils.serializeDate(action.payload),
@@ -39,7 +39,7 @@ function* insertExaminationDate(action: PayloadAction<Dayjs>) {
   }
 }
 
-function* deleteExaminationDate(action: PayloadAction<number>) {
+function* removeExaminationDateSaga(action: PayloadAction<number>) {
   try {
     yield call(
       axiosInstance.delete,
@@ -57,7 +57,7 @@ function* deleteExaminationDate(action: PayloadAction<number>) {
   }
 }
 
-function* fetchExaminationDates() {
+function* loadExaminationDatesSaga() {
   try {
     const apiResponse: AxiosResponse<Array<ExaminationDateResponse>> =
       yield call(axiosInstance.get, APIEndpoints.ExaminationDate);
@@ -72,7 +72,7 @@ function* fetchExaminationDates() {
 }
 
 export function* watchExaminationDates() {
-  yield takeLatest(loadExaminationDates, fetchExaminationDates);
-  yield takeLatest(addExaminationDate.type, insertExaminationDate);
-  yield takeLatest(removeExaminationDate.type, deleteExaminationDate);
+  yield takeLatest(loadExaminationDates, loadExaminationDatesSaga);
+  yield takeLatest(addExaminationDate.type, addExaminationDateSaga);
+  yield takeLatest(removeExaminationDate.type, removeExaminationDateSaga);
 }

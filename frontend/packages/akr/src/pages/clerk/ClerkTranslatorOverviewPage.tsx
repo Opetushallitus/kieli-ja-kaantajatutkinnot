@@ -12,7 +12,7 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
-  loadClerkTranslatorOverviewWithId,
+  loadClerkTranslatorOverview,
   resetClerkTranslatorOverview,
 } from 'redux/reducers/clerkTranslatorOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
@@ -42,7 +42,7 @@ export const ClerkTranslatorOverviewPage = () => {
       params.translatorId
     ) {
       // Fetch translator overview
-      dispatch(loadClerkTranslatorOverviewWithId(+params.translatorId));
+      dispatch(loadClerkTranslatorOverview(+params.translatorId));
     } else if (
       overviewStatus === APIResponseStatus.Error ||
       !Number(params.translatorId)

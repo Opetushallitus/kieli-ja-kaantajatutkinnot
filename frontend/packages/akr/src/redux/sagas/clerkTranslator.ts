@@ -13,7 +13,7 @@ import {
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* fetchClerkTranslators() {
+export function* loadClerkTranslatorsSaga() {
   try {
     const apiResponse: AxiosResponse<ClerkStateResponse> = yield call(
       axiosInstance.get,
@@ -50,6 +50,6 @@ export function* updateClerkTranslatorsState(
   );
 }
 
-export function* watchFetchClerkTranslators() {
-  yield takeLatest(loadClerkTranslators, fetchClerkTranslators);
+export function* watchClerkTranslators() {
+  yield takeLatest(loadClerkTranslators, loadClerkTranslatorsSaga);
 }

@@ -5,20 +5,17 @@ import { Authorisation } from 'interfaces/authorisation';
 
 export interface AuthorisationState {
   status: APIResponseStatus;
-  authorisation: Authorisation | Record<string, never>;
 }
 
 const initialState: AuthorisationState = {
   status: APIResponseStatus.NotStarted,
-  authorisation: {},
 };
 
 const authorisationSlice = createSlice({
   name: 'authorisation',
   initialState,
   reducers: {
-    addAuthorisation(state, action: PayloadAction<Authorisation>) {
-      state.authorisation = action.payload;
+    addAuthorisation(state, _action: PayloadAction<Authorisation>) {
       state.status = APIResponseStatus.InProgress;
     },
     addingAuthorisationSucceeded(state) {

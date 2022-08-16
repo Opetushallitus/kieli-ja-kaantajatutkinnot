@@ -38,8 +38,8 @@ import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
+  deselectAllPublicTranslators,
   emptyPublicTranslatorFilters,
-  emptyPublicTranslatorSelections,
   removePublicTranslatorFilterError,
   setPublicTranslatorFilters,
 } from 'redux/reducers/publicTranslator';
@@ -141,7 +141,7 @@ export const PublicTranslatorFilters = ({
     setInputValues(defaultFiltersState);
     setValues(defaultValuesState);
     dispatch(emptyPublicTranslatorFilters());
-    dispatch(emptyPublicTranslatorSelections());
+    dispatch(deselectAllPublicTranslators());
     scrollToSearch();
     setShowTable(false);
     setSearchButtonDisabled(false);

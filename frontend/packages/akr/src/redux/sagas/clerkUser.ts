@@ -11,7 +11,7 @@ import {
   storeClerkUser,
 } from 'redux/reducers/clerkUser';
 
-export function* fetchClerkUser() {
+export function* loadClerkUserSaga() {
   try {
     const response: AxiosResponse<ClerkUser> = yield call(
       axiosInstance.get,
@@ -28,6 +28,6 @@ export function* fetchClerkUser() {
   }
 }
 
-export function* watchFetchClerkUser() {
-  yield takeLatest(loadClerkUser, fetchClerkUser);
+export function* watchClerkUser() {
+  yield takeLatest(loadClerkUser, loadClerkUserSaga);
 }

@@ -2,7 +2,6 @@ import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { updateClerkTranslatorsState } from './clerkTranslator';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
@@ -16,18 +15,14 @@ import {
   storeClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
+import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function updateClerkTranslators(
-  translators: Array<ClerkTranslator>,
-  translator: ClerkTranslator
+function* saveClerkNewTranslatorSaga(
+  action: PayloadAction<ClerkNewTranslator>
 ) {
-  return [...translators, translator];
-}
-
-function* insertNewClerkTranslator(action: PayloadAction<ClerkNewTranslator>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.post,
@@ -38,10 +33,7 @@ function* insertNewClerkTranslator(action: PayloadAction<ClerkNewTranslator>) {
       apiResponse.data
     );
     const { translators } = yield select(clerkTranslatorsSelector);
-    const updatedClerkTranslators = updateClerkTranslators(
-      translators,
-      translator
-    );
+    const updatedClerkTranslators = [...translators, translator];
     yield updateClerkTranslatorsState(updatedClerkTranslators);
 
     yield put(storeClerkNewTranslator(translator.id));
@@ -56,5 +48,5 @@ function* insertNewClerkTranslator(action: PayloadAction<ClerkNewTranslator>) {
 }
 
 export function* watchClerkNewTranslatorSave() {
-  yield takeLatest(saveClerkNewTranslator, insertNewClerkTranslator);
+  yield takeLatest(saveClerkNewTranslator, saveClerkNewTranslatorSaga);
 }
