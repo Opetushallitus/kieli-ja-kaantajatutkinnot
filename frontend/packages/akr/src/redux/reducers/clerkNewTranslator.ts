@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkNewTranslator,
-  ClerkNewTranslatorState,
-} from 'interfaces/clerkNewTranslator';
+import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
+import { WithId } from 'interfaces/with';
+
+interface ClerkNewTranslatorState extends Partial<WithId> {
+  status: APIResponseStatus;
+  translator: ClerkNewTranslator;
+}
 
 const initialState: ClerkNewTranslatorState = {
   translator: {

@@ -1,5 +1,4 @@
 import { AutocompleteValue } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
 
 import { SearchFilter } from 'enums/app';
 import { LanguagePair, LanguagePairsDict } from 'interfaces/languagePair';
@@ -32,10 +31,4 @@ export interface PublicTranslatorResponse {
   translators: Array<PublicTranslator>;
   langs: LanguagePairsDict;
   towns: Array<string>;
-}
-
-export interface PublicTranslatorState extends PublicTranslatorResponse {
-  status: APIResponseStatus;
-  selectedTranslators: Array<number>;
-  filters: PublicTranslatorFilter;
 }

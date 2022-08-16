@@ -5,10 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
-import {
-  ClerkTranslator,
-  ClerkTranslatorResponse,
-} from 'interfaces/clerkTranslator';
+import { ClerkTranslatorResponse } from 'interfaces/clerkTranslator';
 import {
   rejectClerkNewTranslator,
   saveClerkNewTranslator,

@@ -2,7 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { ContactRequest, ContactRequestState } from 'interfaces/contactRequest';
+import { ContactRequest } from 'interfaces/contactRequest';
+
+interface ContactRequestState {
+  status: APIResponseStatus;
+  activeStep: ContactRequestFormStep;
+  request?: Partial<ContactRequest>;
+  messageError: string;
+}
 
 const initialState: ContactRequestState = {
   status: APIResponseStatus.NotStarted,

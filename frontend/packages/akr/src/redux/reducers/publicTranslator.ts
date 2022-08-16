@@ -5,8 +5,13 @@ import { SearchFilter } from 'enums/app';
 import {
   PublicTranslatorFilter,
   PublicTranslatorResponse,
-  PublicTranslatorState,
 } from 'interfaces/publicTranslator';
+
+interface PublicTranslatorState extends PublicTranslatorResponse {
+  status: APIResponseStatus;
+  selectedTranslators: Array<number>;
+  filters: PublicTranslatorFilter;
+}
 
 const initialState: PublicTranslatorState = {
   status: APIResponseStatus.NotStarted,

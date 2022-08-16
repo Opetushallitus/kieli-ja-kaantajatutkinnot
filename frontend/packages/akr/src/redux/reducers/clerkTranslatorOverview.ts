@@ -3,7 +3,13 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
-import { ClerkTranslatorOverviewState } from 'interfaces/clerkTranslatorOverview';
+
+interface ClerkTranslatorOverviewState {
+  overviewStatus: APIResponseStatus;
+  translatorDetailsStatus: APIResponseStatus;
+  authorisationDetailsStatus: APIResponseStatus;
+  selectedTranslator?: ClerkTranslator;
+}
 
 const initialState: ClerkTranslatorOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,

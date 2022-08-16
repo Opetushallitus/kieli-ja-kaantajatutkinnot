@@ -1,9 +1,5 @@
-import { Action } from 'redux';
-import { APIResponseStatus } from 'shared/enums';
-
 import {
   ClerkTranslator,
-  ClerkTranslatorFilter,
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
 import {
@@ -26,15 +22,4 @@ export interface ClerkStateResponse {
   towns: Array<string>;
   meetingDates: Array<MeetingDateResponse>;
   examinationDates: Array<ExaminationDateResponse>;
-}
-
-export interface ClerkUIState extends ClerkState {
-  selectedTranslators: Array<number>;
-  status: APIResponseStatus;
-  filters: ClerkTranslatorFilter;
-}
-
-export interface ClerkStateAction extends Action<string>, Partial<ClerkState> {
-  index?: number;
-  filters?: ClerkTranslatorFilter;
 }

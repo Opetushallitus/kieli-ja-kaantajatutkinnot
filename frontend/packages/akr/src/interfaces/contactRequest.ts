@@ -1,7 +1,3 @@
-import { Action } from 'redux';
-import { APIResponseStatus } from 'shared/enums';
-
-import { ContactRequestFormStep } from 'enums/contactRequest';
 import { LanguagePair } from 'interfaces/languagePair';
 
 export interface ContactDetails {
@@ -16,16 +12,4 @@ export interface ContactRequest extends ContactDetails {
   translatorIds: Array<number>;
   languagePair: LanguagePair;
   confirmation: boolean;
-}
-
-export interface ContactRequestState {
-  status: APIResponseStatus;
-  activeStep: ContactRequestFormStep;
-  request?: Partial<ContactRequest>;
-  messageError: string;
-}
-
-export interface ContactRequestAction extends Action {
-  request?: ContactRequest;
-  messageError?: string;
 }

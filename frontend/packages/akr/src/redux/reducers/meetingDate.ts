@@ -3,11 +3,29 @@ import dayjs, { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
 import { MeetingStatus } from 'enums/meetingDate';
-import {
-  MeetingDate,
-  MeetingDateFilter,
-  MeetingDateState,
-} from 'interfaces/meetingDate';
+import { MeetingDate, MeetingDateFilter } from 'interfaces/meetingDate';
+
+interface MeetingDatesState {
+  status: APIResponseStatus;
+  filters: MeetingDateFilter;
+  meetingDates: Array<MeetingDate>;
+}
+
+interface AddMeetingDateState {
+  status: APIResponseStatus;
+  date: Dayjs;
+}
+
+interface RemoveMeetingDateState {
+  status: APIResponseStatus;
+  meetingDateId: number | undefined;
+}
+
+interface MeetingDateState {
+  meetingDates: MeetingDatesState;
+  addMeetingDate: AddMeetingDateState;
+  removeMeetingDate: RemoveMeetingDateState;
+}
 
 const initialState: MeetingDateState = {
   meetingDates: {

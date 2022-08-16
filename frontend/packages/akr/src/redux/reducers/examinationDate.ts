@@ -6,8 +6,32 @@ import { ExaminationDateStatus } from 'enums/examinationDate';
 import {
   ExaminationDate,
   ExaminationDateFilter,
-  ExaminationDateState,
 } from 'interfaces/examinationDate';
+
+interface ExaminationDates {
+  dates: Array<ExaminationDate>;
+}
+
+interface ExaminationDatesState extends ExaminationDates {
+  status: APIResponseStatus;
+}
+
+interface AddExaminationDateState {
+  status: APIResponseStatus;
+  date: Dayjs;
+}
+
+interface RemoveExaminationDateState {
+  status: APIResponseStatus;
+  examinationDateId: number | undefined;
+}
+
+interface ExaminationDateState {
+  examinationDates: ExaminationDatesState;
+  addExaminationDate: AddExaminationDateState;
+  removeExaminationDate: RemoveExaminationDateState;
+  filter: ExaminationDateFilter;
+}
 
 const initialState: ExaminationDateState = {
   addExaminationDate: {

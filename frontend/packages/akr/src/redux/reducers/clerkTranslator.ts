@@ -2,8 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { AuthorisationStatus } from 'enums/clerkTranslator';
-import { ClerkState, ClerkUIState } from 'interfaces/clerkState';
+import { ClerkState } from 'interfaces/clerkState';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
+
+interface ClerkUIState extends ClerkState {
+  selectedTranslators: Array<number>;
+  status: APIResponseStatus;
+  filters: ClerkTranslatorFilter;
+}
 
 const initialState: ClerkUIState = {
   status: APIResponseStatus.NotStarted,

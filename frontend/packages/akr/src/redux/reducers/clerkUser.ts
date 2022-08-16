@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkUser, ClerkUserState } from 'interfaces/clerkUser';
+import { ClerkUser } from 'interfaces/clerkUser';
+
+interface ClerkUserState extends ClerkUser {
+  status: APIResponseStatus;
+  isAuthenticated: boolean;
+}
 
 const initialState: ClerkUserState = {
   status: APIResponseStatus.NotStarted,

@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkTranslatorEmail,
-  ClerkTranslatorEmailState,
-} from 'interfaces/clerkTranslatorEmail';
+import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
+
+interface ClerkTranslatorEmailState {
+  status: APIResponseStatus;
+  email: ClerkTranslatorEmail;
+  recipients: Array<number>;
+}
 
 const initialState: ClerkTranslatorEmailState = {
   status: APIResponseStatus.NotStarted,
