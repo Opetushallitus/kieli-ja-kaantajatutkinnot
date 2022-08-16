@@ -27,7 +27,7 @@ function* showSuccessToastOnAdd() {
 }
 
 // TODO: other authorisation actions currently under clerkTranslatorOverview
-export function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
+function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
   try {
     const { translatorId } = action.payload;
     yield call(

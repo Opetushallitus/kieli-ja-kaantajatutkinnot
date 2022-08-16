@@ -19,12 +19,12 @@ import { deselectAllPublicTranslators } from 'redux/reducers/publicTranslator';
 import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { NotifierUtils } from 'utils/notifier';
 
-export function* concludeContactRequestSaga() {
+function* concludeContactRequestSaga() {
   yield put(deselectAllPublicTranslators());
   yield put(setPublicUIView(PublicUIViews.PublicTranslatorListing));
 }
 
-export function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
+function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
   const {
     firstName,
     lastName,

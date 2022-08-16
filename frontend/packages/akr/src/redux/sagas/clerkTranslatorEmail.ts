@@ -31,7 +31,7 @@ function* showErrorToast() {
   yield put(showNotifierToast(notifier));
 }
 
-export function* sendClerkTranslatorEmailSaga() {
+function* sendClerkTranslatorEmailSaga() {
   const { email, recipients }: ReturnType<typeof selectClerkTranslatorEmail> =
     yield select(selectClerkTranslatorEmail);
   try {

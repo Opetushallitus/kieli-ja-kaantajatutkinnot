@@ -8,12 +8,9 @@ import {
   ExaminationDateFilter,
 } from 'interfaces/examinationDate';
 
-interface ExaminationDates {
-  dates: Array<ExaminationDate>;
-}
-
-interface ExaminationDatesState extends ExaminationDates {
+interface ExaminationDatesState {
   status: APIResponseStatus;
+  dates: Array<ExaminationDate>;
 }
 
 interface AddExaminationDateState {

@@ -16,14 +16,6 @@ export enum AppRoutes {
   NotFoundPage = '*',
 }
 
-export enum CustomTextFieldErrors {
-  Required = 'errors.customTextField.required',
-  MaxLength = 'errors.customTextField.maxLength',
-  EmailFormat = 'errors.customTextField.emailFormat',
-  TelFormat = 'errors.customTextField.telFormat',
-  PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
-}
-
 export enum HeaderTabNav {
   Register = 'register',
   ExaminationDates = 'examinationDates',

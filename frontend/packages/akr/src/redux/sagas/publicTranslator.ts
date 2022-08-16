@@ -10,7 +10,7 @@ import {
   storePublicTranslators,
 } from 'redux/reducers/publicTranslator';
 
-export function* loadPublicTranslatorsSaga() {
+function* loadPublicTranslatorsSaga() {
   try {
     const apiResponse: AxiosResponse<PublicTranslatorResponse> = yield call(
       axiosInstance.get,
