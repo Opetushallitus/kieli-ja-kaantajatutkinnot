@@ -1,5 +1,5 @@
 import { Add as AddIcon } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CustomButton,
   CustomModal,
@@ -41,13 +41,19 @@ export const QualificationDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
-  const { addQualificationStatus } = useAppSelector(qualificationSelector);
+  const { addStatus } = useAppSelector(qualificationSelector);
 
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
   const translateCommon = useCommonTranslation();
+
+  useEffect(() => {
+    if (addStatus === APIResponseStatus.Success) {
+      handleCloseModal();
+    }
+  }, [addStatus]);
 
   if (!interpreter) {
     return null;
@@ -87,7 +93,7 @@ export const QualificationDetails = () => {
     dispatch(addQualification(qualification));
   };
 
-  const onQualificationRemove = (qualification: Qualification) => {
+  const handleRemoveQualification = (qualification: Qualification) => {
     const notifier = NotifierUtils.createNotifierDialog(
       t('actions.removal.dialog.header'),
       Severity.Info,
@@ -118,13 +124,13 @@ export const QualificationDetails = () => {
         open={open}
         onCloseModal={handleCloseModal}
         ariaLabelledBy="modal-title"
-        modalTitle={'Lisää kielipari'}
+        modalTitle={translateCommon('addQualification')}
       >
         <AddQualification
           interpreterId={interpreter.id}
           onCancel={handleCloseModal}
           onQualificationAdd={handleAddQualification}
-          isLoading={addQualificationStatus === APIResponseStatus.InProgress}
+          isLoading={addStatus === APIResponseStatus.InProgress}
         />
       </CustomModal>
       <div className="rows gapped-xs">
@@ -138,20 +144,20 @@ export const QualificationDetails = () => {
             onButtonClick={filterByQualificationStatus}
           />
           <CustomButton
-            data-testid="clerk-interpreter-overview__qualifications-details__add-button"
+            data-testid="clerk-interpreter-overview__qualification-details__add-button"
             variant={Variant.Contained}
             color={Color.Secondary}
             startIcon={<AddIcon />}
             onClick={handleOpenModal}
           >
-            {t('buttons.add')}
+            {translateCommon('addQualification')}
           </CustomButton>
         </div>
         {activeQualifications.length ? (
           <QualificationListing
             qualifications={activeQualifications}
             permissionToPublishReadOnly={false}
-            onQualificationRemove={onQualificationRemove}
+            handleRemoveQualification={handleRemoveQualification}
           />
         ) : (
           <Text className="centered bold margin-top-lg">

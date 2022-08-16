@@ -6,13 +6,11 @@ import {
   ClerkInterpreter,
   ClerkInterpreterOverviewState,
 } from 'interfaces/clerkInterpreter';
-import { Qualification } from 'interfaces/qualification';
 
 const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
   overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsUpdateStatus: APIResponseStatus.NotStarted,
-  qualificationDetailsUpdateStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -22,6 +20,12 @@ const clerkInterpreterOverviewSlice = createSlice({
     loadClerkInterpreterOverview(state, _action: PayloadAction<WithId>) {
       state.overviewStatus = APIResponseStatus.InProgress;
     },
+    setClerkInterpreterOverview(
+      state,
+      action: PayloadAction<ClerkInterpreter>
+    ) {
+      state.interpreter = action.payload;
+    },
     storeClerkInterpreterOverview(
       state,
       action: PayloadAction<ClerkInterpreter>
@@ -29,7 +33,7 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.overviewStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;
     },
-    loadingClerkInterpreterOverviewFailed(state) {
+    rejectLoadClerkInterpreterOverview(state) {
       state.overviewStatus = APIResponseStatus.Error;
     },
     resetClerkInterpreterOverview(state) {
@@ -37,8 +41,6 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.interpreter = initialState.interpreter;
       state.interpreterDetailsUpdateStatus =
         initialState.interpreterDetailsUpdateStatus;
-      state.qualificationDetailsUpdateStatus =
-        initialState.qualificationDetailsUpdateStatus;
     },
     resetClerkInterpreterDetailsUpdate(state) {
       state.interpreterDetailsUpdateStatus =
@@ -50,7 +52,7 @@ const clerkInterpreterOverviewSlice = createSlice({
     ) {
       state.interpreterDetailsUpdateStatus = APIResponseStatus.InProgress;
     },
-    storeClerkInterpreterOverviewUpdateSuccess(
+    storeClerkInterpreterOverviewUpdate(
       state,
       action: PayloadAction<ClerkInterpreter>
     ) {
@@ -60,18 +62,6 @@ const clerkInterpreterOverviewSlice = createSlice({
     rejectClerkInterpreterOverviewUpdate(state) {
       state.interpreterDetailsUpdateStatus = APIResponseStatus.Error;
     },
-    updateQualificationPublishPermission(
-      state,
-      _action: PayloadAction<Qualification>
-    ) {
-      state.qualificationDetailsUpdateStatus = APIResponseStatus.InProgress;
-    },
-    updateQualificationPublishPermissionSuccess(state) {
-      state.qualificationDetailsUpdateStatus = APIResponseStatus.Success;
-    },
-    rejectQualificationPublishPermissionUpdate(state) {
-      state.qualificationDetailsUpdateStatus = APIResponseStatus.Error;
-    },
   },
 });
 
@@ -79,14 +69,12 @@ export const clerkInterpreterOverviewReducer =
   clerkInterpreterOverviewSlice.reducer;
 export const {
   loadClerkInterpreterOverview,
+  setClerkInterpreterOverview,
   storeClerkInterpreterOverview,
-  loadingClerkInterpreterOverviewFailed,
+  rejectLoadClerkInterpreterOverview,
   resetClerkInterpreterOverview,
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
   rejectClerkInterpreterOverviewUpdate,
-  storeClerkInterpreterOverviewUpdateSuccess,
-  updateQualificationPublishPermission,
-  updateQualificationPublishPermissionSuccess,
-  rejectQualificationPublishPermissionUpdate,
+  storeClerkInterpreterOverviewUpdate,
 } = clerkInterpreterOverviewSlice.actions;

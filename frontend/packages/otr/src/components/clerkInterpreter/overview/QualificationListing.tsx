@@ -24,22 +24,22 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationType } from 'enums/interpreter';
 import { Qualification } from 'interfaces/qualification';
-import { updateQualificationPublishPermission } from 'redux/reducers/clerkInterpreterOverview';
 import {
   removeNotifierDialog,
   showNotifierDialog,
 } from 'redux/reducers/notifier';
-import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { updateQualification } from 'redux/reducers/qualification';
+import { qualificationSelector } from 'redux/selectors/qualification';
 import { NotifierUtils } from 'utils/notifier';
 
 export const QualificationListing = ({
   qualifications,
   permissionToPublishReadOnly,
-  onQualificationRemove,
+  handleRemoveQualification,
 }: {
   qualifications: Array<Qualification>;
   permissionToPublishReadOnly: boolean;
-  onQualificationRemove: (q: Qualification) => void;
+  handleRemoveQualification: (q: Qualification) => void;
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
@@ -48,12 +48,9 @@ export const QualificationListing = ({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
 
-  const { qualificationDetailsUpdateStatus } = useAppSelector(
-    clerkInterpreterOverviewSelector
-  );
+  const { updateStatus } = useAppSelector(qualificationSelector);
 
-  const isLoading =
-    qualificationDetailsUpdateStatus === APIResponseStatus.InProgress;
+  const isLoading = updateStatus === APIResponseStatus.InProgress;
 
   const defaultClassName = 'clerk-interpreter-details__qualifications-table';
   const combinedClassNames = isLoading
@@ -75,7 +72,7 @@ export const QualificationListing = ({
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            dispatch(updateQualificationPublishPermission(qualification));
+            dispatch(updateQualification(qualification));
           },
         },
       ]
@@ -109,74 +106,77 @@ export const QualificationListing = ({
             <TableCell>{t('fields.startDate')}</TableCell>
             <TableCell>{t('fields.endDate')}</TableCell>
             <TableCell>{t('fields.permissionToPublish')}</TableCell>
+            <TableCell>{t('fields.diaryNumber')}</TableCell>
             <TableCell>{translateCommon('delete')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {qualifications
-            .filter((q) => !q.deleted)
-            .map((q, i) => (
-              <TableRow
-                key={q.id ?? q.tempId}
-                data-testid={`qualifications-table__id-${
-                  q.id ?? `${i}-unsaved`
-                }-row`}
-              >
-                <TableCell>
-                  <Text>
-                    {`${translateLanguage(q.fromLang)}
+          {qualifications.map((q, i) => (
+            <TableRow
+              key={q.id ?? q.tempId}
+              data-testid={`qualifications-table__id-${
+                q.id ?? `${i}-unsaved`
+              }-row`}
+            >
+              <TableCell>
+                <Text>
+                  {`${translateLanguage(q.fromLang)}
              - ${translateLanguage(q.toLang)}`}
-                  </Text>
-                </TableCell>
-                <TableCell>
-                  <div className="columns gapped-xs">
-                    <Text>{getExaminationTypeText(q.examinationType)}</Text>
-                  </div>
-                </TableCell>
-                <TableCell>
+                </Text>
+              </TableCell>
+              <TableCell>
+                <div className="columns gapped-xs">
+                  <Text>{getExaminationTypeText(q.examinationType)}</Text>
+                </div>
+              </TableCell>
+              <TableCell>
+                <Text>{DateUtils.formatOptionalDate(dayjs(q.beginDate))}</Text>
+              </TableCell>
+              <TableCell>
+                <Text>{DateUtils.formatOptionalDate(dayjs(q.endDate))}</Text>
+              </TableCell>
+              <TableCell>
+                {permissionToPublishReadOnly ? (
                   <Text>
-                    {DateUtils.formatOptionalDate(dayjs(q.beginDate))}
+                    {q.permissionToPublish
+                      ? translateCommon('yes')
+                      : translateCommon('no')}
                   </Text>
-                </TableCell>
-                <TableCell>
-                  <Text>{DateUtils.formatOptionalDate(dayjs(q.endDate))}</Text>
-                </TableCell>
-                <TableCell>
-                  {permissionToPublishReadOnly ? (
-                    <Text>
-                      {q.permissionToPublish
-                        ? translateCommon('yes')
-                        : translateCommon('no')}
-                    </Text>
-                  ) : (
-                    <CustomSwitch
-                      value={q.permissionToPublish}
-                      onChange={() => {
-                        onPublishPermissionChange(q);
-                      }}
-                      leftLabel={translateCommon('no')}
-                      rightLabel={translateCommon('yes')}
-                      aria-label={t(
-                        'actions.changePermissionToPublish.ariaLabel'
-                      )}
-                    />
-                  )}
-                </TableCell>
-                <TableCell className="centered">
-                  <CustomIconButton
-                    onClick={() => onQualificationRemove(q)}
-                    aria-label={t('actions.removal.ariaLabel')}
-                    data-testid={
-                      q.id
-                        ? `qualifications-table__id-${q.id}-row__delete-button`
-                        : `qualifications-table__id-${i}-unsaved}-row__delete-button`
+                ) : (
+                  <CustomSwitch
+                    value={q.permissionToPublish}
+                    onChange={() =>
+                      onPublishPermissionChange({
+                        ...q,
+                        permissionToPublish: !q.permissionToPublish,
+                      })
                     }
-                  >
-                    <DeleteIcon color={Color.Error} />
-                  </CustomIconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+                    leftLabel={translateCommon('no')}
+                    rightLabel={translateCommon('yes')}
+                    aria-label={t(
+                      'actions.changePermissionToPublish.ariaLabel'
+                    )}
+                  />
+                )}
+              </TableCell>
+              <TableCell>
+                <Text>{q.diaryNumber}</Text>
+              </TableCell>
+              <TableCell className="centered">
+                <CustomIconButton
+                  onClick={() => handleRemoveQualification(q)}
+                  aria-label={t('actions.removal.ariaLabel')}
+                  data-testid={
+                    q.id
+                      ? `qualifications-table__id-${q.id}-row__delete-button`
+                      : `qualifications-table__id-${i}-unsaved}-row__delete-button`
+                  }
+                >
+                  <DeleteIcon color={Color.Error} />
+                </CustomIconButton>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </LoadingProgressIndicator>

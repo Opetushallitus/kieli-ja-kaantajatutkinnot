@@ -16,7 +16,7 @@ import {
   resetClerkInterpreterOverview,
 } from 'redux/reducers/clerkInterpreterOverview';
 import { showNotifierToast } from 'redux/reducers/notifier';
-import { resetQualification } from 'redux/reducers/qualification';
+import { resetQualificationState } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { qualificationSelector } from 'redux/selectors/qualification';
 import { NotifierUtils } from 'utils/notifier';
@@ -29,7 +29,7 @@ export const ClerkInterpreterOverviewPage = () => {
   const { overviewStatus, interpreter } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
-  const { addQualificationStatus } = useAppSelector(qualificationSelector);
+  const { addStatus } = useAppSelector(qualificationSelector);
 
   const selectedInterpreterId = interpreter?.id;
   // React Router
@@ -71,29 +71,22 @@ export const ClerkInterpreterOverviewPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetQualification());
+      dispatch(resetQualificationState());
       dispatch(resetClerkInterpreterOverview());
     };
   }, [dispatch]);
 
   useEffect(() => {
-    if (addQualificationStatus === APIResponseStatus.Success) {
+    if (addStatus === APIResponseStatus.Success) {
       const toast = NotifierUtils.createNotifierToast(
         Severity.Success,
-        t('component.clerkInterpreterOverview.toasts.updated'),
+        t('component.newQualification.toasts.success'),
         Duration.Short
       );
       dispatch(showNotifierToast(toast));
-    } else if (addQualificationStatus === APIResponseStatus.Error) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('component.clerkInterpreterOverview.toasts.updateFailed'),
-        Duration.Short
-      );
-      dispatch(showNotifierToast(toast));
-      dispatch(resetQualification());
+      dispatch(resetQualificationState());
     }
-  }, [addQualificationStatus, dispatch, t]);
+  }, [addStatus, dispatch, t]);
 
   return (
     <Box className="clerk-interpreter-overview-page">

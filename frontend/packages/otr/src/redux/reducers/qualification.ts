@@ -1,52 +1,69 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { Qualification, QualificationState } from 'interfaces/qualification';
+import { Qualification } from 'interfaces/qualification';
+
+interface QualificationState {
+  addStatus: APIResponseStatus;
+  updateStatus: APIResponseStatus;
+  removeStatus: APIResponseStatus;
+}
 
 const initialState: QualificationState = {
-  addQualificationStatus: APIResponseStatus.NotStarted,
-  removeQualificationStatus: APIResponseStatus.NotStarted,
-  qualification: {},
+  addStatus: APIResponseStatus.NotStarted,
+  removeStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
 };
 
 const qualificationSlice = createSlice({
   name: 'qualification',
   initialState,
   reducers: {
-    resetQualification(state) {
-      state.removeQualificationStatus = initialState.removeQualificationStatus;
-      state.addQualificationStatus = initialState.addQualificationStatus;
-      state.qualification = initialState.qualification;
+    resetQualificationState(state) {
+      state.removeStatus = initialState.removeStatus;
+      state.addStatus = initialState.addStatus;
+      state.updateStatus = initialState.updateStatus;
     },
-    addQualification(state, action: PayloadAction<Qualification>) {
-      state.addQualificationStatus = APIResponseStatus.InProgress;
-      state.qualification = action.payload;
+    addQualification(state, _action: PayloadAction<Qualification>) {
+      state.addStatus = APIResponseStatus.InProgress;
     },
     rejectAddQualification(state) {
-      state.addQualificationStatus = APIResponseStatus.Error;
+      state.addStatus = APIResponseStatus.Error;
     },
-    addQualificationSuccess(state) {
-      state.addQualificationStatus = APIResponseStatus.Success;
+    addQualificationSucceeded(state) {
+      state.addStatus = APIResponseStatus.Success;
     },
     removeQualification(state, _action: PayloadAction<number>) {
-      state.removeQualificationStatus = APIResponseStatus.InProgress;
+      state.removeStatus = APIResponseStatus.InProgress;
     },
     rejectRemoveQualification(state) {
-      state.addQualificationStatus = APIResponseStatus.Error;
+      state.removeStatus = APIResponseStatus.Error;
     },
-    removeQualificationSuccess(state) {
-      state.addQualificationStatus = APIResponseStatus.Success;
+    removeQualificationSucceeded(state) {
+      state.removeStatus = APIResponseStatus.Success;
+    },
+    updateQualification(state, _action: PayloadAction<Qualification>) {
+      state.updateStatus = APIResponseStatus.InProgress;
+    },
+    rejectUpdateQualification(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    updateQualificationSucceeded(state) {
+      state.updateStatus = APIResponseStatus.Success;
     },
   },
 });
 
-export const qualifcationReducer = qualificationSlice.reducer;
+export const qualificationReducer = qualificationSlice.reducer;
 export const {
+  resetQualificationState,
   addQualification,
   rejectAddQualification,
-  addQualificationSuccess,
-  resetQualification,
+  addQualificationSucceeded,
   removeQualification,
   rejectRemoveQualification,
-  removeQualificationSuccess,
+  removeQualificationSucceeded,
+  updateQualification,
+  updateQualificationSucceeded,
+  rejectUpdateQualification,
 } = qualificationSlice.actions;

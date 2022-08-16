@@ -33,26 +33,22 @@ export const ClerkInterpreterListingRow = ({
         <Text>{`${firstName} ${lastName}`}</Text>
       </TableCell>
       <TableCell>
-        {qualifications
-          .filter((q) => !q.deleted)
-          .map(({ fromLang, toLang }, k) => (
-            <Text key={k}>
-              {translateLanguage(fromLang)}
-              {` - `}
-              {translateLanguage(toLang)}
-            </Text>
-          ))}
+        {qualifications.map(({ fromLang, toLang }, k) => (
+          <Text key={k}>
+            {translateLanguage(fromLang)}
+            {` - `}
+            {translateLanguage(toLang)}
+          </Text>
+        ))}
       </TableCell>
       <TableCell>
-        {qualifications
-          .filter((q) => !q.deleted)
-          .map(({ beginDate, endDate }, k) => (
-            <Text key={k}>
-              {DateUtils.formatOptionalDate(beginDate)}
-              {` - `}
-              {DateUtils.formatOptionalDate(endDate)}
-            </Text>
-          ))}{' '}
+        {qualifications.map(({ beginDate, endDate }, k) => (
+          <Text key={k}>
+            {DateUtils.formatOptionalDate(beginDate)}
+            {` - `}
+            {DateUtils.formatOptionalDate(endDate)}
+          </Text>
+        ))}{' '}
       </TableCell>
       <TableCell>
         <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>

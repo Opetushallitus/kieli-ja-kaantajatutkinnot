@@ -4,10 +4,7 @@ import { watchFetchClerkInterpreters } from 'redux/sagas/clerkInterpreter';
 import { watchFetchClerkInterpreterOverview } from 'redux/sagas/clerkInterpreterOverview';
 import { watchFetchClerkUser } from 'redux/sagas/clerkUser';
 import { watchFetchPublicInterpreters } from 'redux/sagas/publicInterpreter';
-import {
-  watchAddQualification,
-  watchRemoveQualification,
-} from 'redux/sagas/qualification';
+import { watchQualificationUpdates } from 'redux/sagas/qualification';
 
 export default function* rootSaga() {
   yield all([
@@ -15,7 +12,6 @@ export default function* rootSaga() {
     watchFetchClerkInterpreters(),
     watchFetchClerkInterpreterOverview(),
     watchFetchClerkUser(),
-    watchAddQualification(),
-    watchRemoveQualification(),
+    watchQualificationUpdates(),
   ]);
 }

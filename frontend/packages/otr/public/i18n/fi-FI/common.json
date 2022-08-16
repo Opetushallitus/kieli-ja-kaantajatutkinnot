@@ -2,6 +2,7 @@
   "otr": {
     "common": {
       "add": "Lisää",
+      "addQualification": "Lisää rekisteröinti",
       "allRegions": "Koko Suomi",
       "back": "Takaisin",
       "cancel": "Peruuta",

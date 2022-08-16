@@ -200,11 +200,11 @@ export const AddQualification = ({
             />
           </div>
           <div className="rows gapped-xs">
-            <Text className="bold">{t('fieldLabel.basis')}</Text>
+            <Text className="bold">{t('fieldLabel.examination')}</Text>
             <ComboBox
-              data-testid={`${testIdPrefix}-basis`}
+              data-testid={`${testIdPrefix}-examination`}
               autoHighlight
-              label={t('fieldPlaceholders.basis')}
+              label={t('fieldPlaceholders.examination')}
               values={Object.values(ExaminationType).map(
                 examinationTypeToOption
               )}

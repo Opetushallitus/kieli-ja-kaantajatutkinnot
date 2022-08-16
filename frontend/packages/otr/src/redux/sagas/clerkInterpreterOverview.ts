@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { WithId } from 'shared/interfaces';
 
@@ -9,22 +9,16 @@ import {
   ClerkInterpreter,
   ClerkInterpreterResponse,
 } from 'interfaces/clerkInterpreter';
-import { Qualification } from 'interfaces/qualification';
 import { storeClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import {
   loadClerkInterpreterOverview,
-  loadingClerkInterpreterOverviewFailed,
   rejectClerkInterpreterOverviewUpdate,
-  rejectQualificationPublishPermissionUpdate,
+  rejectLoadClerkInterpreterOverview,
   storeClerkInterpreterOverview,
-  storeClerkInterpreterOverviewUpdateSuccess,
+  storeClerkInterpreterOverviewUpdate,
   updateClerkInterpreterDetails,
-  updateQualificationPublishPermission,
-  updateQualificationPublishPermissionSuccess,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
@@ -39,7 +33,7 @@ function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
       )
     );
   } catch (error) {
-    yield put(loadingClerkInterpreterOverviewFailed());
+    yield put(rejectLoadClerkInterpreterOverview());
   }
 }
 
@@ -75,41 +69,9 @@ function* updateClerkInterpreterOverview(
     );
     yield updateClerkInterpreterState(interpreter);
 
-    yield put(storeClerkInterpreterOverviewUpdateSuccess(interpreter));
+    yield put(storeClerkInterpreterOverviewUpdate(interpreter));
   } catch (error) {
     yield put(rejectClerkInterpreterOverviewUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
-  }
-}
-
-function* doUpdateQualificationPublishPermission(
-  action: PayloadAction<Qualification>
-) {
-  try {
-    const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
-      axiosInstance.put,
-      APIEndpoints.Qualification,
-      SerializationUtils.serializeQualification({
-        ...action.payload,
-        permissionToPublish: !action.payload.permissionToPublish,
-      })
-    );
-    const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      apiResponse.data
-    );
-    yield put(storeClerkInterpreterOverview(interpreter));
-    yield put(updateQualificationPublishPermissionSuccess());
-  } catch (error) {
-    yield put(rejectQualificationPublishPermissionUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -118,9 +80,5 @@ export function* watchFetchClerkInterpreterOverview() {
   yield takeLatest(
     updateClerkInterpreterDetails,
     updateClerkInterpreterOverview
-  );
-  yield takeLatest(
-    updateQualificationPublishPermission,
-    doUpdateQualificationPublishPermission
   );
 }

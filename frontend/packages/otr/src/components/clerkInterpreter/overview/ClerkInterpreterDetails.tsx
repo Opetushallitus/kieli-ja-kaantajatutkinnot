@@ -48,10 +48,11 @@ export const ClerkInterpreterDetails = () => {
   });
 
   const resetToInitialState = useCallback(() => {
+    dispatch(resetClerkInterpreterDetailsUpdate());
     resetLocalInterpreterDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
-  }, [resetLocalInterpreterDetails]);
+  }, [dispatch, resetLocalInterpreterDetails]);
 
   useEffect(() => {
     if (
@@ -64,9 +65,7 @@ export const ClerkInterpreterDetails = () => {
         Duration.Short
       );
       dispatch(showNotifierToast(toast));
-      dispatch(resetClerkInterpreterDetailsUpdate());
-      setCurrentUIMode(UIMode.View);
-      setHasLocalChanges(false);
+      resetToInitialState();
     } else if (
       interpreterDetailsUpdateStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditInterpreterDetails
