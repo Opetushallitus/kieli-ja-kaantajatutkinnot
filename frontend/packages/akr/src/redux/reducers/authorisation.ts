@@ -1,47 +1,35 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  AddAuthorisationAction,
-  AddAuthorisationState,
-} from 'interfaces/authorisation';
-import {
-  CLERK_TRANSLATOR_AUTHORISATION_ADD,
-  CLERK_TRANSLATOR_AUTHORISATION_ADD_ERROR,
-  CLERK_TRANSLATOR_AUTHORISATION_ADD_SUCCESS,
-} from 'redux/actionTypes/authorisation';
+import { Authorisation } from 'interfaces/authorisation';
 
-const defaultState = {
+export interface AuthorisationState {
+  status: APIResponseStatus;
+}
+
+const initialState: AuthorisationState = {
   status: APIResponseStatus.NotStarted,
-  authorisation: {},
 };
 
-export const authorisationReducer: Reducer<
-  AddAuthorisationState,
-  AddAuthorisationAction
-> = (state = defaultState, action) => {
-  const authorisation = action.authorisation;
+const authorisationSlice = createSlice({
+  name: 'authorisation',
+  initialState,
+  reducers: {
+    addAuthorisation(state, _action: PayloadAction<Authorisation>) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    addingAuthorisationSucceeded(state) {
+      state.status = APIResponseStatus.Success;
+    },
+    rejectAuthorisation(state) {
+      state.status = APIResponseStatus.Error;
+    },
+  },
+});
 
-  switch (action.type) {
-    case CLERK_TRANSLATOR_AUTHORISATION_ADD:
-      return {
-        ...state,
-        authorisation,
-        status: APIResponseStatus.InProgress,
-      };
-    case CLERK_TRANSLATOR_AUTHORISATION_ADD_SUCCESS:
-      return {
-        ...state,
-        authorisation,
-        status: APIResponseStatus.Success,
-      };
-    case CLERK_TRANSLATOR_AUTHORISATION_ADD_ERROR:
-      return {
-        ...state,
-        authorisation,
-        status: APIResponseStatus.Error,
-      };
-    default:
-      return state;
-  }
-};
+export const authorisationReducer = authorisationSlice.reducer;
+export const {
+  addAuthorisation,
+  addingAuthorisationSucceeded,
+  rejectAuthorisation,
+} = authorisationSlice.actions;

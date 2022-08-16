@@ -9,7 +9,7 @@ import { ExaminationDatesToggleFilters } from 'components/clerkTranslator/examin
 import { MeetingDatesPageSkeleton } from 'components/skeletons/MeetingDatesPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadExaminationDates } from 'redux/actions/examinationDate';
+import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
 export const ExaminationDatesPage: FC = () => {
@@ -23,7 +23,7 @@ export const ExaminationDatesPage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExaminationDates);
+      dispatch(loadExaminationDates());
     }
   }, [dispatch, status]);
 

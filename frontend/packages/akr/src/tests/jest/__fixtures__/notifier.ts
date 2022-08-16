@@ -1,6 +1,5 @@
 import { Severity, Variant } from 'shared/enums';
 
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
 import { NotifierUtils } from 'utils/notifier';
 
 export const toastsArray = [
@@ -18,7 +17,7 @@ export const dialogsArray = [
       {
         title: 'Test Action 1',
         variant: Variant.Outlined,
-        action: NOTIFIER_ACTION_DO_NOTHING,
+        action: () => undefined,
       },
     ]
   ),

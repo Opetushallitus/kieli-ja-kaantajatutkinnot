@@ -1,23 +1,17 @@
-import { call, put, select } from '@redux-saga/core/effects';
+import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { Severity } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
-  CLERK_TRANSLATOR_EMAIL_CANCEL,
-  CLERK_TRANSLATOR_EMAIL_ERROR,
-  CLERK_TRANSLATOR_EMAIL_SUCCESS,
-} from 'redux/actionTypes/clerkTranslatorEmail';
-import { NOTIFIER_TOAST_ADD } from 'redux/actionTypes/notifier';
+  rejectClerkTranslatorEmail,
+  sendClerkTranslatorEmail,
+  sendingClerkTranslatorEmailSucceeded,
+} from 'redux/reducers/clerkTranslatorEmail';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { selectClerkTranslatorEmail } from 'redux/selectors/clerkTranslatorEmail';
 import { NotifierUtils } from 'utils/notifier';
-
-export function* cancel() {
-  yield put({
-    type: CLERK_TRANSLATOR_EMAIL_CANCEL,
-  });
-}
 
 function* showSuccessToast() {
   const t = translateOutsideComponent();
@@ -25,7 +19,7 @@ function* showSuccessToast() {
     Severity.Success,
     t('akr.pages.clerkSendEmailPage.toasts.success')
   );
-  yield put({ type: NOTIFIER_TOAST_ADD, notifier });
+  yield put(showNotifierToast(notifier));
 }
 
 function* showErrorToast() {
@@ -34,10 +28,10 @@ function* showErrorToast() {
     Severity.Error,
     t('akr.pages.clerkSendEmailPage.toasts.error')
   );
-  yield put({ type: NOTIFIER_TOAST_ADD, notifier });
+  yield put(showNotifierToast(notifier));
 }
 
-export function* sendEmail() {
+export function* sendClerkTranslatorEmailSaga() {
   const { email, recipients }: ReturnType<typeof selectClerkTranslatorEmail> =
     yield select(selectClerkTranslatorEmail);
   try {
@@ -50,10 +44,14 @@ export function* sendEmail() {
         translatorIds: recipients,
       })
     );
-    yield put({ type: CLERK_TRANSLATOR_EMAIL_SUCCESS });
+    yield put(sendingClerkTranslatorEmailSucceeded());
     yield call(showSuccessToast);
   } catch (error) {
-    yield put({ type: CLERK_TRANSLATOR_EMAIL_ERROR });
+    yield put(rejectClerkTranslatorEmail());
     yield call(showErrorToast);
   }
+}
+
+export function* watchClerkTranslatorEmail() {
+  yield takeLatest(sendClerkTranslatorEmail.type, sendClerkTranslatorEmailSaga);
 }

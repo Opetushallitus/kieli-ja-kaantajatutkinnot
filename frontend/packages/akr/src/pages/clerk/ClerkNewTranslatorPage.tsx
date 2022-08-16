@@ -22,14 +22,13 @@ import { AppRoutes } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
-  resetNewClerkTranslatorDetails,
-  resetNewClerkTranslatorRequestStatus,
-  updateNewClerkTranslator,
-} from 'redux/actions/clerkNewTranslator';
-import { loadExaminationDates } from 'redux/actions/examinationDate';
-import { loadMeetingDates } from 'redux/actions/meetingDate';
-import { showNotifierDialog, showNotifierToast } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
+  resetClerkNewTranslatorDetails,
+  resetClerkNewTranslatorRequestStatus,
+  updateClerkNewTranslator,
+} from 'redux/reducers/clerkNewTranslator';
+import { loadExaminationDates } from 'redux/reducers/examinationDate';
+import { loadMeetingDates } from 'redux/reducers/meetingDate';
+import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 import {
   examinationDatesSelector,
@@ -69,7 +68,7 @@ export const ClerkNewTranslatorPage = () => {
   const onAuthorisationAdd = (authorisation: Authorisation) => {
     setHasLocalChanges(true);
     dispatch(
-      updateNewClerkTranslator({
+      updateClerkNewTranslator({
         ...translator,
         authorisations: [...translator.authorisations, authorisation],
       })
@@ -85,7 +84,7 @@ export const ClerkNewTranslatorPage = () => {
         {
           title: translateCommon('no'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
@@ -93,7 +92,7 @@ export const ClerkNewTranslatorPage = () => {
           variant: Variant.Contained,
           action: () =>
             dispatch(
-              updateNewClerkTranslator({
+              updateClerkNewTranslator({
                 ...translator,
                 authorisations: translator.authorisations.filter((a) => {
                   return a.tempId !== authorisation.tempId;
@@ -115,7 +114,7 @@ export const ClerkNewTranslatorPage = () => {
       !meetingDatesState.meetingDates.length &&
       meetingDatesState.status === APIResponseStatus.NotStarted
     ) {
-      dispatch(loadMeetingDates);
+      dispatch(loadMeetingDates());
     }
   }, [dispatch, meetingDatesState]);
 
@@ -124,7 +123,7 @@ export const ClerkNewTranslatorPage = () => {
       !examinationDates.dates.length &&
       examinationDates.status === APIResponseStatus.NotStarted
     ) {
-      dispatch(loadExaminationDates);
+      dispatch(loadExaminationDates());
     }
   }, [dispatch, examinationDates]);
 
@@ -135,14 +134,14 @@ export const ClerkNewTranslatorPage = () => {
         t('toasts.success'),
         Duration.Medium
       );
-      dispatch(resetNewClerkTranslatorRequestStatus);
-      dispatch(resetNewClerkTranslatorDetails);
+      dispatch(resetClerkNewTranslatorRequestStatus());
+      dispatch(resetClerkNewTranslatorDetails());
       dispatch(showNotifierToast(successToast));
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
       );
     } else if (status === APIResponseStatus.Error) {
-      dispatch(resetNewClerkTranslatorRequestStatus);
+      dispatch(resetClerkNewTranslatorRequestStatus());
     }
   }, [id, dispatch, navigate, status, t]);
 

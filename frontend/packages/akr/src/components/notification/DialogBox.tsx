@@ -10,10 +10,7 @@ import { Color } from 'shared/enums';
 
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Dialog as DialogType } from 'interfaces/notifier';
-import {
-  executeNotifierAction,
-  removeNotifierDialog,
-} from 'redux/actions/notifier';
+import { removeNotifierDialog } from 'redux/reducers/notifier';
 import { notificationSelector } from 'redux/selectors/notifier';
 
 export const DialogBox = () => {
@@ -35,8 +32,6 @@ export const DialogBox = () => {
   const dispatchAction = (action: string | (() => void), id: string) => {
     if (typeof action === 'function') {
       action();
-    } else {
-      dispatch(executeNotifierAction(action));
     }
 
     handleDialogClose(id);

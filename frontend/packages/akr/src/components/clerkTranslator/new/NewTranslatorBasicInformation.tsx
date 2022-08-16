@@ -8,7 +8,7 @@ import {
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
-import { updateNewClerkTranslator } from 'redux/actions/clerkNewTranslator';
+import { updateClerkNewTranslator } from 'redux/reducers/clerkNewTranslator';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 
 export const NewTranslatorBasicInformation = ({
@@ -48,7 +48,7 @@ export const NewTranslatorBasicInformation = ({
     };
     onDetailsChange();
     dispatch(
-      updateNewClerkTranslator(updatedTranslatorDetails as ClerkNewTranslator)
+      updateClerkNewTranslator(updatedTranslatorDetails as ClerkNewTranslator)
     );
   };
 

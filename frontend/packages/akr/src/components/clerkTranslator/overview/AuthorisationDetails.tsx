@@ -16,12 +16,11 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
-import { addAuthorisation } from 'redux/actions/authorisation';
-import { deleteAuthorisation } from 'redux/actions/clerkTranslatorOverview';
-import { loadExaminationDates } from 'redux/actions/examinationDate';
-import { loadMeetingDates } from 'redux/actions/meetingDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
+import { addAuthorisation } from 'redux/reducers/authorisation';
+import { removeAuthorisation } from 'redux/reducers/clerkTranslatorOverview';
+import { loadExaminationDates } from 'redux/reducers/examinationDate';
+import { loadMeetingDates } from 'redux/reducers/meetingDate';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
@@ -68,8 +67,8 @@ export const AuthorisationDetails = () => {
   }, [status]);
 
   useEffect(() => {
-    dispatch(loadMeetingDates);
-    dispatch(loadExaminationDates);
+    dispatch(loadMeetingDates());
+    dispatch(loadExaminationDates());
   }, [dispatch]);
 
   if (!selectedTranslator) {
@@ -124,13 +123,13 @@ export const AuthorisationDetails = () => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: t('actions.removal.dialog.confirmButton'),
           variant: Variant.Contained,
           action: () =>
-            dispatch(deleteAuthorisation(authorisation.id as number)),
+            dispatch(removeAuthorisation(authorisation.id as number)),
           buttonColor: Color.Error,
         },
       ]

@@ -1,23 +1,17 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import {
-  ContactRequestAction,
-  ContactRequestState,
-} from 'interfaces/contactRequest';
-import {
-  CONTACT_REQUEST_ERROR,
-  CONTACT_REQUEST_RESET,
-  CONTACT_REQUEST_SEND,
-  CONTACT_REQUEST_SET,
-  CONTACT_REQUEST_SET_MESSAGE_ERROR,
-  CONTACT_REQUEST_STEP_DECREASE,
-  CONTACT_REQUEST_STEP_INCREASE,
-  CONTACT_REQUEST_SUCCESS,
-} from 'redux/actionTypes/contactRequest';
+import { ContactRequest } from 'interfaces/contactRequest';
 
-const defaultState = {
+interface ContactRequestState {
+  status: APIResponseStatus;
+  activeStep: ContactRequestFormStep;
+  request?: Partial<ContactRequest>;
+  messageError: string;
+}
+
+const initialState: ContactRequestState = {
   status: APIResponseStatus.NotStarted,
   activeStep: ContactRequestFormStep.VerifyTranslators,
   request: {
@@ -33,31 +27,51 @@ const defaultState = {
   messageError: '',
 };
 
-export const contactRequestReducer: Reducer<
-  ContactRequestState,
-  ContactRequestAction
-> = (state = defaultState, action) => {
-  switch (action.type) {
-    case CONTACT_REQUEST_SET:
-      return {
-        ...state,
-        request: { ...state.request, ...action.request },
-      };
-    case CONTACT_REQUEST_SEND:
-      return { ...state, status: APIResponseStatus.InProgress };
-    case CONTACT_REQUEST_ERROR:
-      return { ...state, status: APIResponseStatus.Error };
-    case CONTACT_REQUEST_SUCCESS:
-      return { ...state, status: APIResponseStatus.Success };
-    case CONTACT_REQUEST_SET_MESSAGE_ERROR:
-      return { ...state, messageError: action.messageError ?? '' };
-    case CONTACT_REQUEST_STEP_DECREASE:
-      return { ...state, activeStep: --state.activeStep };
-    case CONTACT_REQUEST_STEP_INCREASE:
-      return { ...state, activeStep: ++state.activeStep };
-    case CONTACT_REQUEST_RESET:
-      return defaultState;
-    default:
-      return state;
-  }
-};
+const contactRequestSlice = createSlice({
+  name: 'contactRequest',
+  initialState,
+  reducers: {
+    decreaseContactRequestStep(state) {
+      state.activeStep = --state.activeStep;
+    },
+    increaseContactRequestStep(state) {
+      state.activeStep = ++state.activeStep;
+    },
+    rejectContactRequest(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    setContactRequestMessageError(state, action: PayloadAction<string>) {
+      state.messageError = action.payload;
+    },
+    sendContactRequest(state, _action: PayloadAction<ContactRequest>) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    sendingContactRequestSucceeded(state) {
+      state.status = APIResponseStatus.Success;
+    },
+    updateContactRequest(
+      state,
+      action: PayloadAction<Partial<ContactRequest>>
+    ) {
+      state.request = { ...state.request, ...action.payload };
+    },
+    concludeContactRequest(state) {
+      state.status = initialState.status;
+      state.activeStep = initialState.activeStep;
+      state.request = initialState.request;
+      state.messageError = initialState.messageError;
+    },
+  },
+});
+
+export const contactRequestReducer = contactRequestSlice.reducer;
+export const {
+  decreaseContactRequestStep,
+  increaseContactRequestStep,
+  rejectContactRequest,
+  setContactRequestMessageError,
+  sendContactRequest,
+  sendingContactRequestSucceeded,
+  updateContactRequest,
+  concludeContactRequest,
+} = contactRequestSlice.actions;

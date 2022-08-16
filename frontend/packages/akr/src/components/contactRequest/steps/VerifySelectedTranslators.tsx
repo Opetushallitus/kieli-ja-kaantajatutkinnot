@@ -11,7 +11,7 @@ import {
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
-import { removeSelectedTranslator } from 'redux/actions/publicTranslator';
+import { deselectPublicTranslator } from 'redux/reducers/publicTranslator';
 import { selectedPublicTranslatorsForLanguagePair } from 'redux/selectors/publicTranslator';
 
 export const VerifySelectedTranslators = ({
@@ -26,7 +26,7 @@ export const VerifySelectedTranslators = ({
   const dispatch = useAppDispatch();
 
   const deselectTranslator = (id: number) =>
-    dispatch(removeSelectedTranslator(id));
+    dispatch(deselectPublicTranslator(id));
 
   useEffect(
     () => disableNext(translators.length == 0),

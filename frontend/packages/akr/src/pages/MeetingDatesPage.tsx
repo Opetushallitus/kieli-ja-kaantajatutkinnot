@@ -9,7 +9,7 @@ import { MeetingDatesToggleFilters } from 'components/clerkTranslator/meetingDat
 import { MeetingDatesPageSkeleton } from 'components/skeletons/MeetingDatesPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadMeetingDates } from 'redux/actions/meetingDate';
+import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const MeetingDatesPage: FC = () => {
@@ -23,7 +23,7 @@ export const MeetingDatesPage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadMeetingDates);
+      dispatch(loadMeetingDates());
     }
   }, [dispatch, status]);
 

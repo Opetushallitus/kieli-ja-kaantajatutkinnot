@@ -1,6 +1,5 @@
-import { composeWithDevToolsDevelopmentOnly } from '@redux-devtools/extension';
 import createSagaMiddleware from '@redux-saga/core';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { authorisationReducer } from 'redux/reducers/authorisation';
 import { clerkNewTranslatorReducer } from 'redux/reducers/clerkNewTranslator';
@@ -16,32 +15,24 @@ import { publicTranslatorReducer } from 'redux/reducers/publicTranslator';
 import { publicUIViewReducer } from 'redux/reducers/publicUIView';
 import rootSaga from 'redux/sagas/index';
 
-const sagaMiddleware = createSagaMiddleware();
-const middlewareEnhancer = applyMiddleware(sagaMiddleware);
+const saga = createSagaMiddleware();
+const store = configureStore({
+  reducer: {
+    publicTranslator: publicTranslatorReducer,
+    clerkTranslator: clerkTranslatorReducer,
+    clerkTranslatorEmail: clerkTranslatorEmailReducer,
+    clerkTranslatorOverview: clerkTranslatorOverviewReducer,
+    clerkNewTranslator: clerkNewTranslatorReducer,
+    contactRequest: contactRequestReducer,
+    publicUIView: publicUIViewReducer,
+    clerkUser: clerkUserReducer,
+    notifier: notifierReducer,
+    examinationDate: examinationDateReducer,
+    meetingDate: meetingDateReducer,
+    authorisation: authorisationReducer,
+  },
+  middleware: [saga],
+});
+saga.run(rootSaga);
 
-export default () => {
-  const composeEnhancers = composeWithDevToolsDevelopmentOnly({
-    serialize: true,
-  });
-  const store = createStore(
-    combineReducers({
-      publicTranslator: publicTranslatorReducer,
-      clerkTranslator: clerkTranslatorReducer,
-      clerkTranslatorEmail: clerkTranslatorEmailReducer,
-      clerkTranslatorOverview: clerkTranslatorOverviewReducer,
-      clerkNewTranslator: clerkNewTranslatorReducer,
-      contactRequest: contactRequestReducer,
-      publicUIView: publicUIViewReducer,
-      clerkUser: clerkUserReducer,
-      notifier: notifierReducer,
-      examinationDate: examinationDateReducer,
-      meetingDate: meetingDateReducer,
-      authorisation: authorisationReducer,
-    }),
-    composeEnhancers(middlewareEnhancer)
-  );
-
-  sagaMiddleware.run(rootSaga);
-
-  return store;
-};
+export default store;

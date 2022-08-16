@@ -11,12 +11,12 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
 import { PublicTranslator } from 'interfaces/publicTranslator';
-import { showNotifierToast } from 'redux/actions/notifier';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
-  addSelectedTranslator,
-  removeSelectedTranslator,
-} from 'redux/actions/publicTranslator';
+  deselectPublicTranslator,
+  selectPublicTranslator,
+} from 'redux/reducers/publicTranslator';
 import {
   publicTranslatorsSelector,
   selectFilteredPublicSelectedIds,
@@ -69,9 +69,9 @@ export const PublicTranslatorListingRow = ({
       dispatch(showNotifierToast(toast));
     } else {
       if (selected) {
-        dispatch(removeSelectedTranslator(translator.id));
+        dispatch(deselectPublicTranslator(translator.id));
       } else {
-        dispatch(addSelectedTranslator(translator.id));
+        dispatch(selectPublicTranslator(translator.id));
       }
     }
   };

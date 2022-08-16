@@ -12,7 +12,7 @@ import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleto
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkTranslators } from 'redux/actions/clerkTranslator';
+import { loadClerkTranslators } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
 export const ClerkHomePage: FC = () => {
@@ -25,7 +25,7 @@ export const ClerkHomePage: FC = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadClerkTranslators);
+      dispatch(loadClerkTranslators());
     }
   }, [dispatch, status]);
 

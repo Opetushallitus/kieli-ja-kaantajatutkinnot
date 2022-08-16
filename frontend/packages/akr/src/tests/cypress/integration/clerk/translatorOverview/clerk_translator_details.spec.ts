@@ -6,6 +6,7 @@ import {
   authorisation,
   translatorResponse,
 } from 'tests/cypress/fixtures/ts/clerkTranslatorOverview';
+import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -15,6 +16,11 @@ const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 beforeEach(() => {
   useFixedDate(fixedDateForTests);
+
+  cy.intercept(APIEndpoints.ClerkTranslator, {
+    fixture: 'clerk_translators_10.json',
+  });
+
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
     translatorResponse
@@ -116,6 +122,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     // Ensure navigation protection is no longer enabled after saving.
     onClerkTranslatorOverviewPage.navigateBackToRegister();
     cy.isOnPage(AppRoutes.ClerkHomePage);
+    onClerkHomePage.expectTotalTranslatorsCount(10);
   });
 
   it('should add authorisation succesfully', () => {

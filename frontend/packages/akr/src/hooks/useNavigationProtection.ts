@@ -3,7 +3,7 @@ import { useNavigationProtection as useCommonNavigationProtection } from 'shared
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { showNotifierDialog } from 'redux/actions/notifier';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 
 export const useNavigationProtection = (when: boolean) => {

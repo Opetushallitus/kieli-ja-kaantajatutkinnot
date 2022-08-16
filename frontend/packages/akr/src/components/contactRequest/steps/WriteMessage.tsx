@@ -14,9 +14,9 @@ import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import {
-  setContactRequest,
-  setMessageError,
-} from 'redux/actions/contactRequest';
+  setContactRequestMessageError,
+  updateContactRequest,
+} from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
 const getErrorForMessage = (message?: string) => {
@@ -57,12 +57,14 @@ export const WriteMessage = ({
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     const message = e.target.value;
-    dispatch(setContactRequest({ message }));
-    dispatch(setMessageError(getErrorForMessage(message)));
+    dispatch(updateContactRequest({ message }));
+    dispatch(setContactRequestMessageError(getErrorForMessage(message)));
   };
 
   const handleMessageFieldErrors = () => {
-    dispatch(setMessageError(getErrorForMessage(request?.message)));
+    dispatch(
+      setContactRequestMessageError(getErrorForMessage(request?.message))
+    );
   };
 
   const getHelperMessage = () => {

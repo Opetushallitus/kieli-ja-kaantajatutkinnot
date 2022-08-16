@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadClerkUser } from 'redux/actions/clerkUser';
+import { loadClerkUser } from 'redux/reducers/clerkUser';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 
 export const useAuthentication = () => {
@@ -17,7 +17,7 @@ export const useAuthentication = () => {
 
     if (clerkUser.status === APIResponseStatus.NotStarted) {
       if (activeURL.includes(clerkURL)) {
-        dispatch(loadClerkUser);
+        dispatch(loadClerkUser());
       }
     }
   }, [clerkUser.status, dispatch]);

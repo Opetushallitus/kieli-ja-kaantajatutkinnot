@@ -10,9 +10,8 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
-import { removeMeetingDate } from 'redux/actions/meetingDate';
-import { showNotifierDialog } from 'redux/actions/notifier';
-import { NOTIFIER_ACTION_DO_NOTHING } from 'redux/actionTypes/notifier';
+import { removeMeetingDate } from 'redux/reducers/meetingDate';
+import { showNotifierDialog } from 'redux/reducers/notifier';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
@@ -40,7 +39,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: NOTIFIER_ACTION_DO_NOTHING,
+          action: () => undefined,
         },
         {
           title: translateCommon('yes'),

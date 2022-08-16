@@ -1,20 +1,20 @@
 import { AxiosResponse } from 'axios';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkState, ClerkStateResponse } from 'interfaces/clerkState';
+import { ClerkStateResponse } from 'interfaces/clerkState';
+import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
-  CLERK_TRANSLATOR_ERROR,
-  CLERK_TRANSLATOR_LOAD,
-  CLERK_TRANSLATOR_LOADING,
-  CLERK_TRANSLATOR_RECEIVED,
-} from 'redux/actionTypes/clerkTranslators';
+  loadClerkTranslators,
+  rejectClerkTranslators,
+  storeClerkTranslators,
+} from 'redux/reducers/clerkTranslator';
+import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* fetchClerkTranslators() {
+export function* loadClerkTranslatorsSaga() {
   try {
-    yield put({ type: CLERK_TRANSLATOR_LOADING });
     const apiResponse: AxiosResponse<ClerkStateResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.ClerkTranslator
@@ -22,23 +22,34 @@ export function* fetchClerkTranslators() {
     const deserializedResponse = SerializationUtils.deserializeClerkTranslators(
       apiResponse.data
     );
-    yield call(storeApiResults, deserializedResponse);
+
+    yield put(storeClerkTranslators(deserializedResponse));
   } catch (error) {
-    yield put({ type: CLERK_TRANSLATOR_ERROR, error });
+    yield put(rejectClerkTranslators());
   }
 }
 
-export function* storeApiResults(response: ClerkState) {
-  const { translators, langs, meetingDates, examinationDates } = response;
-  yield put({
-    type: CLERK_TRANSLATOR_RECEIVED,
-    translators,
-    langs,
-    meetingDates,
-    examinationDates,
-  });
+export function* updateClerkTranslatorsState(
+  updatedTranslators: Array<ClerkTranslator>
+) {
+  const { translators, langs, meetingDates, examinationDates } = yield select(
+    clerkTranslatorsSelector
+  );
+
+  if (translators.length <= 0) {
+    yield put(loadClerkTranslators());
+  }
+
+  yield put(
+    storeClerkTranslators({
+      translators: updatedTranslators,
+      langs,
+      meetingDates,
+      examinationDates,
+    })
+  );
 }
 
-export function* watchFetchClerkTranslators() {
-  yield takeLatest(CLERK_TRANSLATOR_LOAD, fetchClerkTranslators);
+export function* watchClerkTranslators() {
+  yield takeLatest(loadClerkTranslators, loadClerkTranslatorsSaga);
 }

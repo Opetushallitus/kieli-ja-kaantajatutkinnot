@@ -1,152 +1,123 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
-import {
-  ClerkTranslatorOverviewAction,
-  ClerkTranslatorOverviewState,
-} from 'interfaces/clerkTranslatorOverview';
-import {
-  CLERK_TRANSLATOR_OVERVIEW_CANCEL_UPDATE,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_FETCH_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_FETCH_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_LOAD,
-  CLERK_TRANSLATOR_OVERVIEW_LOADING,
-  CLERK_TRANSLATOR_OVERVIEW_RESET,
-  CLERK_TRANSLATOR_OVERVIEW_RESET_UPDATE,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_SUCCESS,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_FAIL,
-  CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS,
-} from 'redux/actionTypes/clerkTranslatorOverview';
 
-const defaultState = {
+interface ClerkTranslatorOverviewState {
+  overviewStatus: APIResponseStatus;
+  translatorDetailsStatus: APIResponseStatus;
+  authorisationDetailsStatus: APIResponseStatus;
+  selectedTranslator?: ClerkTranslator;
+}
+
+const initialState: ClerkTranslatorOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   translatorDetailsStatus: APIResponseStatus.NotStarted,
   authorisationDetailsStatus: APIResponseStatus.NotStarted,
   selectedTranslator: undefined,
 };
 
-export const clerkTranslatorOverviewReducer: Reducer<
-  ClerkTranslatorOverviewState,
-  ClerkTranslatorOverviewAction
-> = (state = defaultState, action) => {
-  switch (action.type) {
-    case CLERK_TRANSLATOR_OVERVIEW_LOAD:
-      return {
-        ...state,
-        selectedTranslator: {
-          ...(action.translator as ClerkTranslator),
-        },
-        status: APIResponseStatus.NotStarted,
-      };
+const clerkTranslatorOverviewSlice = createSlice({
+  name: 'clerkTranslatorOverview',
+  initialState,
+  reducers: {
+    cancelClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.Cancelled;
+    },
+    removeAuthorisation(state, _action: PayloadAction<number>) {
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+    },
+    removingAuthorisationSucceeded(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
+    },
+    loadClerkTranslatorOverview(state, _action: PayloadAction<number>) {
+      state.overviewStatus = APIResponseStatus.InProgress;
+    },
+    rejectClerkTranslatorOverview(state) {
+      state.overviewStatus = APIResponseStatus.Error;
+    },
+    rejectClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.Error;
+    },
+    rejectAuthorisationPublishPermissionUpdate(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
+    },
+    rejectAuthorisationRemove(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
+    },
+    resetClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.NotStarted;
+    },
+    resetClerkTranslatorOverview(state) {
+      state.authorisationDetailsStatus =
+        initialState.authorisationDetailsStatus;
+      state.overviewStatus = initialState.overviewStatus;
+      state.selectedTranslator = initialState.selectedTranslator;
+      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
+    },
+    setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
+      state.selectedTranslator = action.payload;
+      state.overviewStatus = APIResponseStatus.NotStarted;
+    },
+    storeClerkTranslatorOverview(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.overviewStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
+    },
+    updateClerkTranslatorDetails(
+      state,
+      _action: PayloadAction<ClerkTranslator>
+    ) {
+      state.translatorDetailsStatus = APIResponseStatus.InProgress;
+    },
+    updateAuthorisationPublishPermission(
+      state,
+      _action: PayloadAction<Authorisation>
+    ) {
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+    },
+    updatingAuthorisationPublishPermissionSucceeded(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
+    },
+    updatingClerkTranslatorDetailsSucceeded(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.overviewStatus = APIResponseStatus.Success;
+      state.translatorDetailsStatus = APIResponseStatus.Success;
+      state.selectedTranslator = action.payload;
+    },
+  },
+});
 
-    case CLERK_TRANSLATOR_OVERVIEW_LOADING:
-      return {
-        ...state,
-        overviewStatus: APIResponseStatus.InProgress,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS:
-      return {
-        ...state,
-        translatorDetailsStatus: APIResponseStatus.InProgress,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_CANCEL_UPDATE:
-      return {
-        ...state,
-        translatorDetailsStatus: APIResponseStatus.Cancelled,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_RESET_UPDATE:
-      return {
-        ...state,
-        translatorDetailsStatus: APIResponseStatus.NotStarted,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_RESET:
-      return defaultState;
-
-    case CLERK_TRANSLATOR_OVERVIEW_FETCH_SUCCESS:
-      return {
-        ...state,
-        selectedTranslator: {
-          ...(action.translator as ClerkTranslator),
-        },
-        overviewStatus: APIResponseStatus.Success,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_SUCCESS:
-      return {
-        ...state,
-        selectedTranslator: {
-          ...(action.translator as ClerkTranslator),
-        },
-        overviewStatus: APIResponseStatus.Success,
-        translatorDetailsStatus: APIResponseStatus.Success,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_FETCH_FAIL:
-      return {
-        ...state,
-        overviewStatus: APIResponseStatus.Error,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_TRANSLATOR_DETAILS_FAIL:
-      return {
-        ...state,
-        translatorDetailsStatus: APIResponseStatus.Error,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION:
-      return {
-        ...state,
-        authorisationDetailsStatus: APIResponseStatus.InProgress,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_SUCCESS:
-      return {
-        ...state,
-        selectedTranslator: {
-          ...(action.translator as ClerkTranslator),
-        },
-        authorisationDetailsStatus: APIResponseStatus.Success,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_UPDATE_AUTHORISATION_PUBLISH_PERMISSION_FAIL:
-      return {
-        ...state,
-        authorisationDetailsStatus: APIResponseStatus.Error,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION:
-      return {
-        ...state,
-        authorisationDetailsStatus: APIResponseStatus.InProgress,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_SUCCESS:
-      return {
-        ...state,
-        selectedTranslator: {
-          ...(action.translator as ClerkTranslator),
-        },
-        authorisationDetailsStatus: APIResponseStatus.Success,
-      };
-
-    case CLERK_TRANSLATOR_OVERVIEW_DELETE_AUTHORISATION_FAIL:
-      return {
-        ...state,
-        authorisationDetailsStatus: APIResponseStatus.Error,
-      };
-
-    default:
-      return state;
-  }
-};
+export const clerkTranslatorOverviewReducer =
+  clerkTranslatorOverviewSlice.reducer;
+export const {
+  cancelClerkTranslatorDetailsUpdate,
+  removeAuthorisation,
+  removingAuthorisationSucceeded,
+  loadClerkTranslatorOverview,
+  rejectAuthorisationRemove,
+  rejectClerkTranslatorOverview,
+  rejectClerkTranslatorDetailsUpdate,
+  rejectAuthorisationPublishPermissionUpdate,
+  resetClerkTranslatorDetailsUpdate,
+  resetClerkTranslatorOverview,
+  setClerkTranslatorOverview,
+  storeClerkTranslatorOverview,
+  updateClerkTranslatorDetails,
+  updateAuthorisationPublishPermission,
+  updatingAuthorisationPublishPermissionSucceeded,
+  updatingClerkTranslatorDetailsSucceeded,
+} = clerkTranslatorOverviewSlice.actions;

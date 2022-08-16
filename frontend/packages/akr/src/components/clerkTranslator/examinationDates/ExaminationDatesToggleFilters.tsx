@@ -3,7 +3,7 @@ import { ToggleFilterGroup } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationDateStatus } from 'enums/examinationDate';
-import { setExaminationDateFilter } from 'redux/actions/examinationDate';
+import { addExaminationDateFilter } from 'redux/reducers/examinationDate';
 import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
@@ -22,7 +22,7 @@ export const ExaminationDatesToggleFilters = () => {
 
   const filterByDate = (status: ExaminationDateStatus) => {
     dispatch(
-      setExaminationDateFilter({
+      addExaminationDateFilter({
         examinationDateStatus: status,
       })
     );

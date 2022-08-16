@@ -24,7 +24,6 @@
     "otr:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.1",
     "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.15"
   }
 }

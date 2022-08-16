@@ -1,21 +1,15 @@
-import { Reducer } from 'redux';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkTranslatorEmailAction,
-  ClerkTranslatorEmailState,
-} from 'interfaces/clerkTranslatorEmail';
-import {
-  CLERK_TRANSLATOR_EMAIL_CANCEL,
-  CLERK_TRANSLATOR_EMAIL_ERROR,
-  CLERK_TRANSLATOR_EMAIL_RESET,
-  CLERK_TRANSLATOR_EMAIL_SEND,
-  CLERK_TRANSLATOR_EMAIL_SET,
-  CLERK_TRANSLATOR_EMAIL_SET_RECIPIENTS,
-  CLERK_TRANSLATOR_EMAIL_SUCCESS,
-} from 'redux/actionTypes/clerkTranslatorEmail';
+import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
 
-const defaultState = {
+interface ClerkTranslatorEmailState {
+  status: APIResponseStatus;
+  email: ClerkTranslatorEmail;
+  recipients: Array<number>;
+}
+
+const initialState: ClerkTranslatorEmailState = {
   status: APIResponseStatus.NotStarted,
   email: {
     subject: '',
@@ -24,29 +18,49 @@ const defaultState = {
   recipients: [],
 };
 
-export const clerkTranslatorEmailReducer: Reducer<
-  ClerkTranslatorEmailState,
-  ClerkTranslatorEmailAction
-> = (state = defaultState, action) => {
-  switch (action.type) {
-    case CLERK_TRANSLATOR_EMAIL_SEND:
-      return {
-        ...state,
-        status: APIResponseStatus.InProgress,
-      };
-    case CLERK_TRANSLATOR_EMAIL_SET:
-      return { ...state, email: { ...state.email, ...action.email } };
-    case CLERK_TRANSLATOR_EMAIL_SET_RECIPIENTS:
-      return { ...state, recipients: action.recipientIds };
-    case CLERK_TRANSLATOR_EMAIL_RESET:
-      return defaultState;
-    case CLERK_TRANSLATOR_EMAIL_SUCCESS:
-      return { ...state, status: APIResponseStatus.Success };
-    case CLERK_TRANSLATOR_EMAIL_ERROR:
-      return { ...state, status: APIResponseStatus.Error };
-    case CLERK_TRANSLATOR_EMAIL_CANCEL:
-      return { ...state, status: APIResponseStatus.Cancelled };
-    default:
-      return state;
-  }
-};
+const clerkTranslatorEmailSlice = createSlice({
+  name: 'clerkTranslatorEmail',
+  initialState,
+  reducers: {
+    cancelClerkTranslatorEmail(state) {
+      state.status = APIResponseStatus.Cancelled;
+    },
+    rejectClerkTranslatorEmail(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    resetClerkTranslatorEmail(state) {
+      state.status = initialState.status;
+      state.email = initialState.email;
+      state.recipients = initialState.recipients;
+    },
+    sendClerkTranslatorEmail(state) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    sendingClerkTranslatorEmailSucceeded(state) {
+      state.status = APIResponseStatus.Success;
+    },
+    setClerkTranslatorEmail(
+      state,
+      action: PayloadAction<Partial<ClerkTranslatorEmail>>
+    ) {
+      state.email = { ...state.email, ...action.payload };
+    },
+    setClerkTranslatorEmailRecipients(
+      state,
+      action: PayloadAction<Array<number>>
+    ) {
+      state.recipients = action.payload;
+    },
+  },
+});
+
+export const clerkTranslatorEmailReducer = clerkTranslatorEmailSlice.reducer;
+export const {
+  cancelClerkTranslatorEmail,
+  rejectClerkTranslatorEmail,
+  resetClerkTranslatorEmail,
+  sendClerkTranslatorEmail,
+  sendingClerkTranslatorEmailSucceeded,
+  setClerkTranslatorEmail,
+  setClerkTranslatorEmailRecipients,
+} = clerkTranslatorEmailSlice.actions;
