@@ -173,7 +173,7 @@ export const ClerkTranslatorDetails = () => {
           isViewMode={isViewMode}
         />
       }
-      displayFieldErrorBeforeChange={true}
+      showFieldErrorBeforeChange={true}
     />
   );
 };

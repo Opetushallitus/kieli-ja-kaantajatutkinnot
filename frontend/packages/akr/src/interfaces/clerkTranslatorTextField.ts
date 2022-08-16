@@ -7,6 +7,6 @@ import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
 export type ClerkTranslatorTextFieldProps = {
   translator?: ClerkTranslatorBasicInformation;
   field: ClerkTranslatorTextFieldEnum;
-  displayError: boolean;
+  showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 } & CustomTextFieldProps;

@@ -1,3 +1,4 @@
+import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
   AutocompleteValue,
@@ -5,6 +6,7 @@ import {
   CustomSwitch,
   CustomTextField,
   H3,
+  InfoText,
 } from 'shared/components';
 import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
@@ -40,14 +42,12 @@ const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
 
 const getFieldError = (
   translator: ClerkTranslatorBasicInformation | undefined,
-  field: ClerkTranslatorTextFieldEnum
+  field: ClerkTranslatorTextFieldEnum,
+  required: boolean
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
   const value = (translator && translator[field]) || '';
-  const required =
-    field == ClerkTranslatorTextFieldEnum.FirstName ||
-    field == ClerkTranslatorTextFieldEnum.LastName;
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -58,18 +58,28 @@ const getFieldError = (
   return error ? t(`akr.${error}`) : '';
 };
 
+const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
+  isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+
 const ClerkTranslatorDetailsTextField = ({
   translator,
   field,
   onChange,
-  displayError,
+  showFieldError,
   ...rest
 }: ClerkTranslatorTextFieldProps) => {
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
   });
-  const fieldError = getFieldError(translator, field);
+  const required =
+    field == ClerkTranslatorTextFieldEnum.FirstName ||
+    field == ClerkTranslatorTextFieldEnum.LastName;
+  const fieldError = getFieldError(translator, field, required);
+  const showRequiredFieldError =
+    showFieldError && fieldError?.length > 0 && required;
+  const showHelperText =
+    (showFieldError || !required) && fieldError?.length > 0;
 
   return (
     <CustomTextField
@@ -77,8 +87,10 @@ const ClerkTranslatorDetailsTextField = ({
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
-      error={displayError && fieldError?.length > 0}
-      helperText={fieldError}
+      FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
+      error={showRequiredFieldError}
+      showHelperText={showHelperText}
+      helperText={getHelperText(showRequiredFieldError, fieldError)}
       {...rest}
     />
   );
@@ -91,7 +103,7 @@ export const ClerkTranslatorDetailsFields = ({
   onCheckBoxChange,
   editDisabled,
   topControlButtons,
-  displayFieldErrorBeforeChange,
+  showFieldErrorBeforeChange,
 }: {
   translator?: ClerkTranslatorBasicInformation;
   onTextFieldChange: (
@@ -105,7 +117,7 @@ export const ClerkTranslatorDetailsFields = ({
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   editDisabled: boolean;
   topControlButtons?: JSX.Element;
-  displayFieldErrorBeforeChange: boolean;
+  showFieldErrorBeforeChange: boolean;
 }) => {
   // I18n
   const { t } = useAppTranslation({
@@ -114,28 +126,33 @@ export const ClerkTranslatorDetailsFields = ({
   const translateCommon = useCommonTranslation();
   const translateCountry = useKoodistoCountriesTranslation();
 
-  const initialErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
+  const initialFieldErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
     (acc, val) => {
-      return { ...acc, [val]: displayFieldErrorBeforeChange };
+      return { ...acc, [val]: showFieldErrorBeforeChange };
     },
     {}
   ) as Record<ClerkTranslatorTextFieldEnum, boolean>;
 
-  const [displayFieldError, setDisplayFieldError] = useState(initialErrors);
-  const displayFieldErrorOnBlur =
-    (field: ClerkTranslatorTextFieldEnum) => () => {
-      setDisplayFieldError({ ...displayFieldError, [field]: true });
-    };
+  const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
+  const setFieldErrorOnBlur = (field: ClerkTranslatorTextFieldEnum) => () => {
+    setFieldErrors((prevFieldErrors) => ({
+      ...prevFieldErrors,
+      [field]: true,
+    }));
+  };
 
-  const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => ({
-    field,
-    translator,
-    disabled: editDisabled,
-    onChange: onTextFieldChange(field),
-    onBlur: displayFieldErrorOnBlur(field),
-    displayError: displayFieldError[field],
-    'data-testid': `clerk-translator__basic-information__${field}`,
-  });
+  const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
+    return {
+      field,
+      translator,
+      disabled: editDisabled,
+      onChange: onTextFieldChange(field),
+      showFieldError: fieldErrors[field],
+      onBlur: setFieldErrorOnBlur(field),
+      fullWidth: true,
+      'data-testid': `clerk-translator__basic-information__${field}`,
+    };
+  };
 
   const countryCodeToLabel = (code: string) => {
     const label = translateCountry(code);
@@ -161,7 +178,7 @@ export const ClerkTranslatorDetailsFields = ({
         </div>
         {topControlButtons}
       </div>
-      <div className="grid-columns gapped">
+      <div className="columns align-items-start gapped">
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.LastName)}
         />
@@ -175,7 +192,7 @@ export const ClerkTranslatorDetailsFields = ({
         />
       </div>
       <H3>{t('header.address')}</H3>
-      <div className="grid-columns gapped">
+      <div className="columns align-items-start gapped">
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Street)}
         />
@@ -199,7 +216,7 @@ export const ClerkTranslatorDetailsFields = ({
         />
       </div>
       <H3>{t('header.contactInformation')}</H3>
-      <div className="grid-columns gapped">
+      <div className="columns align-items-start gapped">
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Email)}
         />
@@ -225,7 +242,9 @@ export const ClerkTranslatorDetailsFields = ({
           leftLabel={translateCommon('no')}
           rightLabel={translateCommon('yes')}
           errorLabel={
-            !translator?.isAssuranceGiven && t('caveats.isNotAssuranceGiven')
+            !translator?.isAssuranceGiven && (
+              <InfoText>{t('caveats.isNotAssuranceGiven')}</InfoText>
+            )
           }
         />
       </div>

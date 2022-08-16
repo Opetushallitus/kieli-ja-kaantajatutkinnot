@@ -254,4 +254,31 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onDialog.clickButtonByText('Kyllä');
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
+
+  it('should show field errors when inputs are not valid', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+
+    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.editTranslatorField('lastName', 'input', ' ');
+    onClerkTranslatorOverviewPage.editTranslatorField(
+      'firstName',
+      'input',
+      ' '
+    );
+    onClerkTranslatorOverviewPage.editTranslatorField('email', 'input', 'mail');
+    onClerkTranslatorOverviewPage.editTranslatorField(
+      'identityNumber',
+      'input',
+      'id'
+    );
+
+    cy.findAllByText('Tieto on pakollinen').should('have.length', 2);
+    onClerkTranslatorOverviewPage.expectText(
+      'Henkilötunnuksen muotoa ei tunnistettu'
+    );
+    onClerkTranslatorOverviewPage.expectText(
+      'Sähköpostiosoite on virheellinen'
+    );
+  });
 });

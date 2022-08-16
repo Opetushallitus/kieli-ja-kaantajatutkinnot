@@ -195,6 +195,10 @@ class ClerkTranslatorOverviewPage {
     }
   }
 
+  expectText(text: string) {
+    cy.findByText(text).should('be.visible');
+  }
+
   expectTranslatorDetailsFields(translator: ClerkTranslatorResponse) {
     const fields = [
       { field: 'firstName', fieldType: 'input' },

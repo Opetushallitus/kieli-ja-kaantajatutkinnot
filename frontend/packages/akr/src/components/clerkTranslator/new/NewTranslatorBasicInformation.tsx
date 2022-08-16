@@ -65,7 +65,7 @@ export const NewTranslatorBasicInformation = ({
         handleCheckBoxChange(field)
       }
       editDisabled={false}
-      displayFieldErrorBeforeChange={false}
+      showFieldErrorBeforeChange={false}
     />
   );
 };
