@@ -59,7 +59,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
     </label>
   </div>
   <span
-    className="MuiTypography-root MuiTypography-caption css-19m5e5t-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-caption custom-switch__helper-text css-19m5e5t-MuiTypography-root"
     data-testid="just-a-test-id__error-label"
   >
     test-error-label

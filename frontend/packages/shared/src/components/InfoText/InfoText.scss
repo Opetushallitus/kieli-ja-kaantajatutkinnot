@@ -1,0 +1,10 @@
+.info-text {
+  & &__icon {
+    margin-right: 0.5rem;
+  }
+
+  & &__label {
+    font-size: 1.3rem;
+    margin-top: 2px;
+  }
+}
