@@ -57,8 +57,11 @@ const clerkTranslatorSlice = createSlice({
       state.filters = initialState.filters;
       state.selectedTranslators = initialState.selectedTranslators;
     },
-    selectAllFilteredClerkTranslators(state) {
-      state.selectedTranslators = state.translators.map(({ id }) => id);
+    selectAllFilteredClerkTranslators(
+      state,
+      action: PayloadAction<Array<ClerkTranslator>>
+    ) {
+      state.selectedTranslators = action.payload.map(({ id }) => id);
     },
     selectClerkTranslator(state, action: PayloadAction<number>) {
       state.selectedTranslators.push(action.payload);

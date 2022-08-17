@@ -8,7 +8,7 @@ import { createAPIErrorResponse } from 'tests/cypress/support/utils/api';
 beforeEach(() => {
   cy.intercept(APIEndpoints.ClerkTranslator, {
     fixture: 'clerk_translators_10.json',
-  });
+  }).as('getClerkTranslators');
 
   cy.intercept('GET', APIEndpoints.MeetingDate, {
     fixture: 'meeting_dates_10.json',
@@ -37,13 +37,15 @@ describe('ClerkAddNewTranslator', () => {
     onClerkNewTranslatorPage.expectUnsavedAuthorisationRowToExist(0);
     onClerkNewTranslatorPage.clickSaveNewClerkButton();
     cy.wait('@createTranslatorResponse');
-    onToast.expectText('Kääntäjän tiedot tallennettiin!');
 
+    onToast.expectText('Kääntäjän tiedot tallennettiin!');
     const expectedTranslatorPage =
       AppRoutes.ClerkTranslatorOverviewPage.replace(
         /:translatorId$/,
         `${newTranslatorResponse.id}`
       );
+    cy.wait('@getClerkTranslators');
+
     cy.isOnPage(expectedTranslatorPage);
   });
 

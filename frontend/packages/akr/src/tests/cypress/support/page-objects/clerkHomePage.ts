@@ -22,6 +22,8 @@ class ClerkHomePage {
     nameField: () => cy.findByTestId('clerk-translator-filters__name'),
     resetFiltersButton: () =>
       cy.findByTestId('clerk-translator-registry__reset-filters-btn'),
+    selectedTranslatorsCountHeading: () =>
+      cy.findByTestId('clerk-translators__selected-count-heading'),
   };
 
   expectTotalTranslatorsCount(count: number) {
@@ -30,8 +32,13 @@ class ClerkHomePage {
       .should('contain.text', `Rekisteri(${count})`);
   }
 
-  expectSelectedTranslatorsCount(count: number) {
-    cy.get('.table__head-box__pagination').should('contain.text', `/ ${count}`);
+  expectSelectedTranslatorsCount(
+    totalCount: number,
+    selectedTranslatorsCount = 0
+  ) {
+    this.elements
+      .selectedTranslatorsCountHeading()
+      .should('contain.text', `${selectedTranslatorsCount} / ${totalCount}`);
   }
 
   filterByAuthorisationStatus(status: AuthorisationStatus) {
