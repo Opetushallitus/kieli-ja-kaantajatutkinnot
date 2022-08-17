@@ -1,14 +1,9 @@
-import { useEffect } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import {
-  resetClerkNewTranslatorDetails,
-  resetClerkNewTranslatorRequestStatus,
-  saveClerkNewTranslator,
-} from 'redux/reducers/clerkNewTranslator';
+import { saveClerkNewTranslator } from 'redux/reducers/clerkNewTranslator';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 
 export const BottomControls = () => {
@@ -20,13 +15,6 @@ export const BottomControls = () => {
   const dispatch = useAppDispatch();
 
   const isLoading = status === APIResponseStatus.InProgress;
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetClerkNewTranslatorDetails());
-      dispatch(resetClerkNewTranslatorRequestStatus());
-    };
-  }, [dispatch]);
 
   // Action handlers
   const onSave = () => {
