@@ -1,4 +1,3 @@
-import { Action } from 'redux';
 import { Color, NotifierTypes, Severity, Variant } from 'shared/enums';
 
 export interface DialogButtonAction {
@@ -31,10 +30,4 @@ export interface Dialog extends Notifier {
 export interface NotifierState {
   dialogs: Array<Dialog>;
   toasts: Array<Toast>;
-}
-
-export interface NotifierAction extends Action {
-  id?: string;
-  notifier?: Notifier;
-  toasts?: Notifier;
 }

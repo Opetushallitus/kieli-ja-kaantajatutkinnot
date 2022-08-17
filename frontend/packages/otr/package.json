@@ -10,9 +10,10 @@
   "scripts": {
     "otr:build": "yarn g:webpack --env prod",
     "otr:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "otr:exportlint": "yarn g:exportlint",
     "otr:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "otr:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "otr:lint": "yarn otr:eslint && yarn otr:tslint && yarn otr:stylelint",
+    "otr:lint": "yarn otr:eslint && yarn otr:tslint && yarn otr:stylelint && yarn otr:exportlint",
     "otr:qa": "yarn otr:lint && yarn otr:format && yarn otr:test:jest && yarn otr:start:ci",
     "otr:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8081",
     "otr:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",

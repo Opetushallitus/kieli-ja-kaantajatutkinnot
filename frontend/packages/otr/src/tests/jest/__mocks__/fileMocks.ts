@@ -1,3 +1,3 @@
 const content = 'test';
-export const ReactComponent = content;
+// ts-unused-exports:disable-next-line
 export default content;

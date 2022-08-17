@@ -1,10 +1,11 @@
-import { Action } from 'redux';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
-import { LanguagePair } from 'interfaces/languagePair';
-
+interface LanguagePair {
+  from: string;
+  to: string;
+}
 export interface PublicInterpreter extends WithId {
   firstName: string;
   lastName: string;
@@ -33,10 +34,4 @@ export interface PublicInterpreterState {
   status: APIResponseStatus;
   filters: PublicInterpreterFilter;
   interpreters: Array<PublicInterpreter>;
-}
-
-export interface PublicInterpreterAction extends Action<string> {
-  interpreters?: Array<PublicInterpreter>;
-  index?: number;
-  filters?: PublicInterpreterFilter;
 }
