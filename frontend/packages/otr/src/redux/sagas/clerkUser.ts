@@ -11,7 +11,7 @@ import {
   storeClerkUser,
 } from 'redux/reducers/clerkUser';
 
-export function* fetchClerkUser() {
+function* fetchClerkUser() {
   try {
     const response: AxiosResponse<ClerkUser> = yield call(
       axiosInstance.get,

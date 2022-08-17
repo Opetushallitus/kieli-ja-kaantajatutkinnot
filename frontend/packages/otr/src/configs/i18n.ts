@@ -29,9 +29,7 @@ const langFI = AppLanguage.Finnish;
 const langSV = AppLanguage.Swedish;
 const langEN = AppLanguage.English;
 
-export type AppLanguages = `${AppLanguage}`;
-
-export const supportedLangs = [langFI, langSV, langEN];
+const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
@@ -103,34 +101,12 @@ export const useKoodistoLanguagesTranslation = () => {
   return t;
 };
 
-export const useKoodistoRegionsTranslation = () => {
-  const { t } = useAppTranslation(
-    {
-      keyPrefix: 'otr.koodisto.regions',
-    },
-    I18nNamespace.KoodistoRegions
-  );
-
-  return t;
-};
-
 export const useCommonTranslation = () => {
   const { t } = useAppTranslation(
     {
       keyPrefix: 'otr.common',
     },
     I18nNamespace.Common
-  );
-
-  return t;
-};
-
-export const useAccessibilityTranslation = () => {
-  const { t } = useAppTranslation(
-    {
-      keyPrefix: 'otr.accessibility',
-    },
-    I18nNamespace.Accessibility
   );
 
   return t;
@@ -152,8 +128,4 @@ export const changeLang = (language: AppLanguage) => {
   DateUtils.setDayjsLocale(language);
 
   return changeLanguage(language);
-};
-
-export const onLangChanged = (callback: (language: AppLanguage) => void) => {
-  return i18n.on('languageChanged', callback);
 };

@@ -5,7 +5,12 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { CustomTextField, H3, valueAsOption } from 'shared/components';
+import {
+  CustomTextField,
+  CustomTextFieldProps,
+  H3,
+  valueAsOption,
+} from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 import { InputFieldUtils } from 'shared/utils';
@@ -16,9 +21,15 @@ import {
   ClerkInterpreterTextFieldEnum,
 } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
-import { ClerkInterpreterTextFieldProps } from 'interfaces/clerkInterpreterTextFieldProps';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
 import { RegionUtils } from 'utils/regions';
+
+type ClerkInterpreterTextFieldProps = {
+  interpreter?: ClerkInterpreter;
+  field: ClerkInterpreterTextFieldEnum;
+  displayError: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+} & CustomTextFieldProps;
 
 const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
   switch (field) {
