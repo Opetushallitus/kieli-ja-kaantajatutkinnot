@@ -2,8 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { AuthorisationStatus } from 'enums/clerkTranslator';
-import { ClerkState } from 'interfaces/clerkState';
-import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
+import {
+  ClerkTranslator,
+  ClerkTranslatorFilter,
+} from 'interfaces/clerkTranslator';
+import { LanguagePairsDict } from 'interfaces/languagePair';
+
+interface ClerkState {
+  translators: Array<ClerkTranslator>;
+  langs: LanguagePairsDict;
+}
 
 interface ClerkUIState extends ClerkState {
   selectedTranslators: Array<number>;
@@ -15,8 +23,6 @@ const initialState: ClerkUIState = {
   status: APIResponseStatus.NotStarted,
   translators: [],
   langs: { from: [], to: [] },
-  meetingDates: [],
-  examinationDates: [],
   selectedTranslators: [],
   filters: {
     authorisationStatus: AuthorisationStatus.Authorised,
@@ -61,8 +67,6 @@ const clerkTranslatorSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.translators = action.payload.translators;
       state.langs = action.payload.langs;
-      state.meetingDates = action.payload.meetingDates;
-      state.examinationDates = action.payload.examinationDates;
     },
   },
 });

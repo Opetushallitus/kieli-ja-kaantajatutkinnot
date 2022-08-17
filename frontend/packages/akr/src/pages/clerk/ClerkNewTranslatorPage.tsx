@@ -22,7 +22,7 @@ import { AppRoutes } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
-  resetClerkNewTranslatorDetails,
+  resetClerkNewTranslator,
   updateClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
@@ -142,7 +142,7 @@ export const ClerkNewTranslatorPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetClerkNewTranslatorDetails());
+      dispatch(resetClerkNewTranslator());
     };
   }, [dispatch]);
 

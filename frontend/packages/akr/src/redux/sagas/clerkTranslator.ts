@@ -10,6 +10,8 @@ import {
   rejectClerkTranslators,
   storeClerkTranslators,
 } from 'redux/reducers/clerkTranslator';
+import { storeExaminationDates } from 'redux/reducers/examinationDate';
+import { storeMeetingDates } from 'redux/reducers/meetingDate';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -19,11 +21,12 @@ function* loadClerkTranslatorsSaga() {
       axiosInstance.get,
       APIEndpoints.ClerkTranslator
     );
-    const deserializedResponse = SerializationUtils.deserializeClerkTranslators(
-      apiResponse.data
-    );
+    const { translators, langs, meetingDates, examinationDates } =
+      SerializationUtils.deserializeClerkTranslators(apiResponse.data);
 
-    yield put(storeClerkTranslators(deserializedResponse));
+    yield put(storeClerkTranslators({ translators, langs }));
+    yield put(storeExaminationDates(examinationDates));
+    yield put(storeMeetingDates(meetingDates));
   } catch (error) {
     yield put(rejectClerkTranslators());
   }
@@ -32,9 +35,7 @@ function* loadClerkTranslatorsSaga() {
 export function* updateClerkTranslatorsState(
   updatedTranslators: Array<ClerkTranslator>
 ) {
-  const { translators, langs, meetingDates, examinationDates } = yield select(
-    clerkTranslatorsSelector
-  );
+  const { translators, langs } = yield select(clerkTranslatorsSelector);
 
   if (translators.length <= 0) {
     yield put(loadClerkTranslators());
@@ -44,8 +45,6 @@ export function* updateClerkTranslatorsState(
     storeClerkTranslators({
       translators: updatedTranslators,
       langs,
-      meetingDates,
-      examinationDates,
     })
   );
 }

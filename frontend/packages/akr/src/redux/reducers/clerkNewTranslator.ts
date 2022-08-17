@@ -35,10 +35,10 @@ const clerkNewTranslatorSlice = createSlice({
     rejectClerkNewTranslator(state) {
       state.status = APIResponseStatus.Error;
     },
-    resetClerkNewTranslatorDetails(state) {
+    resetClerkNewTranslator(state) {
       state.translator = initialState.translator;
-      state.status = APIResponseStatus.NotStarted;
-      state.id = undefined;
+      state.status = initialState.status;
+      state.id = initialState.id;
     },
     saveClerkNewTranslator(state, _action: PayloadAction<ClerkNewTranslator>) {
       state.status = APIResponseStatus.InProgress;
@@ -56,7 +56,7 @@ const clerkNewTranslatorSlice = createSlice({
 export const clerkNewTranslatorReducer = clerkNewTranslatorSlice.reducer;
 export const {
   rejectClerkNewTranslator,
-  resetClerkNewTranslatorDetails,
+  resetClerkNewTranslator,
   saveClerkNewTranslator,
   storeClerkNewTranslator,
   updateClerkNewTranslator,
