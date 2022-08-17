@@ -4,8 +4,13 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   PublicInterpreter,
   PublicInterpreterFilter,
-  PublicInterpreterState,
 } from 'interfaces/publicInterpreter';
+
+interface PublicInterpreterState {
+  status: APIResponseStatus;
+  interpreters: Array<PublicInterpreter>;
+  filters: PublicInterpreterFilter;
+}
 
 const initialState: PublicInterpreterState = {
   status: APIResponseStatus.NotStarted,
@@ -22,17 +27,20 @@ const publicInterpreterSlice = createSlice({
   name: 'publicInterpreter',
   initialState,
   reducers: {
+    emptyPublicInterpreterFilters(state) {
+      state.filters = initialState.filters;
+    },
     loadPublicInterpreters(state) {
       state.status = APIResponseStatus.InProgress;
     },
-    addPublicInterpreterFilter(
+    rejectPublicInterpreters(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    setPublicInterpreterFilters(
       state,
       action: PayloadAction<PublicInterpreterFilter>
     ) {
-      state.filters = { ...state.filters, ...action.payload };
-    },
-    emptyPublicInterpreterFilters(state) {
-      state.filters = initialState.filters;
+      state.filters = action.payload;
     },
     storePublicInterpreters(
       state,
@@ -41,17 +49,14 @@ const publicInterpreterSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;
     },
-    rejectPublicInterpreters(state) {
-      state.status = APIResponseStatus.Error;
-    },
   },
 });
 
 export const publicInterpreterReducer = publicInterpreterSlice.reducer;
 export const {
-  loadPublicInterpreters,
-  addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
-  storePublicInterpreters,
+  loadPublicInterpreters,
   rejectPublicInterpreters,
+  setPublicInterpreterFilters,
+  storePublicInterpreters,
 } = publicInterpreterSlice.actions;

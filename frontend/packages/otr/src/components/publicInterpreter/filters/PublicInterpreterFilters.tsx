@@ -29,8 +29,8 @@ import { SearchFilter } from 'enums/app';
 import { PublicInterpreterFilterValues } from 'interfaces/publicInterpreter';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
 import {
-  addPublicInterpreterFilter,
   emptyPublicInterpreterFilters,
+  setPublicInterpreterFilters,
 } from 'redux/reducers/publicInterpreter';
 import {
   filterPublicInterpreters,
@@ -64,7 +64,6 @@ export const PublicInterpreterFilters = ({
     toLang: '',
     name: '',
     region: '',
-    errors: [],
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
@@ -101,7 +100,7 @@ export const PublicInterpreterFilters = ({
 
   // Handlers
   const handleSearchBtnClick = () => {
-    dispatch(addPublicInterpreterFilter(filters));
+    dispatch(setPublicInterpreterFilters(filters));
     setShowTable(true);
     setSearchButtonDisabled(true);
   };

@@ -25,7 +25,7 @@ const getAreaOfOperation = (regions: Array<string> = []) => {
 export const ClerkInterpreterDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { interpreter, interpreterDetailsUpdateStatus } = useAppSelector(
+  const { interpreter, interpreterDetailsStatus } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
 
@@ -56,7 +56,7 @@ export const ClerkInterpreterDetails = () => {
 
   useEffect(() => {
     if (
-      interpreterDetailsUpdateStatus === APIResponseStatus.Success &&
+      interpreterDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditInterpreterDetails
     ) {
       const toast = NotifierUtils.createNotifierToast(
@@ -67,7 +67,7 @@ export const ClerkInterpreterDetails = () => {
       dispatch(showNotifierToast(toast));
       resetToInitialState();
     } else if (
-      interpreterDetailsUpdateStatus === APIResponseStatus.Cancelled &&
+      interpreterDetailsStatus === APIResponseStatus.Cancelled &&
       currentUIMode === UIMode.EditInterpreterDetails
     ) {
       // Flow was reset through the cancel dialog -> reset UI state.
@@ -78,7 +78,7 @@ export const ClerkInterpreterDetails = () => {
     dispatch,
     resetToInitialState,
     t,
-    interpreterDetailsUpdateStatus,
+    interpreterDetailsStatus,
   ]);
 
   useEffect(() => {

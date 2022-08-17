@@ -1,4 +1,3 @@
-import { APIResponseStatus } from 'shared/enums';
 import { WithId, WithVersion } from 'shared/interfaces';
 
 import { QualificationStatus } from 'enums/clerkInterpreter';
@@ -38,13 +37,6 @@ export interface ClerkInterpreterResponse
   qualifications: Array<QualificationResponse>;
 }
 
-export interface ClerkInterpreterState {
-  interpreters: Array<ClerkInterpreter>;
-  status: APIResponseStatus;
-  filters: ClerkInterpreterFilters;
-  qualificationLanguages: Array<string>;
-}
-
 export interface ClerkInterpreterFilters {
   qualificationStatus: QualificationStatus;
   fromLang?: string;
@@ -52,10 +44,4 @@ export interface ClerkInterpreterFilters {
   name?: string;
   examinationType?: ExaminationType;
   permissionToPublish?: PermissionToPublish;
-}
-
-export interface ClerkInterpreterOverviewState {
-  interpreter?: ClerkInterpreter;
-  overviewStatus: APIResponseStatus;
-  interpreterDetailsUpdateStatus: APIResponseStatus;
 }

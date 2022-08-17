@@ -3,7 +3,7 @@ import { ToggleFilterGroup } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
-import { setClerkInterpreterFilters } from 'redux/reducers/clerkInterpreter';
+import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import {
   clerkInterpretersSelector,
   selectClerkInterpretersByQualificationStatus,
@@ -23,7 +23,7 @@ export const ClerkInterpreterToggleFilters = () => {
   const filterByQualificationStatus = (
     qualificationStatus: QualificationStatus
   ) => {
-    dispatch(setClerkInterpreterFilters({ qualificationStatus }));
+    dispatch(addClerkInterpreterFilter({ qualificationStatus }));
   };
 
   const filterData = [

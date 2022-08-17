@@ -11,7 +11,7 @@ import {
 } from 'redux/reducers/clerkInterpreter';
 import { SerializationUtils } from 'utils/serialization';
 
-function* fetchClerkInterpreters() {
+function* loadClerkInterpretersSaga() {
   try {
     const response: AxiosResponse<Array<ClerkInterpreterResponse>> = yield call(
       axiosInstance.get,
@@ -26,6 +26,6 @@ function* fetchClerkInterpreters() {
   }
 }
 
-export function* watchFetchClerkInterpreters() {
-  yield takeLatest(loadClerkInterpreters, fetchClerkInterpreters);
+export function* watchClerkInterpreters() {
+  yield takeLatest(loadClerkInterpreters, loadClerkInterpretersSaga);
 }
