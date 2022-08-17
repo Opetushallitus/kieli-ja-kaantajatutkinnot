@@ -44,6 +44,7 @@ springdoc:
   api-docs:
     path: /api/api-docs
 akr:
+  create-expiry-emails-enabled: ${create-expiry-emails-enabled:false}
   email:
     sending-enabled: ${email.sending-enabled:false}
     ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}

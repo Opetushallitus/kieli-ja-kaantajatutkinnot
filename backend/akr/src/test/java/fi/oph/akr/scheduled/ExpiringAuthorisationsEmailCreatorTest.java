@@ -2,9 +2,11 @@ package fi.oph.akr.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.model.Authorisation;
@@ -25,6 +27,7 @@ import org.mockito.Captor;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -47,7 +50,14 @@ public class ExpiringAuthorisationsEmailCreatorTest {
 
   @BeforeEach
   public void setup() {
-    emailCreator = new ExpiringAuthorisationsEmailCreator(authorisationRepository, clerkEmailService);
+    doSetup(true);
+  }
+
+  private void doSetup(final boolean createExpiryEmailsEnabled) {
+    final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("akr.create-expiry-emails-enabled", Boolean.class))
+      .thenReturn(createExpiryEmailsEnabled);
+    emailCreator = new ExpiringAuthorisationsEmailCreator(authorisationRepository, clerkEmailService, environment);
   }
 
   @Test
@@ -94,6 +104,20 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     entityManager.persist(meetingDate);
 
     createAuthorisation(meetingDate, LocalDate.now().plusDays(10), null);
+
+    emailCreator.checkExpiringAuthorisations();
+
+    verifyNoInteractions(clerkEmailService);
+  }
+
+  @Test
+  public void testCheckExpiringAuthorisationsDisabled() {
+    doSetup(false);
+
+    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusYears(1));
+    entityManager.persist(meetingDate);
+
+    createAuthorisation(meetingDate, LocalDate.now().plusDays(10), "t1@invalid");
 
     emailCreator.checkExpiringAuthorisations();
 
