@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +30,16 @@ public class ExpiringAuthorisationsEmailCreator {
   @Resource
   private final ClerkEmailService clerkEmailService;
 
+  @Resource
+  private final Environment environment;
+
   @Scheduled(cron = "0 0 3 * * *")
   @SchedulerLock(name = "checkExpiringAuthorisations", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void checkExpiringAuthorisations() {
+    if (!environment.getRequiredProperty("akr.create-expiry-emails-enabled", Boolean.class)) {
+      LOG.info("Expiry emails creation is disabled, do nothing.");
+      return;
+    }
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.info("checkExpiringAuthorisations");
       final LocalDate expiryBetweenStart = LocalDate.now();
