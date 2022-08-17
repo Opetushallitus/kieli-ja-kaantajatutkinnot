@@ -22,7 +22,7 @@ import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-export function* removeMeetingDateSaga(action: PayloadAction<number>) {
+function* removeMeetingDateSaga(action: PayloadAction<number>) {
   try {
     yield call(
       axiosInstance.delete,
@@ -40,7 +40,7 @@ export function* removeMeetingDateSaga(action: PayloadAction<number>) {
   }
 }
 
-export function* addMeetingDateSaga(action: PayloadAction<Dayjs>) {
+function* addMeetingDateSaga(action: PayloadAction<Dayjs>) {
   try {
     yield call(axiosInstance.post, APIEndpoints.MeetingDate, {
       date: DateUtils.serializeDate(action.payload),

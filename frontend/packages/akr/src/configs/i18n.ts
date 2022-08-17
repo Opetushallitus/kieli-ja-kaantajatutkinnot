@@ -32,9 +32,7 @@ const langFI = AppLanguage.Finnish;
 const langSV = AppLanguage.Swedish;
 const langEN = AppLanguage.English;
 
-export type AppLanguages = `${AppLanguage}`;
-
-export const supportedLangs = [langFI, langSV, langEN];
+const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
@@ -173,8 +171,4 @@ export const changeLang = (language: AppLanguage) => {
   DateUtils.setDayjsLocale(language);
 
   return changeLanguage(language);
-};
-
-export const onLangChanged = (callback: (language: AppLanguage) => void) => {
-  return i18n.on('languageChanged', callback);
 };

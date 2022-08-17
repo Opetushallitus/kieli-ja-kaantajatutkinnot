@@ -28,7 +28,7 @@ const initialState: PublicTranslatorState = {
   towns: [],
 };
 
-export const publicTranslatorSlice = createSlice({
+const publicTranslatorSlice = createSlice({
   name: 'publicTranslator',
   initialState,
   reducers: {

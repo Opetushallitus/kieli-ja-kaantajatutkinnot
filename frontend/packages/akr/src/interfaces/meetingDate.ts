@@ -3,10 +3,6 @@ import { Dayjs } from 'dayjs';
 import { MeetingStatus } from 'enums/meetingDate';
 import { WithId, WithVersion } from 'interfaces/with';
 
-export interface MeetingDates {
-  meetingDates: Array<MeetingDate>;
-}
-
 export interface MeetingDateFilter {
   meetingStatus: MeetingStatus;
 }

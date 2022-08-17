@@ -3,7 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { Authorisation } from 'interfaces/authorisation';
 
-export interface AuthorisationState {
+interface AuthorisationState {
   status: APIResponseStatus;
 }
 
