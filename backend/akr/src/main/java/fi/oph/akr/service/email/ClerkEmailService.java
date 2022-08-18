@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -70,15 +71,17 @@ public class ClerkEmailService {
         .ifPresent(recipientAddress -> {
           final String recipientName = translator.getFullName();
 
-          createEmail(
-            recipientName,
-            recipientAddress,
-            emailRequestDTO.subject(),
-            emailRequestDTO.body(),
-            EmailType.INFORMAL
-          );
+          final String emailSubject = HtmlUtils.htmlEscape(emailRequestDTO.subject());
+          final String emailBody = getInformalEmailBody(emailRequestDTO.body());
+          createEmail(recipientName, recipientAddress, emailSubject, emailBody, EmailType.INFORMAL);
         })
     );
+  }
+
+  private String getInformalEmailBody(final String message) {
+    final String[] messageLines = message.trim().split("\r?\n");
+    final Map<String, Object> params = Map.of("messageLines", messageLines);
+    return templateRenderer.renderClerkInformalEmailBody(params);
   }
 
   private Long createEmail(
