@@ -48,7 +48,8 @@ export const FillContactDetails = ({
     const hasFieldErrors = !!(
       fieldErrors.firstName ||
       fieldErrors.lastName ||
-      fieldErrors.email
+      fieldErrors.email ||
+      fieldErrors.phoneNumber
     );
     const hasBlankRequiredFields = requiredFieldValues.some((v) =>
       StringUtils.isBlankString(v)
