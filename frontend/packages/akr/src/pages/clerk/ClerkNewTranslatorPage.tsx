@@ -22,8 +22,7 @@ import { AppRoutes } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
-  resetClerkNewTranslatorDetails,
-  resetClerkNewTranslatorRequestStatus,
+  resetClerkNewTranslator,
   updateClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
@@ -134,16 +133,18 @@ export const ClerkNewTranslatorPage = () => {
         t('toasts.success'),
         Duration.Medium
       );
-      dispatch(resetClerkNewTranslatorRequestStatus());
-      dispatch(resetClerkNewTranslatorDetails());
       dispatch(showNotifierToast(successToast));
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
       );
-    } else if (status === APIResponseStatus.Error) {
-      dispatch(resetClerkNewTranslatorRequestStatus());
     }
   }, [id, dispatch, navigate, status, t]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkNewTranslator());
+    };
+  }, [dispatch]);
 
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   useNavigationProtection(

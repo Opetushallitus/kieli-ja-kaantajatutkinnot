@@ -45,7 +45,7 @@ export const ClerkTranslatorOverviewPage = () => {
       dispatch(loadClerkTranslatorOverview(+params.translatorId));
     } else if (
       overviewStatus === APIResponseStatus.Error ||
-      !Number(params.translatorId)
+      isNaN(Number(params.translatorId))
     ) {
       // Show an error
       const toast = NotifierUtils.createNotifierToast(
