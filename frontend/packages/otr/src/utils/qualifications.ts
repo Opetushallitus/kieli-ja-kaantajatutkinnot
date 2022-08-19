@@ -7,10 +7,15 @@ import {
   Qualification,
   QualificationsGroupedByStatus,
 } from 'interfaces/qualification';
+import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 const EXPIRING_QUALIFICATION_THRESHOLD_MONTHS = 3;
 
 export class QualificationUtils {
+  static getKoodistoLangKeys() {
+    return Object.keys(koodistoLangsFI?.otr?.koodisto?.languages);
+  }
+
   static isQualificationEffective(
     { beginDate, endDate }: Qualification,
     currentDate: Dayjs

@@ -1,10 +1,13 @@
 import { Dayjs } from 'dayjs';
-import { WithId, WithVersion } from 'shared/interfaces';
+import { WithId, WithTempId, WithVersion } from 'shared/interfaces';
 
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType } from 'enums/interpreter';
 
-export interface Qualification extends WithId, WithVersion {
+export interface Qualification
+  extends Partial<WithId>,
+    Partial<WithVersion>,
+    Partial<WithTempId> {
   fromLang: string;
   toLang: string;
   beginDate: Dayjs;
@@ -12,7 +15,7 @@ export interface Qualification extends WithId, WithVersion {
   examinationType: ExaminationType;
   permissionToPublish: boolean;
   diaryNumber?: string;
-  tempId?: string;
+  interpreterId?: number;
 }
 
 export interface QualificationResponse

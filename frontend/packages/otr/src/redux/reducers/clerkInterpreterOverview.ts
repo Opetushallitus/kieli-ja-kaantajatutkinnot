@@ -11,7 +11,6 @@ const initialState: ClerkInterpreterOverviewState = {
   interpreter: undefined,
   overviewStatus: APIResponseStatus.NotStarted,
   interpreterDetailsUpdateStatus: APIResponseStatus.NotStarted,
-  qualificationDetailsUpdateStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkInterpreterOverviewSlice = createSlice({
@@ -21,6 +20,12 @@ const clerkInterpreterOverviewSlice = createSlice({
     loadClerkInterpreterOverview(state, _action: PayloadAction<WithId>) {
       state.overviewStatus = APIResponseStatus.InProgress;
     },
+    setClerkInterpreterOverview(
+      state,
+      action: PayloadAction<ClerkInterpreter>
+    ) {
+      state.interpreter = action.payload;
+    },
     storeClerkInterpreterOverview(
       state,
       action: PayloadAction<ClerkInterpreter>
@@ -28,12 +33,14 @@ const clerkInterpreterOverviewSlice = createSlice({
       state.overviewStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;
     },
-    loadingClerkInterpreterOverviewFailed(state) {
+    rejectLoadClerkInterpreterOverview(state) {
       state.overviewStatus = APIResponseStatus.Error;
     },
     resetClerkInterpreterOverview(state) {
       state.overviewStatus = initialState.overviewStatus;
       state.interpreter = initialState.interpreter;
+      state.interpreterDetailsUpdateStatus =
+        initialState.interpreterDetailsUpdateStatus;
     },
     resetClerkInterpreterDetailsUpdate(state) {
       state.interpreterDetailsUpdateStatus =
@@ -45,7 +52,7 @@ const clerkInterpreterOverviewSlice = createSlice({
     ) {
       state.interpreterDetailsUpdateStatus = APIResponseStatus.InProgress;
     },
-    storeClerkInterpreterOverviewUpdateSuccess(
+    storeClerkInterpreterOverviewUpdate(
       state,
       action: PayloadAction<ClerkInterpreter>
     ) {
@@ -62,11 +69,12 @@ export const clerkInterpreterOverviewReducer =
   clerkInterpreterOverviewSlice.reducer;
 export const {
   loadClerkInterpreterOverview,
+  setClerkInterpreterOverview,
   storeClerkInterpreterOverview,
-  loadingClerkInterpreterOverviewFailed,
+  rejectLoadClerkInterpreterOverview,
   resetClerkInterpreterOverview,
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
   rejectClerkInterpreterOverviewUpdate,
-  storeClerkInterpreterOverviewUpdateSuccess,
+  storeClerkInterpreterOverviewUpdate,
 } = clerkInterpreterOverviewSlice.actions;

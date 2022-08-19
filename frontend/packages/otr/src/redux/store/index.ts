@@ -6,6 +6,7 @@ import { clerkInterpreterOverviewReducer } from 'redux/reducers/clerkInterpreter
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { notifierReducer } from 'redux/reducers/notifier';
 import { publicInterpreterReducer } from 'redux/reducers/publicInterpreter';
+import { qualificationReducer } from 'redux/reducers/qualification';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -17,6 +18,7 @@ const store = configureStore({
     publicInterpreter: publicInterpreterReducer,
     clerkUser: clerkUserReducer,
     notifier: notifierReducer,
+    qualification: qualificationReducer,
   },
   middleware: [saga],
 });

@@ -13,7 +13,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -21,34 +21,76 @@ import {
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExaminationType } from 'enums/interpreter';
 import { Qualification } from 'interfaces/qualification';
-import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import {
+  removeNotifierDialog,
+  showNotifierDialog,
+} from 'redux/reducers/notifier';
+import { updateQualification } from 'redux/reducers/qualification';
+import { qualificationSelector } from 'redux/selectors/qualification';
+import { NotifierUtils } from 'utils/notifier';
 
 export const QualificationListing = ({
   qualifications,
   permissionToPublishReadOnly,
+  handleRemoveQualification,
 }: {
   qualifications: Array<Qualification>;
   permissionToPublishReadOnly: boolean;
+  handleRemoveQualification: (q: Qualification) => void;
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
 
-  const { qualificationDetailsUpdateStatus } = useAppSelector(
-    clerkInterpreterOverviewSelector
-  );
+  const { updateStatus } = useAppSelector(qualificationSelector);
 
-  const isLoading =
-    qualificationDetailsUpdateStatus === APIResponseStatus.InProgress;
+  const isLoading = updateStatus === APIResponseStatus.InProgress;
 
   const defaultClassName = 'clerk-interpreter-details__qualifications-table';
   const combinedClassNames = isLoading
     ? `${defaultClassName} dimmed`
     : defaultClassName;
+
+  const onPublishPermissionChange = (qualification: Qualification) => {
+    const notifier = NotifierUtils.createNotifierDialog(
+      t('actions.changePermissionToPublish.dialog.header'),
+      Severity.Info,
+      t('actions.changePermissionToPublish.dialog.description'),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+          action: () => dispatch(removeNotifierDialog(notifier.id)),
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => {
+            dispatch(updateQualification(qualification));
+          },
+        },
+      ]
+    );
+
+    dispatch(showNotifierDialog(notifier));
+  };
+
+  const getExaminationTypeText = (examinationtype: ExaminationType) => {
+    switch (examinationtype) {
+      case ExaminationType.LegalInterpreterExam:
+        return translateCommon('examinationType.legalInterpreterExam');
+      case ExaminationType.Other:
+        return translateCommon('examinationType.degreeStudies');
+      default:
+        return '';
+    }
+  };
 
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
@@ -64,6 +106,7 @@ export const QualificationListing = ({
             <TableCell>{t('fields.startDate')}</TableCell>
             <TableCell>{t('fields.endDate')}</TableCell>
             <TableCell>{t('fields.permissionToPublish')}</TableCell>
+            <TableCell>{t('fields.diaryNumber')}</TableCell>
             <TableCell>{translateCommon('delete')}</TableCell>
           </TableRow>
         </TableHead>
@@ -83,7 +126,7 @@ export const QualificationListing = ({
               </TableCell>
               <TableCell>
                 <div className="columns gapped-xs">
-                  <Text>{q.examinationType}</Text>
+                  <Text>{getExaminationTypeText(q.examinationType)}</Text>
                 </div>
               </TableCell>
               <TableCell>
@@ -102,9 +145,12 @@ export const QualificationListing = ({
                 ) : (
                   <CustomSwitch
                     value={q.permissionToPublish}
-                    onChange={() => {
-                      return;
-                    }}
+                    onChange={() =>
+                      onPublishPermissionChange({
+                        ...q,
+                        permissionToPublish: !q.permissionToPublish,
+                      })
+                    }
                     leftLabel={translateCommon('no')}
                     rightLabel={translateCommon('yes')}
                     aria-label={t(
@@ -113,11 +159,12 @@ export const QualificationListing = ({
                   />
                 )}
               </TableCell>
+              <TableCell>
+                <Text>{q.diaryNumber}</Text>
+              </TableCell>
               <TableCell className="centered">
                 <CustomIconButton
-                  onClick={() => {
-                    return;
-                  }}
+                  onClick={() => handleRemoveQualification(q)}
                   aria-label={t('actions.removal.ariaLabel')}
                   data-testid={
                     q.id

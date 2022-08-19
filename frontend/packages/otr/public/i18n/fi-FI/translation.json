@@ -73,30 +73,28 @@
             "changePermissionToPublish": {
               "ariaLabel": "Vaihda julkaisulupaa",
               "dialog": {
-                "description": "Tämä muuttaa kieliparin näkymistä julkisessa rekisterissä.",
+                "description": "Tämä muuttaa rekisteröinnin näkymistä julkisessa rekisterissä.",
                 "header": "Haluatko varmasti vaihtaa julkaisulupaa?"
               }
             },
             "removal": {
-              "ariaLabel": "Poista kielipari",
+              "ariaLabel": "Poista rekisteröinti",
               "dialog": {
                 "description": "Tätä toimintoa ei voi peruuttaa!",
-                "confirmButton": "Poista kielipari",
-                "header": "Haluatko varmasti poistaa kieliparin?"
+                "confirmButton": "Poista rekisteröinti",
+                "header": "Haluatko varmasti poistaa rekisteröinnin?"
               }
             }
           },
-          "buttons": {
-            "add": "Lisää tutkinto"
-          },
           "fields": {
+            "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
             "examinationType": "Koulutus",
             "languagePair": "Kielipari",
             "permissionToPublish": "Julkaisulupa",
             "startDate": "Alkamispäivä"
           },
-          "header": "Kieliparit",
+          "header": "Rekisteröinnit",
           "noQualifications": "Valituille kriteereille ei löytynyt tutkintoja",
           "toggleFilters": {
             "effective": "Voimassa olevat",
@@ -151,6 +149,34 @@
           "en": "In English",
           "fi": "Suomeksi",
           "sv": "På svenska"
+        }
+      },
+      "newQualification": {
+        "cancelDialog": {
+          "header": "Haluatko varmasti peruuttaa?"
+        },
+        "fieldLabel": {
+          "beginDate": "Rekisteröinnin alkamispäivä",
+          "diaryNumber": "Asiatunnus",
+          "endDate": "Rekisteröinnin päättymispäivä",
+          "examination": "Koulutus",
+          "from": "Kielipari (mistä)",
+          "to": "Kielipari (mihin)"
+        },
+        "fieldPlaceholders": {
+          "beginDate": "Alkamispäivä",
+          "diaryNumber": "Asiatunnus",
+          "endDate": "Päättymispäivä",
+          "examination": "Koulutus",
+          "from": "Mistä",
+          "to": "Mihin"
+        },
+        "switch": {
+          "permissionToPublish": "Julkaisulupa"
+        },
+        "toasts": {
+          "error": "Rekisteröinnin lisäys ei onnistunut, yritä myöhemmin uudelleen",
+          "success": "Rekisteröinti lisätty onnistuneesti"
         }
       },
       "publicInterpreterFilters": {

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { DateUtils } from 'shared/utils';
 
 import {
   ClerkInterpreter,
@@ -44,6 +45,17 @@ export class SerializationUtils {
       permissionToPublishPhone,
       permissionToPublishOtherContactInfo,
       regions,
+    };
+  }
+
+  static serializeQualification(qualification: Qualification) {
+    const { beginDate, endDate, diaryNumber, ...rest } = qualification;
+
+    return {
+      beginDate: DateUtils.serializeDate(beginDate),
+      endDate: DateUtils.serializeDate(endDate),
+      diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
+      ...rest,
     };
   }
 
