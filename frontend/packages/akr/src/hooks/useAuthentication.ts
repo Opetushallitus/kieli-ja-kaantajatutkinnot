@@ -7,20 +7,19 @@ import { loadClerkUser } from 'redux/reducers/clerkUser';
 import { clerkUserSelector } from 'redux/selectors/clerkUser';
 
 export const useAuthentication = () => {
-  // Redux
   const dispatch = useAppDispatch();
   const clerkUser = useAppSelector(clerkUserSelector);
 
-  useEffect(() => {
-    const activeURL = window.location.href;
-    const clerkURL = AppRoutes.ClerkHomePage;
+  const activeURL = window.location.href;
+  const isClerkURL = activeURL.includes(AppRoutes.ClerkHomePage);
 
+  useEffect(() => {
     if (clerkUser.status === APIResponseStatus.NotStarted) {
-      if (activeURL.includes(clerkURL)) {
+      if (isClerkURL) {
         dispatch(loadClerkUser());
       }
     }
-  }, [clerkUser.status, dispatch]);
+  }, [clerkUser.status, isClerkURL, dispatch]);
 
-  return [clerkUser.isAuthenticated, clerkUser];
+  return [clerkUser.isAuthenticated, isClerkURL];
 };

@@ -1,6 +1,11 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
+import {
+  LangSelector,
+  OPHClerkLogo,
+  OPHLogoViewer,
+  SkipLink,
+} from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
@@ -28,7 +33,7 @@ export const Header = (): JSX.Element => {
     [t('lang.en'), english],
   ]);
 
-  const [isClerkUI] = useAuthentication();
+  const [isClerkUI, isClerkURL] = useAuthentication();
   const logoRedirectURL = isClerkUI
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
@@ -40,12 +45,20 @@ export const Header = (): JSX.Element => {
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
-              <OPHLogoViewer
-                className="header__left__logo"
-                direction={Direction.Horizontal}
-                alt={translateCommon('ophLogo')}
-                currentLang={getCurrentLang()}
-              />
+              {isClerkURL ? (
+                <OPHClerkLogo
+                  mainLabel={translateCommon('appNameAbbreviation')}
+                  subLabel={translateCommon('clerk')}
+                  alt={translateCommon('ophLogo')}
+                />
+              ) : (
+                <OPHLogoViewer
+                  className="header__left__logo"
+                  direction={Direction.Horizontal}
+                  alt={translateCommon('ophLogo')}
+                  currentLang={getCurrentLang()}
+                />
+              )}
             </Link>
           </div>
           <div className="header__center">{isClerkUI && <ClerkNavTabs />}</div>
