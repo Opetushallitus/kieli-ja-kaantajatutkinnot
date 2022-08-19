@@ -24,8 +24,10 @@ export const ClerkTranslatorToggleFilters = () => {
   const { filters } = useAppSelector(clerkTranslatorsSelector);
 
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
-    dispatch(addClerkTranslatorFilter({ authorisationStatus: status }));
-    dispatch(deselectAllClerkTranslators());
+    if (filters.authorisationStatus != status) {
+      dispatch(addClerkTranslatorFilter({ authorisationStatus: status }));
+      dispatch(deselectAllClerkTranslators());
+    }
   };
 
   const filterData = [
