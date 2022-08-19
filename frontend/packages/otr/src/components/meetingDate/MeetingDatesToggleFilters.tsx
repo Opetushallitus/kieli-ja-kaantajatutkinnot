@@ -3,7 +3,7 @@ import { ToggleFilterGroup } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingDateStatus } from 'enums/meetingDate';
-import { addMeetingDateFilter } from 'redux/reducers/meetingDate';
+import { setMeetingDateFilters } from 'redux/reducers/meetingDate';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
@@ -24,7 +24,7 @@ export const MeetingDatesToggleFilters = () => {
   } = useAppSelector(meetingDatesSelector);
 
   const filterByDate = (status: MeetingDateStatus) => {
-    dispatch(addMeetingDateFilter({ meetingStatus: status }));
+    dispatch(setMeetingDateFilters({ meetingStatus: status }));
   };
 
   const toggleFilters = [

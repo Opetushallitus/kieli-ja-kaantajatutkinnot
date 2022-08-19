@@ -298,7 +298,11 @@
         "title": "Oikeustulkkirekisteri"
       },
       "meetingDatesPage": {
-        "title": "Kokouspäivät"
+        "title": "Kokouspäivät",
+        "toasts": {
+          "addingSucceeded": "Kokouspäivän lisäys onnistui",
+          "removingSucceeded": "Valittu kokouspäivä poistettu"
+        }
       },
       "notFoundPage": {
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",

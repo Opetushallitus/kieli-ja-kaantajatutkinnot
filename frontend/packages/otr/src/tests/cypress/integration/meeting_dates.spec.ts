@@ -19,7 +19,6 @@ describe('MeetingDatesPage', () => {
   });
 
   it('should filter meeting dates by status', () => {
-    // Use fixed date in tests as the status filters depend on it
     onMeetingDatesPage.expectSelectedMeetingDatesCount(3);
 
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
@@ -55,7 +54,6 @@ describe('MeetingDatesPage', () => {
       statusCode: HTTPStatusCode.InternalServerError,
       body: {},
     }).as('createWithError');
-
     onMeetingDatesPage.clickAddButton();
     cy.wait('@createWithError');
 
@@ -81,7 +79,6 @@ describe('MeetingDatesPage', () => {
       `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
       createAPIErrorResponse(APIError.MeetingDateDeleteHasQualifications)
     ).as('deleteWithError');
-
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@deleteWithError');
 
