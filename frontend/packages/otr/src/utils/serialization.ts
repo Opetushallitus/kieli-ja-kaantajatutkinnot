@@ -6,6 +6,7 @@ import {
   ClerkInterpreterResponse,
   ClerkInterpreterTextFields,
 } from 'interfaces/clerkInterpreter';
+import { MeetingDateResponse } from 'interfaces/meetingDate';
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export class SerializationUtils {
@@ -66,6 +67,21 @@ export class SerializationUtils {
     const endDate = dayjs(qualification.endDate);
 
     return { ...qualification, beginDate, endDate };
+  }
+
+  static deserializeMeetingDates(response: Array<MeetingDateResponse>) {
+    const meetingDates = response.map(
+      SerializationUtils.deserializeMeetingDate
+    );
+
+    return { meetingDates };
+  }
+
+  static deserializeMeetingDate(meetingDate: MeetingDateResponse) {
+    return {
+      ...meetingDate,
+      date: dayjs(meetingDate.date),
+    };
   }
 
   private static getNonBlankClerkInterpreterTextFields(
