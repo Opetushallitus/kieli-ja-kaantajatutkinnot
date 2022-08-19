@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
+import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import {
   removeNotifierDialog,
   showNotifierDialog,
@@ -25,6 +26,7 @@ import {
   removeQualification,
 } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
+import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { qualificationSelector } from 'redux/selectors/qualification';
 import { NotifierUtils } from 'utils/notifier';
 import { QualificationUtils } from 'utils/qualifications';
@@ -42,6 +44,9 @@ export const QualificationDetails = () => {
   const dispatch = useAppDispatch();
   const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
   const { addStatus } = useAppSelector(qualificationSelector);
+  const passedMeetingDates = useAppSelector(
+    selectMeetingDatesByMeetingStatus
+  ).passed;
 
   // I18n
   const { t } = useAppTranslation({
@@ -54,6 +59,10 @@ export const QualificationDetails = () => {
       handleCloseModal();
     }
   }, [addStatus]);
+
+  useEffect(() => {
+    dispatch(loadMeetingDates());
+  }, [dispatch]);
 
   if (!interpreter) {
     return null;
@@ -128,6 +137,7 @@ export const QualificationDetails = () => {
       >
         <AddQualification
           interpreterId={interpreter.id}
+          meetingDates={passedMeetingDates}
           onCancel={handleCloseModal}
           onQualificationAdd={handleAddQualification}
           isLoading={addStatus === APIResponseStatus.InProgress}
