@@ -22,7 +22,6 @@ import { addClerkTranslatorFilter } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
 export const ClerkTranslatorAutocompleteFilters = () => {
-  // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorFilters',
   });
@@ -30,29 +29,29 @@ export const ClerkTranslatorAutocompleteFilters = () => {
   const getLanguageSelectValue = (language?: string) =>
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
-  // Redux
   const dispatch = useAppDispatch();
   const { filters, langs } = useAppSelector(clerkTranslatorsSelector);
 
-  // LocalState
-  const [name, setName] = useState(() => filters.name ?? '');
+  const [name, setName] = useState(filters.name ?? '');
   const debounce = useDebounce(300);
 
+  // Empty local state when redux state is reset
   useEffect(() => {
+    if (!filters.name) setName('');
+  }, [filters.name]);
+
+  const handleNameChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setName(event.target.value);
     debounce(() => {
       dispatch(
         addClerkTranslatorFilter({
-          name,
+          name: event.target.value,
         })
       );
     });
-  }, [debounce, dispatch, name]);
-
-  useEffect(() => {
-    if (filters.name === undefined) {
-      setName('');
-    }
-  }, [filters.name]);
+  };
 
   const handleFilterChange =
     (filter: keyof ClerkTranslatorFilter) =>
@@ -96,7 +95,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
           label={t('name.placeholder')}
           type="search"
           value={name}
-          onChange={(event) => setName(event.target.value)}
+          onChange={handleNameChange}
         />
       </div>
       <div className="rows gapped-xs">

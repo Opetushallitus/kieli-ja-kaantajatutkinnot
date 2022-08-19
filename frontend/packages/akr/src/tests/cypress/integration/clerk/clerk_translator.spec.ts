@@ -56,6 +56,39 @@ describe('ClerkHomePage', () => {
     );
   });
 
+  it('should show selected translators count per authorisation status', () => {
+    onClerkHomePage.expectSelectedTranslatorsCount(
+      translatorCountsByAuthorisationStatus[AuthorisationStatus.Authorised]
+    );
+
+    onClerkHomePage.selectTranslatorById('1');
+    onClerkHomePage.selectTranslatorById('2');
+
+    onClerkHomePage.expectSelectedTranslatorsCount(
+      translatorCountsByAuthorisationStatus[AuthorisationStatus.Authorised],
+      2
+    );
+  });
+
+  it('should reset selected translators when authorisation status changes', () => {
+    onClerkHomePage.expectSelectedTranslatorsCount(
+      translatorCountsByAuthorisationStatus[AuthorisationStatus.Authorised]
+    );
+
+    onClerkHomePage.selectTranslatorById('1');
+    onClerkHomePage.selectTranslatorById('2');
+    onClerkHomePage.expectSelectedTranslatorsCount(
+      translatorCountsByAuthorisationStatus[AuthorisationStatus.Authorised],
+      2
+    );
+    onClerkHomePage.filterByAuthorisationStatus(AuthorisationStatus.Expiring);
+
+    onClerkHomePage.expectSelectedTranslatorsCount(
+      translatorCountsByAuthorisationStatus[AuthorisationStatus.Expiring],
+      0
+    );
+  });
+
   it('should filter translators by from lang', () => {
     onClerkHomePage.filterByFromLang('katalaani');
     onClerkHomePage.expectSelectedTranslatorsCount(4); // 4 authorised, 2 expired
@@ -102,7 +135,7 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.expectSelectedTranslatorsCount(0);
   });
 
-  it('should reset all filters when "Tyhjennä valinnat" button is clicked ', () => {
+  it('should reset all filters when empty selections is clicked ', () => {
     onClerkHomePage.filterByFromLang('pohjoissaame');
     onClerkHomePage.expectSelectedTranslatorsCount(1); // Anna Lehtonen
 

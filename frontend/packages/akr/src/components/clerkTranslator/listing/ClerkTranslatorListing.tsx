@@ -162,7 +162,8 @@ const ListingHeader: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const filteredCount = useAppSelector(selectFilteredClerkTranslators).length;
+  const filteredTranslators = useAppSelector(selectFilteredClerkTranslators);
+  const filteredCount = filteredTranslators.length;
   const selectedCount = useAppSelector(selectFilteredSelectedIds).length;
   const allSelected = filteredCount > 0 && filteredCount === selectedCount;
   const indeterminate = selectedCount > 0 && selectedCount < filteredCount;
@@ -170,7 +171,7 @@ const ListingHeader: FC = () => {
     if (allSelected) {
       dispatch(deselectAllClerkTranslators());
     } else {
-      dispatch(selectAllFilteredClerkTranslators());
+      dispatch(selectAllFilteredClerkTranslators(filteredTranslators));
     }
   };
 
@@ -218,7 +219,6 @@ export const ClerkTranslatorListing: FC = () => {
     clerkTranslatorsSelector
   );
   const filteredTranslators = useAppSelector(selectFilteredClerkTranslators);
-  const selectedCount = selectedTranslators.length;
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -239,11 +239,11 @@ export const ClerkTranslatorListing: FC = () => {
       return (
         <>
           <div className="grow">
-            {selectedCount > 0 && (
-              <H2 data-testid="public-translators__selected-count-heading">
-                {`${selectedCount} ${t('component.table.selectedItems')}`}
-              </H2>
-            )}
+            <H2 data-testid="clerk-translators__selected-count-heading">
+              {` ${selectedTranslators.length} / ${
+                filteredTranslators.length
+              } ${t('component.table.selectedItems')}`}
+            </H2>
           </div>
           <PaginatedTable
             data={filteredTranslators}
