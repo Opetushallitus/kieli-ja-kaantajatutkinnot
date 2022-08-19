@@ -1,7 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { WithId } from 'shared/interfaces';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -12,20 +11,22 @@ import {
 import { storeClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import {
   loadClerkInterpreterOverview,
-  rejectClerkInterpreterOverviewUpdate,
-  rejectLoadClerkInterpreterOverview,
+  rejectClerkInterpreterDetailsUpdate,
+  rejectClerkInterpreterOverview,
   storeClerkInterpreterOverview,
-  storeClerkInterpreterOverviewUpdate,
   updateClerkInterpreterDetails,
+  updatingClerkInterpreterDetailsSucceeded,
 } from 'redux/reducers/clerkInterpreterOverview';
+import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
+function* loadClerkInterpreterOverviewSaga(action: PayloadAction<number>) {
   try {
     const response: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkInterpreter}/${action.payload.id}`
+      `${APIEndpoints.ClerkInterpreter}/${action.payload}`
     );
     yield put(
       storeClerkInterpreterOverview(
@@ -33,7 +34,7 @@ function* fetchClerkInterpreterOverview(action: PayloadAction<WithId>) {
       )
     );
   } catch (error) {
-    yield put(rejectLoadClerkInterpreterOverview());
+    yield put(rejectClerkInterpreterOverview());
   }
 }
 
@@ -52,7 +53,7 @@ function* updateClerkInterpreterState(interpreter: ClerkInterpreter) {
   );
 }
 
-function* updateClerkInterpreterOverview(
+function* updateClerkInterpreterDetailsSaga(
   action: PayloadAction<ClerkInterpreter>
 ) {
   try {
@@ -68,17 +69,24 @@ function* updateClerkInterpreterOverview(
       response.data
     );
     yield updateClerkInterpreterState(interpreter);
-
-    yield put(storeClerkInterpreterOverviewUpdate(interpreter));
+    yield put(updatingClerkInterpreterDetailsSucceeded(interpreter));
   } catch (error) {
-    yield put(rejectClerkInterpreterOverviewUpdate());
+    yield put(rejectClerkInterpreterDetailsUpdate());
+    yield put(
+      showNotifierToast(
+        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
+      )
+    );
   }
 }
 
-export function* watchFetchClerkInterpreterOverview() {
-  yield takeLatest(loadClerkInterpreterOverview, fetchClerkInterpreterOverview);
+export function* watchClerkInterpreterOverview() {
+  yield takeLatest(
+    loadClerkInterpreterOverview,
+    loadClerkInterpreterOverviewSaga
+  );
   yield takeLatest(
     updateClerkInterpreterDetails,
-    updateClerkInterpreterOverview
+    updateClerkInterpreterDetailsSaga
   );
 }

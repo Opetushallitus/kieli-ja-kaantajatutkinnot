@@ -18,12 +18,11 @@ export const ControlButtons = ({
   onSave: () => void;
 }) => {
   const translateCommon = useCommonTranslation();
-  const { interpreterDetailsUpdateStatus } = useAppSelector(
+  const { interpreterDetailsStatus } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
 
-  const isLoading =
-    interpreterDetailsUpdateStatus === APIResponseStatus.InProgress;
+  const isLoading = interpreterDetailsStatus === APIResponseStatus.InProgress;
 
   if (isViewMode) {
     return (

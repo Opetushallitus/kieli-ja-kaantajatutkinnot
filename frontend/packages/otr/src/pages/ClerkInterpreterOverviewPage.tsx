@@ -45,13 +45,11 @@ export const ClerkInterpreterOverviewPage = () => {
       !selectedInterpreterId &&
       params.interpreterId
     ) {
-      // Fetch Interpreter overview
-      dispatch(loadClerkInterpreterOverview({ id: +params.interpreterId }));
+      dispatch(loadClerkInterpreterOverview(+params.interpreterId));
     } else if (
       overviewStatus === APIResponseStatus.Error ||
-      !Number(params.interpreterId)
+      isNaN(Number(params.interpreterId))
     ) {
-      // Show an error
       const toast = NotifierUtils.createNotifierToast(
         Severity.Error,
         t('pages.clerkInterpreterOverviewPage.toasts.notFound'),

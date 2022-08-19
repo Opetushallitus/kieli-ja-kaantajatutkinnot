@@ -5,8 +5,14 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import {
   ClerkInterpreter,
   ClerkInterpreterFilters,
-  ClerkInterpreterState,
 } from 'interfaces/clerkInterpreter';
+
+interface ClerkInterpreterState {
+  interpreters: Array<ClerkInterpreter>;
+  status: APIResponseStatus;
+  filters: ClerkInterpreterFilters;
+  qualificationLanguages: Array<string>;
+}
 
 const initialState: ClerkInterpreterState = {
   interpreters: [],
@@ -34,6 +40,12 @@ const clerkInterpreterSlice = createSlice({
   name: 'clerkInterpreter',
   initialState,
   reducers: {
+    addClerkInterpreterFilter(
+      state,
+      action: PayloadAction<Partial<ClerkInterpreterFilters>>
+    ) {
+      state.filters = { ...state.filters, ...action.payload };
+    },
     loadClerkInterpreters(state) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -42,12 +54,6 @@ const clerkInterpreterSlice = createSlice({
     },
     resetClerkInterpreterFilters(state) {
       state.filters = initialState.filters;
-    },
-    setClerkInterpreterFilters(
-      state,
-      action: PayloadAction<Partial<ClerkInterpreterFilters>>
-    ) {
-      state.filters = { ...state.filters, ...action.payload };
     },
     storeClerkInterpreters(
       state,
@@ -62,9 +68,9 @@ const clerkInterpreterSlice = createSlice({
 
 export const clerkInterpreterReducer = clerkInterpreterSlice.reducer;
 export const {
+  addClerkInterpreterFilter,
   loadClerkInterpreters,
   rejectClerkInterpreters,
   resetClerkInterpreterFilters,
-  setClerkInterpreterFilters,
   storeClerkInterpreters,
 } = clerkInterpreterSlice.actions;

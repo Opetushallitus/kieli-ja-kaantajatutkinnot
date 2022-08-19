@@ -18,7 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationType, PermissionToPublish } from 'enums/interpreter';
 import { ClerkInterpreterFilters } from 'interfaces/clerkInterpreter';
-import { setClerkInterpreterFilters } from 'redux/reducers/clerkInterpreter';
+import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkInterpreterAutocompleteFilters = () => {
@@ -44,7 +44,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
   useEffect(() => {
     debounce(() => {
       dispatch(
-        setClerkInterpreterFilters({
+        addClerkInterpreterFilter({
           name,
         })
       );
@@ -60,7 +60,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
   const handleFilterChange =
     (filter: keyof ClerkInterpreterFilters) =>
     ({}, value: AutocompleteValue) => {
-      dispatch(setClerkInterpreterFilters({ [filter]: value?.value }));
+      dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
     };
 
   const examinationTypeToOption = (examinationType: ExaminationType) => {

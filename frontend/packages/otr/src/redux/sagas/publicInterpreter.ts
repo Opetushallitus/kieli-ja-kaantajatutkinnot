@@ -10,7 +10,7 @@ import {
   storePublicInterpreters,
 } from 'redux/reducers/publicInterpreter';
 
-function* fetchPublicInterpreters() {
+function* loadPublicInterpretersSaga() {
   try {
     const response: AxiosResponse<Array<PublicInterpreter>> = yield call(
       axiosInstance.get,
@@ -22,6 +22,6 @@ function* fetchPublicInterpreters() {
   }
 }
 
-export function* watchFetchPublicInterpreters() {
-  yield takeLatest(loadPublicInterpreters, fetchPublicInterpreters);
+export function* watchPublicInterpreters() {
+  yield takeLatest(loadPublicInterpreters, loadPublicInterpretersSaga);
 }
