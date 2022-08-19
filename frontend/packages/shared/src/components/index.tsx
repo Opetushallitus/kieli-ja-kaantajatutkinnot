@@ -31,3 +31,4 @@ export { PaginatedTable } from './Table/Table';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
 export { LangSelector } from './LangSelector/LangSelector';
 export { InfoText } from './InfoText/InfoText';
+export { OPHClerkLogo } from './OPHClerkLogo/OPHClerkLogo';
