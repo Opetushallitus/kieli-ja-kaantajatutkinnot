@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
+import fi.oph.akr.api.dto.TownAndCountryDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.model.Authorisation;
@@ -63,7 +64,14 @@ class PublicTranslatorServiceTest {
     );
     assertEquals(Arrays.asList(null, "Maa1", "Maa2"), translators.stream().map(PublicTranslatorDTO::country).toList());
 
-    assertEquals(List.of("Kaupunki0", "Kaupunki1", "Kaupunki2"), responseDTO.towns());
+    assertEquals(
+      List.of(
+        createTownAndCountryDTO("Kaupunki0"),
+        createTownAndCountryDTO("Kaupunki1", "Maa1"),
+        createTownAndCountryDTO("Kaupunki2", "Maa2")
+      ),
+      responseDTO.towns()
+    );
 
     assertLanguagePairs(translators.get(0).languagePairs());
     assertLanguagePairs(translators.get(1).languagePairs());
@@ -137,7 +145,10 @@ class PublicTranslatorServiceTest {
 
     final PublicTranslatorResponseDTO responseDTO = publicTranslatorService.listTranslators();
 
-    assertEquals(List.of("Kaupunki1", "Kaupunki2"), responseDTO.towns());
+    assertEquals(
+      List.of(createTownAndCountryDTO("Kaupunki1"), createTownAndCountryDTO("Kaupunki2")),
+      responseDTO.towns()
+    );
   }
 
   @Test
@@ -225,5 +236,13 @@ class PublicTranslatorServiceTest {
     authorisation.setPermissionToPublish(permissionToPublish);
 
     entityManager.persist(authorisation);
+  }
+
+  private TownAndCountryDTO createTownAndCountryDTO(final String name) {
+    return createTownAndCountryDTO(name, null);
+  }
+
+  private TownAndCountryDTO createTownAndCountryDTO(final String name, final String country) {
+    return TownAndCountryDTO.builder().name(name).country(country).build();
   }
 }
