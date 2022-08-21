@@ -140,6 +140,9 @@ export const ClerkTranslatorDetails = () => {
     dispatch(showNotifierDialog(dialog));
   };
 
+  const hasRequiredDetails =
+    !!translatorDetails?.firstName && !!translatorDetails.lastName;
+
   const onCancel = () => {
     if (!hasLocalChanges) {
       resetToInitialState();
@@ -168,6 +171,7 @@ export const ClerkTranslatorDetails = () => {
           onEdit={onEdit}
           onSave={onSave}
           isViewMode={isViewMode}
+          hasRequiredDetails={hasRequiredDetails}
         />
       }
       showFieldErrorBeforeChange={true}

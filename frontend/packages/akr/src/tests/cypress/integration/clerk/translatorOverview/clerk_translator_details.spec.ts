@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, UIMode } from 'enums/app';
 import {
@@ -10,13 +8,8 @@ import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePag
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
-import { useFixedDate } from 'tests/cypress/support/utils/date';
-
-const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 beforeEach(() => {
-  useFixedDate(fixedDateForTests);
-
   cy.intercept(APIEndpoints.ClerkTranslator, {
     fixture: 'clerk_translators_10.json',
   });
@@ -43,7 +36,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
 
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
     onClerkTranslatorOverviewPage.expectMode(UIMode.EditTranslatorDetails);
   });
@@ -51,22 +44,47 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   it('should return from edit mode when cancel is clicked and no changes were made', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
-    onClerkTranslatorOverviewPage.clickCancelTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickCancelTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.expectMode(UIMode.View);
+  });
+
+  it('should disable details save button when the required fields are not filled out', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.editTranslatorField(
+      'firstName',
+      'input',
+      '{backspace}'
+    );
+    onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.editTranslatorField(
+      'firstName',
+      'input',
+      'new First name'
+    );
+    onClerkTranslatorOverviewPage.editTranslatorField(
+      'lastName',
+      'input',
+      '{backspace}'
+    );
+    onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and stay in edit mode if user backs out', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
       'testiTesti123'
     );
-    onClerkTranslatorOverviewPage.clickCancelTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickCancelTranslatorDetailsButton();
 
     onDialog.expectText('Haluatko poistua muokkausnäkymästä?');
     onDialog.clickButtonByText('Takaisin');
@@ -77,13 +95,13 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   it('should open a confirmation dialog when cancel is clicked if changes were made and return to view mode if user confirms', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
       'testiTesti123'
     );
-    onClerkTranslatorOverviewPage.clickCancelTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickCancelTranslatorDetailsButton();
 
     onDialog.expectText('Haluatko poistua muokkausnäkymästä?');
     onDialog.clickButtonByText('Kyllä');
@@ -99,7 +117,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
 
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.editTranslatorField(
       fieldName,
       fieldType,
@@ -108,7 +126,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectAssuranceErrorLabel('not.exist');
     onClerkTranslatorOverviewPage.toggleAssuranceSwitch();
     onClerkTranslatorOverviewPage.expectAssuranceErrorLabel('be.visible');
-    onClerkTranslatorOverviewPage.clickSaveTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickSaveTranslatorDetailsButton();
     cy.wait('@updateClerkTranslatorOverview');
 
     onClerkTranslatorOverviewPage.expectMode(UIMode.View);
@@ -249,7 +267,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
@@ -266,7 +284,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
 
-    onClerkTranslatorOverviewPage.clickEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
     onClerkTranslatorOverviewPage.editTranslatorField('lastName', 'input', ' ');
     onClerkTranslatorOverviewPage.editTranslatorField(
       'firstName',

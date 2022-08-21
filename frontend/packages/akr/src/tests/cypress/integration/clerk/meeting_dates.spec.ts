@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints, APIError } from 'enums/api';
@@ -7,10 +6,8 @@ import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onMeetingDatesPage } from 'tests/cypress/support/page-objects/meetingDatesPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { createAPIErrorResponse } from 'tests/cypress/support/utils/api';
-import { useFixedDate } from 'tests/cypress/support/utils/date';
 
 let meetingDates;
-const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 const meetingDateToAdd = {
   id: 11,
   version: 0,
@@ -19,8 +16,6 @@ const meetingDateToAdd = {
 const meetingDateToBeDeleted = 5;
 
 beforeEach(() => {
-  useFixedDate(fixedDateForTests);
-
   cy.fixture('meeting_dates_10.json').then((dates) => {
     meetingDates = dates;
     cy.intercept('GET', APIEndpoints.MeetingDate, meetingDates);

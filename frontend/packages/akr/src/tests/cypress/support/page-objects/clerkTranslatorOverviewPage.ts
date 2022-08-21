@@ -11,15 +11,15 @@ class ClerkTranslatorOverviewPage {
       ),
     backToRegisterBtn: () =>
       cy.findByTestId('clerk-translator-overview-page__back-btn'),
-    editTranslatorInfoBtn: () =>
+    editTranslatorDetailsButton: () =>
       cy.findByTestId(
         'clerk-translator-overview__translator-details__edit-btn'
       ),
-    cancelTranslatorInfoBtn: () =>
+    cancelTranslatorDetailsButton: () =>
       cy.findByTestId(
         'clerk-translator-overview__translator-details__cancel-btn'
       ),
-    saveTranslatorInfoBtn: () =>
+    saveTranslatorDetailsButton: () =>
       cy.findByTestId(
         'clerk-translator-overview__translator-details__save-btn'
       ),
@@ -63,20 +63,20 @@ class ClerkTranslatorOverviewPage {
     this.elements.backToRegisterBtn().should('be.visible').click();
   }
 
-  clickEditTranslatorInfoBtn() {
-    this.elements.editTranslatorInfoBtn().should('be.visible').click();
+  clickEditTranslatorDetailsButton() {
+    this.elements.editTranslatorDetailsButton().should('be.visible').click();
   }
 
   clickAddAuthorisationBtn() {
     this.elements.addAuthorisationBtn().should('be.visible').click();
   }
 
-  clickCancelTranslatorInfoBtn() {
-    this.elements.cancelTranslatorInfoBtn().should('be.visible').click();
+  clickCancelTranslatorDetailsButton() {
+    this.elements.cancelTranslatorDetailsButton().should('be.visible').click();
   }
 
-  clickSaveTranslatorInfoBtn() {
-    this.elements.saveTranslatorInfoBtn().should('be.visible').click();
+  clickSaveTranslatorDetailsButton() {
+    this.elements.saveTranslatorDetailsButton().should('be.visible').click();
   }
 
   editTranslatorField(fieldName: string, fieldType: string, newValue) {
@@ -168,8 +168,15 @@ class ClerkTranslatorOverviewPage {
       .should('be.disabled');
   }
 
-  expectEnabledEditTranslatorInfoBtn() {
-    this.elements.editTranslatorInfoBtn().should('be.enabled');
+  expectEnabledEditTranslatorDetailsButton() {
+    this.elements.editTranslatorDetailsButton().should('be.enabled');
+  }
+
+  expectDisabledSaveTranslatorDetailsButton() {
+    this.elements
+      .saveTranslatorDetailsButton()
+      .should('be.visible')
+      .should('be.disabled');
   }
 
   expectedEnabledAddAuthorisationButton() {
@@ -184,10 +191,10 @@ class ClerkTranslatorOverviewPage {
     switch (mode) {
       case UIMode.View:
         this.elements.addAuthorisationBtn().should('be.visible');
-        this.elements.editTranslatorInfoBtn().should('be.visible');
+        this.elements.editTranslatorDetailsButton().should('be.visible');
         break;
       case UIMode.EditTranslatorDetails:
-        this.elements.cancelTranslatorInfoBtn().should('be.visible');
+        this.elements.cancelTranslatorDetailsButton().should('be.visible');
         break;
       case UIMode.EditAuthorisationDetails:
         // not implemented yet
