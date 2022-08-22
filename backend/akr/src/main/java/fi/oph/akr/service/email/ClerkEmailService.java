@@ -71,7 +71,7 @@ public class ClerkEmailService {
         .ifPresent(recipientAddress -> {
           final String recipientName = translator.getFullName();
 
-          final String emailSubject = HtmlUtils.htmlEscape(emailRequestDTO.subject());
+          final String emailSubject = HtmlUtils.htmlEscape(emailRequestDTO.subject().trim());
           final String emailBody = getInformalEmailBody(emailRequestDTO.body());
           createEmail(recipientName, recipientAddress, emailSubject, emailBody, EmailType.INFORMAL);
         })

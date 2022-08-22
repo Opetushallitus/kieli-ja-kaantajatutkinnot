@@ -122,7 +122,7 @@ class TemplateRendererTest {
   }
 
   @Test
-  public void testClerlkInformalEmailTemplateIsRendered() {
+  public void testClerkInformalEmailTemplateIsRendered() {
     final String renderedContent = templateRenderer.renderClerkInformalEmailBody(
       Map.of("messageLines", new String[] { "This is the message. Line 1", "Line 2" })
     );
