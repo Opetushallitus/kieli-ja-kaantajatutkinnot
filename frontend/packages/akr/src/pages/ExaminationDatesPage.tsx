@@ -1,7 +1,9 @@
 import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { H1, H2, Text } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
+import { DateUtils } from 'shared/utils';
 
 import { AddExaminationDate } from 'components/clerkTranslator/examinationDates/AddExaminationDate';
 import { ExaminationDatesListing } from 'components/clerkTranslator/examinationDates/ExaminationDatesListing';
@@ -9,23 +11,70 @@ import { ExaminationDatesToggleFilters } from 'components/clerkTranslator/examin
 import { MeetingDatesPageSkeleton } from 'components/skeletons/MeetingDatesPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadExaminationDates } from 'redux/reducers/examinationDate';
+import {
+  loadExaminationDates,
+  resetExaminationDateAdd,
+  resetExaminationDateRemove,
+} from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
 export const ExaminationDatesPage: FC = () => {
   const {
     examinationDates: { status, dates },
+    addExaminationDate,
+    removeExaminationDate,
   } = useAppSelector(examinationDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
 
   const { t } = useAppTranslation({ keyPrefix: 'akr.pages' });
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExaminationDates());
     }
   }, [dispatch, status]);
+
+  useEffect(() => {
+    const { status, date } = addExaminationDate;
+
+    if (status === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('examinationDatesPage.toasts.addingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
+      });
+    }
+
+    if (
+      status === APIResponseStatus.Success ||
+      status === APIResponseStatus.Error
+    ) {
+      dispatch(resetExaminationDateAdd());
+    }
+  }, [dispatch, addExaminationDate, showToast, t]);
+
+  useEffect(() => {
+    const { status, date } = removeExaminationDate;
+
+    if (status === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('examinationDatesPage.toasts.removingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
+      });
+    }
+
+    if (
+      status === APIResponseStatus.Success ||
+      status === APIResponseStatus.Error
+    ) {
+      dispatch(resetExaminationDateRemove());
+    }
+  }, [dispatch, removeExaminationDate, showToast, t]);
 
   const renderExaminationDatesPageGrids = () => (
     <>

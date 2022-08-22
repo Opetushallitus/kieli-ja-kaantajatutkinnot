@@ -1,4 +1,4 @@
-export enum MeetingStatus {
+export enum MeetingDateStatus {
   Upcoming = 'upcoming',
   Passed = 'passed',
 }

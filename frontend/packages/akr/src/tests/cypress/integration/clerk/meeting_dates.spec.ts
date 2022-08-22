@@ -1,7 +1,7 @@
 import { HTTPStatusCode } from 'shared/enums';
 
 import { APIEndpoints, APIError } from 'enums/api';
-import { MeetingStatus } from 'enums/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onMeetingDatesPage } from 'tests/cypress/support/page-objects/meetingDatesPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -30,25 +30,24 @@ describe('MeetingDatesPage', () => {
   });
 
   it('should filter meeting dates by status', () => {
-    // Use fixed date in tests as the as the status filters depend on it
     onMeetingDatesPage.expectSelectedMeetingDatesCount(4);
 
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Passed);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(6);
 
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Upcoming);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Upcoming);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(4);
   });
 
   it('should order upcoming meeting dates by ascending date', () => {
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Upcoming);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Upcoming);
 
     onMeetingDatesPage.expectRowToContain(0, '14.5.2022');
     onMeetingDatesPage.expectRowToContain(1, '25.9.2022');
   });
 
   it('should order passed meeting dates by descending date', () => {
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Passed);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
 
     onMeetingDatesPage.expectRowToContain(0, '1.1.2022');
     onMeetingDatesPage.expectRowToContain(1, '18.11.2021');
@@ -71,6 +70,7 @@ describe('MeetingDatesPage', () => {
     cy.wait('@create');
 
     onMeetingDatesPage.expectTotalMeetingDatesCount(11);
+    onToast.expectText('Kokouspäivän lisäys onnistui');
   });
 
   it('should not add duplicate meeting dates', () => {
@@ -85,7 +85,6 @@ describe('MeetingDatesPage', () => {
       statusCode: HTTPStatusCode.InternalServerError,
       body: {},
     }).as('createWithError');
-
     onMeetingDatesPage.clickAddButton();
     cy.wait('@createWithError');
 
@@ -108,7 +107,7 @@ describe('MeetingDatesPage', () => {
     );
 
     cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Passed);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
     onMeetingDatesPage.clickDeleteRowIcon(1);
 
     cy.intercept(
@@ -123,10 +122,12 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.expectRowToContain(1, '15.8.2021');
     onMeetingDatesPage.expectTotalMeetingDatesCount(9);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(5);
+
+    onToast.expectText('Valittu kokouspäivä poistettu');
   });
 
   it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
-    onMeetingDatesPage.filterByStatus(MeetingStatus.Passed);
+    onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
     onMeetingDatesPage.clickDeleteRowIcon(1);
 
     cy.intercept(
@@ -134,7 +135,6 @@ describe('MeetingDatesPage', () => {
       `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
       createAPIErrorResponse(APIError.MeetingDateDeleteHasAuthorisations)
     ).as('deleteWithError');
-
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@deleteWithError');
 

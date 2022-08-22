@@ -71,6 +71,7 @@ describe('ExaminationDatesPage', () => {
     cy.wait('@create');
 
     onExaminationDatesPage.expectTotalExaminationDatesCount(11);
+    onToast.expectText('Tutkintopäivän 4.10.2030 lisäys onnistui');
   });
 
   it('should not add duplicate examination dates', () => {
@@ -85,7 +86,6 @@ describe('ExaminationDatesPage', () => {
       statusCode: HTTPStatusCode.InternalServerError,
       body: {},
     }).as('createWithError');
-
     onExaminationDatesPage.clickAddButton();
     cy.wait('@createWithError');
 
@@ -124,6 +124,8 @@ describe('ExaminationDatesPage', () => {
     onExaminationDatesPage.expectRowToContain(1, '15.8.2021');
     onExaminationDatesPage.expectTotalExaminationDatesCount(9);
     onExaminationDatesPage.expectSelectedExaminationDatesCount(5);
+
+    onToast.expectText('Tutkintopäivä 18.11.2021 poistettu');
   });
 
   it('should show an error toast if examination date is chosen to be deleted, but an API error occurs', () => {
@@ -135,7 +137,6 @@ describe('ExaminationDatesPage', () => {
       `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
       createAPIErrorResponse(APIError.ExaminationDateDeleteHasAuthorisations)
     ).as('deleteWithError');
-
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@deleteWithError');
 

@@ -2,8 +2,8 @@ import { ToggleFilterGroup } from 'shared/components';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { MeetingStatus } from 'enums/meetingDate';
-import { addMeetingDateFilter } from 'redux/reducers/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
+import { setMeetingDateFilters } from 'redux/reducers/meetingDate';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
@@ -23,22 +23,22 @@ export const MeetingDatesToggleFilters = () => {
     meetingDates: { filters },
   } = useAppSelector(meetingDatesSelector);
 
-  const filterByDate = (status: MeetingStatus) => {
-    dispatch(addMeetingDateFilter({ meetingStatus: status }));
+  const filterByDate = (status: MeetingDateStatus) => {
+    dispatch(setMeetingDateFilters({ meetingStatus: status }));
   };
 
   const toggleFilters = [
     {
-      status: MeetingStatus.Upcoming,
-      label: t(MeetingStatus.Upcoming),
+      status: MeetingDateStatus.Upcoming,
+      label: t(MeetingDateStatus.Upcoming),
       count: upcoming.length,
-      testId: `meeting-dates-filters__btn--${MeetingStatus.Upcoming}`,
+      testId: `meeting-dates-filters__btn--${MeetingDateStatus.Upcoming}`,
     },
     {
-      status: MeetingStatus.Passed,
-      label: t(MeetingStatus.Passed),
+      status: MeetingDateStatus.Passed,
+      label: t(MeetingDateStatus.Passed),
       count: passed.length,
-      testId: `meeting-dates-filters__btn--${MeetingStatus.Passed}`,
+      testId: `meeting-dates-filters__btn--${MeetingDateStatus.Passed}`,
     },
   ];
 

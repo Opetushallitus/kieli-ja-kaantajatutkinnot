@@ -414,7 +414,11 @@
         "title": "Kääntäjän tiedot"
       },
       "examinationDatesPage": {
-        "title": "Tutkintopäivät"
+        "title": "Tutkintopäivät",
+        "toasts": {
+          "addingSucceeded": "Tutkintopäivän {{date}} lisäys onnistui",
+          "removingSucceeded": "Tutkintopäivä {{date}} poistettu"
+        }
       },
       "homepage": {
         "description": "Auktorisoitujen kääntäjien tutkintolautakunta ylläpitää rekisteriä auktorisoiduista kääntäjistä. Hakukoneella voit hakea kääntäjiä joko nimen tai kieliparin mukaan. Voit jättää valitsemillesi kääntäjille yhteydenottopyynnön alla olevalla hakulomakkeella.",
@@ -427,7 +431,11 @@
         "title": "Auktorisoitujen kääntäjien rekisteri"
       },
       "meetingDatesPage": {
-        "title": "Kokouspäivät"
+        "title": "Kokouspäivät",
+        "toasts": {
+          "addingSucceeded": "Kokouspäivän lisäys onnistui",
+          "removingSucceeded": "Valittu kokouspäivä poistettu"
+        }
       },
       "notFoundPage": {
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
