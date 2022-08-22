@@ -17,22 +17,32 @@ beforeEach(() => {
 
 describe('PublicTranslatorFilters', () => {
   it('should allow filtering results by language pair, name and town', () => {
-    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (50)');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (50)');
     onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
     onPublicTranslatorsListing.expectTranslatorsCount(27);
 
     onPublicTranslatorFilters.filterByTown('Helsinki');
-    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (2)');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (2)');
     onPublicTranslatorsListing.expectTranslatorsCount(2);
 
     onPublicTranslatorFilters.filterByName('aaltonen a');
     onPublicTranslatorsListing.expectTranslatorsCount(1);
-    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (1)');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (1)');
+  });
+
+  it('should return results only with the exact town name when filtering by town name', () => {
+    onPublicTranslatorFilters.filterByTown('Kemi');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (1)');
+    onPublicTranslatorsListing.expectTranslatorsCount(1);
+
+    onPublicTranslatorFilters.filterByTown('Kemiö');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (1)');
+    onPublicTranslatorsListing.expectTranslatorsCount(1);
   });
 
   it('should clear filters and listed translators when the reset button is clicked', () => {
     onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
-    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (27)');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (27)');
     onPublicTranslatorsListing.expectTranslatorsCount(27);
 
     onPublicTranslatorFilters.emptySearch();

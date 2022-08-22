@@ -1,7 +1,21 @@
 {
   "langs": {
-    "from": ["DE", "ET", "FI", "FR", "RU", "SV"],
-    "to": ["DE", "ET", "FI", "FR", "RU", "SV"]
+    "from": [
+      "DE",
+      "ET",
+      "FI",
+      "FR",
+      "RU",
+      "SV"
+    ],
+    "to": [
+      "DE",
+      "ET",
+      "FI",
+      "FR",
+      "RU",
+      "SV"
+    ]
   },
   "towns": [
     "Aatnav",
@@ -25,16 +39,14 @@
     "Turku",
     "Ukrut",
     "Uusikaupunki",
-    "Uusneoj",
+    "Kemi",
     "Vantaa",
-    "Ääpnevräj"
+    "Kemiö"
   ],
   "translators": [
     {
+      "firstName": "Anneli",
       "id": 1940,
-      "firstName": "Anneli",
-      "lastName": "Aaltonen",
-      "town": "Helsinki",
       "languagePairs": [
         {
           "from": "FI",
@@ -48,37 +60,37 @@
           "from": "RU",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Aaltonen",
+      "town": "Helsinki"
     },
     {
+      "firstName": "Antti",
       "id": 2973,
-      "firstName": "Antti",
-      "lastName": "Alanen",
-      "town": "Turku",
       "languagePairs": [
         {
           "from": "SV",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Alanen",
+      "town": "Turku"
     },
     {
+      "firstName": "Ella",
       "id": 2681,
-      "firstName": "Ella",
-      "lastName": "Eskola",
-      "town": "Hämeenlinna",
       "languagePairs": [
         {
           "from": "FI",
           "to": "ET"
         }
-      ]
+      ],
+      "lastName": "Eskola",
+      "town": "Hämeenlinna"
     },
     {
+      "firstName": "Eero",
       "id": 2176,
-      "firstName": "Eero",
-      "lastName": "Hakala",
-      "town": "Kuopio",
       "languagePairs": [
         {
           "from": "FI",
@@ -92,26 +104,26 @@
           "from": "FR",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Hakala",
+      "town": "Kuopio"
     },
     {
+      "firstName": "Hanna",
       "id": 4538,
-      "firstName": "Hanna",
-      "lastName": "Heikkinen",
-      "town": "Lahti",
       "languagePairs": [
         {
           "from": "FI",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Heikkinen",
+      "town": "Lahti"
     },
     {
+      "country": "LVA",
+      "firstName": "Ilkka",
       "id": 2080,
-      "firstName": "Ilkka",
-      "lastName": "Heinonen",
-      "town": "Oovrop",
-      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -129,13 +141,13 @@
           "from": "DE",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Heinonen",
+      "town": "Oovrop"
     },
     {
+      "firstName": "Iiris",
       "id": 4873,
-      "firstName": "Iiris",
-      "lastName": "Hiltunen",
-      "town": "Vantaa",
       "languagePairs": [
         {
           "from": "ET",
@@ -145,25 +157,25 @@
           "from": "FI",
           "to": "DE"
         }
-      ]
+      ],
+      "lastName": "Hiltunen",
+      "town": "Vantaa"
     },
     {
+      "firstName": "Jari",
       "id": 1966,
-      "firstName": "Jari",
-      "lastName": "Hirvonen",
-      "town": "Järvenpää",
       "languagePairs": [
         {
           "from": "FI",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Hirvonen",
+      "town": "Järvenpää"
     },
     {
+      "firstName": "Liisa",
       "id": 2545,
-      "firstName": "Liisa",
-      "lastName": "Hämäläinen",
-      "town": "Kouvola",
       "languagePairs": [
         {
           "from": "FI",
@@ -173,13 +185,13 @@
           "from": "RU",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Hämäläinen",
+      "town": "Kouvola"
     },
     {
+      "firstName": "Juha",
       "id": 2290,
-      "firstName": "Juha",
-      "lastName": "Kallio",
-      "town": "Tampere",
       "languagePairs": [
         {
           "from": "FI",
@@ -193,26 +205,26 @@
           "from": "RU",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Kallio",
+      "town": "Tampere"
     },
     {
+      "firstName": "Maria",
       "id": 1603,
-      "firstName": "Maria",
-      "lastName": "Karjalainen",
-      "town": "Oulu",
       "languagePairs": [
         {
           "from": "FI",
           "to": "ET"
         }
-      ]
+      ],
+      "lastName": "Karjalainen",
+      "town": "Oulu"
     },
     {
+      "country": "LVA",
+      "firstName": "Matti",
       "id": 2765,
-      "firstName": "Matti",
-      "lastName": "Kinnunen",
-      "town": "Imeinavor",
-      "country": "LVA",
       "languagePairs": [
         {
           "from": "FI",
@@ -226,421 +238,421 @@
           "from": "FI",
           "to": "ET"
         }
-      ]
+      ],
+      "lastName": "Kinnunen",
+      "town": "Imeinavor"
     },
     {
+      "firstName": "Ninni",
       "id": 602,
-      "firstName": "Ninni",
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "FI",
+          "to": "ET"
+        }
+      ],
       "lastName": "Korhonen",
-      "town": "Kajaani",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "FI",
-          "to": "ET"
-        }
-      ]
+      "town": "Kajaani"
     },
     {
+      "firstName": "Pekka",
       "id": 3077,
-      "firstName": "Pekka",
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "FR"
+        },
+        {
+          "from": "FR",
+          "to": "FI"
+        }
+      ],
       "lastName": "Koskinen",
-      "town": "Joensuu",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "FR"
-        },
-        {
-          "from": "FR",
-          "to": "FI"
-        }
-      ]
+      "town": "Joensuu"
     },
     {
+      "firstName": "Viivi",
       "id": 2119,
-      "firstName": "Viivi",
+      "languagePairs": [
+        {
+          "from": "DE",
+          "to": "FI"
+        }
+      ],
       "lastName": "Laakso",
-      "town": "Uusikaupunki",
-      "languagePairs": [
-        {
-          "from": "DE",
-          "to": "FI"
-        }
-      ]
+      "town": "Uusikaupunki"
     },
     {
+      "firstName": "Timo",
       "id": 714,
-      "firstName": "Timo",
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "SV",
+          "to": "FI"
+        },
+        {
+          "from": "FI",
+          "to": "ET"
+        },
+        {
+          "from": "FI",
+          "to": "FR"
+        },
+        {
+          "from": "FR",
+          "to": "FI"
+        }
+      ],
       "lastName": "Lahtinen",
-      "town": "Kuopio",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FI"
-        },
-        {
-          "from": "FI",
-          "to": "ET"
-        },
-        {
-          "from": "FI",
-          "to": "FR"
-        },
-        {
-          "from": "FR",
-          "to": "FI"
-        }
-      ]
+      "town": "Kuopio"
     },
     {
+      "firstName": "Anna",
       "id": 2589,
-      "firstName": "Anna",
+      "languagePairs": [
+        {
+          "from": "SV",
+          "to": "FI"
+        }
+      ],
       "lastName": "Laine",
-      "town": "Kotka",
-      "languagePairs": [
-        {
-          "from": "SV",
-          "to": "FI"
-        }
-      ]
+      "town": "Kotka"
     },
     {
+      "country": "LVA",
+      "firstName": "Iiro",
       "id": 1148,
-      "firstName": "Iiro",
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "FI",
+          "to": "ET"
+        }
+      ],
       "lastName": "Lehtonen",
-      "town": "Iknisleh",
-      "country": "LVA",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "FI",
-          "to": "ET"
-        }
-      ]
+      "town": "Iknisleh"
     },
     {
+      "firstName": "Iida",
       "id": 2451,
-      "firstName": "Iida",
+      "languagePairs": [
+        {
+          "from": "SV",
+          "to": "FI"
+        },
+        {
+          "from": "SV",
+          "to": "FR"
+        },
+        {
+          "from": "FR",
+          "to": "SV"
+        }
+      ],
       "lastName": "Leinonen",
-      "town": "Turku",
-      "languagePairs": [
-        {
-          "from": "SV",
-          "to": "FI"
-        },
-        {
-          "from": "SV",
-          "to": "FR"
-        },
-        {
-          "from": "FR",
-          "to": "SV"
-        }
-      ]
+      "town": "Turku"
     },
     {
-      "id": 3419,
       "firstName": "Jukka",
+      "id": 3419,
+      "languagePairs": [
+        {
+          "from": "DE",
+          "to": "FI"
+        }
+      ],
       "lastName": "Leppänen",
-      "town": "Hämeenlinna",
-      "languagePairs": [
-        {
-          "from": "DE",
-          "to": "FI"
-        }
-      ]
+      "town": "Hämeenlinna"
     },
     {
-      "id": 1111,
       "firstName": "Kerttu",
+      "id": 1111,
+      "languagePairs": [
+        {
+          "from": "ET",
+          "to": "FI"
+        },
+        {
+          "from": "FI",
+          "to": "DE"
+        }
+      ],
       "lastName": "Manninen",
-      "town": "Kuopio",
-      "languagePairs": [
-        {
-          "from": "ET",
-          "to": "FI"
-        },
-        {
-          "from": "FI",
-          "to": "DE"
-        }
-      ]
+      "town": "Kuopio"
     },
     {
-      "id": 4066,
       "firstName": "Kalle",
+      "id": 4066,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "SV",
+          "to": "FR"
+        },
+        {
+          "from": "FR",
+          "to": "SV"
+        }
+      ],
       "lastName": "Mattila",
-      "town": "Lahti",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FR"
-        },
-        {
-          "from": "FR",
-          "to": "SV"
-        }
-      ]
+      "town": "Lahti"
     },
     {
-      "id": 4460,
       "firstName": "Kristiina",
+      "id": 4460,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "FI",
+          "to": "RU"
+        },
+        {
+          "from": "RU",
+          "to": "FI"
+        }
+      ],
       "lastName": "Mäkinen",
-      "town": "Porvoo",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "FI",
-          "to": "RU"
-        },
-        {
-          "from": "RU",
-          "to": "FI"
-        }
-      ]
+      "town": "Porvoo"
     },
     {
-      "id": 2321,
+      "country": "LVA",
       "firstName": "Kari",
+      "id": 2321,
+      "languagePairs": [
+        {
+          "from": "ET",
+          "to": "FI"
+        },
+        {
+          "from": "FI",
+          "to": "DE"
+        }
+      ],
       "lastName": "Nieminen",
-      "town": "Aatnav",
-      "country": "LVA",
-      "languagePairs": [
-        {
-          "from": "ET",
-          "to": "FI"
-        },
-        {
-          "from": "FI",
-          "to": "DE"
-        }
-      ]
+      "town": "Aatnav"
     },
     {
-      "id": 2136,
       "firstName": "Marjatta",
+      "id": 2136,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "SV",
+          "to": "FI"
+        }
+      ],
       "lastName": "Noronen",
-      "town": "Järvenpää",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FI"
-        }
-      ]
+      "town": "Järvenpää"
     },
     {
-      "id": 1868,
       "firstName": "Marko",
+      "id": 1868,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Ojala",
-      "town": "Kouvola",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Kouvola"
     },
     {
-      "id": 1827,
       "firstName": "Ronja",
+      "id": 1827,
+      "languagePairs": [
+        {
+          "from": "SV",
+          "to": "FI"
+        },
+        {
+          "from": "FI",
+          "to": "ET"
+        }
+      ],
       "lastName": "Paavola",
-      "town": "Tampere",
-      "languagePairs": [
-        {
-          "from": "SV",
-          "to": "FI"
-        },
-        {
-          "from": "FI",
-          "to": "ET"
-        }
-      ]
+      "town": "Tampere"
     },
     {
-      "id": 1004,
       "firstName": "Mikko",
+      "id": 1004,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Pitkänen",
-      "town": "Oulu",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Oulu"
     },
     {
-      "id": 3065,
       "firstName": "Sara",
+      "id": 3065,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "RU"
+        },
+        {
+          "from": "RU",
+          "to": "FI"
+        }
+      ],
       "lastName": "Räsänen",
-      "town": "Rovaniemi",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "RU"
-        },
-        {
-          "from": "RU",
-          "to": "FI"
-        }
-      ]
+      "town": "Rovaniemi"
     },
     {
-      "id": 862,
+      "country": "LVA",
       "firstName": "Tapani",
+      "id": 862,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Saarinen",
-      "town": "Inaajak",
-      "country": "LVA",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Inaajak"
     },
     {
-      "id": 3424,
       "firstName": "Anneli",
+      "id": 3424,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Salo",
-      "town": "Joensuu",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Joensuu"
     },
     {
-      "id": 885,
       "firstName": "Ville",
+      "id": 885,
+      "languagePairs": [
+        {
+          "from": "SV",
+          "to": "FI"
+        },
+        {
+          "from": "FI",
+          "to": "RU"
+        },
+        {
+          "from": "RU",
+          "to": "FI"
+        }
+      ],
       "lastName": "Salonen",
-      "town": "Uusikaupunki",
-      "languagePairs": [
-        {
-          "from": "SV",
-          "to": "FI"
-        },
-        {
-          "from": "FI",
-          "to": "RU"
-        },
-        {
-          "from": "RU",
-          "to": "FI"
-        }
-      ]
+      "town": "Uusikaupunki"
     },
     {
-      "id": 666,
       "firstName": "Ella",
+      "id": 666,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "SV",
+          "to": "FI"
+        }
+      ],
       "lastName": "Toivonen",
-      "town": "Kuopio",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FI"
-        }
-      ]
+      "town": "Kuopio"
     },
     {
-      "id": 685,
       "firstName": "Antti",
+      "id": 685,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "RU"
+        },
+        {
+          "from": "RU",
+          "to": "FI"
+        }
+      ],
       "lastName": "Tuominen",
-      "town": "Kotka",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "RU"
-        },
-        {
-          "from": "RU",
-          "to": "FI"
-        }
-      ]
+      "town": "Kotka"
     },
     {
-      "id": 2868,
       "firstName": "Hanna",
+      "id": 2868,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        },
+        {
+          "from": "SV",
+          "to": "FI"
+        }
+      ],
       "lastName": "Turunen",
-      "town": "Helsinki",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FI"
-        }
-      ]
+      "town": "Helsinki"
     },
     {
-      "id": 1912,
+      "country": "LVA",
       "firstName": "Eero",
+      "id": 1912,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Valtonen",
-      "town": "Ukrut",
-      "country": "LVA",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Ukrut"
     },
     {
-      "id": 344,
       "firstName": "Iiris",
+      "id": 344,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "SV"
+        }
+      ],
       "lastName": "Virtanen",
-      "town": "Hämeenlinna",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        }
-      ]
+      "town": "Hämeenlinna"
     },
     {
-      "id": 301,
       "firstName": "Ilkka",
+      "id": 301,
+      "languagePairs": [
+        {
+          "from": "FI",
+          "to": "ET"
+        }
+      ],
       "lastName": "Väisänen",
-      "town": "Kuopio",
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "ET"
-        }
-      ]
+      "town": "Kuopio"
     },
     {
-      "id": 1599,
       "firstName": "Liisa",
-      "lastName": "Aaltonen",
-      "town": "Lahti",
+      "id": 1599,
       "languagePairs": [
         {
           "from": "SV",
@@ -650,13 +662,13 @@
           "from": "DE",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Aaltonen",
+      "town": "Lahti"
     },
     {
-      "id": 3861,
       "firstName": "Jari",
-      "lastName": "Alanen",
-      "town": "Porvoo",
+      "id": 3861,
       "languagePairs": [
         {
           "from": "SV",
@@ -674,13 +686,13 @@
           "from": "DE",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Alanen",
+      "town": "Porvoo"
     },
     {
-      "id": 4140,
       "firstName": "Maria",
-      "lastName": "Eskola",
-      "town": "Vantaa",
+      "id": 4140,
       "languagePairs": [
         {
           "from": "FI",
@@ -698,26 +710,25 @@
           "from": "RU",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Eskola",
+      "town": "Vantaa"
     },
     {
-      "id": 2252,
       "firstName": "Juha",
-      "lastName": "Hakala",
-      "town": "Ääpnevräj",
-      "country": "LVA",
+      "id": 2252,
       "languagePairs": [
         {
           "from": "FI",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Hakala",
+      "town": "Kemiö"
     },
     {
-      "id": 171,
       "firstName": "Ninni",
-      "lastName": "Heikkinen",
-      "town": "Kouvola",
+      "id": 171,
       "languagePairs": [
         {
           "from": "SV",
@@ -731,13 +742,13 @@
           "from": "FR",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Heikkinen",
+      "town": "Kouvola"
     },
     {
-      "id": 4228,
       "firstName": "Matti",
-      "lastName": "Heinonen",
-      "town": "Tampere",
+      "id": 4228,
       "languagePairs": [
         {
           "from": "FI",
@@ -747,13 +758,13 @@
           "from": "FI",
           "to": "ET"
         }
-      ]
+      ],
+      "lastName": "Heinonen",
+      "town": "Tampere"
     },
     {
-      "id": 1521,
       "firstName": "Viivi",
-      "lastName": "Hiltunen",
-      "town": "Oulu",
+      "id": 1521,
       "languagePairs": [
         {
           "from": "SV",
@@ -763,13 +774,13 @@
           "from": "DE",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Hiltunen",
+      "town": "Oulu"
     },
     {
-      "id": 1972,
       "firstName": "Pekka",
-      "lastName": "Hirvonen",
-      "town": "Rovaniemi",
+      "id": 1972,
       "languagePairs": [
         {
           "from": "FI",
@@ -783,26 +794,25 @@
           "from": "FR",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Hirvonen",
+      "town": "Rovaniemi"
     },
     {
-      "id": 1384,
       "firstName": "Anna",
-      "lastName": "Hämäläinen",
-      "town": "Kajaani",
+      "id": 1384,
       "languagePairs": [
         {
           "from": "FI",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Hämäläinen",
+      "town": "Kajaani"
     },
     {
-      "id": 2145,
       "firstName": "Timo",
-      "lastName": "Kallio",
-      "town": "Uusneoj",
-      "country": "LVA",
+      "id": 2145,
       "languagePairs": [
         {
           "from": "SV",
@@ -828,23 +838,24 @@
           "from": "DE",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Kallio",
+      "town": "Kemi"
     },
     {
-      "id": 4106,
       "firstName": "Iida",
-      "lastName": "Karjalainen",
+      "id": 4106,
       "languagePairs": [
         {
           "from": "FI",
           "to": "SV"
         }
-      ]
+      ],
+      "lastName": "Karjalainen"
     },
     {
-      "id": 834,
       "firstName": "Iiro",
-      "lastName": "Kinnunen",
+      "id": 834,
       "languagePairs": [
         {
           "from": "FI",
@@ -854,7 +865,8 @@
           "from": "SV",
           "to": "FI"
         }
-      ]
+      ],
+      "lastName": "Kinnunen"
     }
   ]
 }
