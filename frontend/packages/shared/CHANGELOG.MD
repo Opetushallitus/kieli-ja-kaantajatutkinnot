@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.1.1] - 2022-08-22
+
+## Fixed
+
+- Absolute import in OPHClerkLogo
+
 ## [1.1.0] - 2022-08-19
 
 ## Added

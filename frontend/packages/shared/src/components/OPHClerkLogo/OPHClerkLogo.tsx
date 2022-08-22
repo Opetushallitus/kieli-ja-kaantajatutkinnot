@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import OPHLogo from '../../statics/svg/oph_logo_textless.svg';
+import { CommonUtils } from '../../utils/common/common';
 import { Svg } from '../Svg/Svg';
 import { Text } from '../Text/Text';
-import { CommonUtils } from 'utils';
 import './OPHClerkLogo.scss';
 
 interface OPHClerkLogoProps {

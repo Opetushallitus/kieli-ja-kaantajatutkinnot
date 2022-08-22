@@ -7,17 +7,6 @@
   "settings": {
     "react": {
       "version": "detect"
-    },
-    "import/resolver": {
-      "node": {
-        "moduleDirectory": ["node_modules", "src/"]
-      },
-      "webpack": {
-        "config": "webpack.config.js",
-        "env": {
-          "prod": false
-        }
-      }
     }
   },
   "extends": [
