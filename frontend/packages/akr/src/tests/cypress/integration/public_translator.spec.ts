@@ -30,6 +30,15 @@ describe('PublicTranslatorFilters', () => {
     onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (1)');
   });
 
+  it('should return results only with the exact town name when filtering by town name', () => {
+    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (50)');
+
+    onPublicTranslatorFilters.filterByTown('Kemi');
+
+    onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (1)');
+    onPublicTranslatorsListing.expectTranslatorsCount(1);
+  });
+
   it('should clear filters and listed translators when the reset button is clicked', () => {
     onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
     onPublicTranslatorFilters.expectSeachBtnText('Näytä tulokset (27)');
