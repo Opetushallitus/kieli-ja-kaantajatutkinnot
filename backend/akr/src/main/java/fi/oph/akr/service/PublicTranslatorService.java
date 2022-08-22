@@ -2,7 +2,7 @@ package fi.oph.akr.service;
 
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
-import fi.oph.akr.api.dto.TownAndCountryDTO;
+import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.model.Translator;
@@ -50,7 +50,7 @@ public class PublicTranslatorService {
       .toList();
 
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
-    final List<TownAndCountryDTO> towns = getDistinctTowns(translators);
+    final List<PublicTownDTO> towns = getDistinctTowns(translators);
 
     return PublicTranslatorResponseDTO
       .builder()
@@ -95,7 +95,7 @@ public class PublicTranslatorService {
     return LanguagePairsDictDTO.builder().from(fromLangs).to(toLangs).build();
   }
 
-  private List<TownAndCountryDTO> getDistinctTowns(final Collection<Translator> translators) {
+  private List<PublicTownDTO> getDistinctTowns(final Collection<Translator> translators) {
     return translators
       .stream()
       .map(translator -> {
@@ -103,9 +103,9 @@ public class PublicTranslatorService {
           return null;
         }
         if (translator.getCountry() == null || translator.getCountry().equals("FIN")) {
-          return TownAndCountryDTO.builder().name(translator.getTown()).build();
+          return PublicTownDTO.builder().name(translator.getTown()).build();
         }
-        return TownAndCountryDTO.builder().name(translator.getTown()).country(translator.getCountry()).build();
+        return PublicTownDTO.builder().name(translator.getTown()).country(translator.getCountry()).build();
       })
       .filter(Objects::nonNull)
       .distinct()
@@ -113,11 +113,11 @@ public class PublicTranslatorService {
       .toList();
   }
 
-  private Comparator<TownAndCountryDTO> townAndCountryDTOCompare() {
-    final Comparator<TownAndCountryDTO> byCountry = Comparator.comparing(
-      TownAndCountryDTO::country,
+  private Comparator<PublicTownDTO> townAndCountryDTOCompare() {
+    final Comparator<PublicTownDTO> byCountry = Comparator.comparing(
+      PublicTownDTO::country,
       Comparator.nullsFirst(Comparator.naturalOrder())
     );
-    return byCountry.thenComparing(TownAndCountryDTO::name);
+    return byCountry.thenComparing(PublicTownDTO::name);
   }
 }
