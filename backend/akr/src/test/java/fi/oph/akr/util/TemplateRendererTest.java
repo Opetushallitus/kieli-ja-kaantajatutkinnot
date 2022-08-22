@@ -120,4 +120,14 @@ class TemplateRendererTest {
     assertTrue(renderedContent.contains("+358 400 888 777"));
     assertTrue(renderedContent.contains("This is the message."));
   }
+
+  @Test
+  public void testClerkInformalEmailTemplateIsRendered() {
+    final String renderedContent = templateRenderer.renderClerkInformalEmailBody(
+      Map.of("messageLines", new String[] { "This is the message. Line 1", "Line 2" })
+    );
+
+    assertNotNull(renderedContent);
+    assertTrue(renderedContent.contains("<span>This is the message. Line 1<br/></span><span>Line 2<br/></span>"));
+  }
 }

@@ -112,9 +112,11 @@ public class ClerkEmailServiceTest {
     final InformalEmailRequestDTO emailRequestDTO = InformalEmailRequestDTO
       .builder()
       .translatorIds(translators.stream().map(Translator::getId).toList())
-      .subject("otsikko")
+      .subject("otsikko<")
       .body("viesti")
       .build();
+
+    when(templateRenderer.renderClerkInformalEmailBody(any())).thenReturn("<p>viesti</p>");
 
     clerkEmailService.createInformalEmails(emailRequestDTO);
 
@@ -132,8 +134,8 @@ public class ClerkEmailServiceTest {
 
         assertEquals(translator.getFullName(), emailData.recipientName());
         assertEquals(translator.getEmail(), emailData.recipientAddress());
-        assertEquals("otsikko", emailData.subject());
-        assertEquals("viesti", emailData.body());
+        assertEquals("otsikko&lt;", emailData.subject());
+        assertEquals("<p>viesti</p>", emailData.body());
       });
   }
 
@@ -149,11 +151,13 @@ public class ClerkEmailServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
+    when(templateRenderer.renderClerkInformalEmailBody(any())).thenReturn("<p>viesti</p>");
+
     final InformalEmailRequestDTO emailRequestDTO = InformalEmailRequestDTO
       .builder()
       .translatorIds(List.of(translator.getId(), translator.getId()))
       .subject("otsikko")
-      .body("viesti")
+      .body("<p>viesti</p>")
       .build();
 
     clerkEmailService.createInformalEmails(emailRequestDTO);

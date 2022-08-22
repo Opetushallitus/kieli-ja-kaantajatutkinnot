@@ -28,6 +28,10 @@ public class TemplateRenderer {
     return renderTemplate("contact-request-translator", params);
   }
 
+  public String renderClerkInformalEmailBody(final Map<String, Object> params) {
+    return renderTemplate("clerk-informal-email", params);
+  }
+
   private String renderTemplate(final String template, final Map<String, Object> params) {
     final Context context = new Context();
     context.setVariables(params);
