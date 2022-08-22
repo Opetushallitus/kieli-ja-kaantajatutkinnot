@@ -6,7 +6,6 @@ import { MeetingDateResponse } from 'interfaces/meetingDate';
 export interface ClerkStateResponse {
   translators: Array<ClerkTranslatorResponse>;
   langs: LanguagePairsDict;
-  towns: Array<string>;
   meetingDates: Array<MeetingDateResponse>;
   examinationDates: Array<ExaminationDateResponse>;
 }
