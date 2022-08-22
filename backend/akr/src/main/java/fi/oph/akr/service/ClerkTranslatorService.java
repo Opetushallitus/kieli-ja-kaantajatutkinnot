@@ -37,7 +37,6 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
@@ -95,7 +94,6 @@ public class ClerkTranslatorService {
       authorisationProjections
     );
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
-    final List<String> towns = getDistinctTowns(translators);
     final List<MeetingDateDTO> meetingDateDTOS = meetingDateService.listMeetingDatesWithoutAudit();
     final List<ExaminationDateDTO> examinationDateDTOS = examinationDateService.listExaminationDatesWithoutAudit();
 
@@ -103,7 +101,6 @@ public class ClerkTranslatorService {
       .builder()
       .translators(clerkTranslatorDTOS)
       .langs(languagePairsDictDTO)
-      .towns(towns)
       .meetingDates(meetingDateDTOS)
       .examinationDates(examinationDateDTOS)
       .build();
@@ -180,10 +177,6 @@ public class ClerkTranslatorService {
     final List<String> toLangs = authorisationRepository.getDistinctToLangs();
 
     return LanguagePairsDictDTO.builder().from(fromLangs).to(toLangs).build();
-  }
-
-  private List<String> getDistinctTowns(final Collection<Translator> translators) {
-    return translators.stream().map(Translator::getTown).filter(Objects::nonNull).distinct().sorted().toList();
   }
 
   @Transactional
