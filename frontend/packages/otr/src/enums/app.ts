@@ -7,6 +7,8 @@ export enum AppRoutes {
   ClerkHomePage = '/otr/virkailija',
   MeetingDatesPage = '/otr/virkailija/kokouspaivat',
   ClerkInterpreterOverviewPage = '/otr/virkailija/tulkki/:interpreterId',
+  ClerkPersonSearchPage = '/otr/virkailija/lisaa-tulkki/haku',
+  ClerkNewInterpreterPage = '/otr/virkailija/lisaa-tulkki',
   ClerkLocalLogoutPage = '/otr/cas/localLogout',
   AccessibilityStatementPage = '/otr/saavutettavuusseloste',
   NotFoundPage = '*',

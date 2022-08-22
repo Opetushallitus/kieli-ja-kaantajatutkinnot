@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { clerkInterpreterReducer } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpreterOverviewReducer } from 'redux/reducers/clerkInterpreterOverview';
+import { clerkPersonSearchReducer } from 'redux/reducers/clerkPersonSearch';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { meetingDateReducer } from 'redux/reducers/meetingDate';
 import { notifierReducer } from 'redux/reducers/notifier';
@@ -16,6 +17,7 @@ const store = configureStore({
   reducer: {
     clerkInterpreter: clerkInterpreterReducer,
     clerkInterpreterOverview: clerkInterpreterOverviewReducer,
+    clerkPersonSearch: clerkPersonSearchReducer,
     publicInterpreter: publicInterpreterReducer,
     clerkUser: clerkUserReducer,
     meetingDate: meetingDateReducer,

@@ -7,6 +7,7 @@ import { Notifier } from 'components/notification/Notifier';
 import { AppRoutes } from 'enums/app';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
+import { ClerkPersonSearchPage } from 'pages/ClerkPersonSearchPage';
 import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
@@ -34,6 +35,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkInterpreterOverviewPage}
                 element={<ClerkInterpreterOverviewPage />}
+              />
+              <Route
+                path={AppRoutes.ClerkPersonSearchPage}
+                element={<ClerkPersonSearchPage />}
               />
             </Routes>
           </div>

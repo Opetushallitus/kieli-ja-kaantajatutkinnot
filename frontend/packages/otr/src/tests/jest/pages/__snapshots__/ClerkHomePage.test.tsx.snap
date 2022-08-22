@@ -45,7 +45,7 @@ Object {
                 >
                   <a
                     class="custom-button-link"
-                    href="/otr/virkailija"
+                    href="/otr/virkailija/lisaa-tulkki/haku"
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-6d27ud-MuiButtonBase-root-MuiButton-root"
@@ -1558,7 +1558,7 @@ Object {
               >
                 <a
                   class="custom-button-link"
-                  href="/otr/virkailija"
+                  href="/otr/virkailija/lisaa-tulkki/haku"
                 >
                   <button
                     class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium css-6d27ud-MuiButtonBase-root-MuiButton-root"
