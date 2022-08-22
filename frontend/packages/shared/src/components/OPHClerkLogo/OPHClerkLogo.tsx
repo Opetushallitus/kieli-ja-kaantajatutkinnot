@@ -3,6 +3,7 @@ import { FC } from 'react';
 import OPHLogo from '../../statics/svg/oph_logo_textless.svg';
 import { Svg } from '../Svg/Svg';
 import { Text } from '../Text/Text';
+import { CommonUtils } from 'utils';
 import './OPHClerkLogo.scss';
 
 interface OPHClerkLogoProps {
@@ -18,8 +19,13 @@ export const OPHClerkLogo: FC<OPHClerkLogoProps> = ({
   subLabel,
   alt,
 }) => {
+  const classNames = CommonUtils.combineClassNames([
+    'oph-clerk-logo columns',
+    className,
+  ]);
+
   return (
-    <div className={`oph-clerk-logo columns ${className}`}>
+    <div className={classNames}>
       <Svg className="oph-clerk-logo__img" src={OPHLogo} alt={alt} />
       <div className="rows">
         <Text className="oph-clerk-logo__label--bold">{mainLabel}</Text>

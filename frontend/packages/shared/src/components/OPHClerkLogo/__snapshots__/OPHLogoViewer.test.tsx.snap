@@ -2,7 +2,7 @@
 
 exports[`OPHClerkLogo should render OPHClerkLogo correctly 1`] = `
 <div
-  className="oph-clerk-logo columns undefined"
+  className="oph-clerk-logo columns"
 >
   <img
     alt="ImgAlt"
