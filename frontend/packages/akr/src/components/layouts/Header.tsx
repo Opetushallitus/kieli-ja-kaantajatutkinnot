@@ -33,8 +33,8 @@ export const Header = (): JSX.Element => {
     [t('lang.en'), english],
   ]);
 
-  const [isClerkUI, isClerkURL] = useAuthentication();
-  const logoRedirectURL = isClerkUI
+  const { isAuthenticated, isClerkUI } = useAuthentication();
+  const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
 
@@ -45,7 +45,7 @@ export const Header = (): JSX.Element => {
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
-              {isClerkURL ? (
+              {isClerkUI ? (
                 <OPHClerkLogo
                   mainLabel={translateCommon('appNameAbbreviation')}
                   subLabel={translateCommon('clerk')}
@@ -61,9 +61,11 @@ export const Header = (): JSX.Element => {
               )}
             </Link>
           </div>
-          <div className="header__center">{isClerkUI && <ClerkNavTabs />}</div>
+          <div className="header__center">
+            {isAuthenticated && <ClerkNavTabs />}
+          </div>
           <div className="header__right">
-            {isClerkUI && <ClerkHeaderButtons />}
+            {isAuthenticated && <ClerkHeaderButtons />}
             <LangSelector
               changeLang={changeLang}
               getCurrentLang={getCurrentLang}

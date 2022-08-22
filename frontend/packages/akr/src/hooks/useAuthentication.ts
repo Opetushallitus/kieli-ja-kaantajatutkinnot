@@ -21,5 +21,5 @@ export const useAuthentication = () => {
     }
   }, [clerkUser.status, isClerkURL, dispatch]);
 
-  return [clerkUser.isAuthenticated, isClerkURL];
+  return { isAuthenticated: clerkUser.isAuthenticated, isClerkUI: isClerkURL };
 };
