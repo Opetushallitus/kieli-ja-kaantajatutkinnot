@@ -11,10 +11,8 @@ import {
   saveClerkNewTranslator,
   storeClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* saveClerkNewTranslatorSaga(
@@ -35,12 +33,7 @@ function* saveClerkNewTranslatorSaga(
 
     yield put(storeClerkNewTranslator(translator.id));
   } catch (error) {
-    yield put(rejectClerkNewTranslator());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectClerkNewTranslator(error as AxiosError));
   }
 }
 

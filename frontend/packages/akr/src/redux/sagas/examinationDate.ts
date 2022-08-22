@@ -18,8 +18,6 @@ import {
   removingExaminationDateSucceeded,
   storeExaminationDates,
 } from 'redux/reducers/examinationDate';
-import { showNotifierToast } from 'redux/reducers/notifier';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
@@ -30,12 +28,7 @@ function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
     yield put(addingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
-    yield put(rejectExaminationDateAdd());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectExaminationDateAdd(error as AxiosError));
   }
 }
 
@@ -48,12 +41,7 @@ function* removeExaminationDateSaga(action: PayloadAction<number>) {
     yield put(removingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
-    yield put(rejectExaminationDateRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectExaminationDateRemove(error as AxiosError));
   }
 }
 
@@ -67,7 +55,7 @@ function* loadExaminationDatesSaga() {
     );
     yield put(storeExaminationDates(deserializedResponse.dates));
   } catch (error) {
-    yield put(rejectExaminationDates());
+    yield put(rejectExaminationDates(error as AxiosError));
   }
 }
 

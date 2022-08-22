@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
+import { ResponseState } from 'interfaces/responseState';
 import { WithId } from 'interfaces/with';
 
-interface ClerkNewTranslatorState extends Partial<WithId> {
-  status: APIResponseStatus;
+interface ClerkNewTranslatorState extends ResponseState, Partial<WithId> {
   translator: ClerkNewTranslator;
 }
 
@@ -32,13 +33,15 @@ const clerkNewTranslatorSlice = createSlice({
   name: 'clerkNewTranslator',
   initialState,
   reducers: {
-    rejectClerkNewTranslator(state) {
+    rejectClerkNewTranslator(state, action: PayloadAction<AxiosError>) {
       state.status = APIResponseStatus.Error;
+      state.error = action.payload;
     },
     resetClerkNewTranslator(state) {
       state.translator = initialState.translator;
       state.status = initialState.status;
       state.id = initialState.id;
+      state.error = undefined;
     },
     saveClerkNewTranslator(state, _action: PayloadAction<ClerkNewTranslator>) {
       state.status = APIResponseStatus.InProgress;

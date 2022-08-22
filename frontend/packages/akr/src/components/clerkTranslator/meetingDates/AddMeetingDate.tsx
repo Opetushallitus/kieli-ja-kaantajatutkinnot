@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CustomButton,
   DatePicker,
@@ -9,7 +9,8 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
@@ -17,22 +18,30 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addMeetingDate } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
+import { NotifierUtils } from 'utils/notifier';
 
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
+  const [showToastOnError, setShowToastOnError] = useState(true);
+
+  const { showToast } = useToast();
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addMeetingDate',
   });
 
   const {
     meetingDates: { meetingDates, status },
+    addMeetingDate: { error: addMeetingDateError },
   } = useAppSelector(meetingDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
 
   const handleAddDate = () => {
-    value && dispatch(addMeetingDate(dayjs(value)));
+    if (value) {
+      setShowToastOnError(true);
+      dispatch(addMeetingDate(dayjs(value)));
+    }
   };
 
   const isSelectedDateAlreadyTaken = () => {
@@ -60,6 +69,16 @@ export const AddMeetingDate = () => {
     ) : null;
 
   useNavigationProtection(!StringUtils.isBlankString(value));
+
+  useEffect(() => {
+    if (addMeetingDateError && showToastOnError) {
+      showToast(
+        Severity.Error,
+        NotifierUtils.getAPIErrorMessage(addMeetingDateError)
+      );
+      setShowToastOnError(false);
+    }
+  }, [addMeetingDateError, showToast, showToastOnError]);
 
   return (
     <div className="columns gapped">

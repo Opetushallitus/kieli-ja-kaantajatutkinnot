@@ -8,6 +8,7 @@ import {
   ToggleFilterGroup,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
@@ -17,10 +18,12 @@ import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import { addAuthorisation } from 'redux/reducers/authorisation';
-import { removeAuthorisation } from 'redux/reducers/clerkTranslatorOverview';
+import {
+  removeAuthorisation,
+  updateAuthorisationPublishPermission,
+} from 'redux/reducers/clerkTranslatorOverview';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
@@ -34,10 +37,14 @@ export const AuthorisationDetails = () => {
     AuthorisationStatus.Authorised
   );
 
+  const { showDialog } = useDialog();
+  const { showToast } = useToast();
+
   // Redux
-  const { selectedTranslator } = useAppSelector(
-    clerkTranslatorOverviewSelector
-  );
+  const {
+    selectedTranslator,
+    authorisationDetailsState: { error },
+  } = useAppSelector(clerkTranslatorOverviewSelector);
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
   ).passed;
@@ -49,27 +56,44 @@ export const AuthorisationDetails = () => {
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
+  const [showToastOnAdd, setShowToastOnAdd] = useState(true);
+  const [showToastOnError, setShowToastOnError] = useState(true);
 
   const handleAddAuthorisation = (authorisation: Authorisation) => {
+    setShowToastOnAdd(true);
     dispatch(addAuthorisation(authorisation));
   };
 
   // I18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
+    keyPrefix: 'akr.component',
   });
   const translateCommon = useCommonTranslation();
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
       handleCloseModal();
+      if (showToastOnAdd) {
+        showToast(Severity.Success, t('newAuthorisation.toasts.success'));
+        setShowToastOnAdd(false);
+      }
+    } else if (status === APIResponseStatus.Error && showToastOnAdd) {
+      showToast(Severity.Error, t('newAuthorisation.toasts.error'));
+      setShowToastOnAdd(false);
     }
-  }, [status]);
+  }, [status, showToast, showToastOnAdd, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
     dispatch(loadExaminationDates());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (error && showToastOnError) {
+      setShowToastOnError(false);
+      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+    }
+  }, [error, showToast, showToastOnError]);
 
   if (!selectedTranslator) {
     return null;
@@ -94,48 +118,81 @@ export const AuthorisationDetails = () => {
       status: AuthorisationStatus.Authorised,
       count: groupedAuthorisations.authorised.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Authorised}`,
-      label: t('toggleFilters.effectives'),
+      label: t(
+        'clerkTranslatorOverview.authorisations.toggleFilters.effectives'
+      ),
     },
     {
       status: AuthorisationStatus.Expired,
       count: groupedAuthorisations.expired.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Expired}`,
-      label: t('toggleFilters.expired'),
+      label: t('clerkTranslatorOverview.authorisations.toggleFilters.expired'),
     },
     {
       status: AuthorisationStatus.FormerVIR,
       count: groupedAuthorisations.formerVIR.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.FormerVIR}`,
-      label: t('toggleFilters.formerVIR'),
+      label: t(
+        'clerkTranslatorOverview.authorisations.toggleFilters.formerVIR'
+      ),
     },
   ];
 
-  const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
-    setSelectedToggleFilter(status);
-  };
-
-  const onAuthorisationRemove = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('actions.removal.dialog.header'),
+  const onPermissionToPublishChange = (authorisation: Authorisation) => {
+    showDialog(
+      t(
+        'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.header'
+      ),
       Severity.Info,
-      t('actions.removal.dialog.description'),
+      t(
+        'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.description'
+      ),
       [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
-          title: t('actions.removal.dialog.confirmButton'),
+          title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () =>
-            dispatch(removeAuthorisation(authorisation.id as number)),
+          action: () => {
+            setShowToastOnError(true);
+            dispatch(updateAuthorisationPublishPermission(authorisation));
+          },
+        },
+      ]
+    );
+  };
+
+  const onAuthorisationRemove = (authorisation: Authorisation) => {
+    showDialog(
+      t('clerkTranslatorOverview.authorisations.actions.removal.dialog.header'),
+      Severity.Info,
+      t(
+        'clerkTranslatorOverview.authorisations.actions.removal.dialog.description'
+      ),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: t(
+            'clerkTranslatorOverview.authorisations.actions.removal.dialog.confirmButton'
+          ),
+          variant: Variant.Contained,
+          action: () => {
+            setShowToastOnError(true);
+            dispatch(removeAuthorisation(authorisation.id as number));
+          },
           buttonColor: Color.Error,
         },
       ]
     );
+  };
 
-    dispatch(showNotifierDialog(notifier));
+  const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
+    setSelectedToggleFilter(status);
   };
 
   return (
@@ -158,7 +215,9 @@ export const AuthorisationDetails = () => {
       </CustomModal>
       <div className="rows gapped-xs">
         <div className="columns margin-top-sm">
-          <H3 className="grow">{t('header')}</H3>
+          <H3 className="grow">
+            {t('clerkTranslatorOverview.authorisations.header')}
+          </H3>
         </div>
         <div className="columns margin-top-sm space-between">
           <ToggleFilterGroup
@@ -179,12 +238,13 @@ export const AuthorisationDetails = () => {
         {activeAuthorisations.length ? (
           <AuthorisationListing
             authorisations={activeAuthorisations}
-            onAuthorisationRemove={onAuthorisationRemove}
             permissionToPublishReadOnly={false}
+            onAuthorisationRemove={onAuthorisationRemove}
+            onPermissionToPublishChange={onPermissionToPublishChange}
           />
         ) : (
           <Text className="centered bold margin-top-lg">
-            {t('noAuthorisations')}
+            {t('clerkTranslatorOverview.authorisations.noAuthorisations')}
           </Text>
         )}
       </div>

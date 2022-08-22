@@ -23,10 +23,8 @@ import {
   updatingAuthorisationPublishPermissionSucceeded,
   updatingClerkTranslatorDetailsSucceeded,
 } from 'redux/reducers/clerkTranslatorOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
@@ -41,7 +39,7 @@ function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
     );
     yield put(storeClerkTranslatorOverview(translator));
   } catch (error) {
-    yield put(rejectClerkTranslatorOverview());
+    yield put(rejectClerkTranslatorOverview(error as AxiosError));
   }
 }
 
@@ -75,12 +73,7 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
 
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
-    yield put(rejectClerkTranslatorDetailsUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectClerkTranslatorDetailsUpdate(error as AxiosError));
   }
 }
 
@@ -109,12 +102,7 @@ function* updateAuthorisationPublishPermissionSaga(
 
     yield put(updatingAuthorisationPublishPermissionSucceeded(translator));
   } catch (error) {
-    yield put(rejectAuthorisationPublishPermissionUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectAuthorisationPublishPermissionUpdate(error as AxiosError));
   }
 }
 
@@ -133,12 +121,7 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
 
     yield put(removingAuthorisationSucceeded(translator));
   } catch (error) {
-    yield put(rejectAuthorisationRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectAuthorisationRemove(error as AxiosError));
   }
 }
 

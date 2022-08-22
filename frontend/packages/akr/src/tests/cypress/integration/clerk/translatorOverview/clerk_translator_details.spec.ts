@@ -176,6 +176,9 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onToast.expectText('Auktorisointi lisätty onnistuneesti');
     onClerkTranslatorOverviewPage.expectAuthorisationRowToExist(10004);
+    //cy.clock().then((clock) => {
+    //  clock.restore();
+    //});
   });
 
   it('should show disabled fields correctly', () => {

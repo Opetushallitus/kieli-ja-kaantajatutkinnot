@@ -1,21 +1,7 @@
 {
   "langs": {
-    "from": [
-      "DE",
-      "ET",
-      "FI",
-      "FR",
-      "RU",
-      "SV"
-    ],
-    "to": [
-      "DE",
-      "ET",
-      "FI",
-      "FR",
-      "RU",
-      "SV"
-    ]
+    "from": ["DE", "ET", "FI", "FR", "RU", "SV"],
+    "to": ["DE", "ET", "FI", "FR", "RU", "SV"]
   },
   "towns":[
     {"name":"Helsinki"},

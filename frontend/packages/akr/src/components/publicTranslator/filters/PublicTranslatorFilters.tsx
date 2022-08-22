@@ -24,7 +24,7 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useDebounce, useWindowProperties } from 'shared/hooks';
+import { useDebounce, useToast, useWindowProperties } from 'shared/hooks';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import {
@@ -38,7 +38,6 @@ import {
   PublicTown,
   PublicTranslatorFilterValues,
 } from 'interfaces/publicTranslator';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
   deselectAllPublicTranslators,
@@ -50,7 +49,6 @@ import {
   filterPublicTranslators,
   publicTranslatorsSelector,
 } from 'redux/selectors/publicTranslator';
-import { NotifierUtils } from 'utils/notifier';
 
 export const PublicTranslatorFilters = ({
   showTable,
@@ -65,6 +63,8 @@ export const PublicTranslatorFilters = ({
   });
   const translateCountry = useKoodistoCountriesTranslation();
   const translateLanguage = useKoodistoLanguagesTranslation();
+
+  const { showToast } = useToast();
 
   // State
   const defaultFiltersState = {
@@ -120,11 +120,7 @@ export const PublicTranslatorFilters = ({
           dispatch(addPublicTranslatorFilterError(field));
       });
 
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('toasts.selectLanguagePair')
-      );
-      dispatch(showNotifierToast(toast));
+      showToast(Severity.Error, t('toasts.selectLanguagePair'));
     } else {
       dispatch(setPublicTranslatorFilters(filters));
       setShowTable(true);
@@ -217,12 +213,7 @@ export const PublicTranslatorFilters = ({
 
   const showTranslatorsAlreadySelectedToast = () => {
     if (isLangFilterDisabled) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('toasts.translatorsSelected')
-      );
-
-      dispatch(showNotifierToast(toast));
+      showToast(Severity.Error, t('toasts.translatorsSelected'));
     }
   };
 

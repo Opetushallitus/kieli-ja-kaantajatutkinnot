@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.akr",
-  "description": "Register of Authorised Translators",
+  "description": "Auktorisoitujen kääntäjien rekisteri",
   "license": "MIT",
   "main": "index.js",
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
@@ -22,6 +22,6 @@
     "akr:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.1.1"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.2.0"
   }
 }

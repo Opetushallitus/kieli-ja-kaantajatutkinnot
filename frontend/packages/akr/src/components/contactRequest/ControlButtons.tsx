@@ -3,9 +3,11 @@ import {
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
 import { AppBar, Toolbar } from '@mui/material';
+import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -17,9 +19,7 @@ import {
   increaseContactRequestStep,
   sendContactRequest,
 } from 'redux/reducers/contactRequest';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ControlButtons = ({
   disableNext,
@@ -36,46 +36,57 @@ export const ControlButtons = ({
 
   // Redux
   const dispatch = useAppDispatch();
-  const { request, activeStep, status } = useAppSelector(
+  const { request, activeStep, status, error } = useAppSelector(
     contactRequestSelector
   ) as {
     request: ContactRequest;
     activeStep: ContactRequestFormStep;
     status: APIResponseStatus;
+    error: AxiosError;
   };
+
+  const { showDialog } = useDialog();
 
   const { isPhone } = useWindowProperties();
   const isLoading = status === APIResponseStatus.InProgress;
 
+  const [showDialogOnError, setShowDialogOnError] = useState(true);
+
   const onContactRequestSubmit = () => {
+    setShowDialogOnError(true);
     dispatch(sendContactRequest(request));
   };
 
-  const dispatchCancelNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('cancelRequestDialog.title'),
-      Severity.Info,
-      t('cancelRequestDialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: () => undefined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => dispatch(concludeContactRequest()),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
-  };
+  useEffect(() => {
+    if (error && showDialogOnError) {
+      setShowDialogOnError(false);
+      showDialog(
+        t('errorDialog.title'),
+        Severity.Error,
+        t('errorDialog.description'),
+        [{ title: t('errorDialog.back'), variant: Variant.Contained }]
+      );
+    }
+  }, [error, showDialog, showDialogOnError, t]);
 
   const handleCancelBtnClick = () => {
     if (hasLocalChanges) {
-      dispatchCancelNotifier();
+      showDialog(
+        t('cancelRequestDialog.title'),
+        Severity.Info,
+        t('cancelRequestDialog.description'),
+        [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+          {
+            title: translateCommon('yes'),
+            variant: Variant.Contained,
+            action: () => dispatch(concludeContactRequest()),
+          },
+        ]
+      );
     } else {
       dispatch(concludeContactRequest());
     }

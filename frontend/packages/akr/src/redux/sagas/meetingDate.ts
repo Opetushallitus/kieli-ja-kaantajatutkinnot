@@ -18,8 +18,6 @@ import {
   removingMeetingDateSucceeded,
   storeMeetingDates,
 } from 'redux/reducers/meetingDate';
-import { showNotifierToast } from 'redux/reducers/notifier';
-import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* removeMeetingDateSaga(action: PayloadAction<number>) {
@@ -31,12 +29,7 @@ function* removeMeetingDateSaga(action: PayloadAction<number>) {
     yield put(removingMeetingDateSucceeded());
     yield put(loadMeetingDates());
   } catch (error) {
-    yield put(rejectMeetingDateRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectMeetingDateRemove(error as AxiosError));
   }
 }
 
@@ -48,12 +41,7 @@ function* addMeetingDateSaga(action: PayloadAction<Dayjs>) {
     yield put(addingMeetingDateSucceeded());
     yield put(loadMeetingDates());
   } catch (error) {
-    yield put(rejectMeetingDateAdd());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
+    yield put(rejectMeetingDateAdd(error as AxiosError));
   }
 }
 
@@ -69,7 +57,7 @@ function* loadMeetingDatesSaga() {
     );
     yield put(storeMeetingDates(deserializedResponse.meetingDates));
   } catch (error) {
-    yield put(rejectMeetingDates());
+    yield put(rejectMeetingDates(error as AxiosError));
   }
 }
 

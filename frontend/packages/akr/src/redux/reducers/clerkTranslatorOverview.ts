@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
+import { ResponseState } from 'interfaces/responseState';
 
 interface ClerkTranslatorOverviewState {
-  overviewStatus: APIResponseStatus;
-  translatorDetailsStatus: APIResponseStatus;
-  authorisationDetailsStatus: APIResponseStatus;
+  overviewState: ResponseState;
+  translatorDetailsState: ResponseState;
+  authorisationDetailsState: ResponseState;
   selectedTranslator?: ClerkTranslator;
 }
 
 const initialState: ClerkTranslatorOverviewState = {
-  overviewStatus: APIResponseStatus.NotStarted,
-  translatorDetailsStatus: APIResponseStatus.NotStarted,
-  authorisationDetailsStatus: APIResponseStatus.NotStarted,
+  overviewState: { status: APIResponseStatus.NotStarted },
+  translatorDetailsState: { status: APIResponseStatus.NotStarted },
+  authorisationDetailsState: { status: APIResponseStatus.NotStarted },
   selectedTranslator: undefined,
 };
 
@@ -23,79 +25,88 @@ const clerkTranslatorOverviewSlice = createSlice({
   initialState,
   reducers: {
     cancelClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.Cancelled;
+      state.translatorDetailsState.status = APIResponseStatus.Cancelled;
     },
     removeAuthorisation(state, _action: PayloadAction<number>) {
-      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+      state.authorisationDetailsState.status = APIResponseStatus.InProgress;
     },
     removingAuthorisationSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.authorisationDetailsStatus = APIResponseStatus.Success;
+      state.authorisationDetailsState.status = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     loadClerkTranslatorOverview(state, _action: PayloadAction<number>) {
-      state.overviewStatus = APIResponseStatus.InProgress;
+      state.overviewState.status = APIResponseStatus.InProgress;
     },
-    rejectClerkTranslatorOverview(state) {
-      state.overviewStatus = APIResponseStatus.Error;
+    rejectClerkTranslatorOverview(state, action: PayloadAction<AxiosError>) {
+      state.overviewState.status = APIResponseStatus.Error;
+      state.overviewState.error = action.payload;
     },
-    rejectClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.Error;
+    rejectClerkTranslatorDetailsUpdate(
+      state,
+      action: PayloadAction<AxiosError>
+    ) {
+      state.translatorDetailsState.status = APIResponseStatus.Error;
+      state.translatorDetailsState.error = action.payload;
     },
-    rejectAuthorisationPublishPermissionUpdate(state) {
-      state.authorisationDetailsStatus = APIResponseStatus.Error;
+    rejectAuthorisationPublishPermissionUpdate(
+      state,
+      action: PayloadAction<AxiosError>
+    ) {
+      state.authorisationDetailsState.status = APIResponseStatus.Error;
+      state.authorisationDetailsState.error = action.payload;
     },
-    rejectAuthorisationRemove(state) {
-      state.authorisationDetailsStatus = APIResponseStatus.Error;
+    rejectAuthorisationRemove(state, action: PayloadAction<AxiosError>) {
+      state.authorisationDetailsState.status = APIResponseStatus.Error;
+      state.authorisationDetailsState.error = action.payload;
     },
     resetClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.NotStarted;
+      state.translatorDetailsState = initialState.translatorDetailsState;
     },
     resetClerkTranslatorOverview(state) {
-      state.authorisationDetailsStatus =
-        initialState.authorisationDetailsStatus;
-      state.overviewStatus = initialState.overviewStatus;
+      state.overviewState = initialState.overviewState;
+      state.authorisationDetailsState = initialState.authorisationDetailsState;
+      state.translatorDetailsState = initialState.translatorDetailsState;
       state.selectedTranslator = initialState.selectedTranslator;
-      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
     },
     setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.selectedTranslator = action.payload;
-      state.overviewStatus = APIResponseStatus.NotStarted;
+      state.overviewState.status = APIResponseStatus.NotStarted;
     },
     storeClerkTranslatorOverview(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.overviewStatus = APIResponseStatus.Success;
+      state.overviewState.status = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     updateClerkTranslatorDetails(
       state,
       _action: PayloadAction<ClerkTranslator>
     ) {
-      state.translatorDetailsStatus = APIResponseStatus.InProgress;
+      state.translatorDetailsState.status = APIResponseStatus.InProgress;
     },
     updateAuthorisationPublishPermission(
       state,
       _action: PayloadAction<Authorisation>
     ) {
-      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
+      state.authorisationDetailsState.status = APIResponseStatus.InProgress;
     },
     updatingAuthorisationPublishPermissionSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.authorisationDetailsStatus = APIResponseStatus.Success;
+      state.authorisationDetailsState.status = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     updatingClerkTranslatorDetailsSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.overviewStatus = APIResponseStatus.Success;
-      state.translatorDetailsStatus = APIResponseStatus.Success;
+      state.overviewState.status = APIResponseStatus.Success;
+      state.translatorDetailsState.status = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
   },

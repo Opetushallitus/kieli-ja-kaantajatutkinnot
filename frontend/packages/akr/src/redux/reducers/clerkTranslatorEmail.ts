@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
+import { ResponseState } from 'interfaces/responseState';
 
-interface ClerkTranslatorEmailState {
-  status: APIResponseStatus;
+interface ClerkTranslatorEmailState extends ResponseState {
   email: ClerkTranslatorEmail;
   recipients: Array<number>;
 }
@@ -25,11 +26,13 @@ const clerkTranslatorEmailSlice = createSlice({
     cancelClerkTranslatorEmail(state) {
       state.status = APIResponseStatus.Cancelled;
     },
-    rejectClerkTranslatorEmail(state) {
+    rejectClerkTranslatorEmail(state, action: PayloadAction<AxiosError>) {
       state.status = APIResponseStatus.Error;
+      state.error = action.payload;
     },
     resetClerkTranslatorEmail(state) {
       state.status = initialState.status;
+      state.error = initialState.error;
       state.email = initialState.email;
       state.recipients = initialState.recipients;
     },

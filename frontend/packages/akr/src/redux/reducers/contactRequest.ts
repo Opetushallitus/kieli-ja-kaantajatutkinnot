@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactRequest } from 'interfaces/contactRequest';
+import { ResponseState } from 'interfaces/responseState';
 
-interface ContactRequestState {
-  status: APIResponseStatus;
+interface ContactRequestState extends ResponseState {
   activeStep: ContactRequestFormStep;
   request?: Partial<ContactRequest>;
   messageError: string;
@@ -37,14 +38,16 @@ const contactRequestSlice = createSlice({
     increaseContactRequestStep(state) {
       state.activeStep = ++state.activeStep;
     },
-    rejectContactRequest(state) {
+    rejectContactRequest(state, action: PayloadAction<AxiosError>) {
       state.status = APIResponseStatus.Error;
+      state.error = action.payload;
     },
     setContactRequestMessageError(state, action: PayloadAction<string>) {
       state.messageError = action.payload;
     },
     sendContactRequest(state, _action: PayloadAction<ContactRequest>) {
       state.status = APIResponseStatus.InProgress;
+      state.error = initialState.error;
     },
     sendingContactRequestSucceeded(state) {
       state.status = APIResponseStatus.Success;
@@ -57,6 +60,7 @@ const contactRequestSlice = createSlice({
     },
     concludeContactRequest(state) {
       state.status = initialState.status;
+      state.error = initialState.error;
       state.activeStep = initialState.activeStep;
       state.request = initialState.request;
       state.messageError = initialState.messageError;

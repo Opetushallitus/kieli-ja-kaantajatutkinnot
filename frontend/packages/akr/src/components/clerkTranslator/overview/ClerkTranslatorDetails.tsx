@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
@@ -18,16 +19,19 @@ import {
   resetClerkTranslatorDetailsUpdate,
   updateClerkTranslatorDetails,
 } from 'redux/reducers/clerkTranslatorOverview';
-import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { selectedTranslator, translatorDetailsStatus } = useAppSelector(
-    clerkTranslatorOverviewSelector
-  );
+  const {
+    selectedTranslator,
+    translatorDetailsState: { status: translatorDetailsStatus, error },
+  } = useAppSelector(clerkTranslatorOverviewSelector);
+
+  const { showToast } = useToast();
+  const { showDialog } = useDialog();
 
   // Local State
   const [translatorDetails, setTranslatorDetails] =
@@ -38,6 +42,7 @@ export const ClerkTranslatorDetails = () => {
   const resetLocalTranslatorDetails = useCallback(() => {
     setTranslatorDetails(selectedTranslator);
   }, [selectedTranslator]);
+  const [showToastOnError, setShowToastOnError] = useState(true);
 
   // I18n
   const { t } = useAppTranslation({
@@ -57,11 +62,7 @@ export const ClerkTranslatorDetails = () => {
       translatorDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditTranslatorDetails
     ) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.updated')
-      );
-      dispatch(showNotifierToast(toast));
+      showToast(Severity.Success, t('toasts.updated'));
       resetToInitialState();
     } else if (
       translatorDetailsStatus === APIResponseStatus.Cancelled &&
@@ -73,10 +74,18 @@ export const ClerkTranslatorDetails = () => {
   }, [
     currentUIMode,
     dispatch,
+    showToast,
     resetToInitialState,
     t,
     translatorDetailsStatus,
   ]);
+
+  useEffect(() => {
+    if (error && showToastOnError) {
+      setShowToastOnError(false);
+      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+    }
+  }, [error, showToast, showToastOnError]);
 
   const handleTextFieldChange =
     (field: keyof ClerkTranslatorTextFields) =>
@@ -109,6 +118,7 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const onSave = () => {
+    setShowToastOnError(true);
     dispatch(
       updateClerkTranslatorDetails(translatorDetails as ClerkTranslator)
     );
@@ -120,7 +130,7 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const openCancelDialog = () => {
-    const dialog = NotifierUtils.createNotifierDialog(
+    showDialog(
       t('translatorDetails.cancelUpdateDialog.title'),
       Severity.Info,
       t('translatorDetails.cancelUpdateDialog.description'),
@@ -128,7 +138,6 @@ export const ClerkTranslatorDetails = () => {
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
@@ -137,7 +146,6 @@ export const ClerkTranslatorDetails = () => {
         },
       ]
     );
-    dispatch(showNotifierDialog(dialog));
   };
 
   const hasRequiredDetails =

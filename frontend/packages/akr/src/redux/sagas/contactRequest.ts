@@ -1,9 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { Severity, Variant } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
-import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { PublicUIViews } from 'enums/app';
 import { ContactRequest } from 'interfaces/contactRequest';
@@ -14,10 +13,8 @@ import {
   sendContactRequest,
   sendingContactRequestSucceeded,
 } from 'redux/reducers/contactRequest';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import { deselectAllPublicTranslators } from 'redux/reducers/publicTranslator';
 import { setPublicUIView } from 'redux/reducers/publicUIView';
-import { NotifierUtils } from 'utils/notifier';
 
 function* concludeContactRequestSaga() {
   yield put(deselectAllPublicTranslators());
@@ -53,23 +50,7 @@ function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
     yield put(increaseContactRequestStep());
     yield put(deselectAllPublicTranslators());
   } catch (error) {
-    const t = translateOutsideComponent();
-    const tPrefix = 'akr.component.contactRequestForm.errorDialog';
-    const notifier = NotifierUtils.createNotifierDialog(
-      t(`${tPrefix}.title`),
-      Severity.Error,
-      t(`${tPrefix}.description`),
-      [
-        {
-          title: t(`${tPrefix}.back`),
-          variant: Variant.Contained,
-          action: () => undefined,
-        },
-      ]
-    );
-
-    yield put(rejectContactRequest());
-    yield put(showNotifierDialog(notifier));
+    yield put(rejectContactRequest(error as AxiosError));
   }
 }
 

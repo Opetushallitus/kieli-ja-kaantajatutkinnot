@@ -1,23 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
 import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate, MeetingDateFilter } from 'interfaces/meetingDate';
+import { ResponseState } from 'interfaces/responseState';
 
-interface MeetingDatesState {
-  status: APIResponseStatus;
+interface MeetingDatesState extends ResponseState {
   filters: MeetingDateFilter;
   meetingDates: Array<MeetingDate>;
 }
 
-interface AddMeetingDateState {
-  status: APIResponseStatus;
+interface AddMeetingDateState extends ResponseState {
   date: Dayjs;
 }
 
-interface RemoveMeetingDateState {
-  status: APIResponseStatus;
+interface RemoveMeetingDateState extends ResponseState {
   meetingDateId: number | undefined;
 }
 
@@ -60,21 +59,26 @@ const meetingDateSlice = createSlice({
     },
     loadMeetingDates(state) {
       state.meetingDates.status = APIResponseStatus.InProgress;
+      state.meetingDates.error = undefined;
     },
-    rejectMeetingDates(state) {
+    rejectMeetingDates(state, action: PayloadAction<AxiosError>) {
       state.meetingDates.status = APIResponseStatus.Error;
+      state.meetingDates.error = action.payload;
     },
     removeMeetingDate(state, _action: PayloadAction<number>) {
       state.removeMeetingDate.status = APIResponseStatus.InProgress;
+      state.removeMeetingDate.error = undefined;
     },
     removingMeetingDateSucceeded(state) {
       state.removeMeetingDate.status = APIResponseStatus.Success;
     },
-    rejectMeetingDateRemove(state) {
+    rejectMeetingDateRemove(state, action: PayloadAction<AxiosError>) {
       state.removeMeetingDate.status = APIResponseStatus.Error;
+      state.removeMeetingDate.error = action.payload;
     },
-    rejectMeetingDateAdd(state) {
+    rejectMeetingDateAdd(state, action: PayloadAction<AxiosError>) {
       state.addMeetingDate.status = APIResponseStatus.Error;
+      state.addMeetingDate.error = action.payload;
     },
     storeMeetingDates(state, action: PayloadAction<Array<MeetingDate>>) {
       state.meetingDates.status = APIResponseStatus.Success;
