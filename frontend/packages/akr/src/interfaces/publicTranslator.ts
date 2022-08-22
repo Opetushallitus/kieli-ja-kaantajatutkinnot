@@ -27,8 +27,13 @@ export interface PublicTranslatorFilterValues {
   town: AutocompleteValue;
 }
 
+export interface PublicTown {
+  name: string;
+  country?: string;
+}
+
 export interface PublicTranslatorResponse {
   translators: Array<PublicTranslator>;
   langs: LanguagePairsDict;
-  towns: Array<string>;
+  towns: Array<PublicTown>;
 }

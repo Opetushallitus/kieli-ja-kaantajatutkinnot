@@ -78,7 +78,7 @@ export const PublicTranslatorListingRow = ({
 
   const getTownDescription = (town?: string, country?: string) => {
     if (town && country) {
-      return `${town}, ${translateCountry(country)}`;
+      return `${town} (${translateCountry(country)})`;
     } else if (town) {
       return town;
     } else if (country) {
