@@ -1,10 +1,10 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { APIResponseStatus, Duration, Severity } from 'shared/enums';
+import { APIResponseStatus, Duration, Severity, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
 import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
 import { AreaOfOperation } from 'enums/clerkInterpreter';
@@ -17,7 +17,7 @@ import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
+import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -64,6 +64,28 @@ export const ClerkInterpreterDetails = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview',
   });
+  const translateCommon = useCommonTranslation();
+
+  const openCancelDialog = () => {
+    const dialog = NotifierUtils.createNotifierDialog(
+      t('interpreterDetails.cancelUpdateDialog.title'),
+      Severity.Info,
+      t('interpreterDetails.cancelUpdateDialog.description'),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+          action: () => undefined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => resetToInitialState(),
+        },
+      ]
+    );
+    dispatch(showNotifierDialog(dialog));
+  };
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkInterpreterDetailsUpdate());
@@ -152,7 +174,11 @@ export const ClerkInterpreterDetails = () => {
   };
 
   const onCancel = () => {
-    resetToInitialState();
+    if (!hasLocalChanges) {
+      resetToInitialState();
+    } else {
+      openCancelDialog();
+    }
   };
   useNavigationProtection(hasLocalChanges);
 
