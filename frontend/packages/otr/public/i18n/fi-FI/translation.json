@@ -257,6 +257,7 @@
     "errors": {
       "api": {
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+        "interpreterInvalidNickName": "Kutsumanimen tulee olla jokin etunimistä",
         "meetingDateCreateDuplicateDate": "Kokouspäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateDeleteHasQualifications": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu rekisteröintejä",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
