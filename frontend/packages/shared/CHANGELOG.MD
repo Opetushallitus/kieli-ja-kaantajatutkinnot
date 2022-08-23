@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.2.1] - 2022-08-23
+
+- Support onClose action with Toast
+
 ## [1.2.0] - 2022-08-23
 
 ## Added
