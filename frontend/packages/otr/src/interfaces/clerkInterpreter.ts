@@ -4,6 +4,22 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType, PermissionToPublish } from 'enums/interpreter';
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
+// Backend does not store fields that are empty or have no value. Empty string
+// defaults are used to init interpreterDetails in the modification view
+export const INTERPRETER_DEFAULT_VALUES: ClerkInterpreterTextFields = {
+  identityNumber: '',
+  lastName: '',
+  firstName: '',
+  nickName: '',
+  email: '',
+  phoneNumber: '',
+  otherContactInfo: '',
+  street: '',
+  postalCode: '',
+  town: '',
+  country: '',
+  extraInformation: '',
+};
 export interface ClerkInterpreterTextFields {
   identityNumber: string;
   lastName: string;

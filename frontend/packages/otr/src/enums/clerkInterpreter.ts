@@ -11,11 +11,18 @@ export enum ClerkInterpreterTextFieldEnum {
   NickName = 'nickName',
   Email = 'email',
   PhoneNumber = 'phoneNumber',
+  OtherContactInfo = 'otherContactInfo',
   Street = 'street',
   PostalCode = 'postalCode',
   Town = 'town',
   Country = 'country',
   ExtraInformation = 'extraInformation',
+}
+
+export enum ClerkInterpreterToggleableFieldEnum {
+  PermissionToPublishEmail = 'permissionToPublishEmail',
+  PermissionToPublishPhone = 'permissionToPublishPhone',
+  PermissionToPublishOtherContactInfo = 'permissionToPublishOtherContactInfo',
 }
 
 export enum AreaOfOperation {

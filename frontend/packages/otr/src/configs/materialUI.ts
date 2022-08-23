@@ -39,7 +39,7 @@ export const theme = createTheme({
           '&.Mui-focused': {
             color: grey700Color,
           },
-          '&.Mui-disabled': {
+          '&.MuiInputLabel-shrink': {
             color: primaryHeadingColor,
           },
           color: grey700Color,

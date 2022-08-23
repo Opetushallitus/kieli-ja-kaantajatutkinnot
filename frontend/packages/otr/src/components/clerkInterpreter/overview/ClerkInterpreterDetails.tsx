@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { APIResponseStatus, Duration, Severity } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
@@ -9,7 +9,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
 import { AreaOfOperation } from 'enums/clerkInterpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import {
+  ClerkInterpreter,
+  INTERPRETER_DEFAULT_VALUES,
+} from 'interfaces/clerkInterpreter';
 import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
@@ -29,8 +32,21 @@ export const ClerkInterpreterDetails = () => {
     clerkInterpreterOverviewSelector
   );
 
+  const interpreterDetailsDefaultValues = useMemo(() => {
+    if (!interpreter) {
+      return {} as ClerkInterpreter;
+    }
+
+    return {
+      ...INTERPRETER_DEFAULT_VALUES,
+      ...interpreter,
+    };
+  }, [interpreter]);
+
   // Local State
-  const [interpreterDetails, setInterpreterDetails] = useState(interpreter);
+  const [interpreterDetails, setInterpreterDetails] = useState(
+    interpreterDetailsDefaultValues
+  );
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const [areaOfOperation, setAreaOfOperation] = useState(
@@ -38,9 +54,11 @@ export const ClerkInterpreterDetails = () => {
   );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
-    setInterpreterDetails(interpreter);
-    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
-  }, [interpreter]);
+    setInterpreterDetails(interpreterDetailsDefaultValues);
+    setAreaOfOperation(
+      getAreaOfOperation(interpreterDetailsDefaultValues?.regions)
+    );
+  }, [interpreterDetailsDefaultValues]);
 
   // I18n
   const { t } = useAppTranslation({
@@ -89,7 +107,7 @@ export const ClerkInterpreterDetails = () => {
     (field: keyof ClerkInterpreter) =>
     (
       eventOrValue:
-        | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
         | ComboBoxOption[]
     ) => {
       let fieldValue;
@@ -100,6 +118,15 @@ export const ClerkInterpreterDetails = () => {
         updatedInterpreterDetails = {
           ...interpreterDetails,
           [field]: eventOrValue.map((value) => value.value),
+        };
+      } else if (
+        'checked' in eventOrValue.target &&
+        eventOrValue.target.hasOwnProperty('checked')
+      ) {
+        // from Checkbox toggle
+        updatedInterpreterDetails = {
+          ...interpreterDetails,
+          [field]: eventOrValue.target.checked,
         };
       } else {
         // from TextField ChangeEvent

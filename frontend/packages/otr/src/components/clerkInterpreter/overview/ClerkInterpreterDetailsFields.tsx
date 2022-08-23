@@ -1,4 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -9,16 +10,22 @@ import {
   CustomTextField,
   CustomTextFieldProps,
   H3,
+  Text,
   valueAsOption,
 } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { Color, TextFieldTypes } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 import { InputFieldUtils } from 'shared/utils';
 
-import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
+import {
+  translateOutsideComponent,
+  useAppTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
 import {
   AreaOfOperation,
   ClerkInterpreterTextFieldEnum,
+  ClerkInterpreterToggleableFieldEnum,
 } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
@@ -191,7 +198,7 @@ export const ClerkInterpreterDetailsFields = ({
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
-  interpreter?: ClerkInterpreter;
+  interpreter: ClerkInterpreter;
   onFieldChange: (
     field: keyof ClerkInterpreter
   ) => (
@@ -210,6 +217,8 @@ export const ClerkInterpreterDetailsFields = ({
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.interpreterDetails',
   });
+  const translateCommon = useCommonTranslation();
+
   const initialErrors = Object.values(ClerkInterpreterTextFieldEnum).reduce(
     (acc, val) => {
       return { ...acc, [val]: displayFieldErrorBeforeChange };
@@ -289,14 +298,60 @@ export const ClerkInterpreterDetailsFields = ({
       </div>
       <H3>{t('header.contactInformation')}</H3>
       <div className="grid-columns gapped">
-        <ClerkInterpreterDetailsTextField
-          {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
-        />
-        <ClerkInterpreterDetailsTextField
-          {...getCommonTextFieldProps(
-            ClerkInterpreterTextFieldEnum.PhoneNumber
-          )}
-        />
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
+            fullWidth={true}
+          />
+
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter.permissionToPublishEmail}
+            onChange={(e) =>
+              onFieldChange(
+                ClerkInterpreterToggleableFieldEnum.PermissionToPublishEmail
+              )(e)
+            }
+            disabled={editDisabled}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(
+              ClerkInterpreterTextFieldEnum.PhoneNumber
+            )}
+          />
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter.permissionToPublishPhone}
+            onChange={(e) =>
+              onFieldChange(
+                ClerkInterpreterToggleableFieldEnum.PermissionToPublishPhone
+              )(e)
+            }
+            disabled={editDisabled}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(
+              ClerkInterpreterTextFieldEnum.OtherContactInfo
+            )}
+          />
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter.permissionToPublishOtherContactInfo}
+            onChange={(e) =>
+              onFieldChange(
+                ClerkInterpreterToggleableFieldEnum.PermissionToPublishOtherContactInfo
+              )(e)
+            }
+            disabled={editDisabled}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
       </div>
       <H3>{t('header.extraInformation')}</H3>
       <ClerkInterpreterDetailsTextField
