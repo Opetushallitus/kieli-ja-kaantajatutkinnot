@@ -19,12 +19,10 @@ import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   addAuthorisation,
-  resetAuthorisation,
-} from 'redux/reducers/authorisation';
-import {
   removeAuthorisation,
+  resetAuthorisationState,
   updateAuthorisationPublishPermission,
-} from 'redux/reducers/clerkTranslatorOverview';
+} from 'redux/reducers/authorisation';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import { authorisationSelector } from 'redux/selectors/authorisation';
@@ -38,11 +36,15 @@ export const AuthorisationDetails = () => {
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
     AuthorisationStatus.Authorised
   );
+  const [open, setOpen] = useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
 
   const { showDialog } = useDialog();
   const { showToast } = useToast();
 
   // Redux
+  const { addStatus } = useAppSelector(authorisationSelector);
   const { selectedTranslator } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
@@ -52,11 +54,7 @@ export const AuthorisationDetails = () => {
   const examinationDates = useAppSelector(selectExaminationDatesByStatus);
   const passedExaminationDates = examinationDates.passed;
 
-  const { status } = useAppSelector(authorisationSelector);
   const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(false);
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
 
   const handleAddAuthorisation = (authorisation: Authorisation) => {
     dispatch(addAuthorisation(authorisation));
@@ -69,14 +67,15 @@ export const AuthorisationDetails = () => {
   const translateCommon = useCommonTranslation();
 
   useEffect(() => {
-    if (status === APIResponseStatus.Success) {
-      dispatch(resetAuthorisation());
+    if (addStatus === APIResponseStatus.Success) {
+      handleCloseModal();
+      dispatch(resetAuthorisationState());
       showToast({
         severity: Severity.Success,
         description: t('newAuthorisation.toasts.success'),
       });
     }
-  }, [status, dispatch, showToast, t]);
+  }, [addStatus, dispatch, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
@@ -144,7 +143,12 @@ export const AuthorisationDetails = () => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            dispatch(updateAuthorisationPublishPermission(authorisation));
+            dispatch(
+              updateAuthorisationPublishPermission({
+                ...authorisation,
+                permissionToPublish: !authorisation.permissionToPublish,
+              })
+            );
           },
         },
       ],
@@ -198,7 +202,7 @@ export const AuthorisationDetails = () => {
           examinationDates={passedExaminationDates}
           onCancel={handleCloseModal}
           onAuthorisationAdd={handleAddAuthorisation}
-          isLoading={status === APIResponseStatus.InProgress}
+          isLoading={addStatus === APIResponseStatus.InProgress}
         />
       </CustomModal>
       <div className="rows gapped-xs">

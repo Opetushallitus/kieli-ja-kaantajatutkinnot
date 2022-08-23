@@ -283,7 +283,6 @@
           "permissionToPublish": "Julkaisulupa"
         },
         "toasts": {
-          "error": "Auktorisoinnin lisäys ei onnistunut, yritä myöhemmin uudelleen",
           "success": "Auktorisointi lisätty onnistuneesti"
         }
       },

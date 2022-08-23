@@ -32,6 +32,20 @@ function* loadClerkTranslatorsSaga() {
   }
 }
 
+export function updateClerkTranslators(
+  translators: Array<ClerkTranslator>,
+  translator: ClerkTranslator
+) {
+  const updatedTranslators = [...translators];
+  const translatorIdx = updatedTranslators.findIndex(
+    (t: ClerkTranslator) => t.id === translator.id
+  );
+
+  updatedTranslators.splice(translatorIdx, 1, translator);
+
+  return updatedTranslators;
+}
+
 export function* updateClerkTranslatorsState(
   updatedTranslators: Array<ClerkTranslator>
 ) {

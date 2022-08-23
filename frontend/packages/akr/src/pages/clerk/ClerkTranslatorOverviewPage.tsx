@@ -12,6 +12,7 @@ import { ClerkTranslatorOverviewPageSkeleton } from 'components/skeletons/ClerkT
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { resetAuthorisationState } from 'redux/reducers/authorisation';
 import {
   loadClerkTranslatorOverview,
   resetClerkTranslatorOverview,
@@ -68,6 +69,7 @@ export const ClerkTranslatorOverviewPage = () => {
   useEffect(() => {
     return () => {
       dispatch(resetClerkTranslatorOverview());
+      dispatch(resetAuthorisationState());
     };
   }, [dispatch]);
 

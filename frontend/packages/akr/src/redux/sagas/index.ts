@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 
-import { watchAddAuthorisation } from 'redux/sagas/authorisation';
+import { watchAuthorisations } from 'redux/sagas/authorisation';
 import { watchClerkNewTranslatorSave } from 'redux/sagas/clerkNewTranslator';
 import { watchClerkTranslators } from 'redux/sagas/clerkTranslator';
 import { watchClerkTranslatorEmail } from 'redux/sagas/clerkTranslatorEmail';
@@ -22,6 +22,6 @@ export default function* rootSaga() {
     watchClerkUser(),
     watchMeetingDates(),
     watchExaminationDates(),
-    watchAddAuthorisation(),
+    watchAuthorisations(),
   ]);
 }
