@@ -6,13 +6,13 @@ import {
   CustomButton,
   CustomSwitch,
   CustomTextField,
-  DatePicker,
   LanguageSelect,
   languageToComboBoxOption,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
 
 import {
@@ -22,11 +22,13 @@ import {
 } from 'configs/i18n';
 import { ExaminationType } from 'enums/interpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { MeetingDate } from 'interfaces/meetingDate';
 import { Qualification } from 'interfaces/qualification';
 import { QualificationUtils } from 'utils/qualifications';
 
 interface AddQualificationProps {
   interpreterId?: number;
+  meetingDates: Array<MeetingDate>;
   isLoading?: boolean;
   onCancel: () => void;
   onQualificationAdd(qualification: Qualification): void;
@@ -48,8 +50,16 @@ const newQualification: NewQualification = {
   diaryNumber: '',
 };
 
+const dateToOption = (date: Dayjs): ComboBoxOption => {
+  return {
+    value: date.toISOString(),
+    label: DateUtils.formatOptionalDate(date),
+  };
+};
+
 export const AddQualification = ({
   interpreterId,
+  meetingDates,
   isLoading,
   onQualificationAdd,
   onCancel,
@@ -72,6 +82,14 @@ export const AddQualification = ({
     }));
   }, []);
 
+  const availableMeetingDateValues = meetingDates
+    .map((m) => m.date)
+    .map(dateToOption);
+
+  const selectedBeginDate = qualification.beginDate
+    ? dateToOption(qualification.beginDate)
+    : null;
+
   const handleLanguageSelectChange =
     (fieldName: string) =>
     ({}, value: AutocompleteValue) => {
@@ -92,9 +110,9 @@ export const AddQualification = ({
     setIsQualificationDataChanged(true);
   };
 
-  const handleBeginDateChange = (value: string) => {
+  const handleBeginDateChange = ({}, value: AutocompleteValue) => {
     const PERIOD_OF_VALIDITY = 5;
-    const beginDate = value ? dayjs(value) : undefined;
+    const beginDate = value ? dayjs(value?.value) : undefined;
     const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
     setQualification({
       ...qualification,
@@ -230,29 +248,22 @@ export const AddQualification = ({
         <div className="add-qualification__fields gapped align-items-start">
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.beginDate')}</Text>
-            <DatePicker
-              value={
-                qualification.beginDate
-                  ? DateUtils.serializeDate(qualification.beginDate)
-                  : ''
-              }
-              label=""
-              setValue={handleBeginDateChange}
-              maxDate={dayjs()}
+            <ComboBox
+              data-testid={`${testIdPrefix}-beginDate`}
+              autoHighlight
+              label={t('fieldPlaceholders.beginDate')}
+              values={availableMeetingDateValues}
+              value={selectedBeginDate}
+              variant={TextFieldVariant.Outlined}
+              onChange={handleBeginDateChange}
             />
           </div>
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.endDate')}</Text>
-            <DatePicker
-              value={
-                qualification.endDate
-                  ? DateUtils.serializeDate(qualification.endDate)
-                  : ''
-              }
-              label=""
-              setValue={() => {
-                return;
-              }}
+            <CustomTextField
+              data-testid={`${testIdPrefix}-endDate`}
+              label={t('fieldPlaceholders.endDate')}
+              value={DateUtils.formatOptionalDate(qualification?.endDate)}
               disabled={true}
             />
           </div>
