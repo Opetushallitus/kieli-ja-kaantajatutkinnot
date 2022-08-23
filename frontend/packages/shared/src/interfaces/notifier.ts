@@ -16,6 +16,7 @@ export interface Notifier {
 
 export interface Toast extends Notifier {
   type: NotifierTypes.Toast;
+  action?: () => void;
 }
 
 export interface Dialog extends Notifier {

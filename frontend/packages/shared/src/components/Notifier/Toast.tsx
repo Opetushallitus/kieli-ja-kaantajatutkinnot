@@ -5,6 +5,15 @@ import { useToast } from '../../hooks/useToast/useToast';
 export const Toast = () => {
   const { activeToast, removeToast } = useToast();
 
+  const handleClose = () => {
+    const action = activeToast?.action;
+
+    if (action) {
+      action();
+    }
+    removeToast();
+  };
+
   return (
     <>
       {activeToast && (
@@ -12,12 +21,12 @@ export const Toast = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           open={!!activeToast}
           autoHideDuration={activeToast.timeOut}
-          onClose={removeToast}
+          onClose={handleClose}
         >
           <Alert
             data-testid="toast-notification"
             variant={'filled'}
-            onClose={removeToast}
+            onClose={handleClose}
             severity={activeToast.severity}
           >
             {activeToast.description}
