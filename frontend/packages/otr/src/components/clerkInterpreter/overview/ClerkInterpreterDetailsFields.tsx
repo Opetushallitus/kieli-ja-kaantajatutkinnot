@@ -186,7 +186,8 @@ export const ClerkInterpreterDetailsFields = ({
   areaOfOperation,
   setAreaOfOperation,
   onFieldChange,
-  editDisabled,
+  isViewMode,
+  isIndividualisedInterpreter = false,
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
@@ -200,7 +201,8 @@ export const ClerkInterpreterDetailsFields = ({
   ) => void;
   areaOfOperation: AreaOfOperation;
   setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
-  editDisabled: boolean;
+  isViewMode: boolean;
+  isIndividualisedInterpreter?: boolean;
   topControlButtons?: JSX.Element;
   displayFieldErrorBeforeChange: boolean;
 }) => {
@@ -221,10 +223,25 @@ export const ClerkInterpreterDetailsFields = ({
       setDisplayFieldError({ ...displayFieldError, [field]: true });
     };
 
+  const isIndividualisedValue = (field: ClerkInterpreterTextFieldEnum) => {
+    if (field === ClerkInterpreterTextFieldEnum.IdentityNumber) {
+      return true;
+    }
+
+    return (
+      isIndividualisedInterpreter &&
+      [
+        ClerkInterpreterTextFieldEnum.LastName,
+        ClerkInterpreterTextFieldEnum.FirstName,
+        ClerkInterpreterTextFieldEnum.NickName,
+      ].includes(field)
+    );
+  };
+
   const getCommonTextFieldProps = (field: ClerkInterpreterTextFieldEnum) => ({
     field,
     interpreter,
-    disabled: editDisabled,
+    disabled: isViewMode || isIndividualisedValue(field),
     onChange: onFieldChange(field),
     onBlur: displayFieldErrorOnBlur(field),
     displayError: displayFieldError[field],
@@ -295,7 +312,7 @@ export const ClerkInterpreterDetailsFields = ({
         areaOfOperation={areaOfOperation}
         setAreaOfOperation={setAreaOfOperation}
         onChange={onFieldChange('regions')}
-        disabled={editDisabled}
+        disabled={isViewMode}
       />
     </>
   );

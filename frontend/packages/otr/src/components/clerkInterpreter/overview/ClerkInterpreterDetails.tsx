@@ -137,7 +137,8 @@ export const ClerkInterpreterDetails = () => {
       onFieldChange={(field: keyof ClerkInterpreter) =>
         handleInterpreterDetailsChange(field)
       }
-      editDisabled={isViewMode}
+      isViewMode={isViewMode}
+      isIndividualisedInterpreter={interpreter?.isIndividualised}
       topControlButtons={
         <ControlButtons
           onCancel={onCancel}

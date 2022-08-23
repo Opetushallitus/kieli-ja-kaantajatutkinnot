@@ -21,7 +21,7 @@ public class PersonalDataFactory {
     return PersonalData
       .builder()
       .onrId(onrId)
-      .individualised(counterValue % 11 != 0)
+      .individualised(counterValue % 3 != 0)
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
       .nickName(nickName)

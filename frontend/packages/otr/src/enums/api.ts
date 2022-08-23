@@ -11,6 +11,7 @@ export enum APIEndpoints {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
+  InterpreterInvalidNickName = 'interpreterInvalidNickName',
   MeetingDateCreateDuplicateDate = 'meetingDateCreateDuplicateDate',
   MeetingDateDeleteHasQualifications = 'meetingDateDeleteHasQualifications',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',
