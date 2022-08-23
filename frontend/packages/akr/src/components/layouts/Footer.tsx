@@ -25,9 +25,10 @@ import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akr.component.footer' });
   const translateCommon = useCommonTranslation();
-  const [isClerkUI] = useAuthentication();
+  const { isAuthenticated } = useAuthentication();
   const { currentView } = useAppSelector(publicUIViewSelector);
-  const showFooter = !isClerkUI && currentView != PublicUIViews.ContactRequest;
+  const showFooter =
+    !isAuthenticated && currentView != PublicUIViews.ContactRequest;
 
   return (
     <footer>
