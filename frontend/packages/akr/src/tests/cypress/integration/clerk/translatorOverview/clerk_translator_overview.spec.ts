@@ -1,17 +1,10 @@
-import dayjs from 'dayjs';
-
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { translatorResponse } from 'tests/cypress/fixtures/ts/clerkTranslatorOverview';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
-import { useFixedDate } from 'tests/cypress/support/utils/date';
-
-const fixedDateForTests = dayjs('2022-01-17T12:35:00+0200');
 
 beforeEach(() => {
-  useFixedDate(fixedDateForTests);
-
   cy.intercept(APIEndpoints.ClerkTranslator, {
     fixture: 'clerk_translators_10.json',
   });
@@ -28,7 +21,7 @@ describe('ClerkTranslatorOverview:Page', () => {
     onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
 
     onClerkTranslatorOverviewPage.expectedEnabledAddAuthorisationButton();
-    onClerkTranslatorOverviewPage.expectEnabledEditTranslatorInfoBtn();
+    onClerkTranslatorOverviewPage.expectEnabledEditTranslatorDetailsButton();
   });
 
   it('should display correctly translator and authorisations details', () => {
