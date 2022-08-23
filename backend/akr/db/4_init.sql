@@ -205,3 +205,14 @@ WHERE mod(translator_id, 14) = 0;
 UPDATE translator
 SET postal_code = NULL
 WHERE mod(translator_id, 15) = 0;
+
+-- set some foreign countries
+UPDATE translator
+SET town = 'Alta',
+    country = 'NOR'
+WHERE mod(translator_id, 17) = 0;
+
+UPDATE translator
+SET town = 'Berlin',
+    country = 'DEU'
+WHERE mod(translator_id, 18) = 0;

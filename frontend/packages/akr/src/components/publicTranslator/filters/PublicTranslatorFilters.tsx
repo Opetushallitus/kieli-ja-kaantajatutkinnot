@@ -4,6 +4,7 @@ import {
   Dispatch,
   KeyboardEvent,
   SetStateAction,
+  SyntheticEvent,
   useMemo,
   useRef,
   useState,
@@ -15,8 +16,6 @@ import {
   CustomButton,
   H3,
   LanguageSelect,
-  sortOptionsByLabels,
-  valueAsOption,
 } from 'shared/components';
 import {
   Color,
@@ -30,11 +29,15 @@ import { useDebounce, useWindowProperties } from 'shared/hooks';
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import {
   useAppTranslation,
+  useKoodistoCountriesTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
-import { PublicTranslatorFilterValues } from 'interfaces/publicTranslator';
+import {
+  PublicTown,
+  PublicTranslatorFilterValues,
+} from 'interfaces/publicTranslator';
 import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addPublicTranslatorFilterError,
@@ -60,6 +63,7 @@ export const PublicTranslatorFilters = ({
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.publicTranslatorFilters',
   });
+  const translateCountry = useKoodistoCountriesTranslation();
   const translateLanguage = useKoodistoLanguagesTranslation();
 
   // State
@@ -149,7 +153,7 @@ export const PublicTranslatorFilters = ({
 
   const handleComboboxInputChange =
     (inputName: SearchFilter) =>
-    ({}, newInputValue: string) => {
+    (_event: SyntheticEvent, newInputValue: string) => {
       setInputValues({ ...inputValues, [inputName]: newInputValue });
       setSearchButtonDisabled(false);
     };
@@ -220,6 +224,15 @@ export const PublicTranslatorFilters = ({
 
       dispatch(showNotifierToast(toast));
     }
+  };
+
+  const townAsComboboxOption = (publicTown: PublicTown) => {
+    const value = publicTown.name;
+    const label = publicTown.country
+      ? `${publicTown.name} (${translateCountry(publicTown.country)})`
+      : publicTown.name;
+
+    return { value, label };
   };
 
   const renderPhoneBottomAppBar = () =>
@@ -307,7 +320,7 @@ export const PublicTranslatorFilters = ({
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={sortOptionsByLabels(towns.map(valueAsOption))}
+            values={towns.map(townAsComboboxOption)}
             onKeyUp={handleKeyUp}
           />
         </div>

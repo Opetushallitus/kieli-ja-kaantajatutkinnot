@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
+import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.model.Authorisation;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import javax.annotation.Resource;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -63,7 +65,14 @@ class PublicTranslatorServiceTest {
     );
     assertEquals(Arrays.asList(null, "Maa1", "Maa2"), translators.stream().map(PublicTranslatorDTO::country).toList());
 
-    assertEquals(List.of("Kaupunki0", "Kaupunki1", "Kaupunki2"), responseDTO.towns());
+    assertEquals(
+      List.of(
+        createPublicTownDTO("Kaupunki0"),
+        createPublicTownDTO("Kaupunki1", "Maa1"),
+        createPublicTownDTO("Kaupunki2", "Maa2")
+      ),
+      responseDTO.towns()
+    );
 
     assertLanguagePairs(translators.get(0).languagePairs());
     assertLanguagePairs(translators.get(1).languagePairs());
@@ -112,24 +121,28 @@ class PublicTranslatorServiceTest {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
 
-    final List<String> towns = Arrays.asList(
-      null,
-      "Kaupunki1",
-      null,
-      "Kaupunki2",
-      "Kaupunki1",
-      null,
-      "Kaupunki2",
-      "Kaupunki1"
+    final List<Pair<String, String>> townsAndCountries = Arrays.asList(
+      Pair.of(null, null),
+      Pair.of("Kaupunki1", null),
+      Pair.of(null, null),
+      Pair.of("Kaupunki2", null),
+      Pair.of("Kaupunki1", "FIN"),
+      Pair.of(null, null),
+      Pair.of("Kaupunki2", null),
+      Pair.of("Kaupunki1", "SWE"),
+      Pair.of("Kaupunki3", "SWE"),
+      Pair.of("Kaupunki2", "NOR"),
+      Pair.of("Kaupunki1", null)
     );
 
     IntStream
-      .range(0, towns.size())
+      .range(0, townsAndCountries.size())
       .forEach(i -> {
         final Translator translator = Factory.translator();
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-        translator.setTown(towns.get(i));
+        translator.setTown(townsAndCountries.get(i).getLeft());
+        translator.setCountry(townsAndCountries.get(i).getRight());
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
@@ -137,7 +150,16 @@ class PublicTranslatorServiceTest {
 
     final PublicTranslatorResponseDTO responseDTO = publicTranslatorService.listTranslators();
 
-    assertEquals(List.of("Kaupunki1", "Kaupunki2"), responseDTO.towns());
+    assertEquals(
+      List.of(
+        createPublicTownDTO("Kaupunki1"),
+        createPublicTownDTO("Kaupunki2"),
+        createPublicTownDTO("Kaupunki1", "SWE"),
+        createPublicTownDTO("Kaupunki2", "NOR"),
+        createPublicTownDTO("Kaupunki3", "SWE")
+      ),
+      responseDTO.towns()
+    );
   }
 
   @Test
@@ -225,5 +247,13 @@ class PublicTranslatorServiceTest {
     authorisation.setPermissionToPublish(permissionToPublish);
 
     entityManager.persist(authorisation);
+  }
+
+  private PublicTownDTO createPublicTownDTO(final String name) {
+    return createPublicTownDTO(name, null);
+  }
+
+  private PublicTownDTO createPublicTownDTO(final String name, final String country) {
+    return PublicTownDTO.builder().name(name).country(country).build();
   }
 }
