@@ -156,6 +156,9 @@ export const ClerkInterpreterDetails = () => {
   };
   useNavigationProtection(hasLocalChanges);
 
+  const hasRequiredDetails =
+    !!interpreterDetails?.firstName && !!interpreterDetails.lastName;
+
   return (
     <ClerkInterpreterDetailsFields
       interpreter={interpreterDetails}
@@ -172,6 +175,7 @@ export const ClerkInterpreterDetails = () => {
           onEdit={onEdit}
           onSave={onSave}
           isViewMode={isViewMode}
+          hasRequiredDetails={hasRequiredDetails}
         />
       }
       displayFieldErrorBeforeChange={true}

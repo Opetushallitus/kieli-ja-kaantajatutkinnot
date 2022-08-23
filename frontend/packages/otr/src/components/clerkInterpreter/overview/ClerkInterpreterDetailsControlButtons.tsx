@@ -1,4 +1,5 @@
 import EditIcon from '@mui/icons-material/Edit';
+import { FC } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
@@ -6,16 +7,20 @@ import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 
-export const ControlButtons = ({
-  isViewMode,
-  onCancel,
-  onEdit,
-  onSave,
-}: {
+interface ControlButtonsProps {
   isViewMode: boolean;
   onCancel: () => void;
   onEdit: () => void;
   onSave: () => void;
+  hasRequiredDetails: boolean;
+}
+
+export const ControlButtons: FC<ControlButtonsProps> = ({
+  isViewMode,
+  hasRequiredDetails,
+  onCancel,
+  onEdit,
+  onSave,
 }) => {
   const translateCommon = useCommonTranslation();
   const { interpreterDetailsStatus } = useAppSelector(
@@ -54,7 +59,7 @@ export const ControlButtons = ({
             variant={Variant.Contained}
             color={Color.Secondary}
             onClick={onSave}
-            disabled={isLoading}
+            disabled={isLoading || !hasRequiredDetails}
           >
             {translateCommon('save')}
           </CustomButton>
