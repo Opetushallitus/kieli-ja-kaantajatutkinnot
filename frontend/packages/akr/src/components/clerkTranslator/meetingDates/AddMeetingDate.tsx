@@ -22,7 +22,7 @@ import { NotifierUtils } from 'utils/notifier';
 
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
-  const [showToastOnError, setShowToastOnError] = useState(true);
+  const [showToastOnError, setShowToastOnError] = useState(false);
 
   const { showToast } = useToast();
   const { t } = useAppTranslation({

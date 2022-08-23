@@ -22,7 +22,7 @@ import { NotifierUtils } from 'utils/notifier';
 
 export const AddExaminationDate = () => {
   const [value, setValue] = useState<string>('');
-  const [showToastOnError, setShowToastOnError] = useState(true);
+  const [showToastOnError, setShowToastOnError] = useState(false);
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addExaminationDate',
   });
