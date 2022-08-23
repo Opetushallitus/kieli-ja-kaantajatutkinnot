@@ -191,39 +191,6 @@ class ClerkTranslatorServiceTest {
   }
 
   @Test
-  public void listShouldReturnDistinctTowns() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    entityManager.persist(meetingDate);
-
-    final List<String> towns = Arrays.asList(
-      null,
-      "Kaupunki1",
-      null,
-      "Kaupunki2",
-      "Kaupunki1",
-      null,
-      "Kaupunki2",
-      "Kaupunki1"
-    );
-
-    IntStream
-      .range(0, towns.size())
-      .forEach(i -> {
-        final Translator translator = Factory.translator();
-        translator.setTown(towns.get(i));
-
-        final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
-
-        entityManager.persist(translator);
-        entityManager.persist(authorisation);
-      });
-
-    final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-
-    assertEquals(List.of("Kaupunki1", "Kaupunki2"), responseDTO.towns());
-  }
-
-  @Test
   public void listShouldReturnDistinctFromAndToLangs() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
