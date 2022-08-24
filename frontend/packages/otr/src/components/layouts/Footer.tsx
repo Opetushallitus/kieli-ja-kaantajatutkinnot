@@ -22,12 +22,12 @@ import { useAuthentication } from 'hooks/useAuthentication';
 export const Footer = () => {
   const { t } = useAppTranslation({ keyPrefix: 'otr.component.footer' });
   const translateCommon = useCommonTranslation();
-  const currentLang = getCurrentLang();
-  const [isClerkUI] = useAuthentication();
+
+  const { isAuthenticated } = useAuthentication();
 
   return (
     <footer>
-      {!isClerkUI && (
+      {!isAuthenticated && (
         <>
           <Svg
             className="footer__wave"
@@ -78,7 +78,7 @@ export const Footer = () => {
             <div className="footer__logo-row">
               <Divider className="footer__logo-row__divider">
                 <OPHLogoViewer
-                  currentLang={currentLang}
+                  currentLang={getCurrentLang()}
                   className="footer__container__logo--oph"
                   direction={Direction.Vertical}
                   alt={translateCommon('ophLogo')}
