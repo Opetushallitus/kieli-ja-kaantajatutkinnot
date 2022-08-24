@@ -119,16 +119,16 @@ mvn spring-boot:run -Dtomcat.util.http.parser.HttpParser.requestTargetAllow=|{}
 
 ### Frontend localizations
 
-I18next is used as an internationalization framework. Localizations are stored in JSON files and committed to git.
+I18next is used as an internationalization framework. Localizations are stored in JSON files in public/i18n directory and committed to git.
 
-For inspection and modification by OPH clerks, it's possible to create an excel sheet as shown below:
+For inspection and modification by OPH clerks, it's possible to create an excel sheet in the application directory as shown below:
 
 &nbsp;
 
 #### JSON to XLSX
 
 ```sh
-npx i18n-json-to-xlsx-converter --convert common.json, translation.json
+npx i18n-json-to-xlsx-converter --convert public/i18n/fi-FI/translation.json
 ```
 
 #### XLSX to JSON
