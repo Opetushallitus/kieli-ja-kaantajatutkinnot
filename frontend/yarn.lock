@@ -2345,7 +2345,7 @@ __metadata:
     compression-webpack-plugin: ^10.0.0
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.7.1
-    cypress: ^10.4.0
+    cypress: ^10.6.0
     dayjs: ^1.11.4
     eslint: ^8.21.0
     eslint-config-prettier: ^8.5.0
@@ -2392,7 +2392,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.1.1":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -5006,9 +5006,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^10.4.0":
-  version: 10.5.0
-  resolution: "cypress@npm:10.5.0"
+"cypress@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "cypress@npm:10.6.0"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -5054,7 +5054,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: aac72c70a91589dcb7d5e3e97ba1e21270ae23cc6f9b0340d5f5019e72556b827bcea1a59e39eef4629fa328e78c2869a47c01335da7554cd25665b71330c6bf
+  checksum: 53993d2d712222df13ef4802db051fee8a7ac59b180ed11b22e6f10d36f5d9b2c2622f1bbfa012f61c7756139287a976abd075275ddd37191b13f40ec8deaa85
   languageName: node
   linkType: hard
 
