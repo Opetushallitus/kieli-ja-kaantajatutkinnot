@@ -60,12 +60,12 @@ export const PublicTranslatorListingRow = ({
     });
 
     if (!fromLang || !toLang) {
-      showToast(
-        Severity.Error,
-        t(
+      showToast({
+        severity: Severity.Error,
+        description: t(
           'component.publicTranslatorFilters.toasts.contactRequestNeedsLanguagePairs'
-        )
-      );
+        ),
+      });
     } else {
       if (selected) {
         dispatch(deselectPublicTranslator(translator.id));

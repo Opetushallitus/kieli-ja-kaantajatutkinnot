@@ -77,26 +77,31 @@ export const ClerkNewTranslatorPage = () => {
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
-    showDialog(t('removeAuthorisationDialog.title'), Severity.Info, '', [
-      {
-        title: translateCommon('no'),
-        variant: Variant.Outlined,
-      },
-      {
-        dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
-        title: translateCommon('yes'),
-        variant: Variant.Contained,
-        action: () =>
-          dispatch(
-            updateClerkNewTranslator({
-              ...translator,
-              authorisations: translator.authorisations.filter((a) => {
-                return a.tempId !== authorisation.tempId;
-              }),
-            })
-          ),
-      },
-    ]);
+    showDialog({
+      title: t('removeAuthorisationDialog.title'),
+      severity: Severity.Info,
+      description: '',
+      actions: [
+        {
+          title: translateCommon('no'),
+          variant: Variant.Outlined,
+        },
+        {
+          dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () =>
+            dispatch(
+              updateClerkNewTranslator({
+                ...translator,
+                authorisations: translator.authorisations.filter((a) => {
+                  return a.tempId !== authorisation.tempId;
+                }),
+              })
+            ),
+        },
+      ],
+    });
   };
 
   // Navigation
@@ -122,7 +127,11 @@ export const ClerkNewTranslatorPage = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
-      showToast(Severity.Success, t('toasts.success'), Duration.Medium);
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.success'),
+        timeOut: Duration.Medium,
+      });
       dispatch(resetClerkNewTranslator());
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)

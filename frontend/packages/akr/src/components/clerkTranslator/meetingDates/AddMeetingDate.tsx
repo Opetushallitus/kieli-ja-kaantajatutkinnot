@@ -72,10 +72,10 @@ export const AddMeetingDate = () => {
 
   useEffect(() => {
     if (addMeetingDateError && showToastOnError) {
-      showToast(
-        Severity.Error,
-        NotifierUtils.getAPIErrorMessage(addMeetingDateError)
-      );
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(addMeetingDateError),
+      });
       setShowToastOnError(false);
     }
   }, [addMeetingDateError, showToast, showToastOnError]);

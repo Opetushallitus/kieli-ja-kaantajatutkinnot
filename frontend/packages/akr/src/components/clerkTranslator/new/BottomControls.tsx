@@ -37,7 +37,10 @@ export const BottomControls = () => {
   useEffect(() => {
     if (error && showToastOnError) {
       setShowToastOnError(false);
-      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(error),
+      });
     }
   }, [error, showToast, showToastOnError]);
 

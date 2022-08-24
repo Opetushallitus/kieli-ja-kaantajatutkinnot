@@ -62,7 +62,10 @@ export const ClerkTranslatorDetails = () => {
       translatorDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditTranslatorDetails
     ) {
-      showToast(Severity.Success, t('toasts.updated'));
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updated'),
+      });
       resetToInitialState();
     } else if (
       translatorDetailsStatus === APIResponseStatus.Cancelled &&
@@ -83,7 +86,10 @@ export const ClerkTranslatorDetails = () => {
   useEffect(() => {
     if (error && showToastOnError) {
       setShowToastOnError(false);
-      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(error),
+      });
     }
   }, [error, showToast, showToastOnError]);
 
@@ -130,11 +136,11 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const openCancelDialog = () => {
-    showDialog(
-      t('translatorDetails.cancelUpdateDialog.title'),
-      Severity.Info,
-      t('translatorDetails.cancelUpdateDialog.description'),
-      [
+    showDialog({
+      title: t('translatorDetails.cancelUpdateDialog.title'),
+      severity: Severity.Info,
+      description: t('translatorDetails.cancelUpdateDialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -144,8 +150,8 @@ export const ClerkTranslatorDetails = () => {
           variant: Variant.Contained,
           action: () => dispatch(cancelClerkTranslatorDetailsUpdate()),
         },
-      ]
-    );
+      ],
+    });
   };
 
   const hasRequiredDetails =

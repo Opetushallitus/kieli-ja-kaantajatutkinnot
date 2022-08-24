@@ -74,11 +74,17 @@ export const AuthorisationDetails = () => {
     if (status === APIResponseStatus.Success) {
       handleCloseModal();
       if (showToastOnAdd) {
-        showToast(Severity.Success, t('newAuthorisation.toasts.success'));
+        showToast({
+          severity: Severity.Success,
+          description: t('newAuthorisation.toasts.success'),
+        });
         setShowToastOnAdd(false);
       }
     } else if (status === APIResponseStatus.Error && showToastOnAdd) {
-      showToast(Severity.Error, t('newAuthorisation.toasts.error'));
+      showToast({
+        severity: Severity.Error,
+        description: t('newAuthorisation.toasts.error'),
+      });
       setShowToastOnAdd(false);
     }
   }, [status, showToast, showToastOnAdd, t]);
@@ -91,7 +97,10 @@ export const AuthorisationDetails = () => {
   useEffect(() => {
     if (error && showToastOnError) {
       setShowToastOnError(false);
-      showToast(Severity.Error, NotifierUtils.getAPIErrorMessage(error));
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(error),
+      });
     }
   }, [error, showToast, showToastOnError]);
 
@@ -139,15 +148,15 @@ export const AuthorisationDetails = () => {
   ];
 
   const onPermissionToPublishChange = (authorisation: Authorisation) => {
-    showDialog(
-      t(
+    showDialog({
+      title: t(
         'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.header'
       ),
-      Severity.Info,
-      t(
+      severity: Severity.Info,
+      description: t(
         'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.description'
       ),
-      [
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -160,18 +169,20 @@ export const AuthorisationDetails = () => {
             dispatch(updateAuthorisationPublishPermission(authorisation));
           },
         },
-      ]
-    );
+      ],
+    });
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
-    showDialog(
-      t('clerkTranslatorOverview.authorisations.actions.removal.dialog.header'),
-      Severity.Info,
-      t(
+    showDialog({
+      title: t(
+        'clerkTranslatorOverview.authorisations.actions.removal.dialog.header'
+      ),
+      severity: Severity.Info,
+      description: t(
         'clerkTranslatorOverview.authorisations.actions.removal.dialog.description'
       ),
-      [
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -187,8 +198,8 @@ export const AuthorisationDetails = () => {
           },
           buttonColor: Color.Error,
         },
-      ]
-    );
+      ],
+    });
   };
 
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {

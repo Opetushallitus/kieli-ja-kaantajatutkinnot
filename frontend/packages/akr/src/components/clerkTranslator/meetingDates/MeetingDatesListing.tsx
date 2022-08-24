@@ -47,20 +47,25 @@ const ListingRow = ({
   const translateCommon = useCommonTranslation();
 
   const dispatchConfirmRemoveNotifier = () => {
-    showDialog(t('dialog.header'), Severity.Info, t('dialog.description'), [
-      {
-        title: translateCommon('back'),
-        variant: Variant.Outlined,
-      },
-      {
-        title: translateCommon('yes'),
-        variant: Variant.Contained,
-        action: () => {
-          enableToastOnRemoveError();
-          dispatch(removeMeetingDate(meetingDate.id));
+    showDialog({
+      title: t('dialog.header'),
+      severity: Severity.Info,
+      description: t('dialog.description'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
         },
-      },
-    ]);
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => {
+            enableToastOnRemoveError();
+            dispatch(removeMeetingDate(meetingDate.id));
+          },
+        },
+      ],
+    });
   };
 
   const formattedDate = DateUtils.formatOptionalDate(meetingDate.date);
@@ -122,10 +127,10 @@ export const MeetingDatesListing: FC = () => {
   useEffect(() => {
     if (removeMeetingDateError && showToastOnRemoveError) {
       setShowToastOnRemoveError(false);
-      showToast(
-        Severity.Error,
-        NotifierUtils.getAPIErrorMessage(removeMeetingDateError)
-      );
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(removeMeetingDateError),
+      });
     }
   }, [removeMeetingDateError, showToast, showToastOnRemoveError]);
 

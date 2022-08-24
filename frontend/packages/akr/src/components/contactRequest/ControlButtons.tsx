@@ -60,22 +60,22 @@ export const ControlButtons = ({
   useEffect(() => {
     if (error && showDialogOnError) {
       setShowDialogOnError(false);
-      showDialog(
-        t('errorDialog.title'),
-        Severity.Error,
-        t('errorDialog.description'),
-        [{ title: t('errorDialog.back'), variant: Variant.Contained }]
-      );
+      showDialog({
+        title: t('errorDialog.title'),
+        severity: Severity.Error,
+        description: t('errorDialog.description'),
+        actions: [{ title: t('errorDialog.back'), variant: Variant.Contained }],
+      });
     }
   }, [error, showDialog, showDialogOnError, t]);
 
   const handleCancelBtnClick = () => {
     if (hasLocalChanges) {
-      showDialog(
-        t('cancelRequestDialog.title'),
-        Severity.Info,
-        t('cancelRequestDialog.description'),
-        [
+      showDialog({
+        title: t('cancelRequestDialog.title'),
+        severity: Severity.Info,
+        description: t('cancelRequestDialog.description'),
+        actions: [
           {
             title: translateCommon('back'),
             variant: Variant.Outlined,
@@ -85,8 +85,8 @@ export const ControlButtons = ({
             variant: Variant.Contained,
             action: () => dispatch(concludeContactRequest()),
           },
-        ]
-      );
+        ],
+      });
     } else {
       dispatch(concludeContactRequest());
     }

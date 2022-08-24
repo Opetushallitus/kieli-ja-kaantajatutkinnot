@@ -14,11 +14,11 @@ export const useNavigationProtection = (when: boolean) => {
     confirmNavigation: () => void,
     cancelNavigation: () => void
   ) => {
-    showDialog(
-      translateCommon('navigationProtection.header'),
-      Severity.Info,
-      translateCommon('navigationProtection.description'),
-      [
+    showDialog({
+      title: translateCommon('navigationProtection.header'),
+      severity: Severity.Info,
+      description: translateCommon('navigationProtection.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -30,8 +30,7 @@ export const useNavigationProtection = (when: boolean) => {
           action: confirmNavigation,
         },
       ],
-      undefined
-    );
+    });
   };
 
   useCommonNavigationProtection(when, showConfirmationDialog);

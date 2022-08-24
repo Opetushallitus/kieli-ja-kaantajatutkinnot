@@ -120,7 +120,10 @@ export const PublicTranslatorFilters = ({
           dispatch(addPublicTranslatorFilterError(field));
       });
 
-      showToast(Severity.Error, t('toasts.selectLanguagePair'));
+      showToast({
+        severity: Severity.Error,
+        description: t('toasts.selectLanguagePair'),
+      });
     } else {
       dispatch(setPublicTranslatorFilters(filters));
       setShowTable(true);
@@ -213,7 +216,10 @@ export const PublicTranslatorFilters = ({
 
   const showTranslatorsAlreadySelectedToast = () => {
     if (isLangFilterDisabled) {
-      showToast(Severity.Error, t('toasts.translatorsSelected'));
+      showToast({
+        severity: Severity.Error,
+        description: t('toasts.translatorsSelected'),
+      });
     }
   };
 

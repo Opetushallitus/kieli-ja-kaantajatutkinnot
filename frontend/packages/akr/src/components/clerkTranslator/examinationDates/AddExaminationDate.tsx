@@ -71,10 +71,10 @@ export const AddExaminationDate = () => {
   useEffect(() => {
     if (addExaminationDateError && showToastOnError) {
       setShowToastOnError(false);
-      showToast(
-        Severity.Error,
-        NotifierUtils.getAPIErrorMessage(addExaminationDateError)
-      );
+      showToast({
+        severity: Severity.Error,
+        description: NotifierUtils.getAPIErrorMessage(addExaminationDateError),
+      });
     }
   }, [addExaminationDateError, showToast, showToastOnError]);
 

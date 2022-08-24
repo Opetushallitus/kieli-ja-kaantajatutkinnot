@@ -50,10 +50,10 @@ export const ClerkTranslatorOverviewPage = () => {
       isNaN(Number(params.translatorId))
     ) {
       // Show an error
-      showToast(
-        Severity.Error,
-        t('component.clerkTranslatorOverview.toasts.notFound')
-      );
+      showToast({
+        severity: Severity.Error,
+        description: t('component.clerkTranslatorOverview.toasts.notFound'),
+      });
       navigate(AppRoutes.ClerkHomePage);
     }
   }, [

@@ -49,16 +49,16 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   useEffect(() => {
     if (status == APIResponseStatus.Error && showToastOnError) {
       setShowToastOnError(false);
-      showToast(Severity.Error, t('toasts.error'));
+      showToast({ severity: Severity.Error, description: t('toasts.error') });
     }
   }, [showToast, showToastOnError, status, t]);
 
   const dispatchCancelNotifier = () => {
-    showDialog(
-      t('dialogs.cancel.title'),
-      Severity.Info,
-      t('dialogs.cancel.description'),
-      [
+    showDialog({
+      title: t('dialogs.cancel.title'),
+      severity: Severity.Info,
+      description: t('dialogs.cancel.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -68,17 +68,19 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
           variant: Variant.Contained,
           action: () => dispatch(cancelClerkTranslatorEmail()),
         },
-      ]
-    );
+      ],
+    });
   };
 
   const dispatchSendEmailNotifier = () => {
     dispatch(setClerkTranslatorEmailRecipients(translatorIds));
-    showDialog(
-      t('dialogs.send.title'),
-      Severity.Info,
-      t('dialogs.send.description', { count: translatorIds.length }),
-      [
+    showDialog({
+      title: t('dialogs.send.title'),
+      severity: Severity.Info,
+      description: t('dialogs.send.description', {
+        count: translatorIds.length,
+      }),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
@@ -91,8 +93,8 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
             dispatch(sendClerkTranslatorEmail());
           },
         },
-      ]
-    );
+      ],
+    });
   };
 
   return (
@@ -148,7 +150,10 @@ export const ClerkSendEmailPage = () => {
   const { showToast } = useToast();
   useEffect(() => {
     if (status == APIResponseStatus.Success) {
-      showToast(Severity.Success, t('toasts.success'));
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.success'),
+      });
     }
     if (
       status == APIResponseStatus.Success ||
