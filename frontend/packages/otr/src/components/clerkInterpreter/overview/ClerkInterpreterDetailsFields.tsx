@@ -321,6 +321,7 @@ export const ClerkInterpreterDetailsFields = ({
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.PhoneNumber
             )}
+            fullWidth={true}
           />
           <Checkbox
             color={Color.Secondary}
@@ -339,6 +340,7 @@ export const ClerkInterpreterDetailsFields = ({
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.OtherContactInfo
             )}
+            fullWidth={true}
           />
           <Checkbox
             color={Color.Secondary}

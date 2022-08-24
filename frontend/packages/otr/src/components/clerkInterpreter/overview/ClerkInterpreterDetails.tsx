@@ -183,7 +183,9 @@ export const ClerkInterpreterDetails = () => {
   useNavigationProtection(hasLocalChanges);
 
   const hasRequiredDetails =
-    !!interpreterDetails?.firstName && !!interpreterDetails.lastName;
+    !!interpreterDetails?.firstName &&
+    !!interpreterDetails.lastName &&
+    !!interpreterDetails.nickName;
 
   return (
     <ClerkInterpreterDetailsFields
