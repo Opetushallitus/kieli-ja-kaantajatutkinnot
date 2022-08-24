@@ -1,40 +1,14 @@
-import { APIEndpoints } from 'enums/api';
 import { AppRoutes, UIMode } from 'enums/app';
-import {
-  interpreterResponse,
-  qualification,
-} from 'tests/cypress/fixtures/ts/clerkInterpreterOverview';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objects/clerkInterpreterOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 
-beforeEach(() => {
-  cy.intercept(APIEndpoints.ClerkInterpreter, {
-    fixture: 'clerk_interpreters_10.json',
-  });
-
-  cy.intercept(
-    `${APIEndpoints.ClerkInterpreter}/${interpreterResponse.id}`,
-    interpreterResponse
-  ).as('getClerkTranslatorOverview');
-
-  const updatedExistingTranslator = {
-    ...interpreterResponse,
-    version: 1,
-    lastName: 'new last name',
-  };
-  cy.intercept(
-    'PUT',
-    APIEndpoints.ClerkInterpreter,
-    updatedExistingTranslator
-  ).as('updateClerkTranslatorOverview');
-});
+const INTERPRETER_ID = 7;
 
 describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   it('should open edit mode when the edit button is clicked', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
@@ -42,8 +16,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should return from edit mode when cancel is clicked and no changes were made', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
     onClerkInterpreterOverviewPage.clickCancelInterpreterDetailsButton();
@@ -51,8 +24,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should disable details save button when the required fields are not filled out', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
     onClerkInterpreterOverviewPage.editInterpreterField(
@@ -76,8 +48,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and stay in edit mode if user backs out', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -93,8 +64,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and return to view mode if user confirms', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -109,13 +79,12 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
   });
 
-  it.skip('should update translator details successfully', () => {
+  it('should update translator details successfully', () => {
     const fieldName = 'lastName';
     const fieldType = 'input';
     const newLastName = 'new last name';
 
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
@@ -124,7 +93,6 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       newLastName
     );
     onClerkInterpreterOverviewPage.clickSaveInterpreterDetailsButton();
-    cy.wait('@updateClerkTranslatorOverview');
 
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
     onClerkInterpreterOverviewPage.expectInterpreterDetailsFieldValue(
@@ -137,47 +105,22 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     // Ensure navigation protection is no longer enabled after saving.
     onClerkInterpreterOverviewPage.navigateBackToRegister();
     cy.isOnPage(AppRoutes.ClerkHomePage);
-    onClerkHomePage.expectFilteredInterpretersCount(10);
   });
 
-  it.skip('should add authorisation succesfully', () => {
-    cy.fixture('meeting_dates_10.json')
-      .then((dates) => {
-        cy.intercept('GET', APIEndpoints.MeetingDate, dates);
-      })
-      .as('getMeetingDates');
-
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-    cy.wait('@getMeetingDates');
+  it('should add authorisation succesfully', () => {
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
     onClerkInterpreterOverviewPage.fillOutAddQualificationFields();
     onClerkInterpreterOverviewPage.toggleAddQualificationPermissionToPublishSwitch();
 
-    cy.intercept(`${APIEndpoints.ClerkInterpreter}/${interpreterResponse.id}`, {
-      ...interpreterResponse,
-      qualifications: [...interpreterResponse.qualifications, qualification],
-    });
-
-    cy.intercept(
-      'POST',
-      `${APIEndpoints.ClerkInterpreter}/${interpreterResponse.id}/authorisation`,
-      {
-        ...interpreterResponse,
-        qualifications: [...interpreterResponse.qualifications, qualification],
-      }
-    );
-
     onClerkInterpreterOverviewPage.saveQualification();
 
     onToast.expectText('Rekisteröinti lisätty onnistuneesti');
-    onClerkInterpreterOverviewPage.expectQualificationRowToExist(9);
   });
 
   it('should show disabled fields correctly', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
 
@@ -187,15 +130,8 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     );
   });
 
-  it.skip('should not allow adding authorisation if required fields are not filled', () => {
-    cy.fixture('meeting_dates_10.json')
-      .then((dates) => {
-        cy.intercept('GET', APIEndpoints.MeetingDate, dates);
-      })
-      .as('getMeetingDates');
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
-    cy.wait('@getMeetingDates');
+  it('should not allow adding authorisation if required fields are not filled', () => {
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
 
@@ -213,12 +149,12 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'ruotsi'
     );
     onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'basis',
+      'examination',
       'input',
-      'kkt'
+      'Oikeustulkkauksen erikoisammattitutkinto'
     );
     onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'termBeginDate',
+      'beginDate',
       'input',
       '1.1.2022'
     );
@@ -229,19 +165,10 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     );
 
     onClerkInterpreterOverviewPage.expectSaveButtonEnabled();
-
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'basis',
-      'input',
-      'aut'
-    );
-
-    onClerkInterpreterOverviewPage.expectSaveButtonDisabled();
   });
 
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -256,8 +183,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should show field errors when inputs are not valid', () => {
-    onClerkInterpreterOverviewPage.navigateById(interpreterResponse.id);
-    cy.wait('@getClerkTranslatorOverview');
+    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(

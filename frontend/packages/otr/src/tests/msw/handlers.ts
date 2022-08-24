@@ -1,9 +1,11 @@
 import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
+import { qualification } from 'tests/msw/fixtures/qualification';
 
 export const handlers = [
   rest.get(APIEndpoints.PublicInterpreter, (req, res, ctx) => {
@@ -15,4 +17,22 @@ export const handlers = [
   rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(meetingDates10));
   }),
+  rest.put(
+    `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(clerkInterpreter));
+    }
+  ),
+  rest.post(
+    `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}/qualification`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          ...clerkInterpreter,
+          qualifications: [...clerkInterpreter.qualifications, qualification],
+        })
+      );
+    }
+  ),
 ];

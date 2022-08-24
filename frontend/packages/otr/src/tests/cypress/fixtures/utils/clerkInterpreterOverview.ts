@@ -10,18 +10,18 @@ export const addQualificationFields = [
     value: 'ruotsi',
   },
   {
-    fieldName: 'basis',
+    fieldName: 'examination',
     fieldType: 'input',
-    value: 'kkt',
-  },
-  {
-    fieldName: 'termBeginDate',
-    fieldType: 'input',
-    value: '1.1.2022',
+    value: 'Oikeustulkkauksen erikoisammattitutkinto',
   },
   {
     fieldName: 'diaryNumber',
     fieldType: 'input',
     value: '1337',
+  },
+  {
+    fieldName: 'beginDate',
+    fieldType: 'input',
+    value: '1.1.2022',
   },
 ];
