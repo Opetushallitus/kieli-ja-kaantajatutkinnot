@@ -4,16 +4,24 @@ import { NotifierContext } from '../../components/Notifier/NotifierContextProvid
 import { NotifierTypes, Severity } from '../../enums';
 import { Dialog, DialogButtonAction } from '../../interfaces/notifier';
 
+interface ShowDialogProps {
+  title: string;
+  severity: Severity;
+  description: string;
+  actions: Array<DialogButtonAction>;
+  timeOut?: number;
+}
+
 export const useDialog = () => {
   const notifierCtx = useContext(NotifierContext);
 
-  const showDialog = (
-    title: string,
-    severity: Severity,
-    description: string,
-    actions: Array<DialogButtonAction>,
-    timeOut?: number | undefined
-  ) => {
+  const showDialog = ({
+    title,
+    severity,
+    description,
+    actions,
+    timeOut,
+  }: ShowDialogProps) => {
     const dialog: Dialog = {
       type: NotifierTypes.Dialog,
       title,

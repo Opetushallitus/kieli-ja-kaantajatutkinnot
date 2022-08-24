@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## Changed
+
+## [1.2.2] - 2022-08-24
+
+- Parameters of showToast and showDialog hooks
+
+## Added
+
 ## [1.2.1] - 2022-08-23
 
 - Support onClose action with Toast
@@ -20,7 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - DialogBox
 - Toast
 - Notifier and NotifierProvider
-
 
 ## [1.1.1] - 2022-08-22
 

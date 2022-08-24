@@ -4,19 +4,28 @@ import { NotifierContext } from '../../components/Notifier/NotifierContextProvid
 import { Duration, NotifierTypes, Severity } from '../../enums';
 import { Toast } from '../../interfaces/notifier';
 
+interface ShowToastProps {
+  severity: Severity;
+  description: string;
+  timeOut?: number;
+  action?: () => void;
+}
+
 export const useToast = () => {
   const notifierCtx = useContext(NotifierContext);
 
-  const showToast = (
-    severity: Severity,
-    description: string,
-    timeOut: number | undefined = Duration.Medium
-  ) => {
+  const showToast = ({
+    severity,
+    description,
+    timeOut = Duration.Medium,
+    action,
+  }: ShowToastProps) => {
     const toast: Toast = {
       type: NotifierTypes.Toast,
       severity,
       description,
       timeOut,
+      action,
     };
 
     notifierCtx?.onToastShow(toast);
