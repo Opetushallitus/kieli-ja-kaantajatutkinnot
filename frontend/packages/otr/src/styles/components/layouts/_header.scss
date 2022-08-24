@@ -28,6 +28,10 @@
       margin-right: 0;
     }
 
+    & > a {
+      text-decoration: none;
+    }
+
     &__logo {
       height: 5.5rem;
       @include phone {
