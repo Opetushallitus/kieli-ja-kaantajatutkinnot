@@ -1,3 +1,5 @@
+import { ExaminationType } from 'enums/interpreter';
+
 export const clerkInterpreter = {
   id: 7,
   version: 0,
@@ -26,7 +28,7 @@ export const clerkInterpreter = {
       toLang: 'KO',
       beginDate: '2022-05-14',
       endDate: '2023-11-14',
-      examinationType: 'LEGAL_INTERPRETER_EXAM',
+      examinationType: 'LEGAL_INTERPRETER_EXAM' as ExaminationType,
       permissionToPublish: true,
       diaryNumber: '12347',
     },
@@ -37,7 +39,7 @@ export const clerkInterpreter = {
       toLang: 'SV',
       beginDate: '2022-05-14',
       endDate: '2023-11-14',
-      examinationType: 'OTHER',
+      examinationType: 'OTHER' as ExaminationType,
       permissionToPublish: true,
       diaryNumber: '12667',
     },

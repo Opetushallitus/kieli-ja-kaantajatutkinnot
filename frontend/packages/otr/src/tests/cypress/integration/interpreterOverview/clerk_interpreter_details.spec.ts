@@ -1,5 +1,4 @@
 import { AppRoutes, UIMode } from 'enums/app';
-import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objects/clerkInterpreterOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -79,7 +78,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
   });
 
-  it('should update translator details successfully', () => {
+  it('should update interpreter details successfully', () => {
     const fieldName = 'lastName';
     const fieldType = 'input';
     const newLastName = 'new last name';
@@ -107,7 +106,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
-  it('should add authorisation succesfully', () => {
+  it('should add qualification succesfully', () => {
     onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
@@ -130,7 +129,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     );
   });
 
-  it('should not allow adding authorisation if required fields are not filled', () => {
+  it('should not allow adding qualification if required fields are not filled', () => {
     onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();

@@ -1,4 +1,3 @@
-import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 
 const rowTestId = (id: number) => `qualifications-table__id-${id}-row`;
@@ -55,36 +54,5 @@ class QualificationDetails {
     });
   }
 }
-
-export const publishPermissionChangeResponse = (
-  interpreterResponse: ClerkInterpreterResponse,
-  qualificationId: number,
-  newPublishPermissionValue: boolean
-) => {
-  const updatedQualifications = interpreterResponse.qualifications.map((q) =>
-    q.id === qualificationId
-      ? { ...q, permissionToPublish: newPublishPermissionValue }
-      : q
-  );
-
-  return {
-    ...interpreterResponse,
-    qualifications: updatedQualifications,
-  };
-};
-
-export const qualificationRemoveResponse = (
-  translatorResponse: ClerkInterpreterResponse,
-  qualificationId: number
-) => {
-  const updatedQualifications = translatorResponse.qualifications.filter(
-    (q) => q.id !== qualificationId
-  );
-
-  return {
-    ...translatorResponse,
-    qualifications: updatedQualifications,
-  };
-};
 
 export const onQualificationDetails = new QualificationDetails();
