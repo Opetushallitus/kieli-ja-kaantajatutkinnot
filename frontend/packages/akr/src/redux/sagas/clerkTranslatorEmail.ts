@@ -1,8 +1,9 @@
 import { call, put, select, takeLatest } from '@redux-saga/core/effects';
-import { AxiosError } from 'axios';
 
 import axiosInstance from 'configs/axios';
+import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   rejectClerkTranslatorEmail,
   sendClerkTranslatorEmail,
@@ -25,7 +26,9 @@ function* sendClerkTranslatorEmailSaga() {
     );
     yield put(sendingClerkTranslatorEmailSucceeded());
   } catch (error) {
-    yield put(rejectClerkTranslatorEmail(error as AxiosError));
+    const t = translateOutsideComponent();
+    yield put(setAPIError(t('akr.pages.clerkSendEmailPage.toasts.error')));
+    yield put(rejectClerkTranslatorEmail());
   }
 }
 

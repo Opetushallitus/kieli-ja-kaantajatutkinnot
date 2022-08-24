@@ -23,9 +23,9 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
   hasRequiredDetails,
 }) => {
   const translateCommon = useCommonTranslation();
-  const { status } = useAppSelector(
+  const status = useAppSelector(
     clerkTranslatorOverviewSelector
-  ).translatorDetailsState;
+  ).translatorDetailsStatus;
 
   const isLoading = status === APIResponseStatus.InProgress;
 

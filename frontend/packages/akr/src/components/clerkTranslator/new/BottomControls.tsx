@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useToast } from 'shared/hooks';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -10,22 +9,15 @@ import {
   saveClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
-import { NotifierUtils } from 'utils/notifier';
 
 export const BottomControls = () => {
   // i18n
   const translateCommon = useCommonTranslation();
 
   // Redux
-  const { status, translator, error } = useAppSelector(
-    clerkNewTranslatorSelector
-  );
+  const { status, translator } = useAppSelector(clerkNewTranslatorSelector);
   const dispatch = useAppDispatch();
 
-  // Local state
-  const [showToastOnError, setShowToastOnError] = useState(true);
-
-  const { showToast } = useToast();
   const isLoading = status === APIResponseStatus.InProgress;
 
   useEffect(() => {
@@ -34,19 +26,8 @@ export const BottomControls = () => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if (error && showToastOnError) {
-      setShowToastOnError(false);
-      showToast({
-        severity: Severity.Error,
-        description: NotifierUtils.getAPIErrorMessage(error),
-      });
-    }
-  }, [error, showToast, showToastOnError]);
-
   // Action handlers
   const onSave = () => {
-    setShowToastOnError(true);
     dispatch(saveClerkNewTranslator(translator));
   };
 

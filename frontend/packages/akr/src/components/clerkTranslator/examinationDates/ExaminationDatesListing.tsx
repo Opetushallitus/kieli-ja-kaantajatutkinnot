@@ -1,10 +1,10 @@
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog, useToast } from 'shared/hooks';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -16,25 +16,14 @@ import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
 } from 'redux/selectors/examinationDate';
-import { NotifierUtils } from 'utils/notifier';
 
-const getRowDetails = (
-  enableToastOnRemoveError: () => void,
-  examinationDate: ExaminationDate
-) => {
-  return (
-    <ListingRow
-      enableToastOnRemoveError={enableToastOnRemoveError}
-      examinationDate={examinationDate}
-    />
-  );
+const getRowDetails = (examinationDate: ExaminationDate) => {
+  return <ListingRow examinationDate={examinationDate} />;
 };
 
 const ListingRow = ({
-  enableToastOnRemoveError,
   examinationDate,
 }: {
-  enableToastOnRemoveError: () => void;
   examinationDate: ExaminationDate;
 }) => {
   const dispatch = useAppDispatch();
@@ -59,7 +48,6 @@ const ListingRow = ({
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            enableToastOnRemoveError();
             dispatch(removeExaminationDate(examinationDate.id));
           },
         },
@@ -108,12 +96,9 @@ const ListingHeader: FC = () => {
 };
 
 export const ExaminationDatesListing: FC = () => {
-  const { showToast } = useToast();
-  const [showToastOnRemoveError, setShowToastOnRemoveError] = useState(true);
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const {
     examinationDates: { status },
-    removeExaminationDate: { error: removeExaminationDateError },
     filter,
   } = useAppSelector(examinationDatesSelector);
   const { upcoming, passed } = useAppSelector(selectExaminationDatesByStatus);
@@ -121,21 +106,6 @@ export const ExaminationDatesListing: FC = () => {
     filter.examinationDateStatus === ExaminationDateStatus.Upcoming
       ? upcoming
       : passed;
-
-  useEffect(() => {
-    if (removeExaminationDateError && showToastOnRemoveError) {
-      setShowToastOnRemoveError(false);
-      showToast({
-        severity: Severity.Error,
-        description: NotifierUtils.getAPIErrorMessage(
-          removeExaminationDateError
-        ),
-      });
-    }
-  }, [removeExaminationDateError, showToast, showToastOnRemoveError]);
-  const enableToastOnRemoveError = useCallback(() => {
-    setShowToastOnRemoveError(true);
-  }, []);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -157,9 +127,7 @@ export const ExaminationDatesListing: FC = () => {
         <PaginatedTable
           data={datesToList}
           header={<ListingHeader />}
-          getRowDetails={(examinationDate) =>
-            getRowDetails(enableToastOnRemoveError, examinationDate)
-          }
+          getRowDetails={(examinationDate) => getRowDetails(examinationDate)}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           className="examination-dates__listing table-layout-auto"

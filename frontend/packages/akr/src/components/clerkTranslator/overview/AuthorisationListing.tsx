@@ -48,9 +48,9 @@ export const AuthorisationListing = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
-  const { status } = useAppSelector(
+  const status = useAppSelector(
     clerkTranslatorOverviewSelector
-  ).authorisationDetailsState;
+  ).authorisationDetailsStatus;
 
   const isLoading = status === APIResponseStatus.InProgress;
   const currentDate = dayjs();

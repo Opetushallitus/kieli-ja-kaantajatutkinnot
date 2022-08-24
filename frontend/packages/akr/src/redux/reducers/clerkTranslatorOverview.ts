@@ -1,22 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
-import { ResponseState } from 'interfaces/responseState';
 
 interface ClerkTranslatorOverviewState {
-  overviewState: ResponseState;
-  translatorDetailsState: ResponseState;
-  authorisationDetailsState: ResponseState;
+  overviewStatus: APIResponseStatus;
+  translatorDetailsStatus: APIResponseStatus;
+  authorisationDetailsStatus: APIResponseStatus;
   selectedTranslator?: ClerkTranslator;
 }
 
 const initialState: ClerkTranslatorOverviewState = {
-  overviewState: { status: APIResponseStatus.NotStarted },
-  translatorDetailsState: { status: APIResponseStatus.NotStarted },
-  authorisationDetailsState: { status: APIResponseStatus.NotStarted },
+  overviewStatus: APIResponseStatus.NotStarted,
+  translatorDetailsStatus: APIResponseStatus.NotStarted,
+  authorisationDetailsStatus: APIResponseStatus.NotStarted,
   selectedTranslator: undefined,
 };
 
@@ -25,88 +23,79 @@ const clerkTranslatorOverviewSlice = createSlice({
   initialState,
   reducers: {
     cancelClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsState.status = APIResponseStatus.Cancelled;
+      state.translatorDetailsStatus = APIResponseStatus.Cancelled;
     },
     removeAuthorisation(state, _action: PayloadAction<number>) {
-      state.authorisationDetailsState.status = APIResponseStatus.InProgress;
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
     },
     removingAuthorisationSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.authorisationDetailsState.status = APIResponseStatus.Success;
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     loadClerkTranslatorOverview(state, _action: PayloadAction<number>) {
-      state.overviewState.status = APIResponseStatus.InProgress;
+      state.overviewStatus = APIResponseStatus.InProgress;
     },
-    rejectClerkTranslatorOverview(state, action: PayloadAction<AxiosError>) {
-      state.overviewState.status = APIResponseStatus.Error;
-      state.overviewState.error = action.payload;
+    rejectClerkTranslatorOverview(state) {
+      state.overviewStatus = APIResponseStatus.Error;
     },
-    rejectClerkTranslatorDetailsUpdate(
-      state,
-      action: PayloadAction<AxiosError>
-    ) {
-      state.translatorDetailsState.status = APIResponseStatus.Error;
-      state.translatorDetailsState.error = action.payload;
+    rejectClerkTranslatorDetailsUpdate(state) {
+      state.translatorDetailsStatus = APIResponseStatus.Error;
     },
-    rejectAuthorisationPublishPermissionUpdate(
-      state,
-      action: PayloadAction<AxiosError>
-    ) {
-      state.authorisationDetailsState.status = APIResponseStatus.Error;
-      state.authorisationDetailsState.error = action.payload;
+    rejectAuthorisationPublishPermissionUpdate(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
     },
-    rejectAuthorisationRemove(state, action: PayloadAction<AxiosError>) {
-      state.authorisationDetailsState.status = APIResponseStatus.Error;
-      state.authorisationDetailsState.error = action.payload;
+    rejectAuthorisationRemove(state) {
+      state.authorisationDetailsStatus = APIResponseStatus.Error;
     },
     resetClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsState = initialState.translatorDetailsState;
+      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
     },
     resetClerkTranslatorOverview(state) {
-      state.overviewState = initialState.overviewState;
-      state.authorisationDetailsState = initialState.authorisationDetailsState;
-      state.translatorDetailsState = initialState.translatorDetailsState;
+      state.overviewStatus = initialState.overviewStatus;
+      state.authorisationDetailsStatus =
+        initialState.authorisationDetailsStatus;
+      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
       state.selectedTranslator = initialState.selectedTranslator;
     },
     setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.selectedTranslator = action.payload;
-      state.overviewState.status = APIResponseStatus.NotStarted;
+      state.overviewStatus = APIResponseStatus.NotStarted;
     },
     storeClerkTranslatorOverview(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.overviewState.status = APIResponseStatus.Success;
+      state.overviewStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     updateClerkTranslatorDetails(
       state,
       _action: PayloadAction<ClerkTranslator>
     ) {
-      state.translatorDetailsState.status = APIResponseStatus.InProgress;
+      state.translatorDetailsStatus = APIResponseStatus.InProgress;
     },
     updateAuthorisationPublishPermission(
       state,
       _action: PayloadAction<Authorisation>
     ) {
-      state.authorisationDetailsState.status = APIResponseStatus.InProgress;
+      state.authorisationDetailsStatus = APIResponseStatus.InProgress;
     },
     updatingAuthorisationPublishPermissionSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.authorisationDetailsState.status = APIResponseStatus.Success;
+      state.authorisationDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
     updatingClerkTranslatorDetailsSucceeded(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
-      state.overviewState.status = APIResponseStatus.Success;
-      state.translatorDetailsState.status = APIResponseStatus.Success;
+      state.overviewStatus = APIResponseStatus.Success;
+      state.translatorDetailsStatus = APIResponseStatus.Success;
       state.selectedTranslator = action.payload;
     },
   },

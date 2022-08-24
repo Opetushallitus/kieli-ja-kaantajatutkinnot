@@ -1,5 +1,4 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
@@ -50,7 +49,7 @@ function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
     yield put(increaseContactRequestStep());
     yield put(deselectAllPublicTranslators());
   } catch (error) {
-    yield put(rejectContactRequest(error as AxiosError));
+    yield put(rejectContactRequest());
   }
 }
 

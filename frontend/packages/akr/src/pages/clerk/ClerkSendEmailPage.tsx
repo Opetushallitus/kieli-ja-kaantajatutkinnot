@@ -38,20 +38,9 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
   // Redux
   const dispatch = useAppDispatch();
   const translatorIds = useAppSelector(selectFilteredSelectedIds);
-  const { status } = useAppSelector(selectClerkTranslatorEmail);
 
   // Dialogs
   const { showDialog } = useDialog();
-  const { showToast } = useToast();
-
-  const [showToastOnError, setShowToastOnError] = useState(false);
-
-  useEffect(() => {
-    if (status == APIResponseStatus.Error && showToastOnError) {
-      setShowToastOnError(false);
-      showToast({ severity: Severity.Error, description: t('toasts.error') });
-    }
-  }, [showToast, showToastOnError, status, t]);
 
   const dispatchCancelNotifier = () => {
     showDialog({
@@ -89,7 +78,6 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            setShowToastOnError(true);
             dispatch(sendClerkTranslatorEmail());
           },
         },

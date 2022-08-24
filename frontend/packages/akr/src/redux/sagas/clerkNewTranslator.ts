@@ -6,6 +6,7 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
 import { ClerkTranslatorResponse } from 'interfaces/clerkTranslator';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   rejectClerkNewTranslator,
   saveClerkNewTranslator,
@@ -13,6 +14,7 @@ import {
 } from 'redux/reducers/clerkNewTranslator';
 import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* saveClerkNewTranslatorSaga(
@@ -33,7 +35,9 @@ function* saveClerkNewTranslatorSaga(
 
     yield put(storeClerkNewTranslator(translator.id));
   } catch (error) {
-    yield put(rejectClerkNewTranslator(error as AxiosError));
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectClerkNewTranslator());
   }
 }
 

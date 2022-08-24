@@ -6,6 +6,7 @@ import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
 import { ClerkNewTranslatorPage } from 'pages/clerk/ClerkNewTranslatorPage';
@@ -23,6 +24,7 @@ export const AppRouter: FC = () => {
   useEffect(() => {
     document.title = translateCommon('appTitle');
   }, [translateCommon]);
+  useAPIErrorToast();
 
   return (
     <BrowserRouter>

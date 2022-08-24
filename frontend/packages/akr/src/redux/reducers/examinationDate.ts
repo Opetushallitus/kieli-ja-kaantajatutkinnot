@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -8,18 +7,20 @@ import {
   ExaminationDate,
   ExaminationDateFilter,
 } from 'interfaces/examinationDate';
-import { ResponseState } from 'interfaces/responseState';
 
-interface ExaminationDatesState extends ResponseState {
+interface ExaminationDatesState {
   dates: Array<ExaminationDate>;
+  status: APIResponseStatus;
 }
 
-interface AddExaminationDateState extends ResponseState {
+interface AddExaminationDateState {
   date: Dayjs;
+  status: APIResponseStatus;
 }
 
-interface RemoveExaminationDateState extends ResponseState {
+interface RemoveExaminationDateState {
   examinationDateId: number | undefined;
+  status: APIResponseStatus;
 }
 
 interface ExaminationDateState {
@@ -51,7 +52,6 @@ const examinationDateSlice = createSlice({
   reducers: {
     addExaminationDate(state, _action: PayloadAction<Dayjs>) {
       state.addExaminationDate.status = APIResponseStatus.InProgress;
-      state.addExaminationDate.error = initialState.addExaminationDate.error;
     },
     addExaminationDateFilter(
       state,
@@ -64,24 +64,18 @@ const examinationDateSlice = createSlice({
     },
     loadExaminationDates(state) {
       state.examinationDates.status = APIResponseStatus.InProgress;
-      state.examinationDates.error = initialState.examinationDates.error;
     },
-    rejectExaminationDates(state, action: PayloadAction<AxiosError>) {
+    rejectExaminationDates(state) {
       state.examinationDates.status = APIResponseStatus.Error;
-      state.examinationDates.error = action.payload;
     },
-    rejectExaminationDateAdd(state, action: PayloadAction<AxiosError>) {
+    rejectExaminationDateAdd(state) {
       state.addExaminationDate.status = APIResponseStatus.Error;
-      state.addExaminationDate.error = action.payload;
     },
-    rejectExaminationDateRemove(state, action: PayloadAction<AxiosError>) {
+    rejectExaminationDateRemove(state) {
       state.removeExaminationDate.status = APIResponseStatus.Error;
-      state.removeExaminationDate.error = action.payload;
     },
     removeExaminationDate(state, _action: PayloadAction<number>) {
       state.removeExaminationDate.status = APIResponseStatus.InProgress;
-      state.removeExaminationDate.error =
-        initialState.removeExaminationDate.error;
     },
     removingExaminationDateSucceeded(state) {
       state.removeExaminationDate.status = APIResponseStatus.Success;

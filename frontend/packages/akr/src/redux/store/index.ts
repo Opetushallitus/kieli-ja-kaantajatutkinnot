@@ -1,6 +1,7 @@
 import createSagaMiddleware from '@redux-saga/core';
 import { configureStore } from '@reduxjs/toolkit';
 
+import { APIErrorReducer } from 'redux/reducers/APIError';
 import { authorisationReducer } from 'redux/reducers/authorisation';
 import { clerkNewTranslatorReducer } from 'redux/reducers/clerkNewTranslator';
 import { clerkTranslatorReducer } from 'redux/reducers/clerkTranslator';
@@ -28,6 +29,7 @@ const store = configureStore({
     examinationDate: examinationDateReducer,
     meetingDate: meetingDateReducer,
     authorisation: authorisationReducer,
+    APIError: APIErrorReducer,
   },
   middleware: [saga],
 });

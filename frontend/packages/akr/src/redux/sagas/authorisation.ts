@@ -1,10 +1,11 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
+import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { Authorisation } from 'interfaces/authorisation';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   addAuthorisation,
   addingAuthorisationSucceeded,
@@ -27,7 +28,9 @@ function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
     yield put(addingAuthorisationSucceeded());
     yield put(loadClerkTranslatorOverview(translatorId as number));
   } catch (error) {
-    yield put(rejectAuthorisation(error as AxiosError));
+    const t = translateOutsideComponent();
+    yield put(setAPIError(t('akr.component.newAuthorisation.toasts.error')));
+    yield put(rejectAuthorisation());
   }
 }
 

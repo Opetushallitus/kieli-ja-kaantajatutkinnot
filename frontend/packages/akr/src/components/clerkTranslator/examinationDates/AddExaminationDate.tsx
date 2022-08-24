@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   CustomButton,
   DatePicker,
@@ -9,8 +9,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useToast } from 'shared/hooks';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { DateUtils, StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
@@ -18,19 +17,14 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { addExaminationDate } from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
-import { NotifierUtils } from 'utils/notifier';
 
 export const AddExaminationDate = () => {
   const [value, setValue] = useState<string>('');
-  const [showToastOnError, setShowToastOnError] = useState(false);
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addExaminationDate',
   });
-  const { showToast } = useToast();
-
   const {
     examinationDates: { dates, status },
-    addExaminationDate: { error: addExaminationDateError },
   } = useAppSelector(examinationDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -38,7 +32,6 @@ export const AddExaminationDate = () => {
 
   const handleAddDate = () => {
     if (value) {
-      setShowToastOnError(true);
       dispatch(addExaminationDate(dayjs(value)));
     }
   };
@@ -68,15 +61,6 @@ export const AddExaminationDate = () => {
     ) : null;
 
   useNavigationProtection(!StringUtils.isBlankString(value));
-  useEffect(() => {
-    if (addExaminationDateError && showToastOnError) {
-      setShowToastOnError(false);
-      showToast({
-        severity: Severity.Error,
-        description: NotifierUtils.getAPIErrorMessage(addExaminationDateError),
-      });
-    }
-  }, [addExaminationDateError, showToast, showToastOnError]);
 
   return (
     <div className="columns gapped">

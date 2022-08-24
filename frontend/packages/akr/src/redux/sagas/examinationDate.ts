@@ -7,6 +7,7 @@ import { DateUtils } from 'shared/utils';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ExaminationDateResponse } from 'interfaces/examinationDate';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   addExaminationDate,
   addingExaminationDateSucceeded,
@@ -18,6 +19,7 @@ import {
   removingExaminationDateSucceeded,
   storeExaminationDates,
 } from 'redux/reducers/examinationDate';
+import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
@@ -28,7 +30,9 @@ function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
     yield put(addingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
-    yield put(rejectExaminationDateAdd(error as AxiosError));
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectExaminationDateAdd());
   }
 }
 
@@ -41,7 +45,9 @@ function* removeExaminationDateSaga(action: PayloadAction<number>) {
     yield put(removingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
-    yield put(rejectExaminationDateRemove(error as AxiosError));
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectExaminationDateRemove());
   }
 }
 
@@ -55,7 +61,7 @@ function* loadExaminationDatesSaga() {
     );
     yield put(storeExaminationDates(deserializedResponse.dates));
   } catch (error) {
-    yield put(rejectExaminationDates(error as AxiosError));
+    yield put(rejectExaminationDates());
   }
 }
 

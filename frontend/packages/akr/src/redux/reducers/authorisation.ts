@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import { Authorisation } from 'interfaces/authorisation';
-import { ResponseState } from 'interfaces/responseState';
 
-const initialState: ResponseState = {
+interface AuthorisationState {
+  status: APIResponseStatus;
+}
+
+const initialState: AuthorisationState = {
   status: APIResponseStatus.NotStarted,
 };
 
@@ -15,15 +17,12 @@ const authorisationSlice = createSlice({
   reducers: {
     addAuthorisation(state, _action: PayloadAction<Authorisation>) {
       state.status = APIResponseStatus.InProgress;
-      state.error = initialState.error;
     },
     addingAuthorisationSucceeded(state) {
       state.status = APIResponseStatus.Success;
-      state.error = initialState.error;
     },
-    rejectAuthorisation(state, action: PayloadAction<AxiosError>) {
+    rejectAuthorisation(state) {
       state.status = APIResponseStatus.Error;
-      state.error = action.payload;
     },
   },
 });

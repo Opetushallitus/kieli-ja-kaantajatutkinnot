@@ -29,7 +29,6 @@ import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslator
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationDetails = () => {
   // State
@@ -41,10 +40,9 @@ export const AuthorisationDetails = () => {
   const { showToast } = useToast();
 
   // Redux
-  const {
-    selectedTranslator,
-    authorisationDetailsState: { error },
-  } = useAppSelector(clerkTranslatorOverviewSelector);
+  const { selectedTranslator } = useAppSelector(
+    clerkTranslatorOverviewSelector
+  );
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
   ).passed;
@@ -57,7 +55,6 @@ export const AuthorisationDetails = () => {
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
   const [showToastOnAdd, setShowToastOnAdd] = useState(true);
-  const [showToastOnError, setShowToastOnError] = useState(true);
 
   const handleAddAuthorisation = (authorisation: Authorisation) => {
     setShowToastOnAdd(true);
@@ -80,12 +77,6 @@ export const AuthorisationDetails = () => {
         });
         setShowToastOnAdd(false);
       }
-    } else if (status === APIResponseStatus.Error && showToastOnAdd) {
-      showToast({
-        severity: Severity.Error,
-        description: t('newAuthorisation.toasts.error'),
-      });
-      setShowToastOnAdd(false);
     }
   }, [status, showToast, showToastOnAdd, t]);
 
@@ -93,16 +84,6 @@ export const AuthorisationDetails = () => {
     dispatch(loadMeetingDates());
     dispatch(loadExaminationDates());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (error && showToastOnError) {
-      setShowToastOnError(false);
-      showToast({
-        severity: Severity.Error,
-        description: NotifierUtils.getAPIErrorMessage(error),
-      });
-    }
-  }, [error, showToast, showToastOnError]);
 
   if (!selectedTranslator) {
     return null;
@@ -165,7 +146,6 @@ export const AuthorisationDetails = () => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            setShowToastOnError(true);
             dispatch(updateAuthorisationPublishPermission(authorisation));
           },
         },
@@ -193,7 +173,6 @@ export const AuthorisationDetails = () => {
           ),
           variant: Variant.Contained,
           action: () => {
-            setShowToastOnError(true);
             dispatch(removeAuthorisation(authorisation.id as number));
           },
           buttonColor: Color.Error,

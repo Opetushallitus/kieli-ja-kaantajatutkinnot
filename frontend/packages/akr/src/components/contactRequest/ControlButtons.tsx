@@ -3,7 +3,6 @@ import {
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
 import { AppBar, Toolbar } from '@mui/material';
-import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
@@ -36,13 +35,12 @@ export const ControlButtons = ({
 
   // Redux
   const dispatch = useAppDispatch();
-  const { request, activeStep, status, error } = useAppSelector(
+  const { request, activeStep, status } = useAppSelector(
     contactRequestSelector
   ) as {
     request: ContactRequest;
     activeStep: ContactRequestFormStep;
     status: APIResponseStatus;
-    error: AxiosError;
   };
 
   const { showDialog } = useDialog();
@@ -58,7 +56,7 @@ export const ControlButtons = ({
   };
 
   useEffect(() => {
-    if (error && showDialogOnError) {
+    if (status == APIResponseStatus.Error && showDialogOnError) {
       setShowDialogOnError(false);
       showDialog({
         title: t('errorDialog.title'),
@@ -67,7 +65,7 @@ export const ControlButtons = ({
         actions: [{ title: t('errorDialog.back'), variant: Variant.Contained }],
       });
     }
-  }, [error, showDialog, showDialogOnError, t]);
+  }, [showDialog, showDialogOnError, status, t]);
 
   const handleCancelBtnClick = () => {
     if (hasLocalChanges) {
