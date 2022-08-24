@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Changed
 
+## [1.2.3] - 2022-08-24
+
+- Refactored useToast and useDialog to use useCallBack
+
+## Changed
+
 ## [1.2.2] - 2022-08-24
 
 - Parameters of showToast and showDialog hooks

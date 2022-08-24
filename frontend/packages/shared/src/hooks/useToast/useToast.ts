@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { NotifierContext } from '../../components/Notifier/NotifierContextProvider';
 import { Duration, NotifierTypes, Severity } from '../../enums';
@@ -14,26 +14,28 @@ interface ShowToastProps {
 export const useToast = () => {
   const notifierCtx = useContext(NotifierContext);
 
-  const showToast = ({
-    severity,
-    description,
-    timeOut = Duration.Medium,
-    action,
-  }: ShowToastProps) => {
-    const toast: Toast = {
-      type: NotifierTypes.Toast,
+  const showToast = useCallback(
+    ({
       severity,
       description,
-      timeOut,
+      timeOut = Duration.Medium,
       action,
-    };
+    }: ShowToastProps) => {
+      const toast: Toast = {
+        type: NotifierTypes.Toast,
+        severity,
+        description,
+        timeOut,
+        action,
+      };
+      notifierCtx?.onToastShow(toast);
+    },
+    [notifierCtx]
+  );
 
-    notifierCtx?.onToastShow(toast);
-  };
-
-  const removeToast = () => {
+  const removeToast = useCallback(() => {
     notifierCtx?.onToastRemove();
-  };
+  }, [notifierCtx]);
 
   return {
     activeToast: notifierCtx?.toast,

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { NotifierContext } from '../../components/Notifier/NotifierContextProvider';
 import { NotifierTypes, Severity } from '../../enums';
@@ -15,28 +15,25 @@ interface ShowDialogProps {
 export const useDialog = () => {
   const notifierCtx = useContext(NotifierContext);
 
-  const showDialog = ({
-    title,
-    severity,
-    description,
-    actions,
-    timeOut,
-  }: ShowDialogProps) => {
-    const dialog: Dialog = {
-      type: NotifierTypes.Dialog,
-      title,
-      severity,
-      description,
-      actions,
-      timeOut,
-    };
+  const showDialog = useCallback(
+    ({ title, severity, description, actions, timeOut }: ShowDialogProps) => {
+      const dialog: Dialog = {
+        type: NotifierTypes.Dialog,
+        title,
+        severity,
+        description,
+        actions,
+        timeOut,
+      };
 
-    notifierCtx?.onDialogShow(dialog);
-  };
+      notifierCtx?.onDialogShow(dialog);
+    },
+    [notifierCtx]
+  );
 
-  const removeDialog = () => {
+  const removeDialog = useCallback(() => {
     notifierCtx?.onDialogRemove();
-  };
+  }, [notifierCtx]);
 
   return {
     activeDialog: notifierCtx?.dialog,
