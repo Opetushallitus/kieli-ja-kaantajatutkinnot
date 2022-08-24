@@ -147,11 +147,13 @@ export const ClerkSendEmailPage = () => {
 
   const { showToast } = useToast();
   useEffect(() => {
+    if (status == APIResponseStatus.Success) {
+      showToast(Severity.Success, t('toasts.success'));
+    }
     if (
       status == APIResponseStatus.Success ||
       status == APIResponseStatus.Cancelled
     ) {
-      showToast(Severity.Success, t('toasts.success'));
       dispatch(resetClerkTranslatorEmail());
       navigate(AppRoutes.ClerkHomePage);
     }
