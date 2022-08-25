@@ -1,12 +1,337 @@
 {
   "otr": {
     "component": {
+      "addMeetingDate": {
+        "buttons": {
+          "add": "Add a meeting day"
+        },
+        "datePicker": {
+          "label": "Meeting date"
+        },
+        "header": "Add a meeting day",
+        "meetingDateAlreadyExists": "The day you have selected is an already existing meeting day."
+      },
+      "clerkInterpreterFilters": {
+        "examinationType": {
+          "placeholder": "All",
+          "title": "Completed qualification"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Source language",
+          "title": "Search by language pair",
+          "toPlaceholder": "Target language"
+        },
+        "name": {
+          "placeholder": "Name",
+          "title": "Search by legal interpreter’s name"
+        },
+        "permissionToPublish": {
+          "placeholder": "All",
+          "title": "Permission to publish the language pair"
+        },
+        "qualificationStatus": {
+          "effective": "Valid",
+          "expired": "Expired",
+          "expiring": "Expiring"
+        }
+      },
+      "clerkInterpreterListing": {
+        "header": {
+          "name": "Name",
+          "languagePairs": "Language pairs",
+          "region": "Operating area",
+          "validFor": "Valid"
+        },
+        "row": {
+          "detailsButton": "Additional information"
+        }
+      },
+      "clerkInterpreterOverview": {
+        "interpreterDetails": {
+          "areaOfOperation": {
+            "all": "All of Finland",
+            "chooseRegion": "Select region",
+            "regions": "Regions"
+          },
+          "cancelUpdateDialog": {
+            "description": "You will lose the changes you have made.",
+            "title": "Do you want to exit the modification view?"
+          },
+          "fields": {
+            "country": "Country",
+            "email": "Email",
+            "extraInformation": "Additional information",
+            "firstName": "First name(s)",
+            "identityNumber": "Finnish personal identity code",
+            "lastName": "Last name",
+            "nickName": null,
+            "otherContactInfo": null,
+            "phoneNumber": "Telephone number",
+            "postalCode": "Postal code",
+            "street": "Street address",
+            "town": "City/town"
+          },
+          "header": {
+            "address": "Address",
+            "contactInformation": "Contact details",
+            "extraInformation": "Additional information",
+            "personalInformation": "Personal data",
+            "regions": null
+          }
+        },
+        "qualifications": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Change the permission to publish",
+              "dialog": {
+                "description": "This will change the visibility of the language pair in the public register.",
+                "header": "Are you sure you want to change the permission to publish?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Delete the language pair",
+              "dialog": {
+                "description": "This action cannot be undone!",
+                "confirmButton": "Delete the language pair",
+                "header": "Are you sure you want to delete the language pair?"
+              }
+            }
+          },
+          "fields": {
+            "diaryNumber": "Case identifier",
+            "endDate": "End date",
+            "examinationType": "Education",
+            "languagePair": "Language pair",
+            "permissionToPublish": "Permission to publish",
+            "startDate": "Start date"
+          },
+          "header": "Language pairs",
+          "noQualifications": "No qualifications meeting the selected criteria were found",
+          "toasts": {
+            "addingSucceeded": null,
+            "removingSucceeded": null,
+            "updatingPublishPermissionSucceeded": null
+          },
+          "toggleFilters": {
+            "effective": "Valid",
+            "expired": "Expired"
+          }
+        },
+        "toasts": {
+          "updated": "The information was saved"
+        }
+      },
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Continue to content",
+          "ophPhone": "Telephone number of the Finnish National Agency for Education",
+          "waveAriaLabel": "Wavy vector image"
+        },
+        "address": {
+          "name": "Finnish National Agency for Education",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telephone"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "P.O. Box 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Accessibility statement (in Finnish)"
+          },
+          "otrHomepage": {
+            "ariaLabel": "Register of legal interpreters (oph.fi), open in a new tab",
+            "link": "https://www.oph.fi/fi/palvelut/oikeustulkkirekisteri",
+            "text": "Information on the Register of Legal Interpreters (oph.fi)"
+          }
+        }
+      },
       "header": {
+        "accessibility": {
+          "continueToMain": "Continue to content",
+          "langSelectorAriaLabel": "Change the language of the user interface"
+        },
+        "clerk": {
+          "backToOph": "Back to Studyinfo",
+          "logOut": "Sign out",
+          "navLinks": {
+            "tabsLabel": "Official’s URLs"
+          }
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
-          "sv": "På Svenska"
+          "sv": "På svenska"
         }
+      },
+      "meetingDatesListing": {
+        "header": "Meeting day",
+        "removal": {
+          "ariaLabel": "Delete the meeting day",
+          "dialog": {
+            "description": null,
+            "header": "Are you sure you want to delete the meeting day?"
+          }
+        }
+      },
+      "meetingDatesToggleFilters": {
+        "passed": "Past",
+        "upcoming": "Forthcoming"
+      },
+      "newQualification": {
+        "cancelDialog": {
+          "header": "Are you sure you want to cancel?"
+        },
+        "fieldLabel": {
+          "beginDate": null,
+          "diaryNumber": "Case identifier",
+          "endDate": null,
+          "examination": null,
+          "from": "Language pair (source language)",
+          "to": "Language pair (target language)"
+        },
+        "fieldPlaceholders": {
+          "beginDate": "Start date",
+          "diaryNumber": "Case identifier",
+          "endDate": "End date",
+          "examination": null,
+          "from": "Source language",
+          "to": "Target language"
+        },
+        "switch": {
+          "permissionToPublish": "Permission to publish"
+        }
+      },
+      "publicInterpreterFilters": {
+        "name": {
+          "placeholder": "Name",
+          "title": "Search by legal interpreter’s name"
+        },
+        "buttons": {
+          "empty": "Clear",
+          "newSearch": "Conduct a new search",
+          "search": "Show results"
+        },
+        "languagePair": {
+          "fromAriaLabel": "Source language, mandatory for contacting",
+          "fromHelperText": "Select language",
+          "fromPlaceholder": "Source language",
+          "title": "Search by language pair",
+          "toAriaLabel": "Target language, mandatory for contacting",
+          "toHelperText": "Select language",
+          "toPlaceholder": "Target language"
+        },
+        "region": {
+          "placeholder": "Operating area",
+          "title": "Search by legal interpreter's operating area"
+        },
+        "toasts": {
+          "contactRequestNeedsLanguagePairs": "Select a language pair for contacting a translator",
+          "interpreterSelected": "You can select only one language pair for contacting",
+          "selectLanguagePair": "Select a language pair"
+        }
+      },
+      "publicInterpreterListing": {
+        "header": {
+          "name": "Name",
+          "languagePairs": "Language pairs",
+          "region": "Operating area"
+        },
+        "row": {
+          "additionalContactDetail": {
+            "email": "Email",
+            "otherContactInfo": "Other contact detail",
+            "phoneNumber": "Telephone number"
+          },
+          "ariaLabel": "Open additional information"
+        },
+        "searchResultsInfo": null
+      },
+      "table": {
+        "pagination": {
+          "rowsPerPage": null
+        }
+      }
+    },
+    "errors": {
+      "api": {
+        "generic": "The action failed, please try again later",
+        "interpreterInvalidNickName": null,
+        "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
+        "meetingDateDeleteHasQualifications": null,
+        "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
+        "meetingDateUpdateHasQualifications": null
+      },
+      "customTextField": {
+        "emailFormat": "The email address is incorrect",
+        "maxLength": "The text is too long",
+        "personalIdentityCodeFormat": "The form of the personal identity code was not recognised",
+        "required": "The information is mandatory",
+        "telFormat": "The telephone number is incorrect"
+      },
+      "loadingFailed": "Failed to download the information, please try again later."
+    },
+    "pages": {
+      "clerkHomepage": {
+        "addInterpreter": "Add a legal interpreter",
+        "buttons": {
+          "emptySelection": "Clear selections"
+        },
+        "register": "Register",
+        "title": "Register of Legal Interpreters"
+      },
+      "clerkInterpreterOverviewPage": {
+        "title": "Legal interpreter's details",
+        "toasts": {
+          "notFound": "The selected interpreter could not be found"
+        }
+      },
+      "clerkNewInterpreterPage": {
+        "addedQualificationsTitle": null,
+        "removeQualificationDialog": {
+          "title": null
+        },
+        "title": null,
+        "toasts": {
+          "success": null
+        }
+      },
+      "clerkPersonSearchPage": {
+        "buttons": {
+          "proceed": null,
+          "search": null
+        },
+        "noResult": {
+          "description": null,
+          "label": null
+        },
+        "placeholder": null,
+        "search": {
+          "description": null,
+          "label": null
+        },
+        "title": null
+      },
+      "homepage": {
+        "description": "The Finnish National Agency for Education maintains a register of legal interpreters, into which the legal interpreters approved by the Legal Interpreters’ Registration Board are entered. You can use the search engine to find an interpreter by name, language pair or operating area. The public register of legal interpreters contains only the details of those interpreters who have given the permission to publish their details online.",
+        "filters": {
+          "title": "Search for a legal interpreter"
+        },
+        "noSearchResults": "No search results",
+        "note": "Legal interpreters always have two-way qualifications, for example, Finnish <-> English, English <-> Finnish",
+        "title": "Register of Legal Interpreters"
+      },
+      "meetingDatesPage": {
+        "title": "Meeting days",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "notFoundPage": {
+        "description": "The address may be wrong or outdated. Click the button below to return to the home page",
+        "title": "Unfortunately, the page you are looking for was not found"
       }
     }
   }

@@ -12,10 +12,6 @@
         "meetingDateAlreadyExists": "Valitsemasi päivä on jo olemassaoleva kokouspäivä."
       },
       "clerkInterpreterFilters": {
-        "name": {
-          "placeholder": "Nimi",
-          "title": "Haku oikeustulkin nimellä"
-        },
         "examinationType": {
           "placeholder": "Kaikki",
           "title": "Suoritettu tutkinto"
@@ -24,6 +20,10 @@
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",
           "toPlaceholder": "Mihin"
+        },
+        "name": {
+          "placeholder": "Nimi",
+          "title": "Haku oikeustulkin nimellä"
         },
         "permissionToPublish": {
           "placeholder": "Kaikki",
@@ -314,7 +314,7 @@
         "title": "Lisää oikeustulkki"
       },
       "homepage": {
-        "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
+        "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon Oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
         "filters": {
           "title": "Etsi oikeustulkkia"
         },
