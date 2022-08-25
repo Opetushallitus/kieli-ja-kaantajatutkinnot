@@ -24,6 +24,7 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   resetClerkNewTranslator,
+  saveClerkNewTranslator,
   updateClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
@@ -150,6 +151,14 @@ export const ClerkNewTranslatorPage = () => {
     hasLocalChanges && status !== APIResponseStatus.Success
   );
 
+  const isLoading = status == APIResponseStatus.InProgress;
+  const isSaveButtonDisabled =
+    isLoading ||
+    !translator.firstName ||
+    !translator.lastName ||
+    translator.authorisations.length < 1;
+  const onSave = () => dispatch(saveClerkNewTranslator(translator));
+
   return (
     <Box className="clerk-new-translator-page">
       <H1>{t('title')}</H1>
@@ -195,7 +204,11 @@ export const ClerkNewTranslatorPage = () => {
               onAuthorisationRemove={onAuthorisationRemove}
             />
           ) : null}
-          <BottomControls />
+          <BottomControls
+            isLoading={isLoading}
+            isSaveDisabled={isSaveButtonDisabled}
+            onSave={onSave}
+          />
         </div>
       </Paper>
     </Box>
