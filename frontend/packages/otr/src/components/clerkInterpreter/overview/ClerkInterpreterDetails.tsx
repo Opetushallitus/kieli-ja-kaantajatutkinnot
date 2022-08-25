@@ -196,7 +196,6 @@ export const ClerkInterpreterDetails = () => {
         handleInterpreterDetailsChange(field)
       }
       isViewMode={isViewMode}
-      isIndividualisedInterpreter={interpreter?.isIndividualised}
       topControlButtons={
         <ControlButtons
           onCancel={onCancel}

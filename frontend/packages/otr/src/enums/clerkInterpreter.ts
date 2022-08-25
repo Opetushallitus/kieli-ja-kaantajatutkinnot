@@ -19,12 +19,6 @@ export enum ClerkInterpreterTextFieldEnum {
   ExtraInformation = 'extraInformation',
 }
 
-export enum ClerkInterpreterToggleableFieldEnum {
-  PermissionToPublishEmail = 'permissionToPublishEmail',
-  PermissionToPublishPhone = 'permissionToPublishPhone',
-  PermissionToPublishOtherContactInfo = 'permissionToPublishOtherContactInfo',
-}
-
 export enum AreaOfOperation {
   All = 'all',
   Regions = 'regions',

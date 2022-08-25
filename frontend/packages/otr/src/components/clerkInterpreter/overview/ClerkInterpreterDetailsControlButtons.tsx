@@ -8,19 +8,19 @@ import { useAppSelector } from 'configs/redux';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 
 interface ControlButtonsProps {
-  isViewMode: boolean;
   onCancel: () => void;
   onEdit: () => void;
   onSave: () => void;
+  isViewMode: boolean;
   hasRequiredDetails: boolean;
 }
 
 export const ControlButtons: FC<ControlButtonsProps> = ({
-  isViewMode,
-  hasRequiredDetails,
   onCancel,
   onEdit,
   onSave,
+  isViewMode,
+  hasRequiredDetails,
 }) => {
   const translateCommon = useCommonTranslation();
   const { interpreterDetailsStatus } = useAppSelector(

@@ -25,7 +25,6 @@ import {
 import {
   AreaOfOperation,
   ClerkInterpreterTextFieldEnum,
-  ClerkInterpreterToggleableFieldEnum,
 } from 'enums/clerkInterpreter';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
@@ -194,7 +193,6 @@ export const ClerkInterpreterDetailsFields = ({
   setAreaOfOperation,
   onFieldChange,
   isViewMode,
-  isIndividualisedInterpreter = false,
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
@@ -209,7 +207,6 @@ export const ClerkInterpreterDetailsFields = ({
   areaOfOperation: AreaOfOperation;
   setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
   isViewMode: boolean;
-  isIndividualisedInterpreter?: boolean;
   topControlButtons?: JSX.Element;
   displayFieldErrorBeforeChange: boolean;
 }) => {
@@ -238,7 +235,7 @@ export const ClerkInterpreterDetailsFields = ({
     }
 
     return (
-      isIndividualisedInterpreter &&
+      interpreter.isIndividualised &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,
@@ -303,16 +300,11 @@ export const ClerkInterpreterDetailsFields = ({
             {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
             fullWidth={true}
           />
-
           <Checkbox
             color={Color.Secondary}
             checked={interpreter.permissionToPublishEmail}
-            onChange={(e) =>
-              onFieldChange(
-                ClerkInterpreterToggleableFieldEnum.PermissionToPublishEmail
-              )(e)
-            }
-            disabled={editDisabled}
+            onChange={onFieldChange('permissionToPublishEmail')}
+            disabled={isViewMode}
           />
           <Text>{translateCommon('permissionToPublish')}</Text>
         </div>
@@ -326,12 +318,8 @@ export const ClerkInterpreterDetailsFields = ({
           <Checkbox
             color={Color.Secondary}
             checked={interpreter.permissionToPublishPhone}
-            onChange={(e) =>
-              onFieldChange(
-                ClerkInterpreterToggleableFieldEnum.PermissionToPublishPhone
-              )(e)
-            }
-            disabled={editDisabled}
+            onChange={onFieldChange('permissionToPublishPhone')}
+            disabled={isViewMode}
           />
           <Text>{translateCommon('permissionToPublish')}</Text>
         </div>
@@ -345,12 +333,8 @@ export const ClerkInterpreterDetailsFields = ({
           <Checkbox
             color={Color.Secondary}
             checked={interpreter.permissionToPublishOtherContactInfo}
-            onChange={(e) =>
-              onFieldChange(
-                ClerkInterpreterToggleableFieldEnum.PermissionToPublishOtherContactInfo
-              )(e)
-            }
-            disabled={editDisabled}
+            onChange={onFieldChange('permissionToPublishOtherContactInfo')}
+            disabled={isViewMode}
           />
           <Text>{translateCommon('permissionToPublish')}</Text>
         </div>
