@@ -1,12 +1,448 @@
 {
   "akr": {
     "component": {
+      "addExaminationDate": {
+        "buttons": {
+          "add": "Add an exam day"
+        },
+        "datePicker": {
+          "label": "Exam date"
+        },
+        "examinationDateAlreadyExists": "The day you have selected is an already existing exam day.",
+        "header": "Add an exam day"
+      },
+      "addMeetingDate": {
+        "buttons": {
+          "add": "Add a meeting day"
+        },
+        "datePicker": {
+          "label": "Meeting date"
+        },
+        "header": "Add a meeting day",
+        "meetingDateAlreadyExists": "The day you have selected is an already existing meeting day."
+      },
+      "clerkTranslatorFilters": {
+        "authorisationBasis": {
+          "placeholder": "authorisation",
+          "title": "Grounds"
+        },
+        "authorisationStatus": {
+          "authorised": "Authorised",
+          "expired": "Expired",
+          "expiring": "Expiring",
+          "formerVIR": "VIR 2008"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Source language",
+          "title": "Search by language pair",
+          "toPlaceholder": "Target language"
+        },
+        "name": {
+          "placeholder": "Name",
+          "title": "Search by translator’s name"
+        },
+        "permissionToPublish": {
+          "placeholder": "All",
+          "title": "Permission to publish"
+        }
+      },
+      "clerkTranslatorListing": {
+        "detailsButton": "Additional information",
+        "header": {
+          "basis": "Grounds",
+          "languagePair": "Language pairs",
+          "name": "Name",
+          "permissionToPublish": "Permission to publish",
+          "termBeginDate": "Start date",
+          "termEndDate": "End date",
+          "valid": "Valid"
+        }
+      },
+      "clerkTranslatorOverview": {
+        "authorisations": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Change the permission to publish",
+              "dialog": {
+                "description": "This will change the visibility of the authorisation in the public register.",
+                "header": "Are you sure you want to change the permission to publish?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Delete the authorisation",
+              "dialog": {
+                "description": "This action cannot be undone!",
+                "confirmButton": "Delete the authorisation",
+                "header": "Are you sure you want to delete the authorisation?"
+              }
+            }
+          },
+          "buttons": {
+            "add": "Add authorisation"
+          },
+          "fields": {
+            "basis": "Grounds",
+            "diaryNumber": "Case identifier",
+            "endDate": "End date",
+            "examinationDate": "Exam day",
+            "isEffective": "Valid",
+            "languagePair": "End date",
+            "permissionToPublish": "Permission to publish",
+            "startDate": "Start date"
+          },
+          "header": "Authorisations",
+          "noAuthorisations": "No authorisations meeting the selected criteria were found",
+          "toasts": {
+            "addingSucceeded": "Authorisation added successfully",
+            "removingSucceeded": null,
+            "updatingPublishPermissionSucceeded": null
+          },
+          "toggleFilters": {
+            "effectives": "Valid",
+            "expired": "Expired",
+            "formerVIR": "VIR 2008"
+          }
+        },
+        "toasts": {
+          "notFound": "The selected translator could not be found",
+          "updateFailed": "Failed to save the information",
+          "updated": "The information was saved"
+        },
+        "translatorDetails": {
+          "cancelUpdateDialog": {
+            "description": "You will lose the changes you have made.",
+            "title": "Do you want to exit the modification view?"
+          },
+          "caveats": {
+            "isNotAssuranceGiven": "The authorisations are not visible in the public list!"
+          },
+          "fields": {
+            "country": "Country",
+            "email": "Email",
+            "extraInformation": "Additional information",
+            "firstName": "First name(s)",
+            "identityNumber": "Finnish personal identity code",
+            "lastName": "Last name",
+            "phoneNumber": "Telephone number",
+            "postalCode": "Postal code",
+            "street": "Street address",
+            "town": "City/town"
+          },
+          "header": {
+            "address": "Address",
+            "contactInformation": "Contact details",
+            "extraInformation": "Additional information",
+            "isAssuranceGiven": "Declaration given",
+            "personalInformation": "Personal details"
+          }
+        }
+      },
+      "contactRequestForm": {
+        "description": "You can use this contact request form to leave a contact request to the authorised translators you have selected. Please write a description of the required translation in as much detail as possible to your message.",
+        "cancelRequestDialog": {
+          "description": "Do you want to cancel the contact request? You will lose the information you have filled in",
+          "title": "Cancel contact request"
+        },
+        "characters": "characters",
+        "chosenTranslatorsForLanguagePair": "The translators you have selected from the language pair",
+        "doneStep": {
+          "description": "This page will automatically redirect you back to the home page. If nothing happens, click the button below.",
+          "title": "Your contact request has been sent and you will be contacted."
+        },
+        "errorDialog": {
+          "description": "Try again later. If the problem persists, contact us by email at: auktoris.lautakunta@oph.fi",
+          "back": "Back",
+          "title": "An error was encountered when sending the contact request"
+        },
+        "formLabels": {
+          "contactInfo": "Your contact details",
+          "email": "Email",
+          "firstName": "First name",
+          "lastName": "Last name",
+          "message": "Message",
+          "phoneNumber": "Telephone number",
+          "writeMessageHere": "Message"
+        },
+        "privacyStatement": {
+          "ariaLabel": "Privacy policy",
+          "label": null,
+          "linkLabel": null
+        },
+        "steps": {
+          "Done": "Complete!",
+          "FillContactDetails": "Fill in contact details",
+          "PreviewAndSend": "Preview and send",
+          "VerifyTranslators": "Confirm translators",
+          "WriteMessage": "Write message",
+          "active": "Active",
+          "completed": "Completed"
+        },
+        "title": "Leaving a contact request",
+        "verifySelectedTranslatorsStep": {
+          "accessibility": {
+            "deselectTranslator": "Delete the translator"
+          }
+        }
+      },
+      "examinationDatesListing": {
+        "header": "Exam day",
+        "removal": {
+          "ariaLabel": "Delete the exam day",
+          "dialog": {
+            "description": "An exam day can be deleted if no authorisations are linked to it.",
+            "header": "Are you sure you want to delete the exam day?"
+          }
+        }
+      },
+      "examinationDatesToggleFilters": {
+        "passed": "Past",
+        "upcoming": "Forthcoming"
+      },
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Continue to content",
+          "ophPhone": "Telephone number of the Finnish National Agency for Education",
+          "waveAriaLabel": "Wavy vector image"
+        },
+        "address": {
+          "name": "Finnish National Agency for Education",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telephone"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "P.O. Box 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Accessibility statement (in Finnish)"
+          },
+          "aktHomepage": {
+            "ariaLabel": "Examination system of authorised translators (oph.fi), open in a new tab",
+            "link": "https://www.oph.fi/en/services/briefly-about-authorised-translators-examination",
+            "text": "Examination system of authorised translators (oph.fi)"
+          },
+          "privacy": {
+            "text": "Privacy policy"
+          }
+        }
+      },
       "header": {
+        "accessibility": {
+          "continueToMain": "Continue to content",
+          "langSelectorAriaLabel": "Change the language of the user interface"
+        },
+        "clerk": {
+          "backToOph": "Back to Studyinfo",
+          "logOut": "Sign out",
+          "navLinks": {
+            "certificateCreation": "Drawing up the certificate",
+            "meetingDates": "Dates of meetings",
+            "tabsLabel": "Official’s URLs"
+          }
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
-          "sv": "På Svenska"
+          "sv": "På svenska"
         }
+      },
+      "meetingDatesListing": {
+        "header": "Meeting day",
+        "removal": {
+          "ariaLabel": "Delete the meeting day",
+          "dialog": {
+            "description": "You can delete a meeting day if no authorisations are linked to it.",
+            "header": "Are you sure you want to delete the meeting day?"
+          }
+        }
+      },
+      "meetingDatesToggleFilters": {
+        "passed": "Past",
+        "upcoming": "Forthcoming"
+      },
+      "newAuthorisation": {
+        "cancelDialog": {
+          "header": "Are you sure you want to cancel?"
+        },
+        "fieldLabel": {
+          "basis": "Grounds for authorisation",
+          "diaryNumber": "Authorisation case ID",
+          "examinationDate": "Exam day (only AUT)",
+          "from": "Language pair (source language)",
+          "termBeginDate": "Authorisation start date",
+          "termEndDate": "Authorisation end date",
+          "to": "Language pair (target language)"
+        },
+        "fieldPlaceholders": {
+          "basis": "Grounds",
+          "diaryNumber": "Case identifier",
+          "examinationDate": "Exam day",
+          "from": "Source language",
+          "termBeginDate": "Start date",
+          "termEndDate": "End date",
+          "to": "Target language"
+        },
+        "switch": {
+          "permissionToPublish": "May be published online"
+        }
+      },
+      "publicTranslatorFilters": {
+        "buttons": {
+          "empty": "Clear",
+          "newSearch": "Conduct a new search",
+          "search": "Show results"
+        },
+        "captions": {
+          "langPair": "(* Mandatory for contacting)"
+        },
+        "languagePair": {
+          "fromAriaLabel": "Source language, mandatory for contacting",
+          "fromHelperText": "Select language",
+          "fromPlaceholder": "Source language *",
+          "title": "Search by language pair",
+          "toAriaLabel": "Target language, mandatory for contacting",
+          "toHelperText": "Select language",
+          "toPlaceholder": "Target language *"
+        },
+        "name": {
+          "placeholder": "Name",
+          "title": "Search by translator’s name"
+        },
+        "toasts": {
+          "contactRequestNeedsLanguagePairs": "Select a language pair for contacting a translator",
+          "selectLanguagePair": "Select a language pair",
+          "translatorsSelected": "You can select only one language pair for contacting"
+        },
+        "town": {
+          "placeholder": "Municipality of residence",
+          "title": "Search by translator’s municipality of residence"
+        }
+      },
+      "table": {
+        "accessibility": {
+          "checkboxSelectedAriaLabel": "Delete the selection",
+          "checkboxUnselectedAriaLabel": "Select a translator"
+        },
+        "pagination": {
+          "rowsPerPage": "Results per page"
+        },
+        "selectedItems": "selected",
+        "title": "Search results"
+      }
+    },
+    "errors": {
+      "api": {
+        "authorisationBasisAndExaminationDateMismatch": "Failed to add/modify the authorisation because the grounds and the AUT exam day conflict",
+        "authorisationDeleteLastAuthorisation": "Failed to delete the authorisation because the translator’s last authorisation cannot be deleted",
+        "authorisationMissingExaminationDate": "Failed to add/modify the authorisation because the selected date is not an exam day",
+        "authorisationMissingMeetingDate": "Failed to add/modify the authorisation because the selected date is not a meeting day",
+        "examinationDateCreateDuplicateDate": "Failed to add the exam day because the selected date is already an exam day",
+        "examinationDateDeleteHasAuthorisations": "Failed to delete the exam day because authorisations have been recorded for it",
+        "generic": "The action failed, please try again later",
+        "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
+        "meetingDateDeleteHasAuthorisations": "Failed to delete the meeting day because authorisations have been recorded for it",
+        "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
+        "meetingDateUpdateHasAuthorisations": "Failed to modify the meeting day because authorisations have been recorded for it",
+        "translatorCreateDuplicateEmail": "Failed to add the translator because the email address is already in use",
+        "translatorCreateDuplicateIdentityNumber": "Failed to add the translator because the personal identity code is already in use",
+        "translatorUpdateDuplicateEmail": "Failed to modify the translator because the email address is already in use",
+        "translatorUpdateDuplicateIdentityNumber": "Failed to modify the translator because the personal identity code is already in use"
+      },
+      "customTextField": {
+        "emailFormat": "The email address is incorrect",
+        "maxLength": "The text is too long",
+        "personalIdentityCodeFormat": "The form of the personal identity code was not recognised",
+        "required": "The information is mandatory",
+        "telFormat": "The telephone number is incorrect"
+      },
+      "loadingFailed": "Failed to download the information, please try again later."
+    },
+    "pages": {
+      "clerkHomepage": {
+        "buttons": {
+          "emptySelection": "Clear selections",
+          "newTranslator": "Do you want to cancel sending the email? You will lose the information you have filled in.",
+          "sendEmail": "Send the email"
+        },
+        "title": "Register of authorised translators"
+      },
+      "clerkNewTranslatorPage": {
+        "addedAuthorisationsTitle": "Added authorisations",
+        "cancelAddNewTranslatorDialog": {
+          "title": "Are you sure you want to cancel the addition of a new translator?"
+        },
+        "removeAuthorisationDialog": {
+          "title": "Are you sure you want to delete the authorisation?"
+        },
+        "title": "Add a translator",
+        "toasts": {
+          "success": "The translator's details were saved!"
+        }
+      },
+      "clerkSendEmailPage": {
+        "dialogs": {
+          "cancel": {
+            "description": "Do you want to cancel sending the email? You will lose the information you have filled in.",
+            "title": "Cancel sending the email"
+          },
+          "send": {
+            "description": "Do you want to send the email? The message will be sent to {{count}} translators.",
+            "title": "Send the email"
+          }
+        },
+        "labels": {
+          "message": "Write your message here",
+          "subject": "Enter the subject"
+        },
+        "sections": {
+          "message": "Message",
+          "recipients": "Recipients",
+          "subject": "Subject"
+        },
+        "selectedCount_one": "{{count}} translator selected",
+        "selectedCount_other": "{{count}} translators selected",
+        "title": "Send the email",
+        "toasts": {
+          "error": "Failed to send the email. The error may be temporary, please try again.",
+          "success": "You email was sent to the translators"
+        }
+      },
+      "clerkTranslatorOverviewPage": {
+        "title": "Translator’s details"
+      },
+      "examinationDatesPage": {
+        "title": "Exam days",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "homepage": {
+        "description": "The Finnish National Agency for Education maintains a register of authorised translators, into which the authorised translators approved by the Authorised Translators’ Examination Board are entered. You can use the search engine to find an authorised translator either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email to obtain contact details of authorised translators: auktoris.lautakunta@oph.fi. The public register of authorised translators contains only the names of those interpreters who have given the permission to publish their names online.",
+        "filters": {
+          "title": "Search for an authorised translator"
+        },
+        "noSearchResults": "No search results",
+        "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland.",
+        "requestContact": "Contact us",
+        "title": "Register of Authorised Translators"
+      },
+      "meetingDatesPage": {
+        "title": "Meeting days",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "notFoundPage": {
+        "description": "The address may be wrong or outdated. Click the button below to return to the home page",
+        "title": "Unfortunately, the page you are looking for was not found"
+      },
+      "translator": {
+        "languagePairs": "Language pairs",
+        "name": "Name",
+        "town": "Municipality of residence"
       }
     }
   }

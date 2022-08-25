@@ -1,12 +1,448 @@
 {
   "akr": {
     "component": {
+      "addExaminationDate": {
+        "buttons": {
+          "add": "Lägg till examensdag"
+        },
+        "datePicker": {
+          "label": "Datum för examen"
+        },
+        "examinationDateAlreadyExists": "Dagen du valt är en redan befintlig examensdag.",
+        "header": "Lägg till examensdag"
+      },
+      "addMeetingDate": {
+        "buttons": {
+          "add": "Lägg till mötesdag"
+        },
+        "datePicker": {
+          "label": "Datum för mötet"
+        },
+        "header": "Lägg till mötesdag",
+        "meetingDateAlreadyExists": "Dagen du valt är en redan befintlig mötesdag."
+      },
+      "clerkTranslatorFilters": {
+        "authorisationBasis": {
+          "placeholder": "Auktorisering",
+          "title": "Grund"
+        },
+        "authorisationStatus": {
+          "authorised": "Auktoriserade",
+          "expired": "Löpt ut",
+          "expiring": "Löpt ut",
+          "formerVIR": "VIR 2008"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Varifrån",
+          "title": "Sökning med språkpar",
+          "toPlaceholder": "Vart"
+        },
+        "name": {
+          "placeholder": "Namn",
+          "title": "Sök med translatorns namn"
+        },
+        "permissionToPublish": {
+          "placeholder": "Alla",
+          "title": "Publiceringstillstånd"
+        }
+      },
+      "clerkTranslatorListing": {
+        "detailsButton": "Ytterligare information",
+        "header": {
+          "basis": "Grund",
+          "languagePair": "Språkpar",
+          "name": "Namn",
+          "permissionToPublish": "Publiceringstillstånd",
+          "termBeginDate": "Startdatum",
+          "termEndDate": "Slutdatum",
+          "valid": "I kraft"
+        }
+      },
+      "clerkTranslatorOverview": {
+        "authorisations": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Ändra publiceringstillstånd",
+              "dialog": {
+                "description": "Detta ändrar hur auktoriseringen syns i det offentliga registret.",
+                "header": "Är du säker på att du vill byta publiceringstillstånd?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Ta bort auktorisering",
+              "dialog": {
+                "description": "Denna funktion kan inte ångras!",
+                "confirmButton": "Ta bort auktorisering",
+                "header": "Är du säker på att du vill ta bort auktoriseringen?"
+              }
+            }
+          },
+          "buttons": {
+            "add": "Lägg till auktorisering"
+          },
+          "fields": {
+            "basis": "Grund",
+            "diaryNumber": "Diarienummer",
+            "endDate": "Slutdatum",
+            "examinationDate": "Examensdag",
+            "isEffective": "I kraft",
+            "languagePair": "Slutdatum",
+            "permissionToPublish": "Publiceringstillstånd",
+            "startDate": "Startdatum"
+          },
+          "header": "Auktoriserade",
+          "noAuthorisations": "Inga auktoriseringar hittades för de valda kriterierna",
+          "toasts": {
+            "addingSucceeded": "Auktoriseringen har lagts till",
+            "removingSucceeded": null,
+            "updatingPublishPermissionSucceeded": null
+          },
+          "toggleFilters": {
+            "effectives": "I kraft",
+            "expired": "Löpt ut",
+            "formerVIR": "VIR 2008"
+          }
+        },
+        "toasts": {
+          "notFound": "Vald translator kunde inte hittas",
+          "updateFailed": "Det gick inte att spara uppgifterna",
+          "updated": "Uppgifterna sparades"
+        },
+        "translatorDetails": {
+          "cancelUpdateDialog": {
+            "description": "Du kommer att förlora dina ändringar.",
+            "title": "Vill du lämna redigeringsvyn?"
+          },
+          "caveats": {
+            "isNotAssuranceGiven": "Auktoriseringarna syns inte i den offentliga listan!"
+          },
+          "fields": {
+            "country": "Land",
+            "email": "E-postadress",
+            "extraInformation": "Ytterligare information",
+            "firstName": "Förnamn",
+            "identityNumber": "Personbeteckning",
+            "lastName": "Efternamn",
+            "phoneNumber": "Telefonnummer",
+            "postalCode": "Postnummer",
+            "street": "Gatuadress",
+            "town": "Postanstalt"
+          },
+          "header": {
+            "address": "Adress",
+            "contactInformation": "Kontaktuppgifter",
+            "extraInformation": "Ytterligare information",
+            "isAssuranceGiven": "Försäkran har getts",
+            "personalInformation": "Personuppgifter"
+          }
+        }
+      },
+      "contactRequestForm": {
+        "description": "Med denna blankett kan du lämna en kontaktförfrågan till vald auktoriserad translator. Skriv en så noggrann beskrivning som möjligt av översättningsarbetet i meddelandet.",
+        "cancelRequestDialog": {
+          "description": "Vill du avbryta kontaktförfrågan? Du förlorar de uppgifter du fyllt i",
+          "title": "Avbryt kontaktförfrågan"
+        },
+        "characters": "tecken",
+        "chosenTranslatorsForLanguagePair": "Translatorerna du valt med språkparet",
+        "doneStep": {
+          "description": "Denna sida leder dig automatiskt tillbaka till framsidan. Om ingenting händer kan du klicka på knappen ovan.",
+          "title": "Din kontaktförfrågan har skickats och vi kontaktar dig."
+        },
+        "errorDialog": {
+          "description": "Försök igen senare. Kontakta oss per e-post: auktoris.lautakunta@oph.fi om problemet upprepas.",
+          "back": "Tillbaka",
+          "title": "Ett fel uppstod vid sändningen av kontaktförfrågan"
+        },
+        "formLabels": {
+          "contactInfo": "Dina kontaktuppgifter",
+          "email": "E-postadress",
+          "firstName": "Förnamn",
+          "lastName": "Efternamn",
+          "message": "Meddelande",
+          "phoneNumber": "Telefonnummer",
+          "writeMessageHere": "Meddelande"
+        },
+        "privacyStatement": {
+          "ariaLabel": "Dataskyddsbeskrivning",
+          "label": null,
+          "linkLabel": null
+        },
+        "steps": {
+          "Done": "Klart!",
+          "FillContactDetails": "Fyll i kontaktuppgifter",
+          "PreviewAndSend": "Förhandsgranska och sänd",
+          "VerifyTranslators": "Bekräfta translator",
+          "WriteMessage": "Skriv meddelande",
+          "active": "Aktiv",
+          "completed": "Utfört"
+        },
+        "title": "Lämna en kontaktförfrågan",
+        "verifySelectedTranslatorsStep": {
+          "accessibility": {
+            "deselectTranslator": "Ta bort translator"
+          }
+        }
+      },
+      "examinationDatesListing": {
+        "header": "Examensdag",
+        "removal": {
+          "ariaLabel": "Ta bort examensdag",
+          "dialog": {
+            "description": "Det är möjligt att ta bort examensdagen om den inte är förknippad med någon auktorisering.",
+            "header": "Är du säker på att du vill ta bort examensdagen?"
+          }
+        }
+      },
+      "examinationDatesToggleFilters": {
+        "passed": "Tidigare",
+        "upcoming": "Kommande"
+      },
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
+          "ophPhone": "Utbildningsstyrelsens telefonnummer",
+          "waveAriaLabel": "Vektordiagram med vågor"
+        },
+        "address": {
+          "name": "Utbildningsstyrelsen",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telefon"
+          },
+          "street": "Hagnäskajen 6",
+          "zipCity": "PB 380, 00531 Helsingfors"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Tillgänglighetsdirektiv"
+          },
+          "aktHomepage": {
+            "ariaLabel": "Examenssystemet för auktoriserade translatorer (oph.fi), öppnas i en ny flik",
+            "link": "https://www.oph.fi/sv/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
+            "text": "Systemet med auktoriserade translatorer (oph.fi)"
+          },
+          "privacy": {
+            "text": "Dataskyddsbeskrivning"
+          }
+        }
+      },
       "header": {
+        "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
+          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+        },
+        "clerk": {
+          "backToOph": "Tillbaka till Studieinfo",
+          "logOut": "Logga ut",
+          "navLinks": {
+            "certificateCreation": "Skapa intyg",
+            "meetingDates": "Mötesdagar",
+            "tabsLabel": "Tjänstemannens URL-adresser"
+          }
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
-          "sv": "På Svenska"
+          "sv": "På svenska"
         }
+      },
+      "meetingDatesListing": {
+        "header": "Mötesdag",
+        "removal": {
+          "ariaLabel": "Ta bort mötesdagen",
+          "dialog": {
+            "description": "Det är möjligt att ta bort mötesdagen om den inte är förknippad med någon auktorisering.",
+            "header": "Är du säker på att du vill ta bort mötesdagen?"
+          }
+        }
+      },
+      "meetingDatesToggleFilters": {
+        "passed": "Tidigare",
+        "upcoming": "Kommande"
+      },
+      "newAuthorisation": {
+        "cancelDialog": {
+          "header": "Är du säker på att du vill ångra?"
+        },
+        "fieldLabel": {
+          "basis": "Grunden för auktoriseringen",
+          "diaryNumber": "Diarienumret för auktoriseringen",
+          "examinationDate": "Examensdag (endast AUT)",
+          "from": "Språkpar (från)",
+          "termBeginDate": "Datum då auktoriseringen inleds",
+          "termEndDate": "Datum då auktoriseringen upphör",
+          "to": "Språkpar (till)"
+        },
+        "fieldPlaceholders": {
+          "basis": "Grund",
+          "diaryNumber": "Diarienummer",
+          "examinationDate": "Examensdag",
+          "from": "Varifrån",
+          "termBeginDate": "Startdatum",
+          "termEndDate": "Slutdatum",
+          "to": "Vart"
+        },
+        "switch": {
+          "permissionToPublish": "Får publiceras på internet"
+        }
+      },
+      "publicTranslatorFilters": {
+        "buttons": {
+          "empty": "Töm",
+          "newSearch": "Gör en ny sökning",
+          "search": "Visa resultat"
+        },
+        "captions": {
+          "langPair": "(* Obligatoriskt för att ta kontakt)"
+        },
+        "languagePair": {
+          "fromAriaLabel": "Från, obligatoriskt för att ta kontakt",
+          "fromHelperText": "Välj språk",
+          "fromPlaceholder": "Från *",
+          "title": "Sök med språkpar",
+          "toAriaLabel": "Till, obligatoriskt för att ta kontakt",
+          "toHelperText": "Välj språk",
+          "toPlaceholder": "Till *"
+        },
+        "name": {
+          "placeholder": "Namn",
+          "title": "Sök med translatorns namn"
+        },
+        "toasts": {
+          "contactRequestNeedsLanguagePairs": "Välj språkpar för att kontakta en translator",
+          "selectLanguagePair": "Välj språkpar",
+          "translatorsSelected": "Du kan endast välja ett språkpar för att ta kontakt"
+        },
+        "town": {
+          "placeholder": "Kommun",
+          "title": "Sök med translatorns boendeort"
+        }
+      },
+      "table": {
+        "accessibility": {
+          "checkboxSelectedAriaLabel": "Ta bort val",
+          "checkboxUnselectedAriaLabel": "Välj translator"
+        },
+        "pagination": {
+          "rowsPerPage": "Resultat per sida"
+        },
+        "selectedItems": "vald",
+        "title": "Sökresultat"
+      }
+    },
+    "errors": {
+      "api": {
+        "authorisationBasisAndExaminationDateMismatch": "Det gick inte att lägga till/redigera auktoriseringen eftersom grunden och AUT-examensdagen står i konflikt med varandra",
+        "authorisationDeleteLastAuthorisation": "Det gick inte att ta bort auktoriseringen eftersom translatorns senaste auktorisering inte kan tas bort",
+        "authorisationMissingExaminationDate": "Det gick inte att lägga till/redigera auktoriseringen eftersom det valda datumet inte är en examensdag",
+        "authorisationMissingMeetingDate": "Det gick inte att lägga till/redigera auktoriseringen eftersom det valda datumet inte är en mötesdag",
+        "examinationDateCreateDuplicateDate": "Det gick inte att lägga till examensdagen eftersom det valda datumet redan är en examensdag",
+        "examinationDateDeleteHasAuthorisations": "Det gick inte att ta bort examensdagen eftersom det har registrerats auktoriseringar på den",
+        "generic": "Funktionen misslyckades, försök på nytt senare",
+        "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
+        "meetingDateDeleteHasAuthorisations": "Det gick inte att ta bort mötesdagen eftersom det har registrerats auktoriseringar på den",
+        "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
+        "meetingDateUpdateHasAuthorisations": "Mötesdagen kunde inte redigeras eftersom det har registrerats auktoriseringar på den",
+        "translatorCreateDuplicateEmail": "Det gick inte att lägga till translatorn eftersom e-postadressen redan används",
+        "translatorCreateDuplicateIdentityNumber": "Det gick inte att lägga till translatorn eftersom personbeteckningen redan används",
+        "translatorUpdateDuplicateEmail": "Det gick inte att redigera translatorn eftersom e-postadressen redan används",
+        "translatorUpdateDuplicateIdentityNumber": "Det gick inte att redigera translatorn eftersom personbeteckningen redan används"
+      },
+      "customTextField": {
+        "emailFormat": "E-postadressen är felaktig",
+        "maxLength": "Texten är för lång",
+        "personalIdentityCodeFormat": "Personbeteckningens form kunde inte identifieras",
+        "required": "Uppgiften är obligatorisk",
+        "telFormat": "Telefonnumret är felaktigt"
+      },
+      "loadingFailed": "Det gick inte att ladda uppgifterna, försök igen senare."
+    },
+    "pages": {
+      "clerkHomepage": {
+        "buttons": {
+          "emptySelection": "Töm val",
+          "newTranslator": "Vill du avbryta sändningen av e-post? Du förlorar de uppgifter du fyllt i.",
+          "sendEmail": "Skicka e-post"
+        },
+        "title": "Register över auktoriserade translatorer"
+      },
+      "clerkNewTranslatorPage": {
+        "addedAuthorisationsTitle": "Auktoriseringar som lagts till",
+        "cancelAddNewTranslatorDialog": {
+          "title": "Är du säker på att du vill ångra att du lade till en ny translator?"
+        },
+        "removeAuthorisationDialog": {
+          "title": "Är du säker på att du vill ta bort auktoriseringen?"
+        },
+        "title": "Lägg till translator",
+        "toasts": {
+          "success": "Translatorns uppgifter sparades!"
+        }
+      },
+      "clerkSendEmailPage": {
+        "dialogs": {
+          "cancel": {
+            "description": "Vill du avbryta sändningen av e-post? Du förlorar de uppgifter du fyllt i.",
+            "title": "Avbryt sändningen av e-post"
+          },
+          "send": {
+            "description": "Vill du skicka e-post? Meddelandet skickas till {{count}} translator.",
+            "title": "Skicka e-post"
+          }
+        },
+        "labels": {
+          "message": "Skriv ditt meddelande här",
+          "subject": "Skriv ämne"
+        },
+        "sections": {
+          "message": "Meddelande",
+          "recipients": "Mottagare",
+          "subject": "Ämne"
+        },
+        "selectedCount_one": "{{count}} translator vald",
+        "selectedCount_other": "{{count}} translatorer valda",
+        "title": "Skicka e-post",
+        "toasts": {
+          "error": "Det gick inte att skicka e-posten. Felet kan vara tillfälligt, försök igen.",
+          "success": "E-posten skickades till translatorn"
+        }
+      },
+      "clerkTranslatorOverviewPage": {
+        "title": "Translatorns uppgifter"
+      },
+      "examinationDatesPage": {
+        "title": "Examensdagar",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "homepage": {
+        "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer, där translatorer som har auktoriserats av Examensnämnden för auktoriserade translatorer registreras. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Observera att sökandet enligt språkpar ger som möjliga sökalternativ från inhemska språk ( finska, svenska, samiska språk) till främmande språk eller tvärtom samt mellan inhemska språk. I det offentliga registret över auktoriserade translatorer finns endast uppgifter om de translatorer som har gett sitt samtycke till att deras uppgifter publiceras på webben. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
+        "filters": {
+          "title": "Sök auktoriserad translator"
+        },
+        "noSearchResults": "Inga sökresultat",
+        "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk.",
+        "requestContact": "Kontakta oss",
+        "title": "Register över auktoriserade translatorer"
+      },
+      "meetingDatesPage": {
+        "title": "Mötesdagar",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "notFoundPage": {
+        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan",
+        "title": "Tyvärr kan sidan du sökte efter inte hittas"
+      },
+      "translator": {
+        "languagePairs": "Språkpar",
+        "name": "Namn",
+        "town": "Kommun"
       }
     }
   }
