@@ -9,13 +9,13 @@ const APIErrorSlice = createSlice({
   initialState,
   reducers: {
     setAPIError(state, action: PayloadAction<string>) {
-      state.currentError = action.payload;
+      state.message = action.payload;
     },
-    clearAPIError(state) {
-      state.currentError = initialState.currentError;
+    resetAPIError(state) {
+      state.message = initialState.message;
     },
   },
 });
 
 export const APIErrorReducer = APIErrorSlice.reducer;
-export const { setAPIError, clearAPIError } = APIErrorSlice.actions;
+export const { setAPIError, resetAPIError } = APIErrorSlice.actions;

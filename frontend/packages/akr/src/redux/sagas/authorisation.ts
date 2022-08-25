@@ -14,9 +14,6 @@ import {
 import { loadClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import { SerializationUtils } from 'utils/serialization';
 
-// TODO Show success toast when new authorisation is added -> handle inside page
-// t('akr.component.newAuthorisation.toasts.success')
-
 function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
   try {
     const { translatorId } = action.payload;

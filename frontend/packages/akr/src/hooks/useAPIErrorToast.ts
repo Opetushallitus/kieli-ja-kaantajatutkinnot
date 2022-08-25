@@ -3,21 +3,22 @@ import { Duration, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { clearAPIError } from 'redux/reducers/APIError';
+import { resetAPIError } from 'redux/reducers/APIError';
 import { APIErrorSelector } from 'redux/selectors/APIError';
 
 export const useAPIErrorToast = () => {
   const dispatch = useAppDispatch();
-  const currentError = useAppSelector(APIErrorSelector).currentError;
+  const errorMessage = useAppSelector(APIErrorSelector).message;
   const { showToast } = useToast();
+
   useEffect(() => {
-    if (currentError) {
+    if (errorMessage) {
       showToast({
         severity: Severity.Error,
-        description: currentError,
+        description: errorMessage,
         timeOut: Duration.Medium,
-        action: () => dispatch(clearAPIError()),
+        action: () => dispatch(resetAPIError()),
       });
     }
-  }, [currentError, dispatch, showToast]);
+  }, [errorMessage, dispatch, showToast]);
 };

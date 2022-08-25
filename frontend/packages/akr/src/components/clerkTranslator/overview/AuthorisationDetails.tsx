@@ -17,7 +17,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
-import { addAuthorisation } from 'redux/reducers/authorisation';
+import {
+  addAuthorisation,
+  resetAuthorisation,
+} from 'redux/reducers/authorisation';
 import {
   removeAuthorisation,
   updateAuthorisationPublishPermission,
@@ -54,10 +57,8 @@ export const AuthorisationDetails = () => {
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
-  const [showToastOnAdd, setShowToastOnAdd] = useState(true);
 
   const handleAddAuthorisation = (authorisation: Authorisation) => {
-    setShowToastOnAdd(true);
     dispatch(addAuthorisation(authorisation));
   };
 
@@ -69,16 +70,13 @@ export const AuthorisationDetails = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
-      handleCloseModal();
-      if (showToastOnAdd) {
-        showToast({
-          severity: Severity.Success,
-          description: t('newAuthorisation.toasts.success'),
-        });
-        setShowToastOnAdd(false);
-      }
+      dispatch(resetAuthorisation());
+      showToast({
+        severity: Severity.Success,
+        description: t('newAuthorisation.toasts.success'),
+      });
     }
-  }, [status, showToast, showToastOnAdd, t]);
+  }, [status, dispatch, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
