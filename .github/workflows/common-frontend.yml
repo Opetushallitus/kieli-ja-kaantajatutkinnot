@@ -66,6 +66,7 @@ jobs:
           start: yarn ${{ inputs.app-name }}:start:ci
           wait-on: ${{ inputs.cypress-base-url }}
           command: yarn ${{ inputs.app-name }}:test:cypress
+        timeout-minutes: 10
       - name: Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: yarn ${{ inputs.app-name }}:build
