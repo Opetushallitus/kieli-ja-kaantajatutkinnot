@@ -13,7 +13,7 @@ interface ShowDialogProps {
 }
 
 export const useDialog = () => {
-  const notifierCtx = useContext(NotifierContext);
+  const { dialog, onDialogRemove, onDialogShow } = useContext(NotifierContext);
 
   const showDialog = useCallback(
     ({ title, severity, description, actions, timeOut }: ShowDialogProps) => {
@@ -26,17 +26,17 @@ export const useDialog = () => {
         timeOut,
       };
 
-      notifierCtx?.onDialogShow(dialog);
+      onDialogShow(dialog);
     },
-    [notifierCtx]
+    [onDialogShow]
   );
 
   const removeDialog = useCallback(() => {
-    notifierCtx?.onDialogRemove();
-  }, [notifierCtx]);
+    onDialogRemove();
+  }, [onDialogRemove]);
 
   return {
-    activeDialog: notifierCtx?.dialog,
+    activeDialog: dialog,
     showDialog,
     removeDialog,
   };

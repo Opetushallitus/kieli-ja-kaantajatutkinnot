@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useCallback, useState } from 'react';
 
 import { Dialog, Toast } from '../../interfaces/notifier';
 
@@ -25,11 +25,11 @@ export const NotifierContextProvider = ({
   const [toast, setToast] = useState<Toast | undefined>(undefined);
   const [dialog, setDialog] = useState<Dialog | undefined>(undefined);
 
-  const handleDialogShow = (toast: Dialog) => setDialog(toast);
-  const handleDialogRemove = () => setDialog(undefined);
+  const handleDialogShow = useCallback((toast: Dialog) => setDialog(toast), []);
+  const handleDialogRemove = useCallback(() => setDialog(undefined), []);
 
-  const handleToastShow = (toast: Toast) => setToast(toast);
-  const handleToastRemove = () => setToast(undefined);
+  const handleToastShow = useCallback((toast: Toast) => setToast(toast), []);
+  const handleToastRemove = useCallback(() => setToast(undefined), []);
 
   return (
     <NotifierContext.Provider

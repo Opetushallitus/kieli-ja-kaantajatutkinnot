@@ -12,7 +12,7 @@ interface ShowToastProps {
 }
 
 export const useToast = () => {
-  const notifierCtx = useContext(NotifierContext);
+  const { onToastRemove, onToastShow, toast } = useContext(NotifierContext);
 
   const showToast = useCallback(
     ({
@@ -28,17 +28,17 @@ export const useToast = () => {
         timeOut,
         action,
       };
-      notifierCtx?.onToastShow(toast);
+      onToastShow(toast);
     },
-    [notifierCtx]
+    [onToastShow]
   );
 
   const removeToast = useCallback(() => {
-    notifierCtx?.onToastRemove();
-  }, [notifierCtx]);
+    onToastRemove();
+  }, [onToastRemove]);
 
   return {
-    activeToast: notifierCtx?.toast,
+    activeToast: toast,
     showToast,
     removeToast,
   };

@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Changed
 
+## [1.2.4] - 2022-08-26
+
+- Refactored useToast, useDialog and notifierContext
+
+## Changed
+
 ## [1.2.3] - 2022-08-24
 
 - Refactored useToast and useDialog to use useCallBack
