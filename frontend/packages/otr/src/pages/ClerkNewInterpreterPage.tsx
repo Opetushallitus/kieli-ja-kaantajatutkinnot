@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { H1 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -8,11 +8,15 @@ import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
+import { clerkNewInterpreterSelector } from 'redux/selectors/clerkNewInterpreter';
 import { clerkPersonSearchSelector } from 'redux/selectors/clerkPersonSearch';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const ClerkNewInterpreterPage = () => {
+  const [hasLocalChanges, _setHasLocalChanges] = useState(false);
+
   // i18n
   const { t } = useAppTranslation({
     keyPrefix: 'otr.pages.clerkNewInterpreterPage',
@@ -21,12 +25,21 @@ export const ClerkNewInterpreterPage = () => {
   const navigate = useNavigate();
 
   // Redux
+  const {
+    interpreter: _interpreter,
+    status,
+    id: _id,
+  } = useAppSelector(clerkNewInterpreterSelector);
   const { identityNumber, person: _person } = useAppSelector(
     clerkPersonSearchSelector
   );
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
 
   const dispatch = useAppDispatch();
+
+  useNavigationProtection(
+    hasLocalChanges && status !== APIResponseStatus.Success
+  );
 
   useEffect(() => {
     if (!identityNumber) {
