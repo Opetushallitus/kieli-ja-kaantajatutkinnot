@@ -44,7 +44,7 @@ function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
   } catch (error) {
     const t = translateOutsideComponent();
     yield put(
-      setAPIError(t('akt.component.clerkTranslatorOverview.toasts.notFound'))
+      setAPIError(t('akr.component.clerkTranslatorOverview.toasts.notFound'))
     );
     yield put(rejectClerkTranslatorOverview());
   }
