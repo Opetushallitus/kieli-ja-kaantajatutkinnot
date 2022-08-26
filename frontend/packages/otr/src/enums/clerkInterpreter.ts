@@ -11,6 +11,7 @@ export enum ClerkInterpreterTextFieldEnum {
   NickName = 'nickName',
   Email = 'email',
   PhoneNumber = 'phoneNumber',
+  OtherContactInfo = 'otherContactInfo',
   Street = 'street',
   PostalCode = 'postalCode',
   Town = 'town',

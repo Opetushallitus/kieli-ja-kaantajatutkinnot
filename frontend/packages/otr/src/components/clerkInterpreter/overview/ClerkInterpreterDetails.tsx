@@ -1,10 +1,10 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { APIResponseStatus, Duration, Severity } from 'shared/enums';
+import { APIResponseStatus, Duration, Severity, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
 import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
 import { AreaOfOperation } from 'enums/clerkInterpreter';
@@ -14,7 +14,7 @@ import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
+import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { NotifierUtils } from 'utils/notifier';
 
@@ -46,6 +46,28 @@ export const ClerkInterpreterDetails = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview',
   });
+  const translateCommon = useCommonTranslation();
+
+  const openCancelDialog = () => {
+    const dialog = NotifierUtils.createNotifierDialog(
+      t('interpreterDetails.cancelUpdateDialog.title'),
+      Severity.Info,
+      t('interpreterDetails.cancelUpdateDialog.description'),
+      [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+          action: () => undefined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => resetToInitialState(),
+        },
+      ]
+    );
+    dispatch(showNotifierDialog(dialog));
+  };
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkInterpreterDetailsUpdate());
@@ -89,7 +111,7 @@ export const ClerkInterpreterDetails = () => {
     (field: keyof ClerkInterpreter) =>
     (
       eventOrValue:
-        | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
         | ComboBoxOption[]
     ) => {
       let fieldValue;
@@ -100,6 +122,15 @@ export const ClerkInterpreterDetails = () => {
         updatedInterpreterDetails = {
           ...interpreterDetails,
           [field]: eventOrValue.map((value) => value.value),
+        };
+      } else if (
+        'checked' in eventOrValue.target &&
+        eventOrValue.target.hasOwnProperty('checked')
+      ) {
+        // from Checkbox toggle
+        updatedInterpreterDetails = {
+          ...interpreterDetails,
+          [field]: eventOrValue.target.checked,
         };
       } else {
         // from TextField ChangeEvent
@@ -125,9 +156,18 @@ export const ClerkInterpreterDetails = () => {
   };
 
   const onCancel = () => {
-    resetToInitialState();
+    if (!hasLocalChanges) {
+      resetToInitialState();
+    } else {
+      openCancelDialog();
+    }
   };
   useNavigationProtection(hasLocalChanges);
+
+  const hasRequiredDetails =
+    !!interpreterDetails?.firstName &&
+    !!interpreterDetails.lastName &&
+    !!interpreterDetails.nickName;
 
   return (
     <ClerkInterpreterDetailsFields
@@ -138,13 +178,13 @@ export const ClerkInterpreterDetails = () => {
         handleInterpreterDetailsChange(field)
       }
       isViewMode={isViewMode}
-      isIndividualisedInterpreter={interpreter?.isIndividualised}
       topControlButtons={
         <ControlButtons
           onCancel={onCancel}
           onEdit={onEdit}
           onSave={onSave}
           isViewMode={isViewMode}
+          hasRequiredDetails={hasRequiredDetails}
         />
       }
       displayFieldErrorBeforeChange={true}

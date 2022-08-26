@@ -1,4 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
@@ -9,13 +10,18 @@ import {
   CustomTextField,
   CustomTextFieldProps,
   H3,
+  Text,
   valueAsOption,
 } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { Color, TextFieldTypes } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 import { InputFieldUtils } from 'shared/utils';
 
-import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
+import {
+  translateOutsideComponent,
+  useAppTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
 import {
   AreaOfOperation,
   ClerkInterpreterTextFieldEnum,
@@ -85,7 +91,7 @@ const ClerkInterpreterDetailsTextField = ({
 
   return (
     <CustomTextField
-      value={interpreter ? interpreter[field] : undefined}
+      value={(interpreter && interpreter[field]) ?? ''}
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
@@ -187,11 +193,10 @@ export const ClerkInterpreterDetailsFields = ({
   setAreaOfOperation,
   onFieldChange,
   isViewMode,
-  isIndividualisedInterpreter = false,
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
-  interpreter?: ClerkInterpreter;
+  interpreter: ClerkInterpreter | undefined;
   onFieldChange: (
     field: keyof ClerkInterpreter
   ) => (
@@ -202,7 +207,6 @@ export const ClerkInterpreterDetailsFields = ({
   areaOfOperation: AreaOfOperation;
   setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
   isViewMode: boolean;
-  isIndividualisedInterpreter?: boolean;
   topControlButtons?: JSX.Element;
   displayFieldErrorBeforeChange: boolean;
 }) => {
@@ -210,6 +214,8 @@ export const ClerkInterpreterDetailsFields = ({
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterOverview.interpreterDetails',
   });
+  const translateCommon = useCommonTranslation();
+
   const initialErrors = Object.values(ClerkInterpreterTextFieldEnum).reduce(
     (acc, val) => {
       return { ...acc, [val]: displayFieldErrorBeforeChange };
@@ -229,7 +235,7 @@ export const ClerkInterpreterDetailsFields = ({
     }
 
     return (
-      isIndividualisedInterpreter &&
+      interpreter?.isIndividualised &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,
@@ -289,14 +295,49 @@ export const ClerkInterpreterDetailsFields = ({
       </div>
       <H3>{t('header.contactInformation')}</H3>
       <div className="grid-columns gapped">
-        <ClerkInterpreterDetailsTextField
-          {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
-        />
-        <ClerkInterpreterDetailsTextField
-          {...getCommonTextFieldProps(
-            ClerkInterpreterTextFieldEnum.PhoneNumber
-          )}
-        />
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
+            fullWidth={true}
+          />
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter?.permissionToPublishEmail}
+            onChange={onFieldChange('permissionToPublishEmail')}
+            disabled={isViewMode}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(
+              ClerkInterpreterTextFieldEnum.PhoneNumber
+            )}
+            fullWidth={true}
+          />
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter?.permissionToPublishPhone}
+            onChange={onFieldChange('permissionToPublishPhone')}
+            disabled={isViewMode}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
+        <div className="columns">
+          <ClerkInterpreterDetailsTextField
+            {...getCommonTextFieldProps(
+              ClerkInterpreterTextFieldEnum.OtherContactInfo
+            )}
+            fullWidth={true}
+          />
+          <Checkbox
+            color={Color.Secondary}
+            checked={interpreter?.permissionToPublishOtherContactInfo}
+            onChange={onFieldChange('permissionToPublishOtherContactInfo')}
+            disabled={isViewMode}
+          />
+          <Text>{translateCommon('permissionToPublish')}</Text>
+        </div>
       </div>
       <H3>{t('header.extraInformation')}</H3>
       <ClerkInterpreterDetailsTextField

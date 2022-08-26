@@ -65,6 +65,7 @@
             "identityNumber": "Henkilötunnus",
             "lastName": "Sukunimi",
             "nickName": "Kutsumanimi",
+            "otherContactInfo": "Muu yhteystieto",
             "phoneNumber": "Puhelinnumero",
             "postalCode": "Postinumero",
             "street": "Katuosoite",
