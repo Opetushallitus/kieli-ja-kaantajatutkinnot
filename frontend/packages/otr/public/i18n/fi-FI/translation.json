@@ -290,6 +290,9 @@
           "updated": "Tiedot tallennettiin"
         }
       },
+      "clerkNewInterpreterPage": {
+        "title": "Lisää oikeustulkki"
+      },
       "clerkPersonSearchPage": {
         "buttons": {
           "proceed": "Syötä manuaalisesti",
