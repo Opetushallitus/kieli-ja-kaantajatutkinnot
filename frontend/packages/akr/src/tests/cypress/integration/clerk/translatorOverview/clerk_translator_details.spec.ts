@@ -264,8 +264,6 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectSaveButtonDisabled();
   });
 
-  /* TODO FIXME: Test hangs (presumably on onDialog.expectText(..)), uncomment when fixed.
-
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
@@ -282,7 +280,6 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
-  */
   it('should show field errors when inputs are not valid', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');

@@ -21,7 +21,7 @@ export const BottomControls = ({
           data-testid="clerk-new-translator-page__save-button"
           variant={Variant.Contained}
           color={Color.Secondary}
-          onClick={() => onSave()}
+          onClick={onSave}
           disabled={isSaveDisabled}
         >
           {translateCommon('save')}
