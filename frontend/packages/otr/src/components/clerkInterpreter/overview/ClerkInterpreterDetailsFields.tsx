@@ -91,7 +91,7 @@ const ClerkInterpreterDetailsTextField = ({
 
   return (
     <CustomTextField
-      value={interpreter ? interpreter[field] : undefined}
+      value={(interpreter && interpreter[field]) ?? ''}
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
@@ -196,7 +196,7 @@ export const ClerkInterpreterDetailsFields = ({
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
-  interpreter: ClerkInterpreter;
+  interpreter: ClerkInterpreter | undefined;
   onFieldChange: (
     field: keyof ClerkInterpreter
   ) => (
@@ -235,7 +235,7 @@ export const ClerkInterpreterDetailsFields = ({
     }
 
     return (
-      interpreter.isIndividualised &&
+      interpreter?.isIndividualised &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,
@@ -302,7 +302,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter.permissionToPublishEmail}
+            checked={interpreter?.permissionToPublishEmail}
             onChange={onFieldChange('permissionToPublishEmail')}
             disabled={isViewMode}
           />
@@ -317,7 +317,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter.permissionToPublishPhone}
+            checked={interpreter?.permissionToPublishPhone}
             onChange={onFieldChange('permissionToPublishPhone')}
             disabled={isViewMode}
           />
@@ -332,7 +332,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter.permissionToPublishOtherContactInfo}
+            checked={interpreter?.permissionToPublishOtherContactInfo}
             onChange={onFieldChange('permissionToPublishOtherContactInfo')}
             disabled={isViewMode}
           />

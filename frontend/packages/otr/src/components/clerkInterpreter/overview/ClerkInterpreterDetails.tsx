@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { APIResponseStatus, Duration, Severity, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
@@ -9,10 +9,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
 import { AreaOfOperation } from 'enums/clerkInterpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import {
-  ClerkInterpreter,
-  INTERPRETER_DEFAULT_VALUES,
-} from 'interfaces/clerkInterpreter';
+import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
@@ -32,21 +29,8 @@ export const ClerkInterpreterDetails = () => {
     clerkInterpreterOverviewSelector
   );
 
-  const interpreterDetailsDefaultValues = useMemo(() => {
-    if (!interpreter) {
-      return {} as ClerkInterpreter;
-    }
-
-    return {
-      ...INTERPRETER_DEFAULT_VALUES,
-      ...interpreter,
-    };
-  }, [interpreter]);
-
   // Local State
-  const [interpreterDetails, setInterpreterDetails] = useState(
-    interpreterDetailsDefaultValues
-  );
+  const [interpreterDetails, setInterpreterDetails] = useState(interpreter);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const [areaOfOperation, setAreaOfOperation] = useState(
@@ -54,11 +38,9 @@ export const ClerkInterpreterDetails = () => {
   );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
-    setInterpreterDetails(interpreterDetailsDefaultValues);
-    setAreaOfOperation(
-      getAreaOfOperation(interpreterDetailsDefaultValues?.regions)
-    );
-  }, [interpreterDetailsDefaultValues]);
+    setInterpreterDetails(interpreter);
+    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
+  }, [interpreter]);
 
   // I18n
   const { t } = useAppTranslation({
