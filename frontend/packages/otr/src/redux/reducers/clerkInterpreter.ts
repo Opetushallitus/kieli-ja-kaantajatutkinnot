@@ -63,6 +63,18 @@ const clerkInterpreterSlice = createSlice({
       state.interpreters = action.payload;
       state.qualificationLanguages = getQualificationLanguages(action.payload);
     },
+    // TODO: use in interpreter update, and in all qualification operations
+    upsertClerkInterpreter(state, action: PayloadAction<ClerkInterpreter>) {
+      const updatedInterpreters = [...state.interpreters];
+      const interpreter = action.payload;
+      const idx = updatedInterpreters.findIndex(
+        (t: ClerkInterpreter) => t.id === interpreter.id
+      );
+      const spliceIndex = idx >= 0 ? idx : updatedInterpreters.length;
+
+      updatedInterpreters.splice(spliceIndex, 1, interpreter);
+      state.interpreters = updatedInterpreters;
+    },
   },
 });
 
@@ -73,4 +85,5 @@ export const {
   rejectClerkInterpreters,
   resetClerkInterpreterFilters,
   storeClerkInterpreters,
+  upsertClerkInterpreter,
 } = clerkInterpreterSlice.actions;

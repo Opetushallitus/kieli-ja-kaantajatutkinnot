@@ -290,6 +290,16 @@
           "updated": "Tiedot tallennettiin"
         }
       },
+      "clerkNewInterpreterPage": {
+        "addedQualificationsTitle": "Lisätyt rekisteröinnit",
+        "removeQualificationDialog": {
+          "title": "Haluatko varmasti poistaa rekisteröinnin?"
+        },
+        "title": "Lisää oikeustulkki",
+        "toasts": {
+          "success": "Tulkin tiedot tallennettiin"
+        }
+      },
       "clerkPersonSearchPage": {
         "buttons": {
           "proceed": "Syötä manuaalisesti",

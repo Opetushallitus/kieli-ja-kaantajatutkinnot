@@ -164,7 +164,7 @@ export const QualificationListing = ({
                   data-testid={
                     q.id
                       ? `qualifications-table__id-${q.id}-row__delete-button`
-                      : `qualifications-table__id-${i}-unsaved}-row__delete-button`
+                      : `qualifications-table__id-${i}-unsaved-row__delete-button`
                   }
                 >
                   <DeleteIcon color={Color.Error} />

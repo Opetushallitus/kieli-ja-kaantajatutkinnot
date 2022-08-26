@@ -6,6 +6,7 @@ import {
   ClerkInterpreterResponse,
   ClerkInterpreterTextFields,
 } from 'interfaces/clerkInterpreter';
+import { ClerkNewInterpreter } from 'interfaces/clerkNewInterpreter';
 import { MeetingDateResponse } from 'interfaces/meetingDate';
 import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
@@ -18,6 +19,34 @@ export class SerializationUtils {
     );
 
     return { ...response, qualifications };
+  }
+
+  static serializeClerkNewInterpreter(interpreter: ClerkNewInterpreter) {
+    const {
+      onrId,
+      isIndividualised,
+      permissionToPublishEmail,
+      permissionToPublishPhone,
+      permissionToPublishOtherContactInfo,
+      regions,
+      qualifications,
+      ...rest
+    } = interpreter;
+    const textFields =
+      SerializationUtils.getNonBlankClerkInterpreterTextFields(rest);
+
+    return {
+      ...textFields,
+      onrId,
+      isIndividualised,
+      permissionToPublishEmail,
+      permissionToPublishPhone,
+      permissionToPublishOtherContactInfo,
+      regions,
+      qualifications: qualifications.map(
+        SerializationUtils.serializeQualification
+      ),
+    };
   }
 
   static serializeClerkInterpreter(interpreter: ClerkInterpreter) {

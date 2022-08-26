@@ -26,13 +26,16 @@ import {
   AreaOfOperation,
   ClerkInterpreterTextFieldEnum,
 } from 'enums/clerkInterpreter';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import {
+  ClerkInterpreterBasicInformation,
+  ClerkInterpreterTextFields,
+} from 'interfaces/clerkInterpreter';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
 import { RegionUtils } from 'utils/regions';
 
 type ClerkInterpreterTextFieldProps = {
-  interpreter?: ClerkInterpreter;
   field: ClerkInterpreterTextFieldEnum;
+  interpreterTextFields?: ClerkInterpreterTextFields;
   displayError: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 } & CustomTextFieldProps;
@@ -53,12 +56,12 @@ const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
 };
 
 const getFieldError = (
-  interpreter: ClerkInterpreter | undefined,
-  field: ClerkInterpreterTextFieldEnum
+  field: ClerkInterpreterTextFieldEnum,
+  interpreterTextFields?: ClerkInterpreterTextFields
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
-  const value = (interpreter && interpreter[field]) || '';
+  const value = (interpreterTextFields && interpreterTextFields[field]) || '';
   const required = [
     ClerkInterpreterTextFieldEnum.LastName,
     ClerkInterpreterTextFieldEnum.FirstName,
@@ -77,8 +80,8 @@ const getFieldError = (
 };
 
 const ClerkInterpreterDetailsTextField = ({
-  interpreter,
   field,
+  interpreterTextFields,
   onChange,
   displayError,
   ...rest
@@ -88,11 +91,11 @@ const ClerkInterpreterDetailsTextField = ({
     keyPrefix:
       'otr.component.clerkInterpreterOverview.interpreterDetails.fields',
   });
-  const fieldError = getFieldError(interpreter, field);
+  const fieldError = getFieldError(field, interpreterTextFields);
 
   return (
     <CustomTextField
-      value={(interpreter && interpreter[field]) ?? ''}
+      value={(interpreterTextFields && interpreterTextFields[field]) ?? ''}
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
@@ -189,7 +192,8 @@ const ClerkInterpreterDetailsRegions = ({
 };
 
 export const ClerkInterpreterDetailsFields = ({
-  interpreter,
+  interpreterBasicInformation,
+  isIndividualisedInterpreter,
   areaOfOperation,
   setAreaOfOperation,
   onFieldChange,
@@ -197,9 +201,10 @@ export const ClerkInterpreterDetailsFields = ({
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
-  interpreter: ClerkInterpreter | undefined;
+  interpreterBasicInformation: ClerkInterpreterBasicInformation | undefined;
+  isIndividualisedInterpreter?: boolean;
   onFieldChange: (
-    field: keyof ClerkInterpreter
+    field: keyof ClerkInterpreterBasicInformation
   ) => (
     eventOrValue:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -236,7 +241,7 @@ export const ClerkInterpreterDetailsFields = ({
     }
 
     return (
-      interpreter?.isIndividualised &&
+      isIndividualisedInterpreter &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,
@@ -247,7 +252,7 @@ export const ClerkInterpreterDetailsFields = ({
 
   const getCommonTextFieldProps = (field: ClerkInterpreterTextFieldEnum) => ({
     field,
-    interpreter,
+    interpreterTextFields: interpreterBasicInformation,
     disabled: isViewMode || isIndividualisedValue(field),
     onChange: onFieldChange(field),
     onBlur: displayFieldErrorOnBlur(field),
@@ -303,7 +308,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter?.permissionToPublishEmail}
+            checked={interpreterBasicInformation?.permissionToPublishEmail}
             onChange={onFieldChange('permissionToPublishEmail')}
             disabled={isViewMode}
           />
@@ -318,7 +323,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter?.permissionToPublishPhone}
+            checked={interpreterBasicInformation?.permissionToPublishPhone}
             onChange={onFieldChange('permissionToPublishPhone')}
             disabled={isViewMode}
           />
@@ -333,7 +338,9 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Checkbox
             color={Color.Secondary}
-            checked={interpreter?.permissionToPublishOtherContactInfo}
+            checked={
+              interpreterBasicInformation?.permissionToPublishOtherContactInfo
+            }
             onChange={onFieldChange('permissionToPublishOtherContactInfo')}
             disabled={isViewMode}
           />
@@ -350,7 +357,7 @@ export const ClerkInterpreterDetailsFields = ({
       />
       <H3>{t('header.regions')}</H3>
       <ClerkInterpreterDetailsRegions
-        regions={interpreter?.regions}
+        regions={interpreterBasicInformation?.regions}
         areaOfOperation={areaOfOperation}
         setAreaOfOperation={setAreaOfOperation}
         onChange={onFieldChange('regions')}

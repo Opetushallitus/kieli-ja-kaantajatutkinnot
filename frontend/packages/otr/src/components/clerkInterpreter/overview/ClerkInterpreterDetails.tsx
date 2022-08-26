@@ -9,18 +9,17 @@ import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overv
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
-import { AreaOfOperation } from 'enums/clerkInterpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import {
+  ClerkInterpreter,
+  ClerkInterpreterBasicInformation,
+} from 'interfaces/clerkInterpreter';
 import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
 } from 'redux/reducers/clerkInterpreterOverview';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
-
-const getAreaOfOperation = (regions: Array<string> = []) => {
-  return regions.length > 0 ? AreaOfOperation.Regions : AreaOfOperation.All;
-};
+import { RegionUtils } from 'utils/region';
 
 export const ClerkInterpreterDetails = () => {
   // Redux
@@ -34,12 +33,12 @@ export const ClerkInterpreterDetails = () => {
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const [areaOfOperation, setAreaOfOperation] = useState(
-    getAreaOfOperation(interpreter?.regions)
+    RegionUtils.getAreaOfOperation(interpreter?.regions)
   );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
     setInterpreterDetails(interpreter);
-    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
+    setAreaOfOperation(RegionUtils.getAreaOfOperation(interpreter?.regions));
   }, [interpreter]);
 
   // I18n
@@ -106,11 +105,11 @@ export const ClerkInterpreterDetails = () => {
   ]);
 
   useEffect(() => {
-    setAreaOfOperation(getAreaOfOperation(interpreter?.regions));
+    setAreaOfOperation(RegionUtils.getAreaOfOperation(interpreter?.regions));
   }, [interpreter?.regions]);
 
-  const handleInterpreterDetailsChange =
-    (field: keyof ClerkInterpreter) =>
+  const handleDetailsChange =
+    (field: keyof ClerkInterpreterBasicInformation) =>
     (
       eventOrValue:
         | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -174,12 +173,11 @@ export const ClerkInterpreterDetails = () => {
 
   return (
     <ClerkInterpreterDetailsFields
-      interpreter={interpreterDetails}
+      interpreterBasicInformation={interpreterDetails}
+      isIndividualisedInterpreter={interpreter?.isIndividualised}
       areaOfOperation={areaOfOperation}
       setAreaOfOperation={setAreaOfOperation}
-      onFieldChange={(field: keyof ClerkInterpreter) =>
-        handleInterpreterDetailsChange(field)
-      }
+      onFieldChange={(field) => handleDetailsChange(field)}
       isViewMode={isViewMode}
       topControlButtons={
         <ControlButtons
