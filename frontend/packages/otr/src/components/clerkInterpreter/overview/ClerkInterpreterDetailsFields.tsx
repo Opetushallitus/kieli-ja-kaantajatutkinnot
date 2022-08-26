@@ -26,12 +26,15 @@ import {
   AreaOfOperation,
   ClerkInterpreterTextFieldEnum,
 } from 'enums/clerkInterpreter';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import {
+  ClerkInterpreterBasicInformation,
+  ClerkInterpreterTextFields,
+} from 'interfaces/clerkInterpreter';
 import koodistoRegionsFI from 'public/i18n/koodisto/regions/koodisto_regions_fi-FI.json';
 import { RegionUtils } from 'utils/regions';
 
 type ClerkInterpreterTextFieldProps = {
-  interpreter?: ClerkInterpreter;
+  interpreter?: ClerkInterpreterTextFields;
   field: ClerkInterpreterTextFieldEnum;
   displayError: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -53,7 +56,7 @@ const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
 };
 
 const getFieldError = (
-  interpreter: ClerkInterpreter | undefined,
+  interpreter: ClerkInterpreterTextFields | undefined,
   field: ClerkInterpreterTextFieldEnum
 ) => {
   const t = translateOutsideComponent();
@@ -189,6 +192,7 @@ const ClerkInterpreterDetailsRegions = ({
 
 export const ClerkInterpreterDetailsFields = ({
   interpreter,
+  isIndividualisedInterpreter,
   areaOfOperation,
   setAreaOfOperation,
   onFieldChange,
@@ -196,9 +200,10 @@ export const ClerkInterpreterDetailsFields = ({
   topControlButtons,
   displayFieldErrorBeforeChange,
 }: {
-  interpreter: ClerkInterpreter | undefined;
+  interpreter: ClerkInterpreterBasicInformation | undefined;
+  isIndividualisedInterpreter?: boolean;
   onFieldChange: (
-    field: keyof ClerkInterpreter
+    field: keyof ClerkInterpreterBasicInformation
   ) => (
     eventOrValue:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -235,7 +240,7 @@ export const ClerkInterpreterDetailsFields = ({
     }
 
     return (
-      interpreter?.isIndividualised &&
+      isIndividualisedInterpreter &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,

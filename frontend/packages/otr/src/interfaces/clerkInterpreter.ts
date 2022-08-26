@@ -19,16 +19,21 @@ export interface ClerkInterpreterTextFields {
   country?: string;
   extraInformation?: string;
 }
-export interface ClerkInterpreter
-  extends WithId,
-    WithVersion,
-    ClerkInterpreterTextFields {
-  deleted: boolean;
-  isIndividualised: boolean;
+
+export interface ClerkInterpreterBasicInformation
+  extends ClerkInterpreterTextFields {
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;
   permissionToPublishOtherContactInfo: boolean;
   regions: Array<string>;
+}
+
+export interface ClerkInterpreter
+  extends WithId,
+    WithVersion,
+    ClerkInterpreterBasicInformation {
+  deleted: boolean;
+  isIndividualised: boolean;
   qualifications: Array<Qualification>;
 }
 
