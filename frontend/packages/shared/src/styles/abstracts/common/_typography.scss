@@ -48,3 +48,10 @@
     color: rgba(0, 0, 0, 0.38);
   }
 }
+
+/* Spacing */
+.white-space-no-wrap {
+  &#{&} {
+    white-space: nowrap;
+  }
+}
