@@ -9,75 +9,107 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.2.5] - 2022-08-29
+
+### Added
+
+- onClose handler for DialogBox
+
+## [1.2.4] - 2022-08-26
+
+### Changed
+
+- Refactored useToast, useDialog and notifierContext
+
+## [1.2.3] - 2022-08-24
+
+### Changed
+
+- Refactored useToast and useDialog to use useCallBack
+
+## [1.2.2] - 2022-08-24
+
+### Changed
+- Parameters of showToast and showDialog hooks
+
+## [1.2.1] - 2022-08-23
+
+### Added
+- Support onClose action with Toast
+
+## [1.2.0] - 2022-08-23
+
+### Added
+
+- DialogBox
+- Toast
+- Notifier and NotifierProvider
+
 ## [1.1.1] - 2022-08-22
 
-## Fixed
+### Fixed
 
 - Absolute import in OPHClerkLogo
 
 ## [1.1.0] - 2022-08-19
 
-## Added
+### Added
 
 - New component OPHClerkLogo
 
 ## [1.0.19] - 2022-08-15
 
-## Added
+### Added
 
 - New component InfoText
 - Styles for custom switch
 
-## Fixed
-
-- Datepicker min and max values are now formatted correctly
-
 ## [1.0.18] - 2022-08-09
 
-## Fixed
+### Fixed
 
 - Datepicker min and max values are now formatted correctly
 
 ## [1.0.17] - 2022-06-21
 
-## Added
+### Added
 
 - KoodistoRegions I18n namespaces
 
 ## [1.0.16] - 2022-06-08
 
-## Changed
+### Changed
 
 - Use common webpack config
 
 ## [1.0.15] - 2022-06-01
 
-## Added
+### Added
 
 - StringUtils.isNonBlank(value?: string)
 - StringUtils.getWithPlaceHolder(value?: string, placeholder = '-')
 
 ## [1.0.14] - 2022-05-19
 
-## Fixed
+### Fixed
 
 - Autocomplete label rendering
 
 ## [1.0.13] - 2022-05-17
 
-## Added
+### Added
 
 - KoodistoRegions and Privacy I18n namespaces
 
 ## [1.0.12] - 2022-05-16
 
-## Changed
+### Changed
 
 - Expose more accurate types from LangSelectorProps
 
 ## [1.0.11] - 2022-05-13
 
-## Added
+### Added
 
 - Table styles
 - LangSelector component
@@ -88,7 +120,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.10] - 2022-05-13
 
-## Added
+### Added
 
 - Imported dayjs locales for Finnish, Swedish and English as part of DateUtils.
 - Exposed function to globally set dayjs locale within DateUtils.
