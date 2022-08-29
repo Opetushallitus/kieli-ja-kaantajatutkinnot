@@ -3,9 +3,16 @@ import { Box, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Duration,
+  Severity,
+  Variant,
+} from 'shared/enums';
 
 import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
+import { BottomControls } from 'components/clerkInterpreter/new/BottomControls';
 import { ClerkNewInterpreterDetails } from 'components/clerkInterpreter/new/ClerkNewInterpreterDetails';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
 import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
@@ -17,10 +24,11 @@ import { Qualification } from 'interfaces/qualification';
 import {
   initialiseClerkNewInterpreterByIdentityNumber,
   initialiseClerkNewInterpreterByPerson,
+  resetClerkNewInterpreter,
   updateClerkNewInterpreter,
 } from 'redux/reducers/clerkNewInterpreter';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
-import { showNotifierDialog } from 'redux/reducers/notifier';
+import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkNewInterpreterSelector } from 'redux/selectors/clerkNewInterpreter';
 import { clerkPersonSearchSelector } from 'redux/selectors/clerkPersonSearch';
 import {
@@ -41,17 +49,11 @@ export const ClerkNewInterpreterPage = () => {
   });
   const translateCommon = useCommonTranslation();
 
-  const navigate = useNavigate();
-
   // Redux
-  const {
-    interpreter,
-    status,
-    id: _id,
-  } = useAppSelector(clerkNewInterpreterSelector);
-
+  const { interpreter, status, id } = useAppSelector(
+    clerkNewInterpreterSelector
+  );
   const { identityNumber, person } = useAppSelector(clerkPersonSearchSelector);
-
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
@@ -62,6 +64,7 @@ export const ClerkNewInterpreterPage = () => {
   );
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // Initialise interpreter by clerkPersonSearch
   useEffect(() => {
@@ -82,6 +85,29 @@ export const ClerkNewInterpreterPage = () => {
       dispatch(loadMeetingDates());
     }
   }, [dispatch, meetingDatesState]);
+
+  useEffect(() => {
+    if (status === APIResponseStatus.Success) {
+      const successToast = NotifierUtils.createNotifierToast(
+        Severity.Success,
+        t('toasts.success'),
+        Duration.Medium
+      );
+      dispatch(showNotifierToast(successToast));
+      navigate(
+        AppRoutes.ClerkInterpreterOverviewPage.replace(
+          /:interpreterId$/,
+          `${id}`
+        )
+      );
+    }
+  }, [id, dispatch, navigate, status, t]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkNewInterpreter());
+    };
+  }, [dispatch]);
 
   const onQualificationAdd = (qualification: Qualification) => {
     setHasLocalChanges(true);
@@ -171,6 +197,7 @@ export const ClerkNewInterpreterPage = () => {
               handleRemoveQualification={onQualificationRemove}
             />
           ) : null}
+          <BottomControls interpreter={interpreter} status={status} />
         </div>
       </Paper>
     </Box>

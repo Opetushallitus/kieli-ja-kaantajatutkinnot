@@ -295,7 +295,10 @@
         "removeQualificationDialog": {
           "title": "Haluatko varmasti poistaa rekisteröinnin?"
         },
-        "title": "Lisää oikeustulkki"
+        "title": "Lisää oikeustulkki",
+        "toasts": {
+          "success": "Tulkin tiedot tallennettiin"
+        }
       },
       "clerkPersonSearchPage": {
         "buttons": {

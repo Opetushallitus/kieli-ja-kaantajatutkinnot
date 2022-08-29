@@ -45,7 +45,6 @@ const clerkNewInterpreterSlice = createSlice({
       action: PayloadAction<string>
     ) {
       state.interpreter.identityNumber = action.payload;
-      state.interpreter.isIndividualised = false;
     },
     initialiseClerkNewInterpreterByPerson(
       state,
