@@ -67,3 +67,10 @@
 .gapped-xxs {
   gap: map-get($spacing, 'xxs');
 }
+
+/* Padding */
+.padding-unset {
+  &#{&} {
+    padding: unset;
+  }
+}

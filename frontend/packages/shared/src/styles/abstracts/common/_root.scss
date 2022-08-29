@@ -1,0 +1,11 @@
+@use '../mixins';
+
+:root {
+  box-sizing: border-box;
+  font-family: Roboto;
+  font-size: 62.5%;
+
+  @include mixins.desktop-md {
+    font-size: 9px;
+  }
+}
