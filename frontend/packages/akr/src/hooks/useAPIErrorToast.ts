@@ -17,7 +17,7 @@ export const useAPIErrorToast = () => {
         severity: Severity.Error,
         description: errorMessage,
         timeOut: Duration.Medium,
-        action: () => dispatch(resetAPIError()),
+        onClose: () => dispatch(resetAPIError()),
       });
     }
   }, [errorMessage, dispatch, showToast]);

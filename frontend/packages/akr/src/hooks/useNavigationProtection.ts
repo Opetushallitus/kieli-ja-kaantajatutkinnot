@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Severity, Variant } from 'shared/enums';
 import {
   useNavigationProtection as useCommonNavigationProtection,
@@ -10,28 +11,29 @@ export const useNavigationProtection = (when: boolean) => {
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
 
-  const showConfirmationDialog = (
-    confirmNavigation: () => void,
-    cancelNavigation: () => void
-  ) => {
-    showDialog({
-      title: translateCommon('navigationProtection.header'),
-      severity: Severity.Info,
-      description: translateCommon('navigationProtection.description'),
-      actions: [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: cancelNavigation,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: confirmNavigation,
-        },
-      ],
-    });
-  };
+  const showConfirmationDialog = useCallback(
+    (confirmNavigation: () => void, cancelNavigation: () => void) => {
+      showDialog({
+        title: translateCommon('navigationProtection.header'),
+        severity: Severity.Info,
+        description: translateCommon('navigationProtection.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+            action: cancelNavigation,
+          },
+          {
+            title: translateCommon('yes'),
+            variant: Variant.Contained,
+            action: confirmNavigation,
+          },
+        ],
+        onClose: cancelNavigation,
+      });
+    },
+    [showDialog, translateCommon]
+  );
 
   useCommonNavigationProtection(when, showConfirmationDialog);
 };
