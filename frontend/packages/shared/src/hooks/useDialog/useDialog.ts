@@ -10,13 +10,21 @@ interface ShowDialogProps {
   description: string;
   actions: Array<DialogButtonAction>;
   timeOut?: number;
+  onClose?: () => void;
 }
 
 export const useDialog = () => {
   const { dialog, onDialogRemove, onDialogShow } = useContext(NotifierContext);
 
   const showDialog = useCallback(
-    ({ title, severity, description, actions, timeOut }: ShowDialogProps) => {
+    ({
+      title,
+      severity,
+      description,
+      actions,
+      timeOut,
+      onClose,
+    }: ShowDialogProps) => {
       const dialog: Dialog = {
         type: NotifierTypes.Dialog,
         title,
@@ -24,6 +32,7 @@ export const useDialog = () => {
         description,
         actions,
         timeOut,
+        onClose,
       };
 
       onDialogShow(dialog);

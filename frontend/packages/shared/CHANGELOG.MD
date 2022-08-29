@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Changed
 
+## [1.2.5] - 2022-08-29
+
+- Added onClose handler for DialogBox
+
 ## [1.2.4] - 2022-08-26
 
 - Refactored useToast, useDialog and notifierContext

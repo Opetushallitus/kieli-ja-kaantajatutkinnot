@@ -15,6 +15,14 @@ import './DialogBox.scss';
 export const DialogBox = () => {
   const { activeDialog, removeDialog } = useDialog();
 
+  const handleClose = () => {
+    if (activeDialog?.onClose) {
+      activeDialog.onClose();
+    }
+
+    removeDialog();
+  };
+
   const handleBtnAction = (action?: () => void) => {
     if (action) {
       action();
@@ -28,7 +36,7 @@ export const DialogBox = () => {
         <Dialog
           className={`dialog-box--${activeDialog.severity}`}
           open={!!activeDialog}
-          onClose={removeDialog}
+          onClose={handleClose}
         >
           <DialogTitle>{activeDialog.title}</DialogTitle>
           <DialogContent>

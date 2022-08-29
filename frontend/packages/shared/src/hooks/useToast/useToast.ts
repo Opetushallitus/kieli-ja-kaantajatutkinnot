@@ -8,7 +8,7 @@ interface ShowToastProps {
   severity: Severity;
   description: string;
   timeOut?: number;
-  action?: () => void;
+  onClose?: () => void;
 }
 
 export const useToast = () => {
@@ -19,14 +19,14 @@ export const useToast = () => {
       severity,
       description,
       timeOut = Duration.Medium,
-      action,
+      onClose,
     }: ShowToastProps) => {
       const toast: Toast = {
         type: NotifierTypes.Toast,
         severity,
         description,
         timeOut,
-        action,
+        onClose,
       };
       onToastShow(toast);
     },

@@ -6,10 +6,8 @@ export const Toast = () => {
   const { activeToast, removeToast } = useToast();
 
   const handleClose = () => {
-    const action = activeToast?.action;
-
-    if (action) {
-      action();
+    if (activeToast?.onClose) {
+      activeToast.onClose();
     }
     removeToast();
   };

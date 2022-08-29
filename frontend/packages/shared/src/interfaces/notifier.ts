@@ -12,11 +12,11 @@ export interface Notifier {
   severity: `${Severity}`;
   description: string;
   timeOut?: number;
+  onClose?: () => void;
 }
 
 export interface Toast extends Notifier {
   type: NotifierTypes.Toast;
-  action?: () => void;
 }
 
 export interface Dialog extends Notifier {
