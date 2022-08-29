@@ -5,7 +5,7 @@ import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 const INTERPRETER_ID = 7;
 
-describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
+describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   it('should open edit mode when the edit button is clicked', () => {
     onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
@@ -106,7 +106,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
-  it('should add qualification succesfully', () => {
+  it('should add qualification successfully', () => {
     onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
 
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
@@ -200,16 +200,8 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'input',
       'mail'
     );
-    onClerkInterpreterOverviewPage.editInterpreterField(
-      'identityNumber',
-      'input',
-      'id'
-    );
 
     cy.findAllByText('Tieto on pakollinen').should('have.length', 2);
-    onClerkInterpreterOverviewPage.expectText(
-      'Henkilötunnuksen muotoa ei tunnistettu'
-    );
     onClerkInterpreterOverviewPage.expectText(
       'Sähköpostiosoite on virheellinen'
     );

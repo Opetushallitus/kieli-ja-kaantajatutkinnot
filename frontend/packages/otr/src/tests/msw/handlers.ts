@@ -29,9 +29,6 @@ export const handlers = [
       })
     );
   }),
-  rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(meetingDates10));
-  }),
   rest.get(`${APIEndpoints.ClerkInterpreter}/:id`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(clerkInterpreter));
   }),
@@ -70,5 +67,8 @@ export const handlers = [
         qualificationRemoveResponse(clerkInterpreter, parseInt(id as string))
       )
     );
+  }),
+  rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(meetingDates10));
   }),
 ];
