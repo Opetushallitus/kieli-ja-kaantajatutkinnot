@@ -3,6 +3,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
 import { ClerkNewInterpreter } from 'interfaces/clerkNewInterpreter';
+import { ClerkPerson } from 'interfaces/clerkPerson';
 
 interface ClerkNewInterpreterState extends Partial<WithId> {
   status: APIResponseStatus;
@@ -39,6 +40,30 @@ const clerkNewInterpreterSlice = createSlice({
   name: 'clerkNewInterpreter',
   initialState,
   reducers: {
+    initialiseClerkNewInterpreterByIdentityNumber(
+      state,
+      action: PayloadAction<string>
+    ) {
+      state.interpreter.identityNumber = action.payload;
+      state.interpreter.isIndividualised = false;
+    },
+    initialiseClerkNewInterpreterByPerson(
+      state,
+      action: PayloadAction<ClerkPerson>
+    ) {
+      const person = action.payload;
+
+      state.interpreter.onrId = person.onrId;
+      state.interpreter.isIndividualised = person.isIndividualised;
+      state.interpreter.identityNumber = person.identityNumber;
+      state.interpreter.lastName = person.lastName;
+      state.interpreter.firstName = person.firstName;
+      state.interpreter.nickName = person.nickName;
+      state.interpreter.street = person.street;
+      state.interpreter.postalCode = person.postalCode;
+      state.interpreter.town = person.town;
+      state.interpreter.country = person.country;
+    },
     rejectClerkNewInterpreter(state) {
       state.status = APIResponseStatus.Error;
     },
@@ -68,6 +93,8 @@ const clerkNewInterpreterSlice = createSlice({
 
 export const clerkNewInterpreterReducer = clerkNewInterpreterSlice.reducer;
 export const {
+  initialiseClerkNewInterpreterByIdentityNumber,
+  initialiseClerkNewInterpreterByPerson,
   rejectClerkNewInterpreter,
   resetClerkNewInterpreter,
   saveClerkNewInterpreter,

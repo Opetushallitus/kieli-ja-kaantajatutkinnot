@@ -291,6 +291,10 @@
         }
       },
       "clerkNewInterpreterPage": {
+        "addedQualificationsTitle": "Lisätyt rekisteröinnit",
+        "removeQualificationDialog": {
+          "title": "Haluatko varmasti poistaa rekisteröinnin?"
+        },
         "title": "Lisää oikeustulkki"
       },
       "clerkPersonSearchPage": {
