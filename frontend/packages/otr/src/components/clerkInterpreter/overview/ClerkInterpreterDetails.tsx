@@ -166,7 +166,8 @@ export const ClerkInterpreterDetails = () => {
   const hasRequiredDetails =
     !!interpreterDetails?.firstName &&
     !!interpreterDetails.lastName &&
-    !!interpreterDetails.nickName;
+    !!interpreterDetails.nickName &&
+    !!interpreterDetails.email;
 
   return (
     <ClerkInterpreterDetailsFields
