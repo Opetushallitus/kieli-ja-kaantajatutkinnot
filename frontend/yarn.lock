@@ -10931,10 +10931,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.2.5":
-  version: 1.2.5
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.2.5::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.2.5%2F8c4e9b1bf96e3f183cc570e4e63df2dd192f984c"
-  checksum: 74b5bba7bd10bb3c1701af68097f9142d2de5b05e33ffd79a078f9fced4da5d5012bba2bfe6239b37500e0d0a200360e6e5f9eb90b6fc6eed75c1fa8f16dbb0f
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.2.6":
+  version: 1.2.6
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.2.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.2.6%2F6170d301be929d8d4351c9df5e675f400449e12a"
+  checksum: 5865ae8afbf0ace047801c8013e5da00261845071ff5e8168b6b05f816e8f394bb08a89fe72cb04e9ac216e1717cc91e92d33f3f56d3742b5a374453c08e6fce
   languageName: node
   linkType: hard
 
