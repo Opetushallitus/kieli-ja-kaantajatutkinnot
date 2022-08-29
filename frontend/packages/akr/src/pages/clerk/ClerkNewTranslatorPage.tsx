@@ -10,6 +10,7 @@ import {
   Severity,
   Variant,
 } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
@@ -23,11 +24,11 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   resetClerkNewTranslator,
+  saveClerkNewTranslator,
   updateClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
-import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
 import {
   examinationDatesSelector,
@@ -37,12 +38,14 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkNewTranslatorPage = () => {
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
+
+  const { showToast } = useToast();
+  const { showDialog } = useDialog();
 
   // i18n
   const { t } = useAppTranslation({
@@ -75,15 +78,14 @@ export const ClerkNewTranslatorPage = () => {
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('removeAuthorisationDialog.title'),
-      Severity.Info,
-      '',
-      [
+    showDialog({
+      title: t('removeAuthorisationDialog.title'),
+      severity: Severity.Info,
+      description: '',
+      actions: [
         {
           title: translateCommon('no'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           dataTestId: 'clerk-new-translator-page__dialog-confirm-remove-button',
@@ -99,10 +101,8 @@ export const ClerkNewTranslatorPage = () => {
               })
             ),
         },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+      ],
+    });
   };
 
   // Navigation
@@ -128,17 +128,17 @@ export const ClerkNewTranslatorPage = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.Success) {
-      const successToast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.success'),
-        Duration.Medium
-      );
-      dispatch(showNotifierToast(successToast));
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.success'),
+        timeOut: Duration.Medium,
+      });
+      dispatch(resetClerkNewTranslator());
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
       );
     }
-  }, [id, dispatch, navigate, status, t]);
+  }, [id, dispatch, navigate, status, showToast, t]);
 
   useEffect(() => {
     return () => {
@@ -150,6 +150,14 @@ export const ClerkNewTranslatorPage = () => {
   useNavigationProtection(
     hasLocalChanges && status !== APIResponseStatus.Success
   );
+
+  const isLoading = status == APIResponseStatus.InProgress;
+  const isSaveButtonDisabled =
+    isLoading ||
+    !translator.firstName ||
+    !translator.lastName ||
+    translator.authorisations.length < 1;
+  const onSave = () => dispatch(saveClerkNewTranslator(translator));
 
   return (
     <Box className="clerk-new-translator-page">
@@ -196,7 +204,11 @@ export const ClerkNewTranslatorPage = () => {
               onAuthorisationRemove={onAuthorisationRemove}
             />
           ) : null}
-          <BottomControls />
+          <BottomControls
+            isLoading={isLoading}
+            isSaveDisabled={isSaveButtonDisabled}
+            onSave={onSave}
+          />
         </div>
       </Paper>
     </Box>

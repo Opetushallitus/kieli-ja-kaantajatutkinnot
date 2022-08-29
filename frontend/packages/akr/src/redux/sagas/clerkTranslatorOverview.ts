@@ -3,12 +3,14 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
+import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   ClerkTranslator,
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   loadClerkTranslatorOverview,
   rejectAuthorisationPublishPermissionUpdate,
@@ -23,7 +25,6 @@ import {
   updatingAuthorisationPublishPermissionSucceeded,
   updatingClerkTranslatorDetailsSucceeded,
 } from 'redux/reducers/clerkTranslatorOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
@@ -41,6 +42,10 @@ function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
     );
     yield put(storeClerkTranslatorOverview(translator));
   } catch (error) {
+    const t = translateOutsideComponent();
+    yield put(
+      setAPIError(t('akr.component.clerkTranslatorOverview.toasts.notFound'))
+    );
     yield put(rejectClerkTranslatorOverview());
   }
 }
@@ -75,12 +80,9 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
 
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkTranslatorDetailsUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -109,12 +111,9 @@ function* updateAuthorisationPublishPermissionSaga(
 
     yield put(updatingAuthorisationPublishPermissionSucceeded(translator));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectAuthorisationPublishPermissionUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -133,12 +132,9 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
 
     yield put(removingAuthorisationSucceeded(translator));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectAuthorisationRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 

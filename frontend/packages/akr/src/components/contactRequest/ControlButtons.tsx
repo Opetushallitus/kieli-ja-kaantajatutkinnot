@@ -3,9 +3,10 @@ import {
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
 import { AppBar, Toolbar } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -17,9 +18,7 @@ import {
   increaseContactRequestStep,
   sendContactRequest,
 } from 'redux/reducers/contactRequest';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ControlButtons = ({
   disableNext,
@@ -44,38 +43,48 @@ export const ControlButtons = ({
     status: APIResponseStatus;
   };
 
+  const { showDialog } = useDialog();
+
   const { isPhone } = useWindowProperties();
   const isLoading = status === APIResponseStatus.InProgress;
 
+  const [showDialogOnError, setShowDialogOnError] = useState(true);
+
   const onContactRequestSubmit = () => {
+    setShowDialogOnError(true);
     dispatch(sendContactRequest(request));
   };
 
-  const dispatchCancelNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('cancelRequestDialog.title'),
-      Severity.Info,
-      t('cancelRequestDialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: () => undefined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => dispatch(concludeContactRequest()),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
-  };
+  useEffect(() => {
+    if (status == APIResponseStatus.Error && showDialogOnError) {
+      setShowDialogOnError(false);
+      showDialog({
+        title: t('errorDialog.title'),
+        severity: Severity.Error,
+        description: t('errorDialog.description'),
+        actions: [{ title: t('errorDialog.back'), variant: Variant.Contained }],
+      });
+    }
+  }, [showDialog, showDialogOnError, status, t]);
 
   const handleCancelBtnClick = () => {
     if (hasLocalChanges) {
-      dispatchCancelNotifier();
+      showDialog({
+        title: t('cancelRequestDialog.title'),
+        severity: Severity.Info,
+        description: t('cancelRequestDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Outlined,
+          },
+          {
+            title: translateCommon('yes'),
+            variant: Variant.Contained,
+            action: () => dispatch(concludeContactRequest()),
+          },
+        ],
+      });
     } else {
       dispatch(concludeContactRequest());
     }

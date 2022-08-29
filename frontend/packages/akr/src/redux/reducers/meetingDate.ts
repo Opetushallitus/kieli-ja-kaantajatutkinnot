@@ -6,19 +6,19 @@ import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate, MeetingDateFilter } from 'interfaces/meetingDate';
 
 interface MeetingDatesState {
-  status: APIResponseStatus;
   filters: MeetingDateFilter;
   meetingDates: Array<MeetingDate>;
+  status: APIResponseStatus;
 }
 
 interface AddMeetingDateState {
-  status: APIResponseStatus;
   date: Dayjs;
+  status: APIResponseStatus;
 }
 
 interface RemoveMeetingDateState {
-  status: APIResponseStatus;
   meetingDateId: number | undefined;
+  status: APIResponseStatus;
 }
 
 interface MeetingDateState {

@@ -23,7 +23,6 @@ export const AddExaminationDate = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addExaminationDate',
   });
-
   const {
     examinationDates: { dates, status },
   } = useAppSelector(examinationDatesSelector);
@@ -32,7 +31,9 @@ export const AddExaminationDate = () => {
   const dispatch = useAppDispatch();
 
   const handleAddDate = () => {
-    value && dispatch(addExaminationDate(dayjs(value)));
+    if (value) {
+      dispatch(addExaminationDate(dayjs(value)));
+    }
   };
 
   const isSelectedDateAlreadyTaken = () => {

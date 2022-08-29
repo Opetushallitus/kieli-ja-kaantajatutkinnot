@@ -17,7 +17,7 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -25,23 +25,22 @@ import {
   useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
-import { updateAuthorisationPublishPermission } from 'redux/reducers/clerkTranslatorOverview';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { AuthorisationUtils } from 'utils/authorisation';
-import { NotifierUtils } from 'utils/notifier';
 
 export const AuthorisationListing = ({
   authorisations,
   permissionToPublishReadOnly,
   onAuthorisationRemove,
+  onPermissionToPublishChange,
 }: {
   authorisations: Array<Authorisation>;
   permissionToPublishReadOnly: boolean;
-  onAuthorisationRemove: (a: Authorisation) => void;
+  onAuthorisationRemove: (authorisation: Authorisation) => void;
+  onPermissionToPublishChange?: (authorisation: Authorisation) => void;
 }) => {
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
@@ -49,46 +48,17 @@ export const AuthorisationListing = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
-  const dispatch = useAppDispatch();
-  const { authorisationDetailsStatus } = useAppSelector(
+  const status = useAppSelector(
     clerkTranslatorOverviewSelector
-  );
+  ).authorisationDetailsStatus;
 
-  const isLoading = authorisationDetailsStatus === APIResponseStatus.InProgress;
+  const isLoading = status === APIResponseStatus.InProgress;
   const currentDate = dayjs();
 
   const defaultClassName = 'clerk-translator-details__authorisations-table';
   const combinedClassNames = isLoading
     ? `${defaultClassName} dimmed`
     : defaultClassName;
-
-  const onPublishPermissionChange = (authorisation: Authorisation) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('actions.changePermissionToPublish.dialog.header'),
-      Severity.Info,
-      t('actions.changePermissionToPublish.dialog.description'),
-      [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-          action: () => undefined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () =>
-            dispatch(
-              updateAuthorisationPublishPermission({
-                ...authorisation,
-                permissionToPublish: !authorisation.permissionToPublish,
-              })
-            ),
-        },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
-  };
 
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
@@ -164,7 +134,10 @@ export const AuthorisationListing = ({
                 ) : (
                   <CustomSwitch
                     value={a.permissionToPublish}
-                    onChange={() => onPublishPermissionChange(a)}
+                    onChange={() =>
+                      onPermissionToPublishChange &&
+                      onPermissionToPublishChange(a)
+                    }
                     leftLabel={translateCommon('no')}
                     rightLabel={translateCommon('yes')}
                     aria-label={t(

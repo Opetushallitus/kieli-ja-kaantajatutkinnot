@@ -4,9 +4,9 @@ import { APIResponseStatus } from 'shared/enums';
 import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
 
 interface ClerkTranslatorEmailState {
-  status: APIResponseStatus;
   email: ClerkTranslatorEmail;
   recipients: Array<number>;
+  status: APIResponseStatus;
 }
 
 const initialState: ClerkTranslatorEmailState = {

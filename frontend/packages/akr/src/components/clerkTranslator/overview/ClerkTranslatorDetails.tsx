@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
@@ -18,9 +19,7 @@ import {
   resetClerkTranslatorDetailsUpdate,
   updateClerkTranslatorDetails,
 } from 'redux/reducers/clerkTranslatorOverview';
-import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkTranslatorDetails = () => {
   // Redux
@@ -28,6 +27,9 @@ export const ClerkTranslatorDetails = () => {
   const { selectedTranslator, translatorDetailsStatus } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
+
+  const { showToast } = useToast();
+  const { showDialog } = useDialog();
 
   // Local State
   const [translatorDetails, setTranslatorDetails] =
@@ -57,11 +59,10 @@ export const ClerkTranslatorDetails = () => {
       translatorDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditTranslatorDetails
     ) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.updated')
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updated'),
+      });
       resetToInitialState();
     } else if (
       translatorDetailsStatus === APIResponseStatus.Cancelled &&
@@ -73,6 +74,7 @@ export const ClerkTranslatorDetails = () => {
   }, [
     currentUIMode,
     dispatch,
+    showToast,
     resetToInitialState,
     t,
     translatorDetailsStatus,
@@ -120,24 +122,22 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const openCancelDialog = () => {
-    const dialog = NotifierUtils.createNotifierDialog(
-      t('translatorDetails.cancelUpdateDialog.title'),
-      Severity.Info,
-      t('translatorDetails.cancelUpdateDialog.description'),
-      [
+    showDialog({
+      title: t('translatorDetails.cancelUpdateDialog.title'),
+      severity: Severity.Info,
+      description: t('translatorDetails.cancelUpdateDialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => dispatch(cancelClerkTranslatorDetailsUpdate()),
         },
-      ]
-    );
-    dispatch(showNotifierDialog(dialog));
+      ],
+    });
   };
 
   const hasRequiredDetails =

@@ -7,6 +7,7 @@ import { DateUtils } from 'shared/utils';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ExaminationDateResponse } from 'interfaces/examinationDate';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   addExaminationDate,
   addingExaminationDateSucceeded,
@@ -18,7 +19,6 @@ import {
   removingExaminationDateSucceeded,
   storeExaminationDates,
 } from 'redux/reducers/examinationDate';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -30,12 +30,9 @@ function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
     yield put(addingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectExaminationDateAdd());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -48,12 +45,9 @@ function* removeExaminationDateSaga(action: PayloadAction<number>) {
     yield put(removingExaminationDateSucceeded());
     yield put(loadExaminationDates());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectExaminationDateRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 

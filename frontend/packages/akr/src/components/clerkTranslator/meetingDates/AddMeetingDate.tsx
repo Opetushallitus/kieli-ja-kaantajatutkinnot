@@ -20,6 +20,7 @@ import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const AddMeetingDate = () => {
   const [value, setValue] = useState<string>('');
+
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addMeetingDate',
   });
@@ -32,7 +33,9 @@ export const AddMeetingDate = () => {
   const dispatch = useAppDispatch();
 
   const handleAddDate = () => {
-    value && dispatch(addMeetingDate(dayjs(value)));
+    if (value) {
+      dispatch(addMeetingDate(dayjs(value)));
+    }
   };
 
   const isSelectedDateAlreadyTaken = () => {

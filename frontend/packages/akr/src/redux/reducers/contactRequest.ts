@@ -5,10 +5,10 @@ import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactRequest } from 'interfaces/contactRequest';
 
 interface ContactRequestState {
-  status: APIResponseStatus;
   activeStep: ContactRequestFormStep;
   request?: Partial<ContactRequest>;
   messageError: string;
+  status: APIResponseStatus;
 }
 
 const initialState: ContactRequestState = {

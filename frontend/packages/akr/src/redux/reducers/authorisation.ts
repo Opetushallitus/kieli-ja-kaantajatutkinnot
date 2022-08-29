@@ -24,6 +24,9 @@ const authorisationSlice = createSlice({
     rejectAuthorisation(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetAuthorisation(state) {
+      state.status = initialState.status;
+    },
   },
 });
 
@@ -32,4 +35,5 @@ export const {
   addAuthorisation,
   addingAuthorisationSucceeded,
   rejectAuthorisation,
+  resetAuthorisation,
 } = authorisationSlice.actions;

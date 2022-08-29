@@ -51,14 +51,10 @@ const clerkTranslatorOverviewSlice = createSlice({
       state.authorisationDetailsStatus = APIResponseStatus.Error;
     },
     resetClerkTranslatorDetailsUpdate(state) {
-      state.translatorDetailsStatus = APIResponseStatus.NotStarted;
+      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
     },
     resetClerkTranslatorOverview(state) {
-      state.authorisationDetailsStatus =
-        initialState.authorisationDetailsStatus;
-      state.overviewStatus = initialState.overviewStatus;
-      state.selectedTranslator = initialState.selectedTranslator;
-      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
+      return state;
     },
     setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.selectedTranslator = action.payload;

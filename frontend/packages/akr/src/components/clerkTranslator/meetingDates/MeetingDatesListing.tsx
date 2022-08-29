@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -11,12 +12,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { removeMeetingDate } from 'redux/reducers/meetingDate';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (meetingDate: MeetingDate) => {
   return <ListingRow meetingDate={meetingDate} />;
@@ -25,31 +24,32 @@ const getRowDetails = (meetingDate: MeetingDate) => {
 const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
   const dispatch = useAppDispatch();
 
+  const { showDialog } = useDialog();
+
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.meetingDatesListing.removal',
   });
   const translateCommon = useCommonTranslation();
 
   const dispatchConfirmRemoveNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('dialog.header'),
-      Severity.Info,
-      t('dialog.description'),
-      [
+    showDialog({
+      title: t('dialog.header'),
+      severity: Severity.Info,
+      description: t('dialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () => dispatch(removeMeetingDate(meetingDate.id)),
+          action: () => {
+            dispatch(removeMeetingDate(meetingDate.id));
+          },
         },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+      ],
+    });
   };
 
   const formattedDate = DateUtils.formatOptionalDate(meetingDate.date);
@@ -123,7 +123,7 @@ export const MeetingDatesListing: FC = () => {
             filters.meetingStatus === MeetingStatus.Upcoming ? upcoming : passed
           }
           header={<ListingHeader />}
-          getRowDetails={getRowDetails}
+          getRowDetails={(meetingDate) => getRowDetails(meetingDate)}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           className="meeting-dates__listing table-layout-auto"

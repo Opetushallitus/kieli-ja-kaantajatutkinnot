@@ -9,18 +9,18 @@ import {
 } from 'interfaces/examinationDate';
 
 interface ExaminationDatesState {
-  status: APIResponseStatus;
   dates: Array<ExaminationDate>;
+  status: APIResponseStatus;
 }
 
 interface AddExaminationDateState {
-  status: APIResponseStatus;
   date: Dayjs;
+  status: APIResponseStatus;
 }
 
 interface RemoveExaminationDateState {
-  status: APIResponseStatus;
   examinationDateId: number | undefined;
+  status: APIResponseStatus;
 }
 
 interface ExaminationDateState {
