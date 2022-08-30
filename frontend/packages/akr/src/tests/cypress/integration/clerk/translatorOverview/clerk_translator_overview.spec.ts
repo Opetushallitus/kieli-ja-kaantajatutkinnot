@@ -18,7 +18,7 @@ beforeEach(() => {
 describe('ClerkTranslatorOverview:Page', () => {
   it('should be reachable from the ClerkTranslatorListing via overview link of a translator row', () => {
     cy.openClerkHomePage();
-    onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
+    onClerkHomePage.openTranslatorOverviewPage(translatorResponse.id);
 
     onClerkTranslatorOverviewPage.expectedEnabledAddAuthorisationButton();
     onClerkTranslatorOverviewPage.expectEnabledEditTranslatorDetailsButton();
@@ -26,7 +26,7 @@ describe('ClerkTranslatorOverview:Page', () => {
 
   it('should display correctly translator and authorisations details', () => {
     cy.openClerkHomePage();
-    onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
+    onClerkHomePage.openTranslatorOverviewPage(translatorResponse.id);
 
     onClerkTranslatorOverviewPage.expectTranslatorDetailsFields({
       ...translatorResponse,
@@ -54,7 +54,7 @@ describe('ClerkTranslatorOverview:Page', () => {
 
   it('should go back onto the clerk home page when the back button of the browser is clicked', () => {
     cy.openClerkHomePage();
-    onClerkHomePage.clickTranslatorOverviewLink(translatorResponse.id);
+    onClerkHomePage.openTranslatorOverviewPage(translatorResponse.id);
     cy.goBack();
 
     cy.isOnPage(AppRoutes.ClerkHomePage);

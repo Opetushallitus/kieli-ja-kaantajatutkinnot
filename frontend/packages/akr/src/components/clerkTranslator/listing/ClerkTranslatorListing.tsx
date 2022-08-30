@@ -1,15 +1,8 @@
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import {
-  Button,
-  Checkbox,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -41,10 +34,6 @@ const getRowDetails = (translator: ClerkTranslator) => {
 };
 
 const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.clerkTranslatorListing',
-  });
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
@@ -56,17 +45,22 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const currentDate = dayjs();
   const selected = filteredSelectedIds.includes(translator.id);
 
-  const translatorDetailsURL = (id: number) =>
-    AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`);
+  const navigate = useNavigate();
 
-  const handleDetailsBtnClick = (
-    e: React.MouseEvent<HTMLAnchorElement> | undefined
-  ) => {
+  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     e?.stopPropagation();
+    navigate(
+      AppRoutes.ClerkTranslatorOverviewPage.replace(
+        /:translatorId$/,
+        `${translator.id}`
+      )
+    );
     dispatch(setClerkTranslatorOverview(translator));
   };
 
-  const handleRowClick = () => {
+  const handleCheckboxClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
     if (selected) {
       dispatch(deselectClerkTranslator(translator.id));
     } else {
@@ -76,12 +70,17 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
 
   return (
     <TableRow
-      data-testid={`clerk-translators__id-${translator.id}-row`}
-      selected={selected}
+      className="cursor-pointer"
       onClick={handleRowClick}
+      selected={selected}
     >
       <TableCell padding="checkbox">
-        <Checkbox checked={selected} color={Color.Secondary} />
+        <Checkbox
+          data-testid={`clerk-translators__id-${translator.id}-row`}
+          checked={selected}
+          color={Color.Secondary}
+          onClick={handleCheckboxClick}
+        />
       </TableCell>
       <TableCell>
         <Text>{`${lastName} ${firstName}`}</Text>
@@ -136,20 +135,6 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
                 : translateCommon('no')}
             </Text>
           ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="columns gapped-sm">
-          <Button
-            data-testid={`clerk-translators__id-${translator.id}-more-btn`}
-            to={translatorDetailsURL(translator.id)}
-            component={Link}
-            color={Color.Secondary}
-            onClick={handleDetailsBtnClick}
-            endIcon={<ArrowForwardIosOutlinedIcon />}
-          >
-            {t('detailsButton')}
-          </Button>
         </div>
       </TableCell>
     </TableRow>
@@ -207,7 +192,6 @@ const ListingHeader: FC = () => {
         <TableCell>
           <H3>{t('permissionToPublish')}</H3>
         </TableCell>
-        <TableCell />
       </TableRow>
     </TableHead>
   );
