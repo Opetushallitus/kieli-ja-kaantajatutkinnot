@@ -67,6 +67,7 @@ const getFieldError = (
     ClerkInterpreterTextFieldEnum.FirstName,
     ClerkInterpreterTextFieldEnum.NickName,
     ClerkInterpreterTextFieldEnum.IdentityNumber,
+    ClerkInterpreterTextFieldEnum.Email,
   ].includes(field);
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
