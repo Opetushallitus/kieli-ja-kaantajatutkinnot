@@ -1,10 +1,13 @@
 package fi.oph.otr.scheduled;
 
+import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.model.Qualification;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.service.email.ClerkEmailService;
 import fi.oph.otr.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -41,6 +44,9 @@ public class ExpiringQualificationsEmailCreator {
       qualificationRepository
         .findExpiringQualifications(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
         .forEach(qualificationId -> {
+          if (hasEquivalentQualificationExpiringLater(qualificationId)) {
+            return;
+          }
           try {
             clerkEmailService.createQualificationExpiryEmail(qualificationId);
           } catch (Exception e) {
@@ -48,5 +54,20 @@ public class ExpiringQualificationsEmailCreator {
           }
         });
     });
+  }
+
+  private boolean hasEquivalentQualificationExpiringLater(final Long expiringQualificationId) {
+    final Qualification expiringQualification = qualificationRepository.getReferenceById(expiringQualificationId);
+    final Interpreter interpreter = expiringQualification.getInterpreter();
+    return interpreter
+      .getQualifications()
+      .stream()
+      .filter(q -> q.getId() != expiringQualificationId && !q.isDeleted())
+      .anyMatch(q ->
+        q.getEndDate().isAfter(expiringQualification.getEndDate()) &&
+        Objects.equals(expiringQualification.getFromLang(), q.getFromLang()) &&
+        Objects.equals(expiringQualification.getToLang(), q.getToLang()) &&
+        Objects.equals(expiringQualification.getExaminationType(), q.getExaminationType())
+      );
   }
 }
