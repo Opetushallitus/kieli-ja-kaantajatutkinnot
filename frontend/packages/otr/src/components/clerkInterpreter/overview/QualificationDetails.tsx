@@ -89,7 +89,7 @@ export const QualificationDetails = () => {
     {
       status: QualificationStatus.Expired,
       count: groupedQualifications.expired.length,
-      testId: `clerk-interpreter-overview__qualification-details___toggle-button--${QualificationStatus.Expired}`,
+      testId: `clerk-interpreter-overview__qualification-details__toggle-button--${QualificationStatus.Expired}`,
       label: t('toggleFilters.expired'),
     },
   ];
