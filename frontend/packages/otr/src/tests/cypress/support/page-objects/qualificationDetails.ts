@@ -6,7 +6,6 @@ const toggleButton = (name: string) =>
 
 class QualificationDetails {
   elements = {
-    effectiveToggleButton: () => cy.findByTestId(toggleButton('effective')),
     expiredToggleButton: () => cy.findByTestId(toggleButton('expired')),
     row: (id: number) => cy.findByTestId(rowTestId(id)),
     deleteButton: (id: number) =>
@@ -14,10 +13,6 @@ class QualificationDetails {
     publishPermissionSwitch: (id: number) =>
       cy.findByTestId(rowTestId(id)).find('input[type=checkbox]'),
   };
-
-  clickEffectiveToggleBtn() {
-    this.elements.effectiveToggleButton().click();
-  }
 
   clickExpiredToggleBtn() {
     this.elements.expiredToggleButton().click();

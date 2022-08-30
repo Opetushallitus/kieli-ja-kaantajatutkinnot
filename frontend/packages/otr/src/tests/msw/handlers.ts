@@ -2,6 +2,7 @@ import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
+import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
@@ -29,14 +30,23 @@ export const handlers = [
       })
     );
   }),
-  rest.get(`${APIEndpoints.ClerkInterpreter}/:id`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkInterpreter));
-  }),
+  rest.get(
+    `${APIEndpoints.ClerkInterpreter}/${clerkInterpreterIndividualised.id}`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(clerkInterpreterIndividualised));
+    }
+  ),
+  rest.get(
+    `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(clerkInterpreter));
+    }
+  ),
   rest.post(
     `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}/qualification`,
     (req, res, ctx) => {
       return res(
-        ctx.status(200),
+        ctx.status(201),
         ctx.json({
           ...clerkInterpreter,
           qualifications: [...clerkInterpreter.qualifications, qualification],

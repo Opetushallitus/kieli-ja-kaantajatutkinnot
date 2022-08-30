@@ -1,7 +1,7 @@
 import { ExaminationType } from 'enums/interpreter';
 
 export const clerkInterpreter = {
-  id: 7,
+  id: 11,
   version: 0,
   deleted: false,
   isIndividualised: false,
@@ -11,18 +11,14 @@ export const clerkInterpreter = {
   nickName: 'Anneli',
   email: 'anneli.aaltonen@example.invalid',
   permissionToPublishEmail: true,
-  phoneNumber: '+358401000001',
+  phoneNumber: '+358401000011',
   permissionToPublishPhone: true,
   otherContactInfo: 'Tulkintie 7, Kokkola',
   permissionToPublishOtherContactInfo: true,
-  street: 'Malminkatu 1',
-  postalCode: '00100',
-  town: 'Helsinki',
-  country: 'Suomi',
   regions: [],
   qualifications: [
     {
-      id: 7,
+      id: 110,
       version: 0,
       fromLang: 'FI',
       toLang: 'KO',
@@ -30,10 +26,10 @@ export const clerkInterpreter = {
       endDate: '2023-11-14',
       examinationType: 'LEGAL_INTERPRETER_EXAM' as ExaminationType,
       permissionToPublish: true,
-      diaryNumber: '12347',
+      diaryNumber: '11000',
     },
     {
-      id: 8,
+      id: 111,
       version: 0,
       fromLang: 'FI',
       toLang: 'SV',
@@ -41,7 +37,18 @@ export const clerkInterpreter = {
       endDate: '2023-11-14',
       examinationType: 'OTHER' as ExaminationType,
       permissionToPublish: true,
-      diaryNumber: '12667',
+      diaryNumber: '11100',
+    },
+    {
+      id: 112,
+      version: 1,
+      fromLang: 'FI',
+      toLang: 'IS',
+      beginDate: '2020-12-30',
+      endDate: '2021-12-30',
+      examinationType: 'OTHER' as ExaminationType,
+      permissionToPublish: true,
+      diaryNumber: '11200',
     },
   ],
 };

@@ -1,7 +1,5 @@
 import { AppRoutes, UIMode } from 'enums/app';
-import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import { addQualificationFields } from 'tests/cypress/fixtures/utils/clerkInterpreterOverview';
-import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 class ClerkInterpreterOverviewPage {
   elements = {
@@ -23,8 +21,6 @@ class ClerkInterpreterOverviewPage {
       cy.findByTestId(
         'clerk-interpreter-overview__interpreter-details__save-button'
       ),
-    contentContainer: () =>
-      cy.get('.clerk-interpreter-overview-page__content-container'),
     interpreterDetailsField: (field: string, fieldType: string) =>
       cy
         .findByTestId(`clerk-interpreter__basic-information__${field}`)
@@ -34,17 +30,12 @@ class ClerkInterpreterOverviewPage {
       cy
         .findByTestId(`add-qualification-field-${field}`)
         .find(`div>${fieldType}`),
-
     permissionToPublishSwitch: () =>
       cy.findByTestId('add-qualification-field-permissionToPublish'),
-
     qualificationRow: (id: number) =>
       cy.findByTestId(`qualifications-table__id-${id}-row`),
-
     saveQualificationButton: () =>
       cy.findByTestId('add-qualification-modal__save'),
-    cancelQualificationButton: () =>
-      cy.findByTestId('add-qualification-modal__cancel'),
   };
 
   navigateById(id: number) {
@@ -81,6 +72,24 @@ class ClerkInterpreterOverviewPage {
       .type(newValue);
   }
 
+  expectEnabledInterpreterField(fieldName, fieldType) {
+    this.elements
+      .interpreterDetailsField(fieldName, fieldType)
+      .should('be.enabled');
+  }
+
+  expectDisabledInterpreterField(fieldName, fieldType) {
+    this.elements
+      .interpreterDetailsField(fieldName, fieldType)
+      .should('be.disabled');
+  }
+
+  expectInterpreterFieldValue(field: string, fieldType: string, value: string) {
+    this.elements
+      .interpreterDetailsField(field, fieldType)
+      .should('have.value', value);
+  }
+
   fillOutAddQualificationField(
     fieldName: string,
     fieldType: string,
@@ -112,46 +121,16 @@ class ClerkInterpreterOverviewPage {
       .should('be.disabled');
   }
 
-  expectEnabledAddQualificationField(fieldName: string, fieldType: string) {
-    this.elements
-      .addQualificationField(fieldName, fieldType)
-      .should('be.enabled');
-  }
-
   saveQualification() {
     this.elements.saveQualificationButton().should('be.visible').click();
   }
 
-  expectSaveButtonDisabled() {
+  expectQualificationSaveButtonDisabled() {
     this.elements.saveQualificationButton().should('be.disabled');
   }
 
-  expectSaveButtonEnabled() {
+  expectQualificationSaveButtonEnabled() {
     this.elements.saveQualificationButton().should('be.enabled');
-  }
-
-  expectQualificationRowToExist(id: number) {
-    this.elements.qualificationRow(id).should('be.visible');
-  }
-
-  cancelQualification() {
-    this.elements.cancelQualificationButton().should('be.visible').click();
-  }
-
-  expectInterpreterDetailsFieldValue(
-    field: string,
-    fieldType: string,
-    value: string
-  ) {
-    this.elements
-      .interpreterDetailsField(field, fieldType)
-      .should('have.value', value);
-  }
-
-  expectDisabledInterpreterDetailsField(field: string, fieldType: string) {
-    this.elements
-      .interpreterDetailsField(field, fieldType)
-      .should('be.disabled');
   }
 
   expectEnabledEditInterpreterDetailsButton() {
@@ -163,14 +142,6 @@ class ClerkInterpreterOverviewPage {
       .saveInterpreterDetailsButton()
       .should('be.visible')
       .should('be.disabled');
-  }
-
-  expectedEnabledAddQualificationButton() {
-    this.elements.addQualificationButton().should('be.enabled');
-  }
-
-  expectInterpreterNotFoundText() {
-    onToast.expectText('Valittua kääntäjää ei löytynyt');
   }
 
   expectMode(mode: UIMode) {
@@ -190,35 +161,6 @@ class ClerkInterpreterOverviewPage {
 
   expectText(text: string) {
     cy.findByText(text).should('be.visible');
-  }
-
-  expectInterpreterDetailsFields(translator: ClerkInterpreterResponse) {
-    const fields = [
-      { field: 'firstName', fieldType: 'input' },
-      { field: 'lastName', fieldType: 'input' },
-      { field: 'identityNumber', fieldType: 'input' },
-      { field: 'email', fieldType: 'input' },
-      { field: 'phoneNumber', fieldType: 'input' },
-      { field: 'street', fieldType: 'input' },
-      { field: 'postalCode', fieldType: 'input' },
-      { field: 'town', fieldType: 'input' },
-      { field: 'country', fieldType: 'input' },
-      { field: 'extraInformation', fieldType: 'textarea' },
-    ];
-
-    fields.forEach(({ field, fieldType }) => {
-      const expectedValue = translator[field] ? translator[field] : '';
-
-      onClerkInterpreterOverviewPage.expectInterpreterDetailsFieldValue(
-        field,
-        fieldType,
-        expectedValue
-      );
-      onClerkInterpreterOverviewPage.expectDisabledInterpreterDetailsField(
-        field,
-        fieldType
-      );
-    });
   }
 }
 

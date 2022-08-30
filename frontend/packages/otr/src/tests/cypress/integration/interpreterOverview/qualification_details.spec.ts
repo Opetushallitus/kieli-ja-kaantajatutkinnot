@@ -3,19 +3,22 @@ import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objec
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onQualificationDetails } from 'tests/cypress/support/page-objects/qualificationDetails';
 
-const EFFECTIVE_QUALIFICATION_ID = 7;
-const CLERK_INTERPRETER_ID = 7;
+const CLERK_INTERPRETER_ID = 11;
+const EFFECTIVE_QUALIFICATION_ID = 110;
 
 const qualificationsByStatus = {
-  [QualificationStatus.Effective]: [{ id: 7, diaryNumber: '12347' }],
-  [QualificationStatus.Expired]: [],
+  [QualificationStatus.Effective]: [
+    { id: 110, diaryNumber: '11000' },
+    { id: 111, diaryNumber: '11100' },
+  ],
+  [QualificationStatus.Expired]: [{ id: 112, diaryNumber: '11200' }],
 };
 
-beforeEach(() => {
-  onClerkInterpreterOverviewPage.navigateById(CLERK_INTERPRETER_ID);
-});
-
 describe('ClerkInterpreterOverview:QualificationDetails', () => {
+  beforeEach(() => {
+    onClerkInterpreterOverviewPage.navigateById(CLERK_INTERPRETER_ID);
+  });
+
   it('should display correct details for qualifications', () => {
     onQualificationDetails.expectVisibleQualifications(
       qualificationsByStatus[QualificationStatus.Effective]

@@ -1,29 +1,28 @@
 import { AppRoutes, UIMode } from 'enums/app';
 import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objects/clerkInterpreterOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
+import { onQualificationDetails } from 'tests/cypress/support/page-objects/qualificationDetails';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 
-const INTERPRETER_ID = 7;
+const INTERPRETER_ID = 11;
 
 describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
-  it('should open edit mode when the edit button is clicked', () => {
+  beforeEach(() => {
     onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
+  });
 
+  it('should open edit mode when the edit button is clicked', () => {
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
-
     onClerkInterpreterOverviewPage.expectMode(UIMode.EditInterpreterDetails);
   });
 
   it('should return from edit mode when cancel is clicked and no changes were made', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
-
     onClerkInterpreterOverviewPage.clickCancelInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
   });
 
   it('should disable details save button when the required fields are not filled out', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
     onClerkInterpreterOverviewPage.editInterpreterField(
@@ -47,7 +46,6 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and stay in edit mode if user backs out', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -63,7 +61,6 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and return to view mode if user confirms', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -83,8 +80,6 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     const fieldType = 'input';
     const newLastName = 'new last name';
 
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
-
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       fieldName,
@@ -94,7 +89,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.clickSaveInterpreterDetailsButton();
 
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
-    onClerkInterpreterOverviewPage.expectInterpreterDetailsFieldValue(
+    onClerkInterpreterOverviewPage.expectInterpreterFieldValue(
       fieldName,
       fieldType,
       newLastName
@@ -107,22 +102,18 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should add qualification successfully', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
-
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
     onClerkInterpreterOverviewPage.fillOutAddQualificationFields();
     onClerkInterpreterOverviewPage.toggleAddQualificationPermissionToPublishSwitch();
 
     onClerkInterpreterOverviewPage.saveQualification();
 
+    onQualificationDetails.assertRowExists(99);
     onToast.expectText('Rekisteröinti lisätty onnistuneesti');
   });
 
-  it('should show disabled fields correctly', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
-
+  it('should show disabled fields in qualification add modal correctly', () => {
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
-
     onClerkInterpreterOverviewPage.expectDisabledAddQualificationField(
       'endDate',
       'input'
@@ -130,44 +121,19 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should not allow adding qualification if required fields are not filled', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
-
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
+    onClerkInterpreterOverviewPage.fillOutAddQualificationFields();
+    onClerkInterpreterOverviewPage.expectQualificationSaveButtonEnabled();
 
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'from',
-      'input',
-      'suomi'
-    );
-
-    onClerkInterpreterOverviewPage.expectSaveButtonDisabled();
-
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'to',
-      'input',
-      'ruotsi'
-    );
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'examination',
-      'input',
-      'Oikeustulkkauksen erikoisammattitutkinto'
-    );
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'beginDate',
-      'input',
-      '1.1.2022'
-    );
     onClerkInterpreterOverviewPage.fillOutAddQualificationField(
       'diaryNumber',
       'input',
-      '1337'
+      ''
     );
-
-    onClerkInterpreterOverviewPage.expectSaveButtonEnabled();
+    onClerkInterpreterOverviewPage.expectQualificationSaveButtonDisabled();
   });
 
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -182,8 +148,6 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should show field errors when inputs are not valid', () => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
-
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
@@ -205,5 +169,32 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.expectText(
       'Sähköpostiosoite on virheellinen'
     );
+  });
+
+  it('should show identity number as the only disabled personal information field for a non-individualised interpreter', () => {
+    onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
+
+    ['lastName', 'firstName', 'nickName'].forEach((field) => {
+      onClerkInterpreterOverviewPage.expectEnabledInterpreterField(
+        field,
+        'input'
+      );
+    });
+    onClerkInterpreterOverviewPage.expectDisabledInterpreterField(
+      'identityNumber',
+      'input'
+    );
+  });
+
+  it('should show each personal information field as disabled for an individualised interpreter', () => {
+    onClerkInterpreterOverviewPage.navigateById(12);
+    onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
+
+    ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach((field) => {
+      onClerkInterpreterOverviewPage.expectDisabledInterpreterField(
+        field,
+        'input'
+      );
+    });
   });
 });
