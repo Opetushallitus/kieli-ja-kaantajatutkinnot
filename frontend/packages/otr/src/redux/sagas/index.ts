@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 
 import { watchClerkInterpreters } from 'redux/sagas/clerkInterpreter';
 import { watchClerkInterpreterOverview } from 'redux/sagas/clerkInterpreterOverview';
+import { watchClerkPersonSearch } from 'redux/sagas/clerkPersonSearch';
 import { watchClerkUser } from 'redux/sagas/clerkUser';
 import { watchMeetingDates } from 'redux/sagas/meetingDate';
 import { watchPublicInterpreters } from 'redux/sagas/publicInterpreter';
@@ -12,6 +13,7 @@ export default function* rootSaga() {
     watchPublicInterpreters(),
     watchClerkInterpreters(),
     watchClerkInterpreterOverview(),
+    watchClerkPersonSearch(),
     watchClerkUser(),
     watchQualificationUpdates(),
     watchMeetingDates(),

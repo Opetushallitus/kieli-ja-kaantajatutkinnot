@@ -290,6 +290,22 @@
           "updated": "Tiedot tallennettiin"
         }
       },
+      "clerkPersonSearchPage": {
+        "buttons": {
+          "proceed": "Syötä manuaalisesti",
+          "search": "Suorita haku"
+        },
+        "noResult": {
+          "description": "Tällä henkilötunnuksella ei löytynyt tietoja. Tarkista onko henkilötunnus kirjoitettu oikein tai syötä tiedot manuaalisesti.",
+          "label": "Tietoja ei löytynyt"
+        },
+        "placeholder": "Syötä henkilötunnus",
+        "search": {
+          "description": "Järjestelmä hakee henkilötiedot automaattisesti oppijanumerorekisteristä.",
+          "label": "Hae tiedot oppijanumerorekisteristä"
+        },
+        "title": "Lisää oikeustulkki"
+      },
       "homepage": {
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
         "filters": {

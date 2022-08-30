@@ -1,6 +1,7 @@
 export enum APIEndpoints {
   PublicInterpreter = '/otr/api/v1/interpreter',
   ClerkInterpreter = '/otr/api/v1/clerk/interpreter',
+  ClerkPersonSearch = '/otr/api/v1/clerk/person',
   ClerkUser = '/otr/api/v1/clerk/user',
   Qualification = '/otr/api/v1/clerk/interpreter/qualification',
   MeetingDate = '/otr/api/v1/clerk/meetingDate',
