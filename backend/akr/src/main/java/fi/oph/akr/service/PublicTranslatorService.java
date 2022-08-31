@@ -10,6 +10,7 @@ import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
 import fi.oph.akr.repository.TranslatorRepository;
+import fi.oph.akr.service.koodisto.PostalCodeService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,9 +22,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,9 @@ public class PublicTranslatorService {
 
   @Resource
   private final TranslatorRepository translatorRepository;
+
+  @Resource
+  private final PostalCodeService postalCodeService;
 
   @Cacheable(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS)
   @Transactional(readOnly = true)
@@ -80,14 +86,14 @@ public class PublicTranslatorService {
     final Translator translator,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final String country = Optional.ofNullable(translator.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
-
+    final String country = resolveCountry(translator);
+    final Pair<String, String> townTranslated = resolveTownTranslated(translator.getTown(), country);
     return PublicTranslatorDTO
       .builder()
       .id(translator.getId())
       .firstName(translator.getFirstName())
       .lastName(translator.getLastName())
-      .town(translator.getTown())
+      .town(townTranslated.getLeft())
       .country(country)
       .languagePairs(languagePairDTOS)
       .build();
@@ -104,18 +110,33 @@ public class PublicTranslatorService {
     return translators
       .stream()
       .map(translator -> {
-        if (translator.getTown() == null) {
+        if (!StringUtils.hasText(translator.getTown())) {
           return null;
         }
-        if (translator.getCountry() == null || translator.getCountry().equals("FIN")) {
-          return PublicTownDTO.builder().name(translator.getTown()).build();
-        }
-        return PublicTownDTO.builder().name(translator.getTown()).country(translator.getCountry()).build();
+        final String country = resolveCountry(translator);
+        final Pair<String, String> townTranslated = resolveTownTranslated(translator.getTown(), country);
+        return PublicTownDTO
+          .builder()
+          .name(townTranslated.getLeft())
+          .nameSv(townTranslated.getRight())
+          .country(country)
+          .build();
       })
       .filter(Objects::nonNull)
       .distinct()
       .sorted(publicTownDTOCompare())
       .toList();
+  }
+
+  private Pair<String, String> resolveTownTranslated(final String town, final String country) {
+    if (country == null) {
+      return postalCodeService.translateTown(town);
+    }
+    return Pair.of(town, town);
+  }
+
+  private static String resolveCountry(final Translator translator) {
+    return Optional.ofNullable(translator.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
   }
 
   private Comparator<PublicTownDTO> publicTownDTOCompare() {

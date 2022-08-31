@@ -14,6 +14,7 @@ import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorRepository;
+import fi.oph.akr.service.koodisto.PostalCodeService;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import javax.annotation.Resource;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,11 @@ class PublicTranslatorServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicTranslatorService = new PublicTranslatorService(authorisationRepository, translatorRepository);
+    final PostalCodeService postalCodeService = new PostalCodeService();
+    postalCodeService.init();
+
+    publicTranslatorService =
+      new PublicTranslatorService(authorisationRepository, translatorRepository, postalCodeService);
   }
 
   @Test
@@ -164,10 +170,13 @@ class PublicTranslatorServiceTest {
     final List<Pair<String, String>> townsAndCountries = Arrays.asList(
       Pair.of(null, null),
       Pair.of("Kaupunki1", null),
-      Pair.of(null, null),
+      Pair.of("", "FIN"),
       Pair.of("Kaupunki2", null),
       Pair.of("Kaupunki1", "FIN"),
       Pair.of(null, null),
+      Pair.of("Tampere", null),
+      Pair.of("Helsingfors", null),
+      Pair.of("Tammerfors", null),
       Pair.of("Kaupunki2", null),
       Pair.of("Kaupunki1", "SWE"),
       Pair.of("Kaupunki3", "SWE"),
@@ -179,6 +188,9 @@ class PublicTranslatorServiceTest {
       .range(0, townsAndCountries.size())
       .forEach(i -> {
         final Translator translator = Factory.translator();
+        // Translators should be in random order, sorting makes assertions easier to write. Set last name which is
+        // easy to sort.
+        translator.setLastName(translator.getLastName() + StringUtils.leftPad(String.valueOf(i), 2, '0'));
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
         translator.setTown(townsAndCountries.get(i).getLeft());
@@ -190,10 +202,36 @@ class PublicTranslatorServiceTest {
 
     final PublicTranslatorResponseDTO responseDTO = publicTranslatorService.listTranslators();
 
+    final List<PublicTranslatorDTO> translatorsUnsorted = responseDTO.translators();
+    final List<PublicTranslatorDTO> translators = translatorsUnsorted
+      .stream()
+      .sorted(Comparator.comparing(PublicTranslatorDTO::lastName))
+      .toList();
+    assertEquals(
+      Arrays.asList(
+        "",
+        "Kaupunki1",
+        "",
+        "Kaupunki2",
+        "Kaupunki1",
+        "",
+        "Tampere",
+        "Helsinki",
+        "Tampere",
+        "Kaupunki2",
+        "Kaupunki1",
+        "Kaupunki3",
+        "Kaupunki2",
+        "Kaupunki1"
+      ),
+      translators.stream().map(PublicTranslatorDTO::town).toList()
+    );
     assertEquals(
       List.of(
+        createPublicTownDTO("Helsinki", "Helsingfors", null),
         createPublicTownDTO("Kaupunki1"),
         createPublicTownDTO("Kaupunki2"),
+        createPublicTownDTO("Tampere", "Tammerfors", null),
         createPublicTownDTO("Kaupunki1", "SWE"),
         createPublicTownDTO("Kaupunki2", "NOR"),
         createPublicTownDTO("Kaupunki3", "SWE")
@@ -290,10 +328,14 @@ class PublicTranslatorServiceTest {
   }
 
   private PublicTownDTO createPublicTownDTO(final String name) {
-    return createPublicTownDTO(name, null);
+    return createPublicTownDTO(name, name, null);
   }
 
   private PublicTownDTO createPublicTownDTO(final String name, final String country) {
-    return PublicTownDTO.builder().name(name).country(country).build();
+    return createPublicTownDTO(name, name, country);
+  }
+
+  private PublicTownDTO createPublicTownDTO(final String name, final String nameSv, final String country) {
+    return PublicTownDTO.builder().name(name).nameSv(nameSv).country(country).build();
   }
 }

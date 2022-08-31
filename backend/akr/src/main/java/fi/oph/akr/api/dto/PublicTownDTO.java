@@ -4,4 +4,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PublicTownDTO(@NonNull String name, String country) {}
+public record PublicTownDTO(@NonNull String name, @NonNull String nameSv, String country) {}
