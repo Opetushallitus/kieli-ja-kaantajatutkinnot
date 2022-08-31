@@ -2,6 +2,7 @@ import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Duration, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { AddMeetingDate } from 'components/meetingDate/AddMeetingDate';
 import { MeetingDatesListing } from 'components/meetingDate/MeetingDatesListing';
@@ -14,9 +15,7 @@ import {
   resetMeetingDateAdd,
   resetMeetingDateRemove,
 } from 'redux/reducers/meetingDate';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 export const MeetingDatesPage: FC = () => {
   const {
@@ -29,6 +28,8 @@ export const MeetingDatesPage: FC = () => {
 
   const { t } = useAppTranslation({ keyPrefix: 'otr.pages' });
 
+  const { showToast } = useToast();
+
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadMeetingDates());
@@ -37,33 +38,31 @@ export const MeetingDatesPage: FC = () => {
 
   useEffect(() => {
     if (addMeetingDateStatus === APIResponseStatus.Success) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('meetingDatesPage.toasts.addingSucceeded'),
-        Duration.Medium
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Success,
+        description: t('meetingDatesPage.toasts.addingSucceeded'),
+        timeOut: Duration.Medium,
+      });
     }
 
     return () => {
       dispatch(resetMeetingDateAdd());
     };
-  }, [dispatch, addMeetingDateStatus, t]);
+  }, [dispatch, showToast, addMeetingDateStatus, t]);
 
   useEffect(() => {
     if (removeMeetingDateStatus === APIResponseStatus.Success) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('meetingDatesPage.toasts.removingSucceeded'),
-        Duration.Medium
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Success,
+        description: t('meetingDatesPage.toasts.removingSucceeded'),
+        timeOut: Duration.Medium,
+      });
     }
 
     return () => {
       dispatch(resetMeetingDateRemove());
     };
-  }, [dispatch, removeMeetingDateStatus, t]);
+  }, [dispatch, showToast, removeMeetingDateStatus, t]);
 
   const renderMeetingDatesPageGrids = () => (
     <>
