@@ -92,6 +92,11 @@
           },
           "header": "Auktorisoinnit",
           "noAuthorisations": "Valituille kriteereille ei löytynyt auktorisointeja",
+          "toasts": {
+            "addingSucceeded": "Auktorisointi lisätty onnistuneesti",
+            "removingSucceeded": "Valittu auktorisointi poistettu",
+            "updatingPublishPermissionSucceeded": "Auktorisoinnin julkaisulupaa muutettu"
+          },
           "toggleFilters": {
             "effectives": "Voimassa olevat",
             "expired": "Umpeutuneet",
@@ -279,11 +284,7 @@
           "to": "Mihin"
         },
         "switch": {
-          "inEffect": "Voimassa",
           "permissionToPublish": "Julkaisulupa"
-        },
-        "toasts": {
-          "success": "Auktorisointi lisätty onnistuneesti"
         }
       },
       "publicTranslatorFilters": {

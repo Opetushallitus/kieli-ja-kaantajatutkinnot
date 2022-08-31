@@ -20,7 +20,9 @@ import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   addAuthorisation,
   removeAuthorisation,
-  resetAuthorisationState,
+  resetAuthorisationAdd,
+  resetAuthorisationPublishPermissionUpdate,
+  resetAuthorisationRemove,
   updateAuthorisationPublishPermission,
 } from 'redux/reducers/authorisation';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
@@ -32,6 +34,12 @@ import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationDetails = () => {
+  // I18n
+  const { t } = useAppTranslation({
+    keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
+  });
+  const translateCommon = useCommonTranslation();
+
   // State
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
     AuthorisationStatus.Authorised
@@ -44,7 +52,8 @@ export const AuthorisationDetails = () => {
   const { showToast } = useToast();
 
   // Redux
-  const { addStatus } = useAppSelector(authorisationSelector);
+  const { addStatus, removeStatus, updatePublishPermissionStatus } =
+    useAppSelector(authorisationSelector);
   const { selectedTranslator } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
@@ -60,22 +69,54 @@ export const AuthorisationDetails = () => {
     dispatch(addAuthorisation(authorisation));
   };
 
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'akr.component',
-  });
-  const translateCommon = useCommonTranslation();
-
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
       handleCloseModal();
-      dispatch(resetAuthorisationState());
       showToast({
         severity: Severity.Success,
-        description: t('newAuthorisation.toasts.success'),
+        description: t('toasts.addingSucceeded'),
       });
     }
-  }, [addStatus, dispatch, showToast, t]);
+
+    if (
+      addStatus === APIResponseStatus.Success ||
+      addStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetAuthorisationAdd());
+    }
+  }, [dispatch, addStatus, showToast, t]);
+
+  useEffect(() => {
+    if (removeStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.removingSucceeded'),
+      });
+    }
+
+    if (
+      removeStatus === APIResponseStatus.Success ||
+      removeStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetAuthorisationRemove());
+    }
+  }, [dispatch, removeStatus, showToast, t]);
+
+  useEffect(() => {
+    if (updatePublishPermissionStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updatingPublishPermissionSucceeded'),
+      });
+    }
+
+    if (
+      updatePublishPermissionStatus === APIResponseStatus.Success ||
+      updatePublishPermissionStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetAuthorisationPublishPermissionUpdate());
+    }
+  }, [dispatch, updatePublishPermissionStatus, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
@@ -105,35 +146,27 @@ export const AuthorisationDetails = () => {
       status: AuthorisationStatus.Authorised,
       count: groupedAuthorisations.authorised.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Authorised}`,
-      label: t(
-        'clerkTranslatorOverview.authorisations.toggleFilters.effectives'
-      ),
+      label: t('toggleFilters.effectives'),
     },
     {
       status: AuthorisationStatus.Expired,
       count: groupedAuthorisations.expired.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Expired}`,
-      label: t('clerkTranslatorOverview.authorisations.toggleFilters.expired'),
+      label: t('toggleFilters.expired'),
     },
     {
       status: AuthorisationStatus.FormerVIR,
       count: groupedAuthorisations.formerVIR.length,
       testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.FormerVIR}`,
-      label: t(
-        'clerkTranslatorOverview.authorisations.toggleFilters.formerVIR'
-      ),
+      label: t('toggleFilters.formerVIR'),
     },
   ];
 
   const onPermissionToPublishChange = (authorisation: Authorisation) => {
     showDialog({
-      title: t(
-        'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.header'
-      ),
+      title: t('actions.changePermissionToPublish.dialog.header'),
       severity: Severity.Info,
-      description: t(
-        'clerkTranslatorOverview.authorisations.actions.changePermissionToPublish.dialog.description'
-      ),
+      description: t('actions.changePermissionToPublish.dialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -157,22 +190,16 @@ export const AuthorisationDetails = () => {
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
     showDialog({
-      title: t(
-        'clerkTranslatorOverview.authorisations.actions.removal.dialog.header'
-      ),
+      title: t('actions.removal.dialog.header'),
       severity: Severity.Info,
-      description: t(
-        'clerkTranslatorOverview.authorisations.actions.removal.dialog.description'
-      ),
+      description: t('actions.removal.dialog.description'),
       actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
         },
         {
-          title: t(
-            'clerkTranslatorOverview.authorisations.actions.removal.dialog.confirmButton'
-          ),
+          title: t('actions.removal.dialog.confirmButton'),
           variant: Variant.Contained,
           action: () => {
             dispatch(removeAuthorisation(authorisation.id as number));
@@ -207,9 +234,7 @@ export const AuthorisationDetails = () => {
       </CustomModal>
       <div className="rows gapped-xs">
         <div className="columns margin-top-sm">
-          <H3 className="grow">
-            {t('clerkTranslatorOverview.authorisations.header')}
-          </H3>
+          <H3 className="grow">{t('header')}</H3>
         </div>
         <div className="columns margin-top-sm space-between">
           <ToggleFilterGroup
@@ -236,7 +261,7 @@ export const AuthorisationDetails = () => {
           />
         ) : (
           <Text className="centered bold margin-top-lg">
-            {t('clerkTranslatorOverview.authorisations.noAuthorisations')}
+            {t('noAuthorisations')}
           </Text>
         )}
       </div>

@@ -34,10 +34,8 @@ const clerkTranslatorOverviewSlice = createSlice({
     resetClerkTranslatorDetailsUpdate(state) {
       state.translatorDetailsStatus = initialState.translatorDetailsStatus;
     },
-    resetClerkTranslatorOverview(state) {
-      state.overviewStatus = initialState.overviewStatus;
-      state.translatorDetailsStatus = initialState.translatorDetailsStatus;
-      state.selectedTranslator = initialState.selectedTranslator;
+    resetClerkTranslatorOverview(_state) {
+      return initialState;
     },
     setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.overviewStatus = APIResponseStatus.NotStarted;

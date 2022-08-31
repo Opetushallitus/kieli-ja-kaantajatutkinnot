@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
@@ -10,6 +10,7 @@ import {
   ClerkTranslatorResponse,
 } from 'interfaces/clerkTranslator';
 import { setAPIError } from 'redux/reducers/APIError';
+import { upsertClerkTranslator } from 'redux/reducers/clerkTranslator';
 import {
   loadClerkTranslatorOverview,
   rejectClerkTranslatorDetailsUpdate,
@@ -18,11 +19,6 @@ import {
   updateClerkTranslatorDetails,
   updatingClerkTranslatorDetailsSucceeded,
 } from 'redux/reducers/clerkTranslatorOverview';
-import {
-  updateClerkTranslators,
-  updateClerkTranslatorsState,
-} from 'redux/sagas/clerkTranslator';
-import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -53,13 +49,10 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
       APIEndpoints.ClerkTranslator,
       SerializationUtils.serializeClerkTranslator(action.payload)
     );
-    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    const updatedTranslators = updateClerkTranslators(translators, translator);
-    yield updateClerkTranslatorsState(updatedTranslators);
-
+    yield put(upsertClerkTranslator(translator));
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);

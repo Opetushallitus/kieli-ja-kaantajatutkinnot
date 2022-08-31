@@ -71,6 +71,17 @@ const clerkTranslatorSlice = createSlice({
       state.translators = action.payload.translators;
       state.langs = action.payload.langs;
     },
+    upsertClerkTranslator(state, action: PayloadAction<ClerkTranslator>) {
+      const updatedTranslators = [...state.translators];
+      const translator = action.payload;
+      const idx = updatedTranslators.findIndex(
+        (t: ClerkTranslator) => t.id === translator.id
+      );
+      const spliceIndex = idx >= 0 ? idx : updatedTranslators.length;
+
+      updatedTranslators.splice(spliceIndex, 1, translator);
+      state.translators = updatedTranslators;
+    },
   },
 });
 
@@ -85,4 +96,5 @@ export const {
   selectAllFilteredClerkTranslators,
   selectClerkTranslator,
   storeClerkTranslators,
+  upsertClerkTranslator,
 } = clerkTranslatorSlice.actions;

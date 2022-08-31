@@ -40,11 +40,15 @@ const authorisationSlice = createSlice({
     removingAuthorisationSucceeded(state) {
       state.removeStatus = APIResponseStatus.Success;
     },
-    resetAuthorisationState(state) {
+    resetAuthorisationAdd(state) {
       state.addStatus = initialState.addStatus;
-      state.removeStatus = initialState.removeStatus;
+    },
+    resetAuthorisationPublishPermissionUpdate(state) {
       state.updatePublishPermissionStatus =
         initialState.updatePublishPermissionStatus;
+    },
+    resetAuthorisationRemove(state) {
+      state.removeStatus = initialState.removeStatus;
     },
     updateAuthorisationPublishPermission(
       state,
@@ -67,7 +71,9 @@ export const {
   rejectAuthorisationRemove,
   removeAuthorisation,
   removingAuthorisationSucceeded,
-  resetAuthorisationState,
+  resetAuthorisationAdd,
+  resetAuthorisationPublishPermissionUpdate,
+  resetAuthorisationRemove,
   updateAuthorisationPublishPermission,
   updatingAuthorisationPublishPermissionSucceeded,
 } = authorisationSlice.actions;

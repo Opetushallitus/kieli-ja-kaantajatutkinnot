@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
@@ -18,12 +18,8 @@ import {
   updateAuthorisationPublishPermission,
   updatingAuthorisationPublishPermissionSucceeded,
 } from 'redux/reducers/authorisation';
+import { upsertClerkTranslator } from 'redux/reducers/clerkTranslator';
 import { setSelectedTranslator } from 'redux/reducers/clerkTranslatorOverview';
-import {
-  updateClerkTranslators,
-  updateClerkTranslatorsState,
-} from 'redux/sagas/clerkTranslator';
-import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -35,13 +31,10 @@ function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
       `${APIEndpoints.ClerkTranslator}/${translatorId}/authorisation`,
       SerializationUtils.serializeAuthorisation(action.payload)
     );
-    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    const updatedTranslators = updateClerkTranslators(translators, translator);
-    yield updateClerkTranslatorsState(updatedTranslators);
-
+    yield put(upsertClerkTranslator(translator));
     yield put(setSelectedTranslator(translator));
     yield put(addingAuthorisationSucceeded());
   } catch (error) {
@@ -67,13 +60,10 @@ function* updateAuthorisationPublishPermissionSaga(
       APIEndpoints.AuthorisationPublishPermission,
       requestBody
     );
-    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    const updatedTranslators = updateClerkTranslators(translators, translator);
-    yield updateClerkTranslatorsState(updatedTranslators);
-
+    yield put(upsertClerkTranslator(translator));
     yield put(setSelectedTranslator(translator));
     yield put(updatingAuthorisationPublishPermissionSucceeded());
   } catch (error) {
@@ -89,13 +79,10 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
       axiosInstance.delete,
       `${APIEndpoints.Authorisation}/${action.payload}`
     );
-    const { translators } = yield select(clerkTranslatorsSelector);
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    const updatedTranslators = updateClerkTranslators(translators, translator);
-    yield updateClerkTranslatorsState(updatedTranslators);
-
+    yield put(upsertClerkTranslator(translator));
     yield put(setSelectedTranslator(translator));
     yield put(removingAuthorisationSucceeded());
   } catch (error) {

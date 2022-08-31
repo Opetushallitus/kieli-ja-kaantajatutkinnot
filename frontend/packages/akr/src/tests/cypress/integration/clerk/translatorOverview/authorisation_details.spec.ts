@@ -8,6 +8,7 @@ import {
 } from 'tests/cypress/support/page-objects/authorisationDetails';
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
+import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 const effectiveAuthorisationId = 10001;
 
@@ -82,6 +83,7 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
       effectiveAuthorisationId,
       false
     );
+    onToast.expectText('Auktorisoinnin julkaisulupaa muutettu');
   });
 
   it('should open a confirmation dialog when a delete icon is clicked, and do no changes if user backs out', () => {
@@ -108,5 +110,6 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
     cy.wait('@deleteAuthorisation');
 
     onAuthorisationDetails.assertRowDoesNotExist(effectiveAuthorisationId);
+    onToast.expectText('Valittu auktorisointi poistettu');
   });
 });

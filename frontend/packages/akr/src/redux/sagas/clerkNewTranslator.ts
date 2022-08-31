@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from '@redux-saga/core/effects';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError, AxiosResponse } from 'axios';
 
@@ -12,8 +12,8 @@ import {
   saveClerkNewTranslator,
   storeClerkNewTranslator,
 } from 'redux/reducers/clerkNewTranslator';
-import { updateClerkTranslatorsState } from 'redux/sagas/clerkTranslator';
-import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
+import { upsertClerkTranslator } from 'redux/reducers/clerkTranslator';
+import { setClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -29,11 +29,9 @@ function* saveClerkNewTranslatorSaga(
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-    const { translators } = yield select(clerkTranslatorsSelector);
-    const updatedClerkTranslators = [...translators, translator];
-    yield updateClerkTranslatorsState(updatedClerkTranslators);
-
+    yield put(upsertClerkTranslator(translator));
     yield put(storeClerkNewTranslator(translator.id));
+    yield put(setClerkTranslatorOverview(translator));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

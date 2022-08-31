@@ -1,10 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkStateResponse } from 'interfaces/clerkState';
-import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   loadClerkTranslators,
   rejectClerkTranslators,
@@ -12,7 +11,6 @@ import {
 } from 'redux/reducers/clerkTranslator';
 import { storeExaminationDates } from 'redux/reducers/examinationDate';
 import { storeMeetingDates } from 'redux/reducers/meetingDate';
-import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadClerkTranslatorsSaga() {
@@ -30,37 +28,6 @@ function* loadClerkTranslatorsSaga() {
   } catch (error) {
     yield put(rejectClerkTranslators());
   }
-}
-
-export function updateClerkTranslators(
-  translators: Array<ClerkTranslator>,
-  translator: ClerkTranslator
-) {
-  const updatedTranslators = [...translators];
-  const translatorIdx = updatedTranslators.findIndex(
-    (t: ClerkTranslator) => t.id === translator.id
-  );
-
-  updatedTranslators.splice(translatorIdx, 1, translator);
-
-  return updatedTranslators;
-}
-
-export function* updateClerkTranslatorsState(
-  updatedTranslators: Array<ClerkTranslator>
-) {
-  const { translators, langs } = yield select(clerkTranslatorsSelector);
-
-  if (translators.length <= 0) {
-    yield put(loadClerkTranslators());
-  }
-
-  yield put(
-    storeClerkTranslators({
-      translators: updatedTranslators,
-      langs,
-    })
-  );
 }
 
 export function* watchClerkTranslators() {
