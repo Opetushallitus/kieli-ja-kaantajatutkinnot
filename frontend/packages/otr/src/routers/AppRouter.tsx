@@ -5,6 +5,7 @@ import { Notifier } from 'shared/components';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { AppRoutes } from 'enums/app';
+import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
 import { ClerkPersonSearchPage } from 'pages/ClerkPersonSearchPage';
@@ -12,6 +13,8 @@ import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
+  useAPIErrorToast();
+
   return (
     <BrowserRouter>
       <div className="app">

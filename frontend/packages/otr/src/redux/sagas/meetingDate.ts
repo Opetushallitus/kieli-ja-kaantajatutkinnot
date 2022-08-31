@@ -7,6 +7,7 @@ import { DateUtils } from 'shared/utils';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { MeetingDateResponse } from 'interfaces/meetingDate';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   addingMeetingDateSucceeded,
   addMeetingDate,
@@ -18,7 +19,6 @@ import {
   removingMeetingDateSucceeded,
   storeMeetingDates,
 } from 'redux/reducers/meetingDate';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -31,12 +31,9 @@ function* removeMeetingDateSaga(action: PayloadAction<number>) {
     yield put(removingMeetingDateSucceeded());
     yield put(loadMeetingDates());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectMeetingDateRemove());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -48,12 +45,9 @@ function* addMeetingDateSaga(action: PayloadAction<Dayjs>) {
     yield put(addingMeetingDateSucceeded());
     yield put(loadMeetingDates());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectMeetingDateAdd());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
