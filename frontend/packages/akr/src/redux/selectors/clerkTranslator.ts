@@ -28,7 +28,7 @@ export const selectTranslatorsByAuthorisationStatus = createSelector(
       AuthorisationStatus
     ).map((authorisationStatus) =>
       translators.filter((t) =>
-        filterByAuthorisationStatus(
+        translatorMatchesAuthorisationStatus(
           t,
           authorisationStatus,
           currentDate,
@@ -58,11 +58,11 @@ export const selectFilteredClerkTranslators = createSelector(
 
     if (filters.name) {
       const nameFilter = filters.name;
-      filtered = filtered.filter((t) => filterByName(t, nameFilter));
+      filtered = filtered.filter((t) => translatorMatchesName(t, nameFilter));
     }
 
     filtered = filtered.filter((t) =>
-      filterByAuthorisationCriteria(t, filters, currentDate, expiringSoonDate)
+      translatorMatchesFilters(t, filters, currentDate, expiringSoonDate)
     );
 
     return filtered;
@@ -89,9 +89,19 @@ export const selectFilteredSelectedTranslators = createSelector(
   }
 );
 
-// Helpers
+// Translator level predicates
 
-const filterByAuthorisationStatus = (
+const translatorMatchesName = (translator: ClerkTranslator, name: string) => {
+  const { firstName, lastName } = translator;
+  const nameCombs = [
+    `${firstName} ${lastName}`,
+    `${lastName} ${firstName}`,
+  ].map(trimAndLowerCase);
+
+  return nameCombs.some((comb) => comb.includes(trimAndLowerCase(name)));
+};
+
+const translatorMatchesAuthorisationStatus = (
   translator: ClerkTranslator,
   status: AuthorisationStatus,
   currentDate: Dayjs,
@@ -122,7 +132,7 @@ const filterByAuthorisationStatus = (
   }
 };
 
-const filterByAuthorisationCriteria = (
+const translatorMatchesFilters = (
   translator: ClerkTranslator,
   filters: ClerkTranslatorFilter,
   currentDate: Dayjs,
@@ -145,46 +155,7 @@ const filterByAuthorisationCriteria = (
   );
 };
 
-const filterAuthorisationsByStatus = (
-  authorisations: Array<Authorisation>,
-  status: AuthorisationStatus,
-  currentDate: Dayjs,
-  expiringSoonDate: Dayjs
-) => {
-  const candidates = authorisations.filter((a) =>
-    matchesAuthorisationStatus(
-      { authorisationStatus: status },
-      currentDate,
-      expiringSoonDate,
-      a
-    )
-  );
-
-  if (candidates.length > 0 && status === AuthorisationStatus.Expired) {
-    // If a translator has an expired authorisation, we must also check that
-    // they don't have an effective authorisation for the same language pair.
-    const effectiveAuthorisations = authorisations.filter((a) =>
-      matchesAuthorisationStatus(
-        {
-          authorisationStatus: AuthorisationStatus.Authorised,
-        },
-        currentDate,
-        expiringSoonDate,
-        a
-      )
-    );
-
-    return candidates.filter(
-      ({ languagePair: { from, to } }) =>
-        !effectiveAuthorisations.find(
-          ({ languagePair }) =>
-            languagePair.from === from && languagePair.to === to
-        )
-    );
-  } else {
-    return candidates;
-  }
-};
+// Authorisation level predicates
 
 const matchesFromLang = (
   { fromLang }: ClerkTranslatorFilter,
@@ -243,14 +214,47 @@ const matchesAuthorisationStatus = (
   }
 };
 
-const trimAndLowerCase = (val: string) => val.trim().toLowerCase();
+// Helpers
 
-const filterByName = (translator: ClerkTranslator, name: string) => {
-  const { firstName, lastName } = translator;
-  const nameCombs = [
-    `${firstName} ${lastName}`,
-    `${lastName} ${firstName}`,
-  ].map(trimAndLowerCase);
+const filterAuthorisationsByStatus = (
+  authorisations: Array<Authorisation>,
+  status: AuthorisationStatus,
+  currentDate: Dayjs,
+  expiringSoonDate: Dayjs
+) => {
+  const candidates = authorisations.filter((a) =>
+    matchesAuthorisationStatus(
+      { authorisationStatus: status },
+      currentDate,
+      expiringSoonDate,
+      a
+    )
+  );
 
-  return nameCombs.some((comb) => comb.includes(trimAndLowerCase(name)));
+  if (candidates.length > 0 && status === AuthorisationStatus.Expired) {
+    // If a translator has an expired authorisation, we must also check that
+    // they don't have an effective authorisation for the same language pair.
+    const effectiveAuthorisations = authorisations.filter((a) =>
+      matchesAuthorisationStatus(
+        {
+          authorisationStatus: AuthorisationStatus.Authorised,
+        },
+        currentDate,
+        expiringSoonDate,
+        a
+      )
+    );
+
+    return candidates.filter(
+      ({ languagePair: { from, to } }) =>
+        !effectiveAuthorisations.find(
+          ({ languagePair }) =>
+            languagePair.from === from && languagePair.to === to
+        )
+    );
+  } else {
+    return candidates;
+  }
 };
+
+const trimAndLowerCase = (val: string) => val.trim().toLowerCase();
