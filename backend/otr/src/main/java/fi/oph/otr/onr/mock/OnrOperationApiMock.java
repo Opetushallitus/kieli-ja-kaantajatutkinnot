@@ -35,7 +35,6 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Matti Tauno")
           .nickName("Matti")
           .identityNumber(identityNumber)
-          .email("matti.lehtinen@example.invalid")
           .street("Kajaanintie 123")
           .postalCode("93600")
           .town("Kuusamo")
@@ -49,7 +48,6 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Anna Maria")
           .nickName("Anna")
           .identityNumber(identityNumber)
-          .email("anna.mannonen@example.invalid")
           .street("Tampereentie 234")
           .postalCode("20100")
           .town("Turku")
@@ -63,7 +61,6 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Oona Inkeri")
           .nickName("Oona")
           .identityNumber(identityNumber)
-          .email("oona.oppija@example.invalid")
           .street("Ristikontie 333")
           .town("Helsinki")
           .build();
@@ -75,7 +72,6 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Olli Pekka")
           .nickName("Olli")
           .identityNumber(identityNumber)
-          .email("olli.oppija@example.invalid")
           .build();
         default -> null;
       };

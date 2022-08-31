@@ -18,8 +18,23 @@ import org.junit.jupiter.api.Test;
 class OnrOperationApiImplTest {
 
   @Test
-  void testCreatePersonalDataDTO_IndividualisedNoPhone() {
-    final PersonalData personalData = defaultData().email("e@mail").individualised(true).build();
+  void testCreatePersonalDataDTO_IndividualisedNoOtherDetails() {
+    final PersonalData personalData = defaultData().individualised(true).build();
+
+    final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
+
+    assertDtoMatchesDefaultData(dto);
+    assertTrue(dto.getIndividualised());
+
+    final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
+    assertEquals(2, contactDetailsSet.size());
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
+  }
+
+  @Test
+  void testCreatePersonalDataDTO_IndividualisedWithEmail() {
+    final PersonalData personalData = defaultData().individualised(true).email("e@mail").build();
 
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
@@ -34,7 +49,7 @@ class OnrOperationApiImplTest {
 
   @Test
   void testCreatePersonalDataDTO_IndividualisedWithPhone() {
-    final PersonalData personalData = defaultData().email("e@mail").individualised(true).phoneNumber("040404").build();
+    final PersonalData personalData = defaultData().individualised(true).phoneNumber("040404").build();
 
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
@@ -43,15 +58,15 @@ class OnrOperationApiImplTest {
 
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(2, contactDetailsSet.size());
-    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
     assertEquals("040404", findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
   }
 
   @Test
   void testCreatePersonalDataDTO_IndividualisedAllOtherDetails() {
     final PersonalData personalData = defaultData()
-      .email("e@mail")
       .individualised(true)
+      .email("e@mail")
       .phoneNumber("040404")
       .street("Katu 1")
       .postalCode("12321")
@@ -71,7 +86,7 @@ class OnrOperationApiImplTest {
 
   @Test
   void testCreatePersonalDataDTO_NotIndividualisedNoOtherDetails() {
-    final PersonalData personalData = defaultData().email("e@mail").individualised(false).build();
+    final PersonalData personalData = defaultData().individualised(false).build();
 
     final PersonalDataDTO dto = OnrOperationApiImpl.createPersonalDataDTO(personalData);
 
@@ -80,7 +95,7 @@ class OnrOperationApiImplTest {
 
     final Set<ContactDetailsDTO> contactDetailsSet = assertGroupGettingContactDetailsDTOS(dto);
     assertEquals(6, contactDetailsSet.size());
-    assertEquals("e@mail", findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
+    assertNull(findValueByType(contactDetailsSet, ContactDetailsType.EMAIL));
     assertNull(findValueByType(contactDetailsSet, ContactDetailsType.PHONE_NUMBER));
     assertNull(findValueByType(contactDetailsSet, ContactDetailsType.STREET));
     assertNull(findValueByType(contactDetailsSet, ContactDetailsType.POSTAL_CODE));
@@ -91,8 +106,8 @@ class OnrOperationApiImplTest {
   @Test
   void testCreatePersonalDataDTO_NotIndividualisedWithAllOtherDetails() {
     final PersonalData personalData = defaultData()
-      .email("e@mail")
       .individualised(false)
+      .email("e@mail")
       .phoneNumber("040404")
       .street("Katu 1")
       .postalCode("12321")
