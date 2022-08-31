@@ -2297,7 +2297,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@0.0.509"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.2.6"
   languageName: unknown
   linkType: soft
 
@@ -10917,13 +10917,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@0.0.509":
-  version: 0.0.509
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:0.0.509::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F0.0.509%2F00f16c6132d2296db11e209b002e533160e2ecd8"
-  checksum: dac5b8eeb7702b63f49f48af5c8f7ab3df11d186c04157db0ae1bdf7406e836222077ad617f9e031a7e66458309a7f4391581f755cce7544c7943d549e21c022
-  languageName: node
-  linkType: hard
-
 "shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.0.8":
   version: 1.0.8
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.0.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.0.8%2F49b847a91241b0dd5892466233f7d6f6ddd31e50"
@@ -10935,6 +10928,13 @@ __metadata:
   version: 1.1.1
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.1.1%2Fec25eb3b8059009d3ed9d6b1f94f157b6372189d"
   checksum: fbdbf28fdb361c351901788d2cfc83ad2eeb91cdd4b3966d02795a233abb883f892ae6a1606d52552c18a94830168cfe494f5fccc4cb282c237a43ddede34eca
+  languageName: node
+  linkType: hard
+
+"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.2.6":
+  version: 1.2.6
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.2.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.2.6%2F263c8101b3852f0a2b5d8c66f7c06154a518fb3f"
+  checksum: 48609fde2a04fd9a32a900ae20b9d661d321875950f9868d5bbb00c0d2d187330d24cf05ca1974f178e1b26e5e8a8534fd5b2b8f6ae2b9b8e1aa769e40feacc5
   languageName: node
   linkType: hard
 

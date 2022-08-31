@@ -79,9 +79,7 @@ export const PublicTranslatorListingRow = ({
   const getLanguagePairs = useCallback(() => {
     return languagePairs.map(({ from, to }, k) => {
       const className =
-        fromLang && toLang && fromLang === from && toLang === to
-          ? 'padding-unset bold'
-          : '';
+        fromLang === from && toLang === to ? 'padding-unset bold' : '';
 
       return (
         <Text className={className} key={k}>
