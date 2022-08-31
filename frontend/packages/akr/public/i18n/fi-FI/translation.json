@@ -49,12 +49,12 @@
       "clerkTranslatorListing": {
         "detailsButton": "Lisätiedot",
         "header": {
-          "authorisationBasis": "Peruste",
-          "authorisationBeginDate": "Alkamispäivä",
-          "authorisationEndDate": "Päättymispäivä",
-          "languagePairs": "Kieliparit",
+          "basis": "Peruste",
+          "languagePair": "Kieliparit",
           "name": "Nimi",
           "permissionToPublish": "Julkaisulupa",
+          "termBeginDate": "Alkamispäivä",
+          "termEndDate": "Päättymispäivä",
           "valid": "Voimassa"
         }
       },
