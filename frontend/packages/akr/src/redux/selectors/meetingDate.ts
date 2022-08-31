@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { DateUtils } from 'shared/utils';
 
 import { RootState } from 'configs/redux';
-import { MeetingStatus } from 'enums/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
 
 export const meetingDatesSelector = (state: RootState) => state.meetingDate;
 
@@ -16,13 +16,13 @@ export const selectMeetingDatesByMeetingStatus = createSelector(
     const now = dayjs();
     const upcoming = meetingDates.meetingDates
       .filter(({ date }) =>
-        filterMeetingDateByStatus(date, MeetingStatus.Upcoming, now)
+        filterMeetingDateByStatus(date, MeetingDateStatus.Upcoming, now)
       )
       .sort((a, b) => a.date.valueOf() - b.date.valueOf());
 
     const passed = meetingDates.meetingDates
       .filter(({ date }) =>
-        filterMeetingDateByStatus(date, MeetingStatus.Passed, now)
+        filterMeetingDateByStatus(date, MeetingDateStatus.Passed, now)
       )
       .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
@@ -35,10 +35,10 @@ export const selectMeetingDatesByMeetingStatus = createSelector(
 
 const filterMeetingDateByStatus = (
   date: Dayjs,
-  status: MeetingStatus,
+  status: MeetingDateStatus,
   currentDate: Dayjs
 ) => {
   const isBefore = DateUtils.isDatePartBefore(date, currentDate);
 
-  return status === MeetingStatus.Upcoming ? !isBefore : isBefore;
+  return status === MeetingDateStatus.Upcoming ? !isBefore : isBefore;
 };

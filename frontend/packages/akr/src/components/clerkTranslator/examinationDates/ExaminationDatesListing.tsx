@@ -47,9 +47,7 @@ const ListingRow = ({
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
-          action: () => {
-            dispatch(removeExaminationDate(examinationDate.id));
-          },
+          action: () => dispatch(removeExaminationDate(examinationDate)),
         },
       ],
     });

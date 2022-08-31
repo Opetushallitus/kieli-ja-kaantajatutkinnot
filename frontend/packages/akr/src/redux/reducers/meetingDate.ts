@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import dayjs, { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
-import { MeetingStatus } from 'enums/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
 import { MeetingDate, MeetingDateFilter } from 'interfaces/meetingDate';
 
 interface MeetingDatesState {
@@ -17,7 +17,7 @@ interface AddMeetingDateState {
 }
 
 interface RemoveMeetingDateState {
-  meetingDateId: number | undefined;
+  date: Dayjs | undefined;
   status: APIResponseStatus;
 }
 
@@ -32,7 +32,7 @@ const initialState: MeetingDateState = {
     status: APIResponseStatus.NotStarted,
     meetingDates: [],
     filters: {
-      meetingStatus: MeetingStatus.Upcoming,
+      meetingStatus: MeetingDateStatus.Upcoming,
     },
   },
   addMeetingDate: {
@@ -41,7 +41,7 @@ const initialState: MeetingDateState = {
   },
   removeMeetingDate: {
     status: APIResponseStatus.NotStarted,
-    meetingDateId: undefined,
+    date: undefined,
   },
 };
 
@@ -49,11 +49,9 @@ const meetingDateSlice = createSlice({
   name: 'meetingDate',
   initialState,
   reducers: {
-    addMeetingDate(state, _action: PayloadAction<Dayjs>) {
+    addMeetingDate(state, action: PayloadAction<Dayjs>) {
       state.addMeetingDate.status = APIResponseStatus.InProgress;
-    },
-    addMeetingDateFilter(state, action: PayloadAction<MeetingDateFilter>) {
-      state.meetingDates.filters = action.payload;
+      state.addMeetingDate.date = action.payload;
     },
     addingMeetingDateSucceeded(state) {
       state.addMeetingDate.status = APIResponseStatus.Success;
@@ -61,20 +59,32 @@ const meetingDateSlice = createSlice({
     loadMeetingDates(state) {
       state.meetingDates.status = APIResponseStatus.InProgress;
     },
-    rejectMeetingDates(state) {
-      state.meetingDates.status = APIResponseStatus.Error;
-    },
-    removeMeetingDate(state, _action: PayloadAction<number>) {
-      state.removeMeetingDate.status = APIResponseStatus.InProgress;
-    },
-    removingMeetingDateSucceeded(state) {
-      state.removeMeetingDate.status = APIResponseStatus.Success;
+    rejectMeetingDateAdd(state) {
+      state.addMeetingDate.status = APIResponseStatus.Error;
     },
     rejectMeetingDateRemove(state) {
       state.removeMeetingDate.status = APIResponseStatus.Error;
     },
-    rejectMeetingDateAdd(state) {
-      state.addMeetingDate.status = APIResponseStatus.Error;
+    rejectMeetingDates(state) {
+      state.meetingDates.status = APIResponseStatus.Error;
+    },
+    removeMeetingDate(state, action: PayloadAction<MeetingDate>) {
+      state.removeMeetingDate.status = APIResponseStatus.InProgress;
+      state.removeMeetingDate.date = action.payload.date;
+    },
+    removingMeetingDateSucceeded(state) {
+      state.removeMeetingDate.status = APIResponseStatus.Success;
+    },
+    resetMeetingDateAdd(state) {
+      state.addMeetingDate.status = initialState.addMeetingDate.status;
+      state.addMeetingDate.date = initialState.addMeetingDate.date;
+    },
+    resetMeetingDateRemove(state) {
+      state.removeMeetingDate.status = initialState.removeMeetingDate.status;
+      state.removeMeetingDate.date = initialState.removeMeetingDate.date;
+    },
+    setMeetingDateFilters(state, action: PayloadAction<MeetingDateFilter>) {
+      state.meetingDates.filters = action.payload;
     },
     storeMeetingDates(state, action: PayloadAction<Array<MeetingDate>>) {
       state.meetingDates.status = APIResponseStatus.Success;
@@ -86,13 +96,15 @@ const meetingDateSlice = createSlice({
 export const meetingDateReducer = meetingDateSlice.reducer;
 export const {
   addMeetingDate,
-  addMeetingDateFilter,
   addingMeetingDateSucceeded,
   loadMeetingDates,
-  rejectMeetingDates,
   rejectMeetingDateAdd,
   rejectMeetingDateRemove,
+  rejectMeetingDates,
   removeMeetingDate,
   removingMeetingDateSucceeded,
+  resetMeetingDateAdd,
+  resetMeetingDateRemove,
+  setMeetingDateFilters,
   storeMeetingDates,
 } = meetingDateSlice.actions;

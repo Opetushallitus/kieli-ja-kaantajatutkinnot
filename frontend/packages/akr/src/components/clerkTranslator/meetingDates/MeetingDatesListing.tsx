@@ -9,7 +9,7 @@ import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { MeetingStatus } from 'enums/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { removeMeetingDate } from 'redux/reducers/meetingDate';
 import {
@@ -45,7 +45,7 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            dispatch(removeMeetingDate(meetingDate.id));
+            dispatch(removeMeetingDate(meetingDate));
           },
         },
       ],
@@ -120,7 +120,9 @@ export const MeetingDatesListing: FC = () => {
       return (
         <PaginatedTable
           data={
-            filters.meetingStatus === MeetingStatus.Upcoming ? upcoming : passed
+            filters.meetingStatus === MeetingDateStatus.Upcoming
+              ? upcoming
+              : passed
           }
           header={<ListingHeader />}
           getRowDetails={(meetingDate) => getRowDetails(meetingDate)}

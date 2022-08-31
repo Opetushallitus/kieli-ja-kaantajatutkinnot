@@ -1,9 +1,9 @@
-import { MeetingStatus } from 'enums/meetingDate';
+import { MeetingDateStatus } from 'enums/meetingDate';
 
 class MeetingDatesPage {
   elements = {
     heading: () => cy.findByTestId('meeting-dates-page__heading'),
-    statusButton: (status: MeetingStatus) =>
+    statusButton: (status: MeetingDateStatus) =>
       cy.findByTestId(`meeting-dates-filters__btn--${status}`),
     datePicker: () => cy.get('input[type=date]'),
     addButton: () => cy.findByTestId('meeting-dates-page__add-btn'),
@@ -19,7 +19,7 @@ class MeetingDatesPage {
     cy.get('.table__head-box__pagination').should('contain.text', `/ ${count}`);
   }
 
-  filterByStatus(status: MeetingStatus) {
+  filterByStatus(status: MeetingDateStatus) {
     this.elements.statusButton(status).should('be.visible').click();
   }
 

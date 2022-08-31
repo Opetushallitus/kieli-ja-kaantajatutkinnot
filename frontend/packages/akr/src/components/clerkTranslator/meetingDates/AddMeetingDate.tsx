@@ -19,8 +19,7 @@ import { addMeetingDate } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const AddMeetingDate = () => {
-  const [value, setValue] = useState<string>('');
-
+  const [value, setValue] = useState('');
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addMeetingDate',
   });

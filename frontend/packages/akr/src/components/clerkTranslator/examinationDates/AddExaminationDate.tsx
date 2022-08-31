@@ -19,7 +19,7 @@ import { addExaminationDate } from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
 export const AddExaminationDate = () => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState('');
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addExaminationDate',
   });

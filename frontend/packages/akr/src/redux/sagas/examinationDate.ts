@@ -6,7 +6,10 @@ import { DateUtils } from 'shared/utils';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ExaminationDateResponse } from 'interfaces/examinationDate';
+import {
+  ExaminationDate,
+  ExaminationDateResponse,
+} from 'interfaces/examinationDate';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   addExaminationDate,
@@ -36,11 +39,11 @@ function* addExaminationDateSaga(action: PayloadAction<Dayjs>) {
   }
 }
 
-function* removeExaminationDateSaga(action: PayloadAction<number>) {
+function* removeExaminationDateSaga(action: PayloadAction<ExaminationDate>) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.ExaminationDate}/${action.payload}`
+      `${APIEndpoints.ExaminationDate}/${action.payload.id}`
     );
     yield put(removingExaminationDateSucceeded());
     yield put(loadExaminationDates());
@@ -67,6 +70,6 @@ function* loadExaminationDatesSaga() {
 
 export function* watchExaminationDates() {
   yield takeLatest(loadExaminationDates, loadExaminationDatesSaga);
-  yield takeLatest(addExaminationDate.type, addExaminationDateSaga);
-  yield takeLatest(removeExaminationDate.type, removeExaminationDateSaga);
+  yield takeLatest(addExaminationDate, addExaminationDateSaga);
+  yield takeLatest(removeExaminationDate, removeExaminationDateSaga);
 }
