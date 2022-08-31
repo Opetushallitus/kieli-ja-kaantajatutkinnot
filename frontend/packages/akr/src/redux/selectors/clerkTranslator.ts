@@ -28,7 +28,7 @@ export const selectTranslatorsByAuthorisationStatus = createSelector(
       AuthorisationStatus
     ).map((authorisationStatus) =>
       translators.filter((t) =>
-        filterByAuthorisationStatus(
+        translatorMatchesAuthorisationStatus(
           t,
           authorisationStatus,
           currentDate,
@@ -58,11 +58,11 @@ export const selectFilteredClerkTranslators = createSelector(
 
     if (filters.name) {
       const nameFilter = filters.name;
-      filtered = filtered.filter((t) => filterByName(t, nameFilter));
+      filtered = filtered.filter((t) => translatorMatchesName(t, nameFilter));
     }
 
     filtered = filtered.filter((t) =>
-      filterByAuthorisationCriteria(t, filters, currentDate, expiringSoonDate)
+      translatorMatchesFilters(t, filters, currentDate, expiringSoonDate)
     );
 
     return filtered;
@@ -89,30 +89,63 @@ export const selectFilteredSelectedTranslators = createSelector(
   }
 );
 
-// Helpers
-const filterByAuthorisationStatus = (
+// Translator level predicates
+
+const translatorMatchesName = (translator: ClerkTranslator, name: string) => {
+  const { firstName, lastName } = translator;
+  const nameCombs = [
+    `${firstName} ${lastName}`,
+    `${lastName} ${firstName}`,
+  ].map(trimAndLowerCase);
+
+  return nameCombs.some((comb) => comb.includes(trimAndLowerCase(name)));
+};
+
+const translatorMatchesAuthorisationStatus = (
   translator: ClerkTranslator,
   status: AuthorisationStatus,
   currentDate: Dayjs,
   expiringSoonDate: Dayjs
 ) => {
-  return translator.authorisations.find((a) =>
-    matchesAuthorisationStatus(
-      { authorisationStatus: status },
-      currentDate,
-      expiringSoonDate,
-      a
-    )
-  );
+  if (status === AuthorisationStatus.Expired) {
+    // If selected AuthorisationStatus is Expired, we must search all expired authorisations to check
+    // that there are no corresponding effective authorisations for the same language pair.
+    return (
+      filterAuthorisationsByStatus(
+        translator.authorisations,
+        status,
+        currentDate,
+        expiringSoonDate
+      ).length > 0
+    );
+  } else {
+    // Otherwise, we may short circuit the evaluation upon finding the first authorisation
+    // matching the desired authorisation status.
+    return translator.authorisations.find((a) =>
+      matchesAuthorisationStatus(
+        { authorisationStatus: status },
+        currentDate,
+        expiringSoonDate,
+        a
+      )
+    );
+  }
 };
 
-const filterByAuthorisationCriteria = (
+const translatorMatchesFilters = (
   translator: ClerkTranslator,
   filters: ClerkTranslatorFilter,
   currentDate: Dayjs,
   expiringSoonDate: Dayjs
 ) => {
-  return translator.authorisations.find(
+  const candidates = filterAuthorisationsByStatus(
+    translator.authorisations,
+    filters.authorisationStatus,
+    currentDate,
+    expiringSoonDate
+  );
+
+  return candidates.find(
     (a) =>
       matchesFromLang(filters, a) &&
       matchesToLang(filters, a) &&
@@ -121,6 +154,8 @@ const filterByAuthorisationCriteria = (
       matchesAuthorisationStatus(filters, currentDate, expiringSoonDate, a)
   );
 };
+
+// Authorisation level predicates
 
 const matchesFromLang = (
   { fromLang }: ClerkTranslatorFilter,
@@ -179,14 +214,47 @@ const matchesAuthorisationStatus = (
   }
 };
 
-const trimAndLowerCase = (val: string) => val.trim().toLowerCase();
+// Helpers
 
-const filterByName = (translator: ClerkTranslator, name: string) => {
-  const { firstName, lastName } = translator;
-  const nameCombs = [
-    `${firstName} ${lastName}`,
-    `${lastName} ${firstName}`,
-  ].map(trimAndLowerCase);
+const filterAuthorisationsByStatus = (
+  authorisations: Array<Authorisation>,
+  status: AuthorisationStatus,
+  currentDate: Dayjs,
+  expiringSoonDate: Dayjs
+) => {
+  const candidates = authorisations.filter((a) =>
+    matchesAuthorisationStatus(
+      { authorisationStatus: status },
+      currentDate,
+      expiringSoonDate,
+      a
+    )
+  );
 
-  return nameCombs.some((comb) => comb.includes(trimAndLowerCase(name)));
+  if (candidates.length > 0 && status === AuthorisationStatus.Expired) {
+    // If a translator has an expired authorisation, we must also check that
+    // they don't have an effective authorisation for the same language pair.
+    const effectiveAuthorisations = authorisations.filter((a) =>
+      matchesAuthorisationStatus(
+        {
+          authorisationStatus: AuthorisationStatus.Authorised,
+        },
+        currentDate,
+        expiringSoonDate,
+        a
+      )
+    );
+
+    return candidates.filter(
+      ({ languagePair: { from, to } }) =>
+        !effectiveAuthorisations.find(
+          ({ languagePair }) =>
+            languagePair.from === from && languagePair.to === to
+        )
+    );
+  } else {
+    return candidates;
+  }
 };
+
+const trimAndLowerCase = (val: string) => val.trim().toLowerCase();
