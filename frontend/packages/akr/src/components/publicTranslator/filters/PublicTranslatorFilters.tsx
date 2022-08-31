@@ -28,6 +28,7 @@ import { useDebounce, useToast, useWindowProperties } from 'shared/hooks';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
 import {
+  isCurrentLangSv,
   useAppTranslation,
   useKoodistoCountriesTranslation,
   useKoodistoLanguagesTranslation,
@@ -224,9 +225,10 @@ export const PublicTranslatorFilters = ({
 
   const townAsComboboxOption = (publicTown: PublicTown) => {
     const value = publicTown.name;
+    const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
     const label = publicTown.country
-      ? `${publicTown.name} (${translateCountry(publicTown.country)})`
-      : publicTown.name;
+      ? `${townName} (${translateCountry(publicTown.country)})`
+      : townName;
 
     return { value, label };
   };
