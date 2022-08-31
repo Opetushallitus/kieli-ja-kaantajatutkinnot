@@ -433,8 +433,8 @@
       "meetingDatesPage": {
         "title": "Kokouspäivät",
         "toasts": {
-          "addingSucceeded": "Kokouspäivän lisäys onnistui",
-          "removingSucceeded": "Valittu kokouspäivä poistettu"
+          "addingSucceeded": "Kokouspäivän {{date}} lisäys onnistui",
+          "removingSucceeded": "Kokouspäivä {{date}} poistettu"
         }
       },
       "notFoundPage": {

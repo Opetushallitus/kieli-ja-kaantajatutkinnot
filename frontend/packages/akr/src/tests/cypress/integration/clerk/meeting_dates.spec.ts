@@ -70,7 +70,7 @@ describe('MeetingDatesPage', () => {
     cy.wait('@create');
 
     onMeetingDatesPage.expectTotalMeetingDatesCount(11);
-    onToast.expectText('Kokouspäivän lisäys onnistui');
+    onToast.expectText('Kokouspäivän 4.10.2030 lisäys onnistui');
   });
 
   it('should not add duplicate meeting dates', () => {
@@ -123,7 +123,7 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.expectTotalMeetingDatesCount(9);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(5);
 
-    onToast.expectText('Valittu kokouspäivä poistettu');
+    onToast.expectText('Kokouspäivä 18.11.2021 poistettu');
   });
 
   it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {

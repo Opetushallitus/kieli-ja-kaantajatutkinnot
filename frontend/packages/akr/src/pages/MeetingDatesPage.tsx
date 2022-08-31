@@ -3,6 +3,7 @@ import { FC, useEffect } from 'react';
 import { H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
+import { DateUtils } from 'shared/utils';
 
 import { AddMeetingDate } from 'components/clerkTranslator/meetingDates/AddMeetingDate';
 import { MeetingDatesListing } from 'components/clerkTranslator/meetingDates/MeetingDatesListing';
@@ -20,8 +21,8 @@ import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 export const MeetingDatesPage: FC = () => {
   const {
     meetingDates: { status, meetingDates },
-    addMeetingDate: { status: addMeetingDateStatus },
-    removeMeetingDate: { status: removeMeetingDateStatus },
+    addMeetingDate,
+    removeMeetingDate,
   } = useAppSelector(meetingDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
@@ -36,30 +37,44 @@ export const MeetingDatesPage: FC = () => {
   }, [dispatch, status]);
 
   useEffect(() => {
-    if (addMeetingDateStatus === APIResponseStatus.Success) {
+    const { status, date } = addMeetingDate;
+
+    if (status === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('meetingDatesPage.toasts.addingSucceeded'),
+        description: t('meetingDatesPage.toasts.addingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
       });
     }
 
-    return () => {
+    if (
+      status === APIResponseStatus.Success ||
+      status === APIResponseStatus.Error
+    ) {
       dispatch(resetMeetingDateAdd());
-    };
-  }, [dispatch, addMeetingDateStatus, showToast, t]);
+    }
+  }, [dispatch, addMeetingDate, showToast, t]);
 
   useEffect(() => {
-    if (removeMeetingDateStatus === APIResponseStatus.Success) {
+    const { status, date } = removeMeetingDate;
+
+    if (status === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('meetingDatesPage.toasts.removingSucceeded'),
+        description: t('meetingDatesPage.toasts.removingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
       });
     }
 
-    return () => {
+    if (
+      status === APIResponseStatus.Success ||
+      status === APIResponseStatus.Error
+    ) {
       dispatch(resetMeetingDateRemove());
-    };
-  }, [dispatch, removeMeetingDateStatus, showToast, t]);
+    }
+  }, [dispatch, removeMeetingDate, showToast, t]);
 
   const renderMeetingDatesPageGrids = () => (
     <>

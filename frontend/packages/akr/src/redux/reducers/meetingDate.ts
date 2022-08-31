@@ -17,7 +17,7 @@ interface AddMeetingDateState {
 }
 
 interface RemoveMeetingDateState {
-  meetingDateId: number | undefined;
+  date: Dayjs | undefined;
   status: APIResponseStatus;
 }
 
@@ -41,7 +41,7 @@ const initialState: MeetingDateState = {
   },
   removeMeetingDate: {
     status: APIResponseStatus.NotStarted,
-    meetingDateId: undefined,
+    date: undefined,
   },
 };
 
@@ -49,8 +49,9 @@ const meetingDateSlice = createSlice({
   name: 'meetingDate',
   initialState,
   reducers: {
-    addMeetingDate(state, _action: PayloadAction<Dayjs>) {
+    addMeetingDate(state, action: PayloadAction<Dayjs>) {
       state.addMeetingDate.status = APIResponseStatus.InProgress;
+      state.addMeetingDate.date = action.payload;
     },
     addingMeetingDateSucceeded(state) {
       state.addMeetingDate.status = APIResponseStatus.Success;
@@ -67,8 +68,9 @@ const meetingDateSlice = createSlice({
     rejectMeetingDates(state) {
       state.meetingDates.status = APIResponseStatus.Error;
     },
-    removeMeetingDate(state, _action: PayloadAction<number>) {
+    removeMeetingDate(state, action: PayloadAction<MeetingDate>) {
       state.removeMeetingDate.status = APIResponseStatus.InProgress;
+      state.removeMeetingDate.date = action.payload.date;
     },
     removingMeetingDateSucceeded(state) {
       state.removeMeetingDate.status = APIResponseStatus.Success;
@@ -79,8 +81,7 @@ const meetingDateSlice = createSlice({
     },
     resetMeetingDateRemove(state) {
       state.removeMeetingDate.status = initialState.removeMeetingDate.status;
-      state.removeMeetingDate.meetingDateId =
-        initialState.removeMeetingDate.meetingDateId;
+      state.removeMeetingDate.date = initialState.removeMeetingDate.date;
     },
     setMeetingDateFilters(state, action: PayloadAction<MeetingDateFilter>) {
       state.meetingDates.filters = action.payload;
