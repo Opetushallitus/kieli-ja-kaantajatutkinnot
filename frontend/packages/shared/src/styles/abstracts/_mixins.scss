@@ -52,7 +52,7 @@
   }
 }
 
-@mixin desktop-xs-to-md {
+@mixin desktop-xs-to-lg {
   @media (min-width: map-get(maps.$breakpoints, 'desktop-xs')) and (max-width: map-get(maps.$breakpoints, 'desktop-lg')) {
     @content;
   }

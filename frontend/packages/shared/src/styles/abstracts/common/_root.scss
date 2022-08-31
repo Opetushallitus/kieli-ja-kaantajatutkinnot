@@ -5,7 +5,7 @@
   font-family: Roboto;
   font-size: 62.5%;
 
-  @include mixins.desktop-xs-to-md {
+  @include mixins.desktop-xs-to-lg {
     font-size: 9px;
   }
 }

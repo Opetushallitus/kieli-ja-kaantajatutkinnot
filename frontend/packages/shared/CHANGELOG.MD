@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Root styles and helper classes
+- trimAndLowerCase to String utils
 
 ### Changed
 
