@@ -149,6 +149,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
 
   it('should show field errors when inputs are not valid', () => {
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
+
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
       'input',
@@ -159,13 +160,14 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       'input',
       ' '
     );
+    onClerkInterpreterOverviewPage.editInterpreterField('email', 'input', ' ');
+    cy.findAllByText('Tieto on pakollinen').should('have.length', 3);
+
     onClerkInterpreterOverviewPage.editInterpreterField(
       'email',
       'input',
       'mail'
     );
-
-    cy.findAllByText('Tieto on pakollinen').should('have.length', 2);
     onClerkInterpreterOverviewPage.expectText(
       'Sähköpostiosoite on virheellinen'
     );
