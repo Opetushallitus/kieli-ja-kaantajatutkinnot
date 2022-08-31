@@ -47,7 +47,7 @@
     [role='tablist'] {
       gap: 3rem;
 
-      @include desktop-xs-to-md {
+      @include desktop-xs-to-lg {
         gap: 0;
       }
     }
@@ -65,7 +65,7 @@
       align-self: center;
     }
 
-    @include desktop-xs-to-md {
+    @include desktop-xs-to-lg {
       gap: 0;
     }
 
