@@ -35,6 +35,7 @@ import fi.oph.akr.util.exception.DataIntegrityViolationExceptionUtil;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -80,14 +81,62 @@ public class ClerkTranslatorService {
 
   @Transactional(readOnly = true)
   public ClerkTranslatorResponseDTO listTranslators() {
-    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit();
+    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit(true);
     auditService.logOperation(AkrOperation.LIST_TRANSLATORS);
     return result;
   }
 
-  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
+  private static int compareAuthorisationsByTermEndDate(AuthorisationProjection a, AuthorisationProjection b) {
+    if (a.termEndDate() == null) {
+      return -1;
+    } else if (b.termEndDate() == null) {
+      return 1;
+    } else if (a.termEndDate().isAfter(b.termEndDate())) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+
+  private static AuthorisationProjection getEffectiveAuthorisation(List<AuthorisationProjection> authorisations) {
+    return authorisations.stream().min(ClerkTranslatorService::compareAuthorisationsByTermEndDate).orElseThrow();
+  }
+
+  private static List<AuthorisationProjection> getEffectiveAuthorisationsByLanguagePair(
+    List<AuthorisationProjection> projections
+  ) {
+    Map<LanguagePairDTO, List<AuthorisationProjection>> authorisationByLanguagePair = projections
+      .stream()
+      .collect(Collectors.groupingBy(a -> new LanguagePairDTO(a.fromLang(), a.toLang())));
+    for (LanguagePairDTO lp : authorisationByLanguagePair.keySet()) {
+      authorisationByLanguagePair.computeIfPresent(
+        lp,
+        (_k, authorisations) ->
+          authorisations.stream().sorted(ClerkTranslatorService::compareAuthorisationsByTermEndDate).toList()
+      );
+    }
+    return authorisationByLanguagePair
+      .values()
+      .stream()
+      .map(ClerkTranslatorService::getEffectiveAuthorisation)
+      .collect(Collectors.toList());
+  }
+
+  private static Map<Long, List<AuthorisationProjection>> withoutOldAuthorisations(
+    Map<Long, List<AuthorisationProjection>> projectionsByTranslator
+  ) {
+    Map<Long, List<AuthorisationProjection>> result = new HashMap<>();
+    for (Map.Entry<Long, List<AuthorisationProjection>> entry : projectionsByTranslator.entrySet()) {
+      result.put(entry.getKey(), getEffectiveAuthorisationsByLanguagePair(entry.getValue()));
+    }
+    return result;
+  }
+
+  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit(boolean onlyEffectiveAuthorisations) {
     final List<Translator> translators = translatorRepository.findAll();
-    final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
+    final Map<Long, List<AuthorisationProjection>> authorisationProjections = onlyEffectiveAuthorisations
+      ? withoutOldAuthorisations(getAuthorisationProjections())
+      : getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
       translators,
@@ -217,7 +266,7 @@ public class ClerkTranslatorService {
 
   public ClerkTranslatorDTO getTranslatorWithoutAudit(final long translatorId) {
     // This could be optimized, by fetching only one translator and it's data, but is it worth of the programming work?
-    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit().translators()) {
+    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit(false).translators()) {
       if (t.id() == translatorId) {
         return t;
       }
