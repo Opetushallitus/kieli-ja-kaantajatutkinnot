@@ -14,6 +14,8 @@ export class StringUtils {
     return typeof value === 'string' || value instanceof String;
   }
 
+  static trimAndLowerCase = (val: string) => val.trim().toLowerCase();
+
   /**
    * @returns Original `value` if present and nonempty, `placeholder` (by default a single dash `-`) otherwise.
    */

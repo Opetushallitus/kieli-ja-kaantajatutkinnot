@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.2.6] - 2022-08-29
+
+### Added
+
+- Root styles and helper classes
+- trimAndLowerCase to String utils
+
+### Changed
+
+- Props to show Table pagination
+
 ## [1.2.5] - 2022-08-29
 
 ### Added
@@ -30,11 +41,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.2.2] - 2022-08-24
 
 ### Changed
+
 - Parameters of showToast and showDialog hooks
 
 ## [1.2.1] - 2022-08-23
 
 ### Added
+
 - Support onClose action with Toast
 
 ## [1.2.0] - 2022-08-23
