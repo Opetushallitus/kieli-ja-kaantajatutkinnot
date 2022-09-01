@@ -1,4 +1,5 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
+import { useCallback } from 'react';
 import { H2, H3, Text } from 'shared/components';
 import { Color, Severity } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
@@ -75,6 +76,19 @@ export const PublicTranslatorListingRow = ({
     }
   };
 
+  const getLanguagePairs = useCallback(() => {
+    return languagePairs.map(({ from, to }, k) => {
+      const className =
+        fromLang === from && toLang === to ? 'padding-unset bold' : '';
+
+      return (
+        <Text className={className} key={k}>
+          {`${translateLanguage(from)} - ${translateLanguage(to)}`}
+        </Text>
+      );
+    });
+  }, [languagePairs, fromLang, toLang, translateLanguage]);
+
   const getTownDescription = (town?: string, country?: string) => {
     if (town && country) {
       return `${town} (${translateCountry(country)})`;
@@ -95,13 +109,7 @@ export const PublicTranslatorListingRow = ({
           <div className="rows gapped">
             <div>
               <H3>{t('pages.translator.languagePairs')}</H3>
-              {languagePairs.map(({ from, to }, k) => (
-                <Text key={k}>
-                  {translateLanguage(from)}
-                  {` - `}
-                  {translateLanguage(to)}
-                </Text>
-              ))}
+              {getLanguagePairs()}
             </div>
             <div>
               <H3>{t('pages.translator.town')}</H3>
@@ -136,15 +144,7 @@ export const PublicTranslatorListingRow = ({
       <TableCell>
         <Text>{`${lastName} ${firstName}`}</Text>
       </TableCell>
-      <TableCell>
-        {languagePairs.map(({ from, to }, k) => (
-          <Text key={k}>
-            {translateLanguage(from)}
-            {` - `}
-            {translateLanguage(to)}
-          </Text>
-        ))}
-      </TableCell>
+      <TableCell>{getLanguagePairs()}</TableCell>
       <TableCell>
         <Text>{getTownDescription(town, country)}</Text>
       </TableCell>
@@ -153,9 +153,10 @@ export const PublicTranslatorListingRow = ({
 
   return (
     <TableRow
+      className="cursor-pointer"
       data-testid={`public-translators__id-${translator.id}-row`}
-      selected={selected}
       onClick={handleRowClick}
+      selected={selected}
     >
       {isPhone ? renderPhoneTableCells() : renderDesktopTableCells()}
     </TableRow>

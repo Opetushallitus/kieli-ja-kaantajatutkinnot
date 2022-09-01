@@ -46,6 +46,10 @@
 
     [role='tablist'] {
       gap: 3rem;
+
+      @include desktop-xs-to-lg {
+        gap: 0;
+      }
     }
   }
 
@@ -59,6 +63,10 @@
 
     @include phone {
       align-self: center;
+    }
+
+    @include desktop-xs-to-lg {
+      gap: 0;
     }
 
     & &__avatar {

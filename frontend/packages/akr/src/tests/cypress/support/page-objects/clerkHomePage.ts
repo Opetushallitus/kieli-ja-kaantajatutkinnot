@@ -98,11 +98,8 @@ class ClerkHomePage {
     this.elements.translatorRow(id).click();
   }
 
-  clickTranslatorOverviewLink(id: number) {
-    this.elements
-      .translatorRow(`${id}`)
-      .findByTestId(`clerk-translators__id-${id}-more-btn`)
-      .click({ force: true });
+  openTranslatorOverviewPage(id: number) {
+    this.elements.translatorRow(`${id}`).parents('tr').click({ force: true });
   }
 
   expectEmptyFilters() {

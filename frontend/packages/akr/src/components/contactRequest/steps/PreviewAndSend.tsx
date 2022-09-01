@@ -90,6 +90,7 @@ export const PreviewAndSend = ({
               onClick={handleCheckboxClick}
               color={Color.Secondary}
               data-testid="contact-request-page__privacy-statement-checkbox"
+              checked={request?.confirmation}
             />
           }
           label={<PrivacyStatementCheckboxLabel />}

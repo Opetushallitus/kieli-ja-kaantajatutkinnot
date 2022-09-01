@@ -1,0 +1,7 @@
+.clerk-translator-listing {
+  &__ineffective {
+    &#{&} {
+      color: $color-grey-600;
+    }
+  }
+}

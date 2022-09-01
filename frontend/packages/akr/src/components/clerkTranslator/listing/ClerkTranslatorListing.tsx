@@ -1,15 +1,8 @@
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import {
-  Button,
-  Checkbox,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -21,6 +14,7 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   deselectAllClerkTranslators,
@@ -36,15 +30,20 @@ import {
 } from 'redux/selectors/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
 
+enum AuthorisationColumn {
+  LanguagePair = 'languagePair',
+  Basis = 'basis',
+  TermBeginDate = 'termBeginDate',
+  TermEndDate = 'termEndDate',
+  valid = 'valid',
+  PermissionToPublish = 'permissionToPublish',
+}
+
 const getRowDetails = (translator: ClerkTranslator) => {
   return <ListingRow translator={translator} />;
 };
 
 const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.clerkTranslatorListing',
-  });
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
@@ -56,17 +55,22 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const currentDate = dayjs();
   const selected = filteredSelectedIds.includes(translator.id);
 
-  const translatorDetailsURL = (id: number) =>
-    AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`);
+  const navigate = useNavigate();
 
-  const handleDetailsBtnClick = (
-    e: React.MouseEvent<HTMLAnchorElement> | undefined
-  ) => {
+  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     e?.stopPropagation();
+    navigate(
+      AppRoutes.ClerkTranslatorOverviewPage.replace(
+        /:translatorId$/,
+        `${translator.id}`
+      )
+    );
     dispatch(setClerkTranslatorOverview(translator));
   };
 
-  const handleRowClick = () => {
+  const handleCheckboxClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
     if (selected) {
       dispatch(deselectClerkTranslator(translator.id));
     } else {
@@ -74,84 +78,80 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
     }
   };
 
+  const getAuthorisationCellContent = useCallback(
+    (activeColumn: AuthorisationColumn, authorisation: Authorisation) => {
+      const {
+        basis,
+        languagePair: { from, to },
+        permissionToPublish,
+        termBeginDate,
+        termEndDate,
+      } = authorisation;
+      switch (activeColumn) {
+        case AuthorisationColumn.Basis:
+          return basis;
+        case AuthorisationColumn.LanguagePair:
+          return `${translateLanguage(from)} - ${translateLanguage(to)}`;
+        case AuthorisationColumn.PermissionToPublish:
+          return permissionToPublish
+            ? translateCommon('yes')
+            : translateCommon('no');
+        case AuthorisationColumn.TermBeginDate:
+          return DateUtils.formatOptionalDate(termBeginDate);
+        case AuthorisationColumn.TermEndDate:
+          return DateUtils.formatOptionalDate(termEndDate);
+        case AuthorisationColumn.valid:
+          return AuthorisationUtils.isAuthorisationEffective(
+            authorisation,
+            currentDate
+          )
+            ? translateCommon('yes')
+            : translateCommon('no');
+      }
+    },
+    [currentDate, translateCommon, translateLanguage]
+  );
+
+  const getAuthorisationCellClassName = (authorisation: Authorisation) => {
+    const isEffective = AuthorisationUtils.isAuthorisationEffective(
+      authorisation,
+      currentDate
+    );
+
+    return !isEffective ? 'clerk-translator-listing__ineffective' : '';
+  };
+
   return (
     <TableRow
-      data-testid={`clerk-translators__id-${translator.id}-row`}
-      selected={selected}
+      className="cursor-pointer"
       onClick={handleRowClick}
+      selected={selected}
     >
       <TableCell padding="checkbox">
-        <Checkbox checked={selected} color={Color.Secondary} />
+        <Checkbox
+          data-testid={`clerk-translators__id-${translator.id}-row`}
+          checked={selected}
+          color={Color.Secondary}
+          onClick={handleCheckboxClick}
+        />
       </TableCell>
       <TableCell>
         <Text>{`${lastName} ${firstName}`}</Text>
       </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map(({ languagePair: { from, to } }, idx) => (
-            <Text key={idx}>
-              {`${translateLanguage(from)} - ${translateLanguage(to)}`}
-            </Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map(({ basis }, idx) => (
-            <Text key={idx}>{basis}</Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map(({ termBeginDate }, idx) => (
-            <Text key={idx}>{DateUtils.formatOptionalDate(termBeginDate)}</Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map(({ termEndDate }, idx) => (
-            <Text key={idx}>{DateUtils.formatOptionalDate(termEndDate)}</Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map((a, idx) => (
-            <Text key={idx}>
-              {AuthorisationUtils.isAuthorisationEffective(a, currentDate)
-                ? translateCommon('yes')
-                : translateCommon('no')}
-            </Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="rows">
-          {authorisations.map(({ permissionToPublish }, idx) => (
-            <Text key={idx}>
-              {permissionToPublish
-                ? translateCommon('yes')
-                : translateCommon('no')}
-            </Text>
-          ))}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className="columns gapped-sm">
-          <Button
-            data-testid={`clerk-translators__id-${translator.id}-more-btn`}
-            to={translatorDetailsURL(translator.id)}
-            component={Link}
-            color={Color.Secondary}
-            onClick={handleDetailsBtnClick}
-            endIcon={<ArrowForwardIosOutlinedIcon />}
-          >
-            {t('detailsButton')}
-          </Button>
-        </div>
-      </TableCell>
+      {Object.values(AuthorisationColumn).map((activeColumn) => (
+        <TableCell key={activeColumn}>
+          <div className="rows">
+            {authorisations.map((authorisation, idx) => (
+              <Text
+                className={getAuthorisationCellClassName(authorisation)}
+                key={idx}
+              >
+                {getAuthorisationCellContent(activeColumn, authorisation)}
+              </Text>
+            ))}
+          </div>
+        </TableCell>
+      ))}
     </TableRow>
   );
 };
@@ -189,25 +189,11 @@ const ListingHeader: FC = () => {
         <TableCell>
           <H3>{t('name')}</H3>
         </TableCell>
-        <TableCell>
-          <H3>{t('languagePairs')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('authorisationBasis')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('authorisationBeginDate')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('authorisationEndDate')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('valid')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('permissionToPublish')}</H3>
-        </TableCell>
-        <TableCell />
+        {Object.values(AuthorisationColumn).map((columnName, idx) => (
+          <TableCell key={idx}>
+            <H3>{t(columnName)}</H3>
+          </TableCell>
+        ))}
       </TableRow>
     </TableHead>
   );
