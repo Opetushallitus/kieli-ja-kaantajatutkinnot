@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1 } from 'shared/components';
 import { APIResponseStatus, Duration, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
 import { QualificationDetails } from 'components/clerkInterpreter/overview/QualificationDetails';
@@ -15,11 +16,9 @@ import {
   loadClerkInterpreterOverview,
   resetClerkInterpreterOverview,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { resetQualificationState } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { qualificationSelector } from 'redux/selectors/qualification';
-import { NotifierUtils } from 'utils/notifier';
 
 export const ClerkInterpreterOverviewPage = () => {
   // i18n
@@ -30,6 +29,8 @@ export const ClerkInterpreterOverviewPage = () => {
     clerkInterpreterOverviewSelector
   );
   const { addStatus } = useAppSelector(qualificationSelector);
+
+  const { showToast } = useToast();
 
   const selectedInterpreterId = interpreter?.id;
   // React Router
@@ -50,18 +51,18 @@ export const ClerkInterpreterOverviewPage = () => {
       overviewStatus === APIResponseStatus.Error ||
       isNaN(Number(params.interpreterId))
     ) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Error,
-        t('pages.clerkInterpreterOverviewPage.toasts.notFound'),
-        Duration.Short
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Error,
+        description: t('pages.clerkInterpreterOverviewPage.toasts.notFound'),
+        timeOut: Duration.Short,
+      });
       navigate(AppRoutes.ClerkHomePage);
     }
   }, [
     overviewStatus,
     dispatch,
     navigate,
+    showToast,
     params.interpreterId,
     selectedInterpreterId,
     t,
@@ -76,15 +77,14 @@ export const ClerkInterpreterOverviewPage = () => {
 
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('component.newQualification.toasts.success'),
-        Duration.Short
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Success,
+        description: t('component.newQualification.toasts.success'),
+        timeOut: Duration.Short,
+      });
       dispatch(resetQualificationState());
     }
-  }, [addStatus, dispatch, t]);
+  }, [addStatus, showToast, dispatch, t]);
 
   return (
     <Box className="clerk-interpreter-overview-page">

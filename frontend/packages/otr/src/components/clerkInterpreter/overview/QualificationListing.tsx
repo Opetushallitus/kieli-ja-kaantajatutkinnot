@@ -14,6 +14,7 @@ import {
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import {
@@ -24,13 +25,8 @@ import {
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationType } from 'enums/interpreter';
 import { Qualification } from 'interfaces/qualification';
-import {
-  removeNotifierDialog,
-  showNotifierDialog,
-} from 'redux/reducers/notifier';
 import { updateQualification } from 'redux/reducers/qualification';
 import { qualificationSelector } from 'redux/selectors/qualification';
-import { NotifierUtils } from 'utils/notifier';
 
 export const QualificationListing = ({
   qualifications,
@@ -48,6 +44,8 @@ export const QualificationListing = ({
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
 
+  const { showDialog } = useDialog();
+
   const { updateStatus } = useAppSelector(qualificationSelector);
 
   const isLoading = updateStatus === APIResponseStatus.InProgress;
@@ -58,15 +56,14 @@ export const QualificationListing = ({
     : defaultClassName;
 
   const onPublishPermissionChange = (qualification: Qualification) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('actions.changePermissionToPublish.dialog.header'),
-      Severity.Info,
-      t('actions.changePermissionToPublish.dialog.description'),
-      [
+    showDialog({
+      title: t('actions.changePermissionToPublish.dialog.header'),
+      severity: Severity.Info,
+      description: t('actions.changePermissionToPublish.dialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => dispatch(removeNotifierDialog(notifier.id)),
         },
         {
           title: translateCommon('yes'),
@@ -75,10 +72,8 @@ export const QualificationListing = ({
             dispatch(updateQualification(qualification));
           },
         },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+      ],
+    });
   };
 
   const getExaminationTypeText = (examinationtype: ExaminationType) => {

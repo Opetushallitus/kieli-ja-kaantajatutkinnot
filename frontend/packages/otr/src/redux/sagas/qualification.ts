@@ -6,8 +6,8 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
+import { setAPIError } from 'redux/reducers/APIError';
 import { setClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import {
   addQualification,
   addQualificationSucceeded,
@@ -41,12 +41,9 @@ function* addQualificationSaga(action: PayloadAction<Qualification>) {
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(addQualificationSucceeded());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectAddQualification());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -64,12 +61,9 @@ function* removeQualificationSaga(action: PayloadAction<number>) {
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(removeQualificationSucceeded());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectRemoveQualification());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 
@@ -86,12 +80,9 @@ function* updateQualificationSaga(action: PayloadAction<Qualification>) {
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(updateQualificationSucceeded());
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectUpdateQualification());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 

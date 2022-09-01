@@ -8,6 +8,7 @@ import {
   ClerkInterpreter,
   ClerkInterpreterResponse,
 } from 'interfaces/clerkInterpreter';
+import { setAPIError } from 'redux/reducers/APIError';
 import { storeClerkInterpreters } from 'redux/reducers/clerkInterpreter';
 import {
   loadClerkInterpreterOverview,
@@ -17,7 +18,6 @@ import {
   updateClerkInterpreterDetails,
   updatingClerkInterpreterDetailsSucceeded,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
@@ -34,6 +34,8 @@ function* loadClerkInterpreterOverviewSaga(action: PayloadAction<number>) {
       )
     );
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkInterpreterOverview());
   }
 }
@@ -71,12 +73,9 @@ function* updateClerkInterpreterDetailsSaga(
     yield updateClerkInterpreterState(interpreter);
     yield put(updatingClerkInterpreterDetailsSucceeded(interpreter));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkInterpreterDetailsUpdate());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 

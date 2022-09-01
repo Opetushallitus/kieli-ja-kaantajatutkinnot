@@ -8,6 +8,7 @@ import {
   ToggleFilterGroup,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 
 import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
@@ -18,17 +19,12 @@ import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import {
-  removeNotifierDialog,
-  showNotifierDialog,
-} from 'redux/reducers/notifier';
-import {
   addQualification,
   removeQualification,
 } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { qualificationSelector } from 'redux/selectors/qualification';
-import { NotifierUtils } from 'utils/notifier';
 import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
@@ -53,6 +49,8 @@ export const QualificationDetails = () => {
     keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
   });
   const translateCommon = useCommonTranslation();
+
+  const { showDialog } = useDialog();
 
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
@@ -103,15 +101,14 @@ export const QualificationDetails = () => {
   };
 
   const handleRemoveQualification = (qualification: Qualification) => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('actions.removal.dialog.header'),
-      Severity.Info,
-      t('actions.removal.dialog.description'),
-      [
+    showDialog({
+      title: t('actions.removal.dialog.header'),
+      severity: Severity.Info,
+      description: t('actions.removal.dialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => dispatch(removeNotifierDialog(notifier.id)),
         },
         {
           title: t('actions.removal.dialog.confirmButton'),
@@ -120,10 +117,8 @@ export const QualificationDetails = () => {
             dispatch(removeQualification(qualification.id as number)),
           buttonColor: Color.Error,
         },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+      ],
+    });
   };
 
   return (

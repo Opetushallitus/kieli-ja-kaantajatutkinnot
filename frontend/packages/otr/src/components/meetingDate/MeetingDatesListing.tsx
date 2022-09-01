@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
@@ -11,12 +12,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { MeetingDateStatus } from 'enums/meetingDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { removeMeetingDate } from 'redux/reducers/meetingDate';
-import { showNotifierDialog } from 'redux/reducers/notifier';
 import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
-import { NotifierUtils } from 'utils/notifier';
 
 const getRowDetails = (meetingDate: MeetingDate) => {
   return <ListingRow meetingDate={meetingDate} />;
@@ -30,26 +29,25 @@ const ListingRow = ({ meetingDate }: { meetingDate: MeetingDate }) => {
   });
   const translateCommon = useCommonTranslation();
 
+  const { showDialog } = useDialog();
+
   const dispatchConfirmRemoveNotifier = () => {
-    const notifier = NotifierUtils.createNotifierDialog(
-      t('dialog.header'),
-      Severity.Info,
-      t('dialog.description'),
-      [
+    showDialog({
+      title: t('dialog.header'),
+      severity: Severity.Info,
+      description: t('dialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => dispatch(removeMeetingDate(meetingDate.id)),
         },
-      ]
-    );
-
-    dispatch(showNotifierDialog(notifier));
+      ],
+    });
   };
 
   const formattedDate = DateUtils.formatOptionalDate(meetingDate.date);

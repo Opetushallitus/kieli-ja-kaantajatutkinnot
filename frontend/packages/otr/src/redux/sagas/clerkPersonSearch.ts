@@ -5,12 +5,12 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { ClerkPerson } from 'interfaces/clerkPerson';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   rejectClerkPersonSearch,
   searchClerkPerson,
   storeClerkPersonSearch,
 } from 'redux/reducers/clerkPersonSearch';
-import { showNotifierToast } from 'redux/reducers/notifier';
 import { NotifierUtils } from 'utils/notifier';
 
 function* searchClerkPersonSaga(action: PayloadAction<string>) {
@@ -23,12 +23,9 @@ function* searchClerkPersonSaga(action: PayloadAction<string>) {
 
     yield put(storeClerkPersonSearch(clerkPerson));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkPersonSearch());
-    yield put(
-      showNotifierToast(
-        NotifierUtils.createAxiosErrorNotifierToast(error as AxiosError)
-      )
-    );
   }
 }
 

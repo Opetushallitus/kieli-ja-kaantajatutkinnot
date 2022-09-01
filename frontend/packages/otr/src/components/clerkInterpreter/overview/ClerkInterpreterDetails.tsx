@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { APIResponseStatus, Duration, Severity, Variant } from 'shared/enums';
+import { useDialog, useToast } from 'shared/hooks';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
@@ -14,9 +15,7 @@ import {
   resetClerkInterpreterDetailsUpdate,
   updateClerkInterpreterDetails,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { showNotifierDialog, showNotifierToast } from 'redux/reducers/notifier';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
-import { NotifierUtils } from 'utils/notifier';
 
 const getAreaOfOperation = (regions: Array<string> = []) => {
   return regions.length > 0 ? AreaOfOperation.Regions : AreaOfOperation.All;
@@ -48,25 +47,26 @@ export const ClerkInterpreterDetails = () => {
   });
   const translateCommon = useCommonTranslation();
 
+  const { showDialog } = useDialog();
+  const { showToast } = useToast();
+
   const openCancelDialog = () => {
-    const dialog = NotifierUtils.createNotifierDialog(
-      t('interpreterDetails.cancelUpdateDialog.title'),
-      Severity.Info,
-      t('interpreterDetails.cancelUpdateDialog.description'),
-      [
+    showDialog({
+      title: t('interpreterDetails.cancelUpdateDialog.title'),
+      severity: Severity.Info,
+      description: t('interpreterDetails.cancelUpdateDialog.description'),
+      actions: [
         {
           title: translateCommon('back'),
           variant: Variant.Outlined,
-          action: () => undefined,
         },
         {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => resetToInitialState(),
         },
-      ]
-    );
-    dispatch(showNotifierDialog(dialog));
+      ],
+    });
   };
 
   const resetToInitialState = useCallback(() => {
@@ -81,12 +81,12 @@ export const ClerkInterpreterDetails = () => {
       interpreterDetailsStatus === APIResponseStatus.Success &&
       currentUIMode === UIMode.EditInterpreterDetails
     ) {
-      const toast = NotifierUtils.createNotifierToast(
-        Severity.Success,
-        t('toasts.updated'),
-        Duration.Short
-      );
-      dispatch(showNotifierToast(toast));
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updated'),
+        timeOut: Duration.Short,
+      });
+
       resetToInitialState();
     } else if (
       interpreterDetailsStatus === APIResponseStatus.Cancelled &&
@@ -99,6 +99,7 @@ export const ClerkInterpreterDetails = () => {
     currentUIMode,
     dispatch,
     resetToInitialState,
+    showToast,
     t,
     interpreterDetailsStatus,
   ]);
