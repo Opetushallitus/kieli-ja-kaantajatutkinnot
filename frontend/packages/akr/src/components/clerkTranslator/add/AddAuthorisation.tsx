@@ -14,7 +14,7 @@ import {
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
-import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
+import { CommonUtils, DateUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -154,28 +154,28 @@ export const AddAuthorisation = ({
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
   const isAddButtonDisabled = () => {
-    const { languagePair, diaryNumber, examinationDate, ...otherProps } =
-      authorisation;
-
-    const isOtherPropsNotDefined = Object.values(otherProps).some((p) =>
-      StringUtils.isBlankString(p)
-    );
-    const isLangPropsNotDefined =
-      StringUtils.isBlankString(languagePair.from) ||
-      StringUtils.isBlankString(languagePair.to);
-
-    const isDiaryNumberBlank = StringUtils.isBlankString(diaryNumber);
+    const {
+      languagePair: { from: fromLang, to: toLang },
+      examinationDate,
+      permissionToPublish: _unused,
+      ...otherProps
+    } = authorisation;
 
     const isExaminationDateNotDefinedOrInvalid =
       otherProps.basis === AuthorisationBasisEnum.AUT &&
       (!examinationDate || !dayjs(examinationDate).isValid());
 
+    // If permissionToPublish wasn't marked `_unused`, this would consider false value there being incorrect
+    const isOtherPropsNotDefined = Object.values({
+      fromLang,
+      toLang,
+      ...otherProps,
+    }).some((p) => !p);
+
     return (
       isLoading ||
-      isOtherPropsNotDefined ||
-      isLangPropsNotDefined ||
-      isDiaryNumberBlank ||
-      isExaminationDateNotDefinedOrInvalid
+      isExaminationDateNotDefinedOrInvalid ||
+      isOtherPropsNotDefined
     );
   };
 

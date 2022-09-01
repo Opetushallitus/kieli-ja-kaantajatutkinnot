@@ -28,7 +28,7 @@ import {
 import { useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
-import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
+import { authorisationSelector } from 'redux/selectors/authorisation';
 import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationListing = ({
@@ -48,11 +48,15 @@ export const AuthorisationListing = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.authorisations',
   });
 
-  const status = useAppSelector(
-    clerkTranslatorOverviewSelector
-  ).authorisationDetailsStatus;
+  const { addStatus, removeStatus, updatePublishPermissionStatus } =
+    useAppSelector(authorisationSelector);
 
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isLoading = [
+    addStatus,
+    removeStatus,
+    updatePublishPermissionStatus,
+  ].includes(APIResponseStatus.InProgress);
+
   const currentDate = dayjs();
 
   const defaultClassName = 'clerk-translator-details__authorisations-table';

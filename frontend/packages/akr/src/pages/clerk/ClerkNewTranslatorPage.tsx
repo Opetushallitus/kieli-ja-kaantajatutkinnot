@@ -3,13 +3,7 @@ import { Box, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
-import {
-  APIResponseStatus,
-  Color,
-  Duration,
-  Severity,
-  Variant,
-} from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
@@ -131,9 +125,7 @@ export const ClerkNewTranslatorPage = () => {
       showToast({
         severity: Severity.Success,
         description: t('toasts.success'),
-        timeOut: Duration.Medium,
       });
-      dispatch(resetClerkNewTranslator());
       navigate(
         AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
       );
