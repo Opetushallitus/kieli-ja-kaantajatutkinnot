@@ -133,7 +133,6 @@ export const PublicTranslatorFilters = ({
 
   const scrollToSearch = () => {
     filtersGridRef.current?.scrollIntoView({
-      behavior: 'smooth',
       block: 'end',
       inline: 'nearest',
     });
