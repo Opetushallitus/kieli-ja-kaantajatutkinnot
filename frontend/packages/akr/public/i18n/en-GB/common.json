@@ -1,1 +1,35 @@
-{}
+{
+  "akr": {
+    "common": {
+      "add": "Add",
+      "addAuthorisation": "Add authorisation",
+      "akrLogo": "Examination system of authorised translators",
+      "appNameAbbreviation": "AKR",
+      "appTitle": "Register of authorised translators",
+      "back": "Back",
+      "backToHomePage": "Back to first page",
+      "cancel": "Cancel",
+      "clerk": "Administrator",
+      "contactEmail": "auktoris.lautakunta@oph.fi",
+      "delete": "Delete",
+      "edit": "Edit",
+      "examinationDates": "Exam days",
+      "frontPage": "Home",
+      "loadingContent": "Downloading content",
+      "meetingDates": "Dates of meetings",
+      "navigationProtection": {
+        "description": "You will lose  any changes you  have made",
+        "header": "Are you sure you want to leave this page?"
+      },
+      "newTab": "Open a new window",
+      "next": "Next",
+      "no": "No",
+      "ophLogo": "Logo of  Finnish National Agency for Education",
+      "phase": "Stage",
+      "register": "Register",
+      "save": "Save",
+      "send": "Send",
+      "yes": "Yes"
+    }
+  }
+}

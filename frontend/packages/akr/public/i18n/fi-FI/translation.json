@@ -144,7 +144,7 @@
           "title": "Peruuta yhteydenottopyyntö"
         },
         "characters": "merkkiä",
-        "chosenTranslatorsForLanguagePair": "Valitsemasi kääntäjät kielistä",
+        "chosenTranslatorsForLanguagePair": "Valitsemasi kääntäjät kieliparista",
         "doneStep": {
           "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
           "title": "Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä."
@@ -267,7 +267,7 @@
         },
         "fieldLabel": {
           "basis": "Auktorisoinnin peruste",
-          "diaryNumber": "Asiatunnus",
+          "diaryNumber": "Auktorisoinnin asiatunnus",
           "examinationDate": "Tutkintopäivä (vain AUT)",
           "from": "Kielipari (mistä)",
           "termBeginDate": "Auktorisoinnin alkamispäivä",
@@ -284,7 +284,7 @@
           "to": "Mihin"
         },
         "switch": {
-          "permissionToPublish": "Julkaisulupa"
+          "permissionToPublish": "Saa julkaista internetissä"
         }
       },
       "publicTranslatorFilters": {
@@ -325,7 +325,7 @@
           "checkboxUnselectedAriaLabel": "Valitse kääntäjä"
         },
         "pagination": {
-          "rowsPerPage": "Näytä sivulla"
+          "rowsPerPage": "Tulokset per sivu"
         },
         "selectedItems": "valittu",
         "title": "Hakutulokset"
@@ -333,7 +333,7 @@
     },
     "errors": {
       "api": {
-        "authorisationBasisAndExaminationDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja tutkintopäivä ovat ristiriidassa keskenään",
+        "authorisationBasisAndExaminationDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja AUT tutkintopäivä ovat ristiriidassa keskenään",
         "authorisationDeleteLastAuthorisation": "Auktorisoinnin poisto epäonnistui, koska kääntäjän viimeistä auktorisointia ei voi poistaa",
         "authorisationMissingExaminationDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole tutkintopäivää",
         "authorisationMissingMeetingDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole kokouspäivää",
@@ -421,7 +421,7 @@
         }
       },
       "homepage": {
-        "description": "Auktorisoitujen kääntäjien tutkintolautakunta ylläpitää rekisteriä auktorisoiduista kääntäjistä. Hakukoneella voit hakea kääntäjiä joko nimen tai kieliparin mukaan. Voit jättää valitsemillesi kääntäjille yhteydenottopyynnön alla olevalla hakulomakkeella.",
+        "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla olevalla hakulomakkeella. Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi auktorisoitujen kääntäjien yhteystietoja: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Hae auktorisoitua kääntäjää"
         },

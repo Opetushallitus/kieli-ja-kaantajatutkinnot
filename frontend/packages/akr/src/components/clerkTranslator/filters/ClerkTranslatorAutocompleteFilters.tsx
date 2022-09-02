@@ -13,6 +13,7 @@ import { useDebounce } from 'shared/hooks';
 
 import {
   useAppTranslation,
+  useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -26,6 +27,8 @@ export const ClerkTranslatorAutocompleteFilters = () => {
     keyPrefix: 'akr.component.clerkTranslatorFilters',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
+  const translateCommon = useCommonTranslation();
+
   const getLanguageSelectValue = (language?: string) =>
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
@@ -58,6 +61,20 @@ export const ClerkTranslatorAutocompleteFilters = () => {
     ({}, value: AutocompleteValue) => {
       dispatch(addClerkTranslatorFilter({ [filter]: value?.value }));
     };
+
+  const getPermissionToPublishSelectValues = () =>
+    Object.values(PermissionToPublish).map((v) => ({
+      value: v,
+      label: translateCommon(v),
+    }));
+
+  const getPermissionToPublishSelectValue = () =>
+    filters.permissionToPublish
+      ? {
+          value: filters.permissionToPublish,
+          label: translateCommon(filters.permissionToPublish),
+        }
+      : null;
 
   return (
     <div className="clerk-translator-autocomplete-filters columns gapped">
@@ -120,12 +137,8 @@ export const ClerkTranslatorAutocompleteFilters = () => {
           autoHighlight
           data-testid="clerk-translator-filters__permission-to-publish-basis"
           label={t('permissionToPublish.placeholder')}
-          values={Object.values(PermissionToPublish).map(valueAsOption)}
-          value={
-            filters.permissionToPublish
-              ? valueAsOption(filters.permissionToPublish)
-              : null
-          }
+          values={getPermissionToPublishSelectValues()}
+          value={getPermissionToPublishSelectValue()}
           variant={TextFieldVariant.Outlined}
           onChange={handleFilterChange('permissionToPublish')}
         />
