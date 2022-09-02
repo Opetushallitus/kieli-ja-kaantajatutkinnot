@@ -23,8 +23,8 @@ export enum HeaderTabNav {
 }
 
 export enum PermissionToPublish {
-  Yes = 'Kyllä',
-  No = 'Ei',
+  Yes = 'yes',
+  No = 'no',
 }
 
 export enum PublicUIViews {
