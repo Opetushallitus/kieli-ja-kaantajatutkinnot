@@ -23,7 +23,7 @@
       },
       "clerkTranslatorFilters": {
         "authorisationBasis": {
-          "placeholder": "authorisation",
+          "placeholder": "Authorisation",
           "title": "Grounds"
         },
         "authorisationStatus": {
@@ -346,8 +346,10 @@
         "meetingDateUpdateHasAuthorisations": "Failed to modify the meeting day because authorisations have been recorded for it",
         "translatorCreateDuplicateEmail": "Failed to add the translator because the email address is already in use",
         "translatorCreateDuplicateIdentityNumber": "Failed to add the translator because the personal identity code is already in use",
+        "translatorCreateUnknownCountry": null,
         "translatorUpdateDuplicateEmail": "Failed to modify the translator because the email address is already in use",
-        "translatorUpdateDuplicateIdentityNumber": "Failed to modify the translator because the personal identity code is already in use"
+        "translatorUpdateDuplicateIdentityNumber": "Failed to modify the translator because the personal identity code is already in use",
+        "translatorUpdateUnknownCountry": null
       },
       "customTextField": {
         "emailFormat": "The email address is incorrect",
@@ -362,7 +364,7 @@
       "clerkHomepage": {
         "buttons": {
           "emptySelection": "Clear selections",
-          "newTranslator": "Do you want to cancel sending the email? You will lose the information you have filled in.",
+          "newTranslator": "Add a translator",
           "sendEmail": "Send the email"
         },
         "title": "Register of authorised translators"

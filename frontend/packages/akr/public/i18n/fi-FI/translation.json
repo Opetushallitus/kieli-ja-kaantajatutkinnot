@@ -346,8 +346,10 @@
         "meetingDateUpdateHasAuthorisations": "Kokouspäivän muokkaus epäonnistui, koska sille on kirjattu auktorisointeja",
         "translatorCreateDuplicateEmail": "Kääntäjän lisäys epäonnistui, koska sähköpostiosoite on jo käytössä",
         "translatorCreateDuplicateIdentityNumber": "Kääntäjän lisäys epäonnistui, koska henkilötunnus on jo käytössä",
+        "translatorCreateUnknownCountry": "Kääntäjän lisäys epäonnistui, koska maatunnus on tuntematon",
         "translatorUpdateDuplicateEmail": "Kääntäjän muokkaus epäonnistui, koska sähköpostiosoite on jo käytössä",
-        "translatorUpdateDuplicateIdentityNumber": "Kääntäjän muokkaus epäonnistui, koska henkilötunnus on jo käytössä"
+        "translatorUpdateDuplicateIdentityNumber": "Kääntäjän muokkaus epäonnistui, koska henkilötunnus on jo käytössä",
+        "translatorUpdateUnknownCountry": "Kääntäjän muokkaus epäonnistui, koska maatunnus on tuntematon"
       },
       "customTextField": {
         "emailFormat": "Sähköpostiosoite on virheellinen",

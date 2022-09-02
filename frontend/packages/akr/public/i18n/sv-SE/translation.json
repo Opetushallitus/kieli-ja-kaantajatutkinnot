@@ -346,8 +346,10 @@
         "meetingDateUpdateHasAuthorisations": "Mötesdagen kunde inte redigeras eftersom det har registrerats auktoriseringar på den",
         "translatorCreateDuplicateEmail": "Det gick inte att lägga till translatorn eftersom e-postadressen redan används",
         "translatorCreateDuplicateIdentityNumber": "Det gick inte att lägga till translatorn eftersom personbeteckningen redan används",
+        "translatorCreateUnknownCountry": null,
         "translatorUpdateDuplicateEmail": "Det gick inte att redigera translatorn eftersom e-postadressen redan används",
-        "translatorUpdateDuplicateIdentityNumber": "Det gick inte att redigera translatorn eftersom personbeteckningen redan används"
+        "translatorUpdateDuplicateIdentityNumber": "Det gick inte att redigera translatorn eftersom personbeteckningen redan används",
+        "translatorUpdateUnknownCountry": null
       },
       "customTextField": {
         "emailFormat": "E-postadressen är felaktig",
@@ -362,7 +364,7 @@
       "clerkHomepage": {
         "buttons": {
           "emptySelection": "Töm val",
-          "newTranslator": "Vill du avbryta sändningen av e-post? Du förlorar de uppgifter du fyllt i.",
+          "newTranslator": "Lägg till translator",
           "sendEmail": "Skicka e-post"
         },
         "title": "Register över auktoriserade translatorer"
