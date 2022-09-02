@@ -108,13 +108,6 @@ public class ClerkTranslatorService {
     Map<LanguagePairDTO, List<AuthorisationProjection>> authorisationByLanguagePair = projections
       .stream()
       .collect(Collectors.groupingBy(a -> new LanguagePairDTO(a.fromLang(), a.toLang())));
-    for (LanguagePairDTO lp : authorisationByLanguagePair.keySet()) {
-      authorisationByLanguagePair.computeIfPresent(
-        lp,
-        (_k, authorisations) ->
-          authorisations.stream().sorted(ClerkTranslatorService::compareAuthorisationsByTermEndDate).toList()
-      );
-    }
     return authorisationByLanguagePair
       .values()
       .stream()
