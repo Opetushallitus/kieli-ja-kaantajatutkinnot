@@ -29,7 +29,7 @@ import { QualificationUtils } from 'utils/qualifications';
 interface AddQualificationProps {
   interpreterId?: number;
   meetingDates: Array<MeetingDate>;
-  isLoading?: boolean;
+  isLoading: boolean;
   onCancel: () => void;
   onQualificationAdd(qualification: Qualification): void;
 }
@@ -290,21 +290,7 @@ export const AddQualification = ({
         >
           {translateCommon('cancel')}
         </CustomButton>
-        {isLoading ? (
-          <LoadingProgressIndicator isLoading={isLoading}>
-            <CustomButton
-              data-testid="add-qualification-modal__save"
-              variant={Variant.Contained}
-              color={Color.Secondary}
-              onClick={() =>
-                addAndResetQualification(qualification as Qualification)
-              }
-              disabled={isAddButtonDisabled()}
-            >
-              {translateCommon('add')}
-            </CustomButton>
-          </LoadingProgressIndicator>
-        ) : (
+        <LoadingProgressIndicator isLoading={isLoading}>
           <CustomButton
             data-testid="add-qualification-modal__save"
             variant={Variant.Contained}
@@ -316,7 +302,7 @@ export const AddQualification = ({
           >
             {translateCommon('add')}
           </CustomButton>
-        )}
+        </LoadingProgressIndicator>
       </div>
     </>
   );
