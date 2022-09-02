@@ -1,1 +1,35 @@
-{}
+{
+  "akr": {
+    "common": {
+      "add": "Lägg till",
+      "addAuthorisation": "Lägg till auktorisering",
+      "akrLogo": "Systemet med auktoriserade translatorer",
+      "appNameAbbreviation": "AKR",
+      "appTitle": "Register över auktoriserade translatorer",
+      "back": "Tillbaka",
+      "backToHomePage": "Tillbaka till framsidan",
+      "cancel": "Avbryt",
+      "clerk": null,
+      "contactEmail": "auktoris.lautakunta@oph.fi",
+      "delete": "Ta bort",
+      "edit": "Ändra",
+      "examinationDates": "Examensdagar",
+      "frontPage": "Framsida",
+      "loadingContent": "Innehållet laddas ner",
+      "meetingDates": "Mötesdagar",
+      "navigationProtection": {
+        "description": "Du förlorar ändringar du gjort",
+        "header": "Är du säker på att du vill lämna den här sidan?"
+      },
+      "newTab": "Öppna en ny flik",
+      "next": "Följande",
+      "no": "Nej",
+      "ophLogo": "Utbildningsstyrelsens logo",
+      "phase": "Skede",
+      "register": "Register",
+      "save": "Spara",
+      "send": "Sänd",
+      "yes": "Ja"
+    }
+  }
+}
