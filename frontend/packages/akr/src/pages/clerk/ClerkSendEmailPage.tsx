@@ -111,7 +111,7 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
 export const ClerkSendEmailPage = () => {
   // i18n
   const { t } = useAppTranslation({
-    keyPrefix: 'akr.pages.clerkSendEmailPage',
+    keyPrefix: 'akr',
   });
 
   // Redux
@@ -140,7 +140,7 @@ export const ClerkSendEmailPage = () => {
     if (status == APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('toasts.success'),
+        description: t('pages.clerkSendEmailPage.toasts.success'),
       });
     }
     if (
@@ -181,22 +181,22 @@ export const ClerkSendEmailPage = () => {
 
   return (
     <Box className="clerk-send-email-page">
-      <H1>{t('title')}</H1>
+      <H1>{t('pages.clerkSendEmailPage.title')}</H1>
       <Paper className="clerk-send-email-page__form-container" elevation={3}>
         <div className="rows gapped clerk-send-email-page__form-contents">
           <div className="rows gapped">
-            <H2>{t('sections.recipients')}</H2>
+            <H2>{t('pages.clerkSendEmailPage.sections.recipients')}</H2>
             <Text>
-              {t('selectedCount', {
+              {t('pages.clerkSendEmailPage.selectedCount', {
                 count: translators.length,
               })}
             </Text>
           </div>
           <div className="rows gapped">
-            <H2>{t('sections.subject')}</H2>
+            <H2>{t('pages.clerkSendEmailPage.sections.subject')}</H2>
             <CustomTextField
               data-testid="clerk-send-email-page__subject"
-              label={t('labels.subject')}
+              label={t('pages.clerkSendEmailPage.labels.subject')}
               value={email.subject}
               onChange={handleSubjectChange}
               onBlur={handleFieldError('subject')}
@@ -206,10 +206,10 @@ export const ClerkSendEmailPage = () => {
             />
           </div>
           <div className="rows gapped">
-            <H2>{t('sections.message')}</H2>
+            <H2>{t('pages.clerkSendEmailPage.sections.message')}</H2>
             <CustomTextField
               data-testid="clerk-send-email-page__message"
-              label={t('labels.message')}
+              label={t('pages.clerkSendEmailPage.labels.message')}
               value={email.body}
               onChange={handleMessageChange}
               onBlur={handleFieldError('message')}
