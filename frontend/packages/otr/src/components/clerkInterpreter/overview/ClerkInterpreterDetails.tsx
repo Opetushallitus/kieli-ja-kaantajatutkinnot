@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { APIResponseStatus, Duration, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { ComboBoxOption } from 'shared/interfaces';
+import { StringUtils } from 'shared/utils';
 
 import { ControlButtons } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsControlButtons';
 import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
@@ -166,10 +167,10 @@ export const ClerkInterpreterDetails = () => {
   useNavigationProtection(hasLocalChanges);
 
   const hasRequiredDetails =
-    !!interpreterDetails?.firstName &&
-    !!interpreterDetails.lastName &&
-    !!interpreterDetails.nickName &&
-    !!interpreterDetails.email;
+    StringUtils.isNonBlankString(interpreterDetails?.lastName) &&
+    StringUtils.isNonBlankString(interpreterDetails?.firstName) &&
+    StringUtils.isNonBlankString(interpreterDetails?.nickName) &&
+    StringUtils.isNonBlankString(interpreterDetails?.email);
 
   return (
     <ClerkInterpreterDetailsFields
