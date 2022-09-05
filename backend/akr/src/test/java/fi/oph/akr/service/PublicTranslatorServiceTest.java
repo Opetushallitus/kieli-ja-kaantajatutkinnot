@@ -16,7 +16,11 @@ import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import javax.annotation.Resource;
 import org.apache.commons.lang3.tuple.Pair;
@@ -54,7 +58,12 @@ class PublicTranslatorServiceTest {
     createVariousTranslators(meetingDate);
 
     final PublicTranslatorResponseDTO responseDTO = publicTranslatorService.listTranslators();
-    final List<PublicTranslatorDTO> translators = responseDTO.translators();
+    final List<PublicTranslatorDTO> translatorsUnsorted = responseDTO.translators();
+    // Translators should be in random order, sorting makes assertions easier to write
+    final List<PublicTranslatorDTO> translators = translatorsUnsorted
+      .stream()
+      .sorted(Comparator.comparing(PublicTranslatorDTO::lastName))
+      .toList();
 
     assertEquals(3, translators.size());
     assertEquals(List.of("Etu0", "Etu1", "Etu2"), translators.stream().map(PublicTranslatorDTO::firstName).toList());
@@ -77,6 +86,37 @@ class PublicTranslatorServiceTest {
     assertLanguagePairs(translators.get(0).languagePairs());
     assertLanguagePairs(translators.get(1).languagePairs());
     assertLanguagePairs(translators.get(2).languagePairs());
+  }
+
+  @Test
+  public void listTranslatorsReturnInRandomOrder() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    createVariousTranslators(meetingDate);
+
+    // Since translators are in random order, and we created only small number of translators, sometimes translators
+    // are returned in same order and will cause false positive. We'll check that order is random and if it's not,
+    // we'll try again x times.
+
+    final Supplier<List<Long>> fetchTranslatorsAndCollectIds = () ->
+      publicTranslatorService.listTranslators().translators().stream().map(PublicTranslatorDTO::id).toList();
+
+    final Supplier<Boolean> runTest = () -> {
+      final List<Long> ids1 = fetchTranslatorsAndCollectIds.get();
+      final List<Long> ids2 = fetchTranslatorsAndCollectIds.get();
+      final boolean hasSameIds = Objects.equals(Set.copyOf(ids1), Set.copyOf(ids2));
+      final boolean idsInSameOrder = Objects.equals(ids1, ids2);
+      return hasSameIds && !idsInSameOrder;
+    };
+    boolean testRunOk = false;
+    for (int i = 0; i < 10; i++) {
+      testRunOk = runTest.get();
+      if (testRunOk) {
+        break;
+      }
+    }
+    assertTrue(testRunOk);
   }
 
   @Test

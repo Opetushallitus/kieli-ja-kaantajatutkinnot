@@ -16,6 +16,7 @@ import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
+import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationTermReminder;
 import fi.oph.akr.model.ExaminationDate;
@@ -41,6 +42,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -179,6 +181,7 @@ public class ClerkTranslatorService {
     return LanguagePairsDictDTO.builder().from(fromLangs).to(toLangs).build();
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO createTranslator(final TranslatorCreateDTO dto) {
     final Translator translator = new Translator();
@@ -225,6 +228,7 @@ public class ClerkTranslatorService {
     throw new NotFoundException(String.format("Translator with id: %d not found", translatorId));
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
@@ -271,6 +275,7 @@ public class ClerkTranslatorService {
     }
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public void deleteTranslator(final long translatorId) {
     final Translator translator = translatorRepository.getReferenceById(translatorId);
@@ -287,6 +292,7 @@ public class ClerkTranslatorService {
     auditService.logById(AkrOperation.DELETE_TRANSLATOR, translatorId);
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO createAuthorisation(final long translatorId, final AuthorisationCreateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(translatorId);
@@ -316,6 +322,7 @@ public class ClerkTranslatorService {
     return authorisation;
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO updateAuthorisation(final AuthorisationUpdateDTO dto) {
     final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
@@ -365,6 +372,7 @@ public class ClerkTranslatorService {
     }
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO updateAuthorisationPublishPermission(final AuthorisationPublishPermissionDTO dto) {
     final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
@@ -384,6 +392,7 @@ public class ClerkTranslatorService {
     return result;
   }
 
+  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public ClerkTranslatorDTO deleteAuthorisation(final long authorisationId) {
     final Authorisation authorisation = authorisationRepository.getReferenceById(authorisationId);
