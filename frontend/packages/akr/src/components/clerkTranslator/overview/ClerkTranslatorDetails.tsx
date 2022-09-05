@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
+import { StringUtils } from 'shared/utils';
 
 import { ControlButtons } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsControlButtons';
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
@@ -141,7 +142,8 @@ export const ClerkTranslatorDetails = () => {
   };
 
   const hasRequiredDetails =
-    !!translatorDetails?.firstName && !!translatorDetails.lastName;
+    StringUtils.isNonBlankString(translatorDetails?.lastName) &&
+    StringUtils.isNonBlankString(translatorDetails?.firstName);
 
   const onCancel = () => {
     if (!hasLocalChanges) {

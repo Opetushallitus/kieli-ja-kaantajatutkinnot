@@ -55,24 +55,21 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.wait('@getClerkTranslatorOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
-    onClerkTranslatorOverviewPage.editTranslatorField(
-      'firstName',
-      'input',
-      '{backspace}'
-    );
-    onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
+    ['lastName', 'firstName'].forEach((fieldName) => {
+      onClerkTranslatorOverviewPage.editTranslatorField(
+        fieldName,
+        'input',
+        ' '
+      );
+      onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
 
-    onClerkTranslatorOverviewPage.editTranslatorField(
-      'firstName',
-      'input',
-      'new First name'
-    );
-    onClerkTranslatorOverviewPage.editTranslatorField(
-      'lastName',
-      'input',
-      '{backspace}'
-    );
-    onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
+      onClerkTranslatorOverviewPage.editTranslatorField(
+        fieldName,
+        'input',
+        'test'
+      );
+      onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
+    });
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and stay in edit mode if user backs out', () => {
