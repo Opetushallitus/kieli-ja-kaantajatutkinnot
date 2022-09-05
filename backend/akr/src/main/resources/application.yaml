@@ -6,7 +6,7 @@ server:
     context-path: "/akr"
 spring:
   datasource:
-    url: ${postgresql.url:jdbc:postgresql://localhost:5432/postgres}
+    url: ${postgresql.url:jdbc:postgresql://localhost:6430/akr-postgres}
     username: ${postgresql.username:postgres}
     password: ${postgresql.password:postgres}
   jackson:

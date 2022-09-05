@@ -86,7 +86,7 @@ public class ClerkTranslatorService {
   }
 
   private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
-    final List<Translator> translators = translatorRepository.findAll();
+    final List<Translator> translators = translatorRepository.findAllByOrderByLastNameAscFirstNameAsc();
     final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
