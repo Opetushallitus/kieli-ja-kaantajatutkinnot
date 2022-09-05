@@ -48,7 +48,6 @@ class PersonServiceTest {
       .firstName("Erkki Eemeli")
       .nickName("Erkki")
       .identityNumber("xxx1")
-      .email("erkki.esimerkki@invalid")
       .street("Katu 1")
       .postalCode("999")
       .town("Kaupunki")

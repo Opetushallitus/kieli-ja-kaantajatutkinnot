@@ -9,8 +9,8 @@ export interface ClerkInterpreterTextFields {
   lastName: string;
   firstName: string;
   nickName: string;
-  email: string;
   // Optional fields
+  email?: string;
   phoneNumber?: string;
   otherContactInfo?: string;
   street?: string;

@@ -3,6 +3,7 @@ package fi.oph.otr.service.email;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
@@ -129,5 +130,53 @@ public class ClerkEmailServiceTest {
     assertEquals("Merkintäsi päättyy 01.12.2049", emailData.body());
 
     verify(qualificationReminderRepository).save(any());
+  }
+
+  @Test
+  public void testCreateQualificationExpiryEmailDoesntDoAnythingIfPersonalDataEmailIsNull() {
+    final Interpreter interpreter = Factory.interpreter();
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(meetingDate);
+    entityManager.persist(qualification);
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          interpreter.getOnrId(),
+          PersonalData
+            .builder()
+            .lastName("Rajala")
+            .firstName("Iiro Aapeli")
+            .nickName("Iiro")
+            .identityNumber("1")
+            .build()
+        )
+      );
+
+    clerkEmailService.createQualificationExpiryEmail(qualification.getId());
+
+    verifyNoInteractions(emailService);
+    verifyNoInteractions(templateRenderer);
+  }
+
+  @Test
+  public void testCreateQualificationExpiryEmailDoesntDoAnythingIfPersonalDataIsNull() {
+    final Interpreter interpreter = Factory.interpreter();
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
+
+    entityManager.persist(interpreter);
+    entityManager.persist(meetingDate);
+    entityManager.persist(qualification);
+
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of());
+
+    clerkEmailService.createQualificationExpiryEmail(qualification.getId());
+
+    verifyNoInteractions(emailService);
+    verifyNoInteractions(templateRenderer);
   }
 }

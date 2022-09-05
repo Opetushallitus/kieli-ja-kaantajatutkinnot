@@ -116,8 +116,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     final Response response = onrClient.executeBlocking(request);
 
     if (response.getStatusCode() == HttpStatus.CREATED.value()) {
-      final PersonalDataDTO responseDTO = OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
-      return responseDTO.getOnrId();
+      return response.getResponseBody();
     } else {
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }

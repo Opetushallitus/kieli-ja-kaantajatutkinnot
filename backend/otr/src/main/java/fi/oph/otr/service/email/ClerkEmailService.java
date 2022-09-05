@@ -66,6 +66,11 @@ public class ClerkEmailService {
       final String recipientAddress = personalData.getEmail();
       final String emailSubject = "Merkintäsi oikeustulkkirekisteriin on päättymässä";
 
+      if (recipientAddress == null) {
+        LOG.info("Email for interpreter with onr id {} doesn't exist", interpreter.getOnrId());
+        return;
+      }
+
       final String emailBody = getQualificationExpiryEmailBody(
         recipientName,
         qualification.getFromLang(),
