@@ -25,24 +25,21 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   it('should disable details save button when the required fields are not filled out', () => {
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
-    onClerkInterpreterOverviewPage.editInterpreterField(
-      'firstName',
-      'input',
-      '{backspace}'
-    );
-    onClerkInterpreterOverviewPage.expectDisabledSaveInterpreterDetailsButton();
+    ['lastName', 'firstName', 'nickName', 'email'].forEach((fieldName) => {
+      onClerkInterpreterOverviewPage.editInterpreterField(
+        fieldName,
+        'input',
+        ' '
+      );
+      onClerkInterpreterOverviewPage.expectDisabledSaveInterpreterDetailsButton();
 
-    onClerkInterpreterOverviewPage.editInterpreterField(
-      'firstName',
-      'input',
-      'new First name'
-    );
-    onClerkInterpreterOverviewPage.editInterpreterField(
-      'lastName',
-      'input',
-      '{backspace}'
-    );
-    onClerkInterpreterOverviewPage.expectDisabledSaveInterpreterDetailsButton();
+      onClerkInterpreterOverviewPage.editInterpreterField(
+        fieldName,
+        'input',
+        'test'
+      );
+      onClerkInterpreterOverviewPage.expectEnabledSaveInterpreterDetailsButton();
+    });
   });
 
   it('should open a confirmation dialog when cancel is clicked if changes were made and stay in edit mode if user backs out', () => {
