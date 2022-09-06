@@ -152,15 +152,15 @@ record TranslatorRow(
 
   private String fixCountryTranslation(final String s) {
     return switch (s) {
-      case "Belgique", "Belgian kuningaskunta" -> "Belgia";
+      case "BELGIQUE", "Belgique", "Belgian kuningaskunta" -> "Belgia";
       case "Deutschland" -> "Saksa";
       case "Iso-Britannia", "Yhdistynyt kuningaskunta", "ENGLANTI" -> "Britannia";
       case "Francais" -> "Ranska";
-      case "Espagne", "España" -> "Espanja";
+      case "ESPAGNE", "Espagne", "España" -> "Espanja";
       case "Österreich" -> "Itävalta";
       case "The United States", "USA", "Yhdysvallat" -> "Yhdysvallat (USA)";
       case "Luxenburg" -> "Luxemburg";
-      case "SUISSE" -> "Sveitsi";
+      case "SUISSE", "Suisse" -> "Sveitsi";
       case "EMIRATS ARABES UNIS" -> "Arabiemiirikunnat";
       case "Ruotsin kuningaskunta" -> "Ruotsi";
       default -> s;

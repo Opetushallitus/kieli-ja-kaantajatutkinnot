@@ -78,6 +78,10 @@ public record LanguageRow(
   public LocalDate resolveAutDate(final Set<Integer> translatorIdsHavingAutWithoutExamDate) {
     if (Objects.equals("AUT", authorisationBasis)) {
       if (authorisationExamDate == null) {
+        if (translatorId == 4479) {
+          // OPHAKRKEH-350 Bäck
+          return LocalDate.of(2015, 11, 14);
+        }
         if (translatorIdsHavingAutWithoutExamDate.contains(translatorId)) {
           System.out.println("FIXME known AUT but authorisationExamDate is null, " + translatorId);
           return LocalDate.of(1900, 1, 1);

@@ -193,7 +193,7 @@ public class ProdImport {
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownEmptyLanguageRows() {
-    return Set.of(4575, 4498);
+    return Set.of(4498, 4521, 4575);
   }
 
   private static Set<Integer> getTranslatorIdsHavingInvalidDates() {
@@ -205,7 +205,18 @@ public class ProdImport {
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownDuplicateEmails(final List<TranslatorRow> translators) {
-    final Set<Integer> known = Set.of(524, 527, 554, 555, 2612, 2716);
+    final Set<Integer> known = Set.of(524, 527, 554, 555);
+
+    final Set<String> knownDuplicateEmails = translators
+      .stream()
+      .filter(t -> known.contains(t.id()))
+      .map(TranslatorRow::email)
+      .filter(email -> !email.isBlank() && !email.equals("-"))
+      .collect(Collectors.toSet());
+    if (knownDuplicateEmails.size() != known.size() / 2) {
+      throw new RuntimeException("Known duplicates are not duplicates anymore? From the known ids we find email addresses:" + knownDuplicateEmails);
+    }
+
     final List<String> duplicates = translators
       .stream()
       .collect(Collectors.groupingBy(TranslatorRow::email))
@@ -252,11 +263,11 @@ public class ProdImport {
 
   private static Object sanitizedEmail(final Set<Integer> ids, final TranslatorRow t) {
     final String email = t.email();
-    if (ids.contains(t.id())) {
-      return "'%s %s <%s>'".formatted(t.firstName(), t.lastName(), email);
-    }
     if (email.isBlank() || email.equals("-")) {
       return null;
+    }
+    if (ids.contains(t.id())) {
+      return "'%s %s <%s>'".formatted(t.firstName(), t.lastName(), email);
     }
     return "'" + email + "'";
   }
