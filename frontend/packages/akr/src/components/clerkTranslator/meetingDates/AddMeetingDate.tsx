@@ -1,16 +1,16 @@
 import AddIcon from '@mui/icons-material/Add';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import {
   CustomButton,
-  DatePicker,
+  CustomDatePicker,
   H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { DateUtils, StringUtils } from 'shared/utils';
+import { DateUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -19,7 +19,7 @@ import { addMeetingDate } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
 export const AddMeetingDate = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<Dayjs | null>(null);
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addMeetingDate',
   });
@@ -61,14 +61,14 @@ export const AddMeetingDate = () => {
       </>
     ) : null;
 
-  useNavigationProtection(!StringUtils.isBlankString(value));
+  useNavigationProtection(!!value);
 
   return (
     <div className="columns gapped">
       <div className="rows gapped flex-grow-3">
         <H3>{t('header')}</H3>
         <div className="columns gapped">
-          <DatePicker
+          <CustomDatePicker
             value={value}
             setValue={setValue}
             label={t('datePicker.label')}

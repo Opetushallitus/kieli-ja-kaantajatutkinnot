@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 // Create Material UI theme configs
 const primaryColor = '#FFFFFF';
@@ -50,6 +51,15 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           color: grey700Color,
+        },
+      },
+    },
+    MuiCalendarPicker: {
+      styleOverrides: {
+        root: {
+          '& .MuiTypography-caption': {
+            color: grey700Color,
+          },
         },
       },
     },
