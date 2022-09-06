@@ -242,7 +242,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
       'termBeginDate',
       'input',
-      '1.1.2022'
+      '01.01.2022'
     );
     onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
       'diaryNumber',

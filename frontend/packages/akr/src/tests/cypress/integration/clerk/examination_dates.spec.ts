@@ -43,14 +43,14 @@ describe('ExaminationDatesPage', () => {
   it('should order upcoming examination dates by ascending date', () => {
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Upcoming);
 
-    onExaminationDatesPage.expectRowToContain(0, '14.5.2022');
-    onExaminationDatesPage.expectRowToContain(1, '25.9.2022');
+    onExaminationDatesPage.expectRowToContain(0, '14.05.2022');
+    onExaminationDatesPage.expectRowToContain(1, '25.09.2022');
   });
 
   it('should order passed examination dates by descending date', () => {
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
 
-    onExaminationDatesPage.expectRowToContain(0, '1.1.2022');
+    onExaminationDatesPage.expectRowToContain(0, '1.01.2022');
     onExaminationDatesPage.expectRowToContain(1, '18.11.2021');
   });
 
@@ -62,7 +62,7 @@ describe('ExaminationDatesPage', () => {
       ...examinationDates,
       examinationDateToAdd,
     ]);
-    onExaminationDatesPage.setDateForNewExaminationDate('2030-10-04');
+    onExaminationDatesPage.setDateForNewExaminationDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.ExaminationDate, examinationDateToAdd).as(
       'create'
@@ -71,16 +71,16 @@ describe('ExaminationDatesPage', () => {
     cy.wait('@create');
 
     onExaminationDatesPage.expectTotalExaminationDatesCount(11);
-    onToast.expectText('Tutkintopäivän 4.10.2030 lisäys onnistui');
+    onToast.expectText('Tutkintopäivän 04.10.2030 lisäys onnistui');
   });
 
   it('should not add duplicate examination dates', () => {
-    onExaminationDatesPage.setDateForNewExaminationDate('2022-01-01');
+    onExaminationDatesPage.setDateForNewExaminationDate('01.01.2022');
     onExaminationDatesPage.expectAddButtonDisabled();
   });
 
   it('should show a generic API error toast when trying to add a examination date', () => {
-    onExaminationDatesPage.setDateForNewExaminationDate('2030-10-04');
+    onExaminationDatesPage.setDateForNewExaminationDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.ExaminationDate, {
       statusCode: HTTPStatusCode.InternalServerError,
@@ -120,8 +120,8 @@ describe('ExaminationDatesPage', () => {
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@delete');
 
-    onExaminationDatesPage.expectRowToContain(0, '1.1.2022');
-    onExaminationDatesPage.expectRowToContain(1, '15.8.2021');
+    onExaminationDatesPage.expectRowToContain(0, '01.01.2022');
+    onExaminationDatesPage.expectRowToContain(1, '15.08.2021');
     onExaminationDatesPage.expectTotalExaminationDatesCount(9);
     onExaminationDatesPage.expectSelectedExaminationDatesCount(5);
 

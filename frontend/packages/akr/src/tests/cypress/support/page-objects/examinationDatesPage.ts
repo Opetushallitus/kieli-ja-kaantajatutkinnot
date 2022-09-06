@@ -5,7 +5,7 @@ class ExaminationDatesPage {
     heading: () => cy.findByTestId('examination-dates-page__heading'),
     statusButton: (status: ExaminationDateStatus) =>
       cy.findByTestId(`examination-dates-filters__btn--${status}`),
-    datePicker: () => cy.get('input[type=date]'),
+    datePicker: () => cy.get('.custom-date-picker'),
     addButton: () => cy.findByTestId('examination-dates-page__add-btn'),
     tableRow: (i: number) =>
       cy.get('.examination-dates__listing > tbody > tr').eq(i),

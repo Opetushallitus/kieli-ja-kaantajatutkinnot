@@ -5,7 +5,7 @@ class MeetingDatesPage {
     heading: () => cy.findByTestId('meeting-dates-page__heading'),
     statusButton: (status: MeetingDateStatus) =>
       cy.findByTestId(`meeting-dates-filters__btn--${status}`),
-    datePicker: () => cy.get('input[type=date]'),
+    datePicker: () => cy.get('.custom-date-picker'),
     addButton: () => cy.findByTestId('meeting-dates-page__add-btn'),
     tableRow: (i: number) =>
       cy.get('.meeting-dates__listing > tbody > tr').eq(i),

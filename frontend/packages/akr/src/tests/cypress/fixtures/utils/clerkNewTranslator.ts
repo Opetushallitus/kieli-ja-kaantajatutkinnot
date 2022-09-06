@@ -65,7 +65,7 @@ export const addAuthorisationFields = [
   {
     fieldName: 'termBeginDate',
     fieldType: 'input',
-    value: '1.1.2022',
+    value: '01.01.2022',
   },
   {
     fieldName: 'diaryNumber',
