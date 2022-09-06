@@ -32,9 +32,9 @@ interface AddAuthorisationProps {
   translatorId?: number;
   meetingDates: Array<MeetingDate>;
   examinationDates: Array<ExaminationDate>;
-  isLoading?: boolean;
-  onCancel: () => void;
   onAuthorisationAdd(authorisation: Authorisation): void;
+  onCancel: () => void;
+  isLoading: boolean;
 }
 
 const newAuthorisation: Authorisation = {
@@ -58,9 +58,9 @@ export const AddAuthorisation = ({
   translatorId,
   meetingDates,
   examinationDates,
-  isLoading,
   onAuthorisationAdd,
   onCancel,
+  isLoading,
 }: AddAuthorisationProps) => {
   const availableMeetingDateValues = meetingDates
     .map((m) => m.date)
@@ -319,19 +319,7 @@ export const AddAuthorisation = ({
         >
           {translateCommon('cancel')}
         </CustomButton>
-        {isLoading ? (
-          <LoadingProgressIndicator isLoading={isLoading}>
-            <CustomButton
-              data-testid="add-authorisation-modal__save"
-              variant={Variant.Contained}
-              color={Color.Secondary}
-              onClick={() => addAndResetAuthorisation(authorisation)}
-              disabled={isAddButtonDisabled()}
-            >
-              {translateCommon('add')}
-            </CustomButton>
-          </LoadingProgressIndicator>
-        ) : (
+        <LoadingProgressIndicator isLoading={isLoading}>
           <CustomButton
             data-testid="add-authorisation-modal__save"
             variant={Variant.Contained}
@@ -341,7 +329,7 @@ export const AddAuthorisation = ({
           >
             {translateCommon('add')}
           </CustomButton>
-        )}
+        </LoadingProgressIndicator>
       </div>
     </>
   );

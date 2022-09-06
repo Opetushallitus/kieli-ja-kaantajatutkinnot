@@ -1,7 +1,14 @@
 import { Box, Paper } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton, CustomTextField, H1, H2, Text } from 'shared/components';
+import {
+  CustomButton,
+  CustomTextField,
+  H1,
+  H2,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -29,7 +36,13 @@ import {
 } from 'redux/selectors/clerkTranslator';
 import { selectClerkTranslatorEmail } from 'redux/selectors/clerkTranslatorEmail';
 
-const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
+const ControlButtons = ({
+  isLoading,
+  submitDisabled,
+}: {
+  isLoading: boolean;
+  submitDisabled: boolean;
+}) => {
   // i18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr.pages.clerkSendEmailPage',
@@ -96,15 +109,17 @@ const ControlButtons = ({ submitDisabled }: { submitDisabled: boolean }) => {
       >
         {translateCommon('cancel')}
       </CustomButton>
-      <CustomButton
-        data-testid="clerk-send-email-page__send-btn"
-        variant={Variant.Contained}
-        color={Color.Secondary}
-        disabled={submitDisabled}
-        onClick={dispatchSendEmailNotifier}
-      >
-        {translateCommon('send')}
-      </CustomButton>
+      <LoadingProgressIndicator isLoading={isLoading}>
+        <CustomButton
+          data-testid="clerk-send-email-page__send-btn"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          disabled={submitDisabled}
+          onClick={dispatchSendEmailNotifier}
+        >
+          {translateCommon('send')}
+        </CustomButton>
+      </LoadingProgressIndicator>
     </div>
   );
 };
@@ -118,6 +133,8 @@ export const ClerkSendEmailPage = () => {
   // Redux
   const translators = useAppSelector(selectFilteredSelectedTranslators);
   const { email, status } = useAppSelector(selectClerkTranslatorEmail);
+  const isLoading = status === APIResponseStatus.InProgress;
+
   const dispatch = useAppDispatch();
   const setEmailSubject = (subject: string) =>
     dispatch(setClerkTranslatorEmail({ subject }));
@@ -129,6 +146,7 @@ export const ClerkSendEmailPage = () => {
   const [fieldErrors, setFieldErrors] =
     useState<typeof initialFieldErrors>(initialFieldErrors);
   const submitDisabled =
+    isLoading ||
     StringUtils.isBlankString(email.subject) ||
     StringUtils.isBlankString(email.body) ||
     fieldErrors.message.length > 0 ||
@@ -238,7 +256,7 @@ export const ClerkSendEmailPage = () => {
             />
           </div>
         </div>
-        <ControlButtons submitDisabled={submitDisabled} />
+        <ControlButtons isLoading={isLoading} submitDisabled={submitDisabled} />
       </Paper>
     </Box>
   );
