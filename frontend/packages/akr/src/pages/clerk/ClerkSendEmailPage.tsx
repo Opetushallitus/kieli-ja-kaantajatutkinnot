@@ -1,5 +1,5 @@
 import { Box, Paper } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, CustomTextField, H1, H2, Text } from 'shared/components';
 import {
@@ -15,6 +15,7 @@ import { InputFieldUtils, StringUtils } from 'shared/utils';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
 import {
   cancelClerkTranslatorEmail,
   resetClerkTranslatorEmail,
@@ -130,6 +131,7 @@ export const ClerkSendEmailPage = () => {
   const submitDisabled =
     StringUtils.isBlankString(email.subject) ||
     StringUtils.isBlankString(email.body) ||
+    fieldErrors.message.length > 0 ||
     translators.length == 0;
 
   // Navigation
@@ -152,6 +154,7 @@ export const ClerkSendEmailPage = () => {
     }
   }, [dispatch, navigate, showToast, status, t]);
 
+  const maxTextAreaLength = 10000;
   const handleFieldError =
     (field: 'subject' | 'message') =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -159,7 +162,8 @@ export const ClerkSendEmailPage = () => {
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         field == 'subject' ? TextFieldTypes.Text : TextFieldTypes.Textarea,
         value,
-        required
+        required,
+        maxTextAreaLength
       );
       const errorMessage = error ? t(error) : '';
       setFieldErrors({ ...fieldErrors, [field]: errorMessage });
@@ -178,6 +182,19 @@ export const ClerkSendEmailPage = () => {
     setEmailBody(event.target.value);
     handleFieldError('message')(event);
   };
+
+  const getHelperMessage = useCallback(
+    (email: ClerkTranslatorEmail, fieldErrors: typeof initialFieldErrors) => {
+      const value = email.body;
+      const errorToShow =
+        fieldErrors.message.length > 0 ? `${fieldErrors.message}.` : '';
+
+      return `${errorToShow} ${value?.length} / ${maxTextAreaLength} ${t(
+        'pages.clerkSendEmailPage.characters'
+      )}`;
+    },
+    [t]
+  );
 
   return (
     <Box className="clerk-send-email-page">
@@ -214,7 +231,8 @@ export const ClerkSendEmailPage = () => {
               onChange={handleMessageChange}
               onBlur={handleFieldError('message')}
               error={fieldErrors.message.length > 0}
-              helperText={fieldErrors.message}
+              helperText={getHelperMessage(email, fieldErrors)}
+              showHelperText
               multiline
               required
             />

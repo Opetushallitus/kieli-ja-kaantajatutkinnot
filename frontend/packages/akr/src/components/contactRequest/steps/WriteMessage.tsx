@@ -70,7 +70,7 @@ export const WriteMessage = ({
   const getHelperMessage = () => {
     const value = request?.message;
     const errorToShow = messageError ? `${messageError}.` : '';
-    const maxLength = InputFieldUtils.getMaxTextAreaLength();
+    const maxLength = InputFieldUtils.defaultMaxTextAreaLength;
 
     return `${errorToShow} ${value?.length} / ${maxLength} ${t('characters')}`;
   };
