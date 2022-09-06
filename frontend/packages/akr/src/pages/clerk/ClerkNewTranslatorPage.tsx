@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
+import { StringUtils } from 'shared/utils';
 
 import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
@@ -146,9 +147,10 @@ export const ClerkNewTranslatorPage = () => {
   const isLoading = status == APIResponseStatus.InProgress;
   const isSaveButtonDisabled =
     isLoading ||
-    !translator.firstName ||
-    !translator.lastName ||
+    StringUtils.isBlankString(translator.lastName) ||
+    StringUtils.isBlankString(translator.firstName) ||
     translator.authorisations.length < 1;
+
   const onSave = () => dispatch(saveClerkNewTranslator(translator));
 
   return (

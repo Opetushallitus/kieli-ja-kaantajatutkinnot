@@ -179,6 +179,10 @@ class ClerkTranslatorOverviewPage {
       .should('be.disabled');
   }
 
+  expectEnabledSaveTranslatorDetailsButton() {
+    this.elements.saveTranslatorDetailsButton().should('be.enabled');
+  }
+
   expectedEnabledAddAuthorisationButton() {
     this.elements.addAuthorisationBtn().should('be.enabled');
   }
