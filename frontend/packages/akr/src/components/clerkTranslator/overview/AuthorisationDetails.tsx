@@ -227,8 +227,8 @@ export const AuthorisationDetails = () => {
           translatorId={selectedTranslator.id}
           meetingDates={passedMeetingDates}
           examinationDates={passedExaminationDates}
-          onCancel={handleCloseModal}
           onAuthorisationAdd={handleAddAuthorisation}
+          onCancel={handleCloseModal}
           isLoading={addStatus === APIResponseStatus.InProgress}
         />
       </CustomModal>

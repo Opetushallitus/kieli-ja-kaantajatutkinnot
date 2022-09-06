@@ -177,6 +177,7 @@ export const ClerkNewTranslatorPage = () => {
               examinationDates={passedExaminationDates}
               onAuthorisationAdd={onAuthorisationAdd}
               onCancel={handleCloseModal}
+              isLoading={false}
             />
           </CustomModal>
           <div className="columns margin-top-sm space-between">
