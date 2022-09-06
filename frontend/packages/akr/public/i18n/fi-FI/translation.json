@@ -383,6 +383,7 @@
         }
       },
       "clerkSendEmailPage": {
+        "characters": "merkkiä",
         "dialogs": {
           "cancel": {
             "description": "Haluatko peruuttaa sähköpostin lähetyksen? Menetät täyttämäsi tiedot.",

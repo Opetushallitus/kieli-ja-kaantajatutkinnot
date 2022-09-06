@@ -59,9 +59,9 @@ export const PreviewAndSend = ({
   };
 
   const getMessageHelperText = () => {
-    return `${
-      request?.message?.length
-    } / ${InputFieldUtils.getMaxTextAreaLength()} ${t('characters')}`;
+    return `${request?.message?.length} / ${
+      InputFieldUtils.defaultMaxTextAreaLength
+    } ${t('characters')}`;
   };
 
   return (
