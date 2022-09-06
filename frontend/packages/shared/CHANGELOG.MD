@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.1] - 2022-09-06
+
+### Changed
+
+- Allow passing maxTextAreaLength to inspectCustomTextFieldErrors
+
 ## [1.3.0] - 2022-09-05
 
 ### Added

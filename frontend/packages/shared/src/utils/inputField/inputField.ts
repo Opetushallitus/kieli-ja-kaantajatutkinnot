@@ -3,12 +3,13 @@ import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-val
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 
 export class InputFieldUtils {
-  static getMaxTextAreaLength = () => 6000;
+  static defaultMaxTextAreaLength = 6000;
 
   static inspectCustomTextFieldErrors(
     type: TextFieldTypes,
     value?: string,
-    required = true
+    required = true,
+    maxTextAreaLength = this.defaultMaxTextAreaLength
   ) {
     const trimmedValue = value?.trim() || '';
 
@@ -22,7 +23,7 @@ export class InputFieldUtils {
 
     switch (type) {
       case TextFieldTypes.Textarea:
-        if (trimmedValue.length > InputFieldUtils.getMaxTextAreaLength()) {
+        if (trimmedValue.length > maxTextAreaLength) {
           return CustomTextFieldErrors.MaxLength;
         }
         break;
