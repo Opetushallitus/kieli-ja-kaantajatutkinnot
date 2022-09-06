@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.0] - 2022-09-05
+
+### Added
+
+- MU Date picker
+
 ## [1.2.6] - 2022-08-29
 
 ### Added

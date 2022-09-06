@@ -1,14 +1,15 @@
+import dayjs from 'dayjs';
 import renderer from 'react-test-renderer';
 
-import { DatePicker } from './DatePicker';
+import { CustomDatePicker } from './CustomDatePicker';
 
 describe('DatePicker', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
-        <DatePicker
+        <CustomDatePicker
           label="test label"
-          value="2022-04-21"
+          value={dayjs('2022-04-21')}
           setValue={jest.fn()}
         />
       )

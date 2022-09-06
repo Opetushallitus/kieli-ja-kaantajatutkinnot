@@ -16,7 +16,7 @@ export { CustomSkeleton } from './CustomSkeleton/CustomSkeleton';
 export { CustomSwitch } from './CustomSwitch/CustomSwitch';
 export { CustomTextField } from './CustomTextField/CustomTextField';
 export type { CustomTextFieldProps } from './CustomTextField/CustomTextField';
-export { DatePicker } from './DatePicker/DatePicker';
+export { CustomDatePicker } from './CustomDatePicker/CustomDatePicker';
 export { ExtLink } from './ExtLink/ExtLink';
 export { HeaderSeparator } from './HeaderSeparator/HeaderSeparator';
 export {

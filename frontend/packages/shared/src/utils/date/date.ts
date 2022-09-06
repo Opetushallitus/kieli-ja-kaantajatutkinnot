@@ -25,7 +25,7 @@ export class DateUtils {
       return '-';
     }
 
-    return date.format('D.M.YYYY');
+    return date.format('L');
   }
 
   static optionalStringToDate(dateString?: string) {
