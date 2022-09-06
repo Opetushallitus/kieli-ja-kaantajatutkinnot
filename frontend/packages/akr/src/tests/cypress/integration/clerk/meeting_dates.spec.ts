@@ -42,14 +42,14 @@ describe('MeetingDatesPage', () => {
   it('should order upcoming meeting dates by ascending date', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Upcoming);
 
-    onMeetingDatesPage.expectRowToContain(0, '14.5.2022');
-    onMeetingDatesPage.expectRowToContain(1, '25.9.2022');
+    onMeetingDatesPage.expectRowToContain(0, '14.05.2022');
+    onMeetingDatesPage.expectRowToContain(1, '25.09.2022');
   });
 
   it('should order passed meeting dates by descending date', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
 
-    onMeetingDatesPage.expectRowToContain(0, '1.1.2022');
+    onMeetingDatesPage.expectRowToContain(0, '01.01.2022');
     onMeetingDatesPage.expectRowToContain(1, '18.11.2021');
   });
 
@@ -61,7 +61,7 @@ describe('MeetingDatesPage', () => {
       ...meetingDates,
       meetingDateToAdd,
     ]);
-    onMeetingDatesPage.setDateForNewMeetingDate('2030-10-04');
+    onMeetingDatesPage.setDateForNewMeetingDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.MeetingDate, meetingDateToAdd).as(
       'create'
@@ -70,16 +70,16 @@ describe('MeetingDatesPage', () => {
     cy.wait('@create');
 
     onMeetingDatesPage.expectTotalMeetingDatesCount(11);
-    onToast.expectText('Kokouspäivän 4.10.2030 lisäys onnistui');
+    onToast.expectText('Kokouspäivän 04.10.2030 lisäys onnistui');
   });
 
   it('should not add duplicate meeting dates', () => {
-    onMeetingDatesPage.setDateForNewMeetingDate('2022-01-01');
+    onMeetingDatesPage.setDateForNewMeetingDate('01.01.2022');
     onMeetingDatesPage.expectAddButtonDisabled();
   });
 
   it('should show a generic API error toast when trying to add a meeting date', () => {
-    onMeetingDatesPage.setDateForNewMeetingDate('2030-10-04');
+    onMeetingDatesPage.setDateForNewMeetingDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.MeetingDate, {
       statusCode: HTTPStatusCode.InternalServerError,
@@ -118,8 +118,8 @@ describe('MeetingDatesPage', () => {
 
     onDialog.clickButtonByText('Kyllä');
 
-    onMeetingDatesPage.expectRowToContain(0, '1.1.2022');
-    onMeetingDatesPage.expectRowToContain(1, '15.8.2021');
+    onMeetingDatesPage.expectRowToContain(0, '01.01.2022');
+    onMeetingDatesPage.expectRowToContain(1, '15.08.2021');
     onMeetingDatesPage.expectTotalMeetingDatesCount(9);
     onMeetingDatesPage.expectSelectedMeetingDatesCount(5);
 
