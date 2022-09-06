@@ -10,6 +10,6 @@ import lombok.NonNull;
 @Builder
 public record InformalEmailRequestDTO(
   @NonNull @NotBlank @Size(max = 255) String subject,
-  @NonNull @NotBlank @Size(max = 6000) String body,
+  @NonNull @NotBlank @Size(max = 10_000) String body,
   @NonNull @NotEmpty List<Long> translatorIds
 ) {}
