@@ -144,6 +144,10 @@ class ClerkInterpreterOverviewPage {
       .should('be.disabled');
   }
 
+  expectEnabledSaveInterpreterDetailsButton() {
+    this.elements.saveInterpreterDetailsButton().should('be.enabled');
+  }
+
   expectMode(mode: UIMode) {
     switch (mode) {
       case UIMode.View:
