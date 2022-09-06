@@ -23,10 +23,14 @@ export const AddExaminationDate = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.addExaminationDate',
   });
+
   const {
     examinationDates: { dates, status },
+    addExaminationDate: { status: addExaminationDateStatus },
   } = useAppSelector(examinationDatesSelector);
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isExaminationDateLoading = status === APIResponseStatus.InProgress;
+  const isAddExaminationDateLoading =
+    addExaminationDateStatus === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
 
@@ -49,7 +53,12 @@ export const AddExaminationDate = () => {
   };
 
   const isAddButtonDisabled = () => {
-    return !value || isSelectedDateAlreadyTaken();
+    return (
+      !value ||
+      isSelectedDateAlreadyTaken() ||
+      isExaminationDateLoading ||
+      isAddExaminationDateLoading
+    );
   };
 
   const renderDateAlreadyTakenInfo = () =>
@@ -72,14 +81,14 @@ export const AddExaminationDate = () => {
             setValue={setValue}
             label={t('datePicker.label')}
           />
-          <LoadingProgressIndicator isLoading={isLoading}>
+          <LoadingProgressIndicator isLoading={isAddExaminationDateLoading}>
             <div className="columns gapped-xs">
               <CustomButton
                 data-testid="examination-dates-page__add-btn"
                 variant={Variant.Outlined}
                 color={Color.Secondary}
                 startIcon={<AddIcon />}
-                disabled={isAddButtonDisabled() || isLoading}
+                disabled={isAddButtonDisabled()}
                 onClick={handleAddDate}
               >
                 {t('buttons.add')}
