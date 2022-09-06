@@ -1,8 +1,9 @@
 import { Divider, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { H1, H2, Text } from 'shared/components';
-import { APIResponseStatus, Duration, Severity } from 'shared/enums';
+import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
+import { DateUtils } from 'shared/utils';
 
 import { AddMeetingDate } from 'components/meetingDate/AddMeetingDate';
 import { MeetingDatesListing } from 'components/meetingDate/MeetingDatesListing';
@@ -20,8 +21,8 @@ import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 export const MeetingDatesPage: FC = () => {
   const {
     meetingDates: { status, meetingDates },
-    addMeetingDate: { status: addMeetingDateStatus },
-    removeMeetingDate: { status: removeMeetingDateStatus },
+    addMeetingDate,
+    removeMeetingDate,
   } = useAppSelector(meetingDatesSelector);
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
@@ -37,24 +38,30 @@ export const MeetingDatesPage: FC = () => {
   }, [dispatch, status]);
 
   useEffect(() => {
-    if (addMeetingDateStatus === APIResponseStatus.Success) {
+    const { status, date } = addMeetingDate;
+
+    if (status === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('meetingDatesPage.toasts.addingSucceeded'),
-        timeOut: Duration.Medium,
+        description: t('meetingDatesPage.toasts.addingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
       });
     }
-  }, [dispatch, showToast, addMeetingDateStatus, t]);
+  }, [dispatch, addMeetingDate, showToast, t]);
 
   useEffect(() => {
-    if (removeMeetingDateStatus === APIResponseStatus.Success) {
+    const { status, date } = removeMeetingDate;
+
+    if (status === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
-        description: t('meetingDatesPage.toasts.removingSucceeded'),
-        timeOut: Duration.Medium,
+        description: t('meetingDatesPage.toasts.removingSucceeded', {
+          date: DateUtils.formatOptionalDate(date),
+        }),
       });
     }
-  }, [dispatch, showToast, removeMeetingDateStatus, t]);
+  }, [dispatch, removeMeetingDate, showToast, t]);
 
   useEffect(() => {
     return () => {

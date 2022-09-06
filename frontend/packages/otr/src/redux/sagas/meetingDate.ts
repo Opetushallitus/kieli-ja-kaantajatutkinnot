@@ -6,7 +6,7 @@ import { DateUtils } from 'shared/utils';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { MeetingDateResponse } from 'interfaces/meetingDate';
+import { MeetingDate, MeetingDateResponse } from 'interfaces/meetingDate';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   addingMeetingDateSucceeded,
@@ -22,11 +22,11 @@ import {
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* removeMeetingDateSaga(action: PayloadAction<number>) {
+function* removeMeetingDateSaga(action: PayloadAction<MeetingDate>) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.MeetingDate}/${action.payload}`
+      `${APIEndpoints.MeetingDate}/${action.payload.id}`
     );
     yield put(removingMeetingDateSucceeded());
     yield put(loadMeetingDates());
@@ -69,6 +69,6 @@ function* loadMeetingDatesSaga() {
 
 export function* watchMeetingDates() {
   yield takeLatest(loadMeetingDates, loadMeetingDatesSaga);
-  yield takeLatest(addMeetingDate.type, addMeetingDateSaga);
-  yield takeLatest(removeMeetingDate.type, removeMeetingDateSaga);
+  yield takeLatest(addMeetingDate, addMeetingDateSaga);
+  yield takeLatest(removeMeetingDate, removeMeetingDateSaga);
 }
