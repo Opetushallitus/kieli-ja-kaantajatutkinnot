@@ -141,6 +141,7 @@ export const ClerkPersonSearchPage = () => {
           <div className="columns margin-top-lg">
             {personNotFound && (
               <CustomButton
+                data-testid="clerk-person-search-page__proceed-button"
                 variant={Variant.Outlined}
                 color={Color.Secondary}
                 onClick={handleProceed}

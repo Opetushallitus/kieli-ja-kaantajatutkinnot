@@ -5,6 +5,7 @@ import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
+import { person1, person2 } from 'tests/msw/fixtures/person';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 import { qualification } from 'tests/msw/fixtures/qualification';
 import {
@@ -77,6 +78,20 @@ export const handlers = [
         qualificationRemoveResponse(clerkInterpreter, parseInt(id as string))
       )
     );
+  }),
+  rest.get(APIEndpoints.ClerkPersonSearch, (req, res, ctx) => {
+    const identityNumber = req.url.searchParams.get('identityNumber');
+
+    if (identityNumber === person1.identityNumber) {
+      return res(ctx.status(200), ctx.json(person1));
+    } else if (identityNumber === person2.identityNumber) {
+      return res(ctx.status(200), ctx.json(person2));
+    } else {
+      return res(ctx.status(200));
+    }
+  }),
+  rest.post(APIEndpoints.ClerkInterpreter, (req, res, ctx) => {
+    return res(ctx.status(201), ctx.json(clerkInterpreter));
   }),
   rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(meetingDates10));

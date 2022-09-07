@@ -6,6 +6,8 @@ class ClerkPersonSearchPage {
       cy.findByTestId('clerk-person-search-page__ssn__field'),
     socialSecurityNumberSearchButton: () =>
       cy.findByTestId('clerk-person-search-page__ssn__search-button'),
+    proceedButton: () =>
+      cy.findByTestId('clerk-person-search-page__proceed-button'),
     byLabel: (label: Matcher) =>
       cy
         .findByTestId('clerk-person-search-page__ssn__field')
@@ -24,6 +26,10 @@ class ClerkPersonSearchPage {
       .socialSecurityNumberSearchButton()
       .should('be.visible')
       .click();
+  }
+
+  clickProceedButton() {
+    this.elements.proceedButton().should('be.visible').click();
   }
 
   expectSocialSecurityNumberFieldError(fieldError: string) {

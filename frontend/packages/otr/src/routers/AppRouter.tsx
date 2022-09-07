@@ -8,6 +8,7 @@ import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
+import { ClerkNewInterpreterPage } from 'pages/ClerkNewInterpreterPage';
 import { ClerkPersonSearchPage } from 'pages/ClerkPersonSearchPage';
 import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
@@ -42,6 +43,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkPersonSearchPage}
                 element={<ClerkPersonSearchPage />}
+              />
+              <Route
+                path={AppRoutes.ClerkNewInterpreterPage}
+                element={<ClerkNewInterpreterPage />}
               />
             </Routes>
           </div>

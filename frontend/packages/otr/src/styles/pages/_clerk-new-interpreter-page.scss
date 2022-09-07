@@ -1,0 +1,11 @@
+.clerk-new-interpreter-page {
+  flex: 1;
+
+  & &__content-container {
+    padding: 3rem;
+  }
+
+  .regions {
+    flex: 1;
+  }
+}
