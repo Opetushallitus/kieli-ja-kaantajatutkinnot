@@ -22,6 +22,7 @@ import { InputFieldUtils, StringUtils } from 'shared/utils';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkTranslatorEmail } from 'interfaces/clerkTranslatorEmail';
 import {
   cancelClerkTranslatorEmail,
@@ -102,6 +103,7 @@ const ControlButtons = ({
   return (
     <div className="columns gapped flex-end">
       <CustomButton
+        disabled={isLoading}
         data-testid="clerk-send-email-page__cancel-btn"
         variant={Variant.Outlined}
         color={Color.Secondary}
@@ -214,6 +216,8 @@ export const ClerkSendEmailPage = () => {
     [t]
   );
 
+  useNavigationProtection(isLoading);
+
   return (
     <Box className="clerk-send-email-page">
       <H1>{t('pages.clerkSendEmailPage.title')}</H1>
@@ -230,6 +234,7 @@ export const ClerkSendEmailPage = () => {
           <div className="rows gapped">
             <H2>{t('pages.clerkSendEmailPage.sections.subject')}</H2>
             <CustomTextField
+              disabled={isLoading}
               data-testid="clerk-send-email-page__subject"
               label={t('pages.clerkSendEmailPage.labels.subject')}
               value={email.subject}
@@ -243,6 +248,7 @@ export const ClerkSendEmailPage = () => {
           <div className="rows gapped">
             <H2>{t('pages.clerkSendEmailPage.sections.message')}</H2>
             <CustomTextField
+              disabled={isLoading}
               data-testid="clerk-send-email-page__message"
               label={t('pages.clerkSendEmailPage.labels.message')}
               value={email.body}
