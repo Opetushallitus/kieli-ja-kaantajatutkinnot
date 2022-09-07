@@ -5,4 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CacheConfig {}
+public class CacheConfig {
+
+  public static final String CACHE_NAME_PUBLIC_TRANSLATORS = "publicTranslators";
+}

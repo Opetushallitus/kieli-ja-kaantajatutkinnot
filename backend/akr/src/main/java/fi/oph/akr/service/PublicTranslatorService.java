@@ -5,10 +5,12 @@ import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
+import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
 import fi.oph.akr.repository.TranslatorRepository;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ public class PublicTranslatorService {
   @Resource
   private final TranslatorRepository translatorRepository;
 
+  @Cacheable(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS)
   @Transactional(readOnly = true)
   public PublicTranslatorResponseDTO listTranslators() {
     final Map<Long, List<TranslatorLanguagePairProjection>> translatorLanguagePairs = authorisationRepository
@@ -47,11 +51,12 @@ public class PublicTranslatorService {
         final List<LanguagePairDTO> languagePairDTOs = getLanguagePairDTOs(translatorLanguagePairs, translator);
         return createPublicTranslatorDTO(translator, languagePairDTOs);
       })
-      .toList();
+      .collect(Collectors.toCollection(ArrayList::new));
 
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
     final List<PublicTownDTO> towns = getDistinctTowns(translators);
 
+    Collections.shuffle(publicTranslatorDTOS);
     return PublicTranslatorResponseDTO
       .builder()
       .translators(publicTranslatorDTOS)

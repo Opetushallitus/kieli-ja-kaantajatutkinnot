@@ -34,9 +34,11 @@ public class Translator extends BaseEntity {
   @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
+  @Size(max = 255)
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
+  @Size(max = 255)
   @Column(name = "last_name", nullable = false)
   private String lastName;
 

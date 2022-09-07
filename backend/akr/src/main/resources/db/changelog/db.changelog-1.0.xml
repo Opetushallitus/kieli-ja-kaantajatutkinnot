@@ -683,4 +683,9 @@
         </sql>
     </changeSet>
 
+    <changeSet id="2022-09-05-change-translator-name-datatype" author="terova">
+        <modifyDataType tableName="translator" columnName="first_name" newDataType="VARCHAR(255)"/>
+        <modifyDataType tableName="translator" columnName="last_name" newDataType="VARCHAR(255)"/>
+    </changeSet>
+
 </databaseChangeLog>
