@@ -159,7 +159,8 @@ class ClerkInterpreterServiceTest {
       null,
       null,
       null,
-      isIndividualised
+      isIndividualised,
+      false
     );
   }
 
@@ -175,12 +176,14 @@ class ClerkInterpreterServiceTest {
     final String postalCode,
     final String town,
     final String country,
-    final Boolean isIndividualised
+    final Boolean isIndividualised,
+    final Boolean hasIndividualisedAddress
   ) {
     return PersonalData
       .builder()
       .onrId(onrId)
       .individualised(isIndividualised)
+      .hasIndividualisedAddress(hasIndividualisedAddress)
       .lastName(lastName)
       .firstName(firstName)
       .nickName(nickName)
@@ -290,6 +293,7 @@ class ClerkInterpreterServiceTest {
             createDTO.postalCode(),
             createDTO.town(),
             createDTO.country(),
+            false,
             false
           )
         )
@@ -301,6 +305,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(0, interpreterDTO.version());
     assertFalse(interpreterDTO.deleted());
     assertFalse(interpreterDTO.isIndividualised());
+    assertFalse(interpreterDTO.hasIndividualisedAddress());
     assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
     assertEquals(createDTO.lastName(), interpreterDTO.lastName());
     assertEquals(createDTO.firstName(), interpreterDTO.firstName());
@@ -354,6 +359,7 @@ class ClerkInterpreterServiceTest {
       .builder()
       .onrId("onrId")
       .isIndividualised(true)
+      .hasIndividualisedAddress(true)
       .identityNumber("241202-xyz")
       .lastName("Esimerkki")
       .firstName("Erkki Pekka")
@@ -395,7 +401,8 @@ class ClerkInterpreterServiceTest {
             createDTO.postalCode(),
             createDTO.town(),
             createDTO.country(),
-            createDTO.isIndividualised()
+            createDTO.isIndividualised(),
+            createDTO.hasIndividualisedAddress()
           )
         )
       );
@@ -403,6 +410,7 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.createInterpreter(createDTO);
 
     assertTrue(interpreterDTO.isIndividualised());
+    assertTrue(interpreterDTO.hasIndividualisedAddress());
     assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
 
     verify(onrService).updatePersonalData(any());
@@ -419,7 +427,6 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
-      .isIndividualised(true)
       .identityNumber("241202-xyz")
       .lastName("Esimerkki")
       .firstName("Erkki Pekka")
@@ -462,6 +469,7 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterCreateDTO createDTO = ClerkInterpreterCreateDTO
       .builder()
       .onrId("onrId")
+      .hasIndividualisedAddress(false)
       .identityNumber("241202-xyz")
       .lastName("Esimerkki")
       .firstName("Erkki Pekka")
@@ -502,12 +510,13 @@ class ClerkInterpreterServiceTest {
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
 
     assertEquals(id, interpreterDTO.id());
+    assertTrue(interpreterDTO.isIndividualised());
+    assertFalse(interpreterDTO.hasIndividualisedAddress());
     assertEquals("241202-xyz", interpreterDTO.identityNumber());
     assertEquals("Esimerkki", interpreterDTO.lastName());
     assertEquals("Erkki Pekka", interpreterDTO.firstName());
     assertEquals("Erkki", interpreterDTO.nickName());
     assertEquals("erkki@esimerkki.invalid", interpreterDTO.email());
-    assertTrue(interpreterDTO.isIndividualised());
     assertEquals(1, interpreterDTO.qualifications().size());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
 
@@ -529,6 +538,7 @@ class ClerkInterpreterServiceTest {
       .id(interpreter.getId())
       .version(initialVersion)
       .isIndividualised(false)
+      .hasIndividualisedAddress(false)
       .identityNumber("121212-123")
       .lastName("Merkkinen")
       .firstName("Eemeli Aapo")
@@ -558,7 +568,8 @@ class ClerkInterpreterServiceTest {
             updateDTO.postalCode(),
             updateDTO.town(),
             updateDTO.country(),
-            updateDTO.isIndividualised()
+            updateDTO.isIndividualised(),
+            updateDTO.hasIndividualisedAddress()
           )
         )
       );
@@ -569,6 +580,7 @@ class ClerkInterpreterServiceTest {
     assertEquals(initialVersion + 1, updated.version());
     assertFalse(updated.deleted());
     assertFalse(updated.isIndividualised());
+    assertFalse(updated.hasIndividualisedAddress());
     assertFalse(updated.permissionToPublishEmail());
     assertFalse(updated.permissionToPublishPhone());
     assertEquals(updateDTO.otherContactInfo(), updated.otherContactInfo());
@@ -595,6 +607,7 @@ class ClerkInterpreterServiceTest {
       .id(interpreter.getId())
       .version(initialVersion)
       .isIndividualised(false)
+      .hasIndividualisedAddress(false)
       .identityNumber("121212-123")
       .lastName("Merkkinen")
       .firstName("Eemeli Aapo")
@@ -624,7 +637,8 @@ class ClerkInterpreterServiceTest {
             updateDTO.postalCode(),
             updateDTO.town(),
             updateDTO.country(),
-            updateDTO.isIndividualised()
+            updateDTO.isIndividualised(),
+            updateDTO.hasIndividualisedAddress()
           )
         )
       );
@@ -654,6 +668,7 @@ class ClerkInterpreterServiceTest {
       .id(original.id())
       .version(original.version())
       .isIndividualised(false)
+      .hasIndividualisedAddress(false)
       .identityNumber(original.identityNumber())
       .lastName(original.lastName())
       .firstName(original.firstName())
@@ -689,6 +704,7 @@ class ClerkInterpreterServiceTest {
       .id(original.id())
       .version(original.version())
       .isIndividualised(false)
+      .hasIndividualisedAddress(false)
       .identityNumber(original.identityNumber())
       .lastName(original.lastName())
       .firstName("Pek Pekka")

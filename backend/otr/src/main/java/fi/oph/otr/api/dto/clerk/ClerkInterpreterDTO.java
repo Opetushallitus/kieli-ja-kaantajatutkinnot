@@ -13,6 +13,7 @@ public record ClerkInterpreterDTO(
   @NonNull @NotNull Integer version,
   @NonNull @NotNull Boolean deleted,
   @NonNull @NotNull Boolean isIndividualised,
+  @NonNull @NotNull Boolean hasIndividualisedAddress,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,

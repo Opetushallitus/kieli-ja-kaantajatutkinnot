@@ -35,6 +35,7 @@ public class OnrServiceTest {
       .builder()
       .onrId(onrId)
       .individualised(true)
+      .hasIndividualisedAddress(false)
       .lastName("Karjalainen")
       .firstName("Eero Aapeli")
       .nickName("Eero")

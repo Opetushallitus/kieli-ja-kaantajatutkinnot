@@ -44,6 +44,7 @@ class PersonServiceTest {
       .builder()
       .onrId("123.321")
       .individualised(true)
+      .hasIndividualisedAddress(true)
       .lastName("Esimerkki")
       .firstName("Erkki Eemeli")
       .nickName("Erkki")
@@ -56,11 +57,12 @@ class PersonServiceTest {
     when(onrService.findPersonalDataByIdentityNumber("xxx1")).thenReturn(Optional.of(onrAnswer));
 
     final Optional<PersonDTO> optionalPersonDTO = personService.findPersonByIdentityNumber("xxx1");
-
     assertTrue(optionalPersonDTO.isPresent());
     final PersonDTO personDTO = optionalPersonDTO.get();
+
     assertEquals("123.321", personDTO.onrId());
     assertTrue(personDTO.isIndividualised());
+    assertTrue(personDTO.hasIndividualisedAddress());
     assertEquals("Esimerkki", personDTO.lastName());
     assertEquals("Erkki Eemeli", personDTO.firstName());
     assertEquals("Erkki", personDTO.nickName());

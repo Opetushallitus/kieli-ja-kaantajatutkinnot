@@ -12,8 +12,10 @@ public class PersonalDataFactory {
 
   public PersonalData create(final String onrId) {
     final int counterValue = counter.incrementAndGet();
-    final String lastName = lastNames.next();
+    final boolean isIndividualised = counterValue % 3 != 0;
+    final boolean hasIndividualisedAddress = isIndividualised && counterValue % 5 != 0;
 
+    final String lastName = lastNames.next();
     final boolean isMale = counterValue % 2 == 0;
     final String nickName = isMale ? menNickNames.next() : womenNickNames.next();
     final String secondName = isMale ? menSecondNames.next() : womenSecondNames.next();
@@ -21,7 +23,8 @@ public class PersonalDataFactory {
     return PersonalData
       .builder()
       .onrId(onrId)
-      .individualised(counterValue % 3 != 0)
+      .individualised(isIndividualised)
+      .hasIndividualisedAddress(hasIndividualisedAddress)
       .lastName(lastName)
       .firstName(nickName + " " + secondName)
       .nickName(nickName)

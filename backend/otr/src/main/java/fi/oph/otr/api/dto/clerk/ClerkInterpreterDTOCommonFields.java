@@ -5,6 +5,8 @@ import java.util.List;
 public interface ClerkInterpreterDTOCommonFields {
   Boolean isIndividualised();
 
+  Boolean hasIndividualisedAddress();
+
   String identityNumber();
 
   String lastName();

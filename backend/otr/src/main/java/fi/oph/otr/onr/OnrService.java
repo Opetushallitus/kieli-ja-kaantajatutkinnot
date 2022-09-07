@@ -43,6 +43,7 @@ public class OnrService {
     final PersonalData personalData = PersonalData
       .builder()
       .individualised(false)
+      .hasIndividualisedAddress(false)
       .lastName(data.getLastName())
       .firstName(data.getFirstName())
       .nickName(data.getNickName())
