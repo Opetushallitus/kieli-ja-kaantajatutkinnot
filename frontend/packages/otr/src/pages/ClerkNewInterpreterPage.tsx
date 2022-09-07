@@ -165,6 +165,7 @@ export const ClerkNewInterpreterPage = () => {
           >
             <AddQualification
               meetingDates={passedMeetingDates}
+              isLoading={false}
               onQualificationAdd={onQualificationAdd}
               onCancel={handleCloseModal}
             />

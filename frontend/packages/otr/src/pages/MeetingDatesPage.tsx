@@ -44,10 +44,6 @@ export const MeetingDatesPage: FC = () => {
         timeOut: Duration.Medium,
       });
     }
-
-    return () => {
-      dispatch(resetMeetingDateAdd());
-    };
   }, [dispatch, showToast, addMeetingDateStatus, t]);
 
   useEffect(() => {
@@ -58,11 +54,14 @@ export const MeetingDatesPage: FC = () => {
         timeOut: Duration.Medium,
       });
     }
+  }, [dispatch, showToast, removeMeetingDateStatus, t]);
 
+  useEffect(() => {
     return () => {
+      dispatch(resetMeetingDateAdd());
       dispatch(resetMeetingDateRemove());
     };
-  }, [dispatch, showToast, removeMeetingDateStatus, t]);
+  }, [dispatch]);
 
   const renderMeetingDatesPageGrids = () => (
     <>

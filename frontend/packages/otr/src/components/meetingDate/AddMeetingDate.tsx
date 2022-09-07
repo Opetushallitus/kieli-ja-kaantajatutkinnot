@@ -26,8 +26,11 @@ export const AddMeetingDate = () => {
 
   const {
     meetingDates: { meetingDates, status },
+    addMeetingDate: { status: addMeetingDateStatus },
   } = useAppSelector(meetingDatesSelector);
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isMeetingDateLoading = status === APIResponseStatus.InProgress;
+  const isAddMeetingDateLoading =
+    addMeetingDateStatus === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
 
@@ -48,7 +51,12 @@ export const AddMeetingDate = () => {
   };
 
   const isAddButtonDisabled = () => {
-    return !value || isSelectedDateAlreadyTaken();
+    return (
+      !value ||
+      isSelectedDateAlreadyTaken() ||
+      isMeetingDateLoading ||
+      isAddMeetingDateLoading
+    );
   };
 
   const renderDateAlreadyTakenInfo = () =>
@@ -71,14 +79,14 @@ export const AddMeetingDate = () => {
             setValue={setValue}
             label={t('datePicker.label')}
           />
-          <LoadingProgressIndicator isLoading={isLoading}>
+          <LoadingProgressIndicator isLoading={isAddMeetingDateLoading}>
             <div className="columns gapped-xs">
               <CustomButton
                 data-testid="meeting-dates-page__add-btn"
                 variant={Variant.Outlined}
                 color={Color.Secondary}
                 startIcon={<AddIcon />}
-                disabled={isAddButtonDisabled() || isLoading}
+                disabled={isAddButtonDisabled()}
                 onClick={handleAddDate}
               >
                 {t('buttons.add')}
