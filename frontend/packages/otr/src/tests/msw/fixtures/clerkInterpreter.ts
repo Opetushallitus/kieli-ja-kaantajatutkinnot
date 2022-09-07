@@ -5,6 +5,7 @@ export const clerkInterpreter = {
   version: 0,
   deleted: false,
   isIndividualised: false,
+  hasIndividualisedAddress: false,
   identityNumber: '060105A910A',
   lastName: 'Aaltonen',
   firstName: 'Anneli Anna',

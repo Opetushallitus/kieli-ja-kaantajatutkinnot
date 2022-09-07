@@ -14,6 +14,7 @@ const initialState: ClerkNewInterpreterState = {
   interpreter: {
     onrId: undefined,
     isIndividualised: undefined,
+    hasIndividualisedAddress: undefined,
     identityNumber: '',
     lastName: '',
     firstName: '',
@@ -54,6 +55,8 @@ const clerkNewInterpreterSlice = createSlice({
 
       state.interpreter.onrId = person.onrId;
       state.interpreter.isIndividualised = person.isIndividualised;
+      state.interpreter.hasIndividualisedAddress =
+        person.hasIndividualisedAddress;
       state.interpreter.identityNumber = person.identityNumber;
       state.interpreter.lastName = person.lastName;
       state.interpreter.firstName = person.firstName;

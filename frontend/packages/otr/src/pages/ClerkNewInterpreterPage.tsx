@@ -153,7 +153,6 @@ export const ClerkNewInterpreterPage = () => {
           <TopControls />
           <ClerkNewInterpreterDetails
             interpreter={interpreter}
-            isIndividualisedInterpreter={person?.isIndividualised}
             onDetailsChange={() => setHasLocalChanges(true)}
           />
           <CustomModal

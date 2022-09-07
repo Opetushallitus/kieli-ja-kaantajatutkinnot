@@ -116,7 +116,7 @@ describe('ClerkNewInterpreterPage', () => {
     });
   });
 
-  describe('on creation of interpreter for an existing person', () => {
+  describe('on creation of interpreter for an existing individualised person', () => {
     beforeEach(() => {
       onClerkPersonSearchPage.typeSocialSecurityNumber(person1.identityNumber);
       onClerkPersonSearchPage.clickSearchButton();
@@ -145,13 +145,13 @@ describe('ClerkNewInterpreterPage', () => {
     });
   });
 
-  describe('on creation of interpreter for an existing person with address', () => {
+  describe('on creation of interpreter for an existing person with individualised address', () => {
     beforeEach(() => {
       onClerkPersonSearchPage.typeSocialSecurityNumber(person2.identityNumber);
       onClerkPersonSearchPage.clickSearchButton();
     });
 
-    it('address fields should be prefilled but editable', () => {
+    it('address fields should be prefilled and disabled', () => {
       onClerkNewInterpreterPage.expectAddressFieldValues(
         person2.street,
         person2.postalCode,
@@ -160,7 +160,10 @@ describe('ClerkNewInterpreterPage', () => {
       );
 
       ['street', 'postalCode', 'town', 'country'].forEach((field) => {
-        onClerkNewInterpreterPage.expectEnabledInterpreterField(field, 'input');
+        onClerkNewInterpreterPage.expectDisabledInterpreterField(
+          field,
+          'input'
+        );
       });
     });
   });
