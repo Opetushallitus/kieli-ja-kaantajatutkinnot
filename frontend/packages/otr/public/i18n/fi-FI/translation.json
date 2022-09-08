@@ -107,6 +107,11 @@
           },
           "header": "Rekisteröinnit",
           "noQualifications": "Valituille kriteereille ei löytynyt tutkintoja",
+          "toasts": {
+            "addingSucceeded": "Rekisteröinti lisätty onnistuneesti",
+            "removingSucceeded": "Valittu rekisteröinti poistettu",
+            "updatingPublishPermissionSucceeded": "Rekisteröinnin julkaisulupaa muutettu"
+          },
           "toggleFilters": {
             "effective": "Voimassa olevat",
             "expired": "Umpeutuneet"
@@ -196,10 +201,6 @@
         },
         "switch": {
           "permissionToPublish": "Julkaisulupa"
-        },
-        "toasts": {
-          "error": "Rekisteröinnin lisäys ei onnistunut, yritä myöhemmin uudelleen",
-          "success": "Rekisteröinti lisätty onnistuneesti"
         }
       },
       "publicInterpreterFilters": {

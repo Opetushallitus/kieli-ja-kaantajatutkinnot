@@ -8,7 +8,7 @@ import {
   ToggleFilterGroup,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useToast } from 'shared/hooks';
 
 import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
@@ -21,6 +21,7 @@ import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import {
   addQualification,
   removeQualification,
+  resetQualificationState,
 } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
@@ -28,6 +29,12 @@ import { qualificationSelector } from 'redux/selectors/qualification';
 import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
+  // I18n
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
+  });
+  const translateCommon = useCommonTranslation();
+
   // State
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -39,27 +46,52 @@ export const QualificationDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
-  const { addStatus } = useAppSelector(qualificationSelector);
+  const { addStatus, updateStatus, removeStatus } = useAppSelector(
+    qualificationSelector
+  );
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
   ).passed;
 
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'otr.component.clerkInterpreterOverview.qualifications',
-  });
-  const translateCommon = useCommonTranslation();
-
   const { showDialog } = useDialog();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
       handleCloseModal();
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.addingSucceeded'),
+      });
     }
-  }, [addStatus]);
+  }, [dispatch, addStatus, showToast, t]);
+
+  useEffect(() => {
+    if (removeStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.removingSucceeded'),
+      });
+    }
+  }, [dispatch, removeStatus, showToast, t]);
+
+  useEffect(() => {
+    if (updateStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updatingPublishPermissionSucceeded'),
+      });
+    }
+  }, [dispatch, updateStatus, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetQualificationState());
+    };
   }, [dispatch]);
 
   if (!interpreter) {

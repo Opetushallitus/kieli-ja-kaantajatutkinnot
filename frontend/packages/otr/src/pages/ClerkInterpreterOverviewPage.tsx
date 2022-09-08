@@ -16,19 +16,18 @@ import {
   loadClerkInterpreterOverview,
   resetClerkInterpreterOverview,
 } from 'redux/reducers/clerkInterpreterOverview';
-import { resetQualificationState } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
-import { qualificationSelector } from 'redux/selectors/qualification';
 
 export const ClerkInterpreterOverviewPage = () => {
   // i18n
-  const { t } = useAppTranslation({ keyPrefix: 'otr' });
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.pages.clerkInterpreterOverviewPage',
+  });
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, interpreter } = useAppSelector(
     clerkInterpreterOverviewSelector
   );
-  const { addStatus } = useAppSelector(qualificationSelector);
 
   const { showToast } = useToast();
 
@@ -53,7 +52,7 @@ export const ClerkInterpreterOverviewPage = () => {
     ) {
       showToast({
         severity: Severity.Error,
-        description: t('pages.clerkInterpreterOverviewPage.toasts.notFound'),
+        description: t('toasts.notFound'),
         timeOut: Duration.Short,
       });
       navigate(AppRoutes.ClerkHomePage);
@@ -70,25 +69,13 @@ export const ClerkInterpreterOverviewPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(resetQualificationState());
       dispatch(resetClerkInterpreterOverview());
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if (addStatus === APIResponseStatus.Success) {
-      showToast({
-        severity: Severity.Success,
-        description: t('component.newQualification.toasts.success'),
-        timeOut: Duration.Short,
-      });
-      dispatch(resetQualificationState());
-    }
-  }, [addStatus, showToast, dispatch, t]);
-
   return (
     <Box className="clerk-interpreter-overview-page">
-      <H1>{t('pages.clerkInterpreterOverviewPage.title')}</H1>
+      <H1>{t('title')}</H1>
       <Paper
         elevation={3}
         className="clerk-interpreter-overview-page__content-container rows"

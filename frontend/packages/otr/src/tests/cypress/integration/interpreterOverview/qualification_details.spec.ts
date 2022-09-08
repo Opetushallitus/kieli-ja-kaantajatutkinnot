@@ -2,6 +2,7 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objects/clerkInterpreterOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onQualificationDetails } from 'tests/cypress/support/page-objects/qualificationDetails';
+import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 const CLERK_INTERPRETER_ID = 11;
 const EFFECTIVE_QUALIFICATION_ID = 110;
@@ -54,6 +55,7 @@ describe('ClerkInterpreterOverview:QualificationDetails', () => {
       EFFECTIVE_QUALIFICATION_ID,
       false
     );
+    onToast.expectText('Rekisteröinnin julkaisulupaa muutettu');
   });
 
   it('should open a confirmation dialog when a delete icon is clicked, and do no changes if user backs out', () => {
@@ -69,5 +71,6 @@ describe('ClerkInterpreterOverview:QualificationDetails', () => {
     onDialog.clickButtonByText('Poista rekisteröinti');
 
     onQualificationDetails.assertRowDoesNotExist(EFFECTIVE_QUALIFICATION_ID);
+    onToast.expectText('Valittu rekisteröinti poistettu');
   });
 });
