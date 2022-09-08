@@ -7,6 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 import { setAPIError } from 'redux/reducers/APIError';
+import { upsertClerkInterpreter } from 'redux/reducers/clerkInterpreter';
 import { setClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
 import {
   addQualification,
@@ -23,8 +24,9 @@ import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* addQualificationSaga(action: PayloadAction<Qualification>) {
+  const { interpreterId } = action.payload;
+
   try {
-    const { interpreterId } = action.payload;
     if (!interpreterId) {
       throw new Error();
     }
@@ -33,11 +35,10 @@ function* addQualificationSaga(action: PayloadAction<Qualification>) {
       `${APIEndpoints.ClerkInterpreter}/${interpreterId}/qualification`,
       SerializationUtils.serializeQualification(action.payload)
     );
-
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
       apiResponse.data
     );
-
+    yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(addQualificationSucceeded());
   } catch (error) {
@@ -53,11 +54,10 @@ function* removeQualificationSaga(action: PayloadAction<number>) {
       axiosInstance.delete,
       `${APIEndpoints.Qualification}/${action.payload}`
     );
-
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
       apiResponse.data
     );
-
+    yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(removeQualificationSucceeded());
   } catch (error) {
@@ -77,6 +77,7 @@ function* updateQualificationSaga(action: PayloadAction<Qualification>) {
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
       apiResponse.data
     );
+    yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));
     yield put(updateQualificationSucceeded());
   } catch (error) {

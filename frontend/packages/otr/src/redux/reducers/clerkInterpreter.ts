@@ -63,7 +63,6 @@ const clerkInterpreterSlice = createSlice({
       state.interpreters = action.payload;
       state.qualificationLanguages = getQualificationLanguages(action.payload);
     },
-    // TODO: use in interpreter update, and in all qualification operations
     upsertClerkInterpreter(state, action: PayloadAction<ClerkInterpreter>) {
       const updatedInterpreters = [...state.interpreters];
       const interpreter = action.payload;
