@@ -20,7 +20,6 @@ import fi.oph.otr.onr.dto.ContactDetailsGroupType;
 import fi.oph.otr.onr.dto.ContactDetailsType;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.util.CustomOrderComparator;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +51,7 @@ public class ContactDetailsUtil {
    * which represents an address.
    */
   public static boolean containsCivilRegistryAddressField(final List<ContactDetailsGroupDTO> groups) {
-    final List<ContactDetailsType> addressTypes = List.of(
+    final Set<ContactDetailsType> addressTypes = Set.of(
       ContactDetailsType.STREET,
       ContactDetailsType.POSTAL_CODE,
       ContactDetailsType.TOWN,
@@ -62,9 +61,9 @@ public class ContactDetailsUtil {
     return groups
       .stream()
       .filter(group -> group.getSource() == ContactDetailsGroupSource.VTJ)
-      .anyMatch(group ->
-        !Collections.disjoint(group.contactDetailsSet.stream().map(ContactDetailsDTO::getType).toList(), addressTypes)
-      );
+      .flatMap(group -> group.contactDetailsSet.stream())
+      .map(ContactDetailsDTO::getType)
+      .anyMatch(addressTypes::contains);
   }
 
   public static String getPrimaryEmail(final List<ContactDetailsGroupDTO> groups) {

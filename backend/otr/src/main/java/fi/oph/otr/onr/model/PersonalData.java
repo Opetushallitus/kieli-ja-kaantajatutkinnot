@@ -59,7 +59,7 @@ public class PersonalData {
       this.onrId != null &&
       this.individualised != null &&
       this.hasIndividualisedAddress != null &&
-      !(!this.individualised && this.hasIndividualisedAddress)
+      (this.individualised || !this.hasIndividualisedAddress)
     );
   }
 
