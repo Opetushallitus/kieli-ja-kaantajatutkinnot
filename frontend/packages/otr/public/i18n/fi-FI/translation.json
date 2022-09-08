@@ -113,8 +113,6 @@
           }
         },
         "toasts": {
-          "notFound": "Valittua tulkkia ei löytynyt",
-          "updateFailed": "Tietojen tallennus epäonnistui",
           "updated": "Tiedot tallennettiin"
         }
       },
@@ -285,9 +283,7 @@
       "clerkInterpreterOverviewPage": {
         "title": "Oikeustulkin tiedot",
         "toasts": {
-          "notFound": "Valittua kääntäjää ei löytynyt",
-          "updateFailed": "Tietojen tallennus epäonnistui",
-          "updated": "Tiedot tallennettiin"
+          "notFound": "Valittua tulkkia ei löytynyt"
         }
       },
       "clerkNewInterpreterPage": {

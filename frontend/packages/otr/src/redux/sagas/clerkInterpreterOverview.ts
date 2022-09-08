@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
-import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   ClerkInterpreter,
@@ -33,10 +32,6 @@ function* loadClerkInterpreterOverviewSaga(action: PayloadAction<number>) {
     );
     yield put(storeClerkInterpreterOverview(interpreter));
   } catch (error) {
-    const t = translateOutsideComponent();
-    yield put(
-      setAPIError(t('otr.component.clerkInterpreterOverview.toasts.notFound'))
-    );
     yield put(rejectClerkInterpreterOverview());
   }
 }
