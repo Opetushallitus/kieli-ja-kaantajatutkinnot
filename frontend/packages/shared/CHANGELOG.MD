@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Styling of init spinner
+- Styles of init spinner
 
 ## [1.3.1] - 2022-09-06
 
