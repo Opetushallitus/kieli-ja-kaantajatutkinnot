@@ -426,6 +426,12 @@
       },
       "homepage": {
         "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla olevalla hakulomakkeella. Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi auktorisoitujen kääntäjien yhteystietoja: auktoris.lautakunta@oph.fi",
+        "cookieBanner": {
+          "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen. Voit lukea lisätietoa evästeistä painamalla",
+          "buttonText": "Hyväksy",
+          "linkText": "tästä linkistä",
+          "title": "Hyväksy evästeet"
+        },
         "filters": {
           "title": "Hae auktorisoitua kääntäjää"
         },

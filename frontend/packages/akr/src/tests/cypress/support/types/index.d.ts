@@ -6,7 +6,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       usePhoneViewport(): void;
-      openPublicHomePage(): void;
+      openPublicHomePage(shouldShowCookieBanner?: boolean): void;
       openClerkHomePage(): void;
       openExaminationDatesPage(): void;
       openMeetingDatesPage(): void;
