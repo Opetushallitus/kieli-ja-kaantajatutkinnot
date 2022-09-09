@@ -144,15 +144,13 @@ export const AddQualification = ({
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
   const isAddButtonDisabled = () => {
-    const { beginDate, examinationType, ...otherProps } = qualification;
+    const { permissionToPublish: _, ...otherProps } = qualification;
 
-    const isOtherPropsNotDefined = Object.values(otherProps).some((p) =>
-      StringUtils.isBlankString(p)
+    const otherPropsDefined = Object.values(otherProps).every((p) =>
+      typeof p === 'string' ? StringUtils.isNonBlankString(p) : p
     );
 
-    return (
-      isLoading || isOtherPropsNotDefined || !beginDate || !examinationType
-    );
+    return isLoading || !otherPropsDefined;
   };
 
   const addAndResetQualification = (qualification: Qualification) => {

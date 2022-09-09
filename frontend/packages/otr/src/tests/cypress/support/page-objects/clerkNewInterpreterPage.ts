@@ -56,15 +56,11 @@ class ClerkNewInterpreterPage {
   }
 
   expectEnabledInterpreterField(fieldName, fieldType) {
-    this.elements
-      .interpreterField(fieldName, fieldType)
-      .should('be.enabled');
+    this.elements.interpreterField(fieldName, fieldType).should('be.enabled');
   }
 
   expectDisabledInterpreterField(fieldName, fieldType) {
-    this.elements
-      .interpreterField(fieldName, fieldType)
-      .should('be.disabled');
+    this.elements.interpreterField(fieldName, fieldType).should('be.disabled');
   }
 
   expectInterpreterFieldValue(field: string, fieldType: string, value: string) {
