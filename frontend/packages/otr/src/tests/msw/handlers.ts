@@ -4,6 +4,7 @@ import { APIEndpoints } from 'enums/api';
 import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
+import { meetingDate } from 'tests/msw/fixtures/meetingDate';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
 import { person1, person2 } from 'tests/msw/fixtures/person';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
@@ -95,5 +96,26 @@ export const handlers = [
   }),
   rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(meetingDates10));
+  }),
+  rest.post(APIEndpoints.MeetingDate, async (req, res, ctx) => {
+    const { date } = await req.json();
+
+    if (date === meetingDate.date) {
+      return res(ctx.status(201), ctx.json(meetingDate));
+    } else {
+      return res(ctx.status(500));
+    }
+  }),
+  rest.delete(`${APIEndpoints.MeetingDate}/:id`,(req, res, ctx) => {
+    const { id } = req.params;
+    const deletableMeetingDateId = meetingDates10.find(
+      (m) => m.date === '2022-01-01'
+    )?.id;
+
+    if (parseInt(id as string) === deletableMeetingDateId) {
+      return res(ctx.status(200));
+    } else {
+      return res(ctx.status(500));
+    }
   }),
 ];
