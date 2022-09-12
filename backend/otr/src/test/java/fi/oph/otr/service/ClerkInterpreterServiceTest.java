@@ -123,16 +123,18 @@ class ClerkInterpreterServiceTest {
       .thenReturn(
         Map.of(
           "1",
-          createPersonalData("1", "Suku1", "Etu11 Etu12", "Etu1", "id1", "etu@suku1", true),
+          createPersonalData("1", "Esimerkki", "Erkki Pekka", "Erkki", "241202-xyz", "erkki@esimerkki.invalid", true),
           "2",
-          createPersonalData("2", "Suku2", "Etu21 Etu22", "Etu2", "id2", "etu@suku2", true),
+          createPersonalData("2", "Aaltonen", "Anna Maija", "Anna", "111009-abc", "anna@aaltonen.invalid", false),
           "3",
-          createPersonalData("3", "Suku3", "Etu31 Etu32", "Etu3", "id3", "etu@suku3", true)
+          createPersonalData("3", "Esimerkki", "Taavi Aapo", "Aapo", "123456-def", "taavi@esimerkki.invalid", true)
         )
       );
 
     final List<ClerkInterpreterDTO> interpreters = clerkInterpreterService.list();
-    assertEquals(Set.of(id1, id2, id3), interpreters.stream().map(ClerkInterpreterDTO::id).collect(Collectors.toSet()));
+    assertEquals(3, interpreters.size());
+    // Check sorting
+    assertEquals(List.of(id2, id3, id1), interpreters.stream().map(ClerkInterpreterDTO::id).toList());
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
     verify(auditService).logOperation(OtrOperation.LIST_INTERPRETERS);
     verifyNoMoreInteractions(auditService);

@@ -2,6 +2,7 @@ package fi.oph.otr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
@@ -17,9 +18,12 @@ import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,6 +57,42 @@ class PublicInterpreterServiceTest {
   public void setup() {
     publicInterpreterService =
       new PublicInterpreterService(interpreterRepository, qualificationRepository, regionRepository, onrService);
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          "1",
+          PersonalData
+            .builder()
+            .lastName("Hannonen")
+            .firstName("Iiro Aapeli")
+            .nickName("Iiro")
+            .identityNumber("1")
+            .email("iiro.hannonen@example.invalid")
+            .phoneNumber("+3581234567")
+            .build(),
+          "2",
+          PersonalData
+            .builder()
+            .lastName("Heinänen")
+            .firstName("Ella Marja")
+            .nickName("Ella")
+            .identityNumber("2")
+            .email("ella.heinanen@example.invalid")
+            .phoneNumber("+3582345678")
+            .build(),
+          "3",
+          PersonalData
+            .builder()
+            .lastName("Heinänen")
+            .firstName("Tapani Urho")
+            .nickName("Urho")
+            .identityNumber("3")
+            .email("urho.heinanen@example.invalid")
+            .phoneNumber("+3583456789")
+            .build()
+        )
+      );
   }
 
   @Test
@@ -63,12 +103,12 @@ class PublicInterpreterServiceTest {
     final LocalDate previousWeek = today.minusDays(7);
     final LocalDate yesterday = today.minusDays(1);
 
-    final Interpreter interpreter1 = createInterpreter();
-    final Interpreter interpreter2 = createInterpreter();
-    final Interpreter interpreter3 = createInterpreter();
-    final Interpreter interpreter4 = createInterpreter();
+    final Interpreter interpreter1 = createInterpreter("1");
+    final Interpreter interpreter2 = createInterpreter("2");
+    final Interpreter interpreter3 = createInterpreter("3");
+    final Interpreter interpreter4 = createInterpreter("4");
     final Interpreter interpreter5 = createInterpreterDeleted();
-    final Interpreter interpreter6 = createInterpreter();
+    final Interpreter interpreter6 = createInterpreter("6");
 
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
@@ -123,39 +163,17 @@ class PublicInterpreterServiceTest {
     // Hidden, deleted
     createQualificationDeleted(interpreter6, meetingDate, "FI", "FR", yesterday, nextWeek, true);
 
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          interpreter1.getOnrId(),
-          PersonalData
-            .builder()
-            .lastName("Rajala")
-            .firstName("Iiro Aapeli")
-            .nickName("Iiro")
-            .identityNumber("1")
-            .email("iiro.rajala@example.invalid")
-            .phoneNumber("+3581234567")
-            .build(),
-          interpreter2.getOnrId(),
-          PersonalData
-            .builder()
-            .lastName("Heinänen")
-            .firstName("Ella Marja")
-            .nickName("Ella")
-            .identityNumber("2")
-            .email("ella.heinanen@example.invalid")
-            .phoneNumber("+3582345678")
-            .build()
-        )
-      );
-
-    final List<InterpreterDTO> interpreters = publicInterpreterService.list();
+    final List<InterpreterDTO> interpreters = publicInterpreterService
+      .list()
+      .stream()
+      .sorted(Comparator.comparing(InterpreterDTO::lastName))
+      .toList();
     assertEquals(2, interpreters.size());
 
     final InterpreterDTO publishedInterpreter1 = interpreters.get(0);
     assertEquals(interpreter1.getId(), publishedInterpreter1.id());
     assertEquals("Iiro", publishedInterpreter1.firstName());
-    assertEquals("Rajala", publishedInterpreter1.lastName());
+    assertEquals("Hannonen", publishedInterpreter1.lastName());
     assertNull(publishedInterpreter1.email());
     assertEquals("+3581234567", publishedInterpreter1.phoneNumber());
     assertEquals(interpreter1.getOtherContactInformation(), publishedInterpreter1.otherContactInfo());
@@ -178,13 +196,50 @@ class PublicInterpreterServiceTest {
     assertLanguagePairDTO(qualification21, publishedInterpreter2.languages().get(0));
   }
 
+  @Test
+  public void listReturnsInterpretersInRandomOrder() {
+    final LocalDate today = LocalDate.now();
+    final LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+    final Interpreter interpreter1 = createInterpreter("1");
+    final Interpreter interpreter2 = createInterpreter("2");
+    final Interpreter interpreter3 = createInterpreter("3");
+
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    createQualification(interpreter1, meetingDate, "FI", "EN", today, tomorrow, true);
+    createQualification(interpreter2, meetingDate, "FI", "EN", today, tomorrow, true);
+    createQualification(interpreter3, meetingDate, "FI", "EN", today, tomorrow, true);
+
+    final Supplier<List<Long>> fetchInterpretersAndCollectIds = () ->
+      publicInterpreterService.list().stream().map(InterpreterDTO::id).toList();
+
+    final Supplier<Boolean> runTest = () -> {
+      final List<Long> ids1 = fetchInterpretersAndCollectIds.get();
+      final List<Long> ids2 = fetchInterpretersAndCollectIds.get();
+      final boolean hasSameIds = Objects.equals(Set.copyOf(ids1), Set.copyOf(ids2));
+      final boolean idsInSameOrder = Objects.equals(ids1, ids2);
+      return hasSameIds && !idsInSameOrder;
+    };
+    boolean testRunOk = false;
+    for (int i = 0; i < 10; i++) {
+      testRunOk = runTest.get();
+      if (testRunOk) {
+        break;
+      }
+    }
+    assertTrue(testRunOk);
+  }
+
   private void assertLanguagePairDTO(final Qualification qualification, final LanguagePairDTO languagePairDTO) {
     assertEquals(qualification.getFromLang(), languagePairDTO.from());
     assertEquals(qualification.getToLang(), languagePairDTO.to());
   }
 
-  private Interpreter createInterpreter() {
+  private Interpreter createInterpreter(final String onrId) {
     final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId(onrId);
     entityManager.persist(interpreter);
     return interpreter;
   }
