@@ -1,3 +1,5 @@
+@use '../../styles/abstracts/variables';
+
 .init-spinner {
   align-items: center;
   display: flex;
@@ -21,7 +23,7 @@
 
     &__dot::before {
       animation: init-spinner-dot-before 2s infinite ease-in-out both;
-      background-color: $color-secondary;
+      background-color: variables.$color-secondary;
       border-radius: 100%;
       content: '';
       display: block;

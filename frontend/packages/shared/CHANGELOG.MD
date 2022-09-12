@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.2] - 2022-09-12
+
+### Fixed
+
+- Styling of init spinner
+
 ## [1.3.1] - 2022-09-06
 
 ### Changed
