@@ -7,6 +7,7 @@ import lombok.NonNull;
 public record PersonDTO(
   @NonNull String onrId,
   @NonNull Boolean isIndividualised,
+  @NonNull Boolean hasIndividualisedAddress,
   @NonNull String identityNumber,
   @NonNull String lastName,
   @NonNull String firstName,

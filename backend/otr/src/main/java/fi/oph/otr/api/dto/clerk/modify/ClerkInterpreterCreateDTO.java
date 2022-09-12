@@ -13,6 +13,7 @@ import lombok.NonNull;
 public record ClerkInterpreterCreateDTO(
   String onrId,
   Boolean isIndividualised,
+  Boolean hasIndividualisedAddress,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
   @NonNull @NotBlank String firstName,

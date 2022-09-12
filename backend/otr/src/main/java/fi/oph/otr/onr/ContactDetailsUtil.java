@@ -46,6 +46,26 @@ public class ContactDetailsUtil {
     Stream.concat(CIVIL_REGISTRY_ORDERING.stream(), Stream.of(OTR_OSOITE)).toList()
   );
 
+  /**
+   * Returns true if the source of `groups` is VTJ, and the `groups` contains at least one contact details field
+   * which represents an address.
+   */
+  public static boolean containsCivilRegistryAddressField(final List<ContactDetailsGroupDTO> groups) {
+    final Set<ContactDetailsType> addressTypes = Set.of(
+      ContactDetailsType.STREET,
+      ContactDetailsType.POSTAL_CODE,
+      ContactDetailsType.TOWN,
+      ContactDetailsType.COUNTRY
+    );
+
+    return groups
+      .stream()
+      .filter(group -> group.getSource() == ContactDetailsGroupSource.VTJ)
+      .flatMap(group -> group.contactDetailsSet.stream())
+      .map(ContactDetailsDTO::getType)
+      .anyMatch(addressTypes::contains);
+  }
+
   public static String getPrimaryEmail(final List<ContactDetailsGroupDTO> groups) {
     return getPrimaryValue(groups, ContactDetailsType.EMAIL, OTR_FIRST);
   }
@@ -102,7 +122,7 @@ public class ContactDetailsUtil {
         createContactDetailsDTO(ContactDetailsType.TOWN, personalData.getTown()),
         createContactDetailsDTO(ContactDetailsType.COUNTRY, personalData.getCountry())
       )
-      .filter(dto -> !personalData.getIndividualised() || otrContactDetailsTypes.contains(dto.getType()))
+      .filter(dto -> !personalData.getHasIndividualisedAddress() || otrContactDetailsTypes.contains(dto.getType()))
       .collect(Collectors.toSet());
 
     final ContactDetailsGroupDTO contactDetailsGroupDTO = new ContactDetailsGroupDTO();

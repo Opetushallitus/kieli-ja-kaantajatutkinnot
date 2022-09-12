@@ -3,12 +3,11 @@ import { onClerkInterpreterOverviewPage } from 'tests/cypress/support/page-objec
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onQualificationDetails } from 'tests/cypress/support/page-objects/qualificationDetails';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
-
-const INTERPRETER_ID = 11;
+import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 
 describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   beforeEach(() => {
-    onClerkInterpreterOverviewPage.navigateById(INTERPRETER_ID);
+    onClerkInterpreterOverviewPage.navigateById(clerkInterpreter.id);
   });
 
   it('should open edit mode when the edit button is clicked', () => {

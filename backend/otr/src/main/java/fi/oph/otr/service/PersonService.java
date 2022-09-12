@@ -26,6 +26,7 @@ public class PersonService {
           .builder()
           .onrId(personalData.getOnrId())
           .isIndividualised(personalData.getIndividualised())
+          .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
           .identityNumber(personalData.getIdentityNumber())
           .lastName(personalData.getLastName())
           .firstName(personalData.getFirstName())

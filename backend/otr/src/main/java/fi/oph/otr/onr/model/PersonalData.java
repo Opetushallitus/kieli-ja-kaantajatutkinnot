@@ -16,6 +16,9 @@ public class PersonalData {
   // Always returned from ONR
   private Boolean individualised;
 
+  // Always exists for data returned from ONR
+  private Boolean hasIndividualisedAddress;
+
   @NonNull
   private String lastName;
 
@@ -40,20 +43,28 @@ public class PersonalData {
 
   private String country;
 
-  public boolean isOnrIdAndIndividualisedConsistent() {
-    return isOnrIdAndIndividualisedConsistentOnNewData() || isOnrIdAndIndividualisedConsistentOnExistingData();
+  public boolean isOnrIdAndIndividualisedInformationConsistent() {
+    return (
+      isOnrIdAndIndividualisedInformationConsistentOnNewData() ||
+      isOnrIdAndIndividualisedInformationConsistentOnExistingData()
+    );
   }
 
-  private boolean isOnrIdAndIndividualisedConsistentOnNewData() {
-    return this.onrId == null && this.individualised == null;
+  private boolean isOnrIdAndIndividualisedInformationConsistentOnNewData() {
+    return this.onrId == null && this.individualised == null && this.hasIndividualisedAddress == null;
   }
 
-  private boolean isOnrIdAndIndividualisedConsistentOnExistingData() {
-    return this.onrId != null && this.individualised != null;
+  private boolean isOnrIdAndIndividualisedInformationConsistentOnExistingData() {
+    return (
+      this.onrId != null &&
+      this.individualised != null &&
+      this.hasIndividualisedAddress != null &&
+      (this.individualised || !this.hasIndividualisedAddress)
+    );
   }
 
   public void assertOnrUpdatePossible() {
-    if (!isOnrIdAndIndividualisedConsistentOnExistingData()) {
+    if (!isOnrIdAndIndividualisedInformationConsistentOnExistingData()) {
       throw new IllegalArgumentException("Invalid personal data on update");
     }
   }

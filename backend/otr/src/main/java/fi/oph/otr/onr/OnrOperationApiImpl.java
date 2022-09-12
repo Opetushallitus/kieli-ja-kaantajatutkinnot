@@ -78,18 +78,21 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   }
 
   /**
-   * Creates PersonalData based on `personalDataDTO`.
-   * If `personalDataDTO` has null identityNumber, or its `contactDetailsGroups` contains no suitable group with
-   * email contact details, building PersonalData will fail to @NonNull constraint. This shouldn't take place in
-   * production but may occur with improper ONR test data.
+   * Creates PersonalData based on `personalDataDTO` fetched from ONR. ONR data is expected to contain
+   * `onrId`, `isIndividualised` information and `identityNumber` for any retrieved data.
    */
   private PersonalData createPersonalData(final PersonalDataDTO personalDataDTO) {
+    assert personalDataDTO.getOnrId() != null;
+    assert personalDataDTO.getIndividualised() != null;
+
     final List<ContactDetailsGroupDTO> groups = personalDataDTO.getContactDetailsGroups();
+    final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(groups);
 
     return PersonalData
       .builder()
       .onrId(personalDataDTO.getOnrId())
       .individualised(personalDataDTO.getIndividualised())
+      .hasIndividualisedAddress(hasIndividualisedAddress)
       .lastName(personalDataDTO.getLastName())
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
@@ -140,6 +143,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   }
 
   static PersonalDataDTO createPersonalDataDTO(final PersonalData personalData) {
+    assert personalData.getIndividualised() != null;
+    assert personalData.getHasIndividualisedAddress() != null;
+
     final List<ContactDetailsGroupDTO> contactDetailsGroups = List.of(
       ContactDetailsUtil.createOtrContactDetailsGroup(personalData)
     );

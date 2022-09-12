@@ -193,7 +193,8 @@ const ClerkInterpreterDetailsRegions = ({
 
 export const ClerkInterpreterDetailsFields = ({
   interpreterBasicInformation,
-  isIndividualisedInterpreter,
+  isPersonalInformationIndividualised,
+  isAddressIndividualised,
   areaOfOperation,
   setAreaOfOperation,
   onFieldChange,
@@ -202,7 +203,8 @@ export const ClerkInterpreterDetailsFields = ({
   displayFieldErrorBeforeChange,
 }: {
   interpreterBasicInformation: ClerkInterpreterBasicInformation | undefined;
-  isIndividualisedInterpreter?: boolean;
+  isPersonalInformationIndividualised?: boolean;
+  isAddressIndividualised?: boolean;
   onFieldChange: (
     field: keyof ClerkInterpreterBasicInformation
   ) => (
@@ -236,17 +238,30 @@ export const ClerkInterpreterDetailsFields = ({
     };
 
   const isIndividualisedValue = (field: ClerkInterpreterTextFieldEnum) => {
-    if (field === ClerkInterpreterTextFieldEnum.IdentityNumber) {
-      return true;
-    }
+    const isIdentityNumberField =
+      field === ClerkInterpreterTextFieldEnum.IdentityNumber;
 
-    return (
-      isIndividualisedInterpreter &&
+    const isIndividualisedPersonalInformationField =
+      isPersonalInformationIndividualised &&
       [
         ClerkInterpreterTextFieldEnum.LastName,
         ClerkInterpreterTextFieldEnum.FirstName,
         ClerkInterpreterTextFieldEnum.NickName,
-      ].includes(field)
+      ].includes(field);
+
+    const isIndividualisedAddressField =
+      isAddressIndividualised &&
+      [
+        ClerkInterpreterTextFieldEnum.Street,
+        ClerkInterpreterTextFieldEnum.PostalCode,
+        ClerkInterpreterTextFieldEnum.Town,
+        ClerkInterpreterTextFieldEnum.Country,
+      ].includes(field);
+
+    return (
+      isIdentityNumberField ||
+      isIndividualisedPersonalInformationField ||
+      isIndividualisedAddressField
     );
   };
 

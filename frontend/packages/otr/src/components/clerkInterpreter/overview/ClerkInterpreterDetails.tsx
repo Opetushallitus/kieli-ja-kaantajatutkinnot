@@ -174,7 +174,8 @@ export const ClerkInterpreterDetails = () => {
   return (
     <ClerkInterpreterDetailsFields
       interpreterBasicInformation={interpreterDetails}
-      isIndividualisedInterpreter={interpreter?.isIndividualised}
+      isPersonalInformationIndividualised={interpreter?.isIndividualised}
+      isAddressIndividualised={interpreter?.hasIndividualisedAddress}
       areaOfOperation={areaOfOperation}
       setAreaOfOperation={setAreaOfOperation}
       onFieldChange={(field) => handleDetailsChange(field)}

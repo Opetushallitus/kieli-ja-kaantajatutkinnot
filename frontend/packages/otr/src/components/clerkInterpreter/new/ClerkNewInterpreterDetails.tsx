@@ -9,11 +9,9 @@ import { RegionUtils } from 'utils/region';
 
 export const ClerkNewInterpreterDetails = ({
   interpreter,
-  isIndividualisedInterpreter,
   onDetailsChange,
 }: {
   interpreter: ClerkNewInterpreter;
-  isIndividualisedInterpreter?: boolean;
   onDetailsChange: () => void;
 }) => {
   // Local state
@@ -63,7 +61,8 @@ export const ClerkNewInterpreterDetails = ({
   return (
     <ClerkInterpreterDetailsFields
       interpreterBasicInformation={interpreter}
-      isIndividualisedInterpreter={isIndividualisedInterpreter}
+      isPersonalInformationIndividualised={interpreter.isIndividualised}
+      isAddressIndividualised={interpreter.hasIndividualisedAddress}
       areaOfOperation={areaOfOperation}
       setAreaOfOperation={setAreaOfOperation}
       onFieldChange={(field) => handleDetailsChange(field)}

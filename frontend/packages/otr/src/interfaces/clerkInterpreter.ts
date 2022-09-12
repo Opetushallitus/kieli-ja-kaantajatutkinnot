@@ -34,6 +34,7 @@ export interface ClerkInterpreter
     ClerkInterpreterBasicInformation {
   deleted: boolean;
   isIndividualised: boolean;
+  hasIndividualisedAddress: boolean;
   qualifications: Array<Qualification>;
 }
 

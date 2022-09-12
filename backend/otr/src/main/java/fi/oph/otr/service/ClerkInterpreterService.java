@@ -125,6 +125,7 @@ public class ClerkInterpreterService {
       .version(interpreter.getVersion())
       .deleted(interpreter.isDeleted())
       .isIndividualised(personalData.getIndividualised())
+      .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
       .identityNumber(personalData.getIdentityNumber())
       .lastName(personalData.getLastName())
       .firstName(personalData.getFirstName())
@@ -232,6 +233,7 @@ public class ClerkInterpreterService {
       .builder()
       .onrId(onrId)
       .individualised(dto.isIndividualised())
+      .hasIndividualisedAddress(dto.hasIndividualisedAddress())
       .lastName(dto.lastName())
       .firstName(dto.firstName())
       .nickName(dto.nickName())
@@ -252,7 +254,7 @@ public class ClerkInterpreterService {
       throw new APIException(APIExceptionType.INTERPRETER_INVALID_NICK_NAME);
     }
 
-    if (!personalData.isOnrIdAndIndividualisedConsistent()) {
+    if (!personalData.isOnrIdAndIndividualisedInformationConsistent()) {
       throw new APIException(APIExceptionType.INTERPRETER_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
     }
   }

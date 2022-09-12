@@ -3,6 +3,7 @@ import { ClerkPerson } from 'interfaces/clerkPerson';
 export const person1: ClerkPerson = {
   onrId: '123',
   isIndividualised: true,
+  hasIndividualisedAddress: false,
   identityNumber: '170378-966N',
   lastName: 'Mannonen',
   firstName: 'Anna Maria',
@@ -12,6 +13,7 @@ export const person1: ClerkPerson = {
 export const person2: ClerkPerson = {
   onrId: '234',
   isIndividualised: true,
+  hasIndividualisedAddress: true,
   identityNumber: '090687-913J',
   lastName: 'Lehtinen',
   firstName: 'Matti Tauno',

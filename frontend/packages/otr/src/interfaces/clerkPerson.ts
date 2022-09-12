@@ -1,6 +1,7 @@
 export interface ClerkPerson {
   onrId: string;
   isIndividualised: boolean;
+  hasIndividualisedAddress: boolean;
   identityNumber: string;
   lastName: string;
   firstName: string;
