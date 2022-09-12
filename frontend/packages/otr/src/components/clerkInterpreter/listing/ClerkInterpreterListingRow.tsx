@@ -20,7 +20,7 @@ export const ClerkInterpreterListingRow = ({
 }: {
   interpreter: ClerkInterpreter;
 }) => {
-  const { firstName, lastName, qualifications, regions } = interpreter;
+  const { lastName, nickName, qualifications, regions } = interpreter;
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
@@ -41,7 +41,7 @@ export const ClerkInterpreterListingRow = ({
   return (
     <TableRow className="cursor-pointer" onClick={handleRowClick}>
       <TableCell>
-        <Text>{`${firstName} ${lastName}`}</Text>
+        <Text>{`${lastName} ${nickName}`}</Text>
       </TableCell>
       <TableCell>
         {qualifications.map(({ fromLang, toLang }, k) => (
