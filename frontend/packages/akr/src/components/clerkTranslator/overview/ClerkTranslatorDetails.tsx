@@ -25,7 +25,7 @@ import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslator
 export const ClerkTranslatorDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { selectedTranslator, translatorDetailsStatus } = useAppSelector(
+  const { translator, translatorDetailsStatus } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
 
@@ -33,14 +33,13 @@ export const ClerkTranslatorDetails = () => {
   const { showDialog } = useDialog();
 
   // Local State
-  const [translatorDetails, setTranslatorDetails] =
-    useState(selectedTranslator);
+  const [translatorDetails, setTranslatorDetails] = useState(translator);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode !== UIMode.EditTranslatorDetails;
   const resetLocalTranslatorDetails = useCallback(() => {
-    setTranslatorDetails(selectedTranslator);
-  }, [selectedTranslator]);
+    setTranslatorDetails(translator);
+  }, [translator]);
 
   // I18n
   const { t } = useAppTranslation({

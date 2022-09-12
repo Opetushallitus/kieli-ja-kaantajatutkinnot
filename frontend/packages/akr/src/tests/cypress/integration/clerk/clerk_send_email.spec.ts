@@ -10,7 +10,7 @@ import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { runWithIntercept } from 'tests/cypress/support/utils/api';
 
-const selectedTranslatorIds = ['3', '4', '5'];
+const selectedTranslatorIds = ['1140', '3496', '2318'];
 
 const expectRegistryIsVisible = () => {
   onClerkHomePage.expectTotalTranslatorsCount(10);

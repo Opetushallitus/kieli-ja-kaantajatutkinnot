@@ -12,16 +12,22 @@ export const newTranslatorResponse = {
   country: 'FIN',
   extraInformation: 'Lisätiedot',
   isAssuranceGiven: true,
-  authorisations: [
-    {
-      id: 13428,
-      version: 0,
-      languagePair: { from: 'FI', to: 'SV' },
-      basis: 'KKT',
-      termBeginDate: '2022-01-01',
-      termEndDate: '2027-01-01',
-      permissionToPublish: true,
-      diaryNumber: '1337',
-    },
-  ],
+  authorisations: {
+    effective: [
+      {
+        id: 13428,
+        version: 0,
+        languagePair: { from: 'FI', to: 'SV' },
+        basis: 'KKT',
+        termBeginDate: '2022-01-01',
+        termEndDate: '2027-01-01',
+        permissionToPublish: true,
+        diaryNumber: '1337',
+      },
+    ],
+    expiring: [],
+    expired: [],
+    expiredDeduplicated: [],
+    formerVir: [],
+  },
 };

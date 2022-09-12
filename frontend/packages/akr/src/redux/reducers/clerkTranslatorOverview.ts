@@ -6,13 +6,13 @@ import { ClerkTranslator } from 'interfaces/clerkTranslator';
 interface ClerkTranslatorOverviewState {
   overviewStatus: APIResponseStatus;
   translatorDetailsStatus: APIResponseStatus;
-  selectedTranslator?: ClerkTranslator;
+  translator?: ClerkTranslator;
 }
 
 const initialState: ClerkTranslatorOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   translatorDetailsStatus: APIResponseStatus.NotStarted,
-  selectedTranslator: undefined,
+  translator: undefined,
 };
 
 const clerkTranslatorOverviewSlice = createSlice({
@@ -39,17 +39,20 @@ const clerkTranslatorOverviewSlice = createSlice({
     },
     setClerkTranslatorOverview(state, action: PayloadAction<ClerkTranslator>) {
       state.overviewStatus = APIResponseStatus.NotStarted;
-      state.selectedTranslator = action.payload;
+      state.translator = action.payload;
     },
-    setSelectedTranslator(state, action: PayloadAction<ClerkTranslator>) {
-      state.selectedTranslator = action.payload;
+    setClerkTranslatorOverviewTranslator(
+      state,
+      action: PayloadAction<ClerkTranslator>
+    ) {
+      state.translator = action.payload;
     },
     storeClerkTranslatorOverview(
       state,
       action: PayloadAction<ClerkTranslator>
     ) {
       state.overviewStatus = APIResponseStatus.Success;
-      state.selectedTranslator = action.payload;
+      state.translator = action.payload;
     },
     updateClerkTranslatorDetails(
       state,
@@ -63,7 +66,7 @@ const clerkTranslatorOverviewSlice = createSlice({
     ) {
       state.overviewStatus = APIResponseStatus.Success;
       state.translatorDetailsStatus = APIResponseStatus.Success;
-      state.selectedTranslator = action.payload;
+      state.translator = action.payload;
     },
   },
 });
@@ -78,7 +81,7 @@ export const {
   resetClerkTranslatorDetailsUpdate,
   resetClerkTranslatorOverview,
   setClerkTranslatorOverview,
-  setSelectedTranslator,
+  setClerkTranslatorOverviewTranslator,
   storeClerkTranslatorOverview,
   updateClerkTranslatorDetails,
   updatingClerkTranslatorDetailsSucceeded,

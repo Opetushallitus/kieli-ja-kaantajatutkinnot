@@ -10,7 +10,6 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
-import dayjs from 'dayjs';
 import {
   CustomIconButton,
   CustomSwitch,
@@ -29,7 +28,6 @@ import { useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { authorisationSelector } from 'redux/selectors/authorisation';
-import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationListing = ({
   authorisations,
@@ -57,8 +55,6 @@ export const AuthorisationListing = ({
     updatePublishPermissionStatus,
   ].includes(APIResponseStatus.InProgress);
 
-  const currentDate = dayjs();
-
   const defaultClassName = 'clerk-translator-details__authorisations-table';
   const combinedClassNames = isLoading
     ? `${defaultClassName} dimmed`
@@ -77,7 +73,6 @@ export const AuthorisationListing = ({
             <TableCell>{t('fields.basis')}</TableCell>
             <TableCell>{t('fields.startDate')}</TableCell>
             <TableCell>{t('fields.endDate')}</TableCell>
-            <TableCell>{t('fields.isEffective')}</TableCell>
             <TableCell>{t('fields.permissionToPublish')}</TableCell>
             <TableCell>{t('fields.diaryNumber')}</TableCell>
             <TableCell>{translateCommon('delete')}</TableCell>
@@ -120,13 +115,6 @@ export const AuthorisationListing = ({
               </TableCell>
               <TableCell>
                 <Text>{DateUtils.formatOptionalDate(a.termEndDate)}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>
-                  {AuthorisationUtils.isAuthorisationEffective(a, currentDate)
-                    ? translateCommon('yes')
-                    : translateCommon('no')}
-                </Text>
               </TableCell>
               <TableCell>
                 {permissionToPublishReadOnly ? (

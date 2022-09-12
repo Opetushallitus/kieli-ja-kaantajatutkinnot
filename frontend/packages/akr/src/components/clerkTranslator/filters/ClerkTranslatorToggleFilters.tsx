@@ -7,21 +7,15 @@ import {
   addClerkTranslatorFilter,
   deselectAllClerkTranslators,
 } from 'redux/reducers/clerkTranslator';
-import {
-  clerkTranslatorsSelector,
-  selectTranslatorsByAuthorisationStatus,
-} from 'redux/selectors/clerkTranslator';
+import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
 export const ClerkTranslatorToggleFilters = () => {
-  const { authorised, expiring, expired, formerVIR } = useAppSelector(
-    selectTranslatorsByAuthorisationStatus
-  );
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorFilters.authorisationStatus',
   });
 
+  const { translators, filters } = useAppSelector(clerkTranslatorsSelector);
   const dispatch = useAppDispatch();
-  const { filters } = useAppSelector(clerkTranslatorsSelector);
 
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
     if (filters.authorisationStatus != status) {
@@ -30,30 +24,43 @@ export const ClerkTranslatorToggleFilters = () => {
     }
   };
 
+  const effectiveCount = translators.filter(
+    (t) => t.authorisations.effective.length > 0
+  ).length;
+  const expiringCount = translators.filter(
+    (t) => t.authorisations.expiring.length > 0
+  ).length;
+  const expiredDeduplicatedCount = translators.filter(
+    (t) => t.authorisations.expiredDeduplicated.length > 0
+  ).length;
+  const formerVirCount = translators.filter(
+    (t) => t.authorisations.formerVir.length > 0
+  ).length;
+
   const filterData = [
     {
-      status: AuthorisationStatus.Authorised,
-      count: authorised.length,
-      testId: `clerk-translator-filters__btn--${AuthorisationStatus.Authorised}`,
-      label: t(AuthorisationStatus.Authorised),
+      status: AuthorisationStatus.Effective,
+      count: effectiveCount,
+      testId: `clerk-translator-filters__btn--${AuthorisationStatus.Effective}`,
+      label: t(AuthorisationStatus.Effective),
     },
     {
       status: AuthorisationStatus.Expiring,
-      count: expiring.length,
+      count: expiringCount,
       testId: `clerk-translator-filters__btn--${AuthorisationStatus.Expiring}`,
       label: t(AuthorisationStatus.Expiring),
     },
     {
-      status: AuthorisationStatus.Expired,
-      count: expired.length,
-      testId: `clerk-translator-filters__btn--${AuthorisationStatus.Expired}`,
-      label: t(AuthorisationStatus.Expired),
+      status: AuthorisationStatus.ExpiredDeduplicated,
+      count: expiredDeduplicatedCount,
+      testId: `clerk-translator-filters__btn--${AuthorisationStatus.ExpiredDeduplicated}`,
+      label: t(AuthorisationStatus.ExpiredDeduplicated),
     },
     {
-      status: AuthorisationStatus.FormerVIR,
-      count: formerVIR.length,
-      testId: `clerk-translator-filters__btn--${AuthorisationStatus.FormerVIR}`,
-      label: t(AuthorisationStatus.FormerVIR),
+      status: AuthorisationStatus.FormerVir,
+      count: formerVirCount,
+      testId: `clerk-translator-filters__btn--${AuthorisationStatus.FormerVir}`,
+      label: t(AuthorisationStatus.FormerVir),
     },
   ];
 

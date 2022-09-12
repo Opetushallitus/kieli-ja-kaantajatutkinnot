@@ -85,509 +85,1314 @@
   ],
   "langs": {
     "from": [
-      "CA",
-      "CS",
-      "DA",
+      "BN",
       "DE",
       "EL",
-      "EN",
-      "ET",
       "FI",
       "FJ",
       "FO",
       "FR",
+      "GA",
+      "HU",
+      "JA",
+      "RU",
       "SEIN",
       "SEKO",
-      "SEPO"
+      "SV",
+      "TT",
+      "TY",
+      "UG",
+      "VI"
     ],
     "to": [
-      "CA",
-      "CS",
-      "DA",
+      "BN",
       "DE",
       "EL",
       "EN",
-      "ET",
       "FI",
       "FJ",
       "FO",
       "FR",
+      "GA",
+      "HR",
+      "HU",
+      "JA",
+      "RU",
       "SEIN",
       "SEKO",
-      "SEPO"
+      "SV",
+      "TT",
+      "TY",
+      "UG",
+      "VI"
     ]
   },
   "translators": [
     {
-      "id": 1,
+      "id": 1140,
       "version": 0,
-      "firstName": "Eero",
-      "lastName": "Alanen",
-      "identityNumber": "id1",
-      "email": "translator1@example.invalid",
-      "phoneNumber": "+358401000001",
-      "street": "Runebergintie 2",
-      "postalCode": "01200",
+      "firstName": "Anna",
+      "lastName": "Aaltonen",
+      "identityNumber": "id1140",
+      "email": "translator1140@example.invalid",
+      "street": "Malminkatu 1",
       "town": "Turku",
       "country": "FIN",
-      "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 1,
-          "version": 0,
-          "languagePair": {
-            "from": "SEIN",
-            "to": "CA"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2022-01-01",
-          "termEndDate": "2022-07-01",
-          "permissionToPublish": true,
-          "diaryNumber": "1",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 7265,
-          "version": 0,
-          "languagePair": {
-            "from": "CA",
-            "to": "SEIN"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7265",
-          "examinationDate": "2022-03-07"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "version": 0,
-      "firstName": "Ilkka",
-      "lastName": "Eskola",
-      "identityNumber": "id2",
-      "email": "translator2@example.invalid",
-      "phoneNumber": "+358401000002",
-      "street": "Sibeliuksenkuja 3",
-      "postalCode": "06100",
-      "town": "Hämeenlinna",
-      "country": "FIN",
-      "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 10000,
-          "version": 0,
-          "languagePair": {
-            "from": "SEKO",
-            "to": "CS"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-03-09",
-          "termEndDate": "2021-09-09",
-          "permissionToPublish": true,
-          "diaryNumber": "10000",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 10001,
-          "version": 0,
-          "languagePair": {
-            "from": "CS",
-            "to": "SEKO"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2022-01-01",
-          "termEndDate": "2022-07-01",
-          "permissionToPublish": true,
-          "diaryNumber": "10001",
-          "examinationDate": "2022-03-03"
-        },
-        {
-          "id": 10002,
-          "version": 0,
-          "languagePair": {
-            "from": "SEKO",
-            "to": "CS"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2020-01-01",
-          "termEndDate": "2022-01-01",
-          "permissionToPublish": true,
-          "diaryNumber": "10002",
-          "examinationDate": "2020-01-01"
-        },
-        {
-          "id": 10003,
-          "version": 0,
-          "languagePair": {
-            "from": "SEKO",
-            "to": "CS"
-          },
-          "basis": "VIR",
-          "permissionToPublish": true,
-          "diaryNumber": "10003"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "version": 0,
-      "firstName": "Jari",
-      "lastName": "Hakala",
-      "identityNumber": "id3",
-      "email": "translator3@example.invalid",
-      "phoneNumber": "+358401000003",
-      "street": "Veturitie 4",
-      "postalCode": "13500",
-      "town": "Kuopio",
-      "country": "FIN",
-      "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 7267,
-          "version": 0,
-          "languagePair": {
-            "from": "DA",
-            "to": "SEPO"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7267",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 3,
-          "version": 0,
-          "languagePair": {
-            "from": "SEPO",
-            "to": "DA"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-06-10",
-          "termEndDate": "2021-12-10",
-          "permissionToPublish": true,
-          "diaryNumber": "3",
-          "examinationDate": "2022-03-07"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "version": 0,
-      "firstName": "Juha",
-      "lastName": "Heikkinen",
-      "identityNumber": "id4",
-      "email": "translator4@example.invalid",
-      "phoneNumber": "+358401000004",
-      "street": "Pirkkolantie 123",
-      "postalCode": "31600",
-      "town": "Lahti",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 7268,
-          "version": 0,
-          "languagePair": {
-            "from": "DE",
-            "to": "FI"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2022-01-01",
-          "termEndDate": "2022-07-01",
-          "permissionToPublish": true,
-          "diaryNumber": "7268",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 4,
-          "version": 0,
-          "languagePair": {
-            "from": "FI",
-            "to": "DE"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-03-09",
-          "termEndDate": "2021-09-09",
-          "permissionToPublish": true,
-          "diaryNumber": "4",
-          "examinationDate": "2022-03-07"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "version": 0,
-      "firstName": "Matti",
-      "lastName": "Heinonen",
-      "identityNumber": "id5",
-      "email": "translator5@example.invalid",
-      "phoneNumber": "+358401000005",
-      "street": "Malminkatu 1",
-      "postalCode": "48600",
-      "town": "Porvoo",
-      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 5,
-          "version": 0,
-          "languagePair": {
-            "from": "SEIN",
-            "to": "EL"
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 6204,
+            "version": 0,
+            "languagePair": {
+              "from": "SEIN",
+              "to": "TT"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "6204",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-11-18",
-          "termEndDate": "2022-05-18",
-          "permissionToPublish": true,
-          "diaryNumber": "5",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 7269,
-          "version": 0,
-          "languagePair": {
-            "from": "EL",
-            "to": "SEIN"
+          {
+            "id": 12298,
+            "version": 0,
+            "languagePair": {
+              "from": "SV",
+              "to": "FI"
+            },
+            "basis": "KKT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "12298"
+          }
+        ],
+        "expiring": [
+          {
+            "id": 6204,
+            "version": 0,
+            "languagePair": {
+              "from": "SEIN",
+              "to": "TT"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "6204",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-06-10",
-          "termEndDate": "2021-12-10",
-          "permissionToPublish": true,
-          "diaryNumber": "7269",
-          "examinationDate": "2022-03-07"
-        }
-      ]
+          {
+            "id": 12298,
+            "version": 0,
+            "languagePair": {
+              "from": "SV",
+              "to": "FI"
+            },
+            "basis": "KKT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "12298"
+          }
+        ],
+        "expired": [
+          {
+            "id": 12507,
+            "version": 0,
+            "languagePair": {
+              "from": "TT",
+              "to": "SEIN"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "12507",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 11998,
+            "version": 0,
+            "languagePair": {
+              "from": "JA",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-11-18",
+            "termEndDate": "2022-05-18",
+            "permissionToPublish": true,
+            "diaryNumber": "11998",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 1140,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "HR"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "1140",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 5352,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "JA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "5352",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 5950,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "SV"
+            },
+            "basis": "KKT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "5950"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 12507,
+            "version": 0,
+            "languagePair": {
+              "from": "TT",
+              "to": "SEIN"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "12507",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 11998,
+            "version": 0,
+            "languagePair": {
+              "from": "JA",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-11-18",
+            "termEndDate": "2022-05-18",
+            "permissionToPublish": true,
+            "diaryNumber": "11998",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 1140,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "HR"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "1140",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 5352,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "JA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "5352",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 5950,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "SV"
+            },
+            "basis": "KKT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "5950"
+          }
+        ],
+        "formerVir": []
+      }
     },
     {
-      "id": 6,
+      "id": 3496,
       "version": 0,
-      "firstName": "Pekka",
-      "lastName": "Hiltunen",
-      "identityNumber": "id6",
-      "email": "translator6@example.invalid",
-      "phoneNumber": "+358401000006",
+      "firstName": "Anna",
+      "lastName": "Aaltonen",
+      "identityNumber": "id3496",
+      "email": "translator3496@example.invalid",
+      "phoneNumber": "+358401003496",
       "street": "Runebergintie 2",
-      "postalCode": "54460",
-      "town": "Vantaa",
+      "postalCode": "13500",
+      "town": "Rovaniemi",
       "country": "FIN",
       "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 7270,
-          "version": 0,
-          "languagePair": {
-            "from": "EN",
-            "to": "SEKO"
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 3496,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "BN"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "3496",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiring": [
+          {
+            "id": 3496,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "BN"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "3496",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expired": [
+          {
+            "id": 6999,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "FJ"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "6999",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7270",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 6,
-          "version": 0,
-          "languagePair": {
-            "from": "SEKO",
-            "to": "EN"
+          {
+            "id": 10362,
+            "version": 0,
+            "languagePair": {
+              "from": "BN",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "10362",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-03-09",
-          "termEndDate": "2021-09-09",
-          "permissionToPublish": true,
-          "diaryNumber": "6",
-          "examinationDate": "2022-03-07"
-        }
-      ]
+          {
+            "id": 12401,
+            "version": 0,
+            "languagePair": {
+              "from": "DE",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "12401",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 13174,
+            "version": 0,
+            "languagePair": {
+              "from": "FJ",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "13174",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6074,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "DE"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "6074",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 6999,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "FJ"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "6999",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 10362,
+            "version": 0,
+            "languagePair": {
+              "from": "BN",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "10362",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 12401,
+            "version": 0,
+            "languagePair": {
+              "from": "DE",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "12401",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 13174,
+            "version": 0,
+            "languagePair": {
+              "from": "FJ",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "13174",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6074,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "DE"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "6074",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
     },
     {
-      "id": 7,
+      "id": 4674,
       "version": 0,
-      "firstName": "Timo",
-      "lastName": "Hirvonen",
-      "identityNumber": "id7",
-      "email": "translator7@example.invalid",
-      "phoneNumber": "+358401000007",
-      "street": "3 Ajukneskuilebis",
-      "postalCode": "00100",
-      "town": "Ääpnevräj",
-      "country": "LVA",
-      "extraInformation": "Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 7,
-          "version": 0,
-          "languagePair": {
-            "from": "SEPO",
-            "to": "ET"
+      "firstName": "Anna",
+      "lastName": "Aaltonen",
+      "identityNumber": "id4674",
+      "email": "translator4674@example.invalid",
+      "phoneNumber": "+358401004674",
+      "street": "Pirkkolantie 123",
+      "postalCode": "48600",
+      "town": "Kotka",
+      "country": "FIN",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [],
+        "expiring": [],
+        "expired": [
+          {
+            "id": 4674,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "EL"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "4674",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-11-18",
-          "termEndDate": "2022-05-18",
-          "permissionToPublish": true,
-          "diaryNumber": "7",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 7271,
-          "version": 0,
-          "languagePair": {
-            "from": "ET",
-            "to": "SEPO"
+          {
+            "id": 11405,
+            "version": 0,
+            "languagePair": {
+              "from": "EL",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "11405",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7271",
-          "examinationDate": "2022-03-07"
-        }
-      ]
+          {
+            "id": 12454,
+            "version": 0,
+            "languagePair": {
+              "from": "FO",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12454",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6136,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "FO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "6136",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 4674,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "EL"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "4674",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 11405,
+            "version": 0,
+            "languagePair": {
+              "from": "EL",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "11405",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 12454,
+            "version": 0,
+            "languagePair": {
+              "from": "FO",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12454",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6136,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "FO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "6136",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
     },
     {
-      "id": 8,
+      "id": 2318,
       "version": 0,
-      "firstName": "Iiro",
-      "lastName": "Hämäläinen",
-      "identityNumber": "id8",
-      "email": "translator8@example.invalid",
-      "phoneNumber": "+358401000008",
+      "firstName": "Anna",
+      "lastName": "Aaltonen",
+      "identityNumber": "id2318",
+      "email": "translator2318@example.invalid",
+      "phoneNumber": "+358401002318",
       "street": "Veturitie 4",
       "postalCode": "01200",
-      "town": "Kouvola",
+      "town": "Vantaa",
       "country": "FIN",
       "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 8,
-          "version": 0,
-          "languagePair": {
-            "from": "FI",
-            "to": "FJ"
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 6012,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "VI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "6012",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiring": [
+          {
+            "id": 6012,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "VI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "6012",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expired": [
+          {
+            "id": 9316,
+            "version": 0,
+            "languagePair": {
+              "from": "TT",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "9316",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2022-01-01",
-          "termEndDate": "2022-07-01",
-          "permissionToPublish": true,
-          "diaryNumber": "8",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 7272,
-          "version": 0,
-          "languagePair": {
-            "from": "FJ",
-            "to": "FI"
+          {
+            "id": 12347,
+            "version": 0,
+            "languagePair": {
+              "from": "VI",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12347",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2022-01-01",
-          "termEndDate": "2022-07-01",
-          "permissionToPublish": true,
-          "diaryNumber": "7272",
-          "examinationDate": "2022-03-07"
-        }
-      ]
+          {
+            "id": 2318,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "TT"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "2318",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 9316,
+            "version": 0,
+            "languagePair": {
+              "from": "TT",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "9316",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 12347,
+            "version": 0,
+            "languagePair": {
+              "from": "VI",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12347",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 2318,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "TT"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "2318",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
     },
     {
-      "id": 9,
+      "id": 3116,
       "version": 0,
-      "firstName": "Jukka",
-      "lastName": "Kallio",
-      "identityNumber": "id9",
-      "email": "translator9@example.invalid",
-      "phoneNumber": "+358401000009",
+      "firstName": "Anneli",
+      "lastName": "Aaltonen",
+      "identityNumber": "id3116",
+      "email": "translator3116@example.invalid",
+      "phoneNumber": "+358401003116",
+      "street": "Runebergintie 2",
+      "postalCode": "01200",
+      "town": "Porvoo",
+      "country": "FIN",
+      "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 6054,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "JA"
+            },
+            "basis": "VIR",
+            "termBeginDate": "2022-01-01",
+            "permissionToPublish": true,
+            "diaryNumber": "6054"
+          },
+          {
+            "id": 12383,
+            "version": 0,
+            "languagePair": {
+              "from": "JA",
+              "to": "FI"
+            },
+            "basis": "VIR",
+            "termBeginDate": "2021-08-15",
+            "permissionToPublish": true,
+            "diaryNumber": "12383"
+          }
+        ],
+        "expiring": [],
+        "expired": [
+          {
+            "id": 3116,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "GA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "3116",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 10025,
+            "version": 0,
+            "languagePair": {
+              "from": "GA",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "10025",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 3116,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "GA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "3116",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 10025,
+            "version": 0,
+            "languagePair": {
+              "from": "GA",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "10025",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
+    },
+    {
+      "id": 1938,
+      "version": 0,
+      "firstName": "Anneli",
+      "lastName": "Aaltonen",
+      "identityNumber": "id1938",
+      "email": "translator1938@example.invalid",
+      "phoneNumber": "+358401001938",
+      "street": "Veturitie 4",
+      "postalCode": "54460",
+      "town": "Alta",
+      "country": "NOR",
+      "extraInformation": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Ut vehicula sem nulla eu placerat libero dapibus eget. Ut ac pretium velit ac hendrerit eros. Nullam in tortor in augue dignissim vehicula. Nulla ac cursus ligula. Nulla ut magna dapibus egestas tortor eget consequat augue. Pellentesque tempor sapien ut orci commodo et commodo mi condimentum. Aliquam lacinia commodo elit id bibendum quam condimentum suscipit. Phasellus nibh turpis laoreet non gravida sed gravida ac magna. Nulla ut lectus augue. Curabitur finibus laoreet ullamcorper. Nullam id dapibus ex et fermentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas varius lectus id felis mattis ac sodales purus posuere. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a pharetra massa.",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [],
+        "expiring": [],
+        "expired": [],
+        "expiredDeduplicated": [],
+        "formerVir": [
+          {
+            "id": 1938,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "EN"
+            },
+            "basis": "VIR",
+            "permissionToPublish": true,
+            "diaryNumber": "1938"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4294,
+      "version": 0,
+      "firstName": "Anneli",
+      "lastName": "Aaltonen",
+      "identityNumber": "id4294",
+      "email": "translator4294@example.invalid",
+      "phoneNumber": "+358401004294",
       "street": "Pirkkolantie 123",
-      "postalCode": "06100",
-      "town": "Tampere",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 7273,
-          "version": 0,
-          "languagePair": {
-            "from": "FO",
-            "to": "SEIN"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7273",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 9,
-          "version": 0,
-          "languagePair": {
-            "from": "SEIN",
-            "to": "FO"
-          },
-          "basis": "AUT",
-          "termBeginDate": "2020-12-30",
-          "termEndDate": "2021-06-30",
-          "permissionToPublish": true,
-          "diaryNumber": "9",
-          "examinationDate": "2022-03-07"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "version": 0,
-      "firstName": "Kalle",
-      "lastName": "Karjalainen",
-      "identityNumber": "id10",
-      "email": "translator10@example.invalid",
-      "phoneNumber": "+358401000010",
-      "street": "Malminkatu 1",
       "postalCode": "13500",
       "town": "Oulu",
       "country": "FIN",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [],
+        "expiring": [],
+        "expired": [
+          {
+            "id": 6116,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "UG"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "6116",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 11069,
+            "version": 0,
+            "languagePair": {
+              "from": "RU",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "11069",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 12436,
+            "version": 0,
+            "languagePair": {
+              "from": "UG",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12436",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 4294,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "RU"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "4294",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 6116,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "UG"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-08-15",
+            "termEndDate": "2022-02-15",
+            "permissionToPublish": true,
+            "diaryNumber": "6116",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 11069,
+            "version": 0,
+            "languagePair": {
+              "from": "RU",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "11069",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 12436,
+            "version": 0,
+            "languagePair": {
+              "from": "UG",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "12436",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 4294,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "RU"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "4294",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
+    },
+    {
+      "id": 760,
+      "version": 0,
+      "firstName": "Anneli",
+      "lastName": "Aaltonen",
+      "identityNumber": "id760",
+      "email": "translator760@example.invalid",
+      "phoneNumber": "+358401000760",
+      "street": "Malminkatu 1",
+      "postalCode": "31600",
+      "town": "Kajaani",
+      "country": "FIN",
       "extraInformation": "Osoitetiedot päivitetty 1.1.1970.",
-      "isAssuranceGiven": true,
-      "authorisations": [
-        {
-          "id": 10,
-          "version": 0,
-          "languagePair": {
-            "from": "SEKO",
-            "to": "FR"
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [],
+        "expiring": [],
+        "expired": [],
+        "expiredDeduplicated": [],
+        "formerVir": [
+          {
+            "id": 6185,
+            "version": 0,
+            "languagePair": {
+              "from": "SEIN",
+              "to": "EN"
+            },
+            "basis": "VIR",
+            "permissionToPublish": true,
+            "diaryNumber": "6185"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3534,
+      "version": 0,
+      "firstName": "Antti",
+      "lastName": "Aaltonen",
+      "identityNumber": "id3534",
+      "email": "translator3534@example.invalid",
+      "phoneNumber": "+358401003534",
+      "street": "Pirkkolantie 123",
+      "postalCode": "54460",
+      "town": "Kuopio",
+      "country": "FIN",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 3534,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "JA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "3534",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-11-18",
-          "termEndDate": "2022-05-18",
-          "permissionToPublish": true,
-          "diaryNumber": "10",
-          "examinationDate": "2022-03-07"
-        },
-        {
-          "id": 7274,
-          "version": 0,
-          "languagePair": {
-            "from": "FR",
-            "to": "SEKO"
+          {
+            "id": 10395,
+            "version": 0,
+            "languagePair": {
+              "from": "JA",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "10395",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiring": [
+          {
+            "id": 3534,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "JA"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "3534",
+            "examinationDate": "2020-10-04"
           },
-          "basis": "AUT",
-          "termBeginDate": "2021-08-15",
-          "termEndDate": "2022-02-15",
-          "permissionToPublish": true,
-          "diaryNumber": "7274",
-          "examinationDate": "2022-03-07"
-        }
-      ]
+          {
+            "id": 10395,
+            "version": 0,
+            "languagePair": {
+              "from": "JA",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "10395",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expired": [
+          {
+            "id": 12402,
+            "version": 0,
+            "languagePair": {
+              "from": "TY",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "12402",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6076,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "TY"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "6076",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 12402,
+            "version": 0,
+            "languagePair": {
+              "from": "TY",
+              "to": "SEKO"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "12402",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 6076,
+            "version": 0,
+            "languagePair": {
+              "from": "SEKO",
+              "to": "TY"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2020-12-30",
+            "termEndDate": "2021-06-30",
+            "permissionToPublish": true,
+            "diaryNumber": "6076",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
+    },
+    {
+      "id": 2356,
+      "version": 0,
+      "firstName": "Antti",
+      "lastName": "Aaltonen",
+      "identityNumber": "id2356",
+      "email": "translator2356@example.invalid",
+      "phoneNumber": "+358401002356",
+      "street": "Runebergintie 2",
+      "postalCode": "31600",
+      "town": "Oulu",
+      "country": "FIN",
+      "extraInformation": "Kääntäjän nimeä muutettu. Vanhassa nimessä oli typo.",
+      "isAssuranceGiven": false,
+      "authorisations": {
+        "effective": [
+          {
+            "id": 12349,
+            "version": 0,
+            "languagePair": {
+              "from": "HU",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "12349",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiring": [
+          {
+            "id": 12349,
+            "version": 0,
+            "languagePair": {
+              "from": "HU",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-05-14",
+            "termEndDate": "2022-11-14",
+            "permissionToPublish": true,
+            "diaryNumber": "12349",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expired": [
+          {
+            "id": 6014,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "HU"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "6014",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 9350,
+            "version": 0,
+            "languagePair": {
+              "from": "FR",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "9350",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 2356,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "FR"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "2356",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "expiredDeduplicated": [
+          {
+            "id": 6014,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "HU"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2022-01-01",
+            "termEndDate": "2022-07-01",
+            "permissionToPublish": true,
+            "diaryNumber": "6014",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 9350,
+            "version": 0,
+            "languagePair": {
+              "from": "FR",
+              "to": "FI"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-06-10",
+            "termEndDate": "2021-12-10",
+            "permissionToPublish": true,
+            "diaryNumber": "9350",
+            "examinationDate": "2020-10-04"
+          },
+          {
+            "id": 2356,
+            "version": 0,
+            "languagePair": {
+              "from": "FI",
+              "to": "FR"
+            },
+            "basis": "AUT",
+            "termBeginDate": "2021-03-09",
+            "termEndDate": "2021-09-09",
+            "permissionToPublish": true,
+            "diaryNumber": "2356",
+            "examinationDate": "2020-10-04"
+          }
+        ],
+        "formerVir": []
+      }
     }
   ]
 }

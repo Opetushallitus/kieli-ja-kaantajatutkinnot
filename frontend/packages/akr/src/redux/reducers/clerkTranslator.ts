@@ -25,7 +25,7 @@ const initialState: ClerkUIState = {
   langs: { from: [], to: [] },
   selectedTranslators: [],
   filters: {
-    authorisationStatus: AuthorisationStatus.Authorised,
+    authorisationStatus: AuthorisationStatus.Effective,
   },
 };
 

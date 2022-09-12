@@ -77,18 +77,14 @@ const filterByLanguagePair = (
 };
 
 const filterByName = (
-  publicTranslator: PublicTranslator,
+  { firstName, lastName }: PublicTranslator,
   filters: PublicTranslatorFilter
 ) => {
-  const nameCombs = [
-    `${publicTranslator.firstName} ${publicTranslator.lastName}`,
-    `${publicTranslator.lastName} ${publicTranslator.firstName}`,
-  ];
-  const isNameIncluded = nameCombs.some((name) =>
-    name.toLowerCase().includes(filters.name.toLowerCase().trim())
-  );
+  const nameCombs = [`${firstName} ${lastName}`, `${lastName} ${firstName}`];
 
-  return isNameIncluded;
+  return nameCombs.some((comb) =>
+    comb.toLowerCase().includes(filters.name.toLowerCase().trim())
+  );
 };
 
 const filterByTown = (

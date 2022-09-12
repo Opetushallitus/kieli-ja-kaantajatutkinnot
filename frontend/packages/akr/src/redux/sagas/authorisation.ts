@@ -19,7 +19,7 @@ import {
   updatingAuthorisationPublishPermissionSucceeded,
 } from 'redux/reducers/authorisation';
 import { upsertClerkTranslator } from 'redux/reducers/clerkTranslator';
-import { setSelectedTranslator } from 'redux/reducers/clerkTranslatorOverview';
+import { setClerkTranslatorOverviewTranslator } from 'redux/reducers/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -35,7 +35,7 @@ function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
       apiResponse.data
     );
     yield put(upsertClerkTranslator(translator));
-    yield put(setSelectedTranslator(translator));
+    yield put(setClerkTranslatorOverviewTranslator(translator));
     yield put(addingAuthorisationSucceeded());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
@@ -64,7 +64,7 @@ function* updateAuthorisationPublishPermissionSaga(
       apiResponse.data
     );
     yield put(upsertClerkTranslator(translator));
-    yield put(setSelectedTranslator(translator));
+    yield put(setClerkTranslatorOverviewTranslator(translator));
     yield put(updatingAuthorisationPublishPermissionSucceeded());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
@@ -83,7 +83,7 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
       apiResponse.data
     );
     yield put(upsertClerkTranslator(translator));
-    yield put(setSelectedTranslator(translator));
+    yield put(setClerkTranslatorOverviewTranslator(translator));
     yield put(removingAuthorisationSucceeded());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);

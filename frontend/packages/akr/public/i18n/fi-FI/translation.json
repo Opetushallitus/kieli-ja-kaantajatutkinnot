@@ -27,10 +27,10 @@
           "title": "Peruste"
         },
         "authorisationStatus": {
-          "authorised": "Auktorisoidut",
-          "expired": "Umpeutuneet",
+          "effective": "Auktorisoidut",
+          "expiredDeduplicated": "Umpeutuneet",
           "expiring": "Umpeutuvat",
-          "formerVIR": "VIR 2008"
+          "formerVir": "VIR 2008"
         },
         "languagePair": {
           "fromPlaceholder": "Mistä",
@@ -85,7 +85,6 @@
             "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
             "examinationDate": "Tutkintopäivä",
-            "isEffective": "Voimassa",
             "languagePair": "Kielipari",
             "permissionToPublish": "Julkaisulupa",
             "startDate": "Alkamispäivä"
@@ -98,9 +97,9 @@
             "updatingPublishPermissionSucceeded": "Auktorisoinnin julkaisulupaa muutettu"
           },
           "toggleFilters": {
-            "effectives": "Voimassa olevat",
+            "effective": "Voimassa olevat",
             "expired": "Umpeutuneet",
-            "formerVIR": "VIR 2008"
+            "formerVir": "VIR 2008"
           }
         },
         "toasts": {

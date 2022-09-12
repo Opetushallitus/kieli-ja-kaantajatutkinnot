@@ -1,9 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import {
-  AuthorisationBasisEnum,
-  AuthorisationStatus,
-} from 'enums/clerkTranslator';
+import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { LanguagePair } from 'interfaces/languagePair';
 import { WithId, WithTempId, WithVersion } from 'interfaces/with';
 
@@ -32,7 +29,3 @@ export interface AuthorisationResponse
   diaryNumber?: string;
   examinationDate?: string;
 }
-
-export type AuthorisationsGroupedByStatus = {
-  [key in AuthorisationStatus]: Array<Authorisation>;
-};

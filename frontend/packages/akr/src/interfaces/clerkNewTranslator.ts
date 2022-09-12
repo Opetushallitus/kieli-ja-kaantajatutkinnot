@@ -1,3 +1,7 @@
+import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslator } from 'interfaces/clerkTranslator';
 
-export type ClerkNewTranslator = Omit<ClerkTranslator, 'id' | 'version'>;
+export interface ClerkNewTranslator
+  extends Omit<ClerkTranslator, 'id' | 'version' | 'authorisations'> {
+  authorisations: Array<Authorisation>;
+}

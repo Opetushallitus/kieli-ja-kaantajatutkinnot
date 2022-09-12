@@ -7,9 +7,9 @@ const toggleBtn = (name: string) =>
 
 class AuthorisationDetails {
   elements = {
-    authorisedToggleBtn: () => cy.findByTestId(toggleBtn('authorised')),
+    authorisedToggleBtn: () => cy.findByTestId(toggleBtn('effective')),
     expiredToggleBtn: () => cy.findByTestId(toggleBtn('expired')),
-    formerVIRToggleBtn: () => cy.findByTestId(toggleBtn('formerVIR')),
+    formerVirToggleBtn: () => cy.findByTestId(toggleBtn('formerVir')),
     row: (id: number) => cy.findByTestId(rowTestId(id)),
     deleteBtn: (id: number) => cy.findByTestId(`${rowTestId(id)}__delete-btn`),
     publishPermissionSwitch: (id: number) =>
@@ -24,8 +24,8 @@ class AuthorisationDetails {
     this.elements.expiredToggleBtn().click();
   }
 
-  clickformerVIRToggleBtn() {
-    this.elements.formerVIRToggleBtn().click();
+  clickformerVirToggleBtn() {
+    this.elements.formerVirToggleBtn().click();
   }
 
   assertRowExists(id: number) {
@@ -62,32 +62,38 @@ class AuthorisationDetails {
 
 export const publishPermissionChangeResponse = (
   translatorResponse: ClerkTranslatorResponse,
-  authorisationId: number,
+  effectiveAuthorisationId: number,
   newPublishPermissionValue: boolean
 ) => {
-  const updatedAuthorisations = translatorResponse.authorisations.map((a) =>
-    a.id === authorisationId
+  const effective = translatorResponse.authorisations.effective.map((a) =>
+    a.id === effectiveAuthorisationId
       ? { ...a, permissionToPublish: newPublishPermissionValue }
       : a
   );
 
   return {
     ...translatorResponse,
-    authorisations: updatedAuthorisations,
+    authorisations: {
+      ...translatorResponse.authorisations,
+      effective,
+    },
   };
 };
 
 export const authorisationDeletionResponse = (
   translatorResponse: ClerkTranslatorResponse,
-  authorisationId: number
+  effectiveAuthorisationId: number
 ) => {
-  const updatedAuthorisations = translatorResponse.authorisations.filter(
-    (a) => a.id !== authorisationId
+  const effective = translatorResponse.authorisations.effective.filter(
+    (a) => a.id !== effectiveAuthorisationId
   );
 
   return {
     ...translatorResponse,
-    authorisations: updatedAuthorisations,
+    authorisations: {
+      ...translatorResponse.authorisations,
+      effective,
+    },
   };
 };
 
