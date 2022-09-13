@@ -421,13 +421,16 @@ class ClerkTranslatorServiceTest {
   }
 
   @Test
-  public void listShouldReturnTranslatorsAuthorisationsOrderedByTermBeginDate() {
+  public void listShouldReturnTranslatorsAuthorisationsDeduplicated() {
     final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(1));
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now());
     final Translator translator = Factory.translator();
     final Authorisation authorisation1 = Factory.kktAuthorisation(translator, meetingDate1);
-    final Authorisation authorisation2 = Factory.virAuthorisation(translator, meetingDate2);
-    final Authorisation authorisation3 = Factory.formerVirAuthorisation(translator);
+    final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
+    final Authorisation authorisation3 = Factory.virAuthorisation(translator, meetingDate1);
+    final Authorisation authorisation4 = Factory.kktAuthorisation(translator, meetingDate2);
+    authorisation4.setFromLang(SV);
+    authorisation4.setToLang(FI);
 
     entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
@@ -435,13 +438,15 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation1);
     entityManager.persist(authorisation2);
     entityManager.persist(authorisation3);
+    entityManager.persist(authorisation4);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
     final List<AuthorisationDTO> authorisationDTOS = responseDTO.translators().get(0).authorisations();
 
-    assertEquals(authorisation2.getId(), authorisationDTOS.get(0).id());
-    assertEquals(authorisation1.getId(), authorisationDTOS.get(1).id());
-    assertEquals(authorisation3.getId(), authorisationDTOS.get(2).id());
+    assertEquals(
+      List.of(authorisation3.getId(), authorisation4.getId()),
+      authorisationDTOS.stream().map(AuthorisationDTO::id).toList()
+    );
   }
 
   @Test
@@ -548,18 +553,27 @@ class ClerkTranslatorServiceTest {
 
   @Test
   public void testTranslatorGet() {
-    final MeetingDate meetingDate = Factory.meetingDate();
+    final LocalDate today = LocalDate.now();
+    final MeetingDate meetingDate = Factory.meetingDate(today.minusDays(1));
+    final MeetingDate meetingDate2 = Factory.meetingDate(today);
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+    final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
 
     entityManager.persist(meetingDate);
+    entityManager.persist(meetingDate2);
     entityManager.persist(translator);
     entityManager.persist(authorisation);
+    entityManager.persist(authorisation2);
 
     final ClerkTranslatorDTO clerkTranslatorDTO = clerkTranslatorService.getTranslator(translator.getId());
 
     assertNotNull(clerkTranslatorDTO);
     assertEquals(translator.getId(), clerkTranslatorDTO.id());
+    assertEquals(
+      List.of(authorisation2.getId(), authorisation.getId()),
+      clerkTranslatorDTO.authorisations().stream().map(AuthorisationDTO::id).toList()
+    );
 
     verify(auditService).logById(AkrOperation.GET_TRANSLATOR, translator.getId());
     verifyNoMoreInteractions(auditService);

@@ -36,6 +36,7 @@ import fi.oph.akr.util.exception.DataIntegrityViolationExceptionUtil;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -82,16 +83,17 @@ public class ClerkTranslatorService {
 
   @Transactional(readOnly = true)
   public ClerkTranslatorResponseDTO listTranslators() {
-    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit();
+    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit(true);
     auditService.logOperation(AkrOperation.LIST_TRANSLATORS);
     return result;
   }
 
-  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
+  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit(final boolean deduplicateAuthorisations) {
     final List<Translator> translators = translatorRepository.findAllByOrderByLastNameAscFirstNameAsc();
     final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
+      deduplicateAuthorisations,
       translators,
       authorisationProjections
     );
@@ -116,6 +118,7 @@ public class ClerkTranslatorService {
   }
 
   private List<ClerkTranslatorDTO> createClerkTranslatorDTOs(
+    final boolean deduplicateAuthorisations,
     final List<Translator> translators,
     final Map<Long, List<AuthorisationProjection>> authorisationProjectionsByTranslator
   ) {
@@ -123,6 +126,7 @@ public class ClerkTranslatorService {
       .stream()
       .map(translator -> {
         final List<AuthorisationDTO> authorisationDTOS = createAuthorisationDTOs(
+          deduplicateAuthorisations,
           authorisationProjectionsByTranslator.get(translator.getId())
         );
 
@@ -147,8 +151,11 @@ public class ClerkTranslatorService {
       .toList();
   }
 
-  private List<AuthorisationDTO> createAuthorisationDTOs(final List<AuthorisationProjection> authorisationProjections) {
-    return authorisationProjections
+  private List<AuthorisationDTO> createAuthorisationDTOs(
+    final boolean deduplicateAuthorisations,
+    final List<AuthorisationProjection> authorisationProjections
+  ) {
+    final List<AuthorisationDTO> authorisationDTOS = authorisationProjections
       .stream()
       .sorted(AUTHORISATION_PROJECTION_COMPARATOR.reversed())
       .map(authProjection -> {
@@ -172,6 +179,31 @@ public class ClerkTranslatorService {
           .build();
       })
       .toList();
+    if (deduplicateAuthorisations) {
+      return deduplicateAuthorisationDTOs(authorisationDTOS);
+    }
+    return authorisationDTOS;
+  }
+
+  private List<AuthorisationDTO> deduplicateAuthorisationDTOs(final List<AuthorisationDTO> authorisationDTOS) {
+    final Map<LanguagePairDTO, AuthorisationDTO> deduplicated = new LinkedHashMap<>();
+    authorisationDTOS.forEach(a -> {
+      final LanguagePairDTO key = a.languagePair();
+      if (!deduplicated.containsKey(key)) {
+        deduplicated.put(key, a);
+      } else {
+        final AuthorisationDTO existing = deduplicated.get(key);
+        final LocalDate endDate = a.termEndDate();
+        final LocalDate existingEndDate = existing.termEndDate();
+        final boolean noEndDateReplacesEndDate = endDate == null && existingEndDate != null;
+        final boolean newEndDateAfterExistingEndDate =
+          endDate != null && existingEndDate != null && endDate.isAfter(existingEndDate);
+        if (noEndDateReplacesEndDate || newEndDateAfterExistingEndDate) {
+          deduplicated.put(key, a);
+        }
+      }
+    });
+    return List.copyOf(deduplicated.values());
   }
 
   private LanguagePairsDictDTO getLanguagePairsDictDTO() {
@@ -220,7 +252,7 @@ public class ClerkTranslatorService {
 
   public ClerkTranslatorDTO getTranslatorWithoutAudit(final long translatorId) {
     // This could be optimized, by fetching only one translator and it's data, but is it worth of the programming work?
-    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit().translators()) {
+    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit(false).translators()) {
       if (t.id() == translatorId) {
         return t;
       }
