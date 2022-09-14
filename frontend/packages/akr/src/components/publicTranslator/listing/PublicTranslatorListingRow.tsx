@@ -5,6 +5,7 @@ import { Color, Severity } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
 import {
+  isCurrentLangSv,
   useAppTranslation,
   useKoodistoCountriesTranslation,
   useKoodistoLanguagesTranslation,
@@ -24,8 +25,10 @@ import {
 
 export const PublicTranslatorListingRow = ({
   translator,
+  townToSv,
 }: {
   translator: PublicTranslator;
+  townToSv: Map<string, string>;
 }) => {
   // I18n
   const { t } = useAppTranslation({
@@ -91,9 +94,11 @@ export const PublicTranslatorListingRow = ({
 
   const getTownDescription = (town?: string, country?: string) => {
     if (town && country) {
-      return `${town} (${translateCountry(country)})`;
+      const t = isCurrentLangSv() ? townToSv.get(town) || town : town;
+
+      return `${t} (${translateCountry(country)})`;
     } else if (town) {
-      return town;
+      return isCurrentLangSv() ? townToSv.get(town) || town : town;
     } else if (country) {
       return translateCountry(country);
     }

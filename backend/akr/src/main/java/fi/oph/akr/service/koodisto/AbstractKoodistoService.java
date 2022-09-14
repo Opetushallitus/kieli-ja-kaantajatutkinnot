@@ -22,7 +22,7 @@ public abstract class AbstractKoodistoService {
   private static final Logger LOG = LoggerFactory.getLogger(AbstractKoodistoService.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-  private Map<String, Localisation> localisationByCode;
+  protected Map<String, Localisation> localisationByCode;
 
   protected void init(final String path, final Set<String> ignoredCodes) {
     try (final InputStream is = new ClassPathResource(path).getInputStream()) {

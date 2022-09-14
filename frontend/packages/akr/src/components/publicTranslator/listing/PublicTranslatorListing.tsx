@@ -16,10 +16,6 @@ import { useAppSelector } from 'configs/redux';
 import { PublicTranslator } from 'interfaces/publicTranslator';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
-const getRowDetails = (translator: PublicTranslator) => {
-  return <PublicTranslatorListingRow translator={translator} />;
-};
-
 export const PublicTranslatorListing = ({
   status,
   translators,
@@ -29,8 +25,17 @@ export const PublicTranslatorListing = ({
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { isPhone } = useWindowProperties();
-  const { selectedTranslators } = useAppSelector(publicTranslatorsSelector);
+  const { selectedTranslators, towns } = useAppSelector(
+    publicTranslatorsSelector
+  );
   const selected = selectedTranslators.length;
+
+  const townToSv = new Map(towns.map((t) => [t.name, t.nameSv]));
+  const getRowDetails = (translator: PublicTranslator) => {
+    return (
+      <PublicTranslatorListingRow translator={translator} townToSv={townToSv} />
+    );
+  };
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

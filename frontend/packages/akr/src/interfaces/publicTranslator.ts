@@ -29,6 +29,7 @@ export interface PublicTranslatorFilterValues {
 
 export interface PublicTown {
   name: string;
+  nameSv: string;
   country?: string;
 }
 

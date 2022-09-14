@@ -163,6 +163,10 @@ export const getCurrentLang = (): AppLanguage => {
   return i18n.language as AppLanguage;
 };
 
+export const isCurrentLangSv = (): boolean => {
+  return getCurrentLang() === AppLanguage.Swedish;
+};
+
 export const getSupportedLangs = (): Array<AppLanguage> => {
   return supportedLangs;
 };
