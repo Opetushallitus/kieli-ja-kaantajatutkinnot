@@ -13,6 +13,7 @@ export enum APIEndpoints {
  */
 export enum APIError {
   InterpreterInvalidNickName = 'interpreterInvalidNickName',
+  InvalidVersion = 'invalidVersion',
   MeetingDateCreateDuplicateDate = 'meetingDateCreateDuplicateDate',
   MeetingDateDeleteHasQualifications = 'meetingDateDeleteHasQualifications',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',

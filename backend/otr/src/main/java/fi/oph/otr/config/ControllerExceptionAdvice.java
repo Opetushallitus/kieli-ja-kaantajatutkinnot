@@ -4,6 +4,7 @@ import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
 import java.util.Set;
+import javax.persistence.OptimisticLockException;
 import javax.validation.ConstraintViolationException;
 import net.minidev.json.JSONObject;
 import org.apache.catalina.connector.ClientAbortException;
@@ -37,6 +38,12 @@ public class ControllerExceptionAdvice {
   public ResponseEntity<Object> handleAPIException(final APIException ex) {
     LOG.error("APIException: " + ex.getExceptionType());
     return badRequest(ex.getExceptionType());
+  }
+
+  @ExceptionHandler(OptimisticLockException.class)
+  public ResponseEntity<Object> handleOptimisticLockException(final OptimisticLockException ex) {
+    LOG.error("OptimisticLockException: " + ex.getMessage());
+    return badRequest(APIExceptionType.INVALID_VERSION);
   }
 
   @ExceptionHandler(NotFoundException.class)

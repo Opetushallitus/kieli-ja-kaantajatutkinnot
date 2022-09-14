@@ -339,6 +339,7 @@
         "examinationDateCreateDuplicateDate": "Tutkintopäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo tutkintopäivä",
         "examinationDateDeleteHasAuthorisations": "Tutkintopäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+        "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
         "meetingDateCreateDuplicateDate": "Kokouspäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateDeleteHasAuthorisations": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",

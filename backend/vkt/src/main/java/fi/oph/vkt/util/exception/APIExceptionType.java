@@ -5,8 +5,7 @@ package fi.oph.vkt.util.exception;
  * The respective frontend enum is `APIError`.
  */
 public enum APIExceptionType {
-  // TODO
-  TODO;
+  INVALID_VERSION;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

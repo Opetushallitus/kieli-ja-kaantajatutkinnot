@@ -42,6 +42,12 @@
           "sv": "På svenska"
         }
       }
+    },
+    "errors": {
+      "api": {
+        "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+        "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
+      }
     }
   }
 }
