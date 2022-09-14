@@ -73,13 +73,17 @@ declare module 'react-i18next' {
 }
 
 export const initI18n = () => {
-  return use(initReactI18next).use(LanguageDetector).init({
+  const i18n = use(initReactI18next).use(LanguageDetector).init({
     resources,
     detection: detectionOptions,
     fallbackLng: langFI,
     load: 'currentOnly',
     debug: !REACT_ENV_PRODUCTION,
   });
+  const currentLanguage = getCurrentLang() as AppLanguage;
+  DateUtils.setDayjsLocale(currentLanguage);
+
+  return i18n;
 };
 
 export const useAppTranslation = (

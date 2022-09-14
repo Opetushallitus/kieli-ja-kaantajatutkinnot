@@ -2,7 +2,7 @@ import { MeetingDateStatus } from 'enums/meetingDate';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onMeetingDatesPage } from 'tests/cypress/support/page-objects/meetingDatesPage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
-import { meetingDate } from 'tests/msw/fixtures/meetingDate';
+import { dateForNewMeetingDate } from 'tests/msw/fixtures/newMeetingDate';
 
 describe('MeetingDatesPage', () => {
   beforeEach(() => {
@@ -26,31 +26,31 @@ describe('MeetingDatesPage', () => {
   it('should order upcoming meeting dates by ascending date', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Upcoming);
 
-    onMeetingDatesPage.expectRowToContain(0, '25.9.2022');
-    onMeetingDatesPage.expectRowToContain(1, '3.12.2022');
+    onMeetingDatesPage.expectRowToContain(0, '25.09.2022');
+    onMeetingDatesPage.expectRowToContain(1, '03.12.2022');
   });
 
   it('should order passed meeting dates by descending date', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
 
-    onMeetingDatesPage.expectRowToContain(0, '14.5.2022');
-    onMeetingDatesPage.expectRowToContain(1, '1.1.2022');
+    onMeetingDatesPage.expectRowToContain(0, '14.05.2022');
+    onMeetingDatesPage.expectRowToContain(1, '01.01.2022');
   });
 
   it('should let user to add a new, unique meeting date', () => {
-    onMeetingDatesPage.setDateForNewMeetingDate(meetingDate.date);
+    onMeetingDatesPage.setDateForNewMeetingDate(dateForNewMeetingDate);
     onMeetingDatesPage.clickAddButton();
 
-    onToast.expectText('Kokouspäivän 4.10.2030 lisäys onnistui');
+    onToast.expectText(`Kokouspäivän ${dateForNewMeetingDate} lisäys onnistui`);
   });
 
   it('should not allow adding duplicate meeting dates', () => {
-    onMeetingDatesPage.setDateForNewMeetingDate('2022-01-01');
+    onMeetingDatesPage.setDateForNewMeetingDate('01.01.2022');
     onMeetingDatesPage.expectAddButtonDisabled();
   });
 
   it('should show an error toast when trying to add a meeting date fails', () => {
-    onMeetingDatesPage.setDateForNewMeetingDate('2030-01-01');
+    onMeetingDatesPage.setDateForNewMeetingDate('01.01.2030');
     onMeetingDatesPage.clickAddButton();
 
     onToast.expectText('Toiminto epäonnistui, yritä myöhemmin uudelleen');
@@ -61,7 +61,7 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.clickDeleteRowIcon(1);
     onDialog.clickButtonByText('Kyllä');
 
-    onToast.expectText('Kokouspäivä 1.1.2022 poistettu');
+    onToast.expectText('Kokouspäivä 01.01.2022 poistettu');
   });
 
   it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {

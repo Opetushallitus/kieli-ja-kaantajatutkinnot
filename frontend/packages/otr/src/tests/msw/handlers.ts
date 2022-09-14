@@ -4,8 +4,8 @@ import { APIEndpoints } from 'enums/api';
 import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
-import { meetingDate } from 'tests/msw/fixtures/meetingDate';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
+import { newMeetingDate } from 'tests/msw/fixtures/newMeetingDate';
 import { person1, person2 } from 'tests/msw/fixtures/person';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 import { qualification } from 'tests/msw/fixtures/qualification';
@@ -100,13 +100,13 @@ export const handlers = [
   rest.post(APIEndpoints.MeetingDate, async (req, res, ctx) => {
     const { date } = await req.json();
 
-    if (date === meetingDate.date) {
-      return res(ctx.status(201), ctx.json(meetingDate));
+    if (date === newMeetingDate.date) {
+      return res(ctx.status(201), ctx.json(newMeetingDate));
     } else {
       return res(ctx.status(500));
     }
   }),
-  rest.delete(`${APIEndpoints.MeetingDate}/:id`,(req, res, ctx) => {
+  rest.delete(`${APIEndpoints.MeetingDate}/:id`, (req, res, ctx) => {
     const { id } = req.params;
     const deletableMeetingDateId = meetingDates10.find(
       (m) => m.date === '2022-01-01'

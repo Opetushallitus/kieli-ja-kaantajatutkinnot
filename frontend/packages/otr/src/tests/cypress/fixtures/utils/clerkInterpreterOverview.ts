@@ -22,6 +22,6 @@ export const addQualificationFields = [
   {
     fieldName: 'beginDate',
     fieldType: 'input',
-    value: '1.1.2022',
+    value: '01.01.2022',
   },
 ];
