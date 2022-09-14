@@ -1,1 +1,34 @@
-{}
+{
+  "otr": {
+    "common": {
+      "add": "Lägg till",
+      "addQualification": null,
+      "allRegions": null,
+      "appNameAbbreviation": "OTR",
+      "back": "Tillbaka",
+      "cancel": "Avbryt",
+      "clerk": null,
+      "contactEmail": "oikeustulkkirekisteri@oph.fi",
+      "delete": "Ta bort",
+      "edit": "Ändra",
+      "examinationType": {
+        "degreeStudies": null,
+        "legalInterpreterExam": null
+      },
+      "loadingContent": "Innehållet laddas ner",
+      "meetingDates": "Mötesdagar",
+      "navigationProtection": {
+        "description": "Du förlorar ändringar du gjort",
+        "header": "Är du säker på att du vill lämna den här sidan?"
+      },
+      "no": "Nej",
+      "ophLogo": "Utbildningsstyrelsens logo",
+      "permissionToPublish": null,
+      "register": "Register",
+      "rowsPerPageLabel": null,
+      "save": "Spara",
+      "searchResults": null,
+      "yes": "Ja"
+    }
+  }
+}

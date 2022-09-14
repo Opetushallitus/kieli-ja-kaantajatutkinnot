@@ -1,12 +1,337 @@
 {
   "otr": {
     "component": {
+      "addMeetingDate": {
+        "buttons": {
+          "add": "Lägg till mötesdag"
+        },
+        "datePicker": {
+          "label": "Datum för mötet"
+        },
+        "header": "Lägg till mötesdag",
+        "meetingDateAlreadyExists": "Dagen du valt är en redan befintlig mötesdag."
+      },
+      "clerkInterpreterFilters": {
+        "examinationType": {
+          "placeholder": "Alla",
+          "title": "Avlagd examen"
+        },
+        "languagePair": {
+          "fromPlaceholder": "Från",
+          "title": "Sök med språkpar",
+          "toPlaceholder": "Till"
+        },
+        "name": {
+          "placeholder": "Namn",
+          "title": "Sök med rättstolkens namn"
+        },
+        "permissionToPublish": {
+          "placeholder": "Alla",
+          "title": "Publiceringstillstånd för språkparet"
+        },
+        "qualificationStatus": {
+          "effective": "I kraft",
+          "expired": "Löpt ut",
+          "expiring": "Håller på att löpa ut"
+        }
+      },
+      "clerkInterpreterListing": {
+        "header": {
+          "name": "Namn",
+          "languagePairs": "Språkpar",
+          "region": "Verksamhetsområde",
+          "validFor": "I kraft"
+        },
+        "row": {
+          "detailsButton": "Ytterligare information"
+        }
+      },
+      "clerkInterpreterOverview": {
+        "interpreterDetails": {
+          "areaOfOperation": {
+            "all": "Hela Finland",
+            "chooseRegion": "Välj landskap",
+            "regions": "Landskap"
+          },
+          "cancelUpdateDialog": {
+            "description": "Du kommer att förlora dina ändringar.",
+            "title": "Vill du lämna redigeringsvyn?"
+          },
+          "fields": {
+            "country": "Land",
+            "email": "E-postadress",
+            "extraInformation": "Ytterligare information",
+            "firstName": "Förnamn",
+            "identityNumber": "Personbeteckning",
+            "lastName": "Efternamn",
+            "nickName": null,
+            "otherContactInfo": null,
+            "phoneNumber": "Telefonnummer",
+            "postalCode": "Postnummer",
+            "street": "Gatuadress",
+            "town": "Postanstalt"
+          },
+          "header": {
+            "address": "Adress",
+            "contactInformation": "Kontaktuppgifter",
+            "extraInformation": "Ytterligare information",
+            "personalInformation": "Personuppgifter",
+            "regions": null
+          }
+        },
+        "qualifications": {
+          "actions": {
+            "changePermissionToPublish": {
+              "ariaLabel": "Ändra publiceringstillstånd",
+              "dialog": {
+                "description": "Detta ändrar hur språkparet syns i det offentliga registret.",
+                "header": "Är du säker på att du vill byta publiceringstillstånd?"
+              }
+            },
+            "removal": {
+              "ariaLabel": "Ta bort språkpar",
+              "dialog": {
+                "description": "Denna funktion kan inte ångras!",
+                "confirmButton": "Ta bort språkpar",
+                "header": "Är du säker på att du vill ta bort språkparet?"
+              }
+            }
+          },
+          "fields": {
+            "diaryNumber": "Diarienummer",
+            "endDate": "Slutdatum",
+            "examinationType": "Utbildning",
+            "languagePair": "Språkpar",
+            "permissionToPublish": "Publiceringstillstånd",
+            "startDate": "Startdatum"
+          },
+          "header": "Språkpar",
+          "noQualifications": "Inga examina hittades för de valda kriterierna",
+          "toasts": {
+            "addingSucceeded": null,
+            "removingSucceeded": null,
+            "updatingPublishPermissionSucceeded": null
+          },
+          "toggleFilters": {
+            "effective": "I kraft",
+            "expired": "Löpt ut"
+          }
+        },
+        "toasts": {
+          "updated": "Uppgifterna sparades"
+        }
+      },
+      "footer": {
+        "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
+          "ophPhone": "Utbildningsstyrelsens telefonnummer",
+          "waveAriaLabel": "Vektordiagram med vågor"
+        },
+        "address": {
+          "name": "Utbildningsstyrelsen",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telefon"
+          },
+          "street": "Hagnäskajen 6",
+          "zipCity": "PB 380, 00531 Helsingfors"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Tillgänglighetsdirektiv"
+          },
+          "otrHomepage": {
+            "ariaLabel": "Registret över rättstolkar (oph.fi), öppna i en ny flik",
+            "link": "https://www.oph.fi/sv/tjanster/registret-over-rattstolkar",
+            "text": "Information om Registret över rättstolkar (oph.fi)"
+          }
+        }
+      },
       "header": {
+        "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
+          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+        },
+        "clerk": {
+          "backToOph": "Tillbaka till Studieinfo",
+          "logOut": "Logga ut",
+          "navLinks": {
+            "tabsLabel": "Tjänstemannens URL-adresser"
+          }
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
-          "sv": "På Svenska"
+          "sv": "På svenska"
         }
+      },
+      "meetingDatesListing": {
+        "header": "Mötesdag",
+        "removal": {
+          "ariaLabel": "Ta bort mötesdagen",
+          "dialog": {
+            "description": null,
+            "header": "Är du säker på att du vill ta bort mötesdagen?"
+          }
+        }
+      },
+      "meetingDatesToggleFilters": {
+        "passed": "Tidigare",
+        "upcoming": "Kommande"
+      },
+      "newQualification": {
+        "cancelDialog": {
+          "header": "Är du säker på att du vill ångra?"
+        },
+        "fieldLabel": {
+          "beginDate": null,
+          "diaryNumber": "Diarienummer",
+          "endDate": null,
+          "examination": null,
+          "from": "Språkpar (från)",
+          "to": "Språkpar (till)"
+        },
+        "fieldPlaceholders": {
+          "beginDate": "Startdatum",
+          "diaryNumber": "Diarienummer",
+          "endDate": "Slutdatum",
+          "examination": null,
+          "from": "Varifrån",
+          "to": "Vart"
+        },
+        "switch": {
+          "permissionToPublish": "Publiceringstillstånd"
+        }
+      },
+      "publicInterpreterFilters": {
+        "name": {
+          "placeholder": "Namn",
+          "title": "Sök med rättstolkens namn"
+        },
+        "buttons": {
+          "empty": "Töm",
+          "newSearch": "Gör en ny sökning",
+          "search": "Visa resultat"
+        },
+        "languagePair": {
+          "fromAriaLabel": "Från, obligatorisk för att ta kontakt",
+          "fromHelperText": "Välj språk",
+          "fromPlaceholder": "Från",
+          "title": "Sök med språkpar",
+          "toAriaLabel": "Till, obligatoriskt för att ta kontakt",
+          "toHelperText": "Välj språk",
+          "toPlaceholder": "Till"
+        },
+        "region": {
+          "placeholder": "Verksamhetsområde",
+          "title": "Sök med rättstolkens verksamhetsområde"
+        },
+        "toasts": {
+          "contactRequestNeedsLanguagePairs": "Välj språkpar för att kontakta en translator",
+          "interpreterSelected": "Du kan endast välja ett språkpar för att ta kontakt",
+          "selectLanguagePair": "Välj språkpar"
+        }
+      },
+      "publicInterpreterListing": {
+        "header": {
+          "name": "Namn",
+          "languagePairs": "Språkpar",
+          "region": "Verksamhetsområde"
+        },
+        "row": {
+          "additionalContactDetail": {
+            "email": "E-post",
+            "otherContactInfo": "Annan kontaktinformation",
+            "phoneNumber": "Telefonnummer"
+          },
+          "ariaLabel": "Öppna tilläggsuppgifterna"
+        },
+        "searchResultsInfo": null
+      },
+      "table": {
+        "pagination": {
+          "rowsPerPage": null
+        }
+      }
+    },
+    "errors": {
+      "api": {
+        "generic": "Funktionen misslyckades, försök på nytt senare",
+        "interpreterInvalidNickName": null,
+        "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
+        "meetingDateDeleteHasQualifications": null,
+        "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
+        "meetingDateUpdateHasQualifications": null
+      },
+      "customTextField": {
+        "emailFormat": "E-postadressen är felaktig",
+        "maxLength": "Texten är för lång",
+        "personalIdentityCodeFormat": "Personbeteckningens form kunde inte identifieras",
+        "required": "Uppgiften är obligatorisk",
+        "telFormat": "Telefonnumret är felaktigt"
+      },
+      "loadingFailed": "Det gick inte att ladda uppgifterna, försök igen senare."
+    },
+    "pages": {
+      "clerkHomepage": {
+        "addInterpreter": "Lägg till rättstolk",
+        "buttons": {
+          "emptySelection": "Töm val"
+        },
+        "register": "Register",
+        "title": "Registret över rättstolkar"
+      },
+      "clerkInterpreterOverviewPage": {
+        "title": "Rättstolkens uppgifter",
+        "toasts": {
+          "notFound": "Tolken som valts kunde inte hittas"
+        }
+      },
+      "clerkNewInterpreterPage": {
+        "addedQualificationsTitle": null,
+        "removeQualificationDialog": {
+          "title": null
+        },
+        "title": null,
+        "toasts": {
+          "success": null
+        }
+      },
+      "clerkPersonSearchPage": {
+        "buttons": {
+          "proceed": null,
+          "search": null
+        },
+        "noResult": {
+          "description": null,
+          "label": null
+        },
+        "placeholder": null,
+        "search": {
+          "description": null,
+          "label": null
+        },
+        "title": null
+      },
+      "homepage": {
+        "description": "Utbildningsstyrelsen upprätthåller ett register över rättstolkar, där rättstolkar som har godkänts av Nämnden för registret över rättstolkar registreras. Med sökmotorn kan du söka en tolk på namn eller enligt språkpar eller verksamhetsområde. I det offentliga registret över rättstolkar finns endast uppgifter om de tolkar som har gett sitt samtycke till att deras uppgifter publiceras på webben.",
+        "filters": {
+          "title": "Sök en rättstolk"
+        },
+        "noSearchResults": "Inga sökresultat",
+        "note": "Rättstolkar har alltid behörighet i båda riktningarna, till exempel finska <-> engelska engelska <-> finska",
+        "title": "Registret över rättstolkar"
+      },
+      "meetingDatesPage": {
+        "title": "Mötesdagar",
+        "toasts": {
+          "addingSucceeded": null,
+          "removingSucceeded": null
+        }
+      },
+      "notFoundPage": {
+        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan",
+        "title": "Tyvärr kan sidan du sökte efter inte hittas"
       }
     }
   }
