@@ -1,9 +1,9 @@
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes, UIMode } from 'enums/app';
 import {
-  authorisation,
+  newAuthorisation,
   translatorResponse,
-} from 'tests/cypress/fixtures/ts/clerkTranslatorOverview';
+} from 'tests/cypress/fixtures/ts/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
@@ -155,18 +155,20 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.fillOutAddAuthorisationFields();
     onClerkTranslatorOverviewPage.toggleAddAuthorisationPermissionToPublishSwitch();
 
-    cy.intercept(`${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`, {
+    const responseBody = {
       ...translatorResponse,
-      authorisations: [...translatorResponse.authorisations, authorisation],
-    });
-
+      authorisations: {
+        ...translatorResponse.authorisations,
+        effective: [
+          ...translatorResponse.authorisations.effective,
+          newAuthorisation,
+        ],
+      },
+    };
     cy.intercept(
       'POST',
       `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}/authorisation`,
-      {
-        ...translatorResponse,
-        authorisations: [...translatorResponse.authorisations, authorisation],
-      }
+      responseBody
     );
 
     onClerkTranslatorOverviewPage.saveAuthorisation();

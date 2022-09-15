@@ -27,10 +27,10 @@
           "title": "Grund"
         },
         "authorisationStatus": {
-          "authorised": "Auktoriserade",
-          "expired": "Löpt ut",
+          "effective": "Auktoriserade",
+          "expiredDeduplicated": "Löpt ut",
           "expiring": "Löpt ut",
-          "formerVIR": "VIR 2008"
+          "formerVir": "VIR 2008"
         },
         "languagePair": {
           "fromPlaceholder": "Varifrån",
@@ -85,7 +85,6 @@
             "diaryNumber": "Diarienummer",
             "endDate": "Slutdatum",
             "examinationDate": "Examensdag",
-            "isEffective": "I kraft",
             "languagePair": "Slutdatum",
             "permissionToPublish": "Publiceringstillstånd",
             "startDate": "Startdatum"
@@ -98,9 +97,9 @@
             "updatingPublishPermissionSucceeded": null
           },
           "toggleFilters": {
-            "effectives": "I kraft",
+            "effective": "I kraft",
             "expired": "Löpt ut",
-            "formerVIR": "VIR 2008"
+            "formerVir": "VIR 2008"
           }
         },
         "toasts": {

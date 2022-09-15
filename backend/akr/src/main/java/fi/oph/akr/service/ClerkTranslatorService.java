@@ -3,6 +3,7 @@ package fi.oph.akr.service;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAuthorisationsDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorResponseDTO;
 import fi.oph.akr.api.dto.clerk.ExaminationDateDTO;
@@ -30,13 +31,13 @@ import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.util.AuthorisationProjectionComparator;
+import fi.oph.akr.util.AuthorisationUtil;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import fi.oph.akr.util.exception.DataIntegrityViolationExceptionUtil;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -83,17 +84,16 @@ public class ClerkTranslatorService {
 
   @Transactional(readOnly = true)
   public ClerkTranslatorResponseDTO listTranslators() {
-    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit(true);
+    final ClerkTranslatorResponseDTO result = listTranslatorsWithoutAudit();
     auditService.logOperation(AkrOperation.LIST_TRANSLATORS);
     return result;
   }
 
-  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit(final boolean deduplicateAuthorisations) {
+  private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
     final List<Translator> translators = translatorRepository.findAllByOrderByLastNameAscFirstNameAsc();
     final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
-      deduplicateAuthorisations,
       translators,
       authorisationProjections
     );
@@ -118,7 +118,6 @@ public class ClerkTranslatorService {
   }
 
   private List<ClerkTranslatorDTO> createClerkTranslatorDTOs(
-    final boolean deduplicateAuthorisations,
     final List<Translator> translators,
     final Map<Long, List<AuthorisationProjection>> authorisationProjectionsByTranslator
   ) {
@@ -126,9 +125,9 @@ public class ClerkTranslatorService {
       .stream()
       .map(translator -> {
         final List<AuthorisationDTO> authorisationDTOS = createAuthorisationDTOs(
-          deduplicateAuthorisations,
           authorisationProjectionsByTranslator.get(translator.getId())
         );
+        final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
 
         return ClerkTranslatorDTO
           .builder()
@@ -145,17 +144,14 @@ public class ClerkTranslatorService {
           .country(translator.getCountry())
           .extraInformation(translator.getExtraInformation())
           .isAssuranceGiven(translator.isAssuranceGiven())
-          .authorisations(authorisationDTOS)
+          .authorisations(translatorAuthorisationsDTO)
           .build();
       })
       .toList();
   }
 
-  private List<AuthorisationDTO> createAuthorisationDTOs(
-    final boolean deduplicateAuthorisations,
-    final List<AuthorisationProjection> authorisationProjections
-  ) {
-    final List<AuthorisationDTO> authorisationDTOS = authorisationProjections
+  private List<AuthorisationDTO> createAuthorisationDTOs(final List<AuthorisationProjection> authorisationProjections) {
+    return authorisationProjections
       .stream()
       .sorted(AUTHORISATION_PROJECTION_COMPARATOR.reversed())
       .map(authProjection -> {
@@ -179,31 +175,31 @@ public class ClerkTranslatorService {
           .build();
       })
       .toList();
-    if (deduplicateAuthorisations) {
-      return deduplicateAuthorisationDTOs(authorisationDTOS);
-    }
-    return authorisationDTOS;
   }
 
-  private List<AuthorisationDTO> deduplicateAuthorisationDTOs(final List<AuthorisationDTO> authorisationDTOS) {
-    final Map<LanguagePairDTO, AuthorisationDTO> deduplicated = new LinkedHashMap<>();
-    authorisationDTOS.forEach(a -> {
-      final LanguagePairDTO key = a.languagePair();
-      if (!deduplicated.containsKey(key)) {
-        deduplicated.put(key, a);
-      } else {
-        final AuthorisationDTO existing = deduplicated.get(key);
-        final LocalDate endDate = a.termEndDate();
-        final LocalDate existingEndDate = existing.termEndDate();
-        final boolean noEndDateReplacesEndDate = endDate == null && existingEndDate != null;
-        final boolean newEndDateAfterExistingEndDate =
-          endDate != null && existingEndDate != null && endDate.isAfter(existingEndDate);
-        if (noEndDateReplacesEndDate || newEndDateAfterExistingEndDate) {
-          deduplicated.put(key, a);
-        }
-      }
-    });
-    return List.copyOf(deduplicated.values());
+  private ClerkTranslatorAuthorisationsDTO splitAuthorisationDTOs(final List<AuthorisationDTO> authorisationDTOS) {
+    final Map<Boolean, List<AuthorisationDTO>> authorisationsByExistenceOfBeginDate = authorisationDTOS
+      .stream()
+      .collect(Collectors.partitioningBy(a -> a.termBeginDate() != null));
+
+    final List<AuthorisationDTO> authorisationsWithBeginDate = authorisationsByExistenceOfBeginDate.get(true);
+
+    final List<AuthorisationDTO> effective = AuthorisationUtil.filterEffectiveAuthorisations(
+      authorisationsWithBeginDate
+    );
+    final List<AuthorisationDTO> expiring = AuthorisationUtil.filterExpiringAuthorisations(authorisationsWithBeginDate);
+    final List<AuthorisationDTO> expired = AuthorisationUtil.filterExpiredAuthorisations(authorisationsWithBeginDate);
+    final List<AuthorisationDTO> expiredDeduplicated = AuthorisationUtil.filterExpiredDeduplicates(expired, effective);
+    final List<AuthorisationDTO> formerVir = authorisationsByExistenceOfBeginDate.get(false);
+
+    return ClerkTranslatorAuthorisationsDTO
+      .builder()
+      .effective(effective)
+      .expiring(expiring)
+      .expired(expired)
+      .expiredDeduplicated(expiredDeduplicated)
+      .formerVir(formerVir)
+      .build();
   }
 
   private LanguagePairsDictDTO getLanguagePairsDictDTO() {
@@ -252,7 +248,7 @@ public class ClerkTranslatorService {
 
   public ClerkTranslatorDTO getTranslatorWithoutAudit(final long translatorId) {
     // This could be optimized, by fetching only one translator and it's data, but is it worth of the programming work?
-    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit(false).translators()) {
+    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit().translators()) {
       if (t.id() == translatorId) {
         return t;
       }

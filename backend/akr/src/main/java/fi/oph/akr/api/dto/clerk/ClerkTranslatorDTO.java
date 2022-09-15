@@ -19,5 +19,5 @@ public record ClerkTranslatorDTO(
   String country,
   String extraInformation,
   @NonNull Boolean isAssuranceGiven,
-  @NonNull List<AuthorisationDTO> authorisations
+  @NonNull ClerkTranslatorAuthorisationsDTO authorisations
 ) {}

@@ -25,21 +25,21 @@ export const ClerkTranslatorOverviewPage = () => {
   const { showToast } = useToast();
   // Redux
   const dispatch = useAppDispatch();
-  const { overviewStatus, selectedTranslator } = useAppSelector(
+  const { overviewStatus, translator } = useAppSelector(
     clerkTranslatorOverviewSelector
   );
-  const selectedTranslatorId = selectedTranslator?.id;
+  const translatorId = translator?.id;
   // React Router
   const navigate = useNavigate();
   const params = useParams();
 
   const isLoading =
-    overviewStatus === APIResponseStatus.InProgress || !selectedTranslatorId;
+    overviewStatus === APIResponseStatus.InProgress || !translatorId;
 
   useEffect(() => {
     if (
       overviewStatus === APIResponseStatus.NotStarted &&
-      !selectedTranslatorId &&
+      !translatorId &&
       params.translatorId
     ) {
       // Fetch translator overview
@@ -61,7 +61,7 @@ export const ClerkTranslatorOverviewPage = () => {
     navigate,
     params.translatorId,
     showToast,
-    selectedTranslatorId,
+    translatorId,
     t,
   ]);
 

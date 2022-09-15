@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAuthorisationsDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorResponseDTO;
 import fi.oph.akr.api.dto.clerk.ExaminationDateDTO;
@@ -42,6 +43,7 @@ import fi.oph.akr.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -117,7 +119,7 @@ class ClerkTranslatorServiceTest {
   }
 
   @Test
-  public void listShouldReturnAllTranslatorsWithProperFields() {
+  public void listShouldReturnAllTranslators() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
 
@@ -135,8 +137,6 @@ class ClerkTranslatorServiceTest {
     final List<ClerkTranslatorDTO> translators = responseDTO.translators();
 
     assertEquals(3, translators.size());
-
-    translators.forEach(clerkTranslatorDTO -> assertEquals(1, clerkTranslatorDTO.authorisations().size()));
 
     verify(auditService).logOperation(AkrOperation.LIST_TRANSLATORS);
     verifyNoMoreInteractions(auditService);
@@ -299,7 +299,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().effective().get(0);
 
     assertEquals(authorisation.getBasis(), authorisationDTO.basis());
     assertEquals(authorisation.getTermBeginDate(), authorisationDTO.termBeginDate());
@@ -319,7 +319,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().effective().get(0);
 
     assertEquals(authorisation.getBasis(), authorisationDTO.basis());
     assertEquals(authorisation.getTermBeginDate(), authorisationDTO.termBeginDate());
@@ -339,7 +339,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().effective().get(0);
 
     assertEquals(authorisation.getBasis(), authorisationDTO.basis());
     assertEquals(authorisation.getTermBeginDate(), authorisationDTO.termBeginDate());
@@ -357,7 +357,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = responseDTO.translators().get(0).authorisations().formerVir().get(0);
 
     assertEquals(authorisation.getBasis(), authorisationDTO.basis());
     assertNull(authorisationDTO.termBeginDate());
@@ -367,86 +367,89 @@ class ClerkTranslatorServiceTest {
   }
 
   @Test
-  public void listShouldReturnProperDataForTranslatorWithMultipleAuthorisations() {
-    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.of(2015, 1, 1));
-    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2018, 6, 1));
+  public void listShouldSplitAuthorisationsAccordingly() {
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(2));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().minusMonths(10));
+    final MeetingDate meetingDate3 = Factory.meetingDate();
     final Translator translator = Factory.translator();
     final ExaminationDate examinationDate = Factory.examinationDate();
 
-    final Authorisation autAuth = Factory.autAuthorisation(translator, meetingDate1, examinationDate);
-    autAuth.setFromLang(RU);
-    autAuth.setToLang(FI);
-    autAuth.setPermissionToPublish(true);
+    final Authorisation expiredAuth = Factory.autAuthorisation(translator, meetingDate1, examinationDate);
+    expiredAuth.setFromLang(RU);
+    expiredAuth.setToLang(FI);
+    expiredAuth.setPermissionToPublish(true);
 
-    final Authorisation kktAuth = Factory.kktAuthorisation(translator, meetingDate2);
-    kktAuth.setFromLang(FI);
-    kktAuth.setToLang(EN);
-    kktAuth.setPermissionToPublish(false);
+    final Authorisation expiringAuth = Factory.kktAuthorisation(translator, meetingDate2);
+    expiringAuth.setFromLang(FI);
+    expiringAuth.setToLang(EN);
+    expiringAuth.setPermissionToPublish(false);
+
+    final Authorisation effectiveAuth = Factory.kktAuthorisation(translator, meetingDate3);
+    effectiveAuth.setFromLang(FI);
+    effectiveAuth.setToLang(SV);
 
     entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
+    entityManager.persist(meetingDate3);
     entityManager.persist(translator);
     entityManager.persist(examinationDate);
-    entityManager.persist(autAuth);
-    entityManager.persist(kktAuth);
+    entityManager.persist(expiredAuth);
+    entityManager.persist(expiringAuth);
+    entityManager.persist(effectiveAuth);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final List<AuthorisationDTO> authorisationDTOS = responseDTO.translators().get(0).authorisations();
+    final ClerkTranslatorAuthorisationsDTO authorisationsDTO = responseDTO.translators().get(0).authorisations();
 
-    assertEquals(2, authorisationDTOS.size());
+    assertEquals(2, authorisationsDTO.effective().size());
+    assertEquals(1, authorisationsDTO.expiring().size());
+    assertEquals(1, authorisationsDTO.expired().size());
+    assertEquals(1, authorisationsDTO.expiredDeduplicated().size());
+    assertEquals(0, authorisationsDTO.formerVir().size());
 
-    final AuthorisationDTO autAuthorisationDTO = authorisationDTOS
+    final Map<Boolean, List<AuthorisationDTO>> effectiveByToLang = authorisationsDTO
+      .effective()
       .stream()
-      .filter(dto -> dto.basis().equals(AuthorisationBasis.AUT))
-      .toList()
-      .get(0);
+      .collect(Collectors.partitioningBy(a -> a.languagePair().to().equals(SV)));
 
-    final AuthorisationDTO kktAuthorisationDTO = authorisationDTOS
-      .stream()
-      .filter(dto -> dto.basis().equals(AuthorisationBasis.KKT))
-      .toList()
-      .get(0);
+    final AuthorisationDTO effectiveFiSv = effectiveByToLang.get(true).get(0);
+    final AuthorisationDTO effectiveFiEn = effectiveByToLang.get(false).get(0);
+    assertNotNull(effectiveFiSv);
+    assertNotNull(effectiveFiEn);
 
-    assertEquals(autAuth.getTermBeginDate(), autAuthorisationDTO.termBeginDate());
-    assertEquals(autAuth.getTermEndDate(), autAuthorisationDTO.termEndDate());
-    assertEquals(autAuth.getFromLang(), autAuthorisationDTO.languagePair().from());
-    assertEquals(autAuth.getToLang(), autAuthorisationDTO.languagePair().to());
-    assertEquals(autAuth.isPermissionToPublish(), autAuthorisationDTO.permissionToPublish());
+    final AuthorisationDTO expired = authorisationsDTO.expired().get(0);
+    assertEquals(expiredAuth.getTermBeginDate(), expired.termBeginDate());
+    assertEquals(expiredAuth.getTermEndDate(), expired.termEndDate());
+    assertEquals(expiredAuth.getFromLang(), expired.languagePair().from());
+    assertEquals(expiredAuth.getToLang(), expired.languagePair().to());
+    assertEquals(expiredAuth.isPermissionToPublish(), expired.permissionToPublish());
 
-    assertEquals(kktAuth.getTermBeginDate(), kktAuthorisationDTO.termBeginDate());
-    assertEquals(kktAuth.getTermEndDate(), kktAuthorisationDTO.termEndDate());
-    assertEquals(kktAuth.getFromLang(), kktAuthorisationDTO.languagePair().from());
-    assertEquals(kktAuth.getToLang(), kktAuthorisationDTO.languagePair().to());
-    assertEquals(kktAuth.isPermissionToPublish(), kktAuthorisationDTO.permissionToPublish());
+    assertEquals(expired, authorisationsDTO.expiredDeduplicated().get(0));
   }
 
   @Test
-  public void listShouldReturnTranslatorsAuthorisationsDeduplicated() {
-    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(1));
-    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now());
+  public void listShouldReturnDeduplicatedExpiredAuthorisations() {
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(10));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().minusYears(5));
     final Translator translator = Factory.translator();
     final Authorisation authorisation1 = Factory.kktAuthorisation(translator, meetingDate1);
     final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
-    final Authorisation authorisation3 = Factory.virAuthorisation(translator, meetingDate1);
-    final Authorisation authorisation4 = Factory.kktAuthorisation(translator, meetingDate2);
-    authorisation4.setFromLang(SV);
-    authorisation4.setToLang(FI);
 
     entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
     entityManager.persist(translator);
     entityManager.persist(authorisation1);
     entityManager.persist(authorisation2);
-    entityManager.persist(authorisation3);
-    entityManager.persist(authorisation4);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
-    final List<AuthorisationDTO> authorisationDTOS = responseDTO.translators().get(0).authorisations();
+    final ClerkTranslatorAuthorisationsDTO authorisationsDTO = responseDTO.translators().get(0).authorisations();
 
-    assertEquals(
-      List.of(authorisation3.getId(), authorisation4.getId()),
-      authorisationDTOS.stream().map(AuthorisationDTO::id).toList()
-    );
+    assertEquals(2, authorisationsDTO.expired().size());
+    assertEquals(1, authorisationsDTO.expiredDeduplicated().size());
+
+    final AuthorisationDTO deduplicated = authorisationsDTO.expiredDeduplicated().get(0);
+
+    assertEquals(authorisation2.getId(), deduplicated.id());
+    assertEquals(authorisation2.getTermBeginDate(), deduplicated.termBeginDate());
   }
 
   @Test
@@ -463,8 +466,8 @@ class ClerkTranslatorServiceTest {
 
     assertTranslatorCommonFields(createDTO, response);
 
-    assertEquals(1, response.authorisations().size());
-    final AuthorisationDTO authDto = response.authorisations().get(0);
+    assertEquals(1, response.authorisations().effective().size());
+    final AuthorisationDTO authDto = response.authorisations().effective().get(0);
     assertAuthorisationCommonFields(expectedAuth, authDto);
 
     verify(auditService).logById(AkrOperation.CREATE_TRANSLATOR, response.id());
@@ -485,8 +488,8 @@ class ClerkTranslatorServiceTest {
 
     assertTranslatorCommonFields(createDTO, response);
 
-    assertEquals(1, response.authorisations().size());
-    final AuthorisationDTO authDto = response.authorisations().get(0);
+    assertEquals(1, response.authorisations().effective().size());
+    final AuthorisationDTO authDto = response.authorisations().effective().get(0);
     assertAuthorisationCommonFields(expectedAuth, authDto);
 
     verify(auditService).logById(AkrOperation.CREATE_TRANSLATOR, response.id());
@@ -560,6 +563,8 @@ class ClerkTranslatorServiceTest {
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
     final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
 
+    authorisation.setTermEndDate(LocalDate.now().plusDays(10));
+
     entityManager.persist(meetingDate);
     entityManager.persist(meetingDate2);
     entityManager.persist(translator);
@@ -567,13 +572,15 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(authorisation2);
 
     final ClerkTranslatorDTO clerkTranslatorDTO = clerkTranslatorService.getTranslator(translator.getId());
-
     assertNotNull(clerkTranslatorDTO);
     assertEquals(translator.getId(), clerkTranslatorDTO.id());
-    assertEquals(
-      List.of(authorisation2.getId(), authorisation.getId()),
-      clerkTranslatorDTO.authorisations().stream().map(AuthorisationDTO::id).toList()
-    );
+
+    final ClerkTranslatorAuthorisationsDTO authorisationsDTO = clerkTranslatorDTO.authorisations();
+    assertEquals(2, authorisationsDTO.effective().size());
+    assertEquals(1, authorisationsDTO.expiring().size());
+    assertEquals(0, authorisationsDTO.expired().size());
+    assertEquals(0, authorisationsDTO.expiredDeduplicated().size());
+    assertEquals(0, authorisationsDTO.formerVir().size());
 
     verify(auditService).logById(AkrOperation.GET_TRANSLATOR, translator.getId());
     verifyNoMoreInteractions(auditService);
@@ -763,9 +770,10 @@ class ClerkTranslatorServiceTest {
 
     assertResponseMatchesGet(response);
 
-    assertEquals(2, response.authorisations().size());
+    assertEquals(2, response.authorisations().effective().size());
     final AuthorisationDTO authorisationDTO = response
       .authorisations()
+      .effective()
       .stream()
       .filter(a -> a.id() != authorisation.getId())
       .findAny()
@@ -806,7 +814,7 @@ class ClerkTranslatorServiceTest {
 
     assertResponseMatchesGet(response);
 
-    final AuthorisationDTO authorisationDTO = response.authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = response.authorisations().effective().get(0);
     assertEquals(updateDTO.id(), authorisationDTO.id());
     assertEquals(updateDTO.version() + 1, authorisationDTO.version());
     assertAuthorisationCommonFields(updateDTO, authorisationDTO);
@@ -854,7 +862,7 @@ class ClerkTranslatorServiceTest {
 
     assertResponseMatchesGet(response);
 
-    final AuthorisationDTO authorisationDTO = response.authorisations().get(0);
+    final AuthorisationDTO authorisationDTO = response.authorisations().effective().get(0);
     assertEquals(publishPermissionDTO.id(), authorisationDTO.id());
     assertEquals(publishPermissionDTO.version() + 1, authorisationDTO.version());
     assertEquals(false, authorisationDTO.permissionToPublish());
@@ -887,7 +895,7 @@ class ClerkTranslatorServiceTest {
 
     assertEquals(
       Set.of(authorisation2.getId()),
-      response.authorisations().stream().map(AuthorisationDTO::id).collect(Collectors.toSet())
+      response.authorisations().effective().stream().map(AuthorisationDTO::id).collect(Collectors.toSet())
     );
 
     verify(auditService).logAuthorisation(AkrOperation.DELETE_AUTHORISATION, translator, authorisationId);

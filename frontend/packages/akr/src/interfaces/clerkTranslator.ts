@@ -25,23 +25,42 @@ export interface ClerkTranslatorBasicInformation
   isAssuranceGiven: boolean;
 }
 
+interface ClerkTranslatorAuthorisationsResponse {
+  effective: Array<AuthorisationResponse>;
+  expiring: Array<AuthorisationResponse>;
+  expired: Array<AuthorisationResponse>;
+  expiredDeduplicated: Array<AuthorisationResponse>;
+  formerVir: Array<AuthorisationResponse>;
+}
+
 export interface ClerkTranslatorResponse
   extends ClerkTranslatorBasicInformation,
     WithId,
     WithVersion {
-  authorisations: Array<AuthorisationResponse>;
+  authorisations: ClerkTranslatorAuthorisationsResponse;
+}
+
+export interface ClerkTranslatorAuthorisations {
+  effective: Array<Authorisation>;
+  expiring: Array<Authorisation>;
+  expired: Array<Authorisation>;
+  expiredDeduplicated: Array<Authorisation>;
+  formerVir: Array<Authorisation>;
 }
 
 export interface ClerkTranslator
   extends Omit<ClerkTranslatorResponse, 'authorisations'> {
-  authorisations: Array<Authorisation>;
+  authorisations: ClerkTranslatorAuthorisations;
 }
 
-export interface ClerkTranslatorFilter {
+export interface AuthorisationFilter {
   fromLang?: string;
   toLang?: string;
-  name?: string;
-  authorisationStatus: AuthorisationStatus;
   authorisationBasis?: AuthorisationBasis;
   permissionToPublish?: keyof typeof PermissionToPublish;
+}
+
+export interface ClerkTranslatorFilter extends AuthorisationFilter {
+  name?: string;
+  authorisationStatus: AuthorisationStatus;
 }

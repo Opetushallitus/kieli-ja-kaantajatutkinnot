@@ -16,7 +16,6 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AuthorisationStatus } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
-import { ClerkTranslator } from 'interfaces/clerkTranslator';
 import {
   addAuthorisation,
   removeAuthorisation,
@@ -31,7 +30,6 @@ import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
-import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationDetails = () => {
   // I18n
@@ -42,7 +40,7 @@ export const AuthorisationDetails = () => {
 
   // State
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
-    AuthorisationStatus.Authorised
+    AuthorisationStatus.Effective
   );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -54,9 +52,7 @@ export const AuthorisationDetails = () => {
   // Redux
   const { addStatus, removeStatus, updatePublishPermissionStatus } =
     useAppSelector(authorisationSelector);
-  const { selectedTranslator } = useAppSelector(
-    clerkTranslatorOverviewSelector
-  );
+  const { translator } = useAppSelector(clerkTranslatorOverviewSelector);
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
   ).passed;
@@ -123,30 +119,28 @@ export const AuthorisationDetails = () => {
     dispatch(loadExaminationDates());
   }, [dispatch]);
 
-  if (!selectedTranslator) {
+  if (!translator) {
     return null;
   }
 
-  const { authorised, expiring, expired, formerVIR } =
-    AuthorisationUtils.groupClerkTranslatorAuthorisationsByStatus(
-      selectedTranslator as ClerkTranslator
-    );
+  const { effective, expiring, expired, expiredDeduplicated, formerVir } =
+    translator.authorisations;
 
-  // Authorisations with status "Expiring" are shown under Authorised
   const groupedAuthorisations = {
-    [AuthorisationStatus.Authorised]: [...authorised, ...expiring],
+    [AuthorisationStatus.Effective]: effective,
+    [AuthorisationStatus.Expiring]: expiring,
     [AuthorisationStatus.Expired]: expired,
-    [AuthorisationStatus.FormerVIR]: formerVIR,
-    [AuthorisationStatus.Expiring]: [],
+    [AuthorisationStatus.ExpiredDeduplicated]: expiredDeduplicated,
+    [AuthorisationStatus.FormerVir]: formerVir,
   };
 
   const activeAuthorisations = groupedAuthorisations[selectedToggleFilter];
   const toggleFilters = [
     {
-      status: AuthorisationStatus.Authorised,
-      count: groupedAuthorisations.authorised.length,
-      testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Authorised}`,
-      label: t('toggleFilters.effectives'),
+      status: AuthorisationStatus.Effective,
+      count: groupedAuthorisations.effective.length,
+      testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.Effective}`,
+      label: t('toggleFilters.effective'),
     },
     {
       status: AuthorisationStatus.Expired,
@@ -155,10 +149,10 @@ export const AuthorisationDetails = () => {
       label: t('toggleFilters.expired'),
     },
     {
-      status: AuthorisationStatus.FormerVIR,
-      count: groupedAuthorisations.formerVIR.length,
-      testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.FormerVIR}`,
-      label: t('toggleFilters.formerVIR'),
+      status: AuthorisationStatus.FormerVir,
+      count: groupedAuthorisations.formerVir.length,
+      testId: `clerk-translator-overview__authorisation-details__toggle-btn--${AuthorisationStatus.FormerVir}`,
+      label: t('toggleFilters.formerVir'),
     },
   ];
 
@@ -224,7 +218,7 @@ export const AuthorisationDetails = () => {
         modalTitle={translateCommon('addAuthorisation')}
       >
         <AddAuthorisation
-          translatorId={selectedTranslator.id}
+          translatorId={translator.id}
           meetingDates={passedMeetingDates}
           examinationDates={passedExaminationDates}
           onAuthorisationAdd={handleAddAuthorisation}

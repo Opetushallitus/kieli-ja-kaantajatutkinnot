@@ -102,11 +102,33 @@ export class SerializationUtils {
   static deserializeClerkTranslator(
     translator: ClerkTranslatorResponse
   ): ClerkTranslator {
+    const { authorisations } = translator;
+
+    const effective = authorisations.effective.map(
+      SerializationUtils.deserializeAuthorisation
+    );
+    const expiring = authorisations.expiring.map(
+      SerializationUtils.deserializeAuthorisation
+    );
+    const expired = authorisations.expired.map(
+      SerializationUtils.deserializeAuthorisation
+    );
+    const expiredDeduplicated = authorisations.expiredDeduplicated.map(
+      SerializationUtils.deserializeAuthorisation
+    );
+    const formerVir = authorisations.formerVir.map(
+      SerializationUtils.deserializeAuthorisation
+    );
+
     return {
       ...translator,
-      authorisations: translator.authorisations.map(
-        SerializationUtils.deserializeAuthorisation
-      ),
+      authorisations: {
+        effective,
+        expiring,
+        expired,
+        expiredDeduplicated,
+        formerVir,
+      },
     };
   }
 

@@ -1,6 +1,5 @@
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
-import dayjs from 'dayjs';
 import { FC, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
@@ -49,11 +48,16 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
 
   const filteredSelectedIds = useAppSelector(selectFilteredSelectedIds);
   const dispatch = useAppDispatch();
-  const { firstName, lastName } = translator;
-  const authorisations = translator.authorisations;
 
-  const currentDate = dayjs();
-  const selected = filteredSelectedIds.includes(translator.id);
+  const { lastName, firstName, authorisations } = translator;
+
+  const visibleAuthorisations = [
+    authorisations.effective,
+    authorisations.expiredDeduplicated,
+    authorisations.formerVir,
+  ].flat();
+
+  const isSelected = filteredSelectedIds.includes(translator.id);
 
   const navigate = useNavigate();
 
@@ -71,7 +75,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const handleCheckboxClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
-    if (selected) {
+    if (isSelected) {
       dispatch(deselectClerkTranslator(translator.id));
     } else {
       dispatch(selectClerkTranslator(translator.id));
@@ -101,36 +105,30 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
         case AuthorisationColumn.TermEndDate:
           return DateUtils.formatOptionalDate(termEndDate);
         case AuthorisationColumn.valid:
-          return AuthorisationUtils.isAuthorisationEffective(
-            authorisation,
-            currentDate
-          )
+          return AuthorisationUtils.isEffective(authorisation, authorisations)
             ? translateCommon('yes')
             : translateCommon('no');
       }
     },
-    [currentDate, translateCommon, translateLanguage]
+    [authorisations, translateCommon, translateLanguage]
   );
 
   const getAuthorisationCellClassName = (authorisation: Authorisation) => {
-    const isEffective = AuthorisationUtils.isAuthorisationEffective(
-      authorisation,
-      currentDate
-    );
-
-    return !isEffective ? 'clerk-translator-listing__ineffective' : '';
+    return !AuthorisationUtils.isEffective(authorisation, authorisations)
+      ? 'clerk-translator-listing__ineffective'
+      : '';
   };
 
   return (
     <TableRow
       className="cursor-pointer"
       onClick={handleRowClick}
-      selected={selected}
+      selected={isSelected}
     >
       <TableCell padding="checkbox">
         <Checkbox
           data-testid={`clerk-translators__id-${translator.id}-row`}
-          checked={selected}
+          checked={isSelected}
           color={Color.Secondary}
           onClick={handleCheckboxClick}
         />
@@ -141,7 +139,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
       {Object.values(AuthorisationColumn).map((activeColumn) => (
         <TableCell key={activeColumn}>
           <div className="rows">
-            {authorisations.map((authorisation, idx) => (
+            {visibleAuthorisations.map((authorisation, idx) => (
               <Text
                 className={getAuthorisationCellClassName(authorisation)}
                 key={idx}
