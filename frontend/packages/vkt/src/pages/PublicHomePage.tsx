@@ -1,8 +1,17 @@
 import { Box, Grid } from '@mui/material';
-import { FC } from 'react';
-import { H1 } from 'shared/components';
+import { FC, useEffect } from 'react';
+
+import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
+import { useAppDispatch } from 'configs/redux';
+import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 
 export const PublicHomePage: FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadPublicExamEvents());
+  }, [dispatch]);
+
   return (
     <Box className="public-homepage">
       <Grid
@@ -11,7 +20,7 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <H1>Valtionhallinnon kielitutkinnot</H1>
+        <PublicExamEventGrid />
       </Grid>
     </Box>
   );

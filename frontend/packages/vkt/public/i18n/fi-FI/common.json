@@ -3,7 +3,16 @@
     "common": {
       "appTitle": "Valtionhallinnon kielitutkinnot",
       "contactEmail": "vkt@oph.fi",
-      "ophLogo": "Opetushallituksen logo"
+      "ophLogo": "Opetushallituksen logo",
+      "examDates": "Tutkintopäivät",
+      "examLanguage": {
+        "FI": "Suomi",
+        "SV": "Ruotsi"
+      },
+      "examLevel": {
+        "excellent": "Erinomainen"
+      },
+      "rowsPerPageLabel": "Tulokset per sivu"
     }
   }
 }

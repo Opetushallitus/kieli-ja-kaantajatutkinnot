@@ -6,7 +6,8 @@
   "moduleNameMapper": {
     "\\.scss": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
     "\\.svg": "<rootDir>/src/tests/jest/__mocks__/fileMocks.ts",
-    "^shared(.*)$": "<rootDir>../../node_modules/shared/src/$1"
+    "^public/(.*)$": "<rootDir>/public/$1",
+    "^shared/(.*)$": "<rootDir>/node_modules/shared/src/$1"
   },
   "setupFiles": [
     "./src/tests/jest/__mocks__/globalMocks.ts"
@@ -18,10 +19,11 @@
   "testPathIgnorePatterns": [
     "./src/tests/cypress"
   ],
+  "testTimeout": 10000,
   "transform": {
     "^.+\\.(ts|tsx)$": "babel-jest"
   },
   "transformIgnorePatterns": [
-    "<rootDir>../../node_modules/(?!shared)"
+    "<rootDir>/node_modules/(?!shared)"
   ]
 }

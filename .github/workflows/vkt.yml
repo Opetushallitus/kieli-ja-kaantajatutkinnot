@@ -8,65 +8,16 @@ on:
       - "frontend/packages/vkt/**"
       - "!**/*.md"
 
-env:
-  FRONTEND_DIR: ./frontend
-  BACKEND_DIR: ./backend
-  GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   frontend:
-    if: contains(github.event.head_commit.message, 'VKT')
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.16.0]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          yarn install --immutable
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-      - name: Run Linters
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn vkt:lint
-      - name: Format
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn vkt:format
-      # - name: Run Jest Tests
-      #   working-directory: ${{ env.FRONTEND_DIR }}
-      #   run: yarn vkt:test:jest
-      # - name: Run Cypress Tests
-      #   uses: cypress-io/github-action@v3
-      #   with:
-      #     working-directory: ${{ env.FRONTEND_DIR }}
-      #     install-command: yarn install --immutable
-      #     start: yarn vkt:start
-      #     command: yarn vkt:test:cypress
-      - name: Build
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: yarn vkt:build
-      - uses: actions/cache@v3
-        id: vkt-frontend-build
-        with:
-          path: ${{ env.BACKEND_DIR }}/vkt/src/main/resources/static
-          key: ${{ runner.os }}-vkt-frontend-build-${{ github.sha }}
+    uses: ./.github/workflows/common-frontend.yml
+    with:
+      app-name: "vkt"
+      cypress-base-url: "http://localhost:4002"
   backend:
     needs: frontend
     uses: ./.github/workflows/common-backend.yml

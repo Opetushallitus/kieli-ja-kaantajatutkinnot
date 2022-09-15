@@ -6,7 +6,6 @@ import {
 } from '@mui/material';
 import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 
-import { H2 } from '../../components/Text/Text';
 import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
@@ -18,7 +17,7 @@ interface PaginatedTableProps<T extends WithId> {
   className: string;
   rowsPerPageLabel: string;
   header?: JSX.Element;
-  headerTitle?: string;
+  headerContent?: JSX.Element;
   stickyHeader?: boolean;
   showBottomPagination?: boolean;
 }
@@ -33,7 +32,7 @@ export function PaginatedTable<T extends WithId>({
   stickyHeader,
   showBottomPagination = true,
   rowsPerPageLabel,
-  headerTitle,
+  headerContent,
 }: PaginatedTableProps<T>): JSX.Element {
   const PaginationDisplayedRowsLabel = ({
     from,
@@ -59,9 +58,13 @@ export function PaginatedTable<T extends WithId>({
     }
   }, [data, count]);
 
-  const Pagination = ({ showHeaderTitle }: { showHeaderTitle: boolean }) => (
+  const Pagination = ({
+    showHeaderContent,
+  }: {
+    showHeaderContent: boolean;
+  }) => (
     <div className="table__head-box">
-      {showHeaderTitle && <H2>{headerTitle}</H2>}
+      {showHeaderContent && headerContent}
       <TablePagination
         className="table__head-box__pagination"
         count={count}
@@ -79,7 +82,7 @@ export function PaginatedTable<T extends WithId>({
 
   return (
     <>
-      <Pagination showHeaderTitle={!!headerTitle} />
+      <Pagination showHeaderContent={!!headerContent} />
       <Table className={`${className} table`} stickyHeader={stickyHeader}>
         {header}
         <TableBody>
@@ -90,7 +93,7 @@ export function PaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && <Pagination showHeaderTitle={false} />}
+      {showBottomPagination && <Pagination showHeaderContent={false} />}
     </>
   );
 }
