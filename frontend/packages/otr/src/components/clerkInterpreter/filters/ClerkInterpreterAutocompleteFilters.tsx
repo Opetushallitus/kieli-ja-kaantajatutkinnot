@@ -33,7 +33,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { filters, qualificationLanguages } = useAppSelector(
+  const { filters, distinctToLangs } = useAppSelector(
     clerkInterpretersSelector
   );
 
@@ -106,7 +106,8 @@ export const ClerkInterpreterAutocompleteFilters = () => {
             label={t('languagePair.fromPlaceholder')}
             excludedLanguage={filters.toLang}
             value={getLanguageSelectValue(filters.fromLang)}
-            languages={qualificationLanguages}
+            languages={[filters.fromLang || '']}
+            disabled={true}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('fromLang')}
             translateLanguage={translateLanguage}
@@ -117,7 +118,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
             label={t('languagePair.toPlaceholder')}
             excludedLanguage={filters.fromLang}
             value={getLanguageSelectValue(filters.toLang)}
-            languages={qualificationLanguages}
+            languages={distinctToLangs}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('toLang')}
             translateLanguage={translateLanguage}

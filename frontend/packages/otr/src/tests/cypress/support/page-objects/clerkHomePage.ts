@@ -1,6 +1,5 @@
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType } from 'enums/interpreter';
-import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox';
 
 class ClerkHomePage {
   elements = {
@@ -23,27 +22,30 @@ class ClerkHomePage {
   }
 
   filterByExaminationType(examinationType: ExaminationType) {
-    selectComboBoxOptionByName(
-      this.elements.examinationTypeFilter(),
-      examinationType == ExaminationType.LegalInterpreterExam
+    const value =
+      examinationType === ExaminationType.LegalInterpreterExam
         ? 'Oikeustulkkauksen erikoisammattitutkinto'
-        : 'Korkeakouluopinnot'
-    );
-  }
+        : 'Korkeakouluopinnot';
 
-  filterByFromLanguage(lang: string) {
-    selectComboBoxOptionByName(this.elements.fromLanguageFilter(), lang);
+    this.elements
+      .examinationTypeFilter()
+      .should('be.visible')
+      .type(value + '{enter}');
   }
 
   filterByToLanguage(lang: string) {
-    selectComboBoxOptionByName(this.elements.toLanguageFilter(), lang);
+    this.elements
+      .toLanguageFilter()
+      .should('be.visible')
+      .type(lang + '{enter}');
   }
 
   filterByPermissionToPublish(permissionToPublish: boolean) {
-    selectComboBoxOptionByName(
-      this.elements.permissionToPublish(),
-      permissionToPublish ? 'Kyllä' : 'Ei'
-    );
+    const value = permissionToPublish ? 'Kyllä' : 'Ei';
+    this.elements
+      .permissionToPublish()
+      .should('be.visible')
+      .type(value + '{enter}');
   }
 
   filterByQualificationStatus(qualificationStatus: QualificationStatus) {

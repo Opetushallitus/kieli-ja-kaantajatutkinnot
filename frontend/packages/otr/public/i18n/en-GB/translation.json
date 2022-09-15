@@ -27,23 +27,23 @@
         },
         "permissionToPublish": {
           "placeholder": "All",
-          "title": "Permission to publish the language pair"
+          "title": "Permission to publish"
         },
         "qualificationStatus": {
-          "effective": "Valid",
+          "effective": null,
           "expired": "Expired",
           "expiring": "Expiring"
         }
       },
       "clerkInterpreterListing": {
         "header": {
+          "beginDate": "Start date",
+          "endDate": "End date",
           "name": "Name",
           "languagePairs": "Language pairs",
+          "permissionToPublish": "Permission to publish",
           "region": "Operating area",
-          "validFor": "Valid"
-        },
-        "row": {
-          "detailsButton": "Additional information"
+          "valid": "Valid"
         }
       },
       "clerkInterpreterOverview": {
@@ -253,7 +253,7 @@
       },
       "table": {
         "pagination": {
-          "rowsPerPage": null
+          "rowsPerPage": "Results per page"
         }
       }
     },

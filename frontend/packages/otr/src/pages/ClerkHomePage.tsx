@@ -63,6 +63,9 @@ export const ClerkHomePage: FC = () => {
         </div>
       </Grid>
       <Grid item>
+        <Divider />
+      </Grid>
+      <Grid item>
         <ClerkInterpreterListing />
       </Grid>
     </>

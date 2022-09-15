@@ -1,16 +1,18 @@
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import { Button, TableCell, TableRow } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { TableCell, TableRow } from '@mui/material';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 import { Text } from 'shared/components';
-import { Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import {
-  useAppTranslation,
+  useCommonTranslation,
   useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
+import { setClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
+import { QualificationUtils } from 'utils/qualifications';
 import { RegionUtils } from 'utils/regions';
 
 export const ClerkInterpreterListingRow = ({
@@ -20,15 +22,24 @@ export const ClerkInterpreterListingRow = ({
 }) => {
   const { firstName, lastName, qualifications, regions } = interpreter;
   const translateLanguage = useKoodistoLanguagesTranslation();
-  const { t } = useAppTranslation({
-    keyPrefix: 'otr.component.clerkInterpreterListing.row',
-  });
+  const translateCommon = useCommonTranslation();
 
-  const interpreterDetailsURL = (id: number) =>
-    AppRoutes.ClerkInterpreterOverviewPage.replace(/:interpreterId$/, `${id}`);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    e?.stopPropagation();
+    navigate(
+      AppRoutes.ClerkInterpreterOverviewPage.replace(
+        /:interpreterId$/,
+        `${interpreter.id}`
+      )
+    );
+    dispatch(setClerkInterpreterOverview(interpreter));
+  };
 
   return (
-    <TableRow>
+    <TableRow className="cursor-pointer" onClick={handleRowClick}>
       <TableCell>
         <Text>{`${firstName} ${lastName}`}</Text>
       </TableCell>
@@ -42,26 +53,35 @@ export const ClerkInterpreterListingRow = ({
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map(({ beginDate, endDate }, k) => (
+        {qualifications.map(({ beginDate }, k) => (
+          <Text key={k}>{DateUtils.formatOptionalDate(beginDate)}</Text>
+        ))}
+      </TableCell>
+      <TableCell>
+        {qualifications.map(({ endDate }, k) => (
+          <Text key={k}>{DateUtils.formatOptionalDate(endDate)}</Text>
+        ))}
+      </TableCell>
+      <TableCell>
+        {qualifications.map((qualification, k) => (
           <Text key={k}>
-            {DateUtils.formatOptionalDate(beginDate)}
-            {` - `}
-            {DateUtils.formatOptionalDate(endDate)}
+            {QualificationUtils.isQualificationEffective(qualification, dayjs())
+              ? translateCommon('yes')
+              : translateCommon('no')}
           </Text>
-        ))}{' '}
+        ))}
+      </TableCell>
+      <TableCell>
+        {qualifications.map(({ permissionToPublish }, k) => (
+          <Text key={k}>
+            {permissionToPublish
+              ? translateCommon('yes')
+              : translateCommon('no')}
+          </Text>
+        ))}
       </TableCell>
       <TableCell>
         <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
-      </TableCell>
-      <TableCell>
-        <Button
-          to={interpreterDetailsURL(interpreter.id)}
-          component={Link}
-          color={Color.Secondary}
-          endIcon={<ArrowForwardIosOutlinedIcon />}
-        >
-          {t('detailsButton')}
-        </Button>
       </TableCell>
     </TableRow>
   );
