@@ -20,6 +20,12 @@
           "accessibility": {
             "text": "Saavutettavuusseloste"
           },
+          "contact": {
+            "title": "Palaute ja kehitysideat"
+          },
+          "privacy": {
+            "text": "Tietosuojaseloste"
+          },
           "vktHomepage": {
             "ariaLabel": "Valtiohallinnon kielitutkinto (oph.fi), avaa uudessa välilehdessä",
             "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot",

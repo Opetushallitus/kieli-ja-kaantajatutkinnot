@@ -5,5 +5,6 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
+  PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   NotFoundPage = '*',
 }

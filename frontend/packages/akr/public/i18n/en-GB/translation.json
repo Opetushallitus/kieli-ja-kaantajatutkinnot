@@ -216,13 +216,13 @@
           "accessibility": {
             "text": "Accessibility statement (in Finnish)"
           },
-          "aktHomepage": {
+          "akrHomepage": {
             "ariaLabel": "Examination system of authorised translators (oph.fi), open in a new tab",
             "link": "https://www.oph.fi/en/services/briefly-about-authorised-translators-examination",
             "text": "Examination system of authorised translators (oph.fi)"
           },
           "privacy": {
-            "text": "Privacy policy"
+            "text": "Privacy policy (in Finnish)"
           }
         }
       },

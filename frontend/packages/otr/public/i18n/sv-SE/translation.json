@@ -144,6 +144,9 @@
             "ariaLabel": "Registret över rättstolkar (oph.fi), öppna i en ny flik",
             "link": "https://www.oph.fi/sv/tjanster/registret-over-rattstolkar",
             "text": "Information om Registret över rättstolkar (oph.fi)"
+          },
+          "privacy": {
+            "text": "Dataskyddsbeskrivning"
           }
         }
       },

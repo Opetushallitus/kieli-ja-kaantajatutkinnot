@@ -11,6 +11,7 @@ export enum AppRoutes {
   ClerkNewInterpreterPage = '/otr/virkailija/lisaa-tulkki',
   ClerkLocalLogoutPage = '/otr/cas/localLogout',
   AccessibilityStatementPage = '/otr/saavutettavuusseloste',
+  PrivacyPolicyPage = '/otr/tietosuojaseloste',
   NotFoundPage = '*',
 }
 

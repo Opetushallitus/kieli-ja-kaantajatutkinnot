@@ -14,7 +14,7 @@ exports[`Footer should render Footer correctly 1`] = `
       className="footer__info-row"
     >
       <div
-        className="footer__container footer__container--links"
+        className="footer__container footer__container__links"
       >
         <a
           className="custom-button-link"
@@ -69,9 +69,9 @@ exports[`Footer should render Footer correctly 1`] = `
           </button>
         </a>
         <a
-          aria-label="links.aktHomepage.ariaLabel"
+          aria-label="links.akrHomepage.ariaLabel"
           className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
-          href="links.aktHomepage.link"
+          href="links.akrHomepage.link"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}
@@ -88,7 +88,7 @@ exports[`Footer should render Footer correctly 1`] = `
           tabIndex={0}
           target="_blank"
         >
-          links.aktHomepage.text
+          links.akrHomepage.text
           <span
             className="MuiButton-endIcon MuiButton-iconSizeMedium css-9tj150-MuiButton-endIcon"
           >
@@ -105,30 +105,40 @@ exports[`Footer should render Footer correctly 1`] = `
             </svg>
           </span>
         </a>
-        <a
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container--links__contact-email css-1y942vo-MuiButtonBase-root-MuiButton-root"
-          href="mailto:contactEmail"
-          onBlur={[Function]}
-          onContextMenu={[Function]}
-          onDragLeave={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onKeyUp={[Function]}
-          onMouseDown={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchMove={[Function]}
-          onTouchStart={[Function]}
-          rel="noreferrer"
-          tabIndex={0}
-          target="_blank"
+        <div
+          className="footer__container__links__contact"
         >
-          contactEmail
-        </a>
+          <h3
+            className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+          >
+            links.contact.title
+            :
+          </h3>
+          <a
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container__links__contact__email css-1y942vo-MuiButtonBase-root-MuiButton-root"
+            href="mailto:contactEmail"
+            onBlur={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            rel="noreferrer"
+            tabIndex={0}
+            target="_blank"
+          >
+            contactEmail
+          </a>
+        </div>
       </div>
       <div
-        className="footer__container footer__container--contact-details"
+        className="footer__container footer__container__contact-details"
       >
         <h3
           className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
@@ -184,7 +194,7 @@ exports[`Footer should render Footer correctly 1`] = `
       >
         <img
           alt="akrLogo"
-          className="footer__container__logo--akr"
+          className="footer__container__logo__akr"
           src="test"
         />
       </div>
@@ -201,7 +211,7 @@ exports[`Footer should render Footer correctly 1`] = `
         >
           <img
             alt="ophLogo"
-            className="footer__container__logo--oph"
+            className="footer__container__logo__oph"
             src="test"
           />
         </span>
