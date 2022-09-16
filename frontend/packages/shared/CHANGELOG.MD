@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.4] - 2022-09-16
+
+### Changed
+
+- Allow passing headerTitle to PaginatedTable
+- Added `shared:format:write` command to package.json
+
 ## [1.3.3] - 2022-09-13
 
 ### Added

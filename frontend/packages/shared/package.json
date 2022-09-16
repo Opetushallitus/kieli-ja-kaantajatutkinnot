@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",
@@ -22,6 +22,7 @@
   "scripts": {
     "shared:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "shared:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "shared:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "shared:lint": "yarn shared:eslint && yarn shared:tslint && yarn shared:stylelint",
     "shared:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "shared:test:jest": "yarn g:jest",
