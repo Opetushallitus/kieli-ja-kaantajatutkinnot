@@ -1,6 +1,6 @@
 package fi.oph.vkt.api.dto;
 
-import fi.oph.vkt.model.exam.ExamLanguage;
+import fi.oph.vkt.model.type.ExamLanguage;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.NonNull;

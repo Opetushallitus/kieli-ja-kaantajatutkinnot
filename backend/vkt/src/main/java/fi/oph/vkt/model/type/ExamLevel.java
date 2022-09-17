@@ -1,4 +1,4 @@
-package fi.oph.vkt.model.exam;
+package fi.oph.vkt.model.type;
 
 public enum ExamLevel {
   EXCELLENT,

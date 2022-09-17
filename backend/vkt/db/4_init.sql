@@ -1,4 +1,4 @@
-TRUNCATE TABLE exam_event;
+TRUNCATE TABLE exam_event CASCADE;
 
 -- Insert exam events
 

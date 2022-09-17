@@ -1,7 +1,7 @@
 package fi.oph.vkt.repository;
 
-import fi.oph.vkt.model.exam.ExamLanguage;
-import fi.oph.vkt.model.exam.ExamLevel;
+import fi.oph.vkt.model.type.ExamLanguage;
+import fi.oph.vkt.model.type.ExamLevel;
 import java.time.LocalDate;
 
 public record ClerkExamEventProjection(

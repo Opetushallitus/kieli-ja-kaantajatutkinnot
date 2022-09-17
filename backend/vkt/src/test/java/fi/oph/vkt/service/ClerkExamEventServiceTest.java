@@ -5,11 +5,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
+import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.exam.ExamLanguage;
+import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.ExamEventRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -120,5 +126,91 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getDate(), examEventListDTO.date());
     assertEquals(expected.getRegistrationCloses(), examEventListDTO.registrationCloses());
     assertEquals(expected.getMaxParticipants(), examEventListDTO.maxParticipants());
+  }
+
+  @Test
+  public void testGetExamEvent() {
+    final ExamEvent examEvent = Factory.examEvent();
+    examEvent.setMaxParticipants(1);
+
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Enrollment enrollment1 = Factory.enrollment(examEvent, person1);
+    final Enrollment enrollment2 = createEnrollmentWithNonDefaultAttributes(enrollment1, examEvent, person2);
+    final ExamEvent otherExamEvent = Factory.examEvent(ExamLanguage.SV);
+    final Enrollment otherEnrollment = Factory.enrollment(otherExamEvent, person1);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(enrollment1);
+    entityManager.persist(enrollment2);
+    entityManager.persist(otherExamEvent);
+    entityManager.persist(otherEnrollment);
+
+    final ClerkExamEventDTO examEventDTO = clerkExamEventService.getExamEvent(examEvent.getId());
+    assertEquals(examEvent.getId(), examEventDTO.id());
+    assertEquals(examEvent.getVersion(), examEventDTO.version());
+    assertEquals(examEvent.getLanguage(), examEventDTO.language());
+    assertEquals(examEvent.getLevel(), examEventDTO.level());
+    assertEquals(examEvent.getDate(), examEventDTO.date());
+    assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
+    assertEquals(examEvent.isVisible(), examEventDTO.isVisible());
+    assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
+
+    assertEquals(2, examEventDTO.enrollments().size());
+    assertEnrollmentDTO(enrollment1, examEventDTO.enrollments());
+    assertEnrollmentDTO(enrollment2, examEventDTO.enrollments());
+
+    verify(auditService).logById(VktOperation.GET_EXAM_EVENT, examEvent.getId());
+    verifyNoMoreInteractions(auditService);
+  }
+
+  private Enrollment createEnrollmentWithNonDefaultAttributes(
+    final Enrollment defaultEnrollment,
+    final ExamEvent examEvent,
+    final Person person
+  ) {
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setOralSkill(!defaultEnrollment.isOralSkill());
+    enrollment.setTextualSkill(!defaultEnrollment.isTextualSkill());
+    enrollment.setUnderstandingSkill(!defaultEnrollment.isUnderstandingSkill());
+    enrollment.setSpeakingPartialExam(!defaultEnrollment.isSpeakingPartialExam());
+    enrollment.setSpeechComprehensionPartialExam(!defaultEnrollment.isSpeechComprehensionPartialExam());
+    enrollment.setWritingPartialExam(!defaultEnrollment.isWritingPartialExam());
+    enrollment.setReadingComprehensionPartialExam(!defaultEnrollment.isReadingComprehensionPartialExam());
+    enrollment.setStatus(EnrollmentStatus.QUEUED);
+    enrollment.setPreviousEnrollmentDate(null);
+    enrollment.setDigitalCertificateConsent(!defaultEnrollment.isDigitalCertificateConsent());
+
+    return enrollment;
+  }
+
+  private void assertEnrollmentDTO(final Enrollment expected, final List<ClerkEnrollmentDTO> enrollmentDTOs) {
+    final ClerkEnrollmentDTO enrollmentDTO = enrollmentDTOs
+      .stream()
+      .filter(dto -> dto.id().equals(expected.getId()))
+      .findAny()
+      .get();
+    final ClerkPersonDTO personDTO = enrollmentDTO.person();
+
+    assertEquals(expected.getVersion(), enrollmentDTO.version());
+    assertEquals(expected.isOralSkill(), enrollmentDTO.oralSkill());
+    assertEquals(expected.isTextualSkill(), enrollmentDTO.textualSkill());
+    assertEquals(expected.isUnderstandingSkill(), enrollmentDTO.understandingSkill());
+    assertEquals(expected.isSpeakingPartialExam(), enrollmentDTO.speakingPartialExam());
+    assertEquals(expected.isSpeechComprehensionPartialExam(), enrollmentDTO.speechComprehensionPartialExam());
+    assertEquals(expected.isWritingPartialExam(), enrollmentDTO.writingPartialExam());
+    assertEquals(expected.isReadingComprehensionPartialExam(), enrollmentDTO.readingComprehensionPartialExam());
+    assertEquals(expected.getStatus(), enrollmentDTO.status());
+    assertEquals(expected.getPreviousEnrollmentDate(), enrollmentDTO.previousEnrollmentDate());
+    assertEquals(expected.isDigitalCertificateConsent(), enrollmentDTO.digitalCertificateConsent());
+
+    // TODO: add more checks once ONR mock is integrated to the service
+    assertEquals(expected.getPerson().getId(), personDTO.id());
+    assertEquals(expected.getPerson().getVersion(), personDTO.version());
+
+    assertEquals(0, enrollmentDTO.payments().size());
   }
 }
