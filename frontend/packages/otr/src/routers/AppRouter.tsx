@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Notifier } from 'shared/components';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
+import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
@@ -14,6 +15,11 @@ import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
+  const translateCommon = useCommonTranslation();
+
+  useEffect(() => {
+    document.title = translateCommon('appTitle');
+  }, [translateCommon]);
   useAPIErrorToast();
 
   return (

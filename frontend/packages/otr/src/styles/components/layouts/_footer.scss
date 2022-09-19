@@ -41,23 +41,27 @@
     font-size: 1rem;
     padding: 1.5rem;
 
-    &--links,
-    &--contact-details {
+    &__links,
+    &__contact-details {
       margin-top: 3rem;
 
       @include phone {
         margin-top: 0;
       }
 
-      &__contact-email {
-        &#{&} {
-          font-weight: normal;
-          margin-top: 0.5rem;
+      &__contact {
+        margin-top: 3rem;
+
+        &__email {
+          &#{&} {
+            font-weight: normal;
+            margin-top: 0.5rem;
+          }
         }
       }
     }
 
-    &__logo--oph {
+    &__logo__oph {
       height: 8rem;
       margin: 0 4rem;
 

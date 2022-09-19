@@ -1,7 +1,8 @@
 {
   "vkt": {
     "common": {
-      "contactEmail": "kielitutkinnot@oph.fi",
+      "appTitle": "Valtionhallinnon kielitutkinnot",
+      "contactEmail": "vkt@oph.fi",
       "ophLogo": "Opetushallituksen logo"
     }
   }

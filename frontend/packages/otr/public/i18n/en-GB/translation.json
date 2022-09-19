@@ -144,6 +144,9 @@
             "ariaLabel": "Register of legal interpreters (oph.fi), open in a new tab",
             "link": "https://www.oph.fi/fi/palvelut/oikeustulkkirekisteri",
             "text": "Information on the Register of Legal Interpreters (oph.fi)"
+          },
+          "privacy": {
+            "text": "Privacy policy (in Finnish)"
           }
         }
       },

@@ -140,10 +140,16 @@
           "accessibility": {
             "text": "Saavutettavuusseloste"
           },
+          "contact": {
+            "title": "Palaute ja kehitysideat"
+          },
           "otrHomepage": {
             "ariaLabel": "Oikeustulkkirekisteri (oph.fi), avaa uudessa välilehdessä",
             "link": "https://www.oph.fi/fi/palvelut/oikeustulkkirekisteri",
             "text": "Tietoa Oikeustulkkirekisteristä (oph.fi)"
+          },
+          "privacy": {
+            "text": "Tietosuojaseloste"
           }
         }
       },

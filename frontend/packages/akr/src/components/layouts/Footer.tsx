@@ -41,7 +41,7 @@ export const Footer = () => {
           />
           <Paper className="footer" elevation={3}>
             <div className="footer__info-row">
-              <div className="footer__container footer__container--links">
+              <div className="footer__container footer__container__links">
                 <CustomButtonLink
                   to={AppRoutes.AccessibilityStatementPage}
                   variant={Variant.Text}
@@ -55,18 +55,21 @@ export const Footer = () => {
                   {t('links.privacy.text')}
                 </CustomButtonLink>
                 <ExtLink
-                  text={t('links.aktHomepage.text')}
-                  href={t('links.aktHomepage.link')}
+                  text={t('links.akrHomepage.text')}
+                  href={t('links.akrHomepage.link')}
                   endIcon={<OpenInNewIcon />}
-                  aria-label={t('links.aktHomepage.ariaLabel')}
+                  aria-label={t('links.akrHomepage.ariaLabel')}
                 />
-                <ExtLink
-                  className="footer__container--links__contact-email"
-                  href={`mailto:${translateCommon('contactEmail')}`}
-                  text={translateCommon('contactEmail')}
-                ></ExtLink>
+                <div className="footer__container__links__contact">
+                  <H3>{t('links.contact.title')}:</H3>
+                  <ExtLink
+                    className="footer__container__links__contact__email"
+                    href={`mailto:${translateCommon('contactEmail')}`}
+                    text={translateCommon('contactEmail')}
+                  ></ExtLink>
+                </div>
               </div>
-              <div className="footer__container footer__container--contact-details">
+              <div className="footer__container footer__container__contact-details">
                 <H3>{t('address.name')}</H3>
                 <br />
                 <Text>{t('address.street')}</Text>
@@ -86,7 +89,7 @@ export const Footer = () => {
               </div>
               <div className="footer__container">
                 <Svg
-                  className={'footer__container__logo--akr'}
+                  className={'footer__container__logo__akr'}
                   src={AKTLogo}
                   alt={translateCommon('akrLogo')}
                 />
@@ -96,7 +99,7 @@ export const Footer = () => {
             <div className="footer__logo-row">
               <Divider className="footer__logo-row__divider">
                 <OPHLogoViewer
-                  className="footer__container__logo--oph"
+                  className="footer__container__logo__oph"
                   direction={Direction.Vertical}
                   alt={translateCommon('ophLogo')}
                   currentLang={getCurrentLang()}
