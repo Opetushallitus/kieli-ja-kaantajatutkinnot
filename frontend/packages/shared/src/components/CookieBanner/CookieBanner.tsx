@@ -27,7 +27,7 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   }, [setOpen, cookieTag]);
 
   const handleAcceptCookies = () => {
-    sessionStorage.setItem(`cookie-consent-${cookieTag}`, JSON.stringify(true));
+    sessionStorage.setItem(`cookie-consent-${cookieTag}`, 'true');
     setOpen(false);
   };
 

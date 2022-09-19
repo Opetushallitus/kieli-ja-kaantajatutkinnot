@@ -1,10 +1,11 @@
 import { AppRoutes } from 'enums/app';
 
-Cypress.Commands.add('openPublicHomePage', (shouldShowCookieBanner = false) => {
+Cypress.Commands.add('openPublicHomePage', (acceptCookies = true) => {
   cy.visit(AppRoutes.PublicHomePage, {
     onBeforeLoad: (window) => {
-      if (!shouldShowCookieBanner) {
-        window.sessionStorage.setItem('cookie-consent-akr', true);
+      window.sessionStorage.clear();
+      if (acceptCookies) {
+        window.sessionStorage.setItem('cookie-consent-akr', 'true');
       }
     },
   });
