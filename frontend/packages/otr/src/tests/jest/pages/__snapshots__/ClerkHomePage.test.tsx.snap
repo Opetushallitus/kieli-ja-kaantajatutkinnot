@@ -187,14 +187,14 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                     >
                       <div
-                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                         data-testid="clerk-interpreter-filters__from-lang"
                       >
                         <div
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="false"
                             for=":ri:"
                             id=":ri:-label"
@@ -263,14 +263,14 @@ Object {
                       class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                     >
                       <div
-                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                         data-testid="clerk-interpreter-filters__to-lang"
                       >
                         <div
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="false"
                             for=":rk:"
                             id=":rk:-label"
@@ -350,7 +350,7 @@ Object {
                     data-testid="clerk-interpreter-filters__name"
                   >
                     <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                       data-shrink="false"
                       for=":rm:"
                       id=":rm:-label"
@@ -394,14 +394,14 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__examination-type"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rn:"
                           id=":rn:-label"
@@ -479,14 +479,14 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__permission-to-publish-basis"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rp:"
                           id=":rp:-label"
@@ -770,9 +770,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -851,16 +851,16 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2017
+                        01/01/2017
                          - 
-                        1.1.2022
+                        01/01/2022
                       </p>
                        
                     </td>
@@ -932,9 +932,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1006,9 +1006,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1080,9 +1080,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1154,9 +1154,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1228,9 +1228,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1302,9 +1302,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1376,9 +1376,9 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                        
                     </td>
@@ -1457,16 +1457,16 @@ Object {
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        1.1.2020
+                        01/01/2020
                          - 
-                        1.1.2025
+                        01/01/2025
                       </p>
                       <p
                         class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                       >
-                        3.10.2018
+                        10/03/2018
                          - 
-                        3.10.2023
+                        10/03/2023
                       </p>
                        
                     </td>
@@ -1803,14 +1803,14 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__from-lang"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":ri:"
                           id=":ri:-label"
@@ -1879,14 +1879,14 @@ Object {
                     class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                       data-testid="clerk-interpreter-filters__to-lang"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                           data-shrink="false"
                           for=":rk:"
                           id=":rk:-label"
@@ -1966,7 +1966,7 @@ Object {
                   data-testid="clerk-interpreter-filters__name"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="false"
                     for=":rm:"
                     id=":rm:-label"
@@ -2010,14 +2010,14 @@ Object {
                   class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                 >
                   <div
-                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                     data-testid="clerk-interpreter-filters__examination-type"
                   >
                     <div
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="false"
                         for=":rn:"
                         id=":rn:-label"
@@ -2095,14 +2095,14 @@ Object {
                   class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
                 >
                   <div
-                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-12o1et4-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
                     data-testid="clerk-interpreter-filters__permission-to-publish-basis"
                   >
                     <div
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1cp0js7-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-177thb3-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="false"
                         for=":rp:"
                         id=":rp:-label"
@@ -2386,9 +2386,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2467,16 +2467,16 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2017
+                      01/01/2017
                        - 
-                      1.1.2022
+                      01/01/2022
                     </p>
                      
                   </td>
@@ -2548,9 +2548,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2622,9 +2622,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2696,9 +2696,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2770,9 +2770,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2844,9 +2844,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2918,9 +2918,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -2992,9 +2992,9 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                      
                   </td>
@@ -3073,16 +3073,16 @@ Object {
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      1.1.2020
+                      01/01/2020
                        - 
-                      1.1.2025
+                      01/01/2025
                     </p>
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1fltv3x-MuiTypography-root"
                     >
-                      3.10.2018
+                      10/03/2018
                        - 
-                      3.10.2023
+                      10/03/2023
                     </p>
                      
                   </td>

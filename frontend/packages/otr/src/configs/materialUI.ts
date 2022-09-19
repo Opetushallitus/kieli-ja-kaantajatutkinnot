@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
 // Create Material UI theme configs
 const primaryColor = '#FFFFFF';
@@ -39,7 +40,7 @@ export const theme = createTheme({
           '&.Mui-focused': {
             color: grey700Color,
           },
-          '&.MuiInputLabel-shrink': {
+          '&.Mui-disabled': {
             color: primaryHeadingColor,
           },
           color: grey700Color,
@@ -53,26 +54,11 @@ export const theme = createTheme({
         },
       },
     },
-    MuiRadio: {
+    MuiCalendarPicker: {
       styleOverrides: {
         root: {
-          color: grey700Color,
-          '&.Mui-checked': {
-            color: secondaryColor,
-          },
-          '&.Mui-disabled': {
+          '& .MuiTypography-caption': {
             color: grey700Color,
-          },
-        },
-      },
-    },
-    MuiAutocomplete: {
-      styleOverrides: {
-        tag: {
-          backgroundColor: secondaryColor,
-          color: primaryColor,
-          '.MuiChip-deleteIcon': {
-            color: primaryLightColor,
           },
         },
       },
