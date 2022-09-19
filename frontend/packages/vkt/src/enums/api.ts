@@ -12,4 +12,6 @@ export enum APIResponseStatus {
  * Certain errors expected to be returned by the backend.
  * The respective backend enum is `APIExceptionType`.
  */
-export enum APIError {}
+export enum APIError {
+  InvalidVersion = 'invalidVersion',
+}

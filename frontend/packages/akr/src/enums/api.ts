@@ -21,6 +21,7 @@ export enum APIError {
   AuthorisationMissingMeetingDate = 'authorisationMissingMeetingDate',
   ExaminationDateCreateDuplicateDate = 'examinationDateCreateDuplicateDate',
   ExaminationDateDeleteHasAuthorisations = 'examinationDateDeleteHasAuthorisations',
+  InvalidVersion = 'invalidVersion',
   MeetingDateCreateDuplicateDate = 'meetingDateCreateDuplicateDate',
   MeetingDateDeleteHasAuthorisations = 'meetingDateDeleteHasAuthorisations',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',
