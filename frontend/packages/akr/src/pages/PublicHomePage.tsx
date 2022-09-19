@@ -33,10 +33,10 @@ export const PublicHomePage: FC = () => {
         <Text data-testid="cookie-banner-description">
           {t('description')}
           <ExtLink
-            text={t('linkText')}
+            text={t('extLink.text')}
             href=""
             endIcon={<OpenInNewIcon />}
-            aria-label=""
+            aria-label={t('extLink.ariaLabel')}
           />
         </Text>
       </CookieBanner>
