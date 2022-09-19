@@ -18,14 +18,22 @@ export const ClerkInterpreterListingHeader = () => {
           <H3>{t('languagePairs')}</H3>
         </TableCell>
         <TableCell>
-          <H3>{t('validFor')}</H3>
+          <H3>{t('beginDate')}</H3>
+        </TableCell>
+        <TableCell>
+          <H3>{t('endDate')}</H3>
+        </TableCell>
+        <TableCell>
+          <H3>{t('valid')}</H3>
+        </TableCell>
+        <TableCell>
+          <H3>{t('permissionToPublish')}</H3>
         </TableCell>
         <TableCell>
           <div className="columns space-between">
             <H3>{t('region')}</H3>
           </div>
         </TableCell>
-        <TableCell />
       </TableRow>
     </TableHead>
   );

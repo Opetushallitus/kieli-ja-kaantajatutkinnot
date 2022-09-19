@@ -11,7 +11,7 @@ interface ClerkInterpreterState {
   interpreters: Array<ClerkInterpreter>;
   status: APIResponseStatus;
   filters: ClerkInterpreterFilters;
-  qualificationLanguages: Array<string>;
+  distinctToLangs: Array<string>;
 }
 
 const initialState: ClerkInterpreterState = {
@@ -19,14 +19,14 @@ const initialState: ClerkInterpreterState = {
   status: APIResponseStatus.NotStarted,
   filters: {
     qualificationStatus: QualificationStatus.Effective,
+    fromLang: 'FI',
   },
-  qualificationLanguages: [],
+  distinctToLangs: [],
 };
 
-const getQualificationLanguages = (interpreters: Array<ClerkInterpreter>) => {
+const getDistinctToLangs = (interpreters: Array<ClerkInterpreter>) => {
   const languages = new Set<string>();
-  languages.add('FI');
-  languages.add('SV');
+
   interpreters.forEach(({ qualifications }) => {
     qualifications.forEach(({ toLang }) => {
       languages.add(toLang);
@@ -61,7 +61,7 @@ const clerkInterpreterSlice = createSlice({
     ) {
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;
-      state.qualificationLanguages = getQualificationLanguages(action.payload);
+      state.distinctToLangs = getDistinctToLangs(action.payload);
     },
     upsertClerkInterpreter(state, action: PayloadAction<ClerkInterpreter>) {
       const updatedInterpreters = [...state.interpreters];

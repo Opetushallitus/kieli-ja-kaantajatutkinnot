@@ -27,23 +27,24 @@
         },
         "permissionToPublish": {
           "placeholder": "Kaikki",
-          "title": "Kieliparin julkaisulupa"
+          "title": "Julkaisulupa"
         },
         "qualificationStatus": {
-          "effective": "Voimassa olevat",
+          "effective": "Rekisteröidyt",
           "expired": "Umpeutuneet",
-          "expiring": "Umpeutumassa"
+          "expiring": "Umpeutuvat"
         }
       },
       "clerkInterpreterListing": {
         "header": {
+          "beginDate": "Alkamispäivä",
+          "endDate": "Päättymispäivä",
           "name": "Nimi",
           "languagePairs": "Kieliparit",
+          "permissionToPublish": "Julkaisulupa",
           "region": "Toiminta-alue",
-          "validFor": "Voimassa"
-        },
-        "row": {
-          "detailsButton": "Lisätiedot"
+          "title": "Hakutulokset",
+          "valid": "Voimassa"
         }
       },
       "clerkInterpreterOverview": {
@@ -256,7 +257,7 @@
       },
       "table": {
         "pagination": {
-          "rowsPerPage": "Näytä sivulla"
+          "rowsPerPage": "Tulokset per sivu"
         }
       }
     },

@@ -52,6 +52,7 @@ export const ClerkInterpreterListing = () => {
           className="clerk-interpreter-listing"
           data={filteredInterpreters}
           header={<ClerkInterpreterListingHeader />}
+          headerTitle={t('component.clerkInterpreterListing.header.title')}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}

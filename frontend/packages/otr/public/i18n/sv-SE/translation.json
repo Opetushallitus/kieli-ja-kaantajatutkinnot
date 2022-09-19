@@ -27,23 +27,23 @@
         },
         "permissionToPublish": {
           "placeholder": "Alla",
-          "title": "Publiceringstillstånd för språkparet"
+          "title": "Publiceringstillstånd"
         },
         "qualificationStatus": {
-          "effective": "I kraft",
+          "effective": null,
           "expired": "Löpt ut",
-          "expiring": "Håller på att löpa ut"
+          "expiring": null
         }
       },
       "clerkInterpreterListing": {
         "header": {
+          "beginDate": "Startdatum",
+          "endDate": "Slutdatum",
           "name": "Namn",
           "languagePairs": "Språkpar",
+          "permissionToPublish": "Publiceringstillstånd",
           "region": "Verksamhetsområde",
-          "validFor": "I kraft"
-        },
-        "row": {
-          "detailsButton": "Ytterligare information"
+          "valid": "I kraft"
         }
       },
       "clerkInterpreterOverview": {
@@ -253,7 +253,7 @@
       },
       "table": {
         "pagination": {
-          "rowsPerPage": null
+          "rowsPerPage": "Resultat per sida"
         }
       }
     },

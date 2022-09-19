@@ -21,21 +21,12 @@ describe('ClerkHomePage', () => {
   });
 
   it('should allow filtering interpreters on the basis of different qualification criteria', () => {
-    onClerkHomePage.filterByPermissionToPublish(false);
-    onClerkHomePage.expectFilteredInterpretersCount(1);
-
     onClerkHomePage.filterByPermissionToPublish(true);
     onClerkHomePage.expectFilteredInterpretersCount(9);
-
-    onClerkHomePage.filterByExaminationType(ExaminationType.Other);
-    onClerkHomePage.expectFilteredInterpretersCount(3);
 
     onClerkHomePage.filterByExaminationType(
       ExaminationType.LegalInterpreterExam
     );
-    onClerkHomePage.expectFilteredInterpretersCount(6);
-
-    onClerkHomePage.filterByFromLanguage('suomi');
     onClerkHomePage.expectFilteredInterpretersCount(6);
 
     onClerkHomePage.filterByToLanguage('tanska');

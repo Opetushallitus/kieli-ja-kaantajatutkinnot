@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { render, RenderOptions } from '@testing-library/react';
-import { Dayjs } from 'dayjs';
 import { FC, ReactElement } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -27,8 +26,4 @@ const customRender = (
   options?: Omit<RenderOptions, 'wrapper'>
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
-const fakeSystemTime = (date: Dayjs) => {
-  jest.useFakeTimers().setSystemTime(date.toDate());
-};
-
-export { customRender as render, fakeSystemTime };
+export { customRender as render };
