@@ -19,4 +19,12 @@ public interface ExamEventRepository extends JpaRepository<ExamEvent, Long> {
     " AND e.isVisible = true"
   )
   List<PublicExamEventProjection> listPublicExamEventProjections(final ExamLevel level);
+
+  // TODO: fetch information of participants
+  @Query(
+    "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
+    " e.registrationCloses, 0, e.maxParticipants, e.isVisible)" +
+    " FROM ExamEvent e"
+  )
+  List<ClerkExamEventProjection> listClerkExamEventProjections();
 }

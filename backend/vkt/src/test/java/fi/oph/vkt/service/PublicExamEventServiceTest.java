@@ -75,8 +75,8 @@ public class PublicExamEventServiceTest {
     entityManager.persist(futureEvent1);
     entityManager.persist(futureEvent2);
 
-    final List<PublicExamEventDTO> examEventsDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
-    assertEquals(5, examEventsDTOs.size());
+    final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
+    assertEquals(5, examEventDTOs.size());
 
     final List<ExamEvent> expectedExamEventsOrdered = List.of(
       eventToday,
@@ -85,19 +85,19 @@ public class PublicExamEventServiceTest {
       futureEvent1,
       futureEvent2
     );
-    assertCorrectOrdering(expectedExamEventsOrdered, examEventsDTOs);
+    assertCorrectOrdering(expectedExamEventsOrdered, examEventDTOs);
 
     IntStream
       .range(0, expectedExamEventsOrdered.size())
-      .forEach(i -> assertExamEventDetails(expectedExamEventsOrdered.get(i), examEventsDTOs.get(i)));
+      .forEach(i -> assertExamEventDetails(expectedExamEventsOrdered.get(i), examEventDTOs.get(i)));
   }
 
   private void assertCorrectOrdering(
     final List<ExamEvent> expectedExamEventsOrdered,
-    final List<PublicExamEventDTO> examEventsDTOs
+    final List<PublicExamEventDTO> examEventDTOs
   ) {
     final List<Long> expectedOrdering = expectedExamEventsOrdered.stream().map(ExamEvent::getId).toList();
-    final List<Long> actualOrdering = examEventsDTOs.stream().map(PublicExamEventDTO::id).toList();
+    final List<Long> actualOrdering = examEventDTOs.stream().map(PublicExamEventDTO::id).toList();
 
     assertEquals(expectedOrdering, actualOrdering);
   }
