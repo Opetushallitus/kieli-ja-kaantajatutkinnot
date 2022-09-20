@@ -1,6 +1,6 @@
 import { ExaminationType } from 'enums/interpreter';
 
-export const qualification = {
+export const newQualification = {
   id: 99,
   version: 0,
   fromLang: 'FI',

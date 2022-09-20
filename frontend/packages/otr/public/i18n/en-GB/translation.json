@@ -31,7 +31,7 @@
         },
         "qualificationStatus": {
           "effective": null,
-          "expired": "Expired",
+          "expiredDeduplicated": "Expired",
           "expiring": "Expiring"
         }
       },

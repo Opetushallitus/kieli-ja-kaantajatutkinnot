@@ -4,21 +4,15 @@ import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
 import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
-import {
-  clerkInterpretersSelector,
-  selectClerkInterpretersByQualificationStatus,
-} from 'redux/selectors/clerkInterpreter';
+import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkInterpreterToggleFilters = () => {
-  const { effective, expiring, expired } = useAppSelector(
-    selectClerkInterpretersByQualificationStatus
-  );
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterFilters.qualificationStatus',
   });
 
+  const { interpreters, filters } = useAppSelector(clerkInterpretersSelector);
   const dispatch = useAppDispatch();
-  const { filters } = useAppSelector(clerkInterpretersSelector);
 
   const filterByQualificationStatus = (
     qualificationStatus: QualificationStatus
@@ -26,24 +20,34 @@ export const ClerkInterpreterToggleFilters = () => {
     dispatch(addClerkInterpreterFilter({ qualificationStatus }));
   };
 
+  const effectiveCount = interpreters.filter(
+    (i) => i.qualifications.effective.length > 0
+  ).length;
+  const expiringCount = interpreters.filter(
+    (i) => i.qualifications.expiring.length > 0
+  ).length;
+  const expiredDeduplicatedCount = interpreters.filter(
+    (i) => i.qualifications.expiredDeduplicated.length > 0
+  ).length;
+
   const filterData = [
     {
       status: QualificationStatus.Effective,
-      count: effective.length,
+      count: effectiveCount,
       testId: `clerk-interpreter-filters__btn--${QualificationStatus.Effective}`,
       label: t(QualificationStatus.Effective),
     },
     {
       status: QualificationStatus.Expiring,
-      count: expiring.length,
+      count: expiringCount,
       testId: `clerk-interpreter-filters__btn--${QualificationStatus.Expiring}`,
       label: t(QualificationStatus.Expiring),
     },
     {
-      status: QualificationStatus.Expired,
-      count: expired.length,
-      testId: `clerk-interpreter-filters__btn--${QualificationStatus.Expired}`,
-      label: t(QualificationStatus.Expired),
+      status: QualificationStatus.ExpiredDeduplicated,
+      count: expiredDeduplicatedCount,
+      testId: `clerk-interpreter-filters__btn--${QualificationStatus.ExpiredDeduplicated}`,
+      label: t(QualificationStatus.ExpiredDeduplicated),
     },
   ];
 

@@ -1,35 +1,32 @@
 package fi.oph.otr.api.dto.clerk;
 
 import java.util.List;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
 public record ClerkInterpreterDTO(
-  @NonNull @NotNull Long id,
-  @NonNull @NotNull Integer version,
-  @NonNull @NotNull Boolean deleted,
-  @NonNull @NotNull Boolean isIndividualised,
-  @NonNull @NotNull Boolean hasIndividualisedAddress,
-  @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String nickName,
+  @NonNull Long id,
+  @NonNull Integer version,
+  @NonNull Boolean deleted,
+  @NonNull Boolean isIndividualised,
+  @NonNull Boolean hasIndividualisedAddress,
+  @NonNull String identityNumber,
+  @NonNull String lastName,
+  @NonNull String firstName,
+  @NonNull String nickName,
   String email,
-  @NonNull @NotNull Boolean permissionToPublishEmail,
+  @NonNull Boolean permissionToPublishEmail,
   String phoneNumber,
-  @NonNull @NotNull Boolean permissionToPublishPhone,
+  @NonNull Boolean permissionToPublishPhone,
   String otherContactInfo,
-  @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
+  @NonNull Boolean permissionToPublishOtherContactInfo,
   String street,
   String postalCode,
   String town,
   String country,
   String extraInformation,
-  @NonNull @NotNull List<String> regions,
-  @NonNull @NotEmpty List<ClerkQualificationDTO> qualifications
+  @NonNull List<String> regions,
+  @NonNull ClerkInterpreterQualificationsDTO qualifications
 )
   implements ClerkInterpreterDTOCommonFields {}

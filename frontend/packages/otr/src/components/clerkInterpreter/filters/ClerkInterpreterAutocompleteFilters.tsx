@@ -23,39 +23,39 @@ import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkInterpreterAutocompleteFilters = () => {
-  // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterFilters',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
-  const getLanguageSelectValue = (language?: string) =>
-    language ? languageToComboBoxOption(translateLanguage, language) : null;
   const translateCommon = useCommonTranslation();
 
-  // Redux
+  const getLanguageSelectValue = (language?: string) =>
+    language ? languageToComboBoxOption(translateLanguage, language) : null;
+
   const dispatch = useAppDispatch();
   const { filters, distinctToLangs } = useAppSelector(
     clerkInterpretersSelector
   );
 
-  // LocalState
   const [name, setName] = useState(() => filters.name ?? '');
   const debounce = useDebounce(300);
 
+  // Empty local state when redux state is reset
   useEffect(() => {
-    debounce(() => {
-      dispatch(
-        addClerkInterpreterFilter({
-          name,
-        })
-      );
-    });
-  }, [debounce, dispatch, name]);
+    if (!filters.name) setName('');
+  }, [filters.name]);
 
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setName(event.target.value);
+    debounce(() => {
+      dispatch(
+        addClerkInterpreterFilter({
+          name: event.target.value,
+        })
+      );
+    });
   };
 
   const handleFilterChange =
@@ -64,22 +64,19 @@ export const ClerkInterpreterAutocompleteFilters = () => {
       dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
     };
 
-  const permissionToPublishToOption = (
-    permissionToPublish: PermissionToPublish
-  ) => {
-    switch (permissionToPublish) {
-      case PermissionToPublish.No:
-        return {
-          label: translateCommon('no'),
-          value: PermissionToPublish.No,
-        };
-      case PermissionToPublish.Yes:
-        return {
-          label: translateCommon('yes'),
-          value: PermissionToPublish.Yes,
-        };
-    }
-  };
+  const getPermissionToPublishSelectValues = () =>
+    Object.values(PermissionToPublish).map((v) => ({
+      value: v,
+      label: translateCommon(v),
+    }));
+
+  const getPermissionToPublishSelectValue = () =>
+    filters.permissionToPublish
+      ? {
+          value: filters.permissionToPublish,
+          label: translateCommon(filters.permissionToPublish),
+        }
+      : null;
 
   return (
     <div className="clerk-interpreter-autocomplete-filters columns gapped">
@@ -143,14 +140,8 @@ export const ClerkInterpreterAutocompleteFilters = () => {
           autoHighlight
           data-testid="clerk-interpreter-filters__permission-to-publish-basis"
           label={t('permissionToPublish.placeholder')}
-          values={Object.values(PermissionToPublish).map(
-            permissionToPublishToOption
-          )}
-          value={
-            filters.permissionToPublish
-              ? permissionToPublishToOption(filters.permissionToPublish)
-              : null
-          }
+          values={getPermissionToPublishSelectValues()}
+          value={getPermissionToPublishSelectValue()}
           variant={TextFieldVariant.Outlined}
           onChange={handleFilterChange('permissionToPublish')}
         />

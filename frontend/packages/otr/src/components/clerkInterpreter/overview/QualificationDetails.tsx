@@ -15,7 +15,6 @@ import { QualificationListing } from 'components/clerkInterpreter/overview/Quali
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import {
@@ -26,7 +25,6 @@ import {
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { qualificationSelector } from 'redux/selectors/qualification';
-import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
   // I18n
@@ -98,14 +96,14 @@ export const QualificationDetails = () => {
     return null;
   }
 
-  const { effective, expired } = QualificationUtils.getQualificationsByStatus(
-    interpreter as ClerkInterpreter
-  );
+  const { effective, expiring, expired, expiredDeduplicated } =
+    interpreter.qualifications;
 
   const groupedQualifications = {
     [QualificationStatus.Effective]: effective,
+    [QualificationStatus.Expiring]: expiring,
     [QualificationStatus.Expired]: expired,
-    [QualificationStatus.Expiring]: [],
+    [QualificationStatus.ExpiredDeduplicated]: expiredDeduplicated,
   };
 
   const activeQualifications = groupedQualifications[selectedToggleFilter];

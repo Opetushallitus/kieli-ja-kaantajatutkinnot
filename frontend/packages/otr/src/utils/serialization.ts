@@ -12,13 +12,32 @@ import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export class SerializationUtils {
   static deserializeClerkInterpreter(
-    response: ClerkInterpreterResponse
+    interpreter: ClerkInterpreterResponse
   ): ClerkInterpreter {
-    const qualifications = response.qualifications.map(
+    const { qualifications } = interpreter;
+
+    const effective = qualifications.effective.map(
+      SerializationUtils.deserializeQualification
+    );
+    const expiring = qualifications.expiring.map(
+      SerializationUtils.deserializeQualification
+    );
+    const expired = qualifications.expired.map(
+      SerializationUtils.deserializeQualification
+    );
+    const expiredDeduplicated = qualifications.expiredDeduplicated.map(
       SerializationUtils.deserializeQualification
     );
 
-    return { ...response, qualifications };
+    return {
+      ...interpreter,
+      qualifications: {
+        effective,
+        expiring,
+        expired,
+        expiredDeduplicated,
+      },
+    };
   }
 
   static serializeClerkNewInterpreter(interpreter: ClerkNewInterpreter) {

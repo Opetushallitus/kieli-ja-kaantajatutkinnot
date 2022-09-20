@@ -2,31 +2,37 @@ import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 
 export const publishPermissionChangeResponse = (
   interpreterResponse: ClerkInterpreterResponse,
-  qualificationId: number,
+  effectiveQualificationId: number,
   newPublishPermissionValue: boolean
 ) => {
-  const updatedQualifications = interpreterResponse.qualifications.map((q) =>
-    q.id === qualificationId
+  const effective = interpreterResponse.qualifications.effective.map((q) =>
+    q.id === effectiveQualificationId
       ? { ...q, permissionToPublish: newPublishPermissionValue }
       : q
   );
 
   return {
     ...interpreterResponse,
-    qualifications: updatedQualifications,
+    qualifications: {
+      ...interpreterResponse.qualifications,
+      effective,
+    },
   };
 };
 
 export const qualificationRemoveResponse = (
   interpreterResponse: ClerkInterpreterResponse,
-  qualificationId: number
+  effectiveQualificationId: number
 ) => {
-  const updatedQualifications = interpreterResponse.qualifications.filter(
-    (q) => q.id !== qualificationId
+  const effective = interpreterResponse.qualifications.effective.filter(
+    (q) => q.id !== effectiveQualificationId
   );
 
   return {
     ...interpreterResponse,
-    qualifications: updatedQualifications,
+    qualifications: {
+      ...interpreterResponse.qualifications,
+      effective,
+    },
   };
 };

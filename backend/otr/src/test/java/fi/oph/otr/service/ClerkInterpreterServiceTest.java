@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
+import fi.oph.otr.api.dto.clerk.ClerkInterpreterQualificationsDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterUpdateDTO;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,7 +112,7 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testAllAreListed() {
+  public void listShouldReturnAllInterpreters() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
 
@@ -137,6 +139,91 @@ class ClerkInterpreterServiceTest {
     interpreters.forEach(dto -> assertFalse(dto.deleted()));
     verify(auditService).logOperation(OtrOperation.LIST_INTERPRETERS);
     verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void listShouldSplitQualificationsAccordingly() {
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(7));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().minusMonths(10));
+    final MeetingDate meetingDate3 = Factory.meetingDate();
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
+
+    final Qualification expiredQualification = Factory.qualification(interpreter, meetingDate1);
+    expiredQualification.setFromLang("FI");
+    expiredQualification.setToLang("RU");
+    expiredQualification.setPermissionToPublish(true);
+
+    final Qualification expiringQualification = Factory.qualification(interpreter, meetingDate2);
+    expiringQualification.setFromLang("FI");
+    expiringQualification.setToLang("EN");
+    expiringQualification.setPermissionToPublish(false);
+
+    final Qualification effectiveQualification = Factory.qualification(interpreter, meetingDate3);
+    effectiveQualification.setFromLang("FI");
+    effectiveQualification.setToLang("SV");
+
+    entityManager.persist(meetingDate1);
+    entityManager.persist(meetingDate2);
+    entityManager.persist(meetingDate3);
+    entityManager.persist(interpreter);
+    entityManager.persist(expiredQualification);
+    entityManager.persist(expiringQualification);
+    entityManager.persist(effectiveQualification);
+
+    final List<ClerkInterpreterDTO> clerkInterpreterDTOs = clerkInterpreterService.list();
+    final ClerkInterpreterQualificationsDTO qualificationsDTO = clerkInterpreterDTOs.get(0).qualifications();
+
+    assertEquals(2, qualificationsDTO.effective().size());
+    assertEquals(1, qualificationsDTO.expiring().size());
+    assertEquals(1, qualificationsDTO.expired().size());
+    assertEquals(1, qualificationsDTO.expiredDeduplicated().size());
+
+    final Map<String, List<ClerkQualificationDTO>> effectiveByToLang = qualificationsDTO
+      .effective()
+      .stream()
+      .collect(Collectors.groupingBy(ClerkQualificationDTO::toLang));
+
+    final ClerkQualificationDTO effectiveFiEn = effectiveByToLang.get("EN").get(0);
+    final ClerkQualificationDTO effectiveFiSv = effectiveByToLang.get("SV").get(0);
+    assertNotNull(effectiveFiEn);
+    assertNotNull(effectiveFiSv);
+
+    final ClerkQualificationDTO expired = qualificationsDTO.expired().get(0);
+    assertEquals(expiredQualification.getBeginDate(), expired.beginDate());
+    assertEquals(expiredQualification.getEndDate(), expired.endDate());
+    assertEquals(expiredQualification.getFromLang(), expired.fromLang());
+    assertEquals(expiredQualification.getToLang(), expired.toLang());
+    assertEquals(expiredQualification.isPermissionToPublish(), expired.permissionToPublish());
+
+    assertEquals(expired, qualificationsDTO.expiredDeduplicated().get(0));
+  }
+
+  @Test
+  public void listShouldReturnDeduplicatedExpiredQualifications() {
+    final MeetingDate meetingDate1 = Factory.meetingDate(LocalDate.now().minusYears(10));
+    final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().minusYears(5));
+    final Interpreter interpreter = Factory.interpreter();
+    interpreter.setOnrId("1");
+    final Qualification qualification1 = Factory.qualification(interpreter, meetingDate1);
+    final Qualification qualification2 = Factory.qualification(interpreter, meetingDate2);
+
+    entityManager.persist(meetingDate1);
+    entityManager.persist(meetingDate2);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification1);
+    entityManager.persist(qualification2);
+
+    final List<ClerkInterpreterDTO> clerkInterpreterDTOs = clerkInterpreterService.list();
+    final ClerkInterpreterQualificationsDTO qualificationsDTO = clerkInterpreterDTOs.get(0).qualifications();
+
+    assertEquals(2, qualificationsDTO.expired().size());
+    assertEquals(1, qualificationsDTO.expiredDeduplicated().size());
+
+    final ClerkQualificationDTO deduplicated = qualificationsDTO.expiredDeduplicated().get(0);
+
+    assertEquals(qualification2.getId(), deduplicated.id());
+    assertEquals(qualification2.getBeginDate(), deduplicated.beginDate());
   }
 
   private PersonalData createPersonalData(
@@ -323,9 +410,9 @@ class ClerkInterpreterServiceTest {
     assertEquals(createDTO.country(), interpreterDTO.country());
     assertEquals(createDTO.extraInformation(), interpreterDTO.extraInformation());
     assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
-    assertEquals(2, interpreterDTO.qualifications().size());
+    assertEquals(2, interpreterDTO.qualifications().effective().size());
 
-    final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().get(0);
+    final ClerkQualificationDTO qualification1 = interpreterDTO.qualifications().effective().get(0);
     assertEquals(0, qualification1.version());
     assertEquals("FI", qualification1.fromLang());
     assertEquals("SE", qualification1.toLang());
@@ -335,7 +422,7 @@ class ClerkInterpreterServiceTest {
     assertTrue(qualification1.permissionToPublish());
     assertEquals("123", qualification1.diaryNumber());
 
-    final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().get(1);
+    final ClerkQualificationDTO qualification2 = interpreterDTO.qualifications().effective().get(1);
     assertEquals("FI", qualification2.fromLang());
     assertEquals("DE", qualification2.toLang());
     assertEquals(yesterday, qualification2.beginDate());
@@ -504,13 +591,26 @@ class ClerkInterpreterServiceTest {
 
   @Test
   public void testGetInterpreter() {
-    final MeetingDate meetingDate = Factory.meetingDate();
+    final LocalDate today = LocalDate.now();
+    final MeetingDate meetingDate = Factory.meetingDate(today.minusDays(1));
+    final MeetingDate meetingDate2 = Factory.meetingDate(today);
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
+    final Qualification qualification2 = Factory.qualification(interpreter, meetingDate2);
+
+    interpreter.setOnrId("1");
+    qualification.setEndDate(LocalDate.now().plusDays(10));
+
     entityManager.persist(meetingDate);
+    entityManager.persist(meetingDate2);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
+    entityManager.persist(qualification2);
 
-    final long id = createInterpreterWithRegions(meetingDate, "1", List.of("01", "02"));
-    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(id);
+    final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.getInterpreter(interpreter.getId());
+    assertNotNull(interpreterDTO);
 
-    assertEquals(id, interpreterDTO.id());
+    assertEquals(interpreter.getId(), interpreterDTO.id());
     assertTrue(interpreterDTO.isIndividualised());
     assertFalse(interpreterDTO.hasIndividualisedAddress());
     assertEquals("241202-xyz", interpreterDTO.identityNumber());
@@ -518,8 +618,13 @@ class ClerkInterpreterServiceTest {
     assertEquals("Erkki Pekka", interpreterDTO.firstName());
     assertEquals("Erkki", interpreterDTO.nickName());
     assertEquals("erkki@esimerkki.invalid", interpreterDTO.email());
-    assertEquals(1, interpreterDTO.qualifications().size());
-    assertEquals(Set.of("01", "02"), Set.copyOf(interpreterDTO.regions()));
+    assertEquals(0, interpreterDTO.regions().size());
+
+    final ClerkInterpreterQualificationsDTO qualificationsDTO = interpreterDTO.qualifications();
+    assertEquals(2, qualificationsDTO.effective().size());
+    assertEquals(1, qualificationsDTO.expiring().size());
+    assertEquals(0, qualificationsDTO.expired().size());
+    assertEquals(0, qualificationsDTO.expiredDeduplicated().size());
 
     verify(auditService).logById(OtrOperation.GET_INTERPRETER, interpreterDTO.id());
     verifyNoMoreInteractions(auditService);
@@ -735,7 +840,7 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
     assertTrue(dto.deleted());
-    assertEquals(0, dto.qualifications().size());
+    assertEquals(0, dto.qualifications().effective().size());
 
     interpreterRepository
       .findAll()
@@ -779,10 +884,11 @@ class ClerkInterpreterServiceTest {
       interpreter.getId(),
       createDTO
     );
-    assertEquals(2, interpreterDTO.qualifications().size());
+    assertEquals(2, interpreterDTO.qualifications().effective().size());
 
     final ClerkQualificationDTO qualificationDTO = interpreterDTO
       .qualifications()
+      .effective()
       .stream()
       .filter(dto -> dto.diaryNumber() != null && dto.diaryNumber().equals("1000"))
       .toList()
@@ -921,8 +1027,9 @@ class ClerkInterpreterServiceTest {
 
     final ClerkInterpreterDTO interpreterDTO = clerkInterpreterService.updateQualification(updateDTO);
 
-    assertEquals(1, interpreterDTO.qualifications().size());
-    final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().get(0);
+    assertEquals(1, interpreterDTO.qualifications().effective().size());
+    assertEquals(1, interpreterDTO.qualifications().expiring().size());
+    final ClerkQualificationDTO qualificationDTO = interpreterDTO.qualifications().expiring().get(0);
 
     assertEquals(updateDTO.version() + 1, qualificationDTO.version());
     assertEquals("FI", qualificationDTO.fromLang());
@@ -983,8 +1090,8 @@ class ClerkInterpreterServiceTest {
     entityManager.persist(qualification2);
 
     final ClerkInterpreterDTO dto = clerkInterpreterService.deleteQualification(qualification1.getId());
-    assertEquals(1, dto.qualifications().size());
-    assertEquals(qualification2.getId(), dto.qualifications().get(0).id());
+    assertEquals(1, dto.qualifications().effective().size());
+    assertEquals(qualification2.getId(), dto.qualifications().effective().get(0).id());
 
     assertTrue(qualificationRepository.getReferenceById(qualification1.getId()).isDeleted());
 

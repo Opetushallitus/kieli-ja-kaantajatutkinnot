@@ -1,81 +1,42 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { DateUtils } from 'shared/utils';
-
-import { QualificationStatus } from 'enums/clerkInterpreter';
-import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
-import {
-  Qualification,
-  QualificationsGroupedByStatus,
-} from 'interfaces/qualification';
+import { ClerkInterpreterQualifications } from 'interfaces/clerkInterpreter';
+import { LanguagePair } from 'interfaces/publicInterpreter';
+import { Qualification } from 'interfaces/qualification';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
-const EXPIRING_QUALIFICATION_THRESHOLD_MONTHS = 3;
-
 export class QualificationUtils {
+  static isEffective(
+    { id }: Qualification,
+    { effective }: ClerkInterpreterQualifications
+  ) {
+    return effective.map((a) => a.id).includes(id);
+  }
+
+  static languagePairMatchesLangFilters(
+    { from, to }: LanguagePair,
+    fromFilter?: string,
+    toFilter?: string
+  ) {
+    const matchingFromLang = from === fromFilter || from === toFilter;
+    const matchingToLang = to === fromFilter || to === toFilter;
+
+    if (fromFilter && toFilter) {
+      return matchingFromLang && matchingToLang;
+    } else if (fromFilter) {
+      return matchingFromLang;
+    } else if (toFilter) {
+      return matchingToLang;
+    }
+
+    return true;
+  }
+
+  static getQualificationsVisibleInClerkHomePage(
+    qualifications: ClerkInterpreterQualifications
+  ) {
+    return [...qualifications.effective, ...qualifications.expiredDeduplicated];
+  }
+
   static getKoodistoLangKeys() {
     return Object.keys(koodistoLangsFI?.otr?.koodisto?.languages);
-  }
-
-  static isQualificationEffective(
-    { beginDate, endDate }: Qualification,
-    currentDate: Dayjs
-  ) {
-    return (
-      DateUtils.isDatePartBeforeOrEqual(beginDate, currentDate) &&
-      DateUtils.isDatePartBeforeOrEqual(currentDate, endDate)
-    );
-  }
-
-  static isQualificationExpiring(
-    { beginDate, endDate }: Qualification,
-    currentDate: Dayjs
-  ) {
-    return (
-      DateUtils.isDatePartBeforeOrEqual(beginDate, currentDate) &&
-      DateUtils.isDatePartBeforeOrEqual(
-        endDate.add(EXPIRING_QUALIFICATION_THRESHOLD_MONTHS, 'month'),
-        currentDate
-      )
-    );
-  }
-
-  static isQualificationExpired(
-    { endDate }: Qualification,
-    currentDate: Dayjs
-  ) {
-    return !DateUtils.isDatePartBeforeOrEqual(currentDate, endDate);
-  }
-
-  static getQualificationsByStatus(clerkInterpreter: ClerkInterpreter) {
-    const currentDate = dayjs();
-
-    return clerkInterpreter.qualifications.reduce(
-      (group: QualificationsGroupedByStatus, qualification: Qualification) => {
-        if (
-          QualificationUtils.isQualificationEffective(
-            qualification,
-            currentDate
-          )
-        ) {
-          group[QualificationStatus.Effective].push(qualification);
-          if (
-            QualificationUtils.isQualificationExpiring(
-              qualification,
-              currentDate
-            )
-          ) {
-            group[QualificationStatus.Expiring].push(qualification);
-          }
-        } else {
-          // Note: taking the else branch without further comparisons
-          // relies on the assumption that there is no qualification
-          // with a begin date set to future.
-          group[QualificationStatus.Expired].push(qualification);
-        }
-
-        return group;
-      },
-      { effective: [], expired: [], expiring: [] }
-    );
   }
 }

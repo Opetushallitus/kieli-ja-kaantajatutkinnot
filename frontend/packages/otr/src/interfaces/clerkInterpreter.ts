@@ -28,6 +28,13 @@ export interface ClerkInterpreterBasicInformation
   regions: Array<string>;
 }
 
+export interface ClerkInterpreterQualifications {
+  effective: Array<Qualification>;
+  expiring: Array<Qualification>;
+  expired: Array<Qualification>;
+  expiredDeduplicated: Array<Qualification>;
+}
+
 export interface ClerkInterpreter
   extends WithId,
     WithVersion,
@@ -35,19 +42,29 @@ export interface ClerkInterpreter
   deleted: boolean;
   isIndividualised: boolean;
   hasIndividualisedAddress: boolean;
-  qualifications: Array<Qualification>;
+  qualifications: ClerkInterpreterQualifications;
+}
+
+interface ClerkInterpreterQualificationsResponse {
+  effective: Array<QualificationResponse>;
+  expiring: Array<QualificationResponse>;
+  expired: Array<QualificationResponse>;
+  expiredDeduplicated: Array<QualificationResponse>;
 }
 
 export interface ClerkInterpreterResponse
   extends Omit<ClerkInterpreter, 'qualifications'> {
-  qualifications: Array<QualificationResponse>;
+  qualifications: ClerkInterpreterQualificationsResponse;
 }
 
-export interface ClerkInterpreterFilters {
-  qualificationStatus: QualificationStatus;
+export interface QualificationFilter {
   fromLang?: string;
   toLang?: string;
-  name?: string;
   examinationType?: ExaminationType;
   permissionToPublish?: PermissionToPublish;
+}
+
+export interface ClerkInterpreterFilters extends QualificationFilter {
+  name?: string;
+  qualificationStatus: QualificationStatus;
 }

@@ -1,4 +1,3 @@
-import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 import { StringUtils } from 'shared/utils';
 
@@ -8,6 +7,7 @@ import { PermissionToPublish } from 'enums/interpreter';
 import {
   ClerkInterpreter,
   ClerkInterpreterFilters,
+  QualificationFilter,
 } from 'interfaces/clerkInterpreter';
 import { Qualification } from 'interfaces/qualification';
 import { QualificationUtils } from 'utils/qualifications';
@@ -15,138 +15,95 @@ import { QualificationUtils } from 'utils/qualifications';
 export const clerkInterpretersSelector = (state: RootState) =>
   state.clerkInterpreter;
 
-export const selectClerkInterpretersByQualificationStatus = createSelector(
-  (state: RootState) => state.clerkInterpreter.interpreters,
-  (interpreters) => {
-    const currentDate = dayjs();
-    const [effective, expired, expiring] = Object.values(
-      QualificationStatus
-    ).map((qualificationStatus) =>
-      interpreters.filter(({ qualifications }) =>
-        qualifications.find((qualification) =>
-          matchesQualificationStatus(
-            { qualificationStatus },
-            qualification,
-            currentDate
-          )
-        )
-      )
-    );
-
-    return { effective, expiring, expired };
-  }
-);
-
 export const selectFilteredClerkInterpreters = createSelector(
   (state: RootState) => state.clerkInterpreter.interpreters,
   (state: RootState) => state.clerkInterpreter.filters,
   (interpreters, filters) => {
-    let filtered = interpreters;
+    let filteredInterpreters = interpreters;
 
     if (StringUtils.isNonBlankString(filters.name)) {
-      filtered = filtered.filter((interpreter) =>
-        filterByName(interpreter, filters.name as string)
+      filteredInterpreters = filteredInterpreters.filter((interpreter) =>
+        interpreterNameMatchesName(interpreter, filters.name as string)
       );
     }
 
-    filtered = filtered.filter((interpreter) =>
-      filterByQualificationCriteria(interpreter, filters)
+    return filteredInterpreters.filter((interpreter) =>
+      hasQualificationsMatchingFilters(interpreter, filters)
     );
-
-    return filtered;
   }
 );
 
-const filterByQualificationCriteria = (
-  { qualifications }: ClerkInterpreter,
-  filters: ClerkInterpreterFilters
+// Interpreter level predicates
+
+const interpreterNameMatchesName = (
+  { lastName, nickName }: ClerkInterpreter,
+  name: string
 ) => {
-  const currentDate = dayjs();
-
-  return qualifications.find(
-    (q) =>
-      matchesLanguageFilters(filters, q) &&
-      matchesExaminationType(filters, q) &&
-      matchesPermissionToPublish(filters, q) &&
-      matchesQualificationStatus(filters, q, currentDate)
-  );
-};
-
-// Qualification matchers
-
-const matchesExaminationType = (
-  { examinationType }: ClerkInterpreterFilters,
-  qualification: Qualification
-) =>
-  examinationType ? examinationType == qualification.examinationType : true;
-
-const matchesPermissionToPublish = (
-  { permissionToPublish }: ClerkInterpreterFilters,
-  qualification: Qualification
-) => {
-  if (!permissionToPublish) {
-    return true;
-  }
-
-  return (
-    (permissionToPublish == PermissionToPublish.No) !==
-    qualification.permissionToPublish
-  );
-};
-
-// Qualifications are bidirectional. A "from"/"to" filter
-// should match either language of a qualification.
-
-const matchesLanguageFilters = (
-  { fromLang, toLang }: ClerkInterpreterFilters,
-  qualification: Qualification
-) => {
-  return (
-    (matchesLang(fromLang, qualification.fromLang) &&
-      matchesLang(toLang, qualification.toLang)) ||
-    (matchesLang(toLang, qualification.fromLang) &&
-      matchesLang(fromLang, qualification.toLang))
-  );
-};
-
-const matchesQualificationStatus = (
-  { qualificationStatus }: ClerkInterpreterFilters,
-  qualification: Qualification,
-  currentDate: Dayjs
-) => {
-  switch (qualificationStatus) {
-    case QualificationStatus.Effective:
-      return QualificationUtils.isQualificationEffective(
-        qualification,
-        currentDate
-      );
-    case QualificationStatus.Expiring:
-      return QualificationUtils.isQualificationExpiring(
-        qualification,
-        currentDate
-      );
-    case QualificationStatus.Expired:
-      return QualificationUtils.isQualificationExpired(
-        qualification,
-        currentDate
-      );
-  }
-};
-
-// Helpers
-
-const filterByName = (interpreter: ClerkInterpreter, name: string) => {
-  const nameCombs = [
-    `${interpreter.nickName} ${interpreter.lastName}`,
-    `${interpreter.lastName} ${interpreter.nickName}`,
-  ];
+  const nameCombs = [`${nickName} ${lastName}`, `${lastName} ${nickName}`];
 
   return nameCombs.some((comb) =>
     comb.toLowerCase().includes(name.toLowerCase().trim())
   );
 };
 
-const matchesLang = (
-  filterLang: string | undefined,
-  qualificationLang: string
-) => (filterLang ? filterLang == qualificationLang : true);
+const hasQualificationsMatchingFilters = (
+  { qualifications }: ClerkInterpreter,
+  filters: ClerkInterpreterFilters
+) => {
+  const matchesFilters = (qualifications: Array<Qualification>) => {
+    return qualifications.filter(
+      (q) =>
+        matchesLangFilters(filters, q) &&
+        matchesExaminationType(filters, q) &&
+        matchesPermissionToPublish(filters, q)
+    );
+  };
+
+  switch (filters.qualificationStatus) {
+    case QualificationStatus.Effective:
+      return matchesFilters(qualifications.effective).length > 0;
+    case QualificationStatus.Expiring:
+      return matchesFilters(qualifications.expiring).length > 0;
+    case QualificationStatus.Expired:
+      return matchesFilters(qualifications.expired).length > 0;
+    case QualificationStatus.ExpiredDeduplicated:
+      return matchesFilters(qualifications.expiredDeduplicated).length > 0;
+  }
+};
+
+// Qualification level predicates
+
+const matchesLangFilters = (
+  { fromLang, toLang }: QualificationFilter,
+  qualification: Qualification
+) =>
+  QualificationUtils.languagePairMatchesLangFilters(
+    {
+      from: qualification.fromLang,
+      to: qualification.toLang,
+    },
+    fromLang,
+    toLang
+  );
+
+const matchesExaminationType = (
+  { examinationType }: QualificationFilter,
+  qualification: Qualification
+) =>
+  examinationType ? examinationType == qualification.examinationType : true;
+
+const matchesPermissionToPublish = (
+  { permissionToPublish }: QualificationFilter,
+  qualification: Qualification
+) => {
+  if (!permissionToPublish) {
+    return true;
+  }
+
+  switch (permissionToPublish) {
+    case PermissionToPublish.Yes:
+      return qualification.permissionToPublish;
+    case PermissionToPublish.No:
+      return !qualification.permissionToPublish;
+  }
+};

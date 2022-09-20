@@ -1,7 +1,7 @@
 import { AutocompleteValue } from 'shared/components';
 import { WithId } from 'shared/interfaces';
 
-interface LanguagePair {
+export interface LanguagePair {
   from: string;
   to: string;
 }

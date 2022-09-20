@@ -1,7 +1,8 @@
 export enum QualificationStatus {
   Effective = 'effective',
-  Expired = 'expired',
   Expiring = 'expiring',
+  Expired = 'expired',
+  ExpiredDeduplicated = 'expiredDeduplicated',
 }
 
 export enum ClerkInterpreterTextFieldEnum {
