@@ -1,7 +1,14 @@
 import { AppRoutes } from 'enums/app';
 
-Cypress.Commands.add('openPublicHomePage', () => {
-  cy.visit(AppRoutes.PublicHomePage);
+Cypress.Commands.add('openPublicHomePage', (acceptCookies = true) => {
+  cy.visit(AppRoutes.PublicHomePage, {
+    onBeforeLoad: (window) => {
+      window.sessionStorage.clear();
+      if (acceptCookies) {
+        window.sessionStorage.setItem('cookie-consent-akr', 'true');
+      }
+    },
+  });
 });
 
 Cypress.Commands.add('openClerkHomePage', () => {
