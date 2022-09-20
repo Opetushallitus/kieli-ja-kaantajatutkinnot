@@ -29,6 +29,7 @@ export const PublicHomePage: FC = () => {
         title={t('title')}
         buttonText={t('buttonText')}
         cookieTag="akr"
+        buttonAriaLabel={t('buttonAriaLabel')}
       >
         <Text data-testid="cookie-banner-description">
           {t('description')}

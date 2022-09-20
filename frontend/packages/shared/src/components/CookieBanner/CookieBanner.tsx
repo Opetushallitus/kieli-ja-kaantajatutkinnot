@@ -10,6 +10,7 @@ type CookieBannerProps = {
   title: string;
   buttonText: string;
   cookieTag: string;
+  buttonAriaLabel: string;
 };
 
 export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
@@ -17,6 +18,7 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   buttonText,
   cookieTag,
   children,
+  buttonAriaLabel,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -54,6 +56,7 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
             <div className="columns gapped space-between">
               {children}
               <CustomButton
+                aria-label={buttonAriaLabel}
                 className="cookie-banner__content__accept-button"
                 data-testid="cookie-banner-accept-button"
                 color={Color.Secondary}
