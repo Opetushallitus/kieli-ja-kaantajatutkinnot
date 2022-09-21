@@ -10,6 +10,7 @@ import fi.oph.otr.repository.InterpreterRegionProjection;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class PublicInterpreterService {
     final List<Interpreter> interpreters = interpreterRepository.findAllById(interpreterQualifications.keySet());
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
-    return interpreters
+    final List<InterpreterDTO> interpreterDTOS = interpreters
       .stream()
       .map(interpreter -> {
         final PersonalData personalData = personalDatas.get(interpreter.getOnrId());
@@ -64,7 +65,10 @@ public class PublicInterpreterService {
 
         return toDTO(interpreter, personalData, regionProjections, qualificationProjections);
       })
-      .toList();
+      .collect(Collectors.toCollection(ArrayList::new));
+
+    Collections.shuffle(interpreterDTOS);
+    return interpreterDTOS;
   }
 
   private InterpreterDTO toDTO(

@@ -135,16 +135,15 @@ const matchesQualificationStatus = (
 
 // Helpers
 
-const trimAndLowerCase = (val: string) => val.trim().toLowerCase();
-
 const filterByName = (interpreter: ClerkInterpreter, name: string) => {
-  const { firstName, lastName } = interpreter;
   const nameCombs = [
-    `${firstName} ${lastName}`,
-    `${lastName} ${firstName}`,
-  ].map(trimAndLowerCase);
+    `${interpreter.nickName} ${interpreter.lastName}`,
+    `${interpreter.lastName} ${interpreter.nickName}`,
+  ];
 
-  return nameCombs.some((comb) => comb.includes(trimAndLowerCase(name)));
+  return nameCombs.some((comb) =>
+    comb.toLowerCase().includes(name.toLowerCase().trim())
+  );
 };
 
 const matchesLang = (

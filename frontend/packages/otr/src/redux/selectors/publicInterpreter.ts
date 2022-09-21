@@ -68,11 +68,10 @@ const filterByName = (
     `${publicInterpreter.firstName} ${publicInterpreter.lastName}`,
     `${publicInterpreter.lastName} ${publicInterpreter.firstName}`,
   ];
-  const isNameIncluded = nameCombs.some((name) =>
-    name.toLowerCase().includes(filters.name.toLowerCase().trim())
-  );
 
-  return isNameIncluded;
+  return nameCombs.some((comb) =>
+    comb.toLowerCase().includes(filters.name.toLowerCase().trim())
+  );
 };
 
 const filterByRegion = (
