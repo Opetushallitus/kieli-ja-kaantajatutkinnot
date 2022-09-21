@@ -4,6 +4,20 @@ import { ComboBoxOption } from 'shared/interfaces';
 import { translateOutsideComponent } from 'configs/i18n';
 
 export class RegionUtils {
+  static translateRegions(regions: Array<string>) {
+    if (regions.length > 0) {
+      return regions.map((r) => RegionUtils.translateRegion(r));
+    }
+
+    const t = translateOutsideComponent();
+
+    return [
+      t('otr.common.allRegions', {
+        ns: I18nNamespace.Common,
+      }),
+    ];
+  }
+
   static translateRegion(region: string) {
     const t = translateOutsideComponent();
 
@@ -22,22 +36,6 @@ export class RegionUtils {
     );
 
     return regionValues.sort(RegionUtils.compareOptionsByLabel);
-  }
-
-  static translateAndConcatRegions(regions: Array<string>) {
-    const t = translateOutsideComponent();
-
-    if (regions.length > 0) {
-      const translatedRegions = regions.map((r) =>
-        RegionUtils.translateRegion(r)
-      );
-
-      return translatedRegions.join(', ');
-    }
-
-    return t('otr.common.allRegions', {
-      ns: I18nNamespace.Common,
-    });
   }
 
   private static compareOptionsByLabel(a: ComboBoxOption, b: ComboBoxOption) {
