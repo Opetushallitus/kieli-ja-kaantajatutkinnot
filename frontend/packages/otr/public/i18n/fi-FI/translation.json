@@ -221,22 +221,17 @@
           "search": "Näytä tulokset"
         },
         "languagePair": {
-          "fromAriaLabel": "Mistä, pakollinen yhteydenottamista varten",
+          "fromAriaLabel": "Mistä",
           "fromHelperText": "Valitse kieli",
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",
-          "toAriaLabel": "Mihin, pakollinen yhteydenottamista varten",
+          "toAriaLabel": "Mihin",
           "toHelperText": "Valitse kieli",
           "toPlaceholder": "Mihin"
         },
         "region": {
           "placeholder": "Toiminta-alue",
           "title": "Haku oikeustulkin toiminta-alueella"
-        },
-        "toasts": {
-          "contactRequestNeedsLanguagePairs": "Valitse kielipari ottaaksesi yhteyttä kääntäjään",
-          "interpreterSelected": "Voit valita vain yhden kieliparin yhteydenottoon",
-          "selectLanguagePair": "Valitse kielipari"
         }
       },
       "publicInterpreterListing": {
