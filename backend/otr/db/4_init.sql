@@ -201,3 +201,17 @@ end_date = (
     WHERE md.meeting_date_id = qualification.meeting_date_id
 ) + '1.5 years'::interval
     WHERE 1=1;
+
+-- Delete duplicate effective qualifications
+
+DELETE FROM qualification q
+WHERE q.qualification_id IN (
+  SELECT q.qualification_id
+  FROM qualification qu
+  WHERE qu.qualification_id != q.qualification_id
+    AND qu.interpreter_id = q.interpreter_id
+    AND qu.from_lang = q.from_lang
+    AND qu.to_lang = q.to_lang
+    AND qu.end_date >= CURRENT_DATE
+    AND qu.end_date <= q.end_date
+);
