@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,8 @@ public class Region extends BaseEntity {
   @Column(name = "region_id", nullable = false)
   private long id;
 
-  @Column(name = "code", nullable = false)
+  @Column(name = "code", nullable = false, length = 10)
+  @Size(min = 1, max = 10)
   private String code;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

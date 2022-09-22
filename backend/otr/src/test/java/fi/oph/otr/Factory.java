@@ -2,10 +2,10 @@ package fi.oph.otr;
 
 import fi.oph.otr.model.Email;
 import fi.oph.otr.model.EmailType;
+import fi.oph.otr.model.ExaminationType;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
-import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.QualificationReminder;
 import fi.oph.otr.model.Region;
 import java.time.LocalDate;
@@ -41,7 +41,7 @@ public class Factory {
     qualification.setToLang("EN");
     qualification.setBeginDate(meetingDate.getDate());
     qualification.setEndDate(meetingDate.getDate().plusYears(1));
-    qualification.setExaminationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM);
+    qualification.setExaminationType(ExaminationType.LEGAL_INTERPRETER_EXAM);
     qualification.setPermissionToPublish(true);
 
     interpreter.getQualifications().add(qualification);

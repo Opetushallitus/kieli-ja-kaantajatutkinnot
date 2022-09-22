@@ -32,7 +32,6 @@ public class BaseEntity {
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
 
-  // This is nullable for entities db level, same goes for entities in AKR
   @Column(name = "modified_at", nullable = false)
   private LocalDateTime modifiedAt;
 

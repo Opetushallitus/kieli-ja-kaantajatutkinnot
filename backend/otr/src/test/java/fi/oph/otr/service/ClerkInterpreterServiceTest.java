@@ -22,10 +22,10 @@ import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.ClerkQualificationUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.model.ExaminationType;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
-import fi.oph.otr.model.QualificationExaminationType;
 import fi.oph.otr.model.Region;
 import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.onr.model.PersonalData;
@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -260,7 +259,7 @@ class ClerkInterpreterServiceTest {
             .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
-            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .examinationType(ExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .diaryNumber("123")
             .build(),
@@ -270,7 +269,7 @@ class ClerkInterpreterServiceTest {
             .toLang("DE")
             .beginDate(yesterday)
             .endDate(today)
-            .examinationType(QualificationExaminationType.OTHER)
+            .examinationType(ExaminationType.OTHER)
             .permissionToPublish(false)
             .diaryNumber("234")
             .build()
@@ -332,7 +331,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("SE", qualification1.toLang());
     assertEquals(today, qualification1.beginDate());
     assertEquals(tomorrow, qualification1.endDate());
-    assertEquals(QualificationExaminationType.LEGAL_INTERPRETER_EXAM, qualification1.examinationType());
+    assertEquals(ExaminationType.LEGAL_INTERPRETER_EXAM, qualification1.examinationType());
     assertTrue(qualification1.permissionToPublish());
     assertEquals("123", qualification1.diaryNumber());
 
@@ -341,7 +340,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("DE", qualification2.toLang());
     assertEquals(yesterday, qualification2.beginDate());
     assertEquals(today, qualification2.endDate());
-    assertEquals(QualificationExaminationType.OTHER, qualification2.examinationType());
+    assertEquals(ExaminationType.OTHER, qualification2.examinationType());
     assertFalse(qualification2.permissionToPublish());
     assertEquals("234", qualification2.diaryNumber());
 
@@ -379,7 +378,7 @@ class ClerkInterpreterServiceTest {
             .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
-            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .examinationType(ExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .diaryNumber("123")
             .build()
@@ -446,7 +445,7 @@ class ClerkInterpreterServiceTest {
             .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
-            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .examinationType(ExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .diaryNumber("123")
             .build()
@@ -489,7 +488,7 @@ class ClerkInterpreterServiceTest {
             .toLang("SE")
             .beginDate(today)
             .endDate(tomorrow)
-            .examinationType(QualificationExaminationType.LEGAL_INTERPRETER_EXAM)
+            .examinationType(ExaminationType.LEGAL_INTERPRETER_EXAM)
             .permissionToPublish(true)
             .diaryNumber("123")
             .build()
@@ -771,7 +770,7 @@ class ClerkInterpreterServiceTest {
       .toLang("CS")
       .beginDate(today)
       .endDate(tomorrow)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(false)
       .diaryNumber("1000")
       .build();
@@ -795,7 +794,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("CS", qualificationDTO.toLang());
     assertEquals(today, qualificationDTO.beginDate());
     assertEquals(tomorrow, qualificationDTO.endDate());
-    assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
+    assertEquals(ExaminationType.OTHER, qualificationDTO.examinationType());
     assertFalse(qualificationDTO.permissionToPublish());
 
     verify(auditService).logQualification(OtrOperation.CREATE_QUALIFICATION, interpreter, qualificationDTO.id());
@@ -822,7 +821,7 @@ class ClerkInterpreterServiceTest {
       .toLang("CS")
       .beginDate(today)
       .endDate(tomorrow)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(false)
       .diaryNumber("1000")
       .build();
@@ -852,7 +851,7 @@ class ClerkInterpreterServiceTest {
       .toLang("XX")
       .beginDate(today)
       .endDate(tomorrow)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(false)
       .diaryNumber("1001")
       .build();
@@ -882,7 +881,7 @@ class ClerkInterpreterServiceTest {
       .toLang("EN")
       .beginDate(tomorrow)
       .endDate(today)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(false)
       .diaryNumber("1001")
       .build();
@@ -915,7 +914,7 @@ class ClerkInterpreterServiceTest {
       .toLang("NO")
       .beginDate(begin)
       .endDate(end)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(true)
       .diaryNumber("2000")
       .build();
@@ -930,7 +929,7 @@ class ClerkInterpreterServiceTest {
     assertEquals("NO", qualificationDTO.toLang());
     assertEquals(begin, qualificationDTO.beginDate());
     assertEquals(end, qualificationDTO.endDate());
-    assertEquals(QualificationExaminationType.OTHER, qualificationDTO.examinationType());
+    assertEquals(ExaminationType.OTHER, qualificationDTO.examinationType());
     assertTrue(qualificationDTO.permissionToPublish());
     assertEquals("2000", qualificationDTO.diaryNumber());
 
@@ -959,7 +958,7 @@ class ClerkInterpreterServiceTest {
       .toLang("XX")
       .beginDate(begin)
       .endDate(end)
-      .examinationType(QualificationExaminationType.OTHER)
+      .examinationType(ExaminationType.OTHER)
       .permissionToPublish(true)
       .diaryNumber("2000")
       .build();

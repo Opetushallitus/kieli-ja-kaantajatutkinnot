@@ -1,6 +1,6 @@
 package fi.oph.otr.model;
 
-public enum QualificationExaminationType {
+public enum ExaminationType {
   LEGAL_INTERPRETER_EXAM,
   OTHER,
 }
