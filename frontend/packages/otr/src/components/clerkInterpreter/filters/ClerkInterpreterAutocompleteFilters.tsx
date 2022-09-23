@@ -6,6 +6,7 @@ import {
   H3,
   LanguageSelect,
   languageToComboBoxOption,
+  valueAsOption,
 } from 'shared/components';
 import { TextFieldVariant } from 'shared/enums';
 import { useDebounce } from 'shared/hooks';
@@ -62,21 +63,6 @@ export const ClerkInterpreterAutocompleteFilters = () => {
     ({}, value: AutocompleteValue) => {
       dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
     };
-
-  const examinationTypeToOption = (examinationType: ExaminationType) => {
-    switch (examinationType) {
-      case ExaminationType.LegalInterpreterExam:
-        return {
-          label: translateCommon('examinationType.legalInterpreterExam'),
-          value: ExaminationType.LegalInterpreterExam,
-        };
-      case ExaminationType.Other:
-        return {
-          label: translateCommon('examinationType.degreeStudies'),
-          value: ExaminationType.Other,
-        };
-    }
-  };
 
   const permissionToPublishToOption = (
     permissionToPublish: PermissionToPublish
@@ -141,10 +127,10 @@ export const ClerkInterpreterAutocompleteFilters = () => {
           autoHighlight
           data-testid="clerk-interpreter-filters__examination-type"
           label={t('examinationType.placeholder')}
-          values={Object.values(ExaminationType).map(examinationTypeToOption)}
+          values={Object.values(ExaminationType).map(valueAsOption)}
           value={
             filters.examinationType
-              ? examinationTypeToOption(filters.examinationType)
+              ? valueAsOption(filters.examinationType)
               : null
           }
           variant={TextFieldVariant.Outlined}

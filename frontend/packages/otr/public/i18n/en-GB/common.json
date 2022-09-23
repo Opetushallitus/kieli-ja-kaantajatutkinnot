@@ -12,8 +12,8 @@
       "delete": "Delete",
       "edit": "Edit",
       "examinationType": {
-        "degreeStudies": null,
-        "legalInterpreterExam": null
+        "EAT": null,
+        "KKT": null
       },
       "loadingContent": "Downloading content",
       "meetingDates": "Meeting days",

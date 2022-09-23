@@ -27,7 +27,7 @@ export const clerkInterpreterIndividualised = {
       toLang: 'EN',
       beginDate: '2022-05-14',
       endDate: '2023-11-14',
-      examinationType: 'LEGAL_INTERPRETER_EXAM' as ExaminationType,
+      examinationType: ExaminationType.EAT,
       permissionToPublish: true,
       diaryNumber: '12000',
     },

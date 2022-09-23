@@ -12,7 +12,7 @@ export const addQualificationFields = [
   {
     fieldName: 'examination',
     fieldType: 'input',
-    value: 'Oikeustulkkauksen erikoisammattitutkinto',
+    value: 'EAT',
   },
   {
     fieldName: 'diaryNumber',

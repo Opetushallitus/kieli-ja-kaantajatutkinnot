@@ -22,10 +22,7 @@ class ClerkHomePage {
   }
 
   filterByExaminationType(examinationType: ExaminationType) {
-    const value =
-      examinationType === ExaminationType.LegalInterpreterExam
-        ? 'Oikeustulkkauksen erikoisammattitutkinto'
-        : 'Korkeakouluopinnot';
+    const value = examinationType === ExaminationType.EAT ? 'EAT' : 'KKT';
 
     this.elements
       .examinationTypeFilter()

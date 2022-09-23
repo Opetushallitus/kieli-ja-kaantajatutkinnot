@@ -1,6 +1,6 @@
 export enum ExaminationType {
-  LegalInterpreterExam = 'LEGAL_INTERPRETER_EXAM',
-  Other = 'OTHER',
+  EAT = 'EAT',
+  KKT = 'KKT',
 }
 
 export enum PermissionToPublish {

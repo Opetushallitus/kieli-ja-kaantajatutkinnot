@@ -24,9 +24,7 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.filterByPermissionToPublish(true);
     onClerkHomePage.expectFilteredInterpretersCount(9);
 
-    onClerkHomePage.filterByExaminationType(
-      ExaminationType.LegalInterpreterExam
-    );
+    onClerkHomePage.filterByExaminationType(ExaminationType.EAT);
     onClerkHomePage.expectFilteredInterpretersCount(6);
 
     onClerkHomePage.filterByToLanguage('tanska');

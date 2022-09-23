@@ -12,8 +12,8 @@
       "delete": "Ta bort",
       "edit": "Ändra",
       "examinationType": {
-        "degreeStudies": null,
-        "legalInterpreterExam": null
+        "EAT": null,
+        "KKT": null
       },
       "loadingContent": "Innehållet laddas ner",
       "meetingDates": "Mötesdagar",

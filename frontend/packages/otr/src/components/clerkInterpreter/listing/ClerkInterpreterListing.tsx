@@ -49,7 +49,6 @@ export const ClerkInterpreterListing = () => {
     case APIResponseStatus.Success:
       return (
         <PaginatedTable
-          className="clerk-interpreter-listing"
           data={filteredInterpreters}
           header={<ClerkInterpreterListingHeader />}
           headerTitle={t('component.clerkInterpreterListing.header.title')}
@@ -57,6 +56,7 @@ export const ClerkInterpreterListing = () => {
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
+          className={'clerk-interpreter__listing table-layout-auto'}
           stickyHeader
         />
       );

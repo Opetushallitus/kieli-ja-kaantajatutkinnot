@@ -14,7 +14,7 @@
       "clerkInterpreterFilters": {
         "examinationType": {
           "placeholder": "Kaikki",
-          "title": "Suoritettu tutkinto"
+          "title": "Koulutus"
         },
         "languagePair": {
           "fromPlaceholder": "Mistä",
@@ -39,10 +39,10 @@
         "header": {
           "beginDate": "Alkamispäivä",
           "endDate": "Päättymispäivä",
+          "examinationType": "Koulutus",
           "name": "Nimi",
           "languagePairs": "Kieliparit",
           "permissionToPublish": "Julkaisulupa",
-          "region": "Toiminta-alue",
           "title": "Hakutulokset",
           "valid": "Voimassa"
         }
