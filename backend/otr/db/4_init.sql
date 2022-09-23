@@ -28,7 +28,7 @@ SELECT
   interpreter_id,
   (SELECT min(meeting_date_id) FROM meeting_date),
   interpreter_id % 26 <> 0,
-  CASE mod(interpreter_id, 3) WHEN 0 THEN 'OTHER' ELSE 'LEGAL_INTERPRETER_EXAM' END,
+  CASE mod(interpreter_id, 3) WHEN 0 THEN 'KKT' ELSE 'EAT' END,
   'FI',
   langs[mod(interpreter_id, array_length(langs, 1)) + 1],
   '2020-01-01',

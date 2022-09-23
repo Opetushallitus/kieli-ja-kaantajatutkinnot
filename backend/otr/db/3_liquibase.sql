@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.0
+-- Dumped by pg_dump version 14.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -93,6 +93,7 @@ init-14	terova	migrations.xml	2022-04-07 16:54:20.656394	14	EXECUTED	8:3cb8287f5
 2022-05-20-create-shedlock-table	mikhuttu	migrations.xml	2022-05-25 09:06:10.513148	28	EXECUTED	8:8d3e6aaeff0d8838d329ebbaa95bc096	createTable tableName=shedlock		\N	4.5.0	\N	\N	3469570229
 2022-05-25-qualification-from_lang-constraint	mikhuttu	migrations.xml	2022-05-25 10:26:06.079658	29	EXECUTED	8:8f0bf74902bb4a3960c328ca2c8ec108	sql		\N	4.5.0	\N	\N	3474365948
 2022-08-02-create-meeting_date-table	terova	migrations.xml	2022-08-05 10:09:51.654466	30	EXECUTED	8:84f3872f8d4a1246fc1059f62de46b73	createTable tableName=meeting_date; addColumn tableName=qualification; addForeignKeyConstraint baseTableName=qualification, constraintName=fk_qualification_meeting_date, referencedTableName=meeting_date		\N	4.9.1	\N	\N	9683391545
+2022-09-23-change-qualification_examination_type-names	mikhuttu	migrations.xml	2022-09-23 08:12:10.14796	31	EXECUTED	8:097ef48e22c0060b3ce173e04f6b7bcc	insert tableName=qualification_examination_type; insert tableName=qualification_examination_type; sql; sql; delete tableName=qualification_examination_type; delete tableName=qualification_examination_type		\N	4.9.1	\N	\N	3920730065
 \.
 
 
