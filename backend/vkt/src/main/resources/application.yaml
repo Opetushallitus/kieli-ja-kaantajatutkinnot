@@ -1,4 +1,5 @@
 server:
+  # Set via vkt.properties.template in OPH cloud env
   port: ${application.port:8082}
   compression:
     enabled: true
