@@ -14,7 +14,8 @@ describe('LanguageSelect', () => {
           variant={TextFieldVariant.Outlined}
           languages={languages}
           value={null}
-          excludedLanguage="BN"
+          excludedLanguage="FI"
+          primaryLanguages={['SV']}
           translateLanguage={jest.fn((l: string) => l)}
         />
       )

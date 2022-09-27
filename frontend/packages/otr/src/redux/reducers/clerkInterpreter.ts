@@ -20,7 +20,7 @@ const initialState: ClerkInterpreterState = {
   status: APIResponseStatus.NotStarted,
   filters: {
     qualificationStatus: QualificationStatus.Effective,
-    fromLang: 'FI',
+    fromLang: QualificationUtils.defaultFromLang,
   },
   distinctToLangs: [],
 };

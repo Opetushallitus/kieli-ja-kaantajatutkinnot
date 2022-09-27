@@ -3,6 +3,8 @@ import { ClerkTranslatorAuthorisations } from 'interfaces/clerkTranslator';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class AuthorisationUtils {
+  static primaryLangs = ['FI', 'SV', 'SEIN', 'SEKO', 'SEPO'];
+
   static isEffective(
     { id }: Authorisation,
     { effective }: ClerkTranslatorAuthorisations

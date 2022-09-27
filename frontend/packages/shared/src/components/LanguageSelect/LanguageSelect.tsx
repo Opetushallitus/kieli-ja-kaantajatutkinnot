@@ -6,12 +6,11 @@ import {
 import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
 
 interface LanguageSelectProps {
-  excludedLanguage: string | undefined;
   languages: Array<string>;
+  excludedLanguage?: string;
+  primaryLanguages?: Array<string>;
   translateLanguage: (l: string) => string;
 }
-
-const primaryLanguages = ['FI', 'SV', 'SEIN', 'SEKO', 'SEPO'];
 
 export const languageToComboBoxOption = (
   translate: (l: string) => string,
@@ -22,57 +21,43 @@ export const languageToComboBoxOption = (
 });
 
 export const LanguageSelect = ({
-  excludedLanguage,
   languages,
+  excludedLanguage,
+  primaryLanguages,
   translateLanguage,
   ...rest
 }: LanguageSelectProps &
   Omit<ComboBoxProps, 'values'> &
   AutoCompleteComboBox) => {
-  // Helpers
-  const filterSelectedLang = (
-    excludedLanguage: string | undefined,
-    valuesArray: Array<ComboBoxOption>,
-    primaryLanguages: string[]
-  ): Array<ComboBoxOption> => {
-    const valuesArrayWithoutSelectedLang = valuesArray.filter(
-      ({ value }) => value !== excludedLanguage
-    );
-    if (excludedLanguage && !primaryLanguages.includes(excludedLanguage)) {
-      return valuesArrayWithoutSelectedLang.filter(({ value }) =>
-        primaryLanguages.includes(value)
-      );
-    }
-
-    return valuesArrayWithoutSelectedLang;
-  };
-
-  const values = languages.map((l) =>
-    languageToComboBoxOption(translateLanguage, l)
-  );
-
-  const filteredValuesArray = filterSelectedLang(
-    excludedLanguage,
-    values,
+  const primaryOptions: Array<ComboBoxOption> =
     primaryLanguages
-  );
-  const optionValuesToShow = sortOptionsByLabels(filteredValuesArray);
-  // Sort option value pairs into order set in primaryOptions parameter
-  const primaryValues = optionValuesToShow
-    .filter(({ value }) => {
-      return primaryLanguages.indexOf(value) >= 0;
-    })
-    .sort((a, b) => {
-      return (
-        primaryLanguages.indexOf(a.value) - primaryLanguages.indexOf(b.value)
-      );
-    });
+      ?.filter(
+        (language) =>
+          languages.includes(language) && language !== excludedLanguage
+      )
+      .map((language) =>
+        languageToComboBoxOption(translateLanguage, language)
+      ) || [];
 
-  // Merge sorted primaryOptions and sorted values
-  const valuesToShow = [
-    ...primaryValues,
-    ...optionValuesToShow.filter((value) => !primaryValues.includes(value)),
+  let secondaryOptions: Array<ComboBoxOption> = [];
+
+  if (
+    !excludedLanguage ||
+    !primaryLanguages ||
+    primaryLanguages.includes(excludedLanguage)
+  ) {
+    secondaryOptions = languages
+      .filter(
+        (language) =>
+          language !== excludedLanguage && !primaryLanguages?.includes(language)
+      )
+      .map((language) => languageToComboBoxOption(translateLanguage, language));
+  }
+
+  const sortedOptions = [
+    ...primaryOptions,
+    ...sortOptionsByLabels(secondaryOptions),
   ];
 
-  return <ComboBox {...rest} values={valuesToShow} />;
+  return <ComboBox {...rest} values={sortedOptions} />;
 };

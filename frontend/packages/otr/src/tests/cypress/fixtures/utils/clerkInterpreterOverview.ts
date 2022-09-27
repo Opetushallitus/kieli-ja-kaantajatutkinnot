@@ -1,10 +1,5 @@
 export const addQualificationFields = [
   {
-    fieldName: 'from',
-    fieldType: 'input',
-    value: 'suomi',
-  },
-  {
     fieldName: 'to',
     fieldType: 'input',
     value: 'ruotsi',

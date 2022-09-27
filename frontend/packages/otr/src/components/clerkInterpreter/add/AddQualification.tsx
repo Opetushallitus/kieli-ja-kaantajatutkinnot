@@ -42,7 +42,7 @@ interface NewQualification
 }
 
 const newQualification: NewQualification = {
-  fromLang: 'FI',
+  fromLang: QualificationUtils.defaultFromLang,
   toLang: '',
   examinationType: undefined as unknown as ExaminationType,
   beginDate: undefined,
@@ -180,10 +180,11 @@ export const AddQualification = ({
               autoHighlight
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
-              languages={['FI']}
-              excludedLanguage={qualification.toLang || undefined}
               value={getLanguageSelectValue(qualification.fromLang)}
+              disabled={true}
               onChange={handleLanguageSelectChange('fromLang')}
+              languages={QualificationUtils.selectableFromLangs}
+              excludedLanguage={qualification.toLang}
               translateLanguage={translateLanguage}
             />
           </div>
@@ -194,10 +195,10 @@ export const AddQualification = ({
               autoHighlight
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
-              languages={QualificationUtils.getKoodistoLangKeys()}
-              excludedLanguage={qualification.fromLang || undefined}
               value={getLanguageSelectValue(qualification.toLang)}
               onChange={handleLanguageSelectChange('toLang')}
+              languages={QualificationUtils.getKoodistoLangKeys()}
+              excludedLanguage={qualification.fromLang}
               translateLanguage={translateLanguage}
             />
           </div>

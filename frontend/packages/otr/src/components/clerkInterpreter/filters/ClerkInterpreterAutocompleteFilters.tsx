@@ -21,6 +21,7 @@ import { ExaminationType, PermissionToPublish } from 'enums/interpreter';
 import { ClerkInterpreterFilters } from 'interfaces/clerkInterpreter';
 import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const ClerkInterpreterAutocompleteFilters = () => {
   const { t } = useAppTranslation({
@@ -87,23 +88,23 @@ export const ClerkInterpreterAutocompleteFilters = () => {
             autoHighlight
             data-testid="clerk-interpreter-filters__from-lang"
             label={t('languagePair.fromPlaceholder')}
-            excludedLanguage={filters.toLang}
             value={getLanguageSelectValue(filters.fromLang)}
-            languages={[filters.fromLang || '']}
             disabled={true}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('fromLang')}
+            languages={QualificationUtils.selectableFromLangs}
+            excludedLanguage={filters.toLang}
             translateLanguage={translateLanguage}
           />
           <LanguageSelect
             autoHighlight
             data-testid="clerk-interpreter-filters__to-lang"
             label={t('languagePair.toPlaceholder')}
-            excludedLanguage={filters.fromLang}
             value={getLanguageSelectValue(filters.toLang)}
-            languages={distinctToLangs}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('toLang')}
+            languages={distinctToLangs}
+            excludedLanguage={filters.fromLang}
             translateLanguage={translateLanguage}
           />
         </div>

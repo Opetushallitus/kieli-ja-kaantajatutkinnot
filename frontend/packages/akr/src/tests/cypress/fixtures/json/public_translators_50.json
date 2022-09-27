@@ -1,7 +1,7 @@
 {
   "langs": {
-    "from": ["DE", "ET", "FI", "FR", "RU", "SV"],
-    "to": ["DE", "ET", "FI", "FR", "RU", "SV"]
+    "from": ["DE", "ET", "FI", "FR", "RU", "SEIN", "SEPO", "SV"],
+    "to": ["DE", "ET", "FI", "FR", "IT", "RU", "SEKO", "SV"]
   },
   "towns": [
     { "name": "Helsinki" },
@@ -843,6 +843,14 @@
         {
           "from": "FI",
           "to": "SV"
+        },
+        {
+          "from": "SEIN",
+          "to": "SV"
+        },
+        {
+          "from": "FI",
+          "to": "IT"
         }
       ],
       "lastName": "Karjalainen"
@@ -858,6 +866,10 @@
         {
           "from": "SV",
           "to": "FI"
+        },
+        {
+          "from": "SEPO",
+          "to": "SEKO"
         }
       ],
       "lastName": "Kinnunen"
