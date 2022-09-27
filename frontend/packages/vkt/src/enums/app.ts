@@ -8,3 +8,9 @@ export enum AppRoutes {
   PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   NotFoundPage = '*',
 }
+
+export enum ExamLanguage {
+  ALL = 'ALL',
+  FI = 'FI',
+  SV = 'SV',
+}

@@ -47,12 +47,47 @@
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
+      },
+      "publicExamEventListing": {
+        "accessibility": {
+          "checkboxSelectedAriaLabel": "Poista valinta",
+          "checkboxUnselectedAriaLabel": "Valitse kielitutkinto"
+        },
+        "enroll": "Ilmoittaudu",
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "language": "Kieli ja taso",
+          "openings": "Paikkoja vapaana",
+          "registrationCloses": "Ilmottautuminen sulkeutuu"
+        },
+        "languageFilter": {
+          "ALL": "Näytä kaikki kielet",
+          "FI": "Näytä vain suomi",
+          "SV": "Näytä vain ruotsi"
+        },
+        "openings": {
+          "congestion": "Ruuhkaa. Yritä myöhemmin uudelleen.",
+          "none": "Tutkinto täynnä. Voit ilmottautua jonoon."
+        }
       }
     },
     "errors": {
       "api": {
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
         "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
+      },
+      "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
+    },
+    "pages": {
+      "homepage": {
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "examinationDates": {
+          "description": "Tutkintokohtainen osallistumismaksu on <strong>227,00€</strong>. Osallistumismaksu on <strong>454,00€</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kertaa.",
+          "title": "Hinnasto"
+        },
+        "noSearchResults": "Ei hakutuloksia",
+        "note": "Tietoja peruutus paikoista neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
+        "title": "Valtionhallinnon kielitutkinnot"
       }
     }
   }

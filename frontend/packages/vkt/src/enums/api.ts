@@ -1,17 +1,12 @@
-export enum APIEndpoints {}
-
-export enum APIResponseStatus {
-  NotStarted = 'NOT_STARTED',
-  InProgress = 'IN_PROGRESS',
-  Success = 'SUCCESS',
-  Error = 'ERROR',
-  Cancelled = 'CANCELLED',
+export enum APIEndpoints {
+  PublicExamEvent = '/vkt/api/v1/examEvent',
 }
 
 /**
  * Certain errors expected to be returned by the backend.
  * The respective backend enum is `APIExceptionType`.
  */
+// ts-unused-exports:disable-next-line
 export enum APIError {
   InvalidVersion = 'invalidVersion',
 }

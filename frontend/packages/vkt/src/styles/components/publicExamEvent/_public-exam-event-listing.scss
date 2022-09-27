@@ -1,0 +1,13 @@
+.public-exam-event-header {
+  margin: 2rem 0 1rem 1rem;
+}
+
+.public-exam-event-listing {
+  &__checkbox {
+    &#{&} {
+      @include phone {
+        padding-top: 0;
+      }
+    }
+  }
+}

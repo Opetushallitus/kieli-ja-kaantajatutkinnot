@@ -3,16 +3,20 @@
   "description": "Valtionhallinnon kielitutkinnot",
   "license": "MIT",
   "main": "index.js",
+  "msw": {
+    "workerDirectory": "public"
+  },
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
     "vkt:build": "yarn g:webpack --env prod",
     "vkt:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
+    "vkt:exportlint": "yarn g:exportlint",
     "vkt:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "vkt:format:write": "yarn g:prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "vkt:lint": "yarn vkt:eslint && yarn vkt:tslint && yarn vkt:stylelint",
-    "vkt:qa": "yarn vkt:lint && yarn vkt:format && yarn vkt:test:jest && yarn vkt:start:ci:e2e",
+    "vkt:lint": "yarn vkt:eslint && yarn vkt:tslint && yarn vkt:stylelint && yarn vkt:exportlint",
+    "vkt:qa": "yarn vkt:lint && yarn vkt:format && yarn vkt:test:jest && yarn vkt:start:ci",
     "vkt:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8082",
-    "vkt:start:ci:e2e": "yarn g:webpack serve --config webpack.config.js --no-open & yarn vkt:test:cypress",
+    "vkt:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
     "vkt:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://vkt-backend:8082 --env docker",
     "vkt:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "vkt:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
@@ -21,6 +25,6 @@
     "vkt:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
-    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.3.2"
+    "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.3.5"
   }
 }

@@ -18,6 +18,7 @@ const fontWeightBold = 700;
 const fontWeightMedium = 500;
 const fontWeightRegular = 400;
 
+// TODO: copy theme from AKR and OTR
 export const theme = createTheme({
   components: {
     MuiOutlinedInput: {

@@ -1,0 +1,48 @@
+.public-homepage {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__item-header {
+      @include phone {
+        margin-top: 2rem;
+        padding: 2rem 2rem 0;
+      }
+    }
+
+    div &__item-exam-events {
+      @include phone {
+        padding-top: 1rem;
+      }
+    }
+
+    div &__result-box__no-results {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__exam-events {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+
+    @include phone {
+      @include phone-divider-border-top;
+      @include phone-divider-border-bottom;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+
+    &__heading-title {
+      margin-bottom: 0;
+    }
+
+    &__heading-description {
+      & svg {
+        color: $color-secondary;
+      }
+    }
+  }
+}
