@@ -1,7 +1,7 @@
 package fi.oph.vkt.repository;
 
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.exam.ExamLevel;
+import fi.oph.vkt.model.type.ExamLevel;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

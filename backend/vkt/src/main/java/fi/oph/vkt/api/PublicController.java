@@ -1,7 +1,7 @@
 package fi.oph.vkt.api;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.model.exam.ExamLevel;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.PublicExamEventService;
 import java.util.List;
 import javax.annotation.Resource;

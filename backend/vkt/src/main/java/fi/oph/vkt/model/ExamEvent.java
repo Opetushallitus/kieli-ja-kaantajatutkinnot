@@ -1,8 +1,10 @@
 package fi.oph.vkt.model;
 
-import fi.oph.vkt.model.exam.ExamLanguage;
-import fi.oph.vkt.model.exam.ExamLevel;
+import fi.oph.vkt.model.type.ExamLanguage;
+import fi.oph.vkt.model.type.ExamLevel;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,4 +47,7 @@ public class ExamEvent extends BaseEntity {
 
   @Column(name = "max_participants", nullable = false)
   private int maxParticipants;
+
+  @OneToMany(mappedBy = "examEvent")
+  private List<Enrollment> enrollments = new ArrayList<>();
 }

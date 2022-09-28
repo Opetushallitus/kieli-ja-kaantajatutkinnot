@@ -1,7 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.model.exam.ExamLevel;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
 import java.util.Comparator;
