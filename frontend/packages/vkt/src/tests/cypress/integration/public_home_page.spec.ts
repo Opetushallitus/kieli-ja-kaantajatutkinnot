@@ -7,7 +7,7 @@ describe('PublicHomePage', () => {
     cy.openPublicHomePage();
   });
 
-  it('should the filtered amount of exam events in table pagination', () => {
+  it('should show the filtered amount of exam events in table pagination', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
 
     onPublicHomePage.filterByLanguage(ExamLanguage.FI);
