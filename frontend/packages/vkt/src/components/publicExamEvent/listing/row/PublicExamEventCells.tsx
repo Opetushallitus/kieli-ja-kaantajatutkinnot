@@ -1,6 +1,5 @@
 import { Checkbox, TableCell } from '@mui/material';
-import dayjs from 'dayjs';
-import { useEffect } from 'react';
+import { Dayjs } from 'dayjs';
 import { H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -40,14 +39,8 @@ export const PublicExamEventDesktopCells = ({
   examEvent: PublicExamEvent;
   isSelected: boolean;
 }) => {
-  const {
-    id,
-    language,
-    date,
-    registrationCloses,
-    participants,
-    maxParticipants,
-  } = examEvent;
+  const { language, date, registrationCloses, participants, maxParticipants } =
+    examEvent;
 
   // I18n
   const { t } = useAppTranslation({
@@ -78,22 +71,7 @@ export const PublicExamEventDesktopCells = ({
     return `${maxParticipants - participants}`;
   };
 
-  useEffect(() => {
-    if (id < 10) {
-      // eslint-disable-next-line no-console
-      console.log('date', date);
-      // eslint-disable-next-line no-console
-      console.log(
-        'formatOptionalDate(date)',
-        DateUtils.formatOptionalDate(date)
-      );
-      // eslint-disable-next-line no-console
-      console.log(
-        'formatOptionalDate(now)',
-        DateUtils.formatOptionalDate(dayjs())
-      );
-    }
-  }, [id, date]);
+  const formatDate = (date: Dayjs) => date.format('DD.MM.YYYY');
 
   return (
     <>
@@ -111,10 +89,10 @@ export const PublicExamEventDesktopCells = ({
         <Text>{getLanguageAndLevelText(language)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(date)}</Text>
+        <Text>{formatDate(date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{registrationCloses.format('DD.MM.YYYY')}</Text>
+        <Text>{formatDate(registrationCloses)}</Text>
       </TableCell>
       <TableCell>
         <Text>{getOpeningsText()}</Text>
