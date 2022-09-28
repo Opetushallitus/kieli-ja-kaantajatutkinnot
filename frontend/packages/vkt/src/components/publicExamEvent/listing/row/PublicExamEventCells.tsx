@@ -114,7 +114,7 @@ export const PublicExamEventDesktopCells = ({
         <Text>{DateUtils.formatOptionalDate(date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(registrationCloses)}</Text>
+        <Text>{registrationCloses.format('DD.MM.YYYY')}</Text>
       </TableCell>
       <TableCell>
         <Text>{getOpeningsText()}</Text>
