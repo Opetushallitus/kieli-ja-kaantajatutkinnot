@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${application.port:8080}
   compression:
     enabled: true
   servlet:
