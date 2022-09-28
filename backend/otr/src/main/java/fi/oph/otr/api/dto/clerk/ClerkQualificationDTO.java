@@ -1,6 +1,6 @@
 package fi.oph.otr.api.dto.clerk;
 
-import fi.oph.otr.model.QualificationExaminationType;
+import fi.oph.otr.model.ExaminationType;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +15,7 @@ public record ClerkQualificationDTO(
   @NonNull @NotBlank String toLang,
   @NonNull @NotNull LocalDate beginDate,
   @NonNull @NotNull LocalDate endDate,
-  @NonNull @NotNull QualificationExaminationType examinationType,
+  @NonNull @NotNull ExaminationType examinationType,
   @NonNull @NotNull Boolean permissionToPublish,
   String diaryNumber
 )

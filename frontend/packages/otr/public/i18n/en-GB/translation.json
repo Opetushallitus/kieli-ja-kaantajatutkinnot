@@ -14,7 +14,7 @@
       "clerkInterpreterFilters": {
         "examinationType": {
           "placeholder": "All",
-          "title": "Completed qualification"
+          "title": "Education"
         },
         "languagePair": {
           "fromPlaceholder": "Source language",
@@ -39,10 +39,10 @@
         "header": {
           "beginDate": "Start date",
           "endDate": "End date",
+          "examinationType": "Education",
           "name": "Name",
           "languagePairs": "Language pairs",
           "permissionToPublish": "Permission to publish",
-          "region": "Operating area",
           "valid": "Valid"
         }
       },

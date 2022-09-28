@@ -1,6 +1,6 @@
 package fi.oph.otr.api.dto.clerk;
 
-import fi.oph.otr.model.QualificationExaminationType;
+import fi.oph.otr.model.ExaminationType;
 import java.time.LocalDate;
 
 public interface ClerkQualificationDTOCommonFields {
@@ -12,7 +12,7 @@ public interface ClerkQualificationDTOCommonFields {
 
   LocalDate endDate();
 
-  QualificationExaminationType examinationType();
+  ExaminationType examinationType();
 
   Boolean permissionToPublish();
 

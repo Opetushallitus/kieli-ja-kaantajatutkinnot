@@ -13,14 +13,13 @@ import { AppRoutes } from 'enums/app';
 import { ClerkInterpreter } from 'interfaces/clerkInterpreter';
 import { setClerkInterpreterOverview } from 'redux/reducers/clerkInterpreterOverview';
 import { QualificationUtils } from 'utils/qualifications';
-import { RegionUtils } from 'utils/regions';
 
 export const ClerkInterpreterListingRow = ({
   interpreter,
 }: {
   interpreter: ClerkInterpreter;
 }) => {
-  const { lastName, nickName, qualifications, regions } = interpreter;
+  const { lastName, nickName, qualifications } = interpreter;
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
@@ -53,6 +52,11 @@ export const ClerkInterpreterListingRow = ({
         ))}
       </TableCell>
       <TableCell>
+        {qualifications.map(({ examinationType }, k) => (
+          <Text key={k}>{examinationType}</Text>
+        ))}
+      </TableCell>
+      <TableCell>
         {qualifications.map(({ beginDate }, k) => (
           <Text key={k}>{DateUtils.formatOptionalDate(beginDate)}</Text>
         ))}
@@ -79,9 +83,6 @@ export const ClerkInterpreterListingRow = ({
               : translateCommon('no')}
           </Text>
         ))}
-      </TableCell>
-      <TableCell>
-        <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
       </TableCell>
     </TableRow>
   );

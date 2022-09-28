@@ -38,15 +38,15 @@ public class Qualification extends BaseEntity {
   @Size(min = 1, max = 10)
   private String toLang;
 
+  @Column(name = "examination_type", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private ExaminationType examinationType;
+
   @Column(name = "begin_date", nullable = false)
   private LocalDate beginDate;
 
   @Column(name = "end_date", nullable = false)
   private LocalDate endDate;
-
-  @Column(name = "examination_type", nullable = false)
-  @Enumerated(value = EnumType.STRING)
-  private QualificationExaminationType examinationType;
 
   @Column(name = "permission_to_publish", nullable = false)
   private boolean permissionToPublish;

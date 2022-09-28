@@ -496,5 +496,27 @@
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
+    <changeSet id="2022-09-23-change-qualification_examination_type-names" author="mikhuttu">
+        <insert tableName="qualification_examination_type">
+            <column name="name" value="EAT"/>
+        </insert>
+        <insert tableName="qualification_examination_type">
+            <column name="name" value="KKT"/>
+        </insert>
+
+        <sql>
+            UPDATE qualification SET examination_type = 'EAT' WHERE examination_type = 'LEGAL_INTERPRETER_EXAM'
+        </sql>
+        <sql>
+            UPDATE qualification SET examination_type = 'KKT' WHERE examination_type = 'OTHER'
+        </sql>
+
+        <delete tableName="qualification_examination_type">
+            <where>name = 'LEGAL_INTERPRETER_EXAM'</where>
+        </delete>
+        <delete tableName="qualification_examination_type">
+            <where>name = 'OTHER'</where>
+        </delete>
+    </changeSet>
 
 </databaseChangeLog>

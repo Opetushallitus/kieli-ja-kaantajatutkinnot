@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.0
+-- Dumped by pg_dump version 14.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,8 +30,8 @@ QUALIFICATION_EXPIRY
 --
 
 COPY public.qualification_examination_type (name) FROM stdin;
-LEGAL_INTERPRETER_EXAM
-OTHER
+EAT
+KKT
 \.
 
 

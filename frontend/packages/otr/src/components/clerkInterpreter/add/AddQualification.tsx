@@ -10,6 +10,7 @@ import {
   languageToComboBoxOption,
   LoadingProgressIndicator,
   Text,
+  valueAsOption,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
@@ -164,21 +165,6 @@ export const AddQualification = ({
     }
   };
 
-  const examinationTypeToOption = (examinationType: ExaminationType) => {
-    switch (examinationType) {
-      case ExaminationType.LegalInterpreterExam:
-        return {
-          label: translateCommon('examinationType.legalInterpreterExam'),
-          value: ExaminationType.LegalInterpreterExam,
-        };
-      case ExaminationType.Other:
-        return {
-          label: translateCommon('examinationType.degreeStudies'),
-          value: ExaminationType.Other,
-        };
-    }
-  };
-
   const testIdPrefix = 'add-qualification-field';
 
   useNavigationProtection(isQualificationDataChanged);
@@ -221,12 +207,10 @@ export const AddQualification = ({
               data-testid={`${testIdPrefix}-examination`}
               autoHighlight
               label={t('fieldPlaceholders.examination')}
-              values={Object.values(ExaminationType).map(
-                examinationTypeToOption
-              )}
+              values={Object.values(ExaminationType).map(valueAsOption)}
               value={
                 qualification.examinationType
-                  ? examinationTypeToOption(qualification.examinationType)
+                  ? valueAsOption(qualification.examinationType)
                   : null
               }
               variant={TextFieldVariant.Outlined}

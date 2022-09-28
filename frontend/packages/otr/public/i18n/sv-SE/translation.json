@@ -14,7 +14,7 @@
       "clerkInterpreterFilters": {
         "examinationType": {
           "placeholder": "Alla",
-          "title": "Avlagd examen"
+          "title": "Utbildning"
         },
         "languagePair": {
           "fromPlaceholder": "Från",
@@ -39,10 +39,10 @@
         "header": {
           "beginDate": "Startdatum",
           "endDate": "Slutdatum",
+          "examinationType": "Utbildning",
           "name": "Namn",
           "languagePairs": "Språkpar",
           "permissionToPublish": "Publiceringstillstånd",
-          "region": "Verksamhetsområde",
           "valid": "I kraft"
         }
       },

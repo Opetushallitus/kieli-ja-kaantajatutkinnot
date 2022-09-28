@@ -13,8 +13,8 @@
       "delete": "Poista",
       "edit": "Muokkaa",
       "examinationType": {
-        "degreeStudies": "Korkeakouluopinnot",
-        "legalInterpreterExam": "Oikeustulkkauksen erikoisammattitutkinto"
+        "EAT": "Erikoisammattitutkinto (EAT)",
+        "KKT": "Korkeakouluopinnot (KKT)"
       },
       "loadingContent": "Sisältöä ladataan",
       "meetingDates": "Kokouspäivät",
