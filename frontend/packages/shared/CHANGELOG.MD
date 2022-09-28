@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.6] - 2022-09-28
+
+### Fixed
+
+- Use global dayjs locale instead of the locale that was used when constructing individual Dayjs instances
+  when formatting dates within `DateUtils.formatOptionalDate`
+
 ## [1.3.5] - 2022-09-26
 
 ### Changed
