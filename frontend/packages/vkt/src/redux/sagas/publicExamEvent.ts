@@ -17,9 +17,13 @@ function* loadPublicExamEventsSaga() {
       axiosInstance.get,
       APIEndpoints.PublicExamEvent
     );
+    // eslint-disable-next-line no-console
+    console.log('examEventsResponse', response);
     const examEvents = response.data.map(
       SerializationUtils.deserializePublicExamEvent
     );
+    // eslint-disable-next-line no-console
+    console.log('examEvents', examEvents);
     yield put(storePublicExamEvents(examEvents));
   } catch (error) {
     yield put(rejectPublicExamEvents());
