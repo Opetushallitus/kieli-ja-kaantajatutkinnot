@@ -25,7 +25,9 @@ export class DateUtils {
       return '-';
     }
 
-    return date.format('L');
+    // Locale information is baked into the Dayjs instances when they are constructed.
+    // We need to override the instance's locale with the locale used by the app when formating the date.
+    return date.locale(dayjs.locale()).format('L');
   }
 
   static optionalStringToDate(dateString?: string) {
