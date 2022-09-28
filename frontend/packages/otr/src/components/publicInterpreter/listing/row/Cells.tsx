@@ -9,6 +9,11 @@ import {
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 import { RegionUtils } from 'utils/regions';
 
+const mapRegionsToTextElements = (regions: Array<string>) =>
+  RegionUtils.translateRegions(regions)
+    .sort()
+    .map((translation, k) => <Text key={k}>{translation}</Text>);
+
 export const PublicInterpreterPhoneCells = ({
   isOpen,
   interpreter,
@@ -40,7 +45,7 @@ export const PublicInterpreterPhoneCells = ({
             </div>
             <div>
               <H3>{t('header.region')}</H3>
-              <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
+              {mapRegionsToTextElements(regions)}
             </div>
           </div>
         </div>
@@ -77,9 +82,7 @@ export const PublicInterpreterDesktopCells = ({
           </Text>
         ))}
       </TableCell>
-      <TableCell>
-        <Text>{RegionUtils.translateAndConcatRegions(regions)}</Text>
-      </TableCell>
+      <TableCell>{mapRegionsToTextElements(regions)}</TableCell>
     </>
   );
 };

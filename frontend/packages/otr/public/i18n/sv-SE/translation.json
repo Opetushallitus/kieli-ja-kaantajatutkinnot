@@ -217,22 +217,17 @@
           "search": "Visa resultat"
         },
         "languagePair": {
-          "fromAriaLabel": "Från, obligatorisk för att ta kontakt",
+          "fromAriaLabel": "Från",
           "fromHelperText": "Välj språk",
           "fromPlaceholder": "Från",
           "title": "Sök med språkpar",
-          "toAriaLabel": "Till, obligatoriskt för att ta kontakt",
+          "toAriaLabel": "Till",
           "toHelperText": "Välj språk",
           "toPlaceholder": "Till"
         },
         "region": {
           "placeholder": "Verksamhetsområde",
           "title": "Sök med rättstolkens verksamhetsområde"
-        },
-        "toasts": {
-          "contactRequestNeedsLanguagePairs": "Välj språkpar för att kontakta en translator",
-          "interpreterSelected": "Du kan endast välja ett språkpar för att ta kontakt",
-          "selectLanguagePair": "Välj språkpar"
         }
       },
       "publicInterpreterListing": {

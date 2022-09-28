@@ -49,16 +49,6 @@
         gap: 1rem;
       }
 
-      & &__link {
-        display: inline-block;
-        font-size: 1.6rem;
-        font-weight: normal;
-        justify-self: flex-start;
-        padding: 0;
-        text-transform: lowercase;
-      }
-
-      & &__link,
       & &__text {
         @include phone {
           padding-left: 0.5rem;

@@ -1,13 +1,10 @@
 import { Collapse, TableCell, TableRow } from '@mui/material';
-import { ExtLink, Text } from 'shared/components';
+import { Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
 import { useAppTranslation } from 'configs/i18n';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
-
-// Helpers
-const PLACEHOLDER_TEXT = '-';
 
 enum AdditionalDetailsField {
   Email = 'email',
@@ -16,32 +13,20 @@ enum AdditionalDetailsField {
 }
 
 const AdditionalContactDetail = ({
-  field,
   label,
-  contactDetail,
+  value,
 }: {
-  field: AdditionalDetailsField;
   label: string;
-  contactDetail: string;
+  value: string;
 }) => {
   const { isPhone } = useWindowProperties();
-  const linkPrefix = field === AdditionalDetailsField.Email ? 'mailto' : 'tel';
 
   return (
     <div className="public-interpreter-listing-row__additional-contact-details__box">
       <Text className="bold">{isPhone ? label : `${label}: `}</Text>
-      {field === AdditionalDetailsField.OtherContactInfo ||
-      contactDetail === PLACEHOLDER_TEXT ? (
-        <Text className="public-interpreter-listing-row__additional-contact-details__text">
-          {contactDetail}
-        </Text>
-      ) : (
-        <ExtLink
-          className="public-interpreter-listing-row__additional-contact-details__link"
-          text={contactDetail}
-          href={`${linkPrefix}:${contactDetail}`}
-        />
-      )}
+      <Text className="public-interpreter-listing-row__additional-contact-details__text">
+        {value}
+      </Text>
     </div>
   );
 };
@@ -60,9 +45,8 @@ export const CollapsibleRow = ({
   const numOfCells = isPhone ? 0 : 3;
 
   const getAdditionalContactDetailProps = (field: AdditionalDetailsField) => ({
-    field,
     label: t(`row.additionalContactDetail.${field}`),
-    contactDetail: StringUtils.getWithPlaceholder(interpreter[field]),
+    value: StringUtils.getWithPlaceholder(interpreter[field]),
   });
 
   return (

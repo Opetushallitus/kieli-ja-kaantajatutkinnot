@@ -217,22 +217,17 @@
           "search": "Show results"
         },
         "languagePair": {
-          "fromAriaLabel": "Source language, mandatory for contacting",
+          "fromAriaLabel": "Source language",
           "fromHelperText": "Select language",
           "fromPlaceholder": "Source language",
           "title": "Search by language pair",
-          "toAriaLabel": "Target language, mandatory for contacting",
+          "toAriaLabel": "Target language",
           "toHelperText": "Select language",
           "toPlaceholder": "Target language"
         },
         "region": {
           "placeholder": "Operating area",
           "title": "Search by legal interpreter's operating area"
-        },
-        "toasts": {
-          "contactRequestNeedsLanguagePairs": "Select a language pair for contacting a translator",
-          "interpreterSelected": "You can select only one language pair for contacting",
-          "selectLanguagePair": "Select a language pair"
         }
       },
       "publicInterpreterListing": {
