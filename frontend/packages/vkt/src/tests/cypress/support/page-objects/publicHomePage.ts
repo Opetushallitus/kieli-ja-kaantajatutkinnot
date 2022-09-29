@@ -38,6 +38,7 @@ class PublicHomePage {
   expectFilteredExamEventsCount(count: number) {
     this.elements
       .pagination()
+      .should('be.visible')
       .should('contain.text', `1 - ${count} / ${count}`);
   }
 
