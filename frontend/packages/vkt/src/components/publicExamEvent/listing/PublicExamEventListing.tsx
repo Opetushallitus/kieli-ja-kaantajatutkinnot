@@ -99,7 +99,7 @@ export const PublicExamEventListing = ({
             ref={listingHeaderRef}
           >
             <div className="grow">
-              <H2>{translateCommon('examDates')}</H2>
+              <H2>{t('component.publicExamEventListing.title')}</H2>
             </div>
           </div>
           <PaginatedTable

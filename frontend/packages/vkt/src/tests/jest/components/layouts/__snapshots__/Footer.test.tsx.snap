@@ -69,9 +69,9 @@ exports[`Footer should render Footer correctly 1`] = `
           </button>
         </a>
         <a
-          aria-label="links.vktHomepage.ariaLabel"
+          aria-label="vktHomepage.ariaLabel"
           className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
-          href="links.vktHomepage.link"
+          href="vktHomepage.link"
           onBlur={[Function]}
           onContextMenu={[Function]}
           onDragLeave={[Function]}

@@ -2,9 +2,8 @@
   "vkt": {
     "common": {
       "appTitle": "Valtionhallinnon kielitutkinnot",
-      "contactEmail": "vkt@oph.fi",
+      "contactEmail": "kielitutkinnot@oph.fi",
       "ophLogo": "Opetushallituksen logo",
-      "examDates": "Tutkintopäivät",
       "examLanguage": {
         "FI": "Suomi",
         "SV": "Ruotsi"
@@ -12,7 +11,11 @@
       "examLevel": {
         "excellent": "Erinomainen"
       },
-      "rowsPerPageLabel": "Tulokset per sivu"
+      "rowsPerPageLabel": "Tulokset per sivu",
+      "vktHomepage": {
+        "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
+      }
     }
   }
 }

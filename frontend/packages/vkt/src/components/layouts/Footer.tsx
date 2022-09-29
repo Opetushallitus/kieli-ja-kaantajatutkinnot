@@ -49,9 +49,9 @@ export const Footer = () => {
                 </CustomButtonLink>
                 <ExtLink
                   text={t('links.vktHomepage.text')}
-                  href={t('links.vktHomepage.link')}
+                  href={translateCommon('vktHomepage.link')}
                   endIcon={<OpenInNewIcon />}
-                  aria-label={t('links.vktHomepage.ariaLabel')}
+                  aria-label={translateCommon('vktHomepage.ariaLabel')}
                 />
                 <div className="footer__container__links__contact">
                   <H3>{t('links.contact.title')}:</H3>
