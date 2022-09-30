@@ -6,6 +6,7 @@ import {
   PublicInterpreter,
   PublicInterpreterFilter,
 } from 'interfaces/publicInterpreter';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const publicInterpretersSelector = (state: RootState) =>
   state.publicInterpreter;
@@ -14,9 +15,7 @@ export const selectFilteredPublicInterpreters = createSelector(
   (state: RootState) => state.publicInterpreter.interpreters,
   (state: RootState) => state.publicInterpreter.filters,
   (interpreters, filters) => {
-    const filteredArray = filterPublicInterpreters(interpreters, filters);
-
-    return filteredArray;
+    return filterPublicInterpreters(interpreters, filters);
   }
 );
 
@@ -45,29 +44,20 @@ const filterByLanguagePair = (
   publicInterpreter: PublicInterpreter,
   filters: PublicInterpreterFilter
 ) => {
-  return publicInterpreter.languages.find((l) => {
-    const fromLangCond =
-      l.from.toLowerCase() === filters.fromLang.toLowerCase() ||
-      l.from.toLowerCase() === filters.toLang.toLowerCase();
-
-    const toLangCond =
-      l.to.toLowerCase() === filters.fromLang.toLowerCase() ||
-      l.to.toLowerCase() === filters.toLang.toLowerCase();
-
-    return filters.fromLang && filters.toLang
-      ? fromLangCond && toLangCond
-      : fromLangCond || toLangCond;
-  });
+  return publicInterpreter.languages.find((languagePair) =>
+    QualificationUtils.languagePairMatchesLangFilters(
+      languagePair,
+      filters.fromLang,
+      filters.toLang
+    )
+  );
 };
 
 const filterByName = (
-  publicInterpreter: PublicInterpreter,
+  { firstName, lastName }: PublicInterpreter,
   filters: PublicInterpreterFilter
 ) => {
-  const nameCombs = [
-    `${publicInterpreter.firstName} ${publicInterpreter.lastName}`,
-    `${publicInterpreter.lastName} ${publicInterpreter.firstName}`,
-  ];
+  const nameCombs = [`${firstName} ${lastName}`, `${lastName} ${firstName}`];
 
   return nameCombs.some((comb) =>
     comb.toLowerCase().includes(filters.name.toLowerCase().trim())

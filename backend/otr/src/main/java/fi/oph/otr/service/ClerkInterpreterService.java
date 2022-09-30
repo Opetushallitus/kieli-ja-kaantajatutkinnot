@@ -2,6 +2,7 @@ package fi.oph.otr.service;
 
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTO;
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
+import fi.oph.otr.api.dto.clerk.ClerkInterpreterQualificationsDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTO;
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTOCommonFields;
 import fi.oph.otr.api.dto.clerk.modify.ClerkInterpreterCreateDTO;
@@ -22,6 +23,7 @@ import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.repository.MeetingDateRepository;
 import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
+import fi.oph.otr.util.QualificationUtil;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
 import fi.oph.otr.util.exception.NotFoundException;
@@ -114,12 +116,14 @@ public class ClerkInterpreterService {
     final List<Qualification> qualifications,
     final List<InterpreterRegionProjection> regionProjections
   ) {
+    final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
+
     final List<ClerkQualificationDTO> qualificationDTOs = qualifications
       .stream()
       .map(this::createQualificationDTO)
+      .sorted(Comparator.comparing(ClerkQualificationDTO::beginDate).reversed())
       .toList();
-
-    final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
+    final ClerkInterpreterQualificationsDTO interpreterQualificationsDTO = splitQualificationDTOs(qualificationDTOs);
 
     return ClerkInterpreterDTO
       .builder()
@@ -144,7 +148,7 @@ public class ClerkInterpreterService {
       .country(personalData.getCountry())
       .extraInformation(interpreter.getExtraInformation())
       .regions(regions)
-      .qualifications(qualificationDTOs)
+      .qualifications(interpreterQualificationsDTO)
       .build();
   }
 
@@ -160,6 +164,26 @@ public class ClerkInterpreterService {
       .examinationType(qualification.getExaminationType())
       .permissionToPublish(qualification.isPermissionToPublish())
       .diaryNumber(qualification.getDiaryNumber())
+      .build();
+  }
+
+  private ClerkInterpreterQualificationsDTO splitQualificationDTOs(
+    final List<ClerkQualificationDTO> qualificationDTOs
+  ) {
+    final List<ClerkQualificationDTO> effective = QualificationUtil.filterEffectiveQualifications(qualificationDTOs);
+    final List<ClerkQualificationDTO> expiring = QualificationUtil.filterExpiringQualifications(qualificationDTOs);
+    final List<ClerkQualificationDTO> expired = QualificationUtil.filterExpiredQualifications(qualificationDTOs);
+    final List<ClerkQualificationDTO> expiredDeduplicated = QualificationUtil.filterExpiredDeduplicates(
+      expired,
+      effective
+    );
+
+    return ClerkInterpreterQualificationsDTO
+      .builder()
+      .effective(effective)
+      .expiring(expiring)
+      .expired(expired)
+      .expiredDeduplicated(expiredDeduplicated)
       .build();
   }
 

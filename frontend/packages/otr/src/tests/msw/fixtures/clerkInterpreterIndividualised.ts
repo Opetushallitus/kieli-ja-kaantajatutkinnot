@@ -19,17 +19,22 @@ export const clerkInterpreterIndividualised = {
   town: 'Helsinki',
   country: 'Suomi',
   regions: [],
-  qualifications: [
-    {
-      id: 120,
-      version: 0,
-      fromLang: 'FI',
-      toLang: 'EN',
-      beginDate: '2022-05-14',
-      endDate: '2023-11-14',
-      examinationType: ExaminationType.EAT,
-      permissionToPublish: true,
-      diaryNumber: '12000',
-    },
-  ],
+  qualifications: {
+    effective: [
+      {
+        id: 120,
+        version: 0,
+        fromLang: 'FI',
+        toLang: 'EN',
+        beginDate: '2022-05-14',
+        endDate: '2023-11-14',
+        examinationType: ExaminationType.EAT,
+        permissionToPublish: true,
+        diaryNumber: '12000',
+      },
+    ],
+    expiring: [],
+    expired: [],
+    expiredDeduplicated: [],
+  },
 };

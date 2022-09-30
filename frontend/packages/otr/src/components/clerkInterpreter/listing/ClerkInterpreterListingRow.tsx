@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from '@mui/material';
-import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
@@ -19,12 +18,16 @@ export const ClerkInterpreterListingRow = ({
 }: {
   interpreter: ClerkInterpreter;
 }) => {
-  const { lastName, nickName, qualifications } = interpreter;
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { lastName, nickName, qualifications } = interpreter;
+
+  const visibleQualifications =
+    QualificationUtils.getQualificationsVisibleInClerkHomePage(qualifications);
 
   const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
     e?.stopPropagation();
@@ -43,7 +46,7 @@ export const ClerkInterpreterListingRow = ({
         <Text>{`${lastName} ${nickName}`}</Text>
       </TableCell>
       <TableCell>
-        {qualifications.map(({ fromLang, toLang }, k) => (
+        {visibleQualifications.map(({ fromLang, toLang }, k) => (
           <Text key={k}>
             {translateLanguage(fromLang)}
             {` - `}
@@ -52,31 +55,31 @@ export const ClerkInterpreterListingRow = ({
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map(({ examinationType }, k) => (
+        {visibleQualifications.map(({ examinationType }, k) => (
           <Text key={k}>{examinationType}</Text>
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map(({ beginDate }, k) => (
+        {visibleQualifications.map(({ beginDate }, k) => (
           <Text key={k}>{DateUtils.formatOptionalDate(beginDate)}</Text>
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map(({ endDate }, k) => (
+        {visibleQualifications.map(({ endDate }, k) => (
           <Text key={k}>{DateUtils.formatOptionalDate(endDate)}</Text>
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map((qualification, k) => (
+        {visibleQualifications.map((qualification, k) => (
           <Text key={k}>
-            {QualificationUtils.isQualificationEffective(qualification, dayjs())
+            {QualificationUtils.isEffective(qualification, qualifications)
               ? translateCommon('yes')
               : translateCommon('no')}
           </Text>
         ))}
       </TableCell>
       <TableCell>
-        {qualifications.map(({ permissionToPublish }, k) => (
+        {visibleQualifications.map(({ permissionToPublish }, k) => (
           <Text key={k}>
             {permissionToPublish
               ? translateCommon('yes')

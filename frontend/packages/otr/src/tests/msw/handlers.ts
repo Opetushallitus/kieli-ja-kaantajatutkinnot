@@ -6,9 +6,9 @@ import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpre
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
 import { meetingDates10 } from 'tests/msw/fixtures/meetingDates10';
 import { newMeetingDate } from 'tests/msw/fixtures/newMeetingDate';
+import { newQualification } from 'tests/msw/fixtures/newQualification';
 import { person1, person2 } from 'tests/msw/fixtures/person';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
-import { qualification } from 'tests/msw/fixtures/qualification';
 import {
   publishPermissionChangeResponse,
   qualificationRemoveResponse,
@@ -47,11 +47,19 @@ export const handlers = [
   rest.post(
     `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}/qualification`,
     (req, res, ctx) => {
+      const effective = [
+        ...clerkInterpreter.qualifications.effective,
+        newQualification,
+      ];
+
       return res(
         ctx.status(201),
         ctx.json({
           ...clerkInterpreter,
-          qualifications: [...clerkInterpreter.qualifications, qualification],
+          qualifications: {
+            ...clerkInterpreter.qualifications,
+            effective,
+          },
         })
       );
     }

@@ -1,7 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { WithId, WithTempId, WithVersion } from 'shared/interfaces';
 
-import { QualificationStatus } from 'enums/clerkInterpreter';
 import { ExaminationType } from 'enums/interpreter';
 
 export interface Qualification
@@ -23,7 +22,3 @@ export interface QualificationResponse
   beginDate: string;
   endDate: string;
 }
-
-export type QualificationsGroupedByStatus = {
-  [key in QualificationStatus]: Array<Qualification>;
-};

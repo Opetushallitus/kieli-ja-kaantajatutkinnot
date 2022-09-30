@@ -6,6 +6,7 @@ import {
   ClerkInterpreter,
   ClerkInterpreterFilters,
 } from 'interfaces/clerkInterpreter';
+import { QualificationUtils } from 'utils/qualifications';
 
 interface ClerkInterpreterState {
   interpreters: Array<ClerkInterpreter>;
@@ -28,7 +29,12 @@ const getDistinctToLangs = (interpreters: Array<ClerkInterpreter>) => {
   const languages = new Set<string>();
 
   interpreters.forEach(({ qualifications }) => {
-    qualifications.forEach(({ toLang }) => {
+    const distinctQualifications =
+      QualificationUtils.getQualificationsVisibleInClerkHomePage(
+        qualifications
+      );
+
+    distinctQualifications.forEach(({ toLang }) => {
       languages.add(toLang);
     });
   });

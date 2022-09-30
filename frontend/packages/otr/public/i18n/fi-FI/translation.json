@@ -31,7 +31,7 @@
         },
         "qualificationStatus": {
           "effective": "Rekisteröidyt",
-          "expired": "Umpeutuneet",
+          "expiredDeduplicated": "Umpeutuneet",
           "expiring": "Umpeutuvat"
         }
       },
