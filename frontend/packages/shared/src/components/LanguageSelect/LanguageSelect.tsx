@@ -5,13 +5,6 @@ import {
 } from '../../interfaces/comboBox';
 import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
 
-interface LanguageSelectProps {
-  languages: Array<string>;
-  excludedLanguage?: string;
-  primaryLanguages?: Array<string>;
-  translateLanguage: (l: string) => string;
-}
-
 export const languageToComboBoxOption = (
   translate: (l: string) => string,
   lang: string
@@ -20,39 +13,50 @@ export const languageToComboBoxOption = (
   value: lang,
 });
 
+interface LanguageSelectProps {
+  languages: Array<string>;
+  primaryLanguages?: Array<string>;
+  excludedLanguage?: string;
+  translateLanguage: (l: string) => string;
+}
+
+/**
+ * Returns ComboBox with values as language options.
+ *
+ * The first selectable options are `primaryLanguages` that are also part of `languages`.
+ * The remaining options are the rest of the `languages` sorted by their display values.
+ * If `excludedLanguage` is also provided, that language is filtered out of the result.
+ *
+ * @param languages - selectable language options
+ * @param primaryLanguages - first language options
+ * @param excludedLanguage - excluded language option
+ * @param translateLanguage
+ * @param rest
+ * @constructor
+ */
 export const LanguageSelect = ({
   languages,
-  excludedLanguage,
   primaryLanguages,
+  excludedLanguage,
   translateLanguage,
   ...rest
 }: LanguageSelectProps &
   Omit<ComboBoxProps, 'values'> &
   AutoCompleteComboBox) => {
+  const includedLanguages = excludedLanguage
+    ? languages.filter((language) => language !== excludedLanguage)
+    : languages;
+
   const primaryOptions: Array<ComboBoxOption> =
     primaryLanguages
-      ?.filter(
-        (language) =>
-          languages.includes(language) && language !== excludedLanguage
-      )
+      ?.filter((language) => includedLanguages.includes(language))
       .map((language) =>
         languageToComboBoxOption(translateLanguage, language)
       ) || [];
 
-  let secondaryOptions: Array<ComboBoxOption> = [];
-
-  if (
-    !excludedLanguage ||
-    !primaryLanguages ||
-    primaryLanguages.includes(excludedLanguage)
-  ) {
-    secondaryOptions = languages
-      .filter(
-        (language) =>
-          language !== excludedLanguage && !primaryLanguages?.includes(language)
-      )
-      .map((language) => languageToComboBoxOption(translateLanguage, language));
-  }
+  const secondaryOptions: Array<ComboBoxOption> = includedLanguages
+    .filter((language) => !primaryLanguages?.includes(language))
+    .map((language) => languageToComboBoxOption(translateLanguage, language));
 
   const sortedOptions = [
     ...primaryOptions,

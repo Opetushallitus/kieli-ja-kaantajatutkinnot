@@ -5,6 +5,17 @@ import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.jso
 export class AuthorisationUtils {
   static primaryLangs = ['FI', 'SV', 'SEIN', 'SEKO', 'SEPO'];
 
+  static selectableLanguagesForLanguageFilter(
+    languages: Array<string>,
+    otherLanguage?: string
+  ) {
+    if (!otherLanguage || this.primaryLangs.includes(otherLanguage)) {
+      return languages;
+    }
+
+    return this.primaryLangs.filter((lang) => languages.includes(lang));
+  }
+
   static isEffective(
     { id }: Authorisation,
     { effective }: ClerkTranslatorAuthorisations

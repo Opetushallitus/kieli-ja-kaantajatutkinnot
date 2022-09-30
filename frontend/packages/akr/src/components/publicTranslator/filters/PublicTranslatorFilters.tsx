@@ -279,9 +279,12 @@ export const PublicTranslatorFilters = ({
               aria-label={`${t('languagePair.fromAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
-              languages={langs.from}
-              excludedLanguage={filters.toLang}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                langs.from,
+                filters.toLang
+              )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={filters.toLang}
               translateLanguage={translateLanguage}
             />
             <LanguageSelect
@@ -294,9 +297,12 @@ export const PublicTranslatorFilters = ({
               aria-label={`${t('languagePair.toAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
-              languages={langs.to}
-              excludedLanguage={filters.fromLang}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                langs.to,
+                filters.fromLang
+              )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={filters.fromLang}
               translateLanguage={translateLanguage}
             />
           </Box>

@@ -89,9 +89,12 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             value={getLanguageSelectValue(filters.fromLang)}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('fromLang')}
-            languages={langs.from}
-            excludedLanguage={filters.toLang}
+            languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+              langs.from,
+              filters.toLang
+            )}
             primaryLanguages={AuthorisationUtils.primaryLangs}
+            excludedLanguage={filters.toLang}
             translateLanguage={translateLanguage}
           />
           <LanguageSelect
@@ -101,9 +104,12 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             value={getLanguageSelectValue(filters.toLang)}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('toLang')}
-            languages={langs.to}
-            excludedLanguage={filters.fromLang}
+            languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+              langs.to,
+              filters.fromLang
+            )}
             primaryLanguages={AuthorisationUtils.primaryLangs}
+            excludedLanguage={filters.fromLang}
             translateLanguage={translateLanguage}
           />
         </div>
