@@ -2,7 +2,7 @@ application.port=8080
 
 postgresql.url={{host_postgresql_otr}}
 postgresql.username={{postgres_app_user}}
-postgresql.password={{oikeustulkkirekisteri_db_app_password}}
+postgresql.password={{host_postgresql_otr_app_password}}
 
 host-cas: {{host_cas}}
 host-alb: {{host_alb}}

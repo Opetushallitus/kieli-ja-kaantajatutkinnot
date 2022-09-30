@@ -28,7 +28,7 @@ jobs:
     uses: ./.github/workflows/common-deploy.yml
     with:
       app-name: "otr"
-      image-name: "oikeustulkkirekisteri"
+      image-name: "otr"
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
