@@ -1,5 +1,5 @@
 import { TableRow } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useWindowProperties } from 'shared/hooks';
 
 import {
@@ -18,10 +18,7 @@ export const PublicInterpreterListingRow = ({
 
   const { id } = interpreter;
   const { isPhone } = useWindowProperties();
-  const toggleRowOpen = useCallback(
-    () => setIsOpen((prev) => !prev),
-    [setIsOpen]
-  );
+  const toggleRowOpen = () => setIsOpen((prev) => !prev);
 
   return (
     <>
