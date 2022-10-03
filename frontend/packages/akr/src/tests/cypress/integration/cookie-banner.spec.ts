@@ -12,7 +12,7 @@ describe('Cookie Banner', () => {
 
     onCookieBanner.expectCookieBannerVisible();
     onCookieBanner.expectCookieBannerDescription(
-      'Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen. Voit lukea lisätietoa evästeistä painamallatästä linkistä'
+      'Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.'
     );
     onCookieBanner.clickAcceptCookies();
     onCookieBanner.expectCookieBannerNotVisible();
