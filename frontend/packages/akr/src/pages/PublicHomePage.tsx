@@ -1,7 +1,6 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Box, Grid } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { CookieBanner, ExtLink, Text } from 'shared/components';
+import { CookieBanner, Text } from 'shared/components';
 
 import { PublicTranslatorGrid } from 'components/publicTranslator/PublicTranslatorGrid';
 import { useAppTranslation } from 'configs/i18n';
@@ -31,15 +30,7 @@ export const PublicHomePage: FC = () => {
         cookieTag="akr"
         buttonAriaLabel={t('buttonAriaLabel')}
       >
-        <Text data-testid="cookie-banner-description">
-          {t('description')}
-          <ExtLink
-            text={t('extLink.text')}
-            href=""
-            endIcon={<OpenInNewIcon />}
-            aria-label={t('extLink.ariaLabel')}
-          />
-        </Text>
+        <Text data-testid="cookie-banner-description">{t('description')}</Text>
       </CookieBanner>
       <Grid
         container
