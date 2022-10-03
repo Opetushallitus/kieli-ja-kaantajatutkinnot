@@ -36,6 +36,7 @@ class ClerkInterpreterOverviewPage {
       cy.findByTestId(`qualifications-table__id-${id}-row`),
     saveQualificationButton: () =>
       cy.findByTestId('add-qualification-modal__save'),
+    title: () => cy.findByTestId('clerk-interpreter__basic-information__title'),
   };
 
   navigateById(id: number) {
@@ -46,6 +47,10 @@ class ClerkInterpreterOverviewPage {
 
   navigateBackToRegister() {
     this.elements.backToRegisterButton().should('be.visible').click();
+  }
+
+  expectTitle(text: string) {
+    this.elements.title().should('contain.text', text);
   }
 
   clickEditInterpreterDetailsButton() {

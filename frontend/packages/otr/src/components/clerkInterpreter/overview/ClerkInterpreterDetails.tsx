@@ -173,6 +173,7 @@ export const ClerkInterpreterDetails = () => {
 
   return (
     <ClerkInterpreterDetailsFields
+      title={`${interpreter?.lastName} ${interpreter?.firstName}`}
       interpreterBasicInformation={interpreterDetails}
       isPersonalInformationIndividualised={interpreter?.isIndividualised}
       isAddressIndividualised={interpreter?.hasIndividualisedAddress}
@@ -189,7 +190,7 @@ export const ClerkInterpreterDetails = () => {
           hasRequiredDetails={hasRequiredDetails}
         />
       }
-      displayFieldErrorBeforeChange={true}
+      showFieldErrorBeforeChange={true}
     />
   );
 };

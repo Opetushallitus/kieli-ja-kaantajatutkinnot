@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { ClerkInterpreterDetailsFields } from 'components/clerkInterpreter/overview/ClerkInterpreterDetailsFields';
+import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { ClerkNewInterpreter } from 'interfaces/clerkNewInterpreter';
 import { updateClerkNewInterpreter } from 'redux/reducers/clerkNewInterpreter';
@@ -14,6 +15,11 @@ export const ClerkNewInterpreterDetails = ({
   interpreter: ClerkNewInterpreter;
   onDetailsChange: () => void;
 }) => {
+  // i18n
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.component.clerkNewInterpreterDetails',
+  });
+
   // Local state
   const [areaOfOperation, setAreaOfOperation] = useState(
     RegionUtils.getAreaOfOperation(interpreter.regions)
@@ -58,8 +64,13 @@ export const ClerkNewInterpreterDetails = ({
       dispatch(updateClerkNewInterpreter(updatedInterpreterDetails));
     };
 
+  const title = interpreter.onrId
+    ? t('title.existingPerson')
+    : t('title.newPerson');
+
   return (
     <ClerkInterpreterDetailsFields
+      title={title}
       interpreterBasicInformation={interpreter}
       isPersonalInformationIndividualised={interpreter.isIndividualised}
       isAddressIndividualised={interpreter.hasIndividualisedAddress}
@@ -67,7 +78,7 @@ export const ClerkNewInterpreterDetails = ({
       setAreaOfOperation={setAreaOfOperation}
       onFieldChange={(field) => handleDetailsChange(field)}
       isViewMode={false}
-      displayFieldErrorBeforeChange={false}
+      showFieldErrorBeforeChange={false}
     />
   );
 };

@@ -9,7 +9,9 @@ import { ChangeEvent, useMemo, useState } from 'react';
 import {
   CustomTextField,
   CustomTextFieldProps,
+  H2,
   H3,
+  InfoText,
   Text,
   valueAsOption,
 } from 'shared/components';
@@ -36,7 +38,7 @@ import { RegionUtils } from 'utils/regions';
 type ClerkInterpreterTextFieldProps = {
   field: ClerkInterpreterTextFieldEnum;
   interpreterTextFields?: ClerkInterpreterTextFields;
-  displayError: boolean;
+  showFieldError: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 } & CustomTextFieldProps;
 
@@ -57,18 +59,12 @@ const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
 
 const getFieldError = (
   field: ClerkInterpreterTextFieldEnum,
+  required: boolean,
   interpreterTextFields?: ClerkInterpreterTextFields
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
   const value = (interpreterTextFields && interpreterTextFields[field]) || '';
-  const required = [
-    ClerkInterpreterTextFieldEnum.LastName,
-    ClerkInterpreterTextFieldEnum.FirstName,
-    ClerkInterpreterTextFieldEnum.NickName,
-    ClerkInterpreterTextFieldEnum.IdentityNumber,
-    ClerkInterpreterTextFieldEnum.Email,
-  ].includes(field);
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -79,11 +75,14 @@ const getFieldError = (
   return error ? t(`otr.${error}`) : '';
 };
 
+const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
+  isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+
 const ClerkInterpreterDetailsTextField = ({
   field,
   interpreterTextFields,
   onChange,
-  displayError,
+  showFieldError,
   ...rest
 }: ClerkInterpreterTextFieldProps) => {
   // I18n
@@ -91,7 +90,19 @@ const ClerkInterpreterDetailsTextField = ({
     keyPrefix:
       'otr.component.clerkInterpreterOverview.interpreterDetails.fields',
   });
-  const fieldError = getFieldError(field, interpreterTextFields);
+  const required = [
+    ClerkInterpreterTextFieldEnum.LastName,
+    ClerkInterpreterTextFieldEnum.FirstName,
+    ClerkInterpreterTextFieldEnum.NickName,
+    ClerkInterpreterTextFieldEnum.IdentityNumber,
+    ClerkInterpreterTextFieldEnum.Email,
+  ].includes(field);
+
+  const fieldError = getFieldError(field, required, interpreterTextFields);
+  const showRequiredFieldError =
+    showFieldError && fieldError?.length > 0 && required;
+  const showHelperText =
+    (showFieldError || !required) && fieldError?.length > 0;
 
   return (
     <CustomTextField
@@ -99,8 +110,9 @@ const ClerkInterpreterDetailsTextField = ({
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
-      error={displayError && fieldError?.length > 0}
-      helperText={fieldError}
+      error={showRequiredFieldError}
+      showHelperText={showHelperText}
+      helperText={getHelperText(showRequiredFieldError, fieldError)}
       {...rest}
     />
   );
@@ -192,6 +204,7 @@ const ClerkInterpreterDetailsRegions = ({
 };
 
 export const ClerkInterpreterDetailsFields = ({
+  title,
   interpreterBasicInformation,
   isPersonalInformationIndividualised,
   isAddressIndividualised,
@@ -200,8 +213,9 @@ export const ClerkInterpreterDetailsFields = ({
   onFieldChange,
   isViewMode,
   topControlButtons,
-  displayFieldErrorBeforeChange,
+  showFieldErrorBeforeChange,
 }: {
+  title: string;
   interpreterBasicInformation: ClerkInterpreterBasicInformation | undefined;
   isPersonalInformationIndividualised?: boolean;
   isAddressIndividualised?: boolean;
@@ -216,7 +230,7 @@ export const ClerkInterpreterDetailsFields = ({
   setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
   isViewMode: boolean;
   topControlButtons?: JSX.Element;
-  displayFieldErrorBeforeChange: boolean;
+  showFieldErrorBeforeChange: boolean;
 }) => {
   // I18n
   const { t } = useAppTranslation({
@@ -226,16 +240,15 @@ export const ClerkInterpreterDetailsFields = ({
 
   const initialErrors = Object.values(ClerkInterpreterTextFieldEnum).reduce(
     (acc, val) => {
-      return { ...acc, [val]: displayFieldErrorBeforeChange };
+      return { ...acc, [val]: showFieldErrorBeforeChange };
     },
     {}
   ) as Record<ClerkInterpreterTextFieldEnum, boolean>;
 
-  const [displayFieldError, setDisplayFieldError] = useState(initialErrors);
-  const displayFieldErrorOnBlur =
-    (field: ClerkInterpreterTextFieldEnum) => () => {
-      setDisplayFieldError({ ...displayFieldError, [field]: true });
-    };
+  const [fieldErrors, setFieldErrors] = useState(initialErrors);
+  const setFieldErrorOnBlur = (field: ClerkInterpreterTextFieldEnum) => () => {
+    setFieldErrors({ ...fieldErrors, [field]: true });
+  };
 
   const isIndividualisedValue = (field: ClerkInterpreterTextFieldEnum) => {
     const isIdentityNumberField =
@@ -270,16 +283,26 @@ export const ClerkInterpreterDetailsFields = ({
     interpreterTextFields: interpreterBasicInformation,
     disabled: isViewMode || isIndividualisedValue(field),
     onChange: onFieldChange(field),
-    onBlur: displayFieldErrorOnBlur(field),
-    displayError: displayFieldError[field],
+    onBlur: setFieldErrorOnBlur(field),
+    showFieldError: fieldErrors[field],
     'data-testid': `clerk-interpreter__basic-information__${field}`,
   });
 
   return (
     <>
       <div className="columns margin-top-lg">
-        <div className="columns margin-top-lg grow">
+        <H2 data-testid="clerk-interpreter__basic-information__title">
+          {title}
+        </H2>
+      </div>
+      <div className="columns">
+        <div className="columns grow">
           <H3>{t('header.personalInformation')}</H3>
+          {isPersonalInformationIndividualised && (
+            <div className="individualised">
+              <InfoText>{t('individualisedInformation')}</InfoText>
+            </div>
+          )}
         </div>
         {topControlButtons}
       </div>
@@ -299,7 +322,14 @@ export const ClerkInterpreterDetailsFields = ({
           )}
         />
       </div>
-      <H3>{t('header.address')}</H3>
+      <div className="columns">
+        <H3>{t('header.address')}</H3>
+        {isAddressIndividualised && (
+          <div className="individualised">
+            <InfoText>{t('individualisedInformation')}</InfoText>
+          </div>
+        )}
+      </div>
       <div className="grid-columns gapped">
         <ClerkInterpreterDetailsTextField
           {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Street)}
@@ -319,7 +349,7 @@ export const ClerkInterpreterDetailsFields = ({
         <div className="columns">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
-            fullWidth={true}
+            fullWidth
           />
           <Checkbox
             color={Color.Secondary}
@@ -334,7 +364,7 @@ export const ClerkInterpreterDetailsFields = ({
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.PhoneNumber
             )}
-            fullWidth={true}
+            fullWidth
           />
           <Checkbox
             color={Color.Secondary}
@@ -349,7 +379,7 @@ export const ClerkInterpreterDetailsFields = ({
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.OtherContactInfo
             )}
-            fullWidth={true}
+            fullWidth
           />
           <Checkbox
             color={Color.Secondary}
