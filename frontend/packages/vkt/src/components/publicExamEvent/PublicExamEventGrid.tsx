@@ -1,12 +1,13 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { ExtLink, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
@@ -14,6 +15,8 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 export const PublicExamEventGrid = () => {
   // I18
   const { t } = useAppTranslation({ keyPrefix: 'vkt.pages.homepage' });
+  const translateCommon = useCommonTranslation();
+
   // Redux
   const { status, examEvents } = useAppSelector(publicExamEventsSelector);
   const dispatch = useAppDispatch();
@@ -33,7 +36,15 @@ export const PublicExamEventGrid = () => {
       <Grid item className="public-homepage__grid-container__item-header">
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
-        <Text>{t('description')}</Text>
+        <Text>
+          {t('description.text')}
+          <ExtLink
+            text={t('description.linkName')}
+            href={translateCommon('vktHomepage.link')}
+            endIcon={<OpenInNewIcon />}
+            aria-label={translateCommon('vktHomepage.ariaLabel')}
+          />
+        </Text>
       </Grid>
       <Grid item className="public-homepage__grid-container__item-exam-events">
         <Paper elevation={3} className="public-homepage__exam-events">

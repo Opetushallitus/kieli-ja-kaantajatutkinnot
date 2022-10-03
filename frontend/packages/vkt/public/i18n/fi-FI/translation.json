@@ -27,8 +27,6 @@
             "text": "Tietosuojaseloste"
           },
           "vktHomepage": {
-            "ariaLabel": "Valtiohallinnon kielitutkinto (oph.fi), avaa uudessa välilehdessä",
-            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot",
             "text": "Valtiohallinnon kielitutkinto (oph.fi)"
           }
         }
@@ -66,9 +64,13 @@
           "SV": "Näytä vain ruotsi"
         },
         "openings": {
-          "congestion": "Ruuhkaa. Yritä myöhemmin uudelleen.",
+          "congestion": {
+            "part1": "Ilmoittautumisjärjestelmässä on juuri nyt ruuhkaa.",
+            "part2": "Yritä hetken kuluttua uudelleen."
+          },
           "none": "Tutkinto täynnä. Voit ilmottautua jonoon."
-        }
+        },
+        "title": "Tulevat tutkintopäivät"
       }
     },
     "errors": {
@@ -80,14 +82,17 @@
     },
     "pages": {
       "homepage": {
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "description": {
+          "linkName": "Opetushallituksen verkkopalvelusta",
+          "text": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito. Lisätietoa tutkinnosta"
+        },
         "examinationDates": {
-          "description": "Tutkintokohtainen osallistumismaksu on <strong>227,00€</strong>. Osallistumismaksu on <strong>454,00€</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kertaa.",
-          "title": "Hinnasto"
+          "description": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
+          "title": "Tutkintomaksut"
         },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Tietoja peruutus paikoista neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.",
-        "title": "Valtionhallinnon kielitutkinnot"
+        "note": "Tietoa peruutuspaikoista Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       }
     }
   }

@@ -63,12 +63,17 @@ export const PublicExamEventDesktopCells = ({
 
   const getOpeningsText = () => {
     if (examEvent.hasCongestion) {
-      return t('openings.congestion');
+      return (
+        <>
+          <Text>{t('openings.congestion.part1')}</Text>
+          <Text>{t('openings.congestion.part2')}</Text>
+        </>
+      );
     } else if (participants >= maxParticipants) {
-      return t('openings.none');
+      return <Text>{t('openings.none')}</Text>;
     }
 
-    return `${maxParticipants - participants}`;
+    return <Text>{`${maxParticipants - participants}`}</Text>;
   };
 
   const formatDate = (date: Dayjs) => date.format('DD.MM.YYYY');
@@ -94,9 +99,7 @@ export const PublicExamEventDesktopCells = ({
       <TableCell>
         <Text>{formatDate(registrationCloses)}</Text>
       </TableCell>
-      <TableCell>
-        <Text>{getOpeningsText()}</Text>
-      </TableCell>
+      <TableCell>{getOpeningsText()}</TableCell>
       <TableCell />
     </>
   );
