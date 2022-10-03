@@ -34,9 +34,11 @@ const AdditionalContactDetail = ({
 export const CollapsibleRow = ({
   isOpen,
   interpreter,
+  onClick,
 }: {
   isOpen: boolean;
   interpreter: PublicInterpreter;
+  onClick: () => void;
 }) => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.publicInterpreterListing',
@@ -50,7 +52,10 @@ export const CollapsibleRow = ({
   });
 
   return (
-    <TableRow className="public-interpreter-listing-row public-interpreter-listing-row--collapsible">
+    <TableRow
+      className="public-interpreter-listing-row public-interpreter-listing-row--collapsible"
+      onClick={onClick}
+    >
       <TableCell colSpan={numOfCells}>
         <Collapse in={isOpen} timeout="auto" unmountOnExit>
           <div className="public-interpreter-listing-row__additional-contact-details rows">

@@ -3,12 +3,12 @@
   tbody {
     tr:hover {
       background-color: unset;
+      box-shadow: unset;
       cursor: pointer;
     }
 
     tr:nth-child(even) {
       background-color: unset;
-      cursor: auto;
     }
 
     tr:nth-child(4n + 3),

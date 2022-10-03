@@ -18,13 +18,14 @@ export const PublicInterpreterListingRow = ({
 
   const { id } = interpreter;
   const { isPhone } = useWindowProperties();
+  const toggleRowOpen = () => setIsOpen((prev) => !prev);
 
   return (
     <>
       <TableRow
         data-testid={`public-interpreters__id-${id}-row`}
         className="public-interpreter-listing-row"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={toggleRowOpen}
       >
         {isPhone ? (
           <PublicInterpreterPhoneCells
@@ -38,7 +39,11 @@ export const PublicInterpreterListingRow = ({
           />
         )}
       </TableRow>
-      <CollapsibleRow interpreter={interpreter} isOpen={isOpen} />
+      <CollapsibleRow
+        interpreter={interpreter}
+        isOpen={isOpen}
+        onClick={toggleRowOpen}
+      />
     </>
   );
 };
