@@ -430,11 +430,6 @@
           "buttonAriaLabel": "Hyväksy evästeet",
           "buttonText": "Hyväksy",
           "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
-          "additionalInfo": "Voit lukea lisätietoa evästeistä painamalla",
-          "extLink": {
-            "text": "tästä linkistä",
-            "ariaLabel": "Lisätietoja evästeistä"
-          },
           "title": "Hyväksy evästeet"
         },
         "filters": {
