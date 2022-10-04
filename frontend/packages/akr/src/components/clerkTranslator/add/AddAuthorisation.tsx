@@ -217,10 +217,14 @@ export const AddAuthorisation = ({
               autoHighlight
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
-              languages={AuthorisationUtils.getKoodistoLangKeys()}
-              excludedLanguage={authorisation.languagePair.to || undefined}
               value={getLanguageSelectValue(authorisation.languagePair.from)}
               onChange={handleLanguageSelectChange('from')}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                AuthorisationUtils.getKoodistoLangKeys(),
+                authorisation.languagePair.to
+              )}
+              primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={authorisation.languagePair.to}
               translateLanguage={translateLanguage}
             />
           </div>
@@ -231,10 +235,14 @@ export const AddAuthorisation = ({
               autoHighlight
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
-              languages={AuthorisationUtils.getKoodistoLangKeys()}
-              excludedLanguage={authorisation.languagePair.from || undefined}
               value={getLanguageSelectValue(authorisation.languagePair.to)}
               onChange={handleLanguageSelectChange('to')}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                AuthorisationUtils.getKoodistoLangKeys(),
+                authorisation.languagePair.from
+              )}
+              primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={authorisation.languagePair.from}
               translateLanguage={translateLanguage}
             />
           </div>

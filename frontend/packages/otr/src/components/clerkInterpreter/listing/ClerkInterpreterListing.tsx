@@ -1,6 +1,11 @@
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
-import { CustomCircularProgress, H3, PaginatedTable } from 'shared/components';
+import {
+  CustomCircularProgress,
+  H2,
+  H3,
+  PaginatedTable,
+} from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ClerkInterpreterListingHeader } from 'components/clerkInterpreter/listing/ClerkInterpreterListingHeader';
@@ -16,6 +21,14 @@ import {
 
 const getRowDetails = (interpreter: ClerkInterpreter) => {
   return <ClerkInterpreterListingRow interpreter={interpreter} />;
+};
+
+const HeaderTitle = () => {
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.component.clerkInterpreterListing.header',
+  });
+
+  return <H2>{t('title')}</H2>;
 };
 
 export const ClerkInterpreterListing = () => {
@@ -51,7 +64,7 @@ export const ClerkInterpreterListing = () => {
         <PaginatedTable
           data={filteredInterpreters}
           header={<ClerkInterpreterListingHeader />}
-          headerTitle={t('component.clerkInterpreterListing.header.title')}
+          headerContent={<HeaderTitle />}
           getRowDetails={getRowDetails}
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}

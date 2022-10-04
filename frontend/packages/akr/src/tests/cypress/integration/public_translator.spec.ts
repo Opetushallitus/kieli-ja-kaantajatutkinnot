@@ -1,8 +1,5 @@
 import { APIEndpoints } from 'enums/api';
-import {
-  compulsoryLangs,
-  onPublicTranslatorFilters,
-} from 'tests/cypress/support/page-objects/publicTranslatorFilters';
+import { onPublicTranslatorFilters } from 'tests/cypress/support/page-objects/publicTranslatorFilters';
 import { onPublicTranslatorsListing } from 'tests/cypress/support/page-objects/publicTranslatorsListing';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { runWithIntercept } from 'tests/cypress/support/utils/api';
@@ -49,14 +46,48 @@ describe('PublicTranslatorFilters', () => {
     onPublicTranslatorsListing.expectEmptyListing();
   });
 
-  it('it should provide only compulsory languages as toLang options if the fromLang field has a different value', () => {
-    onPublicTranslatorFilters.selectFromLangByName('viro');
-    onPublicTranslatorFilters.expectToLangSelectValues(compulsoryLangs);
+  it('it should provide all other languages under langs.to as toLang options if fromLang is a primary language', () => {
+    onPublicTranslatorFilters.selectFromLangByName('ruotsi');
+
+    const selectableLangs = [
+      'suomi',
+      'koltansaame',
+      'italia',
+      'ranska',
+      'saksa',
+      'venäjä',
+      'viro',
+    ];
+    onPublicTranslatorFilters.expectToLangSelectValues(selectableLangs);
   });
 
-  it('it should provide only compulsory languages as fromLang options if the toLang field has a different value', () => {
+  it('it should provide only primary languages under langs.to as toLang options if fromLang is a secondary language', () => {
+    onPublicTranslatorFilters.selectFromLangByName('saksa');
+
+    const selectableLangs = ['suomi', 'ruotsi', 'koltansaame'];
+    onPublicTranslatorFilters.expectToLangSelectValues(selectableLangs);
+  });
+
+  it('it should provide all other languages under langs.from as fromLang options if toLang is a primary language', () => {
+    onPublicTranslatorFilters.selectToLangByName('suomi');
+
+    const selectableLangs = [
+      'ruotsi',
+      'inarinsaame',
+      'pohjoissaame',
+      'ranska',
+      'saksa',
+      'venäjä',
+      'viro',
+    ];
+    onPublicTranslatorFilters.expectFromLangSelectValues(selectableLangs);
+  });
+
+  it('it should provide only primary languages under langs.from as fromLang options if toLang is a secondary language', () => {
     onPublicTranslatorFilters.selectToLangByName('viro');
-    onPublicTranslatorFilters.expectFromLangSelectValues(compulsoryLangs);
+
+    const selectableLangs = ['suomi', 'ruotsi', 'inarinsaame', 'pohjoissaame'];
+    onPublicTranslatorFilters.expectFromLangSelectValues(selectableLangs);
   });
 
   it('it should show a toast notification when language pair is not defined, and a row is clicked', () => {

@@ -36,9 +36,8 @@ import {
   filterPublicInterpreters,
   publicInterpretersSelector,
 } from 'redux/selectors/publicInterpreter';
+import { QualificationUtils } from 'utils/qualifications';
 import { RegionUtils } from 'utils/regions';
-
-const DEFAULT_FROM_LANG = 'FI';
 
 export const PublicInterpreterFilters = ({
   showTable,
@@ -60,14 +59,17 @@ export const PublicInterpreterFilters = ({
 
   // Defaults
   const defaultFiltersState = {
-    fromLang: DEFAULT_FROM_LANG,
+    fromLang: QualificationUtils.defaultFromLang,
     toLang: '',
     name: '',
     region: '',
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: languageToComboBoxOption(translateLanguage, DEFAULT_FROM_LANG),
+    fromLang: languageToComboBoxOption(
+      translateLanguage,
+      QualificationUtils.defaultFromLang
+    ),
     toLang: null,
     name: '',
     region: null,
@@ -86,7 +88,7 @@ export const PublicInterpreterFilters = ({
   const dispatch = useAppDispatch();
   const { interpreters } = useAppSelector(publicInterpretersSelector);
 
-  const langsTo = Array.from(
+  const toLangs = Array.from(
     new Set(
       interpreters.flatMap(({ languages }) =>
         (languages ?? []).map((language) => language.to)
@@ -220,11 +222,11 @@ export const PublicInterpreterFilters = ({
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
-              excludedLanguage={filters.toLang}
-              languages={[DEFAULT_FROM_LANG]}
               disabled={true}
               aria-label={`${t('languagePair.fromAriaLabel')}`}
               onKeyUp={handleKeyUp}
+              languages={QualificationUtils.selectableFromLangs}
+              excludedLanguage={filters.toLang}
               translateLanguage={translateLanguage}
             />
             <LanguageSelect
@@ -233,10 +235,10 @@ export const PublicInterpreterFilters = ({
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
               id="filters-to-lang"
-              excludedLanguage={filters.fromLang}
-              languages={langsTo}
               aria-label={`${t('languagePair.toAriaLabel')}`}
               onKeyUp={handleKeyUp}
+              languages={toLangs}
+              excludedLanguage={filters.fromLang}
               translateLanguage={translateLanguage}
             />
           </Box>

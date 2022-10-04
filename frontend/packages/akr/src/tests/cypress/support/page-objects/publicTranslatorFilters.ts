@@ -1,4 +1,7 @@
-export const compulsoryLangs = ['suomi', 'ruotsi'];
+const expectOpenLangSelectValues = (values) => {
+  cy.findAllByRole('option').should('have.length', values.length);
+  values.forEach((value) => cy.findAllByRole('listbox').contains(value));
+};
 
 class PublicTranslatorFilters {
   elements = {
@@ -85,13 +88,12 @@ class PublicTranslatorFilters {
 
   expectFromLangSelectValues(values: Array<string>) {
     this.clickFromLang();
-    cy.findAllByRole('option').should('have.length', values.length);
-    values.forEach((value) => cy.findAllByRole('listbox').contains(value));
+    expectOpenLangSelectValues(values);
   }
+
   expectToLangSelectValues(values: Array<string>) {
     this.clickToLang();
-    cy.findAllByRole('option').should('have.length', values.length);
-    values.forEach((value) => cy.findAllByRole('listbox').contains(value));
+    expectOpenLangSelectValues(values);
   }
 }
 

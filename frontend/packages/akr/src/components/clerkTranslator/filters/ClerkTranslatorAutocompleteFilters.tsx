@@ -21,6 +21,7 @@ import { PermissionToPublish } from 'enums/app';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
 import { addClerkTranslatorFilter } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ClerkTranslatorAutocompleteFilters = () => {
   const { t } = useAppTranslation({
@@ -85,22 +86,30 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             autoHighlight
             data-testid="clerk-translator-filters__from-lang"
             label={t('languagePair.fromPlaceholder')}
-            excludedLanguage={filters.toLang}
             value={getLanguageSelectValue(filters.fromLang)}
-            languages={langs.from}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('fromLang')}
+            languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+              langs.from,
+              filters.toLang
+            )}
+            primaryLanguages={AuthorisationUtils.primaryLangs}
+            excludedLanguage={filters.toLang}
             translateLanguage={translateLanguage}
           />
           <LanguageSelect
             autoHighlight
             data-testid="clerk-translator-filters__to-lang"
             label={t('languagePair.toPlaceholder')}
-            excludedLanguage={filters.fromLang}
             value={getLanguageSelectValue(filters.toLang)}
-            languages={langs.to}
             variant={TextFieldVariant.Outlined}
             onChange={handleFilterChange('toLang')}
+            languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+              langs.to,
+              filters.fromLang
+            )}
+            primaryLanguages={AuthorisationUtils.primaryLangs}
+            excludedLanguage={filters.fromLang}
             translateLanguage={translateLanguage}
           />
         </div>

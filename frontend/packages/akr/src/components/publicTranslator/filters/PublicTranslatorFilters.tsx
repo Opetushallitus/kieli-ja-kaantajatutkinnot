@@ -50,6 +50,7 @@ import {
   filterPublicTranslators,
   publicTranslatorsSelector,
 } from 'redux/selectors/publicTranslator';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const PublicTranslatorFilters = ({
   showTable,
@@ -275,11 +276,15 @@ export const PublicTranslatorFilters = ({
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
-              excludedLanguage={filters.toLang}
-              languages={langs.from}
               aria-label={`${t('languagePair.fromAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                langs.from,
+                filters.toLang
+              )}
+              primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={filters.toLang}
               translateLanguage={translateLanguage}
             />
             <LanguageSelect
@@ -289,11 +294,15 @@ export const PublicTranslatorFilters = ({
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
               id="filters-to-lang"
-              excludedLanguage={filters.fromLang}
-              languages={langs.to}
               aria-label={`${t('languagePair.toAriaLabel')}`}
               disabled={isLangFilterDisabled}
               onKeyUp={handleKeyUp}
+              languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
+                langs.to,
+                filters.fromLang
+              )}
+              primaryLanguages={AuthorisationUtils.primaryLangs}
+              excludedLanguage={filters.fromLang}
               translateLanguage={translateLanguage}
             />
           </Box>

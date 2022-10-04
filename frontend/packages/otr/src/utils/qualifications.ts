@@ -4,6 +4,9 @@ import { Qualification } from 'interfaces/qualification';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class QualificationUtils {
+  static defaultFromLang = 'FI';
+  static selectableFromLangs = ['FI'];
+
   static isEffective(
     { id }: Qualification,
     { effective }: ClerkInterpreterQualifications

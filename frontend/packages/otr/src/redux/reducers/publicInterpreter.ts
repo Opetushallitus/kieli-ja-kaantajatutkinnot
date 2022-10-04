@@ -5,6 +5,7 @@ import {
   PublicInterpreter,
   PublicInterpreterFilter,
 } from 'interfaces/publicInterpreter';
+import { QualificationUtils } from 'utils/qualifications';
 
 interface PublicInterpreterState {
   status: APIResponseStatus;
@@ -16,7 +17,7 @@ const initialState: PublicInterpreterState = {
   status: APIResponseStatus.NotStarted,
   interpreters: [],
   filters: {
-    fromLang: 'FI',
+    fromLang: QualificationUtils.defaultFromLang,
     toLang: '',
     name: '',
     region: '',

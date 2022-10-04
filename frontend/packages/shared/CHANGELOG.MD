@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.7] - 2022-09-28
+
+### Changed
+
+- Updated `LanguageSelect` parameters
+
 ## [1.3.6] - 2022-09-28
 
 ### Fixed
