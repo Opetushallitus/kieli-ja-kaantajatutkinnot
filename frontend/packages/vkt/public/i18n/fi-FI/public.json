@@ -31,21 +31,6 @@
           }
         }
       },
-      "header": {
-        "accessibility": {
-          "continueToMain": "Jatka sisältöön",
-          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
-        },
-        "clerk": {
-          "backToOph": "Takaisin Opintopolkuun",
-          "logOut": "Kirjaudu ulos"
-        },
-        "lang": {
-          "en": "In English",
-          "fi": "Suomeksi",
-          "sv": "På svenska"
-        }
-      },
       "publicExamEventListing": {
         "accessibility": {
           "checkboxSelectedAriaLabel": "Poista valinta",
@@ -58,11 +43,6 @@
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmottautuminen sulkeutuu"
         },
-        "languageFilter": {
-          "ALL": "Näytä kaikki kielet",
-          "FI": "Näytä vain suomi",
-          "SV": "Näytä vain ruotsi"
-        },
         "openings": {
           "congestion": {
             "part1": "Ilmoittautumisjärjestelmässä on juuri nyt ruuhkaa.",
@@ -70,15 +50,8 @@
           },
           "none": "Tutkinto täynnä. Voit ilmottautua jonoon."
         },
-        "title": "Tulevat tutkintopäivät"
+        "title": "Tulevat tutkintotilaisuudet"
       }
-    },
-    "errors": {
-      "api": {
-        "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
-        "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
-      },
-      "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
     },
     "pages": {
       "homepage": {

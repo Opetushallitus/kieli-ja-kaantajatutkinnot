@@ -1,19 +1,22 @@
-import { ExamLanguage } from 'enums/app';
+import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 
-const row = (id: number) => `public-exam-events__id-${id}-row`;
+const row = (id: number) => `clerk-exam-events__id-${id}-row`;
 
-class PublicHomePage {
+class ClerkHomePage {
   elements = {
-    enrollButton: () => cy.findByTestId('public-exam-events__enroll-btn'),
     examEventRow: (id: number) => cy.findByTestId(row(id)),
-    examEventRowCheckbox: (id: number) =>
-      cy.findByTestId(row(id)).find('input[type=checkbox]'),
     languageFilter: () => cy.findByTestId('exam-events__language-filter'),
     pagination: () => cy.get('.table__head-box__pagination'),
+    toggleFilter: (toggleFilter: ExamEventToggleFilter) =>
+      cy.findByTestId(`clerk-exam-event-toggle-filters__${toggleFilter}-btn`),
   };
 
   clickExamEventRow(id: number) {
     this.elements.examEventRow(id).should('be.visible').click();
+  }
+
+  clickToggleFilter(toggleFilter: ExamEventToggleFilter) {
+    this.elements.toggleFilter(toggleFilter).should('be.visible').click();
   }
 
   filterByLanguage(language: ExamLanguage) {
@@ -39,22 +42,6 @@ class PublicHomePage {
       .pagination()
       .should('contain.text', `1 - ${count} / ${count}`);
   }
-
-  expectEnrollButtonDisabled() {
-    this.elements.enrollButton().should('be.disabled');
-  }
-
-  expectEnrollButtonEnabled() {
-    this.elements.enrollButton().should('be.enabled');
-  }
-
-  expectCheckboxChecked(id: number) {
-    this.elements.examEventRowCheckbox(id).should('be.checked');
-  }
-
-  expectCheckboxNotChecked(id: number) {
-    this.elements.examEventRowCheckbox(id).should('not.be.checked');
-  }
 }
 
-export const onPublicHomePage = new PublicHomePage();
+export const onClerkHomePage = new ClerkHomePage();

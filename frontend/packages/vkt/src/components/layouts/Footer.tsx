@@ -13,13 +13,13 @@ import { FooterWave } from 'shared/statics';
 
 import {
   getCurrentLang,
-  useAppTranslation,
   useCommonTranslation,
+  usePublicTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
 export const Footer = () => {
-  const { t } = useAppTranslation({ keyPrefix: 'vkt.component.footer' });
+  const { t } = usePublicTranslation({ keyPrefix: 'vkt.component.footer' });
   const translateCommon = useCommonTranslation();
   const showFooter = true; // TODO: replace with authentication and current view checks
 

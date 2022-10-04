@@ -4,9 +4,10 @@ import { H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
-import { ExamLanguage } from 'enums/app';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { ExamEventUtils } from 'utils/examEvent';
 
 // TODO: not implemented
 export const PublicExamEventPhoneCells = ({
@@ -39,11 +40,8 @@ export const PublicExamEventDesktopCells = ({
   examEvent: PublicExamEvent;
   isSelected: boolean;
 }) => {
-  const { language, date, registrationCloses, participants, maxParticipants } =
-    examEvent;
-
   // I18n
-  const { t } = useAppTranslation({
+  const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventListing',
   });
   const translateCommon = useCommonTranslation();
@@ -52,16 +50,9 @@ export const PublicExamEventDesktopCells = ({
     ? t('accessibility.checkboxSelectedAriaLabel')
     : t('accessibility.checkboxUnselectedAriaLabel');
 
-  const getLanguageAndLevelText = (language: ExamLanguage) => {
-    const langTranslation = translateCommon(`examLanguage.${language}`);
-    const levelTranslation = translateCommon(
-      'examLevel.excellent'
-    ).toLowerCase();
-
-    return `${langTranslation}, ${levelTranslation}`;
-  };
-
   const getOpeningsText = () => {
+    const { participants, maxParticipants } = examEvent;
+
     if (examEvent.hasCongestion) {
       return (
         <>
@@ -91,13 +82,19 @@ export const PublicExamEventDesktopCells = ({
         />
       </TableCell>
       <TableCell>
-        <Text>{getLanguageAndLevelText(language)}</Text>
+        <Text>
+          {ExamEventUtils.languageAndLevelText(
+            examEvent.language,
+            ExamLevel.EXCELLENT,
+            translateCommon
+          )}
+        </Text>
       </TableCell>
       <TableCell>
-        <Text>{formatDate(date)}</Text>
+        <Text>{formatDate(examEvent.date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{formatDate(registrationCloses)}</Text>
+        <Text>{formatDate(examEvent.registrationCloses)}</Text>
       </TableCell>
       <TableCell>{getOpeningsText()}</TableCell>
       <TableCell />
