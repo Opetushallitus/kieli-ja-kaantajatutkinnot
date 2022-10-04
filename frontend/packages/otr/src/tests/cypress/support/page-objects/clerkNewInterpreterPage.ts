@@ -21,7 +21,12 @@ class ClerkNewInterpreterPage {
       cy.findByTestId('add-qualification-modal__save'),
     saveInterpreterButton: () =>
       cy.findByTestId('clerk-new-interpreter-page__save-button'),
+    title: () => cy.findByTestId('clerk-interpreter__basic-information__title'),
   };
+
+  expectTitle(text: string) {
+    this.elements.title().should('contain.text', text);
+  }
 
   editInterpreterField(fieldName: string, fieldType: string, newValue) {
     this.elements

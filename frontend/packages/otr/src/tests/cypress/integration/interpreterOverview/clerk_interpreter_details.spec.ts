@@ -4,6 +4,7 @@ import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onQualificationDetails } from 'tests/cypress/support/page-objects/qualificationDetails';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
+import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 
 describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   beforeEach(() => {
@@ -82,6 +83,10 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       fieldType,
       newLastName
     );
+    onClerkInterpreterOverviewPage.expectTitle(
+      `${clerkInterpreter.lastName} ${clerkInterpreter.firstName}`
+    );
+
     onClerkInterpreterOverviewPage.clickSaveInterpreterDetailsButton();
 
     onClerkInterpreterOverviewPage.expectMode(UIMode.View);
@@ -89,6 +94,9 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       fieldName,
       fieldType,
       newLastName
+    );
+    onClerkInterpreterOverviewPage.expectTitle(
+      `${newLastName} ${clerkInterpreter.firstName}`
     );
     onToast.expectText('Tiedot tallennettiin');
 
@@ -167,6 +175,13 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.expectText(
       'Sähköpostiosoite on virheellinen'
     );
+
+    onClerkInterpreterOverviewPage.editInterpreterField(
+      'phoneNumber',
+      'input',
+      'xyz'
+    );
+    onClerkInterpreterOverviewPage.expectText('Puhelinnumero on virheellinen');
   });
 
   it('should show identity number as the only disabled personal information field for a non-individualised interpreter', () => {
@@ -185,7 +200,9 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
   });
 
   it('should show each personal information field as disabled for an individualised interpreter', () => {
-    onClerkInterpreterOverviewPage.navigateById(12);
+    onClerkInterpreterOverviewPage.navigateById(
+      clerkInterpreterIndividualised.id
+    );
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
     ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach((field) => {

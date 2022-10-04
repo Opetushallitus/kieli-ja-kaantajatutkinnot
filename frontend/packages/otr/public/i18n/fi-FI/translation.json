@@ -78,7 +78,8 @@
             "extraInformation": "Lisätiedot",
             "personalInformation": "Henkilötiedot",
             "regions": "Toiminta-alue"
-          }
+          },
+          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä"
         },
         "qualifications": {
           "actions": {
@@ -120,6 +121,12 @@
         },
         "toasts": {
           "updated": "Tiedot tallennettiin"
+        }
+      },
+      "clerkNewInterpreterDetails": {
+        "title": {
+          "existingPerson": "Tiedot lisätään olemassa olevalle oppijalle",
+          "newPerson": "Tiedot lisätään oppijanumerorekisteriin"
         }
       },
       "footer": {

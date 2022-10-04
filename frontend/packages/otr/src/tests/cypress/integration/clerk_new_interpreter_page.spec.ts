@@ -19,6 +19,12 @@ describe('ClerkNewInterpreterPage', () => {
       onClerkPersonSearchPage.clickProceedButton();
     });
 
+    it('title should indicate a new person is created in ONR', () => {
+      onClerkNewInterpreterPage.expectTitle(
+        'Tiedot lisätään oppijanumerorekisteriin'
+      );
+    });
+
     it('only identity number field should be prefilled and disabled', () => {
       onClerkNewInterpreterPage.expectInterpreterFieldValue(
         'identityNumber',
@@ -120,6 +126,12 @@ describe('ClerkNewInterpreterPage', () => {
     beforeEach(() => {
       onClerkPersonSearchPage.typeSocialSecurityNumber(person1.identityNumber);
       onClerkPersonSearchPage.clickSearchButton();
+    });
+
+    it('title should indicate interpreter is created for an existing person', () => {
+      onClerkNewInterpreterPage.expectTitle(
+        'Tiedot lisätään olemassa olevalle oppijalle'
+      );
     });
 
     it('personal information fields should be prefilled and disabled', () => {
