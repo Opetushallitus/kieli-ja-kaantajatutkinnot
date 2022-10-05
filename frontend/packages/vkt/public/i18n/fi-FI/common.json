@@ -1,7 +1,9 @@
 {
   "vkt": {
     "common": {
-      "appTitle": "Valtionhallinnon kielitutkinnot",
+      "appNameAbbreviation": "VKT",
+      "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
+      "clerk": "Virkailija",
       "contactEmail": "kielitutkinnot@oph.fi",
       "errors": {
         "api": {

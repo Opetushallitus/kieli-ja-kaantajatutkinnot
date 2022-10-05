@@ -1,8 +1,15 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
+import {
+  LangSelector,
+  OPHClerkLogo,
+  OPHLogoViewer,
+  SkipLink,
+} from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 
+import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
+import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
 import {
   changeLang,
   getCurrentLang,
@@ -10,7 +17,7 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
-// import { useAuthentication } from 'hooks/useAuthentication';
+import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
   const translateCommon = useCommonTranslation();
@@ -22,10 +29,10 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.en'), english],
   ]);
 
-  //   const [isClerkUI] = useAuthentication();
-  //   const logoRedirectURL = isClerkUI
-  //     ? AppRoutes.ClerkHomePage
-  //     : AppRoutes.PublicHomePage;
+  const { isAuthenticated, isClerkUI } = useAuthentication();
+  const logoRedirectURL = isAuthenticated
+    ? AppRoutes.ClerkHomePage
+    : AppRoutes.PublicHomePage;
 
   return (
     <>
@@ -36,17 +43,28 @@ export const Header = (): JSX.Element => {
       <AppBar className="header" position="static">
         <Toolbar className="header__toolbar">
           <div className="header__left">
-            <Link to={AppRoutes.PublicHomePage}>
-              <OPHLogoViewer
-                className="header__left__logo"
-                direction={Direction.Horizontal}
-                alt={translateCommon('ophLogo')}
-                currentLang={getCurrentLang()}
-              />
+            <Link to={logoRedirectURL}>
+              {isClerkUI ? (
+                <OPHClerkLogo
+                  mainLabel={translateCommon('appNameAbbreviation')}
+                  subLabel={translateCommon('clerk')}
+                  alt={translateCommon('ophLogo')}
+                />
+              ) : (
+                <OPHLogoViewer
+                  className="header__left__logo"
+                  direction={Direction.Horizontal}
+                  alt={translateCommon('ophLogo')}
+                  currentLang={getCurrentLang()}
+                />
+              )}
             </Link>
           </div>
-          <div className="header__center"></div>
+          <div className="header__center">
+            {isAuthenticated && <ClerkNavTabs />}
+          </div>
           <div className="header__right">
+            {isAuthenticated && <ClerkHeaderButtons />}
             <LangSelector
               changeLang={changeLang}
               getCurrentLang={getCurrentLang}

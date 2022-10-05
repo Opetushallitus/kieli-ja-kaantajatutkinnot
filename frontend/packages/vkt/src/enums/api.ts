@@ -1,6 +1,7 @@
 export enum APIEndpoints {
   PublicExamEvent = '/vkt/api/v1/examEvent',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
+  ClerkUser = '/vkt/api/v1/clerk/user',
 }
 
 /**
