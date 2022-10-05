@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -75,6 +78,11 @@ public class PublicExamEventServiceTest {
     entityManager.persist(futureEvent1);
     entityManager.persist(futureEvent2);
 
+    createEnrollment(futureEvent2, EnrollmentStatus.PAID);
+    createEnrollment(futureEvent2, EnrollmentStatus.QUEUED);
+    createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
+
     final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
     assertEquals(5, examEventDTOs.size());
 
@@ -89,7 +97,21 @@ public class PublicExamEventServiceTest {
 
     IntStream
       .range(0, expectedExamEventsOrdered.size())
-      .forEach(i -> assertExamEventDetails(expectedExamEventsOrdered.get(i), examEventDTOs.get(i)));
+      .forEach(i -> {
+        final ExamEvent expected = expectedExamEventsOrdered.get(i);
+        final PublicExamEventDTO dto = examEventDTOs.get(i);
+
+        assertExamEventDetails(expected, dto);
+        assertEquals(expected == futureEvent2 ? 2 : 0, dto.participants());
+      });
+  }
+
+  private void createEnrollment(final ExamEvent examEvent, final EnrollmentStatus status) {
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setStatus(status);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
   }
 
   private void assertCorrectOrdering(

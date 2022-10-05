@@ -9,22 +9,25 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ExamEventRepository extends JpaRepository<ExamEvent, Long> {
-  // TODO: fetch information of participants and congestion
+  // TODO: fetch information of congestion
   @Query(
     "SELECT new fi.oph.vkt.repository.PublicExamEventProjection(e.id, e.language, e.date, e.registrationCloses," +
-    " 0, e.maxParticipants, false)" +
+    " COUNT(en), e.maxParticipants, false)" +
     " FROM ExamEvent e" +
+    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_DATE" +
-    " AND e.isVisible = true"
+    " AND e.isVisible = true" +
+    " GROUP BY e.id"
   )
   List<PublicExamEventProjection> listPublicExamEventProjections(final ExamLevel level);
 
-  // TODO: fetch information of participants
   @Query(
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
-    " e.registrationCloses, 0, e.maxParticipants, e.isVisible)" +
-    " FROM ExamEvent e"
+    " e.registrationCloses, COUNT(en), e.maxParticipants, e.isVisible)" +
+    " FROM ExamEvent e" +
+    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT'" +
+    " GROUP BY e.id"
   )
   List<ClerkExamEventProjection> listClerkExamEventProjections();
 }

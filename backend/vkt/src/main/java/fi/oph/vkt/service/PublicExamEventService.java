@@ -40,7 +40,7 @@ public class PublicExamEventService {
       .toList();
   }
 
-  // TODO: remove this, setting random participants and hasCongestion given that information is currently not available
+  // TODO: remove this, setting random hasCongestion given that information is currently not available
   private List<PublicExamEventProjection> addRandomization(final List<PublicExamEventProjection> examEventProjections) {
     final Random random = new Random();
 
@@ -52,7 +52,7 @@ public class PublicExamEventService {
           e.language(),
           e.date(),
           e.registrationCloses(),
-          random.nextInt(e.maxParticipants() + 1),
+          e.participants(),
           e.maxParticipants(),
           random.nextInt(e.maxParticipants()) % 9 == 0
         )
