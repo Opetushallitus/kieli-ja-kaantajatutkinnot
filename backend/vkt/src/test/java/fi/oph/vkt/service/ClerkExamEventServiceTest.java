@@ -82,6 +82,11 @@ public class ClerkExamEventServiceTest {
     entityManager.persist(upcomingEventFi);
     entityManager.persist(futureEvent);
 
+    createEnrollment(futureEvent, EnrollmentStatus.PAID);
+    createEnrollment(futureEvent, EnrollmentStatus.QUEUED);
+    createEnrollment(futureEvent, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(futureEvent, EnrollmentStatus.CANCELED);
+
     final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list();
     assertEquals(7, examEventListDTOs.size());
 
@@ -99,14 +104,25 @@ public class ClerkExamEventServiceTest {
     IntStream
       .range(0, expectedExamEventsOrdered.size())
       .forEach(i -> {
-        assertExamEventListDTODetails(expectedExamEventsOrdered.get(i), examEventListDTOs.get(i));
-
+        final ExamEvent expected = expectedExamEventsOrdered.get(i);
+        final ClerkExamEventListDTO dto = examEventListDTOs.get(i);
         final boolean expectedIsPublic = i == 1 || i >= 4;
-        assertEquals(expectedIsPublic, examEventListDTOs.get(i).isPublic());
+
+        assertExamEventListDTODetails(expected, dto);
+        assertEquals(expected == futureEvent ? 2 : 0, dto.participants());
+        assertEquals(expectedIsPublic, dto.isPublic());
       });
 
     verify(auditService).logOperation(VktOperation.LIST_EXAM_EVENTS);
     verifyNoMoreInteractions(auditService);
+  }
+
+  private void createEnrollment(final ExamEvent examEvent, final EnrollmentStatus status) {
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setStatus(status);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
   }
 
   private void assertCorrectOrdering(
@@ -192,7 +208,9 @@ public class ClerkExamEventServiceTest {
       .stream()
       .filter(dto -> dto.id().equals(expected.getId()))
       .findAny()
-      .get();
+      .orElseThrow(() ->
+        new RuntimeException("DTO not found for expected Enrollment. Something is wrong with the test.")
+      );
     final ClerkPersonDTO personDTO = enrollmentDTO.person();
 
     assertEquals(expected.getVersion(), enrollmentDTO.version());
