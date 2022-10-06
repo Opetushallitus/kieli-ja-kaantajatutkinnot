@@ -29,7 +29,7 @@
         "authorisationStatus": {
           "effective": "Auktoriserade",
           "expiredDeduplicated": "Löpt ut",
-          "expiring": "Löpt ut",
+          "expiring": null,
           "formerVir": "VIR 2008"
         },
         "languagePair": {
@@ -71,8 +71,8 @@
             "removal": {
               "ariaLabel": "Ta bort auktorisering",
               "dialog": {
-                "description": "Denna funktion kan inte ångras!",
                 "confirmButton": "Ta bort auktorisering",
+                "description": "Denna funktion kan inte ångras!",
                 "header": "Är du säker på att du vill ta bort auktoriseringen?"
               }
             }
@@ -85,7 +85,7 @@
             "diaryNumber": "Diarienummer",
             "endDate": "Slutdatum",
             "examinationDate": "Examensdag",
-            "languagePair": "Slutdatum",
+            "languagePair": "Språkpar",
             "permissionToPublish": "Publiceringstillstånd",
             "startDate": "Startdatum"
           },
@@ -104,8 +104,8 @@
         },
         "toasts": {
           "notFound": "Vald translator kunde inte hittas",
-          "updateFailed": "Det gick inte att spara uppgifterna",
-          "updated": "Uppgifterna sparades"
+          "updated": "Uppgifterna sparades",
+          "updateFailed": "Det gick inte att spara uppgifterna"
         },
         "translatorDetails": {
           "cancelUpdateDialog": {
@@ -137,20 +137,20 @@
         }
       },
       "contactRequestForm": {
-        "description": "Med denna blankett kan du lämna en kontaktförfrågan till vald auktoriserad translator. Skriv en så noggrann beskrivning som möjligt av översättningsarbetet i meddelandet.",
         "cancelRequestDialog": {
           "description": "Vill du avbryta kontaktförfrågan? Du förlorar de uppgifter du fyllt i",
           "title": "Avbryt kontaktförfrågan"
         },
         "characters": "tecken",
         "chosenTranslatorsForLanguagePair": "Translatorerna du valt med språkparet",
+        "description": "Med denna blankett kan du lämna en kontaktförfrågan till vald auktoriserad translator. Skriv en så noggrann beskrivning som möjligt av översättningsarbetet i meddelandet.",
         "doneStep": {
           "description": "Denna sida leder dig automatiskt tillbaka till framsidan. Om ingenting händer kan du klicka på knappen ovan.",
           "title": "Din kontaktförfrågan har skickats och vi kontaktar dig."
         },
         "errorDialog": {
-          "description": "Försök igen senare. Kontakta oss per e-post: auktoris.lautakunta@oph.fi om problemet upprepas.",
           "back": "Tillbaka",
+          "description": "Försök igen senare. Kontakta oss per e-post: auktoris.lautakunta@oph.fi om problemet upprepas.",
           "title": "Ett fel uppstod vid sändningen av kontaktförfrågan"
         },
         "formLabels": {
@@ -168,13 +168,13 @@
           "linkLabel": null
         },
         "steps": {
+          "active": "Aktiv",
+          "completed": "Utfört",
           "Done": "Klart!",
           "FillContactDetails": "Fyll i kontaktuppgifter",
           "PreviewAndSend": "Förhandsgranska och sänd",
           "VerifyTranslators": "Bekräfta translator",
-          "WriteMessage": "Skriv meddelande",
-          "active": "Aktiv",
-          "completed": "Utfört"
+          "WriteMessage": "Skriv meddelande"
         },
         "title": "Lämna en kontaktförfrågan",
         "verifySelectedTranslatorsStep": {
@@ -220,6 +220,9 @@
             "ariaLabel": "Examenssystemet för auktoriserade translatorer (oph.fi), öppnas i en ny flik",
             "link": "https://www.oph.fi/sv/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
             "text": "Systemet med auktoriserade translatorer (oph.fi)"
+          },
+          "contact": {
+            "title": null
           },
           "privacy": {
             "text": "Dataskyddsbeskrivning"
@@ -339,6 +342,7 @@
         "examinationDateCreateDuplicateDate": "Det gick inte att lägga till examensdagen eftersom det valda datumet redan är en examensdag",
         "examinationDateDeleteHasAuthorisations": "Det gick inte att ta bort examensdagen eftersom det har registrerats auktoriseringar på den",
         "generic": "Funktionen misslyckades, försök på nytt senare",
+        "invalidVersion": null,
         "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
         "meetingDateDeleteHasAuthorisations": "Det gick inte att ta bort mötesdagen eftersom det har registrerats auktoriseringar på den",
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
@@ -382,6 +386,7 @@
         }
       },
       "clerkSendEmailPage": {
+        "characters": "tecken",
         "dialogs": {
           "cancel": {
             "description": "Vill du avbryta sändningen av e-post? Du förlorar de uppgifter du fyllt i.",
@@ -420,13 +425,19 @@
         }
       },
       "homepage": {
+        "cookieBanner": {
+          "buttonAriaLabel": null,
+          "buttonText": null,
+          "description": null,
+          "title": null
+        },
         "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer, där translatorer som har auktoriserats av Examensnämnden för auktoriserade translatorer registreras. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Observera att sökandet enligt språkpar ger som möjliga sökalternativ från inhemska språk ( finska, svenska, samiska språk) till främmande språk eller tvärtom samt mellan inhemska språk. I det offentliga registret över auktoriserade translatorer finns endast uppgifter om de translatorer som har gett sitt samtycke till att deras uppgifter publiceras på webben. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Sök auktoriserad translator"
         },
         "noSearchResults": "Inga sökresultat",
         "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk.",
-        "requestContact": "Kontakta oss",
+        "requestContact": "Kontakta",
         "title": "Register över auktoriserade translatorer"
       },
       "meetingDatesPage": {
