@@ -4,19 +4,17 @@ postgresql.url={{host_postgresql_otr}}
 postgresql.username={{postgres_app_user}}
 postgresql.password={{host_postgresql_otr_app_password}}
 
-host-cas: {{host_cas}}
-host-alb: {{host_alb}}
-virkailija.cas.url-base=https://{{host_cas}}
-virkailija.cas.service=https://{{host_virkailija}}/otr/virkailija
-virkailija.cas.url=${virkailija.cas.url-base}/cas
-virkailija.cas.login=${virkailija.cas.url-base}/cas/login
-virkailija.host-virkailija={{host_virkailija}}
+virkailija.host.alb={{host_alb}}
 
-url-alb={{host_alb}}
+virkailija.cas.base-url=https://{{host_cas}}
+virkailija.cas.service-url=${virkailija.cas.base-url}/otr/virkailija
+virkailija.cas.url=${virkailija.cas.base-url}/cas
+virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
+
 email.sending-enabled=true
-ryhmasahkoposti-service-url=${url-alb}/ryhmasahkoposti-service/email/firewall
+email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 
-onr.enabled=false
-onr.service-url=${url-alb}/oppijanumerorekisteri-service
-oppijanumerorekisteri-service.rekisteri.username=
-oppijanumerorekisteri-service.rekisteri.password=
+onr.enabled=true
+onr.service-url=https://{{host_virkailija}}/oppijanumerorekisteri-service
+onr.cas.username={{otr_onr_cas_username}}
+onr.cas.password={{otr_onr_cas_password}}

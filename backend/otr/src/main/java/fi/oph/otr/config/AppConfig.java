@@ -26,34 +26,34 @@ public class AppConfig {
   private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
 
   @Bean
-  @ConditionalOnProperty(name = "otr.email.sending-enabled", havingValue = "false")
+  @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "false")
   public EmailSender emailSenderNoOp() {
     LOG.warn("EmailSenderNoOp in use");
     return new EmailSenderNoOp();
   }
 
   @Bean
-  @ConditionalOnProperty(name = "otr.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${otr.email.ryhmasahkoposti-service-url}") String emailServiceUrl) {
+  @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
+  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
     LOG.info("emailServiceUrl:{}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
 
   @Bean
-  @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "false")
+  @ConditionalOnProperty(name = "app.onr.enabled", havingValue = "false")
   public OnrOperationApi onrOperationApiMock() {
     LOG.warn("OnrOperationApiMock in use");
     return new OnrOperationApiMock();
   }
 
   @Bean
-  @ConditionalOnProperty(name = "otr.onr.enabled", havingValue = "true")
+  @ConditionalOnProperty(name = "app.onr.enabled", havingValue = "true")
   public OnrOperationApi onrOperationApiImpl(
-    @Value("${otr.onr.service-url}") String onrServiceUrl,
-    @Value("${otr.onr.cas.url}") String casUrl,
-    @Value("${otr.onr.cas.username}") String casUsername,
-    @Value("${otr.onr.cas.password}") String casPassword
+    @Value("${app.onr.service-url}") String onrServiceUrl,
+    @Value("${cas.url}") String casUrl,
+    @Value("${app.onr.cas.username}") String casUsername,
+    @Value("${app.onr.cas.password}") String casPassword
   ) {
     LOG.info("onrServiceUrl:{}", onrServiceUrl);
     final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
