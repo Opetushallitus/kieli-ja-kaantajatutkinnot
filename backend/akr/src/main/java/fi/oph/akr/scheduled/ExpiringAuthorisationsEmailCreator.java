@@ -7,7 +7,7 @@ import fi.oph.akr.service.email.ClerkEmailService;
 import fi.oph.akr.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -51,12 +51,12 @@ public class ExpiringAuthorisationsEmailCreator {
 
       authorisationRepository
         .findExpiringAuthorisations(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
-        .forEach(authorisationId -> {
-          if (hasEquivalentAuthorisationExpiringLater(authorisationId)) {
+        .forEach(authorisation -> {
+          if (hasEquivalentAuthorisationExpiringLater(authorisation)) {
             return;
           }
           try {
-            clerkEmailService.createAuthorisationExpiryEmail(authorisationId);
+            clerkEmailService.createAuthorisationExpiryEmail(authorisation.getId());
           } catch (Exception e) {
             LOG.error("Creation of authorisation expiry email failed", e);
           }
@@ -64,18 +64,18 @@ public class ExpiringAuthorisationsEmailCreator {
     });
   }
 
-  private boolean hasEquivalentAuthorisationExpiringLater(final Long expiringAuthorisationId) {
-    final Authorisation expiringAuthorisation = authorisationRepository.getReferenceById(expiringAuthorisationId);
-    final Translator translator = expiringAuthorisation.getTranslator();
-    return translator
-      .getAuthorisations()
+  private boolean hasEquivalentAuthorisationExpiringLater(final Authorisation authorisation) {
+    final Translator translator = authorisation.getTranslator();
+    final List<Authorisation> matchingAuthorisations = authorisationRepository.findMatchingAuthorisations(
+      translator.getId(),
+      authorisation.getBasis(),
+      authorisation.getFromLang(),
+      authorisation.getToLang()
+    );
+
+    return matchingAuthorisations
       .stream()
-      .filter(a -> a.getId() != expiringAuthorisationId)
-      .anyMatch(a ->
-        a.getTermEndDate().isAfter(expiringAuthorisation.getTermEndDate()) &&
-        Objects.equals(expiringAuthorisation.getFromLang(), a.getFromLang()) &&
-        Objects.equals(expiringAuthorisation.getToLang(), a.getToLang()) &&
-        Objects.equals(expiringAuthorisation.getBasis(), a.getBasis())
-      );
+      .filter(a -> a.getId() != authorisation.getId())
+      .anyMatch(a -> a.getTermEndDate().isAfter(authorisation.getTermEndDate()));
   }
 }
