@@ -1,0 +1,8 @@
+.clerk-interpreter {
+  &__details-fields {
+    &__contact {
+      // Fixes heights of contact details columns in Safari
+      max-height: 53.7px;
+    }
+  }
+}

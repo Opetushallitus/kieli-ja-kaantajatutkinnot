@@ -346,7 +346,7 @@ export const ClerkInterpreterDetailsFields = ({
       </div>
       <H3>{t('header.contactInformation')}</H3>
       <div className="grid-columns gapped">
-        <div className="columns">
+        <div className="columns clerk-interpreter__details-fields__contact">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(ClerkInterpreterTextFieldEnum.Email)}
             fullWidth
@@ -359,7 +359,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Text>{translateCommon('permissionToPublish')}</Text>
         </div>
-        <div className="columns">
+        <div className="columns clerk-interpreter__details-fields__contact">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.PhoneNumber
@@ -374,7 +374,7 @@ export const ClerkInterpreterDetailsFields = ({
           />
           <Text>{translateCommon('permissionToPublish')}</Text>
         </div>
-        <div className="columns">
+        <div className="columns clerk-interpreter__details-fields__contact">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(
               ClerkInterpreterTextFieldEnum.OtherContactInfo
