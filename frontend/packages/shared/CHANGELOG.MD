@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.8] - 2022-10-04
+
+### Added
+
+- I18nNamespace `clerk` and `public`
+
 ## [1.3.7] - 2022-09-28
 
 ### Changed
