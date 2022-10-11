@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
@@ -21,29 +21,37 @@ export const ClerkInterpreterListingRow = ({
   const translateLanguage = useKoodistoLanguagesTranslation();
   const translateCommon = useCommonTranslation();
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const { lastName, nickName, qualifications } = interpreter;
+  const { id, lastName, nickName, qualifications } = interpreter;
 
   const visibleQualifications =
     QualificationUtils.getQualificationsVisibleInClerkHomePage(qualifications);
 
-  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e?.stopPropagation();
-    navigate(
-      AppRoutes.ClerkInterpreterOverviewPage.replace(
-        /:interpreterId$/,
-        `${interpreter.id}`
-      )
-    );
+  const overviewUrl = AppRoutes.ClerkInterpreterOverviewPage.replace(
+    /:interpreterId$/,
+    `${id}`
+  );
+
+  const dispatch = useAppDispatch();
+
+  /**
+   * Sets interpreter in `ClerkInterpreterOverviewState` to avoid excessive backend request
+   * to fetch details of the interpreter again when the overview page is opened.
+   *
+   * Remove in OPHOTRKEH-181 if listing endpoint is changed only to return the required data
+   * in listing view.
+   */
+  const handleRowClick = () =>
     dispatch(setClerkInterpreterOverview(interpreter));
-  };
 
   return (
-    <TableRow className="cursor-pointer" onClick={handleRowClick}>
+    <TableRow
+      className="clerk-interpreter-listing__row"
+      onClick={handleRowClick}
+    >
       <TableCell>
-        <Text>{`${lastName} ${nickName}`}</Text>
+        <Link className="clerk-interpreter-listing__row__link" to={overviewUrl}>
+          <Text>{`${lastName} ${nickName}`}</Text>
+        </Link>
       </TableCell>
       <TableCell>
         {visibleQualifications.map(({ fromLang, toLang }, k) => (

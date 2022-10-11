@@ -1,7 +1,7 @@
 import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { H2, H3, PaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -49,36 +49,30 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
   const filteredSelectedIds = useAppSelector(selectFilteredSelectedIds);
   const dispatch = useAppDispatch();
 
-  const { lastName, firstName, authorisations } = translator;
+  const { id, lastName, firstName, authorisations } = translator;
 
   const visibleAuthorisations = [
-    authorisations.effective,
-    authorisations.expiredDeduplicated,
-    authorisations.formerVir,
-  ].flat();
+    ...authorisations.effective,
+    ...authorisations.expiredDeduplicated,
+    ...authorisations.formerVir,
+  ];
 
   const isSelected = filteredSelectedIds.includes(translator.id);
 
-  const navigate = useNavigate();
+  const overviewUrl = AppRoutes.ClerkTranslatorOverviewPage.replace(
+    /:translatorId$/,
+    `${id}`
+  );
 
-  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e?.stopPropagation();
-    navigate(
-      AppRoutes.ClerkTranslatorOverviewPage.replace(
-        /:translatorId$/,
-        `${translator.id}`
-      )
-    );
-    dispatch(setClerkTranslatorOverview(translator));
-  };
+  const handleRowClick = () => dispatch(setClerkTranslatorOverview(translator));
 
   const handleCheckboxClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
     if (isSelected) {
-      dispatch(deselectClerkTranslator(translator.id));
+      dispatch(deselectClerkTranslator(id));
     } else {
-      dispatch(selectClerkTranslator(translator.id));
+      dispatch(selectClerkTranslator(id));
     }
   };
 
@@ -121,20 +115,22 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
 
   return (
     <TableRow
-      className="cursor-pointer"
+      className="clerk-translator-listing__row"
       onClick={handleRowClick}
       selected={isSelected}
     >
       <TableCell padding="checkbox">
         <Checkbox
-          data-testid={`clerk-translators__id-${translator.id}-row`}
+          data-testid={`clerk-translators__id-${id}-row`}
           checked={isSelected}
           color={Color.Secondary}
           onClick={handleCheckboxClick}
         />
       </TableCell>
       <TableCell>
-        <Text>{`${lastName} ${firstName}`}</Text>
+        <Link className="clerk-translator-listing__row__link" to={overviewUrl}>
+          <Text>{`${lastName} ${firstName}`}</Text>
+        </Link>
       </TableCell>
       {Object.values(AuthorisationColumn).map((activeColumn) => (
         <TableCell key={activeColumn}>
@@ -236,7 +232,7 @@ export const ClerkTranslatorListing: FC = () => {
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
             rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
-            className={'clerk-translator__listing table-layout-auto'}
+            className="table-layout-auto"
             stickyHeader
           />
         </>

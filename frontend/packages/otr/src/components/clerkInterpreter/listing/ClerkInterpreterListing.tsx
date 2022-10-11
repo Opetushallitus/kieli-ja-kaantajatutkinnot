@@ -69,7 +69,7 @@ export const ClerkInterpreterListing = () => {
           initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
           rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
-          className={'clerk-interpreter__listing table-layout-auto'}
+          className="table-layout-auto"
           stickyHeader
         />
       );
