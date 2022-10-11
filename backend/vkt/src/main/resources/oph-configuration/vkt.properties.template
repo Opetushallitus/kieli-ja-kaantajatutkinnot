@@ -4,12 +4,9 @@ postgresql.url={{host_postgresql_vkt}}
 postgresql.username={{postgres_app_user}}
 postgresql.password={{host_postgresql_vkt_app_password}}
 
-host-cas: {{host_cas}}
-host-alb: {{host_alb}}
-virkailija.cas.url-base=https://{{host_cas}}
-virkailija.cas.service=https://{{host_virkailija}}/vkt/virkailija
-virkailija.cas.url=${virkailija.cas.url-base}/cas
-virkailija.cas.login=${virkailija.cas.url-base}/cas/login
-virkailija.host-virkailija={{host_virkailija}}
+virkailija.host.alb={{host_alb}}
 
-url-alb={{host_alb}}
+virkailija.cas.base-url=https://{{host_cas}}
+virkailija.cas.service-url=${virkailija.cas.base-url}/vkt/virkailija
+virkailija.cas.url=${virkailija.cas.base-url}/cas
+virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login

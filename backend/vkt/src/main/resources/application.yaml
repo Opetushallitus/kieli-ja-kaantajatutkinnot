@@ -43,6 +43,8 @@ springdoc:
     path: /api/swagger-ui.html
   api-docs:
     path: /api/api-docs
+host:
+  alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
   key: vkt
   send-renew: false
@@ -50,7 +52,6 @@ cas:
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  service: ${virkailija.cas.service:http://localhost:${server.port}/vkt}
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/vkt}
   url: ${virkailija.cas.url:http://localhost:${server.port}/vkt}
-  login: ${virkailija.cas.login:http://localhost:${server.port}/login}
-host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}
+  login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
