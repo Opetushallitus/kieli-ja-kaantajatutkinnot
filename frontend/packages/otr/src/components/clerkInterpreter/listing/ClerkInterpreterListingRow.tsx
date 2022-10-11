@@ -24,24 +24,34 @@ export const ClerkInterpreterListingRow = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { lastName, nickName, qualifications } = interpreter;
+  const { id, lastName, nickName, qualifications } = interpreter;
 
   const visibleQualifications =
     QualificationUtils.getQualificationsVisibleInClerkHomePage(qualifications);
 
-  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e?.stopPropagation();
-    navigate(
-      AppRoutes.ClerkInterpreterOverviewPage.replace(
-        /:interpreterId$/,
-        `${interpreter.id}`
-      )
-    );
+  const overviewUrl = AppRoutes.ClerkInterpreterOverviewPage.replace(
+    /:interpreterId$/,
+    `${id}`
+  );
+
+  const handleRowLeftClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    e.stopPropagation();
     dispatch(setClerkInterpreterOverview(interpreter));
+    navigate(overviewUrl);
+  };
+
+  const handleRowRightClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(overviewUrl, '_blank', 'noopener noreferrer');
   };
 
   return (
-    <TableRow className="cursor-pointer" onClick={handleRowClick}>
+    <TableRow
+      className="cursor-pointer"
+      onClick={handleRowLeftClick}
+      onContextMenu={handleRowRightClick}
+    >
       <TableCell>
         <Text>{`${lastName} ${nickName}`}</Text>
       </TableCell>
