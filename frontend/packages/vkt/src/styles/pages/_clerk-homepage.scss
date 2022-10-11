@@ -1,0 +1,18 @@
+.clerk-homepage {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__heading {
+      margin: 2rem 0 1rem 1rem;
+    }
+  }
+
+  & &__exam-events {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+  }
+}

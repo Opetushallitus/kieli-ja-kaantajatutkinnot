@@ -1,0 +1,26 @@
+{
+  "vkt": {
+    "component": {
+      "clerkExamEventListing": {
+        "addExaminationDate": "Lisää tutkintopäivä",
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "fillings": "Paikkoja täytetty",
+          "language": "Kieli ja taso",
+          "public": "Nähtävillä julkisesti",
+          "registrationCloses": "Ilmottautuminen sulkeutuu"
+        },
+        "title": "Tutkintotilaisuudet",
+        "toggleFilters": {
+          "passed": "Menneet",
+          "upcoming": "Tulevat"
+        }
+      }
+    },
+    "pages": {
+      "homepage": {
+        "title": "Valtionhallinnon kielitutkinnot"
+      }
+    }
+  }
+}

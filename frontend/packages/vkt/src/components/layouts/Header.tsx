@@ -7,23 +7,19 @@ import {
   changeLang,
   getCurrentLang,
   getSupportedLangs,
-  useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 // import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
-  const { t } = useAppTranslation({
-    keyPrefix: 'vkt.component.header',
-  });
   const translateCommon = useCommonTranslation();
   const [finnish, swedish, english] = getSupportedLangs();
 
   const langDict = new Map<string, AppLanguage>([
-    [t('lang.fi'), finnish],
-    [t('lang.sv'), swedish],
-    [t('lang.en'), english],
+    [translateCommon('header.lang.fi'), finnish],
+    [translateCommon('header.lang.sv'), swedish],
+    [translateCommon('header.lang.en'), english],
   ]);
 
   //   const [isClerkUI] = useAuthentication();
@@ -33,7 +29,10 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      <SkipLink href="#main-content" text={t('accessibility.continueToMain')} />
+      <SkipLink
+        href="#main-content"
+        text={translateCommon('header.accessibility.continueToMain')}
+      />
       <AppBar className="header" position="static">
         <Toolbar className="header__toolbar">
           <div className="header__left">
@@ -52,7 +51,9 @@ export const Header = (): JSX.Element => {
               changeLang={changeLang}
               getCurrentLang={getCurrentLang}
               langDict={langDict}
-              langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
+              langSelectorAriaLabel={translateCommon(
+                'header.accessibility.langSelectorAriaLabel'
+              )}
             />
           </div>
         </Toolbar>

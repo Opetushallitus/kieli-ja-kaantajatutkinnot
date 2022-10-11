@@ -7,14 +7,14 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
   // I18
-  const { t } = useAppTranslation({ keyPrefix: 'vkt.pages.homepage' });
+  const { t } = usePublicTranslation({ keyPrefix: 'vkt.pages.homepage' });
   const translateCommon = useCommonTranslation();
 
   // Redux

@@ -6,6 +6,7 @@ import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
@@ -27,6 +28,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.PublicHomePage}
                 element={<PublicHomePage />}
+              />
+              <Route
+                path={AppRoutes.ClerkHomePage}
+                element={<ClerkHomePage />}
               />
             </Routes>
           </div>

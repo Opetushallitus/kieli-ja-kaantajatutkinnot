@@ -4,7 +4,8 @@ jest.mock('configs/i18n', () => ({
   getCurrentLang: () => 'fi-FI',
   getSupportedLangs: () => ['fi-FI', 'sv-SE', 'en-GB'],
   changeLang: (language: string) => language,
-  useAppTranslation: () => ({ t: (str: string) => str }),
+  usePublicTranslation: () => ({ t: (str: string) => str }),
+  useClerkTranslation: () => ({ t: (str: string) => str }),
   useCommonTranslation: () => (str: string) => str,
   translateOutsideComponent: () => (str: string) => str,
 }));

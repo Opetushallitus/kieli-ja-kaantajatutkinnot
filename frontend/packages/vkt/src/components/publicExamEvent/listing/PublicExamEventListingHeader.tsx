@@ -3,12 +3,12 @@ import { CustomButton, H3 } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { useAppTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventListingHeader = () => {
-  const { t } = useAppTranslation({
+  const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventListing',
   });
   const { isPhone } = useWindowProperties();
@@ -24,9 +24,7 @@ export const PublicExamEventListingHeader = () => {
         <TableRow>
           <TableCell padding="checkbox"></TableCell>
           <TableCell>
-            <H3 className="public-exam-event-listing__name-header">
-              {t('header.language')}
-            </H3>
+            <H3>{t('header.language')}</H3>
           </TableCell>
           <TableCell>
             <H3>{t('header.examDate')}</H3>

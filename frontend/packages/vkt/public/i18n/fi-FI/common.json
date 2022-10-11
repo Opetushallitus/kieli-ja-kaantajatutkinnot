@@ -3,19 +3,44 @@
     "common": {
       "appTitle": "Valtionhallinnon kielitutkinnot",
       "contactEmail": "kielitutkinnot@oph.fi",
-      "ophLogo": "Opetushallituksen logo",
+      "errors": {
+        "api": {
+          "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
+        },
+        "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
+      },
       "examLanguage": {
         "FI": "Suomi",
         "SV": "Ruotsi"
       },
       "examLevel": {
-        "excellent": "Erinomainen"
+        "EXCELLENT": "Erinomainen"
       },
+      "header": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "languageFilter": {
+        "ALL": "Näytä kaikki kielet",
+        "FI": "Näytä vain suomi",
+        "SV": "Näytä vain ruotsi"
+      },
+      "no": "Ei",
+      "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Tulokset per sivu",
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
-      }
+      },
+      "yes": "Kyllä"
     }
   }
 }

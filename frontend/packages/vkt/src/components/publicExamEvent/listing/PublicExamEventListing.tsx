@@ -1,4 +1,4 @@
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
 import {
@@ -7,12 +7,13 @@ import {
   H3,
   PaginatedTable,
 } from 'shared/components';
-import { APIResponseStatus, Color, TextFieldVariant } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { LanguageFilter } from 'components/publicExamEvent/LanguageFilter';
 import { PublicExamEventListingHeader } from 'components/publicExamEvent/listing/PublicExamEventListingHeader';
 import { PublicExamEventListingRow } from 'components/publicExamEvent/listing/PublicExamEventListingRow';
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
@@ -31,15 +32,21 @@ export const PublicExamEventListing = ({
 }: {
   status: APIResponseStatus;
 }) => {
-  const { t } = useAppTranslation({ keyPrefix: 'vkt' });
+  const { t } = usePublicTranslation({ keyPrefix: 'vkt' });
   const translateCommon = useCommonTranslation();
 
+  const dispatch = useAppDispatch();
   const { isPhone } = useWindowProperties();
   const listingHeaderRef = useRef<HTMLDivElement>(null);
 
   const { languageFilter } = useAppSelector(publicExamEventsSelector);
   const filteredExamEvents = useAppSelector(selectFilteredPublicExamEvents);
-  const dispatch = useAppDispatch();
+
+  const handleLanguageFilterChange = (event: SelectChangeEvent) => {
+    dispatch(
+      setPublicExamEventLanguageFilter(event.target.value as ExamLanguage)
+    );
+  };
 
   useEffect(() => {
     if (isPhone) {
@@ -49,31 +56,6 @@ export const PublicExamEventListing = ({
       });
     }
   }, [isPhone]);
-
-  const LanguageFilter = () => {
-    const handleChange = (event: SelectChangeEvent) => {
-      dispatch(
-        setPublicExamEventLanguageFilter(event.target.value as ExamLanguage)
-      );
-    };
-
-    return (
-      <Select
-        data-testid="public-exam-events__language-filter"
-        variant={TextFieldVariant.Standard}
-        value={languageFilter}
-        onChange={handleChange}
-      >
-        {Object.entries(ExamLanguage).map(([key, language]) => {
-          return (
-            <MenuItem key={key} value={language}>
-              {t(`component.publicExamEventListing.languageFilter.${key}`)}
-            </MenuItem>
-          );
-        })}
-      </Select>
-    );
-  };
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -88,7 +70,7 @@ export const PublicExamEventListing = ({
           justifyContent="center"
           alignItems="center"
         >
-          <H3>{t('errors.loadingFailed')}</H3>
+          <H3>{translateCommon('errors.loadingFailed')}</H3>
         </Box>
       );
     case APIResponseStatus.Success:
@@ -103,7 +85,12 @@ export const PublicExamEventListing = ({
             </div>
           </div>
           <PaginatedTable
-            headerContent={<LanguageFilter />}
+            headerContent={
+              <LanguageFilter
+                value={languageFilter}
+                onChange={handleLanguageFilterChange}
+              />
+            }
             className={'public-exam-event-listing table-layout-auto'}
             data={filteredExamEvents}
             header={<PublicExamEventListingHeader />}
