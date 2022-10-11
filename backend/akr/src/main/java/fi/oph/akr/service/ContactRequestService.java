@@ -198,7 +198,7 @@ public class ContactRequestService {
       "requesterPhone",
       requesterPhone.isEmpty() ? "-" : requesterPhone,
       "akrHost",
-      environment.getRequiredProperty("host-virkailija")
+      environment.getRequiredProperty("host.virkailija")
     );
 
     final String recipientName = "Auktorisoitujen kääntäjien tutkintolautakunta";

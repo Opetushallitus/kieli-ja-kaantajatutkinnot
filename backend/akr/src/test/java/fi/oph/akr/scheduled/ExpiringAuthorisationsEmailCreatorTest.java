@@ -56,7 +56,7 @@ public class ExpiringAuthorisationsEmailCreatorTest {
 
   private void doSetup(final boolean createExpiryEmailsEnabled) {
     final Environment environment = mock(Environment.class);
-    when(environment.getRequiredProperty("akr.create-expiry-emails-enabled", Boolean.class))
+    when(environment.getRequiredProperty("app.create-expiry-emails-enabled", Boolean.class))
       .thenReturn(createExpiryEmailsEnabled);
     emailCreator = new ExpiringAuthorisationsEmailCreator(authorisationRepository, clerkEmailService, environment);
   }
