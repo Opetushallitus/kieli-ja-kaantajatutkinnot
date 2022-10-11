@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.9] - 2022-10-11
+
+### Changed
+
+- Remove `maxHeight: 100%` from the `columns` CSS class.
+  Doesn't seem to affect layout in any other way than circumventing
+  an issue on Safari when a child with this class is contained within
+  a grid row.
+
 ## [1.3.8] - 2022-10-04
 
 ### Added
