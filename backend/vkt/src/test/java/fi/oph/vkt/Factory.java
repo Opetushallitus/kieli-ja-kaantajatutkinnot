@@ -29,7 +29,11 @@ public class Factory {
 
   public static Person person() {
     final Person person = new Person();
-    person.setOnrId(UUID.randomUUID().toString());
+    person.setIdentityNumber(UUID.randomUUID().toString());
+    person.setLastName("Tester");
+    person.setFirstName("Foo Bar");
+    person.setEmail("foo.tester@invalid");
+    person.setPhoneNumber("+10001234567");
 
     return person;
   }

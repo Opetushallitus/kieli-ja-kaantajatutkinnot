@@ -216,4 +216,34 @@
                              constraintName="uk_enrollment_exam_event_person"/>
     </changeSet>
 
+    <changeSet id="2022-10-12-change-person-columns" author="mikhuttu">
+        <dropColumn tableName="person">
+            <column name="onr_id"/>
+        </dropColumn>
+
+        <addColumn tableName="person">
+            <column name="identity_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="TEXT"/>
+            <column name="postal_code" type="TEXT"/>
+            <column name="town" type="TEXT"/>
+            <column name="country" type="TEXT"/>
+        </addColumn>
+
+        <addUniqueConstraint tableName="person" columnNames="identity_number" constraintName="uk_person_identity_number"/>
+    </changeSet>
+
 </databaseChangeLog>
