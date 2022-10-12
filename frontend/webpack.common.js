@@ -174,7 +174,7 @@ const getESLintPlugin = (env) => {
 
 const getHtmlWebpackPlugin = (env, appName, dirName) => {
   const configs = {
-    publicPath: env.prod ? `/${appName}/` : "/",
+    publicPath: (env.prod && !env.cypress) ? `/${appName}/` : "/",
     template: path.join(dirName, "public", "index.html"),
     templateParameters: {
       GIT_INFO: "Not available",
