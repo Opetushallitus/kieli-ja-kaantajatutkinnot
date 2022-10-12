@@ -17,11 +17,14 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Footer = () => {
   const { t } = usePublicTranslation({ keyPrefix: 'vkt.component.footer' });
   const translateCommon = useCommonTranslation();
-  const showFooter = true; // TODO: replace with authentication and current view checks
+
+  const { isAuthenticated } = useAuthentication();
+  const showFooter = !isAuthenticated; // TODO: add current view checks for public UI
 
   return (
     <footer>

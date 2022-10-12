@@ -6,6 +6,7 @@ export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
   ClerkHomePage = '/vkt/virkailija',
   ClerkExamEventPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
+  ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
   PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   NotFoundPage = '*',
@@ -24,4 +25,8 @@ export enum ExamLevel {
 export enum ExamEventToggleFilter {
   Upcoming = 'upcoming',
   Passed = 'passed',
+}
+
+export enum HeaderNavTab {
+  ExamEvents = 'examEvents',
 }

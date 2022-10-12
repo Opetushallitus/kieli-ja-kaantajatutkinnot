@@ -15,6 +15,13 @@
           "passed": "Menneet",
           "upcoming": "Tulevat"
         }
+      },
+      "header": {
+        "backToOph": "Takaisin Opintopolkuun",
+        "logOut": "Kirjaudu ulos",
+        "navTabs": {
+          "examEvents": "Tutkintotilaisuudet"
+        }
       }
     },
     "pages": {
