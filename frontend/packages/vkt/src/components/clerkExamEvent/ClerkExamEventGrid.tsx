@@ -1,13 +1,11 @@
 import { Grid, Paper } from '@mui/material';
-import { useEffect } from 'react';
 import { H1 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkExamEventListing } from 'components/clerkExamEvent/listing/ClerkExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useClerkTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
+import { useAppSelector } from 'configs/redux';
 import {
   clerkListExamEventsSelector,
   selectFilteredClerkExamEvents,
@@ -21,16 +19,8 @@ export const ClerkExamEventGrid = () => {
   const { status } = useAppSelector(clerkListExamEventsSelector);
   const examEvents = useAppSelector(selectFilteredClerkExamEvents);
 
-  const dispatch = useAppDispatch();
-
   // State
   const isLoading = status === APIResponseStatus.InProgress;
-
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExamEvents());
-    }
-  }, [dispatch, status]);
 
   return (
     <>

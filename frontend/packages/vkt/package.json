@@ -16,7 +16,7 @@
     "vkt:lint": "yarn vkt:eslint && yarn vkt:tslint && yarn vkt:stylelint && yarn vkt:exportlint",
     "vkt:qa": "yarn vkt:lint && yarn vkt:format && yarn vkt:test:jest && yarn vkt:start:ci",
     "vkt:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8082",
-    "vkt:start:ci": "yarn g:webpack serve --env cypress --config webpack.config.js --no-open",
+    "vkt:start:ci": "yarn g:webpack serve --env cypress --env prod --config webpack.config.js --no-open --no-client-overlay",
     "vkt:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://vkt-backend:8082 --env docker",
     "vkt:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "vkt:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
