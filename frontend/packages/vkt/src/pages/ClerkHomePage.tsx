@@ -10,6 +10,7 @@ import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent'
 export const ClerkHomePage: FC = () => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(clerkListExamEventsSelector);
+
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamEvents());
