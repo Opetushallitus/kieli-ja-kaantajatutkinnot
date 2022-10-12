@@ -43,6 +43,8 @@ springdoc:
     path: /api/swagger-ui.html
   api-docs:
     path: /api/api-docs
+host:
+  alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
   key: otr
   send-renew: false
@@ -50,18 +52,16 @@ cas:
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  service: ${virkailija.cas.service:http://localhost:${server.port}/otr}
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/otr}
   url: ${virkailija.cas.url:http://localhost:${server.port}/otr}
-  login: ${virkailija.cas.login:http://localhost:${server.port}/login}
-host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}
-otr:
+  login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+app:
   email:
     sending-enabled: ${email.sending-enabled:false}
-    ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}
+    service-url: ${email.service-url:null}
   onr:
     enabled: ${onr.enabled:false}
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
-      url: ${virkailija.cas.url:https://virkailija.untuvaopintopolku.fi/cas}
-      username: ${oppijanumerorekisteri-service.rekisteri.username:username}
-      password: ${oppijanumerorekisteri-service.rekisteri.password:password}
+      username: ${onr.cas.username:username}
+      password: ${onr.cas.password:password}
