@@ -45,7 +45,7 @@ public class WebSecurityConfig {
   public ServiceProperties serviceProperties() {
     final ServiceProperties serviceProperties = new ServiceProperties();
     serviceProperties.setService(
-      environment.getRequiredProperty("cas.service") + environment.getRequiredProperty("cas.login-path")
+      environment.getRequiredProperty("cas.service-url") + environment.getRequiredProperty("cas.login-path")
     );
     serviceProperties.setSendRenew(environment.getRequiredProperty("cas.send-renew", Boolean.class));
     serviceProperties.setAuthenticateAllArtifacts(true);
@@ -58,7 +58,7 @@ public class WebSecurityConfig {
   @Bean
   public CasAuthenticationProvider casAuthenticationProvider() {
     final CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
-    final String host = environment.getProperty("host-alb", environment.getRequiredProperty("host-virkailija"));
+    final String host = environment.getRequiredProperty("host.alb");
 
     casAuthenticationProvider.setUserDetailsService(new OphUserDetailsServiceImpl(host, Constants.CALLER_ID));
 
@@ -116,7 +116,7 @@ public class WebSecurityConfig {
   @Bean
   public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
     final CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
-    casAuthenticationEntryPoint.setLoginUrl(environment.getProperty("cas.login"));
+    casAuthenticationEntryPoint.setLoginUrl(environment.getProperty("cas.login-url"));
     casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
     return casAuthenticationEntryPoint;
   }

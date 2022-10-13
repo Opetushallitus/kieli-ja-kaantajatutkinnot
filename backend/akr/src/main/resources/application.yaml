@@ -43,11 +43,9 @@ springdoc:
     path: /api/swagger-ui.html
   api-docs:
     path: /api/api-docs
-akr:
-  create-expiry-emails-enabled: ${create-expiry-emails-enabled:false}
-  email:
-    sending-enabled: ${email.sending-enabled:false}
-    ryhmasahkoposti-service-url: ${ryhmasahkoposti-service-url:null}
+host:
+  alb: ${virkailija.host.alb:localhost:${server.port}}
+  virkailija: ${virkailija.host.virkailija:localhost:${server.port}}
 cas:
   key: akr
   send-renew: false
@@ -55,7 +53,11 @@ cas:
   logout-path: /cas/localLogout
   logout-success-path: /etusivu
   cookie-name: JSESSIONID
-  service: ${virkailija.cas.service:http://localhost:${server.port}/akr}
+  service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/akr}
   url: ${virkailija.cas.url:http://localhost:${server.port}/akr}
-  login: ${virkailija.cas.login:http://localhost:${server.port}/login}
-host-virkailija: ${virkailija.host-virkailija:localhost:${server.port}}
+  login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+app:
+  create-expiry-emails-enabled: ${create-expiry-emails-enabled:false}
+  email:
+    sending-enabled: ${email.sending-enabled:false}
+    service-url: ${email.service-url:null}

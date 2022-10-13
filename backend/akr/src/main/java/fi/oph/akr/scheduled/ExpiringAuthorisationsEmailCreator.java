@@ -39,7 +39,7 @@ public class ExpiringAuthorisationsEmailCreator {
   @Scheduled(cron = "0 0 3 * * *")
   @SchedulerLock(name = "checkExpiringAuthorisations", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void checkExpiringAuthorisations() {
-    if (!environment.getRequiredProperty("akr.create-expiry-emails-enabled", Boolean.class)) {
+    if (!environment.getRequiredProperty("app.create-expiry-emails-enabled", Boolean.class)) {
       LOG.info("Expiry emails creation is disabled, do nothing.");
       return;
     }
