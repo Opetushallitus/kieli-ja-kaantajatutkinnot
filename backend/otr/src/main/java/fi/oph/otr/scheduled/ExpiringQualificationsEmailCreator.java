@@ -7,7 +7,7 @@ import fi.oph.otr.service.email.ClerkEmailService;
 import fi.oph.otr.util.SchedulingUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
 import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -43,12 +43,12 @@ public class ExpiringQualificationsEmailCreator {
 
       qualificationRepository
         .findExpiringQualifications(expiryBetweenStart, expiryBetweenEnd, previousReminderSentBefore)
-        .forEach(qualificationId -> {
-          if (hasEquivalentQualificationExpiringLater(qualificationId)) {
+        .forEach(qualification -> {
+          if (hasEquivalentQualificationExpiringLater(qualification)) {
             return;
           }
           try {
-            clerkEmailService.createQualificationExpiryEmail(qualificationId);
+            clerkEmailService.createQualificationExpiryEmail(qualification.getId());
           } catch (Exception e) {
             LOG.error("Creation of qualification expiry email failed", e);
           }
@@ -56,18 +56,18 @@ public class ExpiringQualificationsEmailCreator {
     });
   }
 
-  private boolean hasEquivalentQualificationExpiringLater(final Long expiringQualificationId) {
-    final Qualification expiringQualification = qualificationRepository.getReferenceById(expiringQualificationId);
-    final Interpreter interpreter = expiringQualification.getInterpreter();
-    return interpreter
-      .getQualifications()
+  private boolean hasEquivalentQualificationExpiringLater(final Qualification qualification) {
+    final Interpreter interpreter = qualification.getInterpreter();
+    final List<Qualification> matchingQualifications = qualificationRepository.findMatchingQualifications(
+      interpreter.getId(),
+      qualification.getExaminationType(),
+      qualification.getFromLang(),
+      qualification.getToLang()
+    );
+
+    return matchingQualifications
       .stream()
-      .filter(q -> q.getId() != expiringQualificationId && !q.isDeleted())
-      .anyMatch(q ->
-        q.getEndDate().isAfter(expiringQualification.getEndDate()) &&
-        Objects.equals(expiringQualification.getFromLang(), q.getFromLang()) &&
-        Objects.equals(expiringQualification.getToLang(), q.getToLang()) &&
-        Objects.equals(expiringQualification.getExaminationType(), q.getExaminationType())
-      );
+      .filter(q -> q.getId() != qualification.getId())
+      .anyMatch(q -> q.getEndDate().isAfter(qualification.getEndDate()) && !q.isDeleted());
   }
 }
