@@ -1,6 +1,7 @@
 package fi.oph.akr.repository;
 
 import fi.oph.akr.model.Authorisation;
+import fi.oph.akr.model.AuthorisationBasis;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +31,7 @@ public interface AuthorisationRepository extends JpaRepository<Authorisation, Lo
   List<TranslatorLanguagePairProjection> findTranslatorLanguagePairsForPublicListing();
 
   @Query(
-    "SELECT a.id" +
+    "SELECT a" +
     " FROM Authorisation a" +
     " JOIN a.translator t" +
     " LEFT JOIN a.reminders atr" +
@@ -40,10 +41,25 @@ public interface AuthorisationRepository extends JpaRepository<Authorisation, Lo
     " GROUP BY a.id, atr.id" +
     " HAVING COUNT(atr.id) = 0 OR MAX(atr.createdAt) < ?3"
   )
-  List<Long> findExpiringAuthorisations(
+  List<Authorisation> findExpiringAuthorisations(
     LocalDate betweenStart,
     LocalDate betweenEnd,
     LocalDateTime previousReminderSentBefore
+  );
+
+  @Query(
+    "SELECT a" +
+    " FROM Authorisation a" +
+    " WHERE a.translator.id = ?1" +
+    " AND a.basis = ?2" +
+    " AND a.fromLang = ?3" +
+    " AND a.toLang = ?4"
+  )
+  List<Authorisation> findMatchingAuthorisations(
+    long translatorId,
+    AuthorisationBasis basis,
+    String fromLang,
+    String toLang
   );
 
   @Query("SELECT DISTINCT a.fromLang FROM Authorisation a ORDER BY a.fromLang")
