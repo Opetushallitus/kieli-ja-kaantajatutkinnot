@@ -7,16 +7,12 @@ import fi.oph.otr.service.email.EmailData;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class EmailSenderViestintapalvelu implements EmailSender {
-
-  private static final Logger LOG = LoggerFactory.getLogger(EmailSenderViestintapalvelu.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -39,7 +35,6 @@ public class EmailSenderViestintapalvelu implements EmailSender {
 
     final String result = response.block();
 
-    LOG.debug("WebClient result:{}", result);
     return parseExternalId(result);
   }
 
@@ -66,10 +61,7 @@ public class EmailSenderViestintapalvelu implements EmailSender {
       emailData.recipientAddress()
     );
 
-    final Map<String, Object> data = Map.of("email", emailFields, "recipient", List.of(recipientFields));
-
-    LOG.debug("Data:{}", data);
-    return data;
+    return Map.of("email", emailFields, "recipient", List.of(recipientFields));
   }
 
   private String parseExternalId(final String result) throws JsonProcessingException {

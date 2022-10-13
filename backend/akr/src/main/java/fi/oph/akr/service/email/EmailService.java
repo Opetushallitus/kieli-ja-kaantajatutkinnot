@@ -38,7 +38,7 @@ public class EmailService {
 
   @Transactional
   public void sendEmail(final long emailId) {
-    LOG.debug("Trying to send email id:{}", emailId);
+    LOG.debug("Trying to send email id: {}", emailId);
     emailRepository.findById(emailId).ifPresent(this::send);
   }
 
@@ -49,7 +49,7 @@ public class EmailService {
       email.setSentAt(LocalDateTime.now());
       email.setExtId(extId);
     } catch (final Exception e) {
-      LOG.error("Exception when sending email id:" + email.getId(), e);
+      LOG.error("Exception when sending email id: " + email.getId(), e);
       email.setError(e.getMessage());
     }
   }

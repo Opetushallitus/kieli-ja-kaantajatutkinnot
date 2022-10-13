@@ -41,7 +41,7 @@ public class EmailScheduledSending {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("pollEmailsToSend");
       final List<Long> emailsBatch = emailRepository.findEmailsToSend(PageRequest.of(0, BATCH_SIZE));
-      LOG.debug("sending emailsBatch size {}", emailsBatch.size());
+      LOG.debug("Emails batch size: {}", emailsBatch.size());
       emailsBatch.forEach(emailService::sendEmail);
     });
   }
