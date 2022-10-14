@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.3.10] - 2022-10-11
+
+### Changed
+
+- Updated CookieBanner layout for mobile
+
 ## [1.3.9] - 2022-10-11
 
 ### Changed

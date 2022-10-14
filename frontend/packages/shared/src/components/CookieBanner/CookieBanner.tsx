@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { Color, Variant } from '../../enums/common';
+import { useWindowProperties } from '../../hooks';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 import './CookieBanner.scss';
@@ -21,6 +22,8 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   buttonAriaLabel,
 }) => {
   const [open, setOpen] = useState(false);
+
+  const { isDesktop } = useWindowProperties();
 
   useEffect(() => {
     if (!sessionStorage.getItem(`cookie-consent-${cookieTag}`)) {
@@ -44,7 +47,7 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
           bottom: 0,
           width: '100%',
           maxWidth: '100%',
-          margin: '0',
+          margin: 0,
           borderRadius: 0,
         },
       }}
@@ -52,20 +55,22 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
       <div className="cookie-banner__content">
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <div className="rows gapped space-around">
-            <div className="columns gapped space-between">
-              {children}
-              <CustomButton
-                aria-label={buttonAriaLabel}
-                className="cookie-banner__content__accept-button"
-                data-testid="cookie-banner-accept-button"
-                color={Color.Secondary}
-                variant={Variant.Contained}
-                onClick={handleAcceptCookies}
-              >
-                {buttonText}
-              </CustomButton>
-            </div>
+          <div
+            className={`cookie-banner__content__dialog-content gapped space-between ${
+              isDesktop ? 'columns' : 'rows'
+            }`}
+          >
+            {children}
+            <CustomButton
+              aria-label={buttonAriaLabel}
+              className="cookie-banner__content__accept-button"
+              data-testid="cookie-banner-accept-button"
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              onClick={handleAcceptCookies}
+            >
+              {buttonText}
+            </CustomButton>
           </div>
         </DialogContent>
       </div>
