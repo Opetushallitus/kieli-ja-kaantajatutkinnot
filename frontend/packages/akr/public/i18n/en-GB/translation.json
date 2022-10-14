@@ -71,8 +71,8 @@
             "removal": {
               "ariaLabel": "Delete the authorisation",
               "dialog": {
-                "description": "This action cannot be undone!",
                 "confirmButton": "Delete the authorisation",
+                "description": "This action cannot be undone!",
                 "header": "Are you sure you want to delete the authorisation?"
               }
             }
@@ -85,7 +85,7 @@
             "diaryNumber": "Case identifier",
             "endDate": "End date",
             "examinationDate": "Exam day",
-            "languagePair": "End date",
+            "languagePair": "Language pair",
             "permissionToPublish": "Permission to publish",
             "startDate": "Start date"
           },
@@ -104,8 +104,8 @@
         },
         "toasts": {
           "notFound": "The selected translator could not be found",
-          "updateFailed": "Failed to save the information",
-          "updated": "The information was saved"
+          "updated": "The information was saved",
+          "updateFailed": "Failed to save the information"
         },
         "translatorDetails": {
           "cancelUpdateDialog": {
@@ -137,20 +137,20 @@
         }
       },
       "contactRequestForm": {
-        "description": "You can use this contact request form to leave a contact request to the authorised translators you have selected. Please write a description of the required translation in as much detail as possible to your message.",
         "cancelRequestDialog": {
           "description": "Do you want to cancel the contact request? You will lose the information you have filled in",
           "title": "Cancel contact request"
         },
         "characters": "characters",
         "chosenTranslatorsForLanguagePair": "The translators you have selected from the language pair",
+        "description": "You can use this contact request form to leave a contact request to the authorised translators you have selected. Please write a description of the required translation in as much detail as possible to your message.",
         "doneStep": {
           "description": "This page will automatically redirect you back to the home page. If nothing happens, click the button below.",
           "title": "Your contact request has been sent and you will be contacted."
         },
         "errorDialog": {
-          "description": "Try again later. If the problem persists, contact us by email at: auktoris.lautakunta@oph.fi",
           "back": "Back",
+          "description": "Try again later. If the problem persists, contact us by email at: auktoris.lautakunta@oph.fi",
           "title": "An error was encountered when sending the contact request"
         },
         "formLabels": {
@@ -168,13 +168,13 @@
           "linkLabel": null
         },
         "steps": {
+          "active": "Active",
+          "completed": "Completed",
           "Done": "Complete!",
           "FillContactDetails": "Fill in contact details",
           "PreviewAndSend": "Preview and send",
           "VerifyTranslators": "Confirm translators",
-          "WriteMessage": "Write message",
-          "active": "Active",
-          "completed": "Completed"
+          "WriteMessage": "Write message"
         },
         "title": "Leaving a contact request",
         "verifySelectedTranslatorsStep": {
@@ -220,6 +220,9 @@
             "ariaLabel": "Examination system of authorised translators (oph.fi), open in a new tab",
             "link": "https://www.oph.fi/en/services/briefly-about-authorised-translators-examination",
             "text": "Examination system of authorised translators (oph.fi)"
+          },
+          "contact": {
+            "title": null
           },
           "privacy": {
             "text": "Privacy policy (in Finnish)"
@@ -289,7 +292,7 @@
       "publicTranslatorFilters": {
         "buttons": {
           "empty": "Clear",
-          "newSearch": "Conduct a new search",
+          "newSearch": "New search",
           "search": "Show results"
         },
         "captions": {
@@ -314,8 +317,8 @@
           "translatorsSelected": "You can select only one language pair for contacting"
         },
         "town": {
-          "placeholder": "Municipality of residence",
-          "title": "Search by translator’s municipality of residence"
+          "placeholder": "Municipality",
+          "title": "Search by translator’s municipality"
         }
       },
       "table": {
@@ -339,6 +342,7 @@
         "examinationDateCreateDuplicateDate": "Failed to add the exam day because the selected date is already an exam day",
         "examinationDateDeleteHasAuthorisations": "Failed to delete the exam day because authorisations have been recorded for it",
         "generic": "The action failed, please try again later",
+        "invalidVersion": null,
         "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
         "meetingDateDeleteHasAuthorisations": "Failed to delete the meeting day because authorisations have been recorded for it",
         "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
@@ -382,6 +386,7 @@
         }
       },
       "clerkSendEmailPage": {
+        "characters": "characters",
         "dialogs": {
           "cancel": {
             "description": "Do you want to cancel sending the email? You will lose the information you have filled in.",
@@ -420,13 +425,19 @@
         }
       },
       "homepage": {
+        "cookieBanner": {
+          "buttonAriaLabel": null,
+          "buttonText": null,
+          "description": null,
+          "title": null
+        },
         "description": "The Finnish National Agency for Education maintains a register of authorised translators, into which the authorised translators approved by the Authorised Translators’ Examination Board are entered. You can use the search engine to find an authorised translator either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email to obtain contact details of authorised translators: auktoris.lautakunta@oph.fi. The public register of authorised translators contains only the names of those interpreters who have given the permission to publish their names online.",
         "filters": {
           "title": "Search for an authorised translator"
         },
         "noSearchResults": "No search results",
         "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland.",
-        "requestContact": "Contact us",
+        "requestContact": "Contact",
         "title": "Register of Authorised Translators"
       },
       "meetingDatesPage": {
@@ -443,7 +454,7 @@
       "translator": {
         "languagePairs": "Language pairs",
         "name": "Name",
-        "town": "Municipality of residence"
+        "town": "Municipality"
       }
     }
   }

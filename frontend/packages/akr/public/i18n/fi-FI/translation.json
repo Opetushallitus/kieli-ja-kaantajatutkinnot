@@ -71,8 +71,8 @@
             "removal": {
               "ariaLabel": "Poista auktorisointi",
               "dialog": {
-                "description": "Tätä toimintoa ei voi peruuttaa!",
                 "confirmButton": "Poista auktorisointi",
+                "description": "Tätä toimintoa ei voi peruuttaa!",
                 "header": "Haluatko varmasti poistaa auktorisoinnin?"
               }
             }
@@ -104,8 +104,8 @@
         },
         "toasts": {
           "notFound": "Valittua kääntäjää ei löytynyt",
-          "updateFailed": "Tietojen tallennus epäonnistui",
-          "updated": "Tiedot tallennettiin"
+          "updated": "Tiedot tallennettiin",
+          "updateFailed": "Tietojen tallennus epäonnistui"
         },
         "translatorDetails": {
           "cancelUpdateDialog": {
@@ -137,20 +137,20 @@
         }
       },
       "contactRequestForm": {
-        "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi auktorisoiduille kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
         "cancelRequestDialog": {
           "description": "Haluatko peruuttaa yhteydenottopyynnön? Menetät täyttämäsi tiedot.",
           "title": "Peruuta yhteydenottopyyntö"
         },
         "characters": "merkkiä",
         "chosenTranslatorsForLanguagePair": "Valitsemasi kääntäjät kieliparista",
+        "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi auktorisoiduille kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
         "doneStep": {
           "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
           "title": "Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä."
         },
         "errorDialog": {
-          "description": "Kokeile myöhemmin uudelleen. Jos ongelma toistuu, ota yhteyttä sähköpostilla: auktoris.lautakunta@oph.fi",
           "back": "Takaisin",
+          "description": "Kokeile myöhemmin uudelleen. Jos ongelma toistuu, ota yhteyttä sähköpostilla: auktoris.lautakunta@oph.fi",
           "title": "Virhe lähetettäessä yhteydenottopyyntöä"
         },
         "formLabels": {
@@ -168,13 +168,13 @@
           "linkLabel": "tietosuojaselosteen"
         },
         "steps": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
           "Done": "Valmis!",
           "FillContactDetails": "Täytä yhteystietosi",
           "PreviewAndSend": "Esikatsele ja lähetä",
           "VerifyTranslators": "Vahvista kääntäjät",
-          "WriteMessage": "Kirjoita viesti",
-          "active": "Aktiivinen",
-          "completed": "Suoritettu"
+          "WriteMessage": "Kirjoita viesti"
         },
         "title": "Yhteydenottopyynnön jättäminen",
         "verifySelectedTranslatorsStep": {
@@ -425,13 +425,13 @@
         }
       },
       "homepage": {
-        "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla olevalla hakulomakkeella. Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi auktorisoitujen kääntäjien yhteystietoja: auktoris.lautakunta@oph.fi",
         "cookieBanner": {
           "buttonAriaLabel": "Hyväksy evästeet",
           "buttonText": "Hyväksy",
           "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
           "title": "Hyväksy evästeet"
         },
+        "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla olevalla hakulomakkeella. Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi auktorisoitujen kääntäjien yhteystietoja: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Hae auktorisoitua kääntäjää"
         },
