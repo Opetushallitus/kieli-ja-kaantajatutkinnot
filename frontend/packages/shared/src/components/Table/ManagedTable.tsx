@@ -9,10 +9,9 @@ import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
-interface PaginatedTableProps<T extends WithId> {
+interface ManagedPaginatedTableProps<T extends WithId> {
   data: Array<T>;
   getRowDetails: (details: T) => JSX.Element;
-  initialRowsPerPage: number;
   rowsPerPageOptions: Array<number | { value: number; label: string }>;
   className: string;
   rowsPerPageLabel: string;
@@ -20,28 +19,27 @@ interface PaginatedTableProps<T extends WithId> {
   headerContent?: JSX.Element;
   stickyHeader?: boolean;
   showBottomPagination?: boolean;
-  pageP?: number;
-  setPageP?: (page: number) => void;
-  rowsPerPageP?: number;
-  setRowsPerPageP?: (rowsPerPage: number) => void;
+  page: number;
+  setPage: (page: number) => void;
+  rowsPerPage: number;
+  setRowsPerPage: (rowsPerPage: number) => void;
 }
 
-export function PaginatedTable<T extends WithId>({
+export function ManagedPaginatedTable<T extends WithId>({
   header,
   data,
   getRowDetails,
-  initialRowsPerPage,
   rowsPerPageOptions,
   className,
   stickyHeader,
   showBottomPagination = true,
   rowsPerPageLabel,
   headerContent,
-  pageP,
-  setPageP,
-  rowsPerPageP,
-  setRowsPerPageP,
-}: PaginatedTableProps<T>): JSX.Element {
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+}: ManagedPaginatedTableProps<T>): JSX.Element {
   const PaginationDisplayedRowsLabel = ({
     from,
     to,
@@ -49,32 +47,10 @@ export function PaginatedTable<T extends WithId>({
   }: LabelDisplayedRowsArgs) => {
     return `${from} - ${to} / ${count}`;
   };
-
-  const [paginatedPage, setPaginatedPage] = useState(0);
-  const [rowsPerPaginatedPage, setRowsPerPaginatedPage] =
-    useState(initialRowsPerPage);
-  const [count, setCount] = useState(data.length);
-
-  const page = pageP !== undefined ? pageP : paginatedPage;
-  const setPage = setPageP !== undefined ? setPageP : setPaginatedPage;
-
-  const rowsPerPage =
-    rowsPerPageP !== undefined ? rowsPerPageP : rowsPerPaginatedPage;
-  const setRowsPerPage =
-    setRowsPerPageP !== undefined ? setRowsPerPageP : setRowsPerPaginatedPage;
-
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setRowsPerPage(+event.target.value);
   };
-
-  // Reset page count if underlying data (as measured by number of elements) changes
-  useEffect(() => {
-    if (count != data.length) {
-      setCount(data.length);
-      setPage(0);
-    }
-  }, [data, count, setPage]);
 
   const Pagination = ({
     showHeaderContent,
@@ -85,7 +61,7 @@ export function PaginatedTable<T extends WithId>({
       {showHeaderContent && headerContent}
       <TablePagination
         className="table__head-box__pagination"
-        count={count}
+        count={data.length}
         component="div"
         onPageChange={(_event, newPage) => setPage(newPage)}
         page={page}

@@ -13,10 +13,16 @@ interface ClerkState {
   langs: LanguagePairsDict;
 }
 
+interface PaginationState {
+  page: number;
+  rowsPerPage: number;
+}
+
 interface ClerkUIState extends ClerkState {
   selectedTranslators: Array<number>;
   status: APIResponseStatus;
   filters: ClerkTranslatorFilter;
+  pagination: PaginationState;
 }
 
 const initialState: ClerkUIState = {
@@ -26,6 +32,10 @@ const initialState: ClerkUIState = {
   selectedTranslators: [],
   filters: {
     authorisationStatus: AuthorisationStatus.Effective,
+  },
+  pagination: {
+    page: 0,
+    rowsPerPage: 10,
   },
 };
 
@@ -82,6 +92,12 @@ const clerkTranslatorSlice = createSlice({
       updatedTranslators.splice(spliceIndex, 1, translator);
       state.translators = updatedTranslators;
     },
+    setPaginatedPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setRowsPerPaginatedPage(state, action: PayloadAction<number>) {
+      state.pagination.rowsPerPage = action.payload;
+    },
   },
 });
 
@@ -97,4 +113,6 @@ export const {
   selectClerkTranslator,
   storeClerkTranslators,
   upsertClerkTranslator,
+  setPaginatedPage,
+  setRowsPerPaginatedPage,
 } = clerkTranslatorSlice.actions;

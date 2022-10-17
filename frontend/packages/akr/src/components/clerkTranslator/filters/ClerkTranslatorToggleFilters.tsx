@@ -6,6 +6,7 @@ import { AuthorisationStatus } from 'enums/clerkTranslator';
 import {
   addClerkTranslatorFilter,
   deselectAllClerkTranslators,
+  setPaginatedPage,
 } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
@@ -18,9 +19,10 @@ export const ClerkTranslatorToggleFilters = () => {
   const dispatch = useAppDispatch();
 
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
-    if (filters.authorisationStatus != status) {
+    if (filters.authorisationStatus !== status) {
       dispatch(addClerkTranslatorFilter({ authorisationStatus: status }));
       dispatch(deselectAllClerkTranslators());
+      dispatch(setPaginatedPage(0));
     }
   };
 
