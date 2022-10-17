@@ -10,7 +10,7 @@ public class EmailSenderNoOp implements EmailSender {
 
   @Override
   public String sendEmail(final EmailData emailData) {
-    LOG.info("{}", emailData);
+    LOG.debug("{}", emailData);
     return "no-op";
   }
 }

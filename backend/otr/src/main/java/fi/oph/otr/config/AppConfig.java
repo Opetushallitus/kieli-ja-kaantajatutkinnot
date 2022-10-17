@@ -35,7 +35,7 @@ public class AppConfig {
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
   public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
-    LOG.info("emailServiceUrl:{}", emailServiceUrl);
+    LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
@@ -55,7 +55,7 @@ public class AppConfig {
     @Value("${app.onr.cas.username}") String casUsername,
     @Value("${app.onr.cas.password}") String casPassword
   ) {
-    LOG.info("onrServiceUrl:{}", onrServiceUrl);
+    LOG.info("onrServiceUrl: {}", onrServiceUrl);
     final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
       casUsername,
       casPassword,

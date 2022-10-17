@@ -90,7 +90,7 @@ public class ClerkEmailService {
 
       createQualificationReminder(qualification, email);
     } else {
-      LOG.warn("Personal data for onr id {} not found", interpreter.getOnrId());
+      LOG.warn("Personal data by onr id {} not found", interpreter.getOnrId());
     }
   }
 

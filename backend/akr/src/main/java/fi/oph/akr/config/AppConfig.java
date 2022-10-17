@@ -29,7 +29,7 @@ public class AppConfig {
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
   public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
-    LOG.info("emailServiceUrl:{}", emailServiceUrl);
+    LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
   }
