@@ -16,7 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -94,7 +96,14 @@ public class ProdImport {
       .flatMap(p -> p.getSecond().stream())
       .map(LanguageRow::resolveMeetingDate)
       .filter(Objects::nonNull)
-      .collect(Collectors.toSet());
+      .collect(
+        Collectors.toCollection(() -> {
+          final HashSet<LocalDate> set = new HashSet<>();
+          set.addAll(getFutureMeetingDates());
+          return set;
+        })
+      );
+
     meetingDates
       .stream()
       .sorted()
@@ -180,6 +189,15 @@ public class ProdImport {
     printWriter.close();
   }
 
+  private static Collection<LocalDate> getFutureMeetingDates() {
+    return List.of(
+      // OPHAKRKEH-423 24.10.2022., 12.12.2022 ja 6.2.2023
+      LocalDate.of(2022, 10, 24),
+      LocalDate.of(2022, 12, 12),
+      LocalDate.of(2023, 2, 6)
+    );
+  }
+
   private static Set<Integer> getTranslatorIdsWhichAreVirButEndDateIsReturned() {
     return Set.of(4479);
   }
@@ -214,7 +232,10 @@ public class ProdImport {
       .filter(email -> !email.isBlank() && !email.equals("-"))
       .collect(Collectors.toSet());
     if (knownDuplicateEmails.size() != known.size() / 2) {
-      throw new RuntimeException("Known duplicates are not duplicates anymore? From the known ids we find email addresses:" + knownDuplicateEmails);
+      throw new RuntimeException(
+        "Known duplicates are not duplicates anymore? From the known ids we find email addresses:" +
+        knownDuplicateEmails
+      );
     }
 
     final List<String> duplicates = translators
