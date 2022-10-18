@@ -1,7 +1,4 @@
-import {
-  ArrowBackIosOutlined as ArrowBackIosOutlinedIcon,
-  OpenInNew as OpenInNewIcon,
-} from '@mui/icons-material';
+import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -10,7 +7,6 @@ import {
   ExtLink,
   H1,
   H2,
-  H3,
   HeaderSeparator,
   Text,
 } from 'shared/components';
@@ -35,14 +31,12 @@ const BackButton = () => {
   );
 };
 
-const BulletList = ({ translations }: { translations: Array<string> }) => {
-  const translatePrivacy = usePrivacyTranslation();
-
+const BulletList = ({ items }: { items: Array<string> }) => {
   return (
     <ul>
       <Text>
-        {translations.map((translation, i) => (
-          <li key={i}>{translatePrivacy(translation)}</li>
+        {items.map((item, i) => (
+          <li key={i}>{item}</li>
         ))}
       </Text>
     </ul>
@@ -76,137 +70,333 @@ export const PrivacyPolicyPage = () => {
           <div>
             <BackButton />
           </div>
-          <div className="rows gapped">
-            <H2>{translatePrivacy('general.title')}</H2>
-            <Text>{translatePrivacy('general.description1')}</Text>
-            <ExtLink
-              className="privacy-policy-page__content__link"
-              text={translatePrivacy('general.externalLink.title')}
-              href={translatePrivacy('general.externalLink.link')}
-              endIcon={<OpenInNewIcon />}
-            />
-            <Text>{translatePrivacy('general.description2')}</Text>
-            <Text>{translatePrivacy('general.description3')}</Text>
+          <div>
+            <H1>Tietosuojaseloste / Tiedonanto</H1>
+            <Text>EU:n tietosuoja-asetus 2016/679 (GDPR)</Text>
           </div>
           <div className="rows gapped">
-            <H2>{translatePrivacy('gathering.title')}</H2>
-            <H3>{translatePrivacy('common.personalData')}</H3>
-            <Text>{translatePrivacy('gathering.personal.description')}</Text>
-            <Text>{translatePrivacy('gathering.personal.data.title')}</Text>
-            <BulletList
-              translations={[
-                'gathering.personal.data.description1',
-                'gathering.personal.data.description2',
-              ]}
-            />
-            <Text>{translatePrivacy('gathering.personal.usage.title')}</Text>
-            <BulletList
-              translations={['gathering.personal.usage.description1']}
-            />
-            <H3>{translatePrivacy('common.otherData')}</H3>
-            <BulletList
-              translations={[
-                'gathering.other.description1',
-                'gathering.other.description2',
-              ]}
-            />
-          </div>
-          <div className="rows gapped">
-            <H2>{translatePrivacy('purpose.title')}</H2>
-            <H3>{translatePrivacy('common.personalData')}</H3>
-            <Text>{translatePrivacy('purpose.personal.data.title')}</Text>
-            <BulletList
-              translations={[
-                'purpose.personal.data.description1',
-                'purpose.personal.data.description2',
-              ]}
-            />
-          </div>
-          <div className="rows gapped">
-            <H2>{translatePrivacy('disclosure.title')}</H2>
-            <Text>{translatePrivacy('disclosure.description')}</Text>
-            <Text>{translatePrivacy('disclosure.consent.title')}</Text>
-            <BulletList translations={['disclosure.consent.description1']} />
-            <Text>{translatePrivacy('disclosure.community.title')}</Text>
-            <BulletList translations={['disclosure.community.description1']} />
-            <Text>{translatePrivacy('disclosure.serviceProvider.title')}</Text>
-            <BulletList
-              translations={[
-                'disclosure.serviceProvider.description1',
-                'disclosure.serviceProvider.description2',
-              ]}
-            />
-            <Text>{translatePrivacy('disclosure.research.title')}</Text>
-            <BulletList translations={['disclosure.research.description1']} />
-            <Text>{translatePrivacy('disclosure.dataTransfers.title')}</Text>
-            <BulletList
-              translations={['disclosure.dataTransfers.description1']}
-            />
-          </div>
-          <div className="rows gapped-xxs">
-            <H2>{translatePrivacy('processing.title')}</H2>
-            <Text>{translatePrivacy('processing.description1')}</Text>
-          </div>
-          <div className="rows gapped-xxs">
-            <H2>{translatePrivacy('protection.title')}</H2>
-            <Text>{translatePrivacy('protection.description1')}</Text>
-            <Text>{translatePrivacy('protection.description2')}</Text>
-          </div>
-          <div className="rows gapped-xxs">
-            <H2>{translatePrivacy('preservation.title')}</H2>
-            <Text>{translatePrivacy('preservation.description1')}</Text>
-          </div>
-          <div className="rows gapped-xxs">
-            <H2>{translatePrivacy('rights.title')}</H2>
-            <Text>{translatePrivacy('rights.description1')}</Text>
-            <Text>{translatePrivacy('rights.description2')}</Text>
-          </div>
-          <div className="rows gapped-xxs">
-            <H2>{translatePrivacy('changes.title')}</H2>
-            <Text>{translatePrivacy('changes.description1')}</Text>
-          </div>
-          <div className="rows gapped">
-            <H2>{translatePrivacy('registrar.title')}</H2>
-            <Text>{translatePrivacy('registrar.description1')}</Text>
-            <Text>{translatePrivacy('registrar.description2')}</Text>
+            <H2>Rekisterin nimi</H2>
+            <Text>Auktorisoitujen kääntäjien rekisteri</Text>
             <Text>
-              {translatePrivacy('registrar.contact.name')}
+              Rekisteri koostuu seuraavista:
+              <BulletList
+                items={[
+                  'rekisteriin merkityt auktorisoidut kääntäjät',
+                  'julkinen hakukone',
+                ]}
+              />
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Rekisterin pitäjä</H2>
+            <Text>Opetushallitus</Text>
+            <Text>
+              PL 380, 00531 Helsinki
               <br />
-              {translatePrivacy('registrar.contact.address1')}
-              <br />
-              {translatePrivacy('registrar.contact.address2')}
+              Käyntiosoite Hakaniemenranta 6, 00530 Helsinki
             </Text>
             <Text>
-              {translatePrivacy('registrar.contact.email')}{' '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
-                href={`mailto:${translatePrivacy(
-                  'registrar.contact.emailAddress1'
-                )}`}
-                text={translatePrivacy('registrar.contact.emailAddress1')}
-              ></ExtLink>
-              {` ${translatePrivacy('common.or')} `}
-              <ExtLink
-                className="privacy-policy-page__content__link"
-                href={`mailto:${translatePrivacy(
-                  'registrar.contact.emailAddress2'
-                )}`}
-                text={translatePrivacy('registrar.contact.emailAddress2')}
-              ></ExtLink>
+              Muut yhteystiedot
               <br />
-              {translatePrivacy('registrar.contact.phone')}{' '}
+              Sähköposti:{' '}
               <ExtLink
                 className="privacy-policy-page__content__link"
-                href={`tel:${translatePrivacy(
-                  'registrar.contact.phoneNumber'
-                )}`}
-                text={translatePrivacy('registrar.contact.phoneNumber')}
-              ></ExtLink>
+                href="mailto:opetushallitus@oph.fi"
+                text="opetushallitus@oph.fi"
+              />
+              {', '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href="mailto:kirjaamo@oph.fi"
+                text="kirjaamo@oph.fi"
+              />
+              <br />
+              Puhelinvaihde: 029 533 1000
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Rekisterinpitäjän edustaja (yhteyshenkilö)</H2>
+            <Text>
+              Terhi Seinä
+              <br />
+              Sähköposti:{' '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href="mailto:kirjaamo@oph.fi"
+                text="kirjaamo@oph.fi"
+              />
+              <br />
+              Puhelin: 029 533 1000 (vaihde)
             </Text>
             <Text>
-              <i>{translatePrivacy('registrar.published')}</i>
+              Tietosuojavastaavan yhteystiedot
               <br />
-              <i>{translatePrivacy('registrar.modified')}</i>
+              Jyrki Tuohela
+              <br />
+              Sähköposti:{' '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href="mailto:tietosuoja@oph.fi"
+                text="tietosuoja@oph.fi"
+              />
+              <br />
+              Puhelin: 029 533 1000 (vaihde)
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>
+              Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste
+            </H2>
+            <Text>
+              Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot
+              auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien
+              tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun
+              kääntäjän oikeuden.
+            </Text>
+            <Text>
+              Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja
+              kääntäjiä ja jättää heille yhteydenottopyynnön
+              käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja
+              ilman että jättää yhteydenottopyyntöä.
+            </Text>
+            <Text>
+              Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja,
+              jotka ovat tarpeellisia auktorisointien hallinnoinnin ja edellä
+              mainittujen yhteydenottopyyntöjen sekä muutostarpeiden
+              hoitamiseksi.
+            </Text>
+            <Text>
+              Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään
+              lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä
+              lomakkeella, miten tietoja käsitellään.
+            </Text>
+            <Text>
+              <b>Lakiperusteet</b>
+              <br />
+              Laki auktorisoiduista kääntäjistä{' '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href="https://www.finlex.fi/fi/laki/ajantasa/2007/20071231"
+                text="https://www.finlex.fi/fi/laki/ajantasa/2007/20071231"
+              ></ExtLink>
+              <br />
+              15§
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät </H2>
+            <Text>
+              <b>Ryhmä 1</b>: Hakukoneen käyttäjät
+              <br /> Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle
+              <br />
+              <b>Ryhmä 2</b>: Hakukoneen käyttäjät
+              <br /> Hakukoneen tietojen selaaminen/ hakujen teko
+              <br />
+              <b>Ryhmä 3</b>: Rekisteriin merkityt auktorisoidut kääntäjät
+              <br />
+              Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun
+              kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä
+              on auktorisoitu.
+            </Text>
+            <Text>
+              <b>Ryhmä 1</b>: Hakukoneen käyttäjät
+              <br />
+              Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle:
+              <br />
+              Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä
+              itseltään yhteydenottolomakkeen jättämisen yhteydessä.
+              <br />
+              Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.
+              <br />
+              Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.
+              <br />
+              Tietoja säilytetään 6 kk.
+            </Text>
+            <Text>
+              <b>Ryhmä 2</b>: Hakukoneen käyttäjät
+              <br /> Hakukoneen tietojen selaaminen/ hakujen teko
+              <br />
+              Mitään tietoa ei tallennu.
+            </Text>
+            <Text>
+              <b>Ryhmä 3</b>: Rekisteriin merkityt auktorisoidut kääntäjät
+            </Text>
+            <Text>
+              Kääntäjiä auktorisoidaan kolmella perusteella:
+              <BulletList
+                items={[
+                  'hyväksytysti suoritettu auktorisoidun kääntäjän tutkinto',
+                  'maisterin tutkinnossa suoritettu kääntämisen korkeakouluopinnot (60 opintopistettä, johon sisältyy  auktorisoidun kääntämisen 6 opintopistettä)',
+                  'virallinen kääntäjä',
+                ]}
+              />
+            </Text>
+            <Text>
+              Kaksi ensin mainittua uusivat auktorisoidun kääntäjän oikeutensa 5
+              vuoden välein. Viralliselle kääntäjälle myönnetään auktorisointi
+              ilman takarajaa. Opetushallitus lähettää rekisteristä muistutuksen
+              3 kk ennen auktorisoinnin umpeutumista. Jos auktorisointi
+              umpeutuu, poistetaan kääntäjä julkisesta hakukoneesta. Kääntäjä
+              voi milloin tahansa hakea auktorisointia uudelleen.
+            </Text>
+            <Text>
+              Rekisteröitävän antamat tiedot
+              <br />
+              Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite,
+              puhelinnumero ja asuinpaikka.
+            </Text>
+            <Text>
+              Muut tiedot:
+              <br />
+              <BulletList
+                items={[
+                  'auktorisointiperuste',
+                  'mistä kielestä mihin kieleen kääntäjä on auktorisoitu tekemään käännöksiä',
+                ]}
+              />
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Henkilötietojen vastaanottajat tai vastaanottajaryhmät</H2>
+            <Text>
+              Opetushallituksen on viranomaisten toiminnan julkisuudesta annetun
+              lain (21.5.1999/621) mukaan annettava tieto julkisesta
+              asiakirjasta pyytäjälle, vaikka asiakirja sisältäisi
+              henkilötietoja. Salassa pidettävän tiedon antaminen tai
+              luovuttaminen edellyttää erityistä perustetta: asianosaisasema tai
+              laissa säädetty oikeus tiedon saamiseen tai sen henkilön
+              suostumus, jonka suojaksi salassapidosta on säädetty.
+            </Text>
+            <Text>
+              Henkilötietoja voidaan luovuttaa tieteellistä tai historiallista
+              tutkimusta taikka tilastointia varten tietosuojalain (1050/2018) 4
+              §:n mukaisin edellytyksin.
+            </Text>
+            <Text>
+              Tietojärjestelmän palveluntarjoajat (henkilötietojen käsittelijät)
+              pääsevät tarkastelemaan rekisterin sisältämiä henkilötietoja
+              Opetushallituksen määrittämässä laajuudessa.
+            </Text>
+            <Text>Tietoja ei luovuteta suoramarkkinointiin.</Text>
+          </div>
+          <div className="rows gapped">
+            <H2>
+              Tiedot tietojen siirrosta kolmansiin maihin ja tiedot
+              käytettävistä suojatoimista (sis. tiedon komission tietosuojan
+              riittävyyttä koskevasta päätöksen olemassaolosta tai
+              puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä.
+            </H2>
+            <Text>
+              Tietoja ei säännönmukaisesti luovuta tai siirretä rekisteristä
+              EU:n tai Euroopan talousalueen ulkopuolelle.
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Henkilötietojen säilyttämisaika</H2>
+            <Text>
+              Ryhmä 1
+              <br />
+              Tietoja säilytetään 6 kk.
+            </Text>
+            <Text>
+              Ryhmä 3
+              <br />
+              Tiedot poistetaan rekisteristä ilman aiheetonta viivytystä ja
+              viimeistään 2 kuukauden kuluttua siitä, kun auktorisointi on
+              päättynyt tai peruutettu. Palvelun henkilötietojen säilytysajat
+              ovat arkistonmuodostussuunnitelman ja tiedonohjaussuunnitelman
+              määrittämien säilytysaikojen mukaisia. Asiakirjat, joiden
+              säilytysaika on päättynyt, hävitetään järjestelmästä vuosittain.
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>
+              Rekisteröidyn oikeudet
+              <br />
+              <BulletList
+                items={[
+                  'Oikeus saada pääsy henkilötietoihin ',
+                  'Oikeus tietojen oikaisemiseen',
+                  'Oikeus tietojen poistamiseen',
+                  'Oikeus käsittelyn rajoittamiseen',
+                  'Vastustamisoikeus',
+                  'Oikeus siirtää tiedot järjestelmästä toiseen',
+                ]}
+              />
+            </H2>
+            <Text>
+              Rekisteröidyllä on oikeus saada rekisterinpitäjältä vahvistus
+              siitä, että häntä koskevia henkilötietoja käsitellään tai että
+              niitä ei käsitellä. Rekisterinpitäjän on toimitettava pyynnöstä
+              jäljennös käsiteltävistä henkilötiedoista.
+            </Text>
+            <Text>
+              Rekisteröidyllä on oikeus vaatia, että rekisterinpitäjä oikaisee
+              ilman aiheetonta viivytystä rekisteröityä koskevat epätarkat ja
+              virheelliset henkilötiedot. Rekisteröidyn tulee yksilöidä ja
+              perustella, mitä tietoa hän vaatii korjattavaksi, mikä on hänen
+              mielestään oikea tieto ja miten korjaus halutaan tehtäväksi.
+            </Text>
+            <Text>
+              Mikäli käsittely perustuu tietosuoja-asetuksen 6 artiklan 1a
+              -kohtaan tai 9 artiklan 2a -kohtaan eli rekisteröidyn
+              suostumukseen, on rekisteröidyllä oikeus tietojen poistamiseen.
+            </Text>
+            <Text>
+              Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä
+              tilanteissa.
+            </Text>
+            <Text>
+              Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa
+              henkilötietojesi oikaisusta tai poistosta tai käsittelyn
+              rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli
+              tietoja luovutetaan eteenpäin.
+            </Text>
+            <Text>
+              Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä
+              toiseen, jos käsittely suoritetaan automaattisesti.
+            </Text>
+            <Text>
+              Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin
+              yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki.
+              Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen
+              tarvittavat tiedot (nimi ja henkilötunnus).
+            </Text>
+            <Text>
+              Jos rekisteröidyn käyttämästä henkilötietojen tarkastusoikeudesta
+              on kulunut vähemmän kuin yksi vuosi, voi rekisterinpitäjä periä
+              tietojen antamisesta aiheutuvat hallinnollisiin kustannuksiin
+              perustuvan maksun (artikla 12 [5]).
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>Oikeus tehdä valitus valvontaviranomaiselle</H2>
+            <Text>
+              Rekisteröidyllä on oikeus tehdä kantelu valvontaviranomaiselle,
+              erityisesti siinä jäsenvaltiossa, jossa hänen vakinainen
+              asuinpaikkansa tai työpaikkansa on, tai jossa väitetty
+              tietosuoja-asetuksen rikkominen on tapahtunut.
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>
+              Tiedot siitä, mistä henkilötiedot on saatu sekä tarvittaessa
+              siitä, onko tiedot saatu yleisesti saatavilla olevista lähteistä
+            </H2>
+            <Text>
+              Tiedot kerätään ryhmässä 1. ja ryhmässä 3 henkilöltä itseltään.
+            </Text>
+          </div>
+          <div className="rows gapped">
+            <H2>
+              Tiedot automaattisen päätöksenteon, ml. profiloinnin
+              olemassaolosta, sekä ainakin näissä tapauksissa merkitykselliset
+              tiedot käsittelyyn liittyvästä logiikasta samoin kuin kyseisen
+              käsittelyn merkittävyys ja mahdolliset seuraukset rekisteröidylle
+            </H2>
+            <Text>
+              Rekisterin sisältämiä tietoja ei käytetä profilointiin eikä
+              tietoihin kohdisteta automaattista päätöksentekoa.
             </Text>
           </div>
           <div>
