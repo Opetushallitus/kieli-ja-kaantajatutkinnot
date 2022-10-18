@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -96,13 +95,7 @@ public class ProdImport {
       .flatMap(p -> p.getSecond().stream())
       .map(LanguageRow::resolveMeetingDate)
       .filter(Objects::nonNull)
-      .collect(
-        Collectors.toCollection(() -> {
-          final HashSet<LocalDate> set = new HashSet<>();
-          set.addAll(getFutureMeetingDates());
-          return set;
-        })
-      );
+      .collect(Collectors.toCollection(() -> getFutureMeetingDates()));
 
     meetingDates
       .stream()
@@ -189,12 +182,14 @@ public class ProdImport {
     printWriter.close();
   }
 
-  private static Collection<LocalDate> getFutureMeetingDates() {
-    return List.of(
-      // OPHAKRKEH-423 24.10.2022., 12.12.2022 ja 6.2.2023
-      LocalDate.of(2022, 10, 24),
-      LocalDate.of(2022, 12, 12),
-      LocalDate.of(2023, 2, 6)
+  private static HashSet<LocalDate> getFutureMeetingDates() {
+    return new HashSet<>(
+      List.of(
+        // OPHAKRKEH-423 24.10.2022., 12.12.2022 ja 6.2.2023
+        LocalDate.of(2022, 10, 24),
+        LocalDate.of(2022, 12, 12),
+        LocalDate.of(2023, 2, 6)
+      )
     );
   }
 
@@ -211,7 +206,7 @@ public class ProdImport {
   }
 
   private static Set<Integer> getTranslatorIdsOfKnownEmptyLanguageRows() {
-    return Set.of(4498, 4521, 4575);
+    return Set.of(4341, 4498, 4521, 4575);
   }
 
   private static Set<Integer> getTranslatorIdsHavingInvalidDates() {
