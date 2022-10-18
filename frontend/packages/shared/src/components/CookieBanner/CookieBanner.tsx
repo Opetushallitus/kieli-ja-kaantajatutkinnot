@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { Color, Variant } from '../../enums/common';
@@ -26,13 +27,16 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   const { isDesktop } = useWindowProperties();
 
   useEffect(() => {
-    if (!sessionStorage.getItem(`cookie-consent-${cookieTag}`)) {
+    if (!Cookies.get(`cookie-consent-${cookieTag}`)) {
       setOpen(true);
     }
   }, [setOpen, cookieTag]);
 
   const handleAcceptCookies = () => {
-    sessionStorage.setItem(`cookie-consent-${cookieTag}`, 'true');
+    Cookies.set(`cookie-consent-${cookieTag}`, 'true', {
+      expires: 365,
+      path: '/akr',
+    });
     setOpen(false);
   };
 
