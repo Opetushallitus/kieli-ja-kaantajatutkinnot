@@ -1,12 +1,6 @@
-.clerk-translator-listing {
-  &__ineffective {
-    &#{&} {
-      color: $color-grey-600;
-    }
-  }
-
+.clerk-interpreter-listing {
   &__row {
-    td:nth-child(2) {
+    td:first-child {
       position: relative;
     }
 
@@ -22,7 +16,7 @@
       left: 0;
       position: absolute;
       top: 0;
-      width: 638%;
+      width: 659%;
     }
   }
 }

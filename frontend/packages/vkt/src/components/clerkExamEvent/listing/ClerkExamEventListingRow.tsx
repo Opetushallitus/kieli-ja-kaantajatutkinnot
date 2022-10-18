@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import { Dayjs } from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Text } from 'shared/components';
 
 import { useCommonTranslation } from 'configs/i18n';
@@ -15,32 +15,32 @@ export const ClerkExamEventListingRow = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const navigate = useNavigate();
-
-  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
-    e?.stopPropagation();
-    navigate(
-      AppRoutes.ClerkExamEventPage.replace(/:examEventId$/, `${examEvent.id}`)
-    );
-  };
+  const examEventUrl = AppRoutes.ClerkExamEventPage.replace(
+    /:examEventId$/,
+    `${examEvent.id}`
+  );
 
   const formatDate = (date: Dayjs) => date.format('DD.MM.YYYY');
 
   return (
     <>
       <TableRow
-        className="cursor-pointer"
+        className="clerk-exam-event-listing__row"
         data-testid={`clerk-exam-events__id-${examEvent.id}-row`}
-        onClick={handleRowClick}
       >
         <TableCell>
-          <Text>
-            {ExamEventUtils.languageAndLevelText(
-              examEvent.language,
-              examEvent.level,
-              translateCommon
-            )}
-          </Text>
+          <Link
+            className="clerk-exam-event-listing__row__link"
+            to={examEventUrl}
+          >
+            <Text>
+              {ExamEventUtils.languageAndLevelText(
+                examEvent.language,
+                examEvent.level,
+                translateCommon
+              )}
+            </Text>
+          </Link>
         </TableCell>
         <TableCell>
           <Text>{formatDate(examEvent.date)}</Text>
