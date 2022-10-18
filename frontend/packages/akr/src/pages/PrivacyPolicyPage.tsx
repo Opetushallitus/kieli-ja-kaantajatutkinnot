@@ -70,6 +70,10 @@ export const PrivacyPolicyPage = () => {
           <div>
             <BackButton />
           </div>
+          <div>
+            <H1>Tietosuojaseloste / Tiedonanto</H1>
+            <Text>EU:n tietosuoja-asetus 2016/679 (GDPR)</Text>
+          </div>
           <div className="rows gapped">
             <H2>Rekisterin nimi</H2>
             <Text>Auktorisoitujen kääntäjien rekisteri</Text>
@@ -129,14 +133,14 @@ export const PrivacyPolicyPage = () => {
               <br />
               Jyrki Tuohela
               <br />
-              Sähköposti{' '}
+              Sähköposti:{' '}
               <ExtLink
                 className="privacy-policy-page__content__link"
                 href="mailto:tietosuoja@oph.fi"
                 text="tietosuoja@oph.fi"
               />
               <br />
-              Puhelin 029 533 1000 (vaihde)
+              Puhelin: 029 533 1000 (vaihde)
             </Text>
           </div>
           <div className="rows gapped">
@@ -182,30 +186,41 @@ export const PrivacyPolicyPage = () => {
           <div className="rows gapped">
             <H2>Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät </H2>
             <Text>
-              <b>Ryhmä 1</b>: Hakukoneen käyttäjät Yhteydenottopyyntö jätetty
-              auktorisoidulle kääntäjälle
+              <b>Ryhmä 1</b>: Hakukoneen käyttäjät
+              <br /> Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle
               <br />
-              <b>Ryhmä 2</b>: Hakukoneen käyttäjät Hakukoneen tietojen
-              selaaminen/ hakujen teko
+              <b>Ryhmä 2</b>: Hakukoneen käyttäjät
+              <br /> Hakukoneen tietojen selaaminen/ hakujen teko
               <br />
               <b>Ryhmä 3</b>: Rekisteriin merkityt auktorisoidut kääntäjät
+              <br />
               Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun
               kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä
               on auktorisoitu.
             </Text>
             <Text>
-              Ryhmä 1: Hakukoneen käyttäjät Yhteydenottopyyntö jätetty
-              auktorisoidulle kääntäjälle: Henkilötiedot: Pääasiallisesti
-              henkilötiedot kerätään käyttäjältä itseltään yhteydenottolomakkeen
-              jättämisen yhteydessä. Käyttäjän antamat tiedot: nimi,
-              sähköpostiosoite ja puhelinnumero. Muut tiedot: käyttäjien viestit
-              koskien käännöstoimeksiantoa. Tietoja säilytetään 6 kk.
+              <b>Ryhmä 1</b>: Hakukoneen käyttäjät
+              <br />
+              Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle:
+              <br />
+              Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä
+              itseltään yhteydenottolomakkeen jättämisen yhteydessä.
+              <br />
+              Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.
+              <br />
+              Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.
+              <br />
+              Tietoja säilytetään 6 kk.
             </Text>
             <Text>
-              Ryhmä 2: Hakukoneen käyttäjät Hakukoneen tietojen selaaminen/
-              hakujen teko Mitään tietoa ei tallennu.
+              <b>Ryhmä 2</b>: Hakukoneen käyttäjät
+              <br /> Hakukoneen tietojen selaaminen/ hakujen teko
+              <br />
+              Mitään tietoa ei tallennu.
             </Text>
-            <Text>Ryhmä 3: Rekisteriin merkityt auktorisoidut kääntäjät</Text>
+            <Text>
+              <b>Ryhmä 3</b>: Rekisteriin merkityt auktorisoidut kääntäjät
+            </Text>
             <Text>
               Kääntäjiä auktorisoidaan kolmella perusteella:
               <BulletList
@@ -225,8 +240,10 @@ export const PrivacyPolicyPage = () => {
               voi milloin tahansa hakea auktorisointia uudelleen.
             </Text>
             <Text>
-              Rekisteröitävän antamat tiedot Henkilötiedot: nimi, henkilötunnus,
-              osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka.
+              Rekisteröitävän antamat tiedot
+              <br />
+              Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite,
+              puhelinnumero ja asuinpaikka.
             </Text>
             <Text>
               Muut tiedot:
@@ -261,25 +278,6 @@ export const PrivacyPolicyPage = () => {
               Opetushallituksen määrittämässä laajuudessa.
             </Text>
             <Text>Tietoja ei luovuteta suoramarkkinointiin.</Text>
-          </div>
-          <div className="rows gapped">
-            <H2>Rekisterinpitäjän edustaja (yhteyshenkilö)</H2>
-            <Text>
-              Terhi Seinä
-              <br />
-              ähköposti:kirjaamo@oph.fi
-              <br />
-              Puhelin: 029 533 1000 (vaihde)
-            </Text>
-            <Text>
-              Tietosuojavastaavan yhteystiedot
-              <br />
-              Jyrki Tuohela
-              <br />
-              Sähköposti tietosuoja@oph.fi
-              <br />
-              Puhelin 029 533 1000 (vaihde)
-            </Text>
           </div>
           <div className="rows gapped">
             <H2>
@@ -346,13 +344,20 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä
-              tilanteissa. Rekisteröidyllä on oikeus siihen, että
-              rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai
-              poistosta tai käsittelyn rajoituksesta sille jolle tietoja on
-              edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.
+              tilanteissa.
+            </Text>
+            <Text>
+              Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa
+              henkilötietojesi oikaisusta tai poistosta tai käsittelyn
+              rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli
+              tietoja luovutetaan eteenpäin.
+            </Text>
+            <Text>
               Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä
-              toiseen, jos käsittely suoritetaan automaattisesti Oikeuksien
-              käyttöön liittyvät pyynnöt tulee osoittaa rekisterin
+              toiseen, jos käsittely suoritetaan automaattisesti.
+            </Text>
+            <Text>
+              Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin
               yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki.
               Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen
               tarvittavat tiedot (nimi ja henkilötunnus).
