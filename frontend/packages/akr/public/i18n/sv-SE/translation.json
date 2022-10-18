@@ -93,8 +93,8 @@
           "noAuthorisations": "Inga auktoriseringar hittades för de valda kriterierna",
           "toasts": {
             "addingSucceeded": "Auktoriseringen har lagts till",
-            "removingSucceeded": "Valda auktoriseringen har strykt",
-            "updatingPublishPermissionSucceeded": "Publiceringstillståndet för auktoriseringen har ändrat"
+            "removingSucceeded": "Valda auktoriseringen har strykts",
+            "updatingPublishPermissionSucceeded": "Publiceringstillståndet för auktoriseringen har ändrats"
           },
           "toggleFilters": {
             "effective": "I kraft",
@@ -421,14 +421,14 @@
         "title": "Examensdagar",
         "toasts": {
           "addingSucceeded": "Examendagen {{date}} har lagts till",
-          "removingSucceeded": "Examendagen {{date}} har tagit bort"
+          "removingSucceeded": "Examendagen {{date}} har tagits bort"
         }
       },
       "homepage": {
         "cookieBanner": {
           "buttonAriaLabel": "Acceptera cookies",
           "buttonText": "Acceptera",
-          "description": "Den här webbplatsen använder nödvändiga cookies för att fungera",
+          "description": "Den här webbplatsen använder nödvändiga cookies för att fungera.",
           "title": "Acceptera cookies"
         },
         "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Du kan lämna en kontaktförfrågan för de translatorer som du väljer med nedan för sökformuläret. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
@@ -444,7 +444,7 @@
         "title": "Mötesdagar",
         "toasts": {
           "addingSucceeded": "Mötedagen {{date}} har lagts till",
-          "removingSucceeded": "Mötedagen {{date}} har tagit bort"
+          "removingSucceeded": "Mötedagen {{date}} har tagits bort"
         }
       },
       "notFoundPage": {
