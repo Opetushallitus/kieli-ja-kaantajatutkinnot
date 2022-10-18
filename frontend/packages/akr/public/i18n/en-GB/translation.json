@@ -93,8 +93,8 @@
           "noAuthorisations": "No authorisations meeting the selected criteria were found",
           "toasts": {
             "addingSucceeded": "Authorisation added successfully",
-            "removingSucceeded": null,
-            "updatingPublishPermissionSucceeded": null
+            "removingSucceeded": "Selected authorisation deleted",
+            "updatingPublishPermissionSucceeded": "The publish permission for authorisation changed"
           },
           "toggleFilters": {
             "effective": "Valid",
@@ -164,8 +164,8 @@
         },
         "privacyStatement": {
           "ariaLabel": "Privacy policy",
-          "label": null,
-          "linkLabel": null
+          "label": "I have read the <0></0> of this service and accept it.",
+          "linkLabel": "privacy policy statement"
         },
         "steps": {
           "active": "Active",
@@ -222,10 +222,10 @@
             "text": "Examination system of authorised translators (oph.fi)"
           },
           "contact": {
-            "title": null
+            "title": "Feedback and development suggestions"
           },
           "privacy": {
-            "text": "Privacy policy (in Finnish)"
+            "text": "Privacy policy statement (in Finnish)"
           }
         }
       },
@@ -342,17 +342,17 @@
         "examinationDateCreateDuplicateDate": "Failed to add the exam day because the selected date is already an exam day",
         "examinationDateDeleteHasAuthorisations": "Failed to delete the exam day because authorisations have been recorded for it",
         "generic": "The action failed, please try again later",
-        "invalidVersion": null,
+        "invalidVersion": "The action failed because you tried to modify outdated data. Please refresh the page and try again later if necessary.",
         "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
         "meetingDateDeleteHasAuthorisations": "Failed to delete the meeting day because authorisations have been recorded for it",
         "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
         "meetingDateUpdateHasAuthorisations": "Failed to modify the meeting day because authorisations have been recorded for it",
         "translatorCreateDuplicateEmail": "Failed to add the translator because the email address is already in use",
         "translatorCreateDuplicateIdentityNumber": "Failed to add the translator because the personal identity code is already in use",
-        "translatorCreateUnknownCountry": null,
+        "translatorCreateUnknownCountry": "Failed to add the translator because the country code is unknown",
         "translatorUpdateDuplicateEmail": "Failed to modify the translator because the email address is already in use",
         "translatorUpdateDuplicateIdentityNumber": "Failed to modify the translator because the personal identity code is already in use",
-        "translatorUpdateUnknownCountry": null
+        "translatorUpdateUnknownCountry": "Failed to modify the translator because the country code is unknown"
       },
       "customTextField": {
         "emailFormat": "The email address is incorrect",
@@ -420,18 +420,18 @@
       "examinationDatesPage": {
         "title": "Exam days",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Examination date {{date}} added successfully",
+          "removingSucceeded": "Examination date {{date}} deleted"
         }
       },
       "homepage": {
         "cookieBanner": {
-          "buttonAriaLabel": null,
-          "buttonText": null,
-          "description": null,
-          "title": null
+          "buttonAriaLabel": "Accept cookies",
+          "buttonText": "Accept",
+          "description": "This web site uses mandatory cookies to be functional.",
+          "title": "Accept cookies"
         },
-        "description": "The Finnish National Agency for Education maintains a register of authorised translators, into which the authorised translators approved by the Authorised Translators’ Examination Board are entered. You can use the search engine to find an authorised translator either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email to obtain contact details of authorised translators: auktoris.lautakunta@oph.fi. The public register of authorised translators contains only the names of those interpreters who have given the permission to publish their names online.",
+        "description": "The Finnish National Agency for Education maintains a register of authorised translators. You can use the search engine to find an authorised translator or several either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email to obtain contact details of authorised translators: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Search for an authorised translator"
         },
@@ -443,8 +443,8 @@
       "meetingDatesPage": {
         "title": "Meeting days",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Meeting date {{date}} added successfully",
+          "removingSucceeded": "Meeting date {{date}} deleted"
         }
       },
       "notFoundPage": {

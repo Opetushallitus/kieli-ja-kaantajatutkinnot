@@ -29,7 +29,7 @@
         "authorisationStatus": {
           "effective": "Auktoriserade",
           "expiredDeduplicated": "Löpt ut",
-          "expiring": null,
+          "expiring": "Löper ut",
           "formerVir": "VIR 2008"
         },
         "languagePair": {
@@ -93,8 +93,8 @@
           "noAuthorisations": "Inga auktoriseringar hittades för de valda kriterierna",
           "toasts": {
             "addingSucceeded": "Auktoriseringen har lagts till",
-            "removingSucceeded": null,
-            "updatingPublishPermissionSucceeded": null
+            "removingSucceeded": "Valda auktoriseringen har strykts",
+            "updatingPublishPermissionSucceeded": "Publiceringstillståndet för auktoriseringen har ändrats"
           },
           "toggleFilters": {
             "effective": "I kraft",
@@ -164,8 +164,8 @@
         },
         "privacyStatement": {
           "ariaLabel": "Dataskyddsbeskrivning",
-          "label": null,
-          "linkLabel": null
+          "label": "Jag har läst <0></0> av den här tjänsten och accepterar den.",
+          "linkLabel": "dataskyddsbeskrivningen"
         },
         "steps": {
           "active": "Aktiv",
@@ -214,7 +214,7 @@
         },
         "links": {
           "accessibility": {
-            "text": "Tillgänglighetsdirektiv"
+            "text": "Tillgänglighetsdirektiv (på finska)"
           },
           "akrHomepage": {
             "ariaLabel": "Examenssystemet för auktoriserade translatorer (oph.fi), öppnas i en ny flik",
@@ -222,10 +222,10 @@
             "text": "Systemet med auktoriserade translatorer (oph.fi)"
           },
           "contact": {
-            "title": null
+            "title": "Respons och utvecklingidéer"
           },
           "privacy": {
-            "text": "Dataskyddsbeskrivning"
+            "text": "Dataskyddsbeskrivning (på finska)"
           }
         }
       },
@@ -292,7 +292,7 @@
       "publicTranslatorFilters": {
         "buttons": {
           "empty": "Töm",
-          "newSearch": "Gör en ny sökning",
+          "newSearch": "Ny sökning",
           "search": "Visa resultat"
         },
         "captions": {
@@ -342,17 +342,17 @@
         "examinationDateCreateDuplicateDate": "Det gick inte att lägga till examensdagen eftersom det valda datumet redan är en examensdag",
         "examinationDateDeleteHasAuthorisations": "Det gick inte att ta bort examensdagen eftersom det har registrerats auktoriseringar på den",
         "generic": "Funktionen misslyckades, försök på nytt senare",
-        "invalidVersion": null,
+        "invalidVersion": "Funktionen misslyckades därför att du försökte att ändra förlegad data. Uppdatera sidan och försöka vid behov igen.",
         "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
         "meetingDateDeleteHasAuthorisations": "Det gick inte att ta bort mötesdagen eftersom det har registrerats auktoriseringar på den",
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
         "meetingDateUpdateHasAuthorisations": "Mötesdagen kunde inte redigeras eftersom det har registrerats auktoriseringar på den",
         "translatorCreateDuplicateEmail": "Det gick inte att lägga till translatorn eftersom e-postadressen redan används",
         "translatorCreateDuplicateIdentityNumber": "Det gick inte att lägga till translatorn eftersom personbeteckningen redan används",
-        "translatorCreateUnknownCountry": null,
+        "translatorCreateUnknownCountry": "Det gick inte att lägga till translatorn eftersom landmärket är okänt",
         "translatorUpdateDuplicateEmail": "Det gick inte att redigera translatorn eftersom e-postadressen redan används",
         "translatorUpdateDuplicateIdentityNumber": "Det gick inte att redigera translatorn eftersom personbeteckningen redan används",
-        "translatorUpdateUnknownCountry": null
+        "translatorUpdateUnknownCountry": "Det gick inte att redigera translatorn eftersom landmärket är okänt"
       },
       "customTextField": {
         "emailFormat": "E-postadressen är felaktig",
@@ -420,18 +420,18 @@
       "examinationDatesPage": {
         "title": "Examensdagar",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Examendagen {{date}} har lagts till",
+          "removingSucceeded": "Examendagen {{date}} har tagits bort"
         }
       },
       "homepage": {
         "cookieBanner": {
-          "buttonAriaLabel": null,
-          "buttonText": null,
-          "description": null,
-          "title": null
+          "buttonAriaLabel": "Acceptera cookies",
+          "buttonText": "Acceptera",
+          "description": "Den här webbplatsen använder nödvändiga cookies för att fungera.",
+          "title": "Acceptera cookies"
         },
-        "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer, där translatorer som har auktoriserats av Examensnämnden för auktoriserade translatorer registreras. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Observera att sökandet enligt språkpar ger som möjliga sökalternativ från inhemska språk ( finska, svenska, samiska språk) till främmande språk eller tvärtom samt mellan inhemska språk. I det offentliga registret över auktoriserade translatorer finns endast uppgifter om de translatorer som har gett sitt samtycke till att deras uppgifter publiceras på webben. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
+        "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Du kan lämna en kontaktförfrågan för de translatorer som du väljer med nedan för sökformuläret. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Sök auktoriserad translator"
         },
@@ -443,8 +443,8 @@
       "meetingDatesPage": {
         "title": "Mötesdagar",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Mötedagen {{date}} har lagts till",
+          "removingSucceeded": "Mötedagen {{date}} har tagits bort"
         }
       },
       "notFoundPage": {
