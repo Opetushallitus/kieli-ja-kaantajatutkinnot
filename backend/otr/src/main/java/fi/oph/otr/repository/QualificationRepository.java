@@ -1,5 +1,6 @@
 package fi.oph.otr.repository;
 
+import fi.oph.otr.model.ExaminationType;
 import fi.oph.otr.model.Qualification;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,7 +34,7 @@ public interface QualificationRepository extends JpaRepository<Qualification, Lo
   List<InterpreterQualificationProjection> findQualificationsForPublicListing();
 
   @Query(
-    "SELECT q.id" +
+    "SELECT q" +
     " FROM Qualification q" +
     " JOIN q.interpreter i" +
     " LEFT JOIN q.reminders qr" +
@@ -43,9 +44,24 @@ public interface QualificationRepository extends JpaRepository<Qualification, Lo
     " GROUP BY q.id, qr.id" +
     " HAVING COUNT(qr.id) = 0 OR MAX(qr.createdAt) < ?3"
   )
-  List<Long> findExpiringQualifications(
+  List<Qualification> findExpiringQualifications(
     LocalDate betweenStart,
     LocalDate betweenEnd,
     LocalDateTime previousReminderSentBefore
+  );
+
+  @Query(
+    "SELECT q" +
+    " FROM Qualification q" +
+    " WHERE q.interpreter.id = ?1" +
+    " AND q.examinationType = ?2" +
+    " AND q.fromLang = ?3" +
+    " AND q.toLang = ?4"
+  )
+  List<Qualification> findMatchingQualifications(
+    long interpreterId,
+    ExaminationType examinationType,
+    String fromLang,
+    String toLang
   );
 }
