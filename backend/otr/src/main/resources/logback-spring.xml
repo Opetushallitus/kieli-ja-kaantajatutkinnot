@@ -2,8 +2,8 @@
 <configuration debug="true">
 
     <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.home}/logs/oph-oikeustulkkirekisteri.log</File>
-        <Append>true</Append>
+        <file>${user.home}/logs/oph-otr.log</file>
+        <append>true</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSX} %-5p {%X{user}} [%t] %-5p %c: %m%n</pattern>
         </encoder>
@@ -12,21 +12,21 @@
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <maxIndex>20</maxIndex>
-            <FileNamePattern>./logs/oph-oikeustulkkirekisteri.log.%i</FileNamePattern>
+            <fileNamePattern>${user.home}/logs/oph-otr.log.%i</fileNamePattern>
         </rollingPolicy>
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
+            <maxFileSize>10MB</maxFileSize>
         </triggeringPolicy>
     </appender>
 
     <appender name="AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${user.home}/logs/auditlog_oikeustulkkirekisteri.log</file>
+        <file>${user.home}/logs/auditlog_otr.log</file>
         <append>true</append>
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${user.home}/logs/auditlog_oikeustulkkirekisteri.%i.log</fileNamePattern>
+            <fileNamePattern>${user.home}/logs/auditlog_otr.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
         </rollingPolicy>
@@ -45,7 +45,7 @@
         <root level="INFO">
             <appender-ref ref="STDOUT" />
         </root>
-        <logger name="fi.oph.otr" level="DEBUG"/>
+        <logger name="fi.oph.otr" level="DEBUG" />
     </springProfile>
 
     <springProfile name="!dev">
@@ -55,7 +55,8 @@
         <logger name="fi.oph.otr.audit.LoggerImpl" level="INFO" additivity="false">
             <appender-ref ref="AUDIT" />
         </logger>
-        <logger name="liquibase" level="INFO"/>
+        <logger name="fi.oph.otr" level="INFO" />
+        <logger name="liquibase" level="INFO" />
     </springProfile>
 
 </configuration>
