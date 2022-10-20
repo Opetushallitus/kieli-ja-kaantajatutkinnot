@@ -150,7 +150,17 @@ public class ClerkExamEventServiceTest {
     examEvent.setMaxParticipants(1);
 
     final Person person1 = Factory.person();
+    person1.setStreet("Katu 1");
+    person1.setPostalCode("00000");
+    person1.setTown("Kunta");
+    person1.setCountry("Maa");
+
     final Person person2 = Factory.person();
+    person2.setLastName("Aardvark");
+    person2.setFirstName("Anna Hannah");
+    person2.setEmail("anna@aardvark");
+    person2.setPhoneNumber("+1999000");
+
     final Enrollment enrollment1 = Factory.enrollment(examEvent, person1);
     final Enrollment enrollment2 = createEnrollmentWithNonDefaultAttributes(enrollment1, examEvent, person2);
     final ExamEvent otherExamEvent = Factory.examEvent(ExamLanguage.SV);
@@ -211,7 +221,6 @@ public class ClerkExamEventServiceTest {
       .orElseThrow(() ->
         new RuntimeException("DTO not found for expected Enrollment. Something is wrong with the test.")
       );
-    final ClerkPersonDTO personDTO = enrollmentDTO.person();
 
     assertEquals(expected.getVersion(), enrollmentDTO.version());
     assertEquals(expected.isOralSkill(), enrollmentDTO.oralSkill());
@@ -225,10 +234,21 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getPreviousEnrollmentDate(), enrollmentDTO.previousEnrollmentDate());
     assertEquals(expected.isDigitalCertificateConsent(), enrollmentDTO.digitalCertificateConsent());
 
-    // TODO: add more checks once ONR mock is integrated to the service
-    assertEquals(expected.getPerson().getId(), personDTO.id());
-    assertEquals(expected.getPerson().getVersion(), personDTO.version());
-
+    assertPersonDTO(expected.getPerson(), enrollmentDTO.person());
     assertEquals(0, enrollmentDTO.payments().size());
+  }
+
+  private void assertPersonDTO(final Person expected, final ClerkPersonDTO personDTO) {
+    assertEquals(expected.getId(), personDTO.id());
+    assertEquals(expected.getVersion(), personDTO.version());
+    assertEquals(expected.getIdentityNumber(), personDTO.identityNumber());
+    assertEquals(expected.getLastName(), personDTO.lastName());
+    assertEquals(expected.getFirstName(), personDTO.firstName());
+    assertEquals(expected.getEmail(), personDTO.email());
+    assertEquals(expected.getPhoneNumber(), personDTO.phoneNumber());
+    assertEquals(expected.getStreet(), personDTO.street());
+    assertEquals(expected.getPostalCode(), personDTO.postalCode());
+    assertEquals(expected.getTown(), personDTO.town());
+    assertEquals(expected.getCountry(), personDTO.country());
   }
 }

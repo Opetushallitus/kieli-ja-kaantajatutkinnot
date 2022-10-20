@@ -65,8 +65,6 @@ public class ClerkExamEventService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
-    // TODO: fetch personal datas by onrIds
-    final List<String> personOnrIds = enrollments.stream().map(Enrollment::getPerson).map(Person::getOnrId).toList();
     final List<ClerkEnrollmentDTO> enrollmentDTOs = enrollments.stream().map(this::getEnrollmentDTO).toList();
 
     final ClerkExamEventDTO examEventDTO = ClerkExamEventDTO
@@ -86,7 +84,6 @@ public class ClerkExamEventService {
     return examEventDTO;
   }
 
-  // TODO: personalData as second parameter
   private ClerkEnrollmentDTO getEnrollmentDTO(final Enrollment enrollment) {
     final ClerkPersonDTO personDTO = getClerkPersonDTO(enrollment.getPerson());
     final List<ClerkExamPaymentDTO> paymentDTOs = getClerkExamPaymentDTOs(enrollment);
@@ -110,22 +107,20 @@ public class ClerkExamEventService {
       .build();
   }
 
-  // TODO: personalData as second parameter
   private ClerkPersonDTO getClerkPersonDTO(final Person person) {
     return ClerkPersonDTO
       .builder()
       .id(person.getId())
       .version(person.getVersion())
-      .identityNumber("000000-0000")
-      .lastName("Tester")
-      .firstName("Foo Bar")
-      .nickName("Foo")
-      .email("foo.tester@vkt.invalid")
-      .phoneNumber("+358401234567")
-      .street(null)
-      .postalCode(null)
-      .town(null)
-      .country(null)
+      .identityNumber(person.getIdentityNumber())
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .email(person.getEmail())
+      .phoneNumber(person.getPhoneNumber())
+      .street(person.getStreet())
+      .postalCode(person.getPostalCode())
+      .town(person.getTown())
+      .country(person.getCountry())
       .build();
   }
 

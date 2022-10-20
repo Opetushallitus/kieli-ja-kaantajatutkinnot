@@ -69,6 +69,7 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2022-09-19-create-table-person	mikhuttu	migrations.xml	2022-09-28 13:03:11.580327	4	EXECUTED	8:1218e1e61ba39ea9793c670923ee5a80	createTable tableName=person; addUniqueConstraint constraintName=uk_person_onr_id, tableName=person		\N	4.9.1	\N	\N	4370191374
 2022-09-19-create-table-enrollment_status	mikhuttu	migrations.xml	2022-09-28 13:03:11.593403	5	EXECUTED	8:cb6dc3009864c99347b4097cd3d777a1	createTable tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status		\N	4.9.1	\N	\N	4370191374
 2022-09-19-create-table-enrollment	mikhuttu	migrations.xml	2022-09-28 13:03:11.613202	6	EXECUTED	8:edba4d8326701eb21ede9eb4afb6c628	createTable tableName=enrollment; addForeignKeyConstraint baseTableName=enrollment, constraintName=fk_enrollment_exam_event, referencedTableName=exam_event; addForeignKeyConstraint baseTableName=enrollment, constraintName=fk_enrollment_person, ref...		\N	4.9.1	\N	\N	4370191374
+2022-10-12-change-person-columns	mikhuttu	migrations.xml	2022-10-12 18:42:43.132484	7	EXECUTED	8:d27f77bcff4989716b0be1fb83639ccf	dropColumn tableName=person; addColumn tableName=person; addUniqueConstraint constraintName=uk_person_identity_number, tableName=person		\N	4.9.1	\N	\N	5600162993
 \.
 
 

@@ -150,7 +150,15 @@ CREATE TABLE public.person (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     modified_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
-    onr_id character varying(255) NOT NULL
+    identity_number character varying(255) NOT NULL,
+    last_name text NOT NULL,
+    first_name text NOT NULL,
+    email text NOT NULL,
+    phone_number text NOT NULL,
+    street text,
+    postal_code text,
+    town text,
+    country text
 );
 
 
@@ -235,11 +243,11 @@ ALTER TABLE ONLY public.exam_event
 
 
 --
--- Name: person uk_person_onr_id; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person uk_person_identity_number; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.person
-    ADD CONSTRAINT uk_person_onr_id UNIQUE (onr_id);
+    ADD CONSTRAINT uk_person_identity_number UNIQUE (identity_number);
 
 
 --

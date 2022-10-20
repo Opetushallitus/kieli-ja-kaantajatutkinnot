@@ -24,9 +24,33 @@ public class Person extends BaseEntity {
   @Column(name = "person_id", nullable = false)
   private long id;
 
-  @Column(name = "onr_id", nullable = false, unique = true)
   @Size(max = 255)
-  private String onrId;
+  @Column(name = "identity_number", nullable = false, unique = true)
+  private String identityNumber;
+
+  @Column(name = "last_name", nullable = false)
+  private String lastName;
+
+  @Column(name = "first_name", nullable = false)
+  private String firstName;
+
+  @Column(name = "email", nullable = false)
+  private String email;
+
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
+
+  @Column(name = "street")
+  private String street;
+
+  @Column(name = "postal_code")
+  private String postalCode;
+
+  @Column(name = "town")
+  private String town;
+
+  @Column(name = "country")
+  private String country;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();
