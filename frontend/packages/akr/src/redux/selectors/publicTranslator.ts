@@ -91,5 +91,11 @@ const filterByTown = (
   publicTranslator: PublicTranslator,
   filters: PublicTranslatorFilter
 ) => {
-  return publicTranslator.town?.toLowerCase() === filters.town.toLowerCase();
+  const [town, country] = filters.town.split('::');
+
+  return country
+    ? publicTranslator.town?.toLowerCase() === town.toLowerCase() &&
+        publicTranslator.country?.toLowerCase() === country.toLowerCase()
+    : publicTranslator.town?.toLowerCase() === town.toLowerCase() &&
+        !publicTranslator.country;
 };
