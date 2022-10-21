@@ -35,7 +35,9 @@
     { "name": "Oipouk", "country": "LVA" },
     { "name": "Oovrop", "country": "LVA" },
     { "name": "Ukrut", "country": "LVA" },
-    { "name": "Uluo", "country": "LVA" }
+    { "name": "Uluo", "country": "LVA" },
+    { "name": "Luxembourg" },
+    { "name": "Luxembourg", "country": "LUX" }
   ],
   "translators": [
     {
@@ -837,42 +839,22 @@
       "town": "Kemi"
     },
     {
-      "firstName": "Iida",
-      "id": 4106,
-      "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SEIN",
-          "to": "SV"
-        },
-        {
-          "from": "FI",
-          "to": "IT"
-        }
-      ],
-      "lastName": "Karjalainen"
+      "id": 998,
+      "firstName": "Jonna",
+      "lastName": "Kauto",
+      "town": "Luxembourg",
+      "languagePairs": [{ "from": "FI", "to": "EN" }]
     },
     {
-      "firstName": "Iiro",
-      "id": 834,
+      "id": 999,
+      "firstName": "Jarmo",
+      "lastName": "Jarmonen",
+      "town": "Luxembourg",
+      "country": "LUX",
       "languagePairs": [
-        {
-          "from": "FI",
-          "to": "SV"
-        },
-        {
-          "from": "SV",
-          "to": "FI"
-        },
-        {
-          "from": "SEPO",
-          "to": "SEKO"
-        }
-      ],
-      "lastName": "Kinnunen"
+        { "from": "DE", "to": "FI" },
+        { "from": "EN", "to": "FI" }
+      ]
     }
   ]
 }

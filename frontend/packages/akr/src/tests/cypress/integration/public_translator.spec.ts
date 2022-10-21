@@ -16,7 +16,7 @@ describe('PublicTranslatorFilters', () => {
   it('should allow filtering results by language pair, name and town', () => {
     onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (50)');
     onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
-    onPublicTranslatorsListing.expectTranslatorsCount(27);
+    onPublicTranslatorsListing.expectTranslatorsCount(25);
 
     onPublicTranslatorFilters.filterByTown('Helsinki');
     onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (2)');
@@ -37,10 +37,20 @@ describe('PublicTranslatorFilters', () => {
     onPublicTranslatorsListing.expectTranslatorsCount(1);
   });
 
+  it('should return results only with or without country name when filtering by town name', () => {
+    onPublicTranslatorFilters.filterByTown('Luxembourg');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (1)');
+    onPublicTranslatorsListing.expectTranslatorsCount(1);
+
+    onPublicTranslatorFilters.filterByTown('Luxembourg (Luxemburg)');
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (1)');
+    onPublicTranslatorsListing.expectTranslatorsCount(1);
+  });
+
   it('should clear filters and listed translators when the reset button is clicked', () => {
     onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
-    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (27)');
-    onPublicTranslatorsListing.expectTranslatorsCount(27);
+    onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (25)');
+    onPublicTranslatorsListing.expectTranslatorsCount(25);
 
     onPublicTranslatorFilters.emptySearch();
     onPublicTranslatorsListing.expectEmptyListing();

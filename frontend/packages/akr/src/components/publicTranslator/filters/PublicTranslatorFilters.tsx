@@ -225,11 +225,12 @@ export const PublicTranslatorFilters = ({
   };
 
   const townAsComboboxOption = (publicTown: PublicTown) => {
-    const value = publicTown.name;
+    const country = publicTown.country
+      ? translateCountry(publicTown.country)
+      : '';
+    const value = `${publicTown.name}::${publicTown.country ?? ''}`;
     const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
-    const label = publicTown.country
-      ? `${townName} (${translateCountry(publicTown.country)})`
-      : townName;
+    const label = country ? `${townName} (${country})` : townName;
 
     return { value, label };
   };
