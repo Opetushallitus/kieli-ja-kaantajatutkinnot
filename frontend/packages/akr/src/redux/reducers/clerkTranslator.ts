@@ -92,10 +92,10 @@ const clerkTranslatorSlice = createSlice({
       updatedTranslators.splice(spliceIndex, 1, translator);
       state.translators = updatedTranslators;
     },
-    setPaginatedPage(state, action: PayloadAction<number>) {
+    setPage(state, action: PayloadAction<number>) {
       state.pagination.page = action.payload;
     },
-    setRowsPerPaginatedPage(state, action: PayloadAction<number>) {
+    setRowsPerPage(state, action: PayloadAction<number>) {
       state.pagination.rowsPerPage = action.payload;
     },
   },
@@ -113,6 +113,6 @@ export const {
   selectClerkTranslator,
   storeClerkTranslators,
   upsertClerkTranslator,
-  setPaginatedPage,
-  setRowsPerPaginatedPage,
+  setPage,
+  setRowsPerPage,
 } = clerkTranslatorSlice.actions;

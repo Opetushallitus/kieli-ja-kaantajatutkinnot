@@ -20,8 +20,8 @@ import {
   deselectClerkTranslator,
   selectAllFilteredClerkTranslators,
   selectClerkTranslator,
-  setPaginatedPage,
-  setRowsPerPaginatedPage,
+  setPage,
+  setRowsPerPage,
 } from 'redux/reducers/clerkTranslator';
 import { setClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import {
@@ -202,10 +202,10 @@ export const ClerkTranslatorListing: FC = () => {
   );
   const dispatch = useAppDispatch();
   const filteredTranslators = useAppSelector(selectFilteredClerkTranslators);
-  const setPage = (page: number) => dispatch(setPaginatedPage(page));
+  const onPageChange = (page: number) => dispatch(setPage(page));
 
-  const setRowsPerPage = (rowsPerPage: number) =>
-    dispatch(setRowsPerPaginatedPage(rowsPerPage));
+  const onRowsPerPageChange = (rowsPerPage: number) =>
+    dispatch(setRowsPerPage(rowsPerPage));
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -238,9 +238,9 @@ export const ClerkTranslatorListing: FC = () => {
             getRowDetails={getRowDetails}
             rowsPerPageOptions={[10, 20, 50]}
             page={pagination.page}
-            setPage={setPage}
+            onPageChange={onPageChange}
             rowsPerPage={pagination.rowsPerPage}
-            setRowsPerPage={setRowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
             rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             className="table-layout-auto"
             stickyHeader

@@ -21,7 +21,7 @@ import { PermissionToPublish } from 'enums/app';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
 import {
   addClerkTranslatorFilter,
-  setPaginatedPage,
+  setPage,
 } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 import { AuthorisationUtils } from 'utils/authorisation';
@@ -57,7 +57,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
           name: event.target.value,
         })
       );
-      dispatch(setPaginatedPage(0));
+      dispatch(setPage(0));
     });
   };
 
@@ -65,7 +65,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
     (filter: keyof ClerkTranslatorFilter) =>
     ({}, value: AutocompleteValue) => {
       dispatch(addClerkTranslatorFilter({ [filter]: value?.value }));
-      dispatch(setPaginatedPage(0));
+      dispatch(setPage(0));
     };
 
   const getPermissionToPublishSelectValues = () =>

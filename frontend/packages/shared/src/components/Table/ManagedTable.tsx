@@ -4,25 +4,18 @@ import {
   TableBody,
   TablePagination,
 } from '@mui/material';
-import { ChangeEvent, Fragment, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment } from 'react';
 
 import { WithId } from '../../interfaces/with';
+import { PaginatedTableProps } from './Table';
 import './Table.scss';
 
-interface ManagedPaginatedTableProps<T extends WithId> {
-  data: Array<T>;
-  getRowDetails: (details: T) => JSX.Element;
-  rowsPerPageOptions: Array<number | { value: number; label: string }>;
-  className: string;
-  rowsPerPageLabel: string;
-  header?: JSX.Element;
-  headerContent?: JSX.Element;
-  stickyHeader?: boolean;
-  showBottomPagination?: boolean;
+interface ManagedPaginatedTableProps<T extends WithId>
+  extends Omit<PaginatedTableProps<T>, 'initialRowsPerPage'> {
   page: number;
-  setPage: (page: number) => void;
+  onPageChange: (page: number) => void;
   rowsPerPage: number;
-  setRowsPerPage: (rowsPerPage: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
 }
 
 export function ManagedPaginatedTable<T extends WithId>({
@@ -36,9 +29,9 @@ export function ManagedPaginatedTable<T extends WithId>({
   rowsPerPageLabel,
   headerContent,
   page,
-  setPage,
+  onPageChange,
   rowsPerPage,
-  setRowsPerPage,
+  onRowsPerPageChange,
 }: ManagedPaginatedTableProps<T>): JSX.Element {
   const PaginationDisplayedRowsLabel = ({
     from,
@@ -48,9 +41,11 @@ export function ManagedPaginatedTable<T extends WithId>({
     return `${from} - ${to} / ${count}`;
   };
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setRowsPerPage(+event.target.value);
+    onPageChange(0);
+    onRowsPerPageChange(+event.target.value);
   };
+
+  const count = data.length;
 
   const Pagination = ({
     showHeaderContent,
@@ -61,9 +56,9 @@ export function ManagedPaginatedTable<T extends WithId>({
       {showHeaderContent && headerContent}
       <TablePagination
         className="table__head-box__pagination"
-        count={data.length}
+        count={count}
         component="div"
-        onPageChange={(_event, newPage) => setPage(newPage)}
+        onPageChange={(_event, newPage) => onPageChange(newPage)}
         page={page}
         onRowsPerPageChange={handleRowsPerPageChange}
         rowsPerPage={rowsPerPage}

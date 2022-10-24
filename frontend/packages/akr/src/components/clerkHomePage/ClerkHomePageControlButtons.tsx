@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
   resetClerkTranslatorFilters,
-  setPaginatedPage,
+  setPage,
 } from 'redux/reducers/clerkTranslator';
 import { selectFilteredSelectedIds } from 'redux/selectors/clerkTranslator';
 
@@ -26,7 +26,7 @@ export const ClerkHomePageControlButtons = () => {
         variant={Variant.Outlined}
         onClick={() => {
           dispatch(resetClerkTranslatorFilters());
-          dispatch(setPaginatedPage(0));
+          dispatch(setPage(0));
         }}
       >
         {t('emptySelection')}
