@@ -121,7 +121,10 @@ public class ClerkInterpreterService {
     final List<ClerkQualificationDTO> qualificationDTOs = qualifications
       .stream()
       .map(this::createQualificationDTO)
-      .sorted(Comparator.comparing(ClerkQualificationDTO::beginDate).reversed())
+      .sorted(
+        // Comparing by id used to preserve ordering of qualifications in UI on interpreter qualification updates
+        Comparator.comparing(ClerkQualificationDTO::beginDate).thenComparing(ClerkQualificationDTO::id).reversed()
+      )
       .toList();
     final ClerkInterpreterQualificationsDTO interpreterQualificationsDTO = splitQualificationDTOs(qualificationDTOs);
 
