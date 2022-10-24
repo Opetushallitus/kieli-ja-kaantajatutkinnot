@@ -1,8 +1,11 @@
 package fi.oph.otr.scheduled;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.model.Email;
@@ -24,6 +27,7 @@ import org.mockito.Captor;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -46,7 +50,14 @@ public class ExpiringQualificationsEmailCreatorTest {
 
   @BeforeEach
   public void setup() {
-    emailCreator = new ExpiringQualificationsEmailCreator(qualificationRepository, clerkEmailService);
+    doSetup(true);
+  }
+
+  private void doSetup(final boolean createExpiryEmailsEnabled) {
+    final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("app.create-expiry-emails-enabled", Boolean.class))
+      .thenReturn(createExpiryEmailsEnabled);
+    emailCreator = new ExpiringQualificationsEmailCreator(qualificationRepository, clerkEmailService, environment);
   }
 
   @Test
@@ -119,6 +130,20 @@ public class ExpiringQualificationsEmailCreatorTest {
       .collect(Collectors.toSet());
     final Set<Long> qualificationIds = Set.copyOf(longCaptor.getAllValues());
     assertEquals(expectedQualificationIds, qualificationIds);
+  }
+
+  @Test
+  public void testCheckExpiringQualificationsDisabled() {
+    doSetup(false);
+
+    final MeetingDate meetingDate = Factory.meetingDate();
+    entityManager.persist(meetingDate);
+
+    createQualification(meetingDate, LocalDate.now().plusDays(10));
+
+    emailCreator.checkExpiringQualifications();
+
+    verifyNoInteractions(clerkEmailService);
   }
 
   private Qualification createQualification(final MeetingDate meetingDate, final LocalDate endDate) {
