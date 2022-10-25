@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.3.10] - 2022-10-11
+## [1.4.0] - 2022-10-25
+
+### Changed
+
+- Added ManagedPaginatedTable to control pagination state outside the component
+
+## [1.3.10] - 2022-10-14
 
 ### Changed
 

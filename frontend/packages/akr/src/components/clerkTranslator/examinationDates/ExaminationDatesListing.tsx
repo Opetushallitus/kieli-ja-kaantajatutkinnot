@@ -2,7 +2,12 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC } from 'react';
-import { CustomIconButton, H3, PaginatedTable, Text } from 'shared/components';
+import {
+  CustomIconButton,
+  H3,
+  ManagedPaginatedTable,
+  Text,
+} from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
@@ -11,7 +16,11 @@ import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExaminationDateStatus } from 'enums/examinationDate';
 import { ExaminationDate } from 'interfaces/examinationDate';
-import { removeExaminationDate } from 'redux/reducers/examinationDate';
+import {
+  removeExaminationDate,
+  setPage,
+  setRowsPerPage,
+} from 'redux/reducers/examinationDate';
 import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
@@ -98,12 +107,20 @@ export const ExaminationDatesListing: FC = () => {
   const {
     examinationDates: { status },
     filter,
+    pagination,
   } = useAppSelector(examinationDatesSelector);
+  const dispatch = useAppDispatch();
+
   const { upcoming, passed } = useAppSelector(selectExaminationDatesByStatus);
   const datesToList =
     filter.examinationDateStatus === ExaminationDateStatus.Upcoming
       ? upcoming
       : passed;
+
+  const onPageChange = (page: number) => dispatch(setPage(page));
+
+  const onRowsPerPageChange = (rowsPerPage: number) =>
+    dispatch(setRowsPerPage(rowsPerPage));
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -122,15 +139,18 @@ export const ExaminationDatesListing: FC = () => {
       );
     case APIResponseStatus.Success:
       return (
-        <PaginatedTable
+        <ManagedPaginatedTable
           data={datesToList}
           header={<ListingHeader />}
           getRowDetails={(examinationDate) => getRowDetails(examinationDate)}
-          initialRowsPerPage={10}
           rowsPerPageOptions={[10, 20, 50]}
+          page={pagination.page}
+          onPageChange={onPageChange}
+          rowsPerPage={pagination.rowsPerPage}
+          onRowsPerPageChange={onRowsPerPageChange}
           className="examination-dates__listing table-layout-auto"
-          stickyHeader
           rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
+          stickyHeader
         />
       );
   }

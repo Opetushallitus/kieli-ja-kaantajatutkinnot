@@ -2,7 +2,7 @@ import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { H2, H3, PaginatedTable, Text } from 'shared/components';
+import { H2, H3, ManagedPaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -20,6 +20,8 @@ import {
   deselectClerkTranslator,
   selectAllFilteredClerkTranslators,
   selectClerkTranslator,
+  setPage,
+  setRowsPerPage,
 } from 'redux/reducers/clerkTranslator';
 import { setClerkTranslatorOverview } from 'redux/reducers/clerkTranslatorOverview';
 import {
@@ -195,10 +197,15 @@ const ListingHeader: FC = () => {
 
 export const ClerkTranslatorListing: FC = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
-  const { status, selectedTranslators } = useAppSelector(
+  const { status, selectedTranslators, pagination } = useAppSelector(
     clerkTranslatorsSelector
   );
+  const dispatch = useAppDispatch();
   const filteredTranslators = useAppSelector(selectFilteredClerkTranslators);
+  const onPageChange = (page: number) => dispatch(setPage(page));
+
+  const onRowsPerPageChange = (rowsPerPage: number) =>
+    dispatch(setRowsPerPage(rowsPerPage));
 
   switch (status) {
     case APIResponseStatus.NotStarted:
@@ -225,12 +232,15 @@ export const ClerkTranslatorListing: FC = () => {
               } ${t('component.table.selectedItems')}`}
             </H2>
           </div>
-          <PaginatedTable
+          <ManagedPaginatedTable
             data={filteredTranslators}
             header={<ListingHeader />}
             getRowDetails={getRowDetails}
-            initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
+            page={pagination.page}
+            onPageChange={onPageChange}
+            rowsPerPage={pagination.rowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
             rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             className="table-layout-auto"
             stickyHeader

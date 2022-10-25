@@ -4,7 +4,7 @@ import {
   CustomCircularProgress,
   H2,
   H3,
-  PaginatedTable,
+  ManagedPaginatedTable,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -12,8 +12,9 @@ import { useWindowProperties } from 'shared/hooks';
 import { PublicTranslatorListingHeader } from 'components/publicTranslator/listing/PublicTranslatorListingHeader';
 import { PublicTranslatorListingRow } from 'components/publicTranslator/listing/PublicTranslatorListingRow';
 import { useAppTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicTranslator } from 'interfaces/publicTranslator';
+import { setPage, setRowsPerPage } from 'redux/reducers/publicTranslator';
 import { publicTranslatorsSelector } from 'redux/selectors/publicTranslator';
 
 export const PublicTranslatorListing = ({
@@ -25,9 +26,11 @@ export const PublicTranslatorListing = ({
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { isPhone } = useWindowProperties();
-  const { selectedTranslators, towns } = useAppSelector(
+  const { selectedTranslators, towns, pagination } = useAppSelector(
     publicTranslatorsSelector
   );
+  const dispatch = useAppDispatch();
+
   const selected = selectedTranslators.length;
 
   const townToSv = new Map(towns.map((t) => [t.name, t.nameSv]));
@@ -36,6 +39,11 @@ export const PublicTranslatorListing = ({
       <PublicTranslatorListingRow translator={translator} townToSv={townToSv} />
     );
   };
+
+  const onPageChange = (page: number) => dispatch(setPage(page));
+
+  const onRowsPerPageChange = (rowsPerPage: number) =>
+    dispatch(setRowsPerPage(rowsPerPage));
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -75,13 +83,16 @@ export const PublicTranslatorListing = ({
               </H2>
             </div>
           </div>
-          <PaginatedTable
+          <ManagedPaginatedTable
             className="translator-listing"
             data={translators}
             header={<PublicTranslatorListingHeader />}
             getRowDetails={getRowDetails}
-            initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
+            page={pagination.page}
+            onPageChange={onPageChange}
+            rowsPerPage={pagination.rowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
             rowsPerPageLabel={t('component.table.pagination.rowsPerPage')}
             stickyHeader
           />

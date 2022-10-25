@@ -4,36 +4,35 @@ import {
   TableBody,
   TablePagination,
 } from '@mui/material';
-import { ChangeEvent, Fragment, useState } from 'react';
+import { ChangeEvent, Fragment } from 'react';
 
 import { WithId } from '../../interfaces/with';
+import { PaginatedTableProps } from './Table';
 import './Table.scss';
 
-export interface PaginatedTableProps<T extends WithId> {
-  data: Array<T>;
-  getRowDetails: (details: T) => JSX.Element;
-  initialRowsPerPage: number;
-  rowsPerPageOptions: Array<number | { value: number; label: string }>;
-  className: string;
-  rowsPerPageLabel: string;
-  header?: JSX.Element;
-  headerContent?: JSX.Element;
-  stickyHeader?: boolean;
-  showBottomPagination?: boolean;
+interface ManagedPaginatedTableProps<T extends WithId>
+  extends Omit<PaginatedTableProps<T>, 'initialRowsPerPage'> {
+  page: number;
+  onPageChange: (page: number) => void;
+  rowsPerPage: number;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
 }
 
-export function PaginatedTable<T extends WithId>({
+export function ManagedPaginatedTable<T extends WithId>({
   header,
   data,
   getRowDetails,
-  initialRowsPerPage,
   rowsPerPageOptions,
   className,
   stickyHeader,
   showBottomPagination = true,
   rowsPerPageLabel,
   headerContent,
-}: PaginatedTableProps<T>): JSX.Element {
+  page,
+  onPageChange,
+  rowsPerPage,
+  onRowsPerPageChange,
+}: ManagedPaginatedTableProps<T>): JSX.Element {
   const PaginationDisplayedRowsLabel = ({
     from,
     to,
@@ -41,13 +40,12 @@ export function PaginatedTable<T extends WithId>({
   }: LabelDisplayedRowsArgs) => {
     return `${from} - ${to} / ${count}`;
   };
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setRowsPerPage(+event.target.value);
+    onPageChange(0);
+    onRowsPerPageChange(+event.target.value);
   };
+
+  const count = data.length;
 
   const Pagination = ({
     showHeaderContent,
@@ -58,9 +56,9 @@ export function PaginatedTable<T extends WithId>({
       {showHeaderContent && headerContent}
       <TablePagination
         className="table__head-box__pagination"
-        count={data.length}
+        count={count}
         component="div"
-        onPageChange={(_event, newPage) => setPage(newPage)}
+        onPageChange={(_event, newPage) => onPageChange(newPage)}
         page={page}
         onRowsPerPageChange={handleRowsPerPageChange}
         rowsPerPage={rowsPerPage}

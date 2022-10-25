@@ -28,6 +28,7 @@ export { OPHLogoViewer } from './OPHLogoViewer/OPHLogoViewer';
 export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
 export { PaginatedTable } from './Table/Table';
+export { ManagedPaginatedTable } from './Table/ManagedTable';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
 export { LangSelector } from './LangSelector/LangSelector';
 export { InfoText } from './InfoText/InfoText';

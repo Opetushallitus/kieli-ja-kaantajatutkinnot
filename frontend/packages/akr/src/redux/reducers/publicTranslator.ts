@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { SearchFilter } from 'enums/app';
+import { PaginationState } from 'interfaces/pagination';
 import {
   PublicTranslatorFilter,
   PublicTranslatorResponse,
@@ -11,6 +12,7 @@ interface PublicTranslatorState extends PublicTranslatorResponse {
   status: APIResponseStatus;
   selectedTranslators: Array<number>;
   filters: PublicTranslatorFilter;
+  pagination: PaginationState;
 }
 
 const initialState: PublicTranslatorState = {
@@ -26,6 +28,10 @@ const initialState: PublicTranslatorState = {
   },
   langs: { from: [], to: [] },
   towns: [],
+  pagination: {
+    page: 0,
+    rowsPerPage: 10,
+  },
 };
 
 const publicTranslatorSlice = createSlice({
@@ -78,6 +84,12 @@ const publicTranslatorSlice = createSlice({
       state.langs = action.payload.langs;
       state.towns = action.payload.towns;
     },
+    setPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setRowsPerPage(state, action: PayloadAction<number>) {
+      state.pagination.rowsPerPage = action.payload;
+    },
   },
 });
 
@@ -93,4 +105,6 @@ export const {
   selectPublicTranslator,
   setPublicTranslatorFilters,
   storePublicTranslators,
+  setPage,
+  setRowsPerPage,
 } = publicTranslatorSlice.actions;

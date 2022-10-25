@@ -4,7 +4,10 @@ import { Color, Variant } from 'shared/enums';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { resetClerkTranslatorFilters } from 'redux/reducers/clerkTranslator';
+import {
+  resetClerkTranslatorFilters,
+  setPage,
+} from 'redux/reducers/clerkTranslator';
 import { selectFilteredSelectedIds } from 'redux/selectors/clerkTranslator';
 
 export const ClerkHomePageControlButtons = () => {
@@ -21,7 +24,10 @@ export const ClerkHomePageControlButtons = () => {
         data-testid="clerk-translator-registry__reset-filters-btn"
         color={Color.Secondary}
         variant={Variant.Outlined}
-        onClick={() => dispatch(resetClerkTranslatorFilters())}
+        onClick={() => {
+          dispatch(resetClerkTranslatorFilters());
+          dispatch(setPage(0));
+        }}
       >
         {t('emptySelection')}
       </CustomButton>

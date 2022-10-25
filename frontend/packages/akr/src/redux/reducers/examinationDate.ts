@@ -7,7 +7,7 @@ import {
   ExaminationDate,
   ExaminationDateFilter,
 } from 'interfaces/examinationDate';
-
+import { PaginationState } from 'interfaces/pagination';
 interface ExaminationDatesState {
   dates: Array<ExaminationDate>;
   status: APIResponseStatus;
@@ -28,6 +28,7 @@ interface ExaminationDateState {
   addExaminationDate: AddExaminationDateState;
   removeExaminationDate: RemoveExaminationDateState;
   filter: ExaminationDateFilter;
+  pagination: PaginationState;
 }
 
 const initialState: ExaminationDateState = {
@@ -44,6 +45,10 @@ const initialState: ExaminationDateState = {
     date: undefined,
   },
   filter: { examinationDateStatus: ExaminationDateStatus.Upcoming },
+  pagination: {
+    page: 0,
+    rowsPerPage: 10,
+  },
 };
 
 const examinationDateSlice = createSlice({
@@ -99,6 +104,12 @@ const examinationDateSlice = createSlice({
       state.examinationDates.dates = action.payload;
       state.examinationDates.status = APIResponseStatus.Success;
     },
+    setPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setRowsPerPage(state, action: PayloadAction<number>) {
+      state.pagination.rowsPerPage = action.payload;
+    },
   },
 });
 
@@ -116,4 +127,6 @@ export const {
   resetExaminationDateRemove,
   setExaminationDateFilters,
   storeExaminationDates,
+  setPage,
+  setRowsPerPage,
 } = examinationDateSlice.actions;
