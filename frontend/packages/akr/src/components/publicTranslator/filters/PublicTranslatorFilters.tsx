@@ -44,6 +44,7 @@ import {
   deselectAllPublicTranslators,
   emptyPublicTranslatorFilters,
   removePublicTranslatorFilterError,
+  setPage,
   setPublicTranslatorFilters,
 } from 'redux/reducers/publicTranslator';
 import {
@@ -131,6 +132,7 @@ export const PublicTranslatorFilters = ({
       setShowTable(true);
       setSearchButtonDisabled(true);
     }
+    dispatch(setPage(0));
   };
 
   const scrollToSearch = () => {
@@ -149,6 +151,7 @@ export const PublicTranslatorFilters = ({
     scrollToSearch();
     setShowTable(false);
     setSearchButtonDisabled(false);
+    dispatch(setPage(0));
   };
 
   const handleComboboxInputChange =
