@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [Released]
+## [1.4.1] - 2022-10-25
+
+### Changed
+
+- CookieBanner consent is now stored in a cookie
 
 ## [1.4.0] - 2022-10-25
 

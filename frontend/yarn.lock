@@ -2517,7 +2517,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.4.0"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.4.1"
   languageName: unknown
   linkType: soft
 
@@ -2554,6 +2554,7 @@ __metadata:
     "@testing-library/react": ^13.3.0
     "@testing-library/user-event": ^14.4.2
     "@types/jest": ^27.4.1
+    "@types/js-cookie": ^3.0.2
     "@types/node": ^18.6.4
     "@types/react": ^18.0.15
     "@types/react-dom": ^18.0.6
@@ -2586,6 +2587,7 @@ __metadata:
     i18next: ^21.8.16
     i18next-browser-languagedetector: ^6.1.4
     jest: ^27.5.1
+    js-cookie: ^3.0.1
     mini-css-extract-plugin: ^2.6.1
     msw: ^0.47.4
     normalize.css: ^8.0.1
@@ -2614,7 +2616,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.4.0":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.4.1":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -3054,6 +3056,13 @@ __metadata:
     jest-matcher-utils: ^27.0.0
     pretty-format: ^27.0.0
   checksum: 7e11c6826aa429ad990dc262e4e4b54aa36573287fddf15773e4137f07d11d3105f0dd9f1baff73252160a057df23f5529bb83b1bf83cd3f45f9460a5ca5c22e
+  languageName: node
+  linkType: hard
+
+"@types/js-cookie@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/js-cookie@npm:3.0.2"
+  checksum: 7ab964288dd26373e134ed0bcde4a7dbea7e6f5de1805e2d1e48eac847e89a0e7f5fdc9164c37931680ec97c6e6e5a73e3e4039e0d08527c2e21badd7bee62d1
   languageName: node
   linkType: hard
 
@@ -8568,6 +8577,13 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: 96f1d69042b3c6dfc695f2a4e4b0db38af6fb78582ad1a02beaa57cfcd77cbd31567d7d865c1c85709b7c3e176eefa3b2035ffecd646005f15d8ef528eccf205
+  languageName: node
+  linkType: hard
+
+"js-cookie@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "js-cookie@npm:3.0.1"
+  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
   languageName: node
   linkType: hard
 

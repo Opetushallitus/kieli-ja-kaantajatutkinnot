@@ -1,11 +1,13 @@
+import Cookies from 'js-cookie';
+
 import { AppRoutes } from 'enums/app';
 
 Cypress.Commands.add('openPublicHomePage', (acceptCookies = true) => {
   cy.visit(AppRoutes.PublicHomePage, {
-    onBeforeLoad: (window) => {
-      window.sessionStorage.clear();
+    onBeforeLoad: () => {
+      Cookies.remove('cookie-consent-akr');
       if (acceptCookies) {
-        window.sessionStorage.setItem('cookie-consent-akr', 'true');
+        Cookies.set('cookie-consent-akr', 'true');
       }
     },
   });

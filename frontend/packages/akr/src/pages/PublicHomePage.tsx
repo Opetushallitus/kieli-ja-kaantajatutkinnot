@@ -27,8 +27,9 @@ export const PublicHomePage: FC = () => {
       <CookieBanner
         title={t('title')}
         buttonText={t('buttonText')}
-        cookieTag="akr"
+        cookieTag="cookie-consent-akr"
         buttonAriaLabel={t('buttonAriaLabel')}
+        path="/akr"
       >
         <Text data-testid="cookie-banner-description">{t('description')}</Text>
       </CookieBanner>

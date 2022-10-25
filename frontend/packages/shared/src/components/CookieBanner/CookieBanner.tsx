@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { Color, Variant } from '../../enums/common';
@@ -12,6 +13,7 @@ type CookieBannerProps = {
   buttonText: string;
   cookieTag: string;
   buttonAriaLabel: string;
+  path: string;
 };
 
 export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
@@ -20,19 +22,23 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   cookieTag,
   children,
   buttonAriaLabel,
+  path,
 }) => {
   const [open, setOpen] = useState(false);
 
   const { isDesktop } = useWindowProperties();
 
   useEffect(() => {
-    if (!sessionStorage.getItem(`cookie-consent-${cookieTag}`)) {
+    if (!Cookies.get(cookieTag)) {
       setOpen(true);
     }
   }, [setOpen, cookieTag]);
 
   const handleAcceptCookies = () => {
-    sessionStorage.setItem(`cookie-consent-${cookieTag}`, 'true');
+    Cookies.set(cookieTag, 'true', {
+      expires: 365,
+      path,
+    });
     setOpen(false);
   };
 
