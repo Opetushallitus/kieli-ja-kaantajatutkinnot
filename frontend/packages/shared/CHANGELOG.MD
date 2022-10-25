@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- CookieBanner Consent is now stored in localStorage
+- CookieBanner consent is now stored in a cookie
 
 ## [1.4.0] - 2022-10-25
 

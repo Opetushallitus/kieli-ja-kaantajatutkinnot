@@ -13,6 +13,7 @@ type CookieBannerProps = {
   buttonText: string;
   cookieTag: string;
   buttonAriaLabel: string;
+  path: string;
 };
 
 export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
@@ -21,21 +22,22 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   cookieTag,
   children,
   buttonAriaLabel,
+  path,
 }) => {
   const [open, setOpen] = useState(false);
 
   const { isDesktop } = useWindowProperties();
 
   useEffect(() => {
-    if (!Cookies.get(`cookie-consent-${cookieTag}`)) {
+    if (!Cookies.get(cookieTag)) {
       setOpen(true);
     }
   }, [setOpen, cookieTag]);
 
   const handleAcceptCookies = () => {
-    Cookies.set(`cookie-consent-${cookieTag}`, 'true', {
+    Cookies.set(cookieTag, 'true', {
       expires: 365,
-      path: '/akr',
+      path,
     });
     setOpen(false);
   };
