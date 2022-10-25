@@ -7,15 +7,11 @@ import {
   ClerkTranslatorFilter,
 } from 'interfaces/clerkTranslator';
 import { LanguagePairsDict } from 'interfaces/languagePair';
+import { PaginationState } from 'interfaces/pagination';
 
 interface ClerkState {
   translators: Array<ClerkTranslator>;
   langs: LanguagePairsDict;
-}
-
-interface PaginationState {
-  page: number;
-  rowsPerPage: number;
 }
 
 interface ClerkUIState extends ClerkState {

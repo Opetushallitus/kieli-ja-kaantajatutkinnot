@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { MeetingDateStatus } from 'enums/meetingDate';
 import { MeetingDate, MeetingDateFilter } from 'interfaces/meetingDate';
+import { PaginationState } from 'interfaces/pagination';
 
 interface MeetingDatesState {
   filters: MeetingDateFilter;
@@ -25,6 +26,7 @@ interface MeetingDateState {
   meetingDates: MeetingDatesState;
   addMeetingDate: AddMeetingDateState;
   removeMeetingDate: RemoveMeetingDateState;
+  pagination: PaginationState;
 }
 
 const initialState: MeetingDateState = {
@@ -42,6 +44,10 @@ const initialState: MeetingDateState = {
   removeMeetingDate: {
     status: APIResponseStatus.NotStarted,
     date: undefined,
+  },
+  pagination: {
+    page: 0,
+    rowsPerPage: 10,
   },
 };
 
@@ -90,6 +96,12 @@ const meetingDateSlice = createSlice({
       state.meetingDates.status = APIResponseStatus.Success;
       state.meetingDates.meetingDates = action.payload;
     },
+    setPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setRowsPerPage(state, action: PayloadAction<number>) {
+      state.pagination.rowsPerPage = action.payload;
+    },
   },
 });
 
@@ -107,4 +119,6 @@ export const {
   resetMeetingDateRemove,
   setMeetingDateFilters,
   storeMeetingDates,
+  setPage,
+  setRowsPerPage,
 } = meetingDateSlice.actions;
