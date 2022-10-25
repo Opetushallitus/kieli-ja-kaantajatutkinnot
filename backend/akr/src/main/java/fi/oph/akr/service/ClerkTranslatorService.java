@@ -30,7 +30,6 @@ import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.koodisto.CountryService;
-import fi.oph.akr.util.AuthorisationProjectionComparator;
 import fi.oph.akr.util.AuthorisationUtil;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
@@ -38,6 +37,7 @@ import fi.oph.akr.util.exception.DataIntegrityViolationExceptionUtil;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -52,8 +52,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkTranslatorService {
-
-  private static final AuthorisationProjectionComparator AUTHORISATION_PROJECTION_COMPARATOR = new AuthorisationProjectionComparator();
 
   @Resource
   private final AuthorisationRepository authorisationRepository;
@@ -153,7 +151,6 @@ public class ClerkTranslatorService {
   private List<AuthorisationDTO> createAuthorisationDTOs(final List<AuthorisationProjection> authorisationProjections) {
     return authorisationProjections
       .stream()
-      .sorted(AUTHORISATION_PROJECTION_COMPARATOR.reversed())
       .map(authProjection -> {
         final LanguagePairDTO languagePairDTO = LanguagePairDTO
           .builder()
@@ -174,6 +171,13 @@ public class ClerkTranslatorService {
           .examinationDate(authProjection.examinationDate())
           .build();
       })
+      .sorted(
+        // Comparing by id used to preserve ordering of authorisations in UI on translator authorisation updates
+        Comparator
+          .comparing(AuthorisationDTO::termBeginDate, Comparator.nullsLast(Comparator.naturalOrder()))
+          .thenComparing(AuthorisationDTO::id)
+          .reversed()
+      )
       .toList();
   }
 
