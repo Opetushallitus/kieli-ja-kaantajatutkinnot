@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,13 +31,8 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class PublicTranslatorService {
 
-  @Resource
   private final AuthorisationRepository authorisationRepository;
-
-  @Resource
   private final TranslatorRepository translatorRepository;
-
-  @Resource
   private final PostalCodeService postalCodeService;
 
   @Cacheable(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS)

@@ -10,7 +10,6 @@ import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import java.util.List;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MeetingDateService {
 
-  @Resource
   private final MeetingDateRepository meetingDateRepository;
-
-  @Resource
   private final AuditService auditService;
 
   @Transactional(readOnly = true)

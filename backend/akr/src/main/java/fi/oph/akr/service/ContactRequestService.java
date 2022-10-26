@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,28 +34,13 @@ public class ContactRequestService {
 
   private static final Logger LOG = LoggerFactory.getLogger(ContactRequestService.class);
 
-  @Resource
   private final AuthorisationRepository authorisationRepository;
-
-  @Resource
   private final ContactRequestRepository contactRequestRepository;
-
-  @Resource
   private final ContactRequestTranslatorRepository contactRequestTranslatorRepository;
-
-  @Resource
   private final EmailRepository emailRepository;
-
-  @Resource
   private final EmailService emailService;
-
-  @Resource
   private final TemplateRenderer templateRenderer;
-
-  @Resource
   private final TranslatorRepository translatorRepository;
-
-  @Resource
   private final Environment environment;
 
   @Transactional
