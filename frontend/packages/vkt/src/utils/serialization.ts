@@ -8,6 +8,10 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
+import {
+  PublicReservation,
+  PublicReservationResponse,
+} from 'interfaces/publicReservation';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -17,6 +21,15 @@ export class SerializationUtils {
       ...publicExamEvent,
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
+    };
+  }
+
+  static deserializePublicReservation(
+    publicReservation: PublicReservationResponse
+  ): PublicReservation {
+    return {
+      ...publicReservation,
+      expiresAt: dayjs(publicReservation.expiresAt),
     };
   }
 

@@ -1,7 +1,10 @@
 package fi.oph.vkt.repository;
 
+import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.persistence.Tuple;
@@ -19,8 +22,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
   )
   Stream<Tuple> _countActiveReservationsByExamEvent();
 
-  default Map<Long, Integer> countActiveReservationsByExamEvent() {
+  default Map<Long, Long> countActiveReservationsByExamEvent() {
     return _countActiveReservationsByExamEvent()
-      .collect(Collectors.toMap(t -> t.get("examEventId", Long.class), t -> t.get("count", Long.class).intValue()));
+      .collect(Collectors.toMap(t -> t.get("examEventId", Long.class), t -> t.get("count", Long.class)));
   }
+
+  Optional<Reservation> findByExamEventAndPerson(ExamEvent examEvent, Person person);
 }

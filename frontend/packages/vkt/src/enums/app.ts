@@ -12,6 +12,11 @@ export enum AppRoutes {
   NotFoundPage = '*',
 }
 
+export enum PublicUIViews {
+  ExamEventListing = 'ExamEventListing',
+  Reservation = 'Reservation',
+}
+
 export enum ExamLanguage {
   ALL = 'ALL',
   FI = 'FI',

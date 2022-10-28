@@ -1,11 +1,13 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { CustomButton, H3 } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { loadReservation } from 'redux/reducers/publicReservation';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
+import { publicReservationSelector } from 'redux/selectors/publicReservation';
 
 export const PublicExamEventListingHeader = () => {
   const { t } = usePublicTranslation({
@@ -14,9 +16,20 @@ export const PublicExamEventListingHeader = () => {
   const { isPhone } = useWindowProperties();
 
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
+  const { status } = useAppSelector(publicReservationSelector);
+
+  const isReservationCreationInProgress =
+    status === APIResponseStatus.InProgress;
 
   const enrollButtonDisabled =
-    !selectedExamEvent || selectedExamEvent.hasCongestion;
+    !selectedExamEvent ||
+    selectedExamEvent.hasCongestion ||
+    isReservationCreationInProgress;
+
+  const dispatch = useAppDispatch();
+
+  const startEnrollment = () =>
+    selectedExamEvent && dispatch(loadReservation(selectedExamEvent.id));
 
   return (
     <TableHead>
@@ -36,14 +49,19 @@ export const PublicExamEventListingHeader = () => {
             <H3>{t('header.openings')}</H3>
           </TableCell>
           <TableCell>
-            <CustomButton
-              data-testid="public-exam-events__enroll-btn"
-              color={Color.Secondary}
-              variant={Variant.Contained}
-              disabled={enrollButtonDisabled}
+            <LoadingProgressIndicator
+              isLoading={isReservationCreationInProgress}
             >
-              {t('enroll')}
-            </CustomButton>
+              <CustomButton
+                data-testid="public-exam-events__enroll-btn"
+                color={Color.Secondary}
+                variant={Variant.Contained}
+                disabled={enrollButtonDisabled}
+                onClick={startEnrollment}
+              >
+                {t('enroll')}
+              </CustomButton>
+            </LoadingProgressIndicator>
           </TableCell>
         </TableRow>
       )}

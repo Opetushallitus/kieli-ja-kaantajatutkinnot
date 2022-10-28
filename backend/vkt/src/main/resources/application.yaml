@@ -55,3 +55,6 @@ cas:
   service-url: ${virkailija.cas.service-url:http://localhost:${server.port}/vkt}
   url: ${virkailija.cas.url:http://localhost:${server.port}/vkt}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
+app:
+  reservation:
+    duration: PT30M

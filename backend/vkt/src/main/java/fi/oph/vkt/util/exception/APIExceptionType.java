@@ -5,6 +5,8 @@ package fi.oph.vkt.util.exception;
  * The respective frontend enum is `APIError`.
  */
 public enum APIExceptionType {
+  CREATE_RESERVATION_CONGESTION,
+  CREATE_RESERVATION_REGISTRATION_CLOSED,
   INVALID_VERSION;
 
   public String getCode() {

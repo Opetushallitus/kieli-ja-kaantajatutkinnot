@@ -46,7 +46,7 @@ public class ExamEvent extends BaseEntity {
   private boolean isVisible;
 
   @Column(name = "max_participants", nullable = false)
-  private int maxParticipants;
+  private long maxParticipants;
 
   @OneToMany(mappedBy = "examEvent")
   private List<Enrollment> enrollments = new ArrayList<>();

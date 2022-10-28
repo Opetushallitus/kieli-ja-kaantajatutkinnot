@@ -16,15 +16,19 @@ import {
   useCommonTranslation,
   usePublicTranslation,
 } from 'configs/i18n';
-import { AppRoutes } from 'enums/app';
+import { useAppSelector } from 'configs/redux';
+import { AppRoutes, PublicUIViews } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
+import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const Footer = () => {
   const { t } = usePublicTranslation({ keyPrefix: 'vkt.component.footer' });
   const translateCommon = useCommonTranslation();
 
   const { isAuthenticated } = useAuthentication();
-  const showFooter = !isAuthenticated; // TODO: add current view checks for public UI
+  const { currentView } = useAppSelector(publicUIViewSelector);
+  const showFooter =
+    !isAuthenticated && currentView !== PublicUIViews.Reservation;
 
   return (
     <footer>

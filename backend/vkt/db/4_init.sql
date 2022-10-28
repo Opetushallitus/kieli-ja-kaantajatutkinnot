@@ -260,6 +260,17 @@ FROM person ORDER BY person_id
             LIMIT (SELECT max_participants / 2 FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3)
             OFFSET (SELECT max_participants FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3);
 
+-- Insert enrollments to 5th event by id: 9/10 of places taken
+INSERT INTO enrollment(exam_event_id, person_id,
+                       skill_oral, skill_textual, skill_understanding,
+                       partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
+                       status, digital_certificate_consent)
+SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 4), person_id,
+       true, true, true,
+       true, true, true, true,
+       'PAID', true
+FROM person ORDER BY person_id LIMIT (SELECT max_participants - 1 FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 4);
+
 -- Insert one cancelled enrollment to all
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,

@@ -1,5 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Grid, Paper } from '@mui/material';
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { ExtLink, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -7,7 +8,8 @@ import { APIResponseStatus, Severity } from 'shared/enums';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
@@ -17,6 +19,12 @@ export const PublicExamEventGrid = () => {
 
   // Redux
   const { status, examEvents } = useAppSelector(publicExamEventsSelector);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadPublicExamEvents());
+  }, [dispatch]);
 
   // State
   const isLoading = status === APIResponseStatus.InProgress;

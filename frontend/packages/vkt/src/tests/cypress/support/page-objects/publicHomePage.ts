@@ -55,6 +55,10 @@ class PublicHomePage {
   expectCheckboxNotChecked(id: number) {
     this.elements.examEventRowCheckbox(id).should('not.be.checked');
   }
+
+  clickEnrollButton() {
+    this.elements.enrollButton().should('be.visible').click();
+  }
 }
 
 export const onPublicHomePage = new PublicHomePage();

@@ -16,7 +16,6 @@ import fi.oph.vkt.util.DateUtil;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ClerkExamEventService {
 
-  @Resource
   private final ExamEventRepository examEventRepository;
-
-  @Resource
   private final AuditService auditService;
 
   @Transactional(readOnly = true)

@@ -73,11 +73,12 @@ public class PublicExamEventServiceTest {
     final ExamEvent futureEvent1 = Factory.examEvent(ExamLanguage.SV);
     futureEvent1.setDate(now.plusWeeks(4));
     futureEvent1.setRegistrationCloses(now.plusWeeks(3));
+    futureEvent1.setMaxParticipants(3);
 
     final ExamEvent futureEvent2 = Factory.examEvent(ExamLanguage.FI);
     futureEvent2.setDate(now.plusWeeks(5));
     futureEvent2.setRegistrationCloses(now.plusWeeks(3));
-    futureEvent2.setMaxParticipants(11);
+    futureEvent2.setMaxParticipants(5);
 
     entityManager.persist(pastEvent);
     entityManager.persist(eventWithRegistrationClosed);
@@ -88,14 +89,14 @@ public class PublicExamEventServiceTest {
     entityManager.persist(futureEvent1);
     entityManager.persist(futureEvent2);
 
-    createReservations(futureEvent1, futureEvent1.getMaxParticipants() - 1, LocalDateTime.now().plusMinutes(1));
+    createReservations(futureEvent1, 2, LocalDateTime.now().plusMinutes(1));
     createReservations(futureEvent1, 1, LocalDateTime.now());
 
     createEnrollment(futureEvent2, EnrollmentStatus.PAID);
     createEnrollment(futureEvent2, EnrollmentStatus.QUEUED);
     createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT);
     createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
-    createReservations(futureEvent2, futureEvent2.getMaxParticipants() - 2, LocalDateTime.now().plusMinutes(1));
+    createReservations(futureEvent2, 3, LocalDateTime.now().plusMinutes(1));
 
     final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
     assertEquals(5, examEventDTOs.size());
