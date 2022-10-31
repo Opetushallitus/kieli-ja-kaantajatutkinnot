@@ -7,6 +7,7 @@ export enum AppRoutes {
   ClerkHomePage = '/akr/virkailija',
   MeetingDatesPage = '/akr/virkailija/kokouspaivat',
   ExaminationDatesPage = '/akr/virkailija/tutkintopaivat',
+  StatisticsPage = '/akr/virkailija/tilasto',
   ClerkSendEmailPage = '/akr/virkailija/laheta-sahkoposti',
   ClerkLocalLogoutPage = '/akr/cas/localLogout',
   ClerkTranslatorOverviewPage = '/akr/virkailija/kaantaja/:translatorId',
@@ -20,6 +21,7 @@ export enum HeaderTabNav {
   Register = 'register',
   ExaminationDates = 'examinationDates',
   MeetingDates = 'meetingDates',
+  Statistics = 'statistics',
 }
 
 export enum PermissionToPublish {

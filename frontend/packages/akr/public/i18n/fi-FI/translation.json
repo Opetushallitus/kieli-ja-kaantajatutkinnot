@@ -459,6 +459,14 @@
         "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista",
         "title": "Valitettavasti etsimääsi sivua ei löytynyt"
       },
+      "statisticsPage": {
+        "title": "Tilasto",
+        "contactRequests": "Yhteydenottopyynnöt",
+        "emails": "Sähköpostit",
+        "yearly": "Vuosittain",
+        "monthly": "Kuukausittain",
+        "daily": "Päivittäin"
+      },
       "translator": {
         "languagePairs": "Kieliparit",
         "name": "Nimi",

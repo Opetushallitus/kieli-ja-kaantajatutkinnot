@@ -8,6 +8,12 @@ export enum APIEndpoints {
   ClerkUser = '/akr/api/v1/clerk/user',
   ExaminationDate = '/akr/api/v1/clerk/examinationDate',
   MeetingDate = '/akr/api/v1/clerk/meetingDate',
+  StatisticsContactRequestsYearly = '/akr/api/v1/clerk/statistics/contact-requests/yearly',
+  StatisticsContactRequestsMonthly = '/akr/api/v1/clerk/statistics/contact-requests/monthly',
+  StatisticsContactRequestsDaily = '/akr/api/v1/clerk/statistics/contact-requests/daily',
+  StatisticsEmailsYearly = '/akr/api/v1/clerk/statistics/emails/yearly',
+  StatisticsEmailsMonthly = '/akr/api/v1/clerk/statistics/emails/monthly',
+  StatisticsEmailsDaily = '/akr/api/v1/clerk/statistics/emails/daily',
 }
 
 /**
