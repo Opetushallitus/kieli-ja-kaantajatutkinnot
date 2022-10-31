@@ -28,6 +28,7 @@ const initialState: ClerkUIState = {
   selectedTranslators: [],
   filters: {
     authorisationStatus: AuthorisationStatus.Effective,
+    hasNoEmailAddress: false,
   },
   pagination: {
     page: 0,

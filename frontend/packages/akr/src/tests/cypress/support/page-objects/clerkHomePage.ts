@@ -20,6 +20,7 @@ class ClerkHomePage {
     toLanguageSelect: () =>
       cy.findByTestId('clerk-translator-filters__to-lang'),
     nameField: () => cy.findByTestId('clerk-translator-filters__name'),
+    emailCheckbox: () => cy.findByTestId('clerk-translator-filters__email'),
     resetFiltersButton: () =>
       cy.findByTestId('clerk-translator-registry__reset-filters-btn'),
     selectedTranslatorsCountHeading: () =>
@@ -84,6 +85,10 @@ class ClerkHomePage {
       .type(name + '{enter}');
     // Ensure debounced name filter gets applied by waiting for more than 300ms
     cy.tick(400);
+  }
+
+  filterByEmail() {
+    this.elements.emailCheckbox().should('be.visible').click();
   }
 
   sendEmail() {

@@ -63,4 +63,5 @@ export interface AuthorisationFilter {
 export interface ClerkTranslatorFilter extends AuthorisationFilter {
   name?: string;
   authorisationStatus: AuthorisationStatus;
+  hasNoEmailAddress: boolean;
 }

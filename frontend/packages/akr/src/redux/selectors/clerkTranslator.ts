@@ -26,6 +26,10 @@ export const selectFilteredClerkTranslators = createSelector(
       );
     }
 
+    if (filters.hasNoEmailAddress) {
+      filteredTranslators = filteredTranslators.filter((t) => !t.email);
+    }
+
     return filteredTranslators.filter((t) =>
       hasAuthorisationsMatchingFilters(t, filters)
     );

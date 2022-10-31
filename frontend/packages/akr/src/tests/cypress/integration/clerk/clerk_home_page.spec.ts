@@ -146,4 +146,9 @@ describe('ClerkHomePage', () => {
     );
     onClerkHomePage.expectEmptyFilters();
   });
+
+  it('should filter translators by missing email address', () => {
+    onClerkHomePage.filterByEmail();
+    onClerkHomePage.expectSelectedTranslatorsCount(1);
+  });
 });
