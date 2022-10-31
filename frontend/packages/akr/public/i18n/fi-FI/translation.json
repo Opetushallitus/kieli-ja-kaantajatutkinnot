@@ -32,7 +32,10 @@
           "expiring": "Umpeutuvat",
           "formerVir": "VIR 2008"
         },
-        "hasNoEmail": "Sähköposti puuttuu",
+        "emailState": {
+          "placeholder": "Sähköpostiosoite",
+          "title": "Sähköpostiosoite"
+        },
         "languagePair": {
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",

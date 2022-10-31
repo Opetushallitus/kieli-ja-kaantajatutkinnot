@@ -13,6 +13,8 @@ class ClerkHomePage {
       cy.findByTestId(`clerk-translators__id-${id}-row`),
     authorisationBasisSelect: () =>
       cy.findByTestId('clerk-translator-filters__authorisation-basis'),
+    emailBasisSelect: () =>
+      cy.findByTestId('clerk-translator-filters__email-basis'),
     permissionToPublishBasisSelect: () =>
       cy.findByTestId('clerk-translator-filters__permission-to-publish-basis'),
     fromLanguageSelect: () =>
@@ -20,7 +22,6 @@ class ClerkHomePage {
     toLanguageSelect: () =>
       cy.findByTestId('clerk-translator-filters__to-lang'),
     nameField: () => cy.findByTestId('clerk-translator-filters__name'),
-    emailCheckbox: () => cy.findByTestId('clerk-translator-filters__email'),
     resetFiltersButton: () =>
       cy.findByTestId('clerk-translator-registry__reset-filters-btn'),
     selectedTranslatorsCountHeading: () =>
@@ -87,8 +88,11 @@ class ClerkHomePage {
     cy.tick(400);
   }
 
-  filterByEmail() {
-    this.elements.emailCheckbox().should('be.visible').click();
+  filterByEmail(basis) {
+    this.elements
+      .emailBasisSelect()
+      .should('be.visible')
+      .type(basis + '{enter}');
   }
 
   sendEmail() {

@@ -64,10 +64,10 @@ export const ClerkHomePage: FC = () => {
           </div>
         </div>
       </Grid>
-      <Grid item>
-        <ClerkTranslatorAutocompleteFilters />
+      <ClerkTranslatorAutocompleteFilters />
+      <Grid>
+        <ClerkTranslatorEmailFilter />
       </Grid>
-      <ClerkTranslatorEmailFilter />
       <Grid item>
         <div className="columns space-between">
           <ClerkHomePageControlButtons />

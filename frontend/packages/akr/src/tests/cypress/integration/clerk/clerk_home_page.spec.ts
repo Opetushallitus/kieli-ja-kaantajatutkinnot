@@ -1,5 +1,8 @@
 import { APIEndpoints } from 'enums/api';
-import { AuthorisationStatus } from 'enums/clerkTranslator';
+import {
+  AuthorisationStatus,
+  TranslatorEmailStatus,
+} from 'enums/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 import { runWithIntercept } from 'tests/cypress/support/utils/api';
 
@@ -147,8 +150,12 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.expectEmptyFilters();
   });
 
-  it('should filter translators by missing email address', () => {
-    onClerkHomePage.filterByEmail();
+  it('should filter translators without email address', () => {
+    onClerkHomePage.filterByEmail('Ei');
     onClerkHomePage.expectSelectedTranslatorsCount(1);
+  });
+  it('should filter translators with email address', () => {
+    onClerkHomePage.filterByEmail('Kyllä');
+    onClerkHomePage.expectSelectedTranslatorsCount(5);
   });
 });
