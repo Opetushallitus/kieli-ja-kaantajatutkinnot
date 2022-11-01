@@ -688,4 +688,102 @@
         <modifyDataType tableName="translator" columnName="last_name" newDataType="VARCHAR(255)"/>
     </changeSet>
 
+    <changeSet id="2022-10-25-create-contact_request_statistic-table" author="terova">
+        <createTable tableName="contact_request_statistic">
+            <column autoIncrement="true" name="contact_request_statistic_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="contact_request_statistic_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="year" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="month" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_lang" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_request_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="contact_request_statistic" indexName="contact_request_statistic_uniq" unique="true">
+            <column name="year"/>
+            <column name="month"/>
+            <column name="day"/>
+            <column name="from_lang"/>
+            <column name="to_lang"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2022-10-28-create-email_statistic-table" author="terova">
+        <createTable tableName="email_statistic">
+            <column autoIncrement="true" name="email_statistic_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_statistic_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="year" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="month" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="email_statistic" indexName="email_statistic_uniq" unique="true">
+            <column name="year"/>
+            <column name="month"/>
+            <column name="day"/>
+            <column name="email_type"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="email_statistic" baseColumnNames="email_type"
+                                 referencedTableName="email_type" referencedColumnNames="name"
+                                 constraintName="fk_email_statistic_email_type"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+    </changeSet>
+
 </databaseChangeLog>

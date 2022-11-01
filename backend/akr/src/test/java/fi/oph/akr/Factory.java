@@ -4,8 +4,10 @@ import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.AuthorisationTermReminder;
 import fi.oph.akr.model.ContactRequest;
+import fi.oph.akr.model.ContactRequestStatistic;
 import fi.oph.akr.model.ContactRequestTranslator;
 import fi.oph.akr.model.Email;
+import fi.oph.akr.model.EmailStatistic;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
@@ -144,5 +146,33 @@ public class Factory {
     contactRequestTranslator.setContactRequest(contactRequest);
 
     return contactRequestTranslator;
+  }
+
+  public static ContactRequestStatistic contactRequestStatistic(
+    final LocalDate date,
+    final String from,
+    final String to,
+    final int contactRequestCount,
+    final int contactCount
+  ) {
+    final ContactRequestStatistic c = new ContactRequestStatistic();
+    c.setYear(date.getYear());
+    c.setMonth(date.getMonthValue());
+    c.setDay(date.getDayOfMonth());
+    c.setFromLang(from);
+    c.setToLang(to);
+    c.setContactRequestCount(contactRequestCount);
+    c.setContactCount(contactCount);
+    return c;
+  }
+
+  public static EmailStatistic emailStatistic(final LocalDate date, final EmailType emailType, final long count) {
+    final EmailStatistic e = new EmailStatistic();
+    e.setYear(date.getYear());
+    e.setMonth(date.getMonthValue());
+    e.setDay(date.getDayOfMonth());
+    e.setEmailType(emailType);
+    e.setCount(count);
+    return e;
   }
 }

@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -53,31 +52,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ClerkTranslatorService {
 
-  @Resource
   private final AuthorisationRepository authorisationRepository;
-
-  @Resource
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
-
-  @Resource
   private final ExaminationDateRepository examinationDateRepository;
-
-  @Resource
   private final ExaminationDateService examinationDateService;
-
-  @Resource
   private final MeetingDateRepository meetingDateRepository;
-
-  @Resource
   private final MeetingDateService meetingDateService;
-
-  @Resource
   private final TranslatorRepository translatorRepository;
-
-  @Resource
   private final CountryService countryService;
-
-  @Resource
   private final AuditService auditService;
 
   @Transactional(readOnly = true)

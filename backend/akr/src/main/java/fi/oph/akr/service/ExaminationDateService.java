@@ -9,7 +9,6 @@ import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import java.util.List;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ExaminationDateService {
 
-  @Resource
   private final ExaminationDateRepository examinationDateRepository;
-
-  @Resource
   private final AuditService auditService;
 
   @Transactional(readOnly = true)

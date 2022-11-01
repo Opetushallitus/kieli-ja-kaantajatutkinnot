@@ -23,7 +23,7 @@ public class ExpiringAuthorisationsEmailCreator {
 
   private static final Logger LOG = LoggerFactory.getLogger(ExpiringAuthorisationsEmailCreator.class);
 
-  private static final String LOCK_AT_LEAST = "PT0S";
+  private static final String LOCK_AT_LEAST = "PT1S";
 
   private static final String LOCK_AT_MOST = "PT1H";
 
