@@ -153,7 +153,7 @@ public class Factory {
     final String from,
     final String to,
     final int contactRequestCount,
-    final int translatorCount
+    final int contactCount
   ) {
     final ContactRequestStatistic c = new ContactRequestStatistic();
     c.setYear(date.getYear());
@@ -162,7 +162,7 @@ public class Factory {
     c.setFromLang(from);
     c.setToLang(to);
     c.setContactRequestCount(contactRequestCount);
-    c.setTranslatorCount(translatorCount);
+    c.setContactCount(contactCount);
     return c;
   }
 

@@ -11,5 +11,5 @@ public record ContactRequestStatisticsDTO(
   @NonNull String fromLang,
   @NonNull String toLang,
   @NonNull Long contactRequestCount,
-  @NonNull Long translatorCount
+  @NonNull Long contactCount
 ) {}

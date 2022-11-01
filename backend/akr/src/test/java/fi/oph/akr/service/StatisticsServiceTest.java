@@ -84,10 +84,10 @@ class StatisticsServiceTest {
       );
       if (stat.getFromLang().equals(FI)) {
         assertEquals(2, stat.getContactRequestCount());
-        assertEquals(4, stat.getTranslatorCount());
+        assertEquals(4, stat.getContactCount());
       } else {
         assertEquals(3, stat.getContactRequestCount());
-        assertEquals(6, stat.getTranslatorCount());
+        assertEquals(6, stat.getContactCount());
       }
     });
   }
@@ -207,7 +207,7 @@ class StatisticsServiceTest {
     final String expectedFrom,
     final String expectedTo,
     final int expectedContactRequestCount,
-    final int expectedTranslatorCount,
+    final int expectedContactCount,
     final ContactRequestStatisticsDTO dto
   ) {
     assertEquals(expectedDate.getYear(), dto.year(), "year mismatch");
@@ -216,7 +216,7 @@ class StatisticsServiceTest {
     assertEquals(expectedFrom, dto.fromLang());
     assertEquals(expectedTo, dto.toLang());
     assertEquals(expectedContactRequestCount, dto.contactRequestCount(), "contactRequestCount mismatch");
-    assertEquals(expectedTranslatorCount, dto.translatorCount(), "translatorCount mismatch");
+    assertEquals(expectedContactCount, dto.contactCount(), "contactCount mismatch");
   }
 
   private void createContactRequestStat(
@@ -224,9 +224,9 @@ class StatisticsServiceTest {
     final String from,
     final String to,
     final int contactRequestCount,
-    final int translatorCount
+    final int contactCount
   ) {
-    entityManager.persist(Factory.contactRequestStatistic(date, from, to, contactRequestCount, translatorCount));
+    entityManager.persist(Factory.contactRequestStatistic(date, from, to, contactRequestCount, contactCount));
   }
 
   @Test
@@ -245,13 +245,13 @@ class StatisticsServiceTest {
 
     final List<EmailStatistic> stats = emailStatisticRepository.findAll();
     assertEquals(10 + 10 + 11 + 12 + 13 + 4 + 3, stats.size());
-    stats.forEach(stat -> {
+    stats.forEach(stat ->
       assertNotEquals(
         LocalDate.now(),
         LocalDate.of(stat.getYear(), stat.getMonth(), stat.getDay()),
         "Current day should not exist in statistics"
-      );
-    });
+      )
+    );
 
     assertEmailStats(EmailType.AUTHORISATION_EXPIRY, 10, 10, stats);
     assertEmailStats(EmailType.CONTACT_REQUEST_CLERK, 14, 10 + 14, stats);

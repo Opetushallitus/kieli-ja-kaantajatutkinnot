@@ -113,7 +113,13 @@ public class StatisticsController {
     final CSVWriter csvWriter = new CSVWriter(writer);
     // header
     csvWriter.writeNext(
-      new String[] { dateColumnName, "mistä", "mihin", "yhteydenottopyyntöjen määrä", "kääntäjien määrä" }
+      new String[] {
+        dateColumnName,
+        "mistä",
+        "mihin",
+        "yhteydenottopyyntöjen määrä",
+        "kääntäjille tehtyjen yhteydenottojen määrä",
+      }
     );
     // data
     stats.forEach(stat -> {
@@ -122,7 +128,7 @@ public class StatisticsController {
         languageService.getLocalisationValue(stat.fromLang(), Language.FI).orElse(stat.fromLang()),
         languageService.getLocalisationValue(stat.toLang(), Language.FI).orElse(stat.toLang()),
         stat.contactRequestCount().toString(),
-        stat.translatorCount().toString(),
+        stat.contactCount().toString(),
       };
       csvWriter.writeNext(line);
     });

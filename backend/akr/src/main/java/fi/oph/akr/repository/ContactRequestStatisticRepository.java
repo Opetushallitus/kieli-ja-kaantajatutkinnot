@@ -17,14 +17,14 @@ public interface ContactRequestStatisticRepository extends JpaRepository<Contact
   Set<Triple<Integer, Integer, Integer>> listExistingStatisticDates();
 
   @Query(
-    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, c.month, c.day, c.fromLang, c.toLang, c.contactRequestCount, c.translatorCount)" +
+    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, c.month, c.day, c.fromLang, c.toLang, c.contactRequestCount, c.contactCount)" +
     " FROM ContactRequestStatistic c" +
     " ORDER BY 1, 2, 3, 4, 5"
   )
   List<ContactRequestStatisticsDTO> calculateByDay();
 
   @Query(
-    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, c.month, 1, c.fromLang, c.toLang, SUM(c.contactRequestCount), SUM(c.translatorCount))" +
+    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, c.month, 1, c.fromLang, c.toLang, SUM(c.contactRequestCount), SUM(c.contactCount))" +
     " FROM ContactRequestStatistic c" +
     " GROUP BY c.year, c.month, c.fromLang, c.toLang" +
     " ORDER BY 1, 2, 3, 4, 5"
@@ -32,7 +32,7 @@ public interface ContactRequestStatisticRepository extends JpaRepository<Contact
   List<ContactRequestStatisticsDTO> calculateByMonth();
 
   @Query(
-    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, 1, 1, c.fromLang, c.toLang, SUM(c.contactRequestCount), SUM(c.translatorCount))" +
+    "SELECT new fi.oph.akr.api.dto.clerk.ContactRequestStatisticsDTO(c.year, 1, 1, c.fromLang, c.toLang, SUM(c.contactRequestCount), SUM(c.contactCount))" +
     " FROM ContactRequestStatistic c" +
     " GROUP BY c.year, c.fromLang, c.toLang" +
     " ORDER BY 1, 2, 3, 4, 5"

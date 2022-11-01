@@ -725,7 +725,7 @@
             <column name="contact_request_count" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="translator_count" type="INT">
+            <column name="contact_count" type="INT">
                 <constraints nullable="false"/>
             </column>
         </createTable>

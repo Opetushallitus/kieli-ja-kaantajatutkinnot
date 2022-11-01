@@ -76,7 +76,7 @@ public class StatisticsService {
     stat.setFromLang(langPair.from());
     stat.setToLang(langPair.to());
     stat.setContactRequestCount(contactRequests.size());
-    stat.setTranslatorCount(contactRequests.stream().mapToInt(c -> c.getContactRequestTranslators().size()).sum());
+    stat.setContactCount(contactRequests.stream().mapToInt(c -> c.getContactRequestTranslators().size()).sum());
     return stat;
   }
 

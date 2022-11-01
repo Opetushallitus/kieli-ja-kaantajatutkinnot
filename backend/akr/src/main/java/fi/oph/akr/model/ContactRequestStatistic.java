@@ -41,6 +41,6 @@ public class ContactRequestStatistic extends BaseEntity {
   @Column(name = "contact_request_count", nullable = false)
   private long contactRequestCount;
 
-  @Column(name = "translator_count", nullable = false)
-  private long translatorCount;
+  @Column(name = "contact_count", nullable = false)
+  private long contactCount;
 }
