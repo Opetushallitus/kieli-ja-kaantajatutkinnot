@@ -12,6 +12,7 @@ export interface ExtLinkProps {
 export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
   text,
   href,
+  startIcon,
   endIcon,
   className,
   'aria-label': ariaLabel,
@@ -23,6 +24,7 @@ export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
       rel="noreferrer"
       color={Color.Inherit}
       href={href}
+      startIcon={startIcon}
       endIcon={endIcon}
       aria-label={ariaLabel}
     >
