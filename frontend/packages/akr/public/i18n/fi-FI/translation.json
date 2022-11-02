@@ -36,6 +36,10 @@
           "placeholder": "Sähköpostiosoite",
           "title": "Sähköpostiosoite"
         },
+        "emailStatus": {
+          "exists": "On",
+          "missing": "Ei"
+        },
         "languagePair": {
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",

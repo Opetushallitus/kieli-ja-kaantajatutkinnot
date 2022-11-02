@@ -4,7 +4,7 @@ import { RootState } from 'configs/redux';
 import { PermissionToPublish } from 'enums/app';
 import {
   AuthorisationStatus,
-  TranslatorEmailStatusEnum,
+  TranslatorEmailStatus,
 } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import {
@@ -29,12 +29,12 @@ export const selectFilteredClerkTranslators = createSelector(
       );
     }
 
-    if (filters.emailStatus === TranslatorEmailStatusEnum.Yes) {
+    if (filters.emailStatus === TranslatorEmailStatus.Exists) {
       filteredTranslators = filteredTranslators.filter((t) =>
         t.email ? true : false
       );
     }
-    if (filters.emailStatus === TranslatorEmailStatusEnum.No) {
+    if (filters.emailStatus === TranslatorEmailStatus.Missing) {
       filteredTranslators = filteredTranslators.filter((t) => !t.email);
     }
 

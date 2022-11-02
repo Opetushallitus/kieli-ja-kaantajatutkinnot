@@ -24,7 +24,7 @@ export enum ClerkTranslatorTextFieldEnum {
   ExtraInformation = 'extraInformation',
 }
 
-export enum TranslatorEmailStatusEnum {
-  Yes = 'yes',
-  No = 'no',
+export enum TranslatorEmailStatus {
+  Exists = 'exists',
+  Missing = 'missing',
 }

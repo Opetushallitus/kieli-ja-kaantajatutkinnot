@@ -1,9 +1,9 @@
 import { AutocompleteValue, ComboBox, H3 } from 'shared/components';
 import { TextFieldVariant } from 'shared/enums';
 
-import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
+import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { TranslatorEmailStatusEnum } from 'enums/clerkTranslator';
+import { TranslatorEmailStatus } from 'enums/clerkTranslator';
 import { ClerkTranslatorFilter } from 'interfaces/clerkTranslator';
 import {
   addClerkTranslatorFilter,
@@ -15,7 +15,6 @@ export const ClerkTranslatorEmailFilter = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorFilters',
   });
-  const translateCommon = useCommonTranslation();
   const { filters } = useAppSelector(clerkTranslatorsSelector);
   const dispatch = useAppDispatch();
 
@@ -27,16 +26,16 @@ export const ClerkTranslatorEmailFilter = () => {
     };
 
   const getEmailStateSelectValues = () =>
-    Object.values(TranslatorEmailStatusEnum).map((v) => ({
+    Object.values(TranslatorEmailStatus).map((v) => ({
       value: v,
-      label: translateCommon(v),
+      label: t(`emailStatus.${v}`),
     }));
 
   const getEmailStateValue = () =>
     filters.emailStatus
       ? {
           value: filters.emailStatus,
-          label: translateCommon(filters.emailStatus),
+          label: t(`emailStatus.${filters.emailStatus}`),
         }
       : null;
 
