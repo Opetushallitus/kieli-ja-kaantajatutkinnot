@@ -17,6 +17,7 @@ import { MeetingDatesPage } from 'pages/MeetingDatesPage';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
+import { StatisticsPage } from 'pages/StatisticsPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -49,6 +50,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.MeetingDatesPage}
                 element={<MeetingDatesPage />}
+              />
+              <Route
+                path={AppRoutes.StatisticsPage}
+                element={<StatisticsPage />}
               />
               <Route
                 path={AppRoutes.ClerkSendEmailPage}
