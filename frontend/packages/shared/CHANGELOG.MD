@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ## [Released]
+
+## [1.4.2] - 2022-11-02
+
+### Changed
+
+- ExtLink now also accepts a startIcon
+
 ## [1.4.1] - 2022-10-25
 
 ### Changed
