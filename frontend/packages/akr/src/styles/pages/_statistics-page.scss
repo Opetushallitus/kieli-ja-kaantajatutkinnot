@@ -1,0 +1,9 @@
+.statistics-page {
+  flex: 1;
+
+  & &__grid-container {
+    gap: 2rem;
+    padding: 2.5rem;
+    padding-bottom: 4rem;
+  }
+}

@@ -7,7 +7,7 @@ export enum AppRoutes {
   ClerkHomePage = '/akr/virkailija',
   MeetingDatesPage = '/akr/virkailija/kokouspaivat',
   ExaminationDatesPage = '/akr/virkailija/tutkintopaivat',
-  StatisticsPage = '/akr/virkailija/tilasto',
+  StatisticsPage = '/akr/virkailija/tilastot',
   ClerkSendEmailPage = '/akr/virkailija/laheta-sahkoposti',
   ClerkLocalLogoutPage = '/akr/cas/localLogout',
   ClerkTranslatorOverviewPage = '/akr/virkailija/kaantaja/:translatorId',
