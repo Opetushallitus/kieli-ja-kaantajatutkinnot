@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +103,7 @@ public class ContactRequestService {
   private void saveContactRequestEmails(final ContactRequestDTO contactRequestDTO, final List<Translator> translators) {
     final Map<Boolean, List<Translator>> translatorsByExistingEmail = translators
       .stream()
-      .collect(Collectors.partitioningBy(t -> Objects.nonNull(t.getEmail())));
+      .collect(Collectors.partitioningBy(Translator::hasEmail));
 
     final List<Translator> translatorsWithEmail = translatorsByExistingEmail.get(true);
     final List<Translator> translatorsWithoutEmail = translatorsByExistingEmail.get(false);

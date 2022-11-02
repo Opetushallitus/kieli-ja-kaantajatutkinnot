@@ -66,7 +66,9 @@ public class ClerkEmailService {
 
     translators.forEach(translator ->
       Optional
-        .ofNullable(translator.getEmail())
+        .of(translator)
+        .filter(Translator::hasEmail)
+        .map(Translator::getEmail)
         .ifPresent(recipientAddress -> {
           final String recipientName = translator.getFullName();
 
@@ -110,7 +112,9 @@ public class ClerkEmailService {
     final Translator translator = authorisation.getTranslator();
 
     Optional
-      .ofNullable(translator.getEmail())
+      .of(translator)
+      .filter(Translator::hasEmail)
+      .map(Translator::getEmail)
       .ifPresent(recipientAddress -> {
         final String recipientName = translator.getFullName();
 

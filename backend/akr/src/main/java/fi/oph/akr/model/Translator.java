@@ -70,4 +70,8 @@ public class Translator extends BaseEntity {
   public String getFullName() {
     return firstName + " " + lastName;
   }
+
+  public boolean hasEmail() {
+    return email != null;
+  }
 }

@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.cache.annotation.Cacheable;
@@ -45,18 +46,30 @@ public class PublicTranslatorService {
 
     final List<Translator> translators = translatorRepository.findAllById(translatorLanguagePairs.keySet());
 
-    final List<PublicTranslatorDTO> publicTranslatorDTOS = translators
+    final List<Translator> translatorsWithEmail = translators
       .stream()
+      .filter(t -> t.hasEmail())
+      .collect(Collectors.toCollection(ArrayList::new));
+
+    final List<Translator> translatorsWithoutEmail = translators
+      .stream()
+      .filter(t -> !t.hasEmail())
+      .collect(Collectors.toCollection(ArrayList::new));
+
+    Collections.shuffle(translatorsWithEmail);
+    Collections.shuffle(translatorsWithoutEmail);
+
+    final List<PublicTranslatorDTO> publicTranslatorDTOS = Stream
+      .concat(translatorsWithEmail.stream(), translatorsWithoutEmail.stream())
       .map(translator -> {
         final List<LanguagePairDTO> languagePairDTOs = getLanguagePairDTOs(translatorLanguagePairs, translator);
         return createPublicTranslatorDTO(translator, languagePairDTOs);
       })
-      .collect(Collectors.toCollection(ArrayList::new));
+      .toList();
 
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
     final List<PublicTownDTO> towns = getDistinctTowns(translators);
 
-    Collections.shuffle(publicTranslatorDTOS);
     return PublicTranslatorResponseDTO
       .builder()
       .translators(publicTranslatorDTOS)

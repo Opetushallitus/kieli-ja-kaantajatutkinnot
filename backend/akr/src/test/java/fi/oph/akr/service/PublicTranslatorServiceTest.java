@@ -2,6 +2,7 @@ package fi.oph.akr.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.LanguagePairDTO;
@@ -105,8 +106,11 @@ class PublicTranslatorServiceTest {
     // are returned in same order and will cause false positive. We'll check that order is random and if it's not,
     // we'll try again x times.
 
-    final Supplier<List<Long>> fetchTranslatorsAndCollectIds = () ->
-      publicTranslatorService.listTranslators().translators().stream().map(PublicTranslatorDTO::id).toList();
+    final Supplier<List<Long>> fetchTranslatorsAndCollectIds = () -> {
+      final List<PublicTranslatorDTO> translators = publicTranslatorService.listTranslators().translators();
+      assertThoseHavingEmailAreFirstInTheList(translators);
+      return translators.stream().map(PublicTranslatorDTO::id).toList();
+    };
 
     final Supplier<Boolean> runTest = () -> {
       final List<Long> ids1 = fetchTranslatorsAndCollectIds.get();
@@ -123,6 +127,17 @@ class PublicTranslatorServiceTest {
       }
     }
     assertTrue(testRunOk);
+  }
+
+  private void assertThoseHavingEmailAreFirstInTheList(final List<PublicTranslatorDTO> translators) {
+    Boolean previousHadEmail = null;
+    for (PublicTranslatorDTO t : translators) {
+      final boolean hasEmail = translatorRepository.getReferenceById(t.id()).hasEmail();
+      if (previousHadEmail != null && (!previousHadEmail && hasEmail)) {
+        fail("Those with email should be first in the list, then those without email.");
+      }
+      previousHadEmail = hasEmail;
+    }
   }
 
   @Test
@@ -295,6 +310,7 @@ class PublicTranslatorServiceTest {
     translator.setTown("Kaupunki" + i);
     translator.setCountry(i == 0 ? "FIN" : "Maa" + i);
     translator.setAssuranceGiven(isAssuranceGiven);
+    translator.setEmail(i % 2 == 0 ? null : "foo" + i + "@foo.invalid");
 
     entityManager.persist(translator);
     createAuthorisation(translator, meetingDate, termBeginDate, termEndDate, permissionToPublish, "EN");
