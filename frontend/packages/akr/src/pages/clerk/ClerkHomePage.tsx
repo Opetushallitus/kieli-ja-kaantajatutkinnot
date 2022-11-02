@@ -6,6 +6,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
 import { ClerkTranslatorAutocompleteFilters } from 'components/clerkTranslator/filters/ClerkTranslatorAutocompleteFilters';
+import { ClerkTranslatorEmailFilter } from 'components/clerkTranslator/filters/ClerkTranslatorEmailFilter';
 import { ClerkTranslatorToggleFilters } from 'components/clerkTranslator/filters/ClerkTranslatorToggleFilters';
 import { ClerkTranslatorListing } from 'components/clerkTranslator/listing/ClerkTranslatorListing';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
@@ -63,8 +64,9 @@ export const ClerkHomePage: FC = () => {
           </div>
         </div>
       </Grid>
-      <Grid item>
-        <ClerkTranslatorAutocompleteFilters />
+      <ClerkTranslatorAutocompleteFilters />
+      <Grid>
+        <ClerkTranslatorEmailFilter />
       </Grid>
       <Grid item>
         <div className="columns space-between">

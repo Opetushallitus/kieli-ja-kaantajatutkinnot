@@ -1,5 +1,8 @@
 import { PermissionToPublish } from 'enums/app';
-import { AuthorisationStatus } from 'enums/clerkTranslator';
+import {
+  AuthorisationStatus,
+  TranslatorEmailStatus,
+} from 'enums/clerkTranslator';
 import {
   Authorisation,
   AuthorisationBasis,
@@ -63,4 +66,5 @@ export interface AuthorisationFilter {
 export interface ClerkTranslatorFilter extends AuthorisationFilter {
   name?: string;
   authorisationStatus: AuthorisationStatus;
+  emailStatus: TranslatorEmailStatus | null;
 }

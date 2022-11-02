@@ -2,7 +2,10 @@ import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
 import { PermissionToPublish } from 'enums/app';
-import { AuthorisationStatus } from 'enums/clerkTranslator';
+import {
+  AuthorisationStatus,
+  TranslatorEmailStatus,
+} from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import {
   AuthorisationFilter,
@@ -24,6 +27,15 @@ export const selectFilteredClerkTranslators = createSelector(
       filteredTranslators = filteredTranslators.filter((t) =>
         translatorNameMatchesName(t, nameFilter)
       );
+    }
+
+    if (filters.emailStatus === TranslatorEmailStatus.Exists) {
+      filteredTranslators = filteredTranslators.filter((t) =>
+        t.email ? true : false
+      );
+    }
+    if (filters.emailStatus === TranslatorEmailStatus.Missing) {
+      filteredTranslators = filteredTranslators.filter((t) => !t.email);
     }
 
     return filteredTranslators.filter((t) =>

@@ -13,6 +13,8 @@ class ClerkHomePage {
       cy.findByTestId(`clerk-translators__id-${id}-row`),
     authorisationBasisSelect: () =>
       cy.findByTestId('clerk-translator-filters__authorisation-basis'),
+    emailBasisSelect: () =>
+      cy.findByTestId('clerk-translator-filters__email-basis'),
     permissionToPublishBasisSelect: () =>
       cy.findByTestId('clerk-translator-filters__permission-to-publish-basis'),
     fromLanguageSelect: () =>
@@ -84,6 +86,13 @@ class ClerkHomePage {
       .type(name + '{enter}');
     // Ensure debounced name filter gets applied by waiting for more than 300ms
     cy.tick(400);
+  }
+
+  filterByEmail(basis) {
+    this.elements
+      .emailBasisSelect()
+      .should('be.visible')
+      .type(basis + '{enter}');
   }
 
   sendEmail() {

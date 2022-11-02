@@ -23,3 +23,8 @@ export enum ClerkTranslatorTextFieldEnum {
   Town = 'town',
   ExtraInformation = 'extraInformation',
 }
+
+export enum TranslatorEmailStatus {
+  Exists = 'exists',
+  Missing = 'missing',
+}

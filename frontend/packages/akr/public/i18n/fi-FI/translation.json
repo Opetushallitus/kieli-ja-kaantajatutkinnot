@@ -32,6 +32,14 @@
           "expiring": "Umpeutuvat",
           "formerVir": "VIR 2008"
         },
+        "emailState": {
+          "placeholder": "Sähköpostiosoite",
+          "title": "Sähköpostiosoite"
+        },
+        "emailStatus": {
+          "exists": "On",
+          "missing": "Ei"
+        },
         "languagePair": {
           "fromPlaceholder": "Mistä",
           "title": "Haku kieliparilla",

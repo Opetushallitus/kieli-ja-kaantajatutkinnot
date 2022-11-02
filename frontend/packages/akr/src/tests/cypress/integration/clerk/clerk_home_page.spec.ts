@@ -146,4 +146,13 @@ describe('ClerkHomePage', () => {
     );
     onClerkHomePage.expectEmptyFilters();
   });
+
+  it('should filter translators without email address', () => {
+    onClerkHomePage.filterByEmail('Ei');
+    onClerkHomePage.expectSelectedTranslatorsCount(1);
+  });
+  it('should filter translators with email address', () => {
+    onClerkHomePage.filterByEmail('On');
+    onClerkHomePage.expectSelectedTranslatorsCount(5);
+  });
 });
