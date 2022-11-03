@@ -6,6 +6,7 @@
 
 // Components
 @import 'components/clerkExamEvent/clerk-exam-event-listing';
+@import 'components/clerkExamEvent/clerk-exam-event-details';
 @import 'components/i18n/lang-selector';
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
@@ -14,3 +15,4 @@
 // Pages
 @import 'pages/clerk-homepage';
 @import 'pages/public-homepage';
+@import 'pages/clerk-exam-event-overview-page';

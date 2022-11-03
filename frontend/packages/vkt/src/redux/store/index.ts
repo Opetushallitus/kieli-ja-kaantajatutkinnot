@@ -2,6 +2,7 @@ import createSagaMiddleware from '@redux-saga/core';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { APIErrorReducer } from 'redux/reducers/APIError';
+import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
 import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
@@ -19,6 +20,7 @@ const store = configureStore({
     publicExamEvent: publicExamEventReducer,
     publicReservationReducer: publicReservationReducer,
     publicUIView: publicUIViewReducer,
+    clerkExamEventOverview: clerkExamEventOverviewReducer,
   },
   middleware: [saga],
 });
