@@ -6,6 +6,10 @@ on:
     paths:
       - "frontend/packages/shared/**"
       - "!**/*.md"
+  # Setting 'branches' has the side effect that just pushing tags does not start workflows.
+    branches:
+      - '**'
+
 env:
   FRONTEND_DIR: ./frontend
   GITHUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -7,6 +7,9 @@ on:
       - "backend/vkt/**"
       - "frontend/packages/vkt/**"
       - "!**/*.md"
+    # Setting 'branches' has the side effect that just pushing tags does not start workflows.
+    branches:
+      - '**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
