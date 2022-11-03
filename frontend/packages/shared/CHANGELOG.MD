@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.4.3] - 2022-11-03
+
+### Added
+
+- Color `color-grey-600` class
+
 ## [1.4.2] - 2022-11-02
 
 ### Changed
