@@ -1,6 +1,29 @@
 {
   "vkt": {
     "component": {
+      "clerkExamEventOverview": {
+        "examEventDetails": {
+          "cancelUpdateDialog": {
+            "description": "Menetät tekemäsi muutokset.",
+            "title": "Haluatko poistua muokkausnäkymästä?"
+          }
+        },
+        "examEventDetailsFields": {
+          "examLevels": {
+            "EXCELLENT": "erinomainen"
+          },
+          "header": {
+            "language": "Kieli",
+            "level": "Taso",
+            "date": "Tutkintopäivä",
+            "registrationCloses": "Ilmottautuminen sulkeutuu",
+            "visibleInPublic": "Näytä tutkintopäivä julkisesti"
+          }
+        },
+        "toasts": {
+          "notFound": "Valittua tutkintotilaisuutta ei löytynyt"
+        }
+      },
       "clerkExamEventListing": {
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {

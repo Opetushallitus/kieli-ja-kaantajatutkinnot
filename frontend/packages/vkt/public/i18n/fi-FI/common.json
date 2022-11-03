@@ -3,8 +3,12 @@
     "common": {
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
+      "back": "Takaisin",
+      "cancel": "Peruuta",
       "clerk": "Virkailija",
       "contactEmail": "kielitutkinnot@oph.fi",
+      "delete": "Poista",
+      "edit": "Muokkaa",
       "errors": {
         "api": {
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
@@ -38,6 +42,7 @@
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Tulokset per sivu",
+      "save": "Tallenna",
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"

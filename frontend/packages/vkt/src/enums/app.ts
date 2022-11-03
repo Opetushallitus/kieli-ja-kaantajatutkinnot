@@ -30,3 +30,15 @@ export enum ExamEventToggleFilter {
 export enum HeaderNavTab {
   ExamEvents = 'examEvents',
 }
+
+export enum UIMode {
+  EditExamEventDetails = 'editQualificationDetails',
+  View = 'view',
+}
+
+export enum EnrollmentStatus {
+  PAID,
+  EXPECTING_PAYMENT,
+  QUEUED,
+  CANCELED,
+}
