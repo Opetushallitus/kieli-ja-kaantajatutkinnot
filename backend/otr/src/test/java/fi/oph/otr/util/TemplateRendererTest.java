@@ -19,13 +19,23 @@ class TemplateRendererTest {
   @Test
   public void testQualificationExpiryTemplateIsRendered() {
     final String renderedContent = templateRenderer.renderQualificationExpiryEmailBody(
-      Map.of("interpreterName", "Erkki Esimerkki", "langPair", "suomi - japani", "expiryDate", "06.02.2022")
+      Map.of(
+        "interpreterName",
+        "Erkki Esimerkki",
+        "langPairFI",
+        "suomi - japani",
+        "langPairSV",
+        "finska - japanska",
+        "expiryDate",
+        "06.02.2022"
+      )
     );
 
     assertNotNull(renderedContent);
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Erkki Esimerkki"));
     assertTrue(renderedContent.contains("suomi - japani"));
+    assertTrue(renderedContent.contains("finska - japanska"));
     assertTrue(renderedContent.contains("06.02.2022"));
   }
 }

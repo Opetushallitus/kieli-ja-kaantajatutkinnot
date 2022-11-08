@@ -109,8 +109,10 @@ public class ClerkEmailServiceTest {
     final Map<String, Object> expectedTemplateParams = Map.of(
       "interpreterName",
       "Iiro Rajala",
-      "langPair",
+      "langPairFI",
       "suomi - englanti",
+      "langPairSV",
+      "finska - engelska",
       "expiryDate",
       "01.12.2049"
     );
@@ -126,7 +128,10 @@ public class ClerkEmailServiceTest {
 
     assertEquals("Iiro Rajala", emailData.recipientName());
     assertEquals("iiro.rajala@example.invalid", emailData.recipientAddress());
-    assertEquals("Merkintäsi oikeustulkkirekisteriin on päättymässä", emailData.subject());
+    assertEquals(
+      "Merkintäsi oikeustulkkirekisteriin on päättymässä | Din ... ... går mot sitt slut",
+      emailData.subject()
+    );
     assertEquals("Merkintäsi päättyy 01.12.2049", emailData.body());
 
     verify(qualificationReminderRepository).save(any());
