@@ -22,7 +22,7 @@
   }
 }
 
-/* Font Weigh */
+/* Font Weight */
 .bold {
   &#{&} {
     font-weight: bold !important;
@@ -31,6 +31,12 @@
 }
 
 /* Colors */
+.color-grey-600 {
+  &#{&} {
+    color: $color-grey-600;
+  }
+}
+
 .color-red-500 {
   &#{&} {
     color: $color-red-500;

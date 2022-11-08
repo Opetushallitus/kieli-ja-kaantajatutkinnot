@@ -1,5 +1,6 @@
 import { Authorisation } from 'interfaces/authorisation';
 import { ClerkTranslatorAuthorisations } from 'interfaces/clerkTranslator';
+import { LanguagePair } from 'interfaces/languagePair';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class AuthorisationUtils {
@@ -21,6 +22,13 @@ export class AuthorisationUtils {
     { effective }: ClerkTranslatorAuthorisations
   ) {
     return effective.map((a) => a.id).includes(id);
+  }
+
+  static getLanguagePairLocalisation(
+    { from, to }: LanguagePair,
+    translateLanguage: (l: string) => string
+  ) {
+    return `${translateLanguage(from)} - ${translateLanguage(to)}`;
   }
 
   static getKoodistoLangKeys() {

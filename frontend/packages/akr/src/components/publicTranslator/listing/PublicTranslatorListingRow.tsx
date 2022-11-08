@@ -1,14 +1,13 @@
 import { Checkbox, TableCell, TableRow } from '@mui/material';
-import { useCallback } from 'react';
 import { H2, H3, Text } from 'shared/components';
 import { Color, Severity } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
+import { PublicTranslatorListingRowLanguagePairs } from 'components/publicTranslator/listing/PublicTranslatorListingRowLanguagePairs';
 import {
   isCurrentLangSv,
   useAppTranslation,
   useKoodistoCountriesTranslation,
-  useKoodistoLanguagesTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { SearchFilter } from 'enums/app';
@@ -34,6 +33,7 @@ export const PublicTranslatorListingRow = ({
   const { t } = useAppTranslation({
     keyPrefix: 'akr',
   });
+  const translateCountry = useKoodistoCountriesTranslation();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -45,10 +45,7 @@ export const PublicTranslatorListingRow = ({
   const { firstName, lastName, languagePairs, town, country } = translator;
 
   const { showToast } = useToast();
-
   const { isPhone } = useWindowProperties();
-  const translateLanguage = useKoodistoLanguagesTranslation();
-  const translateCountry = useKoodistoCountriesTranslation();
 
   const checkboxAriaLabel = selected
     ? t('component.table.accessibility.checkboxSelectedAriaLabel')
@@ -79,19 +76,6 @@ export const PublicTranslatorListingRow = ({
     }
   };
 
-  const getLanguagePairs = useCallback(() => {
-    return languagePairs.map(({ from, to }, k) => {
-      const className =
-        fromLang === from && toLang === to ? 'padding-unset bold' : '';
-
-      return (
-        <Text className={className} key={k}>
-          {`${translateLanguage(from)} - ${translateLanguage(to)}`}
-        </Text>
-      );
-    });
-  }, [languagePairs, fromLang, toLang, translateLanguage]);
-
   const getTownDescription = (town?: string, country?: string) => {
     if (town && country) {
       const t = isCurrentLangSv() ? townToSv.get(town) || town : town;
@@ -114,7 +98,11 @@ export const PublicTranslatorListingRow = ({
           <div className="rows gapped">
             <div>
               <H3>{t('pages.translator.languagePairs')}</H3>
-              {getLanguagePairs()}
+              <PublicTranslatorListingRowLanguagePairs
+                fromLang={fromLang}
+                toLang={toLang}
+                languagePairs={languagePairs}
+              />
             </div>
             <div>
               <H3>{t('pages.translator.town')}</H3>
@@ -149,7 +137,13 @@ export const PublicTranslatorListingRow = ({
       <TableCell>
         <Text>{`${lastName} ${firstName}`}</Text>
       </TableCell>
-      <TableCell>{getLanguagePairs()}</TableCell>
+      <TableCell>
+        <PublicTranslatorListingRowLanguagePairs
+          fromLang={fromLang}
+          toLang={toLang}
+          languagePairs={languagePairs}
+        />
+      </TableCell>
       <TableCell>
         <Text>{getTownDescription(town, country)}</Text>
       </TableCell>
