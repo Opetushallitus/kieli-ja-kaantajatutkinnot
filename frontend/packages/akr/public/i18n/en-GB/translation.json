@@ -448,7 +448,7 @@
         }
       },
       "notFoundPage": {
-        "description": "The address may be wrong or outdated. Click the button below to return to the home page",
+        "description": "The address may be wrong or outdated. Click the button below to return to the home page.",
         "title": "Unfortunately, the page you are looking for was not found"
       },
       "translator": {

@@ -328,7 +328,7 @@
         }
       },
       "notFoundPage": {
-        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan",
+        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan.",
         "title": "Tyvärr kan sidan du sökte efter inte hittas"
       }
     }

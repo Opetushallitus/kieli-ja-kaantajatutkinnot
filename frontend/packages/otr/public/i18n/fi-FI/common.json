@@ -16,6 +16,7 @@
         "EAT": "Erikoisammattitutkinto (EAT)",
         "KKT": "Korkeakouluopinnot (KKT)"
       },
+      "frontPage": "Etusivu",
       "loadingContent": "Sisältöä ladataan",
       "meetingDates": "Kokouspäivät",
       "navigationProtection": {

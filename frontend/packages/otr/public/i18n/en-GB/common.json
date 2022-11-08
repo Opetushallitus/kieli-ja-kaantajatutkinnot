@@ -15,6 +15,7 @@
         "EAT": null,
         "KKT": null
       },
+      "frontPage": "Home",
       "loadingContent": "Downloading content",
       "meetingDates": "Meeting days",
       "navigationProtection": {
