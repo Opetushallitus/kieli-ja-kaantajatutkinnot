@@ -50,4 +50,7 @@ public class ExamEvent extends BaseEntity {
 
   @OneToMany(mappedBy = "examEvent")
   private List<Enrollment> enrollments = new ArrayList<>();
+
+  @OneToMany(mappedBy = "examEvent")
+  private List<Reservation> reservations = new ArrayList<>();
 }
