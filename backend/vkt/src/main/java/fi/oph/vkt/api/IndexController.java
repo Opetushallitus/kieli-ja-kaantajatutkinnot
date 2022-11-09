@@ -32,7 +32,7 @@ public class IndexController {
     sb.append("img-src 'self'; ");
     sb.append("font-src 'self'; ");
     sb.append("base-uri 'self'; ");
-    sb.append("form-action 'self'; ");
+    sb.append("form-action 'self';");
 
     response.addHeader("Content-Security-Policy", sb.toString());
   }
