@@ -1,5 +1,9 @@
 package fi.oph.vkt.api;
 
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +13,42 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/")
 public class IndexController {
 
+  private static final int NONCE_BYTES = 32;
+  private SecureRandom secureRandom = new SecureRandom();
+
+  private static void addCSPHeaders(HttpServletResponse response, String nonce) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("default-src 'none'; ");
+
+    sb.append("script-src 'self' 'nonce-");
+    sb.append(nonce);
+    sb.append("' 'strict-dynamic' https: http: 'unsafe-inline'; ");
+
+    sb.append("style-src 'self' 'nonce-");
+    sb.append(nonce);
+    sb.append("' 'unsafe-inline'; ");
+
+    sb.append("connect-src 'self'; ");
+    sb.append("img-src 'self'; ");
+    sb.append("font-src 'self'; ");
+    sb.append("base-uri 'self'; ");
+    sb.append("form-action 'self'; ");
+
+    response.addHeader("Content-Security-Policy", sb.toString());
+  }
+
+  private String getNonce() {
+    byte[] nonceBytes = new byte[NONCE_BYTES];
+    secureRandom.nextBytes(nonceBytes);
+
+    return Base64.getEncoder().encodeToString(nonceBytes);
+  }
+
   @GetMapping("")
-  public ModelAndView index() {
-    return new ModelAndView("index.html");
+  public ModelAndView index(HttpServletResponse response) {
+    String cspNonce = getNonce();
+    addCSPHeaders(response, cspNonce);
+    return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
   }
 
   // Map to everything which has no suffix, i.e. matches to "/foo/bar" but not to "/foo/bar.js"
@@ -31,7 +68,9 @@ public class IndexController {
       "*/*/*/*/*/*/*/*/*/*/*/{path:[^.]*}",
     }
   )
-  public ModelAndView indexAllOtherPaths() {
-    return new ModelAndView("index.html");
+  public ModelAndView indexAllOtherPaths(HttpServletResponse response) {
+    String cspNonce = getNonce();
+    addCSPHeaders(response, cspNonce);
+    return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
   }
 }
