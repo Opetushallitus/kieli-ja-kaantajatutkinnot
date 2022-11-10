@@ -20,7 +20,8 @@ export const PublicTranslatorListingRowLanguagePairs = ({
     (
       languagePairs: Array<LanguagePair>,
       classes: string,
-      indexingStart: number
+      indexingStart: number,
+      ariaHidden?: boolean
     ) => {
       return languagePairs
         .map((lp) =>
@@ -28,7 +29,11 @@ export const PublicTranslatorListingRowLanguagePairs = ({
         )
         .sort()
         .map((localisation, i) => (
-          <Text key={i + indexingStart} className={`${classes}`}>
+          <Text
+            key={i + indexingStart}
+            className={`${classes}`}
+            aria-hidden={ariaHidden}
+          >
             {localisation}
           </Text>
         ));
@@ -61,7 +66,8 @@ export const PublicTranslatorListingRowLanguagePairs = ({
             ...sortAndRenderLanguagePairs(
               rest,
               'color-grey-600',
-              matches.length
+              matches.length,
+              true
             ),
           ]
         : [...sortAndRenderLanguagePairs(rest, '', 0)]}
