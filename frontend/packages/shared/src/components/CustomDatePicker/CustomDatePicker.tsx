@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 interface DatePickerProps {
   value: Dayjs | null;
   setValue: (value: Dayjs | null) => void;
-  label: string;
+  label?: string;
   disabled?: boolean;
   minDate?: Dayjs;
   maxDate?: Dayjs;
@@ -17,7 +17,7 @@ interface DatePickerProps {
 export const CustomDatePicker = ({
   value,
   setValue,
-  label,
+  label = '',
   disabled = false,
   minDate,
   maxDate,

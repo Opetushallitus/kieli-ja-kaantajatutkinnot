@@ -54,4 +54,8 @@ export class DateUtils {
   static serializeDate(date?: Dayjs) {
     return date?.format('YYYY-MM-DD');
   }
+
+  static isValidDate(date?: Dayjs) {
+    return date ? date.isValid() : false;
+  }
 }

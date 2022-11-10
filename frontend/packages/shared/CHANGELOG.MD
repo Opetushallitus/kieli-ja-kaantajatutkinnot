@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - New `StyleCacheProvider` to simplify setting up Emotion styles with a CSP nonce read from
   a `<meta name="csp-nonce" ... />` tag
+## [1.4.4] - 2022-11-10
+
+### Fixed
+
+- Fixed CustomSwitch padding
+
+### Changed
+
+- DatePicker label is now optional
+
+### Added
+
+- Capitalise function added to StringUtils
+- Validation function added DateUtils
 
 ## [1.4.3] - 2022-11-03
 

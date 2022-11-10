@@ -36,6 +36,7 @@ export const CustomSwitch = ({
       <div className="columns">
         <Text className={leftLabelClassName}>{leftLabel}</Text>
         <FormControlLabel
+          className="custom-switch__label"
           disabled={disabled}
           control={
             <Switch
