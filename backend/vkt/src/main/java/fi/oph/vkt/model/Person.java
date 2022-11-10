@@ -54,4 +54,7 @@ public class Person extends BaseEntity {
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();
+
+  @OneToMany(mappedBy = "person")
+  private List<Reservation> reservations = new ArrayList<>();
 }

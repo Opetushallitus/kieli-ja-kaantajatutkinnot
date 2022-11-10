@@ -4,28 +4,35 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
+import fi.oph.vkt.repository.ReservationRepository;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
-import javax.annotation.Resource;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PublicExamEventService {
 
-  @Resource
   private final ExamEventRepository examEventRepository;
+  private final ReservationRepository reservationRepository;
 
+  @Transactional(readOnly = true)
   public List<PublicExamEventDTO> listExamEvents(final ExamLevel level) {
-    final List<PublicExamEventProjection> projections = examEventRepository.listPublicExamEventProjections(level);
-    final List<PublicExamEventProjection> examEventProjections = addRandomization(projections);
+    final List<PublicExamEventProjection> examEventProjections = examEventRepository.listPublicExamEventProjections(
+      level
+    );
+    final Map<Long, Integer> reservationsByExamEvent = reservationRepository.countActiveReservationsByExamEvent();
 
     return examEventProjections
       .stream()
-      .map(e ->
-        PublicExamEventDTO
+      .map(e -> {
+        final int reservationsCount = reservationsByExamEvent.getOrDefault(e.id(), 0);
+        final boolean hasCongestion =
+          e.participants() < e.maxParticipants() && e.participants() + reservationsCount >= e.maxParticipants();
+        return PublicExamEventDTO
           .builder()
           .id(e.id())
           .language(e.language())
@@ -33,30 +40,10 @@ public class PublicExamEventService {
           .registrationCloses(e.registrationCloses())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
-          .hasCongestion(e.hasCongestion())
-          .build()
-      )
+          .hasCongestion(hasCongestion)
+          .build();
+      })
       .sorted(Comparator.comparing(PublicExamEventDTO::date).thenComparing(PublicExamEventDTO::language))
-      .toList();
-  }
-
-  // TODO: remove this, setting random hasCongestion given that information is currently not available
-  private List<PublicExamEventProjection> addRandomization(final List<PublicExamEventProjection> examEventProjections) {
-    final Random random = new Random();
-
-    return examEventProjections
-      .stream()
-      .map(e ->
-        new PublicExamEventProjection(
-          e.id(),
-          e.language(),
-          e.date(),
-          e.registrationCloses(),
-          e.participants(),
-          e.maxParticipants(),
-          random.nextInt(e.maxParticipants()) % 9 == 0
-        )
-      )
       .toList();
   }
 }

@@ -3,5 +3,9 @@ spring:
     import: application.yaml
   jpa:
     database: hsql
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
   datasource:
     url: jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1

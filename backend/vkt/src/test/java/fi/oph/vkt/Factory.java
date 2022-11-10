@@ -3,10 +3,12 @@ package fi.oph.vkt;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Factory {
@@ -57,5 +59,16 @@ public class Factory {
     person.getEnrollments().add(enrollment);
 
     return enrollment;
+  }
+
+  public static Reservation reservation(final ExamEvent examEvent, final Person person) {
+    final Reservation reservation = new Reservation();
+    reservation.setExamEvent(examEvent);
+    reservation.setPerson(person);
+    reservation.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+
+    examEvent.getReservations().add(reservation);
+    person.getReservations().add(reservation);
+    return reservation;
   }
 }

@@ -9,6 +9,5 @@ public record PublicExamEventProjection(
   LocalDate date,
   LocalDate registrationCloses,
   long participants,
-  int maxParticipants,
-  boolean hasCongestion
+  int maxParticipants
 ) {}
