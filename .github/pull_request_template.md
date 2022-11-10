@@ -12,5 +12,6 @@ _Muut mahdolliset huomautukset..._
 
 ## Check-lista
 
-- [ ] Käännösten Excel-tiedosto päivitetty
 - [ ] Testattu docker-compose:lla
+- [ ] Käännösten Excel-tiedosto päivitetty
+- [ ] UI-muutoksia testattu eri selaimilla ja mobiilinäkymässä
