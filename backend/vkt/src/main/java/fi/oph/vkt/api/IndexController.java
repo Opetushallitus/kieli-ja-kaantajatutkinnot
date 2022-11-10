@@ -14,10 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
   private static final int NONCE_BYTES = 32;
-  private SecureRandom secureRandom = new SecureRandom();
+  private final SecureRandom secureRandom = new SecureRandom();
 
-  private static void addCSPHeaders(HttpServletResponse response, String nonce) {
-    StringBuilder sb = new StringBuilder();
+  private static void addCSPHeaders(final HttpServletResponse response, final String nonce) {
+    final StringBuilder sb = new StringBuilder();
     sb.append("default-src 'none'; ");
 
     sb.append("script-src 'self' 'nonce-");
@@ -38,15 +38,14 @@ public class IndexController {
   }
 
   private String getNonce() {
-    byte[] nonceBytes = new byte[NONCE_BYTES];
+    final byte[] nonceBytes = new byte[NONCE_BYTES];
     secureRandom.nextBytes(nonceBytes);
-
     return Base64.getEncoder().encodeToString(nonceBytes);
   }
 
   @GetMapping("")
-  public ModelAndView index(HttpServletResponse response) {
-    String cspNonce = getNonce();
+  public ModelAndView index(final HttpServletResponse response) {
+    final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
     return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
   }
@@ -69,7 +68,7 @@ public class IndexController {
     }
   )
   public ModelAndView indexAllOtherPaths(HttpServletResponse response) {
-    String cspNonce = getNonce();
+    final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
     return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
   }
