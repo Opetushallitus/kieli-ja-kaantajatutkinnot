@@ -80,7 +80,7 @@ class IndexControllerIntegrationTest {
         }
       })
       .collect(Collectors.toSet());
-    assertEquals(5, nonces.size());
+    assertEquals(urls.size(), nonces.size());
   }
 
   private void assertIndexHtml(final String url) throws Exception {

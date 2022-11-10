@@ -67,7 +67,7 @@ public class IndexController {
       "*/*/*/*/*/*/*/*/*/*/*/{path:[^.]*}",
     }
   )
-  public ModelAndView indexAllOtherPaths(HttpServletResponse response) {
+  public ModelAndView indexAllOtherPaths(final HttpServletResponse response) {
     final String cspNonce = getNonce();
     addCSPHeaders(response, cspNonce);
     return new ModelAndView("index.html", Map.of("cspNonce", cspNonce));
