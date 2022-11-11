@@ -12,6 +12,7 @@ import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage
 import { ClerkNewInterpreterPage } from 'pages/ClerkNewInterpreterPage';
 import { ClerkPersonSearchPage } from 'pages/ClerkPersonSearchPage';
 import { MeetingDatesPage } from 'pages/MeetingDatesPage';
+import { NotFoundPage } from 'pages/NotFoundPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
@@ -54,6 +55,7 @@ export const AppRouter: FC = () => {
                 path={AppRoutes.ClerkNewInterpreterPage}
                 element={<ClerkNewInterpreterPage />}
               />
+              <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
             </Routes>
           </div>
         </main>
