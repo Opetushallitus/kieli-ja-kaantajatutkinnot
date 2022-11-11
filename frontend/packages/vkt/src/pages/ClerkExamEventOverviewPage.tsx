@@ -9,10 +9,7 @@ import { DateUtils, StringUtils } from 'shared/utils';
 import { ClerkExamEventDetails } from 'components/clerkExamEvent/overview/ClerkExamEventDetails';
 import { TopControls } from 'components/clerkExamEvent/overview/TopControls';
 import { ClerkExamEventOverviewPageSkeleton } from 'components/skeletons/ClerkExamEventOverviewPageSkeleton';
-import {
-  useClerkTranslation,
-  useKoodistoLanguagesTranslation,
-} from 'configs/i18n';
+import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import {
@@ -26,7 +23,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventOverview',
   });
-  const translateLanguage = useKoodistoLanguagesTranslation();
+  const translateCommon = useCommonTranslation();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -72,13 +69,12 @@ export const ClerkExamEventOverviewPage: FC = () => {
     t,
   ]);
 
-  const examLevel = t(`examEventDetailsFields.examLevels.${examEvent?.level}`);
+  const examLevel = translateCommon(`examLevel.${examEvent?.level}`);
+  const examLanguage = translateCommon(`examLanguage.${examEvent?.language}`);
   const examDate = DateUtils.formatOptionalDate(examEvent?.date);
 
   const pageHeader = examEvent
-    ? StringUtils.capitalize(
-        `${translateLanguage(examEvent.language)}, ${examLevel} ${examDate}`
-      )
+    ? StringUtils.capitalize(`${examLanguage}, ${examLevel} ${examDate}`)
     : '';
 
   useEffect(() => {

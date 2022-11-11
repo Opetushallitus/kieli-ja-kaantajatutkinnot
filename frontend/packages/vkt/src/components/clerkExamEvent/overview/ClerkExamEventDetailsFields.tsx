@@ -10,11 +10,7 @@ import {
 import { TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
-import {
-  useClerkTranslation,
-  useCommonTranslation,
-  useKoodistoLanguagesTranslation,
-} from 'configs/i18n';
+import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import {
   ClerkExamEvent,
@@ -50,17 +46,16 @@ export const ClerkExamEventDetailsFields = ({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventDetailsFields',
   });
   const translateCommon = useCommonTranslation();
-  const translateLanguage = useKoodistoLanguagesTranslation();
 
   const examLevelToLabel = (level: string): ComboBoxOption => {
     return {
-      label: t(`examLevels.${level}`),
+      label: translateCommon(`examLevel.${level}`),
       value: level,
     };
   };
 
   const languageCodeToLabel = (code: string) => {
-    const label = translateLanguage(code);
+    const label = translateCommon(`examLanguage.${code}`);
 
     return {
       label: label,
@@ -125,8 +120,8 @@ export const ClerkExamEventDetailsFields = ({
           <CustomSwitch
             dataTestId="clerk-exam-event__basic-information__is-visible-switch"
             disabled={editDisabled}
-            onChange={onCheckBoxChange('isVisible')}
-            value={examEvent?.isVisible}
+            onChange={onCheckBoxChange('isHidden')}
+            value={examEvent?.isHidden}
             leftLabel={translateCommon('no')}
             rightLabel={translateCommon('yes')}
           />

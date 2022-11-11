@@ -45,6 +45,7 @@ const clerkListExamEventSlice = createSlice({
     upsertExamEvents(state, action: PayloadAction<ClerkExamEvent>) {
       const updateExamEvents = [...state.examEvents];
       const examEvent = action.payload;
+
       const idx = updateExamEvents.findIndex(
         (e: ClerkListExamEvent) => e.id === examEvent.id
       );

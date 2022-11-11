@@ -37,7 +37,7 @@ export enum HeaderNavTab {
 }
 
 export enum UIMode {
-  EditExamEventDetails = 'editQualificationDetails',
+  Edit = 'edit',
   View = 'view',
 }
 

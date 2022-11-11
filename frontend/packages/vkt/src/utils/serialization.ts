@@ -3,9 +3,9 @@ import { DateUtils } from 'shared/utils';
 
 import {
   ClerkExamEvent,
-  ClerkExamEventEnrollment,
   ClerkExamEventEnrollmentResponse,
   ClerkExamEventResponse,
+  Enrollment,
 } from 'interfaces/clerkExamEvent';
 import {
   ClerkListExamEvent,
@@ -63,11 +63,11 @@ export class SerializationUtils {
     };
   }
 
-  static serializeEnrollments(response: Array<ClerkExamEventEnrollment>) {
+  static serializeEnrollments(response: Array<Enrollment>) {
     return response.map(SerializationUtils.serializeEnrollment);
   }
 
-  static serializeEnrollment(enrollment: ClerkExamEventEnrollment) {
+  static serializeEnrollment(enrollment: Enrollment) {
     return {
       ...enrollment,
       previousEnrollmentDate: DateUtils.serializeDate(

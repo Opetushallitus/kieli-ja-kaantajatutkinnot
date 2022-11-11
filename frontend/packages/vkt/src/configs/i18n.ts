@@ -16,9 +16,6 @@ import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import clerkFI from 'public/i18n/fi-FI/clerk.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
 import publicFI from 'public/i18n/fi-FI/public.json';
-import koodistoLangsEN from 'public/i18n/koodisto/langs/koodisto_langs_en-GB.json';
-import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
-import koodistoLangsSV from 'public/i18n/koodisto/langs/koodisto_langs_sv-SE.json';
 import accessibilitySV from 'public/i18n/sv-SE/accessibility.json';
 import clerkSV from 'public/i18n/sv-SE/clerk.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
@@ -37,21 +34,18 @@ const resources = {
     [I18nNamespace.Common]: commonFI,
     [I18nNamespace.Public]: publicFI,
     [I18nNamespace.Accessibility]: accessibilityFI,
-    [I18nNamespace.KoodistoLanguages]: koodistoLangsFI,
   },
   [langSV]: {
     [I18nNamespace.Clerk]: clerkSV,
     [I18nNamespace.Common]: commonSV,
     [I18nNamespace.Public]: publicSV,
     [I18nNamespace.Accessibility]: accessibilitySV,
-    [I18nNamespace.KoodistoLanguages]: koodistoLangsSV,
   },
   [langEN]: {
     [I18nNamespace.Clerk]: clerkEN,
     [I18nNamespace.Common]: commonEN,
     [I18nNamespace.Public]: publicEN,
     [I18nNamespace.Accessibility]: accessibilityEN,
-    [I18nNamespace.KoodistoLanguages]: koodistoLangsEN,
   },
 };
 
@@ -87,9 +81,9 @@ export const initI18n = () => {
   return i18n;
 };
 
-export const useAppTranslation = (
+const useAppTranslation = (
   options: UseTranslationOptions<string>,
-  ns: I18nNamespace = I18nNamespace.Translation
+  ns: I18nNamespace
 ) => {
   // @ts-expect-error ts import fail
   return useTranslation(ns, options);
@@ -116,18 +110,6 @@ export const useCommonTranslation = () => {
   return t;
 };
 
-export const useKoodistoLanguagesTranslation = () => {
-  const { t } = useAppTranslation(
-    {
-      keyPrefix: 'vkt.koodisto.languages',
-    },
-    I18nNamespace.KoodistoLanguages
-  );
-
-  return t;
-};
-
-// ts-unused-exports:disable-next-line
 export const translateOutsideComponent = () => {
   return t;
 };

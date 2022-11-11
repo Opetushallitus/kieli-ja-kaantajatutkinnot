@@ -34,7 +34,7 @@ export const ClerkExamEventDetails = () => {
   const [examEventDetails, setExamEventDetails] = useState(examEvent);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
-  const isViewMode = currentUIMode !== UIMode.EditExamEventDetails;
+  const isViewMode = currentUIMode !== UIMode.Edit;
 
   const resetLocalExamEventDetails = useCallback(() => {
     setExamEventDetails(examEvent);
@@ -56,7 +56,7 @@ export const ClerkExamEventDetails = () => {
   useEffect(() => {
     if (
       examEventDetailsStatus === APIResponseStatus.Success &&
-      currentUIMode === UIMode.EditExamEventDetails
+      currentUIMode === UIMode.Edit
     ) {
       showToast({
         severity: Severity.Success,
@@ -65,7 +65,7 @@ export const ClerkExamEventDetails = () => {
       resetToInitialState();
     } else if (
       examEventDetailsStatus === APIResponseStatus.Cancelled &&
-      currentUIMode === UIMode.EditExamEventDetails
+      currentUIMode === UIMode.Edit
     ) {
       // Flow was reset through the cancel dialog -> reset UI state.
       resetToInitialState();
@@ -131,7 +131,7 @@ export const ClerkExamEventDetails = () => {
 
   const onEdit = () => {
     resetLocalExamEventDetails();
-    setCurrentUIMode(UIMode.EditExamEventDetails);
+    setCurrentUIMode(UIMode.Edit);
   };
 
   const openCancelDialog = () => {

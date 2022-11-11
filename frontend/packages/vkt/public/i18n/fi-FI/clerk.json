@@ -9,9 +9,6 @@
           }
         },
         "examEventDetailsFields": {
-          "examLevels": {
-            "EXCELLENT": "erinomainen"
-          },
           "header": {
             "language": "Kieli",
             "level": "Taso",

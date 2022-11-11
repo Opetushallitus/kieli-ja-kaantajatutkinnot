@@ -9,13 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.5.0] - 2022-11-14
-
-### Added
-
-- New `StyleCacheProvider` to simplify setting up Emotion styles with a CSP nonce read from
-  a `<meta name="csp-nonce" ... />` tag
-## [1.4.4] - 2022-11-10
+## [1.5.1] - 2022-11-16
 
 ### Fixed
 
@@ -29,6 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Capitalise function added to StringUtils
 - Validation function added DateUtils
+
+## [1.5.0] - 2022-11-14
+
+### Added
+
+- New `StyleCacheProvider` to simplify setting up Emotion styles with a CSP nonce read from
+  a `<meta name="csp-nonce" ... />` tag
 
 ## [1.4.3] - 2022-11-03
 

@@ -12,7 +12,6 @@ interface ClerkExamEventOverviewState {
 const initialState: ClerkExamEventOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   examEventDetailsStatus: APIResponseStatus.NotStarted,
-  examEvent: undefined,
 };
 
 const clerkExamEventOverviewSlice = createSlice({
@@ -30,10 +29,6 @@ const clerkExamEventOverviewSlice = createSlice({
     },
     resetClerkExamEventDetailsUpdate(state) {
       state.examEventDetailsStatus = initialState.examEventDetailsStatus;
-    },
-    setClerkExamEventOverview(state, action: PayloadAction<ClerkExamEvent>) {
-      state.overviewStatus = APIResponseStatus.NotStarted;
-      state.examEvent = action.payload;
     },
     storeClerkExamEventOverview(state, action: PayloadAction<ClerkExamEvent>) {
       state.overviewStatus = APIResponseStatus.Success;
@@ -63,7 +58,6 @@ export const {
   rejectClerkExamEventOverview,
   resetClerkExamEventOverview,
   resetClerkExamEventDetailsUpdate,
-  setClerkExamEventOverview,
   storeClerkExamEventOverview,
   updateClerkExamEventDetails,
   updatingClerkExamEventDetailsSucceeded,
