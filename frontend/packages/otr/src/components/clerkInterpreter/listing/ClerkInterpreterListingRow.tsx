@@ -56,9 +56,10 @@ export const ClerkInterpreterListingRow = ({
       <TableCell>
         {visibleQualifications.map(({ fromLang, toLang }, k) => (
           <Text key={k}>
-            {translateLanguage(fromLang)}
-            {` - `}
-            {translateLanguage(toLang)}
+            {QualificationUtils.getLanguagePairLocalisation(
+              { from: fromLang, to: toLang },
+              translateLanguage
+            )}
           </Text>
         ))}
       </TableCell>

@@ -28,6 +28,7 @@ import { useAppSelector } from 'configs/redux';
 import { AuthorisationBasisEnum } from 'enums/clerkTranslator';
 import { Authorisation } from 'interfaces/authorisation';
 import { authorisationSelector } from 'redux/selectors/authorisation';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationListing = ({
   authorisations,
@@ -88,8 +89,10 @@ export const AuthorisationListing = ({
             >
               <TableCell>
                 <Text>
-                  {`${translateLanguage(a.languagePair.from)}
-             - ${translateLanguage(a.languagePair.to)}`}
+                  {AuthorisationUtils.getLanguagePairLocalisation(
+                    a.languagePair,
+                    translateLanguage
+                  )}
                 </Text>
               </TableCell>
               <TableCell>

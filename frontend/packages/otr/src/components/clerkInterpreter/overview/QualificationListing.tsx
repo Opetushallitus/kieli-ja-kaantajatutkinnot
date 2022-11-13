@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { Qualification } from 'interfaces/qualification';
 import { updateQualification } from 'redux/reducers/qualification';
 import { qualificationSelector } from 'redux/selectors/qualification';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationListing = ({
   qualifications,
@@ -103,8 +104,10 @@ export const QualificationListing = ({
             >
               <TableCell>
                 <Text>
-                  {`${translateLanguage(q.fromLang)}
-             - ${translateLanguage(q.toLang)}`}
+                  {QualificationUtils.getLanguagePairLocalisation(
+                    { from: q.fromLang, to: q.toLang },
+                    translateLanguage
+                  )}
                 </Text>
               </TableCell>
               <TableCell>
