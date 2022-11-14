@@ -24,7 +24,7 @@ export const ClerkExamEventListingHeader = () => {
           <H3>{t('fillings')}</H3>
         </TableCell>
         <TableCell>
-          <H3>{t('public')}</H3>
+          <H3>{t('hidden')}</H3>
         </TableCell>
       </TableRow>
     </TableHead>

@@ -106,11 +106,10 @@ public class ClerkExamEventServiceTest {
       .forEach(i -> {
         final ExamEvent expected = expectedExamEventsOrdered.get(i);
         final ClerkExamEventListDTO dto = examEventListDTOs.get(i);
-        final boolean expectedIsPublic = i == 1 || i >= 4;
 
         assertExamEventListDTODetails(expected, dto);
         assertEquals(expected == futureEvent ? 2 : 0, dto.participants());
-        assertEquals(expectedIsPublic, dto.isPublic());
+        assertEquals(expected == hiddenEvent, dto.isHidden());
       });
 
     verify(auditService).logOperation(VktOperation.LIST_EXAM_EVENTS);
@@ -181,7 +180,7 @@ public class ClerkExamEventServiceTest {
     assertEquals(examEvent.getLevel(), examEventDTO.level());
     assertEquals(examEvent.getDate(), examEventDTO.date());
     assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
-    assertEquals(examEvent.isVisible(), examEventDTO.isVisible());
+    assertEquals(examEvent.isVisible(), !examEventDTO.isHidden());
     assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
 
     assertEquals(2, examEventDTO.enrollments().size());

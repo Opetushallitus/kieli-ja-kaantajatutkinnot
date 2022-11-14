@@ -12,8 +12,6 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.util.DateUtil;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +27,12 @@ public class ClerkExamEventService {
 
   @Transactional(readOnly = true)
   public List<ClerkExamEventListDTO> list() {
-    final LocalDate now = LocalDate.now();
     final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections();
 
     final List<ClerkExamEventListDTO> examEventListDTOs = examEventProjections
       .stream()
-      .map(e -> {
-        final boolean isPublic = e.isVisible() && DateUtil.isBeforeOrEqualTo(now, e.registrationCloses());
-
-        return ClerkExamEventListDTO
+      .map(e ->
+        ClerkExamEventListDTO
           .builder()
           .id(e.id())
           .language(e.language())
@@ -46,9 +41,9 @@ public class ClerkExamEventService {
           .registrationCloses(e.registrationCloses())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
-          .isPublic(isPublic)
-          .build();
-      })
+          .isHidden(!e.isVisible())
+          .build()
+      )
       .sorted(Comparator.comparing(ClerkExamEventListDTO::date).thenComparing(ClerkExamEventListDTO::language))
       .toList();
 
@@ -71,7 +66,7 @@ public class ClerkExamEventService {
       .level(examEvent.getLevel())
       .date(examEvent.getDate())
       .registrationCloses(examEvent.getRegistrationCloses())
-      .isVisible(examEvent.isVisible())
+      .isHidden(!examEvent.isVisible())
       .maxParticipants(examEvent.getMaxParticipants())
       .enrollments(enrollmentDTOs)
       .build();

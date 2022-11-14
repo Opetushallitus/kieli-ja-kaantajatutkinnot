@@ -10,7 +10,7 @@ export interface ClerkListExamEvent extends WithId {
   registrationCloses: Dayjs;
   participants: number;
   maxParticipants: number;
-  isPublic: boolean;
+  isHidden: boolean;
 }
 
 export interface ClerkListExamEventResponse
