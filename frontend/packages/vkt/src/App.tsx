@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
+import { StyleCacheProvider } from 'shared/components';
 
 import { initI18n } from 'configs/i18n';
 import { theme } from 'configs/materialUI';
@@ -13,8 +14,10 @@ initI18n();
 
 export const App = () => (
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <AppRouter />
-    </ThemeProvider>
+    <StyleCacheProvider appName="vkt">
+      <ThemeProvider theme={theme}>
+        <AppRouter />
+      </ThemeProvider>
+    </StyleCacheProvider>
   </Provider>
 );

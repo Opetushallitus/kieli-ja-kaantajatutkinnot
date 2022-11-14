@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
-import { NotifierContextProvider } from 'shared/components';
+import { NotifierContextProvider, StyleCacheProvider } from 'shared/components';
 
 import { initI18n } from 'configs/i18n';
 import { theme } from 'configs/materialUI';
@@ -14,10 +14,12 @@ initI18n();
 
 export const App = () => (
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <NotifierContextProvider>
-        <AppRouter />
-      </NotifierContextProvider>
-    </ThemeProvider>
+    <StyleCacheProvider appName="otr">
+      <ThemeProvider theme={theme}>
+        <NotifierContextProvider>
+          <AppRouter />
+        </NotifierContextProvider>
+      </ThemeProvider>
+    </StyleCacheProvider>
   </Provider>
 );

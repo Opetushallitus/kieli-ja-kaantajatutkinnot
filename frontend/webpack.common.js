@@ -52,6 +52,7 @@ module.exports = (appName, env, dirName, port) => {
       ...getESLintPlugin(env),
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
+      new CSPNoncePlaceholderInjectorPlugin(),
     ],
   });
 
@@ -174,7 +175,7 @@ const getESLintPlugin = (env) => {
 
 const getHtmlWebpackPlugin = (env, appName, dirName) => {
   const configs = {
-    publicPath: (env.prod && !env.cypress) ? `/${appName}/` : "/",
+    publicPath: env.prod && !env.cypress ? `/${appName}/` : "/",
     template: path.join(dirName, "public", "index.html"),
     templateParameters: {
       GIT_INFO: "Not available",
@@ -203,3 +204,33 @@ const getHtmlWebpackPlugin = (env, appName, dirName) => {
 const isGitAvailable = () => {
   return fs.existsSync(path.join(__dirname, "..", ".git"));
 };
+
+const addThymeleafNoncePlaceholder = (e) => {
+  e.attributes["th:attr"] = "nonce=${cspNonce}";
+}
+
+class CSPNoncePlaceholderInjectorPlugin {
+  apply(compiler) {
+    compiler.hooks.compilation.tap(
+      "CSPNoncePlaceholderInjectorPlugin",
+      (compilation) => {
+        HtmlWebpackPlugin.getHooks(compilation).alterAssetTags.tapAsync(
+          "CSPNoncePlaceholderInjectorPlugin",
+          (data, cb) => {
+            const { scripts, styles, meta } = data.assetTags;
+            scripts.forEach(addThymeleafNoncePlaceholder);
+            styles.forEach(addThymeleafNoncePlaceholder);
+            meta.push(
+              HtmlWebpackPlugin.createHtmlTagObject("meta", {
+                name: "csp-nonce",
+                "th:attr": "content=${cspNonce}",
+              })
+            );
+
+            cb(null, data);
+          }
+        );
+      }
+    );
+  }
+}

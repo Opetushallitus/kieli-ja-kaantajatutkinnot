@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.0] - 2022-11-14
+
+### Added
+
+- New `StyleCacheProvider` to simplify setting up Emotion styles with a CSP nonce read from
+  a `<meta name="csp-nonce" ... />` tag
+
 ## [1.4.3] - 2022-11-03
 
 ### Added
