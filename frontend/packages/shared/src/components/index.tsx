@@ -36,3 +36,4 @@ export { OPHClerkLogo } from './OPHClerkLogo/OPHClerkLogo';
 export { Notifier } from './Notifier/Notifier';
 export { NotifierContextProvider } from './Notifier/NotifierContextProvider';
 export { CookieBanner } from './CookieBanner/CookieBanner';
+export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
