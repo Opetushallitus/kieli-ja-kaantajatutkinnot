@@ -27,7 +27,7 @@ jobs:
         node-version: [16.16.0]
     steps:
       - uses: actions/checkout@v3
-      - uses: szenius/set-timezone@v1.0
+      - uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
