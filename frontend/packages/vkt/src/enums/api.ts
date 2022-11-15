@@ -11,5 +11,6 @@ export enum APIEndpoints {
 export enum APIError {
   CreateReservationCongestion = 'createReservationCongestion',
   CreateReservationRegistrationClosed = 'createReservationRegistrationClosed',
+  ExamEventDuplicate = 'examEventDuplicate',
   InvalidVersion = 'invalidVersion',
 }

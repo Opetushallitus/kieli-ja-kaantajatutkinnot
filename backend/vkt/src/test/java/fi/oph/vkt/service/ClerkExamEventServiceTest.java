@@ -1,13 +1,18 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
@@ -16,7 +21,10 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -249,5 +257,127 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getPostalCode(), personDTO.postalCode());
     assertEquals(expected.getTown(), personDTO.town());
     assertEquals(expected.getCountry(), personDTO.country());
+  }
+
+  @Test
+  public void testCreateExamEvent() {
+    final ClerkExamEventCreateDTO createDTO = ClerkExamEventCreateDTO
+      .builder()
+      .language(ExamLanguage.FI)
+      .level(ExamLevel.EXCELLENT)
+      .date(LocalDate.now().plusMonths(1))
+      .registrationCloses(LocalDate.now().plusWeeks(1))
+      .isHidden(true)
+      .maxParticipants(2L)
+      .build();
+
+    final ClerkExamEventDTO examEventDTO = clerkExamEventService.createExamEvent(createDTO);
+
+    final List<ExamEvent> allExamEvents = examEventRepository.findAll();
+    assertEquals(1, allExamEvents.size());
+
+    final ExamEvent examEvent = allExamEvents.get(0);
+
+    assertEquals(examEvent.getId(), examEventDTO.id());
+    assertEquals(examEvent.getVersion(), examEventDTO.version());
+    assertEquals(examEvent.getLanguage(), examEventDTO.language());
+    assertEquals(examEvent.getLevel(), examEventDTO.level());
+    assertEquals(examEvent.getDate(), examEventDTO.date());
+    assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
+    assertEquals(examEvent.isVisible(), !examEventDTO.isHidden());
+    assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
+
+    assertEquals(0, examEventDTO.enrollments().size());
+
+    verify(auditService).logById(VktOperation.CREATE_EXAM_EVENT, examEvent.getId());
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testCreateExamEventFailsOnDuplicate() {
+    final ClerkExamEventCreateDTO.ClerkExamEventCreateDTOBuilder duplicateDTOBuilder = ClerkExamEventCreateDTO
+      .builder()
+      .language(ExamLanguage.FI)
+      .level(ExamLevel.EXCELLENT)
+      .date(LocalDate.now().plusMonths(1));
+
+    clerkExamEventService.createExamEvent(
+      duplicateDTOBuilder.registrationCloses(LocalDate.now().plusWeeks(1)).isHidden(true).maxParticipants(2L).build()
+    );
+    reset(auditService);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        clerkExamEventService.createExamEvent(
+          duplicateDTOBuilder.registrationCloses(LocalDate.now()).isHidden(false).maxParticipants(3L).build()
+        )
+    );
+    assertEquals(APIExceptionType.EXAM_EVENT_DUPLICATE, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testUpdateExamEvent() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    // fetch dto for enrollment comparison and reset auditService
+    final ClerkExamEventDTO originalResponse = clerkExamEventService.getExamEvent(examEvent.getId());
+    reset(auditService);
+
+    final ClerkExamEventUpdateDTO updateDTO = createUpdateDTOAddingOne(examEvent).build();
+    final ClerkExamEventDTO response = clerkExamEventService.updateExamEvent(updateDTO);
+
+    assertEquals(updateDTO.id(), response.id());
+    assertEquals(updateDTO.version() + 1, response.version());
+    assertEquals(updateDTO.language(), response.language());
+    assertEquals(updateDTO.level(), response.level());
+    assertEquals(updateDTO.date(), response.date());
+    assertEquals(updateDTO.registrationCloses(), response.registrationCloses());
+    assertEquals(updateDTO.isHidden(), response.isHidden());
+    assertEquals(updateDTO.maxParticipants(), response.maxParticipants());
+
+    assertEquals(originalResponse.enrollments(), response.enrollments());
+
+    verify(auditService).logById(VktOperation.UPDATE_EXAM_EVENT, examEvent.getId());
+    verifyNoMoreInteractions(auditService);
+  }
+
+  @Test
+  public void testUpdateExamEventFailsOnDuplicate() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final ExamEvent examEvent2 = Factory.examEvent();
+    examEvent2.setDate(examEvent2.getDate().plusDays(1));
+    examEvent2.setLanguage(ExamLanguage.SV);
+    entityManager.persist(examEvent);
+    entityManager.persist(examEvent2);
+
+    // Trying to update examEvent to be duplicate with examEvent2
+    final ClerkExamEventUpdateDTO updateDTO = createUpdateDTOAddingOne(examEvent).build();
+    final APIException ex = assertThrows(APIException.class, () -> clerkExamEventService.updateExamEvent(updateDTO));
+
+    assertEquals(APIExceptionType.EXAM_EVENT_DUPLICATE, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
+  private static ClerkExamEventUpdateDTO.ClerkExamEventUpdateDTOBuilder createUpdateDTOAddingOne(
+    final ExamEvent examEvent
+  ) {
+    return ClerkExamEventUpdateDTO
+      .builder()
+      .id(examEvent.getId())
+      .version(examEvent.getVersion())
+      .language(examEvent.getLanguage() == ExamLanguage.FI ? ExamLanguage.SV : ExamLanguage.FI)
+      .level(examEvent.getLevel())
+      .date(examEvent.getDate().plusDays(1))
+      .registrationCloses(examEvent.getRegistrationCloses().plusDays(1))
+      .isHidden(examEvent.isVisible())
+      .maxParticipants(examEvent.getMaxParticipants() + 1);
   }
 }
