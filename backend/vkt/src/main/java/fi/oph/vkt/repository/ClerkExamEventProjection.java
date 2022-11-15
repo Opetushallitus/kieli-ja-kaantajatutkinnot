@@ -11,6 +11,6 @@ public record ClerkExamEventProjection(
   LocalDate date,
   LocalDate registrationCloses,
   long participants,
-  int maxParticipants,
+  long maxParticipants,
   boolean isVisible
 ) {}

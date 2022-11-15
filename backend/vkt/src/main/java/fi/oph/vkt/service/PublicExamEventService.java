@@ -5,6 +5,7 @@ import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.util.ExamEventUtil;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +25,14 @@ public class PublicExamEventService {
     final List<PublicExamEventProjection> examEventProjections = examEventRepository.listPublicExamEventProjections(
       level
     );
-    final Map<Long, Integer> reservationsByExamEvent = reservationRepository.countActiveReservationsByExamEvent();
+    final Map<Long, Long> reservationsByExamEvent = reservationRepository.countActiveReservationsByExamEvent();
 
     return examEventProjections
       .stream()
       .map(e -> {
-        final int reservationsCount = reservationsByExamEvent.getOrDefault(e.id(), 0);
-        final boolean hasCongestion =
-          e.participants() < e.maxParticipants() && e.participants() + reservationsCount >= e.maxParticipants();
+        final long reservations = reservationsByExamEvent.getOrDefault(e.id(), 0L);
+        final boolean hasCongestion = ExamEventUtil.isCongested(e.participants(), reservations, e.maxParticipants());
+
         return PublicExamEventDTO
           .builder()
           .id(e.id())

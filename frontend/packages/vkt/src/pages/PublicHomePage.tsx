@@ -1,16 +1,13 @@
 import { Box, Grid } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
-import { useAppDispatch } from 'configs/redux';
-import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
+import { useAppSelector } from 'configs/redux';
+import { PublicUIViews } from 'enums/app';
+import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const PublicHomePage: FC = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(loadPublicExamEvents());
-  }, [dispatch]);
+  const { currentView } = useAppSelector(publicUIViewSelector);
 
   return (
     <Box className="public-homepage">
@@ -20,7 +17,9 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicExamEventGrid />
+        {currentView === PublicUIViews.Reservation ? null : (
+          <PublicExamEventGrid />
+        )}
       </Grid>
     </Box>
   );

@@ -59,15 +59,16 @@ declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: typeof langFI;
     resources: {
-      [langFI]: typeof publicFI;
-      [langSV]: typeof publicSV;
-      [langEN]: typeof publicEN;
+      [langFI]: typeof commonFI;
+      [langSV]: typeof commonSV;
+      [langEN]: typeof commonEN;
     };
   }
 }
 
 export const initI18n = () => {
   const i18n = use(initReactI18next).use(LanguageDetector).init({
+    defaultNS: 'common',
     resources,
     detection: detectionOptions,
     fallbackLng: langFI,
@@ -109,7 +110,6 @@ export const useCommonTranslation = () => {
   return t;
 };
 
-// ts-unused-exports:disable-next-line
 export const translateOutsideComponent = () => {
   return t;
 };
