@@ -15,5 +15,5 @@ public record ClerkExamEventListDTO(
   @NonNull LocalDate registrationCloses,
   @NonNull Long participants,
   @NonNull Long maxParticipants,
-  @NonNull Boolean isPublic
+  @NonNull Boolean isHidden
 ) {}

@@ -53,7 +53,7 @@ export const ClerkExamEventListingRow = ({
         </TableCell>
         <TableCell>
           <Text>
-            {examEvent.isPublic
+            {examEvent.isHidden
               ? translateCommon('yes')
               : translateCommon('no')}
           </Text>

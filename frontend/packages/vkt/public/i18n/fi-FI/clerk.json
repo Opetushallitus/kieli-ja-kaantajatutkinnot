@@ -7,7 +7,7 @@
           "examDate": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
           "language": "Kieli ja taso",
-          "public": "Nähtävillä julkisesti",
+          "hidden": "Piilotettu",
           "registrationCloses": "Ilmottautuminen sulkeutuu"
         },
         "title": "Tutkintotilaisuudet",

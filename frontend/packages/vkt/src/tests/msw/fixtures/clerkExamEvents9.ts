@@ -7,7 +7,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-03-15',
     participants: 10,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-03-15',
     participants: 4,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-19',
     participants: 9,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-19',
     participants: 2,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-20',
     participants: 7,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-27',
     participants: 6,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-12-25',
     participants: 3,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 8,
@@ -77,7 +77,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-12-25',
     participants: 0,
     maxParticipants: 10,
-    isPublic: true,
+    isHidden: false,
   },
   {
     id: 9,
@@ -87,6 +87,6 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-12-31',
     participants: 1,
     maxParticipants: 10,
-    isPublic: false,
+    isHidden: true,
   },
 ];
