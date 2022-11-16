@@ -29,7 +29,7 @@ jobs:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/src/main/resources/static
           key: ${{ runner.os }}-${{ inputs.app-name }}-frontend-build-${{ github.sha }}
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
