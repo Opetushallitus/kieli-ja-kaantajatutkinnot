@@ -50,3 +50,4 @@ jobs:
           ./ci-tools/common/pull-image.sh
           ./ci-tools/github-build/build-fatjar.sh $ARTIFACT_NAME
           ./ci-tools/github-build/upload-image.sh $ARTIFACT_NAME
+          ./ci-tools/common/clean-docker-build-dir.sh
