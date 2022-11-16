@@ -1,5 +1,5 @@
 import { ClerkInterpreterQualifications } from 'interfaces/clerkInterpreter';
-import { LanguagePair } from 'interfaces/publicInterpreter';
+import { LanguagePair } from 'interfaces/languagePair';
 import { Qualification } from 'interfaces/qualification';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
@@ -31,6 +31,13 @@ export class QualificationUtils {
     }
 
     return true;
+  }
+
+  static getLanguagePairLocalisation(
+    { from, to }: LanguagePair,
+    translateLanguage: (l: string) => string
+  ) {
+    return `${translateLanguage(from)} - ${translateLanguage(to)}`;
   }
 
   static getQualificationsVisibleInClerkHomePage(

@@ -82,7 +82,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
     (activeColumn: AuthorisationColumn, authorisation: Authorisation) => {
       const {
         basis,
-        languagePair: { from, to },
+        languagePair,
         permissionToPublish,
         termBeginDate,
         termEndDate,
@@ -91,7 +91,10 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
         case AuthorisationColumn.Basis:
           return basis;
         case AuthorisationColumn.LanguagePair:
-          return `${translateLanguage(from)} - ${translateLanguage(to)}`;
+          return AuthorisationUtils.getLanguagePairLocalisation(
+            languagePair,
+            translateLanguage
+          );
         case AuthorisationColumn.PermissionToPublish:
           return permissionToPublish
             ? translateCommon('yes')

@@ -2,10 +2,8 @@ import { TableCell } from '@mui/material';
 import { H2, H3, Text } from 'shared/components';
 
 import { CollapseToggle } from 'components/publicInterpreter/listing/row/CollapseToggle';
-import {
-  useAppTranslation,
-  useKoodistoLanguagesTranslation,
-} from 'configs/i18n';
+import { LanguagePairs } from 'components/publicInterpreter/listing/row/LanguagePairs';
+import { useAppTranslation } from 'configs/i18n';
 import { PublicInterpreter } from 'interfaces/publicInterpreter';
 import { RegionUtils } from 'utils/regions';
 
@@ -21,7 +19,6 @@ export const PublicInterpreterPhoneCells = ({
   isOpen: boolean;
   interpreter: PublicInterpreter;
 }) => {
-  const translateLanguage = useKoodistoLanguagesTranslation();
   const { lastName, firstName, languages, regions } = interpreter;
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.publicInterpreterListing',
@@ -35,13 +32,7 @@ export const PublicInterpreterPhoneCells = ({
           <div className="rows gapped">
             <div>
               <H3>{t('header.languagePairs')}</H3>
-              {languages.map(({ from, to }, k) => (
-                <Text key={k}>
-                  {translateLanguage(from)}
-                  {` - `}
-                  {translateLanguage(to)}
-                </Text>
-              ))}
+              <LanguagePairs languagePairs={languages} />
             </div>
             <div>
               <H3>{t('header.region')}</H3>
@@ -62,7 +53,6 @@ export const PublicInterpreterDesktopCells = ({
   isOpen: boolean;
   interpreter: PublicInterpreter;
 }) => {
-  const translateLanguage = useKoodistoLanguagesTranslation();
   const { lastName, firstName, languages, regions } = interpreter;
 
   return (
@@ -74,13 +64,7 @@ export const PublicInterpreterDesktopCells = ({
         </div>
       </TableCell>
       <TableCell>
-        {languages.map(({ from, to }, k) => (
-          <Text key={k}>
-            {translateLanguage(from)}
-            {` - `}
-            {translateLanguage(to)}
-          </Text>
-        ))}
+        <LanguagePairs languagePairs={languages} />
       </TableCell>
       <TableCell>{mapRegionsToTextElements(regions)}</TableCell>
     </>

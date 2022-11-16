@@ -1,10 +1,7 @@
 import { AutocompleteValue } from 'shared/components';
 import { WithId } from 'shared/interfaces';
 
-export interface LanguagePair {
-  from: string;
-  to: string;
-}
+import { LanguagePair } from 'interfaces/languagePair';
 
 export interface PublicInterpreter extends WithId {
   firstName: string;

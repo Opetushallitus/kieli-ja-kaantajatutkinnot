@@ -20,6 +20,7 @@ import {
   publicTranslatorsSelector,
   selectedPublicTranslatorsForLanguagePair,
 } from 'redux/selectors/publicTranslator';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ChosenTranslatorsHeading = () => {
   const { filters } = useAppSelector(publicTranslatorsSelector);
@@ -39,7 +40,10 @@ export const ChosenTranslatorsHeading = () => {
     <div className={divClassName}>
       <H3>{`${t('chosenTranslatorsForLanguagePair')}`}</H3>
       <H3 className="contact-request-page__lang-pair">
-        {`${translateLanguage(fromLang)} - ${translateLanguage(toLang)}`}
+        {AuthorisationUtils.getLanguagePairLocalisation(
+          { from: fromLang, to: toLang },
+          translateLanguage
+        )}
       </H3>
     </div>
   );
