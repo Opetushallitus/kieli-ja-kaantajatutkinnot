@@ -7,6 +7,7 @@ package fi.oph.vkt.util.exception;
 public enum APIExceptionType {
   CREATE_RESERVATION_CONGESTION,
   CREATE_RESERVATION_REGISTRATION_CLOSED,
+  EXAM_EVENT_DUPLICATE,
   INVALID_VERSION;
 
   public String getCode() {

@@ -1,8 +1,11 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTOCommonFields;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.AuditService;
@@ -12,9 +15,13 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,12 +60,19 @@ public class ClerkExamEventService {
 
   @Transactional(readOnly = true)
   public ClerkExamEventDTO getExamEvent(final long examEventId) {
+    final ClerkExamEventDTO examEventDTO = getExamEventWithoutAudit(examEventId);
+
+    auditService.logById(VktOperation.GET_EXAM_EVENT, examEventId);
+    return examEventDTO;
+  }
+
+  private ClerkExamEventDTO getExamEventWithoutAudit(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
     final List<ClerkEnrollmentDTO> enrollmentDTOs = enrollments.stream().map(this::getEnrollmentDTO).toList();
 
-    final ClerkExamEventDTO examEventDTO = ClerkExamEventDTO
+    return ClerkExamEventDTO
       .builder()
       .id(examEvent.getId())
       .version(examEvent.getVersion())
@@ -70,14 +84,11 @@ public class ClerkExamEventService {
       .maxParticipants(examEvent.getMaxParticipants())
       .enrollments(enrollmentDTOs)
       .build();
-
-    auditService.logById(VktOperation.GET_EXAM_EVENT, examEventId);
-    return examEventDTO;
   }
 
   private ClerkEnrollmentDTO getEnrollmentDTO(final Enrollment enrollment) {
     final ClerkPersonDTO personDTO = getClerkPersonDTO(enrollment.getPerson());
-    final List<ClerkExamPaymentDTO> paymentDTOs = getClerkExamPaymentDTOs(enrollment);
+    final List<ClerkExamPaymentDTO> paymentDTOs = List.of(); // TODO implement
 
     return ClerkEnrollmentDTO
       .builder()
@@ -115,8 +126,50 @@ public class ClerkExamEventService {
       .build();
   }
 
-  // TODO: implement
-  private List<ClerkExamPaymentDTO> getClerkExamPaymentDTOs(final Enrollment enrollment) {
-    return List.of();
+  @Transactional
+  public ClerkExamEventDTO createExamEvent(final ClerkExamEventCreateDTO dto) {
+    final ExamEvent examEvent = new ExamEvent();
+
+    copyDtoFieldsToExamEvent(dto, examEvent);
+
+    try {
+      examEventRepository.saveAndFlush(examEvent);
+    } catch (final DataIntegrityViolationException ex) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+        throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
+      }
+    }
+
+    auditService.logById(VktOperation.CREATE_EXAM_EVENT, examEvent.getId());
+    return getExamEventWithoutAudit(examEvent.getId());
+  }
+
+  @Transactional
+  public ClerkExamEventDTO updateExamEvent(final ClerkExamEventUpdateDTO dto) {
+    final Long id = dto.id();
+    final ExamEvent examEvent = examEventRepository.getReferenceById(id);
+
+    examEvent.assertVersion(dto.version());
+
+    copyDtoFieldsToExamEvent(dto, examEvent);
+    try {
+      examEventRepository.flush();
+    } catch (final DataIntegrityViolationException ex) {
+      if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
+        throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
+      }
+    }
+
+    auditService.logById(VktOperation.UPDATE_EXAM_EVENT, id);
+    return getExamEventWithoutAudit(id);
+  }
+
+  private void copyDtoFieldsToExamEvent(final ClerkExamEventDTOCommonFields dto, final ExamEvent examEvent) {
+    examEvent.setLanguage(dto.language());
+    examEvent.setLevel(dto.level());
+    examEvent.setDate(dto.date());
+    examEvent.setRegistrationCloses(dto.registrationCloses());
+    examEvent.setVisible(!dto.isHidden());
+    examEvent.setMaxParticipants(dto.maxParticipants());
   }
 }
