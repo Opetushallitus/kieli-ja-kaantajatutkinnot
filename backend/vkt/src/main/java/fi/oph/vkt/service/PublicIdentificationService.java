@@ -37,9 +37,6 @@ public class PublicIdentificationService {
     person.setIdentityNumber(identityNumber);
     person.setLastName(lastNames.get(random.nextInt(lastNames.size())));
     person.setFirstName(firstNames.get(random.nextInt(firstNames.size())));
-    // TODO: move contact details (email, phone number, address) under Enrollment?
-    person.setEmail("email@test");
-    person.setPhoneNumber("+3581234567");
 
     personRepository.saveAndFlush(person);
     return person;

@@ -157,19 +157,20 @@ public class ClerkExamEventServiceTest {
     examEvent.setMaxParticipants(1);
 
     final Person person1 = Factory.person();
-    person1.setStreet("Katu 1");
-    person1.setPostalCode("00000");
-    person1.setTown("Kunta");
-    person1.setCountry("Maa");
-
     final Person person2 = Factory.person();
     person2.setLastName("Aardvark");
     person2.setFirstName("Anna Hannah");
-    person2.setEmail("anna@aardvark");
-    person2.setPhoneNumber("+1999000");
 
     final Enrollment enrollment1 = Factory.enrollment(examEvent, person1);
+    enrollment1.setStreet("Katu 1");
+    enrollment1.setPostalCode("00000");
+    enrollment1.setTown("Kunta");
+    enrollment1.setCountry("Maa");
+
     final Enrollment enrollment2 = createEnrollmentWithNonDefaultAttributes(enrollment1, examEvent, person2);
+    enrollment2.setEmail("anna@aardvark");
+    enrollment2.setPhoneNumber("+1999000");
+
     final ExamEvent otherExamEvent = Factory.examEvent(ExamLanguage.SV);
     final Enrollment otherEnrollment = Factory.enrollment(otherExamEvent, person1);
 
@@ -240,6 +241,12 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getStatus(), enrollmentDTO.status());
     assertEquals(expected.getPreviousEnrollmentDate(), enrollmentDTO.previousEnrollmentDate());
     assertEquals(expected.isDigitalCertificateConsent(), enrollmentDTO.digitalCertificateConsent());
+    assertEquals(expected.getEmail(), enrollmentDTO.email());
+    assertEquals(expected.getPhoneNumber(), enrollmentDTO.phoneNumber());
+    assertEquals(expected.getStreet(), enrollmentDTO.street());
+    assertEquals(expected.getPostalCode(), enrollmentDTO.postalCode());
+    assertEquals(expected.getTown(), enrollmentDTO.town());
+    assertEquals(expected.getCountry(), enrollmentDTO.country());
 
     assertPersonDTO(expected.getPerson(), enrollmentDTO.person());
     assertEquals(0, enrollmentDTO.payments().size());
@@ -251,12 +258,6 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.getIdentityNumber(), personDTO.identityNumber());
     assertEquals(expected.getLastName(), personDTO.lastName());
     assertEquals(expected.getFirstName(), personDTO.firstName());
-    assertEquals(expected.getEmail(), personDTO.email());
-    assertEquals(expected.getPhoneNumber(), personDTO.phoneNumber());
-    assertEquals(expected.getStreet(), personDTO.street());
-    assertEquals(expected.getPostalCode(), personDTO.postalCode());
-    assertEquals(expected.getTown(), personDTO.town());
-    assertEquals(expected.getCountry(), personDTO.country());
   }
 
   @Test

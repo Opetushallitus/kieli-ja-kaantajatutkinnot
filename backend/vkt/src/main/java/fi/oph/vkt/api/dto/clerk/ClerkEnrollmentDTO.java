@@ -3,6 +3,7 @@ package fi.oph.vkt.api.dto.clerk;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
@@ -22,5 +23,11 @@ public record ClerkEnrollmentDTO(
   @NonNull @NotNull EnrollmentStatus status,
   LocalDate previousEnrollmentDate,
   @NonNull @NotNull Boolean digitalCertificateConsent,
+  @NonNull @NotBlank String email,
+  @NonNull @NotBlank String phoneNumber,
+  String street,
+  String postalCode,
+  String town,
+  String country,
   @NonNull @NotNull List<ClerkExamPaymentDTO> payments
 ) {}

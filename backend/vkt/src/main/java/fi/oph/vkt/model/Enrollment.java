@@ -58,6 +58,24 @@ public class Enrollment extends BaseEntity {
   @Column(name = "digital_certificate_consent", nullable = false)
   private boolean digitalCertificateConsent;
 
+  @Column(name = "email", nullable = false)
+  private String email;
+
+  @Column(name = "phone_number", nullable = false)
+  private String phoneNumber;
+
+  @Column(name = "street")
+  private String street;
+
+  @Column(name = "postal_code")
+  private String postalCode;
+
+  @Column(name = "town")
+  private String town;
+
+  @Column(name = "country")
+  private String country;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)
   private ExamEvent examEvent;

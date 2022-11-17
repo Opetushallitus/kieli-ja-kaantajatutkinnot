@@ -105,6 +105,12 @@ public class ClerkExamEventService {
       .status(enrollment.getStatus())
       .previousEnrollmentDate(enrollment.getPreviousEnrollmentDate())
       .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
+      .email(enrollment.getEmail())
+      .phoneNumber(enrollment.getPhoneNumber())
+      .street(enrollment.getStreet())
+      .postalCode(enrollment.getPostalCode())
+      .town(enrollment.getTown())
+      .country(enrollment.getCountry())
       .payments(paymentDTOs)
       .build();
   }
@@ -117,12 +123,6 @@ public class ClerkExamEventService {
       .identityNumber(person.getIdentityNumber())
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
-      .email(person.getEmail())
-      .phoneNumber(person.getPhoneNumber())
-      .street(person.getStreet())
-      .postalCode(person.getPostalCode())
-      .town(person.getTown())
-      .country(person.getCountry())
       .build();
   }
 

@@ -291,5 +291,28 @@
                              constraintName="uk_reservation_exam_event_person"/>
     </changeSet>
 
+    <changeSet id="2022-11-17-move_columns_from_person_to_enrollment" author="terova">
+        <addColumn tableName="enrollment">
+            <column name="email" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="street" type="TEXT"/>
+            <column name="postal_code" type="TEXT"/>
+            <column name="town" type="TEXT"/>
+            <column name="country" type="TEXT"/>
+        </addColumn>
+        <dropColumn tableName="person">
+            <column name="email"/>
+            <column name="phone_number"/>
+            <column name="street"/>
+            <column name="postal_code"/>
+            <column name="town"/>
+            <column name="country"/>
+        </dropColumn>
+    </changeSet>
+
 
 </databaseChangeLog>

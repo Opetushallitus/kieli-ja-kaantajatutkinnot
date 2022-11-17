@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.5 (Homebrew)
+-- Dumped by pg_dump version 14.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -70,6 +70,8 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2022-09-19-create-table-enrollment_status	mikhuttu	migrations.xml	2022-09-28 13:03:11.593403	5	EXECUTED	8:cb6dc3009864c99347b4097cd3d777a1	createTable tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status; insert tableName=enrollment_status		\N	4.9.1	\N	\N	4370191374
 2022-09-19-create-table-enrollment	mikhuttu	migrations.xml	2022-09-28 13:03:11.613202	6	EXECUTED	8:edba4d8326701eb21ede9eb4afb6c628	createTable tableName=enrollment; addForeignKeyConstraint baseTableName=enrollment, constraintName=fk_enrollment_exam_event, referencedTableName=exam_event; addForeignKeyConstraint baseTableName=enrollment, constraintName=fk_enrollment_person, ref...		\N	4.9.1	\N	\N	4370191374
 2022-10-12-change-person-columns	mikhuttu	migrations.xml	2022-10-12 18:42:43.132484	7	EXECUTED	8:d27f77bcff4989716b0be1fb83639ccf	dropColumn tableName=person; addColumn tableName=person; addUniqueConstraint constraintName=uk_person_identity_number, tableName=person		\N	4.9.1	\N	\N	5600162993
+2022-10-28-create-table-reservation	terova	migrations.xml	2022-11-16 16:17:55.348633	8	EXECUTED	8:c4a64bee6d57de586b962e6b334cacbf	createTable tableName=reservation; addForeignKeyConstraint baseTableName=reservation, constraintName=fk_reservation_exam_event, referencedTableName=exam_event; addForeignKeyConstraint baseTableName=reservation, constraintName=fk_reservation_person...		\N	4.9.1	\N	\N	8615475122
+2022-11-17-move_columns_from_person_to_enrollment	terova	migrations.xml	2022-11-17 12:16:38.355334	9	EXECUTED	8:5a6e66e03fe569e12cab0910180472d2	addColumn tableName=enrollment; dropColumn tableName=person		\N	4.9.1	\N	\N	8680198271
 \.
 
 
