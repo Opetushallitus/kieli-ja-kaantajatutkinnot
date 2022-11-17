@@ -72,7 +72,7 @@ public class ClerkExamEventServiceTest {
     eventWithRegistrationClosed.setRegistrationCloses(now.minusDays(1));
 
     final ExamEvent hiddenEvent = Factory.examEvent();
-    hiddenEvent.setVisible(false);
+    hiddenEvent.setHidden(true);
     hiddenEvent.setDate(now.plusWeeks(1));
 
     final ExamEvent upcomingEventSv = Factory.examEvent(ExamLanguage.SV);
@@ -189,7 +189,7 @@ public class ClerkExamEventServiceTest {
     assertEquals(examEvent.getLevel(), examEventDTO.level());
     assertEquals(examEvent.getDate(), examEventDTO.date());
     assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
-    assertEquals(examEvent.isVisible(), !examEventDTO.isHidden());
+    assertEquals(examEvent.isHidden(), examEventDTO.isHidden());
     assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
 
     assertEquals(2, examEventDTO.enrollments().size());
@@ -281,12 +281,12 @@ public class ClerkExamEventServiceTest {
 
     assertEquals(examEvent.getId(), examEventDTO.id());
     assertEquals(examEvent.getVersion(), examEventDTO.version());
-    assertEquals(examEvent.getLanguage(), examEventDTO.language());
-    assertEquals(examEvent.getLevel(), examEventDTO.level());
-    assertEquals(examEvent.getDate(), examEventDTO.date());
-    assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
-    assertEquals(examEvent.isVisible(), !examEventDTO.isHidden());
-    assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
+    assertEquals(createDTO.language(), examEvent.getLanguage());
+    assertEquals(createDTO.level(), examEvent.getLevel());
+    assertEquals(createDTO.date(), examEvent.getDate());
+    assertEquals(createDTO.registrationCloses(), examEvent.getRegistrationCloses());
+    assertEquals(createDTO.isHidden(), examEvent.isHidden());
+    assertEquals(createDTO.maxParticipants(), examEvent.getMaxParticipants());
 
     assertEquals(0, examEventDTO.enrollments().size());
 
@@ -378,7 +378,7 @@ public class ClerkExamEventServiceTest {
       .level(examEvent.getLevel())
       .date(examEvent.getDate().plusDays(1))
       .registrationCloses(examEvent.getRegistrationCloses().plusDays(1))
-      .isHidden(examEvent.isVisible())
+      .isHidden(!examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants() + 1);
   }
 }

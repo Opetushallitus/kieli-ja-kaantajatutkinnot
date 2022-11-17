@@ -16,14 +16,14 @@ public interface ExamEventRepository extends JpaRepository<ExamEvent, Long> {
     " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_DATE" +
-    " AND e.isVisible = true" +
+    " AND e.isHidden = false" +
     " GROUP BY e.id"
   )
   List<PublicExamEventProjection> listPublicExamEventProjections(final ExamLevel level);
 
   @Query(
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
-    " e.registrationCloses, COUNT(en), e.maxParticipants, e.isVisible)" +
+    " e.registrationCloses, COUNT(en), e.maxParticipants, e.isHidden)" +
     " FROM ExamEvent e" +
     " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT'" +
     " GROUP BY e.id"

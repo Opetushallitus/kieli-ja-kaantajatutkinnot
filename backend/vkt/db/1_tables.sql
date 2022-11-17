@@ -98,7 +98,7 @@ CREATE TABLE public.exam_event (
     level character varying(255) NOT NULL,
     date date NOT NULL,
     registration_closes date NOT NULL,
-    is_visible boolean NOT NULL,
+    is_hidden boolean NOT NULL,
     max_participants integer NOT NULL,
     CONSTRAINT ck_exam_event_max_participants CHECK ((max_participants >= 0)),
     CONSTRAINT ck_exam_event_registration_closes CHECK ((registration_closes <= date))

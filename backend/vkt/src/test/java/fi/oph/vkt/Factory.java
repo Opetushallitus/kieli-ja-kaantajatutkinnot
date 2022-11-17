@@ -23,7 +23,7 @@ public class Factory {
     examEvent.setLevel(ExamLevel.EXCELLENT);
     examEvent.setDate(LocalDate.now().plusDays(8));
     examEvent.setRegistrationCloses(LocalDate.now());
-    examEvent.setVisible(true);
+    examEvent.setHidden(false);
     examEvent.setMaxParticipants(10);
 
     return examEvent;

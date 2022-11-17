@@ -48,7 +48,7 @@ public class ClerkExamEventService {
           .registrationCloses(e.registrationCloses())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
-          .isHidden(!e.isVisible())
+          .isHidden(e.isHidden())
           .build()
       )
       .sorted(Comparator.comparing(ClerkExamEventListDTO::date).thenComparing(ClerkExamEventListDTO::language))
@@ -80,7 +80,7 @@ public class ClerkExamEventService {
       .level(examEvent.getLevel())
       .date(examEvent.getDate())
       .registrationCloses(examEvent.getRegistrationCloses())
-      .isHidden(!examEvent.isVisible())
+      .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .enrollments(enrollmentDTOs)
       .build();
@@ -169,7 +169,7 @@ public class ClerkExamEventService {
     examEvent.setLevel(dto.level());
     examEvent.setDate(dto.date());
     examEvent.setRegistrationCloses(dto.registrationCloses());
-    examEvent.setVisible(!dto.isHidden());
+    examEvent.setHidden(dto.isHidden());
     examEvent.setMaxParticipants(dto.maxParticipants());
   }
 }

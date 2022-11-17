@@ -314,5 +314,10 @@
         </dropColumn>
     </changeSet>
 
+    <changeSet id="2022-11-17-rename_exam_event_visible_to_hidden" author="terova">
+        <renameColumn tableName="exam_event" oldColumnName="is_visible" newColumnName="is_hidden"/>
+        <sql>UPDATE exam_event SET is_hidden = NOT is_hidden</sql>
+    </changeSet>
+
 
 </databaseChangeLog>
