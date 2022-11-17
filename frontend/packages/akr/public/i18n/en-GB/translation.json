@@ -431,12 +431,12 @@
           "description": "This web site uses mandatory cookies to be functional.",
           "title": "Accept cookies"
         },
-        "description": "The Finnish National Agency for Education maintains a register of authorised translators. You can use the search engine to find an authorised translator or several either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email to obtain contact details of authorised translators: auktoris.lautakunta@oph.fi",
+        "description": "The Finnish National Agency for Education maintains a register of authorised translators. You can use the search engine to find an authorised translator or several either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Search for an authorised translator"
         },
         "noSearchResults": "No search results",
-        "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland.",
+        "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland. To ensure equal visibility, the translators are randomly reordered once a day within the search engine.",
         "requestContact": "Contact",
         "title": "Register of Authorised Translators"
       },
