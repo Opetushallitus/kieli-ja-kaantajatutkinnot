@@ -219,10 +219,10 @@
           "akrHomepage": {
             "ariaLabel": "Examenssystemet för auktoriserade translatorer (oph.fi), öppnas i en ny flik",
             "link": "https://www.oph.fi/sv/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/auktorisoidun-kaantajan-tutkinto",
-            "text": "Systemet med auktoriserade translatorer (oph.fi)"
+            "text": "Examenssystemet för auktoriserade translatorer (oph.fi)"
           },
           "contact": {
-            "title": "Respons och utvecklingidéer"
+            "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
             "text": "Dataskyddsbeskrivning (på finska)"
@@ -431,12 +431,12 @@
           "description": "Den här webbplatsen använder nödvändiga cookies för att fungera.",
           "title": "Acceptera cookies"
         },
-        "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer. Med sökmotorn kan du söka en auktoriserad translator eller flera enligt språkpar, på namn eller boendeort. Du kan lämna en kontaktförfrågan för de translatorer som du väljer med nedan för sökformuläret. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress för att få kontaktuppgifter av auktoriserade translatorer auktoris.lautakunta@oph.fi",
+        "description": "Utbildningsstyrelsen upprätthåller ett register över auktoriserade translatorer. Med sökmotorn kan du söka auktoriserade translatorer utgående från språkpar, på namn eller boendeort. Du kan lämna en kontaktförfrågan för de translatorer som du väljer nedan. I fall av ett funktionsfel i registret vänligen kontakta vår e-postadress: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Sök auktoriserad translator"
         },
         "noSearchResults": "Inga sökresultat",
-        "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk.",
+        "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk. För att säkerställa likvärdig synlighet lottas translatorerna i slumpmässig ordning i sökmotorn en gång om dagen.",
         "requestContact": "Kontakta",
         "title": "Register över auktoriserade translatorer"
       },
