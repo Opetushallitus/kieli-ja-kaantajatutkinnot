@@ -1,16 +1,20 @@
 import { Dayjs } from 'dayjs';
 
-import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import {
+  PublicExamEvent,
+  PublicExamEventResponse,
+} from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
 
 export interface PublicReservation
-  extends Omit<PublicReservationResponse, 'expiresAt'> {
+  extends Omit<PublicReservationResponse, 'expiresAt' | 'examEvent'> {
   expiresAt: Dayjs;
+  examEvent: PublicExamEvent;
 }
 
 export interface PublicReservationResponse {
   id: number;
   expiresAt: string;
-  examEvent: PublicExamEvent;
+  examEvent: PublicExamEventResponse;
   person: PublicPerson;
 }

@@ -18,6 +18,13 @@
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
+        "customTextField": {
+          "emailFormat": "Sähköpostiosoite on virheellinen",
+          "maxLength": "Teksti on liian pitkä",
+          "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
+          "required": "Tieto on pakollinen",
+          "telFormat": "Puhelinnumero on virheellinen"
+        },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
       "examLanguage": {
@@ -43,6 +50,7 @@
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
       },
+      "next": "Seuraava",
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Tulokset per sivu",

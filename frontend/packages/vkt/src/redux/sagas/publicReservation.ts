@@ -28,7 +28,7 @@ function* loadReservationSaga(action: PayloadAction<number>) {
     );
 
     yield put(storeReservation(publicReservation));
-    yield put(setPublicUIView(PublicUIViews.Reservation));
+    yield put(setPublicUIView(PublicUIViews.Enrollment));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

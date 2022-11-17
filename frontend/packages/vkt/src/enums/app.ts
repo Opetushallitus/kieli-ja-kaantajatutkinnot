@@ -13,8 +13,8 @@ export enum AppRoutes {
 }
 
 export enum PublicUIViews {
+  Enrollment = 'Enrollment',
   ExamEventListing = 'ExamEventListing',
-  Reservation = 'Reservation',
 }
 
 export enum ExamLanguage {

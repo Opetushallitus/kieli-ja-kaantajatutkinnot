@@ -14,7 +14,9 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
   // I18
-  const { t } = usePublicTranslation({ keyPrefix: 'vkt.pages.homepage' });
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExamEventGrid',
+  });
   const translateCommon = useCommonTranslation();
 
   // Redux
