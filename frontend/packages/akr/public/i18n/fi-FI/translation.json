@@ -439,12 +439,12 @@
           "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
           "title": "Hyväksy evästeet"
         },
-        "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla olevalla hakulomakkeella. Jos rekisterissä on toimintahäiriö, ota yhteyttä sähköpostitse saadaksesi auktorisoitujen kääntäjien yhteystietoja: auktoris.lautakunta@oph.fi",
+        "description": "Opetushallitus ylläpitää auktorisoitujen kääntäjien rekisteriä. Hakukoneella voit hakea auktorisoitua kääntäjää/auktorisoituja kääntäjiä joko kieliparin, nimen tai asuinkunnan mukaan. Voit jättää yhteydenottopyynnön valitsemillesi kääntäjille alla. Jos rekisterissä on toimintahäiriö, ota yhteyttä Opetushallitukseen sähköpostitse: auktoris.lautakunta@oph.fi",
         "filters": {
           "title": "Hae auktorisoitua kääntäjää"
         },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä.",
+        "note": "Kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä. Yhdenvertaisen näkyvyyden turvaamiseksi kääntäjät arvotaan hakukoneessa satunnaisjärjestykseen kerran vuorokaudessa.",
         "requestContact": "Ota yhteyttä",
         "title": "Auktorisoitujen kääntäjien rekisteri"
       },
