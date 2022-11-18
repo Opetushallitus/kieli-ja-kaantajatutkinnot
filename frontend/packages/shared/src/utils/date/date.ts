@@ -30,6 +30,26 @@ export class DateUtils {
     return date.locale(dayjs.locale()).format('L');
   }
 
+  static formatOptionalTime(date?: Dayjs) {
+    if (!date) {
+      return '-';
+    }
+
+    // Locale information is baked into the Dayjs instances when they are constructed.
+    // We need to override the instance's locale with the locale used by the app when formating the date.
+    return date.locale(dayjs.locale()).format('HH:mm:ss');
+  }
+
+  static formatOptionalDateAndTime(date?: Dayjs) {
+    if (!date) {
+      return '-';
+    }
+
+    // Locale information is baked into the Dayjs instances when they are constructed.
+    // We need to override the instance's locale with the locale used by the app when formating the date.
+    return date.locale(dayjs.locale()).format('L HH:mm:ss');
+  }
+
   static optionalStringToDate(dateString?: string) {
     if (dateString) {
       return dayjs(dateString);
