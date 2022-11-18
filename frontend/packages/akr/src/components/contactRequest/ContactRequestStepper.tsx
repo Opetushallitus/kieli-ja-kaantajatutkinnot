@@ -49,7 +49,10 @@ export const ContactRequestStepper = () => {
       size={90}
     />
   ) : (
-    <Stepper className="contact-request-page__stepper" activeStep={activeStep}>
+    <Stepper
+      className="contact-request-page__stepper"
+      activeStep={activeStep - 1}
+    >
       {stepNumbers.map((v) => (
         <Step key={v}>
           <StepLabel
