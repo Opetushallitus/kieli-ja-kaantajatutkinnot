@@ -1,16 +1,21 @@
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import ArrowDropdown from '@mui/icons-material/ArrowDropDown';
 import { Dayjs } from 'dayjs';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { AutocompleteValue } from 'shared/components';
-import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
+import { AutocompleteValue, CustomButton, H2 } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
 
-import { ControlButtons } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsControlButtons';
+import { ClerkEnrollmentListing } from 'components/clerkEnrollment/listing/ClerkEnrollmentListing';
+import { ControlButtons } from 'components/clerkExamEvent/ControlButtons';
 import { ClerkExamEventDetailsFields } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsFields';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { UIMode } from 'enums/app';
+import { EnrollmentStatus, UIMode } from 'enums/app';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
+  ClerkEnrollment,
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
@@ -19,6 +24,40 @@ import {
   updateClerkExamEventDetails,
 } from 'redux/reducers/clerkExamEventOverview';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
+
+interface EnrollmentListProps {
+  enrollments: Array<ClerkEnrollment>;
+  status: EnrollmentStatus;
+  examEventId: number;
+}
+
+const EnrollmentList: FC<EnrollmentListProps> = ({
+  enrollments,
+  status,
+  examEventId,
+}) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
+  });
+
+  const filteredEnrollments = enrollments.filter((e) => e.status === status);
+
+  return (
+    <>
+      {filteredEnrollments.length > 0 && (
+        <div className="rows margin-top-xxl">
+          <H2>{`${t(status)}: ${filteredEnrollments.length}`}</H2>
+          <div className="margin-top-sm">
+            <ClerkEnrollmentListing
+              enrollments={filteredEnrollments}
+              examEventId={examEventId}
+            />
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export const ClerkExamEventDetails = () => {
   // Redux
@@ -34,7 +73,7 @@ export const ClerkExamEventDetails = () => {
   const [examEventDetails, setExamEventDetails] = useState(examEvent);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
-  const isViewMode = currentUIMode !== UIMode.Edit;
+  const isViewMode = currentUIMode === UIMode.View;
 
   const resetLocalExamEventDetails = useCallback(() => {
     setExamEventDetails(examEvent);
@@ -53,6 +92,8 @@ export const ClerkExamEventDetails = () => {
     setCurrentUIMode(UIMode.View);
   }, [dispatch, resetLocalExamEventDetails]);
 
+  useNavigationProtection(hasLocalChanges);
+
   useEffect(() => {
     if (
       examEventDetailsStatus === APIResponseStatus.Success &&
@@ -63,32 +104,29 @@ export const ClerkExamEventDetails = () => {
         description: t('toasts.updated'),
       });
       resetToInitialState();
-    } else if (
-      examEventDetailsStatus === APIResponseStatus.Cancelled &&
-      currentUIMode === UIMode.Edit
-    ) {
-      // Flow was reset through the cancel dialog -> reset UI state.
-      resetToInitialState();
     }
   }, [
     currentUIMode,
-    dispatch,
     showToast,
     resetToInitialState,
     t,
     examEventDetailsStatus,
   ]);
 
-  const hasRequiredDetails = examEventDetails
-    ? StringUtils.isNonBlankString(examEventDetails.language) &&
-      StringUtils.isNonBlankString(examEventDetails.level) &&
-      DateUtils.isValidDate(examEventDetails.date) &&
-      DateUtils.isValidDate(examEventDetails.registrationCloses) &&
-      DateUtils.isDatePartBefore(
-        examEventDetails.registrationCloses,
-        examEventDetails.date
-      )
-    : false;
+  if (!examEventDetails) {
+    return null;
+  }
+
+  const hasRequiredDetails =
+    StringUtils.isNonBlankString(examEventDetails.language) &&
+    StringUtils.isNonBlankString(examEventDetails.level) &&
+    DateUtils.isValidDate(examEventDetails.date) &&
+    DateUtils.isValidDate(examEventDetails.registrationCloses) &&
+    DateUtils.isDatePartBefore(
+      examEventDetails.registrationCloses,
+      examEventDetails.date
+    );
+  const { enrollments } = examEventDetails;
 
   const handleComboBoxChange =
     (field: keyof ClerkExamEventBasicInformation) =>
@@ -136,9 +174,9 @@ export const ClerkExamEventDetails = () => {
 
   const openCancelDialog = () => {
     showDialog({
-      title: t('examEventDetails.cancelUpdateDialog.title'),
+      title: translateCommon('cancelUpdateDialog.header'),
       severity: Severity.Info,
-      description: t('examEventDetails.cancelUpdateDialog.description'),
+      description: translateCommon('cancelUpdateDialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -162,22 +200,8 @@ export const ClerkExamEventDetails = () => {
   };
 
   return (
-    <ClerkExamEventDetailsFields
-      examEvent={examEventDetails}
-      onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-        handleComboBoxChange(field)
-      }
-      onDateChange={(
-        field: keyof Pick<
-          ClerkExamEventBasicInformation,
-          'date' | 'registrationCloses'
-        >
-      ) => handleDateChange(field)}
-      onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-        handleCheckBoxChange(field)
-      }
-      editDisabled={isViewMode}
-      topControlButtons={
+    <>
+      <div className="columns margin-top-lg flex-end">
         <ControlButtons
           onCancel={onCancel}
           onEdit={onEdit}
@@ -185,7 +209,63 @@ export const ClerkExamEventDetails = () => {
           isViewMode={isViewMode}
           hasRequiredDetails={hasRequiredDetails}
         />
-      }
-    />
+      </div>
+      <ClerkExamEventDetailsFields
+        examEvent={examEventDetails}
+        onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
+          handleComboBoxChange(field)
+        }
+        onDateChange={(
+          field: keyof Pick<
+            ClerkExamEventBasicInformation,
+            'date' | 'registrationCloses'
+          >
+        ) => handleDateChange(field)}
+        onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
+          handleCheckBoxChange(field)
+        }
+        editDisabled={isViewMode}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.PAID}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.EXPECTING_PAYMENT}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.QUEUED}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.CANCELED}
+        examEventId={examEventDetails.id}
+      />
+      {enrollments.length > 0 && (
+        <div className="columns gapped margin-top-xxl flex-end">
+          <CustomButton
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            endIcon={<ArrowDropdown />}
+            data-testid="clerk-exam-event-overview-page__back-btn"
+          >
+            {t('examEventDetails.copyEmails')}
+          </CustomButton>
+          <CustomButton
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            endIcon={<ArrowDownward />}
+            data-testid="clerk-exam-event-overview-page__back-btn"
+          >
+            {t('examEventDetails.downloadExcel')}
+          </CustomButton>
+        </div>
+      )}
+    </>
   );
 };

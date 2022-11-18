@@ -5,7 +5,8 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
   ClerkHomePage = '/vkt/virkailija',
-  ClerkExamEventPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
+  ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
+  ClerkEnrollmentOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId/ilmoittautuminen',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
   PrivacyPolicyPage = '/vkt/tietosuojaseloste',
@@ -43,8 +44,8 @@ export enum UIMode {
 }
 
 export enum EnrollmentStatus {
-  PAID,
-  EXPECTING_PAYMENT,
-  QUEUED,
-  CANCELED,
+  PAID = 'PAID',
+  EXPECTING_PAYMENT = 'EXPECTING_PAYMENT',
+  QUEUED = 'QUEUED',
+  CANCELED = 'CANCELED',
 }
