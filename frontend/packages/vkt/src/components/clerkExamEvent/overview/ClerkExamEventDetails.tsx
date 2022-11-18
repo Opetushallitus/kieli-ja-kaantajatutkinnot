@@ -1,18 +1,22 @@
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import ArrorDropdown from '@mui/icons-material/ArrowDropDown';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { AutocompleteValue } from 'shared/components';
-import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { AutocompleteValue, CustomButton, H2 } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
 
 import { ControlButtons } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsControlButtons';
 import { ClerkExamEventDetailsFields } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsFields';
+import { ClerkExamEventEnrollmentListing } from 'components/clerkExamEvent/overview/ClerkExamEventEnrollmentListing';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { UIMode } from 'enums/app';
+import { EnrollmentStatus, UIMode } from 'enums/app';
 import {
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
+  Enrollment,
 } from 'interfaces/clerkExamEvent';
 import {
   resetClerkExamEventDetailsUpdate,
@@ -161,31 +165,142 @@ export const ClerkExamEventDetails = () => {
     }
   };
 
+  const getExamListingHeader = (
+    enrollments: Array<Enrollment>,
+    enrollmentStatus: EnrollmentStatus
+  ) => {
+    switch (enrollmentStatus) {
+      case EnrollmentStatus.PAID:
+        return `${t('examEventListingHeader.paid')}: ${enrollments.length}`;
+      case EnrollmentStatus.EXPECTING_PAYMENT:
+        return `${t('examEventListingHeader.expectingPayment')}: ${
+          enrollments.length
+        }`;
+      case EnrollmentStatus.QUEUED:
+        return `${t('examEventListingHeader.queued')}: ${enrollments.length}`;
+      case EnrollmentStatus.CANCELED:
+        return `${t('examEventListingHeader.canceled')}: ${enrollments.length}`;
+    }
+  };
+
+  const registeredEnrollments =
+    examEventDetails?.enrollments.filter(
+      (enrollment) => enrollment.status === EnrollmentStatus.PAID
+    ) ?? [];
+  const unpaidEnrollments =
+    examEventDetails?.enrollments.filter(
+      (enrollment) => enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT
+    ) ?? [];
+  const queuedEnrollments =
+    examEventDetails?.enrollments.filter(
+      (enrollment) => enrollment.status === EnrollmentStatus.QUEUED
+    ) ?? [];
+  const canceledEnrollments =
+    examEventDetails?.enrollments.filter(
+      (enrollment) => enrollment.status === EnrollmentStatus.CANCELED
+    ) ?? [];
+
   return (
-    <ClerkExamEventDetailsFields
-      examEvent={examEventDetails}
-      onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-        handleComboBoxChange(field)
-      }
-      onDateChange={(
-        field: keyof Pick<
-          ClerkExamEventBasicInformation,
-          'date' | 'registrationCloses'
-        >
-      ) => handleDateChange(field)}
-      onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-        handleCheckBoxChange(field)
-      }
-      editDisabled={isViewMode}
-      topControlButtons={
-        <ControlButtons
-          onCancel={onCancel}
-          onEdit={onEdit}
-          onSave={onSave}
-          isViewMode={isViewMode}
-          hasRequiredDetails={hasRequiredDetails}
-        />
-      }
-    />
+    <>
+      <ClerkExamEventDetailsFields
+        examEvent={examEventDetails}
+        onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
+          handleComboBoxChange(field)
+        }
+        onDateChange={(
+          field: keyof Pick<
+            ClerkExamEventBasicInformation,
+            'date' | 'registrationCloses'
+          >
+        ) => handleDateChange(field)}
+        onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
+          handleCheckBoxChange(field)
+        }
+        editDisabled={isViewMode}
+        topControlButtons={
+          <ControlButtons
+            onCancel={onCancel}
+            onEdit={onEdit}
+            onSave={onSave}
+            isViewMode={isViewMode}
+            hasRequiredDetails={hasRequiredDetails}
+          />
+        }
+      />
+      {registeredEnrollments.length > 0 && (
+        <div className="rows margin-top-xxl">
+          <H2>
+            {getExamListingHeader(registeredEnrollments, EnrollmentStatus.PAID)}
+          </H2>
+          <div className="margin-top-sm">
+            <ClerkExamEventEnrollmentListing
+              enrollments={registeredEnrollments}
+            />
+          </div>
+        </div>
+      )}
+
+      {unpaidEnrollments.length > 0 && (
+        <div className="rows margin-top-xxl">
+          <H2>
+            {getExamListingHeader(
+              unpaidEnrollments,
+              EnrollmentStatus.EXPECTING_PAYMENT
+            )}
+          </H2>
+          <div className="margin-top-sm">
+            <ClerkExamEventEnrollmentListing enrollments={unpaidEnrollments} />
+          </div>
+        </div>
+      )}
+
+      {queuedEnrollments.length > 0 && (
+        <div className="rows margin-top-xxl">
+          <H2>
+            {getExamListingHeader(queuedEnrollments, EnrollmentStatus.QUEUED)}
+          </H2>
+          <div className="margin-top-sm">
+            <ClerkExamEventEnrollmentListing enrollments={queuedEnrollments} />
+          </div>
+        </div>
+      )}
+
+      {canceledEnrollments.length > 0 && (
+        <div className="rows margin-top-xxl">
+          <H2>
+            {getExamListingHeader(
+              canceledEnrollments,
+              EnrollmentStatus.CANCELED
+            )}
+          </H2>
+          <div className="margin-top-sm">
+            <ClerkExamEventEnrollmentListing
+              enrollments={canceledEnrollments}
+            />
+          </div>
+        </div>
+      )}
+      {examEventDetails?.enrollments &&
+        examEventDetails.enrollments.length > 0 && (
+          <div className="columns gapped margin-top-xxl flex-end">
+            <CustomButton
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              endIcon={<ArrorDropdown />}
+              data-testid="clerk-exam-event-overview-page__back-btn"
+            >
+              Kopio sähköpostit
+            </CustomButton>
+            <CustomButton
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              endIcon={<ArrowDownward />}
+              data-testid="clerk-exam-event-overview-page__back-btn"
+            >
+              Lataa Excel
+            </CustomButton>
+          </div>
+        )}
+    </>
   );
 };

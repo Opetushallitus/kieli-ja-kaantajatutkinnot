@@ -10,14 +10,11 @@ interface Person {
 }
 
 export interface ClerkExamEventEnrollmentResponse
-  extends Partial<WithId>,
-    Partial<WithVersion>,
-    Omit<Enrollment, 'previousEnrollmentDate'> {
-  previousEnrollmentDate?: string;
+  extends Omit<Enrollment, 'previousEnrollmentDate'> {
+  previousEnrollmentDate: string;
 }
 
-export interface Enrollment {
-  person: Person;
+export interface SubExams {
   oralSkill: boolean;
   textualSkill: boolean;
   understandingSkill: boolean;
@@ -25,6 +22,10 @@ export interface Enrollment {
   speechComprehensionPartialExam: boolean;
   writingPartialExam: boolean;
   readingComprehensionPartialExam: boolean;
+}
+
+export interface Enrollment extends SubExams, WithId, WithVersion {
+  person: Person;
   status: EnrollmentStatus;
   previousEnrollmentDate?: Dayjs;
   digitalCertificateConsent: boolean;

@@ -1,6 +1,35 @@
 {
   "vkt": {
     "component": {
+      "clerkExamEventEnrollmentListing": {
+        "header": {
+          "examEventCoverage": "Tutkintokokonaisuus",
+          "firstName": "Etunimi",
+          "lastName": "Sukumini",
+          "registrationDay": "Ilmoittautumispäivä",
+          "registrationTime": "Ilmoittautumisaika"
+        },
+        "title": "Tutkintotilaisuudet",
+        "toggleFilters": {
+          "passed": "Menneet",
+          "upcoming": "Tulevat"
+        }
+      },
+      "clerkExamEventListing": {
+        "addExaminationDate": "Lisää tutkintopäivä",
+        "header": {
+          "examDate": "Tutkintopäivä",
+          "fillings": "Paikkoja täytetty",
+          "hidden": "Piilotettu",
+          "language": "Kieli ja taso",
+          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "title": "Tutkintotilaisuudet",
+        "toggleFilters": {
+          "passed": "Menneet",
+          "upcoming": "Tulevat"
+        }
+      },
       "clerkExamEventOverview": {
         "examEventDetails": {
           "cancelUpdateDialog": {
@@ -10,30 +39,21 @@
         },
         "examEventDetailsFields": {
           "header": {
+            "date": "Tutkintopäivä",
             "language": "Kieli",
             "level": "Taso",
-            "date": "Tutkintopäivä",
-            "registrationCloses": "Ilmottautuminen sulkeutuu",
+            "registrationCloses": "Ilmoittautuminen sulkeutuu",
             "visibleInPublic": "Näytä tutkintopäivä julkisesti"
           }
         },
+        "examEventListingHeader": {
+          "canceled": "Peruutetut",
+          "expectingPayment": "Jonosta siirretyt / maksu puuttuu",
+          "paid": "Ilmoittautuneet",
+          "queued": "Jonoon ilmoittautuneet"
+        },
         "toasts": {
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt"
-        }
-      },
-      "clerkExamEventListing": {
-        "addExaminationDate": "Lisää tutkintopäivä",
-        "header": {
-          "examDate": "Tutkintopäivä",
-          "fillings": "Paikkoja täytetty",
-          "language": "Kieli ja taso",
-          "hidden": "Piilotettu",
-          "registrationCloses": "Ilmottautuminen sulkeutuu"
-        },
-        "title": "Tutkintotilaisuudet",
-        "toggleFilters": {
-          "passed": "Menneet",
-          "upcoming": "Tulevat"
         }
       },
       "header": {

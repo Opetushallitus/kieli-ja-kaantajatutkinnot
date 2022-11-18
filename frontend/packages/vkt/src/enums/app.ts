@@ -42,8 +42,8 @@ export enum UIMode {
 }
 
 export enum EnrollmentStatus {
-  PAID,
-  EXPECTING_PAYMENT,
-  QUEUED,
-  CANCELED,
+  PAID = 'PAID',
+  EXPECTING_PAYMENT = 'EXPECTING_PAYMENT',
+  QUEUED = 'QUEUED',
+  CANCELED = 'CANCELED',
 }
