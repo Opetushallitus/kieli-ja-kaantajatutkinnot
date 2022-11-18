@@ -19,11 +19,13 @@ import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -134,6 +136,34 @@ public class PublicReservationServiceTest {
       () -> publicReservationService.createReservation(examEvent.getId(), person)
     );
     assertEquals(APIExceptionType.CREATE_RESERVATION_REGISTRATION_CLOSED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testDeleteReservation() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    publicReservationService.deleteReservation(reservation.getId());
+
+    assertEquals(0, reservationRepository.count());
+  }
+
+  @Test
+  public void testDeleteReservationWhichDoesNotExist() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    assertThrows(NotFoundException.class, () -> publicReservationService.deleteReservation(reservation.getId() + 1));
+
+    assertEquals(List.of(reservation), reservationRepository.findAll());
   }
 
   private ExamEvent createExamEvent(final int maxParticipants) {
