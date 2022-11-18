@@ -6,6 +6,7 @@
     "stylelint-prettier/recommended"
   ],
   "rules": {
+    "color-hex-length": "long",
     "max-nesting-depth": 10,
     "selector-max-id": 2,
     "scss/selector-no-redundant-nesting-selector": null,

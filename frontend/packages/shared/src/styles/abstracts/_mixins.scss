@@ -1,14 +1,14 @@
+@use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/maps';
-@use '../../styles/abstracts/variables';
 
 @mixin phone-divider-border-top() {
   border-radius: 0;
-  border-top: 1px solid variables.$color-grey-400;
+  border-top: 1px solid colors.$color-divider;
   box-shadow: none;
 }
 
 @mixin phone-divider-border-bottom() {
-  border-bottom: 1px solid variables.$color-grey-400;
+  border-bottom: 1px solid colors.$color-divider;
   border-radius: 0;
   box-shadow: none;
 }
@@ -33,7 +33,7 @@
 }
 
 @mixin header-text {
-  color: variables.$color-secondary-dark;
+  color: colors.$color-secondary-dark;
   font-size: 1.6rem;
   font-weight: normal;
   text-transform: none;

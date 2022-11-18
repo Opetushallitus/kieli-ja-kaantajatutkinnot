@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.3] - 2022-12-05
+
+### Changed
+
+- Moved colors under `_colors.scss` with names and presentation matching Figma specs
+
 ## [1.5.2] - 2022-11-30
 
 ### Fixed

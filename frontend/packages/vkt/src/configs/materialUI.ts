@@ -1,35 +1,36 @@
 import { createTheme } from '@mui/material/styles';
+import type {} from '@mui/x-date-pickers/themeAugmentation';
 
-// Create Material UI theme configs
-const primaryColor = '#FFFFFF';
-const primaryLightColor = '#F5F5F5';
-const primaryDarkColor = '#CCCCCC';
-const secondaryColor = '#0041dc';
-const secondaryLightColor = '#159ECB';
-const secondaryDarkColor = '#000a48';
-const primaryHeadingColor = '#000a48';
-const secondaryHeadingColor = '#FFFFFF';
-const grey700Color = '#666666';
-const grey600Color = '#999999';
-const blue200Color = '#F2F5FD';
-const red500Color = '#db2828';
+const colorPrimary = '#ffffff';
+const colorTextPrimary = '#000a48';
+const colorSecondaryDark = '#000a48';
+const colorSecondary = '#0041dc';
+const colorSecondaryLight = '#159ecb'; // not in figma specs
+
+const colorGrey200 = '#f5f5f5';
+const colorGrey400 = '#cccccc';
+const colorGrey600 = '#999999';
+const colorGrey700 = '#666666';
+
+const colorBlue200 = '#f2f5fd';
+
+const colorRed500 = '#db2828';
 
 const fontWeightBold = 700;
 const fontWeightMedium = 500;
 const fontWeightRegular = 400;
 
-// TODO: copy theme from AKR and OTR
 export const theme = createTheme({
   components: {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: secondaryDarkColor,
+            borderColor: colorSecondaryDark,
           },
-          color: grey700Color,
+          color: colorGrey700,
           '&.Mui-disabled': {
-            backgroundColor: primaryLightColor,
+            backgroundColor: colorGrey200,
           },
         },
       },
@@ -38,19 +39,28 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-focused': {
-            color: grey700Color,
+            color: colorGrey700,
           },
           '&.Mui-disabled': {
-            color: primaryHeadingColor,
+            color: colorTextPrimary,
           },
-          color: grey700Color,
+          color: colorGrey700,
         },
       },
     },
     MuiCheckbox: {
       styleOverrides: {
         root: {
-          color: grey700Color,
+          color: colorGrey700,
+        },
+      },
+    },
+    MuiCalendarPicker: {
+      styleOverrides: {
+        root: {
+          '& .MuiTypography-caption': {
+            color: colorGrey700,
+          },
         },
       },
     },
@@ -58,14 +68,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           '&.Mui-completed': {
-            color: secondaryColor,
+            color: colorSecondary,
           },
           '&.Mui-active': {
-            color: secondaryColor,
+            color: colorSecondary,
           },
         },
         text: {
-          fill: primaryColor,
+          fill: colorPrimary,
         },
       },
     },
@@ -73,7 +83,7 @@ export const theme = createTheme({
       styleOverrides: {
         label: {
           '&.Mui-disabled': {
-            color: grey600Color,
+            color: colorGrey600,
           },
         },
       },
@@ -81,21 +91,21 @@ export const theme = createTheme({
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          color: grey700Color,
+          color: colorGrey700,
         },
       },
     },
     MuiTab: {
       styleOverrides: {
         root: {
-          color: grey700Color,
+          color: colorGrey700,
         },
       },
     },
     MuiSkeleton: {
       styleOverrides: {
         root: {
-          backgroundColor: blue200Color,
+          backgroundColor: colorBlue200,
         },
       },
     },
@@ -113,7 +123,7 @@ export const theme = createTheme({
       styleOverrides: {
         menuItem: {
           '&.Mui-selected': {
-            backgroundColor: primaryLightColor,
+            backgroundColor: colorGrey200,
           },
         },
       },
@@ -128,21 +138,21 @@ export const theme = createTheme({
   },
   palette: {
     error: {
-      main: red500Color,
+      main: colorRed500,
     },
     primary: {
-      main: primaryColor,
-      light: primaryLightColor,
-      dark: primaryDarkColor,
+      main: colorPrimary,
+      light: colorGrey200,
+      dark: colorGrey400,
     },
     secondary: {
-      main: secondaryColor,
-      light: secondaryLightColor,
-      dark: secondaryDarkColor,
+      main: colorSecondary,
+      light: colorSecondaryLight,
+      dark: colorSecondaryDark,
     },
     text: {
-      primary: primaryHeadingColor,
-      secondary: secondaryHeadingColor,
+      primary: colorTextPrimary,
+      secondary: colorPrimary,
     },
   },
   typography: {
@@ -152,30 +162,30 @@ export const theme = createTheme({
       fontWeight: fontWeightMedium,
       lineHeight: '3.3rem',
       marginBottom: '2rem',
-      color: primaryHeadingColor,
+      color: colorTextPrimary,
     },
     h2: {
       fontSize: '2rem',
       fontWeight: fontWeightMedium,
       lineHeight: '2.4rem',
-      color: primaryHeadingColor,
+      color: colorTextPrimary,
     },
     h3: {
       fontSize: '1.6rem',
       fontWeight: fontWeightBold,
       lineHeight: '1.9rem',
-      color: primaryHeadingColor,
+      color: colorTextPrimary,
     },
     body1: {
       fontSize: '1.6rem',
       fontWeight: fontWeightRegular,
       lineHeight: '2.4rem',
-      color: primaryHeadingColor,
+      color: colorTextPrimary,
     },
     caption: {
       fontSize: '1.2rem',
       fontWeight: fontWeightRegular,
-      color: grey700Color,
+      color: colorGrey700,
     },
   },
 });

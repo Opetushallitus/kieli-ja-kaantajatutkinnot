@@ -2,15 +2,16 @@
 @import 'normalize.css';
 
 // Abstracts
+@import 'abstracts/colors';
+@import 'abstracts/loops';
+@import 'abstracts/maps';
 @import 'abstracts/mixins';
 @import 'abstracts/variables';
-@import 'abstracts/maps';
-@import 'abstracts/loops';
 @import 'abstracts/common/layout';
-@import 'abstracts/common/typography';
-@import 'abstracts/common/spacing';
 @import 'abstracts/common/others';
 @import 'abstracts/common/root';
+@import 'abstracts/common/spacing';
+@import 'abstracts/common/typography';
 
 // Vendors
 @import 'vendors/init-spinner';
