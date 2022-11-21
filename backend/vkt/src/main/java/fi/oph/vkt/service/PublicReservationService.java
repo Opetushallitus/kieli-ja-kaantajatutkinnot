@@ -12,6 +12,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -110,5 +111,14 @@ public class PublicReservationService {
       .examEvent(examEventDTO)
       .person(personDTO)
       .build();
+  }
+
+  @Transactional
+  public void deleteReservation(final long reservationId) {
+    try {
+      reservationRepository.deleteById(reservationId);
+    } catch (final Exception e) {
+      throw new NotFoundException(String.format("Reservation by id:%d not found", reservationId));
+    }
   }
 }
