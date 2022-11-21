@@ -51,7 +51,7 @@ export const ClerkExamEventEnrollmentListingRow = ({
 
   return (
     <>
-      <TableRow data-testid={`enrollments-table__id-${enrollment.id}`}>
+      <TableRow data-testid={`enrollments-table__id-${enrollment.id}-row`}>
         <TableCell>
           <Text>{enrollment.person.lastName}</Text>
         </TableCell>

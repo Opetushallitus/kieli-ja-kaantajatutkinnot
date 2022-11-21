@@ -36,7 +36,7 @@ export const AppRouter: FC = () => {
                 element={<ClerkHomePage />}
               />
               <Route
-                path={AppRoutes.ClerkExamEventPage}
+                path={AppRoutes.ClerkExamEventOverviewPage}
                 element={<ClerkExamEventOverviewPage />}
               />
             </Routes>

@@ -15,7 +15,7 @@ export const TopControls = () => {
         className="color-secondary-dark"
         variant={Variant.Text}
         startIcon={<ArrowBackIosOutlined />}
-        data-testid="clerk-exam-event-overview-page__back-btn"
+        data-testid="clerk-exam-event-overview-page__back-button"
       >
         {translateCommon('back')}
       </CustomButtonLink>

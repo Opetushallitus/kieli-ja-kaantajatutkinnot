@@ -53,7 +53,8 @@
           "queued": "Jonoon ilmoittautuneet"
         },
         "toasts": {
-          "notFound": "Valittua tutkintotilaisuutta ei löytynyt"
+          "notFound": "Valittua tutkintotilaisuutta ei löytynyt",
+          "updated": "Tiedot tallennettiin"
         }
       },
       "header": {

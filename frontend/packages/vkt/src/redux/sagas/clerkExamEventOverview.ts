@@ -32,9 +32,7 @@ function* loadClerkExamEventOverviewSaga(action: PayloadAction<number>) {
     const examEvent = SerializationUtils.deserializeClerkExamEvent(
       apiResponse.data
     );
-    const a = examEvent;
-    a.enrollments[0].oralSkill = false;
-    yield put(storeClerkExamEventOverview(a));
+    yield put(storeClerkExamEventOverview(examEvent));
   } catch (error) {
     const t = translateOutsideComponent();
     yield put(

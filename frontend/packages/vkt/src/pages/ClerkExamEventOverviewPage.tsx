@@ -85,7 +85,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
 
   return (
     <Box className="clerk-exam-event-overview-page">
-      <H1>{pageHeader}</H1>
+      <H1 data-testid="clerk-exam-event-overview-page__header">{pageHeader}</H1>
       <Paper
         elevation={3}
         className="clerk-exam-event-overview-page__content-container rows"

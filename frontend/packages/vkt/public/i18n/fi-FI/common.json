@@ -20,7 +20,7 @@
           "createReservationCongestion": "Tutkintotilaisuus on ruuhkautunut",
           "createReservationRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto toiseen tilaisuuteen epäonnistui, koska tilaisuuden kieli ei ole sama.",
-          "examEventDuplicate" : "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
+          "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
@@ -56,6 +56,10 @@
         "ALL": "Näytä kaikki kielet",
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
+      },
+      "navigationProtection": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko varmasti poistua sivulta?"
       },
       "next": "Seuraava",
       "no": "Ei",

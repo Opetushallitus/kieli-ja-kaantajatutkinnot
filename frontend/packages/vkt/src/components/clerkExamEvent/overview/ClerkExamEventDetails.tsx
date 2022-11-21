@@ -13,6 +13,7 @@ import { ClerkExamEventEnrollmentListing } from 'components/clerkExamEvent/overv
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, UIMode } from 'enums/app';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
@@ -164,6 +165,8 @@ export const ClerkExamEventDetails = () => {
       openCancelDialog();
     }
   };
+
+  useNavigationProtection(hasLocalChanges);
 
   const getExamListingHeader = (
     enrollments: Array<Enrollment>,

@@ -97,19 +97,23 @@ export const ClerkExamEventDetailsFields = ({
             onChange={onComboBoxChange('level')}
           />
         </div>
-        <div className="rows gapped">
+        <div
+          className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__date"
+        >
           <H3>{t('header.date')}</H3>
           <CustomDatePicker
-            data-testid="clerk-exam-event__basic-information__date"
             value={dayjs(examEvent?.date) ?? null}
             setValue={onDateChange('date')}
             disabled={editDisabled}
           />
         </div>
-        <div className="rows gapped">
+        <div
+          className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__registrationCloses"
+        >
           <H3>{t('header.registrationCloses')}</H3>
           <CustomDatePicker
-            data-testid="clerk-exam-event__basic-information__registrationCloses"
             value={dayjs(examEvent?.registrationCloses) ?? null}
             setValue={onDateChange('registrationCloses')}
             disabled={editDisabled}
