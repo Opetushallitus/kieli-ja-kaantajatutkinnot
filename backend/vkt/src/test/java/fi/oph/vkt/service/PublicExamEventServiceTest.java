@@ -61,7 +61,7 @@ public class PublicExamEventServiceTest {
     eventWithRegistrationClosed.setRegistrationCloses(now.minusDays(1));
 
     final ExamEvent hiddenEvent = Factory.examEvent();
-    hiddenEvent.setVisible(false);
+    hiddenEvent.setHidden(true);
     hiddenEvent.setDate(now.plusWeeks(1));
 
     final ExamEvent eventToday = Factory.examEvent(ExamLanguage.FI);

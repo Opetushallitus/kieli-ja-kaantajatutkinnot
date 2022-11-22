@@ -11,11 +11,5 @@ public record ClerkPersonDTO(
   @NonNull @NotNull Integer version,
   @NonNull @NotBlank String identityNumber,
   @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String email,
-  @NonNull @NotBlank String phoneNumber,
-  String street,
-  String postalCode,
-  String town,
-  String country
+  @NonNull @NotBlank String firstName
 ) {}

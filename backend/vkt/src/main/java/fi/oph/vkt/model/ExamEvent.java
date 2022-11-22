@@ -42,8 +42,8 @@ public class ExamEvent extends BaseEntity {
   @Column(name = "registration_closes", nullable = false)
   private LocalDate registrationCloses;
 
-  @Column(name = "is_visible", nullable = false)
-  private boolean isVisible;
+  @Column(name = "is_hidden", nullable = false)
+  private boolean isHidden;
 
   @Column(name = "max_participants", nullable = false)
   private long maxParticipants;

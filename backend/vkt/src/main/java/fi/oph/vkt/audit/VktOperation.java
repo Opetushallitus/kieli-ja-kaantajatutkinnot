@@ -7,5 +7,6 @@ public enum VktOperation implements Operation {
   GET_EXAM_EVENT,
   CREATE_EXAM_EVENT,
   UPDATE_EXAM_EVENT,
+  UPDATE_ENROLLMENT,
   UPDATE_ENROLLMENT_STATUS,
 }

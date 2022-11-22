@@ -23,7 +23,7 @@ public class Factory {
     examEvent.setLevel(ExamLevel.EXCELLENT);
     examEvent.setDate(LocalDate.now().plusDays(8));
     examEvent.setRegistrationCloses(LocalDate.now());
-    examEvent.setVisible(true);
+    examEvent.setHidden(false);
     examEvent.setMaxParticipants(10);
 
     return examEvent;
@@ -34,8 +34,6 @@ public class Factory {
     person.setIdentityNumber(UUID.randomUUID().toString());
     person.setLastName("Tester");
     person.setFirstName("Foo Bar");
-    person.setEmail("foo.tester@invalid");
-    person.setPhoneNumber("+10001234567");
 
     return person;
   }
@@ -52,6 +50,8 @@ public class Factory {
     enrollment.setStatus(EnrollmentStatus.PAID);
     enrollment.setPreviousEnrollmentDate(LocalDate.now().minusYears(1));
     enrollment.setDigitalCertificateConsent(true);
+    enrollment.setEmail("foo.tester@invalid");
+    enrollment.setPhoneNumber("+10001234567");
 
     enrollment.setExamEvent(examEvent);
     enrollment.setPerson(person);
