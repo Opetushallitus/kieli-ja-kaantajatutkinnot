@@ -35,7 +35,7 @@ In this project directory, you can run:
 
 ## How to install the package?
 
-1. Create an access token as instructed [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), and select ONLY `read:packages` as the scope
+1. Create an access token as instructed [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), and select ONLY `read:packages` as the scope (must create classic token, not fine grained).
 2. Add created token to your bash profile:
 
    ```sh
