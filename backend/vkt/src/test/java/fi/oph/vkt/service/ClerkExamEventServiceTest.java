@@ -231,6 +231,7 @@ public class ClerkExamEventServiceTest {
       );
 
     assertEquals(expected.getVersion(), enrollmentDTO.version());
+    assertEquals(expected.getCreatedAt(), enrollmentDTO.enrollmentTime());
     assertEquals(expected.isOralSkill(), enrollmentDTO.oralSkill());
     assertEquals(expected.isTextualSkill(), enrollmentDTO.textualSkill());
     assertEquals(expected.isUnderstandingSkill(), enrollmentDTO.understandingSkill());

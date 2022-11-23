@@ -94,6 +94,7 @@ public class ClerkExamEventService {
       .builder()
       .id(enrollment.getId())
       .version(enrollment.getVersion())
+      .enrollmentTime(enrollment.getCreatedAt())
       .person(personDTO)
       .oralSkill(enrollment.isOralSkill())
       .textualSkill(enrollment.isTextualSkill())
