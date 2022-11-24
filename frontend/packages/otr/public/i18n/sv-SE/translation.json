@@ -32,7 +32,7 @@
         "qualificationStatus": {
           "effective": null,
           "expiredDeduplicated": "Löpt ut",
-          "expiring": null
+          "expiring": "Löper ut"
         }
       },
       "clerkInterpreterListing": {
@@ -43,6 +43,7 @@
           "name": "Namn",
           "languagePairs": "Språkpar",
           "permissionToPublish": "Publiceringstillstånd",
+          "title": "Sökresultat",
           "valid": "I kraft"
         }
       },
@@ -65,7 +66,7 @@
             "identityNumber": "Personbeteckning",
             "lastName": "Efternamn",
             "nickName": null,
-            "otherContactInfo": null,
+            "otherContactInfo": "Annan kontaktinformation",
             "phoneNumber": "Telefonnummer",
             "postalCode": "Postnummer",
             "street": "Gatuadress",
@@ -76,24 +77,25 @@
             "contactInformation": "Kontaktuppgifter",
             "extraInformation": "Ytterligare information",
             "personalInformation": "Personuppgifter",
-            "regions": null
-          }
+            "regions": "Verksamhetsområde"
+          },
+          "individualisedInformation": null
         },
         "qualifications": {
           "actions": {
             "changePermissionToPublish": {
               "ariaLabel": "Ändra publiceringstillstånd",
               "dialog": {
-                "description": "Detta ändrar hur språkparet syns i det offentliga registret.",
+                "description": null,
                 "header": "Är du säker på att du vill byta publiceringstillstånd?"
               }
             },
             "removal": {
-              "ariaLabel": "Ta bort språkpar",
+              "ariaLabel": null,
               "dialog": {
                 "description": "Denna funktion kan inte ångras!",
-                "confirmButton": "Ta bort språkpar",
-                "header": "Är du säker på att du vill ta bort språkparet?"
+                "confirmButton": null,
+                "header": null
               }
             }
           },
@@ -105,7 +107,7 @@
             "permissionToPublish": "Publiceringstillstånd",
             "startDate": "Startdatum"
           },
-          "header": "Språkpar",
+          "header": null,
           "noQualifications": "Inga examina hittades för de valda kriterierna",
           "toasts": {
             "addingSucceeded": null,
@@ -119,6 +121,12 @@
         },
         "toasts": {
           "updated": "Uppgifterna sparades"
+        }
+      },
+      "clerkNewInterpreterDetails": {
+        "title": {
+          "existingPerson": null,
+          "newPerson": null
         }
       },
       "footer": {
@@ -139,6 +147,9 @@
         "links": {
           "accessibility": {
             "text": "Tillgänglighetsdirektiv"
+          },
+          "contact": {
+            "title": "Respons och utvecklingsidéer"
           },
           "otrHomepage": {
             "ariaLabel": "Registret över rättstolkar (oph.fi), öppna i en ny flik",
@@ -244,7 +255,7 @@
           },
           "ariaLabel": "Öppna tilläggsuppgifterna"
         },
-        "searchResultsInfo": null
+        "searchResultsInfo": "Klicka på raden för att se kontaktuppgifter"
       },
       "table": {
         "pagination": {
@@ -256,6 +267,7 @@
       "api": {
         "generic": "Funktionen misslyckades, försök på nytt senare",
         "interpreterInvalidNickName": null,
+        "invalidVersion": "Funktionen misslyckades därför att du försökte att ändra förlegad data. Uppdatera sidan och försöka vid behov igen.",
         "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
@@ -323,8 +335,8 @@
       "meetingDatesPage": {
         "title": "Mötesdagar",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Mötedagen {{date}} har lagts till",
+          "removingSucceeded": "Mötedagen {{date}} har tagits bort"
         }
       },
       "notFoundPage": {

@@ -3,11 +3,12 @@
     "common": {
       "add": "Lägg till",
       "addQualification": null,
-      "allRegions": null,
+      "allRegions": "Hela Finland",
       "appNameAbbreviation": "OTR",
+      "appTitle": "Registret över rättstolkar | Utbildningsstyrelsen",
       "back": "Tillbaka",
       "cancel": "Avbryt",
-      "clerk": null,
+      "clerk": "Administratör",
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
       "delete": "Ta bort",
       "edit": "Ändra",
@@ -24,11 +25,11 @@
       },
       "no": "Nej",
       "ophLogo": "Utbildningsstyrelsens logo",
-      "permissionToPublish": null,
+      "permissionToPublish": "Får publiceras",
       "register": "Register",
       "rowsPerPageLabel": "Resultat per sida",
       "save": "Spara",
-      "searchResults": null,
+      "searchResults": "Sökresultat",
       "yes": "Ja"
     }
   }
