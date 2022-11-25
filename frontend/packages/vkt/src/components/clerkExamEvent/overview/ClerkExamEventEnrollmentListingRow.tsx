@@ -2,6 +2,7 @@ import { TableCell, TableRow } from '@mui/material';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
+import { useClerkTranslation } from 'configs/i18n';
 import { Enrollment } from 'interfaces/clerkExamEvent';
 
 const examCodes = {
@@ -29,24 +30,31 @@ export const ClerkExamEventEnrollmentListingRow = ({
 }: {
   enrollment: Enrollment;
 }) => {
+  // I18n
+  const { t } = useClerkTranslation({
+    keyPrefix:
+      'vkt.component.clerkExamEventOverview.examEventDetails.enrollment',
+  });
+
   const subExams = pick(enrollment, [
     'oralSkill',
-    'readingComprehensionPartialExam',
     'speakingPartialExam',
     'speechComprehensionPartialExam',
     'textualSkill',
-    'understandingSkill',
     'writingPartialExam',
+    'readingComprehensionPartialExam',
+    'understandingSkill',
   ]);
 
   const checkIfPartialExam = () => {
     if (Object.values(subExams).some((value) => !value)) {
       return Object.keys(subExams)
+        .filter((key) => examCodes[key as keyof typeof examCodes])
         .map((key) => examCodes[key as keyof typeof examCodes])
         .join(', ');
     }
 
-    return 'Koko tutkinto';
+    return t('fullExam');
   };
 
   return (

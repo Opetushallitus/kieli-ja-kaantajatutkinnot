@@ -292,7 +292,7 @@ export const ClerkExamEventDetails = () => {
               endIcon={<ArrorDropdown />}
               data-testid="clerk-exam-event-overview-page__back-btn"
             >
-              Kopio sähköpostit
+              {t('examEventDetails.copyEmails')}
             </CustomButton>
             <CustomButton
               color={Color.Secondary}
@@ -300,7 +300,7 @@ export const ClerkExamEventDetails = () => {
               endIcon={<ArrowDownward />}
               data-testid="clerk-exam-event-overview-page__back-btn"
             >
-              Lataa Excel
+              {t('examEventDetails.downloadExcel')}
             </CustomButton>
           </div>
         )}

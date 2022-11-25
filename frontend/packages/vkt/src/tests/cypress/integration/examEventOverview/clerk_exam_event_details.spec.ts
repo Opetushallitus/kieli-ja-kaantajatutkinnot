@@ -23,7 +23,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
   it('should show full exam when all subexams have been selected', () => {
     onClerkExamEventOverviewPage.expectRowToHaveText(
       clerkExamEvent.enrollments[0].id,
-      'ST, TY, PU, PY, TE, YM, KI'
+      'ST, PU, PY, TE, KI, TY, YM'
     );
   });
 
