@@ -7,6 +7,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.service.ClerkExamEventService;
+import fi.oph.vkt.view.ExamEventXlsxView;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @RestController
 @RequestMapping(value = "/api/v1/clerk/examEvent", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,5 +53,12 @@ public class ClerkExamEventController {
   @Operation(tags = TAG_EXAM_EVENT, summary = "Update exam event")
   public ClerkExamEventDTO updateExamEvent(@RequestBody @Valid final ClerkExamEventUpdateDTO dto) {
     return clerkExamEventService.updateExamEvent(dto);
+  }
+
+  @GetMapping(value = "/{examEventId:\\d+}/excel")
+  @Operation(tags = TAG_EXAM_EVENT, summary = "Download exam event excel")
+  public AbstractXlsxView getExamEventExcel(@PathVariable final long examEventId) {
+    final ClerkExamEventDTO examEvent = clerkExamEventService.getExamEvent(examEventId);
+    return new ExamEventXlsxView(examEvent);
   }
 }
