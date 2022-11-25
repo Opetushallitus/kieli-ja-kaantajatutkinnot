@@ -1,10 +1,13 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.audit.AuditService;
@@ -13,7 +16,11 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
+import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.Arrays;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +37,9 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private EnrollmentRepository enrollmentRepository;
 
+  @Resource
+  private ExamEventRepository examEventRepository;
+
   @MockBean
   private AuditService auditService;
 
@@ -40,7 +50,7 @@ class ClerkEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkEnrollmentService = new ClerkEnrollmentService(enrollmentRepository, auditService);
+    clerkEnrollmentService = new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService);
   }
 
   @Test
@@ -132,6 +142,61 @@ class ClerkEnrollmentServiceTest {
       .id(enrollment.getId())
       .version(enrollment.getVersion())
       .newStatus(newStatus)
+      .build();
+  }
+
+  @Test
+  public void testMove() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final ExamEvent examEvent2 = Factory.examEvent();
+    examEvent2.setDate(examEvent2.getDate().plusDays(1));
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(examEvent2);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final int originalEnrollmentVersion = enrollment.getVersion();
+
+    final ClerkEnrollmentMoveDTO moveDTO = createMoveDTO(enrollment, examEvent2);
+    clerkEnrollmentService.move(moveDTO);
+
+    final Enrollment updatedEnrollment = enrollmentRepository.getReferenceById(enrollment.getId());
+    assertEquals(originalEnrollmentVersion + 1, updatedEnrollment.getVersion());
+    assertEquals(examEvent2.getId(), updatedEnrollment.getExamEvent().getId());
+
+    verify(auditService).logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
+  }
+
+  @Test
+  public void testMoveFailsIfLanguageMismatch() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final ExamEvent examEvent2 = Factory.examEvent(ExamLanguage.SV);
+    examEvent2.setDate(examEvent2.getDate().plusDays(1));
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(examEvent2);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ClerkEnrollmentMoveDTO moveDTO = createMoveDTO(enrollment, examEvent2);
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkEnrollmentService.move(moveDTO));
+
+    assertEquals(APIExceptionType.ENROLLMENT_MOVE_EXAM_EVENT_LANGUAGE_MISMATCH, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
+  private static ClerkEnrollmentMoveDTO createMoveDTO(final Enrollment enrollment, final ExamEvent event) {
+    return ClerkEnrollmentMoveDTO
+      .builder()
+      .id(enrollment.getId())
+      .version(enrollment.getVersion())
+      .toExamEventId(event.getId())
       .build();
   }
 }

@@ -2,6 +2,7 @@ package fi.oph.vkt.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
@@ -36,5 +37,11 @@ public class ClerkEnrollmentController {
   @Operation(tags = TAG_ENROLLMENT, summary = "Change enrollment status")
   public void changeStatus(@RequestBody @Valid final ClerkEnrollmentStatusChangeDTO dto) {
     clerkEnrollmentService.changeStatus(dto);
+  }
+
+  @PutMapping(path = "/move")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Move enrollment to another exam event")
+  public void move(@RequestBody @Valid final ClerkEnrollmentMoveDTO dto) {
+    clerkEnrollmentService.move(dto);
   }
 }
