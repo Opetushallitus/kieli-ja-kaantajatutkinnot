@@ -22,10 +22,14 @@
         }
       },
       "clerkExamEventListing": {
+        "addExamDate": "Tutkintopäivän lisääminen",
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {
           "examDate": "Tutkintopäivä",
+          "showExamDatePublic": "Näytä tutkintopäivä julkisesti",
+          "date": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
+          "fillingsTotal": "Paikkojen lukumäärä",
           "language": "Kieli ja taso",
           "hidden": "Piilotettu",
           "registrationCloses": "Ilmottautuminen sulkeutuu"

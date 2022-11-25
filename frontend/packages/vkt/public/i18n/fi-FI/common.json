@@ -6,6 +6,7 @@
       "back": "Takaisin",
       "cancel": "Peruuta",
       "clerk": "Virkailija",
+      "choose": "Valitse",
       "contactEmail": "kielitutkinnot@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
@@ -60,7 +61,8 @@
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
       },
-      "yes": "Kyllä"
+      "yes": "Kyllä",
+      "save": "Tallenna"
     }
   }
 }

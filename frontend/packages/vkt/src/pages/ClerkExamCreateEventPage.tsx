@@ -1,8 +1,22 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { ComboBox, CustomButtonLink, H1, H3 } from 'shared/components';
-import { APIResponseStatus, TextFieldVariant, Variant } from 'shared/enums';
+import {
+  ComboBox,
+  CustomButton,
+  CustomButtonLink,
+  CustomDatePicker,
+  CustomSwitch,
+  H1,
+  H3,
+  LoadingProgressIndicator,
+} from 'shared/components';
+import {
+  APIResponseStatus,
+  Color,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -31,10 +45,21 @@ export const ClerkExamCreateEventPage: FC = () => {
   });
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(clerkListExamEventsSelector);
+  const translateCommon = useCommonTranslation();
 
   const onComboBoxChange = () => {
     return '';
   };
+
+  const onDatePickerChange = () => {
+    return '';
+  };
+
+  const onPublicDateChange = () => {
+    return '';
+  };
+
+  const isLoading = false;
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -51,27 +76,73 @@ export const ClerkExamCreateEventPage: FC = () => {
         className="clerk-homepage__grid-container"
       >
         <Grid item>
-          <H1>Hello World!</H1>
+          <H1>{t('addExamDate')}</H1>
         </Grid>
         <Grid item>
           <Paper elevation={3} className="clerk-homepage__exam-events">
             <div>
               <BackButton />
             </div>
-            <div className="columns align-items-start gapped">
-              <div className="rows">
-                <H3>{t('header.address')}</H3>
+            <div className="grid-columns gapped">
+              <div className="rows gapped">
+                <H3>{t('header.language')}</H3>
                 <ComboBox
                   data-testid="clerk-exam__event-information__lang-and-level"
                   autoHighlight
-                  disabled={false}
-                  label={t('fields.country')}
+                  label={translateCommon('choose')}
                   variant={TextFieldVariant.Outlined}
-                  values={[]}
-                  value={''}
-                  onChange={onComboBoxChange('country')}
+                  values={[{ label: 'foo', value: '' }]}
+                  onChange={onComboBoxChange}
                 />
               </div>
+              <div className="rows gapped">
+                <H3>{t('header.date')}</H3>
+                <CustomDatePicker
+                  setValue={onDatePickerChange}
+                  label={translateCommon('choose')}
+                />
+              </div>
+              <div className="rows gapped">
+                <H3>{t('header.registrationCloses')}</H3>
+                <CustomDatePicker
+                  setValue={onDatePickerChange}
+                  label={translateCommon('choose')}
+                />
+              </div>
+            </div>
+            <div className="columns gapped">
+              <div className="rows gapped">
+                <H3>{t('header.fillingsTotal')}</H3>
+                <ComboBox
+                  data-testid="clerk-exam__event-information__lang-and-level"
+                  autoHighlight
+                  label={translateCommon('choose')}
+                  variant={TextFieldVariant.Outlined}
+                  values={[{ label: 'foo', value: '' }]}
+                  onChange={onComboBoxChange}
+                />
+              </div>
+              <div className="rows gapped">
+                <H3>{t('header.showExamDatePublic')}</H3>
+                <CustomSwitch
+                  dataTestId="clerk-exam__event-information__show-public-dates"
+                  onChange={onPublicDateChange}
+                  leftLabel={translateCommon('no')}
+                  rightLabel={translateCommon('yes')}
+                />
+              </div>
+            </div>
+            <div className="columns flex-end">
+              <LoadingProgressIndicator isLoading={isLoading}>
+                <CustomButton
+                  data-testid="clerk-translator-overview__translator-details__save-btn"
+                  variant={Variant.Contained}
+                  color={Color.Secondary}
+                  disabled={isLoading}
+                >
+                  {translateCommon('save')}
+                </CustomButton>
+              </LoadingProgressIndicator>
             </div>
           </Paper>
         </Grid>
