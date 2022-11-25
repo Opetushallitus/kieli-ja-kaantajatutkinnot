@@ -139,6 +139,7 @@ public class ClerkExamEventService {
       if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
+      throw ex;
     }
 
     auditService.logById(VktOperation.CREATE_EXAM_EVENT, examEvent.getId());
@@ -159,6 +160,7 @@ public class ClerkExamEventService {
       if (DataIntegrityViolationExceptionUtil.isExamEventLanguageLevelDateUniquenessException(ex)) {
         throw new APIException(APIExceptionType.EXAM_EVENT_DUPLICATE);
       }
+      throw ex;
     }
 
     auditService.logById(VktOperation.UPDATE_EXAM_EVENT, id);
