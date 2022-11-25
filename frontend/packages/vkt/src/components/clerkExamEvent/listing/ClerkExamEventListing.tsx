@@ -47,7 +47,7 @@ export const ClerkExamEventListing = ({
             startIcon={<AddIcon />}
             color={Color.Secondary}
             variant={Variant.Contained}
-            to={AppRoutes.ClerkHomePage}
+            to={AppRoutes.ClerkExamCreateEventPage}
           >
             {t('addExaminationDate')}
           </CustomButtonLink>

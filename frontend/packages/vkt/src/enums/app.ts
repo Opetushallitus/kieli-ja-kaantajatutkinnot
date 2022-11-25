@@ -5,6 +5,7 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
   ClerkHomePage = '/vkt/virkailija',
+  ClerkExamCreateEventPage = '/vkt/virkailija/tutkintotilaisuus/luo',
   ClerkExamEventPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
