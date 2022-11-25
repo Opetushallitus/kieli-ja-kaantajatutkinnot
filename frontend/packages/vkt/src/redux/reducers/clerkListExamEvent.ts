@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
+import {
+  EnrollmentStatus,
+  ExamEventToggleFilter,
+  ExamLanguage,
+} from 'enums/app';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
 
@@ -44,7 +48,13 @@ const clerkListExamEventSlice = createSlice({
     },
     upsertExamEvents(state, action: PayloadAction<ClerkExamEvent>) {
       const updateExamEvents = [...state.examEvents];
-      const examEvent = action.payload;
+      const participants = action.payload.enrollments.filter(
+        (enrollment) => enrollment.status === EnrollmentStatus.PAID
+      ).length;
+      const examEvent = {
+        ...action.payload,
+        participants,
+      };
 
       const idx = updateExamEvents.findIndex(
         (e: ClerkListExamEvent) => e.id === examEvent.id
