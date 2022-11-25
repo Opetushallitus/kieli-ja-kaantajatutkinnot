@@ -7,6 +7,7 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
@@ -33,6 +34,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkHomePage}
                 element={<ClerkHomePage />}
+              />
+              <Route
+                path={AppRoutes.ClerkExamEventPage}
+                element={<ClerkExamEventOverviewPage />}
               />
             </Routes>
           </div>

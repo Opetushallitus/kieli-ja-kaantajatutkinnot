@@ -13,7 +13,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
       leftLabel
     </p>
     <label
-      className="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+      className="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd custom-switch__label css-j204z7-MuiFormControlLabel-root"
     >
       <span
         className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
@@ -80,7 +80,7 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
       anotherLeftLabel
     </p>
     <label
-      className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+      className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd custom-switch__label css-j204z7-MuiFormControlLabel-root"
     >
       <span
         className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"

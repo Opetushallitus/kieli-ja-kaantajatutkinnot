@@ -1,4 +1,8 @@
 .custom-switch {
+  &__label {
+    padding: 8px;
+  }
+
   &__helper-text {
     &#{&} {
       margin-left: 0.5rem;

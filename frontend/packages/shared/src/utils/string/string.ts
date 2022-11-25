@@ -22,4 +22,8 @@ export class StringUtils {
   static getWithPlaceholder(value?: string, placeholder = '-') {
     return value ?? placeholder;
   }
+
+  static capitalize(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
 }

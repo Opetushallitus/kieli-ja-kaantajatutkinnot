@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.1] - 2022-11-16
+
+### Fixed
+
+- Fixed CustomSwitch padding
+
+### Changed
+
+- DatePicker label is now optional
+
+### Added
+
+- Capitalise function added to StringUtils
+- Validation function added DateUtils
+
 ## [1.5.0] - 2022-11-14
 
 ### Added
