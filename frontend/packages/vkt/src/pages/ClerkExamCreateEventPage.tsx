@@ -1,6 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import {
   ComboBox,
   CustomButton,
@@ -11,25 +11,17 @@ import {
   H3,
   LoadingProgressIndicator,
 } from 'shared/components';
-import {
-  APIResponseStatus,
-  Color,
-  TextFieldVariant,
-  Variant,
-} from 'shared/enums';
+import { Color, TextFieldVariant, Variant } from 'shared/enums';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
-import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
 
 const BackButton = () => {
   const translateCommon = useCommonTranslation();
 
   return (
     <CustomButtonLink
-      to={AppRoutes.PublicHomePage}
+      to={AppRoutes.ClerkHomePage}
       variant={Variant.Text}
       startIcon={<ArrowBackIosOutlinedIcon />}
       className="color-secondary-dark"
@@ -43,8 +35,6 @@ export const ClerkExamCreateEventPage: FC = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventListing',
   });
-  const dispatch = useAppDispatch();
-  const { status } = useAppSelector(clerkListExamEventsSelector);
   const translateCommon = useCommonTranslation();
 
   const onComboBoxChange = () => {
@@ -60,12 +50,6 @@ export const ClerkExamCreateEventPage: FC = () => {
   };
 
   const isLoading = false;
-
-  useEffect(() => {
-    if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExamEvents());
-    }
-  }, [dispatch, status]);
 
   return (
     <Box className="clerk-homepage">
@@ -93,6 +77,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   variant={TextFieldVariant.Outlined}
                   values={[{ label: 'foo', value: '' }]}
                   onChange={onComboBoxChange}
+                  value={null}
                 />
               </div>
               <div className="rows gapped">
@@ -100,6 +85,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                 <CustomDatePicker
                   setValue={onDatePickerChange}
                   label={translateCommon('choose')}
+                  value={null}
                 />
               </div>
               <div className="rows gapped">
@@ -107,6 +93,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                 <CustomDatePicker
                   setValue={onDatePickerChange}
                   label={translateCommon('choose')}
+                  value={null}
                 />
               </div>
             </div>
@@ -120,6 +107,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   variant={TextFieldVariant.Outlined}
                   values={[{ label: 'foo', value: '' }]}
                   onChange={onComboBoxChange}
+                  value={null}
                 />
               </div>
               <div className="rows gapped">
