@@ -11,10 +11,18 @@ import {
   H3,
   LoadingProgressIndicator,
 } from 'shared/components';
-import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { saveClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
+import { clerkNewExamDateSelector } from 'redux/selectors/clerkNewExamDate';
 
 const BackButton = () => {
   const translateCommon = useCommonTranslation();
@@ -36,6 +44,8 @@ export const ClerkExamCreateEventPage: FC = () => {
     keyPrefix: 'vkt.component.clerkExamEventListing',
   });
   const translateCommon = useCommonTranslation();
+  const { status, examDate } = useAppSelector(clerkNewExamDateSelector);
+  const dispatch = useAppDispatch();
 
   const onComboBoxChange = () => {
     return '';
@@ -49,7 +59,9 @@ export const ClerkExamCreateEventPage: FC = () => {
     return '';
   };
 
-  const isLoading = false;
+  const isLoading = status === APIResponseStatus.InProgress;
+
+  const onSave = () => examDate && dispatch(saveClerkNewExamDate(examDate));
 
   return (
     <Box className="clerk-homepage">
@@ -127,6 +139,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   variant={Variant.Contained}
                   color={Color.Secondary}
                   disabled={isLoading}
+                  onClick={onSave}
                 >
                   {translateCommon('save')}
                 </CustomButton>
