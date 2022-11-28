@@ -3,11 +3,12 @@
     "common": {
       "add": "Add",
       "addQualification": null,
-      "allRegions": null,
+      "allRegions": "Whole Finland",
       "appNameAbbreviation": "OTR",
+      "appTitle": "Register of legal interpreters | Finnish National Agency for Education",
       "back": "Back",
       "cancel": "Cancel",
-      "clerk": "Clerk",
+      "clerk": "Administrator",
       "contactEmail": "oikeustulkkirekisteri@oph.fi",
       "delete": "Delete",
       "edit": "Edit",
@@ -24,11 +25,11 @@
       },
       "no": "No",
       "ophLogo": "Logo of Finnish National Agency for Education",
-      "permissionToPublish": null,
+      "permissionToPublish": "May be published",
       "register": "Register",
       "rowsPerPageLabel": "Results per page",
       "save": "Save",
-      "searchResults": null,
+      "searchResults": "Search results",
       "yes": "Yes"
     }
   }

@@ -43,6 +43,7 @@
           "name": "Name",
           "languagePairs": "Language pairs",
           "permissionToPublish": "Permission to publish",
+          "title": "Search results",
           "valid": "Valid"
         }
       },
@@ -65,7 +66,7 @@
             "identityNumber": "Finnish personal identity code",
             "lastName": "Last name",
             "nickName": null,
-            "otherContactInfo": null,
+            "otherContactInfo": "Other contact detail",
             "phoneNumber": "Telephone number",
             "postalCode": "Postal code",
             "street": "Street address",
@@ -76,24 +77,25 @@
             "contactInformation": "Contact details",
             "extraInformation": "Additional information",
             "personalInformation": "Personal data",
-            "regions": null
-          }
+            "regions": "Operating area"
+          },
+          "individualisedInformation": null
         },
         "qualifications": {
           "actions": {
             "changePermissionToPublish": {
               "ariaLabel": "Change the permission to publish",
               "dialog": {
-                "description": "This will change the visibility of the language pair in the public register.",
+                "description": null,
                 "header": "Are you sure you want to change the permission to publish?"
               }
             },
             "removal": {
-              "ariaLabel": "Delete the language pair",
+              "ariaLabel": null,
               "dialog": {
                 "description": "This action cannot be undone!",
-                "confirmButton": "Delete the language pair",
-                "header": "Are you sure you want to delete the language pair?"
+                "confirmButton": null,
+                "header": null
               }
             }
           },
@@ -105,7 +107,7 @@
             "permissionToPublish": "Permission to publish",
             "startDate": "Start date"
           },
-          "header": "Language pairs",
+          "header": null,
           "noQualifications": "No qualifications meeting the selected criteria were found",
           "toasts": {
             "addingSucceeded": null,
@@ -119,6 +121,12 @@
         },
         "toasts": {
           "updated": "The information was saved"
+        }
+      },
+      "clerkNewInterpreterDetails": {
+        "title": {
+          "existingPerson": null,
+          "newPerson": null
         }
       },
       "footer": {
@@ -139,6 +147,9 @@
         "links": {
           "accessibility": {
             "text": "Accessibility statement (in Finnish)"
+          },
+          "contact": {
+            "title": "Feedback and development suggestions"
           },
           "otrHomepage": {
             "ariaLabel": "Register of legal interpreters (oph.fi), open in a new tab",
@@ -244,7 +255,7 @@
           },
           "ariaLabel": "Open additional information"
         },
-        "searchResultsInfo": null
+        "searchResultsInfo": "Click the results to view interpreters' contact information"
       },
       "table": {
         "pagination": {
@@ -256,6 +267,7 @@
       "api": {
         "generic": "The action failed, please try again later",
         "interpreterInvalidNickName": null,
+        "invalidVersion": "The action failed because you tried to modify outdated data. Please refresh the page and try again later if necessary.",
         "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
@@ -323,8 +335,8 @@
       "meetingDatesPage": {
         "title": "Meeting days",
         "toasts": {
-          "addingSucceeded": null,
-          "removingSucceeded": null
+          "addingSucceeded": "Meeting date {{date}} added successfully",
+          "removingSucceeded": "Meeting date {{date}} deleted"
         }
       },
       "notFoundPage": {
