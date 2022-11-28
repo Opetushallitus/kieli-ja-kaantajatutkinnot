@@ -22,7 +22,7 @@ exports[`Footer should render Footer correctly 1`] = `
           onClick={[Function]}
         >
           <button
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onContextMenu={[Function]}
@@ -48,7 +48,7 @@ exports[`Footer should render Footer correctly 1`] = `
           onClick={[Function]}
         >
           <button
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onContextMenu={[Function]}
@@ -70,7 +70,7 @@ exports[`Footer should render Footer correctly 1`] = `
         </a>
         <a
           aria-label="vktHomepage.ariaLabel"
-          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
+          className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
           href="vktHomepage.link"
           onBlur={[Function]}
           onContextMenu={[Function]}
@@ -115,7 +115,7 @@ exports[`Footer should render Footer correctly 1`] = `
             :
           </h3>
           <a
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container__links__contact__email css-1y942vo-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container__links__contact__email css-1y942vo-MuiButtonBase-root-MuiButton-root"
             href="mailto:contactEmail"
             onBlur={[Function]}
             onContextMenu={[Function]}
@@ -167,7 +167,7 @@ exports[`Footer should render Footer correctly 1`] = `
           </p>
           <a
             aria-label="accessibility.ophPhone"
-            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
             href="tel:address.phone.number"
             onBlur={[Function]}
             onContextMenu={[Function]}

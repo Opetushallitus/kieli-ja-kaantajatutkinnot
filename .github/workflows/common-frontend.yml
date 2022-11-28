@@ -58,6 +58,12 @@ jobs:
         with:
           path: "~/.cache/Cypress"
           key: ${{ runner.os }}-cypress-cache-${{ hashFiles('frontend/package.json') }}
+      - name: Install Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: ${{ env.FRONTEND_DIR }}
+          runTests: false
+        if: steps.cypress-cache.outputs.cache-hit != 'true'
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v4
         with:
