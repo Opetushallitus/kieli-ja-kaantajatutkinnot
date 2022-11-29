@@ -1,5 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
+import dayjs from 'dayjs';
 import { FC } from 'react';
 import {
   ComboBox,
@@ -20,8 +21,11 @@ import {
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
-import { saveClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
+import { AppRoutes, ExamLanguage, ExamLevel } from 'enums/app';
+import {
+  saveClerkNewExamDate,
+  updateClerkNewExamDate,
+} from 'redux/reducers/clerkNewExamDate';
 import { clerkNewExamDateSelector } from 'redux/selectors/clerkNewExamDate';
 
 const BackButton = () => {
@@ -39,6 +43,52 @@ const BackButton = () => {
   );
 };
 
+const isValidForm = (examDate) => {
+  if (!examDate) {
+    return false;
+  }
+
+  if (!examDate.date || !examDate.registrationCloses) {
+    return false;
+  }
+
+  if (
+    examDate.date.isBefore(dayjs()) ||
+    examDate.registrationCloses.isBefore(dayjs())
+  ) {
+    return false;
+  }
+
+  if (examDate.date.isBefore(examDate.registrationCloses)) {
+    return false;
+  }
+
+  if (!examDate.maxParticipants) {
+    return false;
+  }
+
+  if (!examDate.language || !examDate.level) {
+    return false;
+  }
+
+  return true;
+};
+
+const getValueAsText = (examDate): string | null => {
+  if (!examDate || !examDate.language || !examDate.level) {
+    return null;
+  }
+
+  return examDate.language + '-' + examDate.level;
+};
+
+const maxParticipantsOpts = (() => {
+  return ['10', '20', '30', '40', '50'].map((opt) => ({
+    label: opt,
+    value: opt,
+  }));
+})();
+
 export const ClerkExamCreateEventPage: FC = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventListing',
@@ -47,16 +97,66 @@ export const ClerkExamCreateEventPage: FC = () => {
   const { status, examDate } = useAppSelector(clerkNewExamDateSelector);
   const dispatch = useAppDispatch();
 
-  const onComboBoxChange = () => {
-    return '';
+  const langLevelOpts = () => {
+    const langs = Object.keys(ExamLanguage)
+      .splice(1)
+      .map((lang) => {
+        return Object.keys(ExamLevel).map((level) => {
+          return {
+            label:
+              translateCommon('examLanguage.' + ExamLanguage[lang]) +
+              ', ' +
+              translateCommon('examLevel.' + level),
+            value: lang + '-' + level,
+            data: {
+              lang: lang,
+              level: level,
+            },
+          };
+        });
+      });
+
+    return langs?.flat() ?? [];
   };
 
-  const onDatePickerChange = () => {
-    return '';
+  const onIsHiddenChange = (_, value) => {
+    const examDateDetails = {
+      ...examDate,
+      isHidden: value,
+    };
+    dispatch(updateClerkNewExamDate(examDateDetails));
   };
 
-  const onPublicDateChange = () => {
-    return '';
+  const onParticipantsChange = (_, num) => {
+    const examDateDetails = {
+      ...examDate,
+      maxParticipants: num.value,
+    };
+    dispatch(updateClerkNewExamDate(examDateDetails));
+  };
+
+  const onComboBoxChange = (_, lang) => {
+    const examDateDetails = {
+      ...examDate,
+      language: lang.data.lang,
+      level: lang.data.level,
+    };
+    dispatch(updateClerkNewExamDate(examDateDetails));
+  };
+
+  const onRegistrationClosesChange = (value) => {
+    const examDateDetails = {
+      ...examDate,
+      registrationCloses: value,
+    };
+    dispatch(updateClerkNewExamDate(examDateDetails));
+  };
+  const onDateChange = (value) => {
+    const examDateDetails = {
+      ...examDate,
+      date: value,
+    };
+    dispatch(updateClerkNewExamDate(examDateDetails));
   };
 
   const isLoading = status === APIResponseStatus.InProgress;
@@ -87,25 +187,25 @@ export const ClerkExamCreateEventPage: FC = () => {
                   autoHighlight
                   label={translateCommon('choose')}
                   variant={TextFieldVariant.Outlined}
-                  values={[{ label: 'foo', value: '' }]}
+                  values={langLevelOpts()}
                   onChange={onComboBoxChange}
-                  value={null}
+                  value={{ value: getValueAsText(examDate) }}
                 />
               </div>
               <div className="rows gapped">
                 <H3>{t('header.date')}</H3>
                 <CustomDatePicker
-                  setValue={onDatePickerChange}
+                  setValue={onDateChange}
                   label={translateCommon('choose')}
-                  value={null}
+                  value={examDate?.date ?? null}
                 />
               </div>
               <div className="rows gapped">
                 <H3>{t('header.registrationCloses')}</H3>
                 <CustomDatePicker
-                  setValue={onDatePickerChange}
+                  setValue={onRegistrationClosesChange}
                   label={translateCommon('choose')}
-                  value={null}
+                  value={examDate?.registrationCloses ?? null}
                 />
               </div>
             </div>
@@ -113,22 +213,23 @@ export const ClerkExamCreateEventPage: FC = () => {
               <div className="rows gapped">
                 <H3>{t('header.fillingsTotal')}</H3>
                 <ComboBox
-                  data-testid="clerk-exam__event-information__lang-and-level"
+                  data-testid="clerk-exam__event-information__max-participants"
                   autoHighlight
                   label={translateCommon('choose')}
+                  onChange={onParticipantsChange}
                   variant={TextFieldVariant.Outlined}
-                  values={[{ label: 'foo', value: '' }]}
-                  onChange={onComboBoxChange}
-                  value={null}
+                  values={maxParticipantsOpts}
+                  value={{ value: examDate?.maxParticipants ?? null }}
                 />
               </div>
               <div className="rows gapped">
                 <H3>{t('header.showExamDatePublic')}</H3>
                 <CustomSwitch
                   dataTestId="clerk-exam__event-information__show-public-dates"
-                  onChange={onPublicDateChange}
                   leftLabel={translateCommon('no')}
                   rightLabel={translateCommon('yes')}
+                  onChange={onIsHiddenChange}
+                  value={examDate?.isHidden ?? false}
                 />
               </div>
             </div>
@@ -138,7 +239,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   data-testid="clerk-translator-overview__translator-details__save-btn"
                   variant={Variant.Contained}
                   color={Color.Secondary}
-                  disabled={isLoading}
+                  disabled={isLoading || !isValidForm(examDate)}
                   onClick={onSave}
                 >
                   {translateCommon('save')}

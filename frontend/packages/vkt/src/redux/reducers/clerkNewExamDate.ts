@@ -29,12 +29,17 @@ const clerkNewExamDateSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.id = action.payload;
     },
+    updateClerkNewExamDate(state, action: PayloadAction<ClerkExamEvent>) {
+      state.examDate = action.payload;
+    },
   },
 });
 
 export const clerkNewExamDateReducer = clerkNewExamDateSlice.reducer;
 export const {
   rejectClerkNewExamDate,
+  resetClerkNewExamDate,
   saveClerkNewExamDate,
   storeClerkNewExamDate,
+  updateClerkNewExamDate,
 } = clerkNewExamDateSlice.actions;

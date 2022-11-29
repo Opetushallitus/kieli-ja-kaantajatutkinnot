@@ -28,6 +28,8 @@ function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
     );
     yield put(storeClerkNewExamDate(clerkExamEvent.id));
   } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
     yield put(rejectClerkNewExamDate());
   }
 }
