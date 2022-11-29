@@ -16,7 +16,6 @@ interface CustomSwitchProps extends SwitchProps {
   rightLabel: string;
   errorLabel?: ReactNode;
   value?: boolean;
-  foo?: boolean;
 }
 
 export const CustomSwitch = ({
