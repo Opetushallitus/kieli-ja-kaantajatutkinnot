@@ -5,15 +5,19 @@ import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { useAppDispatch } from 'configs/redux';
+import {
+  PublicEnrollment,
+  PublicEnrollmentContactDetails,
+} from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const FillContactDetails = ({
+  enrollment,
   isLoading,
   disableNext,
 }: {
+  enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
 }) => {
@@ -28,15 +32,13 @@ export const FillContactDetails = ({
     phoneNumber: '',
   });
 
-  const { enrollment } = useAppSelector(publicEnrollmentSelector);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const hasFieldErrors = !!(fieldErrors.email || fieldErrors.phoneNumber);
 
     const hasBlankFieldValues = [enrollment.email, enrollment.phoneNumber].some(
-      (v) => StringUtils.isBlankString(v)
+      StringUtils.isBlankString
     );
     const mismatchingEmails = enrollment.email !== enrollment.emailConfirmation;
 
@@ -44,7 +46,7 @@ export const FillContactDetails = ({
   }, [fieldErrors, disableNext, enrollment]);
 
   const handleChange =
-    (fieldName: keyof PublicEnrollment) =>
+    (fieldName: keyof PublicEnrollmentContactDetails) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (fieldErrors[fieldName]) {
         handleErrors(fieldName)(event);
@@ -58,7 +60,7 @@ export const FillContactDetails = ({
     };
 
   const handleErrors =
-    (fieldName: keyof PublicEnrollment) =>
+    (fieldName: keyof PublicEnrollmentContactDetails) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { type, value, required } = event.target;
 
@@ -83,11 +85,15 @@ export const FillContactDetails = ({
       });
     };
 
-  const showCustomTextFieldError = (fieldName: keyof PublicEnrollment) => {
-    return fieldErrors[fieldName]?.length > 0;
+  const showCustomTextFieldError = (
+    fieldName: keyof PublicEnrollmentContactDetails
+  ) => {
+    return fieldErrors[fieldName].length > 0;
   };
 
-  const getCustomTextFieldAttributes = (fieldName: keyof PublicEnrollment) => ({
+  const getCustomTextFieldAttributes = (
+    fieldName: keyof PublicEnrollmentContactDetails
+  ) => ({
     id: `public-enrollment__contact-details__${fieldName}-field`,
     label: t(fieldName),
     onBlur: handleErrors(fieldName),
