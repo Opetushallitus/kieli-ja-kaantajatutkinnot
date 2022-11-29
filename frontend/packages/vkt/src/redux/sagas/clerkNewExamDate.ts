@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
@@ -8,12 +8,13 @@ import {
   ClerkExamEvent,
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';
+import { setAPIError } from 'redux/reducers/APIError';
 import {
   rejectClerkNewExamDate,
+  resetClerkNewExamDate,
   saveClerkNewExamDate,
-  storeClerkNewExamDate,
 } from 'redux/reducers/clerkNewExamDate';
-import { SerializationUtils } from 'utils/serialization';
+import { NotifierUtils } from 'utils/notifier';
 
 function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
   try {
@@ -23,10 +24,11 @@ function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
       action.payload
     );
 
-    const clerkExamEvent = SerializationUtils.deserializeClerkExamEvent(
-      apiResponse.data
-    );
-    yield put(storeClerkNewExamDate(clerkExamEvent.id));
+    if (!apiResponse.data.id) {
+      throw new Error('Save failed. No Id found.');
+    }
+
+    yield put(resetClerkNewExamDate());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

@@ -46,6 +46,18 @@ export interface ClerkExamEventBasicInformation {
   isHidden: boolean;
 }
 
+export interface DraftClerkExamEvent
+  extends Omit<
+    ClerkExamEvent,
+    'id' | 'language' | 'level' | 'date' | 'maxParticipants' | 'registrationCloses' | 'enrollments'
+  > {
+  language?: Exclude<ExamLanguage, ExamLanguage.ALL>;
+  level?: ExamLevel;
+  date?: Dayjs;
+  registrationCloses?: Dayjs;
+  maxParticipants?: number;
+}
+
 export interface ClerkExamEventResponse
   extends Omit<ClerkExamEvent, 'date' | 'registrationCloses' | 'enrollments'> {
   date: string;

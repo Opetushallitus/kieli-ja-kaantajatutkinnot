@@ -1,6 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { FC } from 'react';
 import {
   ComboBox,
@@ -18,10 +18,12 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
+import { AutocompleteValue, ComboBoxOption } from 'shared/interfaces';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLanguage, ExamLevel } from 'enums/app';
+import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import {
   saveClerkNewExamDate,
   updateClerkNewExamDate,
@@ -43,7 +45,7 @@ const BackButton = () => {
   );
 };
 
-const isValidForm = (examDate) => {
+const isValidForm = (examDate: DraftClerkExamEvent | undefined) => {
   if (!examDate) {
     return false;
   }
@@ -74,19 +76,13 @@ const isValidForm = (examDate) => {
   return true;
 };
 
-const getValueAsText = (examDate): string | null => {
-  if (!examDate || !examDate.language || !examDate.level) {
-    return null;
-  }
-
-  return examDate.language + '-' + examDate.level;
-};
-
-const maxParticipantsOpts = (() => {
-  return ['10', '20', '30', '40', '50'].map((opt) => ({
-    label: opt,
-    value: opt,
-  }));
+const maxParticipantsOpts = ((): ComboBoxOption[] => {
+  return ['10', '20', '30', '40', '50'].map(
+    (opt): ComboBoxOption => ({
+      label: opt,
+      value: opt,
+    })
+  );
 })();
 
 export const ClerkExamCreateEventPage: FC = () => {
@@ -94,24 +90,52 @@ export const ClerkExamCreateEventPage: FC = () => {
     keyPrefix: 'vkt.component.clerkExamEventListing',
   });
   const translateCommon = useCommonTranslation();
-  const { status, examDate } = useAppSelector(clerkNewExamDateSelector);
+  const {
+    status,
+    examDate,
+  }: { status: APIResponseStatus; examDate: DraftClerkExamEvent } =
+    useAppSelector(clerkNewExamDateSelector);
   const dispatch = useAppDispatch();
 
-  const langLevelOpts = () => {
+  const translateExamLang = (lang: string, level: string) =>
+    translateCommon('examLanguage.' + lang) +
+    ', ' +
+    translateCommon('examLevel.' + level);
+
+  const getDateComboOpt = (
+    examDate: DraftClerkExamEvent
+  ): ComboBoxOption | null => {
+    if (!examDate || !examDate.language || !examDate.level) {
+      return null;
+    }
+
+    return {
+      label: translateExamLang(examDate.language, examDate.level),
+      value: examDate.language + '-' + examDate.level,
+    };
+  };
+
+  const getParticipantsComboOpt = (
+    examDate: DraftClerkExamEvent
+  ): ComboBoxOption | null => {
+    if (!examDate || !examDate.maxParticipants) {
+      return null;
+    }
+
+    return {
+      label: String(examDate.maxParticipants),
+      value: String(examDate.maxParticipants),
+    };
+  };
+
+  const langLevelOpts = (): ComboBoxOption[] => {
     const langs = Object.keys(ExamLanguage)
       .splice(1)
       .map((lang) => {
         return Object.keys(ExamLevel).map((level) => {
           return {
-            label:
-              translateCommon('examLanguage.' + ExamLanguage[lang]) +
-              ', ' +
-              translateCommon('examLevel.' + level),
+            label: translateExamLang(lang, level),
             value: lang + '-' + level,
-            data: {
-              lang: lang,
-              level: level,
-            },
           };
         });
       });
@@ -119,42 +143,52 @@ export const ClerkExamCreateEventPage: FC = () => {
     return langs?.flat() ?? [];
   };
 
-  const onIsHiddenChange = (_, value) => {
-    const examDateDetails = {
+  const onIsHiddenChange = ({}, checked: boolean) => {
+    const examDateDetails: DraftClerkExamEvent = {
       ...examDate,
-      isHidden: value,
+      isHidden: checked,
     };
     dispatch(updateClerkNewExamDate(examDateDetails));
   };
 
-  const onParticipantsChange = (_, num) => {
-    const examDateDetails = {
+  const onParticipantsChange = ({}, num: AutocompleteValue) => {
+    const examDateDetails: DraftClerkExamEvent = {
       ...examDate,
-      maxParticipants: num.value,
+      maxParticipants: Number(num?.value),
     };
     dispatch(updateClerkNewExamDate(examDateDetails));
   };
 
-  const onComboBoxChange = (_, lang) => {
-    const examDateDetails = {
-      ...examDate,
-      language: lang.data.lang,
-      level: lang.data.level,
-    };
-    dispatch(updateClerkNewExamDate(examDateDetails));
+  const onComboBoxChange = ({}, value: AutocompleteValue) => {
+    const split = value?.value.split('-') || [];
+
+    if (split[0] && split[1]) {
+      const lang: ExamLanguage = split[0] as Exclude<
+        ExamLanguage,
+        ExamLanguage.ALL
+      >;
+      const level: ExamLevel = split[1] as ExamLevel;
+
+      const examDateDetails: DraftClerkExamEvent = {
+        ...examDate,
+        language: lang,
+        level: level,
+      };
+      dispatch(updateClerkNewExamDate(examDateDetails));
+    }
   };
 
-  const onRegistrationClosesChange = (value) => {
-    const examDateDetails = {
+  const onRegistrationClosesChange = (value: Dayjs | null) => {
+    const examDateDetails: DraftClerkExamEvent = {
       ...examDate,
-      registrationCloses: value,
+      registrationCloses: value ?? undefined,
     };
     dispatch(updateClerkNewExamDate(examDateDetails));
   };
-  const onDateChange = (value) => {
-    const examDateDetails = {
+  const onDateChange = (value: Dayjs | null) => {
+    const examDateDetails: DraftClerkExamEvent = {
       ...examDate,
-      date: value,
+      date: value ?? undefined,
     };
     dispatch(updateClerkNewExamDate(examDateDetails));
   };
@@ -189,7 +223,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   variant={TextFieldVariant.Outlined}
                   values={langLevelOpts()}
                   onChange={onComboBoxChange}
-                  value={{ value: getValueAsText(examDate) }}
+                  value={getDateComboOpt(examDate)}
                 />
               </div>
               <div className="rows gapped">
@@ -219,7 +253,7 @@ export const ClerkExamCreateEventPage: FC = () => {
                   onChange={onParticipantsChange}
                   variant={TextFieldVariant.Outlined}
                   values={maxParticipantsOpts}
-                  value={{ value: examDate?.maxParticipants ?? null }}
+                  value={getParticipantsComboOpt(examDate)}
                 />
               </div>
               <div className="rows gapped">

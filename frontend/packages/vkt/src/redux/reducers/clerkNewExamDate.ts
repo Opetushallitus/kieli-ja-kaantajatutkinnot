@@ -2,15 +2,22 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 import { WithId } from 'shared/interfaces';
 
-import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
+import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 
 interface ClerkNewExamDateState extends Partial<WithId> {
   status: APIResponseStatus;
-  examDate?: ClerkExamEvent;
+  examDate: DraftClerkExamEvent;
 }
 
 const initialState: ClerkNewExamDateState = {
-  examDate: undefined,
+  examDate: {
+    language: undefined,
+    level: undefined,
+    date: undefined,
+    registrationCloses: undefined,
+    maxParticipants: undefined,
+    isHidden: false,
+  },
   status: APIResponseStatus.NotStarted,
   id: undefined,
 };
@@ -22,14 +29,15 @@ const clerkNewExamDateSlice = createSlice({
     rejectClerkNewExamDate(state) {
       state.status = APIResponseStatus.Error;
     },
-    saveClerkNewExamDate(state, _action: PayloadAction<ClerkExamEvent>) {
+    resetClerkNewExamDate(state) {
+      state.status = APIResponseStatus.NotStarted;
+      state.examDate = initialState.examDate;
+      state.id = undefined;
+    },
+    saveClerkNewExamDate(state, _action: PayloadAction<DraftClerkExamEvent>) {
       state.status = APIResponseStatus.InProgress;
     },
-    storeClerkNewExamDate(state, action: PayloadAction<number>) {
-      state.status = APIResponseStatus.Success;
-      state.id = action.payload;
-    },
-    updateClerkNewExamDate(state, action: PayloadAction<ClerkExamEvent>) {
+    updateClerkNewExamDate(state, action: PayloadAction<DraftClerkExamEvent>) {
       state.examDate = action.payload;
     },
   },
@@ -40,6 +48,5 @@ export const {
   rejectClerkNewExamDate,
   resetClerkNewExamDate,
   saveClerkNewExamDate,
-  storeClerkNewExamDate,
   updateClerkNewExamDate,
 } = clerkNewExamDateSlice.actions;
