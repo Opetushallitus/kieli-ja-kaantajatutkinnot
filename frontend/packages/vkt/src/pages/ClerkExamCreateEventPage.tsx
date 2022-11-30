@@ -161,7 +161,7 @@ export const ClerkExamCreateEventPage: FC = () => {
   };
 
   const onComboBoxChange = ({}, value: AutocompleteValue) => {
-    const split: array = value?.value.split('-') || [];
+    const split: Array<string> = value?.value.split('-') || [];
 
     if (split[0] && split[1]) {
       const lang: ExamLanguage = split[0] as Exclude<

@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
+
 import { AppRoutes } from 'enums/app';
 import { onClerkCreateEventPage } from 'tests/cypress/support/page-objects/clerkCreateExamEventPage';
-import dayjs from 'dayjs';
 
 const daysInFuture = 7;
 const dayFormat = 'DD.MM.YYYY';
@@ -16,7 +17,9 @@ describe('ClerkCreateExamEventPage', () => {
 
     onClerkCreateEventPage.inputLanguageAndLevel('Suomi, Erinomainen');
     onClerkCreateEventPage.inputExamDate(examDate.format(dayFormat));
-    onClerkCreateEventPage.inputRegistrationClosesDate(closesDate.format(dayFormat));
+    onClerkCreateEventPage.inputRegistrationClosesDate(
+      closesDate.format(dayFormat)
+    );
     onClerkCreateEventPage.saveButtonEnabledIs(false);
     onClerkCreateEventPage.inputMaxParticipants(20);
     onClerkCreateEventPage.clickIsHiddenToggle();

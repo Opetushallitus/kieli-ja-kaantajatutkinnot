@@ -1,16 +1,29 @@
 class ClerkCreateEventPage {
   elements = {
-    languageLevelInput: () => cy.findByTestId('clerk-exam__event-information__lang-and-level'),
-    dateInput: () => cy.findByTestId('clerk-exam__event-information__date').find('input'),
-    registrationInput: () => cy.findByTestId('clerk-exam__event-information__registration').find('input'),
-    maxParticipantsInput: () => cy.findByTestId('clerk-exam__event-information__max-participants'),
-    isDatePublicToggle: () => cy.findByTestId('clerk-exam__event-information__show-public-dates'),
-    saveButton: () => cy.findByTestId('clerk-translator-overview__translator-details__save-btn'),
+    languageLevelInput: () =>
+      cy.findByTestId('clerk-exam__event-information__lang-and-level'),
+    dateInput: () =>
+      cy.findByTestId('clerk-exam__event-information__date').find('input'),
+    registrationInput: () =>
+      cy
+        .findByTestId('clerk-exam__event-information__registration')
+        .find('input'),
+    maxParticipantsInput: () =>
+      cy.findByTestId('clerk-exam__event-information__max-participants'),
+    isDatePublicToggle: () =>
+      cy.findByTestId('clerk-exam__event-information__show-public-dates'),
+    saveButton: () =>
+      cy.findByTestId(
+        'clerk-translator-overview__translator-details__save-btn'
+      ),
     backButton: () => cy.findByTestId('clerk-create-exam__back-btn'),
   };
 
   inputLanguageAndLevel(text: string) {
-    this.elements.languageLevelInput().should('be.visible').type(text + '{enter}');
+    this.elements
+      .languageLevelInput()
+      .should('be.visible')
+      .type(text + '{enter}');
   }
 
   inputExamDate(date: string) {
@@ -22,7 +35,10 @@ class ClerkCreateEventPage {
   }
 
   inputMaxParticipants(max: number) {
-    this.elements.maxParticipantsInput().should('be.visible').type(max + '{enter}');
+    this.elements
+      .maxParticipantsInput()
+      .should('be.visible')
+      .type(max + '{enter}');
   }
 
   clickIsHiddenToggle() {
