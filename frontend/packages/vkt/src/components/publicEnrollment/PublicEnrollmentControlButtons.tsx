@@ -9,20 +9,24 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   decreaseActiveStep,
   increaseActiveStep,
+  loadPublicEnrollmentSave,
 } from 'redux/reducers/publicEnrollment';
 import { publicReservationSelector } from 'redux/selectors/publicReservation';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
+  enrollment,
   isLoading,
   disableNext,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: boolean;
 }) => {
@@ -68,6 +72,17 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleNextBtnClick = () => {
     dispatch(increaseActiveStep());
+  };
+
+  const handleSubmitBtnClick = () => {
+    if (reservation) {
+      dispatch(
+        loadPublicEnrollmentSave({
+          ...enrollment,
+          reservationId: reservation.id,
+        })
+      );
+    }
   };
 
   const CancelButton = () => (
@@ -116,6 +131,7 @@ export const PublicEnrollmentControlButtons = ({
     <CustomButton
       variant={Variant.Contained}
       color={Color.Secondary}
+      onClick={handleSubmitBtnClick}
       data-testid="public-enrollment__controlButtons__submit"
       endIcon={<ArrowForwardIcon />}
       disabled={disableNext || isLoading}

@@ -41,6 +41,7 @@ export const PublicEnrollmentGrid = () => {
               />
               <PublicEnrollmentControlButtons
                 activeStep={activeStep}
+                enrollment={enrollment}
                 isLoading={isLoading}
                 disableNext={disableNext}
               />
