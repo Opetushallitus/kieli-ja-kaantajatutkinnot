@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import { FC } from 'react';
 
+import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
 import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
 import { useAppSelector } from 'configs/redux';
 import { PublicUIViews } from 'enums/app';
@@ -17,7 +18,9 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        {currentView === PublicUIViews.Reservation ? null : (
+        {currentView === PublicUIViews.Enrollment ? (
+          <PublicEnrollmentGrid />
+        ) : (
           <PublicExamEventGrid />
         )}
       </Grid>

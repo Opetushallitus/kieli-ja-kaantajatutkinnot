@@ -37,6 +37,9 @@ export class SerializationUtils {
     return {
       ...publicReservation,
       expiresAt: dayjs(publicReservation.expiresAt),
+      examEvent: SerializationUtils.deserializePublicExamEvent(
+        publicReservation.examEvent
+      ),
     };
   }
 

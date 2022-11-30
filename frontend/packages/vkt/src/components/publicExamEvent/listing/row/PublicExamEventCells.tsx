@@ -1,5 +1,4 @@
 import { Checkbox, TableCell } from '@mui/material';
-import { Dayjs } from 'dayjs';
 import { H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
@@ -67,8 +66,6 @@ export const PublicExamEventDesktopCells = ({
     return <Text>{`${maxParticipants - participants}`}</Text>;
   };
 
-  const formatDate = (date: Dayjs) => date.format('DD.MM.YYYY');
-
   return (
     <>
       <TableCell padding="checkbox">
@@ -91,10 +88,12 @@ export const PublicExamEventDesktopCells = ({
         </Text>
       </TableCell>
       <TableCell>
-        <Text>{formatDate(examEvent.date)}</Text>
+        <Text>{DateUtils.formatOptionalDate(examEvent.date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>{formatDate(examEvent.registrationCloses)}</Text>
+        <Text>
+          {DateUtils.formatOptionalDate(examEvent.registrationCloses)}
+        </Text>
       </TableCell>
       <TableCell>{getOpeningsText()}</TableCell>
       <TableCell />

@@ -1,25 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Dayjs } from 'dayjs';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicExamEvent } from 'interfaces/publicExamEvent';
-import { PublicPerson } from 'interfaces/publicPerson';
 import { PublicReservation } from 'interfaces/publicReservation';
 
 interface PublicReservationState {
   status: APIResponseStatus;
-  id?: number;
-  expiresAt?: Dayjs;
-  examEvent?: PublicExamEvent;
-  person?: PublicPerson;
+  reservation?: PublicReservation;
 }
 
 const initialState: PublicReservationState = {
   status: APIResponseStatus.NotStarted,
-  id: undefined,
-  expiresAt: undefined,
-  examEvent: undefined,
-  person: undefined,
+  reservation: undefined,
 };
 
 const publicReservationSlice = createSlice({
@@ -34,10 +25,7 @@ const publicReservationSlice = createSlice({
     },
     storeReservation(state, action: PayloadAction<PublicReservation>) {
       state.status = APIResponseStatus.Success;
-      state.id = action.payload.id;
-      state.expiresAt = action.payload.expiresAt;
-      state.examEvent = action.payload.examEvent;
-      state.person = action.payload.person;
+      state.reservation = action.payload;
     },
   },
 });

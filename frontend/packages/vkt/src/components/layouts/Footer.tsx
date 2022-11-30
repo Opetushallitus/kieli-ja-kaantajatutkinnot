@@ -28,7 +28,7 @@ export const Footer = () => {
   const { isAuthenticated } = useAuthentication();
   const { currentView } = useAppSelector(publicUIViewSelector);
   const showFooter =
-    !isAuthenticated && currentView !== PublicUIViews.Reservation;
+    !isAuthenticated && currentView !== PublicUIViews.Enrollment;
 
   return (
     <footer>

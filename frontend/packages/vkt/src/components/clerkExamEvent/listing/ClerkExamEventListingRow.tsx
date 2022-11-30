@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from '@mui/material';
-import { Dayjs } from 'dayjs';
 import { Link } from 'react-router-dom';
 import { Text } from 'shared/components';
+import { DateUtils } from 'shared/utils';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
@@ -19,8 +19,6 @@ export const ClerkExamEventListingRow = ({
     /:examEventId$/,
     `${examEvent.id}`
   );
-
-  const formatDate = (date: Dayjs) => date.format('DD.MM.YYYY');
 
   return (
     <>
@@ -43,10 +41,12 @@ export const ClerkExamEventListingRow = ({
           </Link>
         </TableCell>
         <TableCell>
-          <Text>{formatDate(examEvent.date)}</Text>
+          <Text>{DateUtils.formatOptionalDate(examEvent.date)}</Text>
         </TableCell>
         <TableCell>
-          <Text>{formatDate(examEvent.registrationCloses)}</Text>
+          <Text>
+            {DateUtils.formatOptionalDate(examEvent.registrationCloses)}
+          </Text>
         </TableCell>
         <TableCell>
           <Text>{`${examEvent.participants} / ${examEvent.maxParticipants}`}</Text>

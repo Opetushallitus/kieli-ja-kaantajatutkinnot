@@ -1,0 +1,27 @@
+.public-enrollment {
+  & &__grid {
+    &__form-container {
+      padding: 3rem;
+    }
+
+    &__stepper {
+      margin-left: 13rem;
+      margin-right: 13rem;
+
+      &__step-disabled {
+        span,
+        svg {
+          color: $color-grey-700;
+        }
+      }
+    }
+
+    .phone-number {
+      max-width: calc(50% - 1rem);
+
+      @include phone {
+        max-width: 100%;
+      }
+    }
+  }
+}
