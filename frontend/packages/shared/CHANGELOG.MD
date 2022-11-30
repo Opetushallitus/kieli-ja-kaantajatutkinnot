@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.2] - 2022-11-30
+
+### Fixed
+
+- LoadingProgressIndicator useable for block display
+
 ## [1.5.1] - 2022-11-16
 
 ### Fixed
