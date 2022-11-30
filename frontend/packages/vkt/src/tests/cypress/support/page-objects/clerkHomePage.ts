@@ -15,6 +15,10 @@ class ClerkHomePage {
     this.elements.examEventRow(id).should('be.visible').click();
   }
 
+  clickCreateExamEvent() {
+    cy.findByTestId('clerk-exam-events__add-examination-date-btn').click();
+  }
+
   clickToggleFilter(toggleFilter: ExamEventToggleFilter) {
     this.elements.toggleFilter(toggleFilter).should('be.visible').click();
   }

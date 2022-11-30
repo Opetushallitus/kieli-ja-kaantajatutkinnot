@@ -39,6 +39,7 @@ const BackButton = () => {
       variant={Variant.Text}
       startIcon={<ArrowBackIosOutlinedIcon />}
       className="color-secondary-dark"
+      data-testid="clerk-create-exam__back-btn"
     >
       {translateCommon('back')}
     </CustomButtonLink>
@@ -160,7 +161,7 @@ export const ClerkExamCreateEventPage: FC = () => {
   };
 
   const onComboBoxChange = ({}, value: AutocompleteValue) => {
-    const split = value?.value.split('-') || [];
+    const split: array = value?.value.split('-') || [];
 
     if (split[0] && split[1]) {
       const lang: ExamLanguage = split[0] as Exclude<
@@ -226,7 +227,10 @@ export const ClerkExamCreateEventPage: FC = () => {
                   value={getDateComboOpt(examDate)}
                 />
               </div>
-              <div className="rows gapped">
+              <div
+                className="rows gapped"
+                data-testid="clerk-exam__event-information__date"
+              >
                 <H3>{t('header.date')}</H3>
                 <CustomDatePicker
                   setValue={onDateChange}
@@ -234,7 +238,10 @@ export const ClerkExamCreateEventPage: FC = () => {
                   value={examDate?.date ?? null}
                 />
               </div>
-              <div className="rows gapped">
+              <div
+                className="rows gapped"
+                data-testid="clerk-exam__event-information__registration"
+              >
                 <H3>{t('header.registrationCloses')}</H3>
                 <CustomDatePicker
                   setValue={onRegistrationClosesChange}

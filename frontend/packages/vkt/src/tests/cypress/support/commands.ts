@@ -8,6 +8,10 @@ Cypress.Commands.add('openClerkHomePage', () => {
   cy.visit(AppRoutes.ClerkHomePage);
 });
 
+Cypress.Commands.add('openClerkCreateExamEventPage', () => {
+  cy.visit(AppRoutes.ClerkExamCreateEventPage);
+});
+
 Cypress.Commands.add('usePhoneViewport', () => {
   cy.viewport('iphone-6');
 });
