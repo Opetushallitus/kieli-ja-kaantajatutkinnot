@@ -46,8 +46,8 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId());
-
     assertCreatedEnrollment(dto);
+
     assertEquals(0, reservationRepository.count());
   }
 
@@ -57,9 +57,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(false).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId());
-
     assertCreatedEnrollment(dto);
-    assertEquals(0, reservationRepository.count());
   }
 
   private Reservation createReservation() {
