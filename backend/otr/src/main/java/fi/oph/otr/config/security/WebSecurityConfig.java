@@ -20,7 +20,6 @@ import org.springframework.security.cas.authentication.CasAuthenticationProvider
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,7 +28,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("!dev")
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig {
 
@@ -145,10 +143,10 @@ public class WebSecurityConfig {
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeRequests()
+      .authorizeHttpRequests()
       .mvcMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
       .hasRole(Constants.APP_ROLE)
-      .antMatchers("/", "/**")
+      .mvcMatchers("/", "/**")
       .permitAll()
       .anyRequest()
       .authenticated()
