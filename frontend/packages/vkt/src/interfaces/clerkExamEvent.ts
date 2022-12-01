@@ -49,7 +49,15 @@ export interface ClerkExamEventBasicInformation {
 export interface DraftClerkExamEvent
   extends Omit<
     ClerkExamEvent,
-    'id' | 'language' | 'level' | 'date' | 'maxParticipants' | 'registrationCloses' | 'enrollments'
+    | 'id'
+    | 'version'
+    | 'language'
+    | 'level'
+    | 'date'
+    | 'participants'
+    | 'maxParticipants'
+    | 'registrationCloses'
+    | 'enrollments'
   > {
   language?: Exclude<ExamLanguage, ExamLanguage.ALL>;
   level?: ExamLevel;
