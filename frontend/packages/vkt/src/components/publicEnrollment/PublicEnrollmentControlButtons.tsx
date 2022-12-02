@@ -134,7 +134,7 @@ export const PublicEnrollmentControlButtons = ({
   const renderSubmit = activeStep === PublicEnrollmentFormStep.Preview;
 
   return (
-    <div className="columns flex-end gapped margin-top-xxl">
+    <div className="columns flex-end gapped margin-top-lg">
       {CancelButton()}
       {renderBack && BackButton()}
       {renderNext && NextButton()}

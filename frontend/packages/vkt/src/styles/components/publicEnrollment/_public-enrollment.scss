@@ -16,6 +16,33 @@
       }
     }
 
+    &__partial-exam-selection {
+      padding-left: 1rem;
+    }
+
+    &__certificate-shipping {
+      &__consent {
+        padding-left: 1rem;
+      }
+    }
+
+    &__preview {
+      &__privacy-statement-checkbox-label {
+        margin-right: 0;
+        padding-left: 1rem;
+
+        &__link {
+          font-size: 1.6rem;
+          padding: 0 3px 0 0;
+          text-transform: lowercase;
+
+          & span {
+            margin-left: 2px;
+          }
+        }
+      }
+    }
+
     .phone-number {
       max-width: calc(50% - 1rem);
 

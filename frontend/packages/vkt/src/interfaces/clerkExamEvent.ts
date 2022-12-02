@@ -13,7 +13,7 @@ export interface ClerkExamEventEnrollmentResponse
   extends Partial<WithId>,
     Partial<WithVersion>,
     Omit<Enrollment, 'previousEnrollmentDate'> {
-  previousEnrollmentDate: string;
+  previousEnrollmentDate?: string;
 }
 
 export interface Enrollment {
@@ -26,7 +26,7 @@ export interface Enrollment {
   writingPartialExam: boolean;
   readingComprehensionPartialExam: boolean;
   status: EnrollmentStatus;
-  previousEnrollmentDate: Dayjs;
+  previousEnrollmentDate?: Dayjs;
   digitalCertificateConsent: boolean;
   email: string;
   phoneNumber: string;

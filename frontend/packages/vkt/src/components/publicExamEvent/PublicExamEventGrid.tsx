@@ -63,7 +63,10 @@ export const PublicExamEventGrid = () => {
                 {t('examinationDates.title')}
               </H2>
               <Text>
-                <Trans t={t} i18nKey="examinationDates.description"></Trans>
+                <Trans
+                  t={translateCommon}
+                  i18nKey="examinationPaymentsDescription"
+                ></Trans>
               </Text>
             </>
           )}
