@@ -22,7 +22,7 @@ export const PublicEnrollmentGrid = () => {
     <>
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading}>
+          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             <div className="public-enrollment__grid__form-container">
               <PublicEnrollmentStepper activeStep={activeStep} />
               <PublicEnrollmentReservationDetails />

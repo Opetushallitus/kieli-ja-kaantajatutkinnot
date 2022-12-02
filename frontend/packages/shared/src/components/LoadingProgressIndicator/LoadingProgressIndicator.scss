@@ -1,10 +1,18 @@
 .loading-progress-indicator {
-  display: inline-flex;
+  &__inline-flex {
+    display: inline-flex;
+  }
 
   &__container {
-    display: inline-flex;
-    position: relative;
-    width: 100%;
+    &__block {
+      position: relative;
+    }
+
+    &__inline-flex {
+      display: inline-flex;
+      position: relative;
+      width: 100%;
+    }
 
     &__spinner-box {
       left: 50%;

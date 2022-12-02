@@ -2,10 +2,10 @@
 
 exports[`LoadingProgressIndicator should render LoadingProgressIndicator correctly 1`] = `
 <div
-  className="loading-progress-indicator"
+  className="loading-progress-indicator__inline-flex"
 >
   <div
-    className="loading-progress-indicator__container"
+    className="loading-progress-indicator__container__inline-flex"
   >
     <div
       className="loading-progress-indicator__container__spinner-box"
