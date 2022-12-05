@@ -27,4 +27,5 @@ export interface PublicEnrollment
     PublicEnrollmentAddress {
   digitalCertificateConsent: boolean;
   privacyStatementConfirmation: boolean;
+  reservationId?: number;
 }
