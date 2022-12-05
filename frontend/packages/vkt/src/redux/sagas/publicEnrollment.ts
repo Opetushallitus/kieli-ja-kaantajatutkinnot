@@ -59,6 +59,7 @@ function* loadPublicEnrollmentSaveSaga(
       `${APIEndpoints.PublicReservation}/${reservationId}/enrollment`,
       body
     );
+    yield put(setPublicUIView(PublicUIViews.EnrollmentComplete));
     yield put(storePublicEnrollmentSave());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);

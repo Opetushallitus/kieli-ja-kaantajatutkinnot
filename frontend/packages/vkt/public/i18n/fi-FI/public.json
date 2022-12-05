@@ -32,6 +32,14 @@
         }
       },
       "publicEnrollment": {
+        "complete": {
+          "description": {
+            "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+            "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+          },
+          "successToast": "Ilmoittautuminen onnistui!",
+          "title": "Maksu on suoritettu."
+        },
         "controlButtons": {
           "cancelDialog": {
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
