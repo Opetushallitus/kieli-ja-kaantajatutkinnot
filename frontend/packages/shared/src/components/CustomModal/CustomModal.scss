@@ -1,8 +1,8 @@
-@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/maps';
 
 .custom-modal {
-  background: variables.$color-primary;
+  background: colors.$color-primary;
   left: 50%;
   padding: map-get(maps.$spacing, 'lg');
   position: absolute;
