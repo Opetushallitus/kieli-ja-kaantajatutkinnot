@@ -36,19 +36,16 @@ export const ClerkExamEventEnrollmentListingRow = ({
       'vkt.component.clerkExamEventOverview.examEventDetails.enrollment',
   });
 
-  const subExams = pick(enrollment, [
-    'oralSkill',
+  const partialExams = pick(enrollment, [
     'speakingPartialExam',
     'speechComprehensionPartialExam',
-    'textualSkill',
     'writingPartialExam',
     'readingComprehensionPartialExam',
-    'understandingSkill',
   ]);
 
   const checkIfPartialExam = () => {
-    if (Object.values(subExams).some((value) => !value)) {
-      return Object.keys(subExams)
+    if (Object.values(partialExams).some((value) => !value)) {
+      return Object.keys(partialExams)
         .filter((key) => examCodes[key as keyof typeof examCodes])
         .map((key) => examCodes[key as keyof typeof examCodes])
         .join(', ');
@@ -71,7 +68,7 @@ export const ClerkExamEventEnrollmentListingRow = ({
         </TableCell>
         <TableCell>
           <Text>
-            {DateUtils.formatOptionalDateAndTime(
+            {DateUtils.formatOptionalDateTime(
               enrollment.previousEnrollmentDate
             )}
           </Text>

@@ -17,7 +17,6 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
-  Enrollment,
 } from 'interfaces/clerkExamEvent';
 import {
   resetClerkExamEventDetailsUpdate,
@@ -168,24 +167,6 @@ export const ClerkExamEventDetails = () => {
 
   useNavigationProtection(hasLocalChanges);
 
-  const getExamListingHeader = (
-    enrollments: Array<Enrollment>,
-    enrollmentStatus: EnrollmentStatus
-  ) => {
-    switch (enrollmentStatus) {
-      case EnrollmentStatus.PAID:
-        return `${t('examEventListingHeader.paid')}: ${enrollments.length}`;
-      case EnrollmentStatus.EXPECTING_PAYMENT:
-        return `${t('examEventListingHeader.expectingPayment')}: ${
-          enrollments.length
-        }`;
-      case EnrollmentStatus.QUEUED:
-        return `${t('examEventListingHeader.queued')}: ${enrollments.length}`;
-      case EnrollmentStatus.CANCELED:
-        return `${t('examEventListingHeader.canceled')}: ${enrollments.length}`;
-    }
-  };
-
   const registeredEnrollments =
     examEventDetails?.enrollments.filter(
       (enrollment) => enrollment.status === EnrollmentStatus.PAID
@@ -233,7 +214,9 @@ export const ClerkExamEventDetails = () => {
       {registeredEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
           <H2>
-            {getExamListingHeader(registeredEnrollments, EnrollmentStatus.PAID)}
+            {`${t('examEventListingHeader.paid')}: ${
+              registeredEnrollments.length
+            }`}
           </H2>
           <div className="margin-top-sm">
             <ClerkExamEventEnrollmentListing
@@ -246,10 +229,9 @@ export const ClerkExamEventDetails = () => {
       {unpaidEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
           <H2>
-            {getExamListingHeader(
-              unpaidEnrollments,
-              EnrollmentStatus.EXPECTING_PAYMENT
-            )}
+            {`${t('examEventListingHeader.expectingPayment')}: ${
+              unpaidEnrollments.length
+            }`}
           </H2>
           <div className="margin-top-sm">
             <ClerkExamEventEnrollmentListing enrollments={unpaidEnrollments} />
@@ -260,7 +242,9 @@ export const ClerkExamEventDetails = () => {
       {queuedEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
           <H2>
-            {getExamListingHeader(queuedEnrollments, EnrollmentStatus.QUEUED)}
+            {`${t('examEventListingHeader.queued')}: ${
+              queuedEnrollments.length
+            }`}
           </H2>
           <div className="margin-top-sm">
             <ClerkExamEventEnrollmentListing enrollments={queuedEnrollments} />
@@ -271,10 +255,9 @@ export const ClerkExamEventDetails = () => {
       {canceledEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
           <H2>
-            {getExamListingHeader(
-              canceledEnrollments,
-              EnrollmentStatus.CANCELED
-            )}
+            {`${t('examEventListingHeader.canceled')}: ${
+              canceledEnrollments.length
+            }`}
           </H2>
           <div className="margin-top-sm">
             <ClerkExamEventEnrollmentListing

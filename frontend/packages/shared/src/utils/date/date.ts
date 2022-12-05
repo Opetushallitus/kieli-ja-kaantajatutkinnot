@@ -40,7 +40,7 @@ export class DateUtils {
     return date.locale(dayjs.locale()).format('HH:mm:ss');
   }
 
-  static formatOptionalDateAndTime(date?: Dayjs) {
+  static formatOptionalDateTime(date?: Dayjs) {
     if (!date) {
       return '-';
     }

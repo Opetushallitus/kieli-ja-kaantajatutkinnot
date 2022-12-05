@@ -20,14 +20,14 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectMode(UIMode.View);
   });
 
-  it('should show full exam when all subexams have been selected', () => {
+  it('should show full exam when all partial exams have been selected', () => {
     onClerkExamEventOverviewPage.expectRowToHaveText(
       clerkExamEvent.enrollments[0].id,
       'ST, PU, PY, TE, KI, TY, YM'
     );
   });
 
-  it('should show subexam abbrevations with partial subexam selections', () => {
+  it('should show partial exam abbrevations with partial exam selections', () => {
     onClerkExamEventOverviewPage.expectRowToHaveText(
       clerkExamEvent.enrollments[1].id,
       'Koko tutkinto'

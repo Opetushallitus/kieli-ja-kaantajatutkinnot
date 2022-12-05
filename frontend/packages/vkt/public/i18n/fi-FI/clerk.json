@@ -36,7 +36,7 @@
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
           },
-          "copyEmails": "Kopioi sähköposti",
+          "copyEmails": "Kopioi sähköpostit",
           "downloadExcel": "Lataa Excel",
           "enrollment": {
             "fullExam": "Koko tutkinto"

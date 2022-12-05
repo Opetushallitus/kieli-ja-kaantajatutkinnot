@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.4] - 2022-12-05
+
+### Added
+
+- formatOptionalDateTime and formatOptionalDateTime
+- NormalTable (Table without pagination)
+
+### Changed
+
+- DatePicker label is now optional
+
 ## [1.5.3] - 2022-12-05
 
 ### Changed

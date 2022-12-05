@@ -14,7 +14,7 @@ export interface ClerkExamEventEnrollmentResponse
   previousEnrollmentDate: string;
 }
 
-export interface SubExams {
+interface PartialExams {
   oralSkill: boolean;
   textualSkill: boolean;
   understandingSkill: boolean;
@@ -24,7 +24,7 @@ export interface SubExams {
   readingComprehensionPartialExam: boolean;
 }
 
-export interface Enrollment extends SubExams, WithId, WithVersion {
+export interface Enrollment extends PartialExams, WithId, WithVersion {
   person: Person;
   status: EnrollmentStatus;
   previousEnrollmentDate?: Dayjs;
