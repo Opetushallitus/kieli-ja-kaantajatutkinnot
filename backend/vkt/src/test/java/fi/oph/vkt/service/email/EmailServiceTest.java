@@ -1,5 +1,6 @@
 package fi.oph.vkt.service.email;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -12,7 +13,9 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Email;
+import fi.oph.vkt.model.EmailAttachment;
 import fi.oph.vkt.model.EmailType;
+import fi.oph.vkt.repository.EmailAttachmentRepository;
 import fi.oph.vkt.repository.EmailRepository;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import java.util.List;
@@ -35,6 +38,9 @@ class EmailServiceTest {
   @Resource
   private EmailRepository emailRepository;
 
+  @Resource
+  private EmailAttachmentRepository emailAttachmentRepository;
+
   @MockBean
   private EmailSender emailSenderMock;
 
@@ -46,7 +52,7 @@ class EmailServiceTest {
 
   @BeforeEach
   public void setup() {
-    emailService = new EmailService(emailRepository, emailSenderMock);
+    emailService = new EmailService(emailRepository, emailAttachmentRepository, emailSenderMock);
   }
 
   @Test
@@ -57,6 +63,16 @@ class EmailServiceTest {
       .recipientAddress("vastaanottaja@invalid")
       .subject("testiotsikko")
       .body("testiviesti")
+      .attachments(
+        List.of(
+          EmailAttachmentData
+            .builder()
+            .name("name.foo")
+            .contentType("foo/bar")
+            .data(new byte[] { 'a', 'b', 'c' })
+            .build()
+        )
+      )
       .build();
 
     final Long emailId = emailService.saveEmail(EmailType.ENROLLMENT_CONFIRMATION, emailData);
@@ -71,8 +87,16 @@ class EmailServiceTest {
     assertNull(email.getError());
     assertNull(email.getExtId());
 
+    assertEquals(1, email.getAttachments().size());
+    assertEquals("name.foo", email.getAttachments().get(0).getName());
+    assertEquals("foo/bar", email.getAttachments().get(0).getContentType());
+    assertArrayEquals(new byte[] { 'a', 'b', 'c' }, email.getAttachments().get(0).getData());
+
     final List<Email> allEmails = emailRepository.findAll();
     assertEquals(1, allEmails.size());
+
+    final List<EmailAttachment> allEmailAttachments = emailAttachmentRepository.findAll();
+    assertEquals(1, allEmailAttachments.size());
   }
 
   @Test

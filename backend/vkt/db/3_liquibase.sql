@@ -76,6 +76,7 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2022-12-06-create-shedlock-table	terova	migrations.xml	2022-12-06 14:21:45.036739	11	EXECUTED	8:8d3e6aaeff0d8838d329ebbaa95bc096	createTable tableName=shedlock		\N	4.9.1	\N	\N	0336504848
 2022-12-06-add-enum-email_type	terova	migrations.xml	2022-12-06 14:21:45.065383	12	EXECUTED	8:9d2dd6c5fb47e67ba50c6cf0db4edd47	createTable tableName=email_type; insert tableName=email_type		\N	4.9.1	\N	\N	0336504848
 2022-12-06-create-email-table	terova	migrations.xml	2022-12-06 14:21:45.096787	13	EXECUTED	8:fc290ff4700b729ac568057c7dd6c211	createTable tableName=email; addForeignKeyConstraint baseTableName=email, constraintName=fk_email_email_type, referencedTableName=email_type		\N	4.9.1	\N	\N	0336504848
+2022-12-06-create-email_attachment-table	terova	migrations.xml	2022-12-06 18:42:00.87481	14	EXECUTED	8:27ead2667c986a4fb6325d9d93238151	createTable tableName=email_attachment; addForeignKeyConstraint baseTableName=email_attachment, constraintName=fk_email_attachment_email, referencedTableName=email		\N	4.9.1	\N	\N	0352120682
 \.
 
 

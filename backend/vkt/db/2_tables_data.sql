@@ -17,6 +17,15 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Data for Name: email_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.email_type (name) FROM stdin;
+ENROLLMENT_CONFIRMATION
+\.
+
+
+--
 -- Data for Name: enrollment_status; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 

@@ -5,6 +5,9 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <property name="blob_type" value="bytea" dbms="postgresql"/>
+    <property name="blob_type" value="blob" dbms="hsqldb"/>
+
     <changeSet id="2022-09-14-create-table-exam_language" author="mikhuttu">
         <createTable tableName="exam_language">
             <column name="name" type="VARCHAR(10)">
@@ -389,6 +392,44 @@
                                  referencedTableName="email_type" referencedColumnNames="name"
                                  constraintName="fk_email_email_type"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+
+    <changeSet id="2022-12-06-create-email_attachment-table" author="terova">
+        <createTable tableName="email_attachment">
+            <column autoIncrement="true" name="email_attachment_id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="email_attachment_pkey"/>
+            </column>
+            <column name="version" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="TEXT"/>
+            <column name="modified_by" type="TEXT"/>
+            <column name="deleted_by" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="TIMESTAMP WITH TIME ZONE"/>
+
+            <column name="email_id" type="BIGINT">
+              <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="${blob_type}">
+                <constraints nullable="false"/>
+            </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="email_attachment" baseColumnNames="email_id"
+                             referencedTableName="email" referencedColumnNames="email_id"
+                             constraintName="fk_email_attachment_email"
+                             onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
 </databaseChangeLog>

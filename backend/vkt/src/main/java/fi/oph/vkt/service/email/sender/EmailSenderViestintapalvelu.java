@@ -3,9 +3,11 @@ package fi.oph.vkt.service.email.sender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.service.email.EmailAttachmentData;
 import fi.oph.vkt.service.email.EmailData;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -51,7 +53,9 @@ public class EmailSenderViestintapalvelu implements EmailSender {
       "subject",
       emailData.subject(),
       "body",
-      emailData.body()
+      emailData.body(),
+      "attachments",
+      createAttachments(emailData.attachments())
     );
 
     final Map<String, String> recipientFields = Map.of(
@@ -62,6 +66,18 @@ public class EmailSenderViestintapalvelu implements EmailSender {
     );
 
     return Map.of("email", emailFields, "recipient", List.of(recipientFields));
+  }
+
+  private List<Map<String, Object>> createAttachments(final List<EmailAttachmentData> attachments) {
+    return Optional
+      .ofNullable(attachments)
+      .map(nonNullAttachments ->
+        nonNullAttachments
+          .stream()
+          .map(a -> Map.<String, Object>of("data", a.data(), "name", a.name(), "contentType", a.contentType()))
+          .toList()
+      )
+      .orElse(List.of());
   }
 
   private String parseExternalId(final String result) throws JsonProcessingException {

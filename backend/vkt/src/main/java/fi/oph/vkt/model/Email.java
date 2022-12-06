@@ -1,6 +1,8 @@
 package fi.oph.vkt.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,4 +50,7 @@ public class Email extends BaseEntity {
 
   @Column(name = "ext_id")
   private String extId;
+
+  @OneToMany(mappedBy = "email")
+  private List<EmailAttachment> attachments = new ArrayList<>();
 }
