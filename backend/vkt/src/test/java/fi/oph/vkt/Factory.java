@@ -1,5 +1,7 @@
 package fi.oph.vkt;
 
+import fi.oph.vkt.model.Email;
+import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
@@ -70,5 +72,16 @@ public class Factory {
     examEvent.getReservations().add(reservation);
     person.getReservations().add(reservation);
     return reservation;
+  }
+
+  public static Email email() {
+    final Email email = new Email();
+    email.setEmailType(EmailType.ENROLLMENT_CONFIRMATION);
+    email.setRecipientName("Ville Vastaanottaja");
+    email.setRecipientAddress("ville.vastaanottaja@invalid");
+    email.setSubject("Otsikko");
+    email.setBody("Sisältö on tässä");
+
+    return email;
   }
 }
