@@ -108,7 +108,7 @@
             "startDate": "Alkamispäivä"
           },
           "header": "Rekisteröinnit",
-          "noQualifications": "Valituille kriteereille ei löytynyt tutkintoja",
+          "noQualifications": "Valituille kriteereille ei löytynyt rekisteröintejä",
           "toasts": {
             "addingSucceeded": "Rekisteröinti lisätty onnistuneesti",
             "removingSucceeded": "Valittu rekisteröinti poistettu",

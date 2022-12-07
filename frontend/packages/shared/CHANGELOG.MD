@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.5] - 2022-12-12
+
+### Changed
+
+- Removed `padding-left` from `bold` class
+
 ## [1.5.4] - 2022-12-08
 
 ### Changed
