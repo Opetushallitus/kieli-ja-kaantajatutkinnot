@@ -26,11 +26,6 @@
               "title": "Havaittava: Puuttuva taulukon otsikko"
             },
             {
-              "description": "Combobox -elementit sisältävät näppäimistöansan joillain selaimilla sekä ruudunlukijoilla. Ruudunlukija saattaa myös antaa väärät ohjeistukset Comboxin käyttämiseen.",
-              "claim": "2.1.2 Ei näppäimistöansaa",
-              "title": "Hallittava: Combobox -elementeissä puutteita"
-            },
-            {
               "description": "Kielenvalintakomponentissa ei ole perinteistä nimilappua. Aria-label kuitenkin löytyy.",
               "claim": "2.4.6 Otsikot ja nimilaput",
               "title": "Hallittava: Nimilappu puuttuu kielenvalintakomponentista"
@@ -43,11 +38,6 @@
           ]
         },
         "contactAdministrativeAgency": {
-          "details": {
-            "name": "Etelä-Suomen aluehallintovirasto",
-            "phone": "Puhelinnumero vaihde 0295 016 000",
-            "unit": "Saavutettavuuden valvonnan yksikkö"
-          },
           "links": {
             "email": {
               "link": "saavutettavuus@avi.fi",
@@ -59,7 +49,10 @@
               "title": "Saavutettavuusvaatimukset-verkkosivusto"
             }
           },
-          "title": "Valvontaviranomaisen yhteystiedot"
+          "name": "Etelä-Suomen aluehallintovirasto",
+          "phone": "puhelinnumero vaihde 0295 016 000",
+          "title": "Valvontaviranomaisen yhteystiedot",
+          "unit": "Saavutettavuuden valvonnan yksikkö"
         },
         "feedback": {
           "description": "Sähköpostilla: {{email}}",
@@ -82,7 +75,7 @@
         }
       },
       "heading": {
-        "description": "Tämä saavutettavuusseloste koskee palvelua akr.opintopolku.fi ja on laadittu / päivitetty 28.2.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio.",
+        "description": "Tämä saavutettavuusseloste koskee palvelua akr.opintopolku.fi ja on laadittu / päivitetty 08.12.2022. Palvelua koskee laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia. Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio.",
         "title": "Auktorisoitujen kääntäjien rekisterin saavutettavuusseloste"
       }
     }
