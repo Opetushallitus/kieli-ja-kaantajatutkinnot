@@ -1,4 +1,5 @@
 export * from './Text/Text';
+export { AccessibilityStatementContent } from './AccessibilityStatement/AccessibilityStatementContent';
 export { CircularStepper } from './CircularStepper/CircularStepper';
 export {
   sortOptionsByLabels,
