@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -34,15 +36,18 @@ public class PublicReservationService {
   @Transactional
   public PublicReservationDTO createReservation(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+    final List<Enrollment> enrollments = examEvent.getEnrollments();
 
-    final long participants = examEvent
-      .getEnrollments()
+    final long participants = enrollments
       .stream()
       .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
       .count();
+    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
+
+    final long openings = hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
     final long reservations = examEvent.getReservations().stream().filter(Reservation::isActive).count();
 
-    if (ExamEventUtil.isCongested(participants, reservations, examEvent.getMaxParticipants())) {
+    if (ExamEventUtil.isCongested(openings, reservations)) {
       throw new APIException(APIExceptionType.CREATE_RESERVATION_CONGESTION);
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
@@ -54,7 +59,7 @@ public class PublicReservationService {
       .map(this::updateExpiresAtForExistingReservation)
       .orElseGet(() -> createNewReservation(examEvent, person));
 
-    return createReservationDTO(reservation, examEvent, person, participants);
+    return createReservationDTO(reservation, examEvent, person, openings);
   }
 
   private Reservation updateExpiresAtForExistingReservation(final Reservation reservation) {
@@ -81,7 +86,7 @@ public class PublicReservationService {
     final Reservation reservation,
     final ExamEvent examEvent,
     final Person person,
-    final long examEventParticipants
+    final long openings
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -89,8 +94,7 @@ public class PublicReservationService {
       .language(examEvent.getLanguage())
       .date(examEvent.getDate())
       .registrationCloses(examEvent.getRegistrationCloses())
-      .participants(examEventParticipants)
-      .maxParticipants(examEvent.getMaxParticipants())
+      .openings(openings)
       .hasCongestion(false)
       .build();
 
