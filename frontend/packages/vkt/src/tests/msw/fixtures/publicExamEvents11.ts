@@ -4,8 +4,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2022-10-01',
     registrationCloses: '2022-09-27',
-    participants: 9,
-    maxParticipants: 10,
+    openings: 1,
     hasCongestion: true,
   },
   {
@@ -13,8 +12,7 @@ export const publicExamEvents11 = [
     language: 'SV',
     date: '2022-10-01',
     registrationCloses: '2022-09-27',
-    participants: 8,
-    maxParticipants: 10,
+    openings: 2,
     hasCongestion: false,
   },
   {
@@ -22,8 +20,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2022-11-18',
     registrationCloses: '2022-11-06',
-    participants: 5,
-    maxParticipants: 10,
+    openings: 5,
     hasCongestion: false,
   },
   {
@@ -31,8 +28,7 @@ export const publicExamEvents11 = [
     language: 'SV',
     date: '2022-11-18',
     registrationCloses: '2022-11-06',
-    participants: 3,
-    maxParticipants: 10,
+    openings: 7,
     hasCongestion: false,
   },
   {
@@ -40,8 +36,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2022-12-24',
     registrationCloses: '2022-12-10',
-    participants: 10,
-    maxParticipants: 10,
+    openings: 0,
     hasCongestion: false,
   },
   {
@@ -49,8 +44,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2023-02-05',
     registrationCloses: '2023-01-22',
-    participants: 3,
-    maxParticipants: 10,
+    openings: 7,
     hasCongestion: false,
   },
   {
@@ -58,8 +52,7 @@ export const publicExamEvents11 = [
     language: 'SV',
     date: '2023-02-05',
     registrationCloses: '2023-01-22',
-    participants: 2,
-    maxParticipants: 10,
+    openings: 8,
     hasCongestion: false,
   },
   {
@@ -67,8 +60,7 @@ export const publicExamEvents11 = [
     language: 'SV',
     date: '2023-03-02',
     registrationCloses: '2023-03-01',
-    participants: 1,
-    maxParticipants: 10,
+    openings: 9,
     hasCongestion: false,
   },
   {
@@ -76,8 +68,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2023-03-30',
     registrationCloses: '2023-03-16',
-    participants: 1,
-    maxParticipants: 10,
+    openings: 9,
     hasCongestion: false,
   },
   {
@@ -85,8 +76,7 @@ export const publicExamEvents11 = [
     language: 'SV',
     date: '2023-03-30',
     registrationCloses: '2023-03-16',
-    participants: 0,
-    maxParticipants: 10,
+    openings: 10,
     hasCongestion: false,
   },
   {
@@ -94,8 +84,7 @@ export const publicExamEvents11 = [
     language: 'FI',
     date: '2023-06-15',
     registrationCloses: '2023-06-01',
-    participants: 0,
-    maxParticipants: 9,
+    openings: 9,
     hasCongestion: false,
   },
 ];

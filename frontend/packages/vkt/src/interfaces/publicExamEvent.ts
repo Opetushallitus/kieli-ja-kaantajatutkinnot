@@ -7,8 +7,7 @@ export interface PublicExamEvent extends WithId {
   language: Exclude<ExamLanguage, ExamLanguage.ALL>;
   date: Dayjs;
   registrationCloses: Dayjs;
-  participants: number;
-  maxParticipants: number;
+  openings: number;
   hasCongestion: boolean;
 }
 
