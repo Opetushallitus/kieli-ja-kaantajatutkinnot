@@ -21,22 +21,19 @@ export const ClerkExamLanguageLevel = ({
   const dispatch = useAppDispatch();
 
   const onLangLevelChange = ({}, value: AutocompleteValue) => {
-    const split: Array<string> = value?.value.split('-') || [];
-
-    if (!split[0] || !split[1]) {
+    if (!value) {
       return false;
     }
 
-    const lang: ExamLanguage = split[0] as Exclude<
-      ExamLanguage,
-      ExamLanguage.ALL
-    >;
-    const level: ExamLevel = split[1] as ExamLevel;
+    const [language, level] = value?.value.split('-') as [
+      Exclude<ExamLanguage, ExamLanguage.ALL>,
+      ExamLevel
+    ];
 
     const examFormDetails: DraftClerkExamEvent = {
       ...examForm,
-      language: lang,
-      level: level,
+      language,
+      level,
     };
     dispatch(updateClerkNewExamDate(examFormDetails));
   };
