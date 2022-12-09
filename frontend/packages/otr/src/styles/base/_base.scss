@@ -5,7 +5,7 @@ html {
 html,
 body,
 #root {
-  background-color: $color-background-root;
+  background-color: $color-background;
   height: 100%;
 
   & h1 {
@@ -37,7 +37,7 @@ body,
   }
 
   .content {
-    background-color: $color-background-content;
+    background-color: $color-primary;
     display: flex;
     grid-area: content;
 

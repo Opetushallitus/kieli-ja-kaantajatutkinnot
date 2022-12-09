@@ -1,6 +1,12 @@
 {
   "vkt": {
     "common": {
+      "address": {
+        "street": "Katuosoite",
+        "postalCode": "Postinumero",
+        "town": "Postitoimipaikka",
+        "country": "Maa"
+      },
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
@@ -28,6 +34,7 @@
         },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
+      "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
       "examLanguage": {
         "FI": "Suomi",
         "SV": "Ruotsi"
@@ -35,6 +42,7 @@
       "examLevel": {
         "EXCELLENT": "Erinomainen"
       },
+      "frontPage": "Etusivu",
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",

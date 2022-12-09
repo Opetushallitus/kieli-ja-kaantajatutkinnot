@@ -9,6 +9,7 @@ import fi.oph.vkt.util.ExamEventUtil;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,16 @@ public class PublicExamEventService {
     final List<PublicExamEventProjection> examEventProjections = examEventRepository.listPublicExamEventProjections(
       level
     );
+    final Set<Long> examEventIdsHavingQueue = examEventRepository.listPublicExamEventIdsWithQueue(level);
     final Map<Long, Long> reservationsByExamEvent = reservationRepository.countActiveReservationsByExamEvent();
 
     return examEventProjections
       .stream()
       .map(e -> {
+        final long openings = examEventIdsHavingQueue.contains(e.id()) ? 0L : e.maxParticipants() - e.participants();
         final long reservations = reservationsByExamEvent.getOrDefault(e.id(), 0L);
-        final boolean hasCongestion = ExamEventUtil.isCongested(e.participants(), reservations, e.maxParticipants());
+
+        final boolean hasCongestion = ExamEventUtil.isCongested(openings, reservations);
 
         return PublicExamEventDTO
           .builder()
@@ -39,8 +43,7 @@ public class PublicExamEventService {
           .language(e.language())
           .date(e.date())
           .registrationCloses(e.registrationCloses())
-          .participants(e.participants())
-          .maxParticipants(e.maxParticipants())
+          .openings(openings)
           .hasCongestion(hasCongestion)
           .build();
       })

@@ -1,4 +1,4 @@
-@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/mixins';
 
 .lang-selector {
@@ -20,7 +20,7 @@
     &,
     &__icon,
     & > svg {
-      color: variables.$color-secondary-dark;
+      color: colors.$color-secondary-dark;
     }
   }
 }

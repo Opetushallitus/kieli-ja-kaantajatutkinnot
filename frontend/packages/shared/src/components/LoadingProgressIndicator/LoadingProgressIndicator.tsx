@@ -5,14 +5,17 @@ import './LoadingProgressIndicator.scss';
 
 interface LoadingProgressIndicatorProps {
   isLoading: boolean;
+  displayBlock?: boolean;
 }
 
 export const LoadingProgressIndicator: FC<
   PropsWithChildren<LoadingProgressIndicatorProps>
-> = ({ isLoading, children }) => {
+> = ({ isLoading, displayBlock, children }) => {
+  const classSuffix = displayBlock ? '__block' : '__inline-flex';
+
   return (
-    <div className="loading-progress-indicator">
-      <div className="loading-progress-indicator__container">
+    <div className={`loading-progress-indicator${classSuffix}`}>
+      <div className={`loading-progress-indicator__container${classSuffix}`}>
         {children}
         <div className="loading-progress-indicator__container__spinner-box">
           {isLoading && (

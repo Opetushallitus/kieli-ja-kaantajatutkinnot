@@ -4,6 +4,7 @@ import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
+import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
 import { PublicEnrollmentReservationDetails } from 'components/publicEnrollment/PublicEnrollmentReservationDetails';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
@@ -15,24 +16,32 @@ export const PublicEnrollmentGrid = () => {
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
 
-  const { status, activeStep } = useAppSelector(publicEnrollmentSelector);
+  const { status, activeStep, enrollment } = useAppSelector(
+    publicEnrollmentSelector
+  );
   const isLoading = status === APIResponseStatus.InProgress;
 
   const renderDesktopView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading}>
+          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             <div className="public-enrollment__grid__form-container">
               <PublicEnrollmentStepper activeStep={activeStep} />
               <PublicEnrollmentReservationDetails />
               <PublicEnrollmentStepContents
                 activeStep={activeStep}
+                enrollment={enrollment}
                 isLoading={isLoading}
                 disableNext={disableNextCb}
               />
+              <PublicEnrollmentPaymentSum
+                activeStep={activeStep}
+                enrollment={enrollment}
+              />
               <PublicEnrollmentControlButtons
                 activeStep={activeStep}
+                enrollment={enrollment}
                 isLoading={isLoading}
                 disableNext={disableNext}
               />

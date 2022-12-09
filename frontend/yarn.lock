@@ -2517,7 +2517,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.0"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.3"
   languageName: unknown
   linkType: soft
 
@@ -2525,7 +2525,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.0"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.3"
   languageName: unknown
   linkType: soft
 
@@ -2616,7 +2616,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.3":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -2626,7 +2626,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.1"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.3"
   languageName: unknown
   linkType: soft
 
@@ -11165,6 +11165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.0":
   version: 1.5.0
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.5.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.5.0%2Fb1a960e2047253c91cb0e7c89fbf8a99e0dd6f8b"
@@ -11179,6 +11180,8 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+>>>>>>> dev
 "shebang-command@npm:^2.0.0":
   version: 2.0.0
   resolution: "shebang-command@npm:2.0.0"

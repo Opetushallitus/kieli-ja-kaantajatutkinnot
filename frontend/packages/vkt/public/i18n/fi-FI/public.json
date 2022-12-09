@@ -32,12 +32,23 @@
         }
       },
       "publicEnrollment": {
+        "complete": {
+          "description": {
+            "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+            "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+          },
+          "successToast": "Ilmoittautuminen onnistui!",
+          "title": "Maksu on suoritettu."
+        },
         "controlButtons": {
           "cancelDialog": {
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
             "title": "Peruuta ilmoittautuminen"
           },
           "pay": "Siirry maksamaan"
+        },
+        "paymentSum": {
+          "title": "Tutkintomaksu"
         },
         "reservationDetails": {
           "examDate": "Tutkintopäivä",
@@ -57,6 +68,10 @@
           }
         },
         "steps": {
+          "certificateShipping": {
+            "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
+            "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti"
+          },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
@@ -64,11 +79,36 @@
             "phoneNumber": "Puhelinnumero",
             "title": "Yhteystiedot"
           },
+          "partialExamsSelection": {
+            "fields": {
+              "oralSkill": "Suullinen taito",
+              "readingComprehensionPartialExam": "Tekstin ymmärtäminen",
+              "speakingPartialExam": "Puhuminen",
+              "speechComprehensionPartialExam": "Puheen ymmärtäminen",
+              "textualSkill": "Kirjallinen taito",
+              "understandingSkill": "Ymmärtämisen taito",
+              "writingPartialExam": "Kirjoittaminen"
+            },
+            "partialExamsTitle": "Valitse osakokeet",
+            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
+          },
           "personDetails": {
             "firstName": "Etunimet",
             "identityNumber": "Henkilötunnus",
             "lastName": "Sukunimi",
             "title": "Nimi ja henkilötunnus"
+          },
+          "preview": {
+            "contactDetails": {
+              "email": "Sähköpostiosoite",
+              "phoneNumber": "Puhelinnumero",
+              "title": "Yhteystiedot"
+            },
+            "privacyStatement": {
+              "ariaLabel": "Tietosuojaseloste",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
+              "linkLabel": "tietosuojaselosteen"
+            }
           }
         }
       },
@@ -78,7 +118,6 @@
           "text": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito. Lisätietoa tutkinnosta"
         },
         "examinationDates": {
-          "description": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
           "title": "Tutkintomaksut"
         },
         "noSearchResults": "Ei hakutuloksia",

@@ -1,12 +1,17 @@
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
+import { Preview } from 'components/publicEnrollment/steps/Preview';
+import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export const PublicEnrollmentStepContents = ({
   activeStep,
+  enrollment,
   isLoading,
   disableNext,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
 }) => {
@@ -15,12 +20,28 @@ export const PublicEnrollmentStepContents = ({
       return <></>;
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
-        <FillContactDetails isLoading={isLoading} disableNext={disableNext} />
+        <FillContactDetails
+          enrollment={enrollment}
+          isLoading={isLoading}
+          disableNext={disableNext}
+        />
       );
     case PublicEnrollmentFormStep.SelectExam:
-      return <></>;
+      return (
+        <SelectExam
+          enrollment={enrollment}
+          isLoading={isLoading}
+          disableNext={disableNext}
+        />
+      );
     case PublicEnrollmentFormStep.Preview:
-      return <></>;
+      return (
+        <Preview
+          enrollment={enrollment}
+          isLoading={isLoading}
+          disableNext={disableNext}
+        />
+      );
     case PublicEnrollmentFormStep.Pay:
       return <></>;
     default:

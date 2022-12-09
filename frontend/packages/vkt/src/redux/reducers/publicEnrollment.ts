@@ -17,6 +17,19 @@ const initialState: PublicEnrollmentState = {
     email: '',
     emailConfirmation: '',
     phoneNumber: '',
+    oralSkill: false,
+    textualSkill: false,
+    understandingSkill: false,
+    speakingPartialExam: false,
+    speechComprehensionPartialExam: false,
+    writingPartialExam: false,
+    readingComprehensionPartialExam: false,
+    digitalCertificateConsent: false,
+    street: '',
+    postalCode: '',
+    town: '',
+    country: '',
+    privacyStatementConfirmation: false,
   },
 };
 
@@ -50,6 +63,15 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.enrollment = { ...state.enrollment, ...action.payload };
     },
+    loadPublicEnrollmentSave(state, _action: PayloadAction<PublicEnrollment>) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    rejectPublicEnrollmentSave(state) {
+      state.status = APIResponseStatus.Error;
+    },
+    storePublicEnrollmentSave(state) {
+      state.status = APIResponseStatus.Success;
+    },
   },
 });
 
@@ -61,4 +83,7 @@ export const {
   increaseActiveStep,
   resetPublicEnrollment,
   updatePublicEnrollment,
+  loadPublicEnrollmentSave,
+  rejectPublicEnrollmentSave,
+  storePublicEnrollmentSave,
 } = publicEnrollmentSlice.actions;

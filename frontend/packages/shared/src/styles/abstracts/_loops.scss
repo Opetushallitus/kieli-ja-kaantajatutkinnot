@@ -1,3 +1,5 @@
+@import './variables';
+
 @each $value in $flex-grow-values {
   .flex-grow-#{$value} {
     flex-grow: $value;

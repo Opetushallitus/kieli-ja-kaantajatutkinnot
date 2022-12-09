@@ -28,6 +28,10 @@ const publicExamEventSlice = createSlice({
     rejectPublicExamEvents(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetPublicExamEventSelections(state) {
+      state.selectedExamEvent = initialState.selectedExamEvent;
+      state.languageFilter = initialState.languageFilter;
+    },
     storePublicExamEvents(
       state,
       action: PayloadAction<Array<PublicExamEvent>>
@@ -58,6 +62,7 @@ export const publicExamEventReducer = publicExamEventSlice.reducer;
 export const {
   loadPublicExamEvents,
   rejectPublicExamEvents,
+  resetPublicExamEventSelections,
   storePublicExamEvents,
   setPublicExamEventLanguageFilter,
   setSelectedPublicExamEvent,

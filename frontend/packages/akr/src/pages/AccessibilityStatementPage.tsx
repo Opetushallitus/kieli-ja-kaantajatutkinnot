@@ -44,11 +44,6 @@ export const AccessibilityStatementPage = () => {
   const translateCommon = useCommonTranslation();
   const { pathname } = useLocation();
 
-  const administrativeAgencyContactDetails = Object.keys(
-    accessibilityFI.akr.accessibility.content.contactAdministrativeAgency
-      .details
-  );
-
   const caveats = Object.keys(
     accessibilityFI.akr.accessibility.content.caveats.items
   );
@@ -155,13 +150,16 @@ export const AccessibilityStatementPage = () => {
                 'content.contactAdministrativeAgency.title'
               )}
             </H2>
-            {administrativeAgencyContactDetails.map((k, i) => (
-              <Text key={i}>
-                {translateAccessibility(
-                  `content.contactAdministrativeAgency.details.${k}`
-                )}
-              </Text>
-            ))}
+            <Text>
+              {translateAccessibility(
+                'content.contactAdministrativeAgency.name'
+              )}
+            </Text>
+            <Text>
+              {translateAccessibility(
+                'content.contactAdministrativeAgency.unit'
+              )}
+            </Text>
             <ExtLink
               className="accessibility-statement-page__content__link"
               text={translateAccessibility(
@@ -184,6 +182,11 @@ export const AccessibilityStatementPage = () => {
                 `content.contactAdministrativeAgency.links.email.link`
               )}`}
             />
+            <Text>
+              {translateAccessibility(
+                'content.contactAdministrativeAgency.phone'
+              )}
+            </Text>
           </div>
           <div className="rows gapped-xxs">
             <H2>{translateAccessibility('content.furtherImprove.title')}</H2>

@@ -1,8 +1,8 @@
-@use '../../styles/abstracts/variables';
+@use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/mixins';
 
 .header-separator {
-  background-color: variables.$color-secondary;
+  background-color: colors.$color-secondary;
   height: 0.8rem;
   margin-bottom: 2rem;
   width: 5rem;
