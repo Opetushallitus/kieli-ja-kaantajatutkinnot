@@ -14,8 +14,7 @@ export const PublicExamEventPhoneCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
-  const { language, date, registrationCloses, participants, maxParticipants } =
-    examEvent;
+  const { language, date, registrationCloses, openings } = examEvent;
 
   return (
     <TableCell>
@@ -24,8 +23,7 @@ export const PublicExamEventPhoneCells = ({
           <H2>{language}</H2>
           <H2>{DateUtils.formatOptionalDate(date)}</H2>
           <H2>{DateUtils.formatOptionalDate(registrationCloses)}</H2>
-          <H2>{participants}</H2>
-          <H2>{maxParticipants}</H2>
+          <H2>{openings}</H2>
         </div>
       </div>
     </TableCell>
@@ -50,8 +48,6 @@ export const PublicExamEventDesktopCells = ({
     : t('accessibility.checkboxUnselectedAriaLabel');
 
   const getOpeningsText = () => {
-    const { participants, maxParticipants } = examEvent;
-
     if (examEvent.hasCongestion) {
       return (
         <>
@@ -59,11 +55,11 @@ export const PublicExamEventDesktopCells = ({
           <Text>{t('openings.congestion.part2')}</Text>
         </>
       );
-    } else if (participants >= maxParticipants) {
+    } else if (examEvent.openings <= 0) {
       return <Text>{t('openings.none')}</Text>;
     }
 
-    return <Text>{`${maxParticipants - participants}`}</Text>;
+    return <Text>{`${examEvent.openings}`}</Text>;
   };
 
   return (

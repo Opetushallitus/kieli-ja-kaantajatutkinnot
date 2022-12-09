@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -73,10 +74,35 @@ public class PublicReservationServiceTest {
   }
 
   @Test
+  public void testCreateReservationToExamEventWithQueue() {
+    final ExamEvent examEvent = createExamEvent(2);
+    createEnrollment(examEvent, EnrollmentStatus.QUEUED);
+    final Person person = createPerson();
+
+    final PublicReservationDTO dto = publicReservationService.createReservation(examEvent.getId(), person);
+    assertReservationDTO(examEvent, person, 0, dto);
+
+    assertTrue(reservationRepository.findById(dto.id()).isPresent());
+  }
+
+  @Test
   public void testCreateReservationToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
     createEnrollment(examEvent, EnrollmentStatus.PAID);
     createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT);
+    final Person person = createPerson();
+
+    final PublicReservationDTO dto = publicReservationService.createReservation(examEvent.getId(), person);
+    assertReservationDTO(examEvent, person, 0, dto);
+
+    assertTrue(reservationRepository.findById(dto.id()).isPresent());
+  }
+
+  @Test
+  public void testCreateReservationToExamEventWithExpiredReservations() {
+    final ExamEvent examEvent = createExamEvent(2);
+    createReservation(examEvent, LocalDateTime.now());
+    createReservation(examEvent, LocalDateTime.now().minusDays(1));
     final Person person = createPerson();
 
     final PublicReservationDTO dto = publicReservationService.createReservation(examEvent.getId(), person);
@@ -86,26 +112,13 @@ public class PublicReservationServiceTest {
   }
 
   @Test
-  public void testCreateReservationToExamEventWithExpiredReservations() {
-    final ExamEvent examEvent = createExamEvent(1);
-    createReservation(examEvent, LocalDateTime.now());
-    createReservation(examEvent, LocalDateTime.now().minusDays(1));
-    final Person person = createPerson();
-
-    final PublicReservationDTO dto = publicReservationService.createReservation(examEvent.getId(), person);
-    assertReservationDTO(examEvent, person, 0, dto);
-
-    assertTrue(reservationRepository.findById(dto.id()).isPresent());
-  }
-
-  @Test
   public void testCreateReservationShouldUpdateExpiresAtForExistingReservation() {
-    final ExamEvent examEvent = createExamEvent(1);
+    final ExamEvent examEvent = createExamEvent(2);
     final Reservation reservation = createReservation(examEvent, LocalDateTime.now().minusDays(1));
     final Person person = reservation.getPerson();
 
     final PublicReservationDTO dto = publicReservationService.createReservation(examEvent.getId(), person);
-    assertReservationDTO(examEvent, person, 0, dto);
+    assertReservationDTO(examEvent, person, 2, dto);
 
     assertTrue(reservationRepository.findById(dto.id()).isPresent());
     assertEquals(1, reservationRepository.count());
@@ -202,7 +215,7 @@ public class PublicReservationServiceTest {
   private void assertReservationDTO(
     final ExamEvent examEvent,
     final Person person,
-    final int participants,
+    final int openings,
     final PublicReservationDTO dto
   ) {
     final PublicExamEventDTO examEventDTO = dto.examEvent();
@@ -210,8 +223,8 @@ public class PublicReservationServiceTest {
     assertEquals(examEvent.getLanguage(), examEventDTO.language());
     assertEquals(examEvent.getDate(), examEventDTO.date());
     assertEquals(examEvent.getRegistrationCloses(), examEventDTO.registrationCloses());
-    assertEquals(participants, examEventDTO.participants());
-    assertEquals(examEvent.getMaxParticipants(), examEventDTO.maxParticipants());
+    assertEquals(openings, examEventDTO.openings());
+    assertFalse(examEventDTO.hasCongestion());
 
     final PublicPersonDTO personDTO = dto.person();
     assertEquals(person.getId(), personDTO.id());

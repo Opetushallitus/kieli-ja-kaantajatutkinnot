@@ -11,7 +11,6 @@ public record PublicExamEventDTO(
   @NonNull ExamLanguage language,
   @NonNull LocalDate date,
   @NonNull LocalDate registrationCloses,
-  @NonNull Long participants,
-  @NonNull Long maxParticipants,
+  @NonNull Long openings,
   @NonNull Boolean hasCongestion
 ) {}

@@ -39,9 +39,7 @@ export const PublicEnrollmentReservationDetails = () => {
         <Text>{`${t('registrationCloses')}: ${DateUtils.formatOptionalDate(
           examEvent.registrationCloses
         )}`}</Text>
-        <Text>{`${t('openings')}: ${
-          examEvent.maxParticipants - examEvent.participants
-        }`}</Text>
+        <Text>{`${t('openings')}: ${Math.max(examEvent.openings, 0)}`}</Text>
       </div>
     </div>
   );

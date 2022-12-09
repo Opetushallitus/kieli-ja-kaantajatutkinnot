@@ -66,6 +66,7 @@ public class PublicExamEventServiceTest {
 
     final ExamEvent eventToday = Factory.examEvent(ExamLanguage.FI);
     eventToday.setDate(now);
+    eventToday.setMaxParticipants(6);
 
     final ExamEvent upcomingEventSv = Factory.examEvent(ExamLanguage.SV);
     final ExamEvent upcomingEventFi = Factory.examEvent(ExamLanguage.FI);
@@ -78,7 +79,11 @@ public class PublicExamEventServiceTest {
     final ExamEvent futureEvent2 = Factory.examEvent(ExamLanguage.FI);
     futureEvent2.setDate(now.plusWeeks(5));
     futureEvent2.setRegistrationCloses(now.plusWeeks(3));
-    futureEvent2.setMaxParticipants(5);
+    futureEvent2.setMaxParticipants(4);
+
+    final ExamEvent futureEventWithoutRoom = Factory.examEvent();
+    futureEventWithoutRoom.setDate(now.plusWeeks(6));
+    futureEventWithoutRoom.setMaxParticipants(0);
 
     entityManager.persist(pastEvent);
     entityManager.persist(eventWithRegistrationClosed);
@@ -88,25 +93,26 @@ public class PublicExamEventServiceTest {
     entityManager.persist(upcomingEventFi);
     entityManager.persist(futureEvent1);
     entityManager.persist(futureEvent2);
+    entityManager.persist(futureEventWithoutRoom);
 
     createReservations(futureEvent1, 2, LocalDateTime.now().plusMinutes(1));
     createReservations(futureEvent1, 1, LocalDateTime.now());
 
     createEnrollment(futureEvent2, EnrollmentStatus.PAID);
-    createEnrollment(futureEvent2, EnrollmentStatus.QUEUED);
     createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT);
     createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
-    createReservations(futureEvent2, 3, LocalDateTime.now().plusMinutes(1));
+    createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 
     final List<PublicExamEventDTO> examEventDTOs = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
-    assertEquals(5, examEventDTOs.size());
+    assertEquals(6, examEventDTOs.size());
 
     final List<ExamEvent> expectedExamEventsOrdered = List.of(
       eventToday,
       upcomingEventFi,
       upcomingEventSv,
       futureEvent1,
-      futureEvent2
+      futureEvent2,
+      futureEventWithoutRoom
     );
     assertCorrectOrdering(expectedExamEventsOrdered, examEventDTOs);
 
@@ -117,13 +123,15 @@ public class PublicExamEventServiceTest {
         final PublicExamEventDTO dto = examEventDTOs.get(i);
 
         assertExamEventDetails(expected, dto);
-        assertEquals(expected == futureEvent2 ? 2 : 0, dto.participants());
 
         if (expected == futureEvent1) {
+          assertEquals(3, dto.openings());
           assertFalse(dto.hasCongestion(), "futureEvent1 should not have congestion");
         } else if (expected == futureEvent2) {
+          assertEquals(2, dto.openings());
           assertTrue(dto.hasCongestion(), "futureEvent2 should have congestion");
         } else {
+          assertEquals(expected.getMaxParticipants(), dto.openings());
           assertFalse(dto.hasCongestion());
         }
       });
@@ -234,6 +242,23 @@ public class PublicExamEventServiceTest {
     assertEquals(expected.getLanguage(), examEventDTO.language());
     assertEquals(expected.getDate(), examEventDTO.date());
     assertEquals(expected.getRegistrationCloses(), examEventDTO.registrationCloses());
-    assertEquals(expected.getMaxParticipants(), examEventDTO.maxParticipants());
+  }
+
+  @Test
+  public void testExamEventHasNoOpeningsEvenIfOneInQueue() {
+    final LocalDate now = LocalDate.now();
+
+    final ExamEvent event = Factory.examEvent(ExamLanguage.FI);
+    event.setDate(now.plusWeeks(5));
+    event.setRegistrationCloses(now.plusWeeks(3));
+    event.setMaxParticipants(100);
+
+    entityManager.persist(event);
+
+    createEnrollment(event, EnrollmentStatus.PAID);
+    createEnrollment(event, EnrollmentStatus.QUEUED);
+
+    final PublicExamEventDTO publicExamEventDTO = publicExamEventService.listExamEvents(ExamLevel.EXCELLENT).get(0);
+    assertEquals(0, publicExamEventDTO.openings());
   }
 }
