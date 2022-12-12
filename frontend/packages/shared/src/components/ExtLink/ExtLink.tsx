@@ -16,6 +16,7 @@ export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
   endIcon,
   className,
   'aria-label': ariaLabel,
+  ...rest
 }) => {
   return (
     <CustomButton
@@ -27,6 +28,7 @@ export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
       startIcon={startIcon}
       endIcon={endIcon}
       aria-label={ariaLabel}
+      {...rest}
     >
       {text}
     </CustomButton>

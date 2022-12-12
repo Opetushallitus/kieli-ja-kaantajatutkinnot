@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.4] - 2022-12-08
+
+### Changed
+
+- `AccessibilityStatementContent` component added
+- `ExtLink` takes also `sx` and other `CustomButton` props
+
 ## [1.5.3] - 2022-12-05
 
 ### Changed
