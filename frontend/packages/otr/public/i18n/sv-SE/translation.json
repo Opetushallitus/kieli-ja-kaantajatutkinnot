@@ -108,7 +108,7 @@
             "startDate": "Startdatum"
           },
           "header": null,
-          "noQualifications": "Inga examina hittades för de valda kriterierna",
+          "noQualifications": null,
           "toasts": {
             "addingSucceeded": null,
             "removingSucceeded": null,

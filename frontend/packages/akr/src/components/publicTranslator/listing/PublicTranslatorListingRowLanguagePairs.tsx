@@ -31,7 +31,7 @@ export const PublicTranslatorListingRowLanguagePairs = ({
         .map((localisation, i) => (
           <Text
             key={i + indexingStart}
-            className={`${classes}`}
+            className={classes}
             aria-hidden={ariaHidden}
           >
             {localisation}
@@ -62,7 +62,7 @@ export const PublicTranslatorListingRowLanguagePairs = ({
     <>
       {matches.length
         ? [
-            ...sortAndRenderLanguagePairs(matches, 'padding-unset bold', 0),
+            ...sortAndRenderLanguagePairs(matches, 'bold', 0),
             ...sortAndRenderLanguagePairs(
               rest,
               'color-grey-600',
