@@ -59,7 +59,7 @@ export class ExamCreateEventUtils {
     };
   }
 
-  static getDateComboOpt(
+  static getLangLevelComboOpt(
     examForm: DraftClerkExamEvent,
     translateCommon: (t: string) => string
   ): ComboBoxOption | null {

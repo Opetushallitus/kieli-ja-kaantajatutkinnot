@@ -21,14 +21,10 @@ export const ClerkExamLanguageLevel = ({
   const dispatch = useAppDispatch();
 
   const onLangLevelChange = ({}, value: AutocompleteValue) => {
-    if (!value) {
-      return false;
-    }
-
-    const [language, level] = value?.value.split('-') as [
+    const [language, level] = (value?.value.split('-') as [
       Exclude<ExamLanguage, ExamLanguage.ALL>,
       ExamLevel
-    ];
+    ]) || [undefined, undefined];
 
     const examFormDetails: DraftClerkExamEvent = {
       ...examForm,
@@ -48,7 +44,10 @@ export const ClerkExamLanguageLevel = ({
         variant={TextFieldVariant.Outlined}
         values={ExamCreateEventUtils.langLevelOpts(translateCommon)}
         onChange={onLangLevelChange}
-        value={ExamCreateEventUtils.getDateComboOpt(examForm, translateCommon)}
+        value={ExamCreateEventUtils.getLangLevelComboOpt(
+          examForm,
+          translateCommon
+        )}
       />
     </div>
   );
