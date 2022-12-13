@@ -1,8 +1,13 @@
-import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowDropdown from '@mui/icons-material/ArrowDropDown';
+import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import { AutocompleteValue, CustomButton, H2 } from 'shared/components';
+import {
+  AutocompleteValue,
+  CustomButton,
+  ExtLink,
+  H2,
+} from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
@@ -12,6 +17,7 @@ import { ControlButtons } from 'components/clerkExamEvent/ControlButtons';
 import { ClerkExamEventDetailsFields } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsFields';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { EnrollmentStatus, UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
@@ -252,18 +258,16 @@ export const ClerkExamEventDetails = () => {
             color={Color.Secondary}
             variant={Variant.Contained}
             endIcon={<ArrowDropdown />}
-            data-testid="clerk-exam-event-overview-page__back-btn"
+            data-testid="clerk-exam-event-overview-page__copy-emails-button"
           >
             {t('examEventDetails.copyEmails')}
           </CustomButton>
-          <CustomButton
-            color={Color.Secondary}
-            variant={Variant.Contained}
-            endIcon={<ArrowDownward />}
-            data-testid="clerk-exam-event-overview-page__back-btn"
-          >
-            {t('examEventDetails.downloadExcel')}
-          </CustomButton>
+          <ExtLink
+            href={`${APIEndpoints.ClerkExamEvent}/${examEventDetails.id}/excel`}
+            text={t('examEventDetails.downloadExcel')}
+            startIcon={<DownloadIcon />}
+            data-testid="clerk-exam-event-overview-page__download-excel-button"
+          />
         </div>
       )}
     </>
