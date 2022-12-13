@@ -26,7 +26,7 @@ export const ClerkExamHideToggle = ({
 
   return (
     <div className="rows gapped">
-      <H3>{t('header.showExamDatePublic')}</H3>
+      <H3>{t('header.hidden')}</H3>
       <CustomSwitch
         dataTestId="clerk-exam__event-information__show-public-dates"
         leftLabel={translateCommon('no')}

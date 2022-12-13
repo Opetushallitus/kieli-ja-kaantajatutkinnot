@@ -21,15 +21,19 @@
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt"
         }
       },
-      "clerkExamEventListing": {
+      "clerkExamEventCreate": {
         "addExamDate": "Tutkintopäivän lisääminen",
+        "fillingsTotal": "Paikkojen lukumäärä",
+        "toasts": {
+          "addingSucceeded": "Tutkintopäivän lisäys onnistui"
+        }
+      },
+      "clerkExamEventListing": {
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {
           "examDate": "Tutkintopäivä",
-          "showExamDatePublic": "Näytä tutkintopäivä julkisesti",
           "date": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
-          "fillingsTotal": "Paikkojen lukumäärä",
           "language": "Kieli ja taso",
           "hidden": "Piilotettu",
           "registrationCloses": "Ilmottautuminen sulkeutuu"
@@ -38,9 +42,6 @@
         "toggleFilters": {
           "passed": "Menneet",
           "upcoming": "Tulevat"
-        },
-        "toasts": {
-          "addingSucceeded": "Tutkintopäivän lisäys onnistui"
         }
       },
       "header": {

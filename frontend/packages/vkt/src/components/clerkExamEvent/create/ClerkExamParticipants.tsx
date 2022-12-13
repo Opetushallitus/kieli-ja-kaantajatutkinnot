@@ -16,7 +16,7 @@ export const ClerkExamParticipants = ({
   examForm: DraftClerkExamEvent;
 }) => {
   const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkExamEventListing',
+    keyPrefix: 'vkt.component.clerkExamEventCreate',
   });
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ export const ClerkExamParticipants = ({
 
   return (
     <div className="rows gapped">
-      <H3>{t('header.fillingsTotal')}</H3>
+      <H3>{t('fillingsTotal')}</H3>
       <ComboBox
         data-testid="clerk-exam__event-information__max-participants"
         autoHighlight
