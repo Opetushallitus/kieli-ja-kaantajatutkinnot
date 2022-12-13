@@ -79,8 +79,8 @@ public class Authorisation extends BaseEntity {
 
   public boolean isBasisAndTermEndDateConsistent() {
     return (
-      (basis != AuthorisationBasis.VIR && termEndDate != null) ||
-      (basis == AuthorisationBasis.VIR && termEndDate == null)
+      (basis == AuthorisationBasis.VIR && termEndDate == null) ||
+      (basis != AuthorisationBasis.VIR && termEndDate != null)
     );
   }
 }
