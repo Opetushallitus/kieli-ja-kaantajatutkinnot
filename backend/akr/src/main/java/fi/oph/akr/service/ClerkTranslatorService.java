@@ -384,6 +384,9 @@ public class ClerkTranslatorService {
     if (!authorisation.isBasisAndExaminationDateConsistent()) {
       throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_EXAMINATION_DATE_MISMATCH);
     }
+    if (!authorisation.isBasisAndTermEndDateConsistent()) {
+      throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_TERM_END_DATE_MISMATCH);
+    }
   }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)

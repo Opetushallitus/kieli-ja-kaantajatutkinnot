@@ -76,4 +76,11 @@ public class Authorisation extends BaseEntity {
       (basis != AuthorisationBasis.AUT && examinationDate == null)
     );
   }
+
+  public boolean isBasisAndTermEndDateConsistent() {
+    return (
+      (basis != AuthorisationBasis.VIR && termEndDate != null) ||
+      (basis == AuthorisationBasis.VIR && termEndDate == null)
+    );
+  }
 }
