@@ -9,7 +9,7 @@ interface Person extends WithId, WithVersion {
   firstName: string;
 }
 
-export interface ClerkExamEventEnrollmentResponse
+export interface ClerkEnrollmentResponse
   extends Omit<ClerkEnrollment, 'enrollmentTime' | 'previousEnrollmentDate'> {
   enrollmentTime: string;
   previousEnrollmentDate?: string;
@@ -55,7 +55,7 @@ export interface ClerkExamEventResponse
   extends Omit<ClerkExamEvent, 'date' | 'registrationCloses' | 'enrollments'> {
   date: string;
   registrationCloses: string;
-  enrollments: Array<ClerkExamEventEnrollmentResponse>;
+  enrollments: Array<ClerkEnrollmentResponse>;
 }
 
 export interface ClerkExamEvent

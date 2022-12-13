@@ -6,15 +6,13 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTOCommonFields;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkExamPaymentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
@@ -70,7 +68,10 @@ public class ClerkExamEventService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
-    final List<ClerkEnrollmentDTO> enrollmentDTOs = enrollments.stream().map(this::getEnrollmentDTO).toList();
+    final List<ClerkEnrollmentDTO> enrollmentDTOs = enrollments
+      .stream()
+      .map(ClerkEnrollmentUtil::createClerkEnrollmentDTO)
+      .toList();
 
     return ClerkExamEventDTO
       .builder()
@@ -83,47 +84,6 @@ public class ClerkExamEventService {
       .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .enrollments(enrollmentDTOs)
-      .build();
-  }
-
-  private ClerkEnrollmentDTO getEnrollmentDTO(final Enrollment enrollment) {
-    final ClerkPersonDTO personDTO = getClerkPersonDTO(enrollment.getPerson());
-    final List<ClerkExamPaymentDTO> paymentDTOs = List.of(); // TODO implement
-
-    return ClerkEnrollmentDTO
-      .builder()
-      .id(enrollment.getId())
-      .version(enrollment.getVersion())
-      .enrollmentTime(enrollment.getCreatedAt())
-      .person(personDTO)
-      .oralSkill(enrollment.isOralSkill())
-      .textualSkill(enrollment.isTextualSkill())
-      .understandingSkill(enrollment.isUnderstandingSkill())
-      .speakingPartialExam(enrollment.isSpeakingPartialExam())
-      .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
-      .writingPartialExam(enrollment.isWritingPartialExam())
-      .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
-      .status(enrollment.getStatus())
-      .previousEnrollmentDate(enrollment.getPreviousEnrollmentDate())
-      .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
-      .email(enrollment.getEmail())
-      .phoneNumber(enrollment.getPhoneNumber())
-      .street(enrollment.getStreet())
-      .postalCode(enrollment.getPostalCode())
-      .town(enrollment.getTown())
-      .country(enrollment.getCountry())
-      .payments(paymentDTOs)
-      .build();
-  }
-
-  private ClerkPersonDTO getClerkPersonDTO(final Person person) {
-    return ClerkPersonDTO
-      .builder()
-      .id(person.getId())
-      .version(person.getVersion())
-      .identityNumber(person.getIdentityNumber())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
       .build();
   }
 
