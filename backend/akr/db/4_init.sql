@@ -96,7 +96,8 @@ WITH translator_ids AS (
     WHERE mod(translator_id, 24) = 0
 )
 INSERT
-INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish)
+INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish,
+                   term_begin_date, term_end_date)
 SELECT translator_id,
        -- 11 KKT
        -- 13 VIR
@@ -119,7 +120,18 @@ SELECT translator_id,
            ELSE (SELECT min(examination_date_id) FROM examination_date) END,
        from_langs[mod(i, array_length(from_langs, 1)) + 1],
        to_langs[mod(i, array_length(to_langs, 1)) + 1],
-       mod(i, 21) <> 0
+       mod(i, 21) <> 0,
+       -- Set preliminary term_end and begin dates for inserting authorisation rows, these are changed later
+       CASE
+         WHEN mod(i, 11) = 0 THEN NOW()
+         WHEN mod(i, 13) = 0 THEN NOW()
+         WHEN mod(i, 17) = 0 THEN NULL
+         ELSE NOW() END,
+       CASE
+         WHEN mod(i, 11) = 0 THEN NOW() + '1 day'::interval
+         WHEN mod(i, 13) = 0 THEN NULL
+         WHEN mod(i, 17) = 0 THEN NULL
+         ELSE NOW() + '1 day'::interval END
 FROM translator_ids,
      (SELECT ('{FI, SEIN, SEKO, SEPO}')::text[] AS from_langs) AS from_langs_table,
      (SELECT ('{BN, CA, CS, DA, DE, EL, EN, ET, FJ, FO, FR, GA, HE, HR, HU, JA, RU, SV, TT, TY, UG, UK, VI}')::text[] AS to_langs) AS to_langs_table
@@ -133,7 +145,7 @@ DELETE FROM authorisation WHERE meeting_date_id IS NOT NULL AND translator_id IN
 );
 
 -- add inverse language pairs related to most non VIR-unauthorised authorisations
-INSERT INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish)
+INSERT INTO authorisation(translator_id, basis, meeting_date_id, examination_date_id, from_lang, to_lang, permission_to_publish, term_begin_date, term_end_date)
 SELECT translator_id,
        basis,
        meeting_date_id,
@@ -141,18 +153,22 @@ SELECT translator_id,
        -- note to_lang and from_lang are swapped
        to_lang,
        from_lang,
-       mod(translator_id, 98) <> 0
+       mod(translator_id, 98) <> 0,
+       term_begin_date,
+       term_end_date
 FROM authorisation
 WHERE meeting_date_id IS NOT NULL AND mod(authorisation_id, 20) <> 0;
 
 -- add inverse language pairs related to some VIR-unauthorised authorisations
-INSERT INTO authorisation(translator_id, basis, from_lang, to_lang, permission_to_publish)
+INSERT INTO authorisation(translator_id, basis, from_lang, to_lang, permission_to_publish, term_begin_date, term_end_date)
 SELECT translator_id,
        basis,
        -- note to_lang and from_lang are swapped
        to_lang,
        from_lang,
-       mod(translator_id, 98) <> 0
+       mod(translator_id, 98) <> 0,
+       term_begin_date,
+       term_end_date
 FROM authorisation
 WHERE meeting_date_id IS NULL AND mod(authorisation_id, 29) = 0;
 
