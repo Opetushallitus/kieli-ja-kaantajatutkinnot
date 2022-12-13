@@ -20,14 +20,12 @@ import {
 export const ClerkExamEventDetailsFields = ({
   examEvent,
   editDisabled,
-  topControlButtons,
   onComboBoxChange,
   onDateChange,
   onCheckBoxChange,
 }: {
   examEvent?: ClerkExamEvent;
   editDisabled: boolean;
-  topControlButtons: JSX.Element;
   onComboBoxChange: (
     field: keyof ClerkExamEventBasicInformation
   ) => ({}, autocompleteValue?: AutocompleteValue) => void;
@@ -65,7 +63,6 @@ export const ClerkExamEventDetailsFields = ({
 
   return (
     <>
-      <div className="columns margin-top-lg flex-end">{topControlButtons}</div>
       <div className="clerk-exam-event-details margin-top-lg columns gapped">
         <div className="rows gapped">
           <H3>{t('header.language')}</H3>
@@ -97,28 +94,32 @@ export const ClerkExamEventDetailsFields = ({
             onChange={onComboBoxChange('level')}
           />
         </div>
-        <div className="rows gapped">
+        <div
+          className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__date"
+        >
           <H3>{t('header.date')}</H3>
           <CustomDatePicker
-            data-testid="clerk-exam-event__basic-information__date"
             value={dayjs(examEvent?.date) ?? null}
             setValue={onDateChange('date')}
             disabled={editDisabled}
           />
         </div>
-        <div className="rows gapped">
+        <div
+          className="rows gapped"
+          data-testid="clerk-exam-event__basic-information__registrationCloses"
+        >
           <H3>{t('header.registrationCloses')}</H3>
           <CustomDatePicker
-            data-testid="clerk-exam-event__basic-information__registrationCloses"
             value={dayjs(examEvent?.registrationCloses) ?? null}
             setValue={onDateChange('registrationCloses')}
             disabled={editDisabled}
           />
         </div>
         <div className="rows gapped">
-          <H3>{t('header.visibleInPublic')}</H3>
+          <H3>{t('header.isHidden')}</H3>
           <CustomSwitch
-            dataTestId="clerk-exam-event__basic-information__is-visible-switch"
+            dataTestId="clerk-exam-event__basic-information__is-hidden-switch"
             disabled={editDisabled}
             onChange={onCheckBoxChange('isHidden')}
             value={examEvent?.isHidden}

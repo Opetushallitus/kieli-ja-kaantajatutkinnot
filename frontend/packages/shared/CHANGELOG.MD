@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.6] - 2022-12-12
+
+### Added
+
+- DateUtils.formatOptionalDateTime
+- NormalTable (Table without pagination)
+
+### Changed
+
+- DatePicker data-testid removed as it is not propagated and not visible in Cypress
+
 ## [1.5.5] - 2022-12-12
 
 ### Changed

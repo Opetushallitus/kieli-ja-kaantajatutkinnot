@@ -6,17 +6,26 @@ import { Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
-export const TopControls: FC = () => {
+interface TopControlsProps {
+  examEventId: number;
+}
+
+export const TopControls: FC<TopControlsProps> = ({ examEventId }) => {
   const translateCommon = useCommonTranslation();
+
+  const to = AppRoutes.ClerkExamEventOverviewPage.replace(
+    /:examEventId$/,
+    `${examEventId}`
+  );
 
   return (
     <div className="columns">
       <CustomButtonLink
-        to={AppRoutes.ClerkHomePage}
+        to={to}
         className="color-secondary-dark"
         variant={Variant.Text}
         startIcon={<ArrowBackIosOutlined />}
-        data-testid="clerk-exam-event-overview-page__back-button"
+        data-testid="clerk-enrollment-overview-page__back-button"
       >
         {translateCommon('back')}
       </CustomButtonLink>

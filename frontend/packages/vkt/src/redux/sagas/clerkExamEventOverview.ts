@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
-import { translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
   ClerkExamEvent,
@@ -34,10 +33,6 @@ function* loadClerkExamEventOverviewSaga(action: PayloadAction<number>) {
     );
     yield put(storeClerkExamEventOverview(examEvent));
   } catch (error) {
-    const t = translateOutsideComponent();
-    yield put(
-      setAPIError(t('vkt.component.clerkExamEventOverview.toasts.notFound'))
-    );
     yield put(rejectClerkExamEventOverview());
   }
 }
