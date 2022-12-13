@@ -9,26 +9,33 @@ import {
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
+import { upsertExamEvents } from 'redux/reducers/clerkListExamEvent';
 import {
   rejectClerkNewExamDate,
-  resetClerkNewExamDate,
   saveClerkNewExamDate,
+  successClerkNewExamDate,
 } from 'redux/reducers/clerkNewExamDate';
 import { NotifierUtils } from 'utils/notifier';
+import { SerializationUtils } from 'utils/serialization';
 
 function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
   try {
     const apiResponse: AxiosResponse<ClerkExamEventResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.ClerkExamEvent,
-      action.payload
+      SerializationUtils.serializeNewClerkExamEvent(action.payload)
     );
 
     if (!apiResponse.data.id) {
       throw new Error('Save failed. No Id found.');
     }
 
-    yield put(resetClerkNewExamDate());
+    const examEvent = SerializationUtils.deserializeClerkExamEvent(
+      apiResponse.data
+    );
+
+    yield put(successClerkNewExamDate());
+    yield put(upsertExamEvents(examEvent));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

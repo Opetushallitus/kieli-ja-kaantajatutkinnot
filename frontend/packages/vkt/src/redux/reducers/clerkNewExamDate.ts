@@ -34,6 +34,9 @@ const clerkNewExamDateSlice = createSlice({
       state.examDate = initialState.examDate;
       state.id = undefined;
     },
+    successClerkNewExamDate(state) {
+      state.status = APIResponseStatus.Success;
+    },
     saveClerkNewExamDate(state, _action: PayloadAction<DraftClerkExamEvent>) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -48,5 +51,6 @@ export const {
   rejectClerkNewExamDate,
   resetClerkNewExamDate,
   saveClerkNewExamDate,
+  successClerkNewExamDate,
   updateClerkNewExamDate,
 } = clerkNewExamDateSlice.actions;

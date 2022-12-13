@@ -38,6 +38,9 @@
         "toggleFilters": {
           "passed": "Menneet",
           "upcoming": "Tulevat"
+        },
+        "toasts": {
+          "addingSucceeded": "Tutkintopäivän lisäys onnistui"
         }
       },
       "header": {

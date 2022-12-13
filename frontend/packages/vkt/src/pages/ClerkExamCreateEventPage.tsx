@@ -1,13 +1,14 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
   CustomButton,
   CustomButtonLink,
   H1,
   LoadingProgressIndicator,
 } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
 import { ClerkExamDate } from 'components/clerkExamEvent/create/ClerkExamDate';
 import { ClerkExamHideToggle } from 'components/clerkExamEvent/create/ClerkExamHideToggle';
@@ -18,7 +19,10 @@ import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
-import { saveClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
+import {
+  resetClerkNewExamDate,
+  saveClerkNewExamDate,
+} from 'redux/reducers/clerkNewExamDate';
 import { clerkNewExamDateSelector } from 'redux/selectors/clerkNewExamDate';
 import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 
@@ -68,6 +72,18 @@ export const ClerkExamCreateEventPage: FC = () => {
   }: { status: APIResponseStatus; examDate: DraftClerkExamEvent } =
     useAppSelector(clerkNewExamDateSelector);
   const dispatch = useAppDispatch();
+
+  const { showToast } = useToast();
+
+  useEffect(() => {
+    if (status === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.addingSucceeded'),
+      });
+      dispatch(resetClerkNewExamDate());
+    }
+  }, [showToast, t, status, dispatch]);
 
   const isLoading = status === APIResponseStatus.InProgress;
   const canSave = isLoading || !ExamCreateEventUtils.isValidForm(examDate);
