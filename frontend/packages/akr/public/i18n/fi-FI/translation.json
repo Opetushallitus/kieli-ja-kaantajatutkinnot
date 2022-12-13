@@ -344,6 +344,7 @@
     "errors": {
       "api": {
         "authorisationBasisAndExaminationDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja AUT tutkintopäivä ovat ristiriidassa keskenään",
+        "authorisationBasisAndTermEndDateMismatch": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska peruste ja päättymispäivä ovat ristiriidassa keskenään",
         "authorisationDeleteLastAuthorisation": "Auktorisoinnin poisto epäonnistui, koska kääntäjän viimeistä auktorisointia ei voi poistaa",
         "authorisationMissingExaminationDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole tutkintopäivää",
         "authorisationMissingMeetingDate": "Auktorisoinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole kokouspäivää",

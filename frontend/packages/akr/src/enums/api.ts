@@ -22,6 +22,7 @@ export enum APIEndpoints {
  */
 export enum APIError {
   AuthorisationBasisAndExaminationDateMismatch = 'authorisationBasisAndExaminationDateMismatch',
+  AuthorisationBasisAndTermEndDateMismatch = 'authorisationBasisAndTermEndDateMismatch',
   AuthorisationDeleteLastAuthorisation = 'authorisationDeleteLastAuthorisation',
   AuthorisationMissingExaminationDate = 'authorisationMissingExaminationDate',
   AuthorisationMissingMeetingDate = 'authorisationMissingMeetingDate',
