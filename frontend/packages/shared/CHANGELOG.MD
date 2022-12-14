@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.7] - 2022-12-14
+
+### Added
+
+- TextFieldTypes.number
+
 ## [1.5.6] - 2022-12-12
 
 ### Added
