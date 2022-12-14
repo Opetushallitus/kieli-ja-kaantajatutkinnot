@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { CustomDatePicker, H3 } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -32,6 +32,8 @@ export const ClerkExamRegistrationCloses = ({
     >
       <H3>{t('header.registrationCloses')}</H3>
       <CustomDatePicker
+        minDate={dayjs()}
+        maxDate={examForm.date}
         setValue={onRegistrationClosesChange}
         label={translateCommon('choose')}
         value={examForm?.registrationCloses ?? null}

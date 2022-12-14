@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { CustomDatePicker, H3 } from 'shared/components';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -32,6 +32,7 @@ export const ClerkExamDate = ({
     >
       <H3>{t('header.date')}</H3>
       <CustomDatePicker
+        minDate={dayjs()}
         setValue={onDateChange}
         label={translateCommon('choose')}
         value={examForm?.date ?? null}
