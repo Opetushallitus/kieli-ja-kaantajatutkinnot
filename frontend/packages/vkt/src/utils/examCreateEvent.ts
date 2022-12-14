@@ -37,28 +37,6 @@ export class ExamCreateEventUtils {
     return true;
   }
 
-  static maxParticipantsOpts(): ComboBoxOption[] {
-    return ['10', '20', '30', '40', '50'].map(
-      (opt): ComboBoxOption => ({
-        label: opt,
-        value: opt,
-      })
-    );
-  }
-
-  static getParticipantsComboOpt(
-    examForm: DraftClerkExamEvent
-  ): ComboBoxOption | null {
-    if (!examForm || !examForm.maxParticipants) {
-      return null;
-    }
-
-    return {
-      label: String(examForm.maxParticipants),
-      value: String(examForm.maxParticipants),
-    };
-  }
-
   static getLangLevelComboOpt(
     examForm: DraftClerkExamEvent,
     translateCommon: (t: string) => string
