@@ -994,6 +994,30 @@ class ClerkTranslatorServiceTest {
     verifyNoInteractions(auditService);
   }
 
+  @Test
+  public void testAuthorisationCreateFailsForBasisAndTermEndDateMismatch() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Translator translator = Factory.translator();
+    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(translator);
+    entityManager.persist(authorisation);
+
+    final AuthorisationCreateDTO createDTO = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate())
+      .basis(AuthorisationBasis.VIR)
+      .termEndDate(LocalDate.now().plusYears(5))
+      .build();
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> clerkTranslatorService.createAuthorisation(translator.getId(), createDTO)
+    );
+    assertEquals(APIExceptionType.AUTHORISATION_BASIS_AND_TERM_END_DATE_MISMATCH, ex.getExceptionType());
+
+    verifyNoInteractions(auditService);
+  }
+
   private void assertResponseMatchesGet(final ClerkTranslatorDTO response) {
     final ClerkTranslatorDTO expected = clerkTranslatorService.getTranslatorWithoutAudit(response.id());
 

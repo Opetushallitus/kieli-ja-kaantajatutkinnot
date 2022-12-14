@@ -11,6 +11,7 @@ import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.model.Authorisation;
+import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.repository.AuthorisationRepository;
@@ -293,7 +294,10 @@ class PublicTranslatorServiceTest {
     createTranslator(meetingDate, LocalDate.now().plusDays(1), LocalDate.now().plusDays(10), true, true, i++);
 
     // Term in future (no end date)
-    createTranslator(meetingDate, LocalDate.now().plusDays(1), null, true, true, i);
+    createTranslator(meetingDate, LocalDate.now().plusDays(1), null, true, true, i++);
+
+    // No term, VIR 2008
+    createTranslator(meetingDate, null, null, true, true, i);
   }
 
   private void createTranslator(
@@ -334,6 +338,10 @@ class PublicTranslatorServiceTest {
     final String toLang
   ) {
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+    if (termEndDate == null) {
+      authorisation.setBasis(AuthorisationBasis.VIR);
+    }
+
     authorisation.setFromLang("FI");
     authorisation.setToLang(toLang);
     authorisation.setTermBeginDate(termBeginDate);

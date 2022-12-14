@@ -102,26 +102,42 @@ export const AddAuthorisation = ({
 
   const handleBasisChange = ({}, value: AutocompleteValue) => {
     const basis = value?.value as AuthorisationBasis;
+    const examinationDate =
+      basis === AuthorisationBasisEnum.AUT
+        ? authorisation.examinationDate
+        : undefined;
+    const termEndDate = getNewTermEndDate(basis, authorisation.termBeginDate);
 
     setAuthorisation({
       ...authorisation,
       basis,
-      examinationDate:
-        basis === AuthorisationBasisEnum.AUT ? undefined : undefined,
+      examinationDate,
+      termEndDate,
     });
     setIsAuthorisationDataChanged(true);
   };
 
   const handleTermBeginDateChange = ({}, value: AutocompleteValue) => {
-    const PERIOD_OF_VALIDITY = 5;
     const termBeginDate = value?.value ? dayjs(value?.value) : undefined;
-    const termEndDate = termBeginDate?.add(PERIOD_OF_VALIDITY, 'year');
+    const termEndDate = getNewTermEndDate(authorisation.basis, termBeginDate);
+
     setAuthorisation({
       ...authorisation,
       termBeginDate,
       termEndDate,
     });
     setIsAuthorisationDataChanged(true);
+  };
+
+  const getNewTermEndDate = (
+    basis: AuthorisationBasis,
+    termBeginDate: Dayjs | undefined
+  ) => {
+    const PERIOD_OF_VALIDITY = 5;
+
+    return basis !== AuthorisationBasisEnum.VIR
+      ? termBeginDate?.add(PERIOD_OF_VALIDITY, 'year')
+      : undefined;
   };
 
   const handleExaminationDateChange = ({}, value: AutocompleteValue) => {
@@ -158,7 +174,8 @@ export const AddAuthorisation = ({
       languagePair: { from: fromLang, to: toLang },
       examinationDate,
       diaryNumber,
-      permissionToPublish: _unused,
+      termEndDate: _ignored1,
+      permissionToPublish: _ignored2,
       ...otherProps
     } = authorisation;
 
@@ -292,7 +309,7 @@ export const AddAuthorisation = ({
               data-testid={`${testIdPrefix}-termEndDate`}
               label={t('fieldPlaceholders.termEndDate')}
               value={DateUtils.formatOptionalDate(authorisation?.termEndDate)}
-              disabled={true}
+              disabled
             />
           </div>
           <div className="rows gapped-xs">

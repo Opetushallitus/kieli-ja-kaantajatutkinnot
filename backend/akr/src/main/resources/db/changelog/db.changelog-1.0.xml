@@ -786,4 +786,22 @@
 
     </changeSet>
 
+    <changeSet id="2022-12-13-update-authorisation-term-constraints" author="mikhuttu">
+        <sql><![CDATA[
+            ALTER TABLE authorisation DROP CONSTRAINT ck_authorisation_term_end_date;
+
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_term_begin_date
+                    CHECK (term_begin_date IS NOT NULL OR basis = 'VIR');
+
+            ALTER TABLE authorisation
+                ADD CONSTRAINT ck_authorisation_term_end_date
+                CHECK (
+                  (basis != 'VIR' AND term_end_date IS NOT NULL AND term_begin_date < term_end_date) OR
+                  (basis = 'VIR' AND term_end_date IS NULL)
+                );
+            ]]>
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
