@@ -43,10 +43,18 @@
           "updated": "Tiedot tallennettiin"
         }
       },
+      "clerkExamEventCreate": {
+        "addExamDate": "Tutkintopäivän lisääminen",
+        "fillingsTotal": "Paikkojen lukumäärä",
+        "toasts": {
+          "addingSucceeded": "Tutkintopäivän lisäys onnistui"
+        }
+      },
       "clerkExamEventListing": {
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {
           "examDate": "Tutkintopäivä",
+          "date": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
           "hidden": "Piilotettu",
           "language": "Kieli ja taso",

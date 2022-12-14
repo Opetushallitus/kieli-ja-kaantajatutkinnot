@@ -7,6 +7,7 @@ declare global {
     interface Chainable {
       openPublicHomePage(): void;
       openClerkHomePage(): void;
+      openClerkCreateExamEventPage(): void;
       usePhoneViewport(): void;
       goBack(): void;
       goForward(): void;

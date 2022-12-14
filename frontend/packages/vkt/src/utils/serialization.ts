@@ -88,6 +88,14 @@ export class SerializationUtils {
     };
   }
 
+  static serializeNewClerkExamEvent(examEvent: ClerkExamEvent) {
+    return {
+      ...examEvent,
+      date: DateUtils.serializeDate(examEvent.date),
+      registrationCloses: DateUtils.serializeDate(examEvent.registrationCloses),
+    };
+  }
+
   static serializeClerkExamEvent(examEvent: ClerkExamEvent) {
     return {
       ...examEvent,

@@ -46,4 +46,9 @@ describe('ClerkHomePage', () => {
       AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId$/, '1')
     );
   });
+
+  it('should allow navigating to create exam event by clicking create button', () => {
+    onClerkHomePage.clickCreateExamEvent();
+    cy.isOnPage(AppRoutes.ClerkExamCreateEventPage);
+  });
 });

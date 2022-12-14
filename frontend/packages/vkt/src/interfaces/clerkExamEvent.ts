@@ -51,6 +51,26 @@ export interface ClerkExamEventBasicInformation {
   maxParticipants: number;
 }
 
+export interface DraftClerkExamEvent
+  extends Omit<
+    ClerkExamEvent,
+    | 'id'
+    | 'version'
+    | 'language'
+    | 'level'
+    | 'date'
+    | 'participants'
+    | 'maxParticipants'
+    | 'registrationCloses'
+    | 'enrollments'
+  > {
+  language?: Exclude<ExamLanguage, ExamLanguage.ALL>;
+  level?: ExamLevel;
+  date?: Dayjs;
+  registrationCloses?: Dayjs;
+  maxParticipants?: number;
+}
+
 export interface ClerkExamEventResponse
   extends Omit<ClerkExamEvent, 'date' | 'registrationCloses' | 'enrollments'> {
   date: string;
