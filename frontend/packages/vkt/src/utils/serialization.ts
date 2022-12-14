@@ -2,10 +2,10 @@ import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
 import {
+  ClerkEnrollment,
+  ClerkEnrollmentResponse,
   ClerkExamEvent,
-  ClerkExamEventEnrollmentResponse,
   ClerkExamEventResponse,
-  Enrollment,
 } from 'interfaces/clerkExamEvent';
 import {
   ClerkListExamEvent,
@@ -53,26 +53,22 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeEnrollments(
-    response: Array<ClerkExamEventEnrollmentResponse>
-  ) {
-    return response.map(SerializationUtils.deserializeEnrollment);
-  }
+  static deserializeClerkEnrollment(enrollment: ClerkEnrollmentResponse) {
+    const previousEnrollmentDate = enrollment.previousEnrollmentDate
+      ? dayjs(enrollment.previousEnrollmentDate)
+      : undefined;
 
-  static deserializeEnrollment(enrollment: ClerkExamEventEnrollmentResponse) {
     return {
       ...enrollment,
-      previousEnrollmentDate: dayjs(enrollment.previousEnrollmentDate),
+      enrollmentTime: dayjs(enrollment.enrollmentTime),
+      previousEnrollmentDate,
     };
   }
 
-  static serializeEnrollments(response: Array<Enrollment>) {
-    return response.map(SerializationUtils.serializeEnrollment);
-  }
-
-  static serializeEnrollment(enrollment: Enrollment) {
+  static serializeClerkEnrollment(enrollment: ClerkEnrollment) {
     return {
       ...enrollment,
+      enrollmentTime: DateUtils.serializeDate(enrollment.enrollmentTime),
       previousEnrollmentDate: DateUtils.serializeDate(
         enrollment.previousEnrollmentDate
       ),
@@ -86,8 +82,8 @@ export class SerializationUtils {
       ...examEvent,
       date: dayjs(examEvent.date),
       registrationCloses: dayjs(examEvent.registrationCloses),
-      enrollments: SerializationUtils.deserializeEnrollments(
-        examEvent.enrollments
+      enrollments: examEvent.enrollments.map(
+        SerializationUtils.deserializeClerkEnrollment
       ),
     };
   }
@@ -105,8 +101,8 @@ export class SerializationUtils {
       ...examEvent,
       date: DateUtils.serializeDate(examEvent.date),
       registrationCloses: DateUtils.serializeDate(examEvent.registrationCloses),
-      enrollments: SerializationUtils.serializeEnrollments(
-        examEvent.enrollments
+      enrollments: examEvent.enrollments.map(
+        SerializationUtils.serializeClerkEnrollment
       ),
     };
   }

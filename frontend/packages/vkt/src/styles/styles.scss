@@ -5,6 +5,7 @@
 @import 'base/base';
 
 // Components
+@import 'components/clerkEnrollment/clerk-enrollment-details-fields';
 @import 'components/clerkExamEvent/clerk-exam-event-listing';
 @import 'components/clerkExamEvent/clerk-exam-event-details';
 @import 'components/i18n/lang-selector';
@@ -17,3 +18,4 @@
 @import 'pages/clerk-homepage';
 @import 'pages/public-homepage';
 @import 'pages/clerk-exam-event-overview-page';
+@import 'pages/clerk-enrollment-overview-page';

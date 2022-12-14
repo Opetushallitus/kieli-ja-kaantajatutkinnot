@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.6] - 2022-12-12
+
+### Added
+
+- DateUtils.formatOptionalDateTime
+- NormalTable (Table without pagination)
+
+### Changed
+
+- DatePicker data-testid removed as it is not propagated and not visible in Cypress
+
+## [1.5.5] - 2022-12-12
+
+### Changed
+
+- Removed `padding-left` from `bold` class
+
+## [1.5.4] - 2022-12-08
+
+### Changed
+
+- `AccessibilityStatementContent` component added
+- `ExtLink` takes also `sx` and other `CustomButton` props
+
 ## [1.5.3] - 2022-12-05
 
 ### Changed

@@ -2,15 +2,19 @@
   "vkt": {
     "common": {
       "address": {
-        "street": "Katuosoite",
+        "country": "Maa",
         "postalCode": "Postinumero",
-        "town": "Postitoimipaikka",
-        "country": "Maa"
+        "street": "Katuosoite",
+        "town": "Postitoimipaikka"
       },
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
       "cancel": "Peruuta",
+      "cancelUpdateDialog": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko poistua muokkausnäkymästä?"
+      },
       "clerk": "Virkailija",
       "choose": "Valitse",
       "contactEmail": "kielitutkinnot@oph.fi",
@@ -21,7 +25,7 @@
           "createReservationCongestion": "Tutkintotilaisuus on ruuhkautunut",
           "createReservationRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto toiseen tilaisuuteen epäonnistui, koska tilaisuuden kieli ei ole sama.",
-          "examEventDuplicate" : "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
+          "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
@@ -34,7 +38,6 @@
         },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
-      "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
       "examLanguage": {
         "FI": "Suomi",
         "SV": "Ruotsi"
@@ -42,6 +45,7 @@
       "examLevel": {
         "EXCELLENT": "Erinomainen"
       },
+      "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
       "frontPage": "Etusivu",
       "header": {
         "accessibility": {
@@ -58,6 +62,10 @@
         "ALL": "Näytä kaikki kielet",
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
+      },
+      "navigationProtection": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko varmasti poistua sivulta?"
       },
       "next": "Seuraava",
       "back": "Takaisin",

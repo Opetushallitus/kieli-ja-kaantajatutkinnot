@@ -15,7 +15,7 @@ export const ClerkExamEventListingRow = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const examEventUrl = AppRoutes.ClerkExamEventPage.replace(
+  const examEventUrl = AppRoutes.ClerkExamEventOverviewPage.replace(
     /:examEventId$/,
     `${examEvent.id}`
   );

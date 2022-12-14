@@ -2,8 +2,8 @@ import { AppRoutes, ExamEventToggleFilter, ExamLanguage } from 'enums/app';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
 
 const examEventCounts = {
-  [ExamEventToggleFilter.Upcoming]: 5,
-  [ExamEventToggleFilter.Passed]: 4,
+  [ExamEventToggleFilter.Upcoming]: 6,
+  [ExamEventToggleFilter.Passed]: 3,
 };
 
 describe('ClerkHomePage', () => {
@@ -29,7 +29,7 @@ describe('ClerkHomePage', () => {
 
   it('should allow filtering exam events by language', () => {
     onClerkHomePage.filterByLanguage(ExamLanguage.FI);
-    onClerkHomePage.expectFilteredExamEventsCount(3);
+    onClerkHomePage.expectFilteredExamEventsCount(4);
 
     onClerkHomePage.filterByLanguage(ExamLanguage.SV);
     onClerkHomePage.expectFilteredExamEventsCount(2);
@@ -41,8 +41,10 @@ describe('ClerkHomePage', () => {
   });
 
   it('should allow navigating to exam event page by clicking related row', () => {
-    onClerkHomePage.clickExamEventRow(9);
-    cy.isOnPage(AppRoutes.ClerkExamEventPage.replace(/:examEventId$/, '9'));
+    onClerkHomePage.clickExamEventRow(1);
+    cy.isOnPage(
+      AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId$/, '1')
+    );
   });
 
   it('should allow navigating to create exam event by clicking create button', () => {

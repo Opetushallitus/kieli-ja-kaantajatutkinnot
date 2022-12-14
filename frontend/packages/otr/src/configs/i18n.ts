@@ -33,25 +33,25 @@ const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
-    [I18nNamespace.Common]: commonFI,
-    [I18nNamespace.Translation]: transFI,
     [I18nNamespace.Accessibility]: accessibilityFI,
+    [I18nNamespace.Common]: commonFI,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsFI,
     [I18nNamespace.KoodistoRegions]: koodistoRegionsFI,
+    [I18nNamespace.Translation]: transFI,
   },
   [langSV]: {
-    [I18nNamespace.Common]: commonSV,
-    [I18nNamespace.Translation]: transSV,
     [I18nNamespace.Accessibility]: accessibilitySV,
+    [I18nNamespace.Common]: commonSV,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsSV,
     [I18nNamespace.KoodistoRegions]: koodistoRegionsSV,
+    [I18nNamespace.Translation]: transSV,
   },
   [langEN]: {
-    [I18nNamespace.Common]: commonEN,
-    [I18nNamespace.Translation]: transEN,
     [I18nNamespace.Accessibility]: accessibilityEN,
+    [I18nNamespace.Common]: commonEN,
     [I18nNamespace.KoodistoLanguages]: koodistoLangsEN,
     [I18nNamespace.KoodistoRegions]: koodistoRegionsEN,
+    [I18nNamespace.Translation]: transEN,
   },
 };
 
@@ -94,12 +94,12 @@ export const useAppTranslation = (
   return useTranslation(ns, options);
 };
 
-export const useKoodistoLanguagesTranslation = () => {
+export const useAccessibilityTranslation = () => {
   const { t } = useAppTranslation(
     {
-      keyPrefix: 'otr.koodisto.languages',
+      keyPrefix: 'otr.accessibility',
     },
-    I18nNamespace.KoodistoLanguages
+    I18nNamespace.Accessibility
   );
 
   return t;
@@ -111,6 +111,17 @@ export const useCommonTranslation = () => {
       keyPrefix: 'otr.common',
     },
     I18nNamespace.Common
+  );
+
+  return t;
+};
+
+export const useKoodistoLanguagesTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'otr.koodisto.languages',
+    },
+    I18nNamespace.KoodistoLanguages
   );
 
   return t;

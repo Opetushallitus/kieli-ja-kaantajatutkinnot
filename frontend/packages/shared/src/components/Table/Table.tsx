@@ -20,6 +20,7 @@ export interface PaginatedTableProps<T extends WithId> {
   headerContent?: JSX.Element;
   stickyHeader?: boolean;
   showBottomPagination?: boolean;
+  size?: 'small' | 'medium';
 }
 
 export function PaginatedTable<T extends WithId>({
@@ -33,6 +34,7 @@ export function PaginatedTable<T extends WithId>({
   showBottomPagination = true,
   rowsPerPageLabel,
   headerContent,
+  size = 'medium',
 }: PaginatedTableProps<T>): JSX.Element {
   const PaginationDisplayedRowsLabel = ({
     from,
@@ -74,7 +76,11 @@ export function PaginatedTable<T extends WithId>({
   return (
     <>
       <Pagination showHeaderContent={!!headerContent} />
-      <Table className={`${className} table`} stickyHeader={stickyHeader}>
+      <Table
+        className={`${className} table`}
+        stickyHeader={stickyHeader}
+        size={size}
+      >
         {header}
         <TableBody>
           {data
@@ -86,5 +92,38 @@ export function PaginatedTable<T extends WithId>({
       </Table>
       {showBottomPagination && <Pagination showHeaderContent={false} />}
     </>
+  );
+}
+
+export interface NormalTableProps<T extends WithId> {
+  data: Array<T>;
+  getRowDetails: (details: T) => JSX.Element;
+  className: string;
+  header?: JSX.Element;
+  stickyHeader?: boolean;
+  size?: 'small' | 'medium';
+}
+
+export function NormalTable<T extends WithId>({
+  header,
+  data,
+  getRowDetails,
+  className,
+  stickyHeader,
+  size,
+}: NormalTableProps<T>): JSX.Element {
+  return (
+    <Table
+      className={`${className} table`}
+      stickyHeader={stickyHeader}
+      size={size}
+    >
+      {header}
+      <TableBody>
+        {data.map((val) => {
+          return <Fragment key={val.id}>{getRowDetails(val)}</Fragment>;
+        })}
+      </TableBody>
+    </Table>
   );
 }

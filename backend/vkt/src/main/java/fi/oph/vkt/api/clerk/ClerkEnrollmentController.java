@@ -2,6 +2,7 @@ package fi.oph.vkt.api.clerk;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
@@ -29,19 +30,19 @@ public class ClerkEnrollmentController {
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
-  public void updateEnrollment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
-    clerkEnrollmentService.update(dto);
+  public ClerkEnrollmentDTO updateEnrollment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
+    return clerkEnrollmentService.update(dto);
   }
 
   @PutMapping(path = "/status")
   @Operation(tags = TAG_ENROLLMENT, summary = "Change enrollment status")
-  public void changeStatus(@RequestBody @Valid final ClerkEnrollmentStatusChangeDTO dto) {
-    clerkEnrollmentService.changeStatus(dto);
+  public ClerkEnrollmentDTO changeStatus(@RequestBody @Valid final ClerkEnrollmentStatusChangeDTO dto) {
+    return clerkEnrollmentService.changeStatus(dto);
   }
 
   @PutMapping(path = "/move")
   @Operation(tags = TAG_ENROLLMENT, summary = "Move enrollment to another exam event")
-  public void move(@RequestBody @Valid final ClerkEnrollmentMoveDTO dto) {
-    clerkEnrollmentService.move(dto);
+  public ClerkEnrollmentDTO move(@RequestBody @Valid final ClerkEnrollmentMoveDTO dto) {
+    return clerkEnrollmentService.move(dto);
   }
 }

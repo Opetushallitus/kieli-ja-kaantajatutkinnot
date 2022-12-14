@@ -3,21 +3,19 @@ import { Dayjs } from 'dayjs';
 import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
 import { WithId, WithVersion } from 'interfaces/with';
 
-interface Person {
+interface Person extends WithId, WithVersion {
   identityNumber: string;
   lastName: string;
   firstName: string;
 }
 
-export interface ClerkExamEventEnrollmentResponse
-  extends Partial<WithId>,
-    Partial<WithVersion>,
-    Omit<Enrollment, 'previousEnrollmentDate'> {
+export interface ClerkEnrollmentResponse
+  extends Omit<ClerkEnrollment, 'enrollmentTime' | 'previousEnrollmentDate'> {
+  enrollmentTime: string;
   previousEnrollmentDate?: string;
 }
 
-export interface Enrollment {
-  person: Person;
+export interface PartialExamsAndSkills {
   oralSkill: boolean;
   textualSkill: boolean;
   understandingSkill: boolean;
@@ -25,6 +23,14 @@ export interface Enrollment {
   speechComprehensionPartialExam: boolean;
   writingPartialExam: boolean;
   readingComprehensionPartialExam: boolean;
+}
+
+export interface ClerkEnrollment
+  extends PartialExamsAndSkills,
+    WithId,
+    WithVersion {
+  enrollmentTime: Dayjs;
+  person: Person;
   status: EnrollmentStatus;
   previousEnrollmentDate?: Dayjs;
   digitalCertificateConsent: boolean;
@@ -41,9 +47,8 @@ export interface ClerkExamEventBasicInformation {
   level: ExamLevel;
   date: Dayjs;
   registrationCloses: Dayjs;
-  participants: number;
-  maxParticipants: number;
   isHidden: boolean;
+  maxParticipants: number;
 }
 
 export interface DraftClerkExamEvent
@@ -70,12 +75,12 @@ export interface ClerkExamEventResponse
   extends Omit<ClerkExamEvent, 'date' | 'registrationCloses' | 'enrollments'> {
   date: string;
   registrationCloses: string;
-  enrollments: Array<ClerkExamEventEnrollmentResponse>;
+  enrollments: Array<ClerkEnrollmentResponse>;
 }
 
 export interface ClerkExamEvent
   extends WithId,
     WithVersion,
     ClerkExamEventBasicInformation {
-  enrollments: Array<Enrollment>;
+  enrollments: Array<ClerkEnrollment>;
 }

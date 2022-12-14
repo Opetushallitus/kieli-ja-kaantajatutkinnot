@@ -10,7 +10,6 @@ interface DatePickerProps {
   disabled?: boolean;
   minDate?: Dayjs;
   maxDate?: Dayjs;
-  dataTestId?: string;
   showToolbar?: boolean;
 }
 
@@ -21,7 +20,6 @@ export const CustomDatePicker = ({
   disabled = false,
   minDate,
   maxDate,
-  dataTestId,
   showToolbar = true,
 }: DatePickerProps): JSX.Element => {
   const MIN_DATE = '1980-01-01';
@@ -38,7 +36,6 @@ export const CustomDatePicker = ({
     >
       <DesktopDatePicker
         className="custom-date-picker"
-        data-testid={dataTestId ? `${dataTestId}__date-picker` : 'date-picker'}
         showToolbar={showToolbar}
         label={label}
         value={value}

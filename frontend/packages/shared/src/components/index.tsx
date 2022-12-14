@@ -1,4 +1,5 @@
 export * from './Text/Text';
+export { AccessibilityStatementContent } from './AccessibilityStatement/AccessibilityStatementContent';
 export { CircularStepper } from './CircularStepper/CircularStepper';
 export {
   sortOptionsByLabels,
@@ -27,7 +28,7 @@ export { LoadingProgressIndicator } from './LoadingProgressIndicator/LoadingProg
 export { OPHLogoViewer } from './OPHLogoViewer/OPHLogoViewer';
 export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
-export { PaginatedTable } from './Table/Table';
+export { PaginatedTable, NormalTable } from './Table/Table';
 export { ManagedPaginatedTable } from './Table/ManagedTable';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
 export { LangSelector } from './LangSelector/LangSelector';

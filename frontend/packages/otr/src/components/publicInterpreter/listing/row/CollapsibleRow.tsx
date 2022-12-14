@@ -23,7 +23,9 @@ const AdditionalContactDetail = ({
 
   return (
     <div className="public-interpreter-listing-row__additional-contact-details__box">
-      <Text className="bold">{isPhone ? label : `${label}: `}</Text>
+      <Text className="bold public-interpreter-listing-row__additional-contact-details__text">
+        {isPhone ? label : `${label}: `}
+      </Text>
       <Text className="public-interpreter-listing-row__additional-contact-details__text">
         {value}
       </Text>

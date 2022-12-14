@@ -7,6 +7,7 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { ClerkInterpreterOverviewPage } from 'pages/ClerkInterpreterOverviewPage';
 import { ClerkNewInterpreterPage } from 'pages/ClerkNewInterpreterPage';
@@ -54,6 +55,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkNewInterpreterPage}
                 element={<ClerkNewInterpreterPage />}
+              />
+              <Route
+                path={AppRoutes.AccessibilityStatementPage}
+                element={<AccessibilityStatementPage />}
               />
               <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
             </Routes>
