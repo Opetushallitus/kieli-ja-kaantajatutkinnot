@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
@@ -63,27 +64,26 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final ClerkEnrollmentUpdateDTO updateDTO = createUpdateDTOAddingOne(enrollment);
-    clerkEnrollmentService.update(updateDTO);
+    final ClerkEnrollmentUpdateDTO dto = createUpdateDTOAddingOne(enrollment);
+    final ClerkEnrollmentDTO responseDTO = clerkEnrollmentService.update(dto);
 
-    final Enrollment updated = enrollmentRepository.getReferenceById(enrollment.getId());
-    assertEquals(updateDTO.id(), updated.getId());
-    assertEquals(updateDTO.version() + 1, updated.getVersion());
-    assertEquals(updateDTO.oralSkill(), updated.isOralSkill());
-    assertEquals(updateDTO.textualSkill(), updated.isTextualSkill());
-    assertEquals(updateDTO.understandingSkill(), updated.isUnderstandingSkill());
-    assertEquals(updateDTO.speakingPartialExam(), updated.isSpeakingPartialExam());
-    assertEquals(updateDTO.speechComprehensionPartialExam(), updated.isSpeechComprehensionPartialExam());
-    assertEquals(updateDTO.writingPartialExam(), updated.isWritingPartialExam());
-    assertEquals(updateDTO.readingComprehensionPartialExam(), updated.isReadingComprehensionPartialExam());
-    assertEquals(updateDTO.previousEnrollmentDate(), updated.getPreviousEnrollmentDate());
-    assertEquals(updateDTO.digitalCertificateConsent(), updated.isDigitalCertificateConsent());
-    assertEquals(updateDTO.email(), updated.getEmail());
-    assertEquals(updateDTO.phoneNumber(), updated.getPhoneNumber());
-    assertEquals(updateDTO.street(), updated.getStreet());
-    assertEquals(updateDTO.postalCode(), updated.getPostalCode());
-    assertEquals(updateDTO.town(), updated.getTown());
-    assertEquals(updateDTO.country(), updated.getCountry());
+    assertEquals(responseDTO.id(), dto.id());
+    assertEquals(responseDTO.version(), dto.version() + 1);
+    assertEquals(responseDTO.oralSkill(), dto.oralSkill());
+    assertEquals(responseDTO.textualSkill(), dto.textualSkill());
+    assertEquals(responseDTO.understandingSkill(), dto.understandingSkill());
+    assertEquals(responseDTO.speakingPartialExam(), dto.speakingPartialExam());
+    assertEquals(responseDTO.speechComprehensionPartialExam(), dto.speechComprehensionPartialExam());
+    assertEquals(responseDTO.writingPartialExam(), dto.writingPartialExam());
+    assertEquals(responseDTO.readingComprehensionPartialExam(), dto.readingComprehensionPartialExam());
+    assertEquals(responseDTO.previousEnrollmentDate(), dto.previousEnrollmentDate());
+    assertEquals(responseDTO.digitalCertificateConsent(), dto.digitalCertificateConsent());
+    assertEquals(responseDTO.email(), dto.email());
+    assertEquals(responseDTO.phoneNumber(), dto.phoneNumber());
+    assertEquals(responseDTO.street(), dto.street());
+    assertEquals(responseDTO.postalCode(), dto.postalCode());
+    assertEquals(responseDTO.town(), dto.town());
+    assertEquals(responseDTO.country(), dto.country());
 
     verify(auditService).logById(VktOperation.UPDATE_ENROLLMENT, enrollment.getId());
   }
@@ -118,19 +118,28 @@ class ClerkEnrollmentServiceTest {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setStatus(EnrollmentStatus.CANCELED);
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
+    final int originalVersion = enrollment.getVersion();
+    final EnrollmentStatus[] statuses = EnrollmentStatus.values();
+
     Arrays
-      .stream(EnrollmentStatus.values())
-      .forEach(newStatus -> {
-        clerkEnrollmentService.changeStatus(createStatusChangeDTO(enrollment, newStatus));
-        assertEquals(newStatus, enrollmentRepository.getReferenceById(enrollment.getId()).getStatus());
+      .stream(statuses)
+      .forEach(status -> {
+        final ClerkEnrollmentDTO dto = clerkEnrollmentService.changeStatus(createStatusChangeDTO(enrollment, status));
+        assertEquals(status, dto.status());
       });
-    verify(auditService, times(EnrollmentStatus.values().length))
-      .logById(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId());
+
+    assertEquals(
+      originalVersion + statuses.length,
+      enrollmentRepository.getReferenceById(enrollment.getId()).getVersion()
+    );
+
+    verify(auditService, times(statuses.length)).logById(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId());
   }
 
   private static ClerkEnrollmentStatusChangeDTO createStatusChangeDTO(
@@ -161,11 +170,10 @@ class ClerkEnrollmentServiceTest {
     final int originalEnrollmentVersion = enrollment.getVersion();
 
     final ClerkEnrollmentMoveDTO moveDTO = createMoveDTO(enrollment, examEvent2);
-    clerkEnrollmentService.move(moveDTO);
+    final ClerkEnrollmentDTO responseDTO = clerkEnrollmentService.move(moveDTO);
 
-    final Enrollment updatedEnrollment = enrollmentRepository.getReferenceById(enrollment.getId());
-    assertEquals(originalEnrollmentVersion + 1, updatedEnrollment.getVersion());
-    assertEquals(examEvent2.getId(), updatedEnrollment.getExamEvent().getId());
+    assertEquals(originalEnrollmentVersion + 1, responseDTO.version());
+    assertEquals(examEvent2.getId(), enrollmentRepository.getReferenceById(enrollment.getId()).getExamEvent().getId());
 
     verify(auditService).logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
   }

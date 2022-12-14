@@ -1,10 +1,14 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { ClerkEnrollment, ClerkExamEvent } from 'interfaces/clerkExamEvent';
+import {
+  ClerkEnrollment,
+  ClerkEnrollmentResponse,
+  ClerkExamEvent,
+} from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   rejectClerkEnrollmentDetailsUpdate,
@@ -24,26 +28,17 @@ function* updateClerkEnrollmentDetailsSaga(
   const { enrollment, examEvent } = action.payload;
 
   try {
-    yield call(
+    const apiResponse: AxiosResponse<ClerkEnrollmentResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.ClerkEnrollment,
       SerializationUtils.serializeClerkEnrollment(enrollment)
     );
-
-    const idx = examEvent.enrollments.findIndex((e) => e.id === enrollment.id);
-    const originalEnrollment = examEvent.enrollments[idx];
-
-    // TODO: backend could return updated enrollment model so that frontend doesn't have to imply when backend
-    // actually updates version for the enrollment.
-    const updatedEnrollment = {
-      ...enrollment,
-      version:
-        enrollment === originalEnrollment
-          ? enrollment.version
-          : enrollment.version + 1,
-    };
+    const updatedEnrollment = SerializationUtils.deserializeClerkEnrollment(
+      apiResponse.data
+    );
 
     const updatedEnrollments = [...examEvent.enrollments];
+    const idx = updatedEnrollments.findIndex((e) => e.id === enrollment.id);
     updatedEnrollments[idx] = updatedEnrollment;
 
     const updatedExamEvent = {

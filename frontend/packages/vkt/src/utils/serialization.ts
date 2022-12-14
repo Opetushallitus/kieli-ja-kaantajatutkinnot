@@ -3,8 +3,8 @@ import { DateUtils } from 'shared/utils';
 
 import {
   ClerkEnrollment,
+  ClerkEnrollmentResponse,
   ClerkExamEvent,
-  ClerkExamEventEnrollmentResponse,
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';
 import {
@@ -53,9 +53,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeClerkEnrollment(
-    enrollment: ClerkExamEventEnrollmentResponse
-  ) {
+  static deserializeClerkEnrollment(enrollment: ClerkEnrollmentResponse) {
     const previousEnrollmentDate = enrollment.previousEnrollmentDate
       ? dayjs(enrollment.previousEnrollmentDate)
       : undefined;

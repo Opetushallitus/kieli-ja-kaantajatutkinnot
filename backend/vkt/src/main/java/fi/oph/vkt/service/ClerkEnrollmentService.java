@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
@@ -9,6 +10,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class ClerkEnrollmentService {
   private final AuditService auditService;
 
   @Transactional
-  public void update(final ClerkEnrollmentUpdateDTO dto) {
+  public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
     enrollment.assertVersion(dto.version());
 
@@ -46,10 +48,12 @@ public class ClerkEnrollmentService {
     enrollmentRepository.flush();
 
     auditService.logById(VktOperation.UPDATE_ENROLLMENT, enrollment.getId());
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
   }
 
   @Transactional
-  public void changeStatus(final ClerkEnrollmentStatusChangeDTO dto) {
+  public ClerkEnrollmentDTO changeStatus(final ClerkEnrollmentStatusChangeDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
     enrollment.assertVersion(dto.version());
 
@@ -57,10 +61,12 @@ public class ClerkEnrollmentService {
     enrollmentRepository.flush();
 
     auditService.logById(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId());
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
   }
 
   @Transactional
-  public void move(final ClerkEnrollmentMoveDTO dto) {
+  public ClerkEnrollmentDTO move(final ClerkEnrollmentMoveDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
     enrollment.assertVersion(dto.version());
 
@@ -73,5 +79,7 @@ public class ClerkEnrollmentService {
     enrollmentRepository.flush();
 
     auditService.logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
+
+    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
   }
 }
