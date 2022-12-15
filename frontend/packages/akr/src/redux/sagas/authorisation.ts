@@ -93,10 +93,10 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
 }
 
 export function* watchAuthorisations() {
-  yield takeLatest(addAuthorisation, addAuthorisationSaga);
+  yield takeLatest(addAuthorisation.type, addAuthorisationSaga);
   yield takeLatest(
-    updateAuthorisationPublishPermission,
+    updateAuthorisationPublishPermission.type,
     updateAuthorisationPublishPermissionSaga
   );
-  yield takeLatest(removeAuthorisation, removeAuthorisationSaga);
+  yield takeLatest(removeAuthorisation.type, removeAuthorisationSaga);
 }

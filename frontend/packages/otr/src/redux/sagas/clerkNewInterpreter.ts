@@ -40,5 +40,5 @@ function* saveClerkNewInterpreterSaga(
 }
 
 export function* watchClerkNewInterpreterSave() {
-  yield takeLatest(saveClerkNewInterpreter, saveClerkNewInterpreterSaga);
+  yield takeLatest(saveClerkNewInterpreter.type, saveClerkNewInterpreterSaga);
 }

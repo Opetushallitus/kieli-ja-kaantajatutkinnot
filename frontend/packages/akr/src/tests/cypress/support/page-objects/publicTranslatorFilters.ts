@@ -16,6 +16,7 @@ class PublicTranslatorFilters {
   };
 
   selectOptionByName(name: string) {
+    cy.findByRole('option', { name }).scrollIntoView();
     cy.findByRole('option', { name }).should('be.visible').click();
   }
 

@@ -27,5 +27,5 @@ function* loadPublicExamEventsSaga() {
 }
 
 export function* watchPublicExamEvents() {
-  yield takeLatest(loadPublicExamEvents, loadPublicExamEventsSaga);
+  yield takeLatest(loadPublicExamEvents.type, loadPublicExamEventsSaga);
 }

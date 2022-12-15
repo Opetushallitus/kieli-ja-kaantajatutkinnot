@@ -68,7 +68,7 @@ function* loadMeetingDatesSaga() {
 }
 
 export function* watchMeetingDates() {
-  yield takeLatest(loadMeetingDates, loadMeetingDatesSaga);
-  yield takeLatest(addMeetingDate, addMeetingDateSaga);
-  yield takeLatest(removeMeetingDate, removeMeetingDateSaga);
+  yield takeLatest(loadMeetingDates.type, loadMeetingDatesSaga);
+  yield takeLatest(addMeetingDate.type, addMeetingDateSaga);
+  yield takeLatest(removeMeetingDate.type, removeMeetingDateSaga);
 }

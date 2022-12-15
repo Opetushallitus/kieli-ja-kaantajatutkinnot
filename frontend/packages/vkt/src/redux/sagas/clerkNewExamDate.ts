@@ -46,5 +46,5 @@ function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
 }
 
 export function* watchClerkNewExamDate() {
-  yield takeLatest(saveClerkNewExamDate, saveClerkNewExamDateSaga);
+  yield takeLatest(saveClerkNewExamDate.type, saveClerkNewExamDateSaga);
 }
