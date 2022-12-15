@@ -31,7 +31,8 @@
     "plugin:react/jsx-runtime",
     "plugin:eslint-comments/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:lodash-fp/recommended"
   ],
   "ignorePatterns": ["webpack.config.js"],
   "rules": {

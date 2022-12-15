@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 module.exports = (appName, env, dirName, port) => {
   const STATIC_PATH = `${appName}/static`;
@@ -53,6 +54,10 @@ module.exports = (appName, env, dirName, port) => {
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
       new CSPNoncePlaceholderInjectorPlugin(),
+      new LodashModuleReplacementPlugin({
+        currying: true,
+        flattening: true,
+      }),
     ],
   });
 
@@ -63,6 +68,9 @@ module.exports = (appName, env, dirName, port) => {
           test: /\.[tj]sx?$/,
           loader: "babel-loader",
           exclude: /node_modules\/(?!(shared)\/).*/,
+          options: {
+            plugins: ["lodash"],
+          },
         },
         {
           test: /\.s?css$/,
@@ -207,7 +215,7 @@ const isGitAvailable = () => {
 
 const addThymeleafNoncePlaceholder = (e) => {
   e.attributes["th:attr"] = "nonce=${cspNonce}";
-}
+};
 
 class CSPNoncePlaceholderInjectorPlugin {
   apply(compiler) {

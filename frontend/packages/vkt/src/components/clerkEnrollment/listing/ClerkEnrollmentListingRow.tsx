@@ -1,4 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
+import { filter, flow, join, map, pick } from 'lodash/fp';
 import { useNavigate } from 'react-router';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
@@ -16,16 +17,6 @@ const examCodes = {
   writingPartialExam: 'KI',
 };
 
-function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
-  return keys.reduce((obj, key) => {
-    if (object && object.hasOwnProperty(key)) {
-      obj[key] = object[key];
-    }
-
-    return obj;
-  }, {} as Partial<T>);
-}
-
 export const ClerkEnrollmentListingRow = ({
   enrollment,
   examEventId,
@@ -41,18 +32,19 @@ export const ClerkEnrollmentListingRow = ({
   const navigate = useNavigate();
 
   const getSelectedPartialExamsText = () => {
-    const partialExams = pick(enrollment, [
+    const partialExams = pick([
       'speakingPartialExam',
       'speechComprehensionPartialExam',
       'writingPartialExam',
       'readingComprehensionPartialExam',
-    ]);
+    ])(enrollment);
 
     if (Object.values(partialExams).some((value) => !value)) {
-      return Object.keys(partialExams)
-        .filter((key) => partialExams[key as keyof typeof examCodes])
-        .map((key) => examCodes[key as keyof typeof examCodes])
-        .join(', ');
+      return flow(
+        filter((key) => partialExams[key as keyof typeof examCodes]),
+        map((key) => examCodes[key as keyof typeof examCodes]),
+        join(', ')
+      )(Object.keys(partialExams));
     }
 
     return t('fullExam');

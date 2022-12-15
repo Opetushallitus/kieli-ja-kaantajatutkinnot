@@ -75,6 +75,12 @@ AKR(Frontend): Added new translations [deploy]
 
 ## Frontend conventions
 
+### Lodash
+
+The project uses [lodash-fp](https://lodash.com/) that is configured with [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) and [lodash-webpack-plugin](https://github.com/lodash/lodash-webpack-plugin) to reduce the bundle size.
+
+By default, the webpack plugin strips out all core features to start from minimal bundle. If you face errors in using lodash, check if the convention or use type requires a [feature-set](https://github.com/lodash/lodash-webpack-plugin#feature-sets) to be enabled (see `webpack.common.js`)
+
 ### Visual Studio Code
 
 The project uses the shared workspace configs. In order to keep code clean and easily maintainable please use the following VS Code Extensions.
