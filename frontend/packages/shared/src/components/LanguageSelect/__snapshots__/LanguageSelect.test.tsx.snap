@@ -6,7 +6,7 @@ exports[`LanguageSelect should render correctly 1`] = `
 >
   <div
     aria-owns={null}
-    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
+    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseDown={[Function]}
@@ -83,7 +83,7 @@ exports[`LanguageSelect should render correctly 1`] = `
           className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="css-hdw1oc"
+            className="css-ihdtdm"
           >
             <span
               className="notranslate"

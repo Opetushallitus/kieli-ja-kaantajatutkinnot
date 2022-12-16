@@ -27,5 +27,5 @@ function* loadClerkInterpretersSaga() {
 }
 
 export function* watchClerkInterpreters() {
-  yield takeLatest(loadClerkInterpreters, loadClerkInterpretersSaga);
+  yield takeLatest(loadClerkInterpreters.type, loadClerkInterpretersSaga);
 }

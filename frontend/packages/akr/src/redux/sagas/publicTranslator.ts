@@ -24,5 +24,5 @@ function* loadPublicTranslatorsSaga() {
 }
 
 export function* watchPublicTranslators() {
-  yield takeLatest(loadPublicTranslators, loadPublicTranslatorsSaga);
+  yield takeLatest(loadPublicTranslators.type, loadPublicTranslatorsSaga);
 }

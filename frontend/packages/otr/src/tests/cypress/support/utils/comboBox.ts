@@ -3,5 +3,6 @@ export const selectComboBoxOptionByName = (
   name: string
 ) => {
   comboBox.click();
+  cy.findByRole('option', { name }).scrollIntoView();
   cy.findByRole('option', { name }).should('be.visible').click();
 };

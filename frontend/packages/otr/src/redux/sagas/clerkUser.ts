@@ -29,5 +29,5 @@ function* loadClerkUserSaga() {
 }
 
 export function* watchClerkUser() {
-  yield takeLatest(loadClerkUser, loadClerkUserSaga);
+  yield takeLatest(loadClerkUser.type, loadClerkUserSaga);
 }

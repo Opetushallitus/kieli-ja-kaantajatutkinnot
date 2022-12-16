@@ -74,5 +74,5 @@ export function* watchPublicEnrollments() {
     cancelPublicEnrollmentAndRemoveReservation,
     cancelPublicEnrollmentAndRemoveReservationSaga
   );
-  yield takeLatest(loadPublicEnrollmentSave, loadPublicEnrollmentSaveSaga);
+  yield takeLatest(loadPublicEnrollmentSave.type, loadPublicEnrollmentSaveSaga);
 }

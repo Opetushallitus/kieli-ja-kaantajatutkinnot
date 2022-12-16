@@ -25,5 +25,5 @@ function* loadExamEventsSaga() {
 }
 
 export function* watchListExamEvents() {
-  yield takeLatest(loadExamEvents, loadExamEventsSaga);
+  yield takeLatest(loadExamEvents.type, loadExamEventsSaga);
 }

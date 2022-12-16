@@ -37,5 +37,5 @@ function* loadReservationSaga(action: PayloadAction<number>) {
 }
 
 export function* watchPublicReservations() {
-  yield takeLatest(loadReservation, loadReservationSaga);
+  yield takeLatest(loadReservation.type, loadReservationSaga);
 }
