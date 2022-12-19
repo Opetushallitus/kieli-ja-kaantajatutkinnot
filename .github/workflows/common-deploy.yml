@@ -41,7 +41,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          git clone https://github.com/Opetushallitus/ci-tools.git
+          git clone -b wkhtmltopdfDockerfile https://github.com/Opetushallitus/ci-tools.git
+          cat ./ci-tools/build/Dockerfile_wkhtmltopdf_template > ./ci-tools/build/Dockerfile
           source ci-tools/common/setup-tools.sh
           export ARTIFACT_NAME=${{ inputs.image-name }}
           mv target/${{ inputs.app-name }}-*.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar

@@ -36,6 +36,14 @@ jobs:
       - uses: szenius/set-timezone@v1.1
         with:
           timezoneLinux: "Europe/Helsinki"
+      - name: Install wkhtmltopdf
+        run: |
+          echo 'Installing wkhtmltopdf'
+          sudo apt-get install wkhtmltopdf
+          echo 'Installed wkhtmltopdf, check that it works'
+          wkhtmltopdf --version
+          echo 'Installation of wkhtmltopdf completed'
+        shell: bash
       - name: Build with Maven
         working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
         run: mvn clean install -Dplugin.prettier.goal=check
