@@ -10,6 +10,7 @@ WORKDIR /app/reactjs
 # Copy workspace config
 COPY package*.json yarn.lock webpack.common.js ./
 COPY .yarn/releases ./.yarn/releases
+COPY .yarn/plugins ./.yarn/plugins
 COPY .yarnrc.yml ./
 
 # Copy packages
