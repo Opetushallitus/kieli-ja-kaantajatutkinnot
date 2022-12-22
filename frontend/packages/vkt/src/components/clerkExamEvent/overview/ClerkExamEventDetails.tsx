@@ -26,6 +26,7 @@ import {
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
 import {
+  resetClerkEnrollmentStatusUpdate,
   resetClerkExamEventDetailsUpdate,
   updateClerkExamEventDetails,
 } from 'redux/reducers/clerkExamEventOverview';
@@ -34,13 +35,13 @@ import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOv
 interface EnrollmentListProps {
   enrollments: Array<ClerkEnrollment>;
   status: EnrollmentStatus;
-  examEventId: number;
+  examEvent: ClerkExamEvent;
 }
 
 const EnrollmentList: FC<EnrollmentListProps> = ({
   enrollments,
   status,
-  examEventId,
+  examEvent,
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
@@ -52,11 +53,13 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
     <>
       {filteredEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
-          <H2>{`${t(status)}: ${filteredEnrollments.length}`}</H2>
+          <H2
+            data-testid={`clerk-exam-event-overview-page__enrollment-list-${status}__header`}
+          >{`${t(status)}: ${filteredEnrollments.length}`}</H2>
           <div className="margin-top-sm">
             <ClerkEnrollmentListing
               enrollments={filteredEnrollments}
-              examEventId={examEventId}
+              examEvent={examEvent}
             />
           </div>
         </div>
@@ -68,9 +71,8 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
 export const ClerkExamEventDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { examEvent, examEventDetailsStatus } = useAppSelector(
-    clerkExamEventOverviewSelector
-  );
+  const { examEvent, examEventDetailsStatus, clerkEnrollmentUpdateStatus } =
+    useAppSelector(clerkExamEventOverviewSelector);
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
@@ -93,12 +95,20 @@ export const ClerkExamEventDetails = () => {
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkExamEventDetailsUpdate());
+    dispatch(resetClerkEnrollmentStatusUpdate());
     resetLocalExamEventDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
   }, [dispatch, resetLocalExamEventDetails]);
 
   useNavigationProtection(hasLocalChanges);
+
+  // Check if enrollments have changed due to enrollment status update
+  useEffect(() => {
+    if (examEvent?.enrollments !== examEventDetails?.enrollments) {
+      setExamEventDetails(examEvent);
+    }
+  }, [examEvent, examEventDetails]);
 
   useEffect(() => {
     if (
@@ -117,7 +127,20 @@ export const ClerkExamEventDetails = () => {
     resetToInitialState,
     t,
     examEventDetailsStatus,
+    clerkEnrollmentUpdateStatus,
   ]);
+
+  useEffect(() => {
+    if (clerkEnrollmentUpdateStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.enrollmentStatusUpdated'),
+      });
+      resetToInitialState();
+    }
+  }, [showToast, resetToInitialState, t, clerkEnrollmentUpdateStatus]);
+
+  clerkEnrollmentUpdateStatus === APIResponseStatus.Success;
 
   if (!examEventDetails) {
     return null;
@@ -235,22 +258,22 @@ export const ClerkExamEventDetails = () => {
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.PAID}
-        examEventId={examEventDetails.id}
+        examEvent={examEventDetails}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.EXPECTING_PAYMENT}
-        examEventId={examEventDetails.id}
+        examEvent={examEventDetails}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.QUEUED}
-        examEventId={examEventDetails.id}
+        examEvent={examEventDetails}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.CANCELED}
-        examEventId={examEventDetails.id}
+        examEvent={examEventDetails}
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">

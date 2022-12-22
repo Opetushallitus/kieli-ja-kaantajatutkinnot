@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
+import { UpdateEnrollmentStatusButton } from 'components/clerkEnrollment/listing/UpdateEnrollmentStatusButton';
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment, ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 
 const examCodes = {
@@ -28,10 +29,10 @@ function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
 
 export const ClerkEnrollmentListingRow = ({
   enrollment,
-  examEventId,
+  examEvent,
 }: {
   enrollment: ClerkEnrollment;
-  examEventId: number;
+  examEvent: ClerkExamEvent;
 }) => {
   // I18n
   const { t } = useClerkTranslation({
@@ -58,19 +59,21 @@ export const ClerkEnrollmentListingRow = ({
     return t('fullExam');
   };
 
+  const onClick = () => {
+    dispatch(storeClerkEnrollmentDetails(enrollment));
+    navigate(
+      AppRoutes.ClerkEnrollmentOverviewPage.replace(
+        /:examEventId/,
+        `${examEvent.id}`
+      )
+    );
+  };
+
   return (
     <>
       <TableRow
-        onClick={() => {
-          dispatch(storeClerkEnrollmentDetails(enrollment));
-          navigate(
-            AppRoutes.ClerkEnrollmentOverviewPage.replace(
-              /:examEventId/,
-              `${examEventId}`
-            )
-          );
-        }}
         data-testid={`enrollments-table__id-${enrollment.id}-row`}
+        onClick={onClick}
       >
         <TableCell>
           <Text>{enrollment.person.lastName}</Text>
@@ -86,7 +89,9 @@ export const ClerkEnrollmentListingRow = ({
             {DateUtils.formatOptionalDateTime(enrollment.enrollmentTime)}
           </Text>
         </TableCell>
-        <TableCell />
+        <TableCell align="right">
+          <UpdateEnrollmentStatusButton enrollment={enrollment} />
+        </TableCell>
       </TableRow>
     </>
   );

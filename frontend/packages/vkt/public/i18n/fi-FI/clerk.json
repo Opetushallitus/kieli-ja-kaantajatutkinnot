@@ -1,17 +1,6 @@
 {
   "vkt": {
     "component": {
-      "clerkEnrollmentListing": {
-        "header": {
-          "examEventCoverage": "Tutkintokokonaisuus",
-          "firstName": "Etunimi",
-          "lastName": "Sukumini",
-          "registrationTime": "Ilmoittautumisaika"
-        },
-        "row": {
-          "fullExam": "Koko tutkinto"
-        }
-      },
       "clerkEnrollmentDetails": {
         "checkbox": {
           "digitalCertificateConsent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti",
@@ -43,6 +32,21 @@
           "updated": "Tiedot tallennettiin"
         }
       },
+      "clerkEnrollmentListing": {
+        "header": {
+          "examEventCoverage": "Tutkintokokonaisuus",
+          "firstName": "Etunimi",
+          "lastName": "Sukumini",
+          "registrationTime": "Ilmoittautumisaika"
+        },
+        "row": {
+          "fullExam": "Koko tutkinto",
+          "updateEnrollmentStatus": {
+            "backToQueue": "Siirrä takaisin jonoon",
+            "toExamEvent": "Siirrä tutkintoon"
+          }
+        }
+      },
       "clerkExamEventCreate": {
         "addExamDate": "Tutkintopäivän lisääminen",
         "fillingsTotal": "Paikkojen lukumäärä",
@@ -53,8 +57,8 @@
       "clerkExamEventListing": {
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {
-          "examDate": "Tutkintopäivä",
           "date": "Tutkintopäivä",
+          "examDate": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
           "hidden": "Piilotettu",
           "language": "Kieli ja taso",
@@ -87,6 +91,7 @@
           "QUEUED": "Jonoon ilmoittautuneet"
         },
         "toasts": {
+          "enrollmentStatusUpdated": "Siirto onnistui",
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt",
           "updated": "Tiedot tallennettiin"
         }

@@ -2,19 +2,19 @@ import { NormalTable } from 'shared/components';
 
 import { ClerkEnrollmentListingHeader } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingHeader';
 import { ClerkEnrollmentListingRow } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingRow';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment, ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
 interface ClerkEnrollmentListingProps {
   enrollments: Array<ClerkEnrollment>;
-  examEventId: number;
+  examEvent: ClerkExamEvent;
 }
 
-const getRowDetailsWithExamEventId = (examEventId: number) => {
+const getRowDetailsWithExamEventId = (examEvent: ClerkExamEvent) => {
   const getRowDetails = (enrollment: ClerkEnrollment) => {
     return (
       <ClerkEnrollmentListingRow
         enrollment={enrollment}
-        examEventId={examEventId}
+        examEvent={examEvent}
       />
     );
   };
@@ -24,13 +24,13 @@ const getRowDetailsWithExamEventId = (examEventId: number) => {
 
 export const ClerkEnrollmentListing = ({
   enrollments,
-  examEventId,
+  examEvent,
 }: ClerkEnrollmentListingProps) => (
   <NormalTable
     className="table-layout-auto"
     data={enrollments}
     header={<ClerkEnrollmentListingHeader />}
-    getRowDetails={getRowDetailsWithExamEventId(examEventId)}
+    getRowDetails={getRowDetailsWithExamEventId(examEvent)}
     size="small"
     stickyHeader
   />

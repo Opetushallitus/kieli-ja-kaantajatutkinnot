@@ -84,3 +84,9 @@ export interface ClerkExamEvent
     ClerkExamEventBasicInformation {
   enrollments: Array<ClerkEnrollment>;
 }
+
+export interface ClerkEnrollmentStatusUpdate {
+  id: number;
+  version: number;
+  newStatus: EnrollmentStatus;
+}
