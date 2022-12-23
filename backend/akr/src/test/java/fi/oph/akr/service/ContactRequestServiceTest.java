@@ -124,9 +124,7 @@ class ContactRequestServiceTest {
 
     assertEquals(3, contactRequestTranslators.size());
 
-    contactRequestTranslators.forEach(ctr -> {
-      assertEquals(contactRequest.getId(), ctr.getContactRequest().getId());
-    });
+    contactRequestTranslators.forEach(ctr -> assertEquals(contactRequest.getId(), ctr.getContactRequest().getId()));
 
     assertEquals(
       Set.copyOf(translatorIds),
