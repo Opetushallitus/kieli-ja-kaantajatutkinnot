@@ -59,13 +59,13 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       "Henkilötunnus",
       "Aiempi tutkintopäivä",
       "Tila",
-      "ST", // Suullinen taito
       "KT", // Kirjallinen taito
+      "ST", // Suullinen taito
       "YT", // Ymmärtämisen taito
-      "TY", // Tekstin ymmärtäminen
-      "PY", // Puheen ymmärtäminen
       "KI", // Kirjoittaminen
+      "TY", // Tekstin ymmärtäminen
       "PU", // Puhuminen
+      "PY", // Puheen ymmärtäminen
       "Sähköposti",
       "Puhelin",
       "Sähk. Tod.",
@@ -98,14 +98,14 @@ public class ExamEventXlsxView extends AbstractXlsxView {
 
       row.createCell(++ci).setCellValue(statusToText(enrollment.status()));
 
-      formatBoolean(row.createCell(++ci), enrollment.oralSkill());
       formatBoolean(row.createCell(++ci), enrollment.textualSkill());
+      formatBoolean(row.createCell(++ci), enrollment.oralSkill());
       formatBoolean(row.createCell(++ci), enrollment.understandingSkill());
 
-      formatBoolean(row.createCell(++ci), enrollment.readingComprehensionPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.speechComprehensionPartialExam());
       formatBoolean(row.createCell(++ci), enrollment.writingPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.readingComprehensionPartialExam());
       formatBoolean(row.createCell(++ci), enrollment.speakingPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.speechComprehensionPartialExam());
 
       row.createCell(++ci).setCellValue(enrollment.email());
       row.createCell(++ci).setCellValue(enrollment.phoneNumber());
