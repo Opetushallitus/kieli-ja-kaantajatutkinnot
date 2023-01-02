@@ -17,24 +17,21 @@ public class IndexController {
   private final SecureRandom secureRandom = new SecureRandom();
 
   private static void addCSPHeaders(final HttpServletResponse response, final String nonce) {
-    final StringBuilder sb = new StringBuilder();
-    sb.append("default-src 'none'; ");
+    final String csp =
+      "default-src 'none'; " +
+      "script-src 'self' 'nonce-" +
+      nonce +
+      "' 'strict-dynamic' https: http: 'unsafe-inline'; " +
+      "style-src 'self' 'nonce-" +
+      nonce +
+      "' 'unsafe-inline'; " +
+      "connect-src 'self'; " +
+      "img-src 'self'; " +
+      "font-src 'self'; " +
+      "base-uri 'self'; " +
+      "form-action 'self';";
 
-    sb.append("script-src 'self' 'nonce-");
-    sb.append(nonce);
-    sb.append("' 'strict-dynamic' https: http: 'unsafe-inline'; ");
-
-    sb.append("style-src 'self' 'nonce-");
-    sb.append(nonce);
-    sb.append("' 'unsafe-inline'; ");
-
-    sb.append("connect-src 'self'; ");
-    sb.append("img-src 'self'; ");
-    sb.append("font-src 'self'; ");
-    sb.append("base-uri 'self'; ");
-    sb.append("form-action 'self';");
-
-    response.addHeader("Content-Security-Policy", sb.toString());
+    response.addHeader("Content-Security-Policy", csp);
   }
 
   private String getNonce() {
