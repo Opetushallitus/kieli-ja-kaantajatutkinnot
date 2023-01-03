@@ -9,7 +9,7 @@ interface ClerkEnrollmentListingProps {
   examEventId: number;
 }
 
-const getRowDetailsWithExamEvent = (examEventId: number) => {
+const getRowDetailsWithExamEventId = (examEventId: number) => {
   const getRowDetails = (enrollment: ClerkEnrollment) => {
     return (
       <ClerkEnrollmentListingRow
@@ -30,7 +30,7 @@ export const ClerkEnrollmentListing = ({
     className="table-layout-auto"
     data={enrollments}
     header={<ClerkEnrollmentListingHeader />}
-    getRowDetails={getRowDetailsWithExamEvent(examEventId)}
+    getRowDetails={getRowDetailsWithExamEventId(examEventId)}
     size="small"
     stickyHeader
   />

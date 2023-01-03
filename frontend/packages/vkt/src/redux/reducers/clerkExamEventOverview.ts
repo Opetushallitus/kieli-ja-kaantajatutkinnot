@@ -30,6 +30,11 @@ const clerkExamEventOverviewSlice = createSlice({
     rejectClerkExamEventOverview(state) {
       state.overviewStatus = APIResponseStatus.Error;
     },
+    resetClerkExamEventOverview(state) {
+      state.overviewStatus = initialState.overviewStatus;
+      state.examEventDetailsStatus = initialState.examEventDetailsStatus;
+      state.examEvent = initialState.examEvent;
+    },
     storeClerkExamEventOverview(state, action: PayloadAction<ClerkExamEvent>) {
       state.overviewStatus = APIResponseStatus.Success;
       state.examEvent = action.payload;
@@ -78,6 +83,7 @@ export const clerkExamEventOverviewReducer =
 export const {
   loadClerkExamEventOverview,
   rejectClerkExamEventOverview,
+  resetClerkExamEventOverview,
   storeClerkExamEventOverview,
   updateClerkExamEventDetails,
   updatingClerkExamEventDetailsSucceeded,
