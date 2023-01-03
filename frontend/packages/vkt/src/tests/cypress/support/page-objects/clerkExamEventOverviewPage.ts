@@ -69,6 +69,10 @@ class ClerkExamEventOverviewPage {
     this.elements.saveExamEventDetailsButton().should('be.visible').click();
   }
 
+  clickEnrollmentRow(id: number) {
+    this.elements.enrollmentRow(id).should('be.visible').click();
+  }
+
   editExamEventDateField(fieldName: string, newValue: string) {
     this.elements
       .datePicker(fieldName)

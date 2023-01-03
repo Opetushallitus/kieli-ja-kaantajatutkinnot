@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { APIResponseStatus, Severity, Variant } from 'shared/enums';
+import { CustomButton } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
@@ -7,7 +8,7 @@ import { ClerkEnrollmentDetailsFields } from 'components/clerkEnrollment/overvie
 import { ControlButtons } from 'components/clerkExamEvent/ControlButtons';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { UIMode } from 'enums/app';
+import { EnrollmentStatus, UIMode } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
@@ -18,6 +19,10 @@ import {
   resetClerkEnrollmentDetailsUpdate,
   updateClerkEnrollmentDetails,
 } from 'redux/reducers/clerkEnrollmentDetails';
+import {
+  changeClerkEnrollmentStatus,
+  resetClerkEnrollmentStatusChange,
+} from 'redux/reducers/clerkExamEventOverview';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 
@@ -25,7 +30,9 @@ export const ClerkEnrollmentDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { status, enrollment } = useAppSelector(clerkEnrollmentDetailsSelector);
-  const { examEvent } = useAppSelector(clerkExamEventOverviewSelector);
+  const { examEvent, clerkEnrollmentChangeStatus } = useAppSelector(
+    clerkExamEventOverviewSelector
+  );
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
@@ -50,6 +57,7 @@ export const ClerkEnrollmentDetails = () => {
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkEnrollmentDetailsUpdate());
+    dispatch(resetClerkEnrollmentStatusChange());
     resetLocalEnrollmentDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
@@ -58,14 +66,24 @@ export const ClerkEnrollmentDetails = () => {
   useNavigationProtection(hasLocalChanges);
 
   useEffect(() => {
-    if (status === APIResponseStatus.Success && currentUIMode === UIMode.Edit) {
+    if (
+      (status === APIResponseStatus.Success && currentUIMode === UIMode.Edit) ||
+      clerkEnrollmentChangeStatus === APIResponseStatus.Success
+    ) {
       showToast({
         severity: Severity.Success,
-        description: t('toasts.updated'),
+        description: t('toasts.enrollmentCanceled'),
       });
       resetToInitialState();
     }
-  }, [currentUIMode, showToast, resetToInitialState, t, status]);
+  }, [
+    currentUIMode,
+    showToast,
+    resetToInitialState,
+    t,
+    status,
+    clerkEnrollmentChangeStatus,
+  ]);
 
   if (!enrollmentDetails || !examEvent) {
     return null;
@@ -140,7 +158,7 @@ export const ClerkEnrollmentDetails = () => {
     dispatch(
       updateClerkEnrollmentDetails({
         enrollment: enrollmentDetails,
-        examEvent: examEvent,
+        examEvent,
       })
     );
   };
@@ -169,6 +187,32 @@ export const ClerkEnrollmentDetails = () => {
     });
   };
 
+  const onCancelEnrollment = () => {
+    const statusChange = {
+      id: enrollmentDetails.id,
+      version: enrollmentDetails.version,
+      newStatus: EnrollmentStatus.CANCELED,
+    };
+
+    showDialog({
+      title: t('cancelEnrollmentDialog.header'),
+      severity: Severity.Info,
+      description: t('cancelEnrollmentDialog.description'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () =>
+            dispatch(changeClerkEnrollmentStatus({ statusChange, examEvent })),
+        },
+      ],
+    });
+  };
+
   const onCancel = () => {
     if (!hasLocalChanges) {
       resetToInitialState();
@@ -178,21 +222,34 @@ export const ClerkEnrollmentDetails = () => {
   };
 
   return (
-    <ClerkEnrollmentDetailsFields
-      showFieldErrorBeforeChange={false}
-      enrollment={enrollmentDetails}
-      onTextFieldChange={handleTextFieldChange}
-      onCheckboxFieldChange={handleCheckboxFieldChange}
-      editDisabled={isViewMode}
-      topControlButtons={
-        <ControlButtons
-          onCancel={onCancel}
-          onEdit={onEdit}
-          onSave={onSave}
-          isViewMode={isViewMode}
-          hasRequiredDetails={hasRequiredDetails}
-        />
-      }
-    />
+    <>
+      <ClerkEnrollmentDetailsFields
+        showFieldErrorBeforeChange={false}
+        enrollment={enrollmentDetails}
+        onTextFieldChange={handleTextFieldChange}
+        onCheckboxFieldChange={handleCheckboxFieldChange}
+        editDisabled={isViewMode}
+        topControlButtons={
+          <ControlButtons
+            onCancel={onCancel}
+            onEdit={onEdit}
+            onSave={onSave}
+            isViewMode={isViewMode}
+            hasRequiredDetails={hasRequiredDetails}
+          />
+        }
+      />
+      <div className="columns flex-end margin-top-xxl">
+        <CustomButton
+          data-testid="clerk-enrollment-details__cancel-enrollment-button"
+          variant={Variant.Contained}
+          color={Color.Error}
+          onClick={onCancelEnrollment}
+          disabled={enrollmentDetails.status === EnrollmentStatus.CANCELED}
+        >
+          {t('cancelEnrollment')}
+        </CustomButton>
+      </div>
+    </>
   );
 };
