@@ -4,7 +4,6 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkExamEventGrid } from 'components/clerkExamEvent/ClerkExamEventGrid';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { resetClerkExamEventOverview } from 'redux/reducers/clerkExamEventOverview';
 import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
 import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
 
@@ -17,10 +16,6 @@ export const ClerkHomePage: FC = () => {
       dispatch(loadExamEvents());
     }
   }, [dispatch, status]);
-
-  useEffect(() => {
-    dispatch(resetClerkExamEventOverview());
-  }, [dispatch]);
 
   return (
     <Box className="clerk-homepage">

@@ -1,4 +1,4 @@
-export const clerkEnrollmentStatusUpdate = {
+export const clerkEnrollmentStatusChange = {
   id: 7,
   version: 1,
   enrollmentTime: '2022-10-10T07:00:00.000Z',

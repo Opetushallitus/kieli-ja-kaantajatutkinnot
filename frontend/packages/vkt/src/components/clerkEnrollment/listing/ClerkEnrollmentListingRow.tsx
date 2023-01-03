@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
-import { UpdateEnrollmentStatusButton } from 'components/clerkEnrollment/listing/UpdateEnrollmentStatusButton';
+import { ChangeEnrollmentStatusButton } from 'components/clerkEnrollment/listing/ChangeEnrollmentStatusButton';
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
-import { ClerkEnrollment, ClerkExamEvent } from 'interfaces/clerkExamEvent';
+import { AppRoutes, EnrollmentStatus } from 'enums/app';
+import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 
 const examCodes = {
@@ -29,10 +29,10 @@ function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
 
 export const ClerkEnrollmentListingRow = ({
   enrollment,
-  examEvent,
+  examEventId,
 }: {
   enrollment: ClerkEnrollment;
-  examEvent: ClerkExamEvent;
+  examEventId: number;
 }) => {
   // I18n
   const { t } = useClerkTranslation({
@@ -64,7 +64,7 @@ export const ClerkEnrollmentListingRow = ({
     navigate(
       AppRoutes.ClerkEnrollmentOverviewPage.replace(
         /:examEventId/,
-        `${examEvent.id}`
+        `${examEventId}`
       )
     );
   };
@@ -90,7 +90,12 @@ export const ClerkEnrollmentListingRow = ({
           </Text>
         </TableCell>
         <TableCell align="right">
-          <UpdateEnrollmentStatusButton enrollment={enrollment} />
+          {[
+            EnrollmentStatus.EXPECTING_PAYMENT,
+            EnrollmentStatus.QUEUED,
+          ].includes(enrollment.status) && (
+            <ChangeEnrollmentStatusButton enrollment={enrollment} />
+          )}
         </TableCell>
       </TableRow>
     </>

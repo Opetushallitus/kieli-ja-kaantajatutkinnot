@@ -10,11 +10,11 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
   it('should display correct on enrollment status update buttons', () => {
     onClerkExamEventOverviewPage.expectEnrollmentStatusUpdateButtonToHaveText(
-      EnrollmentStatus.QUEUED,
+      8,
       'Siirrä tutkintoon'
     );
     onClerkExamEventOverviewPage.expectEnrollmentStatusUpdateButtonToHaveText(
-      EnrollmentStatus.EXPECTING_PAYMENT,
+      7,
       'Siirrä takaisin jonoon'
     );
   });
@@ -39,10 +39,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     );
 
     // Click status update button
-    onClerkExamEventOverviewPage.clickEnrollmentStatusUpdateButton(
-      7,
-      EnrollmentStatus.EXPECTING_PAYMENT
-    );
+    onClerkExamEventOverviewPage.clickChangeEnrollmentStatusButton(7);
     onToast.expectText('Siirto onnistui');
 
     // Verify outcome state

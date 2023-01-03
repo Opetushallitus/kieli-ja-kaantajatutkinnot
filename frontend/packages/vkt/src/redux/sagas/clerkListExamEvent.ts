@@ -18,6 +18,7 @@ function* loadExamEventsSaga() {
     const examEvents = response.data.map(
       SerializationUtils.deserializeClerkListExamEvent
     );
+
     yield put(storeExamEvents(examEvents));
   } catch (error) {
     yield put(rejectExamEvents());

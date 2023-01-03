@@ -36,15 +36,15 @@
         "header": {
           "examEventCoverage": "Tutkintokokonaisuus",
           "firstName": "Etunimi",
-          "lastName": "Sukumini",
+          "lastName": "Sukunimi",
           "registrationTime": "Ilmoittautumisaika"
         },
         "row": {
-          "fullExam": "Koko tutkinto",
-          "updateEnrollmentStatus": {
+          "changeEnrollmentStatus": {
             "backToQueue": "Siirrä takaisin jonoon",
             "toExamEvent": "Siirrä tutkintoon"
-          }
+          },
+          "fullExam": "Koko tutkinto"
         }
       },
       "clerkExamEventCreate": {
@@ -57,7 +57,6 @@
       "clerkExamEventListing": {
         "addExaminationDate": "Lisää tutkintopäivä",
         "header": {
-          "date": "Tutkintopäivä",
           "examDate": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
           "hidden": "Piilotettu",

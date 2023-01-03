@@ -2,21 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
-  ClerkEnrollmentStatusUpdate,
+  ClerkEnrollmentStatusChange,
   ClerkExamEvent,
 } from 'interfaces/clerkExamEvent';
 
 interface ClerkExamEventOverviewState {
   overviewStatus: APIResponseStatus;
   examEventDetailsStatus: APIResponseStatus;
-  clerkEnrollmentUpdateStatus: APIResponseStatus;
+  clerkEnrollmentChangeStatus: APIResponseStatus;
   examEvent?: ClerkExamEvent;
 }
 
 const initialState: ClerkExamEventOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   examEventDetailsStatus: APIResponseStatus.NotStarted,
-  clerkEnrollmentUpdateStatus: APIResponseStatus.NotStarted,
+  clerkEnrollmentChangeStatus: APIResponseStatus.NotStarted,
   examEvent: undefined,
 };
 
@@ -29,11 +29,6 @@ const clerkExamEventOverviewSlice = createSlice({
     },
     rejectClerkExamEventOverview(state) {
       state.overviewStatus = APIResponseStatus.Error;
-    },
-    resetClerkExamEventOverview(state) {
-      state.overviewStatus = initialState.overviewStatus;
-      state.examEventDetailsStatus = initialState.examEventDetailsStatus;
-      state.examEvent = initialState.examEvent;
     },
     storeClerkExamEventOverview(state, action: PayloadAction<ClerkExamEvent>) {
       state.overviewStatus = APIResponseStatus.Success;
@@ -56,24 +51,24 @@ const clerkExamEventOverviewSlice = createSlice({
     resetClerkExamEventDetailsUpdate(state) {
       state.examEventDetailsStatus = initialState.examEventDetailsStatus;
     },
-    updateClerkEnrollmentStatus(
+    changeClerkEnrollmentStatus(
       state,
       _action: PayloadAction<{
-        statusUpdate: ClerkEnrollmentStatusUpdate;
+        statusChange: ClerkEnrollmentStatusChange;
         examEvent: ClerkExamEvent;
       }>
     ) {
-      state.clerkEnrollmentUpdateStatus = APIResponseStatus.InProgress;
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.InProgress;
     },
-    updatingClerkEnrollmentStatusSucceeded(state) {
-      state.clerkEnrollmentUpdateStatus = APIResponseStatus.Success;
+    changingClerkEnrollmentStatusSucceeded(state) {
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.Success;
     },
-    rejectClerkEnrollmentStatusUpdate(state) {
-      state.clerkEnrollmentUpdateStatus = APIResponseStatus.Error;
+    rejectClerkEnrollmentStatusChange(state) {
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.Error;
     },
-    resetClerkEnrollmentStatusUpdate(state) {
-      state.clerkEnrollmentUpdateStatus =
-        initialState.clerkEnrollmentUpdateStatus;
+    resetClerkEnrollmentStatusChange(state) {
+      state.clerkEnrollmentChangeStatus =
+        initialState.clerkEnrollmentChangeStatus;
     },
   },
 });
@@ -83,14 +78,13 @@ export const clerkExamEventOverviewReducer =
 export const {
   loadClerkExamEventOverview,
   rejectClerkExamEventOverview,
-  resetClerkExamEventOverview,
   storeClerkExamEventOverview,
   updateClerkExamEventDetails,
   updatingClerkExamEventDetailsSucceeded,
   rejectClerkExamEventDetailsUpdate,
   resetClerkExamEventDetailsUpdate,
-  updateClerkEnrollmentStatus,
-  updatingClerkEnrollmentStatusSucceeded,
-  rejectClerkEnrollmentStatusUpdate,
-  resetClerkEnrollmentStatusUpdate,
+  changeClerkEnrollmentStatus,
+  changingClerkEnrollmentStatusSucceeded,
+  rejectClerkEnrollmentStatusChange,
+  resetClerkEnrollmentStatusChange,
 } = clerkExamEventOverviewSlice.actions;

@@ -26,7 +26,7 @@ import {
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
 import {
-  resetClerkEnrollmentStatusUpdate,
+  resetClerkEnrollmentStatusChange,
   resetClerkExamEventDetailsUpdate,
   updateClerkExamEventDetails,
 } from 'redux/reducers/clerkExamEventOverview';
@@ -35,13 +35,13 @@ import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOv
 interface EnrollmentListProps {
   enrollments: Array<ClerkEnrollment>;
   status: EnrollmentStatus;
-  examEvent: ClerkExamEvent;
+  examEventId: number;
 }
 
 const EnrollmentList: FC<EnrollmentListProps> = ({
   enrollments,
   status,
-  examEvent,
+  examEventId,
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
@@ -59,7 +59,7 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
           <div className="margin-top-sm">
             <ClerkEnrollmentListing
               enrollments={filteredEnrollments}
-              examEvent={examEvent}
+              examEventId={examEventId}
             />
           </div>
         </div>
@@ -71,7 +71,7 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
 export const ClerkExamEventDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { examEvent, examEventDetailsStatus, clerkEnrollmentUpdateStatus } =
+  const { examEvent, examEventDetailsStatus, clerkEnrollmentChangeStatus } =
     useAppSelector(clerkExamEventOverviewSelector);
 
   const { showToast } = useToast();
@@ -95,20 +95,13 @@ export const ClerkExamEventDetails = () => {
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkExamEventDetailsUpdate());
-    dispatch(resetClerkEnrollmentStatusUpdate());
+    dispatch(resetClerkEnrollmentStatusChange());
     resetLocalExamEventDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
   }, [dispatch, resetLocalExamEventDetails]);
 
   useNavigationProtection(hasLocalChanges);
-
-  // Check if enrollments have changed due to enrollment status update
-  useEffect(() => {
-    if (examEvent?.enrollments !== examEventDetails?.enrollments) {
-      setExamEventDetails(examEvent);
-    }
-  }, [examEvent, examEventDetails]);
 
   useEffect(() => {
     if (
@@ -127,20 +120,17 @@ export const ClerkExamEventDetails = () => {
     resetToInitialState,
     t,
     examEventDetailsStatus,
-    clerkEnrollmentUpdateStatus,
   ]);
 
   useEffect(() => {
-    if (clerkEnrollmentUpdateStatus === APIResponseStatus.Success) {
+    if (clerkEnrollmentChangeStatus === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
         description: t('toasts.enrollmentStatusUpdated'),
       });
       resetToInitialState();
     }
-  }, [showToast, resetToInitialState, t, clerkEnrollmentUpdateStatus]);
-
-  clerkEnrollmentUpdateStatus === APIResponseStatus.Success;
+  }, [showToast, resetToInitialState, t, clerkEnrollmentChangeStatus]);
 
   if (!examEventDetails) {
     return null;
@@ -258,22 +248,22 @@ export const ClerkExamEventDetails = () => {
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.PAID}
-        examEvent={examEventDetails}
+        examEventId={examEventDetails.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.EXPECTING_PAYMENT}
-        examEvent={examEventDetails}
+        examEventId={examEventDetails.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.QUEUED}
-        examEvent={examEventDetails}
+        examEventId={examEventDetails.id}
       />
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.CANCELED}
-        examEvent={examEventDetails}
+        examEventId={examEventDetails.id}
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">

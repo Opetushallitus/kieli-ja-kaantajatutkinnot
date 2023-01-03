@@ -4,23 +4,22 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { EnrollmentStatus } from 'enums/app';
 import {
   ClerkEnrollmentResponse,
-  ClerkEnrollmentStatusUpdate,
+  ClerkEnrollmentStatusChange,
   ClerkExamEvent,
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  changeClerkEnrollmentStatus,
+  changingClerkEnrollmentStatusSucceeded,
   loadClerkExamEventOverview,
-  rejectClerkEnrollmentStatusUpdate,
+  rejectClerkEnrollmentStatusChange,
   rejectClerkExamEventDetailsUpdate,
   rejectClerkExamEventOverview,
   storeClerkExamEventOverview,
-  updateClerkEnrollmentStatus,
   updateClerkExamEventDetails,
-  updatingClerkEnrollmentStatusSucceeded,
   updatingClerkExamEventDetailsSucceeded,
 } from 'redux/reducers/clerkExamEventOverview';
 import { upsertExamEvents } from 'redux/reducers/clerkListExamEvent';
@@ -64,48 +63,42 @@ function* updateClerkExamEventDetailsSaga(
   }
 }
 
-function* updateClerkEnrollmentStatusSaga(
+function* changeClerkEnrollmentStatusSaga(
   action: PayloadAction<{
-    statusUpdate: ClerkEnrollmentStatusUpdate;
+    statusChange: ClerkEnrollmentStatusChange;
     examEvent: ClerkExamEvent;
   }>
 ) {
-  const { statusUpdate, examEvent } = action.payload;
+  const { statusChange, examEvent } = action.payload;
   try {
     const apiResponse: AxiosResponse<ClerkEnrollmentResponse> = yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkEnrollment}/status`,
-      statusUpdate
+      statusChange
     );
-    const enrollment = apiResponse.data;
 
     const updatedEnrollment = SerializationUtils.deserializeClerkEnrollment(
       apiResponse.data
     );
 
     const updatedEnrollments = [...examEvent.enrollments];
-    const idx = updatedEnrollments.findIndex((e) => e.id === enrollment.id);
+    const idx = updatedEnrollments.findIndex(
+      (e) => e.id === updatedEnrollment.id
+    );
     updatedEnrollments[idx] = updatedEnrollment;
-
-    const updatedParticipants = updatedEnrollments.filter((enrollment) =>
-      [EnrollmentStatus.PAID, EnrollmentStatus.EXPECTING_PAYMENT].includes(
-        enrollment.status
-      )
-    ).length;
 
     const updatedExamEvent = {
       ...examEvent,
-      participants: updatedParticipants,
       enrollments: updatedEnrollments,
     };
 
-    yield put(updatingClerkEnrollmentStatusSucceeded());
+    yield put(changingClerkEnrollmentStatusSucceeded());
     yield put(storeClerkExamEventOverview(updatedExamEvent));
     yield put(upsertExamEvents(updatedExamEvent));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectClerkEnrollmentStatusUpdate());
+    yield put(rejectClerkEnrollmentStatusChange());
   }
 }
 
@@ -119,7 +112,7 @@ export function* watchClerkExamEventOverview() {
     updateClerkExamEventDetailsSaga
   );
   yield takeLatest(
-    updateClerkEnrollmentStatus.type,
-    updateClerkEnrollmentStatusSaga
+    changeClerkEnrollmentStatus.type,
+    changeClerkEnrollmentStatusSaga
   );
 }

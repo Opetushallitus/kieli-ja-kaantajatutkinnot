@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { clerkEnrollmentStatusUpdate } from 'tests/msw/fixtures/clerkEnrollmentStatusUpdate';
+import { clerkEnrollmentStatusChange } from 'tests/msw/fixtures/clerkEnrollmentStatusChange';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { person } from 'tests/msw/fixtures/person';
@@ -71,6 +71,6 @@ export const handlers = [
     );
   }),
   rest.put(`${APIEndpoints.ClerkEnrollment}/status`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkEnrollmentStatusUpdate));
+    return res(ctx.status(200), ctx.json(clerkEnrollmentStatusChange));
   }),
 ];

@@ -6,34 +6,29 @@ import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
-import { updateClerkEnrollmentStatus } from 'redux/reducers/clerkExamEventOverview';
+import { changeClerkEnrollmentStatus } from 'redux/reducers/clerkExamEventOverview';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 
-export const UpdateEnrollmentStatusButton = ({
+export const ChangeEnrollmentStatusButton = ({
   enrollment,
 }: {
   enrollment: ClerkEnrollment;
 }) => {
   const { t } = useClerkTranslation({
     keyPrefix:
-      'vkt.component.clerkEnrollmentListing.row.updateEnrollmentStatus',
+      'vkt.component.clerkEnrollmentListing.row.changeEnrollmentStatus',
   });
-  const { clerkEnrollmentUpdateStatus, examEvent } = useAppSelector(
+  const { clerkEnrollmentChangeStatus, examEvent } = useAppSelector(
     clerkExamEventOverviewSelector
   );
   const dispatch = useAppDispatch();
 
-  if (
-    !examEvent ||
-    [EnrollmentStatus.PAID, EnrollmentStatus.CANCELED].includes(
-      enrollment.status
-    )
-  ) {
+  if (!examEvent) {
     return null;
   }
 
   const isLoading =
-    clerkEnrollmentUpdateStatus === APIResponseStatus.InProgress;
+    clerkEnrollmentChangeStatus === APIResponseStatus.InProgress;
 
   const newStatus =
     enrollment.status === EnrollmentStatus.QUEUED
@@ -46,13 +41,13 @@ export const UpdateEnrollmentStatusButton = ({
   ) => {
     e.stopPropagation();
 
-    const statusUpdate = {
+    const statusChange = {
       id: enrollment.id,
       version: enrollment.version,
       newStatus,
     };
 
-    dispatch(updateClerkEnrollmentStatus({ statusUpdate, examEvent }));
+    dispatch(changeClerkEnrollmentStatus({ statusChange, examEvent }));
   };
 
   const getStatusText = (status: EnrollmentStatus) => {
@@ -66,7 +61,7 @@ export const UpdateEnrollmentStatusButton = ({
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
       <CustomButton
-        data-testid={`clerk-exam-event-overview__enrollment-list-${enrollment.status}__update-status-button`}
+        data-testid={`clerk-exam-event-overview__enrollment-list-${enrollment.id}__change-status-button`}
         variant={Variant.Text}
         color={Color.Secondary}
         endIcon={<ChevronRight />}

@@ -33,16 +33,10 @@ class ClerkExamEventOverviewPage {
       cy.findByTestId(
         `clerk-exam-event-overview-page__enrollment-list-${status}__header`
       ),
-    enrollmentStatusUpdateButton: (status: EnrollmentStatus) =>
+    changeEnrollmentStatusButton: (id: number) =>
       cy.findByTestId(
-        `clerk-exam-event-overview__enrollment-list-${status}__update-status-button`
+        `clerk-exam-event-overview__enrollment-list-${id}__change-status-button`
       ),
-    enrollmentStatusUpdateButtonOnRow: (id: number, status: EnrollmentStatus) =>
-      this.elements
-        .enrollmentRow(id)
-        .findByTestId(
-          `clerk-exam-event-overview__enrollment-list-${status}__update-status-button`
-        ),
   };
 
   expectEnrollmentRowToHaveText(id: number, text: string) {
@@ -122,20 +116,12 @@ class ClerkExamEventOverviewPage {
   expectEnrollmentListHeaderToHaveText(status: EnrollmentStatus, text: string) {
     this.elements.enrollmentListHeader(status).should('contain.text', text);
   }
-  expectEnrollmentStatusUpdateButtonToHaveText(
-    status: EnrollmentStatus,
-    text: string
-  ) {
-    this.elements
-      .enrollmentStatusUpdateButton(status)
-      .should('contain.text', text);
+  expectEnrollmentStatusUpdateButtonToHaveText(id: number, text: string) {
+    this.elements.changeEnrollmentStatusButton(id).should('contain.text', text);
   }
 
-  clickEnrollmentStatusUpdateButton(id: number, status: EnrollmentStatus) {
-    this.elements
-      .enrollmentStatusUpdateButtonOnRow(id, status)
-      .should('be.visible')
-      .click();
+  clickChangeEnrollmentStatusButton(id: number) {
+    this.elements.changeEnrollmentStatusButton(id).should('be.visible').click();
   }
 }
 
