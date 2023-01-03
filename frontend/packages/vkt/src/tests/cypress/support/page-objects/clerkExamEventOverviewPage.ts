@@ -113,10 +113,15 @@ class ClerkExamEventOverviewPage {
     }
   }
 
+  expectEnrollmentListHeaderNotToExist(status: EnrollmentStatus) {
+    this.elements.enrollmentListHeader(status).should('not.exist');
+  }
+
   expectEnrollmentListHeaderToHaveText(status: EnrollmentStatus, text: string) {
     this.elements.enrollmentListHeader(status).should('contain.text', text);
   }
-  expectEnrollmentStatusUpdateButtonToHaveText(id: number, text: string) {
+
+  expectEnrollmentStatusChangeButtonToHaveText(id: number, text: string) {
     this.elements.changeEnrollmentStatusButton(id).should('contain.text', text);
   }
 
