@@ -26,6 +26,7 @@ import {
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
 import {
+  resetClerkEnrollmentStatusChange,
   resetClerkExamEventDetailsUpdate,
   updateClerkExamEventDetails,
 } from 'redux/reducers/clerkExamEventOverview';
@@ -52,7 +53,9 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
     <>
       {filteredEnrollments.length > 0 && (
         <div className="rows margin-top-xxl">
-          <H2>{`${t(status)}: ${filteredEnrollments.length}`}</H2>
+          <H2
+            data-testid={`clerk-exam-event-overview-page__enrollment-list-${status}__header`}
+          >{`${t(status)}: ${filteredEnrollments.length}`}</H2>
           <div className="margin-top-sm">
             <ClerkEnrollmentListing
               enrollments={filteredEnrollments}
@@ -68,9 +71,8 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
 export const ClerkExamEventDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { examEvent, examEventDetailsStatus } = useAppSelector(
-    clerkExamEventOverviewSelector
-  );
+  const { examEvent, examEventDetailsStatus, clerkEnrollmentChangeStatus } =
+    useAppSelector(clerkExamEventOverviewSelector);
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
@@ -93,6 +95,7 @@ export const ClerkExamEventDetails = () => {
 
   const resetToInitialState = useCallback(() => {
     dispatch(resetClerkExamEventDetailsUpdate());
+    dispatch(resetClerkEnrollmentStatusChange());
     resetLocalExamEventDetails();
     setHasLocalChanges(false);
     setCurrentUIMode(UIMode.View);
@@ -118,6 +121,16 @@ export const ClerkExamEventDetails = () => {
     t,
     examEventDetailsStatus,
   ]);
+
+  useEffect(() => {
+    if (clerkEnrollmentChangeStatus === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.enrollmentStatusUpdated'),
+      });
+      resetToInitialState();
+    }
+  }, [showToast, resetToInitialState, t, clerkEnrollmentChangeStatus]);
 
   if (!examEventDetails) {
     return null;

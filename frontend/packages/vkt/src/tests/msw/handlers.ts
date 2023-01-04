@@ -69,4 +69,21 @@ export const handlers = [
       })
     );
   }),
+  rest.put(`${APIEndpoints.ClerkEnrollment}/status`, async (req, res, ctx) => {
+    const statusChange = await req.json();
+    const enrollment =
+      statusChange.id && clerkExamEvent.enrollments[statusChange.id - 1];
+
+    if (enrollment) {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          ...enrollment,
+          status: statusChange.newStatus,
+        })
+      );
+    }
+
+    return res(ctx.status(400));
+  }),
 ];

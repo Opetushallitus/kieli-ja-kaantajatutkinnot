@@ -59,7 +59,6 @@ export interface DraftClerkExamEvent
     | 'language'
     | 'level'
     | 'date'
-    | 'participants'
     | 'maxParticipants'
     | 'registrationCloses'
     | 'enrollments'
@@ -83,4 +82,10 @@ export interface ClerkExamEvent
     WithVersion,
     ClerkExamEventBasicInformation {
   enrollments: Array<ClerkEnrollment>;
+}
+
+export interface ClerkEnrollmentStatusChange {
+  id: number;
+  version: number;
+  newStatus: EnrollmentStatus;
 }
