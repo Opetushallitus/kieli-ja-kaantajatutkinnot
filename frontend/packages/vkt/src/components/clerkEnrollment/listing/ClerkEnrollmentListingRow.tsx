@@ -11,10 +11,10 @@ import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 
 const examCodes = {
+  writingPartialExam: 'KI',
   readingComprehensionPartialExam: 'TY',
   speakingPartialExam: 'PU',
   speechComprehensionPartialExam: 'PY',
-  writingPartialExam: 'KI',
 };
 
 function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
@@ -43,10 +43,10 @@ export const ClerkEnrollmentListingRow = ({
 
   const getSelectedPartialExamsText = () => {
     const partialExams = pick(enrollment, [
-      'speakingPartialExam',
-      'speechComprehensionPartialExam',
       'writingPartialExam',
       'readingComprehensionPartialExam',
+      'speakingPartialExam',
+      'speechComprehensionPartialExam',
     ]);
 
     if (Object.values(partialExams).some((value) => !value)) {
@@ -89,7 +89,7 @@ export const ClerkEnrollmentListingRow = ({
             {DateUtils.formatOptionalDateTime(enrollment.enrollmentTime)}
           </Text>
         </TableCell>
-        <TableCell align="right">
+        <TableCell sx={{ width: '20%' }} align="right">
           {[
             EnrollmentStatus.EXPECTING_PAYMENT,
             EnrollmentStatus.QUEUED,
