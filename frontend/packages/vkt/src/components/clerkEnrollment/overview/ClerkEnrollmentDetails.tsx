@@ -10,16 +10,15 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { UIMode } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import {
-  ClerkEnrollment,
-  PartialExamsAndSkills,
-} from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   resetClerkEnrollmentDetailsUpdate,
   updateClerkEnrollmentDetails,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 export const ClerkEnrollmentDetails = () => {
   // Redux
@@ -71,19 +70,10 @@ export const ClerkEnrollmentDetails = () => {
     return null;
   }
 
-  const hasPartialExamSelected = (enrollmentDetails: ClerkEnrollment) => {
-    return (
-      enrollmentDetails.speakingPartialExam ||
-      enrollmentDetails.speechComprehensionPartialExam ||
-      enrollmentDetails.writingPartialExam ||
-      enrollmentDetails.readingComprehensionPartialExam
-    );
-  };
-
   const hasRequiredDetails =
     StringUtils.isNonBlankString(enrollmentDetails.email) &&
     StringUtils.isNonBlankString(enrollmentDetails.phoneNumber) &&
-    hasPartialExamSelected(enrollmentDetails);
+    EnrollmentUtils.isValidPartialExamsAndSkills(enrollmentDetails);
 
   const handleTextFieldChange =
     (field: ClerkEnrollmentTextFieldEnum) =>

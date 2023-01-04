@@ -7,10 +7,8 @@ import { DateUtils, InputFieldUtils } from 'shared/utils';
 import { translateOutsideComponent, useClerkTranslation } from 'configs/i18n';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
-import {
-  ClerkEnrollment,
-  PartialExamsAndSkills,
-} from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 
 const CheckboxField = ({
   enrollment,

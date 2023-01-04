@@ -1,17 +1,9 @@
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+
 export interface PublicEnrollmentContactDetails {
   email: string;
   emailConfirmation: string;
   phoneNumber: string;
-}
-
-export interface PublicEnrollmentPartialExamSelection {
-  oralSkill: boolean;
-  textualSkill: boolean;
-  understandingSkill: boolean;
-  speakingPartialExam: boolean;
-  speechComprehensionPartialExam: boolean;
-  writingPartialExam: boolean;
-  readingComprehensionPartialExam: boolean;
 }
 
 export interface PublicEnrollmentAddress {
@@ -23,7 +15,7 @@ export interface PublicEnrollmentAddress {
 
 export interface PublicEnrollment
   extends PublicEnrollmentContactDetails,
-    PublicEnrollmentPartialExamSelection,
+    PartialExamsAndSkills,
     PublicEnrollmentAddress {
   digitalCertificateConsent: boolean;
   privacyStatementConfirmation: boolean;

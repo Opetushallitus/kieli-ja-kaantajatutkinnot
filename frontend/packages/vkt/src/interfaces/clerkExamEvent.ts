@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 
 import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { WithId, WithVersion } from 'interfaces/with';
 
 interface Person extends WithId, WithVersion {
@@ -13,16 +14,6 @@ export interface ClerkEnrollmentResponse
   extends Omit<ClerkEnrollment, 'enrollmentTime' | 'previousEnrollmentDate'> {
   enrollmentTime: string;
   previousEnrollmentDate?: string;
-}
-
-export interface PartialExamsAndSkills {
-  oralSkill: boolean;
-  textualSkill: boolean;
-  understandingSkill: boolean;
-  speakingPartialExam: boolean;
-  speechComprehensionPartialExam: boolean;
-  writingPartialExam: boolean;
-  readingComprehensionPartialExam: boolean;
 }
 
 export interface ClerkEnrollment
