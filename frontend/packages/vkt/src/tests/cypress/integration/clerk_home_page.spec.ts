@@ -49,6 +49,6 @@ describe('ClerkHomePage', () => {
 
   it('should allow navigating to create exam event by clicking create button', () => {
     onClerkHomePage.clickCreateExamEvent();
-    cy.isOnPage(AppRoutes.ClerkExamCreateEventPage);
+    cy.isOnPage(AppRoutes.ClerkExamEventCreatePage);
   });
 });

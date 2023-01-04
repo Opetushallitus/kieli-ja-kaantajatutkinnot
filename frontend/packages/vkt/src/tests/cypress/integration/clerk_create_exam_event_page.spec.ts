@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { AppRoutes } from 'enums/app';
-import { onClerkCreateEventPage } from 'tests/cypress/support/page-objects/clerkCreateExamEventPage';
+import { onClerkExamEventCreatePage } from 'tests/cypress/support/page-objects/clerkCreateExamEventPage';
 
 const daysInFuture = 7;
 const dayFormat = 'DD.MM.YYYY';
@@ -15,19 +15,19 @@ describe('ClerkCreateExamEventPage', () => {
     const examDate = dayjs().add(daysInFuture, 'day');
     const closesDate = examDate.subtract(2, 'day');
 
-    onClerkCreateEventPage.inputLanguageAndLevel('Suomi, Erinomainen');
-    onClerkCreateEventPage.inputExamDate(examDate.format(dayFormat));
-    onClerkCreateEventPage.inputRegistrationClosesDate(
+    onClerkExamEventCreatePage.inputLanguageAndLevel('Suomi, Erinomainen');
+    onClerkExamEventCreatePage.inputExamDate(examDate.format(dayFormat));
+    onClerkExamEventCreatePage.inputRegistrationClosesDate(
       closesDate.format(dayFormat)
     );
-    onClerkCreateEventPage.saveButtonEnabledIs(false);
-    onClerkCreateEventPage.inputMaxParticipants(20);
-    onClerkCreateEventPage.clickIsHiddenToggle();
-    onClerkCreateEventPage.saveButtonEnabledIs(true);
+    onClerkExamEventCreatePage.saveButtonEnabledIs(false);
+    onClerkExamEventCreatePage.inputMaxParticipants(20);
+    onClerkExamEventCreatePage.clickIsHiddenToggle();
+    onClerkExamEventCreatePage.saveButtonEnabledIs(true);
   });
 
   it('should allow navigating back to clerk homepage', () => {
-    onClerkCreateEventPage.clickBackButton();
+    onClerkExamEventCreatePage.clickBackButton();
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 });
