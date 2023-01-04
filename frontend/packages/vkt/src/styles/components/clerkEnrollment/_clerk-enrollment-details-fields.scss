@@ -2,4 +2,19 @@
   .previous-enrollment {
     width: calc(50% - 1rem);
   }
+
+  &__skills {
+    justify-content: space-between;
+    width: calc(50% - 1rem);
+
+    &__checkboxes {
+      padding-left: 1rem;
+    }
+  }
+
+  &__certificate-shipping {
+    &__consent {
+      padding-left: 1rem;
+    }
+  }
 }
