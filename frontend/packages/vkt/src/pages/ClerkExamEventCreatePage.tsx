@@ -62,7 +62,7 @@ const SaveButton = ({ isEnabled, onSave }: SaveButtonProps) => {
   );
 };
 
-export const ClerkExamCreateEventPage: FC = () => {
+export const ClerkExamEventCreatePage: FC = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventCreate',
   });

@@ -43,13 +43,13 @@ export const ClerkExamEventListing = ({
         </div>
         <div className="flex-end">
           <CustomButtonLink
-            data-testid="clerk-exam-events__add-examination-date-btn"
+            data-testid="clerk-exam-events__create-exam-event-btn"
             startIcon={<AddIcon />}
             color={Color.Secondary}
             variant={Variant.Contained}
-            to={AppRoutes.ClerkExamCreateEventPage}
+            to={AppRoutes.ClerkExamEventCreatePage}
           >
-            {t('addExaminationDate')}
+            {t('createExamEvent')}
           </CustomButtonLink>
         </div>
       </div>

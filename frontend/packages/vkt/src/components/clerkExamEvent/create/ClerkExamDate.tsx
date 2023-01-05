@@ -30,7 +30,7 @@ export const ClerkExamDate = ({
       className="rows gapped"
       data-testid="clerk-exam__event-information__date"
     >
-      <H3>{t('header.date')}</H3>
+      <H3>{t('header.examDate')}</H3>
       <CustomDatePicker
         minDate={dayjs()}
         setValue={onDateChange}

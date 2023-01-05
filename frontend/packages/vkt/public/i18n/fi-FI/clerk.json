@@ -48,14 +48,14 @@
         }
       },
       "clerkExamEventCreate": {
-        "addExamDate": "Tutkintopäivän lisääminen",
+        "addExamDate": "Tutkintotilaisuuden lisääminen",
         "fillingsTotal": "Paikkojen lukumäärä",
         "toasts": {
-          "addingSucceeded": "Tutkintopäivän lisäys onnistui"
+          "addingSucceeded": "Tutkintotilaisuuden lisäys onnistui"
         }
       },
       "clerkExamEventListing": {
-        "addExaminationDate": "Lisää tutkintopäivä",
+        "createExamEvent": "Lisää tutkintotilaisuus",
         "header": {
           "examDate": "Tutkintopäivä",
           "fillings": "Paikkoja täytetty",
