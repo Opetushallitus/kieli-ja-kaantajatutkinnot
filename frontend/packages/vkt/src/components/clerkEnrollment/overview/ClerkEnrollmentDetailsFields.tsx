@@ -279,13 +279,13 @@ export const ClerkEnrollmentDetailsFields = ({
             <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
               <CheckboxField
                 enrollment={enrollment}
-                fieldName={'oralSkill'}
+                fieldName={'textualSkill'}
                 onClick={toggleSkill}
                 disabled={editDisabled}
               />
               <CheckboxField
                 enrollment={enrollment}
-                fieldName={'textualSkill'}
+                fieldName={'oralSkill'}
                 onClick={toggleSkill}
                 disabled={editDisabled}
               />
@@ -302,21 +302,6 @@ export const ClerkEnrollmentDetailsFields = ({
             <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
               <CheckboxField
                 enrollment={enrollment}
-                fieldName={'speakingPartialExam'}
-                onClick={togglePartialExam}
-                disabled={!enrollment.oralSkill || editDisabled}
-              />
-              <CheckboxField
-                enrollment={enrollment}
-                fieldName={'speechComprehensionPartialExam'}
-                onClick={togglePartialExam}
-                disabled={
-                  (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                  editDisabled
-                }
-              />
-              <CheckboxField
-                enrollment={enrollment}
                 fieldName={'writingPartialExam'}
                 onClick={togglePartialExam}
                 disabled={!enrollment.textualSkill || editDisabled}
@@ -328,6 +313,21 @@ export const ClerkEnrollmentDetailsFields = ({
                 disabled={
                   (!enrollment.textualSkill &&
                     !enrollment.understandingSkill) ||
+                  editDisabled
+                }
+              />
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'speakingPartialExam'}
+                onClick={togglePartialExam}
+                disabled={!enrollment.oralSkill || editDisabled}
+              />
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'speechComprehensionPartialExam'}
+                onClick={togglePartialExam}
+                disabled={
+                  (!enrollment.oralSkill && !enrollment.understandingSkill) ||
                   editDisabled
                 }
               />

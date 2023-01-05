@@ -61,6 +61,7 @@ export const ChangeEnrollmentStatusButton = ({
   return (
     <LoadingProgressIndicator isLoading={isLoading}>
       <CustomButton
+        sx={{ padding: 0 }}
         data-testid={`clerk-exam-event-overview__enrollment-list-${enrollment.id}__change-status-button`}
         variant={Variant.Text}
         color={Color.Secondary}
