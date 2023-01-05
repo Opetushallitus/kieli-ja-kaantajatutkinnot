@@ -5,11 +5,10 @@ import { Color } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import {
-  PublicEnrollment,
-  PublicEnrollmentPartialExamSelection,
-} from 'interfaces/publicEnrollment';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const CheckboxField = ({
   enrollment,
@@ -18,8 +17,8 @@ const CheckboxField = ({
   disabled,
 }: {
   enrollment: PublicEnrollment;
-  fieldName: keyof PublicEnrollmentPartialExamSelection;
-  onClick: (fieldName: keyof PublicEnrollmentPartialExamSelection) => void;
+  fieldName: keyof PartialExamsAndSkills;
+  onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
 }) => {
   const { t } = usePublicTranslation({
@@ -59,41 +58,12 @@ export const PartialExamsSelection = ({
 
   useEffect(() => {
     if (setValid) {
-      const isSkillsSelected =
-        enrollment.oralSkill ||
-        enrollment.textualSkill ||
-        enrollment.understandingSkill;
-
-      const isOralExamsSelected = enrollment.oralSkill
-        ? enrollment.speakingPartialExam ||
-          enrollment.speechComprehensionPartialExam
-        : true;
-
-      const isTextualExamsSelected = enrollment.textualSkill
-        ? enrollment.writingPartialExam ||
-          enrollment.readingComprehensionPartialExam
-        : true;
-
-      const isUnderstandingExamsSelected = enrollment.understandingSkill
-        ? enrollment.speechComprehensionPartialExam ||
-          enrollment.readingComprehensionPartialExam
-        : true;
-
-      setValid(
-        isSkillsSelected &&
-          isOralExamsSelected &&
-          isTextualExamsSelected &&
-          isUnderstandingExamsSelected
-      );
+      setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
     }
   }, [setValid, enrollment]);
 
-  const toggleSkill = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
-    const partialExamsToUncheck: Array<
-      keyof PublicEnrollmentPartialExamSelection
-    > = [];
+  const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
+    const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
 
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
@@ -121,9 +91,7 @@ export const PartialExamsSelection = ({
     partialExamsToUncheck.forEach(uncheckPartialExam);
   };
 
-  const togglePartialExam = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
+  const togglePartialExam = (fieldName: keyof PartialExamsAndSkills) => {
     dispatch(
       updatePublicEnrollment({
         [fieldName]: !enrollment[fieldName],
@@ -131,9 +99,7 @@ export const PartialExamsSelection = ({
     );
   };
 
-  const uncheckPartialExam = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
+  const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
     dispatch(
       updatePublicEnrollment({
         [fieldName]: false,
