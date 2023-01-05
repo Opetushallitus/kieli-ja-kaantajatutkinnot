@@ -1,4 +1,9 @@
-import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { StringUtils } from 'shared/utils';
+
+import {
+  CertificateShippingData,
+  PartialExamsAndSkills,
+} from 'interfaces/common/enrollment';
 
 export class EnrollmentUtils {
   static isValidPartialExamsAndSkills(skills: PartialExamsAndSkills) {
@@ -24,5 +29,16 @@ export class EnrollmentUtils {
       isTextualExamsSelected &&
       isUnderstandingExamsSelected
     );
+  }
+
+  static isValidCertificateShipping(shippingData: CertificateShippingData) {
+    const isAddressFieldsFilled = [
+      shippingData.street,
+      shippingData.postalCode,
+      shippingData.town,
+      shippingData.country,
+    ].every(StringUtils.isNonBlankString);
+
+    return shippingData.digitalCertificateConsent || isAddressFieldsFilled;
   }
 }

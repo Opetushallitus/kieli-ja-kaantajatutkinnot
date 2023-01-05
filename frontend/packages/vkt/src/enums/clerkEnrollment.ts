@@ -4,4 +4,8 @@ export enum ClerkEnrollmentTextFieldEnum {
   Email = 'email',
   PhoneNumber = 'phoneNumber',
   PreviousEnrollmentDate = 'previousEnrollmentDate',
+  Street = 'street',
+  PostalCode = 'postalCode',
+  Town = 'town',
+  Country = 'country',
 }

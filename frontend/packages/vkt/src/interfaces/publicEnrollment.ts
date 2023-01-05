@@ -1,6 +1,9 @@
 import { Dayjs } from 'dayjs';
 
-import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import {
+  CertificateShippingData,
+  PartialExamsAndSkills,
+} from 'interfaces/common/enrollment';
 import {
   PublicExamEvent,
   PublicExamEventResponse,
@@ -35,17 +38,9 @@ export interface PublicEnrollmentContactDetails {
   phoneNumber: string;
 }
 
-export interface PublicEnrollmentAddress {
-  street: string;
-  postalCode: string;
-  town: string;
-  country: string;
-}
-
 export interface PublicEnrollment
   extends PublicEnrollmentContactDetails,
     PartialExamsAndSkills,
-    PublicEnrollmentAddress {
-  digitalCertificateConsent: boolean;
+    CertificateShippingData {
   privacyStatementConfirmation: boolean;
 }

@@ -7,23 +7,6 @@
           "description": "Tätä toimintoa ei voi peruuttaa!",
           "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
         },
-        "checkbox": {
-          "digitalCertificateConsent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti",
-          "oralSkill": "Suullinen taito",
-          "readingComprehensionPartialExam": "Tekstin ymmärtäminen",
-          "speakingPartialExam": "Puhuminen",
-          "speechComprehensionPartialExam": "Puheen ymmärtäminen",
-          "textualSkill": "Kirjallinen taito",
-          "understandingSkill": "Ymmärtämisen taito",
-          "writingPartialExam": "Kirjoittaminen"
-        },
-        "fields": {
-          "email": "Sähköposti",
-          "firstName": "Etunimet",
-          "lastName": "Sukunimi",
-          "phoneNumber": "Puhelinnumero",
-          "previousEnrollmentDate": "Päivämäärä"
-        },
         "header": {
           "contactDetails": "Yhteystiedot",
           "digitalCertificateConsent": "Suostumus sähköisestä todistuksesta",
