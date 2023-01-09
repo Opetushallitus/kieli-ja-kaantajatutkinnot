@@ -1,27 +1,8 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
-import fi.oph.vkt.api.dto.PublicReservationDTO;
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.Reservation;
-import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ReservationRepository;
-import fi.oph.vkt.util.ExamEventUtil;
-import fi.oph.vkt.util.exception.APIException;
-import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,93 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PublicReservationService {
 
-  private final ExamEventRepository examEventRepository;
   private final ReservationRepository reservationRepository;
-  private final Environment environment;
-
-  @Transactional
-  public PublicReservationDTO createReservation(final long examEventId, final Person person) {
-    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final List<Enrollment> enrollments = examEvent.getEnrollments();
-
-    final long participants = enrollments
-      .stream()
-      .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
-      .count();
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
-
-    final long openings = hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
-    final long reservations = examEvent.getReservations().stream().filter(Reservation::isActive).count();
-
-    if (ExamEventUtil.isCongested(openings, reservations)) {
-      throw new APIException(APIExceptionType.CREATE_RESERVATION_CONGESTION);
-    }
-    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
-      throw new APIException(APIExceptionType.CREATE_RESERVATION_REGISTRATION_CLOSED);
-    }
-
-    final Reservation reservation = reservationRepository
-      .findByExamEventAndPerson(examEvent, person)
-      .map(this::updateExpiresAtForExistingReservation)
-      .orElseGet(() -> createNewReservation(examEvent, person));
-
-    return createReservationDTO(reservation, examEvent, person, openings);
-  }
-
-  private Reservation updateExpiresAtForExistingReservation(final Reservation reservation) {
-    reservation.setExpiresAt(newExpiresAt());
-    reservationRepository.flush();
-
-    return reservation;
-  }
-
-  private Reservation createNewReservation(final ExamEvent examEvent, final Person person) {
-    final Reservation reservation = new Reservation();
-    reservation.setExamEvent(examEvent);
-    reservation.setPerson(person);
-    reservation.setExpiresAt(newExpiresAt());
-
-    return reservationRepository.saveAndFlush(reservation);
-  }
-
-  private LocalDateTime newExpiresAt() {
-    return LocalDateTime.now().plus(Duration.parse(environment.getRequiredProperty("app.reservation.duration")));
-  }
-
-  private PublicReservationDTO createReservationDTO(
-    final Reservation reservation,
-    final ExamEvent examEvent,
-    final Person person,
-    final long openings
-  ) {
-    final PublicExamEventDTO examEventDTO = PublicExamEventDTO
-      .builder()
-      .id(examEvent.getId())
-      .language(examEvent.getLanguage())
-      .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
-      .openings(openings)
-      .hasCongestion(false)
-      .build();
-
-    final PublicPersonDTO personDTO = PublicPersonDTO
-      .builder()
-      .id(person.getId())
-      .identityNumber(person.getIdentityNumber())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
-      .build();
-
-    final ZonedDateTime expiresAt = ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault());
-
-    return PublicReservationDTO
-      .builder()
-      .id(reservation.getId())
-      .expiresAt(expiresAt)
-      .examEvent(examEventDTO)
-      .person(personDTO)
-      .build();
-  }
 
   @Transactional
   public void deleteReservation(final long reservationId) {
