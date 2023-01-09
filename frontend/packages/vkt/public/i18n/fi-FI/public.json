@@ -47,13 +47,13 @@
           },
           "pay": "Siirry maksamaan"
         },
-        "paymentSum": {
-          "title": "Tutkintomaksu"
-        },
-        "reservationDetails": {
+        "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "paymentSum": {
+          "title": "Tutkintomaksu"
         },
         "stepper": {
           "active": "Aktiivinen",

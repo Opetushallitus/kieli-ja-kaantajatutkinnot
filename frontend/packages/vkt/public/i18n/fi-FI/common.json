@@ -22,11 +22,14 @@
       "edit": "Muokkaa",
       "errors": {
         "api": {
-          "createReservationCongestion": "Tutkintotilaisuus on ruuhkautunut",
-          "createReservationRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto toiseen tilaisuuteen epäonnistui, koska tilaisuuden kieli ei ole sama.",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "initialiseEnrollmentHasCongestion": "Tutkintotilaisuus on ruuhkautunut",
+          "initialiseEnrollmentHasQueue": "Tutkintotilaisuuteen ei ole enää paikkoja",
+          "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
+          "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
+          "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
         "customTextField": {

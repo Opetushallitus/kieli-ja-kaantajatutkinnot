@@ -2,23 +2,19 @@ import { H2, HeaderSeparator, Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
 import { ExamLevel } from 'enums/app';
-import { publicReservationSelector } from 'redux/selectors/publicReservation';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
-export const PublicEnrollmentReservationDetails = () => {
+export const PublicEnrollmentExamEventDetails = ({
+  examEvent,
+}: {
+  examEvent: PublicExamEvent;
+}) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.reservationDetails',
+    keyPrefix: 'vkt.component.publicEnrollment.examEventDetails',
   });
   const translateCommon = useCommonTranslation();
-
-  const { reservation } = useAppSelector(publicReservationSelector);
-  const examEvent = reservation?.examEvent;
-
-  if (!examEvent) {
-    return null;
-  }
 
   return (
     <div className="margin-top-xxl rows">

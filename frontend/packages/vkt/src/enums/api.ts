@@ -1,6 +1,7 @@
 export enum APIEndpoints {
   PublicExamEvent = '/vkt/api/v1/examEvent',
-  PublicReservation = '/vkt/api/v1/examEvent/reservation',
+  PublicEnrollment = '/vkt/api/v1/enrollment',
+  PublicReservation = '/vkt/api/v1/reservation',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
@@ -11,9 +12,12 @@ export enum APIEndpoints {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
-  CreateReservationCongestion = 'createReservationCongestion',
-  CreateReservationRegistrationClosed = 'createReservationRegistrationClosed',
   EnrollmentMoveExamEventLanguageMismatch = 'enrollmentMoveExamEventLanguageMismatch',
   ExamEventDuplicate = 'examEventDuplicate',
+  InitialiseEnrollmentHasCongestion = 'initialiseEnrollmentHasCongestion',
+  InitialiseEnrollmentHasQueue = 'initialiseEnrollmentHasQueue',
+  InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
+  InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
+  InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
   InvalidVersion = 'invalidVersion',
 }

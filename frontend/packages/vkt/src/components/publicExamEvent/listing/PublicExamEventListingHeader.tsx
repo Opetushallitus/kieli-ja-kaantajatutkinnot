@@ -5,9 +5,9 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadReservation } from 'redux/reducers/publicReservation';
+import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
-import { publicReservationSelector } from 'redux/selectors/publicReservation';
 
 export const PublicExamEventListingHeader = () => {
   const { t } = usePublicTranslation({
@@ -16,20 +16,23 @@ export const PublicExamEventListingHeader = () => {
   const { isPhone } = useWindowProperties();
 
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
-  const { status } = useAppSelector(publicReservationSelector);
+  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
 
-  const isReservationCreationInProgress =
-    status === APIResponseStatus.InProgress;
+  const isInitialisationInProgress =
+    reservationDetailsStatus === APIResponseStatus.InProgress;
 
   const enrollButtonDisabled =
     !selectedExamEvent ||
     selectedExamEvent.hasCongestion ||
-    isReservationCreationInProgress;
+    isInitialisationInProgress;
 
   const dispatch = useAppDispatch();
 
-  const startEnrollment = () =>
-    selectedExamEvent && dispatch(loadReservation(selectedExamEvent.id));
+  const initialiseEnrollment = () => {
+    if (selectedExamEvent) {
+      dispatch(initialisePublicEnrollment(selectedExamEvent));
+    }
+  };
 
   return (
     <TableHead>
@@ -49,15 +52,13 @@ export const PublicExamEventListingHeader = () => {
             <H3>{t('header.openings')}</H3>
           </TableCell>
           <TableCell>
-            <LoadingProgressIndicator
-              isLoading={isReservationCreationInProgress}
-            >
+            <LoadingProgressIndicator isLoading={isInitialisationInProgress}>
               <CustomButton
                 data-testid="public-exam-events__enroll-btn"
                 color={Color.Secondary}
                 variant={Variant.Contained}
                 disabled={enrollButtonDisabled}
-                onClick={startEnrollment}
+                onClick={initialiseEnrollment}
               >
                 {t('enroll')}
               </CustomButton>

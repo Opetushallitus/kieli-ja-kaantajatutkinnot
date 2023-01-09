@@ -2,15 +2,15 @@ import { CustomTextField, H3 } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { publicReservationSelector } from 'redux/selectors/publicReservation';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PersonDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });
 
-  const { reservation } = useAppSelector(publicReservationSelector);
-  const person = reservation?.person;
+  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
+  const person = reservationDetails?.person;
 
   if (!person) {
     return null;
