@@ -11,6 +11,7 @@ import {
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
+import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 import {
   changeClerkEnrollmentStatus,
   changingClerkEnrollmentStatusSucceeded,
@@ -95,6 +96,7 @@ function* changeClerkEnrollmentStatusSaga(
     yield put(changingClerkEnrollmentStatusSucceeded());
     yield put(storeClerkExamEventOverview(updatedExamEvent));
     yield put(upsertExamEvents(updatedExamEvent));
+    yield put(storeClerkEnrollmentDetails(updatedEnrollment));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

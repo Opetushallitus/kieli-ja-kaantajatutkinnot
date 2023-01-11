@@ -15,8 +15,8 @@
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko poistua muokkausnäkymästä?"
       },
-      "clerk": "Virkailija",
       "choose": "Valitse",
+      "clerk": "Virkailija",
       "contactEmail": "kielitutkinnot@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
@@ -68,7 +68,6 @@
         "header": "Haluatko varmasti poistua sivulta?"
       },
       "next": "Seuraava",
-      "back": "Takaisin",
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "rowsPerPageLabel": "Tulokset per sivu",
@@ -77,8 +76,7 @@
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
       },
-      "yes": "Kyllä",
-      "save": "Tallenna"
+      "yes": "Kyllä"
     }
   }
 }

@@ -3,12 +3,12 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkEnrollment, ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
-interface ClerkExamEventOverviewState {
+interface ClerkEnrollmentDetailsState {
   status: APIResponseStatus;
   enrollment?: ClerkEnrollment;
 }
 
-const initialState: ClerkExamEventOverviewState = {
+const initialState: ClerkEnrollmentDetailsState = {
   status: APIResponseStatus.NotStarted,
 };
 

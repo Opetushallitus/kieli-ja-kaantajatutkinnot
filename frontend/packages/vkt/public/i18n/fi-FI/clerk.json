@@ -2,6 +2,11 @@
   "vkt": {
     "component": {
       "clerkEnrollmentDetails": {
+        "cancelEnrollment": "Peruuta ilmoittautuminen",
+        "cancelEnrollmentDialog": {
+          "description": "Tätä toimintoa ei voi peruuttaa!",
+          "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
+        },
         "checkbox": {
           "digitalCertificateConsent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti",
           "oralSkill": "Suullinen taito",
@@ -29,6 +34,7 @@
         },
         "title": "Ilmoittautumisen tiedot",
         "toasts": {
+          "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
         }
       },
