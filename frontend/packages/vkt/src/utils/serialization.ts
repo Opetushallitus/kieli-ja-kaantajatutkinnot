@@ -12,13 +12,13 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  PublicReservationDetails,
+  PublicReservationDetailsResponse,
+} from 'interfaces/publicEnrollment';
+import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
-import {
-  PublicReservation,
-  PublicReservationResponse,
-} from 'interfaces/publicReservation';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -31,15 +31,22 @@ export class SerializationUtils {
     };
   }
 
-  static deserializePublicReservation(
-    publicReservation: PublicReservationResponse
-  ): PublicReservation {
+  static deserializePublicReservationDetails(
+    reservationDetails: PublicReservationDetailsResponse
+  ): PublicReservationDetails {
+    const examEvent = SerializationUtils.deserializePublicExamEvent(
+      reservationDetails.examEvent
+    );
+
+    const reservation = reservationDetails.reservation && {
+      ...reservationDetails.reservation,
+      expiresAt: dayjs(reservationDetails.reservation.expiresAt),
+    };
+
     return {
-      ...publicReservation,
-      expiresAt: dayjs(publicReservation.expiresAt),
-      examEvent: SerializationUtils.deserializePublicExamEvent(
-        publicReservation.examEvent
-      ),
+      ...reservationDetails,
+      examEvent,
+      reservation,
     };
   }
 
