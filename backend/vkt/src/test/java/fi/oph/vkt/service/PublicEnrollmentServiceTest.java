@@ -148,7 +148,7 @@ public class PublicEnrollmentServiceTest {
       APIException.class,
       () -> publicEnrollmentService.initialiseEnrollment(examEvent.getId(), person)
     );
-    assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_HAS_QUEUE, ex.getExceptionType());
+    assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_IS_FULL, ex.getExceptionType());
   }
 
   @Test

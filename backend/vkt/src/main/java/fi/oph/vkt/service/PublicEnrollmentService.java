@@ -45,14 +45,11 @@ public class PublicEnrollmentService {
 
     final long participants = getParticipants(enrollments);
     final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
-    final long openings = examEvent.getMaxParticipants() - participants;
+    final long openings = hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
     final long reservations = examEvent.getReservations().stream().filter(Reservation::isActive).count();
 
     if (openings <= 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_IS_FULL);
-    }
-    if (hasQueue) {
-      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_HAS_QUEUE);
     }
     if (ExamEventUtil.isCongested(openings, reservations)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_HAS_CONGESTION);

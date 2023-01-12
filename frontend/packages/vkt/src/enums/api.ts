@@ -15,7 +15,6 @@ export enum APIError {
   EnrollmentMoveExamEventLanguageMismatch = 'enrollmentMoveExamEventLanguageMismatch',
   ExamEventDuplicate = 'examEventDuplicate',
   InitialiseEnrollmentHasCongestion = 'initialiseEnrollmentHasCongestion',
-  InitialiseEnrollmentHasQueue = 'initialiseEnrollmentHasQueue',
   InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
