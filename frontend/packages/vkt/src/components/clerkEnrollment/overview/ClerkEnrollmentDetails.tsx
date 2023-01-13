@@ -91,7 +91,8 @@ export const ClerkEnrollmentDetails = () => {
   const hasRequiredDetails =
     StringUtils.isNonBlankString(enrollmentDetails.email) &&
     StringUtils.isNonBlankString(enrollmentDetails.phoneNumber) &&
-    EnrollmentUtils.isValidPartialExamsAndSkills(enrollmentDetails);
+    EnrollmentUtils.isValidPartialExamsAndSkills(enrollmentDetails) &&
+    EnrollmentUtils.isValidCertificateShipping(enrollmentDetails);
 
   const handleTextFieldChange =
     (field: ClerkEnrollmentTextFieldEnum) =>

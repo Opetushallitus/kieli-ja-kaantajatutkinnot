@@ -7,3 +7,14 @@ export interface PartialExamsAndSkills {
   writingPartialExam: boolean;
   readingComprehensionPartialExam: boolean;
 }
+
+export interface CertificateShippingTextFields {
+  street?: string;
+  postalCode?: string;
+  town?: string;
+  country?: string;
+}
+
+export interface CertificateShippingData extends CertificateShippingTextFields {
+  digitalCertificateConsent: boolean;
+}

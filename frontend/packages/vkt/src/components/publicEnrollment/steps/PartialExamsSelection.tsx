@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { H3 } from 'shared/components';
 import { Color } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
@@ -21,10 +21,7 @@ const CheckboxField = ({
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
 }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix:
-      'vkt.component.publicEnrollment.steps.partialExamsSelection.fields',
-  });
+  const translateCommon = useCommonTranslation();
 
   return (
     <FormControlLabel
@@ -36,7 +33,7 @@ const CheckboxField = ({
           disabled={disabled}
         />
       }
-      label={t(fieldName)}
+      label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
   );
 };
