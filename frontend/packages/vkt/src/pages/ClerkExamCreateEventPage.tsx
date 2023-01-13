@@ -110,7 +110,7 @@ export const ClerkExamCreateEventPage: FC = () => {
               <ClerkExamDate examForm={examDate} />
               <ClerkExamRegistrationCloses examForm={examDate} />
             </div>
-            <div className="columns gapped">
+            <div className="columns gapped flex-stretch">
               <ClerkExamParticipants examForm={examDate} />
               <ClerkExamHideToggle examForm={examDate} />
             </div>
