@@ -30,5 +30,5 @@ function* searchClerkPersonSaga(action: PayloadAction<string>) {
 }
 
 export function* watchClerkPersonSearch() {
-  yield takeLatest(searchClerkPerson, searchClerkPersonSaga);
+  yield takeLatest(searchClerkPerson.type, searchClerkPersonSaga);
 }

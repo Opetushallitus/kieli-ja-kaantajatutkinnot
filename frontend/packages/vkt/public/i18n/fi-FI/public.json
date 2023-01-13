@@ -47,13 +47,13 @@
           },
           "pay": "Siirry maksamaan"
         },
-        "paymentSum": {
-          "title": "Tutkintomaksu"
-        },
-        "reservationDetails": {
+        "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "paymentSum": {
+          "title": "Tutkintomaksu"
         },
         "stepper": {
           "active": "Aktiivinen",
@@ -68,10 +68,6 @@
           }
         },
         "steps": {
-          "certificateShipping": {
-            "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
-            "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti"
-          },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
@@ -80,15 +76,6 @@
             "title": "Yhteystiedot"
           },
           "partialExamsSelection": {
-            "fields": {
-              "oralSkill": "Suullinen taito",
-              "readingComprehensionPartialExam": "Tekstin ymmärtäminen",
-              "speakingPartialExam": "Puhuminen",
-              "speechComprehensionPartialExam": "Puheen ymmärtäminen",
-              "textualSkill": "Kirjallinen taito",
-              "understandingSkill": "Ymmärtämisen taito",
-              "writingPartialExam": "Kirjoittaminen"
-            },
             "partialExamsTitle": "Valitse osakokeet",
             "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
           },

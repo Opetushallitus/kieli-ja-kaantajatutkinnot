@@ -1,4 +1,4 @@
-import { AppRoutes, UIMode } from 'enums/app';
+import { AppRoutes, EnrollmentStatus, UIMode } from 'enums/app';
 import { onClerkExamEventOverviewPage } from 'tests/cypress/support/page-objects/clerkExamEventOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
@@ -140,5 +140,57 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onDialog.expectText('Haluatko varmasti poistua sivulta?');
     onDialog.clickButtonByText('Kyllä');
     cy.isOnPage(AppRoutes.ClerkHomePage);
+  });
+
+  it('should display headings for enrollment status lists', () => {
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.PAID,
+      'Ilmoittautuneet: 6'
+    );
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.EXPECTING_PAYMENT,
+      'Jonosta siirretyt / maksu puuttuu: 1'
+    );
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.QUEUED,
+      'Jonoon ilmoittautuneet: 1'
+    );
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.CANCELED,
+      'Peruutetut: 1'
+    );
+  });
+
+  it('should allow changing status for queued and payment expecting enrollments', () => {
+    onClerkExamEventOverviewPage.expectEnrollmentStatusChangeButtonToHaveText(
+      7,
+      'Siirrä takaisin jonoon'
+    );
+    onClerkExamEventOverviewPage.clickChangeEnrollmentStatusButton(7);
+    onToast.expectText('Siirto onnistui');
+
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderNotToExist(
+      EnrollmentStatus.EXPECTING_PAYMENT
+    );
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.QUEUED,
+      'Jonoon ilmoittautuneet: 2'
+    );
+
+    onClerkExamEventOverviewPage.expectEnrollmentStatusChangeButtonToHaveText(
+      7,
+      'Siirrä tutkintoon'
+    );
+    onClerkExamEventOverviewPage.clickChangeEnrollmentStatusButton(7);
+    onToast.expectText('Siirto onnistui');
+
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.EXPECTING_PAYMENT,
+      'Jonosta siirretyt / maksu puuttuu: 1'
+    );
+    onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
+      EnrollmentStatus.QUEUED,
+      'Jonoon ilmoittautuneet: 1'
+    );
   });
 });

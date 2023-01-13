@@ -4,8 +4,8 @@ import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
+import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
-import { PublicEnrollmentReservationDetails } from 'components/publicEnrollment/PublicEnrollmentReservationDetails';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { useAppSelector } from 'configs/redux';
@@ -16,9 +16,14 @@ export const PublicEnrollmentGrid = () => {
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
 
-  const { status, activeStep, enrollment } = useAppSelector(
+  const { status, activeStep, enrollment, reservationDetails } = useAppSelector(
     publicEnrollmentSelector
   );
+
+  if (!reservationDetails) {
+    return null;
+  }
+
   const isLoading = status === APIResponseStatus.InProgress;
 
   const renderDesktopView = () => (
@@ -28,7 +33,9 @@ export const PublicEnrollmentGrid = () => {
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             <div className="public-enrollment__grid__form-container">
               <PublicEnrollmentStepper activeStep={activeStep} />
-              <PublicEnrollmentReservationDetails />
+              <PublicEnrollmentExamEventDetails
+                examEvent={reservationDetails.examEvent}
+              />
               <PublicEnrollmentStepContents
                 activeStep={activeStep}
                 enrollment={enrollment}
@@ -42,6 +49,7 @@ export const PublicEnrollmentGrid = () => {
               <PublicEnrollmentControlButtons
                 activeStep={activeStep}
                 enrollment={enrollment}
+                reservationDetails={reservationDetails}
                 isLoading={isLoading}
                 disableNext={disableNext}
               />

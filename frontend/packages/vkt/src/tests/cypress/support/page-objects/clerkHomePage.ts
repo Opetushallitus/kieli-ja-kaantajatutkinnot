@@ -16,7 +16,7 @@ class ClerkHomePage {
   }
 
   clickCreateExamEvent() {
-    cy.findByTestId('clerk-exam-events__add-examination-date-btn').click();
+    cy.findByTestId('clerk-exam-events__create-exam-event-btn').click();
   }
 
   clickToggleFilter(toggleFilter: ExamEventToggleFilter) {

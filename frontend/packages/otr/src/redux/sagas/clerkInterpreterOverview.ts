@@ -60,11 +60,11 @@ function* updateClerkInterpreterDetailsSaga(
 
 export function* watchClerkInterpreterOverview() {
   yield takeLatest(
-    loadClerkInterpreterOverview,
+    loadClerkInterpreterOverview.type,
     loadClerkInterpreterOverviewSaga
   );
   yield takeLatest(
-    updateClerkInterpreterDetails,
+    updateClerkInterpreterDetails.type,
     updateClerkInterpreterDetailsSaga
   );
 }

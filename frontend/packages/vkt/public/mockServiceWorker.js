@@ -1,14 +1,14 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable */
 /* tslint:disable */
 
 /**
- * Mock Service Worker (0.47.0).
+ * Mock Service Worker (0.49.1).
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
  */
 
-const INTEGRITY_CHECKSUM = 'b3066ef78c2f9090b4ce87e874965995';
+const INTEGRITY_CHECKSUM = '3d6b9f06410d179a7f7404d4bf4c3c70';
 const activeClientIds = new Set();
 
 self.addEventListener('install', function () {
@@ -122,7 +122,6 @@ self.addEventListener('fetch', function (event) {
           request.method,
           request.url
         );
-
         return;
       }
 
@@ -175,7 +174,7 @@ async function handleRequest(event, requestId) {
 async function resolveMainClient(event) {
   const client = await self.clients.get(event.clientId);
 
-  if (client.frameType === 'top-level') {
+  if (client?.frameType === 'top-level') {
     return client;
   }
 
@@ -300,6 +299,5 @@ function sleep(timeMs) {
 
 async function respondWithMock(response) {
   await sleep(response.delay);
-
   return new Response(response.body, response);
 }

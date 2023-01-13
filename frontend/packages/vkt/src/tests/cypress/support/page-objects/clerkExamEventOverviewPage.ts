@@ -1,4 +1,4 @@
-import { AppRoutes, UIMode } from 'enums/app';
+import { AppRoutes, EnrollmentStatus, UIMode } from 'enums/app';
 
 const enrollmentRowTestId = (id: number) => `enrollments-table__id-${id}-row`;
 
@@ -29,6 +29,14 @@ class ClerkExamEventOverviewPage {
         .should('be.visible')
         .find(`div>${fieldType}`),
     header: () => cy.findByTestId('clerk-exam-event-overview-page__header'),
+    enrollmentListHeader: (status: EnrollmentStatus) =>
+      cy.findByTestId(
+        `clerk-exam-event-overview-page__enrollment-list-${status}__header`
+      ),
+    changeEnrollmentStatusButton: (id: number) =>
+      cy.findByTestId(
+        `clerk-exam-event-overview__enrollment-list-${id}__change-status-button`
+      ),
   };
 
   expectEnrollmentRowToHaveText(id: number, text: string) {
@@ -59,6 +67,10 @@ class ClerkExamEventOverviewPage {
 
   clickSaveExamEventDetailsButton() {
     this.elements.saveExamEventDetailsButton().should('be.visible').click();
+  }
+
+  clickEnrollmentRow(id: number) {
+    this.elements.enrollmentRow(id).should('be.visible').click();
   }
 
   editExamEventDateField(fieldName: string, newValue: string) {
@@ -103,6 +115,22 @@ class ClerkExamEventOverviewPage {
         this.elements.cancelExamEventDetailsButton().should('be.visible');
         break;
     }
+  }
+
+  expectEnrollmentListHeaderNotToExist(status: EnrollmentStatus) {
+    this.elements.enrollmentListHeader(status).should('not.exist');
+  }
+
+  expectEnrollmentListHeaderToHaveText(status: EnrollmentStatus, text: string) {
+    this.elements.enrollmentListHeader(status).should('contain.text', text);
+  }
+
+  expectEnrollmentStatusChangeButtonToHaveText(id: number, text: string) {
+    this.elements.changeEnrollmentStatusButton(id).should('contain.text', text);
+  }
+
+  clickChangeEnrollmentStatusButton(id: number) {
+    this.elements.changeEnrollmentStatusButton(id).should('be.visible').click();
   }
 }
 

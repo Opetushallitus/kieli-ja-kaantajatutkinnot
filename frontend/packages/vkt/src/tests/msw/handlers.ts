@@ -24,24 +24,21 @@ export const handlers = [
       );
     }
   ),
-  rest.post(
-    `${APIEndpoints.PublicExamEvent}/5/reservation`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201),
-        ctx.json({
-          id: 2,
-          expiresAt: Date.now() + 60 * 1000,
-          examEvent: publicExamEvents11[4],
-          person,
-        })
-      );
-    }
-  ),
+  rest.post(`${APIEndpoints.PublicExamEvent}/5/queue`, (req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        id: 2,
+        expiresAt: Date.now() + 60 * 1000,
+        examEvent: publicExamEvents11[4],
+        person,
+      })
+    );
+  }),
   rest.post(
     `${APIEndpoints.PublicExamEvent}/10/reservation`,
     (req, res, ctx) => {
-      const errorCode = 'createReservationCongestion';
+      const errorCode = 'initialiseEnrollmentHasCongestion';
 
       return res(ctx.status(400), ctx.json({ errorCode }));
     }
@@ -49,7 +46,7 @@ export const handlers = [
   rest.post(
     `${APIEndpoints.PublicExamEvent}/11/reservation`,
     (req, res, ctx) => {
-      const errorCode = 'createReservationRegistrationClosed';
+      const errorCode = 'initialiseEnrollmentRegistrationClosed';
 
       return res(ctx.status(400), ctx.json({ errorCode }));
     }
@@ -68,5 +65,22 @@ export const handlers = [
         language: 'SV',
       })
     );
+  }),
+  rest.put(`${APIEndpoints.ClerkEnrollment}/status`, async (req, res, ctx) => {
+    const statusChange = await req.json();
+    const enrollment =
+      statusChange.id && clerkExamEvent.enrollments[statusChange.id - 1];
+
+    if (enrollment) {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          ...enrollment,
+          status: statusChange.newStatus,
+        })
+      );
+    }
+
+    return res(ctx.status(400));
   }),
 ];

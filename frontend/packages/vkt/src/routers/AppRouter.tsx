@@ -8,7 +8,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
-import { ClerkExamCreateEventPage } from 'pages/ClerkExamCreateEventPage';
+import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
 import { PublicHomePage } from 'pages/PublicHomePage';
@@ -42,8 +42,8 @@ export const AppRouter: FC = () => {
                 element={<ClerkExamEventOverviewPage />}
               />
               <Route
-                path={AppRoutes.ClerkExamCreateEventPage}
-                element={<ClerkExamCreateEventPage />}
+                path={AppRoutes.ClerkExamEventCreatePage}
+                element={<ClerkExamEventCreatePage />}
               />
               <Route
                 path={AppRoutes.ClerkEnrollmentOverviewPage}

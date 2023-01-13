@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/dom';
+import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { PublicHomePage } from 'pages/PublicHomePage';
@@ -7,8 +8,9 @@ import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 
 describe('PublicHomePage', () => {
   it('should show number of loaded interpreters in the search button', async () => {
-    render(<PublicHomePage />);
-
+    await act(async () => {
+      render(<PublicHomePage />);
+    });
     const searchBtnEl = await screen.findByRole('button', {
       name: `buttons.search (${publicInterpreters10.length})`,
     });
@@ -27,23 +29,31 @@ describe('PublicHomePage', () => {
     Element.prototype.scrollIntoView = jest.fn();
 
     // Render the component
-    render(<PublicHomePage />);
+    await act(async () => {
+      render(<PublicHomePage />);
+    });
 
     const searchBtnEl = await screen.findByRole('button', {
       name: `buttons.search (${publicInterpreters10.length})`,
     });
-    await userEvent.click(searchBtnEl);
+    await act(async () => {
+      await userEvent.click(searchBtnEl);
+    });
     const interpreterRowEl = screen.getByTestId(
       `public-interpreters__id-${INTERPRETER_ID}-row`
     );
-    await userEvent.click(interpreterRowEl);
+    await act(async () => {
+      await userEvent.click(interpreterRowEl);
+    });
 
     expect(screen.getByText(interpreterEmail)).toBeInTheDocument();
     expect(screen.getByText(interpreterPhoneNumber)).toBeInTheDocument();
   });
 
   it('should filter data based on active filters', async () => {
-    render(<PublicHomePage />);
+    await act(async () => {
+      render(<PublicHomePage />);
+    });
 
     // Check initial number of interpreters
     expect(
@@ -51,33 +61,43 @@ describe('PublicHomePage', () => {
     ).toHaveTextContent('10');
 
     // Select to field
-    await userEvent.click(
-      await screen.findByRole('combobox', {
-        name: 'languagePair.toPlaceholder',
-      })
-    );
-    await userEvent.click(screen.getByRole('option', { name: /DA/ }));
+    await act(async () => {
+      await userEvent.click(
+        await screen.findByRole('combobox', {
+          name: 'languagePair.toPlaceholder',
+        })
+      );
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: /DA/ }));
+    });
     expect(
       await screen.findByTestId('public-interpreter-filters__search-btn')
     ).toHaveTextContent('4');
 
     //Select the region
-    await userEvent.click(
-      screen.getByRole('combobox', {
-        name: 'region.placeholder',
-      })
-    );
-    await userEvent.click(screen.getByRole('option', { name: /05/ }));
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('combobox', {
+          name: 'region.placeholder',
+        })
+      );
+    });
+    await act(async () => {
+      await userEvent.click(screen.getByRole('option', { name: /05/ }));
+    });
     expect(
       await screen.findByTestId('public-interpreter-filters__search-btn')
     ).toHaveTextContent('3');
 
     // Type the name
-    await userEvent.type(
-      screen.getByLabelText('name.placeholder', { selector: 'input' }),
-      'ville',
-      { delay: 300 }
-    );
+    await act(async () => {
+      await userEvent.type(
+        screen.getByLabelText('name.placeholder', { selector: 'input' }),
+        'ville',
+        { delay: 300 }
+      );
+    });
     expect(
       await screen.findByTestId('public-interpreter-filters__search-btn')
     ).toHaveTextContent('2');

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +15,7 @@ public class PublicIdentificationService {
   private final PersonRepository personRepository;
 
   // TODO: identify person with information received from suomi.fi identification service
+  @Transactional
   public Person identify() {
     final Random random = new Random();
     final List<String> identityNumbers = List.of(

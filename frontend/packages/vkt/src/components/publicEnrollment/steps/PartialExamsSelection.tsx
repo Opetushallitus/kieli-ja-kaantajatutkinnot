@@ -3,13 +3,12 @@ import { useEffect } from 'react';
 import { H3 } from 'shared/components';
 import { Color } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import {
-  PublicEnrollment,
-  PublicEnrollmentPartialExamSelection,
-} from 'interfaces/publicEnrollment';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 const CheckboxField = ({
   enrollment,
@@ -18,14 +17,11 @@ const CheckboxField = ({
   disabled,
 }: {
   enrollment: PublicEnrollment;
-  fieldName: keyof PublicEnrollmentPartialExamSelection;
-  onClick: (fieldName: keyof PublicEnrollmentPartialExamSelection) => void;
+  fieldName: keyof PartialExamsAndSkills;
+  onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
 }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix:
-      'vkt.component.publicEnrollment.steps.partialExamsSelection.fields',
-  });
+  const translateCommon = useCommonTranslation();
 
   return (
     <FormControlLabel
@@ -37,7 +33,7 @@ const CheckboxField = ({
           disabled={disabled}
         />
       }
-      label={t(fieldName)}
+      label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
   );
 };
@@ -59,41 +55,12 @@ export const PartialExamsSelection = ({
 
   useEffect(() => {
     if (setValid) {
-      const isSkillsSelected =
-        enrollment.oralSkill ||
-        enrollment.textualSkill ||
-        enrollment.understandingSkill;
-
-      const isOralExamsSelected = enrollment.oralSkill
-        ? enrollment.speakingPartialExam ||
-          enrollment.speechComprehensionPartialExam
-        : true;
-
-      const isTextualExamsSelected = enrollment.textualSkill
-        ? enrollment.writingPartialExam ||
-          enrollment.readingComprehensionPartialExam
-        : true;
-
-      const isUnderstandingExamsSelected = enrollment.understandingSkill
-        ? enrollment.speechComprehensionPartialExam ||
-          enrollment.readingComprehensionPartialExam
-        : true;
-
-      setValid(
-        isSkillsSelected &&
-          isOralExamsSelected &&
-          isTextualExamsSelected &&
-          isUnderstandingExamsSelected
-      );
+      setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
     }
   }, [setValid, enrollment]);
 
-  const toggleSkill = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
-    const partialExamsToUncheck: Array<
-      keyof PublicEnrollmentPartialExamSelection
-    > = [];
+  const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
+    const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
 
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
@@ -121,9 +88,7 @@ export const PartialExamsSelection = ({
     partialExamsToUncheck.forEach(uncheckPartialExam);
   };
 
-  const togglePartialExam = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
+  const togglePartialExam = (fieldName: keyof PartialExamsAndSkills) => {
     dispatch(
       updatePublicEnrollment({
         [fieldName]: !enrollment[fieldName],
@@ -131,9 +96,7 @@ export const PartialExamsSelection = ({
     );
   };
 
-  const uncheckPartialExam = (
-    fieldName: keyof PublicEnrollmentPartialExamSelection
-  ) => {
+  const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
     dispatch(
       updatePublicEnrollment({
         [fieldName]: false,
@@ -148,13 +111,13 @@ export const PartialExamsSelection = ({
         <div className="public-enrollment__grid__partial-exam-selection rows">
           <CheckboxField
             enrollment={enrollment}
-            fieldName={'oralSkill'}
+            fieldName={'textualSkill'}
             onClick={toggleSkill}
             disabled={editingDisabled}
           />
           <CheckboxField
             enrollment={enrollment}
-            fieldName={'textualSkill'}
+            fieldName={'oralSkill'}
             onClick={toggleSkill}
             disabled={editingDisabled}
           />
@@ -172,21 +135,6 @@ export const PartialExamsSelection = ({
           <div className="grid-columns">
             <CheckboxField
               enrollment={enrollment}
-              fieldName={'speakingPartialExam'}
-              onClick={togglePartialExam}
-              disabled={!enrollment.oralSkill || editingDisabled}
-            />
-            <CheckboxField
-              enrollment={enrollment}
-              fieldName={'speechComprehensionPartialExam'}
-              onClick={togglePartialExam}
-              disabled={
-                (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                editingDisabled
-              }
-            />
-            <CheckboxField
-              enrollment={enrollment}
               fieldName={'writingPartialExam'}
               onClick={togglePartialExam}
               disabled={!enrollment.textualSkill || editingDisabled}
@@ -197,6 +145,21 @@ export const PartialExamsSelection = ({
               onClick={togglePartialExam}
               disabled={
                 (!enrollment.textualSkill && !enrollment.understandingSkill) ||
+                editingDisabled
+              }
+            />
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'speakingPartialExam'}
+              onClick={togglePartialExam}
+              disabled={!enrollment.oralSkill || editingDisabled}
+            />
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'speechComprehensionPartialExam'}
+              onClick={togglePartialExam}
+              disabled={
+                (!enrollment.oralSkill && !enrollment.understandingSkill) ||
                 editingDisabled
               }
             />

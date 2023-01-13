@@ -2,15 +2,14 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils, StringUtils } from 'shared/utils';
+import { InputFieldUtils } from 'shared/utils';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import {
-  PublicEnrollment,
-  PublicEnrollmentAddress,
-} from 'interfaces/publicEnrollment';
+import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 export const CertificateShipping = ({
   enrollment,
@@ -21,9 +20,6 @@ export const CertificateShipping = ({
   editingDisabled: boolean;
   setValid?: (isValid: boolean) => void;
 }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.certificateShipping',
-  });
   const translateCommon = useCommonTranslation();
 
   const [fieldErrors, setFieldErrors] = useState({
@@ -37,29 +33,12 @@ export const CertificateShipping = ({
 
   useEffect(() => {
     if (setValid) {
-      const hasFieldErrors = !!(
-        fieldErrors.street ||
-        fieldErrors.postalCode ||
-        fieldErrors.town ||
-        fieldErrors.country
-      );
-
-      const hasBlankFieldValues = [
-        enrollment.street,
-        enrollment.postalCode,
-        enrollment.town,
-        enrollment.country,
-      ].some(StringUtils.isBlankString);
-
-      setValid(
-        enrollment.digitalCertificateConsent ||
-          (!hasFieldErrors && !hasBlankFieldValues)
-      );
+      setValid(EnrollmentUtils.isValidCertificateShipping(enrollment));
     }
   }, [fieldErrors, setValid, enrollment]);
 
   const handleChange =
-    (fieldName: keyof PublicEnrollmentAddress) =>
+    (fieldName: keyof CertificateShippingTextFields) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (fieldErrors[fieldName]) {
         handleErrors(fieldName)(event);
@@ -73,7 +52,7 @@ export const CertificateShipping = ({
     };
 
   const handleErrors =
-    (fieldName: keyof PublicEnrollmentAddress) =>
+    (fieldName: keyof CertificateShippingTextFields) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { type, value, required } = event.target;
 
@@ -92,17 +71,17 @@ export const CertificateShipping = ({
     };
 
   const showCustomTextFieldError = (
-    fieldName: keyof PublicEnrollmentAddress
+    fieldName: keyof CertificateShippingTextFields
   ) => {
     return fieldErrors[fieldName].length > 0;
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof PublicEnrollmentAddress
+    fieldName: keyof CertificateShippingTextFields
   ) => ({
     id: `public-enrollment__certificate-shipping__${fieldName}-field`,
     type: TextFieldTypes.Text,
-    label: translateCommon(`address.${fieldName}`),
+    label: translateCommon(`enrollment.textFields.${fieldName}`),
     onBlur: handleErrors(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
@@ -131,11 +110,13 @@ export const CertificateShipping = ({
             disabled={editingDisabled}
           />
         }
-        label={t('consent')}
+        label={translateCommon('enrollment.certificateShipping.consent')}
       />
       {!enrollment.digitalCertificateConsent && (
         <>
-          <H3>{t('addressTitle')}</H3>
+          <H3>
+            {translateCommon('enrollment.certificateShipping.addressTitle')}
+          </H3>
           <div className="grid-columns gapped">
             <CustomTextField
               {...getCustomTextFieldAttributes('street')}

@@ -1,4 +1,4 @@
-class ClerkCreateEventPage {
+class ClerkExamEventCreatePage {
   elements = {
     languageLevelInput: () =>
       cy.findByTestId('clerk-exam__event-information__lang-and-level'),
@@ -56,4 +56,4 @@ class ClerkCreateEventPage {
   }
 }
 
-export const onClerkCreateEventPage = new ClerkCreateEventPage();
+export const onClerkExamEventCreatePage = new ClerkExamEventCreatePage();

@@ -4,13 +4,15 @@ import { CustomTextField, H2, H3, InfoText } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
-import { translateOutsideComponent, useClerkTranslation } from 'configs/i18n';
+import {
+  translateOutsideComponent,
+  useClerkTranslation,
+  useCommonTranslation,
+} from 'configs/i18n';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
-import {
-  ClerkEnrollment,
-  PartialExamsAndSkills,
-} from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 
 const CheckboxField = ({
   enrollment,
@@ -23,21 +25,20 @@ const CheckboxField = ({
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
 }) => {
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails.checkbox',
-  });
+  const translateCommon = useCommonTranslation();
 
   return (
     <FormControlLabel
       control={
         <Checkbox
+          data-testid={`clerk-enrollment__details-fields__${fieldName}`}
           onClick={() => onClick(fieldName)}
           color={Color.Secondary}
           checked={enrollment[fieldName]}
           disabled={disabled}
         />
       }
-      label={t(fieldName)}
+      label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
   );
 };
@@ -97,13 +98,10 @@ const ClerkEnrollmentDetailsTextField = ({
   onChange,
   ...rest
 }: ClerkEnrollmentTextFieldProps) => {
-  // I18n
-  const { t } = useClerkTranslation({
-    keyPrefix: 'vkt.component.clerkEnrollmentDetails.fields',
-  });
+  const translateCommon = useCommonTranslation();
+
   const required =
-    field == ClerkEnrollmentTextFieldEnum.Email ||
-    field == ClerkEnrollmentTextFieldEnum.PhoneNumber;
+    field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollmentDate;
   const fieldError = getFieldError(enrollment, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
@@ -112,8 +110,9 @@ const ClerkEnrollmentDetailsTextField = ({
 
   return (
     <CustomTextField
+      data-testid={`clerk-enrollment__details-fields__${field}`}
       value={getTextValue(enrollment, field)}
-      label={t(field)}
+      label={translateCommon(`enrollment.textFields.${field}`)}
       onChange={onChange}
       type={getTextFieldType(field)}
       FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
@@ -151,6 +150,8 @@ export const ClerkEnrollmentDetailsFields = ({
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const translateCommon = useCommonTranslation();
+
   const initialFieldErrors = Object.values(ClerkEnrollmentDetailsFields).reduce(
     (acc, val) => {
       return { ...acc, [val]: showFieldErrorBeforeChange };
@@ -179,7 +180,6 @@ export const ClerkEnrollmentDetailsFields = ({
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
-      'data-testid': `clerk-enrollment__basic-information__${field}`,
     };
   };
 
@@ -273,21 +273,21 @@ export const ClerkEnrollmentDetailsFields = ({
             true
           )}
         />
-        <div className="columns align-items-start gapped">
+        <div className="columns align-items-start clerk-enrollment-details-fields__skills">
           <div className="rows gapped-xs">
             <div className="margin-top-sm columns gapped">
               <H3>{t('header.selectedSkills')}</H3>
             </div>
-            <div className="rows">
+            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
               <CheckboxField
                 enrollment={enrollment}
-                fieldName={'oralSkill'}
+                fieldName={'textualSkill'}
                 onClick={toggleSkill}
                 disabled={editDisabled}
               />
               <CheckboxField
                 enrollment={enrollment}
-                fieldName={'textualSkill'}
+                fieldName={'oralSkill'}
                 onClick={toggleSkill}
                 disabled={editDisabled}
               />
@@ -299,49 +299,50 @@ export const ClerkEnrollmentDetailsFields = ({
               />
             </div>
           </div>
-          <div className="rows gapped-xs">
-            <div className="margin-top-sm columns gapped">
-              <H3>{t('header.selectedPartialExams')}</H3>
+          <div className="rows gapped-xs margin-top-sm">
+            <H3>{t('header.selectedPartialExams')}</H3>
+            <div className="rows clerk-enrollment-details-fields__skills__checkboxes">
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'writingPartialExam'}
+                onClick={togglePartialExam}
+                disabled={!enrollment.textualSkill || editDisabled}
+              />
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'readingComprehensionPartialExam'}
+                onClick={togglePartialExam}
+                disabled={
+                  (!enrollment.textualSkill &&
+                    !enrollment.understandingSkill) ||
+                  editDisabled
+                }
+              />
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'speakingPartialExam'}
+                onClick={togglePartialExam}
+                disabled={!enrollment.oralSkill || editDisabled}
+              />
+              <CheckboxField
+                enrollment={enrollment}
+                fieldName={'speechComprehensionPartialExam'}
+                onClick={togglePartialExam}
+                disabled={
+                  (!enrollment.oralSkill && !enrollment.understandingSkill) ||
+                  editDisabled
+                }
+              />
             </div>
-            <CheckboxField
-              enrollment={enrollment}
-              fieldName={'speakingPartialExam'}
-              onClick={togglePartialExam}
-              disabled={!enrollment.oralSkill || editDisabled}
-            />
-            <CheckboxField
-              enrollment={enrollment}
-              fieldName={'speechComprehensionPartialExam'}
-              onClick={togglePartialExam}
-              disabled={
-                (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                editDisabled
-              }
-            />
-            <CheckboxField
-              enrollment={enrollment}
-              fieldName={'writingPartialExam'}
-              onClick={togglePartialExam}
-              disabled={!enrollment.textualSkill || editDisabled}
-            />
-            <CheckboxField
-              enrollment={enrollment}
-              fieldName={'readingComprehensionPartialExam'}
-              onClick={togglePartialExam}
-              disabled={
-                (!enrollment.textualSkill && !enrollment.understandingSkill) ||
-                editDisabled
-              }
-            />
           </div>
         </div>
-        <div className="margin-top-lg columns gapped">
+        <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>
-        </div>
-        <div className="columns">
           <FormControlLabel
+            className="clerk-enrollment-details-fields__certificate-shipping__consent"
             control={
               <Checkbox
+                data-testid="clerk-enrollment__details-fields__digitalCertificateConsent"
                 onClick={() =>
                   onCheckboxFieldChange(
                     'digitalCertificateConsent',
@@ -353,9 +354,42 @@ export const ClerkEnrollmentDetailsFields = ({
                 disabled={editDisabled}
               />
             }
-            label={t('checkbox.digitalCertificateConsent')}
+            label={translateCommon('enrollment.certificateShipping.consent')}
           />
         </div>
+        {!enrollment.digitalCertificateConsent && (
+          <div className="rows gapped margin-top-sm">
+            <H3>
+              {translateCommon('enrollment.certificateShipping.addressTitle')}
+            </H3>
+            <div className="grid-columns gapped">
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Street,
+                  editDisabled
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.PostalCode,
+                  editDisabled
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Town,
+                  editDisabled
+                )}
+              />
+              <ClerkEnrollmentDetailsTextField
+                {...getCommonTextFieldProps(
+                  ClerkEnrollmentTextFieldEnum.Country,
+                  editDisabled
+                )}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -88,7 +88,7 @@ function* updateQualificationSaga(action: PayloadAction<Qualification>) {
 }
 
 export function* watchQualificationUpdates() {
-  yield takeLatest(addQualification, addQualificationSaga);
-  yield takeLatest(removeQualification, removeQualificationSaga);
-  yield takeLatest(updateQualification, updateQualificationSaga);
+  yield takeLatest(addQualification.type, addQualificationSaga);
+  yield takeLatest(removeQualification.type, removeQualificationSaga);
+  yield takeLatest(updateQualification.type, updateQualificationSaga);
 }

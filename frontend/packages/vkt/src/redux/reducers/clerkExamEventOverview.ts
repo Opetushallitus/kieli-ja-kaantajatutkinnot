@@ -1,17 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
+import {
+  ClerkEnrollmentStatusChange,
+  ClerkExamEvent,
+} from 'interfaces/clerkExamEvent';
 
 interface ClerkExamEventOverviewState {
   overviewStatus: APIResponseStatus;
   examEventDetailsStatus: APIResponseStatus;
+  clerkEnrollmentChangeStatus: APIResponseStatus;
   examEvent?: ClerkExamEvent;
 }
 
 const initialState: ClerkExamEventOverviewState = {
   overviewStatus: APIResponseStatus.NotStarted,
   examEventDetailsStatus: APIResponseStatus.NotStarted,
+  clerkEnrollmentChangeStatus: APIResponseStatus.NotStarted,
   examEvent: undefined,
 };
 
@@ -51,6 +56,25 @@ const clerkExamEventOverviewSlice = createSlice({
     resetClerkExamEventDetailsUpdate(state) {
       state.examEventDetailsStatus = initialState.examEventDetailsStatus;
     },
+    changeClerkEnrollmentStatus(
+      state,
+      _action: PayloadAction<{
+        statusChange: ClerkEnrollmentStatusChange;
+        examEvent: ClerkExamEvent;
+      }>
+    ) {
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.InProgress;
+    },
+    changingClerkEnrollmentStatusSucceeded(state) {
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.Success;
+    },
+    rejectClerkEnrollmentStatusChange(state) {
+      state.clerkEnrollmentChangeStatus = APIResponseStatus.Error;
+    },
+    resetClerkEnrollmentStatusChange(state) {
+      state.clerkEnrollmentChangeStatus =
+        initialState.clerkEnrollmentChangeStatus;
+    },
   },
 });
 
@@ -65,4 +89,8 @@ export const {
   updatingClerkExamEventDetailsSucceeded,
   rejectClerkExamEventDetailsUpdate,
   resetClerkExamEventDetailsUpdate,
+  changeClerkEnrollmentStatus,
+  changingClerkEnrollmentStatusSucceeded,
+  rejectClerkEnrollmentStatusChange,
+  resetClerkEnrollmentStatusChange,
 } = clerkExamEventOverviewSlice.actions;

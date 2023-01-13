@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router';
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
+import { ChangeEnrollmentStatusButton } from 'components/clerkEnrollment/listing/ChangeEnrollmentStatusButton';
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 
 const examCodes = {
+  writingPartialExam: 'KI',
   readingComprehensionPartialExam: 'TY',
   speakingPartialExam: 'PU',
   speechComprehensionPartialExam: 'PY',
-  writingPartialExam: 'KI',
 };
 
 function pick<T extends object, K extends keyof T>(object: T, keys: Array<K>) {
@@ -42,10 +43,10 @@ export const ClerkEnrollmentListingRow = ({
 
   const getSelectedPartialExamsText = () => {
     const partialExams = pick(enrollment, [
-      'speakingPartialExam',
-      'speechComprehensionPartialExam',
       'writingPartialExam',
       'readingComprehensionPartialExam',
+      'speakingPartialExam',
+      'speechComprehensionPartialExam',
     ]);
 
     if (Object.values(partialExams).some((value) => !value)) {
@@ -58,19 +59,21 @@ export const ClerkEnrollmentListingRow = ({
     return t('fullExam');
   };
 
+  const onClick = () => {
+    dispatch(storeClerkEnrollmentDetails(enrollment));
+    navigate(
+      AppRoutes.ClerkEnrollmentOverviewPage.replace(
+        /:examEventId/,
+        `${examEventId}`
+      )
+    );
+  };
+
   return (
     <>
       <TableRow
-        onClick={() => {
-          dispatch(storeClerkEnrollmentDetails(enrollment));
-          navigate(
-            AppRoutes.ClerkEnrollmentOverviewPage.replace(
-              /:examEventId/,
-              `${examEventId}`
-            )
-          );
-        }}
         data-testid={`enrollments-table__id-${enrollment.id}-row`}
+        onClick={onClick}
       >
         <TableCell>
           <Text>{enrollment.person.lastName}</Text>
@@ -86,7 +89,14 @@ export const ClerkEnrollmentListingRow = ({
             {DateUtils.formatOptionalDateTime(enrollment.enrollmentTime)}
           </Text>
         </TableCell>
-        <TableCell />
+        <TableCell sx={{ width: '20%' }} align="right">
+          {[
+            EnrollmentStatus.EXPECTING_PAYMENT,
+            EnrollmentStatus.QUEUED,
+          ].includes(enrollment.status) && (
+            <ChangeEnrollmentStatusButton enrollment={enrollment} />
+          )}
+        </TableCell>
       </TableRow>
     </>
   );

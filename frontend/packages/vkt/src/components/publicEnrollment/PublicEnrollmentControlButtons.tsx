@@ -7,9 +7,12 @@ import { Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import {
+  PublicEnrollment,
+  PublicReservationDetails,
+} from 'interfaces/publicEnrollment';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
@@ -17,16 +20,17 @@ import {
   increaseActiveStep,
   loadPublicEnrollmentSave,
 } from 'redux/reducers/publicEnrollment';
-import { publicReservationSelector } from 'redux/selectors/publicReservation';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
   enrollment,
+  reservationDetails,
   isLoading,
   disableNext,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
+  reservationDetails: PublicReservationDetails;
   isLoading: boolean;
   disableNext: boolean;
 }) => {
@@ -35,15 +39,19 @@ export const PublicEnrollmentControlButtons = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const { reservation } = useAppSelector(publicReservationSelector);
   const dispatch = useAppDispatch();
 
   const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
-    if (activeStep === PublicEnrollmentFormStep.Identify || !reservation) {
+    if (activeStep === PublicEnrollmentFormStep.Identify) {
       dispatch(cancelPublicEnrollment());
     } else {
+      const reservationId = reservationDetails.reservation?.id;
+      const confirmAction = reservationId
+        ? cancelPublicEnrollmentAndRemoveReservation(reservationId)
+        : cancelPublicEnrollment();
+
       showDialog({
         title: t('cancelDialog.title'),
         severity: Severity.Info,
@@ -56,10 +64,7 @@ export const PublicEnrollmentControlButtons = ({
           {
             title: translateCommon('yes'),
             variant: Variant.Contained,
-            action: () =>
-              dispatch(
-                cancelPublicEnrollmentAndRemoveReservation(reservation.id)
-              ),
+            action: () => dispatch(confirmAction),
           },
         ],
       });
@@ -75,14 +80,12 @@ export const PublicEnrollmentControlButtons = ({
   };
 
   const handleSubmitBtnClick = () => {
-    if (reservation) {
-      dispatch(
-        loadPublicEnrollmentSave({
-          ...enrollment,
-          reservationId: reservation.id,
-        })
-      );
-    }
+    dispatch(
+      loadPublicEnrollmentSave({
+        enrollment,
+        reservationDetails,
+      })
+    );
   };
 
   const CancelButton = () => (
