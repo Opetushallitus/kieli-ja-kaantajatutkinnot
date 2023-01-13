@@ -133,7 +133,7 @@ export const QualificationDetails = () => {
   const handleRemoveQualification = (qualification: Qualification) => {
     showDialog({
       title: t('actions.removal.dialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('actions.removal.dialog.description'),
       actions: [
         {

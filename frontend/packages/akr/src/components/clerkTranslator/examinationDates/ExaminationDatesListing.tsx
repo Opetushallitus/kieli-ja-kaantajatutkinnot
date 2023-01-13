@@ -46,7 +46,7 @@ const ListingRow = ({
   const dispatchConfirmRemoveNotifier = () => {
     showDialog({
       title: t('dialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('dialog.description'),
       actions: [
         {
@@ -71,7 +71,7 @@ const ListingRow = ({
       </TableCell>
       <TableCell align="right">
         <CustomIconButton
-          data-testid="examination-dates-page__add-button"
+          data-testid="examination-dates-page__delete-button"
           onClick={dispatchConfirmRemoveNotifier}
           aria-label={`${t('ariaLabel')} ${formattedDate}`}
         >
