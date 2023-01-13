@@ -139,7 +139,7 @@ export const PublicEnrollmentControlButtons = ({
       endIcon={<ArrowForwardIcon />}
       disabled={disableNext || isLoading}
     >
-      {t('pay')}
+      {reservationDetails.reservation ? t('pay') : t('sendForm')}
     </CustomButton>
   );
 
