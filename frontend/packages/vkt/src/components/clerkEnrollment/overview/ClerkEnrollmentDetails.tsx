@@ -69,9 +69,14 @@ export const ClerkEnrollmentDetails = () => {
       (status === APIResponseStatus.Success && currentUIMode === UIMode.Edit) ||
       clerkEnrollmentChangeStatus === APIResponseStatus.Success
     ) {
+      const description =
+        clerkEnrollmentChangeStatus === APIResponseStatus.Success
+          ? t('toasts.enrollmentCanceled')
+          : t('toasts.updated');
+
       showToast({
         severity: Severity.Success,
-        description: t('toasts.enrollmentCanceled'),
+        description,
       });
       resetToInitialState();
     }

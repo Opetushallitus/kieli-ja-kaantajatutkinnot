@@ -31,6 +31,7 @@ const CheckboxField = ({
     <FormControlLabel
       control={
         <Checkbox
+          data-testid={`clerk-enrollment__details-fields__${fieldName}`}
           onClick={() => onClick(fieldName)}
           color={Color.Secondary}
           checked={enrollment[fieldName]}
@@ -109,6 +110,7 @@ const ClerkEnrollmentDetailsTextField = ({
 
   return (
     <CustomTextField
+      data-testid={`clerk-enrollment__details-fields__${field}`}
       value={getTextValue(enrollment, field)}
       label={translateCommon(`enrollment.textFields.${field}`)}
       onChange={onChange}
@@ -178,7 +180,6 @@ export const ClerkEnrollmentDetailsFields = ({
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
-      'data-testid': `clerk-enrollment__basic-information__${field}`,
     };
   };
 
@@ -341,6 +342,7 @@ export const ClerkEnrollmentDetailsFields = ({
             className="clerk-enrollment-details-fields__certificate-shipping__consent"
             control={
               <Checkbox
+                data-testid="clerk-enrollment__details-fields__digitalCertificateConsent"
                 onClick={() =>
                   onCheckboxFieldChange(
                     'digitalCertificateConsent',
