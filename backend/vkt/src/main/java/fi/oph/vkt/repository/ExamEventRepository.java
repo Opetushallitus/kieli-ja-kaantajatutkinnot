@@ -4,12 +4,11 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.type.ExamLevel;
 import java.util.List;
 import java.util.Set;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ExamEventRepository extends JpaRepository<ExamEvent, Long> {
+public interface ExamEventRepository extends BaseRepository<ExamEvent> {
   @Query(
     "SELECT new fi.oph.vkt.repository.PublicExamEventProjection(e.id, e.language, e.date, e.registrationCloses," +
     " COUNT(en), e.maxParticipants)" +
