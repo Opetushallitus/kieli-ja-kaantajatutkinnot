@@ -58,7 +58,7 @@ export const QualificationListing = ({
   const onPublishPermissionChange = (qualification: Qualification) => {
     showDialog({
       title: t('actions.changePermissionToPublish.dialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('actions.changePermissionToPublish.dialog.description'),
       actions: [
         {
