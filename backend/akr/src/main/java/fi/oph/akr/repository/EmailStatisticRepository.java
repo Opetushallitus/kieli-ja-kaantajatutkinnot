@@ -5,12 +5,11 @@ import fi.oph.akr.model.EmailStatistic;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.tuple.Triple;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmailStatisticRepository extends JpaRepository<EmailStatistic, Long> {
+public interface EmailStatisticRepository extends BaseRepository<EmailStatistic> {
   @Query("SELECT new org.apache.commons.lang3.tuple.ImmutableTriple(c.year, c.month, c.day) FROM EmailStatistic c")
   Set<Triple<Integer, Integer, Integer>> listExistingStatisticDates();
 

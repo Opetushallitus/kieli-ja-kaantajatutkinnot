@@ -71,7 +71,7 @@ public class MeetingDateService {
     if (!meetingDate.getAuthorisations().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_DELETE_HAS_AUTHORISATIONS);
     }
-    meetingDateRepository.deleteAllByIdInBatch(List.of(meetingDateId));
+    meetingDateRepository.deleteById(meetingDateId);
 
     auditService.logById(AkrOperation.DELETE_MEETING_DATE, meetingDateId);
   }
