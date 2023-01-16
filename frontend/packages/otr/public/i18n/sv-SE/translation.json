@@ -267,11 +267,17 @@
       "api": {
         "generic": "Funktionen misslyckades, försök på nytt senare",
         "interpreterInvalidNickName": null,
+        "interpreterOnrIdAndIndividualisedMismatch": null,
+        "interpreterRegionUnknown": null,
         "invalidVersion": "Funktionen misslyckades därför att du försökte att ändra förlegad data. Uppdatera sidan och försöka vid behov igen.",
         "meetingDateCreateDuplicateDate": "Det gick inte lägga till mötesdagen eftersom det valda datumet redan är ett mötesdatum",
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
-        "meetingDateUpdateHasQualifications": null
+        "meetingDateUpdateHasQualifications": null,
+        "qualificationDeleteLastQualification": null,
+        "qualificationInvalidTerm": null,
+        "qualificationLanguageUnknown": null,
+        "qualificationMissingMeetingDate": null
       },
       "customTextField": {
         "emailFormat": "E-postadressen är felaktig",

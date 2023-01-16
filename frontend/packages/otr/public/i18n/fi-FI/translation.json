@@ -267,11 +267,17 @@
       "api": {
         "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
         "interpreterInvalidNickName": "Kutsumanimen tulee olla jokin etunimistä",
+        "interpreterOnrIdAndIndividualisedMismatch": "Oppijanumero ja tietojen VTJ-yksilöinti ovat ristiriidassa keskenään",
+        "interpreterRegionUnknown": "Toiminto epäonnistui, tarkista maakunnat",
         "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
         "meetingDateCreateDuplicateDate": "Kokouspäivän lisäys epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateDeleteHasQualifications": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu rekisteröintejä",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
-        "meetingDateUpdateHasQualifications": "Kokouspäivän muokkaus epäonnistui, koska sille on kirjattu rekisteröintejä"
+        "meetingDateUpdateHasQualifications": "Kokouspäivän muokkaus epäonnistui, koska sille on kirjattu rekisteröintejä",
+        "qualificationDeleteLastQualification": "Rekisteröinnin poisto epäonnistui, koska tulkin viimeistä rekisteröintiä ei voi poistaa",
+        "qualificationInvalidTerm": "Toiminto epäonnistui, rekisteröinnillä virheellinen voimassaoloaika",
+        "qualificationLanguageUnknown": "Toiminto epäonnistui, rekisteröinnillä tuntematon kieli",
+        "qualificationMissingMeetingDate": "Rekisteröinnin lisäys/muokkaus epäonnistui, koska valitulla päivämäärällä ei ole kokouspäivää"
       },
       "customTextField": {
         "emailFormat": "Sähköpostiosoite on virheellinen",
