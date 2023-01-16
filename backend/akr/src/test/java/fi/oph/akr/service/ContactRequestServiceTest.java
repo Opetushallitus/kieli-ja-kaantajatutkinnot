@@ -25,6 +25,7 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.email.EmailData;
 import fi.oph.akr.service.email.EmailService;
+import fi.oph.akr.service.koodisto.LanguageService;
 import fi.oph.akr.util.TemplateRenderer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -87,6 +88,10 @@ class ContactRequestServiceTest {
 
   @BeforeEach
   public void setup() {
+    final LanguageService languageService = new LanguageService();
+    languageService.init();
+    final LanguagePairService languagePairService = new LanguagePairService(languageService);
+
     when(templateRenderer.renderContactRequestTranslatorEmailBody(any())).thenReturn("<html>translator</html>");
     when(templateRenderer.renderContactRequestRequesterEmailBody(any())).thenReturn("<html>requester</html>");
     when(templateRenderer.renderContactRequestClerkEmailBody(any())).thenReturn("<html>clerk</html>");
@@ -98,6 +103,7 @@ class ContactRequestServiceTest {
         contactRequestTranslatorRepository,
         emailRepository,
         emailService,
+        languagePairService,
         templateRenderer,
         translatorRepository,
         environment

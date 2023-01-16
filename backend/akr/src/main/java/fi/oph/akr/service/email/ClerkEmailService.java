@@ -12,7 +12,7 @@ import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
-import fi.oph.akr.service.koodisto.LanguageService;
+import fi.oph.akr.service.LanguagePairService;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDate;
@@ -20,7 +20,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,28 +30,13 @@ public class ClerkEmailService {
 
   private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-  @Resource
   private final AuthorisationRepository authorisationRepository;
-
-  @Resource
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
-
-  @Resource
   private final EmailRepository emailRepository;
-
-  @Resource
   private final EmailService emailService;
-
-  @Resource
-  private final LanguageService languageService;
-
-  @Resource
+  private final LanguagePairService languagePairService;
   private final MeetingDateRepository meetingDateRepository;
-
-  @Resource
   private final TemplateRenderer templateRenderer;
-
-  @Resource
   private final TranslatorRepository translatorRepository;
 
   @Transactional
@@ -147,15 +131,8 @@ public class ClerkEmailService {
     final String toLangCode,
     final LocalDate expiryDate
   ) {
-    final String langPairFI =
-      languageService.getLocalisationValue(fromLangCode, Language.FI).orElse(fromLangCode) +
-      " - " +
-      languageService.getLocalisationValue(toLangCode, Language.FI).orElse(toLangCode);
-
-    final String langPairSV =
-      languageService.getLocalisationValue(fromLangCode, Language.SV).orElse(fromLangCode) +
-      " - " +
-      languageService.getLocalisationValue(toLangCode, Language.SV).orElse(toLangCode);
+    final String langPairFI = languagePairService.getLanguagePairLocalisation(fromLangCode, toLangCode, Language.FI);
+    final String langPairSV = languagePairService.getLanguagePairLocalisation(fromLangCode, toLangCode, Language.SV);
 
     final List<LocalDate> upcomingDates = meetingDateRepository
       .findAllByOrderByDateAsc()
