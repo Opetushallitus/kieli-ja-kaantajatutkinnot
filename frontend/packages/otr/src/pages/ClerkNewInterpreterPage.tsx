@@ -116,7 +116,7 @@ export const ClerkNewInterpreterPage = () => {
   const onQualificationRemove = (qualification: Qualification) => {
     showDialog({
       title: t('removeQualificationDialog.title'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: '',
       actions: [
         {

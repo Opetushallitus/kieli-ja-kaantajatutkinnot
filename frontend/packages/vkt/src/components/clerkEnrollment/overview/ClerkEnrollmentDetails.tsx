@@ -192,7 +192,7 @@ export const ClerkEnrollmentDetails = () => {
 
     showDialog({
       title: t('cancelEnrollmentDialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('cancelEnrollmentDialog.description'),
       actions: [
         {
