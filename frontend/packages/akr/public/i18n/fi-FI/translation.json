@@ -62,8 +62,7 @@
           "name": "Nimi",
           "permissionToPublish": "Julkaisulupa",
           "termBeginDate": "Alkamispäivä",
-          "termEndDate": "Päättymispäivä",
-          "valid": "Voimassa"
+          "termEndDate": "Päättymispäivä"
         }
       },
       "clerkTranslatorOverview": {

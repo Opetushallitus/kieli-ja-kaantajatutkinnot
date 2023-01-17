@@ -54,8 +54,7 @@
           "name": "Namn",
           "permissionToPublish": "Publiceringstillstånd",
           "termBeginDate": "Startdatum",
-          "termEndDate": "Slutdatum",
-          "valid": "I kraft"
+          "termEndDate": "Slutdatum"
         }
       },
       "clerkTranslatorOverview": {
