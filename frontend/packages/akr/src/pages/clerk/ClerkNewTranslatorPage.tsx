@@ -75,7 +75,7 @@ export const ClerkNewTranslatorPage = () => {
   const onAuthorisationRemove = (authorisation: Authorisation) => {
     showDialog({
       title: t('removeAuthorisationDialog.title'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: '',
       actions: [
         {

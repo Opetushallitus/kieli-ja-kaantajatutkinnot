@@ -19,4 +19,10 @@
       @include mixins.dialog-border(colors.$color-secondary);
     }
   }
+
+  &--warning {
+    & [role='dialog'] {
+      @include mixins.dialog-border(colors.$color-yellow-500);
+    }
+  }
 }

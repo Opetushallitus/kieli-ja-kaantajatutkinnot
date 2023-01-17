@@ -8,12 +8,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.persistence.Tuple;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface ReservationRepository extends BaseRepository<Reservation> {
   @Query(
     "SELECT e.id as examEventId, COUNT(r) as count FROM Reservation r" +
     " JOIN r.examEvent e" +

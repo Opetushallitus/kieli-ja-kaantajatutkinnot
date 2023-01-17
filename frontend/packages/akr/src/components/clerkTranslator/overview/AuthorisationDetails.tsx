@@ -159,7 +159,7 @@ export const AuthorisationDetails = () => {
   const onPermissionToPublishChange = (authorisation: Authorisation) => {
     showDialog({
       title: t('actions.changePermissionToPublish.dialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('actions.changePermissionToPublish.dialog.description'),
       actions: [
         {
@@ -185,7 +185,7 @@ export const AuthorisationDetails = () => {
   const onAuthorisationRemove = (authorisation: Authorisation) => {
     showDialog({
       title: t('actions.removal.dialog.header'),
-      severity: Severity.Info,
+      severity: Severity.Warning,
       description: t('actions.removal.dialog.description'),
       actions: [
         {

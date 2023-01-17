@@ -9,11 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.5.7] - 2022-12-14
+## [1.5.8] - 2023-01-17
 
 ### Added
 
 - TextFieldTypes.number
+
+## [1.5.7] - 2023-01-13
+
+### Added
+
+- DialogBox now supports severity: Warning
+- warning color: Yellow-500
 
 ## [1.5.6] - 2022-12-12
 
