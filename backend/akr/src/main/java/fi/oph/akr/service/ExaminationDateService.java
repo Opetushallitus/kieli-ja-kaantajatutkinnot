@@ -49,7 +49,7 @@ public class ExaminationDateService {
     if (!examinationDate.getAuthorisations().isEmpty()) {
       throw new APIException(APIExceptionType.EXAMINATION_DATE_DELETE_HAS_AUTHORISATIONS);
     }
-    examinationDateRepository.deleteAllByIdInBatch(List.of(examinationDateId));
+    examinationDateRepository.deleteById(examinationDateId);
 
     auditService.logById(AkrOperation.DELETE_EXAMINATION_DATE, examinationDateId);
   }

@@ -5,12 +5,11 @@ import fi.oph.akr.model.ContactRequestStatistic;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang3.tuple.Triple;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContactRequestStatisticRepository extends JpaRepository<ContactRequestStatistic, Long> {
+public interface ContactRequestStatisticRepository extends BaseRepository<ContactRequestStatistic> {
   @Query(
     "SELECT new org.apache.commons.lang3.tuple.ImmutableTriple(c.year, c.month, c.day) FROM ContactRequestStatistic c"
   )

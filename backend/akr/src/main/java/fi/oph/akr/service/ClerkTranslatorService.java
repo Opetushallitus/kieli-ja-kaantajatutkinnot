@@ -301,7 +301,7 @@ public class ClerkTranslatorService {
 
     authorisationTermReminderRepository.deleteAllInBatch(reminders);
     authorisationRepository.deleteAllInBatch(authorisations);
-    translatorRepository.deleteAllInBatch(List.of(translator));
+    translatorRepository.deleteById(translatorId);
 
     auditService.logById(AkrOperation.DELETE_TRANSLATOR, translatorId);
   }
@@ -420,7 +420,7 @@ public class ClerkTranslatorService {
     final Collection<AuthorisationTermReminder> reminders = authorisation.getReminders();
 
     authorisationTermReminderRepository.deleteAllInBatch(reminders);
-    authorisationRepository.deleteAllInBatch(List.of(authorisation));
+    authorisationRepository.deleteById(authorisationId);
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
     auditService.logAuthorisation(AkrOperation.DELETE_AUTHORISATION, translator, authorisationId);
