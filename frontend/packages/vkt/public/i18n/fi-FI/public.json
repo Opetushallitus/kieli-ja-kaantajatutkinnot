@@ -38,14 +38,18 @@
             "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
           },
           "successToast": "Ilmoittautuminen onnistui!",
-          "title": "Maksu on suoritettu."
+          "title": {
+            "queue": "Jonopaikka on varattu.",
+            "reservation": "Maksu on suoritettu."
+          }
         },
         "controlButtons": {
           "cancelDialog": {
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
             "title": "Peruuta ilmoittautuminen"
           },
-          "pay": "Siirry maksamaan"
+          "pay": "Siirry maksamaan",
+          "sendForm": "Lähetä lomake"
         },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
@@ -64,7 +68,8 @@
             "FillContactDetails": "Täytä yhteystietosi",
             "SelectExam": "Valitse tutkinto",
             "Preview": "Esikatsele",
-            "Pay": "Siirry maksamaan"
+            "Payment": "Siirry maksamaan",
+            "Done": "Valmis"
           }
         },
         "steps": {

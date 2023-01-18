@@ -42,7 +42,7 @@ export const PublicEnrollmentStepContents = ({
           disableNext={disableNext}
         />
       );
-    case PublicEnrollmentFormStep.Pay:
+    case PublicEnrollmentFormStep.Payment:
       return <></>;
     default:
       return <> </>;
