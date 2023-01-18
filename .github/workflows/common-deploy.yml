@@ -11,6 +11,11 @@ on:
         description: "Image name in ECR"
         required: true
         type: string
+      with-wkhtmltopdf:
+        description: "Should wkhtmltopdf be available in container"
+        required: true
+        type: boolean
+        default: false
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -35,7 +40,26 @@ jobs:
           path: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}/target/${{ inputs.app-name }}-*.jar
           key: ${{ runner.os }}-${{ inputs.app-name }}-backend-build-${{ github.sha }}
       - name: Build Docker container
+        if: ${{ !inputs.with-wkhtmltopdf }}
         working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          git clone https://github.com/Opetushallitus/ci-tools.git
+          source ci-tools/common/setup-tools.sh
+          export ARTIFACT_NAME=${{ inputs.image-name }}
+          mv target/${{ inputs.app-name }}-*.jar $DOCKER_BUILD_DIR/artifact/${ARTIFACT_NAME}.jar
+          cp -vr src/main/resources/oph-configuration $DOCKER_BUILD_DIR/config/
+          export BASE_IMAGE="baseimage-fatjar-openjdk17:master"
+          ./ci-tools/common/pull-image.sh
+          ./ci-tools/github-build/build-fatjar.sh $ARTIFACT_NAME
+          ./ci-tools/github-build/upload-image.sh $ARTIFACT_NAME
+          ./ci-tools/common/clean-docker-build-dir.sh
+      - name: Build Docker container with wkhtmltopdf
+        working-directory: ${{ env.BACKEND_DIR }}/${{ inputs.app-name }}
+        if: inputs.with-wkhtmltopdf
         shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

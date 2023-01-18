@@ -7,6 +7,11 @@ on:
         description: "Application name"
         required: true
         type: string
+      with-wkhtmltopdf:
+        description: "Should wkhtmltopdf be installed or not"
+        required: true
+        type: boolean
+        default: false
 
 env:
   BACKEND_DIR: ./backend
@@ -37,7 +42,10 @@ jobs:
         with:
           timezoneLinux: "Europe/Helsinki"
       - name: Install wkhtmltopdf
+        if: inputs.with-wkhtmltopdf
         run: |
+          echo 'Updating apt-get package information'
+          sudo apt-get update
           echo 'Installing wkhtmltopdf'
           sudo apt-get install wkhtmltopdf
           echo 'Installed wkhtmltopdf, check that it works'
