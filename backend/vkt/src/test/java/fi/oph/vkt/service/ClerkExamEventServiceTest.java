@@ -215,7 +215,7 @@ public class ClerkExamEventServiceTest {
     enrollment.setWritingPartialExam(!defaultEnrollment.isWritingPartialExam());
     enrollment.setReadingComprehensionPartialExam(!defaultEnrollment.isReadingComprehensionPartialExam());
     enrollment.setStatus(EnrollmentStatus.QUEUED);
-    enrollment.setPreviousEnrollmentDate(null);
+    enrollment.setPreviousEnrollment(null);
     enrollment.setDigitalCertificateConsent(!defaultEnrollment.isDigitalCertificateConsent());
 
     return enrollment;
@@ -240,7 +240,7 @@ public class ClerkExamEventServiceTest {
     assertEquals(expected.isWritingPartialExam(), enrollmentDTO.writingPartialExam());
     assertEquals(expected.isReadingComprehensionPartialExam(), enrollmentDTO.readingComprehensionPartialExam());
     assertEquals(expected.getStatus(), enrollmentDTO.status());
-    assertEquals(expected.getPreviousEnrollmentDate(), enrollmentDTO.previousEnrollmentDate());
+    assertEquals(expected.getPreviousEnrollment(), enrollmentDTO.previousEnrollment());
     assertEquals(expected.isDigitalCertificateConsent(), enrollmentDTO.digitalCertificateConsent());
     assertEquals(expected.getEmail(), enrollmentDTO.email());
     assertEquals(expected.getPhoneNumber(), enrollmentDTO.phoneNumber());

@@ -61,14 +61,9 @@ export class SerializationUtils {
   }
 
   static deserializeClerkEnrollment(enrollment: ClerkEnrollmentResponse) {
-    const previousEnrollmentDate = enrollment.previousEnrollmentDate
-      ? dayjs(enrollment.previousEnrollmentDate)
-      : undefined;
-
     return {
       ...enrollment,
       enrollmentTime: dayjs(enrollment.enrollmentTime),
-      previousEnrollmentDate,
     };
   }
 
@@ -76,9 +71,6 @@ export class SerializationUtils {
     return {
       ...enrollment,
       enrollmentTime: DateUtils.serializeDate(enrollment.enrollmentTime),
-      previousEnrollmentDate: DateUtils.serializeDate(
-        enrollment.previousEnrollmentDate
-      ),
     };
   }
 

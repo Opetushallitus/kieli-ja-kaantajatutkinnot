@@ -33,7 +33,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     const displayedTextFields = [
       ...nameFields,
       ...contactDetailsFields,
-      'previousEnrollmentDate',
+      'previousEnrollment',
     ];
 
     displayedTextFields.forEach((f) =>
@@ -54,7 +54,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
       '+358401000001'
     );
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
-      'previousEnrollmentDate',
+      'previousEnrollment',
       ''
     );
 
@@ -84,6 +84,10 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     );
     contactDetailsFields.forEach((f) =>
       onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
+    );
+    onClerkEnrollmentOverviewPage.editTextField(
+      'previousEnrollment',
+      'tammikuussa 2023'
     );
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
 

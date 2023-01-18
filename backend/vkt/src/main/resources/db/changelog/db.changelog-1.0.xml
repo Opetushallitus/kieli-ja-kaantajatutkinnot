@@ -432,4 +432,14 @@
                              onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
+    <changeSet id="2023-01-18-modify_enrollment-table_previous-enrollment-date" author="mikhuttu">
+        <modifyDataType tableName="enrollment"
+                        columnName="previous_enrollment_date"
+                        newDataType="TEXT" />
+
+        <renameColumn tableName="enrollment"
+                      oldColumnName="previous_enrollment_date"
+                      newColumnName="previous_enrollment" />
+    </changeSet>
+
 </databaseChangeLog>

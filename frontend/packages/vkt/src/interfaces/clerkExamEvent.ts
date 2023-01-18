@@ -14,9 +14,8 @@ interface Person extends WithId, WithVersion {
 }
 
 export interface ClerkEnrollmentResponse
-  extends Omit<ClerkEnrollment, 'enrollmentTime' | 'previousEnrollmentDate'> {
+  extends Omit<ClerkEnrollment, 'enrollmentTime'> {
   enrollmentTime: string;
-  previousEnrollmentDate?: string;
 }
 
 export interface ClerkEnrollment
@@ -27,7 +26,7 @@ export interface ClerkEnrollment
   enrollmentTime: Dayjs;
   person: Person;
   status: EnrollmentStatus;
-  previousEnrollmentDate?: Dayjs;
+  previousEnrollment?: string;
   email: string;
   phoneNumber: string;
 }

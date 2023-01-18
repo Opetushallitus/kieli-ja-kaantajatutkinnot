@@ -1,6 +1,5 @@
 package fi.oph.vkt.api.dto.clerk;
 
-import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -17,7 +16,7 @@ public record ClerkEnrollmentUpdateDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  LocalDate previousEnrollmentDate,
+  String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String phoneNumber,

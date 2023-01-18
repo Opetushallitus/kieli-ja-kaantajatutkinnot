@@ -101,6 +101,10 @@
               "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
               "linkLabel": "tietosuojaselosteen"
             }
+          },
+          "previousEnrollment": {
+            "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? Milloin olet viimeksi osallistunut?",
+            "label": "Päivämäärä tai vapaa teksti"
           }
         }
       },
