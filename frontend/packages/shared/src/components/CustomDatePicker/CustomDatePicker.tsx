@@ -1,9 +1,10 @@
-import { CustomTextFieldProps, CustomTextField } from '../../components';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 
-interface DatePickerProps extends CustomTextFieldProps {
+import { CustomTextField, CustomTextFieldProps } from '../../components';
+
+interface DatePickerProps {
   value: Dayjs | null;
   setValue: (value: Dayjs | null) => void;
   label?: string;
@@ -12,6 +13,8 @@ interface DatePickerProps extends CustomTextFieldProps {
   maxDate?: Dayjs;
   showToolbar?: boolean;
 }
+
+type CustomDatePickerProps = DatePickerProps & CustomTextFieldProps;
 
 export const CustomDatePicker = ({
   value,
@@ -24,7 +27,7 @@ export const CustomDatePicker = ({
   error,
   helperText,
   showHelperText,
-}: DatePickerProps): JSX.Element => {
+}: CustomDatePickerProps): JSX.Element => {
   const MIN_DATE = '1980-01-01';
   const MAX_DATE = '2050-01-01';
 
