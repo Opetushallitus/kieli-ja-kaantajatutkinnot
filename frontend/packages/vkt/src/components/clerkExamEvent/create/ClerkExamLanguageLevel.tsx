@@ -14,7 +14,7 @@ const hasError = (
   isDirty: boolean,
   value: ExamLanguage | undefined
 ): boolean => {
-  return isDirty && value === undefined;
+  return isDirty && !value;
 };
 
 export const ClerkExamLanguageLevel = ({

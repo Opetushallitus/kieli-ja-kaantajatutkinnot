@@ -10,7 +10,7 @@ import { updateClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
 const hasError = (isDirty: boolean, value: number | undefined): boolean => {
   return (
     isDirty &&
-    (value === undefined || value > 999 || value <= 0 || value % 1 != 0)
+    (value === undefined || value > 999 || value <= 0 || value % 1 !== 0)
   );
 };
 
