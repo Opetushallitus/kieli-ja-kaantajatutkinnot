@@ -12,8 +12,8 @@ public class TemplateRenderer {
 
   private final TemplateEngine templateEngine;
 
-  public String renderExample(final Map<String, Object> params) {
-    return renderTemplate("example", params);
+  public String renderReceipt(final Map<String, Object> params) {
+    return renderTemplate("receipt", params);
   }
 
   private String renderTemplate(final String template, final Map<String, Object> params) {

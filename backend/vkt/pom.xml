@@ -18,4 +18,12 @@
   <name>vkt</name>
   <description>Valtionhallinnon kielitutkinnot</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.github.jhonnymertz</groupId>
+      <artifactId>java-wkhtmltopdf-wrapper</artifactId>
+      <version>1.1.14-RELEASE</version>
+    </dependency>
+  </dependencies>
+
 </project>
