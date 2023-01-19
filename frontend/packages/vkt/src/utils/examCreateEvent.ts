@@ -6,6 +6,16 @@ import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export class ExamCreateEventUtils {
+  static participantsHasError(
+    isDirty: boolean,
+    value: number | undefined
+  ): boolean {
+    return (
+      isDirty &&
+      (value === undefined || value > 999 || value <= 0 || value % 1 !== 0)
+    );
+  }
+
   static isValidForm(examForm: DraftClerkExamEvent | undefined) {
     if (!examForm) {
       return false;
@@ -26,7 +36,9 @@ export class ExamCreateEventUtils {
       return false;
     }
 
-    if (!examForm.maxParticipants) {
+    if (
+      ExamCreateEventUtils.participantsHasError(true, examForm.maxParticipants)
+    ) {
       return false;
     }
 

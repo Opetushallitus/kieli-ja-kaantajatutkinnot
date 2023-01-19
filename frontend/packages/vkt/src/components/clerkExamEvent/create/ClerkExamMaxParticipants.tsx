@@ -6,13 +6,7 @@ import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { updateClerkNewExamDate } from 'redux/reducers/clerkNewExamDate';
-
-const hasError = (isDirty: boolean, value: number | undefined): boolean => {
-  return (
-    isDirty &&
-    (value === undefined || value > 999 || value <= 0 || value % 1 !== 0)
-  );
-};
+import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 
 export const ClerkExamMaxParticipants = ({
   examForm,
@@ -45,7 +39,10 @@ export const ClerkExamMaxParticipants = ({
       : translateCommon('errors.customTextField.numberFormat');
   };
 
-  const showError = hasError(isDirty, examForm.maxParticipants);
+  const showError = ExamCreateEventUtils.participantsHasError(
+    isDirty,
+    examForm.maxParticipants
+  );
 
   return (
     <div className="rows gapped">
