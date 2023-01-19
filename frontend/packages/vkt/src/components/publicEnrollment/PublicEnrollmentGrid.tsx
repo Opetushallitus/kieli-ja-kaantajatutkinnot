@@ -10,6 +10,7 @@ import { PublicEnrollmentStepContents } from 'components/publicEnrollment/Public
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PublicEnrollmentGrid = () => {
@@ -20,6 +21,8 @@ export const PublicEnrollmentGrid = () => {
   const { status, activeStep, enrollment, reservationDetails } = useAppSelector(
     publicEnrollmentSelector
   );
+
+  useNavigationProtection(activeStep > PublicEnrollmentFormStep.Identify);
 
   if (!reservationDetails) {
     return null;
