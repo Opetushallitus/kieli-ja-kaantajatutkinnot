@@ -13,7 +13,7 @@ import { useToast } from 'shared/hooks';
 import { ClerkExamDate } from 'components/clerkExamEvent/create/ClerkExamDate';
 import { ClerkExamHideToggle } from 'components/clerkExamEvent/create/ClerkExamHideToggle';
 import { ClerkExamLanguageLevel } from 'components/clerkExamEvent/create/ClerkExamLanguageLevel';
-import { ClerkExamParticipants } from 'components/clerkExamEvent/create/ClerkExamParticipants';
+import { ClerkExamMaxParticipants } from 'components/clerkExamEvent/create/ClerkExamMaxParticipants';
 import { ClerkExamRegistrationCloses } from 'components/clerkExamEvent/create/ClerkExamRegistrationCloses';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -101,7 +101,10 @@ export const ClerkExamEventCreatePage: FC = () => {
           <H1>{t('addExamDate')}</H1>
         </Grid>
         <Grid item>
-          <Paper elevation={3} className="clerk-homepage__exam-events">
+          <Paper
+            elevation={3}
+            className="clerk-homepage__exam-events clerk-homepage-create-exam-events"
+          >
             <div>
               <BackButton />
             </div>
@@ -110,9 +113,10 @@ export const ClerkExamEventCreatePage: FC = () => {
               <ClerkExamDate examForm={examDate} />
               <ClerkExamRegistrationCloses examForm={examDate} />
             </div>
-            <div className="columns gapped flex-stretch">
-              <ClerkExamParticipants examForm={examDate} />
+            <div className="grid-columns gapped flex-stretch">
+              <ClerkExamMaxParticipants examForm={examDate} />
               <ClerkExamHideToggle examForm={examDate} />
+              <div />
             </div>
             <div className="columns flex-end">
               <LoadingProgressIndicator isLoading={isLoading}>

@@ -14,7 +14,7 @@ const hasError = (isDirty: boolean, value: number | undefined): boolean => {
   );
 };
 
-export const ClerkExamParticipants = ({
+export const ClerkExamMaxParticipants = ({
   examForm,
 }: {
   examForm: DraftClerkExamEvent;
@@ -42,7 +42,7 @@ export const ClerkExamParticipants = ({
   const getErrorText = (value: number | undefined): string => {
     return value === undefined
       ? translateCommon('errors.customTextField.required')
-      : translateCommon('errors.customTextField.participantsNum');
+      : translateCommon('errors.customTextField.numberFormat');
   };
 
   const showError = hasError(isDirty, examForm.maxParticipants);
@@ -51,7 +51,7 @@ export const ClerkExamParticipants = ({
     <div className="rows gapped">
       <H3>{t('fillingsTotal')}</H3>
       <CustomTextField
-        className="clerk-exam-create-participants"
+        className="clerk-exam-create-max-participants"
         label={translateCommon('choose')}
         type={TextFieldTypes.Number}
         value={examForm.maxParticipants ?? ''}

@@ -2,6 +2,14 @@
   align-items: stretch;
 }
 
-.clerk-exam-create-participants {
-  width: 14rem;
+.clerk-exam-create-max-participants {
+  width: 18rem;
+}
+
+.clerk-homepage-create-exam-events .grid-columns {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.clerk-homepage-create-exam-events .gapped {
+  gap: 2rem 6rem;
 }

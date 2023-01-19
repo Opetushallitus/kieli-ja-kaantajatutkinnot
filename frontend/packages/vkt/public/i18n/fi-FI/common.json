@@ -57,7 +57,7 @@
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "required": "Tieto on pakollinen",
           "telFormat": "Puhelinnumero on virheellinen",
-          "participantsNum": "Arvo on virheellinen"
+          "numberFormat": "Arvo on virheellinen"
         },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
