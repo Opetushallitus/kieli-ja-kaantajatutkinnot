@@ -9,7 +9,7 @@ on:
         type: string
       with-wkhtmltopdf:
         description: "Should wkhtmltopdf be installed or not"
-        required: true
+        required: false
         type: boolean
         default: false
 
