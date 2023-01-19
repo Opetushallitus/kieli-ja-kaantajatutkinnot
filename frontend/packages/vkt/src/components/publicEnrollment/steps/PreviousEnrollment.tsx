@@ -28,7 +28,7 @@ export const PreviousEnrollment = ({
   };
 
   return (
-    <div className="public-enrollment__grid__previous-enrollment rows gapped-sm">
+    <div className="public-enrollment__grid__previous-enrollment rows gapped">
       <Text>{t('description')}</Text>
       <CustomTextField
         label={t('label')}
