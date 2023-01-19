@@ -35,7 +35,7 @@
           "lastName": "Sukunimi",
           "phoneNumber": "Puhelinnumero",
           "postalCode": "Postinumero",
-          "previousEnrollmentDate": "Päivämäärä",
+          "previousEnrollment": "Päivämäärä tai vapaa teksti",
           "street": "Katuosoite",
           "town": "Postitoimipaikka"
         }

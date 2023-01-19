@@ -8,6 +8,7 @@ import { Color } from 'shared/enums';
 import { CertificateShipping } from 'components/publicEnrollment/steps/CertificateShipping';
 import { PartialExamsSelection } from 'components/publicEnrollment/steps/PartialExamsSelection';
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
+import { PreviousEnrollment } from 'components/publicEnrollment/steps/PreviousEnrollment';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -88,6 +89,7 @@ export const Preview = ({
         email={enrollment.email}
         phoneNumber={enrollment.phoneNumber}
       />
+      <PreviousEnrollment enrollment={enrollment} editingDisabled={true} />
       <PartialExamsSelection enrollment={enrollment} editingDisabled={true} />
       <CertificateShipping enrollment={enrollment} editingDisabled={true} />
       <FormControlLabel

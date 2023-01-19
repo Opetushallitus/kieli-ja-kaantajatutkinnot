@@ -3,7 +3,6 @@ package fi.oph.vkt.view;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -94,7 +93,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       row.createCell(++ci).setCellValue(enrollment.person().lastName());
       row.createCell(++ci).setCellValue(enrollment.person().firstName());
       row.createCell(++ci).setCellValue(enrollment.person().identityNumber());
-      formatNullableDate(row.createCell(++ci), enrollment.previousEnrollmentDate());
+      setNullableValue(row.createCell(++ci), enrollment.previousEnrollment());
 
       row.createCell(++ci).setCellValue(statusToText(enrollment.status()));
 
@@ -126,9 +125,9 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     return byStatus.thenComparing(byEnrollmentTime);
   }
 
-  private static void formatNullableDate(final Cell cell, final LocalDate localDate) {
-    if (localDate != null) {
-      cell.setCellValue(DATE_FORMAT.format(localDate));
+  private static void setNullableValue(final Cell cell, final String string) {
+    if (string != null) {
+      cell.setCellValue(string);
     } else {
       cell.setBlank();
     }

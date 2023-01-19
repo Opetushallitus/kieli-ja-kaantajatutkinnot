@@ -50,7 +50,7 @@ public class Factory {
     enrollment.setWritingPartialExam(false);
     enrollment.setReadingComprehensionPartialExam(false);
     enrollment.setStatus(EnrollmentStatus.PAID);
-    enrollment.setPreviousEnrollmentDate(LocalDate.now().minusYears(1));
+    enrollment.setPreviousEnrollment("1.11.2022");
     enrollment.setDigitalCertificateConsent(true);
     enrollment.setEmail("foo.tester@invalid");
     enrollment.setPhoneNumber("+10001234567");

@@ -1,7 +1,6 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -52,8 +51,8 @@ public class Enrollment extends BaseEntity {
   @Enumerated(value = EnumType.STRING)
   private EnrollmentStatus status;
 
-  @Column(name = "previous_enrollment_date")
-  private LocalDate previousEnrollmentDate;
+  @Column(name = "previous_enrollment")
+  private String previousEnrollment;
 
   @Column(name = "digital_certificate_consent", nullable = false)
   private boolean digitalCertificateConsent;
