@@ -27,9 +27,6 @@ export const ClerkInterpreterListingHeader = () => {
           <H3>{t('endDate')}</H3>
         </TableCell>
         <TableCell>
-          <H3>{t('valid')}</H3>
-        </TableCell>
-        <TableCell>
           <H3>{t('permissionToPublish')}</H3>
         </TableCell>
       </TableRow>

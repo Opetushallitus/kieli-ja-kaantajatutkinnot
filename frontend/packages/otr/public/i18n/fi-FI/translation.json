@@ -43,8 +43,7 @@
           "name": "Nimi",
           "languagePairs": "Kieliparit",
           "permissionToPublish": "Julkaisulupa",
-          "title": "Hakutulokset",
-          "valid": "Voimassa"
+          "title": "Hakutulokset"
         }
       },
       "clerkInterpreterOverview": {

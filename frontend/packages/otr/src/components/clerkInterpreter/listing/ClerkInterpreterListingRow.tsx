@@ -20,7 +20,6 @@ enum QualificationColumn {
   ExaminationType = 'examinationType',
   BeginDate = 'beginDate',
   EndDate = 'endDate',
-  Valid = 'valid',
   PermissionToPublish = 'permissionToPublish',
 }
 
@@ -76,17 +75,13 @@ export const ClerkInterpreterListingRow = ({
           return DateUtils.formatOptionalDate(beginDate);
         case QualificationColumn.EndDate:
           return DateUtils.formatOptionalDate(endDate);
-        case QualificationColumn.Valid:
-          return QualificationUtils.isEffective(qualification, qualifications)
-            ? translateCommon('yes')
-            : translateCommon('no');
         case QualificationColumn.PermissionToPublish:
           return permissionToPublish
             ? translateCommon('yes')
             : translateCommon('no');
       }
     },
-    [qualifications, translateCommon, translateLanguage]
+    [translateCommon, translateLanguage]
   );
 
   const getQualificationCellClassName = (qualification: Qualification) => {
