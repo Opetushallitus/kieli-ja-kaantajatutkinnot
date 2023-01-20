@@ -56,7 +56,8 @@
           "maxLength": "Teksti on liian pitkä",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "required": "Tieto on pakollinen",
-          "telFormat": "Puhelinnumero on virheellinen"
+          "telFormat": "Puhelinnumero on virheellinen",
+          "numberFormat": "Arvo on virheellinen"
         },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
