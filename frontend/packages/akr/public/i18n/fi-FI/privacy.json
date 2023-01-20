@@ -1,116 +1,143 @@
 {
   "akr": {
     "privacy": {
-      "changes": {
-        "description1": "Opetushallitus kehittää jatkuvasti palvelujaan ja voi tehdä ajoittain muutoksia tähän tietosuojakäytäntöön ilman etukäteistä ilmoitusta. Jos tätä tietosuojakäytäntöä kuitenkin olennaisesti muutetaan, Opetushallitus ilmoittaa asiasta tämän tietosuojakäytännön alussa vähintään 30 vuorokauden ajan. Muutokset voivat perustua myös lainsäädännön muutokseen. Suosittelemme, että käyt tutustumassa tähän tietosuojakäytäntöön ajoittain saadaksesi tiedon tietosuojakäytäntöön mahdollisesti tehdyistä muutoksista.",
-        "title": "Muutokset tietosuojakäytäntöön"
+      "automatedDecisions": {
+        "description": "Rekisterin sisältämiä tietoja ei käytetä profilointiin eikä tietoihin kohdisteta automaattista päätöksentekoa.",
+        "heading": "Tiedot automaattisen päätöksenteon, ml. profiloinnin olemassaolosta, sekä ainakin näissä tapauksissa merkitykselliset tiedot käsittelyyn liittyvästä logiikasta samoin kuin kyseisen käsittelyn merkittävyys ja mahdolliset seuraukset rekisteröidylle"
       },
       "common": {
-        "or": "tai",
-        "otherData": "Muut tiedot",
-        "personalData": "Henkilötiedot"
+        "email": "Sähköposti",
+        "group": "Ryhmä",
+        "phoneSwitch": "Puhelin: 029 533 1000 (vaihde)"
       },
-      "disclosure": {
-        "description": "Opetushallitus ei normaalisti tee muita kuin lakisääteisiä henkilötietojen luovutuksia muille viranomaisille viranomaiskäyttöön. Tietojasi voidaan kuitenkin muuten luovuttaa seuraavissa tilanteissa:",
-        "community": {
-          "description1": "Henkilötietoja ei pääsääntöisesti näytetä muille Opetushallituksen palvelujen käyttäjille. Joissakin verkkopalveluissa käyttäjä voi itse jakaa tietojaan muille käyttäjille esimerkiksi nimimerkin muodossa (blogikirjoituksen kommentointi).",
-          "title": "2. Yhteisöt"
-        },
-        "consent": {
-          "description1": "Henkilötietoja voidaan luovuttaa nimenomaisella suostumuksella esimerkiksi kolmannen osapuolen tarjoamaa palvelua varten.",
-          "title": "1. Suostumuksesi"
-        },
-        "dataTransfers": {
-          "description1": "Opetushallitus pyrkii aina toteuttamaan palvelut ja käsittelemään henkilötietoja ensisijaisesti EU:n ja ETA:n alueiden sisällä, käyttäen alueilla sijaitsevia toimijoita ja palveluita. Emme poikkeustapauksia lukuun ottamatta siirrä tietoja EU:n tai ETA:n ulkopuolelle. Jos tietoja siirretään EU:n tai ETA:n ulkopuolelle, huolehdimme henkilötietojen suojan riittävästä tasosta muun muassa sopimalla henkilötietojen luottamuksellisuuteen ja käsittelyyn liittyvistä asioista lainsäädännön edellyttämällä tavalla, esimerkiksi Euroopan komission hyväksymiä mallisopimuslausekkeita käyttäen, ja muuten siten, että henkilötietojen käsittely tapahtuu tämän tietosuojakäytännön mukaisesti.",
-          "title": "5. Kansainväliset tietojen siirrot"
-        },
-        "research": {
-          "description1": "Voimme luovuttaa tietoja tieteellistä tai muuta tutkimusta varten edellyttäen, että kyseiset tiedot on ensin muutettu muotoon, josta yksittäiset henkilöt eivät ole enää tunnistettavissa.",
-          "title": "4. Tutkimuskäyttö"
-        },
-        "serviceProvider": {
-          "description1": "Opetushallitus käyttää alihankkijoita ja palveluntarjoajia palvelujensa tekniseen ylläpitoon, asiakaspalveluun, asiakasviestintään ja tutkimukseen. Henkilötietoja voidaan luovuttaa alihankkijoille ja palveluntarjoajille vain siinä määrin, kun he osallistuvat Opetushallituksen palvelujen toteuttamiseen ja tässä tietosuojalausekkeessa kuvattujen käyttötarkoitusten toteuttamiseen.",
-          "description2": "Alihankkijat ja palveluntarjoajat eivät saa käyttää heille luovutettuja henkilötietoja muuhun kuin tässä tietosuojalausekkeessa kuvattuihin ja Opetushallituksen määrittämiin käyttötarkoituksiin. Opetushallitus velvoittaa pitämään tiedot salassa ja huolehtia asianmukaisesti tietoturvan ja tietosuojan toteuttamisesta henkilötietojen suojaamiseksi.",
-          "title": "3. Alihankkijat ja palveluntarjoajat"
-        },
-        "title": "Luovutammeko henkilötietoja?"
+      "complaints": {
+        "description": "Rekisteröidyllä on oikeus tehdä kantelu valvontaviranomaiselle, erityisesti siinä jäsenvaltiossa, jossa hänen vakinainen asuinpaikkansa tai työpaikkansa on, tai jossa väitetty tietosuoja-asetuksen rikkominen on tapahtunut.",
+        "heading": "Oikeus tehdä valitus valvontaviranomaiselle"
       },
-      "gathering": {
-        "other": {
-          "description1": "käyttäjien lähettämät viestit yhteydenottopyyntöjen yhteydessä",
-          "description2": "muut käyttäjän suostumuksella kerätyt tiedot"
+      "dataContents": {
+        "group1": {
+          "action": "Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle",
+          "description1": "Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään yhteydenottolomakkeen jättämisen yhteydessä.",
+          "description2": "Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.",
+          "description3": "Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.",
+          "description4": "Tietoja säilytetään 6 kk.",
+          "name": "Hakukoneen käyttäjät"
         },
-        "personal": {
-          "description": "Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään kääntäjille jätettyjen yhteydenottopyyntöjen yhteydessä.",
-          "data": {
-            "description1": "yhteystiedot kuten nimi, sähköpostiosoite ja puhelinnumero",
-            "description2": "muut käyttäjän suostumuksella kerätyt tiedot",
-            "title": "Käyttäjän antamat tiedot:"
+        "group2": {
+          "action": "Hakukoneen tietojen selaaminen / hakujen teko",
+          "description": "Mitään tietoa ei tallennu.",
+          "name": "Hakukoneen käyttäjät"
+        },
+        "group3": {
+          "action": "Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä on auktorisoitu.",
+          "details": {
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
+            "heading": "Rekisteröitävän antamat tiedot",
+            "otherDetails": {
+              "description": "Muut tiedot",
+              "detail1": "auktorisointiperuste",
+              "detail2": "mistä kielestä mihin kieleen kääntäjä on auktorisoitu tekemään käännöksiä"
+            }
           },
-          "usage": {
-            "description1": "sanahauista tallentuu lokiin haussa käytetyn laitteen IP-osoite. Lokitietoa säilytetään 21 päivää",
-            "title": "Palveluiden käytöstä havainnoidut tiedot:"
-          }
+          "grounds": {
+            "description1": "Kääntäjiä auktorisoidaan kolmella perusteella",
+            "description2": "Kaksi ensin mainittua uusivat auktorisoidun kääntäjän oikeutensa 5 vuoden välein. Viralliselle kääntäjälle myönnetään auktorisointi ilman takarajaa. Opetushallitus lähettää rekisteristä muistutuksen 3 kk ennen auktorisoinnin umpeutumista. Jos auktorisointi umpeutuu, poistetaan kääntäjä julkisesta hakukoneesta. Kääntäjä voi milloin tahansa hakea auktorisointia uudelleen.",
+            "ground1": "hyväksytysti suoritettu auktorisoidun kääntäjän tutkinto",
+            "ground2": "maisterin tutkinnossa suoritettu kääntämisen korkeakouluopinnot (60 opintopistettä, johon sisältyy auktorisoidun kääntämisen 6 opintopistettä)",
+            "ground3": "virallinen kääntäjä"
+          },
+          "name": "Rekisteriin merkityt auktorisoidut kääntäjät"
         },
-        "title": "Mitä tietoja keräämme ja mistä lähteistä?"
+        "heading": "Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät"
       },
-      "general": {
-        "description1": "Tässä tietosuojakäytännössä kuvataan, mitä henkilötietoja ja muita tietoja keräämme, ja miten käsittelemme näitä tietoja. Tätä tietosuojakäytäntöä sovelletaan Opetushallituksen tarjoamissa verkkopalveluissa (Oph.fi, Europass.fi, Opetushallitus kouluttaa sekä Opetushallituksen uutiskirjepalvelu).",
-        "description2": "Ennen kuin käyttäjä aloittaa palveluidemme käytön, tulee käyttäjän lukea tämä tietosuojakäytäntö sekä hyväksyä henkilötietojen käsittelyä koskevat menettelyt ja evästeiden käyttö tämän tietosuojakäytännön mukaisesti. Jos käyttäjä ei hyväksy tätä tietosuojakäytäntöä tai palvelun käyttöehtoja, ei hänellä ole oikeutta käyttää palvelua.",
-        "description3": "Opetushallitus noudattaa tietosuojalainsäädäntöä sekä käsittelee henkilötietoja hyvän tiedonhallinta- ja tietojenkäsittelytavan mukaisesti.",
-        "externalLink": {
-          "link": "https://tietosuoja.fi/mika-on-henkilotieto",
-          "title": "Mikä on henkilötieto?"
+      "dataSources": {
+        "description": "Tiedot kerätään ryhmässä 1. ja ryhmässä 3 henkilöltä itseltään.",
+        "heading": "Tiedot siitä, mistä henkilötiedot on saatu sekä tarvittaessa siitä, onko tiedot saatu yleisesti saatavilla olevista lähteistä"
+      },
+      "dataTransfers": {
+        "description": "Tietoja ei säännönmukaisesti luovuta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
+        "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
+      },
+      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
+      "handlingPurpose": {
+        "description1": "Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun kääntäjän oikeuden.",
+        "description2": "Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja kääntäjiä ja jättää heille yhteydenottopyynnön käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja ilman että jättää yhteydenottopyyntöä.",
+        "description3": "Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia auktorisointien hallinnoinnin ja edellä mainittujen yhteydenottopyyntöjen sekä muutostarpeiden hoitamiseksi.",
+        "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään",
+        "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
+        "law": {
+          "clause": "15 §",
+          "description": "Laki auktorisoiduista kääntäjistä",
+          "heading": "Lakiperusteet",
+          "link": "https://www.finlex.fi/fi/laki/ajantasa/2007/20071231#L5P15"
+        }
+      },
+      "heading": "Tietosuojaseloste / Tiedonanto",
+      "holdingPeriod": {
+        "group1": {
+          "description": "Tietoja säilytetään 6 kk."
         },
-        "title": "Yleistä tietosuojakäytännöstä"
-      },
-      "heading": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste",
-      "preservation": {
-        "description1": "Opetushallitus säilyttää yhteydenottopyyntöjen yhteydessä jätettyjä henkilötietoja ja viestejä kuusi kuukautta. Muita tietoja esim. lokitietoja säilytetään niin kauan kuin on tarpeen tässä tietosuojakäytännössä kuvattujen käyttötarkoitusten toteuttamiseksi, kuitenkin enintään kahden vuoden ajan. Kun henkilötietojesi käsittelyperuste on päättynyt, arkistoimme tai poistamme tietosi.",
-        "title": "Kuinka kauan säilytämme tietojasi?"
-      },
-      "processing": {
-        "description1": "Henkilökuntamme voi käsitellä henkilötietoja kulloinkin voimassa olevan tietosuojalainsäädännön mukaisesti. Voimme myös ulkoistaa henkilötietojen käsittelyn osittain kolmannelle osapuolelle, jolloin takaamme sopimusjärjestelyin, että henkilötietoja käsitellään henkilötietolain mukaisesti ja asianmukaisesti.",
-        "title": "Miten käsittelemme henkilötietoja?"
-      },
-      "protection": {
-        "description1": "Rekistereitä ylläpidetään ja suojataan erilaisin teknisin ja organisatorisin toimenpitein. Varmistamme järjestelmiemme vikasietoisuuden ja tietojen palauttamismahdollisuudet. Näihin suojauksiin kuuluu muun muassa pääsynhallinta, kulunvalvonta, tekniset ratkaisut kuten palomuurit ja salasanasuojaus. Nämä keinot mahdollistavat tallennettuun tietoon pääsyn vain Opetushallituksen nimetyille työntekijöille sekä Opetushallitukseen sopimussuhteessa oleville palveluntarjoajille.",
-        "description2": "Ilmoitamme palveluiden kautta mahdollisista tietoturvauhkista ja tietoturvaloukkauksista suoraan poliisille ja kyberturvallisuuskeskukselle. Voimme myös sulkea palveluita tilapäisesti henkilötietojen suojaamiseksi.",
-        "title": "Mitä teemme suojataksemme henkilötiedot?"
-      },
-      "purpose": {
-        "personal": {
-          "data": {
-            "description1": "käyttäjän jättämään yhteydenottopyyntöön tai palautteeseen vastaamiseen",
-            "description2": "palveluiden tuottamiseen, ylläpitoon, suojaamiseen ja kehittämiseen",
-            "title": "Henkilötietoja voidaan Opetushallituksessa käsitellä seuraavia tarkoituksia varten:"
-          }
+        "group3": {
+          "description": "Tiedot poistetaan rekisteristä ilman aiheetonta viivytystä ja viimeistään 2 kuukauden kuluttua siitä, kun auktorisointi on päättynyt tai peruutettu. Palvelun henkilötietojen säilytysajat ovat arkistonmuodostussuunnitelman ja tiedonohjaussuunnitelman määrittämien säilytysaikojen mukaisia. Asiakirjat, joiden säilytysaika on päättynyt, hävitetään järjestelmästä vuosittain."
         },
-        "title": "Mihin käyttötarkoitukseen tietoja kerätään?"
+        "heading": "Henkilötietojen säilyttämisaika"
+      },
+      "receivers": {
+        "description1": "Opetushallituksen on viranomaisten toiminnan julkisuudesta annetun lain (21.5.1999/621) mukaan annettava tieto julkisesta asiakirjasta pyytäjälle, vaikka asiakirja sisältäisi henkilötietoja. Salassa pidettävän tiedon antaminen tai luovuttaminen edellyttää erityistä perustetta: asianosaisasema tai laissa säädetty oikeus tiedon saamiseen tai sen henkilön suostumus, jonka suojaksi salassapidosta on säädetty.",
+        "description2": "Henkilötietoja voidaan luovuttaa tieteellistä tai historiallista tutkimusta taikka tilastointia varten tietosuojalain (1050/2018) 4 §:n mukaisin edellytyksin.",
+        "description3": "Tietojärjestelmän palveluntarjoajat (henkilötietojen käsittelijät) pääsevät tarkastelemaan rekisterin sisältämiä henkilötietoja Opetushallituksen määrittämässä laajuudessa.",
+        "description4": "Tietoja ei luovuteta suoramarkkinointiin.",
+        "heading": "Henkilötietojen vastaanottajat tai vastaanottajaryhmät"
+      },
+      "registeredRights": {
+        "description1": "Rekisteröidyllä on oikeus saada rekisterinpitäjältä vahvistus siitä, että häntä koskevia henkilötietoja käsitellään tai että niitä ei käsitellä. Rekisterinpitäjän on toimitettava pyynnöstä jäljennös käsiteltävistä henkilötiedoista.",
+        "description2": "Rekisteröidyllä on oikeus vaatia, että rekisterinpitäjä oikaisee ilman aiheetonta viivytystä rekisteröityä koskevat epätarkat ja virheelliset henkilötiedot. Rekisteröidyn tulee yksilöidä ja perustella, mitä tietoa hän vaatii korjattavaksi, mikä on hänen mielestään oikea tieto ja miten korjaus halutaan tehtäväksi.",
+        "description3": "Mikäli käsittely perustuu tietosuoja-asetuksen 6 artiklan 1a -kohtaan tai 9 artiklan 2a -kohtaan eli rekisteröidyn suostumukseen, on rekisteröidyllä oikeus tietojen poistamiseen.",
+        "description4": "Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä tilanteissa.",
+        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
+        "description6": "Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä toiseen, jos käsittely suoritetaan automaattisesti.",
+        "description7": "Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki. Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen tarvittavat tiedot (nimi ja henkilötunnus).",
+        "description8": "Jos rekisteröidyn käyttämästä henkilötietojen tarkastusoikeudesta on kulunut vähemmän kuin yksi vuosi, voi rekisterinpitäjä periä tietojen antamisesta aiheutuvat hallinnollisiin kustannuksiin perustuvan maksun (artikla 12 [5]).",
+        "heading": "Rekisteröidyn oikeudet",
+        "rights": {
+          "right1": "Oikeus saada pääsy henkilötietoihin",
+          "right2": "Oikeus tietojen oikaisemiseen",
+          "right3": "Oikeus tietojen poistamiseen",
+          "right4": "Oikeus käsittelyn rajoittamiseen",
+          "right5": "Vastustamisoikeus",
+          "right6": "Oikeus siirtää tiedot järjestelmästä toiseen"
+        }
+      },
+      "registerName": {
+        "contents": {
+          "description": "Rekisteri koostuu seuraavista:",
+          "item1": "rekisteriin merkityt auktorisoidut kääntäjät",
+          "item2": "julkinen hakukone"
+        },
+        "description": "Auktorisoitujen kääntäjien rekisteri",
+        "heading": "Rekisterin nimi"
       },
       "registrar": {
         "contact": {
-          "name": "Opetushallitus / viestintäyksikkö",
-          "address1": "PL 380 (tai Hakaniemenranta 6)",
-          "address2": "00530 Helsinki",
-          "email": "sähköposti:",
-          "emailAddress1": "webmaster@oph.fi",
-          "emailAddress2": "kirjaamo@oph.fi",
-          "or": "tai",
-          "phone": "puhelinnumero (vaihde):",
-          "phoneNumber": "029 533 1000"
+          "address1": "PL 380, 00531 Helsinki",
+          "address2": "Käyntiosoite Hakaniemenranta 6, 00530 Helsinki",
+          "name": "Opetushallitus",
+          "otherDetails": "Muut yhteystiedot",
+          "phoneSwitch": "Puhelinvaihde: 029 533 1000"
         },
-        "description1": "Älä epäröi ottaa meihin yhteyttä, jos sinulla on kysyttävää tietosuojakäytännöstämme.",
-        "description2": "Rekisterinpitäjänä toimii Opetushallitus (Y-tunnus 2769790-1) ja meihin voi ottaa yhteyttä seuraavasti:",
-        "modified": "Tietosuojakäytäntöä muokattu 13.6.2022",
-        "published": "Tietosuojakäytäntö on julkaistu 13.6.2022",
-        "title": "Kuka on rekisterinpitäjä ja mihin voit ottaa yhteyttä?"
+        "heading": "Rekisterin pitäjä"
       },
-      "rights": {
-        "description1": "Sinulla on lain mukaisesti oikeus tarkastaa, mitä tietoja olemme sinusta keränneet. Sinulla on myös oikeus vaatia virheellisen, puutteellisen, tarpeettoman tai vanhentuneen henkilötiedon korjaamista tai poistamista.",
-        "description2": "Voit käyttää oikeuksiasi ottamalla yhteyttä alla mainittuun rekisterinpitäjään.",
-        "title": "Mitkä ovat oikeutesi?"
-      }
+      "registrarContactPerson": {
+        "heading": "Rekisterinpitäjän edustaja (yhteyshenkilö)",
+        "liable": {
+          "description": "Tietosuojavastaavan yhteystiedot",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Terhi Seinä"
+        }
+      },
+      "title": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste"
     }
   }
 }
