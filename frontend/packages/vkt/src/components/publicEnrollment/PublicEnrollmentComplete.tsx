@@ -19,6 +19,7 @@ export const PublicEnrollmentComplete = () => {
 
   const {
     enrollment: { email },
+    reservationDetails,
   } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
@@ -45,7 +46,11 @@ export const PublicEnrollmentComplete = () => {
 
   return (
     <div className="rows gapped">
-      <H2>{t('title')}</H2>
+      <H2>
+        {reservationDetails?.reservation
+          ? t('title.reservation')
+          : t('title.queue')}
+      </H2>
       <Text>
         <strong>{`${t('description.part1')}: ${email}`}</strong>
       </Text>

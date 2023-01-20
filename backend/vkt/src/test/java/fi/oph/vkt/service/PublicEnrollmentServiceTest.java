@@ -315,7 +315,7 @@ public class PublicEnrollmentServiceTest {
       .speechComprehensionPartialExam(true)
       .writingPartialExam(false)
       .readingComprehensionPartialExam(false)
-      .previousEnrollmentDate(LocalDate.now().minusYears(1))
+      .previousEnrollment("11/2022")
       .email("test@tester")
       .phoneNumber("+358000111")
       .street("Katu 1")
@@ -337,7 +337,7 @@ public class PublicEnrollmentServiceTest {
     assertEquals(dto.speechComprehensionPartialExam(), enrollment.isSpeechComprehensionPartialExam());
     assertEquals(dto.writingPartialExam(), enrollment.isWritingPartialExam());
     assertEquals(dto.readingComprehensionPartialExam(), enrollment.isReadingComprehensionPartialExam());
-    assertEquals(dto.previousEnrollmentDate(), enrollment.getPreviousEnrollmentDate());
+    assertEquals(dto.previousEnrollment(), enrollment.getPreviousEnrollment());
     assertEquals(dto.digitalCertificateConsent(), enrollment.isDigitalCertificateConsent());
     assertEquals(dto.email(), enrollment.getEmail());
     assertEquals(dto.phoneNumber(), enrollment.getPhoneNumber());

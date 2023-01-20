@@ -75,7 +75,7 @@ public class MeetingDateService {
     if (!meetingDate.getQualifications().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_DELETE_HAS_QUALIFICATIONS);
     }
-    meetingDateRepository.deleteAllByIdInBatch(List.of(meetingDateId));
+    meetingDateRepository.deleteById(meetingDateId);
 
     auditService.logById(OtrOperation.DELETE_MEETING_DATE, meetingDateId);
   }

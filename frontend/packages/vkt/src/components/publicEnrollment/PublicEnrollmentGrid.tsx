@@ -9,6 +9,8 @@ import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEn
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { useAppSelector } from 'configs/redux';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PublicEnrollmentGrid = () => {
@@ -20,11 +22,15 @@ export const PublicEnrollmentGrid = () => {
     publicEnrollmentSelector
   );
 
+  useNavigationProtection(activeStep > PublicEnrollmentFormStep.Identify);
+
   if (!reservationDetails) {
     return null;
   }
 
   const isLoading = status === APIResponseStatus.InProgress;
+  const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
+  const hasReservation = !!reservationDetails.reservation;
 
   const renderDesktopView = () => (
     <>
@@ -32,9 +38,13 @@ export const PublicEnrollmentGrid = () => {
         <Paper elevation={3}>
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             <div className="public-enrollment__grid__form-container">
-              <PublicEnrollmentStepper activeStep={activeStep} />
+              <PublicEnrollmentStepper
+                activeStep={activeStep}
+                includePaymentStep={hasReservation}
+              />
               <PublicEnrollmentExamEventDetails
                 examEvent={reservationDetails.examEvent}
+                showOpenings={hasReservation}
               />
               <PublicEnrollmentStepContents
                 activeStep={activeStep}
@@ -42,10 +52,9 @@ export const PublicEnrollmentGrid = () => {
                 isLoading={isLoading}
                 disableNext={disableNextCb}
               />
-              <PublicEnrollmentPaymentSum
-                activeStep={activeStep}
-                enrollment={enrollment}
-              />
+              {isPreviewStepActive && hasReservation && (
+                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+              )}
               <PublicEnrollmentControlButtons
                 activeStep={activeStep}
                 enrollment={enrollment}

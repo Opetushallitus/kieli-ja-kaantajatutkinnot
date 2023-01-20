@@ -267,11 +267,17 @@
       "api": {
         "generic": "The action failed, please try again later",
         "interpreterInvalidNickName": null,
+        "interpreterOnrIdAndIndividualisedMismatch": null,
+        "interpreterRegionUnknown": null,
         "invalidVersion": "The action failed because you tried to modify outdated data. Please refresh the page and try again later if necessary.",
         "meetingDateCreateDuplicateDate": "Failed to add the meeting day because the selected date is already a meeting day",
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Failed to modify the meeting day failed because the selected date is already a meeting day",
-        "meetingDateUpdateHasQualifications": null
+        "meetingDateUpdateHasQualifications": null,
+        "qualificationDeleteLastQualification": null,
+        "qualificationInvalidTerm": null,
+        "qualificationLanguageUnknown": null,
+        "qualificationMissingMeetingDate": null
       },
       "customTextField": {
         "emailFormat": "The email address is incorrect",

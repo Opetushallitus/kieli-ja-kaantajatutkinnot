@@ -76,7 +76,7 @@ class ClerkEnrollmentServiceTest {
     assertEquals(responseDTO.speechComprehensionPartialExam(), dto.speechComprehensionPartialExam());
     assertEquals(responseDTO.writingPartialExam(), dto.writingPartialExam());
     assertEquals(responseDTO.readingComprehensionPartialExam(), dto.readingComprehensionPartialExam());
-    assertEquals(responseDTO.previousEnrollmentDate(), dto.previousEnrollmentDate());
+    assertEquals(responseDTO.previousEnrollment(), dto.previousEnrollment());
     assertEquals(responseDTO.digitalCertificateConsent(), dto.digitalCertificateConsent());
     assertEquals(responseDTO.email(), dto.email());
     assertEquals(responseDTO.phoneNumber(), dto.phoneNumber());
@@ -100,9 +100,7 @@ class ClerkEnrollmentServiceTest {
       .speechComprehensionPartialExam(!enrollment.isSpeechComprehensionPartialExam())
       .writingPartialExam(!enrollment.isWritingPartialExam())
       .readingComprehensionPartialExam(!enrollment.isReadingComprehensionPartialExam())
-      .previousEnrollmentDate(
-        enrollment.getPreviousEnrollmentDate() != null ? enrollment.getPreviousEnrollmentDate().plusDays(1) : null
-      )
+      .previousEnrollment(enrollment.getPreviousEnrollment() != null ? enrollment.getPreviousEnrollment() + "X" : null)
       .digitalCertificateConsent(!enrollment.isDigitalCertificateConsent())
       .email(enrollment.getEmail() + "x")
       .phoneNumber(enrollment.getPhoneNumber() + "X")

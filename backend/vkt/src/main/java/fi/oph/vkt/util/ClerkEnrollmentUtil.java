@@ -27,7 +27,7 @@ public class ClerkEnrollmentUtil {
       .writingPartialExam(enrollment.isWritingPartialExam())
       .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
       .status(enrollment.getStatus())
-      .previousEnrollmentDate(enrollment.getPreviousEnrollmentDate())
+      .previousEnrollment(enrollment.getPreviousEnrollment())
       .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
       .email(enrollment.getEmail())
       .phoneNumber(enrollment.getPhoneNumber())

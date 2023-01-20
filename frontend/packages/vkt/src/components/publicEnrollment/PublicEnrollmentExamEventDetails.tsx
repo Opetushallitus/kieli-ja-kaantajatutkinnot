@@ -8,8 +8,10 @@ import { ExamEventUtils } from 'utils/examEvent';
 
 export const PublicEnrollmentExamEventDetails = ({
   examEvent,
+  showOpenings,
 }: {
   examEvent: PublicExamEvent;
+  showOpenings: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.examEventDetails',
@@ -35,7 +37,9 @@ export const PublicEnrollmentExamEventDetails = ({
         <Text>{`${t('registrationCloses')}: ${DateUtils.formatOptionalDate(
           examEvent.registrationCloses
         )}`}</Text>
-        <Text>{`${t('openings')}: ${Math.max(examEvent.openings, 0)}`}</Text>
+        {showOpenings && (
+          <Text>{`${t('openings')}: ${Math.max(examEvent.openings, 0)}`}</Text>
+        )}
       </div>
     </div>
   );

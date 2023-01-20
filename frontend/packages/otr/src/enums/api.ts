@@ -13,9 +13,15 @@ export enum APIEndpoints {
  */
 export enum APIError {
   InterpreterInvalidNickName = 'interpreterInvalidNickName',
+  InterpreterOnrIdAndIndividualisedMismatch = 'interpreterOnrIdAndIndividualisedMismatch',
+  InterpreterRegionUnknown = 'interpreterRegionUnknown',
   InvalidVersion = 'invalidVersion',
   MeetingDateCreateDuplicateDate = 'meetingDateCreateDuplicateDate',
   MeetingDateDeleteHasQualifications = 'meetingDateDeleteHasQualifications',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',
   MeetingDateUpdateHasQualifications = 'meetingDateUpdateHasQualifications',
+  QualificationDeleteLastQualification = 'qualificationDeleteLastQualification',
+  QualificationInvalidTerm = 'qualificationInvalidTerm',
+  QualificationLanguageUnknown = 'qualificationLanguageUnknown',
+  QualificationMissingMeetingDate = 'qualificationMissingMeetingDate',
 }

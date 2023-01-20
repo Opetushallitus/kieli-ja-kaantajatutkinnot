@@ -16,6 +16,10 @@
       }
     }
 
+    &__previous-enrollment {
+      width: calc(50% - 1rem);
+    }
+
     &__partial-exam-selection {
       padding-left: 1rem;
     }

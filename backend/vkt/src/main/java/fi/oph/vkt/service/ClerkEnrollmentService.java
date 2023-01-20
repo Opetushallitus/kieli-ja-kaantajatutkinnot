@@ -37,7 +37,7 @@ public class ClerkEnrollmentService {
     enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
     enrollment.setWritingPartialExam(dto.writingPartialExam());
     enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
-    enrollment.setPreviousEnrollmentDate(dto.previousEnrollmentDate());
+    enrollment.setPreviousEnrollment(dto.previousEnrollment());
     enrollment.setDigitalCertificateConsent(dto.digitalCertificateConsent());
     enrollment.setEmail(dto.email());
     enrollment.setPhoneNumber(dto.phoneNumber());

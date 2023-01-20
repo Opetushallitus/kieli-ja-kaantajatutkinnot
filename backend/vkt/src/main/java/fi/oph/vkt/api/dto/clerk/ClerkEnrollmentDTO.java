@@ -1,7 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +22,7 @@ public record ClerkEnrollmentDTO(
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
   @NonNull @NotNull EnrollmentStatus status,
-  LocalDate previousEnrollmentDate,
+  String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String phoneNumber,

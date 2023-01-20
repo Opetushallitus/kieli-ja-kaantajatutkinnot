@@ -105,6 +105,7 @@ export enum SkeletonVariant {
 export enum TextFieldTypes {
   Text = 'text',
   Email = 'email',
+  Number = 'number',
   PhoneNumber = 'tel',
   Textarea = 'textarea',
   PersonalIdentityCode = 'personalIdentityCode',

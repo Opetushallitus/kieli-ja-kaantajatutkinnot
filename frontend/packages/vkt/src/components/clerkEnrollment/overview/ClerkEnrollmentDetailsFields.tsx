@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { CustomTextField, H2, H3, InfoText } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
-import { DateUtils, InputFieldUtils } from 'shared/utils';
+import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
@@ -52,8 +52,6 @@ const getTextValue = (
     field === ClerkEnrollmentTextFieldEnum.LastName
   ) {
     return enrollment.person[field] || '';
-  } else if (field === ClerkEnrollmentTextFieldEnum.PreviousEnrollmentDate) {
-    return enrollment[field] && DateUtils.formatOptionalDate(enrollment[field]);
   } else {
     return enrollment[field] || '';
   }
@@ -100,8 +98,7 @@ const ClerkEnrollmentDetailsTextField = ({
 }: ClerkEnrollmentTextFieldProps) => {
   const translateCommon = useCommonTranslation();
 
-  const required =
-    field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollmentDate;
+  const required = field !== ClerkEnrollmentTextFieldEnum.PreviousEnrollment;
   const fieldError = getFieldError(enrollment, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
@@ -269,8 +266,8 @@ export const ClerkEnrollmentDetailsFields = ({
         <ClerkEnrollmentDetailsTextField
           className="previous-enrollment"
           {...getCommonTextFieldProps(
-            ClerkEnrollmentTextFieldEnum.PreviousEnrollmentDate,
-            true
+            ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
+            editDisabled
           )}
         />
         <div className="columns align-items-start clerk-enrollment-details-fields__skills">

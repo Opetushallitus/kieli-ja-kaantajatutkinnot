@@ -6,6 +6,16 @@ import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export class ExamCreateEventUtils {
+  static maxParticipantsHasError(
+    isDirty: boolean,
+    value: number | undefined
+  ): boolean {
+    return (
+      isDirty &&
+      (value === undefined || value > 999 || value <= 0 || value % 1 !== 0)
+    );
+  }
+
   static isValidForm(examForm: DraftClerkExamEvent | undefined) {
     if (!examForm) {
       return false;
@@ -26,7 +36,12 @@ export class ExamCreateEventUtils {
       return false;
     }
 
-    if (!examForm.maxParticipants) {
+    if (
+      ExamCreateEventUtils.maxParticipantsHasError(
+        true,
+        examForm.maxParticipants
+      )
+    ) {
       return false;
     }
 
@@ -35,28 +50,6 @@ export class ExamCreateEventUtils {
     }
 
     return true;
-  }
-
-  static maxParticipantsOpts(): ComboBoxOption[] {
-    return ['10', '20', '30', '40', '50'].map(
-      (opt): ComboBoxOption => ({
-        label: opt,
-        value: opt,
-      })
-    );
-  }
-
-  static getParticipantsComboOpt(
-    examForm: DraftClerkExamEvent
-  ): ComboBoxOption | null {
-    if (!examForm || !examForm.maxParticipants) {
-      return null;
-    }
-
-    return {
-      label: String(examForm.maxParticipants),
-      value: String(examForm.maxParticipants),
-    };
   }
 
   static getLangLevelComboOpt(

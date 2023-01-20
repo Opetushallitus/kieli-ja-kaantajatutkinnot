@@ -5,12 +5,11 @@ import fi.oph.akr.model.AuthorisationBasis;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuthorisationRepository extends JpaRepository<Authorisation, Long> {
+public interface AuthorisationRepository extends BaseRepository<Authorisation> {
   @Query(
     "SELECT new fi.oph.akr.repository.AuthorisationProjection(a.id, a.version, a.translator.id, a.basis," +
     " a.diaryNumber, a.fromLang, a.toLang, a.permissionToPublish, a.termBeginDate, a.termEndDate, e.date)" +
