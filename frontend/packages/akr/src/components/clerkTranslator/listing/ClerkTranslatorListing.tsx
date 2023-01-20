@@ -36,7 +36,6 @@ enum AuthorisationColumn {
   Basis = 'basis',
   TermBeginDate = 'termBeginDate',
   TermEndDate = 'termEndDate',
-  valid = 'valid',
   PermissionToPublish = 'permissionToPublish',
 }
 
@@ -88,28 +87,24 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
         termEndDate,
       } = authorisation;
       switch (activeColumn) {
-        case AuthorisationColumn.Basis:
-          return basis;
         case AuthorisationColumn.LanguagePair:
           return AuthorisationUtils.getLanguagePairLocalisation(
             languagePair,
             translateLanguage
           );
-        case AuthorisationColumn.PermissionToPublish:
-          return permissionToPublish
-            ? translateCommon('yes')
-            : translateCommon('no');
+        case AuthorisationColumn.Basis:
+          return basis;
         case AuthorisationColumn.TermBeginDate:
           return DateUtils.formatOptionalDate(termBeginDate);
         case AuthorisationColumn.TermEndDate:
           return DateUtils.formatOptionalDate(termEndDate);
-        case AuthorisationColumn.valid:
-          return AuthorisationUtils.isEffective(authorisation, authorisations)
+        case AuthorisationColumn.PermissionToPublish:
+          return permissionToPublish
             ? translateCommon('yes')
             : translateCommon('no');
       }
     },
-    [authorisations, translateCommon, translateLanguage]
+    [translateCommon, translateLanguage]
   );
 
   const getAuthorisationCellClassName = (authorisation: Authorisation) => {
