@@ -39,7 +39,7 @@ export const ClerkExamMaxParticipants = ({
       : translateCommon('errors.customTextField.numberFormat');
   };
 
-  const showError = ExamCreateEventUtils.participantsHasError(
+  const showError = ExamCreateEventUtils.maxParticipantsHasError(
     isDirty,
     examForm.maxParticipants
   );

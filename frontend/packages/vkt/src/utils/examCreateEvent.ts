@@ -6,7 +6,7 @@ import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export class ExamCreateEventUtils {
-  static participantsHasError(
+  static maxParticipantsHasError(
     isDirty: boolean,
     value: number | undefined
   ): boolean {
@@ -37,7 +37,10 @@ export class ExamCreateEventUtils {
     }
 
     if (
-      ExamCreateEventUtils.participantsHasError(true, examForm.maxParticipants)
+      ExamCreateEventUtils.maxParticipantsHasError(
+        true,
+        examForm.maxParticipants
+      )
     ) {
       return false;
     }
