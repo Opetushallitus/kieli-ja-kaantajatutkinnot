@@ -4,8 +4,6 @@ class ClerkNewInterpreterPage {
   elements = {
     addQualificationButton: () =>
       cy.findByTestId('clerk-new-interpreter-page__add-qualification-button'),
-    backToRegisterButton: () =>
-      cy.findByTestId('clerk-interpreter-overview-page__back-button'),
     interpreterField: (field: string, fieldType: string) =>
       cy
         .findByTestId(`clerk-interpreter__basic-information__${field}`)

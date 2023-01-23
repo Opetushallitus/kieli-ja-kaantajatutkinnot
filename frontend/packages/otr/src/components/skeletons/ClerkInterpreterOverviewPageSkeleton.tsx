@@ -2,13 +2,13 @@ import { Skeleton } from '@mui/material';
 import { SkeletonVariant } from 'shared/enums';
 
 import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
-import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
+import { BackButton } from 'components/common/BackButton';
 
 export const ClerkInterpreterOverviewPageSkeleton = () => {
   return (
     <>
       <Skeleton variant={SkeletonVariant.Rectangular}>
-        <TopControls />
+        <BackButton />
       </Skeleton>
       <Skeleton
         className="full-max-width half-height margin-top-lg"
