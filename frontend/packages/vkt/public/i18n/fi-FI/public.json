@@ -32,17 +32,6 @@
         }
       },
       "publicEnrollment": {
-        "complete": {
-          "description": {
-            "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-            "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
-          },
-          "successToast": "Ilmoittautuminen onnistui!",
-          "title": {
-            "queue": "Jonopaikka on varattu.",
-            "reservation": "Maksu on suoritettu."
-          }
-        },
         "controlButtons": {
           "cancelDialog": {
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
@@ -73,6 +62,17 @@
           }
         },
         "steps": {
+          "done": {
+            "description": {
+              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+            },
+            "successToast": "Ilmoittautuminen onnistui!",
+            "title": {
+              "queue": "Jonopaikka on varattu.",
+              "reservation": "Maksu on suoritettu."
+            }
+          },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
