@@ -8,6 +8,7 @@ export {
 } from './ComboBox/ComboBox';
 export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
+export { CustomButtonGroup } from './CustomButtonGroup/CustomButtonGroup';
 export { CustomButtonLink } from './CustomButtonLink/CustomButtonLink';
 export { CustomCircularProgress } from './CustomCircularProgress/CustomCircularProgress';
 export { CustomIconButton } from './CustomIconButton/CustomIconButton';
@@ -26,6 +27,7 @@ export {
 } from './LanguageSelect/LanguageSelect';
 export { LoadingProgressIndicator } from './LoadingProgressIndicator/LoadingProgressIndicator';
 export { OPHLogoViewer } from './OPHLogoViewer/OPHLogoViewer';
+export { SplitButton } from './SplitButton/SplitButton';
 export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
 export { PaginatedTable, NormalTable } from './Table/Table';

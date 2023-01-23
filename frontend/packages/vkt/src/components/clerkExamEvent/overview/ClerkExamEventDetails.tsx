@@ -1,13 +1,7 @@
-import ArrowDropdown from '@mui/icons-material/ArrowDropDown';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import {
-  AutocompleteValue,
-  CustomButton,
-  ExtLink,
-  H2,
-} from 'shared/components';
+import { AutocompleteValue, ExtLink, H2, SplitButton } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
@@ -38,6 +32,11 @@ interface EnrollmentListProps {
   examEventId: number;
 }
 
+const enrollmentFilter = (
+  enrollments: Array<ClerkEnrollment>,
+  status: EnrollmentStatus
+) => enrollments.filter((e: ClerkEnrollment) => e.status === status);
+
 const EnrollmentList: FC<EnrollmentListProps> = ({
   enrollments,
   status,
@@ -47,7 +46,7 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
   });
 
-  const filteredEnrollments = enrollments.filter((e) => e.status === status);
+  const filteredEnrollments = enrollmentFilter(enrollments, status);
 
   return (
     <>
@@ -76,6 +75,24 @@ export const ClerkExamEventDetails = () => {
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
+
+  async function copyEmails(enrollments: Array<ClerkEnrollment>) {
+    const emails = enrollments.map((enrollment) => enrollment.email);
+
+    try {
+      await navigator.clipboard.writeText(emails.join('\n'));
+
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updated'),
+      });
+    } catch (err) {
+      showToast({
+        severity: Severity.Error,
+        description: t('toasts.updated'),
+      });
+    }
+  }
 
   // Local state
   const [examEventDetails, setExamEventDetails] = useState(examEvent);
@@ -146,6 +163,21 @@ export const ClerkExamEventDetails = () => {
       examEventDetails.date
     );
   const { enrollments } = examEventDetails;
+
+  const copyOptions = [
+    {
+      label: 'Kopioi sähköpostit',
+      onClick: copyEmails.bind(this, enrollments),
+    },
+    {
+      label: 'Kopioi vain ilmoittautuneet',
+      onClick: copyEmails.bind(this, enrollments),
+    },
+    {
+      label: 'Kopioi vain jonoon ilmoittautuneet',
+      onClick: copyEmails.bind(this, enrollments),
+    },
+  ];
 
   const handleComboBoxChange =
     (field: keyof ClerkExamEventBasicInformation) =>
@@ -267,14 +299,14 @@ export const ClerkExamEventDetails = () => {
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">
-          <CustomButton
+          <SplitButton
             color={Color.Secondary}
             variant={Variant.Contained}
-            endIcon={<ArrowDropdown />}
             data-testid="clerk-exam-event-overview-page__copy-emails-button"
+            options={copyOptions}
           >
             {t('examEventDetails.copyEmails')}
-          </CustomButton>
+          </SplitButton>
           <ExtLink
             href={`${APIEndpoints.ClerkExamEvent}/${examEventDetails.id}/excel`}
             text={t('examEventDetails.downloadExcel')}
