@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.5.9] - 2023-01-24
+
+### Added
+
+- SplitButton component
+
 ## [1.5.8] - 2023-01-17
 
 ### Added
