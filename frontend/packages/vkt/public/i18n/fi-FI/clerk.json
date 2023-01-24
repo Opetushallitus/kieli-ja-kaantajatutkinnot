@@ -78,10 +78,17 @@
           "PAID": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet"
         },
+        "copyClipboard": {
+          "copyAll": "Kopioi sähköpostit",
+          "copyPaid": "Kopioi vain ilmoittautuneet",
+          "copyQueued": "Kopioi vain jonoon ilmoittautuneet"
+        },
         "toasts": {
           "enrollmentStatusUpdated": "Siirto onnistui",
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt",
-          "updated": "Tiedot tallennettiin"
+          "updated": "Tiedot tallennettiin",
+          "copiedToClipboard": "{{num}} sähköpostiosoitetta kopioitu leikepöydälle",
+          "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },
       "header": {

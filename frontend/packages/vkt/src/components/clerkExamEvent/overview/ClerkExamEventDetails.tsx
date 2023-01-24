@@ -1,3 +1,4 @@
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
@@ -35,7 +36,8 @@ interface EnrollmentListProps {
 const enrollmentFilter = (
   enrollments: Array<ClerkEnrollment>,
   status: EnrollmentStatus
-) => enrollments.filter((e: ClerkEnrollment) => e.status === status);
+): Array<ClerkEnrollment> =>
+  enrollments.filter((e: ClerkEnrollment) => e.status === status);
 
 const EnrollmentList: FC<EnrollmentListProps> = ({
   enrollments,
@@ -76,20 +78,26 @@ export const ClerkExamEventDetails = () => {
   const { showToast } = useToast();
   const { showDialog } = useDialog();
 
-  async function copyEmails(enrollments: Array<ClerkEnrollment>) {
-    const emails = enrollments.map((enrollment) => enrollment.email);
+  async function copyEmails(
+    enrollments: Array<ClerkEnrollment>,
+    status?: EnrollmentStatus
+  ) {
+    const filteredEnrollments = status
+      ? enrollmentFilter(enrollments, status)
+      : enrollments;
+    const emails = filteredEnrollments.map((enrollment) => enrollment.email);
 
     try {
       await navigator.clipboard.writeText(emails.join('\n'));
 
       showToast({
         severity: Severity.Success,
-        description: t('toasts.updated'),
+        description: t('toasts.copiedToClipboard', { num: emails.length }),
       });
     } catch (err) {
       showToast({
         severity: Severity.Error,
-        description: t('toasts.updated'),
+        description: t('toasts.copyToClipboardFailed'),
       });
     }
   }
@@ -166,16 +174,24 @@ export const ClerkExamEventDetails = () => {
 
   const copyOptions = [
     {
-      label: 'Kopioi sähköpostit',
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyAll'),
       onClick: copyEmails.bind(this, enrollments),
+      disabled: enrollments.length <= 0,
     },
     {
-      label: 'Kopioi vain ilmoittautuneet',
-      onClick: copyEmails.bind(this, enrollments),
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyPaid'),
+      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.PAID),
+      disabled:
+        enrollmentFilter(enrollments, EnrollmentStatus.PAID).length <= 0,
     },
     {
-      label: 'Kopioi vain jonoon ilmoittautuneet',
-      onClick: copyEmails.bind(this, enrollments),
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyQueued'),
+      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.QUEUED),
+      disabled:
+        enrollmentFilter(enrollments, EnrollmentStatus.QUEUED).length <= 0,
     },
   ];
 

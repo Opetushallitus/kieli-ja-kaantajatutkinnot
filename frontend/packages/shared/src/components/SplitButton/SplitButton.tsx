@@ -2,21 +2,28 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ButtonGroup, ButtonGroupProps } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-import React, { FC } from 'react';
-import { LinkProps } from 'react-router-dom';
+import React, { FC, ReactNode } from 'react';
 
-import { CustomButton, CustomButtonGroup } from '../../components';
+import { CustomButton } from '../../components';
 
 type SplitButtonOption = {
+  icon: ReactNode;
   label: string;
   onClick: () => void;
+  disabled: boolean;
 };
 
-export const SplitButton = ({ ...props }) => {
+type SplitButtonProps = {
+  options: SplitButtonOption[];
+} & ButtonGroupProps;
+
+export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
   const options: SplitButtonOption[] = props.options;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -97,8 +104,10 @@ export const SplitButton = ({ ...props }) => {
                       key={`copy-emails-option-${index}`}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
+                      disabled={option.disabled}
                     >
-                      {option.label}
+                      <ListItemIcon>{option.icon}</ListItemIcon>
+                      <ListItemText>{option.label}</ListItemText>
                     </MenuItem>
                   ))}
                 </MenuList>

@@ -8,7 +8,6 @@ export {
 } from './ComboBox/ComboBox';
 export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
-export { CustomButtonGroup } from './CustomButtonGroup/CustomButtonGroup';
 export { CustomButtonLink } from './CustomButtonLink/CustomButtonLink';
 export { CustomCircularProgress } from './CustomCircularProgress/CustomCircularProgress';
 export { CustomIconButton } from './CustomIconButton/CustomIconButton';
