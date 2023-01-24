@@ -101,10 +101,11 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option: SplitButtonOption, index: number) => (
                     <MenuItem
-                      key={`copy-emails-option-${index}`}
+                      key={`split-button-option-${index}`}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                       disabled={option.disabled}
+                      data-testid={`split-button-option-${index}`}
                     >
                       <ListItemIcon>{option.icon}</ListItemIcon>
                       <ListItemText>{option.label}</ListItemText>
