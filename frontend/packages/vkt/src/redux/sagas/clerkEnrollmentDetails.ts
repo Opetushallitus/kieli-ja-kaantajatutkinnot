@@ -6,12 +6,16 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import {
   ClerkEnrollment,
+  ClerkEnrollmentMove,
   ClerkEnrollmentResponse,
-  ClerkExamEvent,
-} from 'interfaces/clerkExamEvent';
+} from 'interfaces/clerkEnrollment';
+import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  moveEnrollment,
+  moveEnrollmentSucceeded,
   rejectClerkEnrollmentDetailsUpdate,
+  rejectMoveEnrollment,
   storeClerkEnrollmentDetailsUpdate,
   updateClerkEnrollmentDetails,
 } from 'redux/reducers/clerkEnrollmentDetails';
@@ -55,9 +59,26 @@ function* updateClerkEnrollmentDetailsSaga(
   }
 }
 
+function* moveEnrollmentSaga(action: PayloadAction<ClerkEnrollmentMove>) {
+  try {
+    yield call(
+      axiosInstance.put,
+      `${APIEndpoints.ClerkEnrollment}/move`,
+      action.payload
+    );
+
+    yield put(moveEnrollmentSucceeded());
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectMoveEnrollment());
+  }
+}
+
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
     updateClerkEnrollmentDetails.type,
     updateClerkEnrollmentDetailsSaga
   );
+  yield takeLatest(moveEnrollment, moveEnrollmentSaga);
 }

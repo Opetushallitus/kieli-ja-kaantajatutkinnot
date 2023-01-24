@@ -4,6 +4,8 @@ import { DateUtils } from 'shared/utils';
 import {
   ClerkEnrollment,
   ClerkEnrollmentResponse,
+} from 'interfaces/clerkEnrollment';
+import {
   ClerkExamEvent,
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';

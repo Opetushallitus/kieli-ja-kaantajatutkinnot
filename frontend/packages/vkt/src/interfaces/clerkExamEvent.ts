@@ -2,34 +2,10 @@ import { Dayjs } from 'dayjs';
 
 import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
 import {
-  CertificateShippingData,
-  PartialExamsAndSkills,
-} from 'interfaces/common/enrollment';
+  ClerkEnrollment,
+  ClerkEnrollmentResponse,
+} from 'interfaces/clerkEnrollment';
 import { WithId, WithVersion } from 'interfaces/with';
-
-interface Person extends WithId, WithVersion {
-  identityNumber: string;
-  lastName: string;
-  firstName: string;
-}
-
-export interface ClerkEnrollmentResponse
-  extends Omit<ClerkEnrollment, 'enrollmentTime'> {
-  enrollmentTime: string;
-}
-
-export interface ClerkEnrollment
-  extends WithId,
-    WithVersion,
-    PartialExamsAndSkills,
-    CertificateShippingData {
-  enrollmentTime: Dayjs;
-  person: Person;
-  status: EnrollmentStatus;
-  previousEnrollment?: string;
-  email: string;
-  phoneNumber: string;
-}
 
 export interface ClerkExamEventBasicInformation {
   language: Exclude<ExamLanguage, 'ALL'>;
@@ -71,10 +47,4 @@ export interface ClerkExamEvent
     WithVersion,
     ClerkExamEventBasicInformation {
   enrollments: Array<ClerkEnrollment>;
-}
-
-export interface ClerkEnrollmentStatusChange {
-  id: number;
-  version: number;
-  newStatus: EnrollmentStatus;
 }

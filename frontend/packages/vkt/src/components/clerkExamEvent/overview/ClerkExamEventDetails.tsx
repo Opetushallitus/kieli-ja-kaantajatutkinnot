@@ -13,15 +13,15 @@ import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
 
 import { ClerkEnrollmentListing } from 'components/clerkEnrollment/listing/ClerkEnrollmentListing';
-import { ControlButtons } from 'components/clerkExamEvent/ControlButtons';
 import { ClerkExamEventDetailsFields } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsFields';
+import { ControlButtons } from 'components/clerkExamEvent/overview/ControlButtons';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { EnrollmentStatus, UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import {
-  ClerkEnrollment,
   ClerkExamEvent,
   ClerkExamEventBasicInformation,
 } from 'interfaces/clerkExamEvent';
