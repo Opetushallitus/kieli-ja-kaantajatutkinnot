@@ -199,7 +199,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
       'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid\nperson7@example.invalid\nperson8@example.invalid\nperson9@example.invalid'
     );
-    onClerkExamEventOverviewPage.clickCopyEmailsOpenMenuButton();
+    onToast.expectText('9 sähköpostiosoitetta kopioitu leikepöydälle');
   });
 
   it('should copy only paid enrollment emails to clipboard', () => {
@@ -209,6 +209,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
       'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid'
     );
+    onToast.expectText('6 sähköpostiosoitetta kopioitu leikepöydälle');
   });
 
   it('should copy only queued enrollment emails to clipboard', () => {
@@ -218,5 +219,6 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
       'person8@example.invalid'
     );
+    onToast.expectText('1 sähköpostiosoitetta kopioitu leikepöydälle');
   });
 });
