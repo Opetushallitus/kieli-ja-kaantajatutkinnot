@@ -4,7 +4,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { PublicUIViews } from 'enums/app';
 import {
   PublicEnrollment,
   PublicReservationDetails,
@@ -15,6 +14,7 @@ import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
+  increaseActiveStep,
   initialisePublicEnrollment,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
@@ -23,7 +23,6 @@ import {
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
 } from 'redux/reducers/publicEnrollment';
-import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -42,7 +41,7 @@ function* initialisePublicEnrollmentSaga(
       SerializationUtils.deserializePublicReservationDetails(response.data);
 
     yield put(storePublicEnrollmentInitialisation(reservationDetails));
-    yield put(setPublicUIView(PublicUIViews.Enrollment));
+    yield put(increaseActiveStep());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -51,7 +50,6 @@ function* initialisePublicEnrollmentSaga(
 }
 
 function* cancelPublicEnrollmentSaga() {
-  yield put(setPublicUIView(PublicUIViews.ExamEventListing));
   yield put(resetPublicEnrollment());
 }
 
@@ -66,7 +64,6 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
   } catch (error) {
     // If deletion of reservation fails, it will expire in 30 mins
   } finally {
-    yield put(setPublicUIView(PublicUIViews.ExamEventListing));
     yield put(resetPublicEnrollment());
   }
 }

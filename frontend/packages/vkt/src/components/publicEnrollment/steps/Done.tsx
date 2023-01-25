@@ -1,15 +1,15 @@
 import { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { CustomButton, H2, Text } from 'shared/components';
 import { Duration, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { PublicUIViews } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
-import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
@@ -22,12 +22,13 @@ export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const resetAndRedirect = useCallback(() => {
     dispatch(resetPublicExamEventSelections());
-    dispatch(setPublicUIView(PublicUIViews.ExamEventListing));
     dispatch(resetPublicEnrollment());
-  }, [dispatch]);
+    navigate(AppRoutes.PublicHomePage);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     showToast({
