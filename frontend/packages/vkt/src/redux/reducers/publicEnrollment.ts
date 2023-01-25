@@ -100,6 +100,7 @@ const publicEnrollmentSlice = createSlice({
     },
     storePublicEnrollmentSave(state) {
       state.status = APIResponseStatus.Success;
+      state.activeStep = PublicEnrollmentFormStep.Done;
     },
   },
 });

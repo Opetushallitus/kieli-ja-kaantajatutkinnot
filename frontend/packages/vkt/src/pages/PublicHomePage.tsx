@@ -1,7 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { FC } from 'react';
 
-import { PublicEnrollmentComplete } from 'components/publicEnrollment/PublicEnrollmentComplete';
 import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
 import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
 import { useAppSelector } from 'configs/redux';
@@ -14,8 +13,6 @@ export const PublicHomePage: FC = () => {
   const renderView = () => {
     if (currentView === PublicUIViews.Enrollment) {
       return <PublicEnrollmentGrid />;
-    } else if (currentView === PublicUIViews.EnrollmentComplete) {
-      return <PublicEnrollmentComplete />;
     }
 
     return <PublicExamEventGrid />;

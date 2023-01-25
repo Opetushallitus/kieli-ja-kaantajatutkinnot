@@ -30,6 +30,7 @@ export const PublicEnrollmentGrid = () => {
 
   const isLoading = status === APIResponseStatus.InProgress;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
+  const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails.reservation;
 
   const renderDesktopView = () => (
@@ -44,7 +45,7 @@ export const PublicEnrollmentGrid = () => {
               />
               <PublicEnrollmentExamEventDetails
                 examEvent={reservationDetails.examEvent}
-                showOpenings={hasReservation}
+                showOpenings={hasReservation && !isDoneStepActive}
               />
               <PublicEnrollmentStepContents
                 activeStep={activeStep}
@@ -55,13 +56,15 @@ export const PublicEnrollmentGrid = () => {
               {isPreviewStepActive && hasReservation && (
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
-              <PublicEnrollmentControlButtons
-                activeStep={activeStep}
-                enrollment={enrollment}
-                reservationDetails={reservationDetails}
-                isLoading={isLoading}
-                disableNext={disableNext}
-              />
+              {!isDoneStepActive && (
+                <PublicEnrollmentControlButtons
+                  activeStep={activeStep}
+                  enrollment={enrollment}
+                  reservationDetails={reservationDetails}
+                  isLoading={isLoading}
+                  disableNext={disableNext}
+                />
+              )}
             </div>
           </LoadingProgressIndicator>
         </Paper>
