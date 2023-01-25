@@ -37,6 +37,12 @@ const clerkListExamEventSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.examEvents = action.payload;
     },
+    resetClerkListExamEvent(state) {
+      state.status = initialState.status;
+      state.examEvents = initialState.examEvents;
+      state.languageFilter = initialState.languageFilter;
+      state.toggleFilter = initialState.toggleFilter;
+    },
     setExamEventLanguageFilter(state, action: PayloadAction<ExamLanguage>) {
       state.languageFilter = action.payload;
     },
@@ -76,6 +82,7 @@ export const {
   loadExamEvents,
   rejectExamEvents,
   storeExamEvents,
+  resetClerkListExamEvent,
   setExamEventLanguageFilter,
   setExamEventToggleFilter,
   upsertExamEvents,

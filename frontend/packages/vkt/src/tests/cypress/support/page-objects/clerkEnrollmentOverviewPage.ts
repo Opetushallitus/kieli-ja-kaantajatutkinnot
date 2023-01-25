@@ -7,14 +7,9 @@ class ClerkEnrollmentOverviewPage {
         .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)
         .should('be.visible')
         .find('>input'),
-    editButton: () =>
-      cy.findByTestId(
-        'clerk-exam-event-overview__exam-event-details__edit-button'
-      ),
-    saveButton: () =>
-      cy.findByTestId(
-        'clerk-exam-event-overview__exam-event-details__save-button'
-      ),
+    editButton: () => cy.findByTestId('clerk-enrollment-details__edit-button'),
+    saveButton: () => cy.findByTestId('clerk-enrollment-details__save-button'),
+    moveButton: () => cy.findByTestId('clerk-enrollment-details__move-button'),
     textField: (fieldName: string) =>
       cy
         .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)

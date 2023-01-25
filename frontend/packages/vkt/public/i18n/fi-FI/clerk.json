@@ -7,6 +7,9 @@
           "description": "Tätä toimintoa ei voi peruuttaa!",
           "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
         },
+        "controlButtons": {
+          "move": "Siirrä"
+        },
         "header": {
           "contactDetails": "Yhteystiedot",
           "digitalCertificateConsent": "Suostumus sähköisestä todistuksesta",
@@ -14,6 +17,13 @@
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "selectedPartialExams": "Valitut osakokeet",
           "selectedSkills": "Valitut tutkinnot"
+        },
+        "moveModal": {
+          "fillings": "Paikkoja täytetty",
+          "move": "Siirrä",
+          "newExamEvent": "Uusi tutkintotilaisuus",
+          "title": "Siirrä ilmoittautuminen toiseen tilaisuuteen",
+          "successToast": "Ilmoittautumisen siirto onnistui"
         },
         "title": "Ilmoittautumisen tiedot",
         "toasts": {

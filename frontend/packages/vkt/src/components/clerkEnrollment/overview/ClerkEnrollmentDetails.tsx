@@ -1,17 +1,18 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { CustomButton } from 'shared/components';
+import { CustomButton, CustomModal } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
 import { ClerkEnrollmentDetailsFields } from 'components/clerkEnrollment/overview/ClerkEnrollmentDetailsFields';
-import { ControlButtons } from 'components/clerkExamEvent/ControlButtons';
+import { ControlButtons } from 'components/clerkEnrollment/overview/ControlButtons';
+import { MoveModal } from 'components/clerkEnrollment/overview/MoveModal';
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus, UIMode } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import {
   resetClerkEnrollmentDetailsUpdate,
@@ -40,9 +41,13 @@ export const ClerkEnrollmentDetails = () => {
   const [enrollmentDetails, setEnrollmentDetails] = useState<
     ClerkEnrollment | undefined
   >(enrollment);
+  const [isMoveModalOpen, setIsOpenModalOpen] = useState(false);
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const isViewMode = currentUIMode === UIMode.View;
+
+  const handleMoveButtonCLick = () => setIsOpenModalOpen(true);
+  const closeMoveModal = () => setIsOpenModalOpen(false);
 
   const resetLocalEnrollmentDetails = useCallback(() => {
     setEnrollmentDetails(enrollment);
@@ -150,7 +155,7 @@ export const ClerkEnrollmentDetails = () => {
     });
   };
 
-  const onSave = () => {
+  const handleSaveButtonClick = () => {
     dispatch(
       updateClerkEnrollmentDetails({
         enrollment: enrollmentDetails,
@@ -159,7 +164,7 @@ export const ClerkEnrollmentDetails = () => {
     );
   };
 
-  const onEdit = () => {
+  const handleEditButtonClick = () => {
     resetLocalEnrollmentDetails();
     setCurrentUIMode(UIMode.Edit);
   };
@@ -183,7 +188,7 @@ export const ClerkEnrollmentDetails = () => {
     });
   };
 
-  const onCancelEnrollment = () => {
+  const handleCancelEnrollmentButtonClick = () => {
     const statusChange = {
       id: enrollmentDetails.id,
       version: enrollmentDetails.version,
@@ -209,7 +214,7 @@ export const ClerkEnrollmentDetails = () => {
     });
   };
 
-  const onCancel = () => {
+  const handleCancelButtonClick = () => {
     if (!hasLocalChanges) {
       resetToInitialState();
     } else {
@@ -219,6 +224,15 @@ export const ClerkEnrollmentDetails = () => {
 
   return (
     <>
+      <CustomModal
+        data-testid="clerk-enrollment-details__move-modal"
+        open={isMoveModalOpen}
+        onCloseModal={closeMoveModal}
+        ariaLabelledBy="modal-title"
+        modalTitle={t('moveModal.title')}
+      >
+        <MoveModal enrollment={enrollmentDetails} onCancel={closeMoveModal} />
+      </CustomModal>
       <ClerkEnrollmentDetailsFields
         showFieldErrorBeforeChange={false}
         enrollment={enrollmentDetails}
@@ -227,9 +241,10 @@ export const ClerkEnrollmentDetails = () => {
         editDisabled={isViewMode}
         topControlButtons={
           <ControlButtons
-            onCancel={onCancel}
-            onEdit={onEdit}
-            onSave={onSave}
+            onCancel={handleCancelButtonClick}
+            onEdit={handleEditButtonClick}
+            onSave={handleSaveButtonClick}
+            onMove={handleMoveButtonCLick}
             isViewMode={isViewMode}
             hasRequiredDetails={hasRequiredDetails}
           />
@@ -240,7 +255,7 @@ export const ClerkEnrollmentDetails = () => {
           data-testid="clerk-enrollment-details__cancel-enrollment-button"
           variant={Variant.Contained}
           color={Color.Error}
-          onClick={onCancelEnrollment}
+          onClick={handleCancelEnrollmentButtonClick}
           disabled={enrollmentDetails.status === EnrollmentStatus.CANCELED}
         >
           {t('cancelEnrollment')}

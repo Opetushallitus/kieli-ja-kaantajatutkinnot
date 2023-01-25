@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import {
-  ClerkEnrollmentStatusChange,
-  ClerkExamEvent,
-} from 'interfaces/clerkExamEvent';
+import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
+import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
 interface ClerkExamEventOverviewState {
   overviewStatus: APIResponseStatus;

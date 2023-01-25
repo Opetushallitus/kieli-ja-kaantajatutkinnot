@@ -7,6 +7,8 @@ import { APIEndpoints } from 'enums/api';
 import {
   ClerkEnrollmentResponse,
   ClerkEnrollmentStatusChange,
+} from 'interfaces/clerkEnrollment';
+import {
   ClerkExamEvent,
   ClerkExamEventResponse,
 } from 'interfaces/clerkExamEvent';

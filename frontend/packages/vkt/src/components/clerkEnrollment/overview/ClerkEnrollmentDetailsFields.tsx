@@ -10,8 +10,8 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 
 const CheckboxField = ({
