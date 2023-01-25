@@ -2,7 +2,7 @@ import { NormalTable } from 'shared/components';
 
 import { ClerkEnrollmentListingHeader } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingHeader';
 import { ClerkEnrollmentListingRow } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingRow';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 
 interface ClerkEnrollmentListingProps {
   enrollments: Array<ClerkEnrollment>;

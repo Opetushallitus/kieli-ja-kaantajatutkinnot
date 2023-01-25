@@ -1,3 +1,4 @@
+import { Done } from 'components/publicEnrollment/steps/Done';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
 import { Preview } from 'components/publicEnrollment/steps/Preview';
 import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
@@ -44,6 +45,8 @@ export const PublicEnrollmentStepContents = ({
       );
     case PublicEnrollmentFormStep.Payment:
       return <></>;
+    case PublicEnrollmentFormStep.Done:
+      return <Done enrollment={enrollment} />;
     default:
       return <> </>;
   }

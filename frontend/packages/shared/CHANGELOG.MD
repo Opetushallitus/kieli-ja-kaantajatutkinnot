@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.5.9] - 2023-01-24
+## [1.5.10] - 2023-01-25
 
 ### Added
 
 - SplitButton component
+
+## [1.5.9] - 2023-01-20
+
+### Added
+
+-  error, showHelperText and helperText props for DatePicker
 
 ## [1.5.8] - 2023-01-17
 

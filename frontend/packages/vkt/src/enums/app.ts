@@ -16,7 +16,6 @@ export enum AppRoutes {
 
 export enum PublicUIViews {
   Enrollment = 'Enrollment',
-  EnrollmentComplete = 'EnrollmentComplete',
   ExamEventListing = 'ExamEventListing',
 }
 

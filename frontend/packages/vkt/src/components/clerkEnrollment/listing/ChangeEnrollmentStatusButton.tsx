@@ -5,7 +5,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus } from 'enums/app';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { changeClerkEnrollmentStatus } from 'redux/reducers/clerkExamEventOverview';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 

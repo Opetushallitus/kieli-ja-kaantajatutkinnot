@@ -43,8 +43,7 @@
           "name": "Name",
           "languagePairs": "Language pairs",
           "permissionToPublish": "Permission to publish",
-          "title": "Search results",
-          "valid": "Valid"
+          "title": "Search results"
         }
       },
       "clerkInterpreterOverview": {

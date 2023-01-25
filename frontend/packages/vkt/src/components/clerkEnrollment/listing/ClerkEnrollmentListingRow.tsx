@@ -7,7 +7,7 @@ import { ChangeEnrollmentStatusButton } from 'components/clerkEnrollment/listing
 import { useClerkTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
-import { ClerkEnrollment } from 'interfaces/clerkExamEvent';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
 
 const examCodes = {

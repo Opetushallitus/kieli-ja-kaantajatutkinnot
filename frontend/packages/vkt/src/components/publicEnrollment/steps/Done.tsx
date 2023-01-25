@@ -6,21 +6,19 @@ import { useToast } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicUIViews } from 'enums/app';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const PublicEnrollmentComplete = () => {
+export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.complete',
+    keyPrefix: 'vkt.component.publicEnrollment.steps.done',
   });
   const translateCommon = useCommonTranslation();
 
-  const {
-    enrollment: { email },
-    reservationDetails,
-  } = useAppSelector(publicEnrollmentSelector);
+  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
@@ -45,14 +43,14 @@ export const PublicEnrollmentComplete = () => {
   }, [t, showToast, resetAndRedirect]);
 
   return (
-    <div className="rows gapped">
+    <div className="margin-top-xxl rows gapped">
       <H2>
         {reservationDetails?.reservation
           ? t('title.reservation')
           : t('title.queue')}
       </H2>
       <Text>
-        <strong>{`${t('description.part1')}: ${email}`}</strong>
+        <strong>{`${t('description.part1')}: ${enrollment.email}`}</strong>
       </Text>
       <Text>{t('description.part2')}</Text>
       <CustomButton

@@ -1,4 +1,10 @@
 .clerk-interpreter-listing {
+  &__ineffective {
+    &#{&} {
+      color: $color-grey-600;
+    }
+  }
+
   &__row {
     td:first-child {
       position: relative;

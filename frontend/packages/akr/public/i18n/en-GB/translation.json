@@ -54,8 +54,7 @@
           "name": "Name",
           "permissionToPublish": "Permission to publish",
           "termBeginDate": "Start date",
-          "termEndDate": "End date",
-          "valid": "Valid"
+          "termEndDate": "End date"
         }
       },
       "clerkTranslatorOverview": {
