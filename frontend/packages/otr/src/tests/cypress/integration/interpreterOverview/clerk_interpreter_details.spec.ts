@@ -101,7 +101,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onToast.expectText('Tiedot tallennettiin');
 
     // Ensure navigation protection is no longer enabled after saving.
-    onClerkInterpreterOverviewPage.navigateBackToRegister();
+    onClerkInterpreterOverviewPage.clickBackButton();
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
@@ -144,7 +144,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       'input',
       'testiTesti123'
     );
-    onClerkInterpreterOverviewPage.navigateBackToRegister();
+    onClerkInterpreterOverviewPage.clickBackButton();
 
     onDialog.expectText('Haluatko varmasti poistua sivulta?');
     onDialog.clickButtonByText('Kyllä');

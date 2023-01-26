@@ -10,7 +10,7 @@ import { AddQualification } from 'components/clerkInterpreter/add/AddQualificati
 import { BottomControls } from 'components/clerkInterpreter/new/BottomControls';
 import { ClerkNewInterpreterDetails } from 'components/clerkInterpreter/new/ClerkNewInterpreterDetails';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
-import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
+import { BackButton } from 'components/common/BackButton';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -150,7 +150,7 @@ export const ClerkNewInterpreterPage = () => {
         className="clerk-new-interpreter-page__content-container rows"
       >
         <div className="rows gapped">
-          <TopControls />
+          <BackButton to={AppRoutes.ClerkPersonSearchPage} />
           <ClerkNewInterpreterDetails
             interpreter={interpreter}
             onDetailsChange={() => setHasLocalChanges(true)}

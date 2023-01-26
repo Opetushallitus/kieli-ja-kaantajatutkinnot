@@ -17,7 +17,7 @@ import {
 } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
-import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
+import { BackButton } from 'components/common/BackButton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -90,7 +90,7 @@ export const ClerkPersonSearchPage = () => {
         elevation={3}
         className="clerk-person-search-page__content-container rows"
       >
-        <TopControls />
+        <BackButton />
         <div className="rows gapped">
           <div className="columns margin-top-lg">
             <div className="columns margin-top-lg grow">

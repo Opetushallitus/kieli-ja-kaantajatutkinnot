@@ -7,7 +7,7 @@ import { useToast } from 'shared/hooks';
 
 import { ClerkInterpreterDetails } from 'components/clerkInterpreter/overview/ClerkInterpreterDetails';
 import { QualificationDetails } from 'components/clerkInterpreter/overview/QualificationDetails';
-import { TopControls } from 'components/clerkInterpreter/overview/TopControls';
+import { BackButton } from 'components/common/BackButton';
 import { ClerkInterpreterOverviewPageSkeleton } from 'components/skeletons/ClerkInterpreterOverviewPageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -84,7 +84,7 @@ export const ClerkInterpreterOverviewPage = () => {
           <ClerkInterpreterOverviewPageSkeleton />
         ) : (
           <>
-            <TopControls />
+            <BackButton />
             <div className="rows gapped">
               <ClerkInterpreterDetails />
               <QualificationDetails />

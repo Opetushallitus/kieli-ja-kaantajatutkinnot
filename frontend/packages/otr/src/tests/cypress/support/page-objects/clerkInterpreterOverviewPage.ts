@@ -7,8 +7,7 @@ class ClerkInterpreterOverviewPage {
       cy.findByTestId(
         'clerk-interpreter-overview__qualification-details__add-button'
       ),
-    backToRegisterButton: () =>
-      cy.findByTestId('clerk-interpreter-overview-page__back-button'),
+    backButton: () => cy.findByTestId('back-button'),
     editInterpreterDetailsButton: () =>
       cy.findByTestId(
         'clerk-interpreter-overview__interpreter-details__edit-button'
@@ -45,8 +44,8 @@ class ClerkInterpreterOverviewPage {
     );
   }
 
-  navigateBackToRegister() {
-    this.elements.backToRegisterButton().should('be.visible').click();
+  clickBackButton() {
+    this.elements.backButton().should('be.visible').click();
   }
 
   expectTitle(text: string) {
