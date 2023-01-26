@@ -1,1 +1,143 @@
-{}
+{
+  "akr": {
+    "privacy": {
+      "automatedDecisions": {
+        "description": "Registrets uppgifter används inte för profilering och uppgifterna omfattas inte av automatiskt beslutsfattande.",
+        "heading": "Information om automatiskt beslutsfattande, inkl. förekomsten av profilering, och åtminstone i dessa fall betydelsefulla uppgifter om hanteringens logik, samt den aktuella behandlingens betydelse och eventuella konsekvenser för den registrerade"
+      },
+      "common": {
+        "email": "E-post",
+        "group": "Grupp",
+        "phoneSwitch": "Telefon: 029 533 1000 (växel)"
+      },
+      "complaints": {
+        "description": "Den registrerade har rätt att lämna in ett klagomål till tillsynsmyndigheten, särskilt i den medlemsstat där hen är stadigvarande bosatt eller har sin arbetsplats, eller där den påstådda överträdelsen av dataskyddsförordningen har skett.",
+        "heading": "Rätt att lämna in klagomål till tillsynsmyndigheten"
+      },
+      "dataContents": {
+        "group1": {
+          "action": "Kontaktbegäran har lämnats till en auktoriserad translator",
+          "description1": "Personuppgifter: I huvudsak samlas personuppgifter in av användaren själv i samband med att kontaktblanketten lämnas in.",
+          "description2": "Användarens uppgifter: namn, e-postadress och telefonnummer.",
+          "description3": "Övriga uppgifter: användarnas meddelanden om översättningsuppdrag.",
+          "description4": "Uppgifterna förvaras i 6 månader.",
+          "name": "Sökmotoranvändare"
+        },
+        "group2": {
+          "action": "Bläddra i sökmotorns uppgifter / gör sökningar",
+          "description": "Inga uppgifter sparas.",
+          "name": "Sökmotoranvändare"
+        },
+        "group3": {
+          "action": "I sökmotorn antecknas namn, bostadsort samt de språkpar för vilka auktorisering har givits för den auktoriserade translatorn som gett publiceringstillstånd.",
+          "details": {
+            "description": "Personuppgifter: namn, personbeteckning, adress, e-postadress, telefonnummer och boendeort",
+            "heading": "Den registrerades uppgifter",
+            "otherDetails": {
+              "description": "Övriga uppgifter",
+              "detail1": "auktoriseringsgrund",
+              "detail2": "från vilket språk till vilket språk translatorn är auktoriserad att utföra översättningar"
+            }
+          },
+          "grounds": {
+            "description1": "Translatorer auktoriseras på tre grunder",
+            "description2": "De två förstnämnda förnyar sin rätt att verka som auktoriserad translator med 5 års mellanrum. En auktoriserad translator (på finska: virallinen kääntäjä) beviljas auktorisering utan sluttid. Utbildningsstyrelsen skickar en anmärkning 3 månader innan auktorisationen upphör. Om auktorisationen upphör tas översättaren bort från den offentliga sökmotorn. Översättaren kan när som helst ansöka om auktorisation på nytt.",
+            "ground1": "godkänd examen för auktoriserad translator",
+            "ground2": "högskolestudier i översättning som del av magisterexamen (60 studiepoäng, i vilken ingår 6 studiepoäng i auktoriserad översättning)",
+            "ground3": "auktoriserad translator (på finska: virallinen kääntäjä)"
+          },
+          "name": "Auktoriserade translatorer som antecknats i registret"
+        },
+        "heading": "Registrets datainnehåll / kategorier av personuppgifter som behandlas"
+      },
+      "dataSources": {
+        "description": "I grupper 1 och 3 samla uppgifterna in från personerna själva.",
+        "heading": "Information om var personuppgifterna har erhållits och vid behov om informationen har erhållits från allmänt tillgängliga källor"
+      },
+      "dataTransfers": {
+        "description": "Uppgifter lämnas i regel inte ut eller överförs från registret till länder utanför EU eller Europeiska ekonomiska samarbetsområdet.",
+        "heading": "Information om överföring av uppgifter till tredje land och de skyddsåtgärder som vidtas (inkl. information om huruvida kommissionens beslut om adekvat dataskydd existerar eller saknas) och metoder för att få en kopia eller information om vad de innehåller"
+      },
+      "description": "EU:s dataskyddsförordning 2016/679 (GDPR)",
+      "handlingPurpose": {
+        "description1": "I registret över auktoriserade translatorer har införts uppgifter om auktoriserade translatorer som Examensnämnden för auktoriserade translatorer på ansökan har beviljats rätten att verka som auktoriserade translatorer.",
+        "description2": "I registrets offentliga sökmotor kan man söka auktoriserade translatorer och lämna en kontaktförfrågan till dem för översättningsuppdrag. Man kan också göra sökningar i registret utan att lämna en kontaktförfrågan.",
+        "description3": "I registret samlas in och behandlas personuppgifter som behövs för att administrera auktorisationer och för att sköta ovan nämnda kontaktbegäranden och ändringsbehov.",
+        "description4": "Vid förfrågan om samtycke för publiceringstillståndet begärs den registrerade på förhand om samtycke för behandling av uppgifter. Samtidigt ges en redogörelse för hur uppgifterna behandlas med detta formulär.",
+        "heading": "Syftet med behandlingen av personuppgifter samt den rättsliga grunden för behandlingen",
+        "law": {
+          "clause": "15 §",
+          "description": "Lag om auktoriserade translatorer",
+          "heading": "Laggrunder",
+          "link": "https://www.finlex.fi/sv/laki/ajantasa/2007/20071231#L5P15"
+        }
+      },
+      "heading": "Dataskyddsbeskrivning / Meddelande",
+      "holdingPeriod": {
+        "group1": {
+          "description": "Uppgifterna förvaras i 6 månader."
+        },
+        "group3": {
+          "description": "Den registrerades uppgifter tas bort utan obefogat dröjsmål och senast 2 månader efter att auktorisationen har upphört eller återkallats. Förvaringstiderna för personuppgifter i tjänsten följer de förvaringstider som fastställts i arkivbildningsplanen och informationsstyrningsplanen. Handlingar vars förvaringstid har löpt ut tas bort från systemet årligen."
+        },
+        "heading": "Personuppgifters förvaringstid"
+      },
+      "receivers": {
+        "description1": "Enligt lagen om offentlighet i myndigheternas verksamhet (21.5.1999/621) ska Utbildningsstyrelsen ge uppgifter från en offentlig handling enligt begäran, även om handlingen innehåller personuppgifter. Utlämnande eller överlåtande av sekretessbelagda uppgifter förutsätter särskilda grunder: partsställning eller lagstadgad rätt att få uppgifter eller samtycke av den som sekretessen gäller.",
+        "description2": "Personuppgifter kan lämnas ut för vetenskaplig eller historisk forskning eller för statistikföring under de förutsättningar som anges i 4 § i dataskyddslagen (1050/2018).",
+        "description3": "Informationssystemets tjänsteleverantörer (personuppgiftsbiträden) kan granska personuppgifterna i registret i den omfattning som Utbildningsstyrelsen bestämmer.",
+        "description4": "Uppgifterna lämnas inte ut för direktmarknadsföring.",
+        "heading": "Personuppgifternas mottagare eller mottagargrupper"
+      },
+      "registeredRights": {
+        "description1": "Den registrerade har rätt att av den personuppgiftsansvarige få bekräftelse på att personuppgifter som gäller hen behandlas eller inte behandlas. Den registeransvarige skall på begäran sända en kopia av de personuppgifter som behandlas.",
+        "description2": "Den registrerade har rätt att kräva att den personuppgiftsansvarige utan obefogat dröjsmål rättar inexakta och felaktiga personuppgifter om den registrerade. Den registrerade ska specificera och motivera vilken information hen kräver att ska korrigeras, vilken information hen anser vara korrekt och hur man vill att korrigeringen ska göras.",
+        "description3": "Om behandlingen grundar sig på artikel 6 punkt 1a eller artikel 9 punkt 2a i dataskyddsförordningen, dvs. den registrerades samtycke, har den registrerade rätt att radera uppgifterna.",
+        "description4": "Den registrerade har rätt att begränsa behandlingen av uppgifter i vissa situationer.",
+        "description5": "Den registrerade har rätt att bli informerad om dennes personuppgifter har rättats eller raderats, eller om att behandlingen begränsats till den till vilken uppgifterna har vidareutlämnats, om uppgifterna lämnas vidare.",
+        "description6": "Den registrerade har rätt att få uppgifterna överförda från ett system till ett annat om handläggningen sker automatiskt.",
+        "description7": "Begäran om utövande av rättigheter ska riktas till registrets kontaktperson: Utbildningsstyrelsen, PB 380, 00531 Helsingfors. Till begäran om insyn ska den registrerade bifoga de uppgifter som behövs för att söka uppgifterna (namn och personbeteckning).",
+        "description8": "Om det har gått mindre än ett år sedan den registrerade använde sin rätt till insyn i personuppgifter, kan den registernsvarige ta ut en avgift som grundar sig på de administrativa kostnaderna för att lämna ut uppgifterna (artikel 12 [5]).",
+        "heading": "Den registrerades rättigheter",
+        "rights": {
+          "right1": "Rätten att få tillgång till personuppgifter",
+          "right2": "Rätten att rätta uppgifter",
+          "right3": "Rätten att radera uppgifter",
+          "right4": "Rätten att begränsa behandlingen av uppgifter",
+          "right5": "Rätten att göra invändningar",
+          "right6": "Rätten att överföra uppgifter från ett system till ett annat"
+        }
+      },
+      "registerName": {
+        "contents": {
+          "description": "Registret består av följande:",
+          "item1": "auktoriserade translatorer som antecknats i registret",
+          "item2": "offentlig sökmotor"
+        },
+        "description": "Register över auktoriserade translatorer",
+        "heading": "Registrets namn"
+      },
+      "registrar": {
+        "contact": {
+          "address1": "PB 380, 00531 Helsingfors",
+          "address2": "Besöksadress Hagnäskajen 6, 00530 Helsingfors",
+          "name": "Utbildningsstyrelsen",
+          "otherDetails": "Övriga kontaktuppgifter",
+          "phoneSwitch": "Telefonväxel: 029 533 1000"
+        },
+        "heading": "Registeransvarig"
+      },
+      "registrarContactPerson": {
+        "heading": "Företrädare för registeransvarig (kontaktperson)",
+        "liable": {
+          "description": "Dataskyddsombudets kontaktuppgifter",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Terhi Seinä"
+        }
+      },
+      "title": "Dataskyddsbeskrivningen av register över auktoriserade translatorer"
+    }
+  }
+}
