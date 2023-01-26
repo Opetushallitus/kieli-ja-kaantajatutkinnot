@@ -49,6 +49,7 @@
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
+          "initialiseEnrollmentDuplicatePerson": "Olet jo ilmoittautunut tähän tutkintotilaisuuteen. Et voi ilmoittautua uudelleen.",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
         "customTextField": {
