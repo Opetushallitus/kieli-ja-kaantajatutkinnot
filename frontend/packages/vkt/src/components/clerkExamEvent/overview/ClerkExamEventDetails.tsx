@@ -1,10 +1,10 @@
-import ArrowDropdown from '@mui/icons-material/ArrowDropDown';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import {
   AutocompleteValue,
-  CustomButton,
+  DropDownMenuButton,
   ExtLink,
   H2,
 } from 'shared/components';
@@ -38,6 +38,12 @@ interface EnrollmentListProps {
   examEventId: number;
 }
 
+const enrollmentFilter = (
+  enrollments: Array<ClerkEnrollment>,
+  status: EnrollmentStatus
+): Array<ClerkEnrollment> =>
+  enrollments.filter((e: ClerkEnrollment) => e.status === status);
+
 const EnrollmentList: FC<EnrollmentListProps> = ({
   enrollments,
   status,
@@ -47,7 +53,7 @@ const EnrollmentList: FC<EnrollmentListProps> = ({
     keyPrefix: 'vkt.component.clerkExamEventOverview.examEventListingHeader',
   });
 
-  const filteredEnrollments = enrollments.filter((e) => e.status === status);
+  const filteredEnrollments = enrollmentFilter(enrollments, status);
 
   return (
     <>
@@ -76,6 +82,30 @@ export const ClerkExamEventDetails = () => {
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
+
+  async function copyEmails(
+    enrollments: Array<ClerkEnrollment>,
+    status?: EnrollmentStatus
+  ) {
+    const filteredEnrollments = status
+      ? enrollmentFilter(enrollments, status)
+      : enrollments;
+    const emails = filteredEnrollments.map((enrollment) => enrollment.email);
+
+    try {
+      await navigator.clipboard.writeText(emails.join('\n'));
+
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.copiedToClipboard', { count: emails.length }),
+      });
+    } catch (err) {
+      showToast({
+        severity: Severity.Error,
+        description: t('toasts.copyToClipboardFailed'),
+      });
+    }
+  }
 
   // Local state
   const [examEventDetails, setExamEventDetails] = useState(examEvent);
@@ -146,6 +176,29 @@ export const ClerkExamEventDetails = () => {
       examEventDetails.date
     );
   const { enrollments } = examEventDetails;
+
+  const copyOptions = [
+    {
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyAll'),
+      onClick: copyEmails.bind(this, enrollments),
+      disabled: enrollments.length <= 0,
+    },
+    {
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyPaid'),
+      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.PAID),
+      disabled:
+        enrollmentFilter(enrollments, EnrollmentStatus.PAID).length <= 0,
+    },
+    {
+      icon: <ContentCopyIcon />,
+      label: t('copyClipboard.copyQueued'),
+      onClick: copyEmails.bind(this, enrollments, EnrollmentStatus.QUEUED),
+      disabled:
+        enrollmentFilter(enrollments, EnrollmentStatus.QUEUED).length <= 0,
+    },
+  ];
 
   const handleComboBoxChange =
     (field: keyof ClerkExamEventBasicInformation) =>
@@ -267,14 +320,16 @@ export const ClerkExamEventDetails = () => {
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">
-          <CustomButton
+          <DropDownMenuButton
             color={Color.Secondary}
             variant={Variant.Contained}
-            endIcon={<ArrowDropdown />}
             data-testid="clerk-exam-event-overview-page__copy-emails-button"
+            aria-label={t('examEventDetails.copyEmails')}
+            ariaLabelOpen={t('examEventDetails.chooseCopyEmails')}
+            options={copyOptions}
           >
             {t('examEventDetails.copyEmails')}
-          </CustomButton>
+          </DropDownMenuButton>
           <ExtLink
             href={`${APIEndpoints.ClerkExamEvent}/${examEventDetails.id}/excel`}
             text={t('examEventDetails.downloadExcel')}

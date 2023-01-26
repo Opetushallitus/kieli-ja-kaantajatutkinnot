@@ -37,6 +37,14 @@ class ClerkExamEventOverviewPage {
       cy.findByTestId(
         `clerk-exam-event-overview__enrollment-list-${id}__change-status-button`
       ),
+    copyEmailsButton: () =>
+      cy.findByTestId('clerk-exam-event-overview-page__copy-emails-button'),
+    copyEmailsOpenMenuButton: () =>
+      cy
+        .findByTestId('clerk-exam-event-overview-page__copy-emails-button')
+        .find('[aria-haspopup="menu"]'),
+    copyEmailsMenuItemButton: (index: number) =>
+      cy.findByTestId(`split-button-option-${index}`),
   };
 
   expectEnrollmentRowToHaveText(id: number, text: string) {
@@ -131,6 +139,26 @@ class ClerkExamEventOverviewPage {
 
   clickChangeEnrollmentStatusButton(id: number) {
     this.elements.changeEnrollmentStatusButton(id).should('be.visible').click();
+  }
+
+  clickCopyEmailsButton() {
+    this.elements.copyEmailsButton().should('be.visible').click();
+  }
+
+  clickCopyEmailsOpenMenuButton() {
+    this.elements.copyEmailsOpenMenuButton().should('be.visible').click();
+  }
+
+  clickCopyEmailsMenuItem(index: number) {
+    this.elements.copyEmailsMenuItemButton(index).should('be.visible').click();
+  }
+
+  expectClipboardToHaveText(text: string) {
+    cy.window().then((win) => {
+      win.navigator.clipboard.readText().then((clipText) => {
+        expect(clipText).to.eq(text);
+      });
+    });
   }
 }
 

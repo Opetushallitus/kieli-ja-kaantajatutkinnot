@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import {
   ClerkEnrollment,
   ClerkEnrollmentResponse,

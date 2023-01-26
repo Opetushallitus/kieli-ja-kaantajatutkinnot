@@ -71,6 +71,7 @@
       "clerkExamEventOverview": {
         "examEventDetails": {
           "copyEmails": "Kopioi sähköpostit",
+          "chooseCopyEmails": "Valitse kopiointi",
           "downloadExcel": "Lataa Excel"
         },
         "examEventDetailsFields": {
@@ -88,10 +89,18 @@
           "PAID": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet"
         },
+        "copyClipboard": {
+          "copyAll": "Kopioi sähköpostit",
+          "copyPaid": "Kopioi vain ilmoittautuneet",
+          "copyQueued": "Kopioi vain jonoon ilmoittautuneet"
+        },
         "toasts": {
           "enrollmentStatusUpdated": "Siirto onnistui",
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt",
-          "updated": "Tiedot tallennettiin"
+          "updated": "Tiedot tallennettiin",
+          "copiedToClipboard_one": "{{count}} sähköpostiosoite kopioitu leikepöydälle",
+          "copiedToClipboard_other": "{{count}} sähköpostiosoitetta kopioitu leikepöydälle",
+          "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },
       "header": {
