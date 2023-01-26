@@ -71,6 +71,7 @@
       "clerkExamEventOverview": {
         "examEventDetails": {
           "copyEmails": "Kopioi sähköpostit",
+          "chooseCopyEmails": "Valitse kopiointi",
           "downloadExcel": "Lataa Excel"
         },
         "examEventDetailsFields": {

@@ -219,6 +219,6 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
       'person8@example.invalid'
     );
-    onToast.expectText('1 sähköpostiosoitetta kopioitu leikepöydälle');
+    onToast.expectText('1 sähköpostiosoite kopioitu leikepöydälle');
   });
 });

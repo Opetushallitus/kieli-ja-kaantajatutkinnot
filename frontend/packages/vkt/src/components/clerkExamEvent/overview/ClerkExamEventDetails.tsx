@@ -319,6 +319,8 @@ export const ClerkExamEventDetails = () => {
             color={Color.Secondary}
             variant={Variant.Contained}
             data-testid="clerk-exam-event-overview-page__copy-emails-button"
+            aria-label={t('examEventDetails.copyEmails')}
+            ariaLabelOpen={t('examEventDetails.chooseCopyEmails')}
             options={copyOptions}
           >
             {t('examEventDetails.copyEmails')}

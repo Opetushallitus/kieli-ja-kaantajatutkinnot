@@ -21,6 +21,7 @@ type SplitButtonOption = {
 
 type SplitButtonProps = {
   options: SplitButtonOption[];
+  ariaLabelOpen: string;
 } & ButtonGroupProps;
 
 export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
@@ -70,7 +71,7 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
-          aria-label={'open'}
+          aria-label={props.ariaLabelOpen}
           aria-haspopup="menu"
           onClick={handleToggle}
         >
