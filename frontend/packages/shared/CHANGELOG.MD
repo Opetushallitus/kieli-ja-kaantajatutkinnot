@@ -9,17 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.5.11] - 2023-01-26
-
-### Changed
-
-- SplitButton renamed to DropDownMenuButton
-
-## [1.5.10] - 2023-01-25
+## [1.5.10] - 2023-01-26
 
 ### Added
 
-- SplitButton component
+- DropDownMenuButton component
 
 ## [1.5.9] - 2023-01-20
 
