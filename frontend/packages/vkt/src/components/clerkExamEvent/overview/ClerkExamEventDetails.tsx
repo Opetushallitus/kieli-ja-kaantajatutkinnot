@@ -2,7 +2,12 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import { AutocompleteValue, ExtLink, H2, SplitButton } from 'shared/components';
+import {
+  AutocompleteValue,
+  DropDownMenuButton,
+  ExtLink,
+  H2,
+} from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { DateUtils, StringUtils } from 'shared/utils';
@@ -315,7 +320,7 @@ export const ClerkExamEventDetails = () => {
       />
       {enrollments.length > 0 && (
         <div className="columns gapped margin-top-xxl flex-end">
-          <SplitButton
+          <DropDownMenuButton
             color={Color.Secondary}
             variant={Variant.Contained}
             data-testid="clerk-exam-event-overview-page__copy-emails-button"
@@ -324,7 +329,7 @@ export const ClerkExamEventDetails = () => {
             options={copyOptions}
           >
             {t('examEventDetails.copyEmails')}
-          </SplitButton>
+          </DropDownMenuButton>
           <ExtLink
             href={`${APIEndpoints.ClerkExamEvent}/${examEventDetails.id}/excel`}
             text={t('examEventDetails.downloadExcel')}

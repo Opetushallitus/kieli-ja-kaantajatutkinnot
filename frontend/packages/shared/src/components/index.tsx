@@ -26,7 +26,7 @@ export {
 } from './LanguageSelect/LanguageSelect';
 export { LoadingProgressIndicator } from './LoadingProgressIndicator/LoadingProgressIndicator';
 export { OPHLogoViewer } from './OPHLogoViewer/OPHLogoViewer';
-export { SplitButton } from './SplitButton/SplitButton';
+export { DropDownMenuButton } from './DropDownMenuButton/DropDownMenuButton';
 export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
 export { PaginatedTable, NormalTable } from './Table/Table';

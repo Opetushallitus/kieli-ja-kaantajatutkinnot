@@ -12,23 +12,23 @@ import React, { FC, ReactNode } from 'react';
 
 import { CustomButton } from '../../components';
 
-type SplitButtonOption = {
+type DropDownMenuButtonOption = {
   icon: ReactNode;
   label: string;
   onClick: () => void;
   disabled: boolean;
 };
 
-type SplitButtonProps = {
-  options: SplitButtonOption[];
+type DropDownMenuButtonProps = {
+  options: DropDownMenuButtonOption[];
   ariaLabelOpen: string;
 } & ButtonGroupProps;
 
-export const SplitButton: FC<SplitButtonProps> = ({
+export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
   options,
   ariaLabelOpen,
   ...props
-}: SplitButtonProps) => {
+}: DropDownMenuButtonProps) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -98,18 +98,20 @@ export const SplitButton: FC<SplitButtonProps> = ({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {options.map((option: SplitButtonOption, index: number) => (
-                    <MenuItem
-                      key={`split-button-option-${index}`}
-                      selected={index === selectedIndex}
-                      onClick={(event) => handleMenuItemClick(event, index)}
-                      disabled={option.disabled}
-                      data-testid={`split-button-option-${index}`}
-                    >
-                      <ListItemIcon>{option.icon}</ListItemIcon>
-                      <ListItemText>{option.label}</ListItemText>
-                    </MenuItem>
-                  ))}
+                  {options.map(
+                    (option: DropDownMenuButtonOption, index: number) => (
+                      <MenuItem
+                        key={`split-button-option-${index}`}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                        disabled={option.disabled}
+                        data-testid={`split-button-option-${index}`}
+                      >
+                        <ListItemIcon>{option.icon}</ListItemIcon>
+                        <ListItemText>{option.label}</ListItemText>
+                      </MenuItem>
+                    )
+                  )}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
