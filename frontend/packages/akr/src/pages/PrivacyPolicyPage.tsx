@@ -208,10 +208,8 @@ export const PrivacyPolicyPage = () => {
               :
               <BulletList
                 localisationKeys={[
-                  // TODO: new swedish document contains 4 details
                   'dataContents.group3.details.otherDetails.detail1',
                   'dataContents.group3.details.otherDetails.detail2',
-                  // TODO: there should be some extra descriptions below above receivers.heading
                 ]}
               />
             </Text>
