@@ -154,12 +154,11 @@ class ClerkExamEventOverviewPage {
   }
 
   expectClipboardToHaveText(text: string) {
-    cy.window()
-      .then((win) => {
-        win.navigator.clipboard.readText().then((clipText) => {
-          expect(clipText).to.eq(text);
-        });
+    cy.window().then((win) => {
+      win.navigator.clipboard.readText().then((clipText) => {
+        expect(clipText).to.eq(text);
       });
+    });
   }
 }
 

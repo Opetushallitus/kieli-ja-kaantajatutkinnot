@@ -24,8 +24,11 @@ type SplitButtonProps = {
   ariaLabelOpen: string;
 } & ButtonGroupProps;
 
-export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
-  const options: SplitButtonOption[] = props.options;
+export const SplitButton: FC<SplitButtonProps> = ({
+  options,
+  ariaLabelOpen,
+  ...props
+}: SplitButtonProps) => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -59,11 +62,7 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
 
   return (
     <>
-      <ButtonGroup
-        {...props}
-        ref={anchorRef}
-        aria-disabled={props.disabled}
-      >
+      <ButtonGroup {...props} ref={anchorRef} aria-disabled={props.disabled}>
         <CustomButton onClick={handleClick}>
           {options[selectedIndex].label}
         </CustomButton>
@@ -71,7 +70,7 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
-          aria-label={props.ariaLabelOpen}
+          aria-label={ariaLabelOpen}
           aria-haspopup="menu"
           onClick={handleToggle}
         >
