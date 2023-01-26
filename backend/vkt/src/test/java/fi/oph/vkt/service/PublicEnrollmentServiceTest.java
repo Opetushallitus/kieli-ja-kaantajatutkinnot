@@ -144,8 +144,8 @@ public class PublicEnrollmentServiceTest {
     final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.PAID);
 
     final APIException ex = assertThrows(
-            APIException.class,
-            () -> publicEnrollmentService.initialiseEnrollment(examEvent.getId(), enrollment.getPerson())
+      APIException.class,
+      () -> publicEnrollmentService.initialiseEnrollment(examEvent.getId(), enrollment.getPerson())
     );
     assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON, ex.getExceptionType());
   }

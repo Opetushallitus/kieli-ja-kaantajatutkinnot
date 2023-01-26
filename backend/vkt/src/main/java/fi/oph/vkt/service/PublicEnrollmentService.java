@@ -24,7 +24,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -79,7 +78,8 @@ public class PublicEnrollmentService {
 
   private boolean hasEnrollment(ExamEvent examEvent, Person person) {
     Optional<Enrollment> examId = enrollmentRepository.findByExamEventAndIdentityNumber(
-            examEvent.getId(), person.getIdentityNumber()
+      examEvent.getId(),
+      person.getIdentityNumber()
     );
     return examId.isPresent();
   }
