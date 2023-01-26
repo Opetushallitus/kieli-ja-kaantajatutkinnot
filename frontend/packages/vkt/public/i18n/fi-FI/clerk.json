@@ -97,7 +97,8 @@
           "enrollmentStatusUpdated": "Siirto onnistui",
           "notFound": "Valittua tutkintotilaisuutta ei löytynyt",
           "updated": "Tiedot tallennettiin",
-          "copiedToClipboard": "{{num}} sähköpostiosoitetta kopioitu leikepöydälle",
+          "copiedToClipboard_one": "{{count}} sähköpostiosoite kopioitu leikepöydälle",
+          "copiedToClipboard_other": "{{count}} sähköpostiosoitetta kopioitu leikepöydälle",
           "copyToClipboardFailed": "Kopiointi leikepöydälle epäonnistui"
         }
       },

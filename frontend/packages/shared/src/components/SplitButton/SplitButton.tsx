@@ -62,7 +62,6 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
         {...props}
         ref={anchorRef}
         aria-disabled={props.disabled}
-        aria-label="split button"
       >
         <CustomButton onClick={handleClick}>
           {options[selectedIndex].label}
@@ -71,7 +70,7 @@ export const SplitButton: FC<SplitButtonProps> = ({ ...props }) => {
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
-          aria-label="select merge strategy"
+          aria-label={'open'}
           aria-haspopup="menu"
           onClick={handleToggle}
         >

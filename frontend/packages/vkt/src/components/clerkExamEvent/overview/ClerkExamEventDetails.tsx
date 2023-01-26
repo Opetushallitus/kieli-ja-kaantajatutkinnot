@@ -92,7 +92,7 @@ export const ClerkExamEventDetails = () => {
 
       showToast({
         severity: Severity.Success,
-        description: t('toasts.copiedToClipboard', { num: emails.length }),
+        description: t('toasts.copiedToClipboard', { count: emails.length }),
       });
     } catch (err) {
       showToast({
