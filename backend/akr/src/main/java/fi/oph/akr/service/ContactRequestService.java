@@ -13,7 +13,9 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.email.EmailData;
 import fi.oph.akr.service.email.EmailService;
+import fi.oph.akr.service.koodisto.LanguageService;
 import fi.oph.akr.util.TemplateRenderer;
+import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +40,7 @@ public class ContactRequestService {
   private final ContactRequestTranslatorRepository contactRequestTranslatorRepository;
   private final EmailRepository emailRepository;
   private final EmailService emailService;
+  private final LanguagePairService languagePairService;
   private final TemplateRenderer templateRenderer;
   private final TranslatorRepository translatorRepository;
   private final Environment environment;
@@ -118,6 +121,10 @@ public class ContactRequestService {
 
   private void sendTranslatorEmails(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
     final Map<String, Object> templateParams = Map.of(
+      "langPairFI",
+      getLangPair(contactRequestDTO, Language.FI),
+      "langPairSV",
+      getLangPair(contactRequestDTO, Language.SV),
       "requesterName",
       getRequesterName(contactRequestDTO),
       "requesterEmail",
@@ -147,6 +154,12 @@ public class ContactRequestService {
     final Map<String, Object> templateParams = Map.of(
       "translators",
       translators.stream().map(Translator::getFullName).sorted().toList(),
+      "langPairFI",
+      getLangPair(contactRequestDTO, Language.FI),
+      "langPairSV",
+      getLangPair(contactRequestDTO, Language.SV),
+      "langPairEN",
+      getLangPair(contactRequestDTO, Language.EN),
       "requesterName",
       getRequesterName(contactRequestDTO),
       "requesterEmail",
@@ -174,6 +187,8 @@ public class ContactRequestService {
     final Map<String, Object> templateParams = Map.of(
       "translators",
       translatorParams,
+      "langPairFI",
+      getLangPair(contactRequestDTO, Language.FI),
       "requesterName",
       getRequesterName(contactRequestDTO),
       "requesterEmail",
@@ -190,6 +205,14 @@ public class ContactRequestService {
     final String body = templateRenderer.renderContactRequestClerkEmailBody(templateParams);
 
     createEmail(recipientName, recipientAddress, subject, body, EmailType.CONTACT_REQUEST_CLERK);
+  }
+
+  private String getLangPair(final ContactRequestDTO contactRequestDTO, final Language language) {
+    return languagePairService.getLanguagePairLocalisation(
+      contactRequestDTO.fromLang(),
+      contactRequestDTO.toLang(),
+      language
+    );
   }
 
   private String getRequesterName(final ContactRequestDTO contactRequestDTO) {

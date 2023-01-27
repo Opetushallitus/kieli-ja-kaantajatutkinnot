@@ -51,6 +51,8 @@ class TemplateRendererTest {
       Map.of(
         "translators",
         List.of(Map.of("id", "1", "name", "Jack Smith")),
+        "langPairFI",
+        "suomi - ruotsi",
         "requesterName",
         "John Doe",
         "requesterEmail",
@@ -66,6 +68,7 @@ class TemplateRendererTest {
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Jack Smith"));
     assertTrue(renderedContent.contains("https://virkailija.opintopolku.fi/akr/virkailija/kaantaja/1"));
+    assertTrue(renderedContent.contains("suomi - ruotsi"));
     assertTrue(renderedContent.contains("John Doe"));
     assertTrue(renderedContent.contains("john.doe@unknown.invalid"));
     assertTrue(renderedContent.contains("+358 400 888 777"));
@@ -77,6 +80,12 @@ class TemplateRendererTest {
       Map.of(
         "translators",
         List.of("Jack Smith", "Mark Davis"),
+        "langPairFI",
+        "suomi - ruotsi",
+        "langPairSV",
+        "finska - svenska",
+        "langPairEN",
+        "Finnish - Swedish",
         "requesterName",
         "John Doe",
         "requesterEmail",
@@ -92,6 +101,9 @@ class TemplateRendererTest {
     assertTrue(renderedContent.contains("<html "));
     assertTrue(renderedContent.contains("Jack Smith"));
     assertTrue(renderedContent.contains("Mark Davis"));
+    assertTrue(renderedContent.contains("suomi - ruotsi"));
+    assertTrue(renderedContent.contains("finska - svenska"));
+    assertTrue(renderedContent.contains("Finnish - Swedish"));
     assertTrue(renderedContent.contains("John Doe"));
     assertTrue(renderedContent.contains("john.doe@unknown.invalid"));
     assertTrue(renderedContent.contains("+358 400 888 777"));
@@ -102,6 +114,10 @@ class TemplateRendererTest {
   public void testContactRequestTranslatorTemplateIsRendered() {
     final String renderedContent = templateRenderer.renderContactRequestTranslatorEmailBody(
       Map.of(
+        "langPairFI",
+        "suomi - ruotsi",
+        "langPairSV",
+        "finska - svenska",
         "requesterName",
         "John Doe",
         "requesterEmail",
@@ -115,6 +131,8 @@ class TemplateRendererTest {
 
     assertNotNull(renderedContent);
     assertTrue(renderedContent.contains("<html "));
+    assertTrue(renderedContent.contains("suomi - ruotsi"));
+    assertTrue(renderedContent.contains("finska - svenska"));
     assertTrue(renderedContent.contains("John Doe"));
     assertTrue(renderedContent.contains("john.doe@unknown.invalid"));
     assertTrue(renderedContent.contains("+358 400 888 777"));
