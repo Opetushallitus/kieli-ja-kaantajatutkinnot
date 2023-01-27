@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -8,6 +9,7 @@ import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/Pu
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
+import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
@@ -43,6 +45,7 @@ export const PublicEnrollmentGrid = () => {
                 activeStep={activeStep}
                 includePaymentStep={hasReservation}
               />
+              <PublicEnrollmentTimer expires={dayjs().add(30, 'minute')} />
               <PublicEnrollmentExamEventDetails
                 examEvent={reservationDetails.examEvent}
                 showOpenings={hasReservation && !isDoneStepActive}

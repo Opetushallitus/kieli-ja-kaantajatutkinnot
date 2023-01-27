@@ -47,6 +47,20 @@
       }
     }
 
+    &__timer-progressbar {
+      background-color: #b7c5f1;
+
+      & span {
+        background-color: $color-secondary;
+      }
+    }
+
+    &__progress-container {
+      float: right;
+      margin: 10em 0 0;
+      width: 40em;
+    }
+
     .phone-number {
       max-width: calc(50% - 1rem);
 
