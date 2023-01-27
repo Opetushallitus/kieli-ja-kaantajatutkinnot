@@ -11,7 +11,7 @@ virkailija.cas.service-url=${virkailija.cas.base-url}/otr/virkailija
 virkailija.cas.url=${virkailija.cas.base-url}/cas
 virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 
-create-expiry-emails-enabled=true
+create-expiry-emails-enabled=false
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 
