@@ -57,8 +57,13 @@
 
     &__progress-container {
       float: right;
-      margin: 10em 0 0;
-      width: 40em;
+      margin: 4rem 0 0;
+      width: 38rem;
+    }
+
+    &__progress-text {
+      font-size: 1.8em;
+      margin: 0 0 0.5em;
     }
 
     .phone-number {

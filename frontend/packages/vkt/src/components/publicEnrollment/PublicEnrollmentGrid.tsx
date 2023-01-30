@@ -1,5 +1,4 @@
 import { Grid, Paper } from '@mui/material';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -45,7 +44,11 @@ export const PublicEnrollmentGrid = () => {
                 activeStep={activeStep}
                 includePaymentStep={hasReservation}
               />
-              <PublicEnrollmentTimer expires={dayjs().add(30, 'minute')} />
+              {reservationDetails?.reservation?.expiresAt && (
+                <PublicEnrollmentTimer
+                  expires={reservationDetails.reservation.expiresAt}
+                />
+              )}
               <PublicEnrollmentExamEventDetails
                 examEvent={reservationDetails.examEvent}
                 showOpenings={hasReservation && !isDoneStepActive}

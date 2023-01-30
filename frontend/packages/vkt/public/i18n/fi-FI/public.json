@@ -40,6 +40,9 @@
           "pay": "Siirry maksamaan",
           "sendForm": "Lähetä lomake"
         },
+        "expirationTimer": {
+          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}"
+        },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",
