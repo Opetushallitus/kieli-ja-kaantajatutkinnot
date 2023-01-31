@@ -1,0 +1,32 @@
+server:
+  port: ${application.port:8083}
+  compression:
+    enabled: true
+  servlet:
+    context-path: "/yki"
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  web:
+    resources:
+      static-locations: classpath:static/
+  thymeleaf:
+    prefix: classpath:static/
+    templateResolverOrder: 1
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: "/status"
+      exposure:
+        include: "health,info"
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
