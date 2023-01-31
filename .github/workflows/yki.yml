@@ -1,0 +1,37 @@
+name: YKI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "backend/yki/**"
+      - "frontend/packages/yki/**"
+      - "!**/*.md"
+    # Setting 'branches' has the side effect that just pushing tags does not start workflows.
+    branches:
+      - '**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    uses: ./.github/workflows/common-frontend.yml
+    with:
+      app-name: "yki"
+      cypress-base-url: "http://localhost:4003"
+  backend:
+    needs: frontend
+    uses: ./.github/workflows/common-backend.yml
+    with:
+      app-name: "yki"
+  deploy:
+    needs: backend
+    uses: ./.github/workflows/common-deploy.yml
+    with:
+      app-name: "yki"
+      image-name: "yki-ui"
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
