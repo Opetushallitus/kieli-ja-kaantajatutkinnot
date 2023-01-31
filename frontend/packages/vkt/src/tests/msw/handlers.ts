@@ -1,13 +1,12 @@
 import { rest } from 'msw';
 
-import dayjs from 'dayjs';
 import { APIEndpoints } from 'enums/api';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
+import { fixedDateForTests } from 'tests/cypress/support/index';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { person } from 'tests/msw/fixtures/person';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
-import { fixedDateForTests } from 'tests/cypress/support/index';
 
 export const handlers = [
   rest.get(APIEndpoints.PublicExamEvent, (req, res, ctx) => {

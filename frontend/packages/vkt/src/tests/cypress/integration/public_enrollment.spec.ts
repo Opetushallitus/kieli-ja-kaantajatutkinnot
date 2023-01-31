@@ -14,7 +14,7 @@ describe('Public enrollment', () => {
       onPublicHomePage.clickEnrollButton();
     });
 
-    it.only('reservation should have timer', () => {
+    it('reservation should have timer', () => {
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(3000);
       onPublicHomePage.expectReservationTimeLeft('29', '57');
