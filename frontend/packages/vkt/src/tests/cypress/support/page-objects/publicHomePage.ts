@@ -10,6 +10,7 @@ class PublicHomePage {
       cy.findByTestId(row(id)).find('input[type=checkbox]'),
     languageFilter: () => cy.findByTestId('exam-events__language-filter'),
     pagination: () => cy.get('.table__head-box__pagination'),
+    reservationTimerText: () => cy.findByTestId('public-enrollment__reservation-timer-text'),
   };
 
   clickExamEventRow(id: number) {
@@ -58,6 +59,12 @@ class PublicHomePage {
 
   clickEnrollButton() {
     this.elements.enrollButton().should('be.visible').click();
+  }
+
+  expectReservationTimeLeft(minutes: string, seconds: string) {
+    this.elements.reservationTimerText()
+      .should('be.visible')
+      .should('contain.text', `${minutes}:${seconds}`);
   }
 }
 

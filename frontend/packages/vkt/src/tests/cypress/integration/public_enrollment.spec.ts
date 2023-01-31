@@ -14,8 +14,13 @@ describe('Public enrollment', () => {
       onPublicHomePage.clickEnrollButton();
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    it('WIP: allow user to enroll to the exam event', () => {});
+    it.only('reservation should have timer', () => {
+      onPublicHomePage.expectReservationTimeLeft('30', '00');
+      cy.tick(3000);
+      onPublicHomePage.expectReservationTimeLeft('29', '57');
+      cy.tick(30 * 60 * 1000);
+      onPublicHomePage.expectReservationTimeLeft('00', '00');
+    });
   });
 
   describe('to exam event that is full', () => {

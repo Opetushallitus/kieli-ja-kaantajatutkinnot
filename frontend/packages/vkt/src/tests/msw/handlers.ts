@@ -1,10 +1,13 @@
 import { rest } from 'msw';
 
+import dayjs from 'dayjs';
 import { APIEndpoints } from 'enums/api';
+import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { person } from 'tests/msw/fixtures/person';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
+import { fixedDateForTests } from 'tests/cypress/support/index';
 
 export const handlers = [
   rest.get(APIEndpoints.PublicExamEvent, (req, res, ctx) => {
@@ -13,15 +16,16 @@ export const handlers = [
   rest.post(
     `${APIEndpoints.PublicExamEvent}/2/reservation`,
     (req, res, ctx) => {
-      return res(
-        ctx.status(201),
-        ctx.json({
+      const response: PublicReservationDetailsResponse = {
+        examEvent: publicExamEvents11[1],
+        reservation: {
           id: 1,
-          expiresAt: Date.now() + 60 * 1000,
-          examEvent: publicExamEvents11[1],
-          person,
-        })
-      );
+          expiresAt: fixedDateForTests.add('30', 'minute'),
+        },
+        person,
+      };
+
+      return res(ctx.status(201), ctx.json(response));
     }
   ),
   rest.post(`${APIEndpoints.PublicExamEvent}/5/queue`, (req, res, ctx) => {

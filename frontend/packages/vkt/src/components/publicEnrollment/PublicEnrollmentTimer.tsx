@@ -28,7 +28,10 @@ export const PublicEnrollmentTimer = ({ expires }: { expires: Dayjs }) => {
 
   return (
     <Box className="public-enrollment__grid__progress-container">
-      <div className="public-enrollment__grid__progress-text">
+      <div
+        data-testid="public-enrollment__reservation-timer-text"
+        className="public-enrollment__grid__progress-text"
+      >
         {t('reservationExpiresIn', {
           minutes: progress.minutes,
           seconds: progress.seconds,
