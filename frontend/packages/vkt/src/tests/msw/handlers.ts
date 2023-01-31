@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
@@ -19,7 +20,7 @@ export const handlers = [
         examEvent: publicExamEvents11[1],
         reservation: {
           id: 1,
-          expiresAt: fixedDateForTests.add(30, 'minute'),
+          expiresAt: dayjs(fixedDateForTests.add(30, 'minute')),
         },
         person,
       };
