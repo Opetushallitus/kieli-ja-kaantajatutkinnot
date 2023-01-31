@@ -64,7 +64,7 @@ public class ClerkEmailService {
     if (personalData != null) {
       final String recipientName = personalData.getNickName() + " " + personalData.getLastName();
       final String recipientAddress = personalData.getEmail();
-      final String emailSubject = "Merkintäsi oikeustulkkirekisteriin on päättymässä | Din ... ... går mot sitt slut";
+      final String emailSubject = "Merkintäsi oikeustulkkirekisteriin on päättymässä";
 
       if (recipientAddress == null) {
         LOG.info("Email for interpreter with onr id {} doesn't exist", interpreter.getOnrId());
@@ -105,18 +105,11 @@ public class ClerkEmailService {
       " - " +
       languageService.getLocalisationValue(toLangCode, Language.FI).orElse(toLangCode);
 
-    final String langPairSV =
-      languageService.getLocalisationValue(fromLangCode, Language.SV).orElse(fromLangCode) +
-      " - " +
-      languageService.getLocalisationValue(toLangCode, Language.SV).orElse(toLangCode);
-
     final Map<String, Object> templateParams = Map.of(
       "interpreterName",
       interpreterName,
       "langPairFI",
       langPairFI,
-      "langPairSV",
-      langPairSV,
       "expiryDate",
       expiryDate.format(DATE_FORMATTER)
     );

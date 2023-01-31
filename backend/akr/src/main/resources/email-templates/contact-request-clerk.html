@@ -5,7 +5,7 @@
             Hei,
         </p>
         <p>
-            [[${requesterName}]] (email: [[${requesterEmail}]], puh.: [[${requesterPhone}]]) lähetti yhteydenottopyynnön seuraaville kääntäjille, joiden sähköpostiosoite ei ollut tiedossa:
+            [[${requesterName}]] (email: [[${requesterEmail}]], puh.: [[${requesterPhone}]]) lähetti yhteydenottopyynnön kieliparia [[${langPairFI}]] koskien seuraaville kääntäjille, joiden sähköpostiosoite ei ollut tiedossa:
         </p>
         <ul th:each="translator : ${translators}">
             <li><a th:href="@{https://{akrHost}/akr/virkailija/kaantaja/{id}(akrHost=${akrHost},id=${translator.id})}">[[${translator.name}]]</a></li>

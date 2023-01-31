@@ -18,6 +18,7 @@ import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
+import fi.oph.akr.service.LanguagePairService;
 import fi.oph.akr.service.koodisto.LanguageService;
 import fi.oph.akr.util.TemplateRenderer;
 import java.time.LocalDate;
@@ -72,6 +73,7 @@ public class ClerkEmailServiceTest {
   public void setup() {
     final LanguageService languageService = new LanguageService();
     languageService.init();
+    final LanguagePairService languagePairService = new LanguagePairService(languageService);
 
     clerkEmailService =
       new ClerkEmailService(
@@ -79,7 +81,7 @@ public class ClerkEmailServiceTest {
         authorisationTermReminderRepository,
         emailRepository,
         emailService,
-        languageService,
+        languagePairService,
         meetingDateRepository,
         templateRenderer,
         translatorRepository
