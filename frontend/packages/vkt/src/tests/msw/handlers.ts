@@ -20,7 +20,7 @@ export const handlers = [
         examEvent: publicExamEvents11[1],
         reservation: {
           id: 1,
-          expiresAt: dayjs(fixedDateForTests.add(30, 'minute')),
+          expiresAt: fixedDateForTests.add(30, 'minute').format(),
         },
         person,
       };

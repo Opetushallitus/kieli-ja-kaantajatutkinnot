@@ -3,7 +3,7 @@ import { ExamLanguage } from 'enums/app';
 export const publicExamEvents11 = [
   {
     id: 1,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2022-10-01',
     registrationCloses: '2022-09-27',
     openings: 1,
@@ -11,7 +11,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 2,
-    language: ExamLanguage.SV,
+    language: ExamLanguage.SV as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2022-10-01',
     registrationCloses: '2022-09-27',
     openings: 2,
@@ -19,7 +19,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 3,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2022-11-18',
     registrationCloses: '2022-11-06',
     openings: 5,
@@ -27,7 +27,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 4,
-    language: ExamLanguage.SV,
+    language: ExamLanguage.SV as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2022-11-18',
     registrationCloses: '2022-11-06',
     openings: 7,
@@ -35,7 +35,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 5,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2022-12-24',
     registrationCloses: '2022-12-10',
     openings: 0,
@@ -43,7 +43,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 6,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-02-05',
     registrationCloses: '2023-01-22',
     openings: 7,
@@ -51,7 +51,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 7,
-    language: ExamLanguage.SV,
+    language: ExamLanguage.SV as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-02-05',
     registrationCloses: '2023-01-22',
     openings: 8,
@@ -59,7 +59,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 8,
-    language: ExamLanguage.SV,
+    language: ExamLanguage.SV as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-03-02',
     registrationCloses: '2023-03-01',
     openings: 9,
@@ -67,7 +67,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 9,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-03-30',
     registrationCloses: '2023-03-16',
     openings: 9,
@@ -75,7 +75,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 10,
-    language: ExamLanguage.SV,
+    language: ExamLanguage.SV as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-03-30',
     registrationCloses: '2023-03-16',
     openings: 10,
@@ -83,7 +83,7 @@ export const publicExamEvents11 = [
   },
   {
     id: 11,
-    language: ExamLanguage.FI,
+    language: ExamLanguage.FI as Exclude<ExamLanguage, ExamLanguage.ALL>,
     date: '2023-06-15',
     registrationCloses: '2023-06-01',
     openings: 9,
