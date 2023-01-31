@@ -1,9 +1,8 @@
-import dayjs from 'dayjs';
 import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
-import { fixedDateForTests } from 'tests/cypress/support/index';
+import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
 import { person } from 'tests/msw/fixtures/person';
