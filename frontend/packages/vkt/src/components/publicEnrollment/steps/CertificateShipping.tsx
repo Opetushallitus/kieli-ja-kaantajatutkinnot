@@ -28,6 +28,12 @@ export const CertificateShipping = ({
     town: '',
     country: '',
   });
+  const maxLengths = {
+    street: 255,
+    postalCode: 8,
+    town: 255,
+    country: 16,
+  };
 
   const dispatch = useAppDispatch();
 
@@ -59,7 +65,8 @@ export const CertificateShipping = ({
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         type as TextFieldTypes,
         value,
-        required
+        required,
+        maxLengths[fieldName]
       );
 
       const fieldErrorMessage = error ? translateCommon(error) : '';

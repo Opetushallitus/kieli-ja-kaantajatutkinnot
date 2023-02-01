@@ -9,9 +9,10 @@ export class InputFieldUtils {
     type: TextFieldTypes,
     value?: string,
     required = true,
-    maxTextAreaLength = this.defaultMaxTextAreaLength
+    maxTextLength?: number
   ) {
     const trimmedValue = value?.trim() || '';
+    const textAreaMaxLength = maxTextLength ?? defaultMaxTextAreaLength;
 
     if (required && trimmedValue.length <= 0) {
       return CustomTextFieldErrors.Required;
@@ -21,9 +22,20 @@ export class InputFieldUtils {
       return '';
     }
 
+    if (maxTextLength > 0) {
+      switch (type) {
+        case TextFieldTypes.PhoneNumber:
+        case TextFieldTypes.Email:
+        case TextFieldTypes.Text:
+          if (maxTextLength > 0 && trimmedValue.length > maxTextLength) {
+            return CustomTextFieldErrors.MaxLength;
+          }
+      }
+    }
+
     switch (type) {
       case TextFieldTypes.Textarea:
-        if (trimmedValue.length > maxTextAreaLength) {
+        if (trimmedValue.length > textAreaMaxLength) {
           return CustomTextFieldErrors.MaxLength;
         }
         break;
