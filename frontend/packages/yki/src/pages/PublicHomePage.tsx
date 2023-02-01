@@ -11,7 +11,9 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <H1>Yleiset kielitutkinnot (YKI) - Ilmoittautuminen</H1>
+        <H1 data-testid="public-homepage__title-heading">
+          Yleiset kielitutkinnot (YKI) - Ilmoittautuminen
+        </H1>
       </Grid>
     </Box>
   );
