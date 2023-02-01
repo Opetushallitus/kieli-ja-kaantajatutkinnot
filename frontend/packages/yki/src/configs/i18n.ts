@@ -70,6 +70,7 @@ export const useCommonTranslation = () => {
   return t;
 };
 
+// ts-unused-exports:disable-next-line
 export const translateOutsideComponent = () => {
   return t;
 };
