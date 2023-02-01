@@ -12,7 +12,7 @@ export class InputFieldUtils {
     maxTextLength?: number
   ) {
     const trimmedValue = value?.trim() || '';
-    const textAreaMaxLength = maxTextLength ?? defaultMaxTextAreaLength;
+    const textAreaMaxLength = maxTextLength ?? InputFieldUtils.defaultMaxTextAreaLength;
 
     if (required && trimmedValue.length <= 0) {
       return CustomTextFieldErrors.Required;
@@ -22,7 +22,7 @@ export class InputFieldUtils {
       return '';
     }
 
-    if (maxTextLength > 0) {
+    if (maxTextLength && maxTextLength > 0) {
       switch (type) {
         case TextFieldTypes.PhoneNumber:
         case TextFieldTypes.Email:

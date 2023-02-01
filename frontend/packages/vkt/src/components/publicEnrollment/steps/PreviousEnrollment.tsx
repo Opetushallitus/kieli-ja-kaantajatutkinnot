@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { CustomTextField, Text } from 'shared/components';
+import { TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
