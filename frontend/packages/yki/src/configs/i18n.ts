@@ -3,14 +3,17 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import {
   initReactI18next,
   useTranslation,
-  //UseTranslationOptions,
+  UseTranslationOptions,
 } from 'react-i18next';
 import { AppLanguage, I18nNamespace } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import allEN from 'public/i18n/en-GB/all.json';
-import allFI from 'public/i18n/fi-FI/all.json';
-import allSV from 'public/i18n/sv-SE/all.json';
+import commonEN from 'public/i18n/en-GB/common.json';
+import publicEN from 'public/i18n/en-GB/public.json';
+import commonFI from 'public/i18n/fi-FI/common.json';
+import publicFI from 'public/i18n/fi-FI/public.json';
+import commonSV from 'public/i18n/sv-SE/common.json';
+import publicSV from 'public/i18n/sv-SE/public.json';
 
 // Defaults and resources
 const langFI = AppLanguage.Finnish;
@@ -21,13 +24,16 @@ const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
-    [I18nNamespace.Common]: allFI,
+    [I18nNamespace.Common]: commonFI,
+    [I18nNamespace.Public]: publicFI,
   },
   [langSV]: {
-    [I18nNamespace.Common]: allSV,
+    [I18nNamespace.Common]: commonSV,
+    [I18nNamespace.Public]: publicSV,
   },
   [langEN]: {
-    [I18nNamespace.Common]: allEN,
+    [I18nNamespace.Common]: commonEN,
+    [I18nNamespace.Public]: publicEN,
   },
 };
 
@@ -41,9 +47,9 @@ declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: typeof langFI;
     resources: {
-      [langFI]: typeof allFI;
-      [langSV]: typeof allSV;
-      [langEN]: typeof allEN;
+      [langFI]: typeof commonFI;
+      [langSV]: typeof commonSV;
+      [langEN]: typeof commonEN;
     };
   }
 }
@@ -63,9 +69,27 @@ export const initI18n = () => {
   return i18n;
 };
 
-export const useCommonTranslation = () => {
+const useAppTranslation = (
+  options: UseTranslationOptions<string>,
+  ns: I18nNamespace
+) => {
   // @ts-expect-error ts import fail
-  const { t } = useTranslation(I18nNamespace.Common, {});
+  return useTranslation(ns, options);
+};
+
+export const usePublicTranslation = (
+  options: UseTranslationOptions<string>
+) => {
+  return useAppTranslation(options, I18nNamespace.Public);
+};
+
+export const useCommonTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'yki.common',
+    },
+    I18nNamespace.Common
+  );
 
   return t;
 };
