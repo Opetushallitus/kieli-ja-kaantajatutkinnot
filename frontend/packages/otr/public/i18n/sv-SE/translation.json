@@ -130,7 +130,6 @@
       },
       "footer": {
         "accessibility": {
-          "continueToMain": "Fortsätt till innehållet",
           "ophPhone": "Utbildningsstyrelsens telefonnummer",
           "waveAriaLabel": "Vektordiagram med vågor"
         },
