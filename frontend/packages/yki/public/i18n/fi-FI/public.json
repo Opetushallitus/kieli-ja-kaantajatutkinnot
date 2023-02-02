@@ -1,0 +1,40 @@
+{
+  "yki": {
+    "component": {
+      "footer": {
+        "accessibility": {
+          "ophPhone": "Opetushallituksen puhelinnumero",
+          "waveAriaLabel": "Aaltoileva vektorikuvio"
+        },
+        "address": {
+          "name": "Opetushallitus",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Puhelin"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "PL 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Saavutettavuusseloste"
+          },
+          "contact": {
+            "title": "Palaute ja kehitysideat"
+          },
+          "privacy": {
+            "text": "Tietosuojaseloste"
+          },
+          "ykiHomepage": {
+            "text": "Yleisten kielitutkintojen kotisivu (oph.fi)"
+          }
+        }
+      }
+    },
+    "pages": {
+      "publicHomePage": {
+        "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
+      }
+    }
+  }
+}

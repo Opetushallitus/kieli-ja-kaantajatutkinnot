@@ -1,0 +1,23 @@
+.lang-selector {
+  align-items: center;
+  display: flex;
+  margin-left: 1.5rem;
+
+  &__icon {
+    margin-right: 2px;
+  }
+
+  & &__select {
+    margin-top: 2px;
+
+    @include phone {
+      font-size: 1.3rem;
+    }
+
+    &,
+    &__icon,
+    & > svg {
+      color: $color-secondary-dark;
+    }
+  }
+}

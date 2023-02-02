@@ -2,7 +2,11 @@ import { Box, Grid } from '@mui/material';
 import { FC } from 'react';
 import { H1 } from 'shared/components';
 
+import { usePublicTranslation } from 'configs/i18n';
+
 export const PublicHomePage: FC = () => {
+  const { t } = usePublicTranslation({ keyPrefix: 'yki.pages.publicHomePage' });
+
   return (
     <Box className="public-homepage">
       <Grid
@@ -11,9 +15,7 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <H1 data-testid="public-homepage__title-heading">
-          Yleiset kielitutkinnot (YKI) - Ilmoittautuminen
-        </H1>
+        <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
       </Grid>
     </Box>
   );

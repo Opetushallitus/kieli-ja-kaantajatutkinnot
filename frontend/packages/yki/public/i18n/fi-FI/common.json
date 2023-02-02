@@ -1,0 +1,24 @@
+{
+  "yki": {
+    "common": {
+      "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
+      "contactEmail": "kielitutkinnot@oph.fi",
+      "header": {
+        "accessibility": {
+          "continueToMain": "Jatka sisältöön",
+          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "ophLogo": "Opetushallituksen logo",
+      "ykiHomepage": {
+        "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+      }
+    }
+  }
+}

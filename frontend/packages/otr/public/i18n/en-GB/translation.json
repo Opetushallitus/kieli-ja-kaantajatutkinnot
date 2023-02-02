@@ -130,7 +130,6 @@
       },
       "footer": {
         "accessibility": {
-          "continueToMain": "Continue to content",
           "ophPhone": "Telephone number of the Finnish National Agency for Education",
           "waveAriaLabel": "Wavy vector image"
         },
