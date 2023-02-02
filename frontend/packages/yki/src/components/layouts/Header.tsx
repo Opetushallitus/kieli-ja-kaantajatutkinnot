@@ -21,7 +21,7 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.en'), english],
   ]);
 
-  const logoRedirectURL = AppRoutes.PublicHomePage;
+  const logoRedirectURL = AppRoutes.Registration;
 
   return (
     <>

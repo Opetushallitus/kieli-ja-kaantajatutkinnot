@@ -7,7 +7,7 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { PublicHomePage } from 'pages/PublicHomePage';
+import { RegistrationPage } from 'pages/RegistrationPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -26,8 +26,8 @@ export const AppRouter: FC = () => {
           <div className="content__container">
             <Routes>
               <Route
-                path={AppRoutes.PublicHomePage}
-                element={<PublicHomePage />}
+                path={AppRoutes.Registration}
+                element={<RegistrationPage />}
               />
             </Routes>
           </div>
