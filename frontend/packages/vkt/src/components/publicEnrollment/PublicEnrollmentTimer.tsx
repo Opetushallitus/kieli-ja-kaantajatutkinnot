@@ -1,6 +1,8 @@
 import { Box, LinearProgress } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
+import { CustomButton, CustomModal } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
 
@@ -23,6 +25,7 @@ export const PublicEnrollmentTimer = ({ expires }: { expires: Dayjs }) => {
   };
 
   const [progress, setProgress] = useState(calcProgress(expires, total));
+  const [timerWarningOpen, setTimerWarningOpen] = useState(true);
 
   setInterval(() => setProgress(calcProgress(expires, total)), 1000);
 
@@ -42,6 +45,21 @@ export const PublicEnrollmentTimer = ({ expires }: { expires: Dayjs }) => {
         variant="determinate"
         value={progress.value}
       />
+      <CustomModal
+        data-testid="qualification-details__add-qualification-modal"
+        open={timerWarningOpen}
+        onCloseModal={() => setTimerWarningOpen(false)}
+        ariaLabelledBy="modal-title"
+        modalTitle={t('addQualification')}
+      >
+        <CustomButton
+          data-testid="clerk-new-interpreter-page__add-qualification-button"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+        >
+          {t('addQualification')}
+        </CustomButton>
+      </CustomModal>
     </Box>
   );
 };

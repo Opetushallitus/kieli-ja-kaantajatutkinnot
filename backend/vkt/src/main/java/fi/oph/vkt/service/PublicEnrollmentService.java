@@ -63,13 +63,28 @@ public class PublicEnrollmentService {
       .map(this::updateExpiresAtForExistingReservation)
       .orElseGet(() -> createNewReservation(examEvent, person));
 
-    final PublicReservationDTO reservationDTO = PublicReservationDTO
-      .builder()
-      .id(reservation.getId())
-      .expiresAt(ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault()))
-      .build();
+    final PublicReservationDTO reservationDTO = createReservationDTO(reservation);
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
+  }
+
+  public PublicReservationDTO renewEnrollmentReservation(final long examEventId, final Person person) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+    final Reservation reservation = reservationRepository
+            .findByExamEventAndPerson(examEvent, person)
+            .orElseThrow();
+
+    return createReservationDTO(
+            updateExpiresAtForExistingReservation(reservation)
+    );
+  }
+
+  private PublicReservationDTO createReservationDTO(Reservation reservation) {
+    return PublicReservationDTO
+            .builder()
+            .id(reservation.getId())
+            .expiresAt(ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault()))
+            .build();
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {

@@ -11,7 +11,7 @@ import {
 import { PublicPerson } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
-interface PublicReservation extends WithId {
+export interface PublicReservation extends WithId {
   expiresAt: Dayjs;
 }
 
@@ -21,7 +21,7 @@ export interface PublicReservationDetails {
   reservation?: PublicReservation; // undefined if enrolling to queue
 }
 
-interface PublicReservationResponse
+export interface PublicReservationResponse
   extends Omit<PublicReservation, 'expiresAt'> {
   expiresAt: string;
 }

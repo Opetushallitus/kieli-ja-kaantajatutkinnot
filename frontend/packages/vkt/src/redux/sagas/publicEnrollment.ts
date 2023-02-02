@@ -7,8 +7,10 @@ import { APIEndpoints } from 'enums/api';
 import { PublicUIViews } from 'enums/app';
 import {
   PublicEnrollment,
+  PublicReservation,
   PublicReservationDetails,
   PublicReservationDetailsResponse,
+  PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -22,6 +24,7 @@ import {
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
+  updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
 import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { NotifierUtils } from 'utils/notifier';
@@ -43,6 +46,30 @@ function* initialisePublicEnrollmentSaga(
 
     yield put(storePublicEnrollmentInitialisation(reservationDetails));
     yield put(setPublicUIView(PublicUIViews.Enrollment));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicEnrollmentInitialisation());
+  }
+}
+
+function* renewPublicEnrollmentReservationSaga(
+  action: PayloadAction<PublicExamEvent>
+) {
+  try {
+    const renewUrl = `${APIEndpoints.PublicExamEvent}/${action.payload.id}/reservation/renew`;
+
+    const response: AxiosResponse<PublicReservationResponse> = yield call(
+      axiosInstance.post,
+      renewUrl,
+      action.payload
+    );
+
+    const reservation = SerializationUtils.deserializeReservation(
+      response.data
+    );
+
+    yield put(updatePublicEnrollmentReservation(reservation));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

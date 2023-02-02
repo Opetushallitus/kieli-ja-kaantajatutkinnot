@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
+  PublicReservation,
   PublicReservationDetails,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
@@ -57,6 +58,15 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.reservationDetailsStatus = APIResponseStatus.Success;
       state.reservationDetails = action.payload;
+    },
+    updatePublicEnrollmentReservation(
+      state,
+      action: PayloadAction<PublicReservation>
+    ) {
+      state.reservationDetails = {
+        ...state.reservationDetails,
+        reservation: action.payload,
+      } as PublicReservationDetails;
     },
     cancelPublicEnrollment(state) {
       state.status = APIResponseStatus.InProgress;
@@ -116,6 +126,7 @@ export const {
   increaseActiveStep,
   resetPublicEnrollment,
   updatePublicEnrollment,
+  updatePublicEnrollmentReservation,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentSave,
   storePublicEnrollmentSave,
