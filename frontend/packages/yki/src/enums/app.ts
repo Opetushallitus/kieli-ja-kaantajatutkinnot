@@ -7,3 +7,8 @@ export enum AppRoutes {
   Reassessment = '/yki/tarkistusarviointi',
   NotFoundPage = '*',
 }
+
+export enum HeaderTabNav {
+  Registration = 'registration',
+  Reassessment = 'reassessment',
+}

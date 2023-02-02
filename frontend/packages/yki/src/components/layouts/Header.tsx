@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 
+import { PublicNavTabs } from 'components/layouts/publicHeader/PublicNavTabs';
 import {
   changeLang,
   getCurrentLang,
@@ -41,7 +42,9 @@ export const Header = (): JSX.Element => {
               />
             </Link>
           </div>
-          <div className="header__center" />
+          <div className="header__center">
+            <PublicNavTabs />
+          </div>
           <div className="header__right">
             <LangSelector
               changeLang={changeLang}
