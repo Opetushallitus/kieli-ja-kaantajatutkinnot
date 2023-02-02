@@ -2800,6 +2800,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki":
+  version: 0.0.0-use.local
+  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
+  dependencies:
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.10"
+  languageName: unknown
+  linkType: soft
+
 "@popperjs/core@npm:^2.11.6":
   version: 2.11.6
   resolution: "@popperjs/core@npm:2.11.6"
