@@ -36,6 +36,7 @@ public class PublicEnrollmentService {
   private final ExamEventRepository examEventRepository;
   private final PersonRepository personRepository;
   private final ReservationRepository reservationRepository;
+  private final PublicReservationService publicReservationService;
   private final Environment environment;
 
   @Transactional
@@ -60,31 +61,12 @@ public class PublicEnrollmentService {
 
     final Reservation reservation = reservationRepository
       .findByExamEventAndPerson(examEvent, person)
-      .map(this::updateExpiresAtForExistingReservation)
+      .map(publicReservationService::updateExpiresAtForExistingReservation)
       .orElseGet(() -> createNewReservation(examEvent, person));
 
-    final PublicReservationDTO reservationDTO = createReservationDTO(reservation);
+    final PublicReservationDTO reservationDTO = publicReservationService.createReservationDTO(reservation);
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
-  }
-
-  public PublicReservationDTO renewEnrollmentReservation(final long examEventId, final Person person) {
-    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Reservation reservation = reservationRepository
-            .findByExamEventAndPerson(examEvent, person)
-            .orElseThrow();
-
-    return createReservationDTO(
-            updateExpiresAtForExistingReservation(reservation)
-    );
-  }
-
-  private PublicReservationDTO createReservationDTO(Reservation reservation) {
-    return PublicReservationDTO
-            .builder()
-            .id(reservation.getId())
-            .expiresAt(ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault()))
-            .build();
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -92,13 +74,6 @@ public class PublicEnrollmentService {
       .stream()
       .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
       .count();
-  }
-
-  private Reservation updateExpiresAtForExistingReservation(final Reservation reservation) {
-    reservation.setExpiresAt(newExpiresAt());
-    reservationRepository.flush();
-
-    return reservation;
   }
 
   private Reservation createNewReservation(final ExamEvent examEvent, final Person person) {

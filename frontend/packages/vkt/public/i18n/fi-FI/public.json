@@ -41,7 +41,11 @@
           "sendForm": "Lähetä lomake"
         },
         "expirationTimer": {
-          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}"
+          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "continueEnrollment": "Jatka ilmoittautumista",
+          "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\".",
+          "cancelReservation": "Peruuta ilmoittautuminen"
         },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",

@@ -5,7 +5,6 @@ import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
@@ -56,15 +55,6 @@ public class PublicController {
     return publicEnrollmentService.initialiseEnrollment(examEventId, person);
   }
 
-  @PutMapping(path = "/examEvent/{examEventId:\\d+}/reservation/renew")
-  @ResponseStatus(HttpStatus.OK)
-  public PublicReservationDTO renewEnrollmentReservation(@PathVariable final long examEventId) {
-    // TODO: get identity from session?
-    final Person person = publicIdentificationService.identify();
-
-    return publicEnrollmentService.renewEnrollmentReservation(examEventId, person);
-  }
-
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId) {
@@ -92,6 +82,13 @@ public class PublicController {
     @RequestParam final long personId
   ) {
     publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, personId);
+  }
+
+  @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
+  @ResponseStatus(HttpStatus.OK)
+  public PublicReservationDTO renewReservation(@PathVariable final long reservationId) {
+    // TODO: get identity from session and check that it belongs to this reservation?
+    return publicReservationService.renewReservation(reservationId);
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")

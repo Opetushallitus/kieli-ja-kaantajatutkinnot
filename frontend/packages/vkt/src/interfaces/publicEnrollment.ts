@@ -13,6 +13,8 @@ import { WithId } from 'interfaces/with';
 
 export interface PublicReservation extends WithId {
   expiresAt: Dayjs;
+  expiresUpdatedAt: Dayjs;
+  canRenew: boolean;
 }
 
 export interface PublicReservationDetails {
@@ -22,8 +24,10 @@ export interface PublicReservationDetails {
 }
 
 export interface PublicReservationResponse
-  extends Omit<PublicReservation, 'expiresAt'> {
+  extends Omit<PublicReservation, 'expiresAt' | 'expiresUpdatedAt'> {
   expiresAt: string;
+  expiresUpdatedAt: string;
+  canRenew: boolean;
 }
 
 export interface PublicReservationDetailsResponse

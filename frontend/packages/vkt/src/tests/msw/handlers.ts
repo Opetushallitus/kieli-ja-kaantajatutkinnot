@@ -20,6 +20,8 @@ export const handlers = [
         reservation: {
           id: 1,
           expiresAt: fixedDateForTests.add(30, 'minute').format(),
+          expiresUpdatedAt: fixedDateForTests.format(),
+          canRenew: true,
         },
         person,
       };

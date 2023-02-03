@@ -1,45 +1,88 @@
 import { Box, LinearProgress } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
-import { CustomButton, CustomModal } from 'shared/components';
+import { useEffect, useState } from 'react';
+import {
+  CustomButton,
+  CustomModal,
+  LoadingProgressIndicator,
+} from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
+import { PublicReservation } from 'interfaces/publicEnrollment';
+import {
+  cancelPublicEnrollmentAndRemoveReservation,
+  renewPublicEnrollmentReservation,
+} from 'redux/reducers/publicEnrollment';
 
-export const PublicEnrollmentTimer = ({ expires }: { expires: Dayjs }) => {
+const calcProgress = (expires: Dayjs, total: number) => {
+  const secondsDiff = Math.max(0, expires.diff(dayjs(), 'second'));
+  const minutes = Math.floor(secondsDiff / 60);
+  const seconds = secondsDiff - minutes * 60;
+
+  return {
+    value: 100 - Math.floor((secondsDiff / total) * 100),
+    seconds: String(seconds).padStart(2, '0'),
+    minutes: String(minutes).padStart(2, '0'),
+  };
+};
+
+export const PublicEnrollmentTimer = ({
+  reservation,
+  isLoading,
+}: {
+  reservation: PublicReservation;
+  isLoading: boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.expirationTimer',
   });
 
-  const total = 1800;
-  const calcProgress = (expires: Dayjs, total: number) => {
-    const secondsDiff = Math.max(0, expires.diff(dayjs(), 'second'));
-    const minutes = Math.floor(secondsDiff / 60);
-    const seconds = secondsDiff - minutes * 60;
+  const dispatch = useAppDispatch();
+  const expirationTime = Math.max(
+    0,
+    reservation.expiresAt.diff(reservation.expiresUpdatedAt, 'second')
+  );
 
-    return {
-      value: 100 - Math.floor((secondsDiff / total) * 100),
-      seconds: String(seconds).padStart(2, '0'),
-      minutes: String(minutes).padStart(2, '0'),
-    };
-  };
-
-  const [progress, setProgress] = useState(calcProgress(expires, total));
+  const [progress, setProgress] = useState(
+    calcProgress(reservation.expiresAt, expirationTime)
+  );
   const [timerWarningOpen, setTimerWarningOpen] = useState(true);
 
-  setInterval(() => setProgress(calcProgress(expires, total)), 1000);
+  useEffect(() => {
+    const interval = setInterval(
+      () => setProgress(calcProgress(reservation.expiresAt, expirationTime)),
+      1000
+    );
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [reservation, expirationTime]);
+
+  const renewReservation = () => {
+    dispatch(renewPublicEnrollmentReservation(reservation));
+    setTimerWarningOpen(false);
+  };
+
+  const cancelReservation = () => {
+    dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
+  };
 
   return (
     <Box className="public-enrollment__grid__progress-container">
-      <div
-        data-testid="public-enrollment__reservation-timer-text"
-        className="public-enrollment__grid__progress-text"
-      >
-        {t('reservationExpiresIn', {
-          minutes: progress.minutes,
-          seconds: progress.seconds,
-        })}
-      </div>
+      <LoadingProgressIndicator isLoading={isLoading}>
+        <div
+          data-testid="public-enrollment__reservation-timer-text"
+          className="public-enrollment__grid__progress-text"
+        >
+          {t('reservationExpiresIn', {
+            minutes: progress.minutes,
+            seconds: progress.seconds,
+          })}
+        </div>
+      </LoadingProgressIndicator>
       <LinearProgress
         className="public-enrollment__grid__timer-progressbar"
         variant="determinate"
@@ -50,15 +93,34 @@ export const PublicEnrollmentTimer = ({ expires }: { expires: Dayjs }) => {
         open={timerWarningOpen}
         onCloseModal={() => setTimerWarningOpen(false)}
         ariaLabelledBy="modal-title"
-        modalTitle={t('addQualification')}
       >
-        <CustomButton
-          data-testid="clerk-new-interpreter-page__add-qualification-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-        >
-          {t('addQualification')}
-        </CustomButton>
+        <div>
+          <h2>
+            {t('reservationExpiresInTitle', {
+              minutes: progress.minutes,
+              seconds: progress.seconds,
+            })}
+          </h2>
+          <p>{t('reservationInfoText')}</p>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              data-testid="clerk-new-interpreter-page__add-qualification-button"
+              variant={Variant.Text}
+              color={Color.Secondary}
+              onClick={cancelReservation}
+            >
+              {t('cancelReservation')}
+            </CustomButton>
+            <CustomButton
+              data-testid="clerk-new-interpreter-page__add-qualification-button"
+              variant={Variant.Contained}
+              color={Color.Secondary}
+              onClick={renewReservation}
+            >
+              {t('continueEnrollment')}
+            </CustomButton>
+          </div>
+        </div>
       </CustomModal>
     </Box>
   );

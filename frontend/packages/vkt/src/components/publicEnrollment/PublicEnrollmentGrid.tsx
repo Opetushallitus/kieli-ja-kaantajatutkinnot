@@ -44,9 +44,10 @@ export const PublicEnrollmentGrid = () => {
                 activeStep={activeStep}
                 includePaymentStep={hasReservation}
               />
-              {reservationDetails?.reservation?.expiresAt && (
+              {reservationDetails?.reservation && (
                 <PublicEnrollmentTimer
-                  expires={reservationDetails.reservation.expiresAt}
+                  reservation={reservationDetails.reservation}
+                  isLoading={isLoading}
                 />
               )}
               <PublicEnrollmentExamEventDetails

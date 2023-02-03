@@ -21,6 +21,7 @@ import {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
+  renewPublicEnrollmentReservation,
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
@@ -54,13 +55,13 @@ function* initialisePublicEnrollmentSaga(
 }
 
 function* renewPublicEnrollmentReservationSaga(
-  action: PayloadAction<PublicExamEvent>
+  action: PayloadAction<PublicReservation>
 ) {
   try {
-    const renewUrl = `${APIEndpoints.PublicExamEvent}/${action.payload.id}/reservation/renew`;
+    const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload.id}/renew`;
 
     const response: AxiosResponse<PublicReservationResponse> = yield call(
-      axiosInstance.post,
+      axiosInstance.put,
       renewUrl,
       action.payload
     );
@@ -129,6 +130,10 @@ function* loadPublicEnrollmentSaveSaga(
 
 export function* watchPublicEnrollments() {
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
+  yield takeLatest(
+    renewPublicEnrollmentReservation,
+    renewPublicEnrollmentReservationSaga
+  );
   yield takeLatest(cancelPublicEnrollment, cancelPublicEnrollmentSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,
