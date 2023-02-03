@@ -1,0 +1,59 @@
+{
+  "exam_session": {
+    "level_code": "PERUS",
+    "max_participants": 5,
+    "participants": 2,
+    "language_code": "eng",
+    "office_oid": "1.2.3.4.5",
+    "published_at": null,
+    "session_date": "2019-09-27",
+    "organizer_oid": "1.2.3.4",
+    "id": 1,
+    "location": [
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": null,
+        "lang": "fi"
+      },
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": null,
+        "lang": "sv"
+      },
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": null,
+        "lang": "en"
+      }
+    ],
+    "exam_fee": "100.00"
+  },
+  "user": {
+    "last_name": "Parkkonen-Testi",
+    "nick_name": null,
+    "ssn": "260553-959D",
+    "post_office": "HELSINKI",
+    "oid": null,
+    "external-user-id": "260553-959D",
+    "street_address": "Ateläniitynpolku 29 G",
+    "first_name": "Carl-Erik",
+    "zip": "00100",
+    "nationalities": [
+      "246"
+    ],
+    "email": null
+  },
+  "registration_id": 1
+}

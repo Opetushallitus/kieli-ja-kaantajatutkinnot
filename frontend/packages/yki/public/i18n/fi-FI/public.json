@@ -29,6 +29,9 @@
             "text": "Yleisten kielitutkintojen kotisivu (oph.fi)"
           }
         }
+      },
+      "publicExamEventGrid": {
+        "title": "Yleisiin kielitutkintoihin ilmoittautuminen"
       }
     },
     "pages": {

@@ -12,3 +12,9 @@ export enum HeaderTabNav {
   Registration = 'registration',
   Reassessment = 'reassessment',
 }
+
+export enum LevelCode {
+  PERUS = 'PERUS',
+  YLIN = 'YLIN',
+  ALIN = 'ALIN',
+}
