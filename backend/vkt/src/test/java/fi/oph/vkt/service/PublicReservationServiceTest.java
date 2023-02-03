@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.ExamEvent;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -31,7 +33,8 @@ public class PublicReservationServiceTest {
 
   @BeforeEach
   public void setup() {
-    publicReservationService = new PublicReservationService(reservationRepository);
+    final Environment environment = mock(Environment.class);
+    publicReservationService = new PublicReservationService(reservationRepository, environment);
   }
 
   @Test

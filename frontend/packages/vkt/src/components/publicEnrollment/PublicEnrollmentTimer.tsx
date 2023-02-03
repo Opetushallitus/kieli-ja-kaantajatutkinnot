@@ -48,7 +48,7 @@ export const PublicEnrollmentTimer = ({
   const [progress, setProgress] = useState(
     calcProgress(reservation.expiresAt, expirationTime)
   );
-  const [timerWarningOpen, setTimerWarningOpen] = useState(true);
+  const [timerWarningClosed, setTimerWarningClosed] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(
@@ -63,12 +63,15 @@ export const PublicEnrollmentTimer = ({
 
   const renewReservation = () => {
     dispatch(renewPublicEnrollmentReservation(reservation));
-    setTimerWarningOpen(false);
+    setTimerWarningClosed(true);
   };
 
   const cancelReservation = () => {
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
   };
+
+  const isContinueModalOpen =
+    !timerWarningClosed && progress.value > 90 && reservation.canRenew;
 
   return (
     <Box className="public-enrollment__grid__progress-container">
@@ -90,8 +93,8 @@ export const PublicEnrollmentTimer = ({
       />
       <CustomModal
         data-testid="qualification-details__add-qualification-modal"
-        open={timerWarningOpen}
-        onCloseModal={() => setTimerWarningOpen(false)}
+        open={isContinueModalOpen}
+        onCloseModal={() => setTimerWarningClosed(true)}
         ariaLabelledBy="modal-title"
       >
         <div>
