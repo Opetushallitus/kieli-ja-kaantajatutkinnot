@@ -118,7 +118,11 @@ class ClerkInterpreterServiceTest {
 
     final long id1 = createInterpreter(meetingDate, "1");
     final long id2 = createInterpreter(meetingDate, "2");
-    final long id3 = createInterpreter(meetingDate, "3");
+
+    final Interpreter interpreter3 = Factory.interpreter();
+    interpreter3.setOnrId("3");
+    entityManager.persist(interpreter3);
+    final long id3 = interpreter3.getId();
 
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
