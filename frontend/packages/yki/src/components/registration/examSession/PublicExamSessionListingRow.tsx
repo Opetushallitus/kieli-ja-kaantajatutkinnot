@@ -17,15 +17,22 @@ export const PublicExamSessionListingRow = (examSession: ExamSession) => {
       onClick={handleRowClick}
     >
       <TableCell>
-        {examSession.language_code}, {examSession.level_code}ƒ
+        {examSession.language_code}, {examSession.level_code}
       </TableCell>
       <TableCell>
-        {DateUtils.formatOptionalDate(examSession.session_date)}
+        {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>
       <TableCell>{examSession.location[0].name}</TableCell>
       <TableCell>
-        {DateUtils.formatOptionalDate(examSession.registration_start_date)} -{' '}
-        {DateUtils.formatOptionalDate(examSession.registration_end_date)}
+        {DateUtils.formatOptionalDateTime(
+          examSession.registration_start_date?.hour(10),
+          'l HH:mm'
+        )}{' '}
+        -{' '}
+        {DateUtils.formatOptionalDateTime(
+          examSession.registration_end_date?.hour(16),
+          'l HH:mm'
+        )}
       </TableCell>
       <TableCell>
         {examSession.max_participants - (examSession.participants ?? 0)} /{' '}
