@@ -105,7 +105,7 @@ export const PublicEnrollmentTimer = ({
         onCloseModal={() => setTimerWarningClosed(true)}
         ariaLabelledBy="modal-title"
       >
-        <div>
+        <div className="custom-modal__renew-reservation-modal">
           <h2>
             {t('reservationExpiresInTitle', {
               minutes: progress.minutes,
@@ -139,14 +139,9 @@ export const PublicEnrollmentTimer = ({
         onCloseModal={() => setTimerWarningClosed(true)}
         ariaLabelledBy="modal-title"
       >
-        <div>
-          <h2>
-            {t('reservationExpiresInTitle', {
-              minutes: progress.minutes,
-              seconds: progress.seconds,
-            })}
-          </h2>
-          <p>{t('reservationInfoText')}</p>
+        <div className="custom-modal__renew-reservation-modal">
+          <h2>{t('reservationExpired')}</h2>
+          <p>{t('reservationExpiredText')}</p>
           <div className="columns gapped flex-end">
             <CustomButton
               data-testid="public-enrollment__reservation-expired-ok-button"
@@ -154,7 +149,7 @@ export const PublicEnrollmentTimer = ({
               color={Color.Secondary}
               onClick={cancelReservation}
             >
-              {t('cancelReservation')}
+              {t('reservationExpiredContinue')}
             </CustomButton>
           </div>
         </div>
