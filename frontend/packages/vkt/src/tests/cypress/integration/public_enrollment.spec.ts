@@ -21,6 +21,18 @@ describe('Public enrollment', () => {
       cy.tick(30 * 60 * 1000);
       onPublicHomePage.expectReservationTimeLeft('00', '00');
     });
+
+    it('reservation should allow renewal', () => {
+      cy.tick(29 * 60 * 1000);
+      onPublicHomePage.clickReservationRenewButton();
+      cy.tick(30 * 1000);
+      onPublicHomePage.expectReservationTimeLeft('29', '30');
+    });
+
+    it.only('reservation expired should info modal', () => {
+      cy.tick(31 * 60 * 1000);
+      onPublicHomePage.expectReservationExpiredOkButtonEnabled();
+    });
   });
 
   describe('to exam event that is full', () => {

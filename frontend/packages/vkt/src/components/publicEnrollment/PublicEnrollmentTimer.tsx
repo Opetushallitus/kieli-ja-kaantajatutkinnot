@@ -25,6 +25,7 @@ const calcProgress = (expires: Dayjs, total: number) => {
     value: 100 - Math.floor((secondsDiff / total) * 100),
     seconds: String(seconds).padStart(2, '0'),
     minutes: String(minutes).padStart(2, '0'),
+    secondsDiff,
   };
 };
 
@@ -70,8 +71,15 @@ export const PublicEnrollmentTimer = ({
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
   };
 
+  const isExpired = progress.secondsDiff <= 0;
+  const warningTreshold = 90;
   const isContinueModalOpen =
-    !timerWarningClosed && progress.value > 90 && reservation.canRenew;
+    !timerWarningClosed &&
+    !isExpired &&
+    progress.value > warningTreshold &&
+    reservation.canRenew;
+
+  const isExpiredModalOpen = isExpired;
 
   return (
     <Box className="public-enrollment__grid__progress-container">
@@ -92,7 +100,7 @@ export const PublicEnrollmentTimer = ({
         value={progress.value}
       />
       <CustomModal
-        data-testid="qualification-details__add-qualification-modal"
+        data-testid="public-enrollment__renew-reservation-modal"
         open={isContinueModalOpen}
         onCloseModal={() => setTimerWarningClosed(true)}
         ariaLabelledBy="modal-title"
@@ -107,7 +115,7 @@ export const PublicEnrollmentTimer = ({
           <p>{t('reservationInfoText')}</p>
           <div className="columns gapped flex-end">
             <CustomButton
-              data-testid="clerk-new-interpreter-page__add-qualification-button"
+              data-testid="public-enrollment__cancel-reservation-modal-button"
               variant={Variant.Text}
               color={Color.Secondary}
               onClick={cancelReservation}
@@ -115,12 +123,38 @@ export const PublicEnrollmentTimer = ({
               {t('cancelReservation')}
             </CustomButton>
             <CustomButton
-              data-testid="clerk-new-interpreter-page__add-qualification-button"
+              data-testid="public-enrollment__renew-reservation-modal-button"
               variant={Variant.Contained}
               color={Color.Secondary}
               onClick={renewReservation}
             >
               {t('continueEnrollment')}
+            </CustomButton>
+          </div>
+        </div>
+      </CustomModal>
+      <CustomModal
+        data-testid="public-enrollment__reservation-expired-modal"
+        open={isExpiredModalOpen}
+        onCloseModal={() => setTimerWarningClosed(true)}
+        ariaLabelledBy="modal-title"
+      >
+        <div>
+          <h2>
+            {t('reservationExpiresInTitle', {
+              minutes: progress.minutes,
+              seconds: progress.seconds,
+            })}
+          </h2>
+          <p>{t('reservationInfoText')}</p>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              data-testid="public-enrollment__reservation-expired-ok-button"
+              variant={Variant.Text}
+              color={Color.Secondary}
+              onClick={cancelReservation}
+            >
+              {t('cancelReservation')}
             </CustomButton>
           </div>
         </div>

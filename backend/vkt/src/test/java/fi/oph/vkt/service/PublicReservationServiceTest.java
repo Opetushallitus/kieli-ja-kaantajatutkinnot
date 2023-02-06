@@ -1,17 +1,22 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -34,7 +39,58 @@ public class PublicReservationServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("app.reservation.duration")).thenReturn("PT30M");
     publicReservationService = new PublicReservationService(reservationRepository, environment);
+  }
+
+  @Test
+  public void testRenewReservation() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    final LocalDateTime expires = reservation.getExpiresAt();
+
+    publicReservationService.renewReservation(reservation.getId());
+
+    assertEquals(1, reservationRepository.count());
+    assertNotEquals(expires, reservation.getExpiresAt());
+  }
+
+  @Test
+  public void testRenewReservationTwice() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    assertThrows(
+      APIException.class,
+      () -> {
+        publicReservationService.renewReservation(reservation.getId());
+        publicReservationService.renewReservation(reservation.getId());
+      }
+    );
+  }
+
+  @Test
+  public void testRenewReservationNotExist() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    assertThrows(
+      EntityNotFoundException.class,
+      () -> publicReservationService.renewReservation(reservation.getId() + 1)
+    );
   }
 
   @Test

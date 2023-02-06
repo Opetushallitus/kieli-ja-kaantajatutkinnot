@@ -3,6 +3,8 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.repository.ReservationRepository;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,6 +24,10 @@ public class PublicReservationService {
   @Transactional
   public PublicReservationDTO renewReservation(final long reservationId) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+
+    if (!reservation.canRenew()) {
+      throw new APIException(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED);
+    }
 
     return createReservationDTO(updateExpiresAtForExistingReservation(reservation));
   }
