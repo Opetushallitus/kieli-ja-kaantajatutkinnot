@@ -20,5 +20,4 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// ts-unused-exports:disable-next-line
 export default axiosInstance;

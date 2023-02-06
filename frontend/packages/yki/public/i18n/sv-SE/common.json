@@ -3,6 +3,7 @@
     "common": {
       "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
       "contactEmail": "kielitutkinnot@oph.fi",
+      "error": "Ett oväntat fel uppstod",
       "header": {
         "accessibility": {
           "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
