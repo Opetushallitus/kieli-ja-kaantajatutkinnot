@@ -18,5 +18,4 @@ const APIErrorSlice = createSlice({
 });
 
 export const APIErrorReducer = APIErrorSlice.reducer;
-// ts-unused-exports:disable-next-line
 export const { setAPIError, resetAPIError } = APIErrorSlice.actions;
