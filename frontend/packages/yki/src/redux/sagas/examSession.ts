@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
-import { HTTPStatusCode } from 'shared/enums';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
@@ -26,16 +25,11 @@ function* loadExamSessionsSaga() {
       { params: { from } }
     );
 
-    if (response.status === HTTPStatusCode.Ok) {
-      yield put(
-        storeExamSessions(
-          SerializationUtils.deserializeExamSessionsResponse(response.data)
-        )
-      );
-    } else {
-      yield put(rejectExamSessions());
-      yield put(setAPIError(t('yki.common.error')));
-    }
+    yield put(
+      storeExamSessions(
+        SerializationUtils.deserializeExamSessionsResponse(response.data)
+      )
+    );
   } catch (error) {
     yield put(rejectExamSessions());
     yield put(setAPIError(t('yki.common.error')));
