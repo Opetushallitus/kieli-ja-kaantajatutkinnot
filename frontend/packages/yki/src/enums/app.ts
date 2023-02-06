@@ -3,6 +3,12 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
-  PublicHomePage = '/yki/etusivu',
+  Registration = '/yki/ilmoittautuminen',
+  Reassessment = '/yki/tarkistusarviointi',
   NotFoundPage = '*',
+}
+
+export enum HeaderTabNav {
+  Registration = 'registration',
+  Reassessment = 'reassessment',
 }

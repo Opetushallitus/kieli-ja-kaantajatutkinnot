@@ -5,7 +5,6 @@
       "contactEmail": "kielitutkinnot@oph.fi",
       "header": {
         "accessibility": {
-          "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
         },
         "lang": {
@@ -15,6 +14,8 @@
         }
       },
       "ophLogo": "Opetushallituksen logo",
+      "registration": "Ilmoittautuminen",
+      "reassessment": "Tarkistusarviointi",
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"

@@ -5,7 +5,7 @@ export {};
 declare global {
   namespace Cypress {
     interface Chainable {
-      openPublicHomePage(): void;
+      openPublicRegistrationPage(): void;
     }
   }
 }
