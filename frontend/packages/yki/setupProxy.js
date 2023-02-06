@@ -1022,8 +1022,9 @@ module.exports = function (app) {
     useLocalProxy ? proxyPostCall(req, res) : mockCall();
   });
 
-  app.get('/yki/api/v1/exam-session', (req, res) => {
+  app.get('/yki/api/exam-session', (req, res) => {
     const mockCall = () => {
+      console.log('mocking exam-session');
       try {
         res.set('Content-Type', 'application/json; charset=utf-8');
         const monthFromNow = dayjs().add(1, 'months').format('YYYY-MM-DD');
