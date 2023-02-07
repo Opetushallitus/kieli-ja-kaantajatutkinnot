@@ -1,0 +1,44 @@
+.public-registration {
+  & &__grid {
+    &__form-container {
+      padding: 3rem;
+    }
+
+    &__stepper {
+      margin-left: 13rem;
+      margin-right: 13rem;
+
+      &__step-disabled {
+        span,
+        svg {
+          color: $color-grey-700;
+        }
+      }
+    }
+
+    &__preview {
+      &__privacy-statement-checkbox-label {
+        margin-right: 0;
+        padding-left: 1rem;
+
+        &__link {
+          font-size: 1.6rem;
+          padding: 0 3px 0 0;
+          text-transform: lowercase;
+
+          & span {
+            margin-left: 2px;
+          }
+        }
+      }
+    }
+
+    .phone-number {
+      max-width: calc(50% - 1rem);
+
+      @include phone {
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ export class ExamUtils {
     const t = translateOutsideComponent();
 
     return `${t('yki.common.languages.' + es.language_code)}, ${t(
-      'yki.common.levels.' + es.level_code
+      'yki.common.languageLevel.' + es.level_code
     )}`;
   }
 

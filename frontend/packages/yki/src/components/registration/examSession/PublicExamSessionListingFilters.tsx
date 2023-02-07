@@ -77,7 +77,7 @@ export const PublicExamSessionFilters = ({
 
   const levelToComboBoxOption = (v: ExamLevel) => ({
     value: v.toString(),
-    label: translateCommon('levels.' + v.toString()),
+    label: translateCommon('languageLevel.' + v.toString()),
   });
   const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
   const municipalityToComboBoxOption = (m: string) => ({

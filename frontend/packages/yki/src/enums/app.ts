@@ -4,8 +4,11 @@ export enum AppConstants {
 
 export enum AppRoutes {
   Registration = '/yki/ilmoittautuminen',
+  ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
   Reassessment = '/yki/tarkistusarviointi',
+  ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   NotFoundPage = '*',
+  PrivacyPolicyPage = '/yki/tietosuojaseloste',
 }
 
 export enum HeaderTabNav {
@@ -29,4 +32,10 @@ export enum ExamLevel {
   YLIN = 'YLIN',
   KESKI = 'KESKI',
   PERUS = 'PERUS',
+}
+
+export enum CertificateLanguage {
+  FI = 'fi',
+  SV = 'sv',
+  EN = 'en',
 }

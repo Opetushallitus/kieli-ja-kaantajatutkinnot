@@ -1,8 +1,14 @@
 import { TableCell, TableRow } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { CustomButton } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
+import { storeExamSession } from 'redux/reducers/examSession';
 import { ExamUtils } from 'utils/exam';
 
 export const PublicExamSessionListingRow = ({
@@ -10,10 +16,14 @@ export const PublicExamSessionListingRow = ({
 }: {
   examSession: ExamSession;
 }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
+
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
   });
-  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (
     <TableRow
@@ -40,7 +50,24 @@ export const PublicExamSessionListingRow = ({
       <TableCell>
         {examSession.max_participants - (examSession.participants ?? 0)}
       </TableCell>
-      <TableCell>{t('register')}</TableCell>
+      <TableCell>
+        <CustomButton
+          data-testid="clerk-translator-registry__reset-filters-btn"
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+          onClick={() => {
+            dispatch(storeExamSession(examSession));
+            navigate(
+              AppRoutes.ExamSession.replace(
+                /:examSessionId$/,
+                `${examSession.id}`
+              )
+            );
+          }}
+        >
+          {t('register')}
+        </CustomButton>
+      </TableCell>
     </TableRow>
   );
 };

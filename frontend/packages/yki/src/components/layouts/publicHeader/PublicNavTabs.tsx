@@ -1,6 +1,6 @@
 import { Tab, Tabs } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { Color } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
@@ -18,7 +18,11 @@ export const PublicNavTabs = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (pathname === AppRoutes.Registration) {
+    if (
+      pathname === AppRoutes.Registration ||
+      matchPath(AppRoutes.ExamSession, pathname) ||
+      matchPath(AppRoutes.ExamSessionRegistration, pathname)
+    ) {
       setValue(HeaderTabNav.Registration);
     } else if (pathname === AppRoutes.Reassessment) {
       setValue(HeaderTabNav.Reassessment);
