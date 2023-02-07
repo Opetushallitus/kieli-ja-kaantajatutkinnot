@@ -1,0 +1,70 @@
+{
+  "payments": [
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-27 12:46:39",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-3bb752d0-df72-4f72-b673-338b5e90384e",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    },
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-27 13:47:09",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-f11d83f2-62a2-4a09-81b5-927a38487fd2",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    },
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-29 06:29:33",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-ab2e1dd5-5fcc-4db5-bf49-73e213838155",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    },
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-29 07:47:01",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-088892fd-55b0-4eb5-ac5b-c21b7f2753ba",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    },
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-29 09:52:03",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-3f94f74e-9179-4829-8d96-b29d240d4e4f",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    },
+    {
+      "amount": "120,00",
+      "email": "local_test@testi.fi",
+      "name": "himpulainen, skibadiskib",
+      "exam_language": "Suomi",
+      "paid_at": "2022-07-29 11:02:21",
+      "exam_date": "2025-03-10",
+      "reference": "YKI-EXAM-1-1-ee1036e4-cc75-4b11-b802-a02f8c5ee177",
+      "exam_level": "Perustaso",
+      "organizer": "Salon seudun koulutus Oy"
+    }
+  ]
+}

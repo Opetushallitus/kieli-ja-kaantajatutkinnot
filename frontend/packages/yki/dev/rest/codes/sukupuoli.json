@@ -1,0 +1,110 @@
+[
+  {
+    "tila": "LUONNOS",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/sukupuoli_2",
+    "koodiArvo": "2",
+    "voimassaLoppuPvm": "2030-12-31",
+    "koodisto": {
+      "koodistoUri": "sukupuoli",
+      "koodistoVersios": [1],
+      "organisaatioOid": "1.2.246.562.10.00000000001"
+    },
+    "voimassaAlkuPvm": "1997-01-01",
+    "versio": 1,
+    "koodiUri": "sukupuoli_2",
+    "paivitysPvm": 1515050315029,
+    "version": 2,
+    "metadata": [
+      {
+        "kuvaus": "Female",
+        "kasite": "",
+        "lyhytNimi": "female",
+        "eiSisallaMerkitysta": "",
+        "kieli": "EN",
+        "nimi": "female",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      },
+      {
+        "kuvaus": "Kvinna",
+        "kasite": "",
+        "lyhytNimi": "kvinna",
+        "eiSisallaMerkitysta": "",
+        "kieli": "SV",
+        "nimi": "kvinna",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      },
+      {
+        "kuvaus": "Nainen",
+        "kasite": "",
+        "lyhytNimi": "nainen",
+        "eiSisallaMerkitysta": "",
+        "kieli": "FI",
+        "nimi": "nainen",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      }
+    ]
+  },
+  {
+    "tila": "LUONNOS",
+    "resourceUri": "https://virkailija.untuvaopintopolku.fi/koodisto-service/rest/codeelement/sukupuoli_1",
+    "koodiArvo": "1",
+    "voimassaLoppuPvm": "2030-12-31",
+    "koodisto": {
+      "koodistoUri": "sukupuoli",
+      "koodistoVersios": [1],
+      "organisaatioOid": "1.2.246.562.10.00000000001"
+    },
+    "voimassaAlkuPvm": "1997-01-01",
+    "versio": 1,
+    "koodiUri": "sukupuoli_1",
+    "paivitysPvm": 1515050328412,
+    "version": 3,
+    "metadata": [
+      {
+        "kuvaus": "Mies",
+        "kasite": "",
+        "lyhytNimi": "mies",
+        "eiSisallaMerkitysta": "",
+        "kieli": "FI",
+        "nimi": "mies",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      },
+      {
+        "kuvaus": "Man",
+        "kasite": "",
+        "lyhytNimi": "man",
+        "eiSisallaMerkitysta": "",
+        "kieli": "SV",
+        "nimi": "man",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      },
+      {
+        "kuvaus": "Male",
+        "kasite": "",
+        "lyhytNimi": "male",
+        "eiSisallaMerkitysta": "",
+        "kieli": "EN",
+        "nimi": "male",
+        "sisaltaaMerkityksen": "",
+        "huomioitavaKoodi": "",
+        "kayttoohje": "",
+        "sisaltaaKoodiston": ""
+      }
+    ]
+  }
+]

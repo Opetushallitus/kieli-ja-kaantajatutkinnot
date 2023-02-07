@@ -17,6 +17,7 @@
     "yki:qa": "yarn yki:lint && yarn yki:format && yarn yki:test:jest && yarn yki:start:ci",
     "yki:start": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8080",
     "yki:start:ci": "yarn g:webpack serve --env cypress --env prod --config webpack.config.js --no-open --no-client-overlay",
+    "yki:start:dev-server": "yarn g:webpack serve --config webpack.config.js --env proxy=http://localhost:8083",
     "yki:start:docker-compose": "yarn g:webpack serve --config webpack.config.js --env proxy=http://yki-backend:8080 --env docker",
     "yki:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "yki:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
@@ -26,5 +27,8 @@
   },
   "dependencies": {
     "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.10"
+  },
+  "devDependencies": {
+    "multer": "^1.4.5-lts.1"
   }
 }
