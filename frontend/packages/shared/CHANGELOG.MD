@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.6.0] - 2023-02-06
+
+### Changed
+
+- DateUtils.formatOptionalDate and DateUtils.formatOptionalDateTime now support passing an optional format string.
+
 ## [1.5.10] - 2023-01-26
 
 ### Added
