@@ -62,11 +62,11 @@ SELECT id, 'FI', 'SV', now(), now() + interval '200 days'
 FROM oikeustulkki;
 
 INSERT INTO kielipari(oikeustulkki, kielesta, kieleen, voimassaolo_alkaa, voimassaolo_paattyy)
-SELECT id, 'DE', 'FI', now() - interval '300 days', now() - interval '100 days'
+SELECT id, 'FI', 'EN', now() - interval '300 days', now() - interval '100 days'
 FROM oikeustulkki;
 
 INSERT INTO kielipari(oikeustulkki, kielesta, kieleen, voimassaolo_alkaa, voimassaolo_paattyy)
-VALUES((SELECT(id) FROM oikeustulkki WHERE lisatiedot = '11'), 'SV', 'DE', now(), now() + interval '5 years');
+VALUES((SELECT(id) FROM oikeustulkki WHERE lisatiedot = '11'), 'FI', 'DE', now(), now() + interval '5 years');
 
 INSERT INTO kielipari(oikeustulkki, kielesta, kieleen, voimassaolo_alkaa, voimassaolo_paattyy)
 VALUES((SELECT(id) FROM oikeustulkki WHERE lisatiedot = '21'), 'FI', 'GR', now(), now() + interval '3 years');

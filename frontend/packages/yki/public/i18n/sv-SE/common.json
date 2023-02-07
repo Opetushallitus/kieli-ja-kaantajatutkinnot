@@ -1,0 +1,22 @@
+{
+  "yki": {
+    "common": {
+      "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
+      "contactEmail": "kielitutkinnot@oph.fi",
+      "error": "Ett oväntat fel uppstod",
+      "header": {
+        "accessibility": {
+          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "ophLogo": "Utbildningsstyrelsens logo",
+      "registration": "Anmälning",
+      "reassessment": "Kontrollbedömning"
+    }
+  }
+}

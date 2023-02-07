@@ -1,0 +1,14 @@
+//Shared
+@import 'shared/styles';
+
+// Base
+@import 'base/base';
+
+// Components
+@import 'components/i18n/lang-selector';
+@import 'components/layouts/header';
+@import 'components/layouts/footer';
+@import 'components/registration/exam-session-filters';
+
+// Pages
+@import 'pages/registration-page';

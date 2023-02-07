@@ -130,7 +130,6 @@
       },
       "footer": {
         "accessibility": {
-          "continueToMain": "Jatka sisältöön",
           "ophPhone": "Opetushallituksen puhelinnumero",
           "waveAriaLabel": "Aaltoileva vektorikuvio"
         },
@@ -334,7 +333,7 @@
           "title": "Etsi oikeustulkkia"
         },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Oikeustulkeilla on aina molemman suuntainen pätevyys esim. suomi <-> englanti englanti <-> suomi",
+        "note": "Oikeustulkeilla on aina molemman suuntainen pätevyys esim. suomi <-> englanti, englanti <-> suomi. Yhdenvertaisen näkyvyyden turvaamiseksi tulkit arvotaan hakukoneessa satunnaisjärjestykseen.",
         "title": "Oikeustulkkirekisteri"
       },
       "meetingDatesPage": {

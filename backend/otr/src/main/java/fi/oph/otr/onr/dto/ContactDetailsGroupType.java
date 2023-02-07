@@ -6,11 +6,23 @@ public enum ContactDetailsGroupType {
   @JsonProperty("yhteystietotyyppi1")
   KOTIOSOITE,
 
+  @JsonProperty("yhteystietotyyppi2")
+  TYO_OSOITE,
+
+  @JsonProperty("yhteystietotyyppi3")
+  VAPAA_AJAN_OSOITE,
+
   @JsonProperty("yhteystietotyyppi4")
   VAKINAINEN_KOTIMAAN_OSOITE,
 
   @JsonProperty("yhteystietotyyppi5")
   VAKINAINEN_ULKOMAAN_OSOITE,
+
+  @JsonProperty("yhteystietotyyppi6")
+  HAKEMUKSELTA_TULEVA_YHTEYSTIETO,
+
+  @JsonProperty("yhteystietotyyppi7")
+  MUU_OSOITE,
 
   @JsonProperty("yhteystietotyyppi8")
   SAHKOINEN_OSOITE,

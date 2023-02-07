@@ -1,0 +1,46 @@
+{
+  "exam_session": {
+    "level_code": "KESKI",
+    "max_participants": 5,
+    "language_code": "fin",
+    "office_oid": "1.2.3.4.5",
+    "published_at": null,
+    "session_date": "2019-09-27",
+    "organizer_oid": "1.2.3.4",
+    "id": 2,
+    "location": [
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": "Lisätiedot suomeksi",
+        "lang": "fi"
+      },
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": "Lisätiedot ruotsiksi",
+        "lang": "sv"
+      },
+      {
+        "name": "Omenia",
+        "street_address": "Upseerinkatu 11",
+        "post_office": "Espoo",
+        "zip": "02110",
+        "other_location_info": "Other info",
+        "extra_information": "Lisätiedot englanniksi",
+        "lang": "en"
+      }
+    ],
+    "exam_fee": "100.00"
+  },
+  "user": {
+    "email": "test@test.com"
+  },
+  "registration_id": 2
+}

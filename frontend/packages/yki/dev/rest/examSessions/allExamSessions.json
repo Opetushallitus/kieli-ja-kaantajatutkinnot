@@ -1,0 +1,431 @@
+{
+  "exam_sessions": [
+    {
+      "level_code": "YLIN",
+      "max_participants": 15,
+      "language_code": "fin",
+      "participants": 15,
+      "pa_participants": 4,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:16:37.959Z",
+      "session_date": "2039-12-29",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 25,
+      "registration_start_date": "2030-12-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2039-12-10",
+      "open": true,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission_quota": 10,
+      "post_admission_start_date": "2020-12-11",
+      "post_admission_end_date": "2020-12-20",
+      "post_admission_active": true
+    },
+    {
+      "level_code": "PERUS",
+      "max_participants": 50,
+      "language_code": "fin",
+      "participants": 0,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:16:37.959Z",
+      "session_date": "2019-05-26",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 10,
+      "registration_start_date": "2025-12-03",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2039-12-14",
+      "open": false,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission": null
+    },
+    {
+      "level_code": "KESKI",
+      "max_participants": 20,
+      "language_code": "fin",
+      "participants": 0,
+      "contact": [
+        {
+          "name": "Contact Person",
+          "email": "contact.person@testi.invalid",
+          "phone_number": "+3584678124"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:20:41.776Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 11,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "uusia lisätietoja",
+          "name": "Amiedu",
+          "other_location_info": "auditorio A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": "ny extra info",
+          "name": "Omenia",
+          "other_location_info": "auditorium A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": "new additional info",
+          "name": "Omenia",
+          "other_location_info": "auditorium A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "123.00",
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission": null
+    },
+    {
+      "level_code": "KESKI",
+      "max_participants": 25,
+      "language_code": "fin",
+      "participants": 24,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:30:00.000Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.39706139522",
+      "id": 12,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "Sali toisessa kerroksessa.",
+          "name": "Maunulan yhteiskoulu - Helsingin matematiikkalukio",
+          "other_location_info": "Sali Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Maunula Secondary School and Helsinki School of Mathematics",
+          "other_location_info": "Hall Kekkonen",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission": null
+    },
+    {
+      "level_code": "YLIN",
+      "max_participants": 10,
+      "language_code": "deu",
+      "participants": 10,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:30:00.000Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.39706139522",
+      "id": 13,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "Sali toisessa kerroksessa.",
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Sali Mannerheim",
+          "street_address": "Mikälietie 4",
+          "post_office": "JYVÄSKYLÄ",
+          "zip": "40100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Mannerheim",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Mannerheim",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        }
+      ],
+      "exam_fee": "160.00",
+      "registration_end_date": "2029-02-28",
+      "open": true,
+      "queue_full": false,
+      "post_admission": null
+    },
+    {
+      "level_code": "PERUS",
+      "max_participants": 20,
+      "language_code": "fin",
+      "participants": 20,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:32:00.000Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.39706139522",
+      "id": 14,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "Sali kolmannessa kerroksessa.",
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Sali Koivisto",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": "Hall på tredje våningen.",
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        },
+        {
+          "lang": "en",
+          "extra_information": "Hall is on the third floor.",
+          "name": "Jyväskylän kansalaisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Mikälietie 4",
+          "post_office": "Jyväskylä",
+          "zip": "40100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue_full": false,
+      "post_admission": null
+    },
+    {
+      "level_code": "PERUS",
+      "max_participants": 20,
+      "language_code": "fin",
+      "participants": 20,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:32:00.001Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.39706139523",
+      "id": 15,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Sali Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINKI",
+          "zip": "00250"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINGFORSS",
+          "zip": "00250"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINKI",
+          "zip": "00250"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue_full": true,
+      "post_admission": null
+    },
+    {
+      "level_code": "KESKI",
+      "max_participants": 20,
+      "contact": [
+        {
+          "name": "Contact Person",
+          "email": "contact.person@testi.invalid",
+          "phone_number": "+3584678124"
+        }
+      ],
+      "language_code": "fin",
+      "participants": 10,
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.5.22724043777",
+      "published_at": "2019-01-17T12:32:00.001Z",
+      "session_date": "2021-01-06",
+      "organizer_oid": "1.2.246.562.10.39706139523",
+      "id": 16,
+      "registration_start_date": "2020-11-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Sali Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINKI",
+          "zip": "00250"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINGFORSS",
+          "zip": "00250"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Helsingin aikuisopisto",
+          "other_location_info": "Hall Koivisto",
+          "street_address": "Töölöntullinkatu 8",
+          "post_office": "HELSINKI",
+          "zip": "00250"
+        }
+      ],
+      "exam_fee": "123.00",
+      "registration_end_date": "2020-12-02",
+      "open": true,
+      "queue_full": true,
+      "post_admission": null
+    }
+  ]
+}

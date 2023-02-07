@@ -3,7 +3,6 @@
     "component": {
       "footer": {
         "accessibility": {
-          "continueToMain": "Jatka sisältöön",
           "ophPhone": "Opetushallituksen puhelinnumero",
           "waveAriaLabel": "Aaltoileva vektorikuvio"
         },

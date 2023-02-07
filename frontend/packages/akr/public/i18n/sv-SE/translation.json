@@ -198,7 +198,6 @@
       },
       "footer": {
         "accessibility": {
-          "continueToMain": "Fortsätt till innehållet",
           "ophPhone": "Utbildningsstyrelsens telefonnummer",
           "waveAriaLabel": "Vektordiagram med vågor"
         },
@@ -224,7 +223,7 @@
             "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
-            "text": "Dataskyddsbeskrivning (på finska)"
+            "text": "Dataskyddsbeskrivning"
           }
         }
       },

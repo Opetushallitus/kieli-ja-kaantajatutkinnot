@@ -32,6 +32,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) throws Exception {
+    // /henkilo/masterHenkilosByOidList might be usable as an endpoint for fetching master person data for persons
+    // which have been marked passive
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/henkilotByHenkiloOidList")
       .setMethod(Methods.POST)
@@ -88,6 +90,11 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     final List<ContactDetailsGroupDTO> groups = personalDataDTO.getContactDetailsGroups();
     final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(groups);
 
+    // If person in ONR is marked passive, it's lacking an identity number.
+    // The passive person might however be linked to another "master" person which does have identity number. In this
+    // case, the passive person is also a duplicate.
+    final Optional<String> identityNumber = Optional.ofNullable(personalDataDTO.getIdentityNumber());
+
     return PersonalData
       .builder()
       .onrId(personalDataDTO.getOnrId())
@@ -96,7 +103,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .lastName(personalDataDTO.getLastName())
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
-      .identityNumber(personalDataDTO.getIdentityNumber())
+      .identityNumber(identityNumber.orElse("ei tiedossa"))
       .email(ContactDetailsUtil.getPrimaryEmail(groups))
       .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(groups))
       .street(ContactDetailsUtil.getPrimaryStreet(groups))

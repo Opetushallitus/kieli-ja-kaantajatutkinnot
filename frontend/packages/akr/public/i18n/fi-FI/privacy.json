@@ -63,7 +63,7 @@
         "description1": "Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun kääntäjän oikeuden.",
         "description2": "Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja kääntäjiä ja jättää heille yhteydenottopyynnön käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja ilman että jättää yhteydenottopyyntöä.",
         "description3": "Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia auktorisointien hallinnoinnin ja edellä mainittujen yhteydenottopyyntöjen sekä muutostarpeiden hoitamiseksi.",
-        "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään",
+        "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään.",
         "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
         "law": {
           "clause": "15 §",

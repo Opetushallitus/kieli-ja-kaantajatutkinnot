@@ -1,0 +1,76 @@
+.header {
+  &_smt {
+    margin-right: 1rem;
+    position: absolute;
+    transform: translateX(-200%);
+    transition: transform 0.3s;
+
+    &:focus {
+      position: static;
+      transform: translateX(0);
+    }
+  }
+
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  & button {
+    @include header-text;
+  }
+
+  &__left {
+    margin-right: 5rem;
+    padding: 2rem 0;
+    @include phone {
+      margin-right: 0;
+    }
+
+    & > a {
+      text-decoration: none;
+    }
+
+    &__logo {
+      height: 5.5rem;
+      @include phone {
+        height: 5rem;
+      }
+    }
+  }
+
+  &__center {
+    align-self: flex-end;
+    justify-self: flex-end;
+
+    [role='tablist'] {
+      gap: 3rem;
+    }
+  }
+
+  &__right {
+    align-self: center;
+    color: $color-secondary-dark;
+    display: flex;
+    flex-grow: 1;
+    gap: 2rem;
+    justify-content: flex-end;
+
+    @include phone {
+      align-self: center;
+    }
+
+    & &__avatar {
+      background-color: $color-secondary-dark;
+      font-size: 1.1rem;
+      height: 2rem;
+      margin-right: 0.3rem;
+      width: 2rem;
+    }
+
+    & > a {
+      @include header-text;
+    }
+  }
+}

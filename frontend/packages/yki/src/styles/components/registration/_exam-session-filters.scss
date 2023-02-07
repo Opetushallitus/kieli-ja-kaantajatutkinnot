@@ -1,0 +1,36 @@
+.public-exam-session-filters {
+  /*
+  & &__app-bar {
+    @include app-bar-bottom;
+  }
+  */
+  &__filter-box {
+    display: grid;
+    gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+
+    @include phone {
+      gap: 2rem;
+    }
+  }
+
+  &__filter {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__btn-box {
+    display: flex;
+    gap: 2rem;
+    margin: 3rem 0;
+
+    & > button {
+      @include phone {
+        flex-grow: 1;
+        padding: 0.8rem 3rem;
+      }
+    }
+  }
+}

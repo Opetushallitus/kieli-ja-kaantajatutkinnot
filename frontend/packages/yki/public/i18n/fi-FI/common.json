@@ -1,0 +1,44 @@
+{
+  "yki": {
+    "common": {
+      "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
+      "component": {
+        "table": {
+          "pagination": {
+            "rowsPerPage": "Tulokset per sivu"
+          }
+        }
+      },
+      "contactEmail": "kielitutkinnot@oph.fi",
+      "date": "Päivämäärä",
+      "error": "Tapahtui odottamaton virhe.",
+      "errors": {
+        "loadingFailed": "Tietojen lataaminen epäonnistui."
+      },
+      "examSession": "Tutkintotilaisuus",
+      "header": {
+        "accessibility": {
+          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+        },
+        "lang": {
+          "en": "In English",
+          "fi": "Suomeksi",
+          "sv": "På svenska"
+        }
+      },
+      "institution": "Oppilaitos",
+      "language": "Kieli",
+      "level": "Taso",
+      "municipality": "Paikkakunta",
+      "ophLogo": "Opetushallituksen logo",
+      "placesAvailable": "Paikkoja vapaana",
+      "registration": "Ilmoittautuminen",
+      "registrationPeriod": "Ilmoittautumisaika",
+      "reassessment": "Tarkistusarviointi",
+      "ykiHomepage": {
+        "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+      }
+    }
+  }
+}

@@ -1,0 +1,342 @@
+{
+  "exam_sessions": [
+    {
+      "published_at": "2018-01-01T00:00:00.000Z",
+      "registration_end_date": "2019-12-15",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 1,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMPERE",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMMERFORS",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMPERE",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2019-12-30",
+      "participants": 5,
+      "pa_participants": 0,
+      "max_participants": 50,
+      "registration_start_date": "2019-01-01",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "eng",
+      "level_code": "KESKI",
+      "exam_fee": "100.00",
+      "open": true,
+      "queue": 0,
+      "queue_full": false,
+      "post_admission_quota": 10,
+      "post_admission_start_date": null,
+      "post_admission_end_date": "2019-12-25",
+      "post_admission_active": false
+    },
+    {
+      "published_at": "2018-01-01T00:00:00.000Z",
+      "registration_end_date": "2020-12-15",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 3,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2020-12-30",
+      "participants": 0,
+      "pa_participants": 0,
+      "max_participants": 10,
+      "registration_start_date": "2020-09-01",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "eng",
+      "level_code": "KESKI",
+      "exam_fee": "100.00",
+      "open": false,
+      "queue": 0,
+      "queue_full": false,
+      "post_admission_quota": null,
+      "post_admission_start_date": null,
+      "post_admission_end_date": null,
+      "post_admission_active": false
+    },
+    {
+      "published_at": "2018-01-01T00:00:00.000Z",
+      "registration_end_date": "2029-04-01",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 2,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2029-05-02",
+      "participants": 0,
+      "pa_participants": 0,
+      "max_participants": 50,
+      "registration_start_date": "2029-03-01",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "fin",
+      "level_code": "PERUS",
+      "exam_fee": "100.00",
+      "open": false,
+      "queue": 1,
+      "queue_full": false,
+      "post_admission_quota": null,
+      "post_admission_start_date": null,
+      "post_admission_end_date": null,
+      "post_admission_active": false
+    },
+    {
+      "published_at": "2018-01-01T00:00:00.000Z",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 4,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2081-01-12",
+      "participants": 0,
+      "pa_participants": 0,
+      "max_participants": 50,
+      "registration_start_date": "2080-11-01",
+      "registration_end_date": "2080-11-25",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "fin",
+      "level_code": "KESKI",
+      "exam_fee": "100.00",
+      "open": false,
+      "queue": 0,
+      "queue_full": false,
+      "post_admission_enabled": true,
+      "post_admission_quota": null,
+      "post_admission_start_date": "2080-11-26",
+      "post_admission_end_date": "2080-12-20",
+      "post_admission_active": false
+    },
+    {
+      "published_at": "2018-01-01T00:00:00.000Z",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 5,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "33100"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2081-06-07",
+      "participants": 0,
+      "pa_participants": 0,
+      "max_participants": 50,
+      "registration_start_date": "2080-11-01",
+      "registration_end_date": "2080-11-25",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "fin",
+      "level_code": "YLIN",
+      "exam_fee": "100.00",
+      "open": false,
+      "queue": 0,
+      "queue_full": false,
+      "post_admission_enabled": true,
+      "post_admission_quota": 10,
+      "post_admission_start_date": "2080-11-30",
+      "post_admission_end_date": "2080-12-25",
+      "post_admission_active": true
+    },
+    {
+      "published_at": "2099-01-01T00:00:00.000Z",
+      "registration_end_date": "2099-12-15",
+      "office_oid": "1.2.246.562.10.29461948951",
+      "id": 6,
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMPERE",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorio A2"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMMERFORS",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "street_address": "Jokukatu 4",
+          "post_office": "TAMPERE",
+          "zip": "33100",
+          "name": "Amiedu, Strömberginkuja 3",
+          "other_location_info": "auditorium A2"
+        }
+      ],
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "session_date": "2099-12-30",
+      "participants": 5,
+      "pa_participants": 0,
+      "max_participants": 50,
+      "registration_start_date": "2099-01-01",
+      "organizer_oid": "1.2.3.4",
+      "language_code": "eng",
+      "level_code": "KESKI",
+      "exam_fee": "100.00",
+      "open": true,
+      "queue": 0,
+      "queue_full": false,
+      "post_admission_quota": 10,
+      "post_admission_start_date": null,
+      "post_admission_end_date": "2099-12-25",
+      "post_admission_active": false
+    }
+  ]
+}

@@ -130,7 +130,6 @@
       },
       "footer": {
         "accessibility": {
-          "continueToMain": "Fortsätt till innehållet",
           "ophPhone": "Utbildningsstyrelsens telefonnummer",
           "waveAriaLabel": "Vektordiagram med vågor"
         },
@@ -334,7 +333,7 @@
           "title": "Sök en rättstolk"
         },
         "noSearchResults": "Inga sökresultat",
-        "note": "Rättstolkar har alltid behörighet i båda riktningarna, till exempel finska <-> engelska engelska <-> finska",
+        "note": "Rättstolkar har alltid behörighet i båda riktningarna, till exempel finska <-> engelska, engelska <-> finska. För att säkerställa likvärdig synlighet lottas tolkarna i slumpmässig ordning i sökmotorn.",
         "title": "Registret över rättstolkar"
       },
       "meetingDatesPage": {
