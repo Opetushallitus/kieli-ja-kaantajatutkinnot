@@ -333,7 +333,7 @@
           "title": "Search for a legal interpreter"
         },
         "noSearchResults": "No search results",
-        "note": "Legal interpreters always have two-way qualifications, for example, Finnish <-> English, English <-> Finnish",
+        "note": "Legal interpreters always have two-way qualifications, for example, Finnish <-> English, English <-> Finnish. To ensure equal visibility, the interpreters are randomly reordered within the search engine.",
         "title": "Register of Legal Interpreters"
       },
       "meetingDatesPage": {
