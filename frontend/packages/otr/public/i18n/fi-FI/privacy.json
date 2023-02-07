@@ -1,0 +1,143 @@
+{
+  "otr": {
+    "privacy": {
+      "automatedDecisions": {
+        "description": "Rekisterin sisältämiä tietoja ei käytetä profilointiin eikä tietoihin kohdisteta automaattista päätöksentekoa.",
+        "heading": "Tiedot automaattisen päätöksenteon, ml. profiloinnin olemassaolosta, sekä ainakin näissä tapauksissa merkitykselliset tiedot käsittelyyn liittyvästä logiikasta samoin kuin kyseisen käsittelyn merkittävyys ja mahdolliset seuraukset rekisteröidylle"
+      },
+      "common": {
+        "email": "Sähköposti",
+        "group": "Ryhmä",
+        "phoneSwitch": "Puhelin: 029 533 1000 (vaihde)"
+      },
+      "complaints": {
+        "description": "Rekisteröidyllä on oikeus tehdä kantelu valvontaviranomaiselle, erityisesti siinä jäsenvaltiossa, jossa hänen vakinainen asuinpaikkansa tai työpaikkansa on, tai jossa väitetty tietosuoja-asetuksen rikkominen on tapahtunut.",
+        "heading": "Oikeus tehdä valitus valvontaviranomaiselle"
+      },
+      "dataContents": {
+        "group1": {
+          "action": "Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle",
+          "description1": "Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään yhteydenottolomakkeen jättämisen yhteydessä.",
+          "description2": "Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.",
+          "description3": "Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.",
+          "description4": "Tietoja säilytetään 6 kk.",
+          "name": "Hakukoneen käyttäjät"
+        },
+        "group2": {
+          "action": "Hakukoneen tietojen selaaminen / hakujen teko",
+          "description": "Mitään tietoa ei tallennu.",
+          "name": "Hakukoneen käyttäjät"
+        },
+        "group3": {
+          "action": "Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä on auktorisoitu.",
+          "details": {
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
+            "heading": "Rekisteröitävän antamat tiedot",
+            "otherDetails": {
+              "description": "Muut tiedot",
+              "detail1": "auktorisointiperuste",
+              "detail2": "mistä kielestä mihin kieleen kääntäjä on auktorisoitu tekemään käännöksiä"
+            }
+          },
+          "grounds": {
+            "description1": "Kääntäjiä auktorisoidaan kolmella perusteella",
+            "description2": "Kaksi ensin mainittua uusivat auktorisoidun kääntäjän oikeutensa 5 vuoden välein. Viralliselle kääntäjälle myönnetään auktorisointi ilman takarajaa. Opetushallitus lähettää rekisteristä muistutuksen 3 kk ennen auktorisoinnin umpeutumista. Jos auktorisointi umpeutuu, poistetaan kääntäjä julkisesta hakukoneesta. Kääntäjä voi milloin tahansa hakea auktorisointia uudelleen.",
+            "ground1": "hyväksytysti suoritettu auktorisoidun kääntäjän tutkinto",
+            "ground2": "maisterin tutkinnossa suoritettu kääntämisen korkeakouluopinnot (60 opintopistettä, johon sisältyy auktorisoidun kääntämisen 6 opintopistettä)",
+            "ground3": "virallinen kääntäjä"
+          },
+          "name": "Rekisteriin merkityt auktorisoidut kääntäjät"
+        },
+        "heading": "Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät"
+      },
+      "dataSources": {
+        "description": "Tiedot kerätään ryhmässä 1. ja ryhmässä 3 henkilöltä itseltään.",
+        "heading": "Tiedot siitä, mistä henkilötiedot on saatu sekä tarvittaessa siitä, onko tiedot saatu yleisesti saatavilla olevista lähteistä"
+      },
+      "dataTransfers": {
+        "description": "Tietoja ei säännönmukaisesti luovuta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
+        "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
+      },
+      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
+      "handlingPurpose": {
+        "description1": "Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun kääntäjän oikeuden.",
+        "description2": "Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja kääntäjiä ja jättää heille yhteydenottopyynnön käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja ilman että jättää yhteydenottopyyntöä.",
+        "description3": "Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia auktorisointien hallinnoinnin ja edellä mainittujen yhteydenottopyyntöjen sekä muutostarpeiden hoitamiseksi.",
+        "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään.",
+        "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
+        "law": {
+          "clause": "15 §",
+          "description": "Laki auktorisoiduista kääntäjistä",
+          "heading": "Lakiperusteet",
+          "link": "https://www.finlex.fi/fi/laki/ajantasa/2007/20071231#L5P15"
+        }
+      },
+      "heading": "Tietosuojaseloste / Tiedonanto",
+      "holdingPeriod": {
+        "group1": {
+          "description": "Tietoja säilytetään 6 kk."
+        },
+        "group3": {
+          "description": "Tiedot poistetaan rekisteristä ilman aiheetonta viivytystä ja viimeistään 2 kuukauden kuluttua siitä, kun auktorisointi on päättynyt tai peruutettu. Palvelun henkilötietojen säilytysajat ovat arkistonmuodostussuunnitelman ja tiedonohjaussuunnitelman määrittämien säilytysaikojen mukaisia. Asiakirjat, joiden säilytysaika on päättynyt, hävitetään järjestelmästä vuosittain."
+        },
+        "heading": "Henkilötietojen säilyttämisaika"
+      },
+      "receivers": {
+        "description1": "Opetushallituksen on viranomaisten toiminnan julkisuudesta annetun lain (21.5.1999/621) mukaan annettava tieto julkisesta asiakirjasta pyytäjälle, vaikka asiakirja sisältäisi henkilötietoja. Salassa pidettävän tiedon antaminen tai luovuttaminen edellyttää erityistä perustetta: asianosaisasema tai laissa säädetty oikeus tiedon saamiseen tai sen henkilön suostumus, jonka suojaksi salassapidosta on säädetty.",
+        "description2": "Henkilötietoja voidaan luovuttaa tieteellistä tai historiallista tutkimusta taikka tilastointia varten tietosuojalain (1050/2018) 4 §:n mukaisin edellytyksin.",
+        "description3": "Tietojärjestelmän palveluntarjoajat (henkilötietojen käsittelijät) pääsevät tarkastelemaan rekisterin sisältämiä henkilötietoja Opetushallituksen määrittämässä laajuudessa.",
+        "description4": "Tietoja ei luovuteta suoramarkkinointiin.",
+        "heading": "Henkilötietojen vastaanottajat tai vastaanottajaryhmät"
+      },
+      "registeredRights": {
+        "description1": "Rekisteröidyllä on oikeus saada rekisterinpitäjältä vahvistus siitä, että häntä koskevia henkilötietoja käsitellään tai että niitä ei käsitellä. Rekisterinpitäjän on toimitettava pyynnöstä jäljennös käsiteltävistä henkilötiedoista.",
+        "description2": "Rekisteröidyllä on oikeus vaatia, että rekisterinpitäjä oikaisee ilman aiheetonta viivytystä rekisteröityä koskevat epätarkat ja virheelliset henkilötiedot. Rekisteröidyn tulee yksilöidä ja perustella, mitä tietoa hän vaatii korjattavaksi, mikä on hänen mielestään oikea tieto ja miten korjaus halutaan tehtäväksi.",
+        "description3": "Mikäli käsittely perustuu tietosuoja-asetuksen 6 artiklan 1a -kohtaan tai 9 artiklan 2a -kohtaan eli rekisteröidyn suostumukseen, on rekisteröidyllä oikeus tietojen poistamiseen.",
+        "description4": "Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä tilanteissa.",
+        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
+        "description6": "Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä toiseen, jos käsittely suoritetaan automaattisesti.",
+        "description7": "Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki. Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen tarvittavat tiedot (nimi ja henkilötunnus).",
+        "description8": "Jos rekisteröidyn käyttämästä henkilötietojen tarkastusoikeudesta on kulunut vähemmän kuin yksi vuosi, voi rekisterinpitäjä periä tietojen antamisesta aiheutuvat hallinnollisiin kustannuksiin perustuvan maksun (artikla 12 [5]).",
+        "heading": "Rekisteröidyn oikeudet",
+        "rights": {
+          "right1": "Oikeus saada pääsy henkilötietoihin",
+          "right2": "Oikeus tietojen oikaisemiseen",
+          "right3": "Oikeus tietojen poistamiseen",
+          "right4": "Oikeus käsittelyn rajoittamiseen",
+          "right5": "Vastustamisoikeus",
+          "right6": "Oikeus siirtää tiedot järjestelmästä toiseen"
+        }
+      },
+      "registerName": {
+        "contents": {
+          "description": "Rekisteri koostuu seuraavista:",
+          "item1": "rekisteriin merkityt auktorisoidut kääntäjät",
+          "item2": "julkinen hakukone"
+        },
+        "description": "Auktorisoitujen kääntäjien rekisteri",
+        "heading": "Rekisterin nimi"
+      },
+      "registrar": {
+        "contact": {
+          "address1": "PL 380, 00531 Helsinki",
+          "address2": "Käyntiosoite Hakaniemenranta 6, 00530 Helsinki",
+          "name": "Opetushallitus",
+          "otherDetails": "Muut yhteystiedot",
+          "phoneSwitch": "Puhelinvaihde: 029 533 1000"
+        },
+        "heading": "Rekisterin pitäjä"
+      },
+      "registrarContactPerson": {
+        "heading": "Rekisterinpitäjän edustaja (yhteyshenkilö)",
+        "liable": {
+          "description": "Tietosuojavastaavan yhteystiedot",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Terhi Seinä"
+        }
+      },
+      "title": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste"
+    }
+  }
+}
