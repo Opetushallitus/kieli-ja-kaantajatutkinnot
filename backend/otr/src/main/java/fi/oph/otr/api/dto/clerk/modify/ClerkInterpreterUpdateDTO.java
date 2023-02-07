@@ -4,6 +4,7 @@ import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -13,21 +14,21 @@ public record ClerkInterpreterUpdateDTO(
   @NonNull @NotNull Integer version,
   @NonNull @NotNull Boolean isIndividualised,
   @NonNull @NotNull Boolean hasIndividualisedAddress,
-  @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String nickName,
-  @NonNull @NotBlank String email,
+  @Size(min = 1, max = 255) @NonNull @NotBlank String identityNumber,
+  @Size(min = 1, max = 255) @NonNull @NotBlank String lastName,
+  @Size(min = 1, max = 255) @NonNull @NotBlank String firstName,
+  @Size(min = 1, max = 255) @NonNull @NotBlank String nickName,
+  @Size(min = 1, max = 255) @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
-  String phoneNumber,
+  @Size(min = 1, max = 255) String phoneNumber,
   @NonNull @NotNull Boolean permissionToPublishPhone,
-  String otherContactInfo,
+  @Size(min = 1, max = 255) String otherContactInfo,
   @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
-  String street,
-  String postalCode,
-  String town,
-  String country,
-  String extraInformation,
+  @Size(min = 1, max = 255) String street,
+  @Size(min = 1, max = 8) String postalCode,
+  @Size(min = 1, max = 255) String town,
+  @Size(min = 1, max = 64) String country,
+  @Size(min = 1, max = 4096) String extraInformation,
   @NonNull @NotNull List<String> regions
 )
   implements ClerkInterpreterDTOCommonFields {}

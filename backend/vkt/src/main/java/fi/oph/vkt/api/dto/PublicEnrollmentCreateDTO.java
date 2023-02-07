@@ -15,7 +15,7 @@ public record PublicEnrollmentCreateDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  @Size(min = 1, max = 255) String previousEnrollment,
+  @Size(min = 1, max = 1024) String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
   @NonNull @NotBlank @Size(min = 1, max = 255) String email,
   @NonNull @NotBlank @Size(min = 1, max = 255) String phoneNumber,
