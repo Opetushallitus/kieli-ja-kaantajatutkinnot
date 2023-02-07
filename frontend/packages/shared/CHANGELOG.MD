@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.7.1] - 2023-02-13
+
+### Fixed
+
+- Require LocalizedFormat plugin for dayjs to ensure that eg. `dayjs.format('L')` works as expected
+
 ## [1.7.0] - 2023-02-10
 
 ### Added
