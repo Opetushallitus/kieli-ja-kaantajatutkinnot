@@ -6,7 +6,6 @@ export interface ClerkNewInterpreter
     ClerkInterpreter,
     | 'id'
     | 'version'
-    | 'deleted'
     | 'isIndividualised'
     | 'hasIndividualisedAddress'
     | 'qualifications'

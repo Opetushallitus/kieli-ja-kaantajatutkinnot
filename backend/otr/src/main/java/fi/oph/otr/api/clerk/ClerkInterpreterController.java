@@ -65,8 +65,8 @@ public class ClerkInterpreterController {
 
   @Operation(tags = TAG_INTERPRETER, summary = "Delete interpreter")
   @DeleteMapping(path = "/{interpreterId:\\d+}")
-  public ClerkInterpreterDTO deleteInterpreter(@PathVariable final long interpreterId) {
-    return clerkInterpreterService.deleteInterpreter(interpreterId);
+  public void deleteInterpreter(@PathVariable final long interpreterId) {
+    clerkInterpreterService.deleteInterpreter(interpreterId);
   }
 
   // QUALIFICATION

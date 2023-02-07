@@ -36,6 +36,7 @@ import fi.oph.otr.repository.QualificationRepository;
 import fi.oph.otr.repository.RegionRepository;
 import fi.oph.otr.util.exception.APIException;
 import fi.oph.otr.util.exception.APIExceptionType;
+import fi.oph.otr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -140,7 +141,6 @@ class ClerkInterpreterServiceTest {
     assertEquals(3, interpreters.size());
     // Check sorting
     assertEquals(List.of(id2, id3, id1), interpreters.stream().map(ClerkInterpreterDTO::id).toList());
-    interpreters.forEach(dto -> assertFalse(dto.deleted()));
     verify(auditService).logOperation(OtrOperation.LIST_INTERPRETERS);
     verifyNoMoreInteractions(auditService);
   }
@@ -395,7 +395,6 @@ class ClerkInterpreterServiceTest {
 
     assertNotNull(interpreterDTO.id());
     assertEquals(0, interpreterDTO.version());
-    assertFalse(interpreterDTO.deleted());
     assertFalse(interpreterDTO.isIndividualised());
     assertFalse(interpreterDTO.hasIndividualisedAddress());
     assertEquals(createDTO.identityNumber(), interpreterDTO.identityNumber());
@@ -635,6 +634,23 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
+  public void testGetDeletedInterpreterThrowsNotFoundException() {
+    final MeetingDate meetingDate = Factory.meetingDate();
+    final Interpreter interpreter = Factory.interpreter();
+    final Qualification qualification = Factory.qualification(interpreter, meetingDate);
+
+    interpreter.setOnrId("1");
+    interpreter.markDeleted();
+
+    entityManager.persist(meetingDate);
+    entityManager.persist(interpreter);
+    entityManager.persist(qualification);
+
+    assertThrows(NotFoundException.class, () -> clerkInterpreterService.getInterpreter(interpreter.getId()));
+    verifyNoInteractions(auditService);
+  }
+
+  @Test
   public void testUpdateInterpreter() throws Exception {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
@@ -688,7 +704,6 @@ class ClerkInterpreterServiceTest {
 
     assertEquals(interpreter.getId(), updated.id());
     assertEquals(initialVersion + 1, updated.version());
-    assertFalse(updated.deleted());
     assertFalse(updated.isIndividualised());
     assertFalse(updated.hasIndividualisedAddress());
     assertFalse(updated.permissionToPublishEmail());
@@ -842,18 +857,17 @@ class ClerkInterpreterServiceTest {
     final long id = createInterpreter(meetingDate, "1");
     createInterpreter(meetingDate, "2");
 
-    final ClerkInterpreterDTO dto = clerkInterpreterService.deleteInterpreter(id);
-    assertTrue(dto.deleted());
-    assertEquals(0, dto.qualifications().effective().size());
+    clerkInterpreterService.deleteInterpreter(id);
 
-    interpreterRepository
-      .findAll()
-      .forEach(interpreter -> {
-        final boolean isDeleted = Objects.equals(id, interpreter.getId());
+    final List<Interpreter> interpreters = interpreterRepository.findAll();
+    assertEquals(2, interpreters.size());
 
-        assertEquals(isDeleted, interpreter.isDeleted());
-        interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
-      });
+    interpreters.forEach(interpreter -> {
+      final boolean isDeleted = Objects.equals(id, interpreter.getId());
+
+      assertEquals(isDeleted, interpreter.isDeleted());
+      interpreter.getQualifications().forEach(q -> assertEquals(isDeleted, q.isDeleted()));
+    });
 
     verify(auditService).logById(OtrOperation.DELETE_INTERPRETER, id);
     verifyNoMoreInteractions(auditService);

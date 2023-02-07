@@ -39,7 +39,6 @@ export interface ClerkInterpreter
   extends WithId,
     WithVersion,
     ClerkInterpreterBasicInformation {
-  deleted: boolean;
   isIndividualised: boolean;
   hasIndividualisedAddress: boolean;
   qualifications: ClerkInterpreterQualifications;
