@@ -13,12 +13,12 @@ import lombok.NonNull;
 public record ClerkQualificationUpdateDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @Size(min = 1, max = 255) @NonNull @NotBlank String fromLang,
-  @Size(min = 1, max = 255) @NonNull @NotBlank String toLang,
+  @Size(max = 255) @NonNull @NotBlank String fromLang,
+  @Size(max = 255) @NonNull @NotBlank String toLang,
   @NonNull @NotNull LocalDate beginDate,
   @NonNull @NotNull LocalDate endDate,
   @NonNull @NotNull ExaminationType examinationType,
   @NonNull @NotNull Boolean permissionToPublish,
-  @Size(min = 1, max = 255) String diaryNumber
+  @Size(max = 255) String diaryNumber
 )
   implements ClerkQualificationDTOCommonFields {}
