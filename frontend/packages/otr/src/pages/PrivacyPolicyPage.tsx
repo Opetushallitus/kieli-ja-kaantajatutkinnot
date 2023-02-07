@@ -1,6 +1,7 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
+import { Trans } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { CustomButtonLink, ExtLink, H1, H2, Text } from 'shared/components';
 import { Variant } from 'shared/enums';
@@ -43,6 +44,7 @@ const BulletList = ({
 };
 
 export const PrivacyPolicyPage = () => {
+  const translateCommon = useCommonTranslation();
   const translatePrivacy = usePrivacyTranslation();
   const { pathname } = useLocation();
 
@@ -148,15 +150,46 @@ export const PrivacyPolicyPage = () => {
             <Text>
               <b>{translatePrivacy('handlingPurpose.law.heading')}</b>
               <br />
-              {translatePrivacy('handlingPurpose.law.description')}
+              {translatePrivacy('handlingPurpose.law.part1.description')}
               {': '}
               <ExtLink
                 className="privacy-policy-page__content__link"
-                href={translatePrivacy('handlingPurpose.law.link')}
-                text={translatePrivacy('handlingPurpose.law.link')}
+                href={translatePrivacy('handlingPurpose.law.part1.link')}
+                text={translatePrivacy('handlingPurpose.law.part1.link')}
               ></ExtLink>
               <br />
-              {translatePrivacy('handlingPurpose.law.clause')}
+              {translatePrivacy('handlingPurpose.law.part2.description')}
+              {': '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href={translatePrivacy('handlingPurpose.law.part2.link')}
+                text={translatePrivacy('handlingPurpose.law.part2.link')}
+              ></ExtLink>
+            </Text>
+            <Text>
+              <Trans
+                t={translatePrivacy}
+                i18nKey="handlingPurpose.law.conclusion.description"
+              >
+                <ExtLink
+                  className="privacy-policy-page__content__link"
+                  text={translatePrivacy(
+                    'handlingPurpose.law.conclusion.law1.content'
+                  )}
+                  href={translatePrivacy(
+                    'handlingPurpose.law.conclusion.law1.link'
+                  )}
+                />
+                <ExtLink
+                  className="privacy-policy-page__content__link"
+                  text={translatePrivacy(
+                    'handlingPurpose.law.conclusion.law2.content'
+                  )}
+                  href={translatePrivacy(
+                    'handlingPurpose.law.conclusion.law2.link'
+                  )}
+                />
+              </Trans>
             </Text>
           </div>
           <div className="rows gapped">
@@ -164,54 +197,82 @@ export const PrivacyPolicyPage = () => {
             <Text>
               <b>{translatePrivacy('common.group')} 1</b>:{' '}
               {translatePrivacy('dataContents.group1.name')}
-              <br /> {translatePrivacy('dataContents.group1.action')}
             </Text>
             <Text>
-              {translatePrivacy('dataContents.group1.description1')}
-              <br />
-              {translatePrivacy('dataContents.group1.description2')}
-              <br />
-              {translatePrivacy('dataContents.group1.description3')}
-            </Text>
-            <Text>{translatePrivacy('dataContents.group1.description4')}</Text>
-            <Text>
-              <b>{translatePrivacy('common.group')} 2</b>:{' '}
-              {translatePrivacy('dataContents.group2.name')}
-              <br /> {translatePrivacy('dataContents.group2.action')}
-            </Text>
-            <Text>{translatePrivacy('dataContents.group2.description')}</Text>
-            <Text>
-              <b>{translatePrivacy('common.group')} 3</b>:{' '}
-              {translatePrivacy('dataContents.group3.name')}
-              <br /> {translatePrivacy('dataContents.group3.action')}
+              {translatePrivacy('dataContents.group1.givenDetails.heading')}:
             </Text>
             <Text>
-              {translatePrivacy('dataContents.group3.grounds.description1')}:
-              <BulletList
-                localisationKeys={[
-                  'dataContents.group3.grounds.ground1',
-                  'dataContents.group3.grounds.ground2',
-                  'dataContents.group3.grounds.ground3',
-                ]}
-              />
-              {translatePrivacy('dataContents.group3.grounds.description2')}
-            </Text>
-            <Text>
-              {translatePrivacy('dataContents.group3.details.heading')}
-              <br />
-              {translatePrivacy('dataContents.group3.details.description')}
+              {translatePrivacy('dataContents.group1.givenDetails.description')}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group3.details.otherDetails.description'
+                'dataContents.group1.civilRegistry.description'
               )}
-              :
+            </Text>
+            <Text>
+              {translatePrivacy('dataContents.group1.prerequisites.heading')}:
               <BulletList
                 localisationKeys={[
-                  'dataContents.group3.details.otherDetails.detail1',
-                  'dataContents.group3.details.otherDetails.detail2',
+                  'dataContents.group1.prerequisites.ul1',
+                  'dataContents.group1.prerequisites.ul2',
                 ]}
               />
+            </Text>
+            <Text>
+              {translatePrivacy('dataContents.group1.otherDetails.heading')}:
+              <BulletList
+                localisationKeys={[
+                  'dataContents.group1.otherDetails.ul1',
+                  'dataContents.group1.otherDetails.ul2',
+                  'dataContents.group1.otherDetails.ul3',
+                  'dataContents.group1.otherDetails.ul4',
+                ]}
+              />
+              {translatePrivacy(
+                'dataContents.group1.publishPermission.description'
+              )}
+            </Text>
+            <Text>
+              {translatePrivacy('dataContents.group1.validity.description1')}
+              <br />
+              {translatePrivacy('dataContents.group1.validity.description2')}
+            </Text>
+            <Text>
+              {translatePrivacy(
+                'dataContents.group1.contactChanges.description'
+              )}
+              {': '}
+              <ExtLink
+                className="privacy-policy-page__content__link"
+                href={`mailto:${translateCommon('contactEmail')}`}
+                text={translateCommon('contactEmail')}
+              ></ExtLink>
+            </Text>
+            <Text>
+              {translatePrivacy(
+                'dataContents.group1.dataDeletion.description1'
+              )}
+              <br />
+              {translatePrivacy(
+                'dataContents.group1.dataDeletion.description2'
+              )}
+            </Text>
+            <Text>
+              {translatePrivacy(
+                'dataContents.group1.dataProcessing.description'
+              )}
+            </Text>
+            <Text>
+              <b>{translatePrivacy('common.group')} 2</b>:{' '}
+              {translatePrivacy('dataContents.group2.name')}
+            </Text>
+            <Text>
+              {translatePrivacy('dataContents.group2.givenDetails.description')}
+            </Text>
+            <Text>
+              {translatePrivacy(
+                'dataContents.group2.civilRegistry.description'
+              )}
             </Text>
           </div>
           <div className="rows gapped">
@@ -227,16 +288,9 @@ export const PrivacyPolicyPage = () => {
           </div>
           <div className="rows gapped">
             <H2>{translatePrivacy('holdingPeriod.heading')}</H2>
-            <Text>
-              {translatePrivacy('common.group')} 1
-              <br />
-              {translatePrivacy('holdingPeriod.group1.description')}
-            </Text>
-            <Text>
-              {translatePrivacy('common.group')} 3
-              <br />
-              {translatePrivacy('holdingPeriod.group3.description')}
-            </Text>
+            <Text>{translatePrivacy('holdingPeriod.description1')}</Text>
+            <Text>{translatePrivacy('holdingPeriod.description2')}</Text>
+            <Text>{translatePrivacy('holdingPeriod.description3')}</Text>
           </div>
           <div className="rows gapped">
             <H2>

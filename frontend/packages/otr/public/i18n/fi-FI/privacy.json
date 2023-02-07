@@ -16,70 +16,98 @@
       },
       "dataContents": {
         "group1": {
-          "action": "Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle",
-          "description1": "Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään yhteydenottolomakkeen jättämisen yhteydessä.",
-          "description2": "Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.",
-          "description3": "Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.",
-          "description4": "Tietoja säilytetään 6 kk.",
-          "name": "Hakukoneen käyttäjät"
+          "civilRegistry": {
+            "description": "Rekisteri varmentaa rekisteröitävän osoite- ja henkilötiedot väestötietojärjestelmästä."
+          },
+          "contactChanges": {
+            "description": "Rekisteröidyn tulee ilmoittaa yhteystiedoissaan tapahtuneista muutoksista Opetushallitukselle sähköpostitse"
+          },
+          "dataDeletion": {
+            "description1": "Rekisteröidyn tiedot poistetaan käytöstä ilman aiheetonta viivytystä ja viimeistään 2 kuukauden kuluttua siitä, kun rekisteröinti on päättynyt tai peruutettu.",
+            "description2": "Rekisteröidyn henkilötietojen käsittely on tarpeen ja oikeasuhtaista viranomaisen toiminnassa yleisen edun mukaisen tehtävän suorittamiseksi."
+          },
+          "dataProcessing": {
+            "description": "Erityisiä henkilötietoja ei käsitellä. Salassa pidettäviä henkilötietoja ei käsitellä."
+          },
+          "givenDetails": {
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
+            "heading": "Rekisteröitävän antamat tiedot"
+          },
+          "prerequisites": {
+            "heading": "Oikeustulkkien rekisteriin merkitsemisen edellytykset täyttävien opintojen osalta merkitään, kummat tulkki on suorittanut",
+            "ul1": "oikeustulkin/oikeustulkkauksen erikoisammattitutkinto tai",
+            "ul2": "tulkin tehtävään soveltuva korkeakoulututkinto ja vähintään 35 opintopisteen tai sitä vastaavan laajuiset oikeustulkkauksen opinnot"
+          },
+          "publishPermission": {
+            "description": "Hakukoneessa näkyviksi merkitään julkaisuluvan perustella oikeustulkin nimi, toiminta-alue, yhteystiedot sekä kielipari(t), jo(i)ssa tulkki on merkitty rekisteriin. Rekisteriin merkityllä tulkilla on oikeus kieltää häntä koskevien tietojen julkaiseminen."
+          },
+          "name": "Rekisteriin merkityt oikeustulkit",
+          "otherDetails": {
+            "heading": "Muut merkittävät tiedot",
+            "ul1": "kielipari (molemman suuntainen)",
+            "ul2": "oikeustulkin vakuutuksen antaminen",
+            "ul3": "merkinnän voimassaolo",
+            "ul4": "julkaisuluvat, jotka koskevat seuraavia tietoja:"
+          },
+          "validity": {
+            "description1": "Rekisteriin merkintä on voimassa viisi vuotta.",
+            "description2": "Opetushallitus lähettää rekisteristä automaattisen muistutuksen 3 kk ennen merkinnän umpeutumista. Merkinnän uusimista voi hakea aikaisintaan 6 kk ennen sen päättymispäivää. Jos merkintä umpeutuu, poistuvat tulkin tiedot julkisesta hakukoneesta. Uusimista voi hakea tämänkin jälkeen."
+          }
         },
         "group2": {
-          "action": "Hakukoneen tietojen selaaminen / hakujen teko",
-          "description": "Mitään tietoa ei tallennu.",
-          "name": "Hakukoneen käyttäjät"
-        },
-        "group3": {
-          "action": "Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä on auktorisoitu.",
-          "details": {
-            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
-            "heading": "Rekisteröitävän antamat tiedot",
-            "otherDetails": {
-              "description": "Muut tiedot",
-              "detail1": "auktorisointiperuste",
-              "detail2": "mistä kielestä mihin kieleen kääntäjä on auktorisoitu tekemään käännöksiä"
-            }
+          "civilRegistry": {
+            "description": "Rekisteri varmentaa virkailijakäyttäjän osoite- ja henkilötiedot väestötietojärjestelmästä."
           },
-          "grounds": {
-            "description1": "Kääntäjiä auktorisoidaan kolmella perusteella",
-            "description2": "Kaksi ensin mainittua uusivat auktorisoidun kääntäjän oikeutensa 5 vuoden välein. Viralliselle kääntäjälle myönnetään auktorisointi ilman takarajaa. Opetushallitus lähettää rekisteristä muistutuksen 3 kk ennen auktorisoinnin umpeutumista. Jos auktorisointi umpeutuu, poistetaan kääntäjä julkisesta hakukoneesta. Kääntäjä voi milloin tahansa hakea auktorisointia uudelleen.",
-            "ground1": "hyväksytysti suoritettu auktorisoidun kääntäjän tutkinto",
-            "ground2": "maisterin tutkinnossa suoritettu kääntämisen korkeakouluopinnot (60 opintopistettä, johon sisältyy auktorisoidun kääntämisen 6 opintopistettä)",
-            "ground3": "virallinen kääntäjä"
+          "givenDetails": {
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka"
           },
-          "name": "Rekisteriin merkityt auktorisoidut kääntäjät"
+          "name": "Rekisterin ylläpitoa hoitavat virkailijat"
         },
         "heading": "Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät"
       },
       "dataSources": {
-        "description": "Tiedot kerätään ryhmässä 1. ja ryhmässä 3 henkilöltä itseltään.",
+        "description": "Tiedot kerätään ryhmässä oikeustulkeilta itseltään sekä väestötietojärjestelmästä.",
         "heading": "Tiedot siitä, mistä henkilötiedot on saatu sekä tarvittaessa siitä, onko tiedot saatu yleisesti saatavilla olevista lähteistä"
       },
       "dataTransfers": {
-        "description": "Tietoja ei säännönmukaisesti luovuta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
+        "description": "Tietoja ei säännönmukaisesti luovuteta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
         "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
       },
       "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
       "handlingPurpose": {
-        "description1": "Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun kääntäjän oikeuden.",
-        "description2": "Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja kääntäjiä ja jättää heille yhteydenottopyynnön käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja ilman että jättää yhteydenottopyyntöä.",
-        "description3": "Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia auktorisointien hallinnoinnin ja edellä mainittujen yhteydenottopyyntöjen sekä muutostarpeiden hoitamiseksi.",
-        "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään.",
+        "description1": "Oikeustulkkirekisteriin on tallennettu tiedot oikeustulkeista, jotka Oikeustulkkirekisterilautakunta on hyväksynyt hakemuksesta merkittäväksi oikeustulkkirekisteriin.",
+        "description2": "Rekisterin julkisesta hakukoneesta voi etsiä oikeustulkkeja tulkkaustoimeksiantoa varten. Tulkkeihin voi ottaa suoraan yhteyttä heidän ilmoittamiensa julkisten yhteystietojen kautta.",
+        "description3": "Rekisteriin tallennetaan ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia rekisteriin merkitsemisen hallinnoimiseksi ja edellä mainittujen yhteystietojen julkistamiseksi.",
+        "description4": "Kysyttäessä suostumusta oikeustulkin tietojen julkaisuun, rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään.",
         "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
         "law": {
-          "clause": "15 §",
-          "description": "Laki auktorisoiduista kääntäjistä",
+          "conclusion": {
+            "description": "Oikeustulkkirekisteriin merkittyjen tietojen julkisuudesta ja käsittelystä säädetään viranomaisten toiminnan julkisuudesta annetussa laissa (<0></0>) ja henkilötietolaissa (<1></1>).",
+            "law1": {
+              "content": "621/1999",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/1999/19990621"
+            },
+            "law2": {
+              "content": "523/1999",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/kumotut/1999/19990523"
+            }
+          },
           "heading": "Lakiperusteet",
-          "link": "https://www.finlex.fi/fi/laki/ajantasa/2007/20071231#L5P15"
+          "part1": {
+            "description": "Laki oikeustulkkirekisteristä",
+            "link": "https://www.finlex.fi/fi/laki/ajantasa/2015/20151590"
+          },
+          "part2": {
+            "description": "Valtioneuvoston asetus oikeustulkkirekisteristä",
+            "link": "https://www.finlex.fi/fi/laki/alkup/2016/20160177"
+          }
         }
       },
-      "heading": "Tietosuojaseloste / Tiedonanto",
+      "heading": "Tietosuojaseloste",
       "holdingPeriod": {
-        "group1": {
-          "description": "Tietoja säilytetään 6 kk."
-        },
-        "group3": {
-          "description": "Tiedot poistetaan rekisteristä ilman aiheetonta viivytystä ja viimeistään 2 kuukauden kuluttua siitä, kun auktorisointi on päättynyt tai peruutettu. Palvelun henkilötietojen säilytysajat ovat arkistonmuodostussuunnitelman ja tiedonohjaussuunnitelman määrittämien säilytysaikojen mukaisia. Asiakirjat, joiden säilytysaika on päättynyt, hävitetään järjestelmästä vuosittain."
-        },
+        "description1": "Rekisteriin merkittyjen oikeustulkkien tiedot poistetaan rekisteristä ilman aiheetonta viivytystä ja viimeistään 2 kuukauden kuluttua siitä, kun rekisteröinti on päättynyt tai peruutettu.",
+        "description2": "Palvelun henkilötietojen säilytysajat ovat arkistonmuodostussuunnitelman ja tiedonohjaussuunnitelman määrittämien säilytysaikojen mukaisia.",
+        "description3": "Asiakirjat, joiden säilytysaika on päättynyt, hävitetään järjestelmästä vuosittain.",
         "heading": "Henkilötietojen säilyttämisaika"
       },
       "receivers": {
@@ -94,7 +122,7 @@
         "description2": "Rekisteröidyllä on oikeus vaatia, että rekisterinpitäjä oikaisee ilman aiheetonta viivytystä rekisteröityä koskevat epätarkat ja virheelliset henkilötiedot. Rekisteröidyn tulee yksilöidä ja perustella, mitä tietoa hän vaatii korjattavaksi, mikä on hänen mielestään oikea tieto ja miten korjaus halutaan tehtäväksi.",
         "description3": "Mikäli käsittely perustuu tietosuoja-asetuksen 6 artiklan 1a -kohtaan tai 9 artiklan 2a -kohtaan eli rekisteröidyn suostumukseen, on rekisteröidyllä oikeus tietojen poistamiseen.",
         "description4": "Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä tilanteissa.",
-        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
+        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille, jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
         "description6": "Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä toiseen, jos käsittely suoritetaan automaattisesti.",
         "description7": "Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki. Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen tarvittavat tiedot (nimi ja henkilötunnus).",
         "description8": "Jos rekisteröidyn käyttämästä henkilötietojen tarkastusoikeudesta on kulunut vähemmän kuin yksi vuosi, voi rekisterinpitäjä periä tietojen antamisesta aiheutuvat hallinnollisiin kustannuksiin perustuvan maksun (artikla 12 [5]).",
@@ -111,10 +139,10 @@
       "registerName": {
         "contents": {
           "description": "Rekisteri koostuu seuraavista:",
-          "item1": "rekisteriin merkityt auktorisoidut kääntäjät",
+          "item1": "rekisteriin merkityt oikeustulkit",
           "item2": "julkinen hakukone"
         },
-        "description": "Auktorisoitujen kääntäjien rekisteri",
+        "description": "Oikeustulkkirekisteri",
         "heading": "Rekisterin nimi"
       },
       "registrar": {
@@ -134,10 +162,10 @@
           "name": "Jyrki Tuohela"
         },
         "person": {
-          "name": "Terhi Seinä"
+          "name": "Saara Kalajoki"
         }
       },
-      "title": "Auktorisoitujen kääntäjien rekisterin tietosuojaseloste"
+      "title": "Oikeustulkkirekisterin tietosuojaseloste"
     }
   }
 }

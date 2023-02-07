@@ -55,7 +55,7 @@
         "heading": "Tiedot siitä, mistä henkilötiedot on saatu sekä tarvittaessa siitä, onko tiedot saatu yleisesti saatavilla olevista lähteistä"
       },
       "dataTransfers": {
-        "description": "Tietoja ei säännönmukaisesti luovuta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
+        "description": "Tietoja ei säännönmukaisesti luovuteta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
         "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
       },
       "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
@@ -94,7 +94,7 @@
         "description2": "Rekisteröidyllä on oikeus vaatia, että rekisterinpitäjä oikaisee ilman aiheetonta viivytystä rekisteröityä koskevat epätarkat ja virheelliset henkilötiedot. Rekisteröidyn tulee yksilöidä ja perustella, mitä tietoa hän vaatii korjattavaksi, mikä on hänen mielestään oikea tieto ja miten korjaus halutaan tehtäväksi.",
         "description3": "Mikäli käsittely perustuu tietosuoja-asetuksen 6 artiklan 1a -kohtaan tai 9 artiklan 2a -kohtaan eli rekisteröidyn suostumukseen, on rekisteröidyllä oikeus tietojen poistamiseen.",
         "description4": "Rekisteröidyllä on oikeus käsittelyn rajoittamiseen tietyissä tilanteissa.",
-        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
+        "description5": "Rekisteröidyllä on oikeus siihen, että rekisterinpitäjä ilmoittaa henkilötietojesi oikaisusta tai poistosta tai käsittelyn rajoituksesta sille, jolle tietoja on edelleen luovutettu, mikäli tietoja luovutetaan eteenpäin.",
         "description6": "Rekisteröidyllä on oikeus saada tiedot siirrettyä järjestelmästä toiseen, jos käsittely suoritetaan automaattisesti.",
         "description7": "Oikeuksien käyttöön liittyvät pyynnöt tulee osoittaa rekisterin yhteyshenkilölle: Opetushallitus, PL 380, 00531 Helsinki. Tarkastuspyyntöön rekisteröidyn tulee liittää tietojen etsimiseen tarvittavat tiedot (nimi ja henkilötunnus).",
         "description8": "Jos rekisteröidyn käyttämästä henkilötietojen tarkastusoikeudesta on kulunut vähemmän kuin yksi vuosi, voi rekisterinpitäjä periä tietojen antamisesta aiheutuvat hallinnollisiin kustannuksiin perustuvan maksun (artikla 12 [5]).",
