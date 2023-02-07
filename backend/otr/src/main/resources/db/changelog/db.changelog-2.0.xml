@@ -486,14 +486,22 @@
         </createTable>
 
         <addColumn tableName="qualification">
-            <column name="meeting_date_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
+            <column name="meeting_date_id" type="BIGINT"/>
         </addColumn>
+
         <addForeignKeyConstraint baseTableName="qualification" baseColumnNames="meeting_date_id"
                                  referencedTableName="meeting_date" referencedColumnNames="meeting_date_id"
                                  constraintName="fk_qualification_meeting_date"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
+
+        <sql>
+            INSERT INTO meeting_date(date) (SELECT DISTINCT(begin_date) FROM qualification ORDER BY begin_date ASC)
+        </sql>
+        <sql>
+            UPDATE qualification q SET meeting_date_id = (SELECT meeting_date_id FROM meeting_date md WHERE md.date = q.begin_date)
+        </sql>
+
+        <addNotNullConstraint tableName="qualification" columnName="meeting_date_id"/>
     </changeSet>
 
     <changeSet id="2022-09-23-change-qualification_examination_type-names" author="mikhuttu">
