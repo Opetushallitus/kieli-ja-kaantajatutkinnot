@@ -22,15 +22,8 @@ export class InputFieldUtils {
       return '';
     }
 
-    if (maxTextLength && maxTextLength > 0) {
-      switch (type) {
-        case TextFieldTypes.PhoneNumber:
-        case TextFieldTypes.Email:
-        case TextFieldTypes.Text:
-          if (maxTextLength > 0 && trimmedValue.length > maxTextLength) {
-            return CustomTextFieldErrors.MaxLength;
-          }
-      }
+    if (maxTextLength && maxTextLength > 0 && trimmedValue.length > maxTextLength) {
+      return CustomTextFieldErrors.MaxLength;
     }
 
     switch (type) {
