@@ -29,14 +29,11 @@ const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
   [ClerkTranslatorTextFieldEnum.LastName]: 255,
   [ClerkTranslatorTextFieldEnum.FirstName]: 5,
-  [ClerkTranslatorTextFieldEnum.NickName]: 255,
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
-  [ClerkTranslatorTextFieldEnum.OtherContactInfo]: 255,
   [ClerkTranslatorTextFieldEnum.Street]: 255,
   [ClerkTranslatorTextFieldEnum.PostalCode]: 8,
   [ClerkTranslatorTextFieldEnum.Town]: 255,
-  [ClerkTranslatorTextFieldEnum.Country]: 64,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
 };
 
