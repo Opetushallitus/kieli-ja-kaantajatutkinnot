@@ -152,8 +152,9 @@ public class PublicEnrollmentServiceTest {
 
   @Test
   public void testInitialiseEnrollmentQueueFailsToDuplicatePerson() {
-    final ExamEvent examEvent = createExamEvent(1);
+    final ExamEvent examEvent = createExamEvent(2);
     final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.PAID);
+    createEnrollment(examEvent, EnrollmentStatus.PAID);
 
     final APIException ex = assertThrows(
       APIException.class,
