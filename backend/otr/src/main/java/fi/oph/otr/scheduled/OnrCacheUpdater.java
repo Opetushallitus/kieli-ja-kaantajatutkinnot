@@ -1,5 +1,6 @@
-package fi.oph.otr.onr;
+package fi.oph.otr.scheduled;
 
+import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.repository.InterpreterRepository;
 import fi.oph.otr.util.SchedulingUtil;
 import java.util.List;
@@ -36,7 +37,7 @@ public class OnrCacheUpdater {
   public void updateOnrCache() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("updateOnrCache");
-      final List<String> onrIds = interpreterRepository.listAllOnrIds();
+      final List<String> onrIds = interpreterRepository.listExistingOnrIds();
       onrService.updateCache(onrIds);
     });
   }

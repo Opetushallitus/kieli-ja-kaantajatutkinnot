@@ -8,7 +8,6 @@ import lombok.NonNull;
 public record ClerkInterpreterDTO(
   @NonNull Long id,
   @NonNull Integer version,
-  @NonNull Boolean deleted,
   @NonNull Boolean isIndividualised,
   @NonNull Boolean hasIndividualisedAddress,
   @NonNull String identityNumber,

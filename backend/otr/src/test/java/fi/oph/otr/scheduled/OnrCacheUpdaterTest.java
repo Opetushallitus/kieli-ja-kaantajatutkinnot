@@ -1,9 +1,10 @@
-package fi.oph.otr.onr;
+package fi.oph.otr.scheduled;
 
 import static org.mockito.Mockito.verify;
 
 import fi.oph.otr.Factory;
 import fi.oph.otr.model.Interpreter;
+import fi.oph.otr.onr.OnrService;
 import fi.oph.otr.repository.InterpreterRepository;
 import java.util.List;
 import javax.annotation.Resource;

@@ -74,7 +74,6 @@ export class SerializationUtils {
     const {
       id,
       version,
-      deleted,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,
@@ -91,7 +90,6 @@ export class SerializationUtils {
       ...textFields,
       id,
       version,
-      deleted,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,

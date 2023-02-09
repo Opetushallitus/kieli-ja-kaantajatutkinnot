@@ -72,6 +72,7 @@ public class MeetingDateService {
   public void deleteMeetingDate(final long meetingDateId) {
     final MeetingDate meetingDate = meetingDateRepository.getReferenceById(meetingDateId);
 
+    // TODO: qualifications marked deleted block deletion of meeting date with those linked
     if (!meetingDate.getQualifications().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_DELETE_HAS_QUALIFICATIONS);
     }
