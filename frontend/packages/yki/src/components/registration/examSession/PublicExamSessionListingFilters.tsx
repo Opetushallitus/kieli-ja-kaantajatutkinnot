@@ -1,14 +1,24 @@
 import SearchIcon from '@mui/icons-material/Search';
 //import { Box, TextField } from '@mui/material';
-import { useRef } from 'react';
-import { CustomButton, H3 } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { useRef, useState } from 'react';
+import {
+  AutocompleteValue,
+  ComboBox,
+  CustomButton,
+  H3,
+  LanguageSelect,
+} from 'shared/components';
+import { Color, TextFieldVariant, Variant } from 'shared/enums';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 
 export const PublicExamSessionFilters = () => {
   // I18
   const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
 
   const filtersGridRef = useRef<HTMLInputElement>(null);
   const scrollToSearch = () => {
@@ -17,27 +27,86 @@ export const PublicExamSessionFilters = () => {
       inline: 'nearest',
     });
   };
+  const [language, setLanguage] = useState<string | undefined>('fin');
+  const [level, setLevel] = useState<ExamLevel | undefined>(undefined);
+  const [municipality, setMunicipality] = useState<string | undefined>(
+    undefined
+  );
+
+  // TODO FIXME Get these from redux state
+  const municipalities = ['Helsinki', 'Vantaa', 'Porvoo'];
 
   // TODO Fixme
   const searchButtonDisabled = false;
   const handleEmptyBtnClick = scrollToSearch;
   // eslint-disable-next-line no-console
   const handleSearchBtnClick = () => console.log('empty btn clicked..');
+  const languages = Object.values(ExamLanguage);
+  const translateLanguage = (language: string) =>
+    translateCommon('languages.' + language);
 
-  // TODO Renders just the headers for now, add actual filters + logic
+  const levelToComboBoxOption = (v: ExamLevel) => ({
+    value: v.toString(),
+    label: translateCommon('levels.' + v.toString()),
+  });
+  const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
+  const municipalityToComboBoxOption = (m: string) => ({
+    value: m,
+    label: m,
+  });
+
   return (
     <div className="public-exam-session-filters" ref={filtersGridRef}>
       <div className="public-exam-session-filters__filter-box">
         <div className="public-exam-session-filters__filter">
-          <div className="columns gapped-xxs">
-            <H3>{translateCommon('language')}</H3>
-          </div>
+          <H3>{translateCommon('language')}</H3>
+          <LanguageSelect
+            languages={languages}
+            translateLanguage={translateLanguage}
+            variant={TextFieldVariant.Outlined}
+            value={
+              language
+                ? { value: language, label: translateLanguage(language) }
+                : null
+            }
+            onChange={(_, v: AutocompleteValue) => {
+              setLanguage(v?.value);
+            }}
+            label={t('labels.selectLanguage')}
+            aria-label={t('labels.selectLanguage')}
+          />
         </div>
         <div className="public-exam-session-filters__filter">
           <H3>{translateCommon('level')}</H3>
+          <ComboBox
+            variant={TextFieldVariant.Outlined}
+            values={levelValues}
+            value={level ? levelToComboBoxOption(level) : null}
+            onChange={(_, v: AutocompleteValue) => {
+              if (v?.value) {
+                setLevel(v?.value as ExamLevel);
+              } else {
+                setLevel(undefined);
+              }
+            }}
+            label={t('labels.selectLevel')}
+            aria-label={t('labels.selectLevel')}
+          />
         </div>
         <div className="public-exam-session-filters__filter">
           <H3> {translateCommon('municipality')}</H3>
+          <ComboBox
+            variant={TextFieldVariant.Outlined}
+            values={municipalities.map(municipalityToComboBoxOption)}
+            value={
+              municipality ? municipalityToComboBoxOption(municipality) : null
+            }
+            onChange={(_, v: AutocompleteValue) => {
+              setMunicipality(v?.value);
+            }}
+            label={t('labels.selectMunicipality')}
+            aria-label={t('labels.selectMunicipality')}
+          />
         </div>
       </div>
       <div className="public-exam-session-filters__btn-box">

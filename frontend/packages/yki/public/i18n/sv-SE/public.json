@@ -1,1 +1,11 @@
-{}
+{
+  "yki": {
+    "pages": {
+      "registrationPage": {
+        "title": "Allmänna språkexamina (YKI) - Anmälning",
+        "register": "Anmäl dig",
+        "searchResults": "Sökresultat"
+      }
+    }
+  }
+}

@@ -16,7 +16,9 @@ import { /*useAppDispatch,*/ useAppSelector } from 'configs/redux';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
 
 export const PublicExamSessionListing = () => {
-  const { t } = usePublicTranslation({ keyPrefix: 'yki' });
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { exam_sessions: examSessions, status } =
@@ -63,7 +65,7 @@ export const PublicExamSessionListing = () => {
         <>
           <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
-              <H2>{t('component.table.title')}</H2>
+              <H2>{t('searchResults')}</H2>
             </div>
           </div>
           <ManagedPaginatedTable

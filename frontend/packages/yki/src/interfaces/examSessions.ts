@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/src/interfaces/with';
 
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { OrganizerContact } from 'interfaces/organizer';
 
 export interface ExamSessionsResponse {
@@ -27,7 +28,7 @@ interface ExamSessionResponse
   registration_end_date?: string;
 }
 
-interface ExamSessionLocation {
+export interface ExamSessionLocation {
   name: string;
   post_office: string;
   zip: string;
@@ -39,8 +40,8 @@ interface ExamSessionLocation {
 
 export interface ExamSession extends WithId {
   session_date: Dayjs;
-  language_code: string;
-  level_code: string;
+  language_code: ExamLanguage;
+  level_code: ExamLevel;
   max_participants: number;
   published_at: string;
   location: Array<ExamSessionLocation>;

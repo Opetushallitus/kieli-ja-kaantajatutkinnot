@@ -36,7 +36,14 @@
     },
     "pages": {
       "registrationPage": {
-        "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
+        "labels": {
+          "selectLanguage": "Valitse kieli",
+          "selectLevel": "Valitse taso",
+          "selectMunicipality": "Valitse paikkakunta"
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen",
+        "register": "Ilmoittaudu",
+        "searchResults": "Hakutulokset"
       }
     }
   }

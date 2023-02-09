@@ -2,6 +2,10 @@
   "yki": {
     "common": {
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
+      "buttons": {
+        "empty": "Tyhjennä",
+        "search": "Hae"
+      },
       "component": {
         "table": {
           "pagination": {
@@ -28,7 +32,23 @@
       },
       "institution": "Oppilaitos",
       "language": "Kieli",
+      "languages": {
+        "deu": "saksa",
+        "eng": "englanti",
+        "fin": "suomi",
+        "fra": "ranska",
+        "ita": "italia",
+        "rus": "venäjä",
+        "sme": "pohjoissaame",
+        "spa": "espanja",
+        "swe": "ruotsi"
+      },
       "level": "Taso",
+      "levels": {
+        "PERUS": "perustaso",
+        "KESKI": "keskitaso",
+        "YLIN": "ylin taso"
+      },
       "municipality": "Paikkakunta",
       "ophLogo": "Opetushallituksen logo",
       "placesAvailable": "Paikkoja vapaana",

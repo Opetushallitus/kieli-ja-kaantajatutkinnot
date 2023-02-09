@@ -14,6 +14,23 @@
           "sv": "På svenska"
         }
       },
+      "languages": {
+        "deu": "tyska",
+        "eng": "engelska",
+        "fin": "finska",
+        "fra": "franska",
+        "ita": "italienska",
+        "rus": "ryska",
+        "sme": "nordsamiska",
+        "spa": "spanska",
+        "swe": "svenska"
+      },
+      "level": "Nivå",
+      "levels": {
+        "PERUS": "grundnivå",
+        "KESKI": "mellannivå",
+        "YLIN": "högsta nivå"
+      },
       "ophLogo": "Utbildningsstyrelsens logo",
       "registration": "Anmälning",
       "reassessment": "Kontrollbedömning"

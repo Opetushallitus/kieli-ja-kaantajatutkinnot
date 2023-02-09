@@ -1,14 +1,18 @@
 import { TableCell, TableRow } from '@mui/material';
 import { DateUtils } from 'shared/utils';
 
-//import { getCurrentLang } from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
+import { ExamUtils } from 'utils/exam';
 
 export const PublicExamSessionListingRow = (examSession: ExamSession) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
   const handleRowClick = () =>
     // eslint-disable-next-line no-console
     console.log('clicked on examSession', examSession.id);
-  //const currentLanguage = getCurrentLang();
+  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (
     <TableRow
@@ -16,13 +20,15 @@ export const PublicExamSessionListingRow = (examSession: ExamSession) => {
       data-testid={`public-exam-session__id-${examSession.id}-row`}
       onClick={handleRowClick}
     >
-      <TableCell>
-        {examSession.language_code}, {examSession.level_code}
-      </TableCell>
+      <TableCell>{ExamUtils.renderLanguageAndLevel(examSession)}</TableCell>
       <TableCell>
         {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>
-      <TableCell>{examSession.location[0].name}</TableCell>
+      <TableCell>
+        {locationInfo?.name}
+        <br />
+        <b>{examSession.location[0].post_office}</b>
+      </TableCell>
       <TableCell>
         {DateUtils.formatOptionalDateTime(
           examSession.registration_start_date?.hour(10),
@@ -38,7 +44,7 @@ export const PublicExamSessionListingRow = (examSession: ExamSession) => {
         {examSession.max_participants - (examSession.participants ?? 0)} /{' '}
         {examSession.max_participants}
       </TableCell>
-      <TableCell>Ilmoittaudu</TableCell>
+      <TableCell>{t('register')}</TableCell>
     </TableRow>
   );
 };
