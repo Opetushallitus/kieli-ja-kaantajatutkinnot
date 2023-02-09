@@ -11823,13 +11823,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.5.8":
-  version: 1.5.8
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.5.8::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.5.8%2F2a53b84dd25e72bab1509f91c2be9b4120ee529f"
-  checksum: 2dcade54f1ec4bf22c90205ba3485174bcba1c13da5c15469068ab55c11cf2b4eb04522c4b835ff160ff3a2770b0b1e9456de59f6ddc81edeef6fa4f043c815e
-  languageName: node
-  linkType: hard
-
 "shebang-command@npm:^2.0.0":
   version: 2.0.0
   resolution: "shebang-command@npm:2.0.0"
