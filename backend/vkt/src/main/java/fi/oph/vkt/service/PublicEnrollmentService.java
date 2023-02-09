@@ -58,7 +58,7 @@ public class PublicEnrollmentService {
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
-    if (hasEnrollment(examEvent, person)) {
+    if (isPersonEnrolled(examEvent, person)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
@@ -76,12 +76,10 @@ public class PublicEnrollmentService {
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
   }
 
-  private boolean hasEnrollment(ExamEvent examEvent, Person person) {
-    Optional<Enrollment> examId = enrollmentRepository.findByExamEventAndIdentityNumber(
-      examEvent.getId(),
-      person.getIdentityNumber()
-    );
-    return examId.isPresent();
+  private boolean isPersonEnrolled(ExamEvent examEvent, Person person) {
+    return enrollmentRepository
+      .findByExamEventAndIdentityNumber(examEvent.getId(), person.getIdentityNumber())
+      .isPresent();
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -157,6 +155,9 @@ public class PublicEnrollmentService {
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
+    }
+    if (isPersonEnrolled(examEvent, person)) {
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, null);
