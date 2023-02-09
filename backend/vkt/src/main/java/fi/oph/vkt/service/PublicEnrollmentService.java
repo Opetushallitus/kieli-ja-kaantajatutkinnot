@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,9 @@ public class PublicEnrollmentService {
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
+    if (isPersonEnrolled(examEvent, person)) {
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
+    }
 
     final Reservation reservation = reservationRepository
       .findByExamEventAndPerson(examEvent, person)
@@ -70,6 +74,12 @@ public class PublicEnrollmentService {
       .build();
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
+  }
+
+  private boolean isPersonEnrolled(final ExamEvent examEvent, final Person person) {
+    return enrollmentRepository
+      .findByExamEventAndIdentityNumber(examEvent.getId(), person.getIdentityNumber())
+      .isPresent();
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -145,6 +155,9 @@ public class PublicEnrollmentService {
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
+    }
+    if (isPersonEnrolled(examEvent, person)) {
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, null);

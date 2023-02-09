@@ -18,5 +18,6 @@ export enum APIError {
   InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
+  InitialiseEnrollmentDuplicatePerson = 'initialiseEnrollmentDuplicatePerson',
   InvalidVersion = 'invalidVersion',
 }
