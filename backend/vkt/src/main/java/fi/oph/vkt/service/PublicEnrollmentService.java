@@ -76,7 +76,7 @@ public class PublicEnrollmentService {
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
   }
 
-  private boolean isPersonEnrolled(ExamEvent examEvent, Person person) {
+  private boolean isPersonEnrolled(final ExamEvent examEvent, final Person person) {
     return enrollmentRepository
       .findByExamEventAndIdentityNumber(examEvent.getId(), person.getIdentityNumber())
       .isPresent();
