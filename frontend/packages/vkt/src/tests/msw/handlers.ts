@@ -20,7 +20,7 @@ export const handlers = [
       id: 1,
       expiresAt: fixedDateForTests.add(59, 'minute').format(),
       expiresUpdatedAt: fixedDateForTests.add(29, 'minute').format(),
-      canRenew: true,
+      isRenewable: true,
     };
 
     return res(ctx.status(201), ctx.json(response));
@@ -34,7 +34,7 @@ export const handlers = [
           id: 1,
           expiresAt: fixedDateForTests.add(30, 'minute').format(),
           expiresUpdatedAt: fixedDateForTests.format(),
-          canRenew: true,
+          isRenewable: true,
         },
         person,
       };

@@ -77,7 +77,7 @@ export const PublicEnrollmentTimer = ({
     !timerWarningClosed &&
     !isExpired &&
     progress.value < warningTreshold &&
-    reservation.canRenew;
+    reservation.isRenewable;
 
   const isExpiredModalOpen = isExpired;
 
