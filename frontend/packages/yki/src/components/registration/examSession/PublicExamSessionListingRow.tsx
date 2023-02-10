@@ -27,7 +27,7 @@ export const PublicExamSessionListingRow = (examSession: ExamSession) => {
       <TableCell>
         {locationInfo?.name}
         <br />
-        <b>{examSession.location[0].post_office}</b>
+        <b>{locationInfo?.post_office}</b>
       </TableCell>
       <TableCell>
         {DateUtils.formatOptionalDateTime(
