@@ -8,6 +8,15 @@ export interface ExamSessionsResponse {
   exam_sessions: Array<ExamSessionResponse>;
 }
 
+export interface ExamSessionFilters {
+  language?: ExamLanguage;
+  level?: ExamLevel;
+  municipality?: string;
+  excludeFullSessions: boolean;
+  // TODO Naming?
+  excludeNonOpenSessions: boolean;
+}
+
 export interface ExamSessions {
   exam_sessions: Array<ExamSession>;
 }
@@ -52,11 +61,12 @@ export interface ExamSession extends WithId {
   open?: boolean;
   queue?: number;
   queue_full?: boolean;
-  participants?: number;
-  post_admission_quota?: number;
+  participants: number;
+  pa_participants: number;
+  post_admission_quota: number;
+  post_admission_active: boolean;
   post_admission_start_date?: Dayjs;
   post_admission_end_date?: Dayjs;
-  post_admission_active?: boolean;
   registration_start_date?: Dayjs;
   registration_end_date?: Dayjs;
 }

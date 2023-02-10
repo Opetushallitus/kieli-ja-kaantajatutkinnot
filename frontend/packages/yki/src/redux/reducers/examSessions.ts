@@ -1,15 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamSessions } from 'interfaces/examSessions';
+import { ExamLanguage } from 'enums/app';
+import { ExamSessionFilters, ExamSessions } from 'interfaces/examSessions';
 
 interface ExamSessionsState extends ExamSessions {
   status: APIResponseStatus;
+  filters: ExamSessionFilters;
+  municipalities: Array<string>;
 }
 
 const initialState: ExamSessionsState = {
   exam_sessions: [],
+  municipalities: [],
   status: APIResponseStatus.NotStarted,
+  filters: {
+    // TODO FIN or undefined?
+    language: ExamLanguage.FIN,
+    level: undefined,
+    municipality: undefined,
+    excludeFullSessions: false,
+    excludeNonOpenSessions: false,
+  },
 };
 
 const examSessionsSlice = createSlice({
@@ -25,10 +37,27 @@ const examSessionsSlice = createSlice({
     storeExamSessions(state, action: PayloadAction<ExamSessions>) {
       state.status = APIResponseStatus.Success;
       state.exam_sessions = action.payload.exam_sessions;
+      state.municipalities = action.payload.exam_sessions.map(
+        (es) => es.location[0].post_office
+      );
+    },
+    setPublicExamSessionFilters(
+      state,
+      action: PayloadAction<Partial<ExamSessionFilters>>
+    ) {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    resetPublicExamSessionFilters(state) {
+      state.filters = initialState.filters;
     },
   },
 });
 
 export const examSessionsReducer = examSessionsSlice.reducer;
-export const { loadExamSessions, rejectExamSessions, storeExamSessions } =
-  examSessionsSlice.actions;
+export const {
+  loadExamSessions,
+  rejectExamSessions,
+  storeExamSessions,
+  setPublicExamSessionFilters,
+  resetPublicExamSessionFilters,
+} = examSessionsSlice.actions;

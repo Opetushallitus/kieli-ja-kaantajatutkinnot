@@ -5,7 +5,11 @@ import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
 import { ExamUtils } from 'utils/exam';
 
-export const PublicExamSessionListingRow = (examSession: ExamSession) => {
+export const PublicExamSessionListingRow = ({
+  examSession,
+}: {
+  examSession: ExamSession;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
   });

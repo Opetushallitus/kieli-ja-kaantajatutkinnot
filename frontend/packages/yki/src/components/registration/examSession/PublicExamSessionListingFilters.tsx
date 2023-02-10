@@ -1,17 +1,25 @@
 import SearchIcon from '@mui/icons-material/Search';
 //import { Box, TextField } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomButton,
+  CustomSwitch,
   H3,
   LanguageSelect,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamSessionFilters } from 'interfaces/examSessions';
+import {
+  resetPublicExamSessionFilters,
+  setPublicExamSessionFilters,
+} from 'redux/reducers/examSessions';
+import { examSessionsSelector } from 'redux/selectors/examSessions';
 
 export const PublicExamSessionFilters = () => {
   // I18
@@ -27,20 +35,29 @@ export const PublicExamSessionFilters = () => {
       inline: 'nearest',
     });
   };
-  const [language, setLanguage] = useState<string | undefined>('fin');
-  const [level, setLevel] = useState<ExamLevel | undefined>(undefined);
-  const [municipality, setMunicipality] = useState<string | undefined>(
-    undefined
-  );
 
-  // TODO FIXME Get these from redux state
-  const municipalities = ['Helsinki', 'Vantaa', 'Porvoo'];
+  const { filters, municipalities } = useAppSelector(examSessionsSelector);
+  const {
+    language,
+    level,
+    municipality,
+    excludeFullSessions,
+    excludeNonOpenSessions,
+  } = filters;
+
+  const dispatch = useAppDispatch();
+  const onFilterChange = (filter: Partial<ExamSessionFilters>) => {
+    dispatch(setPublicExamSessionFilters(filter));
+  };
 
   // TODO Fixme
   const searchButtonDisabled = false;
-  const handleEmptyBtnClick = scrollToSearch;
+  const handleEmptyBtnClick = () => {
+    dispatch(resetPublicExamSessionFilters());
+    scrollToSearch();
+  };
   // eslint-disable-next-line no-console
-  const handleSearchBtnClick = () => console.log('empty btn clicked..');
+  const handleSearchBtnClick = () => console.log('search btn clicked..');
   const languages = Object.values(ExamLanguage);
   const translateLanguage = (language: string) =>
     translateCommon('languages.' + language);
@@ -57,7 +74,7 @@ export const PublicExamSessionFilters = () => {
 
   return (
     <div className="public-exam-session-filters" ref={filtersGridRef}>
-      <div className="public-exam-session-filters__filter-box">
+      <div className="public-exam-session-filters__dropdown-filters-box">
         <div className="public-exam-session-filters__filter">
           <H3>{translateCommon('language')}</H3>
           <LanguageSelect
@@ -70,7 +87,11 @@ export const PublicExamSessionFilters = () => {
                 : null
             }
             onChange={(_, v: AutocompleteValue) => {
-              setLanguage(v?.value);
+              if (v) {
+                onFilterChange({ language: v.value as ExamLanguage });
+              } else {
+                onFilterChange({ language: undefined });
+              }
             }}
             label={t('labels.selectLanguage')}
             aria-label={t('labels.selectLanguage')}
@@ -83,10 +104,10 @@ export const PublicExamSessionFilters = () => {
             values={levelValues}
             value={level ? levelToComboBoxOption(level) : null}
             onChange={(_, v: AutocompleteValue) => {
-              if (v?.value) {
-                setLevel(v?.value as ExamLevel);
+              if (v) {
+                onFilterChange({ level: v.value as ExamLevel });
               } else {
-                setLevel(undefined);
+                onFilterChange({ level: undefined });
               }
             }}
             label={t('labels.selectLevel')}
@@ -102,12 +123,36 @@ export const PublicExamSessionFilters = () => {
               municipality ? municipalityToComboBoxOption(municipality) : null
             }
             onChange={(_, v: AutocompleteValue) => {
-              setMunicipality(v?.value);
+              if (v) {
+                onFilterChange({ municipality: v.value });
+              } else {
+                onFilterChange({ municipality: undefined });
+              }
             }}
             label={t('labels.selectMunicipality')}
             aria-label={t('labels.selectMunicipality')}
           />
         </div>
+      </div>
+      <div>
+        <CustomSwitch
+          value={excludeFullSessions}
+          onChange={(_, checked) => {
+            onFilterChange({ excludeFullSessions: checked });
+          }}
+          leftLabel=""
+          rightLabel="Vain tutkintotilaisuudet, joissa on tilaa"
+          aria-label={t('actions.changePermissionToPublish.ariaLabel')}
+        />
+        <CustomSwitch
+          value={excludeNonOpenSessions}
+          onChange={(_, checked) => {
+            onFilterChange({ excludeNonOpenSessions: checked });
+          }}
+          leftLabel=""
+          rightLabel="Vain nyt avoinna olevat tutkintotilaisuudet"
+          aria-label={t('actions.changePermissionToPublish.ariaLabel')}
+        />
       </div>
       <div className="public-exam-session-filters__btn-box">
         <CustomButton

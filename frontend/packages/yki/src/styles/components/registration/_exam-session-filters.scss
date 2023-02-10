@@ -4,7 +4,7 @@
     @include app-bar-bottom;
   }
   */
-  &__filter-box {
+  &__dropdown-filters-box {
     display: grid;
     gap: 4rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, auto));

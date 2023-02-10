@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   CustomCircularProgress,
   H2,
@@ -13,7 +13,15 @@ import { PublicExamSessionListingHeader } from 'components/registration/examSess
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { /*useAppDispatch,*/ useAppSelector } from 'configs/redux';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import { ExamSession } from 'interfaces/examSessions';
+import {
+  examSessionsSelector,
+  selectFilteredPublicExamSessions,
+} from 'redux/selectors/examSessions';
+
+const getRowDetails = (examSession: ExamSession) => {
+  return <PublicExamSessionListingRow examSession={examSession} />;
+};
 
 export const PublicExamSessionListing = () => {
   const { t } = usePublicTranslation({
@@ -21,18 +29,13 @@ export const PublicExamSessionListing = () => {
   });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
-  const { exam_sessions: examSessions, status } =
-    useAppSelector(examSessionsSelector);
+  const { status } = useAppSelector(examSessionsSelector);
+  const examSessions = useAppSelector(selectFilteredPublicExamSessions);
   //const dispatch = useAppDispatch();
 
-  //const onPageChange = (page: number) => dispatch(setPage(page));
-  // eslint-disable-next-line no-console
-  const onPageChange = (page: number) => console.log('page', page);
-  //const onRowsPerPageChange = (rowsPerPage: number) =>
-  //  dispatch(setRowsPerPage(rowsPerPage));
-  const onRowsPerPageChange = (rowsPerPage: number) =>
-    // eslint-disable-next-line no-console
-    console.log('rowsPerPage', rowsPerPage);
+  // Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -72,14 +75,12 @@ export const PublicExamSessionListing = () => {
             className="public-exam-session-listing"
             data={examSessions}
             header={<PublicExamSessionListingHeader />}
-            getRowDetails={PublicExamSessionListingRow}
+            getRowDetails={getRowDetails}
             rowsPerPageOptions={[10, 20, 50]}
-            //page={pagination.page}
-            page={0}
-            onPageChange={onPageChange}
-            //rowsPerPage={pagination.rowsPerPage}
-            rowsPerPage={10}
-            onRowsPerPageChange={onRowsPerPageChange}
+            page={page}
+            onPageChange={setPage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={setRowsPerPage}
             rowsPerPageLabel={translateCommon(
               'component.table.pagination.rowsPerPage'
             )}
