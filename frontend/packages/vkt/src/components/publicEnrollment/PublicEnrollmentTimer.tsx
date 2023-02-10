@@ -22,7 +22,7 @@ const calcProgress = (expires: Dayjs, total: number) => {
   const seconds = secondsDiff - minutes * 60;
 
   return {
-    value: 100 - Math.floor((secondsDiff / total) * 100),
+    value: Math.floor((secondsDiff / total) * 100),
     seconds: String(seconds).padStart(2, '0'),
     minutes: String(minutes).padStart(2, '0'),
     secondsDiff,
@@ -72,11 +72,11 @@ export const PublicEnrollmentTimer = ({
   };
 
   const isExpired = progress.secondsDiff <= 0;
-  const warningTreshold = 90;
+  const warningTreshold = 10;
   const isContinueModalOpen =
     !timerWarningClosed &&
     !isExpired &&
-    progress.value > warningTreshold &&
+    progress.value < warningTreshold &&
     reservation.canRenew;
 
   const isExpiredModalOpen = isExpired;

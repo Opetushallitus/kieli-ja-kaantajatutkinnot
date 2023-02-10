@@ -48,7 +48,7 @@
     }
 
     &__timer-progressbar {
-      background-color: $color-light-blue;
+      background-color: adjust-color($color-secondary, $alpha: -0.7);
 
       & span {
         background-color: $color-secondary;
