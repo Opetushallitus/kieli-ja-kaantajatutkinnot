@@ -9,7 +9,7 @@ public record PublicReservationDTO(
   @NonNull Long id,
   @NonNull ZonedDateTime expiresAt,
   @NonNull ZonedDateTime expiresUpdatedAt,
-  int renewCount,
-  boolean active,
-  boolean canRenew
+  @NonNull Integer renewCount,
+  @NonNull Boolean active,
+  @NonNull Boolean isRenewable
 ) {}

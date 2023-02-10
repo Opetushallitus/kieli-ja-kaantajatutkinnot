@@ -25,7 +25,7 @@ public class PublicReservationService {
   public PublicReservationDTO renewReservation(final long reservationId) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
-    if (!reservation.canRenew()) {
+    if (!reservation.isRenewable()) {
       throw new APIException(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED);
     }
 
@@ -50,7 +50,7 @@ public class PublicReservationService {
       .builder()
       .id(reservation.getId())
       .renewCount(reservation.getRenewCount())
-      .canRenew(reservation.canRenew())
+      .isRenewable(reservation.isRenewable())
       .active(reservation.isActive())
       .expiresUpdatedAt(ZonedDateTime.of(reservation.getExpiresUpdatedAt(), ZoneId.systemDefault()))
       .expiresAt(ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault()))

@@ -65,7 +65,7 @@ public class Reservation extends BaseEntity {
     super.preUpdate();
   }
 
-  public boolean canRenew() {
+  public boolean isRenewable() {
     return renewCount < 1;
   }
 
