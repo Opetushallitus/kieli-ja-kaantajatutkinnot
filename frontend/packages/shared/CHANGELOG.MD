@@ -9,12 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.5.11] - 2023-01-31
-
-### Added
-
-- light-blue color for progressbar
-
 ## [1.5.10] - 2023-01-26
 
 ### Added
