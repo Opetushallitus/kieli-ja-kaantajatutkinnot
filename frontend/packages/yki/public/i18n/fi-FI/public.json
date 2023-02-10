@@ -39,7 +39,9 @@
         "labels": {
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
-          "selectMunicipality": "Valitse paikkakunta"
+          "selectMunicipality": "Valitse paikkakunta",
+          "excludeFullSessions": "Vain tutkintotilaisuudet, joissa on tilaa",
+          "excludeNonOpenSessions": "Vain nyt avoinna olevat tutkintotilaisuudet"
         },
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen",
         "register": "Ilmoittaudu",

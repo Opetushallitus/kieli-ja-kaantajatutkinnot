@@ -141,8 +141,8 @@ export const PublicExamSessionFilters = () => {
             onFilterChange({ excludeFullSessions: checked });
           }}
           leftLabel=""
-          rightLabel="Vain tutkintotilaisuudet, joissa on tilaa"
-          aria-label={t('actions.changePermissionToPublish.ariaLabel')}
+          rightLabel={t('labels.excludeFullSessions')}
+          aria-label={t('labels.excludeFullSessions')}
         />
         <CustomSwitch
           value={excludeNonOpenSessions}
@@ -150,8 +150,8 @@ export const PublicExamSessionFilters = () => {
             onFilterChange({ excludeNonOpenSessions: checked });
           }}
           leftLabel=""
-          rightLabel="Vain nyt avoinna olevat tutkintotilaisuudet"
-          aria-label={t('actions.changePermissionToPublish.ariaLabel')}
+          rightLabel={t('labels.excludeNonOpenSessions')}
+          aria-label={t('labels.excludeNonOpenSessions')}
         />
       </div>
       <div className="public-exam-session-filters__btn-box">
