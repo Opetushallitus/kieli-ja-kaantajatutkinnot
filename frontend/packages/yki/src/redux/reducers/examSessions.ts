@@ -37,9 +37,10 @@ const examSessionsSlice = createSlice({
     storeExamSessions(state, action: PayloadAction<ExamSessions>) {
       state.status = APIResponseStatus.Success;
       state.exam_sessions = action.payload.exam_sessions;
-      state.municipalities = action.payload.exam_sessions.map(
-        (es) => es.location[0].post_office
+      const uniqueMunicipalities = new Set(
+        action.payload.exam_sessions.map((es) => es.location[0].post_office)
       );
+      state.municipalities = Array.from(uniqueMunicipalities);
     },
     setPublicExamSessionFilters(
       state,
