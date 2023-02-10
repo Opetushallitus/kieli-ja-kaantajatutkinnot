@@ -1,9 +1,9 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import { NotifierContextProvider, StyleCacheProvider } from 'shared/components';
+import { theme } from 'shared/configs';
 
 import { initI18n } from 'configs/i18n';
-import { theme } from 'configs/materialUI';
 import store from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
 

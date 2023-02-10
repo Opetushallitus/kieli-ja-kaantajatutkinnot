@@ -3,8 +3,8 @@ import { render, RenderOptions } from '@testing-library/react';
 import { FC, ReactElement } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { theme } from 'shared/configs';
 
-import { theme } from 'configs/materialUI';
 import store from 'redux/store';
 
 type Props = {

@@ -4,8 +4,8 @@
     "src"
   ],
   "moduleNameMapper": {
-    "\\.(css|less|sass|scss)$": "<rootDir>/configs/jest/__mocks__/styleMocks.ts",
-    "\\.svg": "<rootDir>/configs/jest/__mocks__/fileMocks.ts"
+    "\\.(css|less|sass|scss)$": "<rootDir>/jest/__mocks__/styleMocks.ts",
+    "\\.svg": "<rootDir>/jest/__mocks__/fileMocks.ts"
   },
   "setupFilesAfterEnv": [
     "./jest-setup.ts"
