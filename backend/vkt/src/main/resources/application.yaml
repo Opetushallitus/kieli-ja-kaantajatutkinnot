@@ -57,7 +57,7 @@ cas:
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
   reservation:
-    duration: PT30M
+    duration: ${reservation.duration:PT30M}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
