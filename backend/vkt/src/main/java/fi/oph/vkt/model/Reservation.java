@@ -37,14 +37,14 @@ public class Reservation extends BaseEntity {
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
 
+  @Column(name = "created_at", nullable = false)
+  private LocalDateTime createdAt;
+
   @Column(name = "expires_at", nullable = false)
   private LocalDateTime expiresAt;
 
-  @Column(name = "expires_updated_at")
-  private LocalDateTime expiresUpdatedAt;
-
-  @Column(name = "renew_count", nullable = false)
-  private int renewCount;
+  @Column(name = "renewed_at")
+  private LocalDateTime renewedAt;
 
   @PostLoad
   private void storeState() {
@@ -52,21 +52,15 @@ public class Reservation extends BaseEntity {
   }
 
   @Override
-  protected void prePersist() {
-    this.setExpiresUpdatedAt(LocalDateTime.now());
-    super.prePersist();
-  }
-
-  @Override
   protected void preUpdate() {
     if (this.getExpiresAt().equals(previousExpiresAt)) {
-      this.setExpiresUpdatedAt(LocalDateTime.now());
+      this.setRenewedAt(LocalDateTime.now());
     }
     super.preUpdate();
   }
 
   public boolean isRenewable() {
-    return renewCount < 1;
+    return this.getRenewedAt() == null;
   }
 
   public boolean isActive() {

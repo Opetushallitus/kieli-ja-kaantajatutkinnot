@@ -19,7 +19,8 @@ export const handlers = [
     const response: PublicReservationResponse = {
       id: 1,
       expiresAt: fixedDateForTests.add(59, 'minute').format(),
-      expiresUpdatedAt: fixedDateForTests.add(29, 'minute').format(),
+      createdAt: fixedDateForTests.format(),
+      renewedAt: fixedDateForTests.add(29, 'minute').format(),
       isRenewable: true,
     };
 
@@ -33,7 +34,7 @@ export const handlers = [
         reservation: {
           id: 1,
           expiresAt: fixedDateForTests.add(30, 'minute').format(),
-          expiresUpdatedAt: fixedDateForTests.format(),
+          createdAt: fixedDateForTests.format(),
           isRenewable: true,
         },
         person,

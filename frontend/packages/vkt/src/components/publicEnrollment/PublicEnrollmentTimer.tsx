@@ -41,9 +41,10 @@ export const PublicEnrollmentTimer = ({
   });
 
   const dispatch = useAppDispatch();
+  const expirationStart = reservation.renewedAt ?? reservation.createdAt;
   const expirationTime = Math.max(
     0,
-    reservation.expiresAt.diff(reservation.expiresUpdatedAt, 'second')
+    reservation.expiresAt.diff(expirationStart, 'second')
   );
 
   const [progress, setProgress] = useState(
@@ -72,11 +73,11 @@ export const PublicEnrollmentTimer = ({
   };
 
   const isExpired = progress.secondsDiff <= 0;
-  const warningTreshold = 10;
+  const warningTreshold = 60 * 3; // 3 minutes
   const isContinueModalOpen =
     !timerWarningClosed &&
     !isExpired &&
-    progress.value < warningTreshold &&
+    progress.secondsDiff < warningTreshold &&
     reservation.isRenewable;
 
   const isExpiredModalOpen = isExpired;

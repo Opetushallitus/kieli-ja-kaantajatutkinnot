@@ -7,9 +7,8 @@ import lombok.NonNull;
 @Builder
 public record PublicReservationDTO(
   @NonNull Long id,
+  @NonNull ZonedDateTime createdAt,
   @NonNull ZonedDateTime expiresAt,
-  @NonNull ZonedDateTime expiresUpdatedAt,
-  @NonNull Integer renewCount,
-  @NonNull Boolean active,
+  ZonedDateTime renewedAt,
   @NonNull Boolean isRenewable
 ) {}

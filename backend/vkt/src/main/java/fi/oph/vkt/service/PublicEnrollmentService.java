@@ -20,8 +20,6 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -59,12 +57,7 @@ public class PublicEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
 
-    final Reservation reservation = reservationRepository
-      .findByExamEventAndPerson(examEvent, person)
-      .map(publicReservationService::updateExpiresAtForExistingReservation)
-      .orElseGet(() -> createNewReservation(examEvent, person));
-
-    final PublicReservationDTO reservationDTO = publicReservationService.createReservationDTO(reservation);
+    final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
   }
@@ -74,15 +67,6 @@ public class PublicEnrollmentService {
       .stream()
       .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
       .count();
-  }
-
-  private Reservation createNewReservation(final ExamEvent examEvent, final Person person) {
-    final Reservation reservation = new Reservation();
-    reservation.setExamEvent(examEvent);
-    reservation.setPerson(person);
-    reservation.setExpiresAt(newExpiresAt());
-
-    return reservationRepository.saveAndFlush(reservation);
   }
 
   private LocalDateTime newExpiresAt() {
