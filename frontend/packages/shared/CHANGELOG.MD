@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.7.2] - 2023-02-14
+
+### Added
+
+- Support for customizable displayed rows label for PaginatedTable and ManagedPaginatedTable
+
 ## [1.7.1] - 2023-02-13
 
 ### Fixed

@@ -21,7 +21,18 @@ export interface PaginatedTableProps<T extends WithId> {
   stickyHeader?: boolean;
   showBottomPagination?: boolean;
   size?: 'small' | 'medium';
+  labelDisplayedRows?: (
+    labelDisplayedRowsArgs: LabelDisplayedRowsArgs
+  ) => React.ReactNode;
 }
+
+export const defaultDisplayedRowsLabel = ({
+  from,
+  to,
+  count,
+}: LabelDisplayedRowsArgs) => {
+  return `${from} - ${to} / ${count}`;
+};
 
 export function PaginatedTable<T extends WithId>({
   header,
@@ -35,15 +46,8 @@ export function PaginatedTable<T extends WithId>({
   rowsPerPageLabel,
   headerContent,
   size = 'medium',
+  labelDisplayedRows,
 }: PaginatedTableProps<T>): JSX.Element {
-  const PaginationDisplayedRowsLabel = ({
-    from,
-    to,
-    count,
-  }: LabelDisplayedRowsArgs) => {
-    return `${from} - ${to} / ${count}`;
-  };
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +72,7 @@ export function PaginatedTable<T extends WithId>({
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={rowsPerPageOptions}
         labelRowsPerPage={rowsPerPageLabel}
-        labelDisplayedRows={PaginationDisplayedRowsLabel}
+        labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
       />
     </div>
   );
