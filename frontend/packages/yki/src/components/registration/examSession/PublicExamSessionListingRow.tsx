@@ -34,15 +34,11 @@ export const PublicExamSessionListingRow = ({
         <b>{locationInfo?.post_office}</b>
       </TableCell>
       <TableCell>
-        {DateUtils.formatOptionalDateTime(
-          examSession.registration_start_date?.hour(10),
-          'l HH:mm'
+        {ExamUtils.renderDateTime(
+          examSession.registration_start_date?.hour(10)
         )}{' '}
-        -{' '}
-        {DateUtils.formatOptionalDateTime(
-          examSession.registration_end_date?.hour(16),
-          'l HH:mm'
-        )}
+        &ndash;{' '}
+        {ExamUtils.renderDateTime(examSession.registration_end_date?.hour(16))}
       </TableCell>
       <TableCell>
         {examSession.max_participants - (examSession.participants ?? 0)} /{' '}

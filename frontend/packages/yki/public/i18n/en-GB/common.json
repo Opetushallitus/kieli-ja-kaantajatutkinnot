@@ -3,6 +3,9 @@
     "common": {
       "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
       "contactEmail": "kielitutkinnot@oph.fi",
+      "dates": {
+        "dateTimeFormat": "l [at] HH:mm"
+      },
       "error": "An unexpected error has occurred.",
       "header": {
         "accessibility": {

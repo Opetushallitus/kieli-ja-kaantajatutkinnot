@@ -16,6 +16,9 @@
       },
       "contactEmail": "kielitutkinnot@oph.fi",
       "date": "Päivämäärä",
+      "dates": {
+        "dateTimeFormat": "l [klo] HH.mm"
+      },
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "loadingFailed": "Tietojen lataaminen epäonnistui."
