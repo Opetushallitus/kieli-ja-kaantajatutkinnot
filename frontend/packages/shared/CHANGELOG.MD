@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.7.3] - 2023-02-14
+
+### Fixed
+
+- Checked checkboxes use dark blue background color also when part of a FormLabel
+
 ## [1.7.2] - 2023-02-14
 
 ### Added
