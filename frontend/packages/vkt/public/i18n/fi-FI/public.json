@@ -52,12 +52,12 @@
           "completed": "Suoritettu",
           "phase": "Vaihe",
           "step": {
-            "Identify": "Tunnistaudu",
+            "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
-            "SelectExam": "Valitse tutkinto",
-            "Preview": "Esikatsele",
+            "Identify": "Tunnistaudu",
             "Payment": "Siirry maksamaan",
-            "Done": "Valmis"
+            "Preview": "Esikatsele",
+            "SelectExam": "Valitse tutkinto"
           }
         },
         "steps": {
@@ -78,6 +78,10 @@
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
             "title": "Yhteystiedot"
+          },
+          "identify": {
+            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
+            "title": "Tunnistaudu ilmoittautumista varten"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",

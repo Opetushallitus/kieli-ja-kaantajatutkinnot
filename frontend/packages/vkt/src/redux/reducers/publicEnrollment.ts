@@ -20,7 +20,7 @@ const initialState: PublicEnrollmentState = {
   reservationDetailsStatus: APIResponseStatus.NotStarted,
   reservationDetails: undefined,
   status: APIResponseStatus.NotStarted,
-  activeStep: PublicEnrollmentFormStep.FillContactDetails,
+  activeStep: PublicEnrollmentFormStep.Identify,
   enrollment: {
     email: '',
     emailConfirmation: '',

@@ -7,9 +7,9 @@ import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOver
 import { clerkListExamEventReducer } from 'redux/reducers/clerkListExamEvent';
 import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
+import { identificationReducer } from 'redux/reducers/identification';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
-import { publicUIViewReducer } from 'redux/reducers/publicUIView';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -22,9 +22,9 @@ const store = configureStore({
     publicEnrollment: publicEnrollmentReducer,
     clerkNewExamDate: clerkNewExamDateReducer,
     publicExamEvent: publicExamEventReducer,
-    publicUIView: publicUIViewReducer,
     clerkExamEventOverview: clerkExamEventOverviewReducer,
     clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
+    identification: identificationReducer,
   },
   middleware: [saga],
 });

@@ -1,5 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import {
   CustomButtonLink,
   ExtLink,
@@ -16,19 +17,21 @@ import {
   useCommonTranslation,
   usePublicTranslation,
 } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
-import { AppRoutes, PublicUIViews } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
-import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
 export const Footer = () => {
+  const location = useLocation();
+
   const { t } = usePublicTranslation({ keyPrefix: 'vkt.component.footer' });
   const translateCommon = useCommonTranslation();
 
   const { isAuthenticated } = useAuthentication();
-  const { currentView } = useAppSelector(publicUIViewSelector);
   const showFooter =
-    !isAuthenticated && currentView !== PublicUIViews.Enrollment;
+    !isAuthenticated &&
+    ![AppRoutes.PublicEnrollment, AppRoutes.PublicIdentify].includes(
+      location.pathname as AppRoutes
+    );
 
   return (
     <footer>

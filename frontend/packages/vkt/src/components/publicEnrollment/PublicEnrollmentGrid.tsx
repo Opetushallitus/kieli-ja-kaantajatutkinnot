@@ -12,6 +12,7 @@ import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = () => {
   const [disableNext, setDisableNext] = useState(true);
@@ -21,17 +22,18 @@ export const PublicEnrollmentGrid = () => {
   const { status, activeStep, enrollment, reservationDetails } = useAppSelector(
     publicEnrollmentSelector
   );
+  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
   useNavigationProtection(activeStep > PublicEnrollmentFormStep.Identify);
 
-  if (!reservationDetails) {
+  if (!selectedExamEvent) {
     return null;
   }
 
   const isLoading = status === APIResponseStatus.InProgress;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
-  const hasReservation = !!reservationDetails.reservation;
+  const hasReservation = !!reservationDetails?.reservation;
 
   const renderDesktopView = () => (
     <>
@@ -44,19 +46,20 @@ export const PublicEnrollmentGrid = () => {
                 includePaymentStep={hasReservation}
               />
               <PublicEnrollmentExamEventDetails
-                examEvent={reservationDetails.examEvent}
+                examEvent={selectedExamEvent}
                 showOpenings={hasReservation && !isDoneStepActive}
               />
               <PublicEnrollmentStepContents
+                examEvent={selectedExamEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
                 disableNext={disableNextCb}
               />
-              {isPreviewStepActive && hasReservation && (
+              {isPreviewStepActive && reservationDetails?.reservation && (
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
-              {!isDoneStepActive && (
+              {!isDoneStepActive && reservationDetails && (
                 <PublicEnrollmentControlButtons
                   activeStep={activeStep}
                   enrollment={enrollment}

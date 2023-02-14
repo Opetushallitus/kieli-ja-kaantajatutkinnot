@@ -4,6 +4,8 @@ export enum AppConstants {
 
 export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
+  PublicIdentify = '/vkt/etusivu/tunnistaudu',
+  PublicEnrollment = '/vkt/etusivu/ilmoittaudu',
   ClerkHomePage = '/vkt/virkailija',
   ClerkExamEventCreatePage = '/vkt/virkailija/tutkintotilaisuus/luo',
   ClerkExamEventOverviewPage = '/vkt/virkailija/tutkintotilaisuus/:examEventId',
@@ -12,11 +14,6 @@ export enum AppRoutes {
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
   PrivacyPolicyPage = '/vkt/tietosuojaseloste',
   NotFoundPage = '*',
-}
-
-export enum PublicUIViews {
-  Enrollment = 'Enrollment',
-  ExamEventListing = 'ExamEventListing',
 }
 
 export enum ExamLanguage {

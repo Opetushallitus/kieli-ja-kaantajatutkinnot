@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
 import { FC } from 'react';
 
-import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
+import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
 
-export const PublicHomePage: FC = () => {
+export const PublicEnrollmentPage: FC = () => {
   return (
     <Box className="public-homepage">
       <Grid
@@ -12,7 +12,7 @@ export const PublicHomePage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicExamEventGrid />
+        <PublicEnrollmentGrid />
       </Grid>
     </Box>
   );
