@@ -9,7 +9,7 @@
       "component": {
         "table": {
           "pagination": {
-            "displayedRowsLabel": "Näytetään {{from}} - {{to}} / {{count}} tulosta",
+            "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "rowsPerPage": "Tulokset per sivu"
           }
         }
