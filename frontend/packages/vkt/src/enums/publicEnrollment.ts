@@ -1,5 +1,5 @@
 export enum PublicEnrollmentFormStep {
-  Identify = 1,
+  Authenticate = 1,
   FillContactDetails,
   SelectExam,
   Preview,

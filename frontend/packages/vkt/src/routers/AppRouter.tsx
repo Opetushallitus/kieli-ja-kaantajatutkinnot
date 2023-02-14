@@ -12,9 +12,9 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PublicAuthPage } from 'pages/PublicAuthPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
-import { PublicIdentifyPage } from 'pages/PublicIdentifyPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -42,10 +42,10 @@ export const AppRouter: FC = () => {
                 }
               />
               <Route
-                path={AppRoutes.PublicIdentify}
+                path={AppRoutes.PublicAuth}
                 element={
-                  <TitlePage title={createTitle('identify')}>
-                    <PublicIdentifyPage />
+                  <TitlePage title={createTitle('authenticate')}>
+                    <PublicAuthPage />
                   </TitlePage>
                 }
               />
