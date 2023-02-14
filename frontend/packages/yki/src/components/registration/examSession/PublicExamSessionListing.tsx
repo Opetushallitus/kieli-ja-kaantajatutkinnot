@@ -1,4 +1,6 @@
+import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
+import { TFunction } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import {
   CustomCircularProgress,
@@ -21,6 +23,17 @@ import {
 
 const getRowDetails = (examSession: ExamSession) => {
   return <PublicExamSessionListingRow examSession={examSession} />;
+};
+
+const getDisplayedRowsLabel = (
+  t: TFunction,
+  { from, to, count }: LabelDisplayedRowsArgs
+) => {
+  return t('component.table.pagination.displayedRowsLabel', {
+    from,
+    to,
+    count,
+  });
 };
 
 export const PublicExamSessionListing = () => {
@@ -84,6 +97,9 @@ export const PublicExamSessionListing = () => {
             rowsPerPageLabel={translateCommon(
               'component.table.pagination.rowsPerPage'
             )}
+            labelDisplayedRows={(args) =>
+              getDisplayedRowsLabel(translateCommon, args)
+            }
             stickyHeader
           />
         </>
