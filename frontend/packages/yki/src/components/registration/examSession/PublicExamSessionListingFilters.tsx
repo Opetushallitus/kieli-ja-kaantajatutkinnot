@@ -1,11 +1,17 @@
 import SearchIcon from '@mui/icons-material/Search';
-//import { Box, TextField } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormLabel,
+} from '@mui/material';
 import { useRef } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomButton,
-  CustomSwitch,
   H3,
   LanguageSelect,
 } from 'shared/components';
@@ -134,26 +140,40 @@ export const PublicExamSessionFilters = () => {
           />
         </div>
       </div>
-      <div>
-        <CustomSwitch
-          value={excludeFullSessions}
-          onChange={(_, checked) => {
-            onFilterChange({ excludeFullSessions: checked });
-          }}
-          leftLabel=""
-          rightLabel={t('labels.excludeFullSessions')}
-          aria-label={t('labels.excludeFullSessions')}
-        />
-        <CustomSwitch
-          value={excludeNonOpenSessions}
-          onChange={(_, checked) => {
-            onFilterChange({ excludeNonOpenSessions: checked });
-          }}
-          leftLabel=""
-          rightLabel={t('labels.excludeNonOpenSessions')}
-          aria-label={t('labels.excludeNonOpenSessions')}
-        />
-      </div>
+      <Box className="public-exam-session-filters__toggle-box">
+        <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
+          <FormLabel
+            component="legend"
+            className="public-exam-session-filters__toggle-box__legend bold"
+          >
+            {t('labels.filterExamSessions')}
+          </FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={excludeFullSessions}
+                  onChange={(_, checked) => {
+                    onFilterChange({ excludeFullSessions: checked });
+                  }}
+                />
+              }
+              label={t('labels.excludeFullSessions')}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={excludeNonOpenSessions}
+                  onChange={(_, checked) => {
+                    onFilterChange({ excludeNonOpenSessions: checked });
+                  }}
+                />
+              }
+              label={t('labels.excludeNonOpenSessions')}
+            />
+          </FormGroup>
+        </FormControl>
+      </Box>
       <div className="public-exam-session-filters__btn-box">
         <CustomButton
           data-testid="public-exam-session-filters__filter__empty-btn"

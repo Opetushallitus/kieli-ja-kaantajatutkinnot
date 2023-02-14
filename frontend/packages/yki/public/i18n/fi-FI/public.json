@@ -40,6 +40,7 @@
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taso",
           "selectMunicipality": "Valitse paikkakunta",
+          "filterExamSessions": "Suodata tutkintotilaisuuksia",
           "excludeFullSessions": "Vain tutkintotilaisuudet, joissa on tilaa",
           "excludeNonOpenSessions": "Vain nyt avoinna olevat tutkintotilaisuudet"
         },

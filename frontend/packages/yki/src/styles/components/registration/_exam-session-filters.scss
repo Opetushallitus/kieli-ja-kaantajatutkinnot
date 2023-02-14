@@ -4,6 +4,10 @@
     @include app-bar-bottom;
   }
   */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
   &__dropdown-filters-box {
     display: grid;
     gap: 4rem;
@@ -24,13 +28,21 @@
   &__btn-box {
     display: flex;
     gap: 2rem;
-    margin: 3rem 0;
 
     & > button {
       @include phone {
         flex-grow: 1;
         padding: 0.8rem 3rem;
       }
+    }
+  }
+
+  &__toggle-box {
+    display: flex;
+    gap: 2rem;
+
+    &__legend {
+      color: $color-text-primary !important;
     }
   }
 }

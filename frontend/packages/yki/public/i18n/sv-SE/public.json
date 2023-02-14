@@ -2,6 +2,11 @@
   "yki": {
     "pages": {
       "registrationPage": {
+        "labels": {
+          "filterExamSessions": "Filtrera examenstillfällen",
+          "excludeFullSessions": "Visa endast examenstillfällen med ledigt utrymme",
+          "excludeNonOpenSessions": "Visa endast de examenstillfällen som nu är lediga"
+        },
         "title": "Allmänna språkexamina (YKI) - Anmälning",
         "register": "Anmäl dig",
         "searchResults": "Sökresultat"
