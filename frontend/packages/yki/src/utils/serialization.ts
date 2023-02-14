@@ -22,6 +22,7 @@ export class SerializationUtils {
       registration_end_date: DateUtils.optionalStringToDate(
         es.registration_end_date
       ),
+      exam_fee: parseInt(es.exam_fee as string),
     }));
 
     return { exam_sessions };

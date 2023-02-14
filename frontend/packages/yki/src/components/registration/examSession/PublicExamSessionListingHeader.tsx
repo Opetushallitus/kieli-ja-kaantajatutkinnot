@@ -25,6 +25,9 @@ export const PublicExamSessionListingHeader = () => {
             <H3>{translateCommon('registrationPeriod')}</H3>
           </TableCell>
           <TableCell>
+            <H3>{translateCommon('price')}</H3>
+          </TableCell>
+          <TableCell>
             <H3>{translateCommon('placesAvailable')}</H3>
           </TableCell>
           <TableCell />

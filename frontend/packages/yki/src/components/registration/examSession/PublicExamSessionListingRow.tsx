@@ -40,6 +40,7 @@ export const PublicExamSessionListingRow = ({
         &ndash;{' '}
         {ExamUtils.renderDateTime(examSession.registration_end_date?.hour(16))}
       </TableCell>
+      <TableCell>{examSession.exam_fee} €</TableCell>
       <TableCell>
         {examSession.max_participants - (examSession.participants ?? 0)} /{' '}
         {examSession.max_participants}

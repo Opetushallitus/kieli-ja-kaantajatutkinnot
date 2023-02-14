@@ -29,12 +29,14 @@ interface ExamSessionResponse
     | 'post_admission_end_date'
     | 'registration_start_date'
     | 'registration_end_date'
+    | 'exam_fee'
   > {
   session_date: string;
   post_admission_start_date?: string;
   post_admission_end_date?: string;
   registration_start_date?: string;
   registration_end_date?: string;
+  exam_fee?: string;
 }
 
 export interface ExamSessionLocation {
@@ -54,9 +56,9 @@ export interface ExamSession extends WithId {
   max_participants: number;
   published_at: string;
   location: Array<ExamSessionLocation>;
+  exam_fee: number;
   office_oid?: string;
   organizer_oid?: string;
-  exam_fee?: string;
   contact?: Array<OrganizerContact>;
   open?: boolean;
   queue?: number;
