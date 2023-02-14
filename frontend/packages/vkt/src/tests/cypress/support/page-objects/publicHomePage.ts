@@ -16,8 +16,8 @@ class PublicHomePage {
       cy.findByTestId('public-enrollment__renew-reservation-modal-button'),
     reservationExpiredOkButton: () =>
       cy.findByTestId('public-enrollment__reservation-expired-ok-button'),
-    enrollIdentifyButton: () =>
-      cy.findByTestId('public-enrollment__identify-button'),
+    enrollAuthenticateButton: () =>
+      cy.findByTestId('public-enrollment__authenticate-button'),
   };
 
   clickExamEventRow(id: number) {
@@ -72,8 +72,8 @@ class PublicHomePage {
     this.elements.reservationExpiredOkButton().should('be.visible.enabled');
   }
 
-  clickEnrollIdentifyButton() {
-    this.elements.enrollIdentifyButton().should('be.visible').click();
+  clickEnrollAuthenticateButton() {
+    this.elements.enrollAuthenticateButton().should('be.visible').click();
   }
 
   clickReservationRenewButton() {
