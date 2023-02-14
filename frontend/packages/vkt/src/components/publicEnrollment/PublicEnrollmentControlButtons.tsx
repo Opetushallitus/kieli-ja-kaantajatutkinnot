@@ -46,7 +46,7 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
 
   const handleCancelBtnClick = () => {
-    if (activeStep === PublicEnrollmentFormStep.Identify) {
+    if (activeStep === PublicEnrollmentFormStep.Authenticate) {
       dispatch(cancelPublicEnrollment());
     } else {
       const reservationId = reservationDetails.reservation?.id;
@@ -150,7 +150,7 @@ export const PublicEnrollmentControlButtons = ({
     </CustomButton>
   );
 
-  const renderBack = activeStep !== PublicEnrollmentFormStep.Identify;
+  const renderBack = activeStep !== PublicEnrollmentFormStep.Authenticate;
 
   const renderNext = [
     PublicEnrollmentFormStep.FillContactDetails,

@@ -6,9 +6,10 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
-import fi.oph.vkt.service.PublicIdentificationService;
 import fi.oph.vkt.service.PublicReservationService;
 import java.util.List;
 import javax.annotation.Resource;
@@ -37,10 +38,13 @@ public class PublicController {
   private PublicExamEventService publicExamEventService;
 
   @Resource
-  private PublicIdentificationService publicIdentificationService;
+  private PublicAuthService publicAuthService;
 
   @Resource
   private PublicReservationService publicReservationService;
+
+  @Resource
+  private PersonRepository personRepository;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -50,7 +54,7 @@ public class PublicController {
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(@PathVariable final long examEventId) {
-    final Person person = publicIdentificationService.identify();
+    final Person person = publicAuthService.authenticate();
 
     return publicEnrollmentService.initialiseEnrollment(examEventId, person);
   }
@@ -58,7 +62,7 @@ public class PublicController {
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId) {
-    final Person person = publicIdentificationService.identify();
+    final Person person = publicAuthService.authenticate();
 
     return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
   }
@@ -93,5 +97,10 @@ public class PublicController {
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId) {
     publicReservationService.deleteReservation(reservationId);
+  }
+
+  @GetMapping(path = "/auth/validate/{ticket:\\S+}")
+  public Person validateTicket(@PathVariable final String ticket) {
+    return publicAuthService.validate(ticket);
   }
 }
