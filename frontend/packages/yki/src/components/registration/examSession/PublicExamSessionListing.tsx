@@ -4,7 +4,6 @@ import { TFunction } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import {
   CustomCircularProgress,
-  H2,
   H3,
   ManagedPaginatedTable,
 } from 'shared/components';
@@ -14,12 +13,9 @@ import { useWindowProperties } from 'shared/hooks';
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { /*useAppDispatch,*/ useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
-import {
-  examSessionsSelector,
-  selectFilteredPublicExamSessions,
-} from 'redux/selectors/examSessions';
+import { examSessionsSelector } from 'redux/selectors/examSessions';
 import { TableUtils } from 'utils/table';
 
 const getRowDetails = (examSession: ExamSession) => {
@@ -37,14 +33,17 @@ const getDisplayedRowsLabel = (
   });
 };
 
-export const PublicExamSessionListing = () => {
+export const PublicExamSessionListing = ({
+  examSessions,
+}: {
+  examSessions: Array<ExamSession>;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
   });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
-  const examSessions = useAppSelector(selectFilteredPublicExamSessions);
   //const dispatch = useAppDispatch();
 
   // Pagination
@@ -82,7 +81,13 @@ export const PublicExamSessionListing = () => {
         <>
           <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
-              <H2>{t('searchResults')}</H2>
+              <H3
+                aria-label={t('searchResultsAriaLabel', {
+                  count: examSessions.length,
+                })}
+              >
+                {t('searchResults', { count: examSessions.length })}
+              </H3>
             </div>
           </div>
           <ManagedPaginatedTable

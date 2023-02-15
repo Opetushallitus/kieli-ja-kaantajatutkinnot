@@ -51,6 +51,7 @@ export const PublicExamSessionFilters = ({
   };
 
   const { filters, municipalities } = useAppSelector(examSessionsSelector);
+  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const {
     language,
     level,
@@ -215,7 +216,9 @@ export const PublicExamSessionFilters = ({
           onClick={onApplyFilters}
           startIcon={<SearchIcon />}
         >
-          {`${translateCommon('buttons.search')} (1337)`}
+          {`${translateCommon('buttons.showResults', {
+            count: filteredExamSessions.length,
+          })}`}
         </CustomButton>
       </div>
     </div>

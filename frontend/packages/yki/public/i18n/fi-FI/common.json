@@ -3,8 +3,8 @@
     "common": {
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "buttons": {
-        "empty": "Tyhjennä",
-        "search": "Hae"
+        "empty": "Tyhjennä kaikki",
+        "showResults": "Näytä tulokset ({{count}})"
       },
       "component": {
         "table": {
