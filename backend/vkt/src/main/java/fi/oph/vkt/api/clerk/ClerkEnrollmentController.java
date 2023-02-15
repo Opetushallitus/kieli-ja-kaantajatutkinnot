@@ -11,6 +11,8 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
+import fi.oph.vkt.util.Sanitise;
+import fi.oph.vkt.util.Trim;
 import io.swagger.v3.oas.annotations.Operation;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class ClerkEnrollmentController {
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
-  public ClerkEnrollmentDTO updateEnrollment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
+  public ClerkEnrollmentDTO updateEnrollment(@Trim("dto") @RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
     return clerkEnrollmentService.update(dto);
   }
 
