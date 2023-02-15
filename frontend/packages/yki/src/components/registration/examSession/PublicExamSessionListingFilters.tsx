@@ -5,14 +5,13 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  FormLabel,
+  Typography,
 } from '@mui/material';
 import { useRef } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomButton,
-  H3,
   LanguageSelect,
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
@@ -82,8 +81,15 @@ export const PublicExamSessionFilters = () => {
     <div className="public-exam-session-filters" ref={filtersGridRef}>
       <div className="public-exam-session-filters__dropdown-filters-box">
         <div className="public-exam-session-filters__filter">
-          <H3>{translateCommon('language')}</H3>
+          <Typography
+            variant="h3"
+            component="label"
+            htmlFor="public-exam-session-filters__language-filter"
+          >
+            {translateCommon('language')}
+          </Typography>
           <LanguageSelect
+            id="public-exam-session-filters__language-filter"
             languages={languages}
             translateLanguage={translateLanguage}
             variant={TextFieldVariant.Outlined}
@@ -104,8 +110,15 @@ export const PublicExamSessionFilters = () => {
           />
         </div>
         <div className="public-exam-session-filters__filter">
-          <H3>{translateCommon('level')}</H3>
+          <Typography
+            variant="h3"
+            component="label"
+            htmlFor="public-exam-session-filters__level-filter"
+          >
+            {translateCommon('level')}
+          </Typography>
           <ComboBox
+            id="public-exam-session-filters__level-filter"
             variant={TextFieldVariant.Outlined}
             values={levelValues}
             value={level ? levelToComboBoxOption(level) : null}
@@ -121,8 +134,15 @@ export const PublicExamSessionFilters = () => {
           />
         </div>
         <div className="public-exam-session-filters__filter">
-          <H3> {translateCommon('municipality')}</H3>
+          <Typography
+            variant="h3"
+            component="label"
+            htmlFor="public-exam-session-filters__municipality-filter"
+          >
+            {translateCommon('municipality')}
+          </Typography>{' '}
           <ComboBox
+            id="public-exam-session-filters__municipality-filter"
             variant={TextFieldVariant.Outlined}
             values={municipalities.map(municipalityToComboBoxOption)}
             value={
@@ -142,12 +162,9 @@ export const PublicExamSessionFilters = () => {
       </div>
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
-          <FormLabel
-            component="legend"
-            className="public-exam-session-filters__toggle-box__legend bold"
-          >
+          <Typography variant="h3" component="legend">
             {t('labels.filterExamSessions')}
-          </FormLabel>
+          </Typography>
           <FormGroup>
             <FormControlLabel
               control={

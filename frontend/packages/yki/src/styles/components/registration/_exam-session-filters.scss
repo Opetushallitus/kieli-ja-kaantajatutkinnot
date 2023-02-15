@@ -40,9 +40,5 @@
   &__toggle-box {
     display: flex;
     gap: 2rem;
-
-    &__legend {
-      color: $color-text-primary !important;
-    }
   }
 }

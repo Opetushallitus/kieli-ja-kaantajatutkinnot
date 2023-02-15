@@ -62,9 +62,9 @@ export const RegistrationPage: FC = () => {
           className="public-registration-page__grid-container__item-filters"
         >
           <Paper elevation={3} className="public-registration-page__filters">
-            <H1 className="public-registration-page__filters__heading-title">
+            <H2 className="public-registration-page__filters__heading-title">
               Hae tutkintotilaisuuksia
-            </H1>
+            </H2>
             <Alert
               className="public-registration-page__filters__heading-description"
               severity={Severity.Info}
