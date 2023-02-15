@@ -12,6 +12,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,13 +70,14 @@ public class PublicReservationServiceTest {
     entityManager.persist(person);
     entityManager.persist(reservation);
 
-    assertThrows(
+    final APIException ex = assertThrows(
       APIException.class,
       () -> {
         publicReservationService.renewReservation(reservation.getId());
         publicReservationService.renewReservation(reservation.getId());
       }
     );
+    assertEquals(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED, ex.getExceptionType());
   }
 
   @Test

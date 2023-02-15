@@ -37,9 +37,6 @@ public class Reservation extends BaseEntity {
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
 
-  @Column(name = "created_at", nullable = false)
-  private LocalDateTime createdAt;
-
   @Column(name = "expires_at", nullable = false)
   private LocalDateTime expiresAt;
 
@@ -53,7 +50,7 @@ public class Reservation extends BaseEntity {
 
   @Override
   protected void preUpdate() {
-    if (this.getExpiresAt().equals(previousExpiresAt)) {
+    if (!this.getExpiresAt().equals(previousExpiresAt)) {
       this.setRenewedAt(LocalDateTime.now());
     }
     super.preUpdate();

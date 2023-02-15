@@ -64,7 +64,7 @@ export const PublicEnrollmentTimer = ({
   }, [reservation, expirationTime]);
 
   const renewReservation = () => {
-    dispatch(renewPublicEnrollmentReservation(reservation));
+    dispatch(renewPublicEnrollmentReservation(reservation.id));
     setTimerWarningClosed(true);
   };
 
@@ -73,11 +73,11 @@ export const PublicEnrollmentTimer = ({
   };
 
   const isExpired = progress.secondsDiff <= 0;
-  const warningTreshold = 60 * 3; // 3 minutes
+  const warningThreshold = 60 * 3; // 3 minutes
   const isContinueModalOpen =
     !timerWarningClosed &&
     !isExpired &&
-    progress.secondsDiff < warningTreshold &&
+    progress.secondsDiff < warningThreshold &&
     reservation.isRenewable;
 
   const isExpiredModalOpen = isExpired;

@@ -8,7 +8,6 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -32,7 +31,10 @@ public class PublicReservationService {
       throw new APIException(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED);
     }
 
-    return createReservationDTO(updateExpiresAtForExistingReservation(reservation));
+    reservation.setExpiresAt(newExpiresAt());
+    reservationRepository.flush();
+
+    return createReservationDTO(reservation);
   }
 
   private LocalDateTime newExpiresAt() {
@@ -41,46 +43,21 @@ public class PublicReservationService {
 
   @Transactional
   public PublicReservationDTO createOrReplaceReservation(final ExamEvent examEvent, final Person person) {
-    final Reservation reservation = reservationRepository
+    reservationRepository
       .findByExamEventAndPerson(examEvent, person)
-      .map(this::replaceReservation)
-      .orElseGet(() -> createNewReservation(examEvent, person));
+      .ifPresent(reservation -> reservationRepository.deleteById(reservation.getId()));
 
-    return this.createReservationDTO(reservation);
-  }
-
-  private Reservation replaceReservation(final Reservation reservation) {
-    final Reservation newReservation = new Reservation();
-    final ExamEvent examEvent = reservation.getExamEvent();
-    final Person person = reservation.getPerson();
-
-    reservationRepository.deleteById(reservation.getId());
-
-    newReservation.setExamEvent(examEvent);
-    newReservation.setPerson(person);
-    newReservation.setExpiresAt(newExpiresAt());
-
-    return reservationRepository.saveAndFlush(newReservation);
-  }
-
-  private Reservation createNewReservation(final ExamEvent examEvent, final Person person) {
     final Reservation reservation = new Reservation();
     reservation.setExamEvent(examEvent);
     reservation.setPerson(person);
     reservation.setExpiresAt(newExpiresAt());
 
-    return reservationRepository.saveAndFlush(reservation);
+    reservationRepository.saveAndFlush(reservation);
+
+    return createReservationDTO(reservation);
   }
 
-  private Reservation updateExpiresAtForExistingReservation(final Reservation reservation) {
-    reservation.setExpiresAt(newExpiresAt());
-    reservation.setRenewedAt(LocalDateTime.now());
-    reservationRepository.flush();
-
-    return reservation;
-  }
-
-  public PublicReservationDTO createReservationDTO(Reservation reservation) {
+  private PublicReservationDTO createReservationDTO(final Reservation reservation) {
     final ZonedDateTime renewedAt = reservation.getRenewedAt() != null
       ? ZonedDateTime.of(reservation.getRenewedAt(), ZoneId.systemDefault())
       : null;

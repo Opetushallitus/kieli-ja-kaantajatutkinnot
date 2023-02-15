@@ -21,7 +21,7 @@ export const handlers = [
       expiresAt: fixedDateForTests.add(59, 'minute').format(),
       createdAt: fixedDateForTests.format(),
       renewedAt: fixedDateForTests.add(29, 'minute').format(),
-      isRenewable: true,
+      isRenewable: false,
     };
 
     return res(ctx.status(201), ctx.json(response));

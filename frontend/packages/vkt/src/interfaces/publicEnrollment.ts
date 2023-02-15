@@ -29,7 +29,6 @@ export interface PublicReservationResponse
   expiresAt: string;
   renewedAt?: string;
   createdAt: string;
-  isRenewable: boolean;
 }
 
 export interface PublicReservationDetailsResponse

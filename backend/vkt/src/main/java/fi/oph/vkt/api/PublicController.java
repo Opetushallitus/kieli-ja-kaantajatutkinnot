@@ -85,7 +85,6 @@ public class PublicController {
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
-  @ResponseStatus(HttpStatus.OK)
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId) {
     // TODO: get identity from session and check that it belongs to this reservation?
     return publicReservationService.renewReservation(reservationId);

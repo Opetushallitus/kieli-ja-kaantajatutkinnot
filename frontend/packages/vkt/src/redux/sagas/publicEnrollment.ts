@@ -7,7 +7,6 @@ import { APIEndpoints } from 'enums/api';
 import { PublicUIViews } from 'enums/app';
 import {
   PublicEnrollment,
-  PublicReservation,
   PublicReservationDetails,
   PublicReservationDetailsResponse,
   PublicReservationResponse,
@@ -54,16 +53,13 @@ function* initialisePublicEnrollmentSaga(
   }
 }
 
-function* renewPublicEnrollmentReservationSaga(
-  action: PayloadAction<PublicReservation>
-) {
+function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
   try {
-    const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload.id}/renew`;
+    const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload}/renew`;
 
     const response: AxiosResponse<PublicReservationResponse> = yield call(
       axiosInstance.put,
-      renewUrl,
-      action.payload
+      renewUrl
     );
 
     const reservation = SerializationUtils.deserializeReservation(

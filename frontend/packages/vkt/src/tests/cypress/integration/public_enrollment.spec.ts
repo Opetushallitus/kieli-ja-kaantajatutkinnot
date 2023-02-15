@@ -29,7 +29,7 @@ describe('Public enrollment', () => {
       onPublicHomePage.expectReservationTimeLeft('29', '30');
     });
 
-    it('reservation expired should info modal', () => {
+    it('reservation expired should display info modal', () => {
       cy.tick(31 * 60 * 1000);
       onPublicHomePage.expectReservationExpiredOkButtonEnabled();
     });

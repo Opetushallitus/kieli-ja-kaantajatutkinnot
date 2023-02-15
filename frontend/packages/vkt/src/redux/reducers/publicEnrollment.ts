@@ -59,10 +59,7 @@ const publicEnrollmentSlice = createSlice({
       state.reservationDetailsStatus = APIResponseStatus.Success;
       state.reservationDetails = action.payload;
     },
-    renewPublicEnrollmentReservation(
-      state,
-      _action: PayloadAction<PublicReservation>
-    ) {
+    renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
     updatePublicEnrollmentReservation(

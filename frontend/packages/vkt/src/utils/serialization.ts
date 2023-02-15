@@ -58,7 +58,7 @@ export class SerializationUtils {
     return {
       ...reservation,
       expiresAt: dayjs(reservation.expiresAt),
-      renewedAt: dayjs(reservation.renewedAt),
+      renewedAt: DateUtils.optionalStringToDate(reservation.renewedAt),
       createdAt: dayjs(reservation.createdAt),
     };
   }

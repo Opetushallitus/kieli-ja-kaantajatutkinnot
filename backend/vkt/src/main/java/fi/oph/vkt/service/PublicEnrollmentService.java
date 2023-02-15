@@ -17,9 +17,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -35,7 +33,6 @@ public class PublicEnrollmentService {
   private final PersonRepository personRepository;
   private final ReservationRepository reservationRepository;
   private final PublicReservationService publicReservationService;
-  private final Environment environment;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -67,10 +64,6 @@ public class PublicEnrollmentService {
       .stream()
       .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
       .count();
-  }
-
-  private LocalDateTime newExpiresAt() {
-    return LocalDateTime.now().plus(Duration.parse(environment.getRequiredProperty("app.reservation.duration")));
   }
 
   private PublicEnrollmentInitialisationDTO createEnrollmentInitialisationDTO(
