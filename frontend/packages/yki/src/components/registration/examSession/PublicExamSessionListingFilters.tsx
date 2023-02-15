@@ -24,9 +24,18 @@ import {
   resetPublicExamSessionFilters,
   setPublicExamSessionFilters,
 } from 'redux/reducers/examSessions';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import {
+  examSessionsSelector,
+  selectFilteredPublicExamSessions,
+} from 'redux/selectors/examSessions';
 
-export const PublicExamSessionFilters = () => {
+export const PublicExamSessionFilters = ({
+  onApplyFilters,
+  onEmptyFilters,
+}: {
+  onApplyFilters: () => void;
+  onEmptyFilters: () => void;
+}) => {
   // I18
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -55,14 +64,12 @@ export const PublicExamSessionFilters = () => {
     dispatch(setPublicExamSessionFilters(filter));
   };
 
-  // TODO Fixme
-  const searchButtonDisabled = false;
   const handleEmptyBtnClick = () => {
     dispatch(resetPublicExamSessionFilters());
+    onEmptyFilters();
     scrollToSearch();
   };
-  // eslint-disable-next-line no-console
-  const handleSearchBtnClick = () => console.log('search btn clicked..');
+
   const languages = Object.values(ExamLanguage);
   const translateLanguage = (language: string) =>
     translateCommon('languages.' + language);
@@ -201,11 +208,11 @@ export const PublicExamSessionFilters = () => {
           {translateCommon('buttons.empty')}
         </CustomButton>
         <CustomButton
-          disabled={searchButtonDisabled}
+          disabled={false}
           data-testid="public-exam-session-filters__filter__search-btn"
           color={Color.Secondary}
           variant={Variant.Contained}
-          onClick={handleSearchBtnClick}
+          onClick={onApplyFilters}
           startIcon={<SearchIcon />}
         >
           {`${translateCommon('buttons.search')} (1337)`}

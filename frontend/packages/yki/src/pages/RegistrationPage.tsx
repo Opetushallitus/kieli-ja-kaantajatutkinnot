@@ -1,5 +1,5 @@
 import { Alert, Box, Grid, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
@@ -7,8 +7,12 @@ import { PublicExamSessionListing } from 'components/registration/examSession/Pu
 import { PublicExamSessionFilters } from 'components/registration/examSession/PublicExamSessionListingFilters';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSessions } from 'redux/reducers/examSessions';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import {
+  examSessionsSelector,
+  selectFilteredPublicExamSessions,
+} from 'redux/selectors/examSessions';
 
 /*
 const ExamSessionsSkeleton = () => {
@@ -25,12 +29,23 @@ export const RegistrationPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(examSessionsSelector);
+  const { status, exam_sessions } = useAppSelector(examSessionsSelector);
+  const [results, setResults] = useState<Array<ExamSession>>([]);
+  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
+  const onApplyFilters = () => {
+    setResults(filteredExamSessions);
+  };
+  const onEmptyFilters = () => {
+    setResults(exam_sessions);
+  };
+
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamSessions());
+    } else if (status === APIResponseStatus.Success) {
+      setResults(exam_sessions);
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, exam_sessions]);
 
   const hasResults = true;
   const hasNoResults = false;
@@ -71,11 +86,14 @@ export const RegistrationPage: FC = () => {
             >
               Joku lisähuomio hakukriteereistä tähän?
             </Alert>
-            <PublicExamSessionFilters />
+            <PublicExamSessionFilters
+              onApplyFilters={onApplyFilters}
+              onEmptyFilters={onEmptyFilters}
+            />
           </Paper>
         </Grid>
         <Grid item className="public-homepage__grid-container__result-box">
-          {hasResults && <PublicExamSessionListing />}
+          {hasResults && <PublicExamSessionListing examSessions={results} />}
           {hasNoResults && (
             <H2 className="public-homepage__grid-container__result-box__no-results">
               {t('noSearchResults')}

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamLanguage } from 'enums/app';
 import { ExamSessionFilters, ExamSessions } from 'interfaces/examSessions';
 
 interface ExamSessionsState extends ExamSessions {
@@ -15,8 +14,7 @@ const initialState: ExamSessionsState = {
   municipalities: [],
   status: APIResponseStatus.NotStarted,
   filters: {
-    // TODO FIN or undefined?
-    language: ExamLanguage.FIN,
+    language: undefined,
     level: undefined,
     municipality: undefined,
     excludeFullSessions: false,
