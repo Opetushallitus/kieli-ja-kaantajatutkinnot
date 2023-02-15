@@ -20,6 +20,7 @@ import {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
+  rejectPublicReservationSave,
   renewPublicEnrollmentReservation,
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
@@ -49,7 +50,7 @@ function* initialisePublicEnrollmentSaga(
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicEnrollmentInitialisation());
+    yield put(rejectPublicReservationSave());
   }
 }
 
