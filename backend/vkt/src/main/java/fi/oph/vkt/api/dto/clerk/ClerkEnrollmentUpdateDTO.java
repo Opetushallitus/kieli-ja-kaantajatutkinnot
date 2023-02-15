@@ -2,6 +2,7 @@ package fi.oph.vkt.api.dto.clerk;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -24,4 +25,13 @@ public record ClerkEnrollmentUpdateDTO(
   String postalCode,
   String town,
   String country
-) {}
+) {
+    public ClerkEnrollmentUpdateDTO {
+        previousEnrollment = previousEnrollment.trim();
+        street = street.trim();
+        town = town.trim();
+        country = country.trim();
+        email = email.trim();
+        phoneNumber = phoneNumber.trim();
+    }
+}
