@@ -9,7 +9,9 @@
       "component": {
         "table": {
           "pagination": {
+            "backButtonLabel": "Edelliset hakutulokset",
             "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
           }
         }

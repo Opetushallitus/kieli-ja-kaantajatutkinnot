@@ -20,6 +20,7 @@ import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
+import { TableUtils } from 'utils/table';
 
 const getRowDetails = (examSession: ExamSession) => {
   return <PublicExamSessionListingRow examSession={examSession} />;
@@ -100,6 +101,8 @@ export const PublicExamSessionListing = () => {
             labelDisplayedRows={(args) =>
               getDisplayedRowsLabel(translateCommon, args)
             }
+            backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+            nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
             stickyHeader
           />
         </>
