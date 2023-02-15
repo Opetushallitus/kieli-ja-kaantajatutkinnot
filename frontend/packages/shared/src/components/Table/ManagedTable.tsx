@@ -28,6 +28,8 @@ export function ManagedPaginatedTable<T extends WithId>({
   rowsPerPage,
   onRowsPerPageChange,
   labelDisplayedRows,
+  backIconButtonProps,
+  nextIconButtonProps,
 }: ManagedPaginatedTableProps<T>): JSX.Element {
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
     onPageChange(0);
@@ -54,6 +56,8 @@ export function ManagedPaginatedTable<T extends WithId>({
         rowsPerPageOptions={rowsPerPageOptions}
         labelRowsPerPage={rowsPerPageLabel}
         labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
+        backIconButtonProps={backIconButtonProps}
+        nextIconButtonProps={nextIconButtonProps}
       />
     </div>
   );

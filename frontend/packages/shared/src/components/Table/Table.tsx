@@ -1,4 +1,5 @@
 import {
+  IconButtonProps,
   LabelDisplayedRowsArgs,
   Table,
   TableBody,
@@ -24,6 +25,8 @@ export interface PaginatedTableProps<T extends WithId> {
   labelDisplayedRows?: (
     labelDisplayedRowsArgs: LabelDisplayedRowsArgs
   ) => React.ReactNode;
+  backIconButtonProps?: Partial<IconButtonProps>;
+  nextIconButtonProps?: Partial<IconButtonProps>;
 }
 
 export const defaultDisplayedRowsLabel = ({
@@ -47,6 +50,8 @@ export function PaginatedTable<T extends WithId>({
   headerContent,
   size = 'medium',
   labelDisplayedRows,
+  backIconButtonProps,
+  nextIconButtonProps
 }: PaginatedTableProps<T>): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
@@ -73,6 +78,8 @@ export function PaginatedTable<T extends WithId>({
         rowsPerPageOptions={rowsPerPageOptions}
         labelRowsPerPage={rowsPerPageLabel}
         labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
+        backIconButtonProps={backIconButtonProps}
+        nextIconButtonProps={nextIconButtonProps}
       />
     </div>
   );
