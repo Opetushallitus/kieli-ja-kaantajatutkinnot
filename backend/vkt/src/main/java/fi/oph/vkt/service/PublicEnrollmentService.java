@@ -17,15 +17,10 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +32,7 @@ public class PublicEnrollmentService {
   private final ExamEventRepository examEventRepository;
   private final PersonRepository personRepository;
   private final ReservationRepository reservationRepository;
-  private final Environment environment;
+  private final PublicReservationService publicReservationService;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -62,16 +57,7 @@ public class PublicEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    final Reservation reservation = reservationRepository
-      .findByExamEventAndPerson(examEvent, person)
-      .map(this::updateExpiresAtForExistingReservation)
-      .orElseGet(() -> createNewReservation(examEvent, person));
-
-    final PublicReservationDTO reservationDTO = PublicReservationDTO
-      .builder()
-      .id(reservation.getId())
-      .expiresAt(ZonedDateTime.of(reservation.getExpiresAt(), ZoneId.systemDefault()))
-      .build();
+    final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
   }
@@ -87,26 +73,6 @@ public class PublicEnrollmentService {
       .stream()
       .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
       .count();
-  }
-
-  private Reservation updateExpiresAtForExistingReservation(final Reservation reservation) {
-    reservation.setExpiresAt(newExpiresAt());
-    reservationRepository.flush();
-
-    return reservation;
-  }
-
-  private Reservation createNewReservation(final ExamEvent examEvent, final Person person) {
-    final Reservation reservation = new Reservation();
-    reservation.setExamEvent(examEvent);
-    reservation.setPerson(person);
-    reservation.setExpiresAt(newExpiresAt());
-
-    return reservationRepository.saveAndFlush(reservation);
-  }
-
-  private LocalDateTime newExpiresAt() {
-    return LocalDateTime.now().plus(Duration.parse(environment.getRequiredProperty("app.reservation.duration")));
   }
 
   private PublicEnrollmentInitialisationDTO createEnrollmentInitialisationDTO(

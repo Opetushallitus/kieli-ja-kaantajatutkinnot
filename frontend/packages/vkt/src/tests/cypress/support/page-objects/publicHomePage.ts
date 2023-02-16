@@ -10,6 +10,12 @@ class PublicHomePage {
       cy.findByTestId(row(id)).find('input[type=checkbox]'),
     languageFilter: () => cy.findByTestId('exam-events__language-filter'),
     pagination: () => cy.get('.table__head-box__pagination'),
+    reservationTimerText: () =>
+      cy.findByTestId('public-enrollment__reservation-timer-text'),
+    reservationRenewButton: () =>
+      cy.findByTestId('public-enrollment__renew-reservation-modal-button'),
+    reservationExpiredOkButton: () =>
+      cy.findByTestId('public-enrollment__reservation-expired-ok-button'),
   };
 
   clickExamEventRow(id: number) {
@@ -58,6 +64,21 @@ class PublicHomePage {
 
   clickEnrollButton() {
     this.elements.enrollButton().should('be.visible').click();
+  }
+
+  expectReservationExpiredOkButtonEnabled() {
+    this.elements.reservationExpiredOkButton().should('be.visible.enabled');
+  }
+
+  clickReservationRenewButton() {
+    this.elements.reservationRenewButton().should('be.visible').click();
+  }
+
+  expectReservationTimeLeft(minutes: string, seconds: string) {
+    this.elements
+      .reservationTimerText()
+      .should('be.visible')
+      .should('contain.text', `${minutes}:${seconds}`);
   }
 }
 

@@ -39,6 +39,16 @@
           "pay": "Siirry maksamaan",
           "sendForm": "Lähetä lomake"
         },
+        "expirationTimer": {
+          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "continueEnrollment": "Jatka ilmoittautumista",
+          "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\".",
+          "cancelReservation": "Peruuta ilmoittautuminen",
+          "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
+          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiredContinue": "Jatka etusivulle"
+        },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",

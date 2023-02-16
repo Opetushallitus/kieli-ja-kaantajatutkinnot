@@ -5,4 +5,10 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PublicReservationDTO(@NonNull Long id, @NonNull ZonedDateTime expiresAt) {}
+public record PublicReservationDTO(
+  @NonNull Long id,
+  @NonNull ZonedDateTime createdAt,
+  @NonNull ZonedDateTime expiresAt,
+  ZonedDateTime renewedAt,
+  @NonNull Boolean isRenewable
+) {}

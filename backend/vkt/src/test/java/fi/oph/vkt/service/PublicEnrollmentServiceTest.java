@@ -67,13 +67,17 @@ public class PublicEnrollmentServiceTest {
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
 
+    final PublicReservationService publicReservationService = new PublicReservationService(
+      reservationRepository,
+      environment
+    );
     publicEnrollmentService =
       new PublicEnrollmentService(
         enrollmentRepository,
         examEventRepository,
         personRepository,
         reservationRepository,
-        environment
+        publicReservationService
       );
   }
 

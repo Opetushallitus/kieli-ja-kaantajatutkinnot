@@ -8,6 +8,7 @@ import {
   PublicEnrollment,
   PublicReservationDetails,
   PublicReservationDetailsResponse,
+  PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -19,9 +20,12 @@ import {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
+  rejectPublicReservationRenew,
+  renewPublicEnrollmentReservation,
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
+  updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
@@ -46,6 +50,27 @@ function* initialisePublicEnrollmentSaga(
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
     yield put(rejectPublicEnrollmentInitialisation());
+  }
+}
+
+function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
+  try {
+    const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload}/renew`;
+
+    const response: AxiosResponse<PublicReservationResponse> = yield call(
+      axiosInstance.put,
+      renewUrl
+    );
+
+    const reservation = SerializationUtils.deserializeReservation(
+      response.data
+    );
+
+    yield put(updatePublicEnrollmentReservation(reservation));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicReservationRenew());
   }
 }
 
@@ -99,6 +124,10 @@ function* loadPublicEnrollmentSaveSaga(
 
 export function* watchPublicEnrollments() {
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
+  yield takeLatest(
+    renewPublicEnrollmentReservation,
+    renewPublicEnrollmentReservationSaga
+  );
   yield takeLatest(cancelPublicEnrollment, cancelPublicEnrollmentSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,

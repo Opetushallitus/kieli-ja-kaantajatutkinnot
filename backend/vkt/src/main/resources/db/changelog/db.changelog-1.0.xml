@@ -442,4 +442,9 @@
                       newColumnName="previous_enrollment" />
     </changeSet>
 
+    <changeSet id="2023-02-03-add_reservation-table_renewed_at" author="jrkkp">
+        <addColumn tableName="reservation">
+            <column name="renewed_at" type="TIMESTAMP WITH TIME ZONE" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
