@@ -76,36 +76,30 @@ If there is a case where the learners need to be deleted and re-initialised for 
 been updated via some means after their creation outside from the APIs we use, there's a
 chance deletion of learners fails due to some foreign key constraint.
 
-&nbsp;
-
 ## Frontend
 
 ### Build and Run
 
 ```sh
-npm install
-npm run start  # Starts Webpack DevServer
+yarn install
+yarn otr:start  # Starts Webpack DevServer
 ```
 
 and the app runs on > <http://localhost:4001/otr/etusivu>
-
-```sh
-npm run build # Builds the app for production to the dist folder.
-```
 
 ### Running tests
 
 End-to-end tests:
 
 ```sh
-npm run test:cypress
+yarn otr:test:cypress
 ```
 
 Unit and Integration tests
 
 ```sh
-npm run test:jest
-npm run test:jest -- -u  # Regenerate snapshots
+yarn otr:test:jest
+yarn otr:test:jest -- -u  # Regenerate snapshots
 ```
 
 ## Documentation
