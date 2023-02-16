@@ -20,7 +20,7 @@ import {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
-  rejectPublicReservationSave,
+  rejectPublicReservationRenew,
   renewPublicEnrollmentReservation,
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
@@ -71,7 +71,7 @@ function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicReservationSave());
+    yield put(rejectPublicReservationRenew());
   }
 }
 

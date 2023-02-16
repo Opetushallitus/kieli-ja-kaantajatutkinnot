@@ -62,6 +62,9 @@ const publicEnrollmentSlice = createSlice({
     renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
+    rejectPublicReservationRenew(state) {
+      state.status = APIResponseStatus.Error;
+    },
     updatePublicEnrollmentReservation(
       state,
       action: PayloadAction<PublicReservation>
@@ -109,9 +112,6 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.status = APIResponseStatus.InProgress;
     },
-    rejectPublicReservationSave(state) {
-      state.status = APIResponseStatus.Error;
-    },
     rejectPublicEnrollmentSave(state) {
       state.status = APIResponseStatus.Error;
     },
@@ -136,7 +136,7 @@ export const {
   updatePublicEnrollmentReservation,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentSave,
-  rejectPublicReservationSave,
+  rejectPublicReservationRenew,
   storePublicEnrollmentSave,
   renewPublicEnrollmentReservation,
 } = publicEnrollmentSlice.actions;
