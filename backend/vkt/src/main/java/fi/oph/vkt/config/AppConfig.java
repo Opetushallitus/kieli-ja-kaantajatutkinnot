@@ -3,6 +3,7 @@ package fi.oph.vkt.config;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.util.TrimAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,6 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
-@EnableAspectJAutoProxy
 public class AppConfig {
 
   private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);

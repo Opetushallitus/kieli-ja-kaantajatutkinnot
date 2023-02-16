@@ -3,6 +3,7 @@ package fi.oph.vkt.api.dto.clerk;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import fi.oph.vkt.util.Trim;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -17,7 +18,7 @@ public record ClerkEnrollmentUpdateDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  String previousEnrollment,
+  @Trim String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
   @NonNull @NotBlank String email,
   @NonNull @NotBlank String phoneNumber,
@@ -26,12 +27,7 @@ public record ClerkEnrollmentUpdateDTO(
   String town,
   String country
 ) {
+    @Trim
     public ClerkEnrollmentUpdateDTO {
-        previousEnrollment = previousEnrollment.trim();
-        street = street.trim();
-        town = town.trim();
-        country = country.trim();
-        email = email.trim();
-        phoneNumber = phoneNumber.trim();
     }
 }

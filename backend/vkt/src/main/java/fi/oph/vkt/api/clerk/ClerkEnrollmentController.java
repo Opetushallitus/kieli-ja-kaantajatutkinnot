@@ -46,7 +46,7 @@ public class ClerkEnrollmentController {
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
-  public ClerkEnrollmentDTO updateEnrollment(@Trim("dto") @RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
+  public ClerkEnrollmentDTO updateEnrollment(@Trim @RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
     return clerkEnrollmentService.update(dto);
   }
 
