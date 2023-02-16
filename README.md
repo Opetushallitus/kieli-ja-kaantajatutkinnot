@@ -8,7 +8,7 @@ This mono-repo contains the language and translator services of the Finnish Nati
 
 - Maven 3.1+
 - JDK 17
-- PostgreSQL 12.9
+- PostgreSQL 14.7
 - node v16.16.0
 - yarn 3.2.2 (to enable it, run the following command: `corepack enable`)
 
@@ -26,12 +26,35 @@ In addition, the shared frontend content can be found [here](./docs/shared_front
 
 &nbsp;
 
+## Development setup initialisation with Docker
+
+1. Download Docker Desktop
+2. Build containers for a specific app
+```sh
+docker-compose -f docker-compose-<app>.yml build
+```
+3. Run mvn install for the backend: `cd backend/<app>; ./mwnw install`
+4. Run the app with docker-compose
+```sh
+docker-compose -f docker-compose-<app>.yml up
+```
+
+In order to connect the database from terminal, download a PostgreSQL client (14.x). For example with OSX with Homebrew:
+```sh
+brew install postgresql@14
+```
+
+Or use PostgresSQL client inside docker:
+```sh
+docker exec -ti <app>-postgres psql -U postgres -d <app>-postgres
+```
+
 ## Development
 
 Create and start database, backend, and frontend containers for a specific application:
 
 ```sh
-docker-compose -f <service-docker-compose-file-name.yml> up
+docker-compose -f docker-compose-<app>.yml up
 ```
 
 Or
@@ -46,14 +69,14 @@ To disable default Spring Security configurations, create the following environm
 
 ```sh
 export AKR_UNSECURE=true
-docker-compose -f <service-docker-compose-file-name.yml> up
+docker-compose -f docker-compose-<app>.yml up
 ```
 
 In case of errors, clean cache and recreate volumes:
 
 ```sh
-docker-compose -f <service-docker-compose-file-name.yml> down
-docker-compose -f <service-docker-compose-file-name.yml> up --build --force-recreate --renew-anon-volumes
+docker-compose -f docker-compose-<app>.yml down
+docker-compose -f docker-compose-<app>.yml up --build --force-recreate --renew-anon-volumes
 ```
 
 After starting the services, the frontend runs on > <http://localhost:4000>
@@ -84,10 +107,10 @@ The project uses the shared workspace configs. In order to keep code clean and e
 - [stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
 - [sort-json](https://marketplace.visualstudio.com/items?itemName=richie5um2.vscode-sort-json)
 
-To reformat all frontend files, run:
+To reformat all frontend files for a certain application, run:
 
 ```sh
-npm run <project-name>:lint
+yarn <app>:format:write
 ```
 
 &nbsp;
@@ -147,12 +170,24 @@ AKR(Frontend): Added new translations
 
 ### Branching naming conventions
 
-Jira ticket numbers are used as branch names without any extra suffixes.
+Jira ticket numbers are used as branch names with possible suffix indicating what the branch is for.
 
-Used prefixes are `feature`, `hotfix`, and `release`. Below are some examples.
+Used prefixes are `feature`, and `hotfix`. Below are some examples.
 
 ```sh
 feature/<ticket-number>         ---->   feature/OPHAKRKEH-250
 hotfix/<service-name>           ---->   hotfix/akr
-release/<service-name/<date>    ---->   release/akr/2022-04-12
+```
+
+### Releases
+
+Production releases for different applications are marked with tags. For example for AKR, tags are named as `AKR-ga-1234` where `ga-1234` stands for the Github Action workflow number. The name of the tag also matches the name of the release in Jira.
+
+In order to create a new release for example for AKR, check the commit ID of the build to be released, hard reset your local repository to that commit, create tag
+```sh
+git tag AKR-ga-1234
+```
+and push the tag to remote repository
+```sh
+git push origin AKR-ga-1234
 ```
