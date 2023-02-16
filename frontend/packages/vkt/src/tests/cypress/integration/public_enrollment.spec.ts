@@ -15,6 +15,7 @@ describe('Public enrollment', () => {
     });
 
     it('reservation should have timer', () => {
+      onPublicHomePage.clickEnrollIdentifyButton();
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(3000);
       onPublicHomePage.expectReservationTimeLeft('29', '57');
@@ -23,6 +24,7 @@ describe('Public enrollment', () => {
     });
 
     it('reservation should allow renewal', () => {
+      onPublicHomePage.clickEnrollIdentifyButton();
       cy.tick(29 * 60 * 1000);
       onPublicHomePage.clickReservationRenewButton();
       cy.tick(30 * 1000);
@@ -30,6 +32,7 @@ describe('Public enrollment', () => {
     });
 
     it('reservation expired should display info modal', () => {
+      onPublicHomePage.clickEnrollIdentifyButton();
       cy.tick(31 * 60 * 1000);
       onPublicHomePage.expectReservationExpiredOkButtonEnabled();
     });
