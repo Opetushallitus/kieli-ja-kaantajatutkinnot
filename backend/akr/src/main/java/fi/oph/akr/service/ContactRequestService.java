@@ -216,19 +216,19 @@ public class ContactRequestService {
   }
 
   private String getRequesterName(final ContactRequestDTO contactRequestDTO) {
-    return contactRequestDTO.firstName().trim() + " " + contactRequestDTO.lastName().trim();
+    return contactRequestDTO.firstName() + " " + contactRequestDTO.lastName();
   }
 
   private String getRequesterEmail(final ContactRequestDTO contactRequestDTO) {
-    return contactRequestDTO.email().trim();
+    return contactRequestDTO.email();
   }
 
   private String getRequesterPhone(final ContactRequestDTO contactRequestDTO) {
-    return contactRequestDTO.phoneNumber() != null ? contactRequestDTO.phoneNumber().trim() : "";
+    return contactRequestDTO.phoneNumber() != null ? contactRequestDTO.phoneNumber() : "";
   }
 
   private String[] getMessageLines(final ContactRequestDTO contactRequestDTO) {
-    return contactRequestDTO.message().trim().split("\r?\n");
+    return contactRequestDTO.message().split("\r?\n");
   }
 
   private void createEmail(

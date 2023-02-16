@@ -56,7 +56,7 @@ public class ClerkEmailService {
         .ifPresent(recipientAddress -> {
           final String recipientName = translator.getFullName();
 
-          final String emailSubject = emailRequestDTO.subject().trim();
+          final String emailSubject = emailRequestDTO.subject();
           final String emailBody = getInformalEmailBody(emailRequestDTO.body());
           createEmail(recipientName, recipientAddress, emailSubject, emailBody, EmailType.INFORMAL);
         })
@@ -64,7 +64,7 @@ public class ClerkEmailService {
   }
 
   private String getInformalEmailBody(final String message) {
-    final String[] messageLines = message.trim().split("\r?\n");
+    final String[] messageLines = message.split("\r?\n");
     final Map<String, Object> params = Map.of("messageLines", messageLines);
     return templateRenderer.renderClerkInformalEmailBody(params);
   }
