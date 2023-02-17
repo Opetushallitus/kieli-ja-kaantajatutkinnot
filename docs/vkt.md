@@ -57,36 +57,30 @@ Or
 
 Set `VKT_UNSECURE=true` environment variable as shown [here](../README.md#development).
 
-&nbsp;
-
 ## Frontend
 
 ### Build and Run
 
 ```sh
-npm install
-npm run start  # Starts Webpack DevServer
+yarn install
+yarn vkt:start  # Starts Webpack DevServer
 ```
 
 and the app runs on > <http://localhost:4002/vkt/etusivu>
-
-```sh
-npm run build # Builds the app for production to the dist folder.
-```
 
 ### Running tests
 
 End-to-end tests:
 
 ```sh
-npm run test:cypress
+yarn vkt:test:cypress
 ```
 
 Unit and Integration tests
 
 ```sh
-npm run test:jest
-npm run test:jest -- -u  # Regenerate snapshots
+yarn vkt:test:jest
+yarn vkt:test:jest -- -u  # Regenerate snapshots
 ```
 
 ## Documentation

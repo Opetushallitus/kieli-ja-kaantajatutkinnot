@@ -2,6 +2,7 @@ export enum APIEndpoints {
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
+  PublicIdentification = '/vkt/api/v1/identification',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
@@ -18,5 +19,6 @@ export enum APIError {
   InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
+  InitialiseEnrollmentDuplicatePerson = 'initialiseEnrollmentDuplicatePerson',
   InvalidVersion = 'invalidVersion',
 }

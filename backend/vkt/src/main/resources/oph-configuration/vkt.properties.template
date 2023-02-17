@@ -13,3 +13,5 @@ virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
+
+reservation.duration=PT30M

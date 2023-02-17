@@ -1,11 +1,12 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
+import { useNavigate } from 'react-router';
 import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
@@ -26,13 +27,7 @@ export const PublicExamEventListingHeader = () => {
     selectedExamEvent.hasCongestion ||
     isInitialisationInProgress;
 
-  const dispatch = useAppDispatch();
-
-  const initialiseEnrollment = () => {
-    if (selectedExamEvent) {
-      dispatch(initialisePublicEnrollment(selectedExamEvent));
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <TableHead>
@@ -58,7 +53,7 @@ export const PublicExamEventListingHeader = () => {
                 color={Color.Secondary}
                 variant={Variant.Contained}
                 disabled={enrollButtonDisabled}
-                onClick={initialiseEnrollment}
+                onClick={() => navigate(AppRoutes.PublicIdentify)}
               >
                 {t('enroll')}
               </CustomButton>

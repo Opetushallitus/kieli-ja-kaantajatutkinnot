@@ -88,7 +88,7 @@ public class ClerkInterpreterService {
       .stream()
       .collect(Collectors.groupingBy(q -> q.getInterpreter().getId()));
 
-    final List<Interpreter> interpreters = interpreterRepository.findAll();
+    final List<Interpreter> interpreters = interpreterRepository.findExistingInterpreters();
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     return interpreters
@@ -132,7 +132,6 @@ public class ClerkInterpreterService {
       .builder()
       .id(interpreter.getId())
       .version(interpreter.getVersion())
-      .deleted(interpreter.isDeleted())
       .isIndividualised(personalData.getIndividualised())
       .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
       .identityNumber(personalData.getIdentityNumber())
@@ -382,14 +381,12 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO deleteInterpreter(final long id) {
+  public void deleteInterpreter(final long id) {
     final Interpreter interpreter = interpreterRepository.getReferenceById(id);
     interpreter.markDeleted();
     interpreter.getQualifications().forEach(BaseEntity::markDeleted);
 
-    final ClerkInterpreterDTO result = getInterpreterWithoutAudit(id);
     auditService.logById(OtrOperation.DELETE_INTERPRETER, id);
-    return result;
   }
 
   @Transactional

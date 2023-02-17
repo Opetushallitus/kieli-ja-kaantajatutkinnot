@@ -65,36 +65,30 @@ Set `AKR_UNSECURE=true` environment variable as shown [here](../README.md#develo
 
 `ExpiringAuthorisationsEmailCreator` does scheduling of finding expiring authorisations, and creating reminder emails about them. It is run every 12 hours (`FIXED_DELAY`). The reminder emails that are created are eventually sent via `EmailScheduledSending`.
 
-&nbsp;
-
 ## Frontend
 
 ### Build and Run
 
 ```sh
-npm install
-npm run start  # Starts Webpack DevServer
+yarn install
+yarn akr:start  # Starts Webpack DevServer
 ```
 
 and the app runs on > <http://localhost:4000/akr/etusivu>
-
-```sh
-npm run build # Builds the app for production to the dist folder.
-```
 
 ### Running tests
 
 End-to-end tests:
 
 ```sh
-npm run test:cypress
+yarn akr:test:cypress
 ```
 
 Unit and Integration tests
 
 ```sh
-npm run test:jest
-npm run test:jest -- -u  # Regenerate snapshots
+yarn akr:test:jest
+yarn akr:test:jest -- -u  # Regenerate snapshots
 ```
 
 ## Documentation

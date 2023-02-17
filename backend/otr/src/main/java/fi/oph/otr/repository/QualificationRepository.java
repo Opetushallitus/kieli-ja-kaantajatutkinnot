@@ -10,13 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QualificationRepository extends BaseRepository<Qualification> {
-  @Query(
-    "SELECT q" +
-    " FROM Qualification q" +
-    " JOIN q.interpreter i" +
-    " WHERE q.deletedAt IS NULL" +
-    " AND i.deletedAt IS NULL"
-  )
+  @Query("SELECT q FROM Qualification q WHERE q.deletedAt IS NULL")
   List<Qualification> findExistingQualifications();
 
   @Query(

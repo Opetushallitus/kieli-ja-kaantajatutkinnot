@@ -12,6 +12,6 @@ _Muut mahdolliset huomautukset..._
 
 ## Check-lista
 
-- [ ] Testattu docker-compose:lla
+- [ ] yarn.lock päivitetty
 - [ ] Käännösten Excel-tiedosto päivitetty
 - [ ] UI-muutoksia testattu eri selaimilla ja mobiilinäkymässä

@@ -48,7 +48,7 @@
     }
 
     &__timer-progressbar {
-      background-color: $color-light-blue;
+      background-color: adjust-color($color-secondary, $alpha: -0.7);
 
       & span {
         background-color: $color-secondary;
@@ -72,6 +72,22 @@
       @include phone {
         max-width: 100%;
       }
+    }
+  }
+}
+
+.custom-modal {
+  &__renew-reservation-modal {
+    margin: 0 2rem 2rem;
+
+    h2 {
+      font-size: 1.8rem;
+      margin: 0 0 3rem;
+    }
+
+    p {
+      font-size: 1.6rem;
+      margin: 0 0 3rem;
     }
   }
 }

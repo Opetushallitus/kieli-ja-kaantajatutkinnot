@@ -4,26 +4,29 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { PublicUIViews } from 'enums/app';
 import {
   PublicEnrollment,
   PublicReservationDetails,
   PublicReservationDetailsResponse,
+  PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
+  increaseActiveStep,
   initialisePublicEnrollment,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
+  rejectPublicReservationRenew,
+  renewPublicEnrollmentReservation,
   resetPublicEnrollment,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
+  updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
-import { setPublicUIView } from 'redux/reducers/publicUIView';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -42,7 +45,7 @@ function* initialisePublicEnrollmentSaga(
       SerializationUtils.deserializePublicReservationDetails(response.data);
 
     yield put(storePublicEnrollmentInitialisation(reservationDetails));
-    yield put(setPublicUIView(PublicUIViews.Enrollment));
+    yield put(increaseActiveStep());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -50,8 +53,28 @@ function* initialisePublicEnrollmentSaga(
   }
 }
 
+function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
+  try {
+    const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload}/renew`;
+
+    const response: AxiosResponse<PublicReservationResponse> = yield call(
+      axiosInstance.put,
+      renewUrl
+    );
+
+    const reservation = SerializationUtils.deserializeReservation(
+      response.data
+    );
+
+    yield put(updatePublicEnrollmentReservation(reservation));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicReservationRenew());
+  }
+}
+
 function* cancelPublicEnrollmentSaga() {
-  yield put(setPublicUIView(PublicUIViews.ExamEventListing));
   yield put(resetPublicEnrollment());
 }
 
@@ -66,7 +89,6 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
   } catch (error) {
     // If deletion of reservation fails, it will expire in 30 mins
   } finally {
-    yield put(setPublicUIView(PublicUIViews.ExamEventListing));
     yield put(resetPublicEnrollment());
   }
 }
@@ -102,6 +124,10 @@ function* loadPublicEnrollmentSaveSaga(
 
 export function* watchPublicEnrollments() {
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
+  yield takeLatest(
+    renewPublicEnrollmentReservation,
+    renewPublicEnrollmentReservationSaga
+  );
   yield takeLatest(cancelPublicEnrollment, cancelPublicEnrollmentSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,

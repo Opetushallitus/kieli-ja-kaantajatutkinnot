@@ -11,7 +11,9 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
+import { PublicIdentifyPage } from 'pages/PublicIdentifyPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -32,6 +34,14 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.PublicHomePage}
                 element={<PublicHomePage />}
+              />
+              <Route
+                path={AppRoutes.PublicIdentify}
+                element={<PublicIdentifyPage />}
+              />
+              <Route
+                path={AppRoutes.PublicEnrollment}
+                element={<PublicEnrollmentPage />}
               />
               <Route
                 path={AppRoutes.ClerkHomePage}

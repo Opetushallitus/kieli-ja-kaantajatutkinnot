@@ -14,8 +14,10 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  PublicReservation,
   PublicReservationDetails,
   PublicReservationDetailsResponse,
+  PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import {
   PublicExamEvent,
@@ -40,15 +42,24 @@ export class SerializationUtils {
       reservationDetails.examEvent
     );
 
-    const reservation = reservationDetails.reservation && {
-      ...reservationDetails.reservation,
-      expiresAt: dayjs(reservationDetails.reservation.expiresAt),
-    };
+    const reservation =
+      reservationDetails.reservation &&
+      SerializationUtils.deserializeReservation(reservationDetails.reservation);
 
     return {
       ...reservationDetails,
       examEvent,
       reservation,
+    };
+  }
+  static deserializeReservation(
+    reservation: PublicReservationResponse
+  ): PublicReservation {
+    return {
+      ...reservation,
+      expiresAt: dayjs(reservation.expiresAt),
+      renewedAt: DateUtils.optionalStringToDate(reservation.renewedAt),
+      createdAt: dayjs(reservation.createdAt),
     };
   }
 

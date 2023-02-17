@@ -1,7 +1,10 @@
 import { rest } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
-import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
+import {
+  PublicReservationDetailsResponse,
+  PublicReservationResponse,
+} from 'interfaces/publicEnrollment';
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
@@ -12,6 +15,17 @@ export const handlers = [
   rest.get(APIEndpoints.PublicExamEvent, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(publicExamEvents11));
   }),
+  rest.put(`${APIEndpoints.PublicReservation}/1/renew`, (req, res, ctx) => {
+    const response: PublicReservationResponse = {
+      id: 1,
+      expiresAt: fixedDateForTests.add(59, 'minute').format(),
+      createdAt: fixedDateForTests.format(),
+      renewedAt: fixedDateForTests.add(29, 'minute').format(),
+      isRenewable: false,
+    };
+
+    return res(ctx.status(201), ctx.json(response));
+  }),
   rest.post(
     `${APIEndpoints.PublicExamEvent}/2/reservation`,
     (req, res, ctx) => {
@@ -20,6 +34,8 @@ export const handlers = [
         reservation: {
           id: 1,
           expiresAt: fixedDateForTests.add(30, 'minute').format(),
+          createdAt: fixedDateForTests.format(),
+          isRenewable: true,
         },
         person,
       };
