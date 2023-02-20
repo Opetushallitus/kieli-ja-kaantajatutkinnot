@@ -48,5 +48,6 @@ export interface PublicEnrollment
     PartialExamsAndSkills,
     CertificateShippingData {
   previousEnrollment?: string;
+  hasPreviousEnrollment?: boolean;
   privacyStatementConfirmation: boolean;
 }

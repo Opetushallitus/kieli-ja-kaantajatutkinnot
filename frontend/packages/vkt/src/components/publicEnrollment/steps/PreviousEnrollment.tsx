@@ -2,11 +2,12 @@ import {
   Collapse,
   FormControl,
   FormControlLabel,
+  FormLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
-import { CustomTextField, Text } from 'shared/components';
+import { ChangeEvent } from 'react';
+import { CustomTextField } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -27,7 +28,6 @@ export const PreviousEnrollment = ({
   const yes = 'yes';
   const no = 'no';
   const dispatch = useAppDispatch();
-  const [hasPreviousEnrollment, setHasPreviousEnrollment] = useState(null);
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(
@@ -40,16 +40,20 @@ export const PreviousEnrollment = ({
   const handleRadioButtonChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setHasPreviousEnrollment(event.target.value);
+    dispatch(
+      updatePublicEnrollment({
+        hasPreviousEnrollment: event.target.value == yes,
+      })
+    );
   };
 
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
-      <Text>{t('description')}</Text>
-      <FormControl>
+      <FormControl error={true}>
+        <FormLabel id="demo-error-radios">{t('description')}</FormLabel>
         <RadioGroup
           name="controlled-radio-buttons-group"
-          value={hasPreviousEnrollment}
+          value={enrollment.hasPreviousEnrollment ? yes : no}
           onChange={handleRadioButtonChange}
         >
           <div className="columns">
@@ -58,19 +62,19 @@ export const PreviousEnrollment = ({
               value={yes}
               control={<Radio />}
               label={'Kyllä'}
-              checked={hasPreviousEnrollment === yes}
+              checked={enrollment.hasPreviousEnrollment}
             />
             <FormControlLabel
               disabled={editingDisabled}
               value={no}
               control={<Radio />}
               label={'Ei'}
-              checked={hasPreviousEnrollment === no}
+              checked={enrollment.hasPreviousEnrollment === false}
             />
           </div>
         </RadioGroup>
       </FormControl>
-      <Collapse orientation="vertical" in={hasPreviousEnrollment === yes}>
+      <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
         <CustomTextField
           label={t('label')}
           value={enrollment.previousEnrollment}
