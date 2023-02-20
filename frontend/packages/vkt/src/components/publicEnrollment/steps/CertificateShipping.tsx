@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
@@ -112,31 +112,32 @@ export const CertificateShipping = ({
         }
         label={translateCommon('enrollment.certificateShipping.consent')}
       />
-      {!enrollment.digitalCertificateConsent && (
-        <>
-          <H3>
-            {translateCommon('enrollment.certificateShipping.addressTitle')}
-          </H3>
-          <div className="grid-columns gapped">
-            <CustomTextField
-              {...getCustomTextFieldAttributes('street')}
-              value={enrollment.street}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('postalCode')}
-              value={enrollment.postalCode}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('town')}
-              value={enrollment.town}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('country')}
-              value={enrollment.country}
-            />
-          </div>
-        </>
-      )}
+      <Collapse
+        orientation="vertical"
+        in={!enrollment.digitalCertificateConsent}
+      >
+        <H3>
+          {translateCommon('enrollment.certificateShipping.addressTitle')}
+        </H3>
+        <div className="grid-columns gapped">
+          <CustomTextField
+            {...getCustomTextFieldAttributes('street')}
+            value={enrollment.street}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('postalCode')}
+            value={enrollment.postalCode}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('town')}
+            value={enrollment.town}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('country')}
+            value={enrollment.country}
+          />
+        </div>
+      </Collapse>
     </div>
   );
 };

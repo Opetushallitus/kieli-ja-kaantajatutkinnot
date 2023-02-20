@@ -1,4 +1,11 @@
-import { ChangeEvent } from 'react';
+import {
+  Collapse,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
+import { ChangeEvent, useState } from 'react';
 import { CustomTextField, Text } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
@@ -17,7 +24,10 @@ export const PreviousEnrollment = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.previousEnrollment',
   });
 
+  const yes = 'yes';
+  const no = 'no';
   const dispatch = useAppDispatch();
+  const [hasPreviousEnrollment, setHasPreviousEnrollment] = useState(null);
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(
@@ -27,15 +37,47 @@ export const PreviousEnrollment = ({
     );
   };
 
+  const handleRadioButtonChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setHasPreviousEnrollment(event.target.value);
+  };
+
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
       <Text>{t('description')}</Text>
-      <CustomTextField
-        label={t('label')}
-        value={enrollment.previousEnrollment}
-        onChange={handleChange}
-        disabled={editingDisabled}
-      />
+      <FormControl>
+        <RadioGroup
+          name="controlled-radio-buttons-group"
+          value={hasPreviousEnrollment}
+          onChange={handleRadioButtonChange}
+        >
+          <div className="columns">
+            <FormControlLabel
+              disabled={editingDisabled}
+              value={yes}
+              control={<Radio />}
+              label={'Kyllä'}
+              checked={hasPreviousEnrollment === yes}
+            />
+            <FormControlLabel
+              disabled={editingDisabled}
+              value={no}
+              control={<Radio />}
+              label={'Ei'}
+              checked={hasPreviousEnrollment === no}
+            />
+          </div>
+        </RadioGroup>
+      </FormControl>
+      <Collapse orientation="vertical" in={hasPreviousEnrollment === yes}>
+        <CustomTextField
+          label={t('label')}
+          value={enrollment.previousEnrollment}
+          onChange={handleChange}
+          disabled={editingDisabled}
+        />
+      </Collapse>
     </div>
   );
 };
