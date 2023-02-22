@@ -22,34 +22,41 @@ export class SerializationUtils {
     const termBeginDate = stringToDate(authorisation.termBeginDate);
     const termEndDate = stringToDate(authorisation.termEndDate);
     const examinationDate = stringToDate(authorisation.examinationDate);
+    const diaryNumber = authorisation.diaryNumber || '';
 
     return {
       ...authorisation,
       termBeginDate,
       termEndDate,
       examinationDate,
+      diaryNumber,
     };
   }
 
   static serializeAuthorisation(authorisation: Authorisation) {
-    const { from, to } = authorisation.languagePair;
     const {
+      id,
+      version,
       basis,
       termBeginDate,
       termEndDate,
       examinationDate,
       permissionToPublish,
-      diaryNumber,
     } = authorisation;
 
+    const { from, to } = authorisation.languagePair;
+    const diaryNumber = authorisation.diaryNumber.trim();
+
     return {
+      id,
+      version,
       from,
       to,
       basis,
       termBeginDate: DateUtils.serializeDate(termBeginDate),
       termEndDate: DateUtils.serializeDate(termEndDate),
       permissionToPublish,
-      diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
+      diaryNumber: diaryNumber ? diaryNumber : undefined,
       ...(basis === AuthorisationBasisEnum.AUT && {
         examinationDate: DateUtils.serializeDate(examinationDate),
       }),

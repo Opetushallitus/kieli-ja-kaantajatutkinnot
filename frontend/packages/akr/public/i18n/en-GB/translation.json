@@ -60,13 +60,6 @@
       "clerkTranslatorOverview": {
         "authorisations": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Change the permission to publish",
-              "dialog": {
-                "description": "This will change the visibility of the authorisation in the public register.",
-                "header": "Are you sure you want to change the permission to publish?"
-              }
-            },
             "removal": {
               "ariaLabel": "Delete the authorisation",
               "dialog": {
@@ -80,20 +73,25 @@
             "add": "Add authorisation"
           },
           "fields": {
+            "actions": "Actions",
             "basis": "Grounds",
             "diaryNumber": "Case identifier",
             "endDate": "End date",
             "examinationDate": "Exam day",
             "languagePair": "Language pair",
-            "permissionToPublish": "Permission to publish",
+            "permissionToPublish": "Publish",
             "startDate": "Start date"
           },
           "header": "Authorisations",
+          "modalTitle": {
+            "addAuthorisation": "Add authorisation",
+            "editAuthorisation": "Edit authorisation"
+          },
           "noAuthorisations": "No authorisations meeting the selected criteria were found",
           "toasts": {
             "addingSucceeded": "Authorisation added successfully",
             "removingSucceeded": "Selected authorisation deleted",
-            "updatingPublishPermissionSucceeded": "The publish permission for authorisation changed"
+            "updatingSucceeded": "Authorisation updated successfully"
           },
           "toggleFilters": {
             "effective": "Valid",
@@ -374,6 +372,9 @@
         "addedAuthorisationsTitle": "Added authorisations",
         "cancelAddNewTranslatorDialog": {
           "title": "Are you sure you want to cancel the addition of a new translator?"
+        },
+        "modalTitle": {
+          "addAuthorisation": "Add authorisation"
         },
         "removeAuthorisationDialog": {
           "title": "Are you sure you want to delete the authorisation?"

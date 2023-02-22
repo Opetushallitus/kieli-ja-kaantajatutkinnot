@@ -7,7 +7,7 @@ import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
 
-import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
+import { AuthorisationFields } from 'components/clerkTranslator/authorisation/AuthorisationFields';
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
 import { NewTranslatorBasicInformation } from 'components/clerkTranslator/new/NewTranslatorBasicInformation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
@@ -33,11 +33,18 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ClerkNewTranslatorPage = () => {
+  const [authorisation, setAuthorisation] = useState<Authorisation>(
+    AuthorisationUtils.newAuthorisation
+  );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setAuthorisation(AuthorisationUtils.newAuthorisation);
+  };
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
@@ -62,14 +69,17 @@ export const ClerkNewTranslatorPage = () => {
   ).passed;
 
   const dispatch = useAppDispatch();
-  const onAuthorisationAdd = (authorisation: Authorisation) => {
-    setHasLocalChanges(true);
+
+  const handleSaveAuthorisation = () => {
     dispatch(
       updateClerkNewTranslator({
         ...translator,
         authorisations: [...translator.authorisations, authorisation],
       })
     );
+
+    handleCloseModal();
+    setHasLocalChanges(true);
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
@@ -166,16 +176,17 @@ export const ClerkNewTranslatorPage = () => {
             onDetailsChange={() => setHasLocalChanges(true)}
           />
           <CustomModal
-            data-testid="authorisation-details__add-authorisation-modal"
             open={open}
             onCloseModal={handleCloseModal}
             ariaLabelledBy="modal-title"
-            modalTitle={translateCommon('addAuthorisation')}
+            modalTitle={t('modalTitle.addAuthorisation')}
           >
-            <AddAuthorisation
+            <AuthorisationFields
+              authorisation={authorisation}
+              setAuthorisation={setAuthorisation}
               meetingDates={passedMeetingDates}
               examinationDates={passedExaminationDates}
-              onAuthorisationAdd={onAuthorisationAdd}
+              onSave={handleSaveAuthorisation}
               onCancel={handleCloseModal}
               isLoading={false}
             />
@@ -189,13 +200,13 @@ export const ClerkNewTranslatorPage = () => {
               startIcon={<AddIcon />}
               onClick={handleOpenModal}
             >
-              {translateCommon('addAuthorisation')}
+              {t('modalTitle.addAuthorisation')}
             </CustomButton>
           </div>
           {translator.authorisations.length ? (
             <AuthorisationListing
               authorisations={translator.authorisations}
-              permissionToPublishReadOnly={true}
+              showEditButton={false}
               onAuthorisationRemove={onAuthorisationRemove}
             />
           ) : null}

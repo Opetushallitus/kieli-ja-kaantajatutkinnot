@@ -1,10 +1,20 @@
-import { Authorisation } from 'interfaces/authorisation';
+import { Authorisation, AuthorisationBasis } from 'interfaces/authorisation';
 import { ClerkTranslatorAuthorisations } from 'interfaces/clerkTranslator';
 import { LanguagePair } from 'interfaces/languagePair';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class AuthorisationUtils {
   static primaryLangs = ['FI', 'SV', 'SEIN', 'SEKO', 'SEPO'];
+
+  static newAuthorisation: Authorisation = {
+    languagePair: { from: '', to: '' },
+    basis: null as unknown as AuthorisationBasis,
+    termBeginDate: undefined,
+    termEndDate: undefined,
+    permissionToPublish: true,
+    diaryNumber: '',
+    examinationDate: undefined,
+  };
 
   static selectableLanguagesForLanguageFilter(
     languages: Array<string>,

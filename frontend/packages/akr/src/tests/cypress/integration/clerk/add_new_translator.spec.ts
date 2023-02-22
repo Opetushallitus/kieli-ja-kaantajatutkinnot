@@ -32,9 +32,9 @@ describe('ClerkAddNewTranslator', () => {
     );
     onClerkNewTranslatorPage.clickNewTranslatorAssuranceSwitch();
     onClerkNewTranslatorPage.clickAddAuthorisationButton();
-    onClerkNewTranslatorPage.fillOutAddAuthorisationFields();
-    onClerkNewTranslatorPage.addAuthorisation();
-    onClerkNewTranslatorPage.expectUnsavedAuthorisationRowToExist(0);
+    onClerkNewTranslatorPage.fillOutAuthorisationFields();
+    onClerkNewTranslatorPage.clickAuthorisationSaveButton();
+    onClerkNewTranslatorPage.expectAuthorisationRowToExist(0);
     onClerkNewTranslatorPage.clickSaveNewClerkButton();
     cy.wait('@createTranslatorResponse');
 
@@ -52,10 +52,10 @@ describe('ClerkAddNewTranslator', () => {
   it('should allow removing added authorisations', () => {
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
     onClerkNewTranslatorPage.clickAddAuthorisationButton();
-    onClerkNewTranslatorPage.fillOutAddAuthorisationFields();
-    onClerkNewTranslatorPage.addAuthorisation();
-    onClerkNewTranslatorPage.expectUnsavedAuthorisationRowToExist(0);
-    onClerkNewTranslatorPage.clickDeleteUnsavedAuthorisationButton(0);
+    onClerkNewTranslatorPage.fillOutAuthorisationFields();
+    onClerkNewTranslatorPage.clickAuthorisationSaveButton();
+    onClerkNewTranslatorPage.expectAuthorisationRowToExist(0);
+    onClerkNewTranslatorPage.clickDeleteAuthorisationButton(0);
     onClerkNewTranslatorPage.clickDeleteAuthorisationDialogConfirmButton();
     onClerkNewTranslatorPage.expectAuthorisationsTableToNotExist();
   });
@@ -77,9 +77,9 @@ describe('ClerkAddNewTranslator', () => {
       },
     ]);
     onClerkNewTranslatorPage.clickAddAuthorisationButton();
-    onClerkNewTranslatorPage.fillOutAddAuthorisationFields();
-    onClerkNewTranslatorPage.addAuthorisation();
-    onClerkNewTranslatorPage.expectUnsavedAuthorisationRowToExist(0);
+    onClerkNewTranslatorPage.fillOutAuthorisationFields();
+    onClerkNewTranslatorPage.clickAuthorisationSaveButton();
+    onClerkNewTranslatorPage.expectAuthorisationRowToExist(0);
 
     onClerkNewTranslatorPage.expectSaveNewClerkButtonDisabled();
 
