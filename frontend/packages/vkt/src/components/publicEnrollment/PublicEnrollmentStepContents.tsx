@@ -17,12 +17,14 @@ export const PublicEnrollmentStepContents = ({
   enrollment,
   isLoading,
   disableNext,
+  showValidation,
 }: {
   examEvent: PublicExamEvent;
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
+  showValidation: boolean;
 }) => {
   const dispatch = useDispatch();
 
@@ -59,6 +61,7 @@ export const PublicEnrollmentStepContents = ({
           enrollment={enrollment}
           isLoading={isLoading}
           disableNext={disableNext}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.Preview:
@@ -67,6 +70,7 @@ export const PublicEnrollmentStepContents = ({
           enrollment={enrollment}
           isLoading={isLoading}
           disableNext={disableNext}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.Payment:

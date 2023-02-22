@@ -19,9 +19,11 @@ import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 export const PreviousEnrollment = ({
   enrollment,
   editingDisabled,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
@@ -41,16 +43,21 @@ export const PreviousEnrollment = ({
     );
   };
 
+  const getError = () =>
+    InputFieldUtils.inspectCustomTextFieldErrors(
+      TextFieldTypes.Text,
+      enrollment.previousEnrollment,
+      true
+    );
+
+  const hasError = showValidation ? !!getError() : fieldError;
+
   const handleErrors = (hasPreviousEnrollment: boolean) => {
     if (!hasPreviousEnrollment) {
       return false;
     }
 
-    const error = InputFieldUtils.inspectCustomTextFieldErrors(
-      TextFieldTypes.Text,
-      enrollment.previousEnrollment,
-      true
-    );
+    const error = getError();
 
     setFieldError(!!error);
   };
@@ -67,7 +74,7 @@ export const PreviousEnrollment = ({
 
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
-      <FormControl error={fieldError}>
+      <FormControl error={hasError}>
         <FormLabel>{t('description')}</FormLabel>
         <RadioGroup
           name="has-previous-enrollment-group"

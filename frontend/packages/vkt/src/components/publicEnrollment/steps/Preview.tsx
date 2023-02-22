@@ -63,10 +63,12 @@ export const Preview = ({
   enrollment,
   isLoading,
   disableNext,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
+  showValidation: boolean;
 }) => {
   useEffect(() => {
     disableNext(!enrollment.privacyStatementConfirmation);
@@ -89,7 +91,11 @@ export const Preview = ({
         email={enrollment.email}
         phoneNumber={enrollment.phoneNumber}
       />
-      <PreviousEnrollment enrollment={enrollment} editingDisabled={true} />
+      <PreviousEnrollment
+        enrollment={enrollment}
+        editingDisabled={true}
+        showValidation={showValidation}
+      />
       <PartialExamsSelection enrollment={enrollment} editingDisabled={true} />
       <CertificateShipping enrollment={enrollment} editingDisabled={true} />
       <FormControlLabel

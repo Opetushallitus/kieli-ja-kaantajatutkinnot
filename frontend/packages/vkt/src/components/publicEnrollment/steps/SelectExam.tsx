@@ -12,10 +12,12 @@ export const SelectExam = ({
   enrollment,
   isLoading,
   disableNext,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -41,7 +43,11 @@ export const SelectExam = ({
           i18nKey="examinationPaymentsDescription"
         ></Trans>
       </Text>
-      <PreviousEnrollment enrollment={enrollment} editingDisabled={isLoading} />
+      <PreviousEnrollment
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        showValidation={showValidation}
+      />
       <PartialExamsSelection
         enrollment={enrollment}
         editingDisabled={isLoading}

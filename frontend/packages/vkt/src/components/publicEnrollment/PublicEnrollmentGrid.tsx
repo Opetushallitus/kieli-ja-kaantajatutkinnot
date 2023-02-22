@@ -17,6 +17,7 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = () => {
   const [disableNext, setDisableNext] = useState(true);
+  const [showValidation, setShowValidation] = useState(false);
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
 
@@ -62,6 +63,7 @@ export const PublicEnrollmentGrid = () => {
                 enrollment={enrollment}
                 isLoading={isLoading}
                 disableNext={disableNextCb}
+                showValidation={showValidation}
               />
               {isPreviewStepActive && reservationDetails?.reservation && (
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
@@ -73,6 +75,7 @@ export const PublicEnrollmentGrid = () => {
                   reservationDetails={reservationDetails}
                   isLoading={isLoading}
                   disableNext={disableNext}
+                  setShowValidation={setShowValidation}
                 />
               )}
             </div>
