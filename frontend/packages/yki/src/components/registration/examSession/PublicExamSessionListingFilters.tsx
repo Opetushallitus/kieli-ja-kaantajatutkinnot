@@ -107,11 +107,8 @@ export const PublicExamSessionFilters = ({
                 : null
             }
             onChange={(_, v: AutocompleteValue) => {
-              if (v) {
-                onFilterChange({ language: v.value as ExamLanguage });
-              } else {
-                onFilterChange({ language: undefined });
-              }
+              const language = v?.value as ExamLanguage | undefined;
+              onFilterChange({ language });
             }}
             label={t('labels.selectLanguage')}
             aria-label={t('labels.selectLanguage')}
@@ -131,11 +128,8 @@ export const PublicExamSessionFilters = ({
             values={levelValues}
             value={level ? levelToComboBoxOption(level) : null}
             onChange={(_, v: AutocompleteValue) => {
-              if (v) {
-                onFilterChange({ level: v.value as ExamLevel });
-              } else {
-                onFilterChange({ level: undefined });
-              }
+              const level = v?.value as ExamLevel | undefined;
+              onFilterChange({ level });
             }}
             label={t('labels.selectLevel')}
             aria-label={t('labels.selectLevel')}
@@ -148,7 +142,7 @@ export const PublicExamSessionFilters = ({
             htmlFor="public-exam-session-filters__municipality-filter"
           >
             {translateCommon('municipality')}
-          </Typography>{' '}
+          </Typography>
           <ComboBox
             id="public-exam-session-filters__municipality-filter"
             variant={TextFieldVariant.Outlined}
@@ -157,11 +151,8 @@ export const PublicExamSessionFilters = ({
               municipality ? municipalityToComboBoxOption(municipality) : null
             }
             onChange={(_, v: AutocompleteValue) => {
-              if (v) {
-                onFilterChange({ municipality: v.value });
-              } else {
-                onFilterChange({ municipality: undefined });
-              }
+              const municipality = v?.value;
+              onFilterChange({ municipality });
             }}
             label={t('labels.selectMunicipality')}
             aria-label={t('labels.selectMunicipality')}

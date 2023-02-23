@@ -44,7 +44,6 @@ export const PublicExamSessionListing = ({
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
-  //const dispatch = useAppDispatch();
 
   // Pagination
   const [page, setPage] = useState(0);

@@ -9,11 +9,7 @@ export const examSessionsSelector = (state: RootState) => state.examSessions;
 export const selectFilteredPublicExamSessions = createSelector(
   (state: RootState) => state.examSessions.exam_sessions,
   (state: RootState) => state.examSessions.filters,
-  (examSessions, filters) => {
-    const filteredArray = filterExamSessions(examSessions, filters);
-
-    return filteredArray;
-  }
+  (examSessions, filters) => filterExamSessions(examSessions, filters)
 );
 
 // Helpers

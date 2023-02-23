@@ -19,8 +19,6 @@ const ExamSessionsSkeleton = () => {
   // TODO
   return <div />;
 };
-
-const ExamSessionsListing = () => {};
 */
 
 export const RegistrationPage: FC = () => {
@@ -46,9 +44,6 @@ export const RegistrationPage: FC = () => {
       setResults(exam_sessions);
     }
   }, [dispatch, status, exam_sessions]);
-
-  const hasResults = true;
-  const hasNoResults = false;
 
   return (
     <Box className="public-registration-page">
@@ -93,12 +88,7 @@ export const RegistrationPage: FC = () => {
           </Paper>
         </Grid>
         <Grid item className="public-homepage__grid-container__result-box">
-          {hasResults && <PublicExamSessionListing examSessions={results} />}
-          {hasNoResults && (
-            <H2 className="public-homepage__grid-container__result-box__no-results">
-              {t('noSearchResults')}
-            </H2>
-          )}
+          <PublicExamSessionListing examSessions={results} />
         </Grid>
       </Grid>
     </Box>
