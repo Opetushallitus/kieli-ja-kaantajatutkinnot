@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.7.1] - 2023-02-15
+
+### Added
+
+- Support passing customized props for back and next buttons on pagination controls
+- Support for customizable displayed rows label for PaginatedTable and ManagedPaginatedTable
+
+### Fixed
+
+- Require LocalizedFormat plugin for dayjs to ensure that eg. `dayjs.format('L')` works as expected
+- Checked checkboxes use dark blue background color also when part of a FormLabel
+
 ## [1.7.0] - 2023-02-10
 
 ### Added

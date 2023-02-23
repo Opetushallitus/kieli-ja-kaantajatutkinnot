@@ -1,9 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 import 'dayjs/locale/fi';
 import 'dayjs/locale/sv-fi';
 import 'dayjs/locale/en-gb';
 import { AppLanguage } from '../../enums';
+
+dayjs.extend(localizedFormat);
 
 export class DateUtils {
   static setDayjsLocale(locale: AppLanguage) {

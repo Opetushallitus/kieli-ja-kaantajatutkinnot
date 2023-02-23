@@ -1,10 +1,20 @@
 import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/src/interfaces/with';
 
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { OrganizerContact } from 'interfaces/organizer';
 
 export interface ExamSessionsResponse {
   exam_sessions: Array<ExamSessionResponse>;
+}
+
+export interface ExamSessionFilters {
+  language?: ExamLanguage;
+  level?: ExamLevel;
+  municipality?: string;
+  excludeFullSessions: boolean;
+  // TODO Naming?
+  excludeNonOpenSessions: boolean;
 }
 
 export interface ExamSessions {
@@ -19,15 +29,17 @@ interface ExamSessionResponse
     | 'post_admission_end_date'
     | 'registration_start_date'
     | 'registration_end_date'
+    | 'exam_fee'
   > {
   session_date: string;
   post_admission_start_date?: string;
   post_admission_end_date?: string;
   registration_start_date?: string;
   registration_end_date?: string;
+  exam_fee?: string;
 }
 
-interface ExamSessionLocation {
+export interface ExamSessionLocation {
   name: string;
   post_office: string;
   zip: string;
@@ -39,23 +51,24 @@ interface ExamSessionLocation {
 
 export interface ExamSession extends WithId {
   session_date: Dayjs;
-  language_code: string;
-  level_code: string;
+  language_code: ExamLanguage;
+  level_code: ExamLevel;
   max_participants: number;
   published_at: string;
   location: Array<ExamSessionLocation>;
+  exam_fee: number;
   office_oid?: string;
   organizer_oid?: string;
-  exam_fee?: string;
   contact?: Array<OrganizerContact>;
   open?: boolean;
   queue?: number;
   queue_full?: boolean;
-  participants?: number;
-  post_admission_quota?: number;
+  participants: number;
+  pa_participants: number;
+  post_admission_quota: number;
+  post_admission_active: boolean;
   post_admission_start_date?: Dayjs;
   post_admission_end_date?: Dayjs;
-  post_admission_active?: boolean;
   registration_start_date?: Dayjs;
   registration_end_date?: Dayjs;
 }

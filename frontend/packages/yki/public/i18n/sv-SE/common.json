@@ -3,7 +3,10 @@
     "common": {
       "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
       "contactEmail": "kielitutkinnot@oph.fi",
-      "error": "Ett oväntat fel uppstod",
+      "dates": {
+        "dateTimeFormat": "l [kl.] HH:mm"
+      },
+      "error": "Ett oväntat fel uppstod.",
       "header": {
         "accessibility": {
           "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
@@ -14,7 +17,25 @@
           "sv": "På svenska"
         }
       },
+      "languages": {
+        "deu": "tyska",
+        "eng": "engelska",
+        "fin": "finska",
+        "fra": "franska",
+        "ita": "italienska",
+        "rus": "ryska",
+        "sme": "nordsamiska",
+        "spa": "spanska",
+        "swe": "svenska"
+      },
+      "level": "Nivå",
+      "levels": {
+        "PERUS": "grundnivå",
+        "KESKI": "mellannivå",
+        "YLIN": "högsta nivå"
+      },
       "ophLogo": "Utbildningsstyrelsens logo",
+      "price": "Pris",
       "registration": "Anmälning",
       "reassessment": "Kontrollbedömning"
     }

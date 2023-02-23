@@ -3,6 +3,9 @@
     "common": {
       "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
       "contactEmail": "kielitutkinnot@oph.fi",
+      "dates": {
+        "dateTimeFormat": "l [at] HH:mm"
+      },
       "error": "An unexpected error has occurred.",
       "header": {
         "accessibility": {
@@ -14,7 +17,25 @@
           "sv": "På svenska"
         }
       },
+      "languages": {
+        "deu": "German",
+        "eng": "English",
+        "fin": "Finnish",
+        "fra": "French",
+        "ita": "Italian",
+        "rus": "Russian",
+        "sme": "Northern Sami",
+        "spa": "Spanish",
+        "swe": "Swedish"
+      },
+      "level": "Level",
+      "levels": {
+        "PERUS": "basic level",
+        "KESKI": "intermediate level",
+        "YLIN": "advanced level"
+      },
       "ophLogo": "Logo of Finnish National Agency for Education",
+      "price": "Price",
       "registration": "Registration",
       "reassessment": "Reassessment"
     }
