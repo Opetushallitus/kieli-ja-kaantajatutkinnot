@@ -11,16 +11,31 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
+interface CertificateShippingTextField {
+  name: keyof CertificateShippingTextFields;
+  required: boolean;
+  type: TextFieldTypes;
+}
+
 export const CertificateShipping = ({
   enrollment,
   editingDisabled,
   setValid,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
   setValid?: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
+
+  const fields: CertificateShippingTextField[] = [
+    { name: 'street', required: true, type: TextFieldTypes.Text },
+    { name: 'postalCode', required: true, type: TextFieldTypes.Text },
+    { name: 'town', required: true, type: TextFieldTypes.Text },
+    { name: 'country', required: true, type: TextFieldTypes.Text },
+  ];
 
   const [fieldErrors, setFieldErrors] = useState({
     street: '',
@@ -36,6 +51,25 @@ export const CertificateShipping = ({
       setValid(EnrollmentUtils.isValidCertificateShipping(enrollment));
     }
   }, [fieldErrors, setValid, enrollment]);
+
+  const getErrors = (
+    fields: CertificateShippingTextField[]
+  ): CertificateShippingTextFields =>
+    fields.reduce((fields, field: CertificateShippingTextField) => {
+      const error = InputFieldUtils.inspectCustomTextFieldErrors(
+        field.type,
+        enrollment[field.name],
+        field.required
+      );
+      const fieldErrorMessage = error ? translateCommon(error) : '';
+
+      return {
+        ...fields,
+        [field.name]: fieldErrorMessage,
+      };
+    }, {});
+
+  const errors = showValidation ? getErrors(fields) : fieldErrors;
 
   const handleChange =
     (fieldName: keyof CertificateShippingTextFields) =>
@@ -73,7 +107,7 @@ export const CertificateShipping = ({
   const showCustomTextFieldError = (
     fieldName: keyof CertificateShippingTextFields
   ) => {
-    return fieldErrors[fieldName].length > 0;
+    return !!errors[fieldName];
   };
 
   const getCustomTextFieldAttributes = (

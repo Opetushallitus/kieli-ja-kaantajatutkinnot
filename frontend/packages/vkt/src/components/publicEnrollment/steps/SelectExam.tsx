@@ -57,6 +57,7 @@ export const SelectExam = ({
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setCertificateShipping}
+        showValidation={showValidation}
       />
     </div>
   );

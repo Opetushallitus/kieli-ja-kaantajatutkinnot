@@ -16,10 +16,12 @@ export const FillContactDetails = ({
   enrollment,
   isLoading,
   disableNext,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
   disableNext: (disabled: boolean) => void;
+  showValidation: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.fillContactDetails',
@@ -88,7 +90,7 @@ export const FillContactDetails = ({
   const showCustomTextFieldError = (
     fieldName: keyof PublicEnrollmentContactDetails
   ) => {
-    return fieldErrors[fieldName].length > 0;
+    return showValidation || fieldErrors[fieldName].length > 0;
   };
 
   const getCustomTextFieldAttributes = (

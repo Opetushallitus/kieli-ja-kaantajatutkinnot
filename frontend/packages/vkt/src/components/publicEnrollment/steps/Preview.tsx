@@ -97,7 +97,11 @@ export const Preview = ({
         showValidation={showValidation}
       />
       <PartialExamsSelection enrollment={enrollment} editingDisabled={true} />
-      <CertificateShipping enrollment={enrollment} editingDisabled={true} />
+      <CertificateShipping
+        enrollment={enrollment}
+        editingDisabled={true}
+        showValidation={showValidation}
+      />
       <FormControlLabel
         control={
           <Checkbox

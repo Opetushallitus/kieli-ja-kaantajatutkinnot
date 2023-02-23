@@ -53,6 +53,7 @@ export const PublicEnrollmentStepContents = ({
           enrollment={enrollment}
           isLoading={isLoading}
           disableNext={disableNext}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.SelectExam:
