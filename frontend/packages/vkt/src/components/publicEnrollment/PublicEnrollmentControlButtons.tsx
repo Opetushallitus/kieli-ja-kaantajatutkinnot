@@ -79,6 +79,7 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleNextBtnClick = () => {
     if (!disableNext) {
+      setShowValidation(false);
       dispatch(increaseActiveStep());
     } else {
       setShowValidation(true);

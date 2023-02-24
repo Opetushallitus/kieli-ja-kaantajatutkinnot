@@ -1,6 +1,31 @@
 import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-validator';
 
+import { TextField } from '../../interfaces';
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
+
+export function getErrors<T> (
+    fields: TextField<T>[],
+    values: T,
+    t: (key: string) => string
+  ): T {
+    return fields.reduce(
+      (fields, field: TextField<T>) => {
+        const value = String(values[field.name]);
+        const error = InputFieldUtils.inspectCustomTextFieldErrors(
+          field.type,
+          value,
+          field.required
+        );
+        const fieldErrorMessage = error ? t(error) : '';
+
+        return {
+          ...fields,
+          [field.name]: fieldErrorMessage,
+        };
+      },
+      {} as T
+    );
+}
 
 export class InputFieldUtils {
   static defaultMaxTextAreaLength = 6000;

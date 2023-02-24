@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils, StringUtils } from 'shared/utils';
+import { TextField } from 'shared/interfaces';
+import { getErrors, InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -28,13 +29,39 @@ export const FillContactDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const [fieldErrors, setFieldErrors] = useState({
+  const fields: TextField<PublicEnrollmentContactDetails>[] = [
+    {
+      name: 'email',
+      required: true,
+      type: TextFieldTypes.Text,
+      maxLength: 255,
+    },
+    {
+      name: 'emailConfirmation',
+      required: true,
+      type: TextFieldTypes.Text,
+      maxLength: 255,
+    },
+    {
+      name: 'phoneNumber',
+      required: true,
+      type: TextFieldTypes.Text,
+      maxLength: 255,
+    },
+  ];
+
+  const emptyErrorState = {
     email: '',
     emailConfirmation: '',
     phoneNumber: '',
-  });
+  };
+  const [fieldErrors, setFieldErrors] = useState(emptyErrorState);
 
   const dispatch = useAppDispatch();
+
+  const errors = showValidation
+    ? getErrors(fields, enrollment, translateCommon)
+    : fieldErrors;
 
   useEffect(() => {
     const hasFieldErrors = !!(fieldErrors.email || fieldErrors.phoneNumber);
@@ -90,7 +117,7 @@ export const FillContactDetails = ({
   const showCustomTextFieldError = (
     fieldName: keyof PublicEnrollmentContactDetails
   ) => {
-    return showValidation || fieldErrors[fieldName].length > 0;
+    return !!errors[fieldName];
   };
 
   const getCustomTextFieldAttributes = (
@@ -101,7 +128,7 @@ export const FillContactDetails = ({
     onBlur: handleErrors(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
-    helperText: fieldErrors[fieldName],
+    helperText: errors[fieldName],
     required: true,
     disabled: isLoading,
   });
