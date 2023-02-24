@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
-import { getErrors, InputFieldUtils } from 'shared/utils';
+import { getEmptyErrorState, getErrors, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -11,6 +11,28 @@ import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
+
+const fields: TextField<CertificateShippingTextFields>[] = [
+  {
+    name: 'street',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  {
+    name: 'postalCode',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  { name: 'town', required: true, type: TextFieldTypes.Text, maxLength: 255 },
+  {
+    name: 'country',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+];
 
 export const CertificateShipping = ({
   enrollment,
@@ -25,34 +47,7 @@ export const CertificateShipping = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const fields: TextField<CertificateShippingTextFields>[] = [
-    {
-      name: 'street',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-    {
-      name: 'postalCode',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-    { name: 'town', required: true, type: TextFieldTypes.Text, maxLength: 255 },
-    {
-      name: 'country',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-  ];
-
-  const [fieldErrors, setFieldErrors] = useState({
-    street: '',
-    postalCode: '',
-    town: '',
-    country: '',
-  });
+  const [fieldErrors, setFieldErrors] = useState(getEmptyErrorState(fields));
 
   const dispatch = useAppDispatch();
 

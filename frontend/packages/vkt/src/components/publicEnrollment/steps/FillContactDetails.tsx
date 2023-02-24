@@ -2,7 +2,12 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
-import { getErrors, InputFieldUtils, StringUtils } from 'shared/utils';
+import {
+  getEmptyErrorState,
+  getErrors,
+  InputFieldUtils,
+  StringUtils,
+} from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -12,6 +17,27 @@ import {
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+
+const fields: TextField<PublicEnrollmentContactDetails>[] = [
+  {
+    name: 'email',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  {
+    name: 'emailConfirmation',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  {
+    name: 'phoneNumber',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+];
 
 export const FillContactDetails = ({
   enrollment,
@@ -29,33 +55,7 @@ export const FillContactDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const fields: TextField<PublicEnrollmentContactDetails>[] = [
-    {
-      name: 'email',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-    {
-      name: 'emailConfirmation',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-    {
-      name: 'phoneNumber',
-      required: true,
-      type: TextFieldTypes.Text,
-      maxLength: 255,
-    },
-  ];
-
-  const emptyErrorState = {
-    email: '',
-    emailConfirmation: '',
-    phoneNumber: '',
-  };
-  const [fieldErrors, setFieldErrors] = useState(emptyErrorState);
+  const [fieldErrors, setFieldErrors] = useState(getEmptyErrorState(fields));
 
   const dispatch = useAppDispatch();
 
