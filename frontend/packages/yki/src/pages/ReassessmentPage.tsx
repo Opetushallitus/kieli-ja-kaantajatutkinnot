@@ -1,15 +1,14 @@
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicExamSessionListing } from 'components/registration/examSession/PublicExamSessionListing';
+import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { ExamSession } from 'interfaces/examSessions';
-import { loadExamSessions } from 'redux/reducers/examSessions';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriod';
+import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriod';
 
 const PricingBulletList = () => {
   const translateCommon = useCommonTranslation();
@@ -37,16 +36,15 @@ export const ReassessmentPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status, exam_sessions } = useAppSelector(examSessionsSelector);
-  const [results, setResults] = useState<Array<ExamSession>>([]);
+  const { status } = useAppSelector(evaluationPeriodsSelector);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
-      dispatch(loadExamSessions());
-    } else if (status === APIResponseStatus.Success) {
-      setResults(exam_sessions);
+      dispatch(loadEvaluationPeriods());
     }
-  }, [dispatch, status, exam_sessions]);
+  }, [dispatch, status]);
+
+  // TODO Show skeleton instead of PublicEvaluationPeriodListing if loading
 
   return (
     <Box className="public-reassessment-page">
@@ -96,7 +94,7 @@ export const ReassessmentPage: FC = () => {
           </Paper>
         </Grid>
         <Grid item className="public-homepage__grid-container__result-box">
-          <PublicExamSessionListing examSessions={results} />
+          <PublicEvaluationPeriodListing />
         </Grid>
       </Grid>
     </Box>
