@@ -97,6 +97,13 @@
             "title": "Yhteystiedot"
           }
         }
+      },
+      "publicEvaluationPeriodListing": {
+        "heading": "Tutkinnot",
+        "requestReassessment": "Pyydä tarkistusarviointia"
+      },
+      "publicExamEventGrid": {
+        "title": "Yleisiin kielitutkintoihin ilmoittautuminen"
       }
     },
     "pages": {
@@ -137,10 +144,6 @@
           "selectMunicipality": "Valitse paikkakunta"
         },
         "register": "Ilmoittaudu",
-        "searchResults": "Tulokset ({{count}})",
-        "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
-        "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)",
-        "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       }
     }

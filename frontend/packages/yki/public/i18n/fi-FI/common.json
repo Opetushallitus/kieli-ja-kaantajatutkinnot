@@ -15,6 +15,12 @@
             "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
+          },
+          "header": {
+            "searchResults": "Tulokset ({{count}})",
+            "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)",
+            "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
+            "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)"
           }
         }
       },
