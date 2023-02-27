@@ -34,6 +34,12 @@
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui."
       },
+      "examParts": {
+        "readingComprehension": "Tekstin ymmärtäminen",
+        "speechComprehension": "Puheen ymmärtäminen",
+        "speaking": "Puhuminen",
+        "writing": "Kirjoittaminen"
+      },
       "examSession": "Tutkintotilaisuus",
       "header": {
         "accessibility": {

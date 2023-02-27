@@ -105,6 +105,28 @@
           "notFound": "Kielitutkintoa ei löytynyt"
         }
       },
+      "reassessmentPage": {
+        "info": {
+          "general": {
+            "body1": "Tarkistusarviointi on Yleisiä kielitutkintoja koskevan lain (964/2004, 13 §) tarjoama mahdollisuus pyytää suorituksesi uudelleen arviointia siinä tapauksessa, että et ole tyytyväinen siihen, miten tekemäsi tutkintosuoritus on arvioitu.",
+            "body2": "Tarkistusarviointi on ainoa toimenpide, jolla voit ehkä saada muutettua suorituksesi tulosta.",
+            "body3": "Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet suorituksesi ensimmäisellä kerralla. Tarkistusarvioinnissa arvioidaan vain suoritusta, eikä muita seikkoja oteta huomioon. Tarkistusarviointia koskevaan päätökseen ei saa hakea muutosta valittamalla.",
+            "heading": "Tarkistusarvioinnista"
+          },
+          "pricing": {
+            "body1": "Tarkistusarviointia voi pyytää joko yhdestä tai useammasta osakokeesta.",
+            "body2": "Jokaisen osakokeen tarkistusarviointi maksaa 50 euroa:",
+            "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
+            "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+            "heading": "Hinnasto"
+          }
+        },
+        "introduction": {
+          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta.",
+          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen."
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
+      },
       "registrationPage": {
         "labels": {
           "excludeFullSessions": "Näytä vain tutkintotilaisuudet, joissa on tilaa",
