@@ -76,6 +76,7 @@
         "swe": "ruotsi"
       },
       "level": "Taso",
+      "loadingContent": "Sisältöä ladataan",
       "municipality": "Paikkakunta",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",

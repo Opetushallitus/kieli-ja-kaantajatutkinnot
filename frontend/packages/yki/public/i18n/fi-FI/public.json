@@ -100,6 +100,11 @@
       },
       "publicEvaluationPeriodListing": {
         "heading": "Tutkinnot",
+        "header": {
+          "examination": "Tutkinto",
+          "examDate": "Tutkinnon päivämäärä",
+          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista"
+        },
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "publicExamEventGrid": {

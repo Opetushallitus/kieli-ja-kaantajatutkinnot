@@ -5,6 +5,7 @@ import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEvaluationPeriodListing';
+import { PublicEvaluationPeriodListingSkeleton } from 'components/skeletons/PublicEvaluationPeriodListingSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriod';
@@ -43,8 +44,6 @@ export const ReassessmentPage: FC = () => {
       dispatch(loadEvaluationPeriods());
     }
   }, [dispatch, status]);
-
-  // TODO Show skeleton instead of PublicEvaluationPeriodListing if loading
 
   return (
     <Box className="public-reassessment-page">
@@ -94,7 +93,11 @@ export const ReassessmentPage: FC = () => {
           </Paper>
         </Grid>
         <Grid item className="public-homepage__grid-container__result-box">
-          <PublicEvaluationPeriodListing />
+          {status === APIResponseStatus.InProgress ? (
+            <PublicEvaluationPeriodListingSkeleton />
+          ) : (
+            <PublicEvaluationPeriodListing />
+          )}
         </Grid>
       </Grid>
     </Box>
