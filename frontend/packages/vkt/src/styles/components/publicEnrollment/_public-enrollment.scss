@@ -1,4 +1,10 @@
 .public-enrollment {
+  label.heading-label {
+    color: $color-text-primary;
+    display: block;
+    font-weight: bold;
+  }
+
   & &__grid {
     &__form-container {
       padding: 3rem;
