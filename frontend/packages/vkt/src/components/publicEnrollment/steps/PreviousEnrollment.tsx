@@ -68,6 +68,9 @@ export const PreviousEnrollment = ({
     );
   };
 
+  const hasRadioButtonError =
+    showValidation && enrollment.hasPreviousEnrollment === undefined;
+
   const showCustomTextFieldError = (
     fieldName: keyof PreviousEnrollmentField
   ) => {
@@ -91,7 +94,9 @@ export const PreviousEnrollment = ({
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
       <FormControl>
-        <FormLabel className="heading-label">{t('description')}</FormLabel>
+        <FormLabel error={hasRadioButtonError} className="heading-label">
+          {t('description')}
+        </FormLabel>
         <RadioGroup
           name="has-previous-enrollment-group"
           value={enrollment.hasPreviousEnrollment ? yes : no}
@@ -126,7 +131,7 @@ export const PreviousEnrollment = ({
           onBlur={handleChange}
           onChange={handleChange}
           error={showCustomTextFieldError('previousEnrollment')}
-          helperText={fieldError['previousEnrollment']}
+          helperText={errors['previousEnrollment']}
           disabled={editingDisabled}
         />
       </Collapse>
