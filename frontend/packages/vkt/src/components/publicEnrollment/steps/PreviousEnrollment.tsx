@@ -93,8 +93,12 @@ export const PreviousEnrollment = ({
 
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
-      <FormControl>
-        <FormLabel error={hasRadioButtonError} className="heading-label">
+      <FormControl component="fieldset">
+        <FormLabel
+          component="legend"
+          error={hasRadioButtonError}
+          className="heading-label"
+        >
           {t('description')}
         </FormLabel>
         <RadioGroup
