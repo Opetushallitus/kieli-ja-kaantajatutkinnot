@@ -99,12 +99,18 @@ export const PublicEnrollmentTimer = ({
         className="public-enrollment__grid__timer-progressbar"
         variant="determinate"
         value={progress.value}
+        aria-hidden={true}
       />
       <CustomModal
         data-testid="public-enrollment__renew-reservation-modal"
         open={isContinueModalOpen}
         onCloseModal={() => setTimerWarningClosed(true)}
-        ariaLabelledBy="modal-title"
+        aria-labelledby="expires-modal-title"
+        aria-describedby="expires-modal-description"
+        modalTitle={t('reservationExpiresInTitle', {
+          minutes: progress.minutes,
+          seconds: progress.seconds,
+        })}
       >
         <div className="custom-modal__renew-reservation-modal">
           <h2>
@@ -113,7 +119,7 @@ export const PublicEnrollmentTimer = ({
               seconds: progress.seconds,
             })}
           </h2>
-          <p>{t('reservationInfoText')}</p>
+          <p id="expires-modal-description">{t('reservationInfoText')}</p>
           <div className="columns gapped flex-end">
             <CustomButton
               data-testid="public-enrollment__cancel-reservation-modal-button"
@@ -138,11 +144,12 @@ export const PublicEnrollmentTimer = ({
         data-testid="public-enrollment__reservation-expired-modal"
         open={isExpiredModalOpen}
         onCloseModal={() => setTimerWarningClosed(true)}
-        ariaLabelledBy="modal-title"
+        aria-labelledby="expired-modal-title"
+        aria-describedby="expired-modal-description"
+        modalTitle={t('reservationExpired')}
       >
         <div className="custom-modal__renew-reservation-modal">
-          <h2>{t('reservationExpired')}</h2>
-          <p>{t('reservationExpiredText')}</p>
+          <p id="expired-modal-description">{t('reservationExpiredText')}</p>
           <div className="columns gapped flex-end">
             <CustomButton
               data-testid="public-enrollment__reservation-expired-ok-button"

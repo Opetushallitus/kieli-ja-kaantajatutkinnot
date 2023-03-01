@@ -5,18 +5,17 @@ import { H2 } from '../Text/Text';
 import './CustomModal.scss';
 
 type CustomModalProps = ModalProps & {
-  ariaLabelledBy?: string;
   screenReaderTitle?: string;
   modalTitle?: string;
   onCloseModal: () => void;
 };
 
 export const CustomModal: FC<CustomModalProps> = ({
-  ariaLabelledBy,
   open,
   children,
   modalTitle,
   onCloseModal,
+  ...props
 }) => {
   const handleOnClose = (event: React.SyntheticEvent, reason: string) => {
     if (event && reason === 'backdropClick') {
@@ -26,10 +25,16 @@ export const CustomModal: FC<CustomModalProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={handleOnClose} aria-labelledby={ariaLabelledBy}>
+    <Modal
+      {...props}
+      role="alertdialog"
+      aria-modal={true}
+      open={open}
+      onClose={handleOnClose}
+    >
       <div className="custom-modal">
         <div className="rows gapped">
-          <H2 id={ariaLabelledBy}>{modalTitle}</H2>
+          <H2 id={props['aria-labelledby']}>{modalTitle}</H2>
           {children}
         </div>
       </div>
