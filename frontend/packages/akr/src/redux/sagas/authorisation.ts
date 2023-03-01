@@ -11,25 +11,29 @@ import {
   addAuthorisation,
   addingAuthorisationSucceeded,
   rejectAuthorisationAdd,
-  rejectAuthorisationPublishPermissionUpdate,
   rejectAuthorisationRemove,
+  rejectAuthorisationUpdate,
   removeAuthorisation,
   removingAuthorisationSucceeded,
-  updateAuthorisationPublishPermission,
-  updatingAuthorisationPublishPermissionSucceeded,
+  updateAuthorisation,
+  updatingAuthorisationSucceeded,
 } from 'redux/reducers/authorisation';
 import { upsertClerkTranslator } from 'redux/reducers/clerkTranslator';
 import { setClerkTranslatorOverviewTranslator } from 'redux/reducers/clerkTranslatorOverview';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
+function* addAuthorisationSaga(
+  action: PayloadAction<{
+    authorisation: Authorisation;
+    translatorId: number;
+  }>
+) {
   try {
-    const { translatorId } = action.payload;
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.post,
-      `${APIEndpoints.ClerkTranslator}/${translatorId}/authorisation`,
-      SerializationUtils.serializeAuthorisation(action.payload)
+      `${APIEndpoints.ClerkTranslator}/${action.payload.translatorId}/authorisation`,
+      SerializationUtils.serializeAuthorisation(action.payload.authorisation)
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
@@ -44,32 +48,23 @@ function* addAuthorisationSaga(action: PayloadAction<Authorisation>) {
   }
 }
 
-function* updateAuthorisationPublishPermissionSaga(
-  action: PayloadAction<Authorisation>
-) {
-  const { id, version, permissionToPublish } = action.payload;
-  const requestBody = {
-    id,
-    version,
-    permissionToPublish,
-  };
-
+function* updateAuthorisationSaga(action: PayloadAction<Authorisation>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.put,
-      APIEndpoints.AuthorisationPublishPermission,
-      requestBody
+      APIEndpoints.Authorisation,
+      SerializationUtils.serializeAuthorisation(action.payload)
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
     yield put(upsertClerkTranslator(translator));
     yield put(setClerkTranslatorOverviewTranslator(translator));
-    yield put(updatingAuthorisationPublishPermissionSucceeded());
+    yield put(updatingAuthorisationSucceeded());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectAuthorisationPublishPermissionUpdate());
+    yield put(rejectAuthorisationUpdate());
   }
 }
 
@@ -94,9 +89,6 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
 
 export function* watchAuthorisations() {
   yield takeLatest(addAuthorisation.type, addAuthorisationSaga);
-  yield takeLatest(
-    updateAuthorisationPublishPermission.type,
-    updateAuthorisationPublishPermissionSaga
-  );
+  yield takeLatest(updateAuthorisation.type, updateAuthorisationSaga);
   yield takeLatest(removeAuthorisation.type, removeAuthorisationSaga);
 }

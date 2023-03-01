@@ -68,13 +68,6 @@
       "clerkTranslatorOverview": {
         "authorisations": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Vaihda julkaisulupaa",
-              "dialog": {
-                "description": "Tämä muuttaa auktorisoinnin näkymistä julkisessa rekisterissä.",
-                "header": "Haluatko varmasti vaihtaa julkaisulupaa?"
-              }
-            },
             "removal": {
               "ariaLabel": "Poista auktorisointi",
               "dialog": {
@@ -88,6 +81,7 @@
             "add": "Lisää auktorisointi"
           },
           "fields": {
+            "actions": "Toiminnot",
             "basis": "Peruste",
             "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
@@ -97,11 +91,15 @@
             "startDate": "Alkamispäivä"
           },
           "header": "Auktorisoinnit",
+          "modalTitle": {
+            "addAuthorisation": "Lisää auktorisointi",
+            "editAuthorisation": "Muokkaa auktorisointia"
+          },
           "noAuthorisations": "Valituille kriteereille ei löytynyt auktorisointeja",
           "toasts": {
             "addingSucceeded": "Auktorisointi lisätty onnistuneesti",
             "removingSucceeded": "Valittu auktorisointi poistettu",
-            "updatingPublishPermissionSucceeded": "Auktorisoinnin julkaisulupaa muutettu"
+            "updatingSucceeded": "Auktorisoinnin muokkaus onnistui"
           },
           "toggleFilters": {
             "effective": "Voimassa olevat",
@@ -383,6 +381,9 @@
         "addedAuthorisationsTitle": "Lisätyt auktorisoinnit",
         "cancelAddNewTranslatorDialog": {
           "title": "Haluatko varmasti peruuttaa uuden kääntäjän lisäyksen?"
+        },
+        "modalTitle": {
+          "addAuthorisation": "Lisää auktorisointi"
         },
         "removeAuthorisationDialog": {
           "title": "Haluatko varmasti poistaa auktorisoinnin?"

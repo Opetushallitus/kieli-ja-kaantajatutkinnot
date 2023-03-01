@@ -5,8 +5,8 @@
 @import 'base/base';
 
 // Components
-@import 'components/clerkTranslator/add-authorisation';
-@import 'components/clerkTranslator/authorisation-details';
+@import 'src/styles/components/clerkTranslator/authorisation-details';
+@import 'src/styles/components/clerkTranslator/authorisation-fields';
 @import 'components/clerkTranslator/clerk-translator-autocomplete-filters';
 @import 'components/clerkTranslator/clerk-translator-email-filter';
 @import 'components/clerkTranslator/clerk-translator-listing';
