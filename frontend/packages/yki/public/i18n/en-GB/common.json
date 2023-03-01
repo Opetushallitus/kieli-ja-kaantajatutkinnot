@@ -17,6 +17,11 @@
           "sv": "På svenska"
         }
       },
+      "languageLevel": {
+        "KESKI": "intermediate level",
+        "PERUS": "basic level",
+        "YLIN": "advanced level"
+      },
       "languages": {
         "deu": "German",
         "eng": "English",
@@ -29,15 +34,10 @@
         "swe": "Swedish"
       },
       "level": "Level",
-      "levels": {
-        "PERUS": "basic level",
-        "KESKI": "intermediate level",
-        "YLIN": "advanced level"
-      },
       "ophLogo": "Logo of Finnish National Agency for Education",
       "price": "Price",
-      "registration": "Registration",
-      "reassessment": "Reassessment"
+      "reassessment": "Reassessment",
+      "registration": "Registration"
     }
   }
 }

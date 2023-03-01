@@ -17,6 +17,11 @@
           "sv": "På svenska"
         }
       },
+      "languageLevel": {
+        "KESKI": "mellannivå",
+        "PERUS": "grundnivå",
+        "YLIN": "högsta nivå"
+      },
       "languages": {
         "deu": "tyska",
         "eng": "engelska",
@@ -29,15 +34,10 @@
         "swe": "svenska"
       },
       "level": "Nivå",
-      "levels": {
-        "PERUS": "grundnivå",
-        "KESKI": "mellannivå",
-        "YLIN": "högsta nivå"
-      },
       "ophLogo": "Utbildningsstyrelsens logo",
       "price": "Pris",
-      "registration": "Anmälning",
-      "reassessment": "Kontrollbedömning"
+      "reassessment": "Kontrollbedömning",
+      "registration": "Anmälning"
     }
   }
 }

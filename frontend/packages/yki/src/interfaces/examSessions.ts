@@ -21,7 +21,7 @@ export interface ExamSessions {
   exam_sessions: Array<ExamSession>;
 }
 
-interface ExamSessionResponse
+export interface ExamSessionResponse
   extends Omit<
     ExamSession,
     | 'session_date'
