@@ -13,6 +13,7 @@ interface PublicEnrollmentState {
   reservationDetailsStatus: APIResponseStatus;
   reservationDetails?: PublicReservationDetails;
   status: APIResponseStatus;
+  cancelStatus: APIResponseStatus;
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
 }
@@ -21,6 +22,7 @@ const initialState: PublicEnrollmentState = {
   reservationDetailsStatus: APIResponseStatus.NotStarted,
   reservationDetails: undefined,
   status: APIResponseStatus.NotStarted,
+  cancelStatus: APIResponseStatus.NotStarted,
   activeStep: PublicEnrollmentFormStep.Identify,
   enrollment: {
     email: '',
@@ -76,13 +78,16 @@ const publicEnrollmentSlice = createSlice({
       } as PublicReservationDetails;
     },
     cancelPublicEnrollment(state) {
-      state.status = APIResponseStatus.InProgress;
+      state.cancelStatus = APIResponseStatus.InProgress;
     },
     cancelPublicEnrollmentAndRemoveReservation(
       state,
       _action: PayloadAction<number>
     ) {
-      state.status = APIResponseStatus.InProgress;
+      state.cancelStatus = APIResponseStatus.InProgress;
+    },
+    storePublicEnrollmentCancellation(state) {
+      state.cancelStatus = APIResponseStatus.Success;
     },
     decreaseActiveStep(state) {
       state.activeStep = --state.activeStep;
@@ -94,6 +99,7 @@ const publicEnrollmentSlice = createSlice({
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
       state.reservationDetails = initialState.reservationDetails;
       state.status = initialState.status;
+      state.cancelStatus = initialState.cancelStatus;
       state.activeStep = initialState.activeStep;
       state.enrollment = initialState.enrollment;
     },
@@ -129,6 +135,7 @@ export const {
   storePublicEnrollmentInitialisation,
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
+  storePublicEnrollmentCancellation,
   decreaseActiveStep,
   increaseActiveStep,
   resetPublicEnrollment,

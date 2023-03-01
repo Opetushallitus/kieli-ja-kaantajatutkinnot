@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -10,6 +11,7 @@ import { PublicEnrollmentStepContents } from 'components/publicEnrollment/Public
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -20,12 +22,23 @@ export const PublicEnrollmentGrid = () => {
 
   const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
 
-  const { status, activeStep, enrollment, reservationDetails } = useAppSelector(
-    publicEnrollmentSelector
-  );
+  const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
+    useAppSelector(publicEnrollmentSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
-  useNavigationProtection(activeStep > PublicEnrollmentFormStep.Identify);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cancelStatus === APIResponseStatus.Success) {
+      navigate(AppRoutes.PublicHomePage);
+    }
+  }, [cancelStatus, navigate]);
+
+  useNavigationProtection(
+    activeStep > PublicEnrollmentFormStep.Identify &&
+      activeStep < PublicEnrollmentFormStep.Done &&
+      cancelStatus === APIResponseStatus.NotStarted
+  );
 
   if (!selectedExamEvent) {
     return null;
@@ -46,7 +59,7 @@ export const PublicEnrollmentGrid = () => {
                 activeStep={activeStep}
                 includePaymentStep={hasReservation}
               />
-              {reservationDetails?.reservation && (
+              {reservationDetails?.reservation && !isDoneStepActive && (
                 <PublicEnrollmentTimer
                   reservation={reservationDetails.reservation}
                   isLoading={isLoading}
@@ -57,7 +70,6 @@ export const PublicEnrollmentGrid = () => {
                 showOpenings={hasReservation && !isDoneStepActive}
               />
               <PublicEnrollmentStepContents
-                examEvent={selectedExamEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}

@@ -34,6 +34,8 @@ export const PublicIdentifyGrid = () => {
     return null;
   }
 
+  const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
+
   const renderDesktopView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -41,11 +43,11 @@ export const PublicIdentifyGrid = () => {
           <div className="public-enrollment__grid__form-container">
             <PublicEnrollmentStepper
               activeStep={PublicEnrollmentFormStep.Identify}
-              includePaymentStep={false}
+              includePaymentStep={isExpectedToHaveOpenings}
             />
             <PublicEnrollmentExamEventDetails
               examEvent={selectedExamEvent}
-              showOpenings={false}
+              showOpenings={isExpectedToHaveOpenings}
             />
             <div className="margin-top-xxl gapped rows">
               <H3>{t('title')}</H3>
@@ -56,7 +58,7 @@ export const PublicIdentifyGrid = () => {
                 onClick={() => {
                   dispatch(initialisePublicEnrollment(selectedExamEvent));
                 }}
-                data-testid="public-enrollment__identiy"
+                data-testid="public-enrollment__identify-button"
                 disabled={isLoading}
               >
                 {t('buttonText')}
