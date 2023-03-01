@@ -2,6 +2,7 @@ import {
   Collapse,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup,
@@ -94,11 +95,7 @@ export const PreviousEnrollment = ({
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
       <FormControl component="fieldset">
-        <FormLabel
-          component="legend"
-          error={hasRadioButtonError}
-          className="heading-label"
-        >
+        <FormLabel component="legend" className="heading-label">
           {t('description')}
         </FormLabel>
         <RadioGroup
@@ -110,26 +107,38 @@ export const PreviousEnrollment = ({
             <FormControlLabel
               disabled={editingDisabled}
               value={yes}
-              control={<Radio />}
+              control={
+                <Radio aria-describedby="has-previous-enrollment-error" />
+              }
               label={translateCommon('yes')}
               checked={enrollment.hasPreviousEnrollment}
             />
             <FormControlLabel
               disabled={editingDisabled}
               value={no}
-              control={<Radio />}
+              control={
+                <Radio aria-describedby="has-previous-enrollment-error" />
+              }
               label={translateCommon('no')}
               checked={enrollment.hasPreviousEnrollment === false}
             />
           </div>
         </RadioGroup>
+        {hasRadioButtonError && (
+          <FormHelperText
+            id="has-previous-enrollment-error"
+            error={hasRadioButtonError}
+          >
+            {translateCommon('errors.customTextField.required')}
+          </FormHelperText>
+        )}
       </FormControl>
       <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
         <FormLabel className="heading-label gapped-sm">
           {t('whenPrevious')}
         </FormLabel>
         <CustomTextField
-          className="margin-top-sm"
+          className="margin-top-sm public-enrollment__grid__previous-enrollment__input"
           label={t('label')}
           value={enrollment.previousEnrollment || ''}
           onBlur={handleChange}

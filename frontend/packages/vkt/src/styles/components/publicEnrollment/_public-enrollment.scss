@@ -1,12 +1,8 @@
 .public-enrollment {
   .heading-label {
+    color: $color-text-primary;
     display: block;
     font-weight: bold;
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    &:not(.Mui-error) {
-      color: $color-text-primary;
-    }
   }
 
   & &__grid {
@@ -28,6 +24,10 @@
 
     &__previous-enrollment {
       width: calc(50% - 1rem);
+
+      &__input {
+        width: 100%;
+      }
     }
 
     &__partial-exam-selection {
