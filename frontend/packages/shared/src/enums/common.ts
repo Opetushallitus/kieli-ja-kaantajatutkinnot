@@ -23,6 +23,7 @@ export enum Color {
 export enum CustomTextFieldErrors {
   Required = 'errors.customTextField.required',
   MaxLength = 'errors.customTextField.maxLength',
+  MinLength = 'errors.customTextField.minLength',
   EmailFormat = 'errors.customTextField.emailFormat',
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',

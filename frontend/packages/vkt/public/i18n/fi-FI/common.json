@@ -55,6 +55,7 @@
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
+          "minLength": "Teksti on liian lyhyt",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "required": "Tieto on pakollinen",
           "telFormat": "Puhelinnumero on virheellinen",

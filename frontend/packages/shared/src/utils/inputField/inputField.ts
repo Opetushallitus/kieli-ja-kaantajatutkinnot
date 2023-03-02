@@ -1,44 +1,38 @@
 import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-validator';
 
-import { TextField } from '../../interfaces';
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
+import { TextField } from '../../interfaces';
 
-export function getErrors<T> (
-    fields: TextField<T>[],
-    values: T,
-    t: (key: string) => string
-  ): T {
-    return fields.reduce(
-      (fields, field: TextField<T>) => {
-        const value = String(values[field.name]);
-        const error = InputFieldUtils.inspectCustomTextFieldErrors(
-          field.type,
-          value,
-          field.required
-        );
-        const fieldErrorMessage = error ? t(error) : '';
-
-        return {
-          ...fields,
-          [field.name]: fieldErrorMessage,
-        };
-      },
-      {} as T
+export function getErrors<T>(
+  fields: Array<TextField<T>>,
+  values: T,
+  t: (key: string) => string
+): T {
+  return fields.reduce((fields, field: TextField<T>) => {
+    const value = String(values[field.name]);
+    const error = InputFieldUtils.inspectCustomTextFieldErrors(
+      field.type,
+      value,
+      field.required,
+      field.maxLength,
+      field.minLength
     );
+    const fieldErrorMessage = error ? t(error) : '';
+
+    return {
+      ...fields,
+      [field.name]: fieldErrorMessage,
+    };
+  }, {} as T);
 }
 
-export function getEmptyErrorState<T> (
-    fields: TextField<T>[],
-  ): T {
-    return fields.reduce(
-      (fields, field: TextField<T>) => {
-        return {
-          ...fields,
-          [field.name]: '',
-        };
-      },
-      {} as T
-    );
+export function getEmptyErrorState<T>(fields: Array<TextField<T>>): T {
+  return fields.reduce((fields, field: TextField<T>) => {
+    return {
+      ...fields,
+      [field.name]: '',
+    };
+  }, {} as T);
 }
 
 export class InputFieldUtils {
@@ -48,7 +42,8 @@ export class InputFieldUtils {
     type: TextFieldTypes,
     value?: string,
     required = true,
-    maxTextAreaLength = this.defaultMaxTextAreaLength
+    maxTextAreaLength = this.defaultMaxTextAreaLength,
+    minLength?: number
   ) {
     const trimmedValue = value?.trim() || '';
 
@@ -58,6 +53,10 @@ export class InputFieldUtils {
 
     if (!required && trimmedValue.length == 0) {
       return '';
+    }
+
+    if (minLength && minLength > 0 && trimmedValue.length < minLength) {
+      return CustomTextFieldErrors.MinLength;
     }
 
     switch (type) {
