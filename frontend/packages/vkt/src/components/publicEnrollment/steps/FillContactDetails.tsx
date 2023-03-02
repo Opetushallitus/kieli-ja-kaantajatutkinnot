@@ -22,19 +22,19 @@ const fields: TextField<PublicEnrollmentContactDetails>[] = [
   {
     name: 'email',
     required: true,
-    type: TextFieldTypes.Text,
+    type: TextFieldTypes.Email,
     maxLength: 255,
   },
   {
     name: 'emailConfirmation',
     required: true,
-    type: TextFieldTypes.Text,
+    type: TextFieldTypes.Email,
     maxLength: 255,
   },
   {
     name: 'phoneNumber',
     required: true,
-    type: TextFieldTypes.Text,
+    type: TextFieldTypes.PhoneNumber,
     maxLength: 255,
   },
 ];
