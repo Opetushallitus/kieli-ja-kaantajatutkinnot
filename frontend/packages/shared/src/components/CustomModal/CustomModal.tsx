@@ -5,7 +5,6 @@ import { H2 } from '../Text/Text';
 import './CustomModal.scss';
 
 type CustomModalProps = ModalProps & {
-  screenReaderTitle?: string;
   modalTitle?: string;
   onCloseModal: () => void;
 };
