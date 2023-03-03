@@ -2,13 +2,15 @@ import { ExamLanguage, ExamLevel } from 'enums/app';
 
 export class ExamSessionUtils {
   static languageAndLevelText(
-    language: ExamLanguage,
-    level: ExamLevel,
+    {
+      language_code,
+      level_code,
+    }: { language_code: ExamLanguage; level_code: ExamLevel },
     translateCommon: (t: string) => string
   ) {
-    const langTranslation = translateCommon(`languages.${language}`);
+    const langTranslation = translateCommon(`languages.${language_code}`);
     const levelTranslation = translateCommon(
-      `languageLevel.${ExamLevel[level]}`
+      `languageLevel.${ExamLevel[level_code]}`
     );
 
     return `${langTranslation}, ${levelTranslation}`;

@@ -1,4 +1,4 @@
-import { TableCell, TableHead } from '@mui/material';
+import { TableCell, TableHead, TableRow } from '@mui/material';
 
 import { usePublicTranslation } from 'configs/i18n';
 
@@ -9,10 +9,12 @@ export const PublicEvaluationPeriodListingHeader = () => {
 
   return (
     <TableHead>
-      <TableCell>{t('examination')}</TableCell>
-      <TableCell>{t('examDate')} </TableCell>
-      <TableCell>{t('evaluationPeriod')}</TableCell>
-      <TableCell></TableCell>
+      <TableRow>
+        <TableCell>{t('examination')}</TableCell>
+        <TableCell>{t('examDate')} </TableCell>
+        <TableCell>{t('evaluationPeriod')}</TableCell>
+        <TableCell></TableCell>
+      </TableRow>
     </TableHead>
   );
 };

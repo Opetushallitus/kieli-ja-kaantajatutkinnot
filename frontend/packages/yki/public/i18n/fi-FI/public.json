@@ -1,6 +1,33 @@
 {
   "yki": {
     "component": {
+      "evaluationOrderForm": {
+        "acceptConditions": {
+          "grantApproval": "Hyväksyn henkilötietojeni käsittelyn *",
+          "heading": "Hyväksy ehdot",
+          "legalBasis": "Noudatamme henkilötietojen käsittelyssä GDPR-lainsäädäntöä.",
+          "readConditions": "Lue henkilötietojen käsittelyn ehdot"
+        },
+        "actionButtons": {
+          "cancel": "Peruuta",
+          "pay": "Siirry maksamaan"
+        },
+        "info": {
+          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
+          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
+          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
+        },
+        "fillPayerDetails": {
+          "heading": "Maksajan tiedot"
+        },
+        "selectExaminationParts": {
+          "heading": "Tarkistettavat tutkinnon osat",
+          "selectAtLeastOne": "Valitse vähintään yksi",
+          "selectParts": "Valitse tutkinnon osat, joista haluat tarkistusarvioinnin *",
+          "sumTotal": "Tarkistusarvioinnin hinta yhteensä"
+        }
+      },
       "footer": {
         "accessibility": {
           "ophPhone": "Opetushallituksen puhelinnumero",
@@ -113,6 +140,9 @@
         "toasts": {
           "notFound": "Kielitutkintoa ei löytynyt"
         }
+      },
+      "evaluationOrderPage": {
+        "title": "Pyydä tarkistusarviointi"
       },
       "reassessmentPage": {
         "info": {

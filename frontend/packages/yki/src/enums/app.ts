@@ -6,6 +6,7 @@ export enum AppRoutes {
   Registration = '/yki/ilmoittautuminen',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
   Reassessment = '/yki/tarkistusarviointi',
+  ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   NotFoundPage = '*',
   PrivacyPolicyPage = '/yki/tietosuojaseloste',
