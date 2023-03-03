@@ -8,6 +8,7 @@ export const PublicExamSessionListingHeader = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
+  // TODO Handle case where isPhone is true
   return (
     <TableHead>
       {!isPhone && (

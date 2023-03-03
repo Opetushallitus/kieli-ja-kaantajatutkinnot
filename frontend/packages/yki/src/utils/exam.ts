@@ -3,14 +3,21 @@ import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamUtils {
-  static renderLanguageAndLevel(es: ExamSession) {
+  static renderLanguageAndLevel({
+    language_code,
+    level_code,
+  }: {
+    language_code: ExamLanguage;
+    level_code: ExamLevel;
+  }) {
     const t = translateOutsideComponent();
 
-    return `${t('yki.common.languages.' + es.language_code)}, ${t(
-      'yki.common.languageLevel.' + es.level_code
+    return `${t('yki.common.languages.' + language_code)}, ${t(
+      'yki.common.languageLevel.' + level_code
     )}`;
   }
 
