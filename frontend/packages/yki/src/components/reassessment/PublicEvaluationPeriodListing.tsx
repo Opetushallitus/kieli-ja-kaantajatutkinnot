@@ -5,7 +5,7 @@ import { PublicEvaluationPeriodListingRow } from 'components/reassessment/Public
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
-import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriod';
+import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriods';
 
 const getRowDetails = (evaluationPeriod: EvaluationPeriod) => {
   return (

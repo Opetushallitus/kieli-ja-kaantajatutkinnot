@@ -3,17 +3,17 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { EvaluationPeriods } from 'interfaces/evaluationPeriod';
 
-interface EvaluationPeriodState extends EvaluationPeriods {
+interface EvaluationPeriodsState extends EvaluationPeriods {
   status: APIResponseStatus;
 }
 
-const initialState: EvaluationPeriodState = {
+const initialState: EvaluationPeriodsState = {
   evaluation_periods: [],
   status: APIResponseStatus.NotStarted,
 };
 
 const evaluationPeriodsSlice = createSlice({
-  name: 'evaluationPeriod',
+  name: 'evaluationPeriods',
   initialState,
   reducers: {
     loadEvaluationPeriods(state) {

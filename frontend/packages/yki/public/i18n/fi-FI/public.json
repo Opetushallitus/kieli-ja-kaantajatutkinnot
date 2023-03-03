@@ -106,9 +106,6 @@
           "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista"
         },
         "requestReassessment": "Pyydä tarkistusarviointia"
-      },
-      "publicExamEventGrid": {
-        "title": "Yleisiin kielitutkintoihin ilmoittautuminen"
       }
     },
     "pages": {

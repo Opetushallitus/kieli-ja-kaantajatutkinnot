@@ -10,7 +10,7 @@ import {
   loadEvaluationPeriods,
   rejectEvaluationPeriods,
   storeEvaluationPeriods,
-} from 'redux/reducers/evaluationPeriod';
+} from 'redux/reducers/evaluationPeriods';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadEvaluationPeriodsSaga() {

@@ -2,7 +2,7 @@ import createSagaMiddleware from '@redux-saga/core';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { APIErrorReducer } from 'redux/reducers/APIError';
-import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriod';
+import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
 import { examSessionReducer } from 'redux/reducers/examSession';
 import { examSessionsReducer } from 'redux/reducers/examSessions';
 import rootSaga from 'redux/sagas/index';

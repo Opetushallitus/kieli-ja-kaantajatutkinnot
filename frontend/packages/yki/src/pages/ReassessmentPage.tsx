@@ -8,8 +8,8 @@ import { PublicEvaluationPeriodListing } from 'components/reassessment/PublicEva
 import { PublicEvaluationPeriodListingSkeleton } from 'components/skeletons/PublicEvaluationPeriodListingSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriod';
-import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriod';
+import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
+import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriods';
 
 const PricingBulletList = () => {
   const translateCommon = useCommonTranslation();
@@ -80,7 +80,7 @@ export const ReassessmentPage: FC = () => {
               </Text>
               <Text>{t('info.general.body3')}</Text>
             </div>
-            <div className="public-reassessmnet-page__info__section">
+            <div className="public-reassessment-page__info__section">
               <H2 className="public-reassessment-page__info__section__heading-title">
                 {t('info.pricing.heading')}
               </H2>
