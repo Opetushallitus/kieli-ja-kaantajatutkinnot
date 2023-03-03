@@ -113,25 +113,27 @@ export const PublicEnrollmentTimer = ({
           seconds: progress.seconds,
         })}
       >
-        <p id="expires-modal-description">{t('reservationInfoText')}</p>
-        <div className="columns gapped flex-end">
-          <CustomButton
-            data-testid="public-enrollment__cancel-reservation-modal-button"
-            variant={Variant.Text}
-            color={Color.Secondary}
-            onClick={cancelReservation}
-          >
-            {t('cancelReservation')}
-          </CustomButton>
-          <CustomButton
-            data-testid="public-enrollment__renew-reservation-modal-button"
-            variant={Variant.Contained}
-            color={Color.Secondary}
-            onClick={renewReservation}
-          >
-            {t('continueEnrollment')}
-          </CustomButton>
-        </div>
+        <>
+          <p id="expires-modal-description">{t('reservationInfoText')}</p>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              data-testid="public-enrollment__cancel-reservation-modal-button"
+              variant={Variant.Text}
+              color={Color.Secondary}
+              onClick={cancelReservation}
+            >
+              {t('cancelReservation')}
+            </CustomButton>
+            <CustomButton
+              data-testid="public-enrollment__renew-reservation-modal-button"
+              variant={Variant.Contained}
+              color={Color.Secondary}
+              onClick={renewReservation}
+            >
+              {t('continueEnrollment')}
+            </CustomButton>
+          </div>
+        </>
       </CustomModal>
       <CustomModal
         data-testid="public-enrollment__reservation-expired-modal"
@@ -142,17 +144,19 @@ export const PublicEnrollmentTimer = ({
         aria-describedby="expired-modal-description"
         modalTitle={t('reservationExpired')}
       >
-        <p id="expired-modal-description">{t('reservationExpiredText')}</p>
-        <div className="columns gapped flex-end">
-          <CustomButton
-            data-testid="public-enrollment__reservation-expired-ok-button"
-            variant={Variant.Text}
-            color={Color.Secondary}
-            onClick={cancelReservation}
-          >
-            {t('reservationExpiredContinue')}
-          </CustomButton>
-        </div>
+        <>
+          <p id="expired-modal-description">{t('reservationExpiredText')}</p>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              data-testid="public-enrollment__reservation-expired-ok-button"
+              variant={Variant.Text}
+              color={Color.Secondary}
+              onClick={cancelReservation}
+            >
+              {t('reservationExpiredContinue')}
+            </CustomButton>
+          </div>
+        </>
       </CustomModal>
     </Box>
   );
