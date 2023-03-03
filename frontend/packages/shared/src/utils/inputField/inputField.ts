@@ -3,11 +3,15 @@ import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-val
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 import { TextField } from '../../interfaces';
 
+type Errors<T> = {
+  [Property in keyof T]: string;
+};
+
 export function getErrors<T>(
   fields: Array<TextField<T>>,
   values: T,
   t: (key: string) => string
-): T {
+): Errors<T> {
   return fields.reduce((fields, field: TextField<T>) => {
     const value = String(values[field.name]);
     const error = InputFieldUtils.inspectCustomTextFieldErrors(
@@ -23,16 +27,16 @@ export function getErrors<T>(
       ...fields,
       [field.name]: fieldErrorMessage,
     };
-  }, {} as T);
+  }, {} as Errors<T>);
 }
 
-export function getEmptyErrorState<T>(fields: Array<TextField<T>>): T {
+export function getEmptyErrorState<T>(fields: Array<TextField<T>>): Errors<T> {
   return fields.reduce((fields, field: TextField<T>) => {
     return {
       ...fields,
       [field.name]: '',
     };
-  }, {} as T);
+  }, {} as Errors<T>);
 }
 
 export class InputFieldUtils {

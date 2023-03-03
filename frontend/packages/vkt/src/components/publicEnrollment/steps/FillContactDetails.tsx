@@ -18,7 +18,7 @@ import {
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 
-const fields: TextField<PublicEnrollmentContactDetails>[] = [
+const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
     name: 'email',
     required: true,

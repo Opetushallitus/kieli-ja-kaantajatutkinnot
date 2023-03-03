@@ -12,7 +12,7 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
-const fields: TextField<CertificateShippingTextFields>[] = [
+const fields: Array<TextField<CertificateShippingTextFields>> = [
   {
     name: 'street',
     required: true,
