@@ -2,17 +2,36 @@
   "yki": {
     "common": {
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
+      "back": "Takaisin",
+      "buttons": {
+        "empty": "Tyhjennä kaikki",
+        "showResults": "Näytä tulokset ({{count}})"
+      },
+      "cancel": "Peruuta",
       "component": {
         "table": {
           "pagination": {
+            "backButtonLabel": "Edelliset hakutulokset",
+            "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
           }
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
       "date": "Päivämäärä",
+      "dates": {
+        "dateTimeFormat": "l [klo] HH.mm"
+      },
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
+        "customTextField": {
+          "emailFormat": "Sähköpostiosoite on virheellinen",
+          "maxLength": "Teksti on liian pitkä",
+          "numberFormat": "Arvo on virheellinen",
+          "required": "Tieto on pakollinen",
+          "telFormat": "Puhelinnumero on virheellinen"
+        },
         "loadingFailed": "Tietojen lataaminen epäonnistui."
       },
       "examSession": "Tutkintotilaisuus",
@@ -28,13 +47,36 @@
       },
       "institution": "Oppilaitos",
       "language": "Kieli",
+      "languageLevel": {
+        "KESKI": "keskitaso",
+        "PERUS": "perustaso",
+        "YLIN": "ylin taso"
+      },
+      "languages": {
+        "deu": "saksa",
+        "eng": "englanti",
+        "fin": "suomi",
+        "fra": "ranska",
+        "ita": "italia",
+        "rus": "venäjä",
+        "sme": "pohjoissaame",
+        "spa": "espanja",
+        "swe": "ruotsi"
+      },
       "level": "Taso",
       "municipality": "Paikkakunta",
+      "navigationProtection": {
+        "description": "Menetät tekemäsi muutokset.",
+        "header": "Haluatko varmasti poistua sivulta?"
+      },
+      "next": "Seuraava",
       "ophLogo": "Opetushallituksen logo",
       "placesAvailable": "Paikkoja vapaana",
+      "price": "Hinta",
+      "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
       "registrationPeriod": "Ilmoittautumisaika",
-      "reassessment": "Tarkistusarviointi",
+      "yes": "Kyllä",
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"

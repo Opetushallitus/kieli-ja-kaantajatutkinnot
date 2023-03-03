@@ -10,12 +10,12 @@ export interface Authorisation
   extends Partial<WithTempId>,
     Omit<
       AuthorisationResponse,
-      'termBeginDate' | 'termEndDate' | 'examinationDate'
+      'termBeginDate' | 'termEndDate' | 'examinationDate' | 'diaryNumber'
     > {
   termBeginDate?: Dayjs;
   termEndDate?: Dayjs;
   examinationDate?: Dayjs;
-  translatorId?: number;
+  diaryNumber: string;
 }
 
 export interface AuthorisationResponse

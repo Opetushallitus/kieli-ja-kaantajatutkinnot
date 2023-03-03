@@ -1,5 +1,6 @@
 package fi.oph.akr.api.dto.clerk.modify;
 
+import fi.oph.akr.util.StringUtil;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -22,4 +23,17 @@ public record TranslatorCreateDTO(
   @NonNull @NotNull Boolean isAssuranceGiven,
   @NonNull @NotEmpty List<AuthorisationCreateDTO> authorisations
 )
-  implements TranslatorDTOCommonFields {}
+  implements TranslatorDTOCommonFields {
+  public TranslatorCreateDTO {
+    firstName = StringUtil.trim(firstName);
+    lastName = StringUtil.trim(lastName);
+    identityNumber = StringUtil.trim(identityNumber);
+    email = StringUtil.trim(email);
+    phoneNumber = StringUtil.trim(phoneNumber);
+    street = StringUtil.trim(street);
+    postalCode = StringUtil.trim(postalCode);
+    town = StringUtil.trim(town);
+    country = StringUtil.trim(country);
+    extraInformation = StringUtil.trim(extraInformation);
+  }
+}

@@ -3,7 +3,6 @@ export enum APIEndpoints {
   ClerkTranslator = '/akr/api/v1/clerk/translator',
   ContactRequest = '/akr/api/v1/translator/contact-request',
   Authorisation = '/akr/api/v1/clerk/translator/authorisation',
-  AuthorisationPublishPermission = '/akr/api/v1/clerk/translator/authorisation/publishPermission',
   InformalClerkTranslatorEmail = '/akr/api/v1/clerk/email/informal',
   ClerkUser = '/akr/api/v1/clerk/user',
   ExaminationDate = '/akr/api/v1/clerk/examinationDate',

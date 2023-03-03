@@ -7,6 +7,8 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { ExamDetailsPage } from 'pages/ExamDetailsPage';
+import { IdentifyPage } from 'pages/IdentifyPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 
 export const AppRouter: FC = () => {
@@ -28,6 +30,11 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.Registration}
                 element={<RegistrationPage />}
+              />
+              <Route path={AppRoutes.ExamSession} element={<IdentifyPage />} />
+              <Route
+                path={AppRoutes.ExamSessionRegistration}
+                element={<ExamDetailsPage />}
               />
             </Routes>
           </div>

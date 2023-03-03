@@ -30,12 +30,95 @@
           }
         }
       },
-      "publicExamEventGrid": {
-        "title": "Yleisiin kielitutkintoihin ilmoittautuminen"
+      "registration": {
+        "controlButtons": {
+          "cancelDialog": {
+            "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peruuta ilmoittautuminen"
+          },
+          "pay": "Siirry maksamaan",
+          "sendForm": "Lähetä lomake"
+        },
+        "examSessionDetails": {
+          "address": "Osoite",
+          "examDate": "Tutkintopäivä",
+          "openings": "Paikkoja vapaana",
+          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "paymentSum": {
+          "title": "Tutkintomaksu"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "phase": "Vaihe",
+          "step": {
+            "Done": "Valmis",
+            "Identify": "Tunnistaudu",
+            "Register": "Ilmoittaudu"
+          }
+        },
+        "steps": {
+          "done": {
+            "description": {
+              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+            },
+            "successToast": "Ilmoittautuminen onnistui!",
+            "title": "Maksu on suoritettu."
+          },
+          "identify": {
+            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
+            "title": "Tunnistaudu ilmoittautumista varten"
+          },
+          "personDetails": {
+            "address": "Katuosoite",
+            "firstNames": "Etunimet",
+            "lastName": "Sukunimi",
+            "postNumber": "Postinumero",
+            "postOffice": "Postitoimipaikka",
+            "title": "Henkilötiedot"
+          },
+          "register": {
+            "email": "Sähköpostiosoite",
+            "emailConfirmation": "Vahvista sähköpostiosoite",
+            "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+            "phoneNumber": "Puhelinnumero",
+            "privacyStatement": {
+              "ariaLabel": "Tietosuojaseloste",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
+              "linkLabel": "tietosuojaselosteen"
+            },
+            "termsAndConditions": {
+              "description": "1.1.2023 alkaen tarvitset todistuksen sairaudesta tai muusta painavasta syystä, jos haluat perua ilmoittautumisesi YKI-testiin.",
+              "label": "Hyväksyn ehdot",
+              "title": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen. Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin."
+            },
+            "title": "Yhteystiedot"
+          }
+        }
       }
     },
     "pages": {
+      "examDetailsPage": {
+        "toasts": {
+          "notFound": "Kielitutkintoa ei löytynyt"
+        }
+      },
       "registrationPage": {
+        "labels": {
+          "excludeFullSessions": "Näytä vain tutkintotilaisuudet, joissa on tilaa",
+          "excludeNonOpenSessions": "Näytä vain nyt avoinna olevat tutkintotilaisuudet",
+          "filterExamSessions": "Suodata tutkintotilaisuuksia",
+          "selectLanguage": "Valitse kieli",
+          "selectLevel": "Valitse taso",
+          "selectMunicipality": "Valitse paikkakunta"
+        },
+        "register": "Ilmoittaudu",
+        "searchResults": "Tulokset ({{count}})",
+        "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
+        "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)",
+        "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       }
     }

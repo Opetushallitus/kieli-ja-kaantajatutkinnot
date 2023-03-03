@@ -23,12 +23,6 @@
       @include phone {
         padding: 0.5rem;
       }
-
-      &__no-results {
-        @include phone {
-          margin: 2rem;
-        }
-      }
     }
   }
 

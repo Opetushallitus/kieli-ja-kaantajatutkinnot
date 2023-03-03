@@ -152,7 +152,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.wait('@getMeetingDates');
 
     onClerkTranslatorOverviewPage.clickAddAuthorisationBtn();
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationFields();
+    onClerkTranslatorOverviewPage.fillOutAuthorisationFields();
     onClerkTranslatorOverviewPage.toggleAddAuthorisationPermissionToPublishSwitch();
 
     const responseBody = {
@@ -183,29 +183,29 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onClerkTranslatorOverviewPage.clickAddAuthorisationBtn();
 
-    onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
+    onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'examinationDate',
       'input'
     );
-    onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
+    onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'termEndDate',
       'input'
     );
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
       'kkt'
     );
-    onClerkTranslatorOverviewPage.expectDisabledAddAuthorisationField(
+    onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'examinationDate',
       'input'
     );
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
       'aut'
     );
-    onClerkTranslatorOverviewPage.expectEnabledAddAuthorisationField(
+    onClerkTranslatorOverviewPage.expectEnabledAuthorisationField(
       'examinationDate',
       'input'
     );
@@ -223,44 +223,44 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onClerkTranslatorOverviewPage.clickAddAuthorisationBtn();
 
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'from',
       'input',
       'suomi'
     );
 
-    onClerkTranslatorOverviewPage.expectSaveButtonDisabled();
+    onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonDisabled();
 
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'to',
       'input',
       'ruotsi'
     );
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
       'kkt'
     );
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'termBeginDate',
       'input',
       '01.01.2022'
     );
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'diaryNumber',
       'input',
       '1337'
     );
 
-    onClerkTranslatorOverviewPage.expectSaveButtonEnabled();
+    onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonEnabled();
 
-    onClerkTranslatorOverviewPage.fillOutAddAuthorisationField(
+    onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
       'aut'
     );
 
-    onClerkTranslatorOverviewPage.expectSaveButtonDisabled();
+    onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonDisabled();
   });
 
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {

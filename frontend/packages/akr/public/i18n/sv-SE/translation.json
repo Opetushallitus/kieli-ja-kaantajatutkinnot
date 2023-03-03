@@ -60,13 +60,6 @@
       "clerkTranslatorOverview": {
         "authorisations": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Ändra publiceringstillstånd",
-              "dialog": {
-                "description": "Detta ändrar hur auktoriseringen syns i det offentliga registret.",
-                "header": "Är du säker på att du vill byta publiceringstillstånd?"
-              }
-            },
             "removal": {
               "ariaLabel": "Ta bort auktorisering",
               "dialog": {
@@ -80,6 +73,7 @@
             "add": "Lägg till auktorisering"
           },
           "fields": {
+            "actions": "Funktioner",
             "basis": "Grund",
             "diaryNumber": "Diarienummer",
             "endDate": "Slutdatum",
@@ -89,11 +83,15 @@
             "startDate": "Startdatum"
           },
           "header": "Auktoriserade",
+          "modalTitle": {
+            "addAuthorisation": "Lägg till auktorisering",
+            "editAuthorisation": "Redigera auktoriseringen"
+          },
           "noAuthorisations": "Inga auktoriseringar hittades för de valda kriterierna",
           "toasts": {
             "addingSucceeded": "Auktoriseringen har lagts till",
             "removingSucceeded": "Valda auktoriseringen har strykts",
-            "updatingPublishPermissionSucceeded": "Publiceringstillståndet för auktoriseringen har ändrats"
+            "updatingSucceeded": "Auktoriseringen redigerad"
           },
           "toggleFilters": {
             "effective": "I kraft",
@@ -374,6 +372,9 @@
         "addedAuthorisationsTitle": "Auktoriseringar som lagts till",
         "cancelAddNewTranslatorDialog": {
           "title": "Är du säker på att du vill ångra att du lade till en ny translator?"
+        },
+        "modalTitle": {
+          "addAuthorisation": "Lägg till auktorisering"
         },
         "removeAuthorisationDialog": {
           "title": "Är du säker på att du vill ta bort auktoriseringen?"

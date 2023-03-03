@@ -1,6 +1,7 @@
 package fi.oph.akr.api.dto.clerk.modify;
 
 import fi.oph.akr.model.AuthorisationBasis;
+import fi.oph.akr.util.StringUtil;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,4 +19,10 @@ public record AuthorisationCreateDTO(
   String diaryNumber,
   LocalDate examinationDate
 )
-  implements AuthorisationDTOCommonFields {}
+  implements AuthorisationDTOCommonFields {
+  public AuthorisationCreateDTO {
+    from = StringUtil.trim(from);
+    to = StringUtil.trim(to);
+    diaryNumber = StringUtil.trim(diaryNumber);
+  }
+}

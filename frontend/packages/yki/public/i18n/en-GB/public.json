@@ -1,1 +1,16 @@
-{}
+{
+  "yki": {
+    "pages": {
+      "registrationPage": {
+        "labels": {
+          "filterExamSessions": "Filter test sessions",
+          "excludeFullSessions": "Only show tests that have free places",
+          "excludeNonOpenSessions": "Only show tests that are open for registration now"
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Registration",
+        "register": "Register",
+        "searchResults": "Search results"
+      }
+    }
+  }
+}
