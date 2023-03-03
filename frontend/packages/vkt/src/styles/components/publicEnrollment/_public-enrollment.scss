@@ -76,18 +76,18 @@
   }
 }
 
-.custom-modal {
-  &__renew-reservation-modal {
-    margin: 0 2rem 2rem;
+.renew-reservation-modal {
+  .custom-modal {
+    padding: 4rem;
+  }
 
-    h2 {
-      font-size: 1.8rem;
-      margin: 0 0 3rem;
-    }
+  h2 {
+    font-size: 1.8rem;
+    margin: 0 0 1rem;
+  }
 
-    p {
-      font-size: 1.6rem;
-      margin: 0 0 3rem;
-    }
+  p {
+    font-size: 1.6rem;
+    margin: 0 0 2rem;
   }
 }
