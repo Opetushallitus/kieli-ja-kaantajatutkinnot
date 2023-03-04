@@ -9,9 +9,7 @@ class QualificationDetails {
     expiredToggleButton: () => cy.findByTestId(toggleButton('expired')),
     row: (id: number) => cy.findByTestId(rowTestId(id)),
     deleteButton: (id: number) =>
-      cy.findByTestId(`${rowTestId(id)}__delete-button`),
-    publishPermissionSwitch: (id: number) =>
-      cy.findByTestId(rowTestId(id)).find('input[type=checkbox]'),
+      cy.findByTestId(`${rowTestId(id)}__delete-btn`),
   };
 
   clickExpiredToggleBtn() {
@@ -28,15 +26,6 @@ class QualificationDetails {
 
   expectRowToHaveText(id: number, text: string) {
     this.elements.row(id).should('contain.text', text);
-  }
-
-  switchPublishPermission(id: number) {
-    this.elements.publishPermissionSwitch(id).click();
-  }
-
-  expectPublishPermission(id: number, publishPermission: boolean) {
-    const value = publishPermission ? 'on' : 'off';
-    this.elements.publishPermissionSwitch(id).should('be.have', value);
   }
 
   clickDeleteButton(id: number) {

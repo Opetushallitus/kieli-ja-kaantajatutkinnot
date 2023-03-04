@@ -5,8 +5,8 @@ import { Qualification } from 'interfaces/qualification';
 
 interface QualificationState {
   addStatus: APIResponseStatus;
-  updateStatus: APIResponseStatus;
   removeStatus: APIResponseStatus;
+  updateStatus: APIResponseStatus;
 }
 
 const initialState: QualificationState = {
@@ -19,12 +19,13 @@ const qualificationSlice = createSlice({
   name: 'qualification',
   initialState,
   reducers: {
-    resetQualificationState(state) {
-      state.removeStatus = initialState.removeStatus;
-      state.addStatus = initialState.addStatus;
-      state.updateStatus = initialState.updateStatus;
-    },
-    addQualification(state, _action: PayloadAction<Qualification>) {
+    addQualification(
+      state,
+      _action: PayloadAction<{
+        qualification: Qualification;
+        interpreterId: number;
+      }>
+    ) {
       state.addStatus = APIResponseStatus.InProgress;
     },
     rejectAddQualification(state) {
@@ -32,6 +33,9 @@ const qualificationSlice = createSlice({
     },
     addQualificationSucceeded(state) {
       state.addStatus = APIResponseStatus.Success;
+    },
+    resetQualificationAdd(state) {
+      state.addStatus = initialState.addStatus;
     },
     removeQualification(state, _action: PayloadAction<number>) {
       state.removeStatus = APIResponseStatus.InProgress;
@@ -42,6 +46,9 @@ const qualificationSlice = createSlice({
     removeQualificationSucceeded(state) {
       state.removeStatus = APIResponseStatus.Success;
     },
+    resetQualificationRemove(state) {
+      state.removeStatus = initialState.removeStatus;
+    },
     updateQualification(state, _action: PayloadAction<Qualification>) {
       state.updateStatus = APIResponseStatus.InProgress;
     },
@@ -51,19 +58,24 @@ const qualificationSlice = createSlice({
     updateQualificationSucceeded(state) {
       state.updateStatus = APIResponseStatus.Success;
     },
+    resetQualificationUpdate(state) {
+      state.updateStatus = initialState.updateStatus;
+    },
   },
 });
 
 export const qualificationReducer = qualificationSlice.reducer;
 export const {
-  resetQualificationState,
   addQualification,
   rejectAddQualification,
   addQualificationSucceeded,
+  resetQualificationAdd,
   removeQualification,
   rejectRemoveQualification,
   removeQualificationSucceeded,
+  resetQualificationRemove,
   updateQualification,
   updateQualificationSucceeded,
   rejectUpdateQualification,
+  resetQualificationUpdate,
 } = qualificationSlice.actions;
