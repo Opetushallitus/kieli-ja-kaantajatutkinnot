@@ -8,7 +8,7 @@ export interface PersonFillOutDetails {
   address: string;
   postNumber: string;
   postOffice: string;
-  certificateLanguage: CertificateLanguage;
+  certificateLanguage: CertificateLanguage | '';
 }
 
 export interface RegistrationCheckboxDetails {
@@ -27,8 +27,8 @@ export interface PublicSuomiFiRegistration
 export interface PublicEmailRegistration
   extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
   nationality: string;
-  dateOfBirth: Dayjs;
+  dateOfBirth: Dayjs | '';
   sex: string;
-  hasSSN: boolean;
+  hasSSN?: boolean;
   ssn?: string;
 }

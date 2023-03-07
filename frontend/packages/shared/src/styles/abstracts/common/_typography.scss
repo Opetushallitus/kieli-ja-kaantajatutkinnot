@@ -29,6 +29,25 @@
   }
 }
 
+/* Text transform */
+.lowercase {
+  &#{&} {
+    text-transform: lowercase;
+  }
+}
+
+.capitalize {
+  &#{&} {
+    text-transform: capitalize;
+  }
+}
+
+.text-transform-none {
+  &#{&} {
+    text-transform: none;
+  }
+}
+
 /* Colors */
 .color-grey-600 {
   &#{&} {

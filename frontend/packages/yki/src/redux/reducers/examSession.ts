@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { CertificateLanguage } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import {
@@ -20,17 +19,34 @@ interface ExamSessionState {
 const initialState: ExamSessionState = {
   status: APIResponseStatus.NotStarted,
   activeStep: PublicRegistrationFormStep.Identify,
+  // registration: {
+  //   firstNames: 'Test',
+  //   lastName: 'Tester',
+  //   address: '',
+  //   postNumber: '',
+  //   postOffice: '',
+  //   email: '',
+  //   emailConfirmation: '',
+  //   phoneNumber: '',
+  //   privacyStatementConfirmation: false,
+  //   certificateLanguage: '',
+  //   termsAndConditionsAgreed: false,
+  // },
+  // Email
+  isEmailRegistration: true,
   registration: {
-    firstNames: 'Test',
-    lastName: 'Tester',
+    firstNames: '',
+    lastName: '',
     address: '',
     postNumber: '',
     postOffice: '',
-    email: '',
-    emailConfirmation: '',
     phoneNumber: '',
+    email: 'test.test@invalid',
+    nationality: '',
+    dateOfBirth: '',
+    sex: '',
     privacyStatementConfirmation: false,
-    certificateLanguage: CertificateLanguage.FI,
+    certificateLanguage: '',
     termsAndConditionsAgreed: false,
   },
 };
@@ -49,11 +65,11 @@ const examSessionSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.examSession = action.payload;
     },
-    decreaseActiveStep(state) {
-      state.activeStep = --state.activeStep;
-    },
     increaseActiveStep(state) {
       state.activeStep = ++state.activeStep;
+    },
+    setActiveStep(state, action: PayloadAction<PublicRegistrationFormStep>) {
+      state.activeStep = action.payload;
     },
     updatePublicRegistration(
       state,
@@ -66,6 +82,9 @@ const examSessionSlice = createSlice({
     resetPublicRegistration() {
       return initialState;
     },
+    setIsEmailRegistration(state, action: PayloadAction<boolean>) {
+      state.isEmailRegistration = action.payload;
+    },
   },
 });
 
@@ -74,8 +93,9 @@ export const {
   loadExamSession,
   rejectExamSession,
   storeExamSession,
+  setActiveStep,
   increaseActiveStep,
-  decreaseActiveStep,
   updatePublicRegistration,
   resetPublicRegistration,
+  setIsEmailRegistration,
 } = examSessionSlice.actions;
