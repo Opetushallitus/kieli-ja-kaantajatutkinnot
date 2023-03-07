@@ -171,7 +171,3 @@ Regions are updated same way:
 cd scripts
 ./koodisto_regions.sh
 ```
-
-[prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-[eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-[stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
