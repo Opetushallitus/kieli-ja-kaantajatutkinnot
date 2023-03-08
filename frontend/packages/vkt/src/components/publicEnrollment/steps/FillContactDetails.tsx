@@ -2,12 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
-import {
-  FieldErrors,
-  getEmptyErrorState,
-  getErrors,
-  hasErrors,
-} from 'shared/utils';
+import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -75,7 +70,6 @@ export const FillContactDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const [fieldErrors] = useState(getEmptyErrorState(fields));
   const [dirtyFields, setDirtyFields] = useState<
     Array<keyof PublicEnrollmentContactDetails>
   >([]);
@@ -105,10 +99,6 @@ export const FillContactDetails = ({
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (fieldErrors[fieldName]) {
-        handleErrors(fieldName)();
-      }
-
       dispatch(
         updatePublicEnrollment({
           [fieldName]: event.target.value,
@@ -116,7 +106,7 @@ export const FillContactDetails = ({
       );
     };
 
-  const handleErrors =
+  const handleBlur =
     (fieldName: keyof PublicEnrollmentContactDetails) => () => {
       if (!dirtyFields.includes(fieldName)) {
         setDirtyFields([...dirtyFields, fieldName]);
@@ -134,10 +124,10 @@ export const FillContactDetails = ({
   ) => ({
     id: `public-enrollment__contact-details__${fieldName}-field`,
     label: t(fieldName),
-    onBlur: handleErrors(fieldName),
+    onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
-    helperText: errors[fieldName] ? errors[fieldName] : null,
+    helperText: errors[fieldName],
     required: true,
     disabled: isLoading,
   });

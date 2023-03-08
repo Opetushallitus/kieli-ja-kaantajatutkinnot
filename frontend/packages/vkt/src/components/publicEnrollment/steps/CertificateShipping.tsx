@@ -3,14 +3,13 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
-import { getEmptyErrorState, getErrors, InputFieldUtils } from 'shared/utils';
+import { getErrors, hasErrors } from 'shared/utils';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { EnrollmentUtils } from 'utils/enrollment';
 
 const fields: Array<TextField<CertificateShippingTextFields>> = [
   {
@@ -47,27 +46,33 @@ export const CertificateShipping = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const [fieldErrors, setFieldErrors] = useState(getEmptyErrorState(fields));
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof CertificateShippingTextFields>
+  >([]);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (setValid) {
-      setValid(EnrollmentUtils.isValidCertificateShipping(enrollment));
-    }
-  }, [fieldErrors, setValid, enrollment]);
+    setValid(
+      hasErrors<CertificateShippingTextFields>(
+        fields,
+        enrollment,
+        translateCommon
+      )
+    );
+  }, [setValid, enrollment, translateCommon]);
 
-  const errors = showValidation
-    ? getErrors(fields, enrollment, translateCommon)
-    : fieldErrors;
+  const dirty = showValidation ? undefined : dirtyFields;
+  const errors = getErrors<CertificateShippingTextFields>(
+    fields,
+    enrollment,
+    translateCommon,
+    dirty
+  );
 
   const handleChange =
     (fieldName: keyof CertificateShippingTextFields) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (fieldErrors[fieldName]) {
-        handleErrors(fieldName)(event);
-      }
-
       dispatch(
         updatePublicEnrollment({
           [fieldName]: event.target.value,
@@ -76,22 +81,10 @@ export const CertificateShipping = ({
     };
 
   const handleErrors =
-    (fieldName: keyof CertificateShippingTextFields) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { type, value, required } = event.target;
-
-      const error = InputFieldUtils.inspectCustomTextFieldErrors(
-        type as TextFieldTypes,
-        value,
-        required
-      );
-
-      const fieldErrorMessage = error ? translateCommon(error) : '';
-
-      setFieldErrors({
-        ...fieldErrors,
-        [fieldName]: fieldErrorMessage,
-      });
+    (fieldName: keyof CertificateShippingTextFields) => () => {
+      if (!dirtyFields.includes(fieldName)) {
+        setDirtyFields([...dirtyFields, fieldName]);
+      }
     };
 
   const showCustomTextFieldError = (
