@@ -3,16 +3,41 @@ import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-val
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 import { TextField } from '../../interfaces';
 
-type Errors<T> = {
+export type FieldErrors<T> = {
   [Property in keyof T]: string;
 };
+
+type ValidationFn<T> = (
+  errors: FieldErrors<T>,
+  values: T,
+  dirtyFields?: Array<keyof T>
+) => FieldErrors<T>;
+
+export function hasErrors<T>(
+  fields: Array<TextField<T>>,
+  values: T,
+  t: (key: string) => string,
+  extraValidation?: ValidationFn<T>
+): boolean {
+  const errors = getErrors<T>(fields, values, t, undefined, extraValidation);
+
+  return Object.keys(errors).some(
+    (field: string) => errors[field as keyof T] !== null
+  );
+}
 
 export function getErrors<T>(
   fields: Array<TextField<T>>,
   values: T,
-  t: (key: string) => string
-): Errors<T> {
-  return fields.reduce((fields, field: TextField<T>) => {
+  t: (key: string) => string,
+  dirtyFields?: Array<keyof T>,
+  extraValidation?: ValidationFn<T>
+): FieldErrors<T> {
+  const errors = fields.reduce((accum: FieldErrors<T>, field: TextField<T>) => {
+    if (dirtyFields && dirtyFields.indexOf(field.name) === -1) {
+      return accum;
+    }
+
     const value = String(values[field.name]);
     const error = InputFieldUtils.inspectCustomTextFieldErrors(
       field.type,
@@ -21,22 +46,30 @@ export function getErrors<T>(
       field.maxLength,
       field.minLength
     );
-    const fieldErrorMessage = error ? t(error) : '';
+    const fieldErrorMessage = error ? t(error) : null;
 
     return {
-      ...fields,
+      ...accum,
       [field.name]: fieldErrorMessage,
     };
-  }, {} as Errors<T>);
+  }, {} as FieldErrors<T>);
+
+  const extraErrors = extraValidation
+    ? extraValidation(errors, values, dirtyFields)
+    : ({} as FieldErrors<T>);
+
+  return { ...errors, ...extraErrors };
 }
 
-export function getEmptyErrorState<T>(fields: Array<TextField<T>>): Errors<T> {
+export function getEmptyErrorState<T>(
+  fields: Array<TextField<T>>
+): FieldErrors<T> {
   return fields.reduce((fields, field: TextField<T>) => {
     return {
       ...fields,
       [field.name]: '',
     };
-  }, {} as Errors<T>);
+  }, {} as FieldErrors<T>);
 }
 
 export class InputFieldUtils {

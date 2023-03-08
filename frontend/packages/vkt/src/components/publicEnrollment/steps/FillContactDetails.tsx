@@ -3,10 +3,10 @@ import { CustomTextField, H3 } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import {
+  FieldErrors,
   getEmptyErrorState,
   getErrors,
-  InputFieldUtils,
-  StringUtils,
+  hasErrors,
 } from 'shared/utils';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
@@ -39,6 +39,26 @@ const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   },
 ];
 
+const emailsMatch = (
+  t: (key: string) => string,
+  errors: FieldErrors<PublicEnrollmentContactDetails>,
+  values: PublicEnrollmentContactDetails,
+  dirtyFields?: Array<keyof PublicEnrollmentContactDetails>
+) => {
+  if (
+    values.email !== values.emailConfirmation &&
+    (!dirtyFields || dirtyFields.includes('emailConfirmation'))
+  ) {
+    return {
+      ...errors,
+      ['emailConfirmation']:
+        errors['emailConfirmation'] ?? t('mismatchingEmailsError'),
+    };
+  }
+
+  return errors;
+};
+
 export const FillContactDetails = ({
   enrollment,
   isLoading,
@@ -55,30 +75,38 @@ export const FillContactDetails = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const [fieldErrors, setFieldErrors] = useState(getEmptyErrorState(fields));
+  const [fieldErrors] = useState(getEmptyErrorState(fields));
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof PublicEnrollmentContactDetails>
+  >([]);
 
   const dispatch = useAppDispatch();
 
-  const errors = showValidation
-    ? getErrors(fields, enrollment, translateCommon)
-    : fieldErrors;
+  const dirty = showValidation ? undefined : dirtyFields;
+  const errors = getErrors<PublicEnrollmentContactDetails>(
+    fields,
+    enrollment,
+    translateCommon,
+    dirty,
+    emailsMatch.bind(this, t)
+  );
 
   useEffect(() => {
-    const hasFieldErrors = !!(fieldErrors.email || fieldErrors.phoneNumber);
-
-    const hasBlankFieldValues = [enrollment.email, enrollment.phoneNumber].some(
-      StringUtils.isBlankString
+    disableNext(
+      hasErrors<PublicEnrollmentContactDetails>(
+        fields,
+        enrollment,
+        translateCommon,
+        emailsMatch.bind(this, t)
+      )
     );
-    const mismatchingEmails = enrollment.email !== enrollment.emailConfirmation;
-
-    disableNext(hasFieldErrors || hasBlankFieldValues || mismatchingEmails);
-  }, [fieldErrors, disableNext, enrollment]);
+  }, [disableNext, enrollment, t, translateCommon]);
 
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (fieldErrors[fieldName]) {
-        handleErrors(fieldName)(event);
+        handleErrors(fieldName)();
       }
 
       dispatch(
@@ -89,29 +117,10 @@ export const FillContactDetails = ({
     };
 
   const handleErrors =
-    (fieldName: keyof PublicEnrollmentContactDetails) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { type, value, required } = event.target;
-
-      const error = InputFieldUtils.inspectCustomTextFieldErrors(
-        type as TextFieldTypes,
-        value,
-        required
-      );
-
-      const fieldErrorMessage = error ? translateCommon(error) : '';
-
-      const emailConfirmationErrorMessage =
-        enrollment.emailConfirmation &&
-        enrollment.email !== enrollment.emailConfirmation
-          ? t('mismatchingEmailsError')
-          : '';
-
-      setFieldErrors({
-        ...fieldErrors,
-        [fieldName]: fieldErrorMessage,
-        ['emailConfirmation']: emailConfirmationErrorMessage,
-      });
+    (fieldName: keyof PublicEnrollmentContactDetails) => () => {
+      if (!dirtyFields.includes(fieldName)) {
+        setDirtyFields([...dirtyFields, fieldName]);
+      }
     };
 
   const showCustomTextFieldError = (
@@ -128,7 +137,7 @@ export const FillContactDetails = ({
     onBlur: handleErrors(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
-    helperText: errors[fieldName],
+    helperText: errors[fieldName] ? errors[fieldName] : null,
     required: true,
     disabled: isLoading,
   });
