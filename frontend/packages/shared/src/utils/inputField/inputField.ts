@@ -61,17 +61,6 @@ export function getErrors<T>(
   return { ...errors, ...extraErrors };
 }
 
-export function getEmptyErrorState<T>(
-  fields: Array<TextField<T>>
-): FieldErrors<T> {
-  return fields.reduce((fields, field: TextField<T>) => {
-    return {
-      ...fields,
-      [field.name]: '',
-    };
-  }, {} as FieldErrors<T>);
-}
-
 export class InputFieldUtils {
   static defaultMaxTextAreaLength = 6000;
 

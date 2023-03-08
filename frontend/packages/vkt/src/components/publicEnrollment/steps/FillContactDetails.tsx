@@ -137,7 +137,7 @@ export const FillContactDetails = ({
       <PersonDetails />
       <div className="margin-top-sm rows gapped">
         <H3>{t('title')}</H3>
-        <div className="grid-columns gapped">
+        <div className="grid-2-columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}

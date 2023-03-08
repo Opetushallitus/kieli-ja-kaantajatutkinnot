@@ -81,12 +81,11 @@ export const CertificateShipping = ({
       );
     };
 
-  const handleErrors =
-    (fieldName: keyof CertificateShippingTextFields) => () => {
-      if (!dirtyFields.includes(fieldName)) {
-        setDirtyFields([...dirtyFields, fieldName]);
-      }
-    };
+  const handleBlur = (fieldName: keyof CertificateShippingTextFields) => () => {
+    if (!dirtyFields.includes(fieldName)) {
+      setDirtyFields([...dirtyFields, fieldName]);
+    }
+  };
 
   const showCustomTextFieldError = (
     fieldName: keyof CertificateShippingTextFields
@@ -100,7 +99,7 @@ export const CertificateShipping = ({
     id: `public-enrollment__certificate-shipping__${fieldName}-field`,
     type: TextFieldTypes.Text,
     label: translateCommon(`enrollment.textFields.${fieldName}`),
-    onBlur: handleErrors(fieldName),
+    onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
     helperText: errors[fieldName],

@@ -2,7 +2,6 @@ import { CommonUtils } from './common/common';
 import { DateUtils } from './date/date';
 import type { FieldErrors } from './inputField/inputField';
 import {
-  getEmptyErrorState,
   getErrors,
   hasErrors,
   InputFieldUtils,
@@ -15,7 +14,6 @@ export {
   InputFieldUtils,
   StringUtils,
   getErrors,
-  getEmptyErrorState,
   hasErrors,
 };
 export type { FieldErrors };
