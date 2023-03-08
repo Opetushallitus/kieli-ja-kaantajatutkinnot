@@ -1,7 +1,7 @@
 package fi.oph.akr.scheduled;
 
 import fi.oph.akr.config.CacheConfig;
-import fi.oph.akr.util.SchedulingUtil;
+import fi.oph.akr.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,9 +13,9 @@ public class CacheEvictScheduled {
 
   private static final Logger LOG = LoggerFactory.getLogger(CacheEvictScheduled.class);
 
-  @Scheduled(cron = "0 0 4 * * *")
+  @Scheduled(cron = Constants.EVICT_PUBLIC_TRANSLATORS_CACHE_CRON)
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   public void evictPublicTranslatorsCache() {
-    SchedulingUtil.runWithScheduledUser(() -> LOG.info("Evicting cache: " + CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS));
+    LOG.info("Evicting cache: " + CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS);
   }
 }
