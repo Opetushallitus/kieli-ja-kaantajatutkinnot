@@ -57,12 +57,12 @@ const emailsMatch = (
 export const FillContactDetails = ({
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
   showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const { t } = usePublicTranslation({
@@ -86,15 +86,15 @@ export const FillContactDetails = ({
   );
 
   useEffect(() => {
-    disableNext(
-      hasErrors<PublicEnrollmentContactDetails>(
+    setIsStepValid(
+      !hasErrors<PublicEnrollmentContactDetails>(
         fields,
         enrollment,
         translateCommon,
         emailsMatch.bind(this, t)
       )
     );
-  }, [disableNext, enrollment, t, translateCommon]);
+  }, [setIsStepValid, enrollment, t, translateCommon]);
 
   const handleChange =
     (fieldName: keyof PublicEnrollmentContactDetails) =>

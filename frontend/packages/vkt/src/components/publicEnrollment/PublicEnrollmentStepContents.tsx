@@ -16,14 +16,14 @@ export const PublicEnrollmentStepContents = ({
   activeStep,
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
   showValidation,
 }: {
   examEvent: PublicExamEvent;
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export const PublicEnrollmentStepContents = ({
         <FillContactDetails
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
       );
@@ -61,7 +61,7 @@ export const PublicEnrollmentStepContents = ({
         <SelectExam
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
       );
@@ -70,7 +70,7 @@ export const PublicEnrollmentStepContents = ({
         <Preview
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
       );

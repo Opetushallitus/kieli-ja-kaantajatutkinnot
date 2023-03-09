@@ -16,10 +16,8 @@ import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = () => {
-  const [disableNext, setDisableNext] = useState(true);
+  const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
-
-  const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
 
   const { status, activeStep, enrollment, reservationDetails } = useAppSelector(
     publicEnrollmentSelector
@@ -62,7 +60,7 @@ export const PublicEnrollmentGrid = () => {
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
-                disableNext={disableNextCb}
+                setIsStepValid={setIsStepValid}
                 showValidation={showValidation}
               />
               {isPreviewStepActive && reservationDetails?.reservation && (
@@ -74,7 +72,7 @@ export const PublicEnrollmentGrid = () => {
                   enrollment={enrollment}
                   reservationDetails={reservationDetails}
                   isLoading={isLoading}
-                  disableNext={disableNext}
+                  isStepValid={isStepValid}
                   setShowValidation={setShowValidation}
                 />
               )}
