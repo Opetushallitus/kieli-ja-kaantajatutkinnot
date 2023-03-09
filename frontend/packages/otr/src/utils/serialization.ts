@@ -100,13 +100,14 @@ export class SerializationUtils {
   }
 
   static serializeQualification(qualification: Qualification) {
-    const { beginDate, endDate, diaryNumber, ...rest } = qualification;
+    const { beginDate, endDate, tempId: _, ...rest } = qualification;
+    const diaryNumber = qualification.diaryNumber.trim();
 
     return {
+      ...rest,
       beginDate: DateUtils.serializeDate(beginDate),
       endDate: DateUtils.serializeDate(endDate),
-      diaryNumber: diaryNumber ? diaryNumber.trim() : undefined,
-      ...rest,
+      diaryNumber: diaryNumber ? diaryNumber : undefined,
     };
   }
 
@@ -115,8 +116,9 @@ export class SerializationUtils {
   ): Qualification {
     const beginDate = dayjs(qualification.beginDate);
     const endDate = dayjs(qualification.endDate);
+    const diaryNumber = qualification.diaryNumber || '';
 
-    return { ...qualification, beginDate, endDate };
+    return { ...qualification, beginDate, endDate, diaryNumber };
   }
 
   static deserializeMeetingDates(response: Array<MeetingDateResponse>) {

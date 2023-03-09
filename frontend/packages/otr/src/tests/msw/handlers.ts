@@ -9,10 +9,7 @@ import { newMeetingDate } from 'tests/msw/fixtures/newMeetingDate';
 import { newQualification } from 'tests/msw/fixtures/newQualification';
 import { person1, person2 } from 'tests/msw/fixtures/person';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
-import {
-  publishPermissionChangeResponse,
-  qualificationRemoveResponse,
-} from 'tests/msw/utils/clerkInterpreterOverview';
+import { qualificationRemoveResponse } from 'tests/msw/utils/clerkInterpreterOverview';
 
 export const handlers = [
   rest.get(APIEndpoints.PublicInterpreter, (req, res, ctx) => {
@@ -64,20 +61,6 @@ export const handlers = [
       );
     }
   ),
-  rest.put(APIEndpoints.Qualification, async (req, res, ctx) => {
-    const { id, permissionToPublish } = await req.json();
-
-    return res(
-      ctx.status(200),
-      ctx.json(
-        publishPermissionChangeResponse(
-          clerkInterpreter,
-          id,
-          !permissionToPublish
-        )
-      )
-    );
-  }),
   rest.delete(`${APIEndpoints.Qualification}/:id`, async (req, res, ctx) => {
     const { id } = req.params;
 
