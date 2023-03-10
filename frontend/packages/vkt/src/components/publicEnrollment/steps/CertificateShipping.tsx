@@ -1,49 +1,79 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
+import { TextField } from 'shared/interfaces';
+import { getErrors, hasErrors } from 'shared/utils';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { EnrollmentUtils } from 'utils/enrollment';
+
+const fields: Array<TextField<CertificateShippingTextFields>> = [
+  {
+    name: 'street',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  {
+    name: 'postalCode',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+  { name: 'town', required: true, type: TextFieldTypes.Text, maxLength: 255 },
+  {
+    name: 'country',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 255,
+  },
+];
 
 export const CertificateShipping = ({
   enrollment,
   editingDisabled,
   setValid,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
   setValid?: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
-  const [fieldErrors, setFieldErrors] = useState({
-    street: '',
-    postalCode: '',
-    town: '',
-    country: '',
-  });
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof CertificateShippingTextFields>
+  >([]);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (setValid) {
-      setValid(EnrollmentUtils.isValidCertificateShipping(enrollment));
-    }
-  }, [fieldErrors, setValid, enrollment]);
+    setValid &&
+      setValid(
+        hasErrors<CertificateShippingTextFields>({
+          fields,
+          values: enrollment,
+          t: translateCommon,
+        })
+      );
+  }, [setValid, enrollment, translateCommon]);
+
+  const dirty = showValidation ? undefined : dirtyFields;
+  const errors = getErrors<CertificateShippingTextFields>({
+    fields,
+    values: enrollment,
+    t: translateCommon,
+    dirtyFields: dirty,
+  });
 
   const handleChange =
     (fieldName: keyof CertificateShippingTextFields) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      if (fieldErrors[fieldName]) {
-        handleErrors(fieldName)(event);
-      }
-
       dispatch(
         updatePublicEnrollment({
           [fieldName]: event.target.value,
@@ -51,29 +81,16 @@ export const CertificateShipping = ({
       );
     };
 
-  const handleErrors =
-    (fieldName: keyof CertificateShippingTextFields) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { type, value, required } = event.target;
-
-      const error = InputFieldUtils.inspectCustomTextFieldErrors(
-        type as TextFieldTypes,
-        value,
-        required
-      );
-
-      const fieldErrorMessage = error ? translateCommon(error) : '';
-
-      setFieldErrors({
-        ...fieldErrors,
-        [fieldName]: fieldErrorMessage,
-      });
-    };
+  const handleBlur = (fieldName: keyof CertificateShippingTextFields) => () => {
+    if (!dirtyFields.includes(fieldName)) {
+      setDirtyFields([...dirtyFields, fieldName]);
+    }
+  };
 
   const showCustomTextFieldError = (
     fieldName: keyof CertificateShippingTextFields
   ) => {
-    return fieldErrors[fieldName].length > 0;
+    return !!errors[fieldName];
   };
 
   const getCustomTextFieldAttributes = (
@@ -82,10 +99,10 @@ export const CertificateShipping = ({
     id: `public-enrollment__certificate-shipping__${fieldName}-field`,
     type: TextFieldTypes.Text,
     label: translateCommon(`enrollment.textFields.${fieldName}`),
-    onBlur: handleErrors(fieldName),
+    onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
-    helperText: fieldErrors[fieldName],
+    helperText: errors[fieldName],
     required: true,
     disabled: editingDisabled,
   });
@@ -112,31 +129,32 @@ export const CertificateShipping = ({
         }
         label={translateCommon('enrollment.certificateShipping.consent')}
       />
-      {!enrollment.digitalCertificateConsent && (
-        <>
-          <H3>
-            {translateCommon('enrollment.certificateShipping.addressTitle')}
-          </H3>
-          <div className="grid-columns gapped">
-            <CustomTextField
-              {...getCustomTextFieldAttributes('street')}
-              value={enrollment.street}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('postalCode')}
-              value={enrollment.postalCode}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('town')}
-              value={enrollment.town}
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('country')}
-              value={enrollment.country}
-            />
-          </div>
-        </>
-      )}
+      <Collapse
+        orientation="vertical"
+        in={!enrollment.digitalCertificateConsent}
+      >
+        <H3>
+          {translateCommon('enrollment.certificateShipping.addressTitle')}
+        </H3>
+        <div className="grid-columns gapped">
+          <CustomTextField
+            {...getCustomTextFieldAttributes('street')}
+            value={enrollment.street}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('postalCode')}
+            value={enrollment.postalCode}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('town')}
+            value={enrollment.town}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('country')}
+            value={enrollment.country}
+          />
+        </div>
+      </Collapse>
     </div>
   );
 };

@@ -9,12 +9,14 @@ export const PublicEnrollmentStepContents = ({
   activeStep,
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
+  showValidation,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentFormStep.FillContactDetails:
@@ -22,7 +24,8 @@ export const PublicEnrollmentStepContents = ({
         <FillContactDetails
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.SelectExam:
@@ -30,7 +33,8 @@ export const PublicEnrollmentStepContents = ({
         <SelectExam
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.Preview:
@@ -38,7 +42,8 @@ export const PublicEnrollmentStepContents = ({
         <Preview
           enrollment={enrollment}
           isLoading={isLoading}
-          disableNext={disableNext}
+          setIsStepValid={setIsStepValid}
+          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.Payment:
