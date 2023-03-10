@@ -1,13 +1,8 @@
-import {
-  LabelDisplayedRowsArgs,
-  Table,
-  TableBody,
-  TablePagination,
-} from '@mui/material';
+import { Table, TableBody, TablePagination } from '@mui/material';
 import { ChangeEvent, Fragment } from 'react';
 
 import { WithId } from '../../interfaces/with';
-import { PaginatedTableProps } from './Table';
+import { defaultDisplayedRowsLabel, PaginatedTableProps } from './Table';
 import './Table.scss';
 
 interface ManagedPaginatedTableProps<T extends WithId>
@@ -32,14 +27,10 @@ export function ManagedPaginatedTable<T extends WithId>({
   onPageChange,
   rowsPerPage,
   onRowsPerPageChange,
+  labelDisplayedRows,
+  backIconButtonProps,
+  nextIconButtonProps,
 }: ManagedPaginatedTableProps<T>): JSX.Element {
-  const PaginationDisplayedRowsLabel = ({
-    from,
-    to,
-    count,
-  }: LabelDisplayedRowsArgs) => {
-    return `${from} - ${to} / ${count}`;
-  };
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
     onPageChange(0);
     onRowsPerPageChange(+event.target.value);
@@ -64,7 +55,9 @@ export function ManagedPaginatedTable<T extends WithId>({
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={rowsPerPageOptions}
         labelRowsPerPage={rowsPerPageLabel}
-        labelDisplayedRows={PaginationDisplayedRowsLabel}
+        labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
+        backIconButtonProps={backIconButtonProps}
+        nextIconButtonProps={nextIconButtonProps}
       />
     </div>
   );

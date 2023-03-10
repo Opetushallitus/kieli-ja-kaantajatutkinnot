@@ -62,17 +62,17 @@ const PrivacyStatementCheckboxLabel = () => {
 export const Preview = ({
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
   showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   useEffect(() => {
-    disableNext(!enrollment.privacyStatementConfirmation);
-  }, [disableNext, enrollment]);
+    setIsStepValid(enrollment.privacyStatementConfirmation);
+  }, [setIsStepValid, enrollment]);
 
   const dispatch = useAppDispatch();
 

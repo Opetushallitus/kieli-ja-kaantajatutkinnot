@@ -14,7 +14,7 @@ import {
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
-import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
+import { CommonUtils, DateUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -28,24 +28,17 @@ import { ExaminationDate } from 'interfaces/examinationDate';
 import { MeetingDate } from 'interfaces/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
 
-interface AddAuthorisationProps {
-  translatorId?: number;
+interface AuthorisationFieldsProps {
+  authorisation: Authorisation;
+  setAuthorisation: (
+    a: ((prevState: Authorisation) => Authorisation) | Authorisation
+  ) => void;
   meetingDates: Array<MeetingDate>;
   examinationDates: Array<ExaminationDate>;
-  onAuthorisationAdd(authorisation: Authorisation): void;
+  onSave: () => void;
   onCancel: () => void;
   isLoading: boolean;
 }
-
-const newAuthorisation: Authorisation = {
-  languagePair: { from: '', to: '' },
-  basis: null as unknown as AuthorisationBasis,
-  termBeginDate: undefined,
-  termEndDate: undefined,
-  permissionToPublish: true,
-  diaryNumber: '',
-  examinationDate: undefined,
-};
 
 const dateToOption = (date: Dayjs): ComboBoxOption => {
   return {
@@ -54,14 +47,15 @@ const dateToOption = (date: Dayjs): ComboBoxOption => {
   };
 };
 
-export const AddAuthorisation = ({
-  translatorId,
+export const AuthorisationFields = ({
+  authorisation,
+  setAuthorisation,
   meetingDates,
   examinationDates,
-  onAuthorisationAdd,
+  onSave,
   onCancel,
   isLoading,
-}: AddAuthorisationProps) => {
+}: AuthorisationFieldsProps) => {
   const availableMeetingDateValues = meetingDates
     .map((m) => m.date)
     .map(dateToOption);
@@ -69,8 +63,6 @@ export const AddAuthorisation = ({
     .map((m) => m.date)
     .map(dateToOption);
 
-  const [authorisation, setAuthorisation] =
-    useState<Authorisation>(newAuthorisation);
   const [isAuthorisationDataChanged, setIsAuthorisationDataChanged] =
     useState(false);
 
@@ -85,7 +77,7 @@ export const AddAuthorisation = ({
       ...prevState,
       tempId: CommonUtils.createUniqueId(),
     }));
-  }, []);
+  }, [setAuthorisation]);
 
   const handleLanguageSelectChange =
     (fieldName: string) =>
@@ -169,46 +161,25 @@ export const AddAuthorisation = ({
   const getLanguageSelectValue = (language?: string) =>
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
-  const isAddButtonDisabled = () => {
+  const isSaveButtonDisabled = () => {
     const {
       languagePair: { from: fromLang, to: toLang },
+      basis,
       examinationDate,
-      diaryNumber,
-      termEndDate: _ignored1,
-      permissionToPublish: _ignored2,
-      ...otherProps
+      termBeginDate,
     } = authorisation;
 
     const isExaminationDateNotDefinedOrInvalid =
-      otherProps.basis === AuthorisationBasisEnum.AUT &&
+      basis === AuthorisationBasisEnum.AUT &&
       (!examinationDate || !dayjs(examinationDate).isValid());
 
-    const isDiaryNumberInvalid = StringUtils.isBlankString(diaryNumber);
-
-    // If permissionToPublish wasn't marked `_unused`, this would consider false value there being incorrect
-    const isOtherPropsNotDefined = Object.values({
-      fromLang,
-      toLang,
-      ...otherProps,
-    }).some((p) => !p);
+    const isRequiredPropsEmpty = [fromLang, toLang, basis, termBeginDate].some(
+      (p) => !p
+    );
 
     return (
-      isLoading ||
-      isExaminationDateNotDefinedOrInvalid ||
-      isDiaryNumberInvalid ||
-      isOtherPropsNotDefined
+      isLoading || isExaminationDateNotDefinedOrInvalid || isRequiredPropsEmpty
     );
-  };
-
-  const addAndResetAuthorisation = (authorisation: Authorisation) => {
-    onAuthorisationAdd({
-      ...authorisation,
-      ...(translatorId && { translatorId }),
-    });
-    if (!translatorId) {
-      setAuthorisation(newAuthorisation);
-      onCancel();
-    }
   };
 
   const selectedTermBeginDate = authorisation.termBeginDate
@@ -219,14 +190,15 @@ export const AddAuthorisation = ({
     ? dateToOption(authorisation.examinationDate)
     : null;
 
-  const testIdPrefix = 'add-authorisation-field';
+  const testIdPrefix = 'authorisation-field';
+  const isExistingAuthorisation = !!authorisation.id;
 
   useNavigationProtection(isAuthorisationDataChanged);
 
   return (
     <>
       <div className="rows gapped">
-        <div className="add-authorisation__fields gapped align-items-start full-max-width">
+        <div className="authorisation__fields gapped align-items-start full-max-width">
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.from')}</Text>
             <LanguageSelect
@@ -243,6 +215,7 @@ export const AddAuthorisation = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={authorisation.languagePair.to}
               translateLanguage={translateLanguage}
+              disabled={isLoading || isExistingAuthorisation}
             />
           </div>
           <div className="rows gapped-xs">
@@ -261,6 +234,7 @@ export const AddAuthorisation = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={authorisation.languagePair.from}
               translateLanguage={translateLanguage}
+              disabled={isLoading || isExistingAuthorisation}
             />
           </div>
           <div className="rows gapped-xs">
@@ -275,6 +249,7 @@ export const AddAuthorisation = ({
               }
               variant={TextFieldVariant.Outlined}
               onChange={handleBasisChange}
+              disabled={isLoading || isExistingAuthorisation}
             />
           </div>
           <div className="rows gapped-xs">
@@ -286,11 +261,15 @@ export const AddAuthorisation = ({
               values={availableExaminationDates}
               variant={TextFieldVariant.Outlined}
               onChange={handleExaminationDateChange}
-              disabled={authorisation.basis !== AuthorisationBasisEnum.AUT}
+              disabled={
+                isLoading ||
+                isExistingAuthorisation ||
+                authorisation.basis !== AuthorisationBasisEnum.AUT
+              }
             />
           </div>
         </div>
-        <div className="add-authorisation__fields gapped align-items-start">
+        <div className="authorisation__fields gapped align-items-start">
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.termBeginDate')}</Text>
             <ComboBox
@@ -301,6 +280,7 @@ export const AddAuthorisation = ({
               value={selectedTermBeginDate}
               variant={TextFieldVariant.Outlined}
               onChange={handleTermBeginDateChange}
+              disabled={isLoading || isExistingAuthorisation}
             />
           </div>
           <div className="rows gapped-xs">
@@ -319,6 +299,7 @@ export const AddAuthorisation = ({
               label={t('fieldPlaceholders.diaryNumber')}
               value={authorisation.diaryNumber}
               onChange={handleDiaryNumberChange}
+              disabled={isLoading}
             />
           </div>
           <div className="rows gapped-xs">
@@ -329,6 +310,7 @@ export const AddAuthorisation = ({
               leftLabel={translateCommon('no')}
               rightLabel={translateCommon('yes')}
               onChange={handleSwitchValueChange}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -336,7 +318,7 @@ export const AddAuthorisation = ({
       <div className="columns gapped margin-top-lg flex-end">
         <CustomButton
           disabled={isLoading}
-          data-testid="add-authorisation-modal__cancel"
+          data-testid="authorisation-modal__cancel"
           className="margin-right-xs"
           onClick={onCancel}
           variant={Variant.Text}
@@ -346,13 +328,13 @@ export const AddAuthorisation = ({
         </CustomButton>
         <LoadingProgressIndicator isLoading={isLoading}>
           <CustomButton
-            data-testid="add-authorisation-modal__save"
+            data-testid="authorisation-modal__save"
             variant={Variant.Contained}
             color={Color.Secondary}
-            onClick={() => addAndResetAuthorisation(authorisation)}
-            disabled={isAddButtonDisabled()}
+            onClick={onSave}
+            disabled={isSaveButtonDisabled()}
           >
-            {translateCommon('add')}
+            {translateCommon('save')}
           </CustomButton>
         </LoadingProgressIndicator>
       </div>

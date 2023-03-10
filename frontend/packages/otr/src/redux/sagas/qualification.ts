@@ -23,17 +23,17 @@ import {
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* addQualificationSaga(action: PayloadAction<Qualification>) {
-  const { interpreterId } = action.payload;
-
+function* addQualificationSaga(
+  action: PayloadAction<{
+    qualification: Qualification;
+    interpreterId: number;
+  }>
+) {
   try {
-    if (!interpreterId) {
-      throw new Error();
-    }
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.post,
-      `${APIEndpoints.ClerkInterpreter}/${interpreterId}/qualification`,
-      SerializationUtils.serializeQualification(action.payload)
+      `${APIEndpoints.ClerkInterpreter}/${action.payload.interpreterId}/qualification`,
+      SerializationUtils.serializeQualification(action.payload.qualification)
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
       apiResponse.data

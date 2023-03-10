@@ -1,7 +1,5 @@
-import {
-  addAuthorisationFields,
-  newTranslatorBasicInformationFields,
-} from 'tests/cypress/fixtures/utils/clerkNewTranslator';
+import { authorisationFields } from 'tests/cypress/fixtures/utils/authorisationFields';
+import { newTranslatorBasicInformationFields } from 'tests/cypress/fixtures/utils/clerkNewTranslator';
 
 class ClerkNewTranslatorPage {
   elements = {
@@ -16,22 +14,19 @@ class ClerkNewTranslatorPage {
 
     newTranslatorAssuranceSwitch: () =>
       cy.findByTestId('clerk-translator__basic-information__assurance-switch'),
-    addAuthorisationField: (
+    authorisationField: (
       field: string,
       fieldType: string,
       isDatePicker = false
     ) =>
       cy
         .findByTestId(
-          `add-authorisation-field-${field}${
-            isDatePicker ? '__date-picker' : ''
-          }`
+          `authorisation-field-${field}${isDatePicker ? '__date-picker' : ''}`
         )
         .find(`div>${fieldType}`),
     addAuthorisationButton: () =>
       cy.findByTestId('clerk-new-translator-page__add-authorisation-button'),
-    addAuthorisationModalAddButton: () =>
-      cy.findByTestId('add-authorisation-modal__save'),
+    authorisationSaveButton: () => cy.findByTestId('authorisation-modal__save'),
     deleteAuthorisationButton: (id: number) =>
       cy.findByTestId(`authorisations-table__id-${id}-row__delete-btn`),
     deleteAuthorisationDialogConfirmButton: () =>
@@ -41,14 +36,10 @@ class ClerkNewTranslatorPage {
     saveNewClerkButton: () =>
       cy.findByTestId('clerk-new-translator-page__save-button'),
     authorisationRow: (id: number) =>
-      cy.findByTestId(`authorisations-table__id-${id}-unsaved-row`),
+      cy.findByTestId(`authorisations-table__id-${id}-row`),
     authorisationsTable: () =>
       cy.findByTestId('clerk-translator-details__authorisations-table'),
   };
-
-  expectSelectedTranslatorsCount(count: number) {
-    cy.get('.table__head-box__pagination').should('contain.text', `/ ${count}`);
-  }
 
   clickAddNewTranslatorButton() {
     this.elements.addNewTranslatorButton().click();
@@ -78,7 +69,7 @@ class ClerkNewTranslatorPage {
     value: string
   ) {
     this.elements
-      .addAuthorisationField(fieldName, fieldType)
+      .authorisationField(fieldName, fieldType)
       .clear()
       .type(`${value}{enter}`);
   }
@@ -91,8 +82,8 @@ class ClerkNewTranslatorPage {
     this.elements.addAuthorisationButton().click();
   }
 
-  addAuthorisation() {
-    this.elements.addAuthorisationModalAddButton().should('be.visible').click();
+  clickAuthorisationSaveButton() {
+    this.elements.authorisationSaveButton().should('be.visible').click();
   }
 
   clickSaveNewClerkButton() {
@@ -110,10 +101,6 @@ class ClerkNewTranslatorPage {
       .click();
   }
 
-  clickDeleteUnsavedAuthorisationButton(id: number) {
-    this.elements.deleteAuthorisationButton(id).should('be.visible').click();
-  }
-
   expectSaveNewClerkButtonDisabled() {
     this.elements.saveNewClerkButton().should('be.disabled');
   }
@@ -122,12 +109,8 @@ class ClerkNewTranslatorPage {
     this.elements.saveNewClerkButton().should('be.enabled');
   }
 
-  expectUnsavedAuthorisationRowToExist(id: number) {
+  expectAuthorisationRowToExist(id: number) {
     this.elements.authorisationRow(id).should('exist');
-  }
-
-  expectUnsavedAuthorisationRowToNotExist(id: number) {
-    this.elements.authorisationRow(id).should('not.exist');
   }
 
   expectAuthorisationsTableToNotExist() {
@@ -146,7 +129,7 @@ class ClerkNewTranslatorPage {
     });
   }
 
-  fillOutAddAuthorisationFields(fields = addAuthorisationFields) {
+  fillOutAuthorisationFields(fields = authorisationFields) {
     fields.forEach(({ fieldName, fieldType, value }) => {
       onClerkNewTranslatorPage.fillOutAddAuthorisationField(
         fieldName,

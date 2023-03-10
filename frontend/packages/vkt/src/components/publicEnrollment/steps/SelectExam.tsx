@@ -11,12 +11,12 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 export const SelectExam = ({
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
   showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -32,8 +32,12 @@ export const SelectExam = ({
     setIsValidCertificateShipping(isValid);
 
   useEffect(() => {
-    disableNext(!isValidPartialExamsSelection || !isValidCertificateShipping);
-  }, [disableNext, isValidPartialExamsSelection, isValidCertificateShipping]);
+    setIsStepValid(isValidPartialExamsSelection && isValidCertificateShipping);
+  }, [
+    setIsStepValid,
+    isValidPartialExamsSelection,
+    isValidCertificateShipping,
+  ]);
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">

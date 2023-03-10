@@ -26,14 +26,14 @@ export const PublicEnrollmentControlButtons = ({
   enrollment,
   reservationDetails,
   isLoading,
-  disableNext,
+  isStepValid,
   setShowValidation,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   reservationDetails: PublicReservationDetails;
   isLoading: boolean;
-  disableNext: boolean;
+  isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
@@ -78,7 +78,7 @@ export const PublicEnrollmentControlButtons = ({
   };
 
   const handleNextBtnClick = () => {
-    if (!disableNext) {
+    if (isStepValid) {
       setShowValidation(false);
       dispatch(increaseActiveStep());
     } else {

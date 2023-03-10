@@ -14,7 +14,7 @@ import {
 } from 'shared/components';
 import { Color, TextFieldVariant, Variant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
-import { CommonUtils, DateUtils, StringUtils } from 'shared/utils';
+import { CommonUtils, DateUtils } from 'shared/utils';
 
 import {
   useAppTranslation,
@@ -24,32 +24,19 @@ import {
 import { ExaminationType } from 'enums/interpreter';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { MeetingDate } from 'interfaces/meetingDate';
-import { Qualification } from 'interfaces/qualification';
+import { NewQualification } from 'interfaces/qualification';
 import { QualificationUtils } from 'utils/qualifications';
 
-interface AddQualificationProps {
-  interpreterId?: number;
+interface QualificationFieldsProps {
+  qualification: NewQualification;
+  setQualification: (
+    q: ((prevState: NewQualification) => NewQualification) | NewQualification
+  ) => void;
   meetingDates: Array<MeetingDate>;
-  isLoading: boolean;
+  onSave: () => void;
   onCancel: () => void;
-  onQualificationAdd(qualification: Qualification): void;
+  isLoading: boolean;
 }
-
-interface NewQualification
-  extends Omit<Qualification, 'beginDate' | 'endDate'> {
-  beginDate?: Dayjs;
-  endDate?: Dayjs;
-}
-
-const newQualification: NewQualification = {
-  fromLang: QualificationUtils.defaultFromLang,
-  toLang: '',
-  examinationType: undefined as unknown as ExaminationType,
-  beginDate: undefined,
-  endDate: undefined,
-  permissionToPublish: true,
-  diaryNumber: '',
-};
 
 const dateToOption = (date: Dayjs): ComboBoxOption => {
   return {
@@ -58,15 +45,14 @@ const dateToOption = (date: Dayjs): ComboBoxOption => {
   };
 };
 
-export const AddQualification = ({
-  interpreterId,
+export const QualificationFields = ({
+  qualification,
+  setQualification,
   meetingDates,
-  isLoading,
-  onQualificationAdd,
+  onSave,
   onCancel,
-}: AddQualificationProps) => {
-  const [qualification, setQualification] =
-    useState<NewQualification>(newQualification);
+  isLoading,
+}: QualificationFieldsProps) => {
   const [isQualificationDataChanged, setIsQualificationDataChanged] =
     useState(false);
 
@@ -81,7 +67,7 @@ export const AddQualification = ({
       ...prevState,
       tempId: CommonUtils.createUniqueId(),
     }));
-  }, []);
+  }, [setQualification]);
 
   const availableMeetingDateValues = meetingDates
     .map((m) => m.date)
@@ -115,6 +101,7 @@ export const AddQualification = ({
     const PERIOD_OF_VALIDITY = 5;
     const beginDate = value ? dayjs(value?.value) : undefined;
     const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
+
     setQualification({
       ...qualification,
       beginDate,
@@ -144,35 +131,28 @@ export const AddQualification = ({
   const getLanguageSelectValue = (language?: string) =>
     language ? languageToComboBoxOption(translateLanguage, language) : null;
 
-  const isAddButtonDisabled = () => {
-    const { permissionToPublish: _, ...otherProps } = qualification;
+  const isSaveButtonDisabled = () => {
+    const { fromLang, toLang, beginDate, examinationType } = qualification;
 
-    const otherPropsDefined = Object.values(otherProps).every((p) =>
-      typeof p === 'string' ? StringUtils.isNonBlankString(p) : p
-    );
+    const isRequiredPropsEmpty = [
+      fromLang,
+      toLang,
+      beginDate,
+      examinationType,
+    ].some((p) => !p);
 
-    return isLoading || !otherPropsDefined;
+    return isLoading || isRequiredPropsEmpty;
   };
 
-  const addAndResetQualification = (qualification: Qualification) => {
-    onQualificationAdd({
-      ...qualification,
-      ...(interpreterId && { interpreterId }),
-    });
-    if (!interpreterId) {
-      setQualification(newQualification);
-      onCancel();
-    }
-  };
-
-  const testIdPrefix = 'add-qualification-field';
+  const testIdPrefix = 'qualification-field';
+  const isExistingQualification = !!qualification.id;
 
   useNavigationProtection(isQualificationDataChanged);
 
   return (
     <>
       <div className="rows gapped">
-        <div className="add-qualification__fields gapped align-items-start full-max-width">
+        <div className="qualification__fields gapped align-items-start full-max-width">
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.from')}</Text>
             <LanguageSelect
@@ -181,11 +161,11 @@ export const AddQualification = ({
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(qualification.fromLang)}
-              disabled={true}
               onChange={handleLanguageSelectChange('fromLang')}
               languages={QualificationUtils.selectableFromLangs}
               excludedLanguage={qualification.toLang}
               translateLanguage={translateLanguage}
+              disabled
             />
           </div>
           <div className="rows gapped-xs">
@@ -200,6 +180,7 @@ export const AddQualification = ({
               languages={QualificationUtils.getKoodistoLangKeys()}
               excludedLanguage={qualification.fromLang}
               translateLanguage={translateLanguage}
+              disabled={isLoading || isExistingQualification}
             />
           </div>
           <div className="rows gapped-xs">
@@ -216,19 +197,11 @@ export const AddQualification = ({
               }
               variant={TextFieldVariant.Outlined}
               onChange={handleExaminationTypeChange}
-            />
-          </div>
-          <div className="rows gapped-xs">
-            <Text className="bold">{t('fieldLabel.diaryNumber')}</Text>
-            <CustomTextField
-              data-testid={`${testIdPrefix}-diaryNumber`}
-              label={t('fieldPlaceholders.diaryNumber')}
-              value={qualification.diaryNumber}
-              onChange={handleDiaryNumberChange}
+              disabled={isLoading || isExistingQualification}
             />
           </div>
         </div>
-        <div className="add-qualification__fields gapped align-items-start">
+        <div className="qualification__fields gapped align-items-start">
           <div className="rows gapped-xs">
             <Text className="bold">{t('fieldLabel.beginDate')}</Text>
             <ComboBox
@@ -239,6 +212,7 @@ export const AddQualification = ({
               value={selectedBeginDate}
               variant={TextFieldVariant.Outlined}
               onChange={handleBeginDateChange}
+              disabled={isLoading || isExistingQualification}
             />
           </div>
           <div className="rows gapped-xs">
@@ -247,7 +221,17 @@ export const AddQualification = ({
               data-testid={`${testIdPrefix}-endDate`}
               label={t('fieldPlaceholders.endDate')}
               value={DateUtils.formatOptionalDate(qualification?.endDate)}
-              disabled={true}
+              disabled
+            />
+          </div>
+          <div className="rows gapped-xs">
+            <Text className="bold">{t('fieldLabel.diaryNumber')}</Text>
+            <CustomTextField
+              data-testid={`${testIdPrefix}-diaryNumber`}
+              label={t('fieldPlaceholders.diaryNumber')}
+              value={qualification.diaryNumber}
+              onChange={handleDiaryNumberChange}
+              disabled={isLoading}
             />
           </div>
           <div className="rows gapped-xs">
@@ -258,6 +242,7 @@ export const AddQualification = ({
               leftLabel={translateCommon('no')}
               rightLabel={translateCommon('yes')}
               onChange={handleSwitchValueChange}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -265,7 +250,7 @@ export const AddQualification = ({
       <div className="columns gapped margin-top-lg flex-end">
         <CustomButton
           disabled={isLoading}
-          data-testid="add-qualification-modal__cancel"
+          data-testid="qualification-modal__cancel"
           className="margin-right-xs"
           onClick={onCancel}
           variant={Variant.Text}
@@ -275,15 +260,13 @@ export const AddQualification = ({
         </CustomButton>
         <LoadingProgressIndicator isLoading={isLoading}>
           <CustomButton
-            data-testid="add-qualification-modal__save"
+            data-testid="qualification-modal__save"
             variant={Variant.Contained}
             color={Color.Secondary}
-            onClick={() =>
-              addAndResetQualification(qualification as Qualification)
-            }
-            disabled={isAddButtonDisabled()}
+            onClick={onSave}
+            disabled={isSaveButtonDisabled()}
           >
-            {translateCommon('add')}
+            {translateCommon('save')}
           </CustomButton>
         </LoadingProgressIndicator>
       </div>

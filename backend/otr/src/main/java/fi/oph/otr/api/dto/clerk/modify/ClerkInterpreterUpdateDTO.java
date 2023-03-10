@@ -1,6 +1,7 @@
 package fi.oph.otr.api.dto.clerk.modify;
 
 import fi.oph.otr.api.dto.clerk.ClerkInterpreterDTOCommonFields;
+import fi.oph.otr.util.StringUtil;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -30,4 +31,19 @@ public record ClerkInterpreterUpdateDTO(
   String extraInformation,
   @NonNull @NotNull List<String> regions
 )
-  implements ClerkInterpreterDTOCommonFields {}
+  implements ClerkInterpreterDTOCommonFields {
+  public ClerkInterpreterUpdateDTO {
+    identityNumber = StringUtil.trim(identityNumber);
+    lastName = StringUtil.trim(lastName);
+    firstName = StringUtil.trim(firstName);
+    nickName = StringUtil.trim(nickName);
+    email = StringUtil.trim(email);
+    phoneNumber = StringUtil.trim(phoneNumber);
+    otherContactInfo = StringUtil.trim(otherContactInfo);
+    street = StringUtil.trim(street);
+    postalCode = StringUtil.trim(postalCode);
+    town = StringUtil.trim(town);
+    country = StringUtil.trim(country);
+    extraInformation = StringUtil.trim(extraInformation);
+  }
+}

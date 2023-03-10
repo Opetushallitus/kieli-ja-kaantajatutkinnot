@@ -11,7 +11,7 @@ import { ChangeEvent, useState } from 'react';
 import { CustomTextField } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
-import { getEmptyErrorState, getErrors } from 'shared/utils';
+import { getErrors } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -48,7 +48,14 @@ export const PreviousEnrollment = ({
   const yes = 'yes';
   const no = 'no';
   const dispatch = useAppDispatch();
-  const [fieldError, setFieldError] = useState(getEmptyErrorState(fields));
+
+  const dirty = showValidation ? undefined : dirtyFields;
+  const errors = getErrors<PreviousEnrollmentField>({
+    fields,
+    values: enrollment,
+    t: translateCommon,
+    dirtyFields: dirty,
+  });
 
   const errors = showValidation
     ? getErrors(fields, enrollment, translateCommon)
@@ -90,6 +97,35 @@ export const PreviousEnrollment = ({
         previousEnrollment: event.target.value,
       })
     );
+  };
+
+  const getError = () =>
+    InputFieldUtils.inspectCustomTextFieldErrors(
+      TextFieldTypes.Text,
+      enrollment.previousEnrollment,
+      true
+    );
+
+  const hasError = showValidation ? !!getError() : fieldError;
+
+  const handleErrors = (hasPreviousEnrollment: boolean) => {
+    if (!hasPreviousEnrollment) {
+      return false;
+    }
+
+    const error = getError();
+
+    setFieldError(!!error);
+  };
+
+  const handleRadioButtonChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const hasPreviousEnrollment = event.target.value == yes;
+
+    handleErrors(hasPreviousEnrollment);
+
+    dispatch(updatePublicEnrollment({ hasPreviousEnrollment }));
   };
 
   return (

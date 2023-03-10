@@ -8,6 +8,7 @@ export const PublicExamSessionListingHeader = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
+  // TODO Handle case where isPhone is true
   return (
     <TableHead>
       {!isPhone && (
@@ -23,6 +24,9 @@ export const PublicExamSessionListingHeader = () => {
           </TableCell>
           <TableCell>
             <H3>{translateCommon('registrationPeriod')}</H3>
+          </TableCell>
+          <TableCell>
+            <H3>{translateCommon('price')}</H3>
           </TableCell>
           <TableCell>
             <H3>{translateCommon('placesAvailable')}</H3>

@@ -31,33 +31,6 @@ describe('ClerkInterpreterOverview:QualificationDetails', () => {
     );
   });
 
-  it('should open a confirmation dialog when publish permission switch is clicked, and do no changes if user backs out', () => {
-    onQualificationDetails.switchPublishPermission(EFFECTIVE_QUALIFICATION_ID);
-    onDialog.expectText('Haluatko varmasti vaihtaa julkaisulupaa?');
-    onDialog.clickButtonByText('Takaisin');
-
-    onQualificationDetails.expectPublishPermission(
-      EFFECTIVE_QUALIFICATION_ID,
-      true
-    );
-  });
-
-  it('should open a confirmation dialog when publish permission switch is clicked, and change the publish permission if user confirms', () => {
-    onQualificationDetails.expectPublishPermission(
-      EFFECTIVE_QUALIFICATION_ID,
-      true
-    );
-
-    onQualificationDetails.switchPublishPermission(EFFECTIVE_QUALIFICATION_ID);
-    onDialog.clickButtonByText('Kyllä');
-
-    onQualificationDetails.expectPublishPermission(
-      EFFECTIVE_QUALIFICATION_ID,
-      false
-    );
-    onToast.expectText('Rekisteröinnin julkaisulupaa muutettu');
-  });
-
   it('should open a confirmation dialog when a delete icon is clicked, and do no changes if user backs out', () => {
     onQualificationDetails.clickDeleteButton(EFFECTIVE_QUALIFICATION_ID);
     onDialog.expectText('Haluatko varmasti poistaa rekisteröinnin?');

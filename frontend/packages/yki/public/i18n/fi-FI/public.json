@@ -30,12 +30,122 @@
           }
         }
       },
-      "publicExamEventGrid": {
-        "title": "Yleisiin kielitutkintoihin ilmoittautuminen"
+      "registration": {
+        "controlButtons": {
+          "cancelDialog": {
+            "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peruuta ilmoittautuminen"
+          },
+          "pay": "Siirry maksamaan",
+          "sendForm": "Lähetä lomake"
+        },
+        "examSessionDetails": {
+          "address": "Osoite",
+          "examDate": "Tutkintopäivä",
+          "openings": "Paikkoja vapaana",
+          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "paymentSum": {
+          "title": "Tutkintomaksu"
+        },
+        "stepper": {
+          "active": "Aktiivinen",
+          "completed": "Suoritettu",
+          "phase": "Vaihe",
+          "step": {
+            "Done": "Valmis",
+            "Identify": "Tunnistaudu",
+            "Register": "Ilmoittaudu"
+          }
+        },
+        "steps": {
+          "done": {
+            "description": {
+              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+            },
+            "successToast": "Ilmoittautuminen onnistui!",
+            "title": "Maksu on suoritettu."
+          },
+          "identify": {
+            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
+            "title": "Tunnistaudu ilmoittautumista varten"
+          },
+          "personDetails": {
+            "address": "Katuosoite",
+            "firstNames": "Etunimet",
+            "lastName": "Sukunimi",
+            "postNumber": "Postinumero",
+            "postOffice": "Postitoimipaikka",
+            "title": "Henkilötiedot"
+          },
+          "register": {
+            "email": "Sähköpostiosoite",
+            "emailConfirmation": "Vahvista sähköpostiosoite",
+            "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+            "phoneNumber": "Puhelinnumero",
+            "privacyStatement": {
+              "ariaLabel": "Tietosuojaseloste",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
+              "linkLabel": "tietosuojaselosteen"
+            },
+            "termsAndConditions": {
+              "description": "1.1.2023 alkaen tarvitset todistuksen sairaudesta tai muusta painavasta syystä, jos haluat perua ilmoittautumisesi YKI-testiin.",
+              "label": "Hyväksyn ehdot",
+              "title": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen. Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin."
+            },
+            "title": "Yhteystiedot"
+          }
+        }
+      },
+      "publicEvaluationPeriodListing": {
+        "heading": "Tutkinnot",
+        "header": {
+          "examination": "Tutkinto",
+          "examDate": "Tutkinnon päivämäärä",
+          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista"
+        },
+        "requestReassessment": "Pyydä tarkistusarviointia"
       }
     },
     "pages": {
+      "examDetailsPage": {
+        "toasts": {
+          "notFound": "Kielitutkintoa ei löytynyt"
+        }
+      },
+      "reassessmentPage": {
+        "info": {
+          "general": {
+            "body1": "Tarkistusarviointi on Yleisiä kielitutkintoja koskevan lain (964/2004, 13 §) tarjoama mahdollisuus pyytää suorituksesi uudelleen arviointia siinä tapauksessa, että et ole tyytyväinen siihen, miten tekemäsi tutkintosuoritus on arvioitu.",
+            "body2": "Tarkistusarviointi on ainoa toimenpide, jolla voit ehkä saada muutettua suorituksesi tulosta.",
+            "body3": "Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet suorituksesi ensimmäisellä kerralla. Tarkistusarvioinnissa arvioidaan vain suoritusta, eikä muita seikkoja oteta huomioon. Tarkistusarviointia koskevaan päätökseen ei saa hakea muutosta valittamalla.",
+            "heading": "Tarkistusarvioinnista"
+          },
+          "pricing": {
+            "body1": "Tarkistusarviointia voi pyytää joko yhdestä tai useammasta osakokeesta.",
+            "body2": "Jokaisen osakokeen tarkistusarviointi maksaa 50 euroa:",
+            "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
+            "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+            "heading": "Hinnasto"
+          }
+        },
+        "introduction": {
+          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta.",
+          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen."
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
+      },
       "registrationPage": {
+        "labels": {
+          "excludeFullSessions": "Näytä vain tutkintotilaisuudet, joissa on tilaa",
+          "excludeNonOpenSessions": "Näytä vain nyt avoinna olevat tutkintotilaisuudet",
+          "filterExamSessions": "Suodata tutkintotilaisuuksia",
+          "selectLanguage": "Valitse kieli",
+          "selectLevel": "Valitse taso",
+          "selectMunicipality": "Valitse paikkakunta"
+        },
+        "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       }
     }

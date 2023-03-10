@@ -1,5 +1,5 @@
 import { Alert, Box, Grid, Paper } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 
@@ -7,16 +7,18 @@ import { PublicExamSessionListing } from 'components/registration/examSession/Pu
 import { PublicExamSessionFilters } from 'components/registration/examSession/PublicExamSessionListingFilters';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSessions } from 'redux/reducers/examSessions';
-import { examSessionsSelector } from 'redux/selectors/examSessions';
+import {
+  examSessionsSelector,
+  selectFilteredPublicExamSessions,
+} from 'redux/selectors/examSessions';
 
 /*
 const ExamSessionsSkeleton = () => {
   // TODO
   return <div />;
 };
-
-const ExamSessionsListing = () => {};
 */
 
 export const RegistrationPage: FC = () => {
@@ -25,15 +27,23 @@ export const RegistrationPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector(examSessionsSelector);
+  const { status, exam_sessions } = useAppSelector(examSessionsSelector);
+  const [results, setResults] = useState<Array<ExamSession>>([]);
+  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
+  const onApplyFilters = () => {
+    setResults(filteredExamSessions);
+  };
+  const onEmptyFilters = () => {
+    setResults(exam_sessions);
+  };
+
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamSessions());
+    } else if (status === APIResponseStatus.Success) {
+      setResults(exam_sessions);
     }
-  }, [dispatch, status]);
-
-  const hasResults = true;
-  const hasNoResults = false;
+  }, [dispatch, status, exam_sessions]);
 
   return (
     <Box className="public-registration-page">
@@ -62,25 +72,23 @@ export const RegistrationPage: FC = () => {
           className="public-registration-page__grid-container__item-filters"
         >
           <Paper elevation={3} className="public-registration-page__filters">
-            <H1 className="public-registration-page__filters__heading-title">
+            <H2 className="public-registration-page__filters__heading-title">
               Hae tutkintotilaisuuksia
-            </H1>
+            </H2>
             <Alert
               className="public-registration-page__filters__heading-description"
               severity={Severity.Info}
             >
               Joku lisähuomio hakukriteereistä tähän?
             </Alert>
-            <PublicExamSessionFilters />
+            <PublicExamSessionFilters
+              onApplyFilters={onApplyFilters}
+              onEmptyFilters={onEmptyFilters}
+            />
           </Paper>
         </Grid>
         <Grid item className="public-homepage__grid-container__result-box">
-          {hasResults && <PublicExamSessionListing />}
-          {hasNoResults && (
-            <H2 className="public-homepage__grid-container__result-box__no-results">
-              {t('noSearchResults')}
-            </H2>
-          )}
+          <PublicExamSessionListing examSessions={results} />
         </Grid>
       </Grid>
     </Box>

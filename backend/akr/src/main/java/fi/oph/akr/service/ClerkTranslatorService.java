@@ -10,7 +10,6 @@ import fi.oph.akr.api.dto.clerk.ExaminationDateDTO;
 import fi.oph.akr.api.dto.clerk.MeetingDateDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationDTOCommonFields;
-import fi.oph.akr.api.dto.clerk.modify.AuthorisationPublishPermissionDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
@@ -387,26 +386,6 @@ public class ClerkTranslatorService {
     if (!authorisation.isBasisAndTermEndDateConsistent()) {
       throw new APIException(APIExceptionType.AUTHORISATION_BASIS_AND_TERM_END_DATE_MISMATCH);
     }
-  }
-
-  @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
-  @Transactional
-  public ClerkTranslatorDTO updateAuthorisationPublishPermission(final AuthorisationPublishPermissionDTO dto) {
-    final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
-    authorisation.assertVersion(dto.version());
-    authorisation.setPermissionToPublish(dto.permissionToPublish());
-
-    authorisationRepository.flush();
-
-    final Translator translator = authorisation.getTranslator();
-
-    final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    auditService.logAuthorisation(
-      AkrOperation.UPDATE_AUTHORISATION_PUBLISH_PERMISSION,
-      translator,
-      authorisation.getId()
-    );
-    return result;
   }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)

@@ -5,4 +5,5 @@ export interface TextField<T> {
   required: boolean;
   type: TextFieldTypes;
   maxLength: number;
+  minLength?: number;
 }

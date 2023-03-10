@@ -82,7 +82,7 @@ describe('ClerkNewInterpreterPage', () => {
         'test@tester'
       );
       onClerkNewInterpreterPage.clickAddQualificationButton();
-      onClerkNewInterpreterPage.fillOutAddQualificationFields();
+      onClerkNewInterpreterPage.fillOutQualificationFields();
       onClerkNewInterpreterPage.clickSaveQualificationButton();
 
       onClerkNewInterpreterPage.expectEnabledSaveInterpreterButton();
@@ -107,7 +107,7 @@ describe('ClerkNewInterpreterPage', () => {
         'test@tester'
       );
       onClerkNewInterpreterPage.clickAddQualificationButton();
-      onClerkNewInterpreterPage.fillOutAddQualificationFields();
+      onClerkNewInterpreterPage.fillOutQualificationFields();
       onClerkNewInterpreterPage.clickSaveQualificationButton();
 
       onClerkNewInterpreterPage.clickSaveInterpreterButton();

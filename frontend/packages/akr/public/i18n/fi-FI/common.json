@@ -1,8 +1,6 @@
 {
   "akr": {
     "common": {
-      "add": "Lisää",
-      "addAuthorisation": "Lisää auktorisointi",
       "akrLogo": "Auktorisoidun kääntäjän tutkintojärjestelmän logo",
       "appNameAbbreviation": "AKR",
       "appTitle": "Auktorisoitujen kääntäjien rekisteri | Opetushallitus",
