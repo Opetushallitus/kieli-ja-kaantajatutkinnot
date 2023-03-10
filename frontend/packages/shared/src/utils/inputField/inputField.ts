@@ -42,7 +42,6 @@ export function hasErrors<T>({
     fields,
     values,
     t,
-    dirtyFields: undefined,
     extraValidation,
   });
 
