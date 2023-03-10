@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 export interface ExaminationParts {
   readingComprehension: boolean;
   speechComprehension: boolean;
@@ -5,7 +7,9 @@ export interface ExaminationParts {
   writing: boolean;
 }
 
-// TODO Unused?
-export interface EvaluationOrder {
-  examinationParts: ExaminationParts;
+export interface PayerDetails {
+  firstNames?: string;
+  lastName?: string;
+  email?: string;
+  birthdate?: Dayjs;
 }

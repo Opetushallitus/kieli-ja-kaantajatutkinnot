@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1, HeaderSeparator } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -10,7 +10,12 @@ import { PublicEvaluationOrderPageSkeleton } from 'components/skeletons/PublicEv
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadEvaluationPeriod } from 'redux/reducers/evaluationOrder';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import {
+  initialState,
+  loadEvaluationPeriod,
+  resetEvaluationOrderState,
+} from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
 
 export const EvaluationOrderPage = () => {
@@ -23,8 +28,12 @@ export const EvaluationOrderPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { loadPeriodState, /*submitOrderState,*/ evaluationPeriod } =
-    useAppSelector(evaluationOrderSelector);
+  const {
+    loadPeriodState,
+    /*submitOrderState,*/ evaluationPeriod,
+    payerDetails,
+    examinationParts,
+  } = useAppSelector(evaluationOrderSelector);
   const isLoading =
     loadPeriodState === APIResponseStatus.InProgress ||
     loadPeriodState === APIResponseStatus.NotStarted;
@@ -33,7 +42,18 @@ export const EvaluationOrderPage = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  // TODO Setup navigation protection
+  // Navigation protection
+  const isDirtyState =
+    initialState.payerDetails !== payerDetails ||
+    initialState.examinationParts !== examinationParts;
+  useNavigationProtection(isDirtyState);
+
+  // Reset user filled details when unmounting (eg. navigating away from page)
+  // TODO Allow disabling eg. when transferring to payment provider
+  const resetStateOnUnmount = useCallback(() => {
+    dispatch(resetEvaluationOrderState());
+  }, [dispatch]);
+  useEffect(() => resetStateOnUnmount, [resetStateOnUnmount]);
 
   useEffect(() => {
     if (

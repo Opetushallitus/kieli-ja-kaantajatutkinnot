@@ -8,24 +8,33 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { CustomButton, CustomTextField, H2, Text } from 'shared/components';
-import { Color, TextFieldVariant, Variant } from 'shared/enums';
-import { DateUtils } from 'shared/utils';
+import { useCallback } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import {
+  CustomButton,
+  CustomDatePicker,
+  CustomTextField,
+  H2,
+  Text,
+} from 'shared/components';
+import { Color, TextFieldTypes, TextFieldVariant, Variant } from 'shared/enums';
+import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { ExaminationParts } from 'interfaces/evaluationOrder';
+import { ExaminationParts, PayerDetails } from 'interfaces/evaluationOrder';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 import {
   setAcceptConditions,
   setExaminationParts,
+  setPayerDetails,
+  setShowErrors,
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
 import { ExamUtils } from 'utils/exam';
 
-const EvaluationDetails = () => {
+const RenderEvaluationDetails = () => {
   const translateCommon = useCommonTranslation();
   const evaluationPeriod = useAppSelector(evaluationOrderSelector)
     .evaluationPeriod as EvaluationPeriod;
@@ -100,19 +109,90 @@ const SelectExaminationParts = () => {
   );
 };
 
-const PayerDetails = () => {
+const PayerDetailsTextField = ({
+  field,
+}: {
+  field: keyof Omit<PayerDetails, 'birthdate'>;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix:
+      'yki.component.evaluationOrderForm.fillPayerDetails.placeholders',
+  });
+  const translateCommon = useCommonTranslation();
+  const value = useAppSelector(evaluationOrderSelector).payerDetails[field];
+  const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
+  const dispatch = useAppDispatch();
+
+  const getFieldError = useCallback(
+    (field: keyof Omit<PayerDetails, 'birthdate'>) => {
+      if (showErrors) {
+        const fieldType =
+          field === 'email' ? TextFieldTypes.Email : TextFieldTypes.Text;
+        const error = InputFieldUtils.inspectCustomTextFieldErrors(
+          fieldType,
+          value,
+          true
+        );
+
+        if (error) {
+          return translateCommon(error);
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    },
+    [value, showErrors, translateCommon]
+  );
+
+  return (
+    <CustomTextField
+      placeholder={t(field)}
+      value={value}
+      onChange={(event) =>
+        dispatch(setPayerDetails({ [field]: event.target.value }))
+      }
+      error={!!getFieldError(field)}
+      helperText={getFieldError(field)}
+    />
+  );
+};
+
+const FillPayerDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
   });
+  const translateCommon = useCommonTranslation();
+  const { birthdate } = useAppSelector(evaluationOrderSelector).payerDetails;
+  const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
       <H2>{t('heading')}</H2>
       <div className="public-evaluation-order-page__order-form__payer-details-grid">
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
-        <CustomTextField />
+        <PayerDetailsTextField field="firstNames" />
+        <PayerDetailsTextField field="lastName" />
+        <CustomDatePicker
+          placeholder={t('placeholders.birthdate')}
+          value={birthdate ?? null}
+          setValue={(value) => {
+            if (value) {
+              dispatch(setPayerDetails({ birthdate: value }));
+            } else {
+              dispatch(setPayerDetails({ birthdate: undefined }));
+            }
+          }}
+          error={showErrors && !birthdate}
+          helperText={
+            showErrors && !birthdate
+              ? translateCommon('errors.customTextField.required')
+              : t('placeholders.birthdate')
+          }
+        />
+        <PayerDetailsTextField field="email" />
       </div>
     </>
   );
@@ -122,9 +202,9 @@ const AcceptConditions = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.acceptConditions',
   });
-  const acceptConditions = useAppSelector(
+  const { acceptConditions, showErrors } = useAppSelector(
     evaluationOrderSelector
-  ).acceptConditions;
+  );
   const dispatch = useAppDispatch();
 
   return (
@@ -142,6 +222,8 @@ const AcceptConditions = () => {
           </Link>
           <OpenInNewIcon />
         </div>
+      </div>
+      <FormControl error={showErrors && !acceptConditions}>
         <FormControlLabel
           control={
             <Checkbox
@@ -150,8 +232,11 @@ const AcceptConditions = () => {
             />
           }
           label={t('grantApproval')}
+          sx={{
+            '&.Mui-error .MuiFormControlLabel-label': { color: 'error.main' },
+          }}
         />
-      </div>
+      </FormControl>
     </>
   );
 };
@@ -160,13 +245,23 @@ const ActionButtons = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.actionButtons',
   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
-      <CustomButton variant={Variant.Contained} color={Color.Secondary}>
+      <CustomButton
+        variant={Variant.Contained}
+        color={Color.Secondary}
+        onClick={() => dispatch(setShowErrors(true))}
+      >
         {t('pay')}
       </CustomButton>
-      <CustomButton variant={Variant.Text} color={Color.Secondary}>
+      <CustomButton
+        variant={Variant.Text}
+        color={Color.Secondary}
+        onClick={() => navigate(AppRoutes.Reassessment)}
+      >
         {t('cancel')}
       </CustomButton>
     </div>
@@ -180,7 +275,7 @@ export const PublicEvaluationOrderForm = () => {
 
   return (
     <Paper elevation={3} className="public-evaluation-order-page__order-form">
-      <EvaluationDetails />
+      <RenderEvaluationDetails />
       <div>
         <Text>{t('info.fillForm')}</Text>
         <Text>{t('info.requiredFields')}</Text>
@@ -190,7 +285,7 @@ export const PublicEvaluationOrderForm = () => {
         <Text>{t('info.refundIfChangeInEvaluation')}</Text>
         <Text>{t('info.requestSummaryByEmail')}</Text>
       </div>
-      <PayerDetails />
+      <FillPayerDetails />
       <AcceptConditions />
       <ActionButtons />
     </Paper>

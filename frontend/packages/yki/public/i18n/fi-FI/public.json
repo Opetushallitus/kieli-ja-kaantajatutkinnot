@@ -19,7 +19,13 @@
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "fillPayerDetails": {
-          "heading": "Maksajan tiedot"
+          "heading": "Maksajan tiedot",
+          "placeholders": {
+            "birthdate": "Syntymäaika (pp.kk.vvvv) *",
+            "email": "Sähköpostiosoite *",
+            "firstNames": "Etunimet *",
+            "lastName": "Sukunimi *"
+          }
         },
         "selectExaminationParts": {
           "heading": "Tarkistettavat tutkinnon osat",
