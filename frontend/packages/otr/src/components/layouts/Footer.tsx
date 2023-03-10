@@ -3,7 +3,7 @@ import { Divider, Paper } from '@mui/material';
 import {
   CustomButtonLink,
   ExtLink,
-  H3,
+  H2,
   OPHLogoViewer,
   Svg,
   Text,
@@ -56,7 +56,7 @@ export const Footer = () => {
                   aria-label={t('links.otrHomepage.ariaLabel')}
                 />
                 <div className="footer__container__links__contact">
-                  <H3>{t('links.contact.title')}:</H3>
+                  <H2>{t('links.contact.title')}:</H2>
                   <ExtLink
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
@@ -65,7 +65,7 @@ export const Footer = () => {
                 </div>
               </div>
               <div className="footer__container footer__container__contact-details">
-                <H3>{t('address.name')}</H3>
+                <H2>{t('address.name')}</H2>
                 <br />
                 <Text>{t('address.street')}</Text>
                 <Text>{t('address.zipCity')}</Text>
