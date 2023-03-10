@@ -8,6 +8,14 @@ export type FieldErrors<T> = {
   [Property in keyof T]: string;
 };
 
+interface ValidateErrorsParams {
+  type: TextFieldTypes;
+  value?: string;
+  required?: boolean;
+  maxLength?: number;
+  minLength?: number;
+}
+
 interface GetErrorsParams<T> {
   fields: Array<TextField<T>>;
   values: T;
@@ -56,13 +64,13 @@ export function getErrors<T>({
     }
 
     const value = String(values[field.name]);
-    const error = InputFieldUtils.inspectCustomTextFieldErrors(
-      field.type,
-      value,
-      field.required,
-      field.maxLength,
-      field.minLength
-    );
+    const error = InputFieldUtils.validateCustomTextFieldErrors({
+      type: field.type,
+      value: value,
+      required: field.required,
+      maxLength: field.maxLength,
+      minLength: field.minLength,
+    });
     const fieldErrorMessage = error ? t(error) : null;
 
     return {
@@ -80,6 +88,22 @@ export function getErrors<T>({
 
 export class InputFieldUtils {
   static defaultMaxTextAreaLength = 6000;
+
+  static validateCustomTextFieldErrors({
+    type,
+    value,
+    required,
+    maxLength,
+    minLength,
+  }: ValidateErrorsParams) {
+    return InputFieldUtils.inspectCustomTextFieldErrors(
+      type,
+      value,
+      required,
+      maxLength,
+      minLength
+    );
+  }
 
   static inspectCustomTextFieldErrors(
     type: TextFieldTypes,
