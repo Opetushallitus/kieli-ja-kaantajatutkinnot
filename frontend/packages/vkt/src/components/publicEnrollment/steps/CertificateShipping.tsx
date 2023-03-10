@@ -55,21 +55,21 @@ export const CertificateShipping = ({
   useEffect(() => {
     setValid &&
       setValid(
-        hasErrors<CertificateShippingTextFields>(
+        hasErrors<CertificateShippingTextFields>({
           fields,
-          enrollment,
-          translateCommon
-        )
+          values: enrollment,
+          t: translateCommon,
+        })
       );
   }, [setValid, enrollment, translateCommon]);
 
   const dirty = showValidation ? undefined : dirtyFields;
-  const errors = getErrors<CertificateShippingTextFields>(
+  const errors = getErrors<CertificateShippingTextFields>({
     fields,
-    enrollment,
-    translateCommon,
-    dirty
-  );
+    values: enrollment,
+    t: translateCommon,
+    dirtyFields: dirty,
+  });
 
   const handleChange =
     (fieldName: keyof CertificateShippingTextFields) =>

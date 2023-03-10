@@ -77,22 +77,22 @@ export const FillContactDetails = ({
   const dispatch = useAppDispatch();
 
   const dirty = showValidation ? undefined : dirtyFields;
-  const errors = getErrors<PublicEnrollmentContactDetails>(
+  const errors = getErrors<PublicEnrollmentContactDetails>({
     fields,
-    enrollment,
-    translateCommon,
-    dirty,
-    emailsMatch.bind(this, t)
-  );
+    values: enrollment,
+    t: translateCommon,
+    dirtyFields: dirty,
+    extraValidation: emailsMatch.bind(this, t),
+  });
 
   useEffect(() => {
     setIsStepValid(
-      !hasErrors<PublicEnrollmentContactDetails>(
+      !hasErrors<PublicEnrollmentContactDetails>({
         fields,
-        enrollment,
-        translateCommon,
-        emailsMatch.bind(this, t)
-      )
+        values: enrollment,
+        t: translateCommon,
+        extraValidation: emailsMatch.bind(this, t),
+      })
     );
   }, [setIsStepValid, enrollment, t, translateCommon]);
 
