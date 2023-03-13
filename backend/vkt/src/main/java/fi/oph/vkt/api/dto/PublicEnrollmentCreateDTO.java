@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto;
 
+import fi.oph.vkt.util.StringUtil;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -22,4 +23,14 @@ public record PublicEnrollmentCreateDTO(
   String postalCode,
   String town,
   String country
-) {}
+) {
+  public PublicEnrollmentCreateDTO {
+    previousEnrollment = StringUtil.trim(previousEnrollment);
+    email = StringUtil.trim(email);
+    phoneNumber = StringUtil.trim(phoneNumber);
+    street = StringUtil.trim(street);
+    postalCode = StringUtil.trim(postalCode);
+    town = StringUtil.trim(town);
+    country = StringUtil.trim(country);
+  }
+}

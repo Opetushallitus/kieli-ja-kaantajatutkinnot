@@ -1,11 +1,22 @@
+import { ExaminationType } from 'enums/interpreter';
 import { ClerkInterpreterQualifications } from 'interfaces/clerkInterpreter';
 import { LanguagePair } from 'interfaces/languagePair';
-import { Qualification } from 'interfaces/qualification';
+import { NewQualification, Qualification } from 'interfaces/qualification';
 import koodistoLangsFI from 'public/i18n/koodisto/langs/koodisto_langs_fi-FI.json';
 
 export class QualificationUtils {
   static defaultFromLang = 'FI';
   static selectableFromLangs = ['FI'];
+
+  static newQualification: NewQualification = {
+    fromLang: QualificationUtils.defaultFromLang,
+    toLang: '',
+    examinationType: undefined as unknown as ExaminationType,
+    beginDate: undefined,
+    endDate: undefined,
+    permissionToPublish: true,
+    diaryNumber: '',
+  };
 
   static isEffective(
     { id }: Qualification,

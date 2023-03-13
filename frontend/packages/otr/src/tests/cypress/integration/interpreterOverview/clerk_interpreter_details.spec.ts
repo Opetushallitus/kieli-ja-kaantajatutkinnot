@@ -107,10 +107,11 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
 
   it('should add qualification successfully', () => {
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
-    onClerkInterpreterOverviewPage.fillOutAddQualificationFields();
-    onClerkInterpreterOverviewPage.toggleAddQualificationPermissionToPublishSwitch();
+    onClerkInterpreterOverviewPage.expectQualificationSaveButtonDisabled();
+    onClerkInterpreterOverviewPage.fillOutQualificationFields();
+    onClerkInterpreterOverviewPage.toggleQualificationPermissionToPublishSwitch();
 
-    onClerkInterpreterOverviewPage.saveQualification();
+    onClerkInterpreterOverviewPage.clickSaveQualification();
 
     onQualificationDetails.assertRowExists(99);
     onToast.expectText('Rekisteröinti lisätty onnistuneesti');
@@ -122,19 +123,6 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       'endDate',
       'input'
     );
-  });
-
-  it('should not allow adding qualification if required fields are not filled', () => {
-    onClerkInterpreterOverviewPage.clickAddQualificationButton();
-    onClerkInterpreterOverviewPage.fillOutAddQualificationFields();
-    onClerkInterpreterOverviewPage.expectQualificationSaveButtonEnabled();
-
-    onClerkInterpreterOverviewPage.fillOutAddQualificationField(
-      'diaryNumber',
-      'input',
-      ''
-    );
-    onClerkInterpreterOverviewPage.expectQualificationSaveButtonDisabled();
   });
 
   it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {

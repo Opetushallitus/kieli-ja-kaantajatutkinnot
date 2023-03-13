@@ -1,4 +1,4 @@
-import { addQualificationFields } from 'tests/cypress/fixtures/utils/clerkInterpreterOverview';
+import { qualificationFields } from 'tests/cypress/fixtures/utils/qualificationFields';
 
 class ClerkNewInterpreterPage {
   elements = {
@@ -9,14 +9,11 @@ class ClerkNewInterpreterPage {
         .findByTestId(`clerk-interpreter__basic-information__${field}`)
         .should('be.visible')
         .find(`div>${fieldType}`),
-    addQualificationField: (field: string, fieldType: string) =>
-      cy
-        .findByTestId(`add-qualification-field-${field}`)
-        .find(`div>${fieldType}`),
+    qualificationField: (field: string, fieldType: string) =>
+      cy.findByTestId(`qualification-field-${field}`).find(`div>${fieldType}`),
     qualificationRow: (i: number) =>
-      cy.findByTestId(`qualifications-table__id-${i}-unsaved`),
-    saveQualificationButton: () =>
-      cy.findByTestId('add-qualification-modal__save'),
+      cy.findByTestId(`qualifications-table__id-${i}-row`),
+    saveQualificationButton: () => cy.findByTestId('qualification-modal__save'),
     saveInterpreterButton: () =>
       cy.findByTestId('clerk-new-interpreter-page__save-button'),
     title: () => cy.findByTestId('clerk-interpreter__basic-information__title'),
@@ -76,20 +73,20 @@ class ClerkNewInterpreterPage {
     this.elements.addQualificationButton().should('be.visible').click();
   }
 
-  fillOutAddQualificationField(
+  fillOutQualificationField(
     fieldName: string,
     fieldType: string,
     newValue: string
   ) {
     this.elements
-      .addQualificationField(fieldName, fieldType)
+      .qualificationField(fieldName, fieldType)
       .clear()
       .type(`${newValue}{enter}`);
   }
 
-  fillOutAddQualificationFields(fields = addQualificationFields) {
+  fillOutQualificationFields(fields = qualificationFields) {
     fields.forEach(({ fieldName, fieldType, value }) => {
-      this.fillOutAddQualificationField(fieldName, fieldType, value);
+      this.fillOutQualificationField(fieldName, fieldType, value);
     });
   }
 

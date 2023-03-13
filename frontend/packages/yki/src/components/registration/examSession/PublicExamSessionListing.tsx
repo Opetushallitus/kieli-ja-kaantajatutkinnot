@@ -12,7 +12,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
@@ -38,9 +38,6 @@ export const PublicExamSessionListing = ({
 }: {
   examSessions: Array<ExamSession>;
 }) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.registrationPage',
-  });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
@@ -78,17 +75,19 @@ export const PublicExamSessionListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <div className="columns" ref={listingHeaderRef}>
-            <div className="grow">
-              <H3
-                aria-label={t('searchResultsAriaLabel', {
-                  count: examSessions.length,
-                })}
-              >
-                {t('searchResults', { count: examSessions.length })}
-              </H3>
-            </div>
-          </div>
+          <H3
+            ref={listingHeaderRef}
+            aria-label={translateCommon(
+              'component.table.header.searchResultsAriaLabel',
+              {
+                count: examSessions.length,
+              }
+            )}
+          >
+            {translateCommon('component.table.header.searchResults', {
+              count: examSessions.length,
+            })}
+          </H3>
           <ManagedPaginatedTable
             className="public-exam-session-listing"
             data={examSessions}

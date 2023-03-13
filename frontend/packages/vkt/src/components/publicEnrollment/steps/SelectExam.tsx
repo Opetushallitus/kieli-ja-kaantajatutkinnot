@@ -11,11 +11,13 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 export const SelectExam = ({
   enrollment,
   isLoading,
-  disableNext,
+  setIsStepValid,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
+  setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -30,8 +32,12 @@ export const SelectExam = ({
     setIsValidCertificateShipping(isValid);
 
   useEffect(() => {
-    disableNext(!isValidPartialExamsSelection || !isValidCertificateShipping);
-  }, [disableNext, isValidPartialExamsSelection, isValidCertificateShipping]);
+    setIsStepValid(isValidPartialExamsSelection && isValidCertificateShipping);
+  }, [
+    setIsStepValid,
+    isValidPartialExamsSelection,
+    isValidCertificateShipping,
+  ]);
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
@@ -41,7 +47,11 @@ export const SelectExam = ({
           i18nKey="examinationPaymentsDescription"
         ></Trans>
       </Text>
-      <PreviousEnrollment enrollment={enrollment} editingDisabled={isLoading} />
+      <PreviousEnrollment
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        showValidation={showValidation}
+      />
       <PartialExamsSelection
         enrollment={enrollment}
         editingDisabled={isLoading}
@@ -51,6 +61,7 @@ export const SelectExam = ({
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setCertificateShipping}
+        showValidation={showValidation}
       />
     </div>
   );

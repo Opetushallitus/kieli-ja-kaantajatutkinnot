@@ -82,13 +82,6 @@
         },
         "qualifications": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Vaihda julkaisulupaa",
-              "dialog": {
-                "description": "Tämä muuttaa rekisteröinnin näkymistä julkisessa rekisterissä.",
-                "header": "Haluatko varmasti vaihtaa julkaisulupaa?"
-              }
-            },
             "removal": {
               "ariaLabel": "Poista rekisteröinti",
               "dialog": {
@@ -99,6 +92,7 @@
             }
           },
           "fields": {
+            "actions": "Toiminnot",
             "diaryNumber": "Asiatunnus",
             "endDate": "Päättymispäivä",
             "examinationType": "Koulutus",
@@ -107,11 +101,15 @@
             "startDate": "Alkamispäivä"
           },
           "header": "Rekisteröinnit",
+          "modalTitle": {
+            "addQualification": "Lisää rekisteröinti",
+            "editQualification": "Muokkaa rekisteröintiä"
+          },
           "noQualifications": "Valituille kriteereille ei löytynyt rekisteröintejä",
           "toasts": {
             "addingSucceeded": "Rekisteröinti lisätty onnistuneesti",
             "removingSucceeded": "Valittu rekisteröinti poistettu",
-            "updatingPublishPermissionSucceeded": "Rekisteröinnin julkaisulupaa muutettu"
+            "updatingSucceeded": "Rekisteröinnin muokkaus onnistui"
           },
           "toggleFilters": {
             "effective": "Voimassa olevat",
@@ -197,7 +195,7 @@
         },
         "fieldLabel": {
           "beginDate": "Rekisteröinnin alkamispäivä",
-          "diaryNumber": "Asiatunnus",
+          "diaryNumber": "Rekisteröinnin asiatunnus",
           "endDate": "Rekisteröinnin päättymispäivä",
           "examination": "Koulutus",
           "from": "Kielipari (mistä)",
@@ -212,7 +210,7 @@
           "to": "Mihin"
         },
         "switch": {
-          "permissionToPublish": "Julkaisulupa"
+          "permissionToPublish": "Saa julkaista internetissä"
         }
       },
       "publicInterpreterFilters": {
@@ -303,6 +301,9 @@
       },
       "clerkNewInterpreterPage": {
         "addedQualificationsTitle": "Lisätyt rekisteröinnit",
+        "modalTitle": {
+          "addQualification": "Lisää rekisteröinti"
+        },
         "removeQualificationDialog": {
           "title": "Haluatko varmasti poistaa rekisteröinnin?"
         },

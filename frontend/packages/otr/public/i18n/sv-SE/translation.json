@@ -82,13 +82,6 @@
         },
         "qualifications": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Ändra publiceringstillstånd",
-              "dialog": {
-                "description": null,
-                "header": "Är du säker på att du vill byta publiceringstillstånd?"
-              }
-            },
             "removal": {
               "ariaLabel": null,
               "dialog": {
@@ -99,6 +92,7 @@
             }
           },
           "fields": {
+            "actions": "Funktioner",
             "diaryNumber": "Diarienummer",
             "endDate": "Slutdatum",
             "examinationType": "Utbildning",
@@ -107,11 +101,15 @@
             "startDate": "Startdatum"
           },
           "header": null,
+          "modalTitle": {
+            "addQualification": null,
+            "editQualification": null
+          },
           "noQualifications": null,
           "toasts": {
             "addingSucceeded": null,
             "removingSucceeded": null,
-            "updatingPublishPermissionSucceeded": null
+            "updatingSucceeded": null
           },
           "toggleFilters": {
             "effective": "I kraft",
@@ -212,7 +210,7 @@
           "to": "Vart"
         },
         "switch": {
-          "permissionToPublish": "Publiceringstillstånd"
+          "permissionToPublish": "Får publiceras på internet"
         }
       },
       "publicInterpreterFilters": {
@@ -303,6 +301,9 @@
       },
       "clerkNewInterpreterPage": {
         "addedQualificationsTitle": null,
+        "modalTitle": {
+          "addQualification": null
+        },
         "removeQualificationDialog": {
           "title": null
         },

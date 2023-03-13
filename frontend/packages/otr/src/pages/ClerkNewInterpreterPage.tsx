@@ -6,16 +6,16 @@ import { CustomButton, CustomModal, H1, H2 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
-import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { BottomControls } from 'components/clerkInterpreter/new/BottomControls';
 import { ClerkNewInterpreterDetails } from 'components/clerkInterpreter/new/ClerkNewInterpreterDetails';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
+import { QualificationFields } from 'components/clerkInterpreter/qualification/QualificationFields';
 import { BackButton } from 'components/common/BackButton';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { Qualification } from 'interfaces/qualification';
+import { NewQualification, Qualification } from 'interfaces/qualification';
 import {
   initialiseClerkNewInterpreterByIdentityNumber,
   initialiseClerkNewInterpreterByPerson,
@@ -29,11 +29,18 @@ import {
   meetingDatesSelector,
   selectMeetingDatesByMeetingStatus,
 } from 'redux/selectors/meetingDate';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const ClerkNewInterpreterPage = () => {
+  const [qualification, setQualification] = useState<NewQualification>(
+    QualificationUtils.newQualification
+  );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setQualification(QualificationUtils.newQualification);
+  };
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
 
   const { showToast } = useToast();
@@ -103,14 +110,19 @@ export const ClerkNewInterpreterPage = () => {
     };
   }, [dispatch]);
 
-  const onQualificationAdd = (qualification: Qualification) => {
-    setHasLocalChanges(true);
+  const handleSaveQualification = () => {
     dispatch(
       updateClerkNewInterpreter({
         ...interpreter,
-        qualifications: [...interpreter.qualifications, qualification],
+        qualifications: [
+          ...interpreter.qualifications,
+          qualification as Qualification,
+        ],
       })
     );
+
+    handleCloseModal();
+    setHasLocalChanges(true);
   };
 
   const onQualificationRemove = (qualification: Qualification) => {
@@ -156,17 +168,18 @@ export const ClerkNewInterpreterPage = () => {
             onDetailsChange={() => setHasLocalChanges(true)}
           />
           <CustomModal
-            data-testid="qualification-details__add-qualification-modal"
             open={open}
             onCloseModal={handleCloseModal}
             ariaLabelledBy="modal-title"
-            modalTitle={translateCommon('addQualification')}
+            modalTitle={t('modalTitle.addQualification')}
           >
-            <AddQualification
+            <QualificationFields
+              qualification={qualification}
+              setQualification={setQualification}
               meetingDates={passedMeetingDates}
-              isLoading={false}
-              onQualificationAdd={onQualificationAdd}
+              onSave={handleSaveQualification}
               onCancel={handleCloseModal}
+              isLoading={false}
             />
           </CustomModal>
           <div className="columns margin-top-sm space-between">
@@ -178,14 +191,14 @@ export const ClerkNewInterpreterPage = () => {
               startIcon={<AddIcon />}
               onClick={handleOpenModal}
             >
-              {translateCommon('addQualification')}
+              {t('modalTitle.addQualification')}
             </CustomButton>
           </div>
           {interpreter.qualifications.length > 0 && (
             <QualificationListing
               qualifications={interpreter.qualifications}
-              permissionToPublishReadOnly={true}
-              handleRemoveQualification={onQualificationRemove}
+              showEditButton={false}
+              onQualificationRemove={onQualificationRemove}
             />
           )}
           <BottomControls interpreter={interpreter} status={status} />

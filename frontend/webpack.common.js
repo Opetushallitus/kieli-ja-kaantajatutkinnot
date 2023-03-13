@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
-module.exports = (appName, env, dirName, port) => {
+module.exports = (appName, env, dirName, port, entryPage = 'etusivu') => {
   const STATIC_PATH = `${appName}/static`;
   const CONTEXT_PATH = appName;
 
@@ -113,7 +113,7 @@ module.exports = (appName, env, dirName, port) => {
 
   const getDevServer = () => ({
     devServer: {
-      open: `/${CONTEXT_PATH}/etusivu`,
+      open: `/${CONTEXT_PATH}/${entryPage}`,
       historyApiFallback: true,
       static: {
         directory: path.join(dirName, "public"),

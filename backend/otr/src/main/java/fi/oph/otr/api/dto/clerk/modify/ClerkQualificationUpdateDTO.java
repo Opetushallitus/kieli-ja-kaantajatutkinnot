@@ -2,6 +2,7 @@ package fi.oph.otr.api.dto.clerk.modify;
 
 import fi.oph.otr.api.dto.clerk.ClerkQualificationDTOCommonFields;
 import fi.oph.otr.model.ExaminationType;
+import fi.oph.otr.util.StringUtil;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,4 +21,8 @@ public record ClerkQualificationUpdateDTO(
   @NonNull @NotNull Boolean permissionToPublish,
   String diaryNumber
 )
-  implements ClerkQualificationDTOCommonFields {}
+  implements ClerkQualificationDTOCommonFields {
+  public ClerkQualificationUpdateDTO {
+    diaryNumber = StringUtil.trim(diaryNumber);
+  }
+}

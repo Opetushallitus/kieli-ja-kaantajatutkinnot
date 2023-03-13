@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
+import fi.oph.vkt.util.StringUtil;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
@@ -24,4 +25,14 @@ public record ClerkEnrollmentUpdateDTO(
   String postalCode,
   String town,
   String country
-) {}
+) {
+  public ClerkEnrollmentUpdateDTO {
+    previousEnrollment = StringUtil.trim(previousEnrollment);
+    email = StringUtil.trim(email);
+    phoneNumber = StringUtil.trim(phoneNumber);
+    street = StringUtil.trim(street);
+    postalCode = StringUtil.trim(postalCode);
+    town = StringUtil.trim(town);
+    country = StringUtil.trim(country);
+  }
+}

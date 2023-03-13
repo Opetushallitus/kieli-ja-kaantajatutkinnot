@@ -26,13 +26,15 @@ export const PublicEnrollmentControlButtons = ({
   enrollment,
   reservationDetails,
   isLoading,
-  disableNext,
+  isStepValid,
+  setShowValidation,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   reservationDetails: PublicReservationDetails;
   isLoading: boolean;
-  disableNext: boolean;
+  isStepValid: boolean;
+  setShowValidation: (showValidation: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -76,7 +78,12 @@ export const PublicEnrollmentControlButtons = ({
   };
 
   const handleNextBtnClick = () => {
-    dispatch(increaseActiveStep());
+    if (isStepValid) {
+      setShowValidation(false);
+      dispatch(increaseActiveStep());
+    } else {
+      setShowValidation(true);
+    }
   };
 
   const handleSubmitBtnClick = () => {
@@ -124,7 +131,7 @@ export const PublicEnrollmentControlButtons = ({
       onClick={handleNextBtnClick}
       data-testid="public-enrollment__controlButtons__next"
       endIcon={<ArrowForwardIcon />}
-      disabled={disableNext || isLoading}
+      disabled={isLoading}
     >
       {translateCommon('next')}
     </CustomButton>
@@ -137,7 +144,7 @@ export const PublicEnrollmentControlButtons = ({
       onClick={handleSubmitBtnClick}
       data-testid="public-enrollment__controlButtons__submit"
       endIcon={<ArrowForwardIcon />}
-      disabled={disableNext || isLoading}
+      disabled={isLoading}
     >
       {reservationDetails.reservation ? t('pay') : t('sendForm')}
     </CustomButton>
