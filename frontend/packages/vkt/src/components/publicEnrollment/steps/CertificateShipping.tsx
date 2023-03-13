@@ -33,28 +33,6 @@ const fields: Array<TextField<CertificateShippingTextFields>> = [
   },
 ];
 
-const fields: TextField<CertificateShippingTextFields>[] = [
-  {
-    name: 'street',
-    required: true,
-    type: TextFieldTypes.Text,
-    maxLength: 255,
-  },
-  {
-    name: 'postalCode',
-    required: true,
-    type: TextFieldTypes.Text,
-    maxLength: 255,
-  },
-  { name: 'town', required: true, type: TextFieldTypes.Text, maxLength: 255 },
-  {
-    name: 'country',
-    required: true,
-    type: TextFieldTypes.Text,
-    maxLength: 255,
-  },
-];
-
 export const CertificateShipping = ({
   enrollment,
   editingDisabled,
@@ -75,14 +53,23 @@ export const CertificateShipping = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setValid &&
-      setValid(
-        hasErrors<CertificateShippingTextFields>({
-          fields,
-          values: enrollment,
-          t: translateCommon,
-        })
-      );
+    if (!setValid) {
+      return;
+    }
+
+    if (enrollment.digitalCertificateConsent) {
+      setValid(true);
+
+      return;
+    }
+
+    setValid(
+      !hasErrors<CertificateShippingTextFields>({
+        fields,
+        values: enrollment,
+        t: translateCommon,
+      })
+    );
   }, [setValid, enrollment, translateCommon]);
 
   const dirty = showValidation ? undefined : dirtyFields;
@@ -92,10 +79,6 @@ export const CertificateShipping = ({
     t: translateCommon,
     dirtyFields: dirty,
   });
-
-  const errors = showValidation
-    ? getErrors(fields, enrollment, translateCommon)
-    : fieldErrors;
 
   const handleChange =
     (fieldName: keyof CertificateShippingTextFields) =>

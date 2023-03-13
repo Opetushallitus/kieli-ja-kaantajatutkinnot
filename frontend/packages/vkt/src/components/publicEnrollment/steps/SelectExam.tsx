@@ -25,18 +25,27 @@ export const SelectExam = ({
     useState(false);
   const [isValidCertificateShipping, setIsValidCertificateShipping] =
     useState(false);
+  const [isValidPreviousEnrollment, setIsValidPreviousEnrollment] =
+    useState(false);
 
   const setPartialExamsSelection = (isValid: boolean) =>
     setIsValidPartialExamsSelection(isValid);
   const setCertificateShipping = (isValid: boolean) =>
     setIsValidCertificateShipping(isValid);
+  const setPreviousEnrollment = (isValid: boolean) =>
+    setIsValidPreviousEnrollment(isValid);
 
   useEffect(() => {
-    setIsStepValid(isValidPartialExamsSelection && isValidCertificateShipping);
+    setIsStepValid(
+      isValidPartialExamsSelection &&
+        isValidCertificateShipping &&
+        isValidPreviousEnrollment
+    );
   }, [
     setIsStepValid,
     isValidPartialExamsSelection,
     isValidCertificateShipping,
+    isValidPreviousEnrollment,
   ]);
 
   return (
@@ -51,6 +60,7 @@ export const SelectExam = ({
         enrollment={enrollment}
         editingDisabled={isLoading}
         showValidation={showValidation}
+        setValid={setPreviousEnrollment}
       />
       <PartialExamsSelection
         enrollment={enrollment}
