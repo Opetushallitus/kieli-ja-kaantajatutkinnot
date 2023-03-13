@@ -13,6 +13,7 @@ describe('CustomModal', () => {
         onCloseModal={() => {
           return;
         }}
+        aria-labelledby="test-modal-title"
       >
         <div>Sisältöä tarvitaan</div>
       </CustomModal>
@@ -28,6 +29,7 @@ describe('CustomModal', () => {
           return;
         }}
         modalTitle="Title for the modal"
+        aria-labelledby="test-modal-title"
       >
         <div>Lisää tekstiä</div>
       </CustomModal>

@@ -103,7 +103,7 @@ export const PublicEnrollmentTimer = ({
       />
       <CustomModal
         data-testid="public-enrollment__renew-reservation-modal"
-        className="renew-reservation-modal"
+        className="public-enrollment__renew-reservation-modal"
         open={isContinueModalOpen}
         onCloseModal={() => setTimerWarningClosed(true)}
         aria-labelledby="expires-modal-title"
@@ -137,7 +137,7 @@ export const PublicEnrollmentTimer = ({
       </CustomModal>
       <CustomModal
         data-testid="public-enrollment__reservation-expired-modal"
-        className="renew-reservation-modal"
+        className="public-enrollment__renew-reservation-modal"
         open={isExpiredModalOpen}
         onCloseModal={() => setTimerWarningClosed(true)}
         aria-labelledby="expired-modal-title"

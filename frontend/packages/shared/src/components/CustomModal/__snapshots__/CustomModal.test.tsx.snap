@@ -8,6 +8,7 @@ exports[`CustomModal should render correctly when it is opened 1`] = `
     aria-hidden="true"
   />
   <div
+    aria-labelledby="test-modal-title"
     aria-modal="true"
     class="MuiModal-root css-79ws1d-MuiModal-root"
     role="alertdialog"
@@ -30,6 +31,7 @@ exports[`CustomModal should render correctly when it is opened 1`] = `
       >
         <h2
           class="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+          id="test-modal-title"
         >
           Title for the modal
         </h2>
