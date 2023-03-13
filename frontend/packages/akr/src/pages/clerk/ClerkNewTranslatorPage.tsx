@@ -178,7 +178,7 @@ export const ClerkNewTranslatorPage = () => {
           <CustomModal
             open={open}
             onCloseModal={handleCloseModal}
-            ariaLabelledBy="modal-title"
+            aria-labelledby="modal-title"
             modalTitle={t('modalTitle.addAuthorisation')}
           >
             <AuthorisationFields
