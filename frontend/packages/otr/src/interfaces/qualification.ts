@@ -13,12 +13,18 @@ export interface Qualification
   endDate: Dayjs;
   examinationType: ExaminationType;
   permissionToPublish: boolean;
-  diaryNumber?: string;
-  interpreterId?: number;
+  diaryNumber: string;
 }
 
 export interface QualificationResponse
-  extends Omit<Qualification, 'beginDate' | 'endDate'> {
+  extends Omit<Qualification, 'beginDate' | 'endDate' | 'diaryNumber'> {
   beginDate: string;
   endDate: string;
+  diaryNumber?: string;
+}
+
+export interface NewQualification
+  extends Omit<Qualification, 'beginDate' | 'endDate'> {
+  beginDate?: Dayjs;
+  endDate?: Dayjs;
 }

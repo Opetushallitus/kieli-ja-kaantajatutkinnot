@@ -28,7 +28,6 @@ export enum HeaderTabNav {
 }
 
 export enum UIMode {
-  EditQualificationDetails = 'editQualificationDetails',
   EditInterpreterDetails = 'editInterpreterDetails',
   View = 'view',
 }

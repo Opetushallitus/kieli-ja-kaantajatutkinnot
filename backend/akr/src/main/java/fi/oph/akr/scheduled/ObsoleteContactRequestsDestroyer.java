@@ -1,5 +1,6 @@
 package fi.oph.akr.scheduled;
 
+import fi.oph.akr.config.Constants;
 import fi.oph.akr.service.ContactRequestService;
 import fi.oph.akr.util.SchedulingUtil;
 import java.time.LocalDateTime;
@@ -24,7 +25,7 @@ public class ObsoleteContactRequestsDestroyer {
   @Resource
   private final ContactRequestService contactRequestService;
 
-  @Scheduled(cron = "0 0 4 * * *")
+  @Scheduled(cron = Constants.DESTROY_OBSOLETE_CONTACT_REQUESTS_CRON)
   @SchedulerLock(name = "destroyObsoleteContactRequests", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void destroyObsoleteContactRequests() {
     SchedulingUtil.runWithScheduledUser(() -> {

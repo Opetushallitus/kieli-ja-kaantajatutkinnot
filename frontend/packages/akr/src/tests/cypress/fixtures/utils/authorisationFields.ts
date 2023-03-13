@@ -1,4 +1,4 @@
-export const addAuthorisationFields = [
+export const authorisationFields = [
   {
     fieldName: 'from',
     fieldType: 'input',

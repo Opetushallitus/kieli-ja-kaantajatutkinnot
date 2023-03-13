@@ -57,7 +57,6 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/akr}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
-  create-expiry-emails-enabled: ${create-expiry-emails-enabled:false}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}

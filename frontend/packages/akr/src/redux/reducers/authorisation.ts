@@ -6,20 +6,26 @@ import { Authorisation } from 'interfaces/authorisation';
 interface AuthorisationState {
   addStatus: APIResponseStatus;
   removeStatus: APIResponseStatus;
-  updatePublishPermissionStatus: APIResponseStatus;
+  updateStatus: APIResponseStatus;
 }
 
 const initialState: AuthorisationState = {
   addStatus: APIResponseStatus.NotStarted,
   removeStatus: APIResponseStatus.NotStarted,
-  updatePublishPermissionStatus: APIResponseStatus.NotStarted,
+  updateStatus: APIResponseStatus.NotStarted,
 };
 
 const authorisationSlice = createSlice({
   name: 'authorisation',
   initialState,
   reducers: {
-    addAuthorisation(state, _action: PayloadAction<Authorisation>) {
+    addAuthorisation(
+      state,
+      _action: PayloadAction<{
+        authorisation: Authorisation;
+        translatorId: number;
+      }>
+    ) {
       state.addStatus = APIResponseStatus.InProgress;
     },
     addingAuthorisationSucceeded(state) {
@@ -27,9 +33,6 @@ const authorisationSlice = createSlice({
     },
     rejectAuthorisationAdd(state) {
       state.addStatus = APIResponseStatus.Error;
-    },
-    rejectAuthorisationPublishPermissionUpdate(state) {
-      state.updatePublishPermissionStatus = APIResponseStatus.Error;
     },
     rejectAuthorisationRemove(state) {
       state.removeStatus = APIResponseStatus.Error;
@@ -43,21 +46,20 @@ const authorisationSlice = createSlice({
     resetAuthorisationAdd(state) {
       state.addStatus = initialState.addStatus;
     },
-    resetAuthorisationPublishPermissionUpdate(state) {
-      state.updatePublishPermissionStatus =
-        initialState.updatePublishPermissionStatus;
-    },
     resetAuthorisationRemove(state) {
       state.removeStatus = initialState.removeStatus;
     },
-    updateAuthorisationPublishPermission(
-      state,
-      _action: PayloadAction<Authorisation>
-    ) {
-      state.updatePublishPermissionStatus = APIResponseStatus.InProgress;
+    updateAuthorisation(state, _action: PayloadAction<Authorisation>) {
+      state.updateStatus = APIResponseStatus.InProgress;
     },
-    updatingAuthorisationPublishPermissionSucceeded(state) {
-      state.updatePublishPermissionStatus = APIResponseStatus.Success;
+    rejectAuthorisationUpdate(state) {
+      state.updateStatus = APIResponseStatus.Error;
+    },
+    updatingAuthorisationSucceeded(state) {
+      state.updateStatus = APIResponseStatus.Success;
+    },
+    resetAuthorisationUpdate(state) {
+      state.updateStatus = initialState.updateStatus;
     },
   },
 });
@@ -67,13 +69,13 @@ export const {
   addAuthorisation,
   addingAuthorisationSucceeded,
   rejectAuthorisationAdd,
-  rejectAuthorisationPublishPermissionUpdate,
   rejectAuthorisationRemove,
   removeAuthorisation,
   removingAuthorisationSucceeded,
   resetAuthorisationAdd,
-  resetAuthorisationPublishPermissionUpdate,
   resetAuthorisationRemove,
-  updateAuthorisationPublishPermission,
-  updatingAuthorisationPublishPermissionSucceeded,
+  updateAuthorisation,
+  rejectAuthorisationUpdate,
+  updatingAuthorisationSucceeded,
+  resetAuthorisationUpdate,
 } = authorisationSlice.actions;

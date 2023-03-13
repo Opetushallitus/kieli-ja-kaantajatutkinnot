@@ -1,5 +1,6 @@
 package fi.oph.akr.scheduled;
 
+import fi.oph.akr.config.Constants;
 import fi.oph.akr.service.StatisticsService;
 import fi.oph.akr.util.SchedulingUtil;
 import javax.annotation.Resource;
@@ -21,7 +22,7 @@ public class StatisticsGeneratorScheduled {
   @Resource
   private StatisticsService statisticsService;
 
-  @Scheduled(cron = "0 29 8 * * *")
+  @Scheduled(cron = Constants.GENERATE_STATISTICS_CRON)
   @SchedulerLock(name = "generateStatistics", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void generateStatistics() {
     SchedulingUtil.runWithScheduledUser(() -> {

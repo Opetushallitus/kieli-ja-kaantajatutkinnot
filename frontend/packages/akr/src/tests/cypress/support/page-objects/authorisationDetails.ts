@@ -12,20 +12,18 @@ class AuthorisationDetails {
     formerVirToggleBtn: () => cy.findByTestId(toggleBtn('formerVir')),
     row: (id: number) => cy.findByTestId(rowTestId(id)),
     deleteBtn: (id: number) => cy.findByTestId(`${rowTestId(id)}__delete-btn`),
-    publishPermissionSwitch: (id: number) =>
-      cy.findByTestId(rowTestId(id)).find('input[type=checkbox]'),
   };
 
   clickAuthorisedToggleBtn() {
-    this.elements.authorisedToggleBtn().click();
+    this.elements.authorisedToggleBtn().should('be.visible').click();
   }
 
   clickExpiredToggleBtn() {
-    this.elements.expiredToggleBtn().click();
+    this.elements.expiredToggleBtn().should('be.visible').click();
   }
 
   clickformerVirToggleBtn() {
-    this.elements.formerVirToggleBtn().click();
+    this.elements.formerVirToggleBtn().should('be.visible').click();
   }
 
   assertRowExists(id: number) {
@@ -40,17 +38,8 @@ class AuthorisationDetails {
     this.elements.row(id).should('contain.text', text);
   }
 
-  switchPublishPermission(id: number) {
-    this.elements.publishPermissionSwitch(id).click();
-  }
-
-  expectPublishPermission(id: number, publishPermission: boolean) {
-    const value = publishPermission ? 'on' : 'off';
-    this.elements.publishPermissionSwitch(id).should('be.have', value);
-  }
-
   clickDeleteButton(id: number) {
-    this.elements.deleteBtn(id).click();
+    this.elements.deleteBtn(id).should('be.visible').click();
   }
 
   expectVisibleAuthorisations(authorisations: Array<Partial<Authorisation>>) {
@@ -59,26 +48,6 @@ class AuthorisationDetails {
     });
   }
 }
-
-export const publishPermissionChangeResponse = (
-  translatorResponse: ClerkTranslatorResponse,
-  effectiveAuthorisationId: number,
-  newPublishPermissionValue: boolean
-) => {
-  const effective = translatorResponse.authorisations.effective.map((a) =>
-    a.id === effectiveAuthorisationId
-      ? { ...a, permissionToPublish: newPublishPermissionValue }
-      : a
-  );
-
-  return {
-    ...translatorResponse,
-    authorisations: {
-      ...translatorResponse.authorisations,
-      effective,
-    },
-  };
-};
 
 export const authorisationDeletionResponse = (
   translatorResponse: ClerkTranslatorResponse,

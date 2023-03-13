@@ -10,7 +10,7 @@ import {
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
-import { AddAuthorisation } from 'components/clerkTranslator/add/AddAuthorisation';
+import { AuthorisationFields } from 'components/clerkTranslator/authorisation/AuthorisationFields';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -20,9 +20,9 @@ import {
   addAuthorisation,
   removeAuthorisation,
   resetAuthorisationAdd,
-  resetAuthorisationPublishPermissionUpdate,
   resetAuthorisationRemove,
-  updateAuthorisationPublishPermission,
+  resetAuthorisationUpdate,
+  updateAuthorisation,
 } from 'redux/reducers/authorisation';
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
@@ -30,6 +30,7 @@ import { authorisationSelector } from 'redux/selectors/authorisation';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 import { selectExaminationDatesByStatus } from 'redux/selectors/examinationDate';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
+import { AuthorisationUtils } from 'utils/authorisation';
 
 export const AuthorisationDetails = () => {
   // I18n
@@ -42,16 +43,25 @@ export const AuthorisationDetails = () => {
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
     AuthorisationStatus.Effective
   );
+  const [authorisation, setAuthorisation] = useState<Authorisation>(
+    AuthorisationUtils.newAuthorisation
+  );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setAuthorisation(AuthorisationUtils.newAuthorisation);
+  };
+  const [isAuthorisationOpenForEdit, setIsAuthorisationOpenForEdit] =
+    useState(false);
 
   const { showDialog } = useDialog();
   const { showToast } = useToast();
 
   // Redux
-  const { addStatus, removeStatus, updatePublishPermissionStatus } =
-    useAppSelector(authorisationSelector);
+  const { addStatus, removeStatus, updateStatus } = useAppSelector(
+    authorisationSelector
+  );
   const { translator } = useAppSelector(clerkTranslatorOverviewSelector);
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
@@ -60,10 +70,6 @@ export const AuthorisationDetails = () => {
   const passedExaminationDates = examinationDates.passed;
 
   const dispatch = useAppDispatch();
-
-  const handleAddAuthorisation = (authorisation: Authorisation) => {
-    dispatch(addAuthorisation(authorisation));
-  };
 
   useEffect(() => {
     if (addStatus === APIResponseStatus.Success) {
@@ -83,6 +89,23 @@ export const AuthorisationDetails = () => {
   }, [dispatch, addStatus, showToast, t]);
 
   useEffect(() => {
+    if (updateStatus === APIResponseStatus.Success) {
+      handleCloseModal();
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.updatingSucceeded'),
+      });
+    }
+
+    if (
+      updateStatus === APIResponseStatus.Success ||
+      updateStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetAuthorisationUpdate());
+    }
+  }, [dispatch, updateStatus, showToast, t]);
+
+  useEffect(() => {
     if (removeStatus === APIResponseStatus.Success) {
       showToast({
         severity: Severity.Success,
@@ -97,22 +120,6 @@ export const AuthorisationDetails = () => {
       dispatch(resetAuthorisationRemove());
     }
   }, [dispatch, removeStatus, showToast, t]);
-
-  useEffect(() => {
-    if (updatePublishPermissionStatus === APIResponseStatus.Success) {
-      showToast({
-        severity: Severity.Success,
-        description: t('toasts.updatingPublishPermissionSucceeded'),
-      });
-    }
-
-    if (
-      updatePublishPermissionStatus === APIResponseStatus.Success ||
-      updatePublishPermissionStatus === APIResponseStatus.Error
-    ) {
-      dispatch(resetAuthorisationPublishPermissionUpdate());
-    }
-  }, [dispatch, updatePublishPermissionStatus, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
@@ -156,30 +163,9 @@ export const AuthorisationDetails = () => {
     },
   ];
 
-  const onPermissionToPublishChange = (authorisation: Authorisation) => {
-    showDialog({
-      title: t('actions.changePermissionToPublish.dialog.header'),
-      severity: Severity.Warning,
-      description: t('actions.changePermissionToPublish.dialog.description'),
-      actions: [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => {
-            dispatch(
-              updateAuthorisationPublishPermission({
-                ...authorisation,
-                permissionToPublish: !authorisation.permissionToPublish,
-              })
-            );
-          },
-        },
-      ],
-    });
+  const handleAddAuthorisation = () => {
+    setIsAuthorisationOpenForEdit(false);
+    handleOpenModal();
   };
 
   const onAuthorisationRemove = (authorisation: Authorisation) => {
@@ -204,6 +190,23 @@ export const AuthorisationDetails = () => {
     });
   };
 
+  const onAuthorisationEdit = (authorisation: Authorisation) => {
+    setAuthorisation(authorisation);
+    setIsAuthorisationOpenForEdit(true);
+    handleOpenModal();
+  };
+
+  const handleSaveAuthorisation = () => {
+    const action = isAuthorisationOpenForEdit
+      ? updateAuthorisation(authorisation)
+      : addAuthorisation({
+          authorisation,
+          translatorId: translator.id,
+        });
+
+    dispatch(action);
+  };
+
   const filterByAuthorisationStatus = (status: AuthorisationStatus) => {
     setSelectedToggleFilter(status);
   };
@@ -211,19 +214,26 @@ export const AuthorisationDetails = () => {
   return (
     <>
       <CustomModal
-        data-testid="authorisation-details__add-authorisation-modal"
         open={open}
         onCloseModal={handleCloseModal}
         ariaLabelledBy="modal-title"
-        modalTitle={translateCommon('addAuthorisation')}
+        modalTitle={
+          isAuthorisationOpenForEdit
+            ? t('modalTitle.editAuthorisation')
+            : t('modalTitle.addAuthorisation')
+        }
       >
-        <AddAuthorisation
-          translatorId={translator.id}
+        <AuthorisationFields
+          authorisation={authorisation}
+          setAuthorisation={setAuthorisation}
           meetingDates={passedMeetingDates}
           examinationDates={passedExaminationDates}
-          onAuthorisationAdd={handleAddAuthorisation}
+          onSave={handleSaveAuthorisation}
           onCancel={handleCloseModal}
-          isLoading={addStatus === APIResponseStatus.InProgress}
+          isLoading={
+            addStatus === APIResponseStatus.InProgress ||
+            updateStatus === APIResponseStatus.InProgress
+          }
         />
       </CustomModal>
       <div className="rows gapped-xs">
@@ -241,17 +251,17 @@ export const AuthorisationDetails = () => {
             variant={Variant.Contained}
             color={Color.Secondary}
             startIcon={<AddIcon />}
-            onClick={handleOpenModal}
+            onClick={handleAddAuthorisation}
           >
-            {translateCommon('addAuthorisation')}
+            {t('modalTitle.addAuthorisation')}
           </CustomButton>
         </div>
         {activeAuthorisations.length ? (
           <AuthorisationListing
             authorisations={activeAuthorisations}
-            permissionToPublishReadOnly={false}
+            showEditButton={true}
+            onAuthorisationEdit={onAuthorisationEdit}
             onAuthorisationRemove={onAuthorisationRemove}
-            onPermissionToPublishChange={onPermissionToPublishChange}
           />
         ) : (
           <Text className="centered bold margin-top-lg">

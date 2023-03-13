@@ -1,5 +1,5 @@
 import { AppRoutes, UIMode } from 'enums/app';
-import { addQualificationFields } from 'tests/cypress/fixtures/utils/clerkInterpreterOverview';
+import { qualificationFields } from 'tests/cypress/fixtures/utils/qualificationFields';
 
 class ClerkInterpreterOverviewPage {
   elements = {
@@ -25,16 +25,13 @@ class ClerkInterpreterOverviewPage {
         .findByTestId(`clerk-interpreter__basic-information__${field}`)
         .should('be.visible')
         .find(`div>${fieldType}`),
-    addQualificationField: (field: string, fieldType: string) =>
-      cy
-        .findByTestId(`add-qualification-field-${field}`)
-        .find(`div>${fieldType}`),
+    qualificationField: (field: string, fieldType: string) =>
+      cy.findByTestId(`qualification-field-${field}`).find(`div>${fieldType}`),
     permissionToPublishSwitch: () =>
-      cy.findByTestId('add-qualification-field-permissionToPublish'),
+      cy.findByTestId('qualification-field-permissionToPublish'),
     qualificationRow: (id: number) =>
       cy.findByTestId(`qualifications-table__id-${id}-row`),
-    saveQualificationButton: () =>
-      cy.findByTestId('add-qualification-modal__save'),
+    saveQualificationButton: () => cy.findByTestId('qualification-modal__save'),
     title: () => cy.findByTestId('clerk-interpreter__basic-information__title'),
   };
 
@@ -94,20 +91,20 @@ class ClerkInterpreterOverviewPage {
       .should('have.value', value);
   }
 
-  fillOutAddQualificationField(
+  fillOutQualificationField(
     fieldName: string,
     fieldType: string,
     newValue: string
   ) {
     this.elements
-      .addQualificationField(fieldName, fieldType)
+      .qualificationField(fieldName, fieldType)
       .clear()
       .type(`${newValue}{enter}`);
   }
 
-  fillOutAddQualificationFields(fields = addQualificationFields) {
+  fillOutQualificationFields(fields = qualificationFields) {
     fields.forEach(({ fieldName, fieldType, value }) => {
-      onClerkInterpreterOverviewPage.fillOutAddQualificationField(
+      onClerkInterpreterOverviewPage.fillOutQualificationField(
         fieldName,
         fieldType,
         value
@@ -115,17 +112,17 @@ class ClerkInterpreterOverviewPage {
     });
   }
 
-  toggleAddQualificationPermissionToPublishSwitch() {
+  toggleQualificationPermissionToPublishSwitch() {
     this.elements.permissionToPublishSwitch().click();
   }
 
   expectDisabledAddQualificationField(fieldName: string, fieldType: string) {
     this.elements
-      .addQualificationField(fieldName, fieldType)
+      .qualificationField(fieldName, fieldType)
       .should('be.disabled');
   }
 
-  saveQualification() {
+  clickSaveQualification() {
     this.elements.saveQualificationButton().should('be.visible').click();
   }
 
@@ -161,9 +158,6 @@ class ClerkInterpreterOverviewPage {
       case UIMode.EditInterpreterDetails:
         this.elements.cancelInterpreterDetailsButton().should('be.visible');
         break;
-      case UIMode.EditQualificationDetails:
-        // not implemented yet
-        assert(false);
     }
   }
 

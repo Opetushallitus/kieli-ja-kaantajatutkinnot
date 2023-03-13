@@ -17,7 +17,6 @@ import fi.oph.akr.api.dto.clerk.ExaminationDateDTO;
 import fi.oph.akr.api.dto.clerk.MeetingDateDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationDTOCommonFields;
-import fi.oph.akr.api.dto.clerk.modify.AuthorisationPublishPermissionDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
@@ -835,41 +834,6 @@ class ClerkTranslatorServiceTest {
     assertEquals(expected.permissionToPublish(), authorisationDTO.permissionToPublish());
     assertEquals(expected.diaryNumber(), authorisationDTO.diaryNumber());
     assertEquals(expected.examinationDate(), authorisationDTO.examinationDate());
-  }
-
-  @Test
-  public void testAuthorisationUpdatePublishPermission() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
-
-    authorisation.setPermissionToPublish(true);
-
-    entityManager.persist(meetingDate);
-    entityManager.persist(translator);
-    entityManager.persist(authorisation);
-
-    final AuthorisationPublishPermissionDTO publishPermissionDTO = AuthorisationPublishPermissionDTO
-      .builder()
-      .id(authorisation.getId())
-      .version(authorisation.getVersion())
-      .permissionToPublish(false)
-      .build();
-
-    final ClerkTranslatorDTO response = clerkTranslatorService.updateAuthorisationPublishPermission(
-      publishPermissionDTO
-    );
-
-    assertResponseMatchesGet(response);
-
-    final AuthorisationDTO authorisationDTO = response.authorisations().effective().get(0);
-    assertEquals(publishPermissionDTO.id(), authorisationDTO.id());
-    assertEquals(publishPermissionDTO.version() + 1, authorisationDTO.version());
-    assertEquals(false, authorisationDTO.permissionToPublish());
-
-    verify(auditService)
-      .logAuthorisation(AkrOperation.UPDATE_AUTHORISATION_PUBLISH_PERMISSION, translator, authorisationDTO.id());
-    verifyNoMoreInteractions(auditService);
   }
 
   @Test

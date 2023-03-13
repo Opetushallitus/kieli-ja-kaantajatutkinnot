@@ -4,7 +4,6 @@ import { translatorResponse } from 'tests/cypress/fixtures/ts/clerkTranslator';
 import {
   authorisationDeletionResponse,
   onAuthorisationDetails,
-  publishPermissionChangeResponse,
 } from 'tests/cypress/support/page-objects/authorisationDetails';
 import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-objects/clerkTranslatorOverviewPage';
 import { onDialog } from 'tests/cypress/support/page-objects/dialog';
@@ -45,36 +44,6 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
     onAuthorisationDetails.expectVisibleAuthorisations(
       authorisationsByStatus[AuthorisationStatus.FormerVir]
     );
-  });
-
-  it('should open a confirmation dialog when publish permission switch is clicked, and do no changes if user backs out', () => {
-    onAuthorisationDetails.switchPublishPermission(authorisationId);
-    onDialog.expectText('Haluatko varmasti vaihtaa julkaisulupaa?');
-    onDialog.clickButtonByText('Takaisin');
-
-    onAuthorisationDetails.expectPublishPermission(authorisationId, true);
-  });
-
-  it('should open a confirmation dialog when publish permission switch is clicked, and change the publish permission if user confirms', () => {
-    onAuthorisationDetails.expectPublishPermission(authorisationId, true);
-
-    const putResponse = publishPermissionChangeResponse(
-      translatorResponse,
-      authorisationId,
-      false
-    );
-    cy.intercept(
-      'PUT',
-      APIEndpoints.AuthorisationPublishPermission,
-      putResponse
-    ).as('changePublishPermission');
-
-    onAuthorisationDetails.switchPublishPermission(authorisationId);
-    onDialog.clickButtonByText('Kyllä');
-    cy.wait('@changePublishPermission');
-
-    onAuthorisationDetails.expectPublishPermission(authorisationId, false);
-    onToast.expectText('Auktorisoinnin julkaisulupaa muutettu');
   });
 
   it('should open a confirmation dialog when a delete icon is clicked, and do no changes if user backs out', () => {

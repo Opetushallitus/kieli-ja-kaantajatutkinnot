@@ -42,7 +42,6 @@ export enum SearchFilter {
 }
 
 export enum UIMode {
-  EditAuthorisationDetails = 'editAuthorisationDetails',
   EditTranslatorDetails = 'editTranslatorDetails',
   View = 'view',
 }

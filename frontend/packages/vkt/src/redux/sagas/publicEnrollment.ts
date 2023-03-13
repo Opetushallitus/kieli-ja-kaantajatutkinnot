@@ -22,7 +22,7 @@ import {
   rejectPublicEnrollmentSave,
   rejectPublicReservationRenew,
   renewPublicEnrollmentReservation,
-  resetPublicEnrollment,
+  storePublicEnrollmentCancellation,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
   updatePublicEnrollmentReservation,
@@ -75,7 +75,7 @@ function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
 }
 
 function* cancelPublicEnrollmentSaga() {
-  yield put(resetPublicEnrollment());
+  yield put(storePublicEnrollmentCancellation());
 }
 
 function* cancelPublicEnrollmentAndRemoveReservationSaga(
@@ -89,7 +89,7 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
   } catch (error) {
     // If deletion of reservation fails, it will expire in 30 mins
   } finally {
-    yield put(resetPublicEnrollment());
+    yield put(storePublicEnrollmentCancellation());
   }
 }
 

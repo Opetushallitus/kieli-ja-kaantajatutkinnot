@@ -122,15 +122,11 @@ For inspection and modification by OPH clerks, it's possible to create an excel 
 #### JSON to XLSX
 
 ```sh
-npx i18n-json-to-xlsx-converter --convert public/i18n/fi-FI/translation.json
+npx i18n-json-to-xlsx-converter --convert public/i18n/fi-FI/public.json
 ```
 
 #### XLSX to JSON
 
 ```sh
-npx i18n-json-to-xlsx-converter --convert translation.xlsx
+npx i18n-json-to-xlsx-converter --convert public.xlsx
 ```
-
-[prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-[eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-[stylelint]: https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint
