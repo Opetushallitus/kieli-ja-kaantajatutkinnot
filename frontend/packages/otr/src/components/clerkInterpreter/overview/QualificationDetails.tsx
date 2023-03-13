@@ -204,7 +204,7 @@ export const QualificationDetails = () => {
       <CustomModal
         open={open}
         onCloseModal={handleCloseModal}
-        ariaLabelledBy="modal-title"
+        aria-labelledby="modal-title"
         modalTitle={
           isQualificationOpenForEdit
             ? t('modalTitle.editQualification')
