@@ -29,7 +29,6 @@ export const PreviousEnrollment = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.previousEnrollment',
   });
-  const translateCommon = useCommonTranslation();
 
   const yes = 'yes';
   const no = 'no';
@@ -37,18 +36,6 @@ export const PreviousEnrollment = ({
   const [fieldError, setFieldError] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const { type, value, required } = event.target;
-    const error = InputFieldUtils.inspectCustomTextFieldErrors(
-      type as TextFieldTypes,
-      value,
-      required,
-      255
-    );
-
-    const errorMessage = error ? translateCommon(error) : '';
-
-    setErrorMessage(errorMessage);
-
     dispatch(
       updatePublicEnrollment({
         previousEnrollment: event.target.value,

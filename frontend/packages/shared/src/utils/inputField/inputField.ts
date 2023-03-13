@@ -108,11 +108,12 @@ export class InputFieldUtils {
     type: TextFieldTypes,
     value?: string,
     required = true,
-    maxTextLength?: number
+    maxTextLength?: number,
     minLength?: number
   ) {
     const trimmedValue = value?.trim() || '';
-    const textAreaMaxLength = maxTextLength ?? InputFieldUtils.defaultMaxTextAreaLength;
+    const textAreaMaxLength =
+      maxTextLength ?? InputFieldUtils.defaultMaxTextAreaLength;
 
     if (required && trimmedValue.length <= 0) {
       return CustomTextFieldErrors.Required;
@@ -122,7 +123,11 @@ export class InputFieldUtils {
       return '';
     }
 
-    if (maxTextLength && maxTextLength > 0 && trimmedValue.length > maxTextLength) {
+    if (
+      maxTextLength &&
+      maxTextLength > 0 &&
+      trimmedValue.length > maxTextLength
+    ) {
       return CustomTextFieldErrors.MaxLength;
     }
 
