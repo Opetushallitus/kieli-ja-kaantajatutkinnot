@@ -1,4 +1,4 @@
-export const addQualificationFields = [
+export const qualificationFields = [
   {
     fieldName: 'to',
     fieldType: 'input',

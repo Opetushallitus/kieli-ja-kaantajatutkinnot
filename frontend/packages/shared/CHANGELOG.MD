@@ -9,11 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.7.2] - 2023-03-06
+## [1.8.2] - 2023-03-14
 
 ### Added
 
 - Component for setting dynamic page title per route
+
+## [1.8.1] - 2023-03-02
+
+### Fixed
+
+- CustomModal Aria attributes fixed
+
+## [1.8.0] - 2023-03-02
+
+### Added
+
+- Validation helpers for form inputs
 
 ## [1.7.1] - 2023-02-15
 

@@ -1,8 +1,6 @@
 {
   "otr": {
     "common": {
-      "add": "Lisää",
-      "addQualification": "Lisää rekisteröinti",
       "allRegions": "Koko Suomi",
       "appNameAbbreviation": "OTR",
       "appTitle": "Oikeustulkkirekisteri | Opetushallitus",

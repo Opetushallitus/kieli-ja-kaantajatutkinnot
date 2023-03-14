@@ -10,21 +10,25 @@ import {
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
-import { AddQualification } from 'components/clerkInterpreter/add/AddQualification';
 import { QualificationListing } from 'components/clerkInterpreter/overview/QualificationListing';
+import { QualificationFields } from 'components/clerkInterpreter/qualification/QualificationFields';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { QualificationStatus } from 'enums/clerkInterpreter';
-import { Qualification } from 'interfaces/qualification';
+import { NewQualification, Qualification } from 'interfaces/qualification';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import {
   addQualification,
   removeQualification,
-  resetQualificationState,
+  resetQualificationAdd,
+  resetQualificationRemove,
+  resetQualificationUpdate,
+  updateQualification,
 } from 'redux/reducers/qualification';
 import { clerkInterpreterOverviewSelector } from 'redux/selectors/clerkInterpreterOverview';
 import { selectMeetingDatesByMeetingStatus } from 'redux/selectors/meetingDate';
 import { qualificationSelector } from 'redux/selectors/qualification';
+import { QualificationUtils } from 'utils/qualifications';
 
 export const QualificationDetails = () => {
   // I18n
@@ -34,12 +38,20 @@ export const QualificationDetails = () => {
   const translateCommon = useCommonTranslation();
 
   // State
-  const [open, setOpen] = useState(false);
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
     QualificationStatus.Effective
   );
+  const [qualification, setQualification] = useState<NewQualification>(
+    QualificationUtils.newQualification
+  );
+  const [open, setOpen] = useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setQualification(QualificationUtils.newQualification);
+  };
+  const [isQualificationOpenForEdit, setIsQualificationOpenForEdit] =
+    useState(false);
 
   // Redux
   const dispatch = useAppDispatch();
@@ -62,6 +74,13 @@ export const QualificationDetails = () => {
         description: t('toasts.addingSucceeded'),
       });
     }
+
+    if (
+      addStatus === APIResponseStatus.Success ||
+      addStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetQualificationAdd());
+    }
   }, [dispatch, addStatus, showToast, t]);
 
   useEffect(() => {
@@ -71,25 +90,34 @@ export const QualificationDetails = () => {
         description: t('toasts.removingSucceeded'),
       });
     }
+
+    if (
+      removeStatus === APIResponseStatus.Success ||
+      removeStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetQualificationRemove());
+    }
   }, [dispatch, removeStatus, showToast, t]);
 
   useEffect(() => {
     if (updateStatus === APIResponseStatus.Success) {
+      handleCloseModal();
       showToast({
         severity: Severity.Success,
-        description: t('toasts.updatingPublishPermissionSucceeded'),
+        description: t('toasts.updatingSucceeded'),
       });
+    }
+
+    if (
+      updateStatus === APIResponseStatus.Success ||
+      updateStatus === APIResponseStatus.Error
+    ) {
+      dispatch(resetQualificationUpdate());
     }
   }, [dispatch, updateStatus, showToast, t]);
 
   useEffect(() => {
     dispatch(loadMeetingDates());
-  }, [dispatch]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetQualificationState());
-    };
   }, [dispatch]);
 
   if (!interpreter) {
@@ -126,11 +154,12 @@ export const QualificationDetails = () => {
     setSelectedToggleFilter(status);
   };
 
-  const handleAddQualification = (qualification: Qualification) => {
-    dispatch(addQualification(qualification));
+  const handleAddQualification = () => {
+    setIsQualificationOpenForEdit(false);
+    handleOpenModal();
   };
 
-  const handleRemoveQualification = (qualification: Qualification) => {
+  const onQualificationRemove = (qualification: Qualification) => {
     showDialog({
       title: t('actions.removal.dialog.header'),
       severity: Severity.Warning,
@@ -151,21 +180,47 @@ export const QualificationDetails = () => {
     });
   };
 
+  const onQualificationEdit = (qualification: Qualification) => {
+    setQualification(qualification);
+    setIsQualificationOpenForEdit(true);
+    handleOpenModal();
+  };
+
+  const handleSaveQualification = () => {
+    const q = qualification as Qualification;
+
+    const action = isQualificationOpenForEdit
+      ? updateQualification(q)
+      : addQualification({
+          qualification: q,
+          interpreterId: interpreter.id,
+        });
+
+    dispatch(action);
+  };
+
   return (
     <>
       <CustomModal
-        data-testid="qualification-details__add-qualification-modal"
         open={open}
         onCloseModal={handleCloseModal}
-        ariaLabelledBy="modal-title"
-        modalTitle={translateCommon('addQualification')}
+        aria-labelledby="modal-title"
+        modalTitle={
+          isQualificationOpenForEdit
+            ? t('modalTitle.editQualification')
+            : t('modalTitle.addQualification')
+        }
       >
-        <AddQualification
-          interpreterId={interpreter.id}
+        <QualificationFields
+          qualification={qualification}
+          setQualification={setQualification}
           meetingDates={passedMeetingDates}
+          onSave={handleSaveQualification}
           onCancel={handleCloseModal}
-          onQualificationAdd={handleAddQualification}
-          isLoading={addStatus === APIResponseStatus.InProgress}
+          isLoading={
+            addStatus === APIResponseStatus.InProgress ||
+            updateStatus === APIResponseStatus.InProgress
+          }
         />
       </CustomModal>
       <div className="rows gapped-xs">
@@ -183,16 +238,17 @@ export const QualificationDetails = () => {
             variant={Variant.Contained}
             color={Color.Secondary}
             startIcon={<AddIcon />}
-            onClick={handleOpenModal}
+            onClick={handleAddQualification}
           >
-            {translateCommon('addQualification')}
+            {t('modalTitle.addQualification')}
           </CustomButton>
         </div>
         {activeQualifications.length ? (
           <QualificationListing
             qualifications={activeQualifications}
-            permissionToPublishReadOnly={false}
-            handleRemoveQualification={handleRemoveQualification}
+            showEditButton={true}
+            onQualificationEdit={onQualificationEdit}
+            onQualificationRemove={onQualificationRemove}
           />
         ) : (
           <Text className="centered bold margin-top-lg">

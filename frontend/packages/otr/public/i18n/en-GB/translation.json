@@ -82,13 +82,6 @@
         },
         "qualifications": {
           "actions": {
-            "changePermissionToPublish": {
-              "ariaLabel": "Change the permission to publish",
-              "dialog": {
-                "description": null,
-                "header": "Are you sure you want to change the permission to publish?"
-              }
-            },
             "removal": {
               "ariaLabel": null,
               "dialog": {
@@ -99,19 +92,24 @@
             }
           },
           "fields": {
+            "actions": "Actions",
             "diaryNumber": "Case identifier",
             "endDate": "End date",
             "examinationType": "Education",
             "languagePair": "Language pair",
-            "permissionToPublish": "Permission to publish",
+            "permissionToPublish": "Publish",
             "startDate": "Start date"
           },
           "header": null,
+          "modalTitle": {
+            "addQualification": null,
+            "editQualification": null
+          },
           "noQualifications": "No qualifications meeting the selected criteria were found",
           "toasts": {
             "addingSucceeded": null,
             "removingSucceeded": null,
-            "updatingPublishPermissionSucceeded": null
+            "updatingSucceeded": null
           },
           "toggleFilters": {
             "effective": "Valid",
@@ -197,7 +195,7 @@
         },
         "fieldLabel": {
           "beginDate": null,
-          "diaryNumber": "Case identifier",
+          "diaryNumber": "Registration case ID",
           "endDate": null,
           "examination": null,
           "from": "Language pair (source language)",
@@ -212,7 +210,7 @@
           "to": "Target language"
         },
         "switch": {
-          "permissionToPublish": "Permission to publish"
+          "permissionToPublish": "May be published online"
         }
       },
       "publicInterpreterFilters": {
@@ -303,6 +301,9 @@
       },
       "clerkNewInterpreterPage": {
         "addedQualificationsTitle": null,
+        "modalTitle": {
+          "addQualification": null
+        },
         "removeQualificationDialog": {
           "title": null
         },

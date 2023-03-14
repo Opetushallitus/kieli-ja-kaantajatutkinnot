@@ -9,6 +9,7 @@ import { PublicExamEventListing } from 'components/publicExamEvent/listing/Publi
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
@@ -25,6 +26,7 @@ export const PublicExamEventGrid = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(resetPublicEnrollment());
     dispatch(loadPublicExamEvents());
   }, [dispatch]);
 

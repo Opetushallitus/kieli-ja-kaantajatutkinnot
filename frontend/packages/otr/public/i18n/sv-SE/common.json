@@ -1,8 +1,6 @@
 {
   "otr": {
     "common": {
-      "add": "Lägg till",
-      "addQualification": null,
       "allRegions": "Hela Finland",
       "appNameAbbreviation": "OTR",
       "appTitle": "Registret över rättstolkar | Utbildningsstyrelsen",
