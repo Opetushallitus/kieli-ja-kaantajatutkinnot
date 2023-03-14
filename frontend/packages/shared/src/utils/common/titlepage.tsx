@@ -1,4 +1,6 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
+
+import { useTitle } from '../..//hooks';
 
 interface TitleProps {
   title: string;
@@ -6,9 +8,7 @@ interface TitleProps {
 }
 
 export const TitlePage = ({ title, children }: TitleProps) => {
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
+  useTitle(title);
 
   return <>{children}</>;
 };
