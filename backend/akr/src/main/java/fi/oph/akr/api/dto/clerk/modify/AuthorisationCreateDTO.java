@@ -12,8 +12,8 @@ import lombok.NonNull;
 @Builder
 public record AuthorisationCreateDTO(
   @NonNull @NotNull AuthorisationBasis basis,
-  @Size(max = 255) @NonNull @NotBlank String from,
-  @Size(max = 255) @NonNull @NotBlank String to,
+  @Size(max = 10) @NonNull @NotBlank String from,
+  @Size(max = 10) @NonNull @NotBlank String to,
   @NonNull @NotNull LocalDate termBeginDate,
   LocalDate termEndDate,
   @NonNull @NotNull Boolean permissionToPublish,

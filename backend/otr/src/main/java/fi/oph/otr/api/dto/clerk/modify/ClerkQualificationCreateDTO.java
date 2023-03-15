@@ -12,8 +12,8 @@ import lombok.NonNull;
 
 @Builder
 public record ClerkQualificationCreateDTO(
-  @Size(max = 255) @NonNull @NotBlank String fromLang,
-  @Size(max = 255) @NonNull @NotBlank String toLang,
+  @Size(max = 10) @NonNull @NotBlank String fromLang,
+  @Size(max = 10) @NonNull @NotBlank String toLang,
   @NonNull @NotNull LocalDate beginDate,
   @NonNull @NotNull LocalDate endDate,
   @NonNull @NotNull ExaminationType examinationType,

@@ -28,7 +28,7 @@ import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countri
 const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
   [ClerkTranslatorTextFieldEnum.LastName]: 255,
-  [ClerkTranslatorTextFieldEnum.FirstName]: 5,
+  [ClerkTranslatorTextFieldEnum.FirstName]: 255,
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
   [ClerkTranslatorTextFieldEnum.Street]: 255,

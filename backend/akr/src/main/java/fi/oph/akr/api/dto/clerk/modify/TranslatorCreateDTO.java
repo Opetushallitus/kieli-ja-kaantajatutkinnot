@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -12,14 +14,14 @@ import lombok.NonNull;
 public record TranslatorCreateDTO(
   @NonNull @NotBlank String firstName,
   @NonNull @NotBlank String lastName,
-  String identityNumber,
-  String email,
-  String phoneNumber,
-  String street,
-  String postalCode,
-  String town,
-  String country,
-  String extraInformation,
+  @Size(max = 255) String identityNumber,
+  @Size(max = 255) String email,
+  @Size(max = 255) String phoneNumber,
+  @Size(max = 255) String street,
+  @Size(max = 255) String postalCode,
+  @Size(max = 255) String town,
+  @Size(max = 255) String country,
+  @Size(max = 4096) String extraInformation,
   @NonNull @NotNull Boolean isAssuranceGiven,
   @NonNull @NotEmpty List<AuthorisationCreateDTO> authorisations
 )
