@@ -32,7 +32,7 @@ const fields: TextField<PreviousEnrollmentField>[] = [
     name: 'previousEnrollment',
     required: true,
     type: TextFieldTypes.Text,
-    maxLength: 255,
+    maxLength: 1024,
   },
 ];
 
