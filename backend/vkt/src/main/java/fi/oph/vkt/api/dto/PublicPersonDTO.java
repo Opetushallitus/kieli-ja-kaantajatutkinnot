@@ -7,7 +7,7 @@ import lombok.NonNull;
 @Builder
 public record PublicPersonDTO(
   @NonNull Long id,
-  @NonNull @Size(min = 3, max = 12) String identityNumber,
-  @NonNull @Size(min = 2, max = 255) String lastName,
-  @NonNull @Size(min = 2, max = 255) String firstName
+  @NonNull String identityNumber,
+  @NonNull String lastName,
+  @NonNull String firstName
 ) {}
