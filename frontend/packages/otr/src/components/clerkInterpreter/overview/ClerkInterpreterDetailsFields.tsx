@@ -51,9 +51,9 @@ const textFieldMaxLengths = {
   [ClerkInterpreterTextFieldEnum.PhoneNumber]: 255,
   [ClerkInterpreterTextFieldEnum.OtherContactInfo]: 255,
   [ClerkInterpreterTextFieldEnum.Street]: 255,
-  [ClerkInterpreterTextFieldEnum.PostalCode]: 8,
+  [ClerkInterpreterTextFieldEnum.PostalCode]: 255,
   [ClerkInterpreterTextFieldEnum.Town]: 255,
-  [ClerkInterpreterTextFieldEnum.Country]: 64,
+  [ClerkInterpreterTextFieldEnum.Country]: 255,
   [ClerkInterpreterTextFieldEnum.ExtraInformation]: 4096,
 };
 

@@ -21,9 +21,9 @@ public record PublicEnrollmentCreateDTO(
   @NonNull @NotBlank @Size(max = 255) String email,
   @NonNull @NotBlank @Size(max = 255) String phoneNumber,
   @Size(max = 255) String street,
-  @Size(max = 8) String postalCode,
+  @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
-  @Size(max = 64) String country
+  @Size(max = 255) String country
 ) {
   public PublicEnrollmentCreateDTO {
     previousEnrollment = StringUtil.trim(previousEnrollment);

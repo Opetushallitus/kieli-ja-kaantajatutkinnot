@@ -27,9 +27,9 @@ public record ClerkInterpreterCreateDTO(
   @Size(max = 255) String otherContactInfo,
   @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
   @Size(max = 255) String street,
-  @Size(max = 8) String postalCode,
+  @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
-  @Size(max = 64) String country,
+  @Size(max = 255) String country,
   @Size(max = 4096) String extraInformation,
   @NonNull @NotNull List<String> regions,
   @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications

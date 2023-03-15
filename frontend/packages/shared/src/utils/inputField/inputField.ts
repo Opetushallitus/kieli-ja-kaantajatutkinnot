@@ -123,11 +123,7 @@ export class InputFieldUtils {
       return '';
     }
 
-    if (
-      maxTextLength &&
-      maxTextLength > 0 &&
-      trimmedValue.length > maxTextLength
-    ) {
+    if (trimmedValue.length > textAreaMaxLength) {
       return CustomTextFieldErrors.MaxLength;
     }
 
@@ -136,11 +132,6 @@ export class InputFieldUtils {
     }
 
     switch (type) {
-      case TextFieldTypes.Textarea:
-        if (trimmedValue.length > textAreaMaxLength) {
-          return CustomTextFieldErrors.MaxLength;
-        }
-        break;
       case TextFieldTypes.Email:
         if (!InputFieldUtils.EMAIL_REG_EXR.test(trimmedValue)) {
           return CustomTextFieldErrors.EmailFormat;
