@@ -1,7 +1,7 @@
-import { Collapse } from '@mui/material';
+import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { Color, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
 
@@ -107,29 +107,28 @@ export const CertificateShipping = ({
     disabled: editingDisabled,
   });
 
-  // FIXME: lisää täppä takaisin kun todistuksen toimitus sähköiseksi mahdollista
-  // const handleCheckboxClick = () => {
-  //   dispatch(
-  //     updatePublicEnrollment({
-  //       digitalCertificateConsent: !enrollment.digitalCertificateConsent,
-  //     })
-  //   );
-  // };
-  //    <FormControlLabel
-  //      className="public-enrollment__grid__certificate-shipping__consent"
-  //      control={
-  //        <Checkbox
-  //          onClick={handleCheckboxClick}
-  //          color={Color.Secondary}
-  //          checked={enrollment.digitalCertificateConsent}
-  //          disabled={editingDisabled}
-  //        />
-  //      }
-  //      label={translateCommon('enrollment.certificateShipping.consent')}
-  //    />
+  const handleCheckboxClick = () => {
+    dispatch(
+      updatePublicEnrollment({
+        digitalCertificateConsent: !enrollment.digitalCertificateConsent,
+      })
+    );
+  };
 
   return (
     <div className="margin-top-lg rows gapped">
+      <FormControlLabel
+        className="public-enrollment__grid__certificate-shipping__consent"
+        control={
+          <Checkbox
+            onClick={handleCheckboxClick}
+            color={Color.Secondary}
+            checked={enrollment.digitalCertificateConsent}
+            disabled={editingDisabled}
+          />
+        }
+        label={translateCommon('enrollment.certificateShipping.consent')}
+      />
       <Collapse
         orientation="vertical"
         in={!enrollment.digitalCertificateConsent}
@@ -137,7 +136,7 @@ export const CertificateShipping = ({
         <H3>
           {translateCommon('enrollment.certificateShipping.addressTitle')}
         </H3>
-        <div className="margin-top-lg grid-columns gapped">
+        <div className="grid-columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}
