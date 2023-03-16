@@ -45,6 +45,7 @@ export const CertificateShipping = ({
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
+  const digitalConsentEnabled = false;
 
   const [dirtyFields, setDirtyFields] = useState<
     Array<keyof CertificateShippingTextFields>
@@ -117,18 +118,20 @@ export const CertificateShipping = ({
 
   return (
     <div className="margin-top-lg rows gapped">
-      <FormControlLabel
-        className="public-enrollment__grid__certificate-shipping__consent"
-        control={
-          <Checkbox
-            onClick={handleCheckboxClick}
-            color={Color.Secondary}
-            checked={enrollment.digitalCertificateConsent}
-            disabled={editingDisabled}
-          />
-        }
-        label={translateCommon('enrollment.certificateShipping.consent')}
-      />
+      {digitalConsentEnabled && (
+        <FormControlLabel
+          className="public-enrollment__grid__certificate-shipping__consent"
+          control={
+            <Checkbox
+              onClick={handleCheckboxClick}
+              color={Color.Secondary}
+              checked={enrollment.digitalCertificateConsent}
+              disabled={editingDisabled}
+            />
+          }
+          label={translateCommon('enrollment.certificateShipping.consent')}
+        />
+      )}
       <Collapse
         orientation="vertical"
         in={!enrollment.digitalCertificateConsent}
@@ -136,7 +139,7 @@ export const CertificateShipping = ({
         <H3>
           {translateCommon('enrollment.certificateShipping.addressTitle')}
         </H3>
-        <div className="grid-columns gapped">
+        <div className="margin-top-lg grid-columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}
