@@ -11,8 +11,8 @@ import lombok.NonNull;
 
 @Builder
 public record TranslatorCreateDTO(
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String lastName,
+  @Size(max = 255) @NonNull @NotBlank String firstName,
+  @Size(max = 255) @NonNull @NotBlank String lastName,
   @Size(max = 255) String identityNumber,
   @Size(max = 255) String email,
   @Size(max = 255) String phoneNumber,

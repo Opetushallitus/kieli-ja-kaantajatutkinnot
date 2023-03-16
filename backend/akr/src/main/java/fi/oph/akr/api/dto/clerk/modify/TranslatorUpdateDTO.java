@@ -11,8 +11,8 @@ import lombok.NonNull;
 public record TranslatorUpdateDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String lastName,
+  @Size(max = 255) @NonNull @NotBlank String firstName,
+  @Size(max = 255) @NonNull @NotBlank String lastName,
   @Size(max = 255) String identityNumber,
   @Size(max = 255) String email,
   @Size(max = 255) String phoneNumber,

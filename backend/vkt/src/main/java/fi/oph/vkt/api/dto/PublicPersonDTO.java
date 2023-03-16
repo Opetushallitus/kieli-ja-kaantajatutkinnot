@@ -1,6 +1,5 @@
 package fi.oph.vkt.api.dto;
 
-import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
