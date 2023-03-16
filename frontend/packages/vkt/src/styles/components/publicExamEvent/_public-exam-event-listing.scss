@@ -3,6 +3,11 @@
 }
 
 .public-exam-event-listing {
+  th {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
   &__checkbox {
     &#{&} {
       @include phone {
