@@ -25,6 +25,22 @@ import {
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
 import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
 
+const textFieldMaxLengths = {
+  [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
+  [ClerkTranslatorTextFieldEnum.LastName]: 255,
+  [ClerkTranslatorTextFieldEnum.FirstName]: 255,
+  [ClerkTranslatorTextFieldEnum.Email]: 255,
+  [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
+  [ClerkTranslatorTextFieldEnum.Street]: 255,
+  [ClerkTranslatorTextFieldEnum.PostalCode]: 255,
+  [ClerkTranslatorTextFieldEnum.Town]: 255,
+  [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
+};
+
+const getTextFieldMaxLength = (field: ClerkTranslatorTextFieldEnum) => {
+  return textFieldMaxLengths[field] ?? null;
+};
+
 const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
   switch (field) {
     case ClerkTranslatorTextFieldEnum.PhoneNumber:
@@ -48,11 +64,13 @@ const getFieldError = (
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
   const value = (translator && translator[field]) || '';
+  const maxLength = getTextFieldMaxLength(field);
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
     value,
-    required
+    required,
+    maxLength
   );
 
   return error ? t(`akr.${error}`) : '';

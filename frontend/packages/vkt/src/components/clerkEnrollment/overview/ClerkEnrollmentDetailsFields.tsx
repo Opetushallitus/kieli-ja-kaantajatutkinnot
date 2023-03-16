@@ -80,7 +80,8 @@ const getFieldError = (
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
     value,
-    required
+    required,
+    255
   );
 
   return error ? t(`vkt.common.${error}`) : '';

@@ -51,7 +51,7 @@ export function PaginatedTable<T extends WithId>({
   size = 'medium',
   labelDisplayedRows,
   backIconButtonProps,
-  nextIconButtonProps
+  nextIconButtonProps,
 }: PaginatedTableProps<T>): JSX.Element {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);

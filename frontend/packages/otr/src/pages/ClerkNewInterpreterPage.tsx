@@ -170,7 +170,7 @@ export const ClerkNewInterpreterPage = () => {
           <CustomModal
             open={open}
             onCloseModal={handleCloseModal}
-            ariaLabelledBy="modal-title"
+            aria-labelledby="modal-title"
             modalTitle={t('modalTitle.addQualification')}
           >
             <QualificationFields

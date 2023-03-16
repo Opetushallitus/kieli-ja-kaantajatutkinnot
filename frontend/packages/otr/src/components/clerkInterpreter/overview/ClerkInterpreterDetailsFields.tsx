@@ -42,6 +42,25 @@ type ClerkInterpreterTextFieldProps = {
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 } & CustomTextFieldProps;
 
+const textFieldMaxLengths = {
+  [ClerkInterpreterTextFieldEnum.IdentityNumber]: 255,
+  [ClerkInterpreterTextFieldEnum.LastName]: 255,
+  [ClerkInterpreterTextFieldEnum.FirstName]: 255,
+  [ClerkInterpreterTextFieldEnum.NickName]: 255,
+  [ClerkInterpreterTextFieldEnum.Email]: 255,
+  [ClerkInterpreterTextFieldEnum.PhoneNumber]: 255,
+  [ClerkInterpreterTextFieldEnum.OtherContactInfo]: 255,
+  [ClerkInterpreterTextFieldEnum.Street]: 255,
+  [ClerkInterpreterTextFieldEnum.PostalCode]: 255,
+  [ClerkInterpreterTextFieldEnum.Town]: 255,
+  [ClerkInterpreterTextFieldEnum.Country]: 255,
+  [ClerkInterpreterTextFieldEnum.ExtraInformation]: 4096,
+};
+
+const getTextFieldMaxLength = (field: ClerkInterpreterTextFieldEnum) => {
+  return textFieldMaxLengths[field] ?? null;
+};
+
 const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
   switch (field) {
     case ClerkInterpreterTextFieldEnum.PhoneNumber:
@@ -65,11 +84,13 @@ const getFieldError = (
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
   const value = (interpreterTextFields && interpreterTextFields[field]) || '';
+  const maxLength = getTextFieldMaxLength(field);
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
     value,
-    required
+    required,
+    maxLength
   );
 
   return error ? t(`otr.${error}`) : '';

@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.8.1] - 2023-03-02
+
+### Fixed
+
+- CustomModal Aria attributes fixed
+
+## [1.8.0] - 2023-03-02
+
+### Added
+
+- Validation helpers for form inputs
+
 ## [1.7.1] - 2023-02-15
 
 ### Added

@@ -5,18 +5,19 @@ import fi.oph.akr.util.StringUtil;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
 public record AuthorisationCreateDTO(
   @NonNull @NotNull AuthorisationBasis basis,
-  @NonNull @NotBlank String from,
-  @NonNull @NotBlank String to,
+  @Size(max = 10) @NonNull @NotBlank String from,
+  @Size(max = 10) @NonNull @NotBlank String to,
   @NonNull @NotNull LocalDate termBeginDate,
   LocalDate termEndDate,
   @NonNull @NotNull Boolean permissionToPublish,
-  String diaryNumber,
+  @Size(max = 255) String diaryNumber,
   LocalDate examinationDate
 )
   implements AuthorisationDTOCommonFields {

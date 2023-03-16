@@ -3,6 +3,7 @@ package fi.oph.vkt.api.dto;
 import fi.oph.vkt.util.StringUtil;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -15,14 +16,14 @@ public record PublicEnrollmentCreateDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
-  String previousEnrollment,
+  @Size(max = 1024) String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
-  @NonNull @NotBlank String email,
-  @NonNull @NotBlank String phoneNumber,
-  String street,
-  String postalCode,
-  String town,
-  String country
+  @NonNull @NotBlank @Size(max = 255) String email,
+  @NonNull @NotBlank @Size(max = 255) String phoneNumber,
+  @Size(max = 255) String street,
+  @Size(max = 255) String postalCode,
+  @Size(max = 255) String town,
+  @Size(max = 255) String country
 ) {
   public PublicEnrollmentCreateDTO {
     previousEnrollment = StringUtil.trim(previousEnrollment);

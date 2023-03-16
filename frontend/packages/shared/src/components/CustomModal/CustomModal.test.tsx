@@ -13,6 +13,7 @@ describe('CustomModal', () => {
         onCloseModal={() => {
           return;
         }}
+        aria-labelledby="test-modal-title"
       >
         <div>Sisältöä tarvitaan</div>
       </CustomModal>
@@ -27,9 +28,8 @@ describe('CustomModal', () => {
         onCloseModal={() => {
           return;
         }}
-        ariaLabelledBy="testAriaLabel"
-        screenReaderTitle="This is a screen reader title"
         modalTitle="Title for the modal"
+        aria-labelledby="test-modal-title"
       >
         <div>Lisää tekstiä</div>
       </CustomModal>
