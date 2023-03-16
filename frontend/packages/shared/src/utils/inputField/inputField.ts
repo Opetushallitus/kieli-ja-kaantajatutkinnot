@@ -108,10 +108,12 @@ export class InputFieldUtils {
     type: TextFieldTypes,
     value?: string,
     required = true,
-    maxTextAreaLength = this.defaultMaxTextAreaLength,
+    maxTextLength?: number,
     minLength?: number
   ) {
     const trimmedValue = value?.trim() || '';
+    const textAreaMaxLength =
+      maxTextLength ?? InputFieldUtils.defaultMaxTextAreaLength;
 
     if (required && trimmedValue.length <= 0) {
       return CustomTextFieldErrors.Required;
@@ -121,16 +123,15 @@ export class InputFieldUtils {
       return '';
     }
 
+    if (trimmedValue.length > textAreaMaxLength) {
+      return CustomTextFieldErrors.MaxLength;
+    }
+
     if (minLength && minLength > 0 && trimmedValue.length < minLength) {
       return CustomTextFieldErrors.MinLength;
     }
 
     switch (type) {
-      case TextFieldTypes.Textarea:
-        if (trimmedValue.length > maxTextAreaLength) {
-          return CustomTextFieldErrors.MaxLength;
-        }
-        break;
       case TextFieldTypes.Email:
         if (!InputFieldUtils.EMAIL_REG_EXR.test(trimmedValue)) {
           return CustomTextFieldErrors.EmailFormat;

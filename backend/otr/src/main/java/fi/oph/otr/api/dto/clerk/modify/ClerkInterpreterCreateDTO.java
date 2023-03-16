@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -15,21 +16,21 @@ public record ClerkInterpreterCreateDTO(
   String onrId,
   Boolean isIndividualised,
   Boolean hasIndividualisedAddress,
-  @NonNull @NotBlank String identityNumber,
-  @NonNull @NotBlank String lastName,
-  @NonNull @NotBlank String firstName,
-  @NonNull @NotBlank String nickName,
-  @NonNull @NotBlank String email,
+  @Size(max = 255) @NonNull @NotBlank String identityNumber,
+  @Size(max = 255) @NonNull @NotBlank String lastName,
+  @Size(max = 255) @NonNull @NotBlank String firstName,
+  @Size(max = 255) @NonNull @NotBlank String nickName,
+  @Size(max = 255) @NonNull @NotBlank String email,
   @NonNull @NotNull Boolean permissionToPublishEmail,
-  String phoneNumber,
+  @Size(max = 255) String phoneNumber,
   @NonNull @NotNull Boolean permissionToPublishPhone,
-  String otherContactInfo,
+  @Size(max = 255) String otherContactInfo,
   @NonNull @NotNull Boolean permissionToPublishOtherContactInfo,
-  String street,
-  String postalCode,
-  String town,
-  String country,
-  String extraInformation,
+  @Size(max = 255) String street,
+  @Size(max = 255) String postalCode,
+  @Size(max = 255) String town,
+  @Size(max = 255) String country,
+  @Size(max = 4096) String extraInformation,
   @NonNull @NotNull List<String> regions,
   @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications
 )
