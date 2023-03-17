@@ -17,8 +17,13 @@
     }
   }
 
-  & &__name-header {
-    margin-left: 5.5rem;
+  th:first-child {
+    padding-left: 7.2rem;
+  }
+
+  th {
+    font-size: 1.6rem;
+    font-weight: 700;
   }
 
   &-row {

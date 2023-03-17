@@ -1,5 +1,4 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { H3 } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ContactRequestButton } from 'components/publicTranslator/listing/ContactRequestButton';
@@ -14,15 +13,11 @@ export const PublicTranslatorListingHeader = () => {
       {!isPhone && (
         <TableRow>
           <TableCell padding="checkbox"></TableCell>
-          <TableCell>
-            <H3>{t('name')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{t('languagePairs')}</H3>
-          </TableCell>
+          <TableCell>{t('name')}</TableCell>
+          <TableCell>{t('languagePairs')}</TableCell>
           <TableCell>
             <div className="columns space-between">
-              <H3>{t('town')}</H3>
+              {t('town')}
               {!isPhone && <ContactRequestButton />}
             </div>
           </TableCell>
