@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.8.4] - 2023-03-17
+
+### Added
+
+- Component for setting dynamic page title per route
+
 ## [1.8.3] - 2023-03-17
 
 ### Fixed

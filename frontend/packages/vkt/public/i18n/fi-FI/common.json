@@ -2,7 +2,15 @@
   "vkt": {
     "common": {
       "appNameAbbreviation": "VKT",
-      "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
+      "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
+      "pageTitle": {
+        "frontPage": "Etusivu",
+        "enrollment": "Ilmoittautuminen",
+        "identify": "Ilmoittautuminen - tunnistaudu",
+        "clerkHomepage": "Virkailija",
+        "clerkExamOverview": "Virkailija tutkintosivu",
+        "clerkExamEventCreate": "Virkailija lisää tutkintopäivä"
+      },
       "back": "Takaisin",
       "cancel": "Peruuta",
       "cancelUpdateDialog": {
