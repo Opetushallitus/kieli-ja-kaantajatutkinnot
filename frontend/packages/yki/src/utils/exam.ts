@@ -7,7 +7,7 @@ import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamUtils {
-  static renderLanguageAndLevel({
+  static languageAndLevelText({
     language_code,
     level_code,
   }: {

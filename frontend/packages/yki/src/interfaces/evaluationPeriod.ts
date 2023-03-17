@@ -3,7 +3,7 @@ import { WithId } from 'shared/src/interfaces/with';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
 
-interface EvaluationPeriodResponse
+export interface EvaluationPeriodResponse
   extends Omit<
     EvaluationPeriod,
     'exam_date' | 'evaluation_start_date' | 'evaluation_end_date'

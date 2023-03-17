@@ -228,7 +228,7 @@ export const ClerkEnrollmentDetails = () => {
         data-testid="clerk-enrollment-details__move-modal"
         open={isMoveModalOpen}
         onCloseModal={closeMoveModal}
-        ariaLabelledBy="modal-title"
+        aria-labelledby="modal-title"
         modalTitle={t('moveModal.title')}
       >
         <MoveModal enrollment={enrollmentDetails} onCancel={closeMoveModal} />

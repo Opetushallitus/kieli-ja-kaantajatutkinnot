@@ -80,7 +80,8 @@ export const FillContactDetails = ({
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         type as TextFieldTypes,
         value,
-        required
+        required,
+        255
       );
 
       const errorMessage = error ? t(error) : '';

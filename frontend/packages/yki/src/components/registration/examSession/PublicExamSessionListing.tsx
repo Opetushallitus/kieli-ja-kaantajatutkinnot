@@ -75,19 +75,20 @@ export const PublicExamSessionListing = ({
     case APIResponseStatus.Success:
       return (
         <>
-          <H3
-            ref={listingHeaderRef}
-            aria-label={translateCommon(
-              'component.table.header.searchResultsAriaLabel',
-              {
+          <div ref={listingHeaderRef}>
+            <H3
+              aria-label={translateCommon(
+                'component.table.header.searchResultsAriaLabel',
+                {
+                  count: examSessions.length,
+                }
+              )}
+            >
+              {translateCommon('component.table.header.searchResults', {
                 count: examSessions.length,
-              }
-            )}
-          >
-            {translateCommon('component.table.header.searchResults', {
-              count: examSessions.length,
-            })}
-          </H3>
+              })}
+            </H3>
+          </div>
           <ManagedPaginatedTable
             className="public-exam-session-listing"
             data={examSessions}

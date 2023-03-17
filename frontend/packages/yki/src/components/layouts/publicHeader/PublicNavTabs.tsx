@@ -24,7 +24,10 @@ export const PublicNavTabs = (): JSX.Element => {
       matchPath(AppRoutes.ExamSessionRegistration, pathname)
     ) {
       setValue(HeaderTabNav.Registration);
-    } else if (pathname === AppRoutes.Reassessment) {
+    } else if (
+      pathname === AppRoutes.Reassessment ||
+      matchPath(AppRoutes.ReassessmentOrder, pathname)
+    ) {
       setValue(HeaderTabNav.Reassessment);
     }
   }, [pathname]);

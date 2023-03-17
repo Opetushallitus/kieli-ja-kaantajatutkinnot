@@ -30,7 +30,7 @@ export const PublicExamSessionListingRow = ({
       className="cursor-pointer"
       data-testid={`public-exam-session__id-${examSession.id}-row`}
     >
-      <TableCell>{ExamUtils.renderLanguageAndLevel(examSession)}</TableCell>
+      <TableCell>{ExamUtils.languageAndLevelText(examSession)}</TableCell>
       <TableCell>
         {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>

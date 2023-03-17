@@ -1,14 +1,9 @@
 import { H2, HeaderSeparator, Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
-import {
-  getCurrentLang,
-  useCommonTranslation,
-  usePublicTranslation,
-} from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
 import { ExamUtils } from 'utils/exam';
-import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
@@ -20,12 +15,7 @@ export const PublicRegistrationExamSessionDetails = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
   });
-  const translateCommon = useCommonTranslation();
-  const header = ExamSessionUtils.languageAndLevelText(
-    examSession.language_code,
-    examSession.level_code,
-    translateCommon
-  );
+  const header = ExamUtils.languageAndLevelText(examSession);
 
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
