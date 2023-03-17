@@ -125,23 +125,23 @@ const PayerDetailsTextField = ({
 
   const getFieldError = useCallback(
     (field: keyof Omit<PayerDetails, 'birthdate'>) => {
-      if (showErrors) {
-        const fieldType =
-          field === 'email' ? TextFieldTypes.Email : TextFieldTypes.Text;
-        const error = InputFieldUtils.inspectCustomTextFieldErrors(
-          fieldType,
-          value,
-          true
-        );
-
-        if (error) {
-          return translateCommon(error);
-        } else {
-          return null;
-        }
-      } else {
+      if (!showErrors) {
         return null;
       }
+      
+      const fieldType =
+        field === 'email' ? TextFieldTypes.Email : TextFieldTypes.Text;
+      const error = InputFieldUtils.inspectCustomTextFieldErrors(
+        fieldType,
+        value,
+        true
+      );
+
+      if (!error) {
+        return null;
+      }
+      
+      return translateCommon(error);
     },
     [value, showErrors, translateCommon]
   );
