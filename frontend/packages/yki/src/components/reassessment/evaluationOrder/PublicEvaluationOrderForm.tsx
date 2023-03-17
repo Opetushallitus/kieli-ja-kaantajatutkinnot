@@ -128,7 +128,7 @@ const PayerDetailsTextField = ({
       if (!showErrors) {
         return null;
       }
-      
+
       const fieldType =
         field === 'email' ? TextFieldTypes.Email : TextFieldTypes.Text;
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
@@ -140,7 +140,7 @@ const PayerDetailsTextField = ({
       if (!error) {
         return null;
       }
-      
+
       return translateCommon(error);
     },
     [value, showErrors, translateCommon]
