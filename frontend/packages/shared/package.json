@@ -1,4 +1,5 @@
 {
+  "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
   "version": "1.8.4",
   "description": "Shared Frontend Package",
   "exports": {
