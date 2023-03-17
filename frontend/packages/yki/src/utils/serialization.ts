@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
 import {
+  EvaluationPeriod,
+  EvaluationPeriodResponse,
   EvaluationPeriods,
   EvaluationPeriodsResponse,
 } from 'interfaces/evaluationPeriod';
@@ -45,16 +47,24 @@ export class SerializationUtils {
     return { exam_sessions };
   }
 
+  static deserializeEvaluationPeriodResponse(
+    evaluationPeriodResponse: EvaluationPeriodResponse
+  ): EvaluationPeriod {
+    return {
+      ...evaluationPeriodResponse,
+      exam_date: dayjs(evaluationPeriodResponse.exam_date),
+      evaluation_start_date: dayjs(
+        evaluationPeriodResponse.evaluation_start_date
+      ),
+      evaluation_end_date: dayjs(evaluationPeriodResponse.evaluation_end_date),
+    };
+  }
+
   static deserializeEvaluationPeriodsResponse(
     evaluationPeriodsResponse: EvaluationPeriodsResponse
   ): EvaluationPeriods {
     const evaluation_periods = evaluationPeriodsResponse.evaluation_periods.map(
-      (ep) => ({
-        ...ep,
-        exam_date: dayjs(ep.exam_date),
-        evaluation_start_date: dayjs(ep.evaluation_start_date),
-        evaluation_end_date: dayjs(ep.evaluation_end_date),
-      })
+      SerializationUtils.deserializeEvaluationPeriodResponse
     );
 
     return { evaluation_periods };
