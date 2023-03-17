@@ -40,6 +40,8 @@
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui."
       },
+      "examination": "Tutkinto",
+      "examDate": "Tutkinnon päivämäärä",
       "examParts": {
         "readingComprehension": "Tekstin ymmärtäminen",
         "speechComprehension": "Puheen ymmärtäminen",

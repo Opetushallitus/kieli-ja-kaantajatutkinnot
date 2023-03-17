@@ -24,7 +24,8 @@ const getErrorForMessage = (message?: string) => {
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     TextFieldTypes.Textarea,
     message,
-    true
+    true,
+    6000
   );
 
   return error ? t(`akr.${error}`) : '';
