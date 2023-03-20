@@ -17,7 +17,14 @@ import {
   H2,
   Text,
 } from 'shared/components';
-import { Color, TextFieldTypes, TextFieldVariant, Variant } from 'shared/enums';
+import {
+  Color,
+  Severity,
+  TextFieldTypes,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -30,6 +37,7 @@ import {
   setExaminationParts,
   setPayerDetails,
   setShowErrors,
+  submitEvaluationOrder,
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
 import { ExamUtils } from 'utils/exam';
@@ -241,19 +249,67 @@ const AcceptConditions = () => {
   );
 };
 
+const useEvaluationOrderErrors = () => {
+  const { acceptConditions, /*payerDetails,*/ examinationParts } =
+    useAppSelector(evaluationOrderSelector);
+  const errors: Array<string> = [];
+  if (!acceptConditions) {
+    errors.push('acceptConditions');
+  }
+
+  if (!Object.values(examinationParts).some((v) => v)) {
+    errors.push('noExaminationPartsSelected');
+  }
+
+  return errors;
+};
+
 const ActionButtons = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.actionButtons',
   });
+  const translateCommon = useCommonTranslation();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const errors = useEvaluationOrderErrors();
+  const { showDialog } = useDialog();
+
+  // TODO Disallow submitting same order multiple times when order in progress
+  const payOrFixErrors = () => {
+    if (errors.length > 0) {
+      dispatch(setShowErrors(true));
+      const dialogContent = (
+        <div>
+          <Text>Korjaa seuraavat virheet:</Text>
+          <ul>
+            {errors.map((error, i) => (
+              <li key={i}>
+                <Text>{error}</Text>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+      showDialog({
+        title: 'Virheitä on!',
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    } else {
+      dispatch(submitEvaluationOrder());
+    }
+  };
 
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}
-        onClick={() => dispatch(setShowErrors(true))}
+        onClick={payOrFixErrors}
       >
         {t('pay')}
       </CustomButton>
