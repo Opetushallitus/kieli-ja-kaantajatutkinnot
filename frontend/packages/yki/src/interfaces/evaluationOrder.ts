@@ -13,3 +13,22 @@ export interface PayerDetails {
   email?: string;
   birthdate?: Dayjs;
 }
+
+export type Subtest = 'LISTENING' | 'READING' | 'SPEAKING' | 'WRITING';
+
+export interface EvaluationOrderRequest {
+  first_names: string;
+  last_name: string;
+  email: string;
+  birthdate: string;
+  subtests: Array<Subtest>;
+}
+
+export interface EvaluationOrderResponse {
+  evaluation_order_id: number;
+  signature: string;
+}
+
+export interface EvaluationPaymentRedirectResponse {
+  redirect: string;
+}

@@ -29,10 +29,13 @@ export const EvaluationOrderPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const {
+    acceptConditions,
     loadPeriodState,
-    /*submitOrderState,*/ evaluationPeriod,
+    submitOrderState,
+    evaluationPeriod,
     payerDetails,
     examinationParts,
+    evaluationPaymentRedirectResponse,
   } = useAppSelector(evaluationOrderSelector);
   const isLoading =
     loadPeriodState === APIResponseStatus.InProgress ||
@@ -44,6 +47,7 @@ export const EvaluationOrderPage = () => {
 
   // Navigation protection
   const isDirtyState =
+    initialState.acceptConditions !== acceptConditions ||
     initialState.payerDetails !== payerDetails ||
     initialState.examinationParts !== examinationParts;
   useNavigationProtection(isDirtyState);
@@ -75,6 +79,11 @@ export const EvaluationOrderPage = () => {
       });
 
       navigate(AppRoutes.Reassessment, { replace: true });
+    } else if (
+      submitOrderState === APIResponseStatus.Success &&
+      evaluationPaymentRedirectResponse
+    ) {
+      window.location.replace(evaluationPaymentRedirectResponse.redirect);
     }
   }, [
     dispatch,
@@ -84,6 +93,8 @@ export const EvaluationOrderPage = () => {
     params.evaluationId,
     evaluationPeriod?.id,
     loadPeriodState,
+    submitOrderState,
+    evaluationPaymentRedirectResponse,
   ]);
 
   return isLoading ? (
