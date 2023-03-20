@@ -11,6 +11,8 @@ spring:
     password: ${postgresql.password:postgres}
   jackson:
     default-property-inclusion: non_null
+  session:
+    store-type: jdbc
   jpa:
     open-in-view: false
     show-sql: true
