@@ -12,12 +12,6 @@
           "cancel": "Peruuta",
           "pay": "Siirry maksamaan"
         },
-        "info": {
-          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
-          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
-          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
-          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
-        },
         "fillPayerDetails": {
           "heading": "Maksajan tiedot",
           "placeholders": {
@@ -26,6 +20,12 @@
             "firstNames": "Etunimet *",
             "lastName": "Sukunimi *"
           }
+        },
+        "info": {
+          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
+          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
+          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "selectExaminationParts": {
           "heading": "Tarkistettavat tutkinnon osat",
@@ -62,6 +62,15 @@
             "text": "Yleisten kielitutkintojen kotisivu (oph.fi)"
           }
         }
+      },
+      "publicEvaluationPeriodListing": {
+        "header": {
+          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista",
+          "examDate": "Tutkinnon päivämäärä",
+          "examination": "Tutkinto"
+        },
+        "heading": "Tutkinnot",
+        "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
         "controlButtons": {
@@ -103,7 +112,7 @@
             "description": "Noudatamme henkilötietojen käsittelyssä GDPR-lainsäädäntöä",
             "ariaLabel": "Tietosuojaseloste",
             "label": "Hyväksyn henkilötietojeni käsittelyn *",
-            "linkLabel": "Lue henkilötietojen käsittelyn ehdot"
+            "linkLabel": "Lue henkilötietojen käsittelyn ehdot (oph.fi)"
           },
           "sex": "Sukupuoli",
           "ssn": "Henkilötunnus",
@@ -157,25 +166,16 @@
             "withoutFinnishSSN": "<strong>Jos sinulla ei ole suomalaista henkilötunnusta</strong>, voit ilmoittautua myös sähköpostilla. Saat tunnistautumisen jälkeen antamaasi sähköpostiin kirjautumislinkin, jonka kautta pääset jatkamaan ilmoittautumista."
           }
         }
-      },
-      "publicEvaluationPeriodListing": {
-        "heading": "Tutkinnot",
-        "header": {
-          "examination": "Tutkinto",
-          "examDate": "Tutkinnon päivämäärä",
-          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista"
-        },
-        "requestReassessment": "Pyydä tarkistusarviointia"
       }
     },
     "pages": {
+      "evaluationOrderPage": {
+        "title": "Pyydä tarkistusarviointi"
+      },
       "examDetailsPage": {
         "toasts": {
           "notFound": "Kielitutkintoa ei löytynyt"
         }
-      },
-      "evaluationOrderPage": {
-        "title": "Pyydä tarkistusarviointi"
       },
       "reassessmentPage": {
         "info": {
@@ -194,8 +194,8 @@
           }
         },
         "introduction": {
-          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta.",
-          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen."
+          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen.",
+          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta."
         },
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },

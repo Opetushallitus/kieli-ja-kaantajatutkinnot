@@ -3,6 +3,17 @@
     &__form-container {
       padding: 3rem 3rem 5rem;
 
+      &__registration {
+        &-button {
+          max-width: 30rem;
+          padding: 15px 22px;
+        }
+
+        &-text-field {
+          width: 30rem;
+        }
+      }
+
       .email-registration-details {
         max-width: 720px;
 

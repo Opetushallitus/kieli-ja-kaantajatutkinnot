@@ -116,8 +116,8 @@ export const PublicIdentificationGrid = () => {
                     <Trans t={t} i18nKey={'steps.identify.withFinnishSSN'} />
                   </Text>
                   <CustomButton
+                    className="public-registration__grid__form-container__registration-button"
                     size="large"
-                    sx={{ width: '30rem', padding: '15px 22px' }}
                     variant={Variant.Contained}
                     color={Color.Secondary}
                     onClick={() => {
@@ -140,8 +140,8 @@ export const PublicIdentificationGrid = () => {
                   </Text>
                   <div className="columns gapped align-items-start">
                     <CustomTextField
+                      className="public-registration__grid__form-container__registration-text-field"
                       error={showCustomTextFieldError('email')}
-                      sx={{ minWidth: '30rem' }}
                       placeholder={t('steps.identify.emailPlacehodler')}
                       variant={Variant.Outlined}
                       type={TextFieldTypes.Email}
@@ -152,7 +152,7 @@ export const PublicIdentificationGrid = () => {
                     ></CustomTextField>
                     <CustomButton
                       size="large"
-                      sx={{ width: '30rem', padding: '15px 22px' }}
+                      className="public-registration__grid__form-container__registration-button"
                       variant={Variant.Contained}
                       color={Color.Secondary}
                       onClick={() => {

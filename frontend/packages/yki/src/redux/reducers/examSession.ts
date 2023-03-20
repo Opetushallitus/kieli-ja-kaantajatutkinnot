@@ -32,6 +32,7 @@ const initialState: ExamSessionState = {
   //   certificateLanguage: '',
   //   termsAndConditionsAgreed: false,
   // },
+
   // Email
   isEmailRegistration: true,
   registration: {
@@ -44,7 +45,6 @@ const initialState: ExamSessionState = {
     email: 'test.test@invalid',
     nationality: '',
     dateOfBirth: '',
-    sex: '',
     privacyStatementConfirmation: false,
     certificateLanguage: '',
     termsAndConditionsAgreed: false,

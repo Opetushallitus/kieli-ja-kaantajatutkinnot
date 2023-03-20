@@ -14,12 +14,7 @@ import { InputFieldUtils } from 'shared/utils';
 import { PersonDetails } from 'components/registration/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import {
-  AppRoutes,
-  CertificateLanguage,
-  ExternalRoutes,
-  RadioButtonValue,
-} from 'enums/app';
+import { CertificateLanguage, RadioButtonValue } from 'enums/app';
 import {
   PublicEmailRegistration,
   RegistrationCheckboxDetails,
@@ -51,7 +46,7 @@ export const EmailRegistration = ({
     termsAndConditionsAgreed: '',
     nationality: '',
     dateOfBirth: '',
-    sex: '',
+    gender: '',
     hasSSN: '',
     ssn: '',
   });
@@ -171,9 +166,9 @@ export const EmailRegistration = ({
         </div>
         <CustomTextField
           className="half-width-on-desktop"
-          {...getCustomTextFieldAttributes('sex')}
+          {...getCustomTextFieldAttributes('gender')}
           type={TextFieldTypes.Text}
-          value={registration.sex}
+          value={registration.gender}
         />
       </div>
       <div>
@@ -237,7 +232,10 @@ export const EmailRegistration = ({
         {t('whatsNext.description3')}:
         <br />
         <div className="columns gapped-xxs">
-          <Link href={AppRoutes.PrivacyPolicyPage} target="_blank">
+          <Link
+            href={translateCommon('specialArrangementsLink')}
+            target="_blank"
+          >
             {t('whatsNext.linkLabel')}
           </Link>
           <OpenInNewIcon />
@@ -267,7 +265,7 @@ export const EmailRegistration = ({
         {t('privacyStatement.description')}:
         <br />
         <div className="columns gapped-xxs">
-          <Link href={ExternalRoutes.PrivacyStatementUrl} target="_blank">
+          <Link href={translateCommon('privacyStatementLink')} target="_blank">
             {t('privacyStatement.linkLabel')}
           </Link>
           <OpenInNewIcon />

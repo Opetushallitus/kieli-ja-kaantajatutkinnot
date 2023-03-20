@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { CertificateLanguage } from 'enums/app';
+import { CertificateLanguage, GenderEnum } from 'enums/app';
 
 export interface PersonFillOutDetails {
   firstNames: string;
@@ -28,7 +28,7 @@ export interface PublicEmailRegistration
   extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
   nationality: string;
   dateOfBirth: Dayjs | '';
-  sex: string;
+  gender?: GenderEnum;
   hasSSN?: boolean;
   ssn?: string;
 }

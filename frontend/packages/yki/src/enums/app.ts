@@ -12,11 +12,6 @@ export enum AppRoutes {
   PrivacyPolicyPage = '/yki/tietosuojaseloste',
 }
 
-export enum ExternalRoutes {
-  PrivacyStatementUrl = 'https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta',
-  SpecialArrangements = ' https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin',
-}
-
 export enum HeaderTabNav {
   Registration = 'registration',
   Reassessment = 'reassessment',
@@ -49,4 +44,10 @@ export enum CertificateLanguage {
 export enum RadioButtonValue {
   YES = 'radioButtonYes',
   NO = 'radioButtonNo',
+}
+
+export enum GenderEnum {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
 }
