@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.0] - 2023-03-20
+
+### Added
+
+- Support for rendering arbitrary React content DialogContent
+
 ## [1.8.5] - 2023-03-17
 
 ### Added
