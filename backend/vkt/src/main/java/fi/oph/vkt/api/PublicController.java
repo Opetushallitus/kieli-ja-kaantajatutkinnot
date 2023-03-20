@@ -10,7 +10,6 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
-import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import java.util.List;
 import javax.annotation.Resource;
@@ -105,18 +104,7 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public Person validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    Person person = publicAuthService.validate(ticket);
-
-    session.setAttribute("person_id", person.getId());
-
-    return person;
-  }
-
-  @GetMapping(path = "/auth/info")
-  public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson(
-            (Long) session.getAttribute("person_id")
-    );
+  public Person validateTicket(@PathVariable final String ticket) {
+    return publicAuthService.validate(ticket);
   }
 }
