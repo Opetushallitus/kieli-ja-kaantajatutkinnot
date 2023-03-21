@@ -18,6 +18,7 @@ import {
   Text,
 } from 'shared/components';
 import {
+  APIResponseStatus,
   Color,
   Severity,
   TextFieldTypes,
@@ -81,6 +82,9 @@ const ExaminationPartCheckbox = ({
         />
       }
       label={`${translateCommon('examParts.' + examinationPart)} 50 €`}
+      sx={{
+        '&.Mui-error .MuiFormControlLabel-label': { color: 'error.main' },
+      }}
     />
   );
 };
@@ -89,7 +93,9 @@ const SelectExaminationParts = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.selectExaminationParts',
   });
-  const { examinationParts } = useAppSelector(evaluationOrderSelector);
+  const { examinationParts, showErrors } = useAppSelector(
+    evaluationOrderSelector
+  );
   const sumTotal = Object.values(examinationParts).reduce(
     (acc, val) => (val ? acc + 50 : acc),
     0
@@ -98,7 +104,11 @@ const SelectExaminationParts = () => {
   return (
     <>
       <H2>{t('heading')}</H2>
-      <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
+      <FormControl
+        error={showErrors && sumTotal === 0}
+        component="fieldset"
+        variant={TextFieldVariant.Standard}
+      >
         <Typography variant="h3" component="legend">
           {t('selectParts')}
         </Typography>
@@ -250,8 +260,9 @@ const AcceptConditions = () => {
 };
 
 const useEvaluationOrderErrors = () => {
-  const { acceptConditions, /*payerDetails,*/ examinationParts } =
-    useAppSelector(evaluationOrderSelector);
+  const { acceptConditions, examinationParts, payerDetails } = useAppSelector(
+    evaluationOrderSelector
+  );
   const errors: Array<string> = [];
   if (!acceptConditions) {
     errors.push('acceptConditions');
@@ -261,38 +272,66 @@ const useEvaluationOrderErrors = () => {
     errors.push('noExaminationPartsSelected');
   }
 
+  if (!payerDetails.firstNames) {
+    errors.push('firstNames');
+  }
+
+  if (!payerDetails.lastName) {
+    errors.push('lastName');
+  }
+
+  if (!payerDetails.birthdate) {
+    errors.push('birthdate');
+  }
+
+  if (
+    InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Email,
+      required: true,
+      value: payerDetails.email,
+    })
+  ) {
+    errors.push('email');
+  }
+
   return errors;
 };
 
-const ActionButtons = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.evaluationOrderForm.actionButtons',
-  });
-  const translateCommon = useCommonTranslation();
-
+const useHandleSubmitAction = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const { submitOrderState } = useAppSelector(evaluationOrderSelector);
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.errorDialog',
+  });
+
   const errors = useEvaluationOrderErrors();
   const { showDialog } = useDialog();
-
-  // TODO Disallow submitting same order multiple times when order in progress
   const payOrFixErrors = () => {
+    // Disallow submitting same order multiple times.
+    if (
+      submitOrderState === APIResponseStatus.InProgress ||
+      submitOrderState === APIResponseStatus.Success
+    ) {
+      return;
+    }
+
     if (errors.length > 0) {
       dispatch(setShowErrors(true));
       const dialogContent = (
         <div>
-          <Text>Korjaa seuraavat virheet:</Text>
+          <Text>{t('fixErrors')}</Text>
           <ul>
             {errors.map((error, i) => (
               <li key={i}>
-                <Text>{error}</Text>
+                <Text>{t(`errors.${error}`)}</Text>
               </li>
             ))}
           </ul>
         </div>
       );
       showDialog({
-        title: 'Virheitä on!',
+        title: t('title'),
         severity: Severity.Error,
         content: dialogContent,
         actions: [
@@ -304,12 +343,23 @@ const ActionButtons = () => {
     }
   };
 
+  return payOrFixErrors;
+};
+
+const ActionButtons = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.actionButtons',
+  });
+
+  const navigate = useNavigate();
+  const handleSubmitAction = useHandleSubmitAction();
+
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}
-        onClick={payOrFixErrors}
+        onClick={handleSubmitAction}
       >
         {t('pay')}
       </CustomButton>

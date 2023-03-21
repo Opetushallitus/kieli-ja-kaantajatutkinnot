@@ -46,14 +46,15 @@ export const EvaluationOrderPage = () => {
   const params = useParams();
 
   // Navigation protection
+  // Enable on changed form details, disable when redirecting to payments provider.
+
   const isDirtyState =
     initialState.acceptConditions !== acceptConditions ||
     initialState.payerDetails !== payerDetails ||
     initialState.examinationParts !== examinationParts;
-  useNavigationProtection(isDirtyState);
+  useNavigationProtection(isDirtyState && !evaluationPaymentRedirectResponse);
 
   // Reset user filled details when unmounting (eg. navigating away from page)
-  // TODO Allow disabling eg. when transferring to payment provider
   const resetStateOnUnmount = useCallback(() => {
     dispatch(resetEvaluationOrderState());
   }, [dispatch]);
