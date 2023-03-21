@@ -6,12 +6,12 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
-import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicController {
 
+  private static final String PERSON_ID_SESSION_KEY = "person_id";
+
   @Resource
   private PublicPersonService publicPersonService;
 
@@ -47,9 +49,6 @@ public class PublicController {
 
   @Resource
   private PublicReservationService publicReservationService;
-
-  @Resource
-  private PersonRepository personRepository;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -88,35 +87,43 @@ public class PublicController {
   public void createEnrollmentToQueue(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @RequestParam final long examEventId,
-    @RequestParam final long personId
+    @RequestParam final long personId,
+    final HttpSession session
   ) {
+    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+
+    if (personId != person.getId()) {
+      throw new NotFoundException("Person not found");
+    }
+
     publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, personId);
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
-  public PublicReservationDTO renewReservation(@PathVariable final long reservationId) {
-    // TODO: get identity from session and check that it belongs to this reservation?
-    return publicReservationService.renewReservation(reservationId);
+  public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
+    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+
+    return publicReservationService.renewReservation(reservationId, person);
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
-  public void deleteReservation(@PathVariable final long reservationId) {
-    publicReservationService.deleteReservation(reservationId);
+  public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
+    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+
+    publicReservationService.deleteReservation(reservationId, person);
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
   public Person validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    Person person = publicAuthService.validate(ticket);
+    final Person person = publicAuthService.validate(ticket);
 
-    session.setAttribute("person_id", person.getId());
+    session.setAttribute(PERSON_ID_SESSION_KEY, person.getId());
 
     return person;
   }
 
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson(
-            (Long) session.getAttribute("person_id")
-    );
+    return publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
   }
 }

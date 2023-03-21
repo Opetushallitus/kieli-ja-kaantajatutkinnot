@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PublicPersonService {
 
-    private final PersonRepository personRepository;
+  private final PersonRepository personRepository;
 
-    public Person getPerson(final Long personId) {
-        return personRepository.findById(personId).orElseThrow(() -> new NotFoundException("Person not found"));
-    }
+  public Person getPerson(final Long personId) {
+    return personRepository.findById(personId).orElseThrow(() -> new NotFoundException("Person not found"));
+  }
 }

@@ -24,8 +24,12 @@ public class PublicReservationService {
   private final Environment environment;
 
   @Transactional
-  public PublicReservationDTO renewReservation(final long reservationId) {
+  public PublicReservationDTO renewReservation(final long reservationId, final Person person) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+
+    if (person.getId() != reservation.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
 
     if (!reservation.isRenewable()) {
       throw new APIException(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED);
@@ -73,7 +77,13 @@ public class PublicReservationService {
   }
 
   @Transactional
-  public void deleteReservation(final long reservationId) {
-    reservationRepository.deleteById(reservationId);
+  public void deleteReservation(final long reservationId, Person person) {
+    final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+
+    if (person.getId() != reservation.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    reservationRepository.deleteById(reservation.getId());
   }
 }
