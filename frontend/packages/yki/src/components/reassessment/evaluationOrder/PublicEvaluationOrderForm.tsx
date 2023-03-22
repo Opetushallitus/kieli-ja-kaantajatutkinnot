@@ -322,8 +322,8 @@ const useHandleSubmitAction = () => {
         <div>
           <Text>{t('fixErrors')}</Text>
           <ul>
-            {errors.map((error, i) => (
-              <li key={i}>
+            {errors.map((error) => (
+              <li key={error}>
                 <Text>{t(`errors.${error}`)}</Text>
               </li>
             ))}
