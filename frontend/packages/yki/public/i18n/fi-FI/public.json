@@ -184,6 +184,20 @@
       "evaluationOrderPage": {
         "title": "Pyydä tarkistusarviointi"
       },
+      "evaluationOrderStatusPage": {
+        "cancel": {
+          "title": "Maksutapahtuma keskeytyi!",
+          "info": "Voit yrittää uudelleen."
+        },
+        "error": {
+          "title": "Tapahtui virhe!",
+          "info": "Voit yrittää uudelleen."
+        },
+        "success": {
+          "title": "Maksu onnistui!",
+          "info": "Sinulle lähetetään varmistus sähköpostilla."
+        }
+      },
       "examDetailsPage": {
         "toasts": {
           "notFound": "Kielitutkintoa ei löytynyt"

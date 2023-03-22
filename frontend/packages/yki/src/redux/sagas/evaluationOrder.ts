@@ -4,10 +4,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang, translateOutsideComponent } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import {
-  EvaluationOrderResponse,
-  EvaluationPaymentRedirectResponse,
-} from 'interfaces/evaluationOrder';
+import { EvaluationOrderResponse } from 'interfaces/evaluationOrder';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   acceptEvaluationOrder,
@@ -34,20 +31,15 @@ function* submitEvaluationOrderSaga() {
       JSON.stringify(
         SerializationUtils.serializeEvaluationOrder(evaluationOrder)
       ),
-      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } }
+      {
+        params: {
+          lang: SerializationUtils.serializeAppLanguage(lang),
+          'use-yki-ui': true,
+        },
+      }
     );
-    // TODO This feels like an extra step. Could we instead just return the redirect url as response to POSTing the evaluation order form?
-    const { evaluation_order_id, signature } = response.data;
-    const redirectResponse: AxiosResponse<EvaluationPaymentRedirectResponse> =
-      yield call(
-        axiosInstance.get,
-        APIEndpoints.EvaluationPaymentRedirect.replace(
-          /:evaluationOrderId/,
-          `${evaluation_order_id}`
-        ),
-        { params: { signature } }
-      );
-    yield put(acceptEvaluationOrder(redirectResponse.data));
+
+    yield put(acceptEvaluationOrder(response.data));
   } catch (error) {
     yield put(rejectEvaluationOrder());
     yield put(setAPIError(t('yki.common.error')));

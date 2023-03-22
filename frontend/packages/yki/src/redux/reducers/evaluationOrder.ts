@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
-  EvaluationPaymentRedirectResponse,
+  EvaluationOrderResponse,
   ExaminationParts,
   PayerDetails,
 } from 'interfaces/evaluationOrder';
@@ -16,7 +16,7 @@ export interface EvaluationOrderState {
   acceptConditions: boolean;
   payerDetails: PayerDetails;
   showErrors: boolean;
-  evaluationPaymentRedirectResponse?: EvaluationPaymentRedirectResponse;
+  evaluationPaymentRedirectResponse?: EvaluationOrderResponse;
 }
 
 export const initialState: EvaluationOrderState = {
@@ -55,7 +55,7 @@ const evaluationOrderSlice = createSlice({
     },
     acceptEvaluationOrder(
       state,
-      action: PayloadAction<EvaluationPaymentRedirectResponse>
+      action: PayloadAction<EvaluationOrderResponse>
     ) {
       state.submitOrderState = APIResponseStatus.Success;
       state.evaluationPaymentRedirectResponse = action.payload;
