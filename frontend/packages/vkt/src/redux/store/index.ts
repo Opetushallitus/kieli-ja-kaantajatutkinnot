@@ -10,7 +10,6 @@ import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
-import { sessionReducer } from 'redux/reducers/session';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
