@@ -1,5 +1,6 @@
 package fi.oph.vkt.config;
 
+import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
@@ -32,6 +33,12 @@ public class AppConfig {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+  }
+
+  @Bean
+  public CasTicketValidator casTicketValidator(@Value("${app.cas.validate-ticket-url}") String casValidateUrl) {
+    final WebClient webClient = webClientBuilderWithCallerId().baseUrl(casValidateUrl).build();
+    return new CasTicketValidator(webClient);
   }
 
   @Bean
