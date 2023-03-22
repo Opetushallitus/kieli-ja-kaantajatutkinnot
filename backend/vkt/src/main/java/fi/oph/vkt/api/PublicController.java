@@ -83,7 +83,6 @@ public class PublicController {
     publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
-  // TODO: check identity of the caller
   @PostMapping(path = "/enrollment/queue")
   @ResponseStatus(HttpStatus.CREATED)
   public void createEnrollmentToQueue(

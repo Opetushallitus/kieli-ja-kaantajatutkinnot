@@ -26,7 +26,6 @@ const store = configureStore({
     clerkExamEventOverview: clerkExamEventOverviewReducer,
     clerkEnrollmentDetails: clerkEnrollmentDetailsReducer,
     auth: authReducer,
-    session: sessionReducer,
   },
   middleware: [saga],
 });
