@@ -1,4 +1,4 @@
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { H1, H2 } from 'shared/components';
 

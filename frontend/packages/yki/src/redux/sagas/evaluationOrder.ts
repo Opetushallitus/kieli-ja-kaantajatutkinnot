@@ -39,7 +39,7 @@ function* submitEvaluationOrderSaga() {
       }
     );
 
-    yield put(acceptEvaluationOrder(response.data));
+    yield put(acceptEvaluationOrder(response.data.redirect));
   } catch (error) {
     yield put(rejectEvaluationOrder());
     yield put(setAPIError(t('yki.common.error')));

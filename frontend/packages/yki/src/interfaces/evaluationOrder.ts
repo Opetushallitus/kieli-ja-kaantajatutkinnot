@@ -25,7 +25,5 @@ export interface EvaluationOrderRequest {
 }
 
 export interface EvaluationOrderResponse {
-  evaluation_order_id: number;
-  signature: string;
   redirect: string;
 }

@@ -35,7 +35,7 @@ export const EvaluationOrderPage = () => {
     evaluationPeriod,
     payerDetails,
     examinationParts,
-    evaluationPaymentRedirectResponse,
+    evaluationPaymentRedirect,
   } = useAppSelector(evaluationOrderSelector);
   const isLoading =
     loadPeriodState === APIResponseStatus.InProgress ||
@@ -52,7 +52,7 @@ export const EvaluationOrderPage = () => {
     initialState.acceptConditions !== acceptConditions ||
     initialState.payerDetails !== payerDetails ||
     initialState.examinationParts !== examinationParts;
-  useNavigationProtection(isDirtyState && !evaluationPaymentRedirectResponse);
+  useNavigationProtection(isDirtyState && !evaluationPaymentRedirect);
 
   // Reset user filled details when unmounting (eg. navigating away from page)
   const resetStateOnUnmount = useCallback(() => {
@@ -82,9 +82,9 @@ export const EvaluationOrderPage = () => {
       navigate(AppRoutes.Reassessment, { replace: true });
     } else if (
       submitOrderState === APIResponseStatus.Success &&
-      evaluationPaymentRedirectResponse
+      evaluationPaymentRedirect
     ) {
-      window.location.replace(evaluationPaymentRedirectResponse.redirect);
+      window.location.replace(evaluationPaymentRedirect);
     }
   }, [
     dispatch,
@@ -95,7 +95,7 @@ export const EvaluationOrderPage = () => {
     evaluationPeriod?.id,
     loadPeriodState,
     submitOrderState,
-    evaluationPaymentRedirectResponse,
+    evaluationPaymentRedirect,
   ]);
 
   return isLoading ? (
