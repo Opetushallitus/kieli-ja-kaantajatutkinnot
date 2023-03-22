@@ -62,6 +62,26 @@ public class PublicReservationServiceTest {
   }
 
   @Test
+  public void testRenewReservationWrongPerson() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person1);
+    entityManager.persist(examEvent);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(reservation);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> {
+        publicReservationService.renewReservation(reservation.getId(), person2);
+      }
+    );
+    assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
+  }
+
+  @Test
   public void testRenewReservationTwice() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
@@ -107,6 +127,26 @@ public class PublicReservationServiceTest {
     publicReservationService.deleteReservation(reservation.getId(), person);
 
     assertEquals(0, reservationRepository.count());
+  }
+
+  @Test
+  public void testDeleteReservationWrongPerson() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person1);
+    entityManager.persist(examEvent);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(reservation);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> {
+        publicReservationService.deleteReservation(reservation.getId(), person2);
+      }
+    );
+    assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
   }
 
   @Test

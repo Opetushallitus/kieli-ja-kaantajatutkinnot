@@ -71,14 +71,16 @@ public class PublicController {
     return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
   }
 
-  // TODO: check identity of the caller
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
   public void createEnrollment(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
-    @PathVariable final long reservationId
+    @PathVariable final long reservationId,
+    final HttpSession session
   ) {
-    publicEnrollmentService.createEnrollment(dto, reservationId);
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+
+    publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
   // TODO: check identity of the caller
@@ -90,7 +92,7 @@ public class PublicController {
     @RequestParam final long personId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     if (personId != person.getId()) {
       throw new NotFoundException("Person not found");
@@ -101,14 +103,14 @@ public class PublicController {
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     return publicReservationService.renewReservation(reservationId, person);
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     publicReservationService.deleteReservation(reservationId, person);
   }
@@ -124,6 +126,6 @@ public class PublicController {
 
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson((long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    return publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
   }
 }
