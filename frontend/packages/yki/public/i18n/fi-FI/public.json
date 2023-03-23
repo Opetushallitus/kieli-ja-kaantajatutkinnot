@@ -182,6 +182,7 @@
     },
     "pages": {
       "evaluationOrderPage": {
+        "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
         "title": "Pyydä tarkistusarviointi",
         "toasts": {
           "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"

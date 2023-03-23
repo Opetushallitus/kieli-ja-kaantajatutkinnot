@@ -106,7 +106,7 @@ export const EvaluationOrderPage = () => {
                 {t('title')}
               </H1>
               <HeaderSeparator />
-              <H2>Tarkistusarvionnin tietoja ei löytynyt!</H2>
+              <H2>{t('notFound')}</H2>
             </Grid>
           </Grid>
         </Box>
