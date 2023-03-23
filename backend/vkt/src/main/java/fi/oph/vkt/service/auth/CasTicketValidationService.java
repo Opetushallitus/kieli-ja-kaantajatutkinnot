@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CasTicketValidationService {
-
   private final TicketValidator ticketValidator;
 
   public boolean validate(final String ticket) {
     try {
-      ticketValidator.validateTicket(ticket);
+      String response = ticketValidator.validateTicket(ticket);
       return true;
     } catch (final Exception e) {
       return false;
