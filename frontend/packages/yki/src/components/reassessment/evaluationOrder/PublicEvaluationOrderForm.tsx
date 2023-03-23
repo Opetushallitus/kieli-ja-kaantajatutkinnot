@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { Dayjs } from 'dayjs';
 import { useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
@@ -177,15 +178,54 @@ const PayerDetailsTextField = ({
   );
 };
 
-const FillPayerDetails = () => {
+const BirthdateField = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
   });
   const translateCommon = useCommonTranslation();
   const { birthdate } = useAppSelector(evaluationOrderSelector).payerDetails;
   const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
-
   const dispatch = useAppDispatch();
+  const getHelperText = useCallback(
+    (showErrors: boolean, birthdate: Dayjs | undefined) => {
+      if (!showErrors) {
+        return null;
+      }
+
+      if (!birthdate) {
+        return translateCommon('errors.customTextField.required');
+      }
+
+      // TODO Could perform more exhaustive validity checks - eg. that person has to be of certain age.
+      // Check with OPH.
+      if (!birthdate.isValid()) {
+        return t('errors.invalidBirthdate');
+      }
+    },
+    [t, translateCommon]
+  );
+
+  return (
+    <CustomDatePicker
+      placeholder={t('placeholders.birthdate')}
+      value={birthdate ?? null}
+      setValue={(value) => {
+        if (value) {
+          dispatch(setPayerDetails({ birthdate: value }));
+        } else {
+          dispatch(setPayerDetails({ birthdate: undefined }));
+        }
+      }}
+      error={showErrors && (!birthdate || !birthdate.isValid())}
+      helperText={getHelperText(showErrors, birthdate)}
+    />
+  );
+};
+
+const FillPayerDetails = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
+  });
 
   return (
     <>
@@ -193,23 +233,7 @@ const FillPayerDetails = () => {
       <div className="public-evaluation-order-page__order-form__payer-details-grid">
         <PayerDetailsTextField field="firstNames" />
         <PayerDetailsTextField field="lastName" />
-        <CustomDatePicker
-          placeholder={t('placeholders.birthdate')}
-          value={birthdate ?? null}
-          setValue={(value) => {
-            if (value) {
-              dispatch(setPayerDetails({ birthdate: value }));
-            } else {
-              dispatch(setPayerDetails({ birthdate: undefined }));
-            }
-          }}
-          error={showErrors && !birthdate}
-          helperText={
-            showErrors && !birthdate
-              ? translateCommon('errors.customTextField.required')
-              : t('placeholders.birthdate')
-          }
-        />
+        <BirthdateField />
         <PayerDetailsTextField field="email" />
       </div>
     </>
@@ -280,7 +304,7 @@ const useEvaluationOrderErrors = () => {
     errors.push('lastName');
   }
 
-  if (!payerDetails.birthdate) {
+  if (!payerDetails.birthdate || !payerDetails.birthdate.isValid()) {
     errors.push('birthdate');
   }
 

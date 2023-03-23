@@ -25,6 +25,9 @@
           "title": "Virheitä lomakkeella!"
         },
         "fillPayerDetails": {
+          "errors": {
+            "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
+          },
           "heading": "Maksajan tiedot",
           "placeholders": {
             "birthdate": "Syntymäaika (pp.kk.vvvv) *",
