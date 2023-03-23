@@ -22,6 +22,9 @@ const authSlice = createSlice({
     authenticationSucceeded(state) {
       state.status = APIResponseStatus.Success;
     },
+    resetAuthentication(state) {
+      state.status = initialState.status;
+    },
   },
 });
 
@@ -30,4 +33,5 @@ export const {
   startAuthentication,
   rejectAuthentication,
   authenticationSucceeded,
+  resetAuthentication,
 } = authSlice.actions;

@@ -1,12 +1,14 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.service.auth.ticketValidator.CasAttributes;
+import fi.oph.vkt.service.auth.ticketValidator.CasResponse;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.util.List;
-import java.util.Random;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,55 +21,33 @@ public class PublicAuthService {
 
   private final CasTicketValidationService casTicketValidationService;
 
-  // TODO: authenticate person with information received from suomi.fi authentication service
-  @Transactional
-  public Person authenticate() {
-    final Random random = new Random();
-    final List<String> identityNumbers = List.of(
-      "200714-982U",
-      "010934-984D",
-      "210110-9320",
-      "230182-980D",
-      "130421-9046"
-    );
-    final String identityNumber = identityNumbers.get(random.nextInt(identityNumbers.size()));
-
-    return personRepository.findByIdentityNumber(identityNumber).orElseGet(() -> createPerson(identityNumber));
-  }
-
-  private Person createPerson(final String identityNumber) {
-    final Random random = new Random();
-    final List<String> lastNames = List.of("Aaltonen", "Alanen", "Eskola", "Hakala", "Heikkinen");
-    final List<String> firstNames = List.of("Anneli", "Ella", "Hanna", "Iiris", "Liisa");
-
+  private Person createPerson(final String identityNumber, final String firstName, final String lastName) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
-    person.setLastName(lastNames.get(random.nextInt(lastNames.size())));
-    person.setFirstName(firstNames.get(random.nextInt(firstNames.size())));
+    person.setLastName(lastName);
+    person.setFirstName(firstName);
 
-    personRepository.saveAndFlush(person);
-    return person;
+    return personRepository.saveAndFlush(person);
   }
 
   @Transactional
-  public Person validate(final String ticket) {
-    final Random random = new Random();
-    final List<String> identityNumbers = List.of(
-      "200714-982U",
-      "010934-984D",
-      "210110-9320",
-      "230182-980D",
-      "130421-9046"
-    );
+  public PublicPersonDTO validate(final String ticket) {
+    final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
 
-    final boolean isValid = casTicketValidationService.validate(ticket);
+    final String identityNumber = personDetails.get("identityNumber");
+    final String firstName = personDetails.get("firstName");
+    final String lastName = personDetails.get("lastName");
 
-    if (!isValid) {
-      throw new APIException(APIExceptionType.INVALID_TICKET);
-    }
+    final Person person = personRepository
+      .findByIdentityNumber(identityNumber)
+      .orElseGet(() -> createPerson(identityNumber, firstName, lastName));
 
-    final String identityNumber = identityNumbers.get(random.nextInt(identityNumbers.size()));
-
-    return personRepository.findByIdentityNumber(identityNumber).orElseGet(() -> createPerson(identityNumber));
+    return PublicPersonDTO
+      .builder()
+      .id(person.getId())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .identityNumber(person.getIdentityNumber())
+      .build();
   }
 }

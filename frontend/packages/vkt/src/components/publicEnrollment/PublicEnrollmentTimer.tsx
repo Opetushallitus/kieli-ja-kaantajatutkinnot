@@ -15,6 +15,7 @@ import {
   cancelPublicEnrollmentAndRemoveReservation,
   renewPublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
+import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 
 const calcProgress = (expires: Dayjs, total: number) => {
   const secondsDiff = Math.max(0, expires.diff(dayjs(), 'second'));
@@ -70,6 +71,7 @@ export const PublicEnrollmentTimer = ({
 
   const cancelReservation = () => {
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
+    dispatch(resetSelectedPublicExamEvent());
   };
 
   const isExpired = progress.secondsDiff <= 0;
