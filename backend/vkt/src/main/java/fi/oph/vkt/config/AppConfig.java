@@ -39,9 +39,7 @@ public class AppConfig {
 
   @Bean
   public CasTicketValidator casTicketValidator(@Value("${app.cas.validate-ticket-url}") String casValidateUrl) {
-    final WebClient webClient = webClientBuilderWithCallerId()
-            .baseUrl(casValidateUrl)
-            .build();
+    final WebClient webClient = webClientBuilderWithCallerId().baseUrl(casValidateUrl).build();
 
     return new CasTicketValidator(webClient);
   }
