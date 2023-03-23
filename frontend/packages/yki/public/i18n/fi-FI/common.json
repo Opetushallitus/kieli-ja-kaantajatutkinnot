@@ -51,6 +51,7 @@
       "examination": "Tutkinto",
       "header": {
         "accessibility": {
+          "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
         },
         "lang": {
