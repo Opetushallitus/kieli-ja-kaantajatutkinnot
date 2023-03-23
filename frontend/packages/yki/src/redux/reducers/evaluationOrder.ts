@@ -4,7 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { ExaminationParts, PayerDetails } from 'interfaces/evaluationOrder';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 
-interface EvaluationOrderState {
+export interface EvaluationOrderState {
   submitOrderState: APIResponseStatus;
   loadPeriodState: APIResponseStatus;
   evaluationPeriod?: EvaluationPeriod;
@@ -12,6 +12,7 @@ interface EvaluationOrderState {
   acceptConditions: boolean;
   payerDetails: PayerDetails;
   showErrors: boolean;
+  evaluationPaymentRedirect?: string;
 }
 
 export const initialState: EvaluationOrderState = {
@@ -48,8 +49,9 @@ const evaluationOrderSlice = createSlice({
     rejectEvaluationOrder(state) {
       state.submitOrderState = APIResponseStatus.Error;
     },
-    acceptEvaluationOrder(state) {
+    acceptEvaluationOrder(state, action: PayloadAction<string>) {
       state.submitOrderState = APIResponseStatus.Success;
+      state.evaluationPaymentRedirect = action.payload;
     },
     setExaminationParts(
       state,
@@ -66,11 +68,8 @@ const evaluationOrderSlice = createSlice({
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;
     },
-    resetEvaluationOrderState(state) {
-      state.acceptConditions = initialState.acceptConditions;
-      state.examinationParts = initialState.examinationParts;
-      state.payerDetails = initialState.payerDetails;
-      state.showErrors = initialState.showErrors;
+    resetEvaluationOrderState(_state) {
+      return initialState;
     },
   },
 });
@@ -80,9 +79,12 @@ export const {
   loadEvaluationPeriod,
   storeEvaluationPeriod,
   rejectEvaluationPeriod,
+  rejectEvaluationOrder,
   setAcceptConditions,
   setExaminationParts,
   setPayerDetails,
   setShowErrors,
+  submitEvaluationOrder,
   resetEvaluationOrderState,
+  acceptEvaluationOrder,
 } = evaluationOrderSlice.actions;

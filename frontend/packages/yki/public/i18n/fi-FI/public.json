@@ -12,7 +12,22 @@
           "cancel": "Peruuta",
           "pay": "Siirry maksamaan"
         },
+        "errorDialog": {
+          "errors": {
+            "acceptConditions": "Hyväksy henkilötietojen käsittelyn ehdot",
+            "birthdate": "Maksajan tiedot -> Syntymäaika",
+            "email": "Maksajan tiedot -> Sähköpostiosoite",
+            "firstNames": "Maksajan tiedot -> Etunimet",
+            "lastName": "Maksajan tiedot -> Sukunimi",
+            "noExaminationPartsSelected": "Valitse ainakin yksi tarkistettava osakoe"
+          },
+          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+          "title": "Virheitä lomakkeella!"
+        },
         "fillPayerDetails": {
+          "errors": {
+            "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
+          },
           "heading": "Maksajan tiedot",
           "placeholders": {
             "birthdate": "Syntymäaika (pp.kk.vvvv) *",
@@ -170,7 +185,25 @@
     },
     "pages": {
       "evaluationOrderPage": {
-        "title": "Pyydä tarkistusarviointi"
+        "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
+        "title": "Pyydä tarkistusarviointi",
+        "toasts": {
+          "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"
+        }
+      },
+      "evaluationOrderStatusPage": {
+        "cancel": {
+          "title": "Maksutapahtuma keskeytyi!",
+          "info": "Voit yrittää uudelleen."
+        },
+        "error": {
+          "title": "Tapahtui virhe!",
+          "info": "Voit yrittää uudelleen."
+        },
+        "success": {
+          "title": "Maksu onnistui!",
+          "info": "Sinulle lähetetään varmistus sähköpostilla."
+        }
       },
       "examDetailsPage": {
         "toasts": {

@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { Dayjs } from 'dayjs';
 import { useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
@@ -17,7 +18,15 @@ import {
   H2,
   Text,
 } from 'shared/components';
-import { Color, TextFieldTypes, TextFieldVariant, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Severity,
+  TextFieldTypes,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -30,6 +39,7 @@ import {
   setExaminationParts,
   setPayerDetails,
   setShowErrors,
+  submitEvaluationOrder,
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
 import { ExamUtils } from 'utils/exam';
@@ -73,6 +83,9 @@ const ExaminationPartCheckbox = ({
         />
       }
       label={`${translateCommon('examParts.' + examinationPart)} 50 €`}
+      sx={{
+        '&.Mui-error .MuiFormControlLabel-label': { color: 'error.main' },
+      }}
     />
   );
 };
@@ -81,7 +94,9 @@ const SelectExaminationParts = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.selectExaminationParts',
   });
-  const { examinationParts } = useAppSelector(evaluationOrderSelector);
+  const { examinationParts, showErrors } = useAppSelector(
+    evaluationOrderSelector
+  );
   const sumTotal = Object.values(examinationParts).reduce(
     (acc, val) => (val ? acc + 50 : acc),
     0
@@ -90,7 +105,11 @@ const SelectExaminationParts = () => {
   return (
     <>
       <H2>{t('heading')}</H2>
-      <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
+      <FormControl
+        error={showErrors && sumTotal === 0}
+        component="fieldset"
+        variant={TextFieldVariant.Standard}
+      >
         <Typography variant="h3" component="legend">
           {t('selectParts')}
         </Typography>
@@ -159,15 +178,54 @@ const PayerDetailsTextField = ({
   );
 };
 
-const FillPayerDetails = () => {
+const BirthdateField = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
   });
   const translateCommon = useCommonTranslation();
   const { birthdate } = useAppSelector(evaluationOrderSelector).payerDetails;
   const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
-
   const dispatch = useAppDispatch();
+  const getHelperText = useCallback(
+    (showErrors: boolean, birthdate: Dayjs | undefined) => {
+      if (!showErrors) {
+        return null;
+      }
+
+      if (!birthdate) {
+        return translateCommon('errors.customTextField.required');
+      }
+
+      // TODO Could perform more exhaustive validity checks - eg. that person has to be of certain age.
+      // Check with OPH.
+      if (!birthdate.isValid()) {
+        return t('errors.invalidBirthdate');
+      }
+    },
+    [t, translateCommon]
+  );
+
+  return (
+    <CustomDatePicker
+      placeholder={t('placeholders.birthdate')}
+      value={birthdate ?? null}
+      setValue={(value) => {
+        if (value) {
+          dispatch(setPayerDetails({ birthdate: value }));
+        } else {
+          dispatch(setPayerDetails({ birthdate: undefined }));
+        }
+      }}
+      error={showErrors && (!birthdate || !birthdate.isValid())}
+      helperText={getHelperText(showErrors, birthdate)}
+    />
+  );
+};
+
+const FillPayerDetails = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
+  });
 
   return (
     <>
@@ -175,23 +233,7 @@ const FillPayerDetails = () => {
       <div className="public-evaluation-order-page__order-form__payer-details-grid">
         <PayerDetailsTextField field="firstNames" />
         <PayerDetailsTextField field="lastName" />
-        <CustomDatePicker
-          placeholder={t('placeholders.birthdate')}
-          value={birthdate ?? null}
-          setValue={(value) => {
-            if (value) {
-              dispatch(setPayerDetails({ birthdate: value }));
-            } else {
-              dispatch(setPayerDetails({ birthdate: undefined }));
-            }
-          }}
-          error={showErrors && !birthdate}
-          helperText={
-            showErrors && !birthdate
-              ? translateCommon('errors.customTextField.required')
-              : t('placeholders.birthdate')
-          }
-        />
+        <BirthdateField />
         <PayerDetailsTextField field="email" />
       </div>
     </>
@@ -241,19 +283,107 @@ const AcceptConditions = () => {
   );
 };
 
+const useEvaluationOrderErrors = () => {
+  const { acceptConditions, examinationParts, payerDetails } = useAppSelector(
+    evaluationOrderSelector
+  );
+  const errors: Array<string> = [];
+  if (!acceptConditions) {
+    errors.push('acceptConditions');
+  }
+
+  if (!Object.values(examinationParts).some((v) => v)) {
+    errors.push('noExaminationPartsSelected');
+  }
+
+  if (!payerDetails.firstNames) {
+    errors.push('firstNames');
+  }
+
+  if (!payerDetails.lastName) {
+    errors.push('lastName');
+  }
+
+  if (!payerDetails.birthdate || !payerDetails.birthdate.isValid()) {
+    errors.push('birthdate');
+  }
+
+  if (
+    InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Email,
+      required: true,
+      value: payerDetails.email,
+    })
+  ) {
+    errors.push('email');
+  }
+
+  return errors;
+};
+
+const useHandleSubmitAction = () => {
+  const dispatch = useAppDispatch();
+  const { submitOrderState } = useAppSelector(evaluationOrderSelector);
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.errorDialog',
+  });
+
+  const errors = useEvaluationOrderErrors();
+  const { showDialog } = useDialog();
+  const payOrFixErrors = () => {
+    // Disallow submitting same order multiple times.
+    if (
+      submitOrderState === APIResponseStatus.InProgress ||
+      submitOrderState === APIResponseStatus.Success
+    ) {
+      return;
+    }
+
+    if (errors.length > 0) {
+      dispatch(setShowErrors(true));
+      const dialogContent = (
+        <div>
+          <Text>{t('fixErrors')}</Text>
+          <ul>
+            {errors.map((error) => (
+              <li key={error}>
+                <Text>{t(`errors.${error}`)}</Text>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+      showDialog({
+        title: t('title'),
+        severity: Severity.Error,
+        content: dialogContent,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    } else {
+      dispatch(submitEvaluationOrder());
+    }
+  };
+
+  return payOrFixErrors;
+};
+
 const ActionButtons = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.actionButtons',
   });
-  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
+  const handleSubmitAction = useHandleSubmitAction();
 
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}
-        onClick={() => dispatch(setShowErrors(true))}
+        onClick={handleSubmitAction}
       >
         {t('pay')}
       </CustomButton>
