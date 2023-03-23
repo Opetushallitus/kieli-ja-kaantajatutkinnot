@@ -23,8 +23,10 @@ import {
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadEvaluationPeriodSaga(action: PayloadAction<number>) {
-  const t = translateOutsideComponent();
   try {
+    if (isNaN(action.payload)) {
+      throw new Error('Incorrect evaluation period id: ' + action.payload);
+    }
     const response: AxiosResponse<EvaluationPeriodResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.Evaluation.replace(/:evaluationId/, `${action.payload}`)
@@ -37,7 +39,6 @@ function* loadEvaluationPeriodSaga(action: PayloadAction<number>) {
     );
   } catch (error) {
     yield put(rejectEvaluationPeriod());
-    yield put(setAPIError(t('yki.common.error')));
   }
 }
 

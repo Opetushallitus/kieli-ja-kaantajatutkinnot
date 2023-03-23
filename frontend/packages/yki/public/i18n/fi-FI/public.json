@@ -182,7 +182,10 @@
     },
     "pages": {
       "evaluationOrderPage": {
-        "title": "Pyydä tarkistusarviointi"
+        "title": "Pyydä tarkistusarviointi",
+        "toasts": {
+          "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"
+        }
       },
       "evaluationOrderStatusPage": {
         "cancel": {
