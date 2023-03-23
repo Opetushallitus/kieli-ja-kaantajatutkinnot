@@ -12,12 +12,6 @@
           "cancel": "Peruuta",
           "pay": "Siirry maksamaan"
         },
-        "info": {
-          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
-          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
-          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
-          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
-        },
         "fillPayerDetails": {
           "heading": "Maksajan tiedot",
           "placeholders": {
@@ -26,6 +20,12 @@
             "firstNames": "Etunimet *",
             "lastName": "Sukunimi *"
           }
+        },
+        "info": {
+          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
+          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
+          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "selectExaminationParts": {
           "heading": "Tarkistettavat tutkinnon osat",
@@ -63,23 +63,74 @@
           }
         }
       },
+      "publicEvaluationPeriodListing": {
+        "header": {
+          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista",
+          "examDate": "Tutkinnon päivämäärä",
+          "examination": "Tutkinto"
+        },
+        "heading": "Tutkinnot",
+        "requestReassessment": "Pyydä tarkistusarviointia"
+      },
       "registration": {
         "controlButtons": {
           "cancelDialog": {
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
             "title": "Peruuta ilmoittautuminen"
           },
-          "pay": "Siirry maksamaan",
-          "sendForm": "Lähetä lomake"
+          "cancelRegistration": "Peruuta ilmoittautuminen",
+          "confirm": "Vahvista ilmoittautuminen"
         },
         "examSessionDetails": {
           "address": "Osoite",
-          "examDate": "Tutkintopäivä",
+          "exam": "Tutkinto",
+          "examFee": "Tutkintomaksu",
           "openings": "Paikkoja vapaana",
-          "registrationCloses": "Ilmoittautuminen sulkeutuu"
+          "registrationTime": "Ilmoittautumisaika"
         },
+        "header": "Ilmoittaudu tutkintotilaisuuteen",
         "paymentSum": {
           "title": "Tutkintomaksu"
+        },
+        "registrationDetails": {
+          "address": "Katuosoite",
+          "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
+          "dateOfBirth": "Syntymäaika",
+          "description1": "Ole hyvä ja täytä lomake ilmoittautuaksesi tutkintoon.",
+          "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
+          "email": "Sähköpostiosoite",
+          "emailConfirmation": "Vahvista sähköpostiosoite",
+          "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
+          "firstNames": "Etunimet",
+          "lastName": "Sukunimi",
+          "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+          "nationality": "Kansalaisuus",
+          "phoneNumber": "Puhelinnumero",
+          "postNumber": "Postinumero",
+          "postOffice": "Postitoimipaikka",
+          "privacyStatement": {
+            "description": "Noudatamme henkilötietojen käsittelyssä GDPR-lainsäädäntöä",
+            "ariaLabel": "Tietosuojaseloste",
+            "label": "Hyväksyn henkilötietojeni käsittelyn *",
+            "linkLabel": "Lue henkilötietojen käsittelyn ehdot (oph.fi)"
+          },
+          "sex": "Sukupuoli",
+          "ssn": "Henkilötunnus",
+          "termsAndConditions": {
+            "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
+            "description2": "Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin.",
+            "description3": "1.1.2023 alkaen tarvitset todistuksen sairaudesta tai muusta painavasta syystä, jos haluat perua ilmoittautumisesi YKI-testiin.",
+            "label": "Hyväksyn edellä mainitut ehdot *",
+            "title": "Hyväksy ehdot"
+          },
+          "title": "Syötä tietosi",
+          "whatsNext": {
+            "description1": "Kun olet vahvistanut ilmoittautumisesi, saat sähköpostiisi linkin maksua varten.",
+            "description2": "Jos tarvitset tutkinnossa erityisjärjestelyjä, ota heti yhteyttä testipaikkaasi.",
+            "description3": "Löydät ohjeet erityisjärjestelyiden hakemiseen verkkosivuiltamme",
+            "linkLabel": "Ilmoittautuminen YKI-testiin (oph.fi)",
+            "title": "Mitä seuraavaksi"
+          }
         },
         "stepper": {
           "active": "Aktiivinen",
@@ -101,54 +152,30 @@
             "title": "Maksu on suoritettu."
           },
           "identify": {
-            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
-            "title": "Tunnistaudu ilmoittautumista varten"
-          },
-          "personDetails": {
-            "address": "Katuosoite",
-            "firstNames": "Etunimet",
-            "lastName": "Sukunimi",
-            "postNumber": "Postinumero",
-            "postOffice": "Postitoimipaikka",
-            "title": "Henkilötiedot"
-          },
-          "register": {
-            "email": "Sähköpostiosoite",
-            "emailConfirmation": "Vahvista sähköpostiosoite",
-            "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
-            "phoneNumber": "Puhelinnumero",
-            "privacyStatement": {
-              "ariaLabel": "Tietosuojaseloste",
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
-              "linkLabel": "tietosuojaselosteen"
+            "emailButtonText": "tunnistaudu sähköpostilla",
+            "emailError": "Virheellinen sähköpostiosoite",
+            "emailPlacehodler": "Syötä sähköpostiosoitteesi",
+            "instructionDescription": "Testipaikkasi lähettää myöhemmin sähköpostiisi tarkemmat ohjeet testiin saapumista varten. He kertovat muun muassa",
+            "instructions": {
+              "location": "testipaikan tarkan sijannin",
+              "time": "kellonajan, jolloin testi alkaa."
             },
-            "termsAndConditions": {
-              "description": "1.1.2023 alkaen tarvitset todistuksen sairaudesta tai muusta painavasta syystä, jos haluat perua ilmoittautumisesi YKI-testiin.",
-              "label": "Hyväksyn ehdot",
-              "title": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen. Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin."
-            },
-            "title": "Yhteystiedot"
+            "suomiFiButtonText": "tunnistaudu suomi.fi:ssä",
+            "title": "Tunnistaudu ilmoittautumista varten",
+            "withFinnishSSN": "<strong>Jos sinulla on suomalainen henkilötunnus</strong>, ilmoittaudu Suomi.fi-tunnistautumisen kautta. tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
+            "withoutFinnishSSN": "<strong>Jos sinulla ei ole suomalaista henkilötunnusta</strong>, voit ilmoittautua myös sähköpostilla. Saat tunnistautumisen jälkeen antamaasi sähköpostiin kirjautumislinkin, jonka kautta pääset jatkamaan ilmoittautumista."
           }
         }
-      },
-      "publicEvaluationPeriodListing": {
-        "heading": "Tutkinnot",
-        "header": {
-          "examination": "Tutkinto",
-          "examDate": "Tutkinnon päivämäärä",
-          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista"
-        },
-        "requestReassessment": "Pyydä tarkistusarviointia"
       }
     },
     "pages": {
+      "evaluationOrderPage": {
+        "title": "Pyydä tarkistusarviointi"
+      },
       "examDetailsPage": {
         "toasts": {
           "notFound": "Kielitutkintoa ei löytynyt"
         }
-      },
-      "evaluationOrderPage": {
-        "title": "Pyydä tarkistusarviointi"
       },
       "reassessmentPage": {
         "info": {
@@ -167,8 +194,8 @@
           }
         },
         "introduction": {
-          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta.",
-          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen."
+          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen.",
+          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta."
         },
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },

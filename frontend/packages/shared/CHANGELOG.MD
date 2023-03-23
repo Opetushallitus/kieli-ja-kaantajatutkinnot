@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.8.5] - 2023-03-17
+
+### Added
+
+- Shared styles for layout and text-transform
+
 ## [1.8.4] - 2023-03-17
 
 ### Added
@@ -73,7 +79,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
--  error, showHelperText and helperText props for DatePicker
+- error, showHelperText and helperText props for DatePicker
 
 ## [1.5.8] - 2023-01-17
 

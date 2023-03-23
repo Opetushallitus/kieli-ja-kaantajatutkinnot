@@ -40,3 +40,14 @@ export enum CertificateLanguage {
   SV = 'sv',
   EN = 'en',
 }
+
+export enum RadioButtonValue {
+  YES = 'radioButtonYes',
+  NO = 'radioButtonNo',
+}
+
+export enum GenderEnum {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
+}

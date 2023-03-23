@@ -1,33 +1,34 @@
 import { Grid, Paper } from '@mui/material';
-import { useState } from 'react';
-import { LoadingProgressIndicator } from 'shared/components';
+import {
+  H1,
+  HeaderSeparator,
+  LoadingProgressIndicator,
+} from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
-import { PublicRegistrationPaymentSum } from 'components/registration/PublicRegistrationPaymentSum';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const PublicRegistrationGrid = () => {
-  const [disableNext, setDisableNext] = useState(true);
-
-  const disableNextCb = (disabled: boolean) => setDisableNext(disabled);
-
   const { status, activeStep, examSession, registration, isEmailRegistration } =
     useAppSelector(examSessionSelector);
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration',
+  });
 
   // TODO: Add bypass or some another way to skip nav prot when user
   // intentionally chooses to cancel the registration and navigate back
   useNavigationProtection(false);
 
   const isLoading = status === APIResponseStatus.InProgress;
-  const isRegistrationStepActive =
-    activeStep === PublicRegistrationFormStep.Register;
   const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
 
   if (!examSession) {
@@ -37,34 +38,37 @@ export const PublicRegistrationGrid = () => {
   const renderDesktopView = () => (
     <>
       <Grid className="public-registration" item>
-        <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            <div className="public-registration__grid__form-container">
-              <PublicRegistrationStepper activeStep={activeStep} />
-              <PublicRegistrationExamSessionDetails
-                examSession={examSession}
-                showOpenings={!isDoneStepActive}
-              />
-              <PublicRegistrationStepContents
-                activeStep={activeStep}
-                registration={registration}
-                isLoading={isLoading}
-                disableNext={disableNextCb}
-                isEmailRegistration={isEmailRegistration}
-              />
-              {isRegistrationStepActive && (
-                <PublicRegistrationPaymentSum examSession={examSession} />
-              )}
-              {!isDoneStepActive && (
-                <PublicRegistrationControlButtons
-                  activeStep={activeStep}
-                  isLoading={isLoading}
-                  disableNext={disableNext}
-                />
-              )}
+        <div className="public-registration__grid">
+          <div className="rows gapped-xxl">
+            <PublicRegistrationStepper activeStep={activeStep} />
+            <div className="rows">
+              <H1>{t('header')}</H1>
+              <HeaderSeparator />
             </div>
-          </LoadingProgressIndicator>
-        </Paper>
+          </div>
+          <Paper elevation={3}>
+            <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+              <div className="public-registration__grid__form-container">
+                <PublicRegistrationExamSessionDetails
+                  examSession={examSession}
+                  showOpenings={!isDoneStepActive}
+                />
+                <PublicRegistrationStepContents
+                  activeStep={activeStep}
+                  registration={registration}
+                  isLoading={isLoading}
+                  isEmailRegistration={isEmailRegistration}
+                />
+                {!isDoneStepActive && (
+                  <PublicRegistrationControlButtons
+                    activeStep={activeStep}
+                    isLoading={isLoading}
+                  />
+                )}
+              </div>
+            </LoadingProgressIndicator>
+          </Paper>
+        </div>
       </Grid>
     </>
   );
