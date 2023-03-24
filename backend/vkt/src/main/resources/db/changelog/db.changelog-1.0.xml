@@ -461,7 +461,7 @@
                 <constraints
                         nullable="false"
                         unique="true"
-                        uniqueConstraintName="spring_session_ix1"
+                        uniqueConstraintName="spring_session_id_idx"
                 />
             </column>
             <column name="creation_time" type="BIGINT">
@@ -479,11 +479,11 @@
             <column name="principal_name" type="VARCHAR(100)"/>
         </createTable>
 
-        <createIndex tableName="spring_session" indexName="spring_session_ix2">
+        <createIndex tableName="spring_session" indexName="spring_session_expires_idx">
             <column name="expiry_time"/>
         </createIndex>
 
-        <createIndex tableName="spring_session" indexName="spring_session_ix3">
+        <createIndex tableName="spring_session" indexName="spring_session_principal_idx">
             <column name="principal_name"/>
         </createIndex>
 
