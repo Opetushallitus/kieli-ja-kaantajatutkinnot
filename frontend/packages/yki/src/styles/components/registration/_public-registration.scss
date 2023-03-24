@@ -1,7 +1,31 @@
 .public-registration {
   & &__grid {
     &__form-container {
-      padding: 3rem;
+      padding: 3rem 3rem 5rem;
+
+      &__registration {
+        &-button {
+          max-width: 30rem;
+          padding: 15px 22px;
+        }
+
+        &-text-field {
+          width: 30rem;
+        }
+      }
+
+      .email-registration-details {
+        max-width: 720px;
+
+        &__address-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .radio-group-label {
+        padding-left: 4rem;
+      }
     }
 
     &__stepper {
@@ -16,29 +40,22 @@
       }
     }
 
-    &__preview {
-      &__privacy-statement-checkbox-label {
-        margin-right: 0;
-        padding-left: 1rem;
-
-        &__link {
-          font-size: 1.6rem;
-          padding: 0 3px 0 0;
-          text-transform: lowercase;
-
-          & span {
-            margin-left: 2px;
-          }
-        }
-      }
-    }
-
-    .phone-number {
+    .half-width-on-desktop {
       max-width: calc(50% - 1rem);
 
       @include phone {
         max-width: 100%;
       }
     }
+  }
+}
+
+a.text-embed-link {
+  font-size: 1.6rem;
+  padding: 0 3px 0 0;
+  vertical-align: baseline;
+
+  & span {
+    margin-left: 2px;
   }
 }

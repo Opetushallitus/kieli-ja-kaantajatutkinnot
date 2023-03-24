@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -9,7 +9,8 @@ import { PublicIdentificationPageSkeleton } from 'components/skeletons/PublicIde
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadExamSession } from 'redux/reducers/examSession';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { loadExamSession, setActiveStep } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const IdentifyPage = () => {
@@ -22,12 +23,24 @@ export const IdentifyPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { status, examSession } = useAppSelector(examSessionSelector);
+  const { status, examSession, activeStep } =
+    useAppSelector(examSessionSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
 
   const isLoading = status === APIResponseStatus.InProgress;
+
+  useEffect(() => {
+    if (activeStep !== PublicRegistrationFormStep.Identify) {
+      dispatch(setActiveStep(PublicRegistrationFormStep.Identify));
+    }
+
+    return () => {
+      // TODO: Reset fields on unmount
+      // dispatch(resetClerkTranslatorOverview());
+    };
+  }, [dispatch, activeStep]);
 
   useEffect(() => {
     if (
@@ -59,29 +72,17 @@ export const IdentifyPage = () => {
     t,
   ]);
 
-  useEffect(() => {
-    return () => {
-      // TODO: Reset fields on unmount
-      // dispatch(resetClerkTranslatorOverview());
-    };
-  }, [dispatch]);
-
   return (
     <Box className="public-exam-details-page">
-      <Paper
-        elevation={3}
-        className="public-exam-details-page__content-container rows"
-      >
-        {isLoading ? (
-          <PublicIdentificationPageSkeleton />
-        ) : (
-          <>
-            <div className="rows gapped">
-              <PublicIdentificationGrid />
-            </div>
-          </>
-        )}
-      </Paper>
+      {isLoading ? (
+        <PublicIdentificationPageSkeleton />
+      ) : (
+        <>
+          <div className="rows gapped">
+            <PublicIdentificationGrid />
+          </div>
+        </>
+      )}
     </Box>
   );
 };

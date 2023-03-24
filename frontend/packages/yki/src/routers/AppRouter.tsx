@@ -8,6 +8,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
+import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { IdentifyPage } from 'pages/IdentifyPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
@@ -45,6 +46,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ReassessmentOrder}
                 element={<EvaluationOrderPage />}
+              />
+              <Route
+                path={AppRoutes.ReassessmentOrderStatus}
+                element={<EvaluationOrderStatusPage />}
               />
             </Routes>
           </div>

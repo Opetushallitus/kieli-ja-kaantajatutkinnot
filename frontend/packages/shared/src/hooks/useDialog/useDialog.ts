@@ -7,7 +7,8 @@ import { Dialog, DialogButtonAction } from '../../interfaces/notifier';
 interface ShowDialogProps {
   title: string;
   severity: Severity;
-  description: string;
+  description?: string;
+  content?: React.ReactNode;
   actions: Array<DialogButtonAction>;
   timeOut?: number;
   onClose?: () => void;
@@ -21,6 +22,7 @@ export const useDialog = () => {
       title,
       severity,
       description,
+      content,
       actions,
       timeOut,
       onClose,
@@ -30,6 +32,7 @@ export const useDialog = () => {
         title,
         severity,
         description,
+        content,
         actions,
         timeOut,
         onClose,

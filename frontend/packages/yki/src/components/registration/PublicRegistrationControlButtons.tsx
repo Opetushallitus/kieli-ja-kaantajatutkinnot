@@ -1,7 +1,3 @@
-import {
-  ArrowBackOutlined as ArrowBackIcon,
-  ArrowForwardOutlined as ArrowForwardIcon,
-} from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
@@ -12,7 +8,6 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
-  decreaseActiveStep,
   increaseActiveStep,
   resetPublicRegistration,
 } from 'redux/reducers/examSession';
@@ -20,11 +15,9 @@ import {
 export const PublicRegistrationControlButtons = ({
   activeStep,
   isLoading,
-  disableNext,
 }: {
   activeStep: PublicRegistrationFormStep;
   isLoading: boolean;
-  disableNext: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
@@ -58,10 +51,6 @@ export const PublicRegistrationControlButtons = ({
     });
   };
 
-  const handleBackBtnClick = () => {
-    dispatch(decreaseActiveStep());
-  };
-
   const handleSubmitBtnClick = () => {
     dispatch(increaseActiveStep());
   };
@@ -75,46 +64,32 @@ export const PublicRegistrationControlButtons = ({
         data-testid="public-registration__controlButtons__cancel"
         disabled={isLoading}
       >
-        {translateCommon('cancel')}
+        {t('cancelRegistration')}
       </CustomButton>
     </>
   );
 
-  const BackButton = () => (
-    <CustomButton
-      variant={Variant.Outlined}
-      color={Color.Secondary}
-      onClick={handleBackBtnClick}
-      data-testid="public-registration__controlButtons__back"
-      startIcon={<ArrowBackIcon />}
-      disabled={activeStep == PublicRegistrationFormStep.Register || isLoading}
-    >
-      {translateCommon('back')}
-    </CustomButton>
-  );
-
   const SubmitButton = () => (
     <CustomButton
+      className="margin-top-lg"
+      size="large"
+      sx={{ width: '30rem', padding: '15px 22px' }}
       variant={Variant.Contained}
       color={Color.Secondary}
       onClick={handleSubmitBtnClick}
       data-testid="public-registration__controlButtons__submit"
-      endIcon={<ArrowForwardIcon />}
-      disabled={disableNext || isLoading}
+      disabled={isLoading}
     >
-      {t('pay')}
+      {t('confirm')}
     </CustomButton>
   );
-
-  const renderBack = activeStep !== PublicRegistrationFormStep.Identify;
 
   const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
 
   return (
-    <div className="columns flex-end gapped margin-top-lg">
-      {CancelButton()}
-      {renderBack && BackButton()}
+    <div className="rows flex-end gapped margin-top-lg align-items-center">
       {renderSubmit && SubmitButton()}
+      {CancelButton()}
     </div>
   );
 };

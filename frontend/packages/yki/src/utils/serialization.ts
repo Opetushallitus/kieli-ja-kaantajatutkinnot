@@ -1,6 +1,12 @@
 import dayjs from 'dayjs';
+import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import {
+  EvaluationOrderRequest,
+  ExaminationParts,
+  Subtest,
+} from 'interfaces/evaluationOrder';
 import {
   EvaluationPeriod,
   EvaluationPeriodResponse,
@@ -13,6 +19,7 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
   static deserializeExamSessionResponse(
@@ -68,5 +75,50 @@ export class SerializationUtils {
     );
 
     return { evaluation_periods };
+  }
+
+  static serializeEvaluationSubtests(
+    examinationParts: ExaminationParts
+  ): Array<Subtest> {
+    const subtests: Array<Subtest> = [];
+    if (examinationParts.readingComprehension) {
+      subtests.push('READING');
+    }
+    if (examinationParts.speaking) {
+      subtests.push('SPEAKING');
+    }
+    if (examinationParts.speechComprehension) {
+      subtests.push('LISTENING');
+    }
+    if (examinationParts.writing) {
+      subtests.push('WRITING');
+    }
+
+    return subtests;
+  }
+
+  static serializeEvaluationOrder({
+    examinationParts,
+    payerDetails,
+  }: EvaluationOrderState): EvaluationOrderRequest {
+    return {
+      first_names: payerDetails.firstNames as string,
+      last_name: payerDetails.lastName as string,
+      birthdate: DateUtils.serializeDate(payerDetails.birthdate) as string,
+      email: payerDetails.email as string,
+      subtests:
+        SerializationUtils.serializeEvaluationSubtests(examinationParts),
+    };
+  }
+
+  static serializeAppLanguage(appLanguage: AppLanguage) {
+    switch (appLanguage) {
+      case AppLanguage.Finnish:
+        return 'fi';
+      case AppLanguage.Swedish:
+        return 'sv';
+      case AppLanguage.English:
+        return 'en';
+    }
   }
 }

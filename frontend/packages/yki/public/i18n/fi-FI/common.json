@@ -10,17 +10,17 @@
       "cancel": "Peruuta",
       "component": {
         "table": {
+          "header": {
+            "searchResults": "Tulokset ({{count}})",
+            "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
+            "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)",
+            "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)"
+          },
           "pagination": {
             "backButtonLabel": "Edelliset hakutulokset",
             "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
             "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
-          },
-          "header": {
-            "searchResults": "Tulokset ({{count}})",
-            "searchResultsAriaLabel_zero": "Tulokset (ei tuloksia)",
-            "searchResultsAriaLabel_one": "Tulokset (1 tulos)",
-            "searchResultsAriaLabel_other": "Tulokset ({{count}} tulosta)"
           }
         }
       },
@@ -40,17 +40,18 @@
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui."
       },
-      "examination": "Tutkinto",
       "examDate": "Tutkinnon päivämäärä",
       "examParts": {
         "readingComprehension": "Tekstin ymmärtäminen",
-        "speechComprehension": "Puheen ymmärtäminen",
         "speaking": "Puhuminen",
+        "speechComprehension": "Puheen ymmärtäminen",
         "writing": "Kirjoittaminen"
       },
       "examSession": "Tutkintotilaisuus",
+      "examination": "Tutkinto",
       "header": {
         "accessibility": {
+          "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
         },
         "lang": {
@@ -85,12 +86,15 @@
         "header": "Haluatko varmasti poistua sivulta?"
       },
       "next": "Seuraava",
+      "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
       "placesAvailable": "Paikkoja vapaana",
       "price": "Hinta",
+      "privacyStatementLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta",
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
       "registrationPeriod": "Ilmoittautumisaika",
+      "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
       "yes": "Kyllä",
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
