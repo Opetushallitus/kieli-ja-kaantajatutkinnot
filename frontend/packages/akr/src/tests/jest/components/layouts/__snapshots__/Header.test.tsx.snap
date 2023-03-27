@@ -28,7 +28,7 @@ Array [
           onClick={[Function]}
         >
           <img
-            alt="ophLogo"
+            alt="ophLogoToFrontPageAlt"
             className="header__left__logo"
             src="test"
           />

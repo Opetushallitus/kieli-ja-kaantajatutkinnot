@@ -23,7 +23,8 @@
         "header": "Är du säker på att du vill lämna den här sidan?"
       },
       "no": "Nej",
-      "ophLogo": "Utbildningsstyrelsens logo",
+      "ophLogoAlt": "Utbildningsstyrelsens logo",
+      "ophLogoToFrontPageAlt": "Utbildningsstyrelsen – Till framsidan av register över rättstolkar",
       "permissionToPublish": "Får publiceras",
       "register": "Register",
       "rowsPerPageLabel": "Resultat per sida",
