@@ -14,7 +14,8 @@ public enum APIExceptionType {
   INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM,
   INVALID_TICKET,
   INVALID_VERSION,
-  RENEW_RESERVATION_NOT_ALLOWED;
+  RENEW_RESERVATION_NOT_ALLOWED,
+  RESERVATION_PERSON_SESSION_MISMATCH;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

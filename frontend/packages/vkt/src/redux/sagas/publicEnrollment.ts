@@ -110,7 +110,7 @@ function* loadPublicEnrollmentSaveSaga(
 
     const saveUrl = reservationDetails.reservation
       ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`
-      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}&personId=${reservationDetails.person.id}`;
+      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
 
     yield call(axiosInstance.post, saveUrl, body);
 
