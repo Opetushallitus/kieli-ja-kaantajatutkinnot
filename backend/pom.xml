@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.6</version>
+    <version>2.7.10</version>
     <relativePath/>
   </parent>
   <!-- lookup parent from repository -->
@@ -30,8 +30,8 @@
 
     <plugin.prettier.goal>write</plugin.prettier.goal>
 
-    <springdoc-openapi.version>1.6.9</springdoc-openapi.version>
-    <shedlock.version>4.36.0</shedlock.version>
+    <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
+    <shedlock.version>4.44.0</shedlock.version>
     <poi.version>5.2.3</poi.version>
   </properties>
 
@@ -211,7 +211,7 @@
       <plugin>
         <groupId>com.hubspot.maven.plugins</groupId>
         <artifactId>prettier-maven-plugin</artifactId>
-        <version>0.18</version>
+        <version>0.19</version>
         <configuration>
           <prettierJavaVersion>1.5.0</prettierJavaVersion>
           <ignoreConfigFile>true</ignoreConfigFile>
