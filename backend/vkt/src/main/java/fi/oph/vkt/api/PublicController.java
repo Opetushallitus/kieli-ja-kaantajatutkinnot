@@ -11,7 +11,6 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
-import fi.oph.vkt.util.exception.NotFoundException;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -88,16 +87,11 @@ public class PublicController {
   public void createEnrollmentToQueue(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @RequestParam final long examEventId,
-    @RequestParam final long personId,
     final HttpSession session
   ) {
     final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
-    if (personId != person.getId()) {
-      throw new NotFoundException("Person not found");
-    }
-
-    publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, personId);
+    publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")

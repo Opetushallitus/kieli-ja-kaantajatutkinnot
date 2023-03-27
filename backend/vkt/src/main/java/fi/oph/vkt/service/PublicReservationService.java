@@ -77,7 +77,7 @@ public class PublicReservationService {
   }
 
   @Transactional
-  public void deleteReservation(final long reservationId, Person person) {
+  public void deleteReservation(final long reservationId, final Person person) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
     if (person.getId() != reservation.getPerson().getId()) {
