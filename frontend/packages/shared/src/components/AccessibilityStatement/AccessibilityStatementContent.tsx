@@ -43,24 +43,28 @@ export const AccessibilityStatementContent: FC<
         </div>
         <div className="rows gapped-xxs">
           <H2>{translateAccessibility('content.nonAccessible.title')}</H2>
-          <H3>{translateAccessibility('content.nonAccessible.description')}</H3>
+          <Text>
+            {translateAccessibility('content.nonAccessible.description')}
+          </Text>
         </div>
         <div className="accessibility-statement-content__caveats rows gapped-xxl">
           {caveats.map(({}, i) => (
             <div className="rows gapped-xs" key={i}>
-              <H2>{`${translateAccessibility(
+              <H3>{`${translateAccessibility(
                 `content.caveats.items.${i}.title`
-              )}`}</H2>
-              <H3>{translateAccessibility('content.caveats.description')}</H3>
+              )}`}</H3>
+              <Text>
+                {translateAccessibility('content.caveats.description')}
+              </Text>
               <Text>
                 {translateAccessibility(
                   `content.caveats.items.${i}.description`
                 )}
               </Text>
               <div>
-                <H3>
+                <Text>
                   {translateAccessibility('content.caveats.extraDescription')}
-                </H3>
+                </Text>
                 <ul>
                   <Text>
                     <li>
@@ -84,9 +88,9 @@ export const AccessibilityStatementContent: FC<
           </Text>
         </div>
         <div className="rows gapped-xxs">
-          <H2>
+          <H3>
             {translateAccessibility('content.administrativeAgency.title')}
-          </H2>
+          </H3>
           <div className="inline-text-box">
             <Text>
               {translateAccessibility(
@@ -110,11 +114,11 @@ export const AccessibilityStatementContent: FC<
           </div>
         </div>
         <div className="rows gapped-xxs">
-          <H2>
+          <H3>
             {translateAccessibility(
               'content.contactAdministrativeAgency.title'
             )}
-          </H2>
+          </H3>
           <Text>
             {translateAccessibility('content.contactAdministrativeAgency.name')}
           </Text>
@@ -152,8 +156,10 @@ export const AccessibilityStatementContent: FC<
           </Text>
         </div>
         <div className="rows gapped-xxs">
-          <H2>{translateAccessibility('content.furtherImprove.title')}</H2>
-          <H3>{translateAccessibility('content.furtherImprove.subtitle')}</H3>
+          <H3>{translateAccessibility('content.furtherImprove.title')}</H3>
+          <Text>
+            {translateAccessibility('content.furtherImprove.subtitle')}
+          </Text>
           <Text>
             {translateAccessibility('content.furtherImprove.description')}
           </Text>
