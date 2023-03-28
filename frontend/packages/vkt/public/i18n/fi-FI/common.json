@@ -42,7 +42,8 @@
       },
       "errors": {
         "api": {
-          "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto toiseen tilaisuuteen epäonnistui, koska tilaisuuden kieli ei ole sama.",
+          "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto epäonnistui, koska valitun tilaisuuden kieli ei ole sama",
+          "enrollmentMovePersonAlreadyEnrolled": "Ilmoittautumisen siirto epäonnistui, koska ko. henkilö on jo ilmoittautunut valittuun tilaisuuteen",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
           "initialiseEnrollmentDuplicatePerson": "Olet jo ilmoittautunut tähän tutkintotilaisuuteen. Et voi ilmoittautua uudelleen.",
@@ -50,7 +51,10 @@
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
-          "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
+          "invalidTicket": "Toiminto epäonnistui, CAS-tiketti ei ollut validi",
+          "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
+          "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
+          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",

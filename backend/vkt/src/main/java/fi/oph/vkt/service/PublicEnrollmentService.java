@@ -19,14 +19,13 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PublicEnrollmentService {
+public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
@@ -53,19 +52,13 @@ public class PublicEnrollmentService {
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
-    if (isPersonEnrolled(examEvent, person)) {
+    if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
-  }
-
-  private boolean isPersonEnrolled(final ExamEvent examEvent, final Person person) {
-    return enrollmentRepository
-      .findByExamEventAndIdentityNumber(examEvent.getId(), person.getIdentityNumber())
-      .isPresent();
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -122,7 +115,7 @@ public class PublicEnrollmentService {
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
-    if (isPersonEnrolled(examEvent, person)) {
+    if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
@@ -142,28 +135,20 @@ public class PublicEnrollmentService {
     enrollment.setPerson(reservation.getPerson());
     enrollment.setStatus(EnrollmentStatus.PAID);
 
-    copyDtoFieldsToEnrollment(dto, enrollment);
+    copyDtoFieldsToEnrollment(enrollment, dto);
+    if (dto.digitalCertificateConsent()) {
+      clearAddress(enrollment);
+    }
 
     enrollmentRepository.saveAndFlush(enrollment);
     reservationRepository.deleteById(reservationId);
   }
 
-  private void copyDtoFieldsToEnrollment(final PublicEnrollmentCreateDTO dto, final Enrollment enrollment) {
-    enrollment.setOralSkill(dto.oralSkill());
-    enrollment.setTextualSkill(dto.textualSkill());
-    enrollment.setUnderstandingSkill(dto.understandingSkill());
-    enrollment.setSpeakingPartialExam(dto.speakingPartialExam());
-    enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
-    enrollment.setWritingPartialExam(dto.writingPartialExam());
-    enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
-    enrollment.setPreviousEnrollment(dto.previousEnrollment());
-    enrollment.setDigitalCertificateConsent(dto.digitalCertificateConsent());
-    enrollment.setEmail(dto.email());
-    enrollment.setPhoneNumber(dto.phoneNumber());
-    enrollment.setStreet(!dto.digitalCertificateConsent() ? dto.street() : null);
-    enrollment.setPostalCode(!dto.digitalCertificateConsent() ? dto.postalCode() : null);
-    enrollment.setTown(!dto.digitalCertificateConsent() ? dto.town() : null);
-    enrollment.setCountry(!dto.digitalCertificateConsent() ? dto.country() : null);
+  private void clearAddress(final Enrollment enrollment) {
+    enrollment.setStreet(null);
+    enrollment.setPostalCode(null);
+    enrollment.setTown(null);
+    enrollment.setCountry(null);
   }
 
   @Transactional
@@ -180,7 +165,10 @@ public class PublicEnrollmentService {
     enrollment.setPerson(person);
     enrollment.setStatus(EnrollmentStatus.QUEUED);
 
-    copyDtoFieldsToEnrollment(dto, enrollment);
+    copyDtoFieldsToEnrollment(enrollment, dto);
+    if (dto.digitalCertificateConsent()) {
+      clearAddress(enrollment);
+    }
 
     enrollmentRepository.saveAndFlush(enrollment);
   }
