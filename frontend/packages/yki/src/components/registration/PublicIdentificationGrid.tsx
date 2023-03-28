@@ -19,6 +19,7 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { ExamSession } from 'interfaces/examSessions';
 import { PublicSuomiFiRegistration } from 'interfaces/publicRegistration';
 import {
   increaseActiveStep,
@@ -26,20 +27,63 @@ import {
 } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
-export const PublicIdentificationGrid = () => {
+const IdentificationWithFinnishSSN = () => {
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const examSession = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.steps.identify',
+  });
+
+  return (
+    <>
+      <Text>
+        <Trans t={t} i18nKey={'withFinnishSSN'} />
+      </Text>
+      <CustomButton
+        className="public-registration__grid__form-container__registration-button"
+        size="large"
+        variant={Variant.Contained}
+        color={Color.Secondary}
+        onClick={() => {
+          // TODO: init authentication for suomi.fi
+          dispatch(increaseActiveStep());
+          navigate(
+            AppRoutes.ExamSessionRegistration.replace(
+              /:examSessionId$/,
+              `${examSession.id}`
+            )
+          );
+        }}
+        data-testid="public-registration__identify-button"
+        disabled={false}
+      >
+        {t('suomiFiButtonText')}
+      </CustomButton>
+    </>
+  );
+};
+
+const IdentificationWithoutFinnishSSN = () => {
+  const dispatch = useAppDispatch();
+
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.steps.identify',
+  });
+
   const [email, setEmail] = useState('');
   const [fieldErrors, setFieldErrors] = useState({
     email: '',
   });
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration',
-  });
-  const translateCommon = useCommonTranslation();
-
-  const navigate = useNavigate();
-
-  const { activeStep, examSession } = useAppSelector(examSessionSelector);
-  const dispatch = useAppDispatch();
+  const showCustomTextFieldError = (
+    fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>
+  ) => {
+    return fieldErrors[fieldName].length > 0;
+  };
 
   const handleErrors =
     (fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>) =>
@@ -59,7 +103,6 @@ export const PublicIdentificationGrid = () => {
         [fieldName]: fieldErrorMessage,
       });
     };
-
   const handleChange =
     (fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>) =>
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -70,11 +113,56 @@ export const PublicIdentificationGrid = () => {
       setEmail(event.target.value);
     };
 
-  const showCustomTextFieldError = (
-    fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>
-  ) => {
-    return fieldErrors[fieldName].length > 0;
-  };
+  return (
+    <>
+      <Text>
+        <Trans t={t} i18nKey={'withoutFinnishSSN'} />
+      </Text>
+      <div className="columns gapped align-items-start">
+        <CustomTextField
+          className="public-registration__grid__form-container__registration-text-field"
+          error={showCustomTextFieldError('email')}
+          placeholder={t('emailPlacehodler')}
+          variant={Variant.Outlined}
+          type={TextFieldTypes.Email}
+          value={email}
+          onChange={handleChange('email')}
+          onBlur={handleErrors('email')}
+          helperText={fieldErrors['email']}
+        ></CustomTextField>
+        <CustomButton
+          size="large"
+          className="public-registration__grid__form-container__registration-button"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          onClick={() => {
+            dispatch(setIsEmailRegistration(true));
+            dispatch(increaseActiveStep());
+            /*
+          navigate(
+            AppRoutes.ExamSessionRegistration.replace(
+              /:examSessionId$/,
+              `${examSession.id}`
+            )
+          );
+          */
+          }}
+          data-testid="public-registration__identify-button"
+          disabled={false}
+        >
+          {t('emailButtonText')}
+        </CustomButton>
+      </div>
+    </>
+  );
+};
+
+export const PublicIdentificationGrid = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration',
+  });
+
+  const { activeStep, examSession } = useAppSelector(examSessionSelector);
 
   if (!examSession) {
     return null;
@@ -112,65 +200,8 @@ export const PublicIdentificationGrid = () => {
 
                 <div className="gapped rows">
                   <H2>{t('steps.identify.title')}</H2>
-                  <Text>
-                    <Trans t={t} i18nKey={'steps.identify.withFinnishSSN'} />
-                  </Text>
-                  <CustomButton
-                    className="public-registration__grid__form-container__registration-button"
-                    size="large"
-                    variant={Variant.Contained}
-                    color={Color.Secondary}
-                    onClick={() => {
-                      // TODO: init authentication for suomi.fi
-                      dispatch(increaseActiveStep());
-                      navigate(
-                        AppRoutes.ExamSessionRegistration.replace(
-                          /:examSessionId$/,
-                          `${examSession.id}`
-                        )
-                      );
-                    }}
-                    data-testid="public-registration__identify-button"
-                    disabled={false}
-                  >
-                    {t('steps.identify.suomiFiButtonText')}
-                  </CustomButton>
-                  <Text>
-                    <Trans t={t} i18nKey={'steps.identify.withoutFinnishSSN'} />
-                  </Text>
-                  <div className="columns gapped align-items-start">
-                    <CustomTextField
-                      className="public-registration__grid__form-container__registration-text-field"
-                      error={showCustomTextFieldError('email')}
-                      placeholder={t('steps.identify.emailPlacehodler')}
-                      variant={Variant.Outlined}
-                      type={TextFieldTypes.Email}
-                      value={email}
-                      onChange={handleChange('email')}
-                      onBlur={handleErrors('email')}
-                      helperText={fieldErrors['email']}
-                    ></CustomTextField>
-                    <CustomButton
-                      size="large"
-                      className="public-registration__grid__form-container__registration-button"
-                      variant={Variant.Contained}
-                      color={Color.Secondary}
-                      onClick={() => {
-                        dispatch(setIsEmailRegistration(true));
-                        dispatch(increaseActiveStep());
-                        navigate(
-                          AppRoutes.ExamSessionRegistration.replace(
-                            /:examSessionId$/,
-                            `${examSession.id}`
-                          )
-                        );
-                      }}
-                      data-testid="public-registration__identify-button"
-                      disabled={false}
-                    >
-                      {t('steps.identify.emailButtonText')}
-                    </CustomButton>
-                  </div>
+                  <IdentificationWithFinnishSSN />
+                  <IdentificationWithoutFinnishSSN />
                   <div className="columns margin-top-lg justify-content-center">
                     <PublicRegistrationControlButtons
                       activeStep={activeStep}
