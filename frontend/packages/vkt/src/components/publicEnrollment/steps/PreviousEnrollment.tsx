@@ -22,7 +22,7 @@ interface PreviousEnrollmentField {
   previousEnrollment?: string;
 }
 
-enum HasPrevious {
+enum PreviouslyEnrolled {
   Yes = 'yes',
   No = 'no',
 }
@@ -95,7 +95,7 @@ export const PreviousEnrollment = ({
   const handleRadioButtonChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const hasPreviousEnrollment = event.target.value == HasPrevious.Yes;
+    const hasPreviousEnrollment = event.target.value === PreviouslyEnrolled.Yes;
     const previousEnrollment = '';
 
     dispatch(
@@ -140,14 +140,16 @@ export const PreviousEnrollment = ({
         <RadioGroup
           name="has-previous-enrollment-group"
           value={
-            enrollment.hasPreviousEnrollment ? HasPrevious.Yes : HasPrevious.No
+            enrollment.hasPreviousEnrollment
+              ? PreviouslyEnrolled.Yes
+              : PreviouslyEnrolled.No
           }
           onChange={handleRadioButtonChange}
         >
           <div className="columns">
             <FormControlLabel
               disabled={editingDisabled}
-              value={HasPrevious.Yes}
+              value={PreviouslyEnrolled.Yes}
               control={
                 <Radio aria-describedby="has-previous-enrollment-error" />
               }
@@ -156,7 +158,7 @@ export const PreviousEnrollment = ({
             />
             <FormControlLabel
               disabled={editingDisabled}
-              value={HasPrevious.No}
+              value={PreviouslyEnrolled.No}
               control={
                 <Radio aria-describedby="has-previous-enrollment-error" />
               }
