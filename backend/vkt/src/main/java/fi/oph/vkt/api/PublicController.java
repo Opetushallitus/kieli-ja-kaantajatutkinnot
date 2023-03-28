@@ -1,5 +1,6 @@
 package fi.oph.vkt.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
@@ -56,16 +57,16 @@ public class PublicController {
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollment(@PathVariable final long examEventId) {
-    final Person person = publicAuthService.authenticate();
+  public PublicEnrollmentInitialisationDTO initialiseEnrollment(@PathVariable final long examEventId, final HttpSession session) {
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     return publicEnrollmentService.initialiseEnrollment(examEventId, person);
   }
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId) {
-    final Person person = publicAuthService.authenticate();
+  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId, final HttpSession session) {
+    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
   }
@@ -109,7 +110,7 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public Person validateTicket(@PathVariable final String ticket, final HttpSession session) {
+  public Person validateTicket(@PathVariable final String ticket, final HttpSession session) throws JsonProcessingException {
     final Person person = publicAuthService.validate(ticket);
 
     session.setAttribute(PERSON_ID_SESSION_KEY, person.getId());

@@ -21,22 +21,6 @@ public class PublicAuthService {
 
   private final CasTicketValidationService casTicketValidationService;
 
-  // TODO: authenticate person with information received from suomi.fi authentication service
-  @Transactional
-  public Person authenticate() {
-    final Random random = new Random();
-    final List<String> identityNumbers = List.of(
-      "200714-982U",
-      "010934-984D",
-      "210110-9320",
-      "230182-980D",
-      "130421-9046"
-    );
-    final String identityNumber = identityNumbers.get(random.nextInt(identityNumbers.size()));
-
-    return personRepository.findByIdentityNumber(identityNumber).orElseGet(() -> createPerson(identityNumber));
-  }
-
   private Person createPerson(final String identityNumber, final String firstNames, final String lastNames) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
