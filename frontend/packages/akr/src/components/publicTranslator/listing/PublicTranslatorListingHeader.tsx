@@ -9,7 +9,7 @@ export const PublicTranslatorListingHeader = () => {
   const { isPhone } = useWindowProperties();
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
           <TableCell padding="checkbox"></TableCell>

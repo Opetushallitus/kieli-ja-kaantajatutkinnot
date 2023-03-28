@@ -10,7 +10,7 @@ export const PublicInterpreterListingHeader = () => {
   const { isPhone } = useWindowProperties();
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
           <TableCell>{t('name')}</TableCell>

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.8.2] - 2023-03-28
+
+### Added
+
+- heading-text class added
+
 ## [1.8.1] - 2023-03-02
 
 ### Fixed

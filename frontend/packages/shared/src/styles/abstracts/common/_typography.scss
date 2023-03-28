@@ -9,6 +9,11 @@
   display: inline-block;
 }
 
+.heading-text, thead.heading-text th {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
 .inline-text-box {
   &#{&} {
     & > * {

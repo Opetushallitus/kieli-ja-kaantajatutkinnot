@@ -30,7 +30,7 @@ export const PublicExamEventListingHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
           <TableCell padding="checkbox"></TableCell>
