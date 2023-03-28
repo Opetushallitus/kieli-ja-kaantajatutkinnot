@@ -18,7 +18,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
-import { useDebounce, useDialog } from 'shared/hooks';
+import { useDebounce, useDialog, useToast } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
@@ -163,10 +163,20 @@ const IdentificationWithoutFinnishSSN = () => {
 };
 
 const IdentificationSelection = () => {
+  const { showToast } = useToast();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
   const { emailLinkOrder } = useAppSelector(publicIdentificationSelector);
+
+  useEffect(() => {
+    if (emailLinkOrder.status === APIResponseStatus.Error) {
+      showToast({
+        severity: Severity.Error,
+        description: t('emailLink.error'),
+      });
+    }
+  }, [emailLinkOrder.status, showToast, t]);
 
   if (emailLinkOrder.status === APIResponseStatus.Success) {
     return (

@@ -170,6 +170,7 @@
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
             "emailLink": {
+              "error": "Kirjautumislinkin tilaaminen epäonnistui. Voit yrittää uudestaan.",
               "incorrectEmailDialog": {
                 "title": "Pyyntö epäonnistui",
                 "description": "Tarkista sähköpostiosoite."
