@@ -1,4 +1,4 @@
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -9,7 +9,8 @@ import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDe
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { loadExamSession } from 'redux/reducers/examSession';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { loadExamSession, setActiveStep } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const ExamDetailsPage = () => {
@@ -22,12 +23,24 @@ export const ExamDetailsPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { status, examSession } = useAppSelector(examSessionSelector);
+  const { status, examSession, activeStep } =
+    useAppSelector(examSessionSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();
 
   const isLoading = status === APIResponseStatus.InProgress;
+
+  useEffect(() => {
+    if (activeStep !== PublicRegistrationFormStep.Register) {
+      dispatch(setActiveStep(PublicRegistrationFormStep.Register));
+    }
+
+    return () => {
+      // TODO: Reset fields on unmount
+      // dispatch(resetClerkTranslatorOverview());
+    };
+  }, [dispatch, activeStep]);
 
   useEffect(() => {
     if (
@@ -61,20 +74,15 @@ export const ExamDetailsPage = () => {
 
   return (
     <Box className="public-exam-details-page">
-      <Paper
-        elevation={3}
-        className="public-exam-details-page__content-container rows"
-      >
-        {isLoading ? (
-          <PublicExamDetailsPageSkeleton />
-        ) : (
-          <>
-            <div className="rows gapped">
-              <PublicRegistrationGrid />
-            </div>
-          </>
-        )}
-      </Paper>
+      {isLoading ? (
+        <PublicExamDetailsPageSkeleton />
+      ) : (
+        <>
+          <div className="rows gapped">
+            <PublicRegistrationGrid />
+          </div>
+        </>
+      )}
     </Box>
   );
 };

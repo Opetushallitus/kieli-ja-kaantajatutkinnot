@@ -40,7 +40,12 @@ export const DialogBox = () => {
         >
           <DialogTitle>{activeDialog.title}</DialogTitle>
           <DialogContent>
-            <Text>{activeDialog.description}</Text>
+            <>
+              {activeDialog.content}
+              {activeDialog.description ? (
+                <Text>{activeDialog.description}</Text>
+              ) : null}
+            </>
           </DialogContent>
           <DialogActions>
             {activeDialog.actions?.map((a, i) => (

@@ -7,6 +7,7 @@ export enum AppRoutes {
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
   Reassessment = '/yki/tarkistusarviointi',
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
+  ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   NotFoundPage = '*',
   PrivacyPolicyPage = '/yki/tietosuojaseloste',
@@ -39,4 +40,15 @@ export enum CertificateLanguage {
   FI = 'fi',
   SV = 'sv',
   EN = 'en',
+}
+
+export enum RadioButtonValue {
+  YES = 'radioButtonYes',
+  NO = 'radioButtonNo',
+}
+
+export enum GenderEnum {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
 }

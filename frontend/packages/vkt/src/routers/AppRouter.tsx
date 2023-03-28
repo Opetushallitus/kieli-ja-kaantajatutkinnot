@@ -1,6 +1,7 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Notifier } from 'shared/components';
+import { TitlePage } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -11,17 +12,18 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PublicAuthPage } from 'pages/PublicAuthPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
-import { PublicIdentifyPage } from 'pages/PublicIdentifyPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
+  const appTitle = translateCommon('appTitle');
 
-  useEffect(() => {
-    document.title = translateCommon('appTitle');
-  }, [translateCommon]);
   useAPIErrorToast();
+
+  const createTitle = (title: string) =>
+    translateCommon('pageTitle.' + title) + ' - ' + appTitle;
 
   return (
     <BrowserRouter>
@@ -33,31 +35,59 @@ export const AppRouter: FC = () => {
             <Routes>
               <Route
                 path={AppRoutes.PublicHomePage}
-                element={<PublicHomePage />}
+                element={
+                  <TitlePage title={createTitle('frontPage')}>
+                    <PublicHomePage />
+                  </TitlePage>
+                }
               />
               <Route
-                path={AppRoutes.PublicIdentify}
-                element={<PublicIdentifyPage />}
+                path={AppRoutes.PublicAuth}
+                element={
+                  <TitlePage title={createTitle('authenticate')}>
+                    <PublicAuthPage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.PublicEnrollment}
-                element={<PublicEnrollmentPage />}
+                element={
+                  <TitlePage title={createTitle('enrollment')}>
+                    <PublicEnrollmentPage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.ClerkHomePage}
-                element={<ClerkHomePage />}
+                element={
+                  <TitlePage title={createTitle('clerkHomepage')}>
+                    <ClerkHomePage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.ClerkExamEventOverviewPage}
-                element={<ClerkExamEventOverviewPage />}
+                element={
+                  <TitlePage title={createTitle('clerkExamOverview')}>
+                    <ClerkExamEventOverviewPage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.ClerkExamEventCreatePage}
-                element={<ClerkExamEventCreatePage />}
+                element={
+                  <TitlePage title={createTitle('clerkExamEventCreate')}>
+                    <ClerkExamEventCreatePage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.ClerkEnrollmentOverviewPage}
-                element={<ClerkEnrollmentOverviewPage />}
+                element={
+                  <TitlePage title={createTitle('bar')}>
+                    <ClerkEnrollmentOverviewPage />
+                  </TitlePage>
+                }
               />
             </Routes>
           </div>

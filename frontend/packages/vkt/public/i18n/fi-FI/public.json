@@ -39,20 +39,20 @@
           "pay": "Siirry maksamaan",
           "sendForm": "Lähetä lomake"
         },
-        "expirationTimer": {
-          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
-          "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
-          "continueEnrollment": "Jatka ilmoittautumista",
-          "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\".",
-          "cancelReservation": "Peruuta ilmoittautuminen",
-          "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
-          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
-          "reservationExpiredContinue": "Jatka etusivulle"
-        },
         "examEventDetails": {
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
+        },
+        "expirationTimer": {
+          "cancelReservation": "Peruuta ilmoittautuminen",
+          "continueEnrollment": "Jatka ilmoittautumista",
+          "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
+          "reservationExpiredContinue": "Jatka etusivulle",
+          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
+          "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
         },
         "paymentSum": {
           "title": "Tutkintomaksu"
@@ -62,15 +62,19 @@
           "completed": "Suoritettu",
           "phase": "Vaihe",
           "step": {
+            "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
-            "Identify": "Tunnistaudu",
             "Payment": "Siirry maksamaan",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           }
         },
         "steps": {
+          "authenticate": {
+            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
+            "title": "Tunnistaudu ilmoittautumista varten"
+          },
           "done": {
             "description": {
               "part1": "Sinulle lähetetään vahvistus osoitteeseen",
@@ -88,10 +92,6 @@
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
             "title": "Yhteystiedot"
-          },
-          "identify": {
-            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
-            "title": "Tunnistaudu ilmoittautumista varten"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",

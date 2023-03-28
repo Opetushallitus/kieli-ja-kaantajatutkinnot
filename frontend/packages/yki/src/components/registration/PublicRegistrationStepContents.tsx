@@ -1,6 +1,6 @@
 import { Done } from 'components/registration/steps/Done';
-import { EmailRegistrationFillContactDetails } from 'components/registration/steps/EmailRegistrationFillContactDetails';
-import { FillContactDetails } from 'components/registration/steps/FillContactDetails';
+import { EmailRegistration } from 'components/registration/steps/EmailRegistration';
+import { SuomiFiRegistration } from 'components/registration/steps/SuomiFiRegistration';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicEmailRegistration,
@@ -12,13 +12,11 @@ export const PublicRegistrationStepContents = ({
   registration,
   isLoading,
   isEmailRegistration,
-  disableNext,
 }: {
   activeStep: PublicRegistrationFormStep;
   registration: PublicEmailRegistration | PublicSuomiFiRegistration;
   isLoading: boolean;
   isEmailRegistration?: boolean;
-  disableNext: (disabled: boolean) => void;
 }) => {
   switch (activeStep) {
     case PublicRegistrationFormStep.Identify:
@@ -26,19 +24,17 @@ export const PublicRegistrationStepContents = ({
     case PublicRegistrationFormStep.Register:
       if (isEmailRegistration) {
         return (
-          <EmailRegistrationFillContactDetails
+          <EmailRegistration
             registration={registration as PublicEmailRegistration}
             isLoading={isLoading}
-            disableNext={disableNext}
           />
         );
       }
 
       return (
-        <FillContactDetails
+        <SuomiFiRegistration
           registration={registration as PublicSuomiFiRegistration}
           isLoading={isLoading}
-          disableNext={disableNext}
         />
       );
     case PublicRegistrationFormStep.Done:

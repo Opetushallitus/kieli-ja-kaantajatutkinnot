@@ -1,34 +1,29 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Namespace, TFunction } from 'react-i18next';
-import { CustomTextField, H3, Text } from 'shared/components';
-import { AppLanguage, Color, TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils, StringUtils } from 'shared/utils';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Checkbox, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { ChangeEvent, useState } from 'react';
+import { CustomTextField, ExtLink, H2, Text } from 'shared/components';
+import { Color, TextFieldTypes } from 'shared/enums';
+import { InputFieldUtils } from 'shared/utils';
 
-import { PrivacyStatementCheckboxLabel } from 'components/registration/PrivacyStatementCheckboxLabel';
 import { PersonDetails } from 'components/registration/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { CertificateLanguage } from 'enums/app';
 import {
   PublicSuomiFiRegistration,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/examSession';
 
-export const FillContactDetails = ({
+export const SuomiFiRegistration = ({
   registration,
   isLoading,
-  disableNext,
 }: {
   registration: PublicSuomiFiRegistration;
   isLoading: boolean;
-  disableNext: (disabled: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.register',
-  });
-  const { t: tPerson } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.personDetails',
+    keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
 
@@ -47,19 +42,6 @@ export const FillContactDetails = ({
   });
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const hasFieldErrors = !!(fieldErrors.email || fieldErrors.phoneNumber);
-
-    const hasBlankFieldValues = [
-      registration.email,
-      registration.phoneNumber,
-    ].some(StringUtils.isBlankString);
-    const mismatchingEmails =
-      registration.email !== registration.emailConfirmation;
-
-    disableNext(hasFieldErrors || hasBlankFieldValues || mismatchingEmails);
-  }, [fieldErrors, disableNext, registration]);
 
   const handleCheckboxClick = (
     fieldName: keyof RegistrationCheckboxDetails
@@ -117,36 +99,41 @@ export const FillContactDetails = ({
     return fieldErrors[fieldName].length > 0;
   };
 
-  const getCustomTextFieldAttributes =
-    (translate: TFunction<Namespace<AppLanguage>, string>) =>
-    (fieldName: keyof PublicSuomiFiRegistration) => {
-      return {
-        id: `public-registration__contact-details__${fieldName}-field`,
-        label: translate(fieldName),
-        onBlur: handleErrors(fieldName),
-        onChange: handleChange(fieldName),
-        error: showCustomTextFieldError(fieldName),
-        helperText: fieldErrors[fieldName],
-        required: true,
-        disabled: isLoading || ['firstNames', 'lastName'].includes(fieldName),
-      };
+  const getCustomTextFieldAttributes = (
+    fieldName: keyof PublicSuomiFiRegistration
+  ) => {
+    return {
+      id: `public-registration__contact-details__${fieldName}-field`,
+      label: t(fieldName),
+      onBlur: handleErrors(fieldName),
+      onChange: handleChange(fieldName),
+      error: showCustomTextFieldError(fieldName),
+      helperText: fieldErrors[fieldName],
+      required: true,
+      disabled: isLoading || ['firstNames', 'lastName'].includes(fieldName),
     };
+  };
 
   return (
     <div className="margin-top-xxl rows gapped">
-      <PersonDetails
-        getCustomTextFieldAttributes={getCustomTextFieldAttributes(tPerson)}
-      />
-      <div className="margin-top-sm rows gapped">
-        <H3>{t('title')}</H3>
+      <H2>{t('title')}</H2>
+      <Text>
+        {t('description1')}
+        <br />
+        {t('description2')}
+      </Text>
+      <div className="email-registration-details rows gapped margin-top-sm">
+        <PersonDetails
+          getCustomTextFieldAttributes={getCustomTextFieldAttributes}
+        />
         <div className="grid-columns gapped">
           <CustomTextField
-            {...getCustomTextFieldAttributes(t)('email')}
+            {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={registration.email}
           />
           <CustomTextField
-            {...getCustomTextFieldAttributes(t)('emailConfirmation')}
+            {...getCustomTextFieldAttributes('emailConfirmation')}
             type={TextFieldTypes.Email}
             value={registration.emailConfirmation}
             onPaste={(e) => {
@@ -156,17 +143,61 @@ export const FillContactDetails = ({
             }}
           />
         </div>
+        <CustomTextField
+          className="half-width-on-desktop"
+          {...getCustomTextFieldAttributes('phoneNumber')}
+          value={registration.phoneNumber}
+          type={TextFieldTypes.PhoneNumber}
+        />
       </div>
-      <CustomTextField
-        {...getCustomTextFieldAttributes(t)('phoneNumber')}
-        className="phone-number"
-        value={registration.phoneNumber}
-        type={TextFieldTypes.PhoneNumber}
-      />
+      <div>
+        <Text>
+          <b>{t('certificateLanguage')}</b>
+        </Text>
+        <RadioGroup row onChange={handleChange('certificateLanguage')}>
+          <FormControlLabel
+            className="radio-group-label"
+            value={CertificateLanguage.FI}
+            control={<Radio />}
+            label={translateCommon('languages.fin')}
+          />
+          <FormControlLabel
+            className="radio-group-label"
+            value={CertificateLanguage.SV}
+            control={<Radio />}
+            label={translateCommon('languages.swe')}
+          />
+          <FormControlLabel
+            className="radio-group-label"
+            value={CertificateLanguage.EN}
+            control={<Radio />}
+            label={translateCommon('languages.eng')}
+          />
+        </RadioGroup>
+      </div>
+
+      <H2>{t('whatsNext.title')}</H2>
+      <Text>{t('whatsNext.description1')}</Text>
       <Text>
-        <b>{t('termsAndConditions.title')}</b>
+        {t('whatsNext.description2')}
+        <br />
+        {t('whatsNext.description3')}:
+        <br />
+        <ExtLink
+          className="text-embed-link text-transform-none"
+          href={'endpoint'}
+          text={t('whatsNext.linkLabel')}
+          endIcon={<OpenInNewIcon />}
+        />
       </Text>
-      <Text>{t('termsAndConditions.description')}</Text>
+      <H2>{t('termsAndConditions.title')}</H2>
+      <Text>
+        <b>{t('termsAndConditions.description1')}</b>
+        <br />
+        <b>{t('termsAndConditions.description2')}</b>
+        <br />
+        {t('termsAndConditions.description3')}
+      </Text>
       <FormControlLabel
         control={
           <Checkbox
@@ -179,6 +210,16 @@ export const FillContactDetails = ({
         label={t('termsAndConditions.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
+      <Text>
+        {t('privacyStatement.description')}:
+        <br />
+        <ExtLink
+          className="text-embed-link text-transform-none"
+          href={'endpoint'}
+          text={t('privacyStatement.linkLabel')}
+          endIcon={<OpenInNewIcon />}
+        />
+      </Text>
       <FormControlLabel
         control={
           <Checkbox
@@ -188,7 +229,7 @@ export const FillContactDetails = ({
             disabled={isLoading}
           />
         }
-        label={<PrivacyStatementCheckboxLabel />}
+        label={t('privacyStatement.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
     </div>
