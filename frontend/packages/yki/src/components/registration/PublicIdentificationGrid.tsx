@@ -1,5 +1,6 @@
+import DoneIcon from '@mui/icons-material/Done';
 import { Grid, Paper } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import {
@@ -10,7 +11,14 @@ import {
   HeaderSeparator,
   Text,
 } from 'shared/components';
-import { Color, TextFieldTypes, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Severity,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
+import { useDebounce, useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
@@ -20,12 +28,10 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
-import { PublicSuomiFiRegistration } from 'interfaces/publicRegistration';
-import {
-  increaseActiveStep,
-  setIsEmailRegistration,
-} from 'redux/reducers/examSession';
+import { increaseActiveStep } from 'redux/reducers/examSession';
+import { sendEmailLinkOrder } from 'redux/reducers/publicIdentification';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
 
 const IdentificationWithFinnishSSN = () => {
   const navigate = useNavigate();
@@ -69,49 +75,60 @@ const IdentificationWithFinnishSSN = () => {
 
 const IdentificationWithoutFinnishSSN = () => {
   const dispatch = useAppDispatch();
+  const examSession = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
 
+  const { showDialog } = useDialog();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
 
   const [email, setEmail] = useState('');
-  const [fieldErrors, setFieldErrors] = useState({
-    email: '',
-  });
-  const showCustomTextFieldError = (
-    fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>
-  ) => {
-    return fieldErrors[fieldName].length > 0;
-  };
+  const [error, setError] = useState('');
+  const [showError, setShowError] = useState(false);
 
-  const handleErrors =
-    (fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { type, value, required } = event.target;
+  const debounce = useDebounce(300);
 
-      const error = InputFieldUtils.inspectCustomTextFieldErrors(
-        type as TextFieldTypes,
-        value,
-        required
-      );
+  const validateEmail = useCallback(
+    (email: string) => {
+      const error = InputFieldUtils.validateCustomTextFieldErrors({
+        type: TextFieldTypes.Email,
+        value: email,
+        required: true,
+      });
 
       const fieldErrorMessage = error ? translateCommon(error) : '';
 
-      setFieldErrors({
-        ...fieldErrors,
-        [fieldName]: fieldErrorMessage,
-      });
-    };
-  const handleChange =
-    (fieldName: keyof Pick<PublicSuomiFiRegistration, 'email'>) =>
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (fieldErrors[fieldName]) {
-        handleErrors(fieldName)(event);
-      }
+      setError(fieldErrorMessage);
+    },
+    [translateCommon]
+  );
 
-      setEmail(event.target.value);
-    };
+  useEffect(() => {
+    debounce(() => validateEmail(email));
+  }, [debounce, email, validateEmail]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const onSubmit = () => {
+    validateEmail(email);
+    setShowError(true);
+    if (!error) {
+      dispatch(sendEmailLinkOrder({ examSessionId: examSession.id, email }));
+    } else {
+      showDialog({
+        title: t('emailLink.incorrectEmailDialog.title'),
+        description: t('emailLink.incorrectEmailDialog.description'),
+        severity: Severity.Error,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    }
+  };
 
   return (
     <>
@@ -121,32 +138,20 @@ const IdentificationWithoutFinnishSSN = () => {
       <div className="columns gapped align-items-start">
         <CustomTextField
           className="public-registration__grid__form-container__registration-text-field"
-          error={showCustomTextFieldError('email')}
-          placeholder={t('emailPlacehodler')}
+          error={showError && !!error}
+          placeholder={t('emailPlaceholder')}
           variant={Variant.Outlined}
           type={TextFieldTypes.Email}
           value={email}
-          onChange={handleChange('email')}
-          onBlur={handleErrors('email')}
-          helperText={fieldErrors['email']}
+          onChange={handleChange}
+          helperText={error}
         ></CustomTextField>
         <CustomButton
           size="large"
           className="public-registration__grid__form-container__registration-button"
           variant={Variant.Contained}
           color={Color.Secondary}
-          onClick={() => {
-            dispatch(setIsEmailRegistration(true));
-            dispatch(increaseActiveStep());
-            /*
-          navigate(
-            AppRoutes.ExamSessionRegistration.replace(
-              /:examSessionId$/,
-              `${examSession.id}`
-            )
-          );
-          */
-          }}
+          onClick={onSubmit}
           data-testid="public-registration__identify-button"
           disabled={false}
         >
@@ -155,6 +160,32 @@ const IdentificationWithoutFinnishSSN = () => {
       </div>
     </>
   );
+};
+
+const IdentificationSelection = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.steps.identify',
+  });
+  const { emailLinkOrder } = useAppSelector(publicIdentificationSelector);
+
+  if (emailLinkOrder.status === APIResponseStatus.Success) {
+    return (
+      <div className="columns gapped public-registration--email-link-order__success">
+        <DoneIcon fontSize="large" />
+        <Text>
+          {t('emailLink.success')} <strong>{emailLinkOrder.email}</strong>
+        </Text>
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <H2>{t('title')}</H2>
+        <IdentificationWithFinnishSSN />
+        <IdentificationWithoutFinnishSSN />
+      </>
+    );
+  }
 };
 
 export const PublicIdentificationGrid = () => {
@@ -186,22 +217,17 @@ export const PublicIdentificationGrid = () => {
                   examSession={examSession}
                   showOpenings={true}
                 />
-                <Text>
-                  {t('steps.identify.instructionDescription')}
-                  <ul>
-                    <li>
-                      <Text>{t('steps.identify.instructions.location')}</Text>
-                    </li>
-                    <li>
-                      <Text>{t('steps.identify.instructions.time')}</Text>
-                    </li>
-                  </ul>
-                </Text>
-
+                <Text>{t('steps.identify.instructionDescription')}</Text>
+                <ul>
+                  <Text>
+                    <li>{t('steps.identify.instructions.location')}</li>
+                  </Text>
+                  <Text>
+                    <li>{t('steps.identify.instructions.time')}</li>
+                  </Text>
+                </ul>
                 <div className="gapped rows">
-                  <H2>{t('steps.identify.title')}</H2>
-                  <IdentificationWithFinnishSSN />
-                  <IdentificationWithoutFinnishSSN />
+                  <IdentificationSelection />
                   <div className="columns margin-top-lg justify-content-center">
                     <PublicRegistrationControlButtons
                       activeStep={activeStep}

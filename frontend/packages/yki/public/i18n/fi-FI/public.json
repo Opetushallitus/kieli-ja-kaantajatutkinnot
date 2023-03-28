@@ -169,7 +169,14 @@
           "identify": {
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
-            "emailPlacehodler": "Syötä sähköpostiosoitteesi",
+            "emailLink": {
+              "incorrectEmailDialog": {
+                "title": "Pyyntö epäonnistui",
+                "description": "Tarkista sähköpostiosoite."
+              },
+              "success": "Kirjautumislinkki on lähetetty osoitteeseen:"
+            },
+            "emailPlaceholder": "Syötä sähköpostiosoitteesi",
             "instructionDescription": "Testipaikkasi lähettää myöhemmin sähköpostiisi tarkemmat ohjeet testiin saapumista varten. He kertovat muun muassa",
             "instructions": {
               "location": "testipaikan tarkan sijannin",
