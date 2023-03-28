@@ -146,7 +146,7 @@ export const PreviousEnrollment = ({
           }
           onChange={handleRadioButtonChange}
         >
-          <div className="columns">
+          <div className="columns margin-top-sm">
             <FormControlLabel
               disabled={editingDisabled}
               value={PreviouslyEnrolled.Yes}
@@ -155,6 +155,7 @@ export const PreviousEnrollment = ({
               }
               label={translateCommon('yes')}
               checked={enrollment.hasPreviousEnrollment}
+              className="public-enrollment__grid__previous-enrollment__selection-label"
             />
             <FormControlLabel
               disabled={editingDisabled}
@@ -164,6 +165,7 @@ export const PreviousEnrollment = ({
               }
               label={translateCommon('no')}
               checked={enrollment.hasPreviousEnrollment === false}
+              className="public-enrollment__grid__previous-enrollment__selection-label"
             />
           </div>
         </RadioGroup>
