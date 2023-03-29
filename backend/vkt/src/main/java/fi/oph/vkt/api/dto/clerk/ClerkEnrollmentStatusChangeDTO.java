@@ -1,7 +1,7 @@
 package fi.oph.vkt.api.dto.clerk;
 
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 

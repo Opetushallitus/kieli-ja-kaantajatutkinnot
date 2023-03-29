@@ -53,12 +53,11 @@ public class WebSecurityConfigDev {
       LOG.warn("Web security is OFF");
       return WebSecurityConfig
         .configCsrf(http)
-        .authorizeHttpRequests()
-        .mvcMatchers("/", "/**")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
+        .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/", "/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated())
         .build();
     }
     return WebSecurityConfig

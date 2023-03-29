@@ -5,7 +5,7 @@ import fi.vm.sade.javautils.http.HttpServletRequestUtils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.ietf.jgss.GSSException;
 import org.ietf.jgss.Oid;
 import org.springframework.security.core.Authentication;
@@ -36,9 +36,11 @@ public class AuditUtil {
   }
 
   private static InetAddress getInetAddress(final HttpServletRequest request) {
-    final String remoteAddress = HttpServletRequestUtils.getRemoteAddress(request);
+    // FIXME: update HttpServletRequestUtils to use Jakarta instead of javax
+    // final String remoteAddress = HttpServletRequestUtils.getRemoteAddress(request);
     try {
-      return InetAddress.getByName(remoteAddress);
+      // return InetAddress.getByName(remoteAddress);
+      return InetAddress.getByName("localhost");
     } catch (UnknownHostException e) {
       throw new RuntimeException(e);
     }

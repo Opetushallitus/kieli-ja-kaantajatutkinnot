@@ -4,11 +4,11 @@ import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.config.CustomAccessDeniedHandler;
 import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
-import org.jasig.cas.client.session.HashMapBackedSessionMappingStorage;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.session.SingleSignOutFilter;
-import org.jasig.cas.client.validation.Cas20ProxyTicketValidator;
-import org.jasig.cas.client.validation.TicketValidator;
+import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.session.SingleSignOutFilter;
+import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
+import org.apereo.cas.client.validation.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -143,14 +143,10 @@ public class WebSecurityConfig {
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests()
-      .mvcMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
-      .hasRole(Constants.APP_ROLE)
-      .mvcMatchers("/", "/**")
-      .permitAll()
-      .anyRequest()
-      .authenticated()
-      .and();
+      .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
+            .hasRole(Constants.APP_ROLE)
+            .anyRequest().authenticated());
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {

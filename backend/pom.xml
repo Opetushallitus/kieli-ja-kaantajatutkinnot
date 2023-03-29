@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.10</version>
+    <version>3.1.0-M2</version>
     <relativePath/>
   </parent>
   <!-- lookup parent from repository -->
@@ -47,6 +47,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-cas</artifactId>
+      <version>6.1.0-M2</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -138,6 +143,16 @@
     </dependency>
     <!-- CAS -->
     <dependency>
+      <groupId>org.jasig.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>3.6.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apereo.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>4.0.1</version>
+    </dependency>
+    <dependency>
       <groupId>fi.vm.sade.java-utils</groupId>
       <artifactId>opintopolku-cas-servlet-filter</artifactId>
       <version>0.1.2-SNAPSHOT</version>
@@ -192,6 +207,11 @@
       <artifactId>poi-ooxml</artifactId>
       <version>${poi.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -199,6 +219,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.1.0-M2</version>
         <configuration>
           <excludes>
             <exclude>
@@ -259,19 +280,14 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-        <configuration>
-          <offline>true</offline>
-          <failOnNoGitDirectory>false</failOnNoGitDirectory>
-          <dotGitDirectory>${project.basedir}../../.git</dotGitDirectory>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
   <repositories>
+    <repository>
+      <id>spring-milestones</id>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
     <repository>
       <id>oph-sade-artifactory-snapshots</id>
       <url>https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local</url>
@@ -293,5 +309,15 @@
       </snapshots>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-snapshots</id>
+      <url>https://repo.spring.io/snapshot</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <url>https://repo.spring.io/milestone</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>

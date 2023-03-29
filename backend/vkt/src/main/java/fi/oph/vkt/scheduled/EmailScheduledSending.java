@@ -4,7 +4,7 @@ import fi.oph.vkt.repository.EmailRepository;
 import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.util.SchedulingUtil;
 import java.util.List;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
