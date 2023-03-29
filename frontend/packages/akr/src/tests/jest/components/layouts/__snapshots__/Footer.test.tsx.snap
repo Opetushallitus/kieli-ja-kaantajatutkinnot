@@ -109,7 +109,7 @@ exports[`Footer should render Footer correctly 1`] = `
           className="footer__container__links__contact"
         >
           <h2
-            className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-h2 heading-text css-1sra7t5-MuiTypography-root"
           >
             links.contact.title
             :
@@ -141,7 +141,7 @@ exports[`Footer should render Footer correctly 1`] = `
         className="footer__container footer__container__contact-details"
       >
         <h2
-          className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-h2 heading-text css-1sra7t5-MuiTypography-root"
         >
           address.name
         </h2>
