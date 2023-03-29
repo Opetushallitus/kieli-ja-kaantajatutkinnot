@@ -3,11 +3,11 @@ package fi.oph.vkt.repository;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
+import jakarta.persistence.Tuple;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

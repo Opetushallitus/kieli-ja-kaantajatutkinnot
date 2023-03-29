@@ -143,10 +143,13 @@ public class WebSecurityConfig {
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
-            .hasRole(Constants.APP_ROLE)
-            .anyRequest().authenticated());
+      .authorizeHttpRequests(authorize ->
+        authorize
+          .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
+          .hasRole(Constants.APP_ROLE)
+          .anyRequest()
+          .authenticated()
+      );
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
