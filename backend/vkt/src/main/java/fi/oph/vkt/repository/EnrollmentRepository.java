@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnrollmentRepository extends BaseRepository<Enrollment> {
   @Query(
-    value = "SELECT * FROM enrollment e" +
+    value = "SELECT e.*, p.person_id FROM enrollment e" +
     " JOIN person p USING (person_id)" +
     " WHERE e.exam_event_id = :examEventId AND p.identity_number = :identityNumber" +
     " LIMIT 1",
