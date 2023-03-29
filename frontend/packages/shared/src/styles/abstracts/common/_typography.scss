@@ -9,6 +9,14 @@
   display: inline-block;
 }
 
+.heading-text,
+thead.heading-text th,
+h2.heading-text,
+h3.heading-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
 .inline-text-box {
   &#{&} {
     & > * {

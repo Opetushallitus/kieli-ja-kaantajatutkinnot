@@ -84,7 +84,7 @@ export const PublicTranslatorListing = ({
             </div>
           </div>
           <ManagedPaginatedTable
-            className="translator-listing"
+            className="public-translator-listing"
             data={translators}
             header={<PublicTranslatorListingHeader />}
             getRowDetails={getRowDetails}

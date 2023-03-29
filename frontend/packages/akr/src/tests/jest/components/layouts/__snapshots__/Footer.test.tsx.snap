@@ -108,12 +108,12 @@ exports[`Footer should render Footer correctly 1`] = `
         <div
           className="footer__container__links__contact"
         >
-          <h3
-            className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+          <h2
+            className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
           >
             links.contact.title
             :
-          </h3>
+          </h2>
           <a
             className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit footer__container__links__contact__email css-1y942vo-MuiButtonBase-root-MuiButton-root"
             href="mailto:contactEmail"
@@ -140,11 +140,11 @@ exports[`Footer should render Footer correctly 1`] = `
       <div
         className="footer__container footer__container__contact-details"
       >
-        <h3
-          className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
+        <h2
+          className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
         >
           address.name
-        </h3>
+        </h2>
         <br />
         <p
           className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"

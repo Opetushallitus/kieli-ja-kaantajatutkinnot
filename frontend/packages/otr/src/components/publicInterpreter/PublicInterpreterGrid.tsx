@@ -42,9 +42,9 @@ export const PublicInterpreterGrid = () => {
             />
           ) : (
             <>
-              <H1 className="public-homepage__filters__heading-title">
+              <H2 className="public-homepage__filters__heading-title">
                 {t('filters.title')}
-              </H1>
+              </H2>
               <Alert
                 className="public-homepage__filters__heading-description"
                 severity={Severity.Info}
