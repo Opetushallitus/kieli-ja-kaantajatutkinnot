@@ -7,6 +7,7 @@ import { CustomTextField, CustomTextFieldProps } from '../../components';
 interface DatePickerProps {
   value: Dayjs | null;
   setValue: (value: Dayjs | null) => void;
+  placeholder?: string;
   label?: string;
   disabled?: boolean;
   minDate?: Dayjs;
@@ -27,6 +28,7 @@ export const CustomDatePicker = ({
   error,
   helperText,
   showHelperText,
+  placeholder,
 }: CustomDatePickerProps): JSX.Element => {
   const MIN_DATE = '1980-01-01';
   const MAX_DATE = '2050-01-01';
@@ -49,6 +51,7 @@ export const CustomDatePicker = ({
         disabled={disabled}
         minDate={minDate ?? dayjs(MIN_DATE)}
         maxDate={maxDate ?? dayjs(MAX_DATE)}
+        toolbarPlaceholder={placeholder}
         renderInput={(params) => {
           const textFieldParams = {
             ...params,

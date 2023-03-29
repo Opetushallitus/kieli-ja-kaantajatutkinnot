@@ -2,7 +2,7 @@
   "vkt": {
     "common": {
       "appNameAbbreviation": "VKT",
-      "appTitle": "Valtionhallinnon kielitutkinnot | Opetushallitus",
+      "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
       "cancel": "Peruuta",
       "cancelUpdateDialog": {
@@ -45,21 +45,21 @@
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto toiseen tilaisuuteen epäonnistui, koska tilaisuuden kieli ei ole sama.",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
           "generic": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "initialiseEnrollmentDuplicatePerson": "Olet jo ilmoittautunut tähän tutkintotilaisuuteen. Et voi ilmoittautua uudelleen.",
           "initialiseEnrollmentHasCongestion": "Tutkintotilaisuus on ruuhkautunut",
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
-          "initialiseEnrollmentDuplicatePerson": "Olet jo ilmoittautunut tähän tutkintotilaisuuteen. Et voi ilmoittautua uudelleen.",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen."
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
           "minLength": "Teksti on liian lyhyt",
+          "numberFormat": "Arvo on virheellinen",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "required": "Tieto on pakollinen",
-          "telFormat": "Puhelinnumero on virheellinen",
-          "numberFormat": "Arvo on virheellinen"
+          "telFormat": "Puhelinnumero on virheellinen"
         },
         "loadingFailed": "Tietojen lataus epäonnistui, yritä myöhemmin uudelleen."
       },
@@ -95,6 +95,14 @@
       "next": "Seuraava",
       "no": "Ei",
       "ophLogo": "Opetushallituksen logo",
+      "pageTitle": {
+        "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
+        "clerkExamOverview": "Virkailija tutkintosivu",
+        "clerkHomepage": "Virkailija",
+        "enrollment": "Ilmoittautuminen",
+        "frontPage": "Etusivu"
+      },
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {

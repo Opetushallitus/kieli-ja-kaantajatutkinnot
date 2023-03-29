@@ -9,7 +9,10 @@
   display: inline-block;
 }
 
-.heading-text, thead.heading-text th {
+.heading-text,
+thead.heading-text th,
+h2.heading-text,
+h3.heading-text {
   font-size: 1.6rem;
   font-weight: 700;
 }
@@ -31,6 +34,25 @@
 .bold {
   &#{&} {
     font-weight: bold !important;
+  }
+}
+
+/* Text transform */
+.lowercase {
+  &#{&} {
+    text-transform: lowercase;
+  }
+}
+
+.capitalize {
+  &#{&} {
+    text-transform: capitalize;
+  }
+}
+
+.text-transform-none {
+  &#{&} {
+    text-transform: none;
   }
 }
 

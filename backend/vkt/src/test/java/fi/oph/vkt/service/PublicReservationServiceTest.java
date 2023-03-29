@@ -55,10 +55,30 @@ public class PublicReservationServiceTest {
 
     final LocalDateTime expires = reservation.getExpiresAt();
 
-    publicReservationService.renewReservation(reservation.getId());
+    publicReservationService.renewReservation(reservation.getId(), person);
 
     assertEquals(1, reservationRepository.count());
     assertNotEquals(expires, reservation.getExpiresAt());
+  }
+
+  @Test
+  public void testRenewReservationWrongPerson() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person1);
+    entityManager.persist(examEvent);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(reservation);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> {
+        publicReservationService.renewReservation(reservation.getId(), person2);
+      }
+    );
+    assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
   }
 
   @Test
@@ -73,8 +93,8 @@ public class PublicReservationServiceTest {
     final APIException ex = assertThrows(
       APIException.class,
       () -> {
-        publicReservationService.renewReservation(reservation.getId());
-        publicReservationService.renewReservation(reservation.getId());
+        publicReservationService.renewReservation(reservation.getId(), person);
+        publicReservationService.renewReservation(reservation.getId(), person);
       }
     );
     assertEquals(APIExceptionType.RENEW_RESERVATION_NOT_ALLOWED, ex.getExceptionType());
@@ -91,7 +111,7 @@ public class PublicReservationServiceTest {
 
     assertThrows(
       EntityNotFoundException.class,
-      () -> publicReservationService.renewReservation(reservation.getId() + 1)
+      () -> publicReservationService.renewReservation(reservation.getId() + 1, person)
     );
   }
 
@@ -104,9 +124,29 @@ public class PublicReservationServiceTest {
     entityManager.persist(person);
     entityManager.persist(reservation);
 
-    publicReservationService.deleteReservation(reservation.getId());
+    publicReservationService.deleteReservation(reservation.getId(), person);
 
     assertEquals(0, reservationRepository.count());
+  }
+
+  @Test
+  public void testDeleteReservationWrongPerson() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person1);
+    entityManager.persist(examEvent);
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(reservation);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> {
+        publicReservationService.deleteReservation(reservation.getId(), person2);
+      }
+    );
+    assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
   }
 
   @Test
@@ -118,7 +158,10 @@ public class PublicReservationServiceTest {
     entityManager.persist(person);
     entityManager.persist(reservation);
 
-    assertThrows(NotFoundException.class, () -> publicReservationService.deleteReservation(reservation.getId() + 1));
+    assertThrows(
+      EntityNotFoundException.class,
+      () -> publicReservationService.deleteReservation(reservation.getId() + 1, person)
+    );
 
     assertEquals(List.of(reservation), reservationRepository.findAll());
   }

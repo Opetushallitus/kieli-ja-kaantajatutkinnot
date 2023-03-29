@@ -80,8 +80,7 @@
     }
 
     & a,
-    & > a > button,
-    & h2 {
+    & > a > button {
       color: $color-secondary-dark;
       font-size: 1.6rem;
       font-weight: 700;

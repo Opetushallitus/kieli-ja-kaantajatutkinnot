@@ -1,14 +1,9 @@
-import { H2, HeaderSeparator, Text } from 'shared/components';
+import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
-import {
-  getCurrentLang,
-  useCommonTranslation,
-  usePublicTranslation,
-} from 'configs/i18n';
+import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
 import { ExamUtils } from 'utils/exam';
-import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
@@ -20,40 +15,46 @@ export const PublicRegistrationExamSessionDetails = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
   });
-  const translateCommon = useCommonTranslation();
-  const header = ExamSessionUtils.languageAndLevelText(
-    examSession.language_code,
-    examSession.level_code,
-    translateCommon
-  );
+  const header = ExamUtils.languageAndLevelText(examSession);
 
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (
-    <div className="margin-top-xxl rows">
-      <div className="rows gapped-xs">
-        <H2>{header}</H2>
-        <HeaderSeparator />
-      </div>
+    <div className="rows">
       <div className="rows-gapped-xxs">
-        <Text>{`${t('address')}: ${location.name}, ${
-          location.street_address
-        }, ${location.post_office}`}</Text>
-        <Text>{`${t('examDate')}: ${DateUtils.formatOptionalDate(
-          examSession.session_date
-        )}`}</Text>
-        <Text>{`${t('registrationCloses')}: ${DateUtils.formatOptionalDate(
-          examSession.registration_end_date
-        )}`}</Text>
+        <Text>
+          {`${t('exam')}: `}
+          <b>{header}</b>
+        </Text>
+        <Text>
+          {`${t('registrationTime')}: `}
+          <b>{`${DateUtils.formatOptionalDate(
+            examSession.registration_end_date
+          )} - ${DateUtils.formatOptionalDate(
+            examSession.registration_start_date
+          )}`}</b>
+        </Text>
+        <Text>
+          {`${t('address')}: `}
+          <b>{`${location.name}, ${location.street_address}, ${location.post_office}`}</b>
+        </Text>
+        <Text>
+          {`${t('examFee')}: `}
+          <b>{`${examSession.exam_fee} €`}</b>
+        </Text>
+
         {showOpenings && (
-          <Text>{`${t('openings')}: ${
-            examSession.participants
-              ? Math.max(
-                  examSession.max_participants - examSession.participants,
-                  0
-                )
-              : examSession.max_participants
-          }`}</Text>
+          <Text>
+            {`${t('openings')}: `}
+            <b>{`${
+              examSession.participants
+                ? Math.max(
+                    examSession.max_participants - examSession.participants,
+                    0
+                  )
+                : examSession.max_participants
+            }`}</b>
+          </Text>
         )}
       </div>
     </div>

@@ -10,17 +10,19 @@ export interface DialogButtonAction {
 
 export interface Notifier {
   severity: `${Severity}`;
-  description: string;
   timeOut?: number;
   onClose?: () => void;
 }
 
 export interface Toast extends Notifier {
   type: NotifierTypes.Toast;
+  description: string;
 }
 
 export interface Dialog extends Notifier {
   type: NotifierTypes.Dialog;
   title: string;
+  description?: string;
+  content?: React.ReactNode;
   actions?: Array<DialogButtonAction>;
 }

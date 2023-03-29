@@ -29,7 +29,7 @@ export const Footer = () => {
   const { isAuthenticated } = useAuthentication();
   const showFooter =
     !isAuthenticated &&
-    ![AppRoutes.PublicEnrollment, AppRoutes.PublicIdentify].includes(
+    ![AppRoutes.PublicEnrollment, AppRoutes.PublicAuth].includes(
       location.pathname as AppRoutes
     );
 
@@ -64,7 +64,7 @@ export const Footer = () => {
                   aria-label={translateCommon('vktHomepage.ariaLabel')}
                 />
                 <div className="footer__container__links__contact">
-                  <H2>{t('links.contact.title')}:</H2>
+                  <H2 className="heading-text">{t('links.contact.title')}:</H2>
                   <ExtLink
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
@@ -73,7 +73,7 @@ export const Footer = () => {
                 </div>
               </div>
               <div className="footer__container footer__container__contact-details">
-                <H2>{t('address.name')}</H2>
+                <H2 className="heading-text">{t('address.name')}</H2>
                 <br />
                 <Text>{t('address.street')}</Text>
                 <Text>{t('address.zipCity')}</Text>

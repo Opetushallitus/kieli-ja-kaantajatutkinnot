@@ -162,6 +162,15 @@ export const theme = createTheme({
         },
       },
     },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: colorTextPrimary,
+          fontWeight: fontWeightBold,
+          textDecoration: 'underline',
+        },
+      },
+    },
   },
   palette: {
     error: {

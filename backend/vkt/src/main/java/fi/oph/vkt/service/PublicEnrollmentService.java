@@ -130,8 +130,12 @@ public class PublicEnrollmentService {
   }
 
   @Transactional
-  public void createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId) {
+  public void createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+
+    if (person.getId() != reservation.getPerson().getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
 
     final Enrollment enrollment = new Enrollment();
     enrollment.setExamEvent(reservation.getExamEvent());

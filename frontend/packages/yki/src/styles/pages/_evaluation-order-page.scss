@@ -1,0 +1,86 @@
+.public-evaluation-order-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__item-header {
+      @include phone {
+        margin-top: 2rem;
+        padding: 2rem 2rem 0;
+      }
+    }
+
+    div &__item-info {
+      @include phone {
+        padding-top: 1rem;
+      }
+    }
+
+    div &__result-box {
+      padding: 3rem;
+
+      @include phone {
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  & &__order-form {
+    display: grid;
+    gap: 2rem;
+    padding: 2.5rem;
+
+    &__payer-details-grid {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+      max-width: max(700px, 50%);
+    }
+
+    &__action-buttons {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  & &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2.5rem;
+
+    @include phone {
+      @include phone-divider-border-top;
+      @include phone-divider-border-bottom;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
+    }
+
+    &__section {
+      &__heading-title {
+        margin-bottom: 1rem;
+      }
+    }
+
+    &__heading-description {
+      background-color: $color-blue-200;
+      color: $color-text-primary;
+      position: relative;
+
+      &::after {
+        border-right: 3rem solid transparent;
+        border-top: 1.5rem solid $color-blue-200;
+        bottom: -1.5rem;
+        content: ' ';
+        left: 3rem;
+        position: absolute;
+      }
+
+      & svg {
+        color: $color-secondary;
+      }
+    }
+  }
+}
