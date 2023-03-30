@@ -35,13 +35,11 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
             APIEndpoints.InitRegistration,
             JSON.stringify({ exam_session_id: action.payload })
           );
-    const { user, is_strongly_identified } = response.data;
-    if (is_strongly_identified) {
-      yield put(acceptPublicSuomiFiRegistrationInit(user));
+    const { data } = response;
+    if (data.is_strongly_identified) {
+      yield put(acceptPublicSuomiFiRegistrationInit(data));
     } else {
-      yield put(
-        acceptPublicEmailRegistrationInit({ email: response.data.user.email })
-      );
+      yield put(acceptPublicEmailRegistrationInit(data));
     }
   } catch (error) {
     yield put(rejectPublicRegistration());

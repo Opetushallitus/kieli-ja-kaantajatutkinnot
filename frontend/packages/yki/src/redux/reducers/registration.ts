@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { ExamSession } from 'interfaces/examSessions';
 import {
   PublicEmailRegistration,
+  PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 
@@ -11,32 +12,20 @@ interface RegistrationState {
   status: APIResponseStatus;
   isEmailRegistration?: boolean;
   // TODO Perhaps optional instead?
-  registration: PublicSuomiFiRegistration | PublicEmailRegistration;
+  registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   examSession?: ExamSession;
 }
 
 const initialState: RegistrationState = {
   status: APIResponseStatus.NotStarted,
-  registration: {
-    firstNames: 'Test',
-    lastName: 'Tester',
-    address: '',
-    postNumber: '',
-    postOffice: '',
-    email: '',
-    emailConfirmation: '',
-    phoneNumber: '',
-    privacyStatementConfirmation: false,
-    certificateLanguage: '',
-    termsAndConditionsAgreed: false,
-  },
+  registration: {},
 };
 
 const registrationSlice = createSlice({
   name: 'registrationState',
   initialState,
   reducers: {
-    initRegistration(state, _examSessionId: PayloadAction<number>) {
+    initRegistration(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
     rejectPublicRegistration(state) {
@@ -47,19 +36,30 @@ const registrationSlice = createSlice({
     },
     acceptPublicEmailRegistrationInit(
       state,
-      action: PayloadAction<Partial<PublicEmailRegistration>>
+      action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.isEmailRegistration = true;
       state.status = APIResponseStatus.Success;
-      state.registration.email = action.payload.email as string;
+      state.examSession = action.payload.exam_session;
+      state.isEmailRegistration = true;
+      state.registration = {
+        id: action.payload.registration_id,
+        email: action.payload.user.email,
+      };
     },
     acceptPublicSuomiFiRegistrationInit(
       state,
-      action: PayloadAction<Partial<PublicSuomiFiRegistration>>
+      action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.isEmailRegistration = false;
       state.status = APIResponseStatus.Success;
-      state.registration = { ...state.registration, ...action.payload };
+      state.isEmailRegistration = false;
+      const { registration_id: id, user } = action.payload;
+      state.registration = {
+        id,
+        firstNames: user.first_name,
+        lastName: user.last_name,
+        hasSSN: true,
+        ssn: user.ssn,
+      };
     },
     updatePublicRegistration(
       state,

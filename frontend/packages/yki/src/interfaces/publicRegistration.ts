@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { WithId } from 'shared/interfaces';
 
 import { CertificateLanguage, GenderEnum } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
@@ -10,6 +11,7 @@ export interface PersonFillOutDetails {
   postNumber: string;
   postOffice: string;
   certificateLanguage: CertificateLanguage | '';
+  phoneNumber: string;
 }
 
 export interface RegistrationCheckboxDetails {
@@ -19,10 +21,10 @@ export interface RegistrationCheckboxDetails {
 
 export interface PublicSuomiFiRegistration
   extends PersonFillOutDetails,
-    RegistrationCheckboxDetails {
+    RegistrationCheckboxDetails,
+    WithId {
   email: string;
   emailConfirmation: string;
-  phoneNumber: string;
 }
 
 export interface PublicEmailRegistration
