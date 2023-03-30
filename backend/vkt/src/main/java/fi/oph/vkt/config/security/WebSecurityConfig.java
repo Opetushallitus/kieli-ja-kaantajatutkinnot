@@ -148,7 +148,8 @@ public class WebSecurityConfig {
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
           .hasRole(Constants.APP_ROLE)
           // TODO: Maybe allow only specific url's instead of all?
-          .anyRequest().permitAll()
+          .anyRequest()
+          .permitAll()
       );
   }
 
