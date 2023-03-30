@@ -9,7 +9,7 @@ import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
-import { resetPublicRegistration } from 'redux/reducers/examSession';
+import { resetPublicRegistration } from 'redux/reducers/registration';
 
 export const Done = ({
   registration,

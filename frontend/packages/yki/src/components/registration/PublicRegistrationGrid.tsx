@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { useEffect } from 'react';
 import {
   H1,
   HeaderSeparator,
@@ -11,14 +12,33 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { initRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationGrid = () => {
-  const { status, activeStep, examSession, registration, isEmailRegistration } =
-    useAppSelector(examSessionSelector);
+  const {
+    status: examSessionStatus,
+    activeStep,
+    examSession,
+  } = useAppSelector(examSessionSelector);
+
+  const {
+    isEmailRegistration,
+    registration,
+    status: registrationStatus,
+  } = useAppSelector(registrationSelector);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (examSession && registrationStatus === APIResponseStatus.NotStarted) {
+      dispatch(initRegistration(examSession.id));
+    }
+  }, [dispatch, examSession, registrationStatus]);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
@@ -28,7 +48,7 @@ export const PublicRegistrationGrid = () => {
   // intentionally chooses to cancel the registration and navigate back
   useNavigationProtection(false);
 
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isLoading = examSessionStatus === APIResponseStatus.InProgress;
   const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
 
   if (!examSession) {

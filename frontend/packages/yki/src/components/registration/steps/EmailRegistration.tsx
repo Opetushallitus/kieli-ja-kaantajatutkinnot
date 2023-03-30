@@ -19,7 +19,7 @@ import {
   PublicEmailRegistration,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
-import { updatePublicRegistration } from 'redux/reducers/examSession';
+import { updatePublicRegistration } from 'redux/reducers/registration';
 
 export const EmailRegistration = ({
   registration,
@@ -224,23 +224,6 @@ export const EmailRegistration = ({
         </RadioGroup>
       </div>
 
-      <H2>{t('whatsNext.title')}</H2>
-      <Text>{t('whatsNext.description1')}</Text>
-      <Text>
-        {t('whatsNext.description2')}
-        <br />
-        {t('whatsNext.description3')}:
-        <br />
-        <div className="columns gapped-xxs">
-          <Link
-            href={translateCommon('specialArrangementsLink')}
-            target="_blank"
-          >
-            {t('whatsNext.linkLabel')}
-          </Link>
-          <OpenInNewIcon />
-        </div>
-      </Text>
       <H2>{t('termsAndConditions.title')}</H2>
       <Text>
         <b>{t('termsAndConditions.description1')}</b>
@@ -261,16 +244,15 @@ export const EmailRegistration = ({
         label={t('termsAndConditions.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
-      <Text>
-        {t('privacyStatement.description')}:
-        <br />
+      <div>
+        <Text>{t('privacyStatement.description')}:</Text>
         <div className="columns gapped-xxs">
           <Link href={translateCommon('privacyStatementLink')} target="_blank">
-            {t('privacyStatement.linkLabel')}
+            <Text>{t('privacyStatement.linkLabel')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
-      </Text>
+      </div>
       <FormControlLabel
         control={
           <Checkbox
@@ -283,6 +265,23 @@ export const EmailRegistration = ({
         label={t('privacyStatement.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
+      <H2>{t('whatsNext.title')}</H2>
+      <Text>{t('whatsNext.description1')}</Text>
+      <Text>
+        {t('whatsNext.description2')}
+        <br />
+        {t('whatsNext.description3')}:
+        <br />
+        <div className="columns gapped-xxs">
+          <Link
+            href={translateCommon('specialArrangementsLink')}
+            target="_blank"
+          >
+            {t('whatsNext.linkLabel')}
+          </Link>
+          <OpenInNewIcon />
+        </div>
+      </Text>
     </div>
   );
 };

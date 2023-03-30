@@ -13,7 +13,7 @@ import {
   PublicSuomiFiRegistration,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
-import { updatePublicRegistration } from 'redux/reducers/examSession';
+import { updatePublicRegistration } from 'redux/reducers/registration';
 
 export const SuomiFiRegistration = ({
   registration,

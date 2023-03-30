@@ -7,10 +7,8 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import {
-  increaseActiveStep,
-  resetPublicRegistration,
-} from 'redux/reducers/examSession';
+import { increaseActiveStep } from 'redux/reducers/examSession';
+import { resetPublicRegistration } from 'redux/reducers/registration';
 
 export const PublicRegistrationControlButtons = ({
   activeStep,
@@ -29,11 +27,11 @@ export const PublicRegistrationControlButtons = ({
 
   const { showDialog } = useDialog();
 
-  const handleCancelBtnClick = () => {
+  const handleAbortBtnClick = () => {
     showDialog({
-      title: t('cancelDialog.title'),
+      title: t('abortDialog.title'),
       severity: Severity.Info,
-      description: t('cancelDialog.description'),
+      description: t('abortDialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -55,16 +53,16 @@ export const PublicRegistrationControlButtons = ({
     dispatch(increaseActiveStep());
   };
 
-  const CancelButton = () => (
+  const AbortButton = () => (
     <>
       <CustomButton
         variant={Variant.Text}
         color={Color.Secondary}
-        onClick={handleCancelBtnClick}
-        data-testid="public-registration__controlButtons__cancel"
+        onClick={handleAbortBtnClick}
+        data-testid="public-registration__controlButtons__abort"
         disabled={isLoading}
       >
-        {t('cancelRegistration')}
+        {t('abortRegistration')}
       </CustomButton>
     </>
   );
@@ -89,7 +87,7 @@ export const PublicRegistrationControlButtons = ({
   return (
     <div className="rows flex-end gapped margin-top-lg align-items-center">
       {renderSubmit && SubmitButton()}
-      {CancelButton()}
+      {AbortButton()}
     </div>
   );
 };

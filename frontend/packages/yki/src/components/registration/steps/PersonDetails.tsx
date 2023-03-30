@@ -2,7 +2,7 @@ import { CustomTextField, CustomTextFieldProps } from 'shared/components';
 
 import { useAppSelector } from 'configs/redux';
 import { PersonFillOutDetails } from 'interfaces/publicRegistration';
-import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const PersonDetails = ({
   getCustomTextFieldAttributes,
@@ -11,7 +11,7 @@ export const PersonDetails = ({
     fieldName: keyof PersonFillOutDetails
   ) => CustomTextFieldProps;
 }) => {
-  const { registration } = useAppSelector(examSessionSelector);
+  const { registration } = useAppSelector(registrationSelector);
 
   return (
     <>
