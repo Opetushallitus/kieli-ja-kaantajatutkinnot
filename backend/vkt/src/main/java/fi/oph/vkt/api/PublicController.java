@@ -57,7 +57,10 @@ public class PublicController {
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollment(@PathVariable final long examEventId, final HttpSession session) {
+  public PublicEnrollmentInitialisationDTO initialiseEnrollment(
+    @PathVariable final long examEventId,
+    final HttpSession session
+  ) {
     final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     return publicEnrollmentService.initialiseEnrollment(examEventId, person);
@@ -65,7 +68,10 @@ public class PublicController {
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId, final HttpSession session) {
+  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(
+    @PathVariable final long examEventId,
+    final HttpSession session
+  ) {
     final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
 
     return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
@@ -110,7 +116,8 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public Person validateTicket(@PathVariable final String ticket, final HttpSession session) throws JsonProcessingException {
+  public Person validateTicket(@PathVariable final String ticket, final HttpSession session)
+    throws JsonProcessingException {
     final Person person = publicAuthService.validate(ticket);
 
     session.setAttribute(PERSON_ID_SESSION_KEY, person.getId());

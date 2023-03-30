@@ -50,8 +50,10 @@ const publicExamEventSlice = createSlice({
         !state.selectedExamEvent ||
         state.selectedExamEvent.id !== action.payload.id
       ) {
+        sessionStorage.setItem('examEvent', JSON.stringify(action.payload));
         state.selectedExamEvent = action.payload;
       } else {
+        sessionStorage.removeItem('examEvent');
         state.selectedExamEvent = undefined;
       }
     },
