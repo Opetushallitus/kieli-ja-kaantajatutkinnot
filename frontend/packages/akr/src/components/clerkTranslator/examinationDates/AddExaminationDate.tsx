@@ -1,11 +1,11 @@
 import AddIcon from '@mui/icons-material/Add';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Typography } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import {
   CustomButton,
   CustomDatePicker,
-  H3,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
@@ -74,7 +74,9 @@ export const AddExaminationDate = () => {
   return (
     <div className="columns gapped">
       <div className="rows gapped flex-grow-3">
-        <H3>{t('header')}</H3>
+        <Typography component="h2" variant="h3">
+          {t('header')}
+        </Typography>
         <div className="columns gapped">
           <CustomDatePicker
             value={value}

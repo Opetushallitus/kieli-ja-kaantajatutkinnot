@@ -1,5 +1,4 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { H3 } from 'shared/components';
 
 import { useClerkTranslation } from 'configs/i18n';
 
@@ -9,23 +8,13 @@ export const ClerkExamEventListingHeader = () => {
   });
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       <TableRow>
-        <TableCell>
-          <H3>{t('language')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('examDate')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('registrationCloses')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('fillings')}</H3>
-        </TableCell>
-        <TableCell>
-          <H3>{t('hidden')}</H3>
-        </TableCell>
+        <TableCell>{t('language')}</TableCell>
+        <TableCell>{t('examDate')}</TableCell>
+        <TableCell>{t('registrationCloses')}</TableCell>
+        <TableCell>{t('fillings')}</TableCell>
+        <TableCell>{t('hidden')}</TableCell>
       </TableRow>
     </TableHead>
   );

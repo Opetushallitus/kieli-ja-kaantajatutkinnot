@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "actions": "Toiminnot",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
       "buttons": {
