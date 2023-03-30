@@ -64,8 +64,6 @@ const IdentificationWithFinnishSSN = () => {
             )
           );
         }}
-        data-testid="public-registration__identify-button"
-        disabled={false}
       >
         {t('suomiFiButtonText')}
       </CustomButton>
@@ -109,7 +107,7 @@ const IdentificationWithoutFinnishSSN = () => {
     debounce(() => validateEmail(email));
   }, [debounce, email, validateEmail]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
@@ -143,7 +141,7 @@ const IdentificationWithoutFinnishSSN = () => {
           variant={Variant.Outlined}
           type={TextFieldTypes.Email}
           value={email}
-          onChange={handleChange}
+          onChange={handleEmailChange}
           helperText={error}
         ></CustomTextField>
         <CustomButton
@@ -152,8 +150,6 @@ const IdentificationWithoutFinnishSSN = () => {
           variant={Variant.Contained}
           color={Color.Secondary}
           onClick={onSubmit}
-          data-testid="public-registration__identify-button"
-          disabled={false}
         >
           {t('emailButtonText')}
         </CustomButton>

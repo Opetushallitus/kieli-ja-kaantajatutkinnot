@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 export interface EmailLinkOrder {
-  email?: string;
-  examSessionId?: number;
+  email: string;
+  examSessionId: number;
 }
 
 interface EmailLinkOrderState extends Partial<EmailLinkOrder> {
