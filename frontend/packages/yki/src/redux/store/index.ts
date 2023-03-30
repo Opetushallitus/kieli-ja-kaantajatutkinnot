@@ -6,6 +6,7 @@ import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
 import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
 import { examSessionReducer } from 'redux/reducers/examSession';
 import { examSessionsReducer } from 'redux/reducers/examSessions';
+import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -17,6 +18,7 @@ const store = configureStore({
     evaluationPeriods: evaluationPeriodsReducer,
     examSessions: examSessionsReducer,
     examSession: examSessionReducer,
+    publicIdentification: publicIdentificationReducer,
   },
   middleware: [saga],
 });

@@ -48,6 +48,12 @@
       }
     }
   }
+
+  &--email-link-order__success {
+    svg {
+      color: $color-green-600;
+    }
+  }
 }
 
 a.text-embed-link {

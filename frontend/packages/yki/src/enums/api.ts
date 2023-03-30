@@ -4,4 +4,5 @@ export enum APIEndpoints {
   Evaluations = '/yki/api/evaluation',
   Evaluation = '/yki/api/evaluation/:evaluationId',
   EvaluationOrder = '/yki/api/evaluation/:evaluationId/order',
+  LoginLink = '/yki/api/login-link',
 }

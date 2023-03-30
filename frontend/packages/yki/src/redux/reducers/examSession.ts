@@ -82,9 +82,11 @@ const examSessionSlice = createSlice({
     resetPublicRegistration() {
       return initialState;
     },
+    /*
     setIsEmailRegistration(state, action: PayloadAction<boolean>) {
       state.isEmailRegistration = action.payload;
     },
+    */
   },
 });
 
@@ -97,5 +99,4 @@ export const {
   increaseActiveStep,
   updatePublicRegistration,
   resetPublicRegistration,
-  setIsEmailRegistration,
 } = examSessionSlice.actions;
