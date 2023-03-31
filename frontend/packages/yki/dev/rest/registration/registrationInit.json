@@ -55,5 +55,6 @@
     ],
     "email": null
   },
-  "registration_id": 1
+  "registration_id": 1,
+  "is_strongly_identified": true
 }

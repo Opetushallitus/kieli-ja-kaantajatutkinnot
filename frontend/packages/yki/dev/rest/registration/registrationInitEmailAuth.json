@@ -42,5 +42,6 @@
   "user": {
     "email": "test@test.com"
   },
-  "registration_id": 2
+  "registration_id": 2,
+  "is_strongly_identified": false
 }
