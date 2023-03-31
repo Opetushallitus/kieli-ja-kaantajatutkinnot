@@ -1,6 +1,5 @@
 package fi.oph.vkt.util;
 
-import fi.vm.sade.java_utils.security.OpintopolkuServiceAuthenticationDetailsSource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
