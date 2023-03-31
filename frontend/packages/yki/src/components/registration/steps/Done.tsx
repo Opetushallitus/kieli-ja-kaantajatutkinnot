@@ -14,7 +14,7 @@ import { resetPublicRegistration } from 'redux/reducers/registration';
 export const Done = ({
   registration,
 }: {
-  registration: PublicEmailRegistration | PublicSuomiFiRegistration;
+  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.done',

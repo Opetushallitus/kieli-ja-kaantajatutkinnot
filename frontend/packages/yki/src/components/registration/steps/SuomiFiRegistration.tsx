@@ -54,7 +54,7 @@ export const SuomiFiRegistration = ({
   };
 
   const handleChange =
-    (fieldName: keyof PublicSuomiFiRegistration) =>
+    (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (fieldErrors[fieldName]) {
         handleErrors(fieldName)(event);
@@ -94,13 +94,13 @@ export const SuomiFiRegistration = ({
     };
 
   const showCustomTextFieldError = (
-    fieldName: keyof PublicSuomiFiRegistration
+    fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>
   ) => {
     return fieldErrors[fieldName].length > 0;
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof PublicSuomiFiRegistration
+    fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>
   ) => {
     return {
       id: `public-registration__contact-details__${fieldName}-field`,

@@ -14,7 +14,7 @@ export const PublicRegistrationStepContents = ({
   isEmailRegistration,
 }: {
   activeStep: PublicRegistrationFormStep;
-  registration: PublicEmailRegistration | PublicSuomiFiRegistration;
+  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>;
   isLoading: boolean;
   isEmailRegistration?: boolean;
 }) => {

@@ -74,7 +74,7 @@ export const EmailRegistration = ({
   };
 
   const handleChange =
-    (fieldName: keyof PublicEmailRegistration) =>
+    (fieldName: keyof Omit<PublicEmailRegistration, 'id'>) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       if (fieldErrors[fieldName]) {
         handleErrors(fieldName)(event);
@@ -109,13 +109,13 @@ export const EmailRegistration = ({
     };
 
   const showCustomTextFieldError = (
-    fieldName: keyof PublicEmailRegistration
+    fieldName: keyof Omit<PublicEmailRegistration, 'id'>
   ) => {
     return fieldErrors[fieldName].length > 0;
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof PublicEmailRegistration
+    fieldName: keyof Omit<PublicEmailRegistration, 'id'>
   ) => ({
     id: `public-registration__contact-details__${fieldName}-field`,
     label: t(fieldName),

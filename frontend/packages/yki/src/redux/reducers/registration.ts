@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExamSession } from 'interfaces/examSessions';
 import {
   PublicEmailRegistration,
   PublicRegistrationInitResponse,
@@ -12,7 +11,6 @@ interface RegistrationState {
   status: APIResponseStatus;
   isEmailRegistration?: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
-  examSession?: ExamSession;
 }
 
 const initialState: RegistrationState = {
@@ -38,7 +36,6 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
       state.status = APIResponseStatus.Success;
-      state.examSession = action.payload.exam_session;
       state.isEmailRegistration = true;
       state.registration = {
         id: action.payload.registration_id,
@@ -50,7 +47,6 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
       state.status = APIResponseStatus.Success;
-      state.examSession = action.payload.exam_session;
       state.isEmailRegistration = false;
       const { registration_id: id, user } = action.payload;
       state.registration = {
