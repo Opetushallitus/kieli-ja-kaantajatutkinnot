@@ -2,7 +2,7 @@ import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
 import { CertificateLanguage, GenderEnum } from 'enums/app';
-import { ExamSession } from 'interfaces/examSessions';
+import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
   firstNames: string;
@@ -37,7 +37,7 @@ export interface PublicEmailRegistration
 }
 
 export interface PublicRegistrationInitResponse {
-  exam_session: ExamSession;
+  exam_session: ExamSessionResponse;
   registration_id: number;
   user: {
     first_name?: string;

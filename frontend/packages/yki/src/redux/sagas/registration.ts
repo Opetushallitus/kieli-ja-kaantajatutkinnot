@@ -5,13 +5,16 @@ import { AxiosResponse } from 'axios';
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
+import { storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicEmailRegistrationInit,
   acceptPublicSuomiFiRegistrationInit,
   initRegistration,
   rejectPublicRegistration,
 } from 'redux/reducers/registration';
+import { SerializationUtils } from 'utils/serialization';
 
+/*
 const mockInitResponse = (examSessionId: number) =>
   ({
     data: {
@@ -23,10 +26,12 @@ const mockInitResponse = (examSessionId: number) =>
       },
     },
   } as AxiosResponse<PublicRegistrationInitResponse>);
+*/
 
 function* initRegistrationSaga(action: PayloadAction<number>) {
   try {
     // TODO Remove mock response
+    /*
     const response: AxiosResponse<PublicRegistrationInitResponse> =
       action.payload > 0
         ? mockInitResponse(action.payload)
@@ -35,7 +40,18 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
             APIEndpoints.InitRegistration,
             JSON.stringify({ exam_session_id: action.payload })
           );
+    */
+    const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
+      axiosInstance.post,
+      APIEndpoints.InitRegistration,
+      JSON.stringify({ exam_session_id: action.payload })
+    );
     const { data } = response;
+    yield put(
+      storeExamSession(
+        SerializationUtils.deserializeExamSessionResponse(data.exam_session)
+      )
+    );
     if (data.is_strongly_identified) {
       yield put(acceptPublicSuomiFiRegistrationInit(data));
     } else {

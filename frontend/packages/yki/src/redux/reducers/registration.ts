@@ -11,7 +11,6 @@ import {
 interface RegistrationState {
   status: APIResponseStatus;
   isEmailRegistration?: boolean;
-  // TODO Perhaps optional instead?
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   examSession?: ExamSession;
 }
@@ -51,6 +50,7 @@ const registrationSlice = createSlice({
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
       state.status = APIResponseStatus.Success;
+      state.examSession = action.payload.exam_session;
       state.isEmailRegistration = false;
       const { registration_id: id, user } = action.payload;
       state.registration = {
