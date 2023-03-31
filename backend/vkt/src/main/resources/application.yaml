@@ -12,7 +12,6 @@ spring:
   jackson:
     default-property-inclusion: non_null
   session:
-    store-type: jdbc
     jdbc:
       initialize-schema: never
   jpa:
