@@ -91,10 +91,16 @@ export const PublicRegistrationControlButtons = ({
     activeStep === PublicRegistrationFormStep.Register;
   const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
 
-  return (
-    <div className="rows flex-end gapped margin-top-lg align-items-center">
-      {renderSubmit && SubmitButton()}
-      {renderAbort && AbortButton()}
-    </div>
-  );
+  if (renderAbort || renderSubmit) {
+    return (
+      <div className="columns margin-top-lg justify-content-center">
+        <div className="rows flex-end gapped margin-top-lg align-items-center">
+          {renderSubmit && SubmitButton()}
+          {renderAbort && AbortButton()}
+        </div>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
