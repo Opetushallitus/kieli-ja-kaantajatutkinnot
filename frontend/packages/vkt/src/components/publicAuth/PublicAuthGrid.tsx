@@ -12,7 +12,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
-import { startAuthentication } from 'redux/reducers/auth';
+import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
 import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 import { AuthSelector } from 'redux/selectors/auth';
@@ -64,8 +64,9 @@ export const PublicAuthGrid = () => {
       reservationDetailsStatus === APIResponseStatus.Success
     ) {
       navigate(AppRoutes.PublicEnrollment, { replace: true });
+      dispatch(resetAuthentication());
     }
-  }, [navigate, selectedExamEvent, reservationDetailsStatus]);
+  }, [navigate, dispatch, selectedExamEvent, reservationDetailsStatus]);
 
   if (!selectedExamEvent) {
     return null;

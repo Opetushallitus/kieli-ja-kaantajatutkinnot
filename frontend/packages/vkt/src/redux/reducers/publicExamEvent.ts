@@ -57,6 +57,10 @@ const publicExamEventSlice = createSlice({
         state.selectedExamEvent = undefined;
       }
     },
+    resetSelectedPublicExamEvent(state) {
+      sessionStorage.removeItem('examEvent');
+      state.selectedExamEvent = undefined;
+    },
   },
 });
 
@@ -68,4 +72,5 @@ export const {
   storePublicExamEvents,
   setPublicExamEventLanguageFilter,
   setSelectedPublicExamEvent,
+  resetSelectedPublicExamEvent,
 } = publicExamEventSlice.actions;
