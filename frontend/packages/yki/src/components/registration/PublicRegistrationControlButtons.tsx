@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { increaseActiveStep } from 'redux/reducers/examSession';
 import { resetPublicRegistration } from 'redux/reducers/registration';
+import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
 
 export const PublicRegistrationControlButtons = ({
   activeStep,
@@ -23,6 +24,8 @@ export const PublicRegistrationControlButtons = ({
   const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
+  const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
+    .emailLinkOrder.status;
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
@@ -82,12 +85,16 @@ export const PublicRegistrationControlButtons = ({
     </CustomButton>
   );
 
+  const renderAbort =
+    (activeStep === PublicRegistrationFormStep.Identify &&
+      emailLinkOrderStatus !== APIResponseStatus.Success) ||
+    activeStep === PublicRegistrationFormStep.Register;
   const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
 
   return (
     <div className="rows flex-end gapped margin-top-lg align-items-center">
       {renderSubmit && SubmitButton()}
-      {AbortButton()}
+      {renderAbort && AbortButton()}
     </div>
   );
 };
