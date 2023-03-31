@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Getter
 @Setter
@@ -37,11 +34,9 @@ public class Person extends BaseEntity {
   @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-  @Fetch(value = FetchMode.SUBSELECT)
+  @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();
 
-  @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-  @Fetch(value = FetchMode.SUBSELECT)
+  @OneToMany(mappedBy = "person")
   private List<Reservation> reservations = new ArrayList<>();
 }
