@@ -110,6 +110,11 @@
         "paymentSum": {
           "title": "Tutkintomaksu"
         },
+        "registrationButtonLabels": {
+          "full": "Täynnä",
+          "periodNotOpen": "Ilmoittautuminen ei käynnissä",
+          "register": "Ilmoittaudu"
+        },
         "registrationDetails": {
           "address": "Katuosoite",
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",

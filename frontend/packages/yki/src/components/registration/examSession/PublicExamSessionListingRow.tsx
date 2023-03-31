@@ -1,4 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
+import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
@@ -11,19 +12,56 @@ import { ExamSession } from 'interfaces/examSessions';
 import { storeExamSession } from 'redux/reducers/examSession';
 import { ExamUtils } from 'utils/exam';
 
-export const PublicExamSessionListingRow = ({
+const RegisterToExamButton = ({
   examSession,
 }: {
   examSession: ExamSession;
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
-
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.registrationPage',
+    keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
+  const now = dayjs();
+  const registrationPeriodOpen = ExamUtils.isRegistrationOpen(examSession, now);
+  const postAdmissionOpen = ExamUtils.isPostAdmissionOpen(examSession, now);
+
+  const registrationOrPostAdmissionOpen =
+    registrationPeriodOpen || postAdmissionOpen;
+  const placesAvailable =
+    (registrationPeriodOpen &&
+      examSession.participants < examSession.max_participants) ||
+    (postAdmissionOpen &&
+      examSession.pa_participants < examSession.post_admission_quota);
+
+  // TODO Instead of disabling button, perhaps style it differently and indicate error when clicking.
+  return (
+    <CustomButton
+      color={Color.Secondary}
+      variant={Variant.Outlined}
+      disabled={!(placesAvailable && registrationOrPostAdmissionOpen)}
+      onClick={() => {
+        dispatch(storeExamSession(examSession));
+        navigate(
+          AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)
+        );
+      }}
+    >
+      {placesAvailable && registrationOrPostAdmissionOpen
+        ? t('register')
+        : !registrationOrPostAdmissionOpen
+        ? t('periodNotOpen')
+        : t('full')}
+    </CustomButton>
+  );
+};
+
+export const PublicExamSessionListingRow = ({
+  examSession,
+}: {
+  examSession: ExamSession;
+}) => {
+  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (
     <TableRow
@@ -51,22 +89,7 @@ export const PublicExamSessionListingRow = ({
         {examSession.max_participants - (examSession.participants ?? 0)}
       </TableCell>
       <TableCell>
-        <CustomButton
-          data-testid="clerk-translator-registry__reset-filters-btn"
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          onClick={() => {
-            dispatch(storeExamSession(examSession));
-            navigate(
-              AppRoutes.ExamSession.replace(
-                /:examSessionId$/,
-                `${examSession.id}`
-              )
-            );
-          }}
-        >
-          {t('register')}
-        </CustomButton>
+        <RegisterToExamButton examSession={examSession} />
       </TableCell>
     </TableRow>
   );
