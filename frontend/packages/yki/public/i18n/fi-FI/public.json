@@ -96,6 +96,9 @@
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Vahvista ilmoittautuminen"
         },
+        "errors": {
+          "general": "Virhe tietojen lataamisessa!"
+        },
         "examSessionDetails": {
           "address": "Osoite",
           "exam": "Tutkinto",

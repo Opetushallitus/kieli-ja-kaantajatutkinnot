@@ -23,10 +23,8 @@ import { updatePublicRegistration } from 'redux/reducers/registration';
 
 export const EmailRegistration = ({
   registration,
-  isLoading,
 }: {
   registration: PublicEmailRegistration;
-  isLoading: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
@@ -124,7 +122,6 @@ export const EmailRegistration = ({
     error: showCustomTextFieldError(fieldName),
     helperText: fieldErrors[fieldName],
     required: true,
-    disabled: isLoading,
   });
 
   return (
@@ -238,7 +235,6 @@ export const EmailRegistration = ({
             onClick={() => handleCheckboxClick('termsAndConditionsAgreed')}
             color={Color.Secondary}
             checked={registration.termsAndConditionsAgreed}
-            disabled={isLoading}
           />
         }
         label={t('termsAndConditions.label')}
@@ -259,7 +255,6 @@ export const EmailRegistration = ({
             onClick={() => handleCheckboxClick('privacyStatementConfirmation')}
             color={Color.Secondary}
             checked={registration.privacyStatementConfirmation}
-            disabled={isLoading}
           />
         }
         label={t('privacyStatement.label')}

@@ -49,10 +49,7 @@ export const PublicIdentificationGrid = () => {
                 </ul>
                 <div className="gapped rows">
                   <SelectIdentificationMethod />
-                  <PublicRegistrationControlButtons
-                    activeStep={activeStep}
-                    isLoading={false}
-                  />
+                  <PublicRegistrationControlButtons activeStep={activeStep} />
                 </div>
               </div>
             </div>

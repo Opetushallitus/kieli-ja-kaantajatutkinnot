@@ -17,10 +17,8 @@ import { updatePublicRegistration } from 'redux/reducers/registration';
 
 export const SuomiFiRegistration = ({
   registration,
-  isLoading,
 }: {
   registration: PublicSuomiFiRegistration;
-  isLoading: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
@@ -110,7 +108,7 @@ export const SuomiFiRegistration = ({
       error: showCustomTextFieldError(fieldName),
       helperText: fieldErrors[fieldName],
       required: true,
-      disabled: isLoading || ['firstNames', 'lastName'].includes(fieldName),
+      disabled: ['firstNames', 'lastName'].includes(fieldName),
     };
   };
 
@@ -204,7 +202,6 @@ export const SuomiFiRegistration = ({
             onClick={() => handleCheckboxClick('termsAndConditionsAgreed')}
             color={Color.Secondary}
             checked={registration.termsAndConditionsAgreed}
-            disabled={isLoading}
           />
         }
         label={t('termsAndConditions.label')}
@@ -226,7 +223,6 @@ export const SuomiFiRegistration = ({
             onClick={() => handleCheckboxClick('privacyStatementConfirmation')}
             color={Color.Secondary}
             checked={registration.privacyStatementConfirmation}
-            disabled={isLoading}
           />
         }
         label={t('privacyStatement.label')}

@@ -2,6 +2,7 @@ import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import {
   H1,
+  H2,
   HeaderSeparator,
   LoadingProgressIndicator,
 } from 'shared/components';
@@ -15,9 +16,58 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { ExamSession } from 'interfaces/examSessions';
 import { initRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
+
+const PaperContents = ({
+  activeStep,
+}: {
+  activeStep: PublicRegistrationFormStep;
+}) => {
+  const { initRegistrationStatus, isEmailRegistration, registration } =
+    useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration',
+  });
+
+  const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
+
+  switch (initRegistrationStatus) {
+    case APIResponseStatus.Cancelled:
+    case APIResponseStatus.Error:
+      // TODO Fine-grained error messages?
+
+      return (
+        <div className="public-registration__grid__form-container">
+          <H2>{t('errors.general')}</H2>
+        </div>
+      );
+    case APIResponseStatus.NotStarted:
+    case APIResponseStatus.InProgress:
+      return null;
+    case APIResponseStatus.Success:
+      return (
+        <div className="public-registration__grid__form-container">
+          <PublicRegistrationExamSessionDetails
+            examSession={examSession as ExamSession}
+            showOpenings={!isDoneStepActive}
+          />
+          <PublicRegistrationStepContents
+            activeStep={activeStep}
+            registration={registration}
+            isEmailRegistration={isEmailRegistration}
+          />
+          {!isDoneStepActive && (
+            <PublicRegistrationControlButtons activeStep={activeStep} />
+          )}
+        </div>
+      );
+  }
+};
 
 export const PublicRegistrationGrid = () => {
   const {
@@ -26,19 +76,18 @@ export const PublicRegistrationGrid = () => {
     examSession,
   } = useAppSelector(examSessionSelector);
 
-  const {
-    isEmailRegistration,
-    registration,
-    status: registrationStatus,
-  } = useAppSelector(registrationSelector);
+  const { initRegistrationStatus } = useAppSelector(registrationSelector);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (examSession && registrationStatus === APIResponseStatus.NotStarted) {
+    if (
+      examSession &&
+      initRegistrationStatus === APIResponseStatus.NotStarted
+    ) {
       dispatch(initRegistration(examSession.id));
     }
-  }, [dispatch, examSession, registrationStatus]);
+  }, [dispatch, examSession, initRegistrationStatus]);
 
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
@@ -49,11 +98,6 @@ export const PublicRegistrationGrid = () => {
   useNavigationProtection(false);
 
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
-  const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
-
-  if (!examSession) {
-    return null;
-  }
 
   const renderDesktopView = () => (
     <>
@@ -68,24 +112,7 @@ export const PublicRegistrationGrid = () => {
           </div>
           <Paper elevation={3}>
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-              <div className="public-registration__grid__form-container">
-                <PublicRegistrationExamSessionDetails
-                  examSession={examSession}
-                  showOpenings={!isDoneStepActive}
-                />
-                <PublicRegistrationStepContents
-                  activeStep={activeStep}
-                  registration={registration}
-                  isLoading={isLoading}
-                  isEmailRegistration={isEmailRegistration}
-                />
-                {!isDoneStepActive && (
-                  <PublicRegistrationControlButtons
-                    activeStep={activeStep}
-                    isLoading={isLoading}
-                  />
-                )}
-              </div>
+              <PaperContents activeStep={activeStep} />
             </LoadingProgressIndicator>
           </Paper>
         </div>

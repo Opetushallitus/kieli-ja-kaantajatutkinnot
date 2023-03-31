@@ -13,10 +13,8 @@ import { publicIdentificationSelector } from 'redux/selectors/publicIdentifactio
 
 export const PublicRegistrationControlButtons = ({
   activeStep,
-  isLoading,
 }: {
   activeStep: PublicRegistrationFormStep;
-  isLoading: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
@@ -63,7 +61,6 @@ export const PublicRegistrationControlButtons = ({
         color={Color.Secondary}
         onClick={handleAbortBtnClick}
         data-testid="public-registration__controlButtons__abort"
-        disabled={isLoading}
       >
         {t('abortRegistration')}
       </CustomButton>
@@ -79,7 +76,6 @@ export const PublicRegistrationControlButtons = ({
       color={Color.Secondary}
       onClick={handleSubmitBtnClick}
       data-testid="public-registration__controlButtons__submit"
-      disabled={isLoading}
     >
       {t('confirm')}
     </CustomButton>

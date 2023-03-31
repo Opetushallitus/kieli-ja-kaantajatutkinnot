@@ -8,13 +8,15 @@ import {
 } from 'interfaces/publicRegistration';
 
 interface RegistrationState {
-  status: APIResponseStatus;
+  initRegistrationStatus: APIResponseStatus;
+  submitRegistrationStatus: APIResponseStatus;
   isEmailRegistration?: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
 }
 
 const initialState: RegistrationState = {
-  status: APIResponseStatus.NotStarted,
+  initRegistrationStatus: APIResponseStatus.NotStarted,
+  submitRegistrationStatus: APIResponseStatus.NotStarted,
   registration: {},
 };
 
@@ -23,10 +25,10 @@ const registrationSlice = createSlice({
   initialState,
   reducers: {
     initRegistration(state, _action: PayloadAction<number>) {
-      state.status = APIResponseStatus.InProgress;
+      state.initRegistrationStatus = APIResponseStatus.InProgress;
     },
-    rejectPublicRegistration(state) {
-      state.status = APIResponseStatus.Error;
+    rejectPublicRegistrationInit(state) {
+      state.initRegistrationStatus = APIResponseStatus.Error;
     },
     resetPublicRegistration(_) {
       return initialState;
@@ -35,7 +37,7 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.status = APIResponseStatus.Success;
+      state.initRegistrationStatus = APIResponseStatus.Success;
       state.isEmailRegistration = true;
       state.registration = {
         id: action.payload.registration_id,
@@ -46,7 +48,7 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.status = APIResponseStatus.Success;
+      state.initRegistrationStatus = APIResponseStatus.Success;
       state.isEmailRegistration = false;
       const { registration_id: id, user } = action.payload;
       state.registration = {
@@ -73,7 +75,7 @@ export const {
   acceptPublicEmailRegistrationInit,
   acceptPublicSuomiFiRegistrationInit,
   initRegistration,
-  rejectPublicRegistration,
+  rejectPublicRegistrationInit,
   resetPublicRegistration,
   updatePublicRegistration,
 } = registrationSlice.actions;
