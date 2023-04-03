@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
+import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
 import fi.oph.vkt.util.StringUtil;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,7 +27,8 @@ public record ClerkEnrollmentUpdateDTO(
   @Size(max = 255) String postalCode,
   @Size(max = 255) String town,
   @Size(max = 255) String country
-) {
+)
+  implements EnrollmentDTOCommonFields {
   public ClerkEnrollmentUpdateDTO {
     previousEnrollment = StringUtil.trim(previousEnrollment);
     email = StringUtil.trim(email);

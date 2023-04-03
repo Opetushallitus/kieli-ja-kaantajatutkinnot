@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ClerkEnrollmentService {
+public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
@@ -30,21 +30,7 @@ public class ClerkEnrollmentService {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
     enrollment.assertVersion(dto.version());
 
-    enrollment.setOralSkill(dto.oralSkill());
-    enrollment.setTextualSkill(dto.textualSkill());
-    enrollment.setUnderstandingSkill(dto.understandingSkill());
-    enrollment.setSpeakingPartialExam(dto.speakingPartialExam());
-    enrollment.setSpeechComprehensionPartialExam(dto.speechComprehensionPartialExam());
-    enrollment.setWritingPartialExam(dto.writingPartialExam());
-    enrollment.setReadingComprehensionPartialExam(dto.readingComprehensionPartialExam());
-    enrollment.setPreviousEnrollment(dto.previousEnrollment());
-    enrollment.setDigitalCertificateConsent(dto.digitalCertificateConsent());
-    enrollment.setEmail(dto.email());
-    enrollment.setPhoneNumber(dto.phoneNumber());
-    enrollment.setStreet(dto.street());
-    enrollment.setPostalCode(dto.postalCode());
-    enrollment.setTown(dto.town());
-    enrollment.setCountry(dto.country());
+    copyDtoFieldsToEnrollment(enrollment, dto);
     enrollmentRepository.flush();
 
     auditService.logById(VktOperation.UPDATE_ENROLLMENT, enrollment.getId());
@@ -73,6 +59,9 @@ public class ClerkEnrollmentService {
     final ExamEvent toExamEvent = examEventRepository.getReferenceById(dto.toExamEventId());
     if (enrollment.getExamEvent().getLanguage() != toExamEvent.getLanguage()) {
       throw new APIException(APIExceptionType.ENROLLMENT_MOVE_EXAM_EVENT_LANGUAGE_MISMATCH);
+    }
+    if (isPersonEnrolled(toExamEvent, enrollment.getPerson(), enrollmentRepository)) {
+      throw new APIException(APIExceptionType.ENROLLMENT_MOVE_PERSON_ALREADY_ENROLLED);
     }
 
     enrollment.setExamEvent(toExamEvent);
