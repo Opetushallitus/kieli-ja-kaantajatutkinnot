@@ -161,8 +161,6 @@ public class WebSecurityConfig {
     requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf(csrf ->
-      csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
-    );
+    return http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler));
   }
 }
