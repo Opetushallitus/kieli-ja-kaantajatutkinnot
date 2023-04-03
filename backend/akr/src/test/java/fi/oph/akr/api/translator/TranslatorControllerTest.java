@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import fi.oph.akr.service.ContactRequestService;
 import fi.oph.akr.service.PublicTranslatorService;
+import jakarta.annotation.Resource;
 import java.util.List;
-import javax.annotation.Resource;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

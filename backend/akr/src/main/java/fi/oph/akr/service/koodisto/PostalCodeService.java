@@ -2,11 +2,11 @@ package fi.oph.akr.service.koodisto;
 
 import static org.springframework.util.StringUtils.capitalize;
 
+import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 

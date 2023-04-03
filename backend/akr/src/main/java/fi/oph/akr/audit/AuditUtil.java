@@ -2,10 +2,10 @@ package fi.oph.akr.audit;
 
 import fi.vm.sade.auditlog.User;
 import fi.vm.sade.javautils.http.HttpServletRequestUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import org.ietf.jgss.GSSException;
 import org.ietf.jgss.Oid;
 import org.springframework.security.core.Authentication;
@@ -36,7 +36,12 @@ public class AuditUtil {
   }
 
   private static InetAddress getInetAddress(final HttpServletRequest request) {
-    final String remoteAddress = HttpServletRequestUtils.getRemoteAddress(request);
+    final String remoteAddress = HttpServletRequestUtils.getRemoteAddress(
+      request.getHeader("X-Real-IP"),
+      request.getHeader("X-Forwarded-For"),
+      request.getRemoteAddr(),
+      request.getRequestURI()
+    );
     try {
       return InetAddress.getByName(remoteAddress);
     } catch (UnknownHostException e) {
