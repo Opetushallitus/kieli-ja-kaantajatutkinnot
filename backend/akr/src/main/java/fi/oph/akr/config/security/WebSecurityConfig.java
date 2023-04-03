@@ -2,7 +2,7 @@ package fi.oph.akr.config.security;
 
 import fi.oph.akr.config.Constants;
 import fi.oph.akr.config.CustomAccessDeniedHandler;
-import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
+import fi.oph.akr.util.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
 import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
 import org.apereo.cas.client.session.SessionMappingStorage;
