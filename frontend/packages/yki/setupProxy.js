@@ -1286,4 +1286,19 @@ module.exports = function (app) {
     };
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
   });
+
+  app.get('/yki/auth/', (req, res) => {
+    const mockCall = () => {
+      try {
+        const { examSessionId } = req.query;
+        res.redirect(
+          `/yki/ilmoittautuminen/tutkintotilaisuus/${examSessionId}`
+        );
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  });
 };
