@@ -24,7 +24,7 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    initRegistration(state) {
+    initRegistration(state, _action: PayloadAction<number>) {
       state.initRegistrationStatus = APIResponseStatus.InProgress;
     },
     rejectPublicRegistrationInit(state) {
