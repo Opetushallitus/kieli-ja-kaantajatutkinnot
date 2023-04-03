@@ -21,16 +21,16 @@ const initialState: RegistrationState = {
 };
 
 const registrationSlice = createSlice({
-  name: 'registrationState',
+  name: 'registration',
   initialState,
   reducers: {
-    initRegistration(state, _action: PayloadAction<number>) {
+    initRegistration(state) {
       state.initRegistrationStatus = APIResponseStatus.InProgress;
     },
     rejectPublicRegistrationInit(state) {
       state.initRegistrationStatus = APIResponseStatus.Error;
     },
-    resetPublicRegistration(_) {
+    resetPublicRegistration() {
       return initialState;
     },
     acceptPublicEmailRegistrationInit(

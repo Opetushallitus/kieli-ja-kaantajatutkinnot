@@ -1012,7 +1012,7 @@ module.exports = function (app) {
   app.post('/yki/api/registration/init', (req, res) => {
     const mockCall = () => {
       try {
-        req.body.exam_session_id === 2
+        req.body.exam_session_id % 2 === 0
           ? res.send(initRegistrationEmailAuth)
           : res.send(initRegistration);
       } catch (err) {

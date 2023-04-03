@@ -35,12 +35,6 @@ const examSessionSlice = createSlice({
     setActiveStep(state, action: PayloadAction<PublicRegistrationFormStep>) {
       state.activeStep = action.payload;
     },
-
-    /*
-    setIsEmailRegistration(state, action: PayloadAction<boolean>) {
-      state.isEmailRegistration = action.payload;
-    },
-    */
   },
 });
 
