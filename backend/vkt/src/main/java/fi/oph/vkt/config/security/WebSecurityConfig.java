@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("!dev")
@@ -156,8 +157,12 @@ public class WebSecurityConfig {
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+    requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf().csrfTokenRepository(csrfTokenRepository).and();
+    return http.csrf(csrf ->
+      csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+    );
   }
 }
