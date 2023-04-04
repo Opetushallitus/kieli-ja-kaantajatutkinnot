@@ -29,9 +29,9 @@ export const PublicRegistrationExamSessionDetails = ({
         <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
-            examSession.registration_end_date
-          )} - ${DateUtils.formatOptionalDate(
             examSession.registration_start_date
+          )} - ${DateUtils.formatOptionalDate(
+            examSession.registration_end_date
           )}`}</b>
         </Text>
         <Text>

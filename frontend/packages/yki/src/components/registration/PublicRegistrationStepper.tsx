@@ -1,13 +1,12 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 
 import { usePublicTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const PublicRegistrationStepper = ({
-  activeStep,
-}: {
-  activeStep: PublicRegistrationFormStep;
-}) => {
+export const PublicRegistrationStepper = () => {
+  const { activeStep } = useAppSelector(registrationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });

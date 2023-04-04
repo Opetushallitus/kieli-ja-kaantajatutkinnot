@@ -30,6 +30,9 @@ const publicIdentificationSlice = createSlice({
     rejectEmailLinkOrder(state) {
       state.emailLinkOrder.status = APIResponseStatus.Error;
     },
+    resetPublicIdentificationState() {
+      return initialState;
+    },
     sendEmailLinkOrder(state, action: PayloadAction<EmailLinkOrder>) {
       state.emailLinkOrder.status = APIResponseStatus.InProgress;
       state.emailLinkOrder.email = action.payload.email;

@@ -1,39 +1,38 @@
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   increaseActiveStep,
   resetPublicRegistration,
-} from 'redux/reducers/examSession';
+} from 'redux/reducers/registration';
+import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const PublicRegistrationControlButtons = ({
-  activeStep,
-  isLoading,
-}: {
-  activeStep: PublicRegistrationFormStep;
-  isLoading: boolean;
-}) => {
+export const PublicRegistrationControlButtons = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
   });
   const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
+  const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
+    .emailLinkOrder.status;
+  const { activeStep } = useAppSelector(registrationSelector);
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
 
-  const handleCancelBtnClick = () => {
+  const handleAbortBtnClick = () => {
     showDialog({
-      title: t('cancelDialog.title'),
+      title: t('abortDialog.title'),
       severity: Severity.Info,
-      description: t('cancelDialog.description'),
+      description: t('abortDialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -55,20 +54,21 @@ export const PublicRegistrationControlButtons = ({
     dispatch(increaseActiveStep());
   };
 
-  const CancelButton = () => (
+  // TODO Disable or otherwise handle onClick if submission is in progress
+  const AbortButton = () => (
     <>
       <CustomButton
         variant={Variant.Text}
         color={Color.Secondary}
-        onClick={handleCancelBtnClick}
-        data-testid="public-registration__controlButtons__cancel"
-        disabled={isLoading}
+        onClick={handleAbortBtnClick}
+        data-testid="public-registration__controlButtons__abort"
       >
-        {t('cancelRegistration')}
+        {t('abortRegistration')}
       </CustomButton>
     </>
   );
 
+  // TODO Disable or otherwise handle onClick if submission is in progress
   const SubmitButton = () => (
     <CustomButton
       className="margin-top-lg"
@@ -78,18 +78,27 @@ export const PublicRegistrationControlButtons = ({
       color={Color.Secondary}
       onClick={handleSubmitBtnClick}
       data-testid="public-registration__controlButtons__submit"
-      disabled={isLoading}
     >
       {t('confirm')}
     </CustomButton>
   );
 
+  const renderAbort =
+    (activeStep === PublicRegistrationFormStep.Identify &&
+      emailLinkOrderStatus !== APIResponseStatus.Success) ||
+    activeStep === PublicRegistrationFormStep.Register;
   const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
 
-  return (
-    <div className="rows flex-end gapped margin-top-lg align-items-center">
-      {renderSubmit && SubmitButton()}
-      {CancelButton()}
-    </div>
-  );
+  if (renderAbort || renderSubmit) {
+    return (
+      <div className="columns margin-top-lg justify-content-center">
+        <div className="rows flex-end gapped margin-top-lg align-items-center">
+          {renderSubmit && SubmitButton()}
+          {renderAbort && AbortButton()}
+        </div>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };

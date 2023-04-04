@@ -89,12 +89,15 @@
       },
       "registration": {
         "controlButtons": {
-          "cancelDialog": {
-            "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
-            "title": "Peruuta ilmoittautuminen"
+          "abortDialog": {
+            "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Keskeytä ilmoittautuminen"
           },
-          "cancelRegistration": "Peruuta ilmoittautuminen",
+          "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Vahvista ilmoittautuminen"
+        },
+        "errors": {
+          "general": "Virhe tietojen lataamisessa!"
         },
         "examSessionDetails": {
           "address": "Osoite",
@@ -117,6 +120,7 @@
           "emailConfirmation": "Vahvista sähköpostiosoite",
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
           "firstNames": "Etunimet",
+          "gender": "Sukupuoli",
           "lastName": "Sukunimi",
           "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
           "nationality": "Kansalaisuus",
@@ -129,7 +133,6 @@
             "label": "Hyväksyn henkilötietojeni käsittelyn *",
             "linkLabel": "Lue henkilötietojen käsittelyn ehdot (oph.fi)"
           },
-          "sex": "Sukupuoli",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",

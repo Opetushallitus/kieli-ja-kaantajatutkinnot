@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -8,10 +8,10 @@ import { PublicRegistrationGrid } from 'components/registration/PublicRegistrati
 import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDetailsPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { loadExamSession, setActiveStep } from 'redux/reducers/examSession';
+import { initRegistration, setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const ExamDetailsPage = () => {
   // i18n
@@ -23,10 +23,9 @@ export const ExamDetailsPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { status, examSession, activeStep } =
-    useAppSelector(examSessionSelector);
+  const { status, examSession } = useAppSelector(examSessionSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
   // React Router
-  const navigate = useNavigate();
   const params = useParams();
 
   const isLoading = status === APIResponseStatus.InProgress;
@@ -35,11 +34,6 @@ export const ExamDetailsPage = () => {
     if (activeStep !== PublicRegistrationFormStep.Register) {
       dispatch(setActiveStep(PublicRegistrationFormStep.Register));
     }
-
-    return () => {
-      // TODO: Reset fields on unmount
-      // dispatch(resetClerkTranslatorOverview());
-    };
   }, [dispatch, activeStep]);
 
   useEffect(() => {
@@ -49,7 +43,7 @@ export const ExamDetailsPage = () => {
       params.examSessionId
     ) {
       // Fetch exam details
-      dispatch(loadExamSession(+params.examSessionId));
+      dispatch(initRegistration(+params.examSessionId));
     } else if (
       status === APIResponseStatus.Error ||
       isNaN(Number(params.examSessionId))
@@ -59,18 +53,8 @@ export const ExamDetailsPage = () => {
         severity: Severity.Error,
         description: t('toasts.notFound'),
       });
-
-      navigate(AppRoutes.Registration, { replace: true });
     }
-  }, [
-    status,
-    dispatch,
-    navigate,
-    params.examSessionId,
-    showToast,
-    examSession?.id,
-    t,
-  ]);
+  }, [status, dispatch, params.examSessionId, showToast, examSession?.id, t]);
 
   return (
     <Box className="public-exam-details-page">
