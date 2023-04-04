@@ -2,8 +2,8 @@ package fi.oph.otr.api;
 
 import fi.oph.otr.api.dto.InterpreterDTO;
 import fi.oph.otr.service.PublicInterpreterService;
+import jakarta.annotation.Resource;
 import java.util.List;
-import javax.annotation.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

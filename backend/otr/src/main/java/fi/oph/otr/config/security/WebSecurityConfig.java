@@ -2,13 +2,13 @@ package fi.oph.otr.config.security;
 
 import fi.oph.otr.config.Constants;
 import fi.oph.otr.config.CustomAccessDeniedHandler;
-import fi.vm.sade.java_utils.security.OpintopolkuCasAuthenticationFilter;
+import fi.oph.otr.util.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
-import org.jasig.cas.client.session.HashMapBackedSessionMappingStorage;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.session.SingleSignOutFilter;
-import org.jasig.cas.client.validation.Cas20ProxyTicketValidator;
-import org.jasig.cas.client.validation.TicketValidator;
+import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.session.SingleSignOutFilter;
+import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
+import org.apereo.cas.client.validation.TicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Profile("!dev")
@@ -143,20 +144,23 @@ public class WebSecurityConfig {
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests()
-      .mvcMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
-      .hasRole(Constants.APP_ROLE)
-      .mvcMatchers("/", "/**")
-      .permitAll()
-      .anyRequest()
-      .authenticated()
-      .and();
+      .authorizeHttpRequests(authorize ->
+        authorize
+          .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
+          .hasRole(Constants.APP_ROLE)
+          .requestMatchers("/", "/**")
+          .permitAll()
+          .anyRequest()
+          .authenticated()
+      );
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+    requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf().csrfTokenRepository(csrfTokenRepository).and();
+    return http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler));
   }
 }
