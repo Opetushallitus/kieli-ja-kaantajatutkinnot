@@ -56,6 +56,7 @@ export const PublicRegistrationControlButtons = ({
     dispatch(increaseActiveStep());
   };
 
+  // TODO Disable or otherwise handle onClick if submission is in progress
   const AbortButton = () => (
     <>
       <CustomButton
@@ -69,6 +70,7 @@ export const PublicRegistrationControlButtons = ({
     </>
   );
 
+  // TODO Disable or otherwise handle onClick if submission is in progress
   const SubmitButton = () => (
     <CustomButton
       className="margin-top-lg"
