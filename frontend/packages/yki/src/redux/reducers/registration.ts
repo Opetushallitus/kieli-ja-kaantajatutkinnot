@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import {
   PublicEmailRegistration,
   PublicRegistrationInitResponse,
@@ -12,9 +13,11 @@ interface RegistrationState {
   submitRegistrationStatus: APIResponseStatus;
   isEmailRegistration?: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
+  activeStep: PublicRegistrationFormStep;
 }
 
 const initialState: RegistrationState = {
+  activeStep: PublicRegistrationFormStep.Identify,
   initRegistrationStatus: APIResponseStatus.NotStarted,
   submitRegistrationStatus: APIResponseStatus.NotStarted,
   registration: {},
@@ -33,32 +36,30 @@ const registrationSlice = createSlice({
     resetPublicRegistration() {
       return initialState;
     },
-    acceptPublicEmailRegistrationInit(
+    acceptPublicRegistrationInit(
       state,
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
       state.initRegistrationStatus = APIResponseStatus.Success;
-      state.isEmailRegistration = true;
-      state.registration = {
-        id: action.payload.registration_id,
-        email: action.payload.user.email,
-      };
+      const { registration_id, is_strongly_identified, user } = action.payload;
+      if (is_strongly_identified) {
+        state.isEmailRegistration = false;
+        state.registration = {
+          id: registration_id,
+          firstNames: user.first_name,
+          lastName: user.last_name,
+          hasSSN: !!user.ssn,
+          ssn: user.ssn,
+        };
+      } else {
+        state.isEmailRegistration = true;
+        state.registration = {
+          id: registration_id,
+          email: user.email,
+        };
+      }
     },
-    acceptPublicSuomiFiRegistrationInit(
-      state,
-      action: PayloadAction<PublicRegistrationInitResponse>
-    ) {
-      state.initRegistrationStatus = APIResponseStatus.Success;
-      state.isEmailRegistration = false;
-      const { registration_id: id, user } = action.payload;
-      state.registration = {
-        id,
-        firstNames: user.first_name,
-        lastName: user.last_name,
-        hasSSN: true,
-        ssn: user.ssn,
-      };
-    },
+
     updatePublicRegistration(
       state,
       action: PayloadAction<
@@ -67,15 +68,22 @@ const registrationSlice = createSlice({
     ) {
       state.registration = { ...state.registration, ...action.payload };
     },
+    increaseActiveStep(state) {
+      state.activeStep = ++state.activeStep;
+    },
+    setActiveStep(state, action: PayloadAction<PublicRegistrationFormStep>) {
+      state.activeStep = action.payload;
+    },
   },
 });
 
 export const registrationReducer = registrationSlice.reducer;
 export const {
-  acceptPublicEmailRegistrationInit,
-  acceptPublicSuomiFiRegistrationInit,
+  acceptPublicRegistrationInit,
+  increaseActiveStep,
   initRegistration,
   rejectPublicRegistrationInit,
   resetPublicRegistration,
+  setActiveStep,
   updatePublicRegistration,
 } = registrationSlice.actions;

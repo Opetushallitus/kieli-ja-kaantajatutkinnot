@@ -10,8 +10,10 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { loadExamSession, setActiveStep } from 'redux/reducers/examSession';
+import { loadExamSession } from 'redux/reducers/examSession';
+import { setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
+import { registrationSelector } from 'redux/selectors/registration';
 
 export const IdentifyPage = () => {
   // i18n
@@ -23,8 +25,8 @@ export const IdentifyPage = () => {
 
   // Redux
   const dispatch = useAppDispatch();
-  const { status, examSession, activeStep } =
-    useAppSelector(examSessionSelector);
+  const { status, examSession } = useAppSelector(examSessionSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
   // React Router
   const navigate = useNavigate();
   const params = useParams();

@@ -7,8 +7,10 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { increaseActiveStep } from 'redux/reducers/examSession';
-import { resetPublicRegistration } from 'redux/reducers/registration';
+import {
+  increaseActiveStep,
+  resetPublicRegistration,
+} from 'redux/reducers/registration';
 import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
 
 export const PublicRegistrationControlButtons = ({

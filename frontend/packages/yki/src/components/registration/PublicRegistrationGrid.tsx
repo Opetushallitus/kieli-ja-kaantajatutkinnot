@@ -21,13 +21,13 @@ import { initRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
-const PaperContents = ({
-  activeStep,
-}: {
-  activeStep: PublicRegistrationFormStep;
-}) => {
-  const { initRegistrationStatus, isEmailRegistration, registration } =
-    useAppSelector(registrationSelector);
+const PaperContents = () => {
+  const {
+    activeStep,
+    initRegistrationStatus,
+    isEmailRegistration,
+    registration,
+  } = useAppSelector(registrationSelector);
   const { examSession } = useAppSelector(examSessionSelector);
 
   const { t } = usePublicTranslation({
@@ -70,11 +70,8 @@ const PaperContents = ({
 };
 
 export const PublicRegistrationGrid = () => {
-  const {
-    status: examSessionStatus,
-    activeStep,
-    examSession,
-  } = useAppSelector(examSessionSelector);
+  const { status: examSessionStatus, examSession } =
+    useAppSelector(examSessionSelector);
 
   const { initRegistrationStatus } = useAppSelector(registrationSelector);
 
@@ -104,7 +101,7 @@ export const PublicRegistrationGrid = () => {
       <Grid className="public-registration" item>
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
-            <PublicRegistrationStepper activeStep={activeStep} />
+            <PublicRegistrationStepper />
             <div className="rows">
               <H1>{t('header')}</H1>
               <HeaderSeparator />
@@ -112,7 +109,7 @@ export const PublicRegistrationGrid = () => {
           </div>
           <Paper elevation={3}>
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-              <PaperContents activeStep={activeStep} />
+              <PaperContents />
             </LoadingProgressIndicator>
           </Paper>
         </div>

@@ -7,7 +7,7 @@ import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
-import { increaseActiveStep } from 'redux/reducers/examSession';
+import { increaseActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const SuomiFiIdentification = () => {

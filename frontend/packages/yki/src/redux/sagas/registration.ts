@@ -7,8 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
 import { storeExamSession } from 'redux/reducers/examSession';
 import {
-  acceptPublicEmailRegistrationInit,
-  acceptPublicSuomiFiRegistrationInit,
+  acceptPublicRegistrationInit,
   initRegistration,
   rejectPublicRegistrationInit,
 } from 'redux/reducers/registration';
@@ -27,11 +26,7 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
         SerializationUtils.deserializeExamSessionResponse(data.exam_session)
       )
     );
-    if (data.is_strongly_identified) {
-      yield put(acceptPublicSuomiFiRegistrationInit(data));
-    } else {
-      yield put(acceptPublicEmailRegistrationInit(data));
-    }
+    yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
     yield put(rejectPublicRegistrationInit());
   }

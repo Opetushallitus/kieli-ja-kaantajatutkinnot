@@ -1,7 +1,13 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Checkbox, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import {
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { CustomTextField, ExtLink, H2, Text } from 'shared/components';
+import { CustomTextField, H2, Text } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
@@ -173,21 +179,6 @@ export const SuomiFiRegistration = ({
           />
         </RadioGroup>
       </div>
-
-      <H2>{t('whatsNext.title')}</H2>
-      <Text>{t('whatsNext.description1')}</Text>
-      <Text>
-        {t('whatsNext.description2')}
-        <br />
-        {t('whatsNext.description3')}:
-        <br />
-        <ExtLink
-          className="text-embed-link text-transform-none"
-          href={'endpoint'}
-          text={t('whatsNext.linkLabel')}
-          endIcon={<OpenInNewIcon />}
-        />
-      </Text>
       <H2>{t('termsAndConditions.title')}</H2>
       <Text>
         <b>{t('termsAndConditions.description1')}</b>
@@ -207,16 +198,20 @@ export const SuomiFiRegistration = ({
         label={t('termsAndConditions.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
-      <Text>
-        {t('privacyStatement.description')}:
-        <br />
-        <ExtLink
-          className="text-embed-link text-transform-none"
-          href={'endpoint'}
-          text={t('privacyStatement.linkLabel')}
-          endIcon={<OpenInNewIcon />}
-        />
-      </Text>
+      <div>
+        <Text>
+          {t('privacyStatement.description')}:
+          <div className="columns gapped-xxs">
+            <Link
+              href={translateCommon('privacyStatementLink')}
+              target="_blank"
+            >
+              {t('privacyStatement.linkLabel')}
+            </Link>
+            <OpenInNewIcon />
+          </div>
+        </Text>
+      </div>
       <FormControlLabel
         control={
           <Checkbox
@@ -228,6 +223,23 @@ export const SuomiFiRegistration = ({
         label={t('privacyStatement.label')}
         className="public-registration__grid__preview__privacy-statement-checkbox-label"
       />
+      <H2>{t('whatsNext.title')}</H2>
+      <Text>{t('whatsNext.description1')}</Text>
+      <Text>
+        {t('whatsNext.description2')}
+        <br />
+        {t('whatsNext.description3')}:
+        <br />
+        <div className="columns gapped-xxs">
+          <Link
+            href={translateCommon('specialArrangementsLink')}
+            target="_blank"
+          >
+            {t('whatsNext.linkLabel')}
+          </Link>
+          <OpenInNewIcon />
+        </div>
+      </Text>
     </div>
   );
 };
