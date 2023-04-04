@@ -34,7 +34,7 @@
         "swe": "svenska"
       },
       "level": "Nivå",
-      "ophLogo": "Utbildningsstyrelsens logo",
+      "ophLogoAlt": "Utbildningsstyrelsens logo",
       "price": "Pris",
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälning"

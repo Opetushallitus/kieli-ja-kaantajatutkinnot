@@ -23,7 +23,8 @@
         "header": "Haluatko varmasti poistua sivulta?"
       },
       "no": "Ei",
-      "ophLogo": "Opetushallituksen logo",
+      "ophLogoAlt": "Opetushallituksen logo",
+      "ophLogoToFrontPageAlt": "Opetushallitus – Oikeustulkkirekisterin etusivulle",
       "permissionToPublish": "Saa julkaista",
       "register": "Rekisteri",
       "rowsPerPageLabel": "Tulokset per sivu",

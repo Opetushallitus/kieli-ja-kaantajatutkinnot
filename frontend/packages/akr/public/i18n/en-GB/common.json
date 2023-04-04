@@ -1,7 +1,7 @@
 {
   "akr": {
     "common": {
-      "akrLogo": "Examination system of authorised translators",
+      "akrLogo": "Logo of examination system of authorised translators",
       "appNameAbbreviation": "AKR",
       "appTitle": "Register of authorised translators | Finnish National Agency for Education",
       "back": "Back",
@@ -22,7 +22,8 @@
       "newTab": "Open a new window",
       "next": "Next",
       "no": "No",
-      "ophLogo": "Logo of Finnish National Agency for Education",
+      "ophLogoAlt": "Logo of Finnish National Agency for Education",
+      "ophLogoToFrontPageAlt": "Finnish National Agency for Education – To front page of register of authorised translators",
       "phase": "Stage",
       "register": "Register",
       "save": "Save",
