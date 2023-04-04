@@ -12,12 +12,9 @@ import {
   resetPublicRegistration,
 } from 'redux/reducers/registration';
 import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const PublicRegistrationControlButtons = ({
-  activeStep,
-}: {
-  activeStep: PublicRegistrationFormStep;
-}) => {
+export const PublicRegistrationControlButtons = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
   });
@@ -26,6 +23,7 @@ export const PublicRegistrationControlButtons = ({
   const dispatch = useAppDispatch();
   const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
     .emailLinkOrder.status;
+  const { activeStep } = useAppSelector(registrationSelector);
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();

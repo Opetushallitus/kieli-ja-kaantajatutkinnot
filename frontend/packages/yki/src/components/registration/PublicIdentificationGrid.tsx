@@ -14,7 +14,7 @@ export const PublicIdentificationGrid = () => {
     keyPrefix: 'yki.component.registration',
   });
 
-  const { activeStep, examSession } = useAppSelector(examSessionSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
 
   if (!examSession) {
     return null;
@@ -25,7 +25,7 @@ export const PublicIdentificationGrid = () => {
       <Grid className="public-registration" item>
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
-            <PublicRegistrationStepper activeStep={activeStep} />
+            <PublicRegistrationStepper />
             <div className="rows">
               <H1>{t('header')}</H1>
               <HeaderSeparator />
@@ -49,7 +49,7 @@ export const PublicIdentificationGrid = () => {
                 </ul>
                 <div className="gapped rows">
                   <SelectIdentificationMethod />
-                  <PublicRegistrationControlButtons activeStep={activeStep} />
+                  <PublicRegistrationControlButtons />
                 </div>
               </div>
             </div>

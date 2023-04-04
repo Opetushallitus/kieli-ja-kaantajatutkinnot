@@ -61,9 +61,7 @@ const PaperContents = () => {
             registration={registration}
             isEmailRegistration={isEmailRegistration}
           />
-          {!isDoneStepActive && (
-            <PublicRegistrationControlButtons activeStep={activeStep} />
-          )}
+          {!isDoneStepActive && <PublicRegistrationControlButtons />}
         </div>
       );
   }
