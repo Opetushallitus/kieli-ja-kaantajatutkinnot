@@ -45,5 +45,6 @@ export const publicIdentificationReducer = publicIdentificationSlice.reducer;
 export const {
   acceptEmailLinkOrder,
   rejectEmailLinkOrder,
+  resetPublicIdentificationState,
   sendEmailLinkOrder,
 } = publicIdentificationSlice.actions;

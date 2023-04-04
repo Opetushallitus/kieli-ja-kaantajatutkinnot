@@ -12,7 +12,7 @@ import { PublicRegistrationControlButtons } from 'components/registration/Public
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
@@ -22,28 +22,22 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const PaperContents = () => {
-  const {
-    activeStep,
-    initRegistrationStatus,
-    isEmailRegistration,
-    registration,
-  } = useAppSelector(registrationSelector);
+  const { activeStep, initRegistrationStatus } =
+    useAppSelector(registrationSelector);
   const { examSession } = useAppSelector(examSessionSelector);
 
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration',
-  });
+  const translateCommon = useCommonTranslation();
 
   const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
 
   switch (initRegistrationStatus) {
     case APIResponseStatus.Cancelled:
     case APIResponseStatus.Error:
-      // TODO Fine-grained error messages?
+      // TODO Add more fine-grained error message based on reported API error!
 
       return (
         <div className="public-registration__grid__form-container">
-          <H2>{t('errors.general')}</H2>
+          <H2>{translateCommon('errors.loadingFailed')}</H2>
         </div>
       );
     case APIResponseStatus.NotStarted:
@@ -56,11 +50,7 @@ const PaperContents = () => {
             examSession={examSession as ExamSession}
             showOpenings={!isDoneStepActive}
           />
-          <PublicRegistrationStepContents
-            activeStep={activeStep}
-            registration={registration}
-            isEmailRegistration={isEmailRegistration}
-          />
+          <PublicRegistrationStepContents />
           {!isDoneStepActive && <PublicRegistrationControlButtons />}
         </div>
       );

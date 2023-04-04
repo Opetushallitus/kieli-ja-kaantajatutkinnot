@@ -25,7 +25,7 @@ export const PersonDetails = ({
           value={registration.lastName}
         />
       </div>
-      <div className="email-registration-details__address-grid gapped">
+      <div className="registration-details__address-grid gapped">
         <CustomTextField
           {...getCustomTextFieldAttributes('address')}
           value={registration.address}

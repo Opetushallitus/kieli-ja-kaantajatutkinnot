@@ -4,23 +4,17 @@ import { Duration, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
-import {
-  PublicEmailRegistration,
-  PublicSuomiFiRegistration,
-} from 'interfaces/publicRegistration';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetPublicRegistration } from 'redux/reducers/registration';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const Done = ({
-  registration,
-}: {
-  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>;
-}) => {
+export const Done = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.done',
   });
   const translateCommon = useCommonTranslation();
 
+  const { registration } = useAppSelector(registrationSelector);
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
 
