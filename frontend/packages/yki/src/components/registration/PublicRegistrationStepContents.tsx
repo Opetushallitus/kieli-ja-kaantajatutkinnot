@@ -10,12 +10,10 @@ import {
 export const PublicRegistrationStepContents = ({
   activeStep,
   registration,
-  isLoading,
   isEmailRegistration,
 }: {
   activeStep: PublicRegistrationFormStep;
-  registration: PublicEmailRegistration | PublicSuomiFiRegistration;
-  isLoading: boolean;
+  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>;
   isEmailRegistration?: boolean;
 }) => {
   switch (activeStep) {
@@ -26,7 +24,6 @@ export const PublicRegistrationStepContents = ({
         return (
           <EmailRegistration
             registration={registration as PublicEmailRegistration}
-            isLoading={isLoading}
           />
         );
       }
@@ -34,7 +31,6 @@ export const PublicRegistrationStepContents = ({
       return (
         <SuomiFiRegistration
           registration={registration as PublicSuomiFiRegistration}
-          isLoading={isLoading}
         />
       );
     case PublicRegistrationFormStep.Done:

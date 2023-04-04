@@ -101,7 +101,7 @@ export const Footer = () => {
                 <OPHLogoViewer
                   className="footer__container__logo__oph"
                   direction={Direction.Vertical}
-                  alt={translateCommon('ophLogo')}
+                  alt={translateCommon('ophLogoAlt')}
                   currentLang={getCurrentLang()}
                 />
               </Divider>

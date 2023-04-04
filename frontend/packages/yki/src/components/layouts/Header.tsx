@@ -37,7 +37,7 @@ export const Header = (): JSX.Element => {
               <OPHLogoViewer
                 className="header__left__logo"
                 direction={Direction.Horizontal}
-                alt={translateCommon('ophLogo')}
+                alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
               />
             </Link>

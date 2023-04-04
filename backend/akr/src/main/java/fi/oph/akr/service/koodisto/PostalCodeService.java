@@ -1,14 +1,15 @@
 package fi.oph.akr.service.koodisto;
 
-import static org.springframework.util.StringUtils.capitalize;
-
 import jakarta.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class PostalCodeService extends AbstractKoodistoService {
@@ -48,5 +49,11 @@ public class PostalCodeService extends AbstractKoodistoService {
       return Pair.of(town, fiToSv.getOrDefault(town, town));
     }
     return Pair.of(svToFi.getOrDefault(town, town), town);
+  }
+
+  private String capitalize(final String word) {
+    final String[] parts = word.split("-");
+
+    return Arrays.stream(parts).map(StringUtils::capitalize).collect(Collectors.joining("-"));
   }
 }

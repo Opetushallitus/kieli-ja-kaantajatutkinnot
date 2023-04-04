@@ -6,7 +6,9 @@
     "language_code": "eng",
     "office_oid": "1.2.3.4.5",
     "published_at": null,
-    "session_date": "2019-09-27",
+    "registration_start_date": "2023-01-01",
+    "registration_end_date": "2024-05-01",
+    "session_date": "2024-06-01",
     "organizer_oid": "1.2.3.4",
     "id": 1,
     "location": [
@@ -55,5 +57,6 @@
     ],
     "email": null
   },
-  "registration_id": 1
+  "registration_id": 1,
+  "is_strongly_identified": true
 }
