@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -14,19 +15,17 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests()
-      .mvcMatchers("/", "/**")
-      .permitAll()
-      .anyRequest()
-      .authenticated()
-      .and()
+      .authorizeHttpRequests(authorize -> authorize.requestMatchers("/", "/**").permitAll().anyRequest().authenticated()
+      )
       .build();
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+    requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf().csrfTokenRepository(csrfTokenRepository).and();
+    return http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler));
   }
 }

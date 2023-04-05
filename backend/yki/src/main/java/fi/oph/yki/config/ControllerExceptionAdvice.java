@@ -1,7 +1,7 @@
 package fi.oph.yki.config;
 
+import jakarta.validation.ConstraintViolationException;
 import java.util.Set;
-import javax.validation.ConstraintViolationException;
 import org.apache.catalina.connector.ClientAbortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
