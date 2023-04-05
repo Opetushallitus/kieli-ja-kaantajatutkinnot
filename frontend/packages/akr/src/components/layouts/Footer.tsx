@@ -91,7 +91,7 @@ export const Footer = () => {
                 <Svg
                   className={'footer__container__logo__akr'}
                   src={AKTLogo}
-                  alt={translateCommon('akrLogo')}
+                  alt={translateCommon('akrLogoAlt')}
                 />
               </div>
             </div>
