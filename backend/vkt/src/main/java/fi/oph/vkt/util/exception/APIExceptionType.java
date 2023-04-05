@@ -16,7 +16,8 @@ public enum APIExceptionType {
   INVALID_TICKET,
   INVALID_VERSION,
   RENEW_RESERVATION_NOT_ALLOWED,
-  RESERVATION_PERSON_SESSION_MISMATCH;
+  RESERVATION_PERSON_SESSION_MISMATCH,
+  TICKET_VALIDATION_ERROR;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();

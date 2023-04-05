@@ -1,7 +1,7 @@
 package fi.oph.vkt.service.auth.ticketValidator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Map;
 
 public interface TicketValidator {
-  CasResponse validateTicket(String ticket) throws JsonProcessingException;
+  Map<String, String> validateTicket(String ticket);
 }

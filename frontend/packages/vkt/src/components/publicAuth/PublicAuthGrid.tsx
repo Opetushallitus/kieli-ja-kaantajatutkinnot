@@ -1,5 +1,5 @@
 import { Grid, Paper } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
+import { PublicAuthGridSkeleton } from 'components/skeletons/PublicAuthGridSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
@@ -21,12 +22,10 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 import { SerializationUtils } from 'utils/serialization';
 
 export const PublicAuthGrid = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { status } = useAppSelector(AuthSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
   const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
-  const isLoading = [reservationDetailsStatus, status].includes(
-    APIResponseStatus.InProgress
-  );
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
@@ -78,7 +77,9 @@ export const PublicAuthGrid = () => {
     <>
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+          {reservationDetailsStatus === APIResponseStatus.InProgress ? (
+            <PublicAuthGridSkeleton />
+          ) : (
             <div className="public-enrollment__grid__form-container">
               <PublicEnrollmentStepper
                 activeStep={PublicEnrollmentFormStep.Authenticate}
@@ -90,23 +91,24 @@ export const PublicAuthGrid = () => {
               />
               <div className="margin-top-xxl gapped rows">
                 <H3>{t('title')}</H3>
-                <CustomButton
-                  // https://opintopolku.fi/cas-oppija/login?service=https://opintopolku.fi/JokuSovellus/SovelluksenLogin
-                  href="https://testiopintopolku.fi/cas-oppija/login?service=http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu"
-                  sx={{ width: '168px' }}
-                  variant={Variant.Contained}
-                  color={Color.Secondary}
-                  onClick={() => {
-                    //dispatch(initialisePublicEnrollment(selectedExamEvent));
-                  }}
-                  data-testid="public-enrollment__authenticate-button"
-                  disabled={isLoading}
-                >
-                  {t('buttonText')}
-                </CustomButton>
+                <div className="columns">
+                  <LoadingProgressIndicator isLoading={isLoading}>
+                    <CustomButton
+                      href="https://testiopintopolku.fi/cas-oppija/login?service=http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu"
+                      sx={{ width: '168px' }}
+                      variant={Variant.Contained}
+                      onClick={() => setIsLoading(true)}
+                      color={Color.Secondary}
+                      data-testid="public-enrollment__authenticate-button"
+                      disabled={isLoading}
+                    >
+                      {t('buttonText')}
+                    </CustomButton>
+                  </LoadingProgressIndicator>
+                </div>
               </div>
             </div>
-          </LoadingProgressIndicator>
+          )}
         </Paper>
       </Grid>
     </>

@@ -1,17 +1,22 @@
-package fi.oph.vkt.service.auth;
+package fi.oph.vkt.service.auth.ticketValidator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.ctc.wstx.stax.WstxInputFactory;
+import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import fi.oph.vkt.service.auth.ticketValidator.CasAttributes;
-import fi.oph.vkt.service.auth.ticketValidator.CasAuthenticationSuccess;
-import fi.oph.vkt.service.auth.ticketValidator.CasResponse;
 import org.junit.jupiter.api.Test;
 
-public class AuthServiceTest {
+public class TicketValidatorTest {
 
-  private static final XmlMapper XML_MAPPER = new XmlMapper();
+  private static final XmlFactory xf = XmlFactory
+    .builder()
+    .xmlInputFactory(new WstxInputFactory())
+    .xmlOutputFactory(new WstxOutputFactory())
+    .build();
+  private static final XmlMapper XML_MAPPER = new XmlMapper(xf);
 
   @Test
   public void testXmlParse() throws JsonProcessingException {
@@ -35,7 +40,7 @@ public class AuthServiceTest {
       "</cas:authenticationSuccess>" +
       "</cas:serviceResponse>";
 
-    CasResponse casAuthenticationSuccess = XML_MAPPER.readValue(xml, CasResponse.class);
+    CasResponse casResponse = XML_MAPPER.readValue(xml, CasResponse.class);
 
     assertEquals(
       CasResponse
@@ -63,7 +68,7 @@ public class AuthServiceTest {
             .build()
         )
         .build(),
-      casAuthenticationSuccess
+      casResponse
     );
   }
 }
