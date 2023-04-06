@@ -6,6 +6,7 @@ import { InputFieldUtils } from 'shared/utils';
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { PublicSuomiFiRegistration } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -25,14 +26,16 @@ export const SuomiFiRegistrationDetails = () => {
     address: '',
     postNumber: '',
     postOffice: '',
-    privacyStatementConfirmation: '',
     certificateLanguage: '',
+    instructionLanguage: '',
+    privacyStatementConfirmation: '',
     termsAndConditionsAgreed: '',
   });
 
   const dispatch = useAppDispatch();
   const registration: Partial<PublicSuomiFiRegistration> =
     useAppSelector(registrationSelector).registration;
+  const { showErrors } = useAppSelector(registrationSelector);
 
   const handleChange =
     (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
@@ -47,6 +50,9 @@ export const SuomiFiRegistrationDetails = () => {
         })
       );
     };
+
+  const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
+  const registrationErrors = getRegistrationErrors();
 
   const handleErrors =
     (fieldName: keyof PublicSuomiFiRegistration) =>
@@ -80,19 +86,35 @@ export const SuomiFiRegistrationDetails = () => {
     return fieldErrors[fieldName].length > 0;
   };
 
+  // TODO Tried new error handling only for email. Generalize to other attributes as well!
   const getCustomTextFieldAttributes = (
     fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>
   ) => {
-    return {
-      id: `public-registration__contact-details__${fieldName}-field`,
-      label: t(fieldName),
-      onBlur: handleErrors(fieldName),
-      onChange: handleChange(fieldName),
-      error: showCustomTextFieldError(fieldName),
-      helperText: fieldErrors[fieldName],
-      required: true,
-      disabled: ['firstNames', 'lastName'].includes(fieldName),
-    };
+    if (fieldName === 'email') {
+      return {
+        id: `public-registration__contact-details__${fieldName}-field`,
+        label: t(fieldName),
+        onBlur: handleErrors(fieldName),
+        onChange: handleChange(fieldName),
+        error: showErrors,
+        helperText: registrationErrors[fieldName]
+          ? translateCommon(registrationErrors[fieldName] as string)
+          : '',
+        required: true,
+        disabled: ['firstNames', 'lastName'].includes(fieldName),
+      };
+    } else {
+      return {
+        id: `public-registration__contact-details__${fieldName}-field`,
+        label: t(fieldName),
+        onBlur: handleErrors(fieldName),
+        onChange: handleChange(fieldName),
+        error: showCustomTextFieldError(fieldName),
+        helperText: fieldErrors[fieldName],
+        required: true,
+        disabled: ['firstNames', 'lastName'].includes(fieldName),
+      };
+    }
   };
 
   return (

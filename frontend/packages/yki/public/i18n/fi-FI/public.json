@@ -96,9 +96,6 @@
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Vahvista ilmoittautuminen"
         },
-        "errors": {
-          "general": "Virhe tietojen lataamisessa!"
-        },
         "examSessionDetails": {
           "address": "Osoite",
           "exam": "Tutkinto",
@@ -123,6 +120,19 @@
           "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "email": "Sähköpostiosoite",
           "emailConfirmation": "Vahvista sähköpostiosoite",
+          "errors": {
+            "fields": {
+              "certificateLanguage": "Valitse todistuksen kieli",
+              "email": "Sähköpostiosoite",
+              "emailConfirmation": "Sähköpostiosoitteen vahvistus",
+              "firstNames": "Etunimet",
+              "lastName": "Sukunimi",
+              "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
+              "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
+            },
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "title": "Virheitä lomakkeella"
+          },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
           "firstNames": "Etunimet",
           "gender": "Sukupuoli",
@@ -146,6 +156,7 @@
             "label": "Hyväksyn edellä mainitut ehdot *",
             "title": "Hyväksy ehdot"
           },
+          "termsAndConditionsAgreed": "Hyväksy yleiset ehdot",
           "title": "Syötä tietosi",
           "whatsNext": {
             "description1": "Kun olet vahvistanut ilmoittautumisesi, saat sähköpostiisi linkin maksua varten.",

@@ -28,6 +28,7 @@ export const EmailRegistrationDetails = () => {
     postOffice: '',
     privacyStatementConfirmation: '',
     certificateLanguage: '',
+    instructionLanguage: '',
     termsAndConditionsAgreed: '',
     nationality: '',
     dateOfBirth: '',

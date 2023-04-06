@@ -1,7 +1,11 @@
 import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
-import { CertificateLanguage, GenderEnum } from 'enums/app';
+import {
+  CertificateLanguage,
+  GenderEnum,
+  InstructionLanguage,
+} from 'enums/app';
 import { ExamSessionResponse } from 'interfaces/examSessions';
 
 export interface PersonFillOutDetails {
@@ -10,8 +14,9 @@ export interface PersonFillOutDetails {
   address: string;
   postNumber: string;
   postOffice: string;
-  certificateLanguage: CertificateLanguage | '';
   phoneNumber: string;
+  certificateLanguage: CertificateLanguage | '';
+  instructionLanguage: InstructionLanguage | '';
 }
 
 export interface RegistrationCheckboxDetails {
@@ -50,4 +55,15 @@ export interface PublicRegistrationInitResponse {
     email?: string;
   };
   is_strongly_identified: boolean;
+}
+
+export interface PublicRegistrationError {
+  error: {
+    closed?: boolean;
+    create_payment?: boolean;
+    expired?: boolean;
+    full?: boolean;
+    person_creation?: boolean;
+    registered?: boolean;
+  };
 }

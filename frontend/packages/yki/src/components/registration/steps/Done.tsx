@@ -1,26 +1,22 @@
-import { useCallback, useEffect } from 'react';
-import { CustomButton, H2, Text } from 'shared/components';
-import { Duration, Severity } from 'shared/enums';
+import { useEffect } from 'react';
+import { H2, Text } from 'shared/components';
+import { Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { resetPublicRegistration } from 'redux/reducers/registration';
+import { usePublicTranslation } from 'configs/i18n';
+import { useAppSelector } from 'configs/redux';
+//import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+//import { resetPublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
 
 export const Done = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.done',
   });
-  const translateCommon = useCommonTranslation();
 
   const { registration } = useAppSelector(registrationSelector);
-  const dispatch = useAppDispatch();
+  //const dispatch = useAppDispatch();
   const { showToast } = useToast();
-
-  const resetAndRedirect = useCallback(() => {
-    dispatch(resetPublicRegistration());
-  }, [dispatch]);
 
   useEffect(() => {
     showToast({
@@ -28,12 +24,14 @@ export const Done = () => {
       description: t('successToast'),
     });
 
-    const timer = setTimeout(() => {
-      resetAndRedirect();
-    }, Duration.MediumExtra);
-
-    return () => clearTimeout(timer);
-  }, [t, showToast, resetAndRedirect]);
+    // TODO Clean-up on unmount
+    /* return () => {
+      if (activeStep === PublicRegistrationFormStep.Done) {
+        dispatch(resetPublicRegistration());
+      }
+    };
+    */
+  }, [t, showToast]);
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -42,14 +40,6 @@ export const Done = () => {
         <strong>{`${t('description.part1')}: ${registration.email}`}</strong>
       </Text>
       <Text>{t('description.part2')}</Text>
-      <CustomButton
-        className="align-self-start margin-top-lg"
-        color="secondary"
-        variant="contained"
-        onClick={resetAndRedirect}
-      >
-        {translateCommon('frontPage')}
-      </CustomButton>
     </div>
   );
 };

@@ -14,13 +14,18 @@ interface RegistrationState {
   isEmailRegistration?: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   activeStep: PublicRegistrationFormStep;
+  showErrors: boolean;
 }
 
 const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistrationStatus: APIResponseStatus.NotStarted,
   submitRegistrationStatus: APIResponseStatus.NotStarted,
-  registration: {},
+  registration: {
+    privacyStatementConfirmation: false,
+    termsAndConditionsAgreed: false,
+  },
+  showErrors: false,
 };
 
 const registrationSlice = createSlice({
@@ -45,6 +50,7 @@ const registrationSlice = createSlice({
       if (is_strongly_identified) {
         state.isEmailRegistration = false;
         state.registration = {
+          ...state.registration,
           id: registration_id,
           firstNames: user.first_name,
           lastName: user.last_name,
@@ -54,12 +60,15 @@ const registrationSlice = createSlice({
       } else {
         state.isEmailRegistration = true;
         state.registration = {
+          ...state.registration,
           id: registration_id,
           email: user.email,
         };
       }
     },
-
+    setShowErrors(state, action: PayloadAction<boolean>) {
+      state.showErrors = action.payload;
+    },
     updatePublicRegistration(
       state,
       action: PayloadAction<
@@ -85,5 +94,6 @@ export const {
   rejectPublicRegistrationInit,
   resetPublicRegistration,
   setActiveStep,
+  setShowErrors,
   updatePublicRegistration,
 } = registrationSlice.actions;

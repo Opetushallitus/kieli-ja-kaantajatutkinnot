@@ -42,6 +42,11 @@ export enum CertificateLanguage {
   EN = 'en',
 }
 
+export enum InstructionLanguage {
+  FI = 'fi',
+  SV = 'sv',
+}
+
 export enum RadioButtonValue {
   YES = 'radioButtonYes',
   NO = 'radioButtonNo',
