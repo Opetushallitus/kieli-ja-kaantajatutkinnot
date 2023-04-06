@@ -56,14 +56,3 @@ export interface PublicRegistrationInitResponse {
   };
   is_strongly_identified: boolean;
 }
-
-export interface PublicRegistrationError {
-  error: {
-    closed?: boolean;
-    create_payment?: boolean;
-    expired?: boolean;
-    full?: boolean;
-    person_creation?: boolean;
-    registered?: boolean;
-  };
-}

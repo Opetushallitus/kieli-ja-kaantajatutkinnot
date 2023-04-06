@@ -14,17 +14,18 @@ import { ExamUtils } from 'utils/exam';
 
 const RegisterToExamButton = ({
   examSession,
+  registrationPeriodOpen,
+  postAdmissionOpen,
 }: {
   examSession: ExamSession;
+  registrationPeriodOpen: boolean;
+  postAdmissionOpen: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
-  const now = dayjs();
-  const registrationPeriodOpen = ExamUtils.isRegistrationOpen(examSession, now);
-  const postAdmissionOpen = ExamUtils.isPostAdmissionOpen(examSession, now);
 
   const registrationOrPostAdmissionOpen =
     registrationPeriodOpen || postAdmissionOpen;
@@ -61,7 +62,23 @@ export const PublicExamSessionListingRow = ({
 }: {
   examSession: ExamSession;
 }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationButtonLabels',
+  });
+  const now = dayjs();
+
   const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
+  const registrationPeriodOpen = ExamUtils.isRegistrationOpen(examSession, now);
+  const postAdmissionOpen = ExamUtils.isPostAdmissionOpen(examSession, now);
+  const availablePlacesText =
+    (now.isBefore(examSession.registration_start_date) ||
+      registrationPeriodOpen) &&
+    examSession.participants < examSession.max_participants
+      ? examSession.max_participants - (examSession.participants ?? 0)
+      : postAdmissionOpen &&
+        examSession.pa_participants < examSession.post_admission_quota
+      ? examSession.post_admission_quota - (examSession.pa_participants ?? 0)
+      : t('full');
 
   return (
     <TableRow
@@ -85,11 +102,13 @@ export const PublicExamSessionListingRow = ({
         {ExamUtils.renderDateTime(examSession.registration_end_date?.hour(16))}
       </TableCell>
       <TableCell>{examSession.exam_fee} €</TableCell>
+      <TableCell>{availablePlacesText}</TableCell>
       <TableCell>
-        {examSession.max_participants - (examSession.participants ?? 0)}
-      </TableCell>
-      <TableCell>
-        <RegisterToExamButton examSession={examSession} />
+        <RegisterToExamButton
+          examSession={examSession}
+          registrationPeriodOpen={registrationPeriodOpen}
+          postAdmissionOpen={postAdmissionOpen}
+        />
       </TableCell>
     </TableRow>
   );

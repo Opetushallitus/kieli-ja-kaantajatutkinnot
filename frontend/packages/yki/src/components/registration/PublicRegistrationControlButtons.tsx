@@ -80,11 +80,15 @@ const SubmitButton = () => {
           <div>
             <Text>{t('registrationDetails.errors.fixErrors')}</Text>
             <ul>
-              {Object.keys(registrationErrors).map((field) => (
-                <li key={field}>
-                  <Text>{t(`registrationDetails.errors.fields.${field}`)}</Text>
-                </li>
-              ))}
+              {Object.entries(registrationErrors)
+                .filter(([_, val]) => val)
+                .map(([field, _]) => (
+                  <li key={field}>
+                    <Text>
+                      {t(`registrationDetails.errors.fields.${field}`)}
+                    </Text>
+                  </li>
+                ))}
             </ul>
           </div>
         );

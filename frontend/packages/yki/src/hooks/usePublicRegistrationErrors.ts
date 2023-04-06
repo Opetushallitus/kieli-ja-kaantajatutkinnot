@@ -10,14 +10,14 @@ import { registrationSelector } from 'redux/selectors/registration';
 
 type PublicRegistrationErrors = {
   [field in keyof Partial<
-    PublicEmailRegistration | PublicSuomiFiRegistration
+    PublicEmailRegistration & PublicSuomiFiRegistration
   >]: string;
 };
 
 const getErrors = (
   showErrors: boolean,
   isEmailRegistration: boolean,
-  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>
+  registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>
 ) => {
   if (!showErrors) {
     return {};
@@ -32,6 +32,27 @@ const getErrors = (
   if (!registration.privacyStatementConfirmation) {
     errors['privacyStatementConfirmation'] = 'required';
   }
+
+  errors['address'] = InputFieldUtils.validateCustomTextFieldErrors({
+    type: TextFieldTypes.Text,
+    required: true,
+    value: registration.address,
+  });
+  errors['postNumber'] = InputFieldUtils.validateCustomTextFieldErrors({
+    type: TextFieldTypes.Text,
+    required: true,
+    value: registration.postNumber,
+  });
+  errors['postOffice'] = InputFieldUtils.validateCustomTextFieldErrors({
+    type: TextFieldTypes.Text,
+    required: true,
+    value: registration.postOffice,
+  });
+  errors['phoneNumber'] = InputFieldUtils.validateCustomTextFieldErrors({
+    type: TextFieldTypes.PhoneNumber,
+    required: true,
+    value: registration.phoneNumber,
+  });
 
   if (isEmailRegistration) {
     errors['firstNames'] = InputFieldUtils.validateCustomTextFieldErrors({
@@ -50,6 +71,10 @@ const getErrors = (
       required: true,
       value: registration.email,
     });
+    errors['emailConfirmation'] =
+      registration.email !== registration.emailConfirmation
+        ? 'errors.mismatchingEmailsError'
+        : '';
   }
 
   return errors;

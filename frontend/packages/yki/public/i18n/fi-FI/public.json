@@ -122,11 +122,15 @@
           "emailConfirmation": "Vahvista sähköpostiosoite",
           "errors": {
             "fields": {
+              "address": "Katuosoite",
               "certificateLanguage": "Valitse todistuksen kieli",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
               "lastName": "Sukunimi",
+              "phoneNumber": "Puhelinnumero",
+              "postNumber": "Postinumero",
+              "postOffice": "Postitoimipaikka",
               "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
               "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
             },
@@ -137,7 +141,6 @@
           "firstNames": "Etunimet",
           "gender": "Sukupuoli",
           "lastName": "Sukunimi",
-          "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
           "nationality": "Kansalaisuus",
           "phoneNumber": "Puhelinnumero",
           "postNumber": "Postinumero",

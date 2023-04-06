@@ -38,7 +38,8 @@
           "required": "Tieto on pakollinen",
           "telFormat": "Puhelinnumero on virheellinen"
         },
-        "loadingFailed": "Tietojen lataaminen epäonnistui."
+        "loadingFailed": "Tietojen lataaminen epäonnistui.",
+        "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan"
       },
       "examDate": "Tutkinnon päivämäärä",
       "examParts": {

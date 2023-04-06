@@ -18,26 +18,26 @@ export const PersonDetails = ({
       <div className="grid-columns gapped">
         <CustomTextField
           {...getCustomTextFieldAttributes('firstNames')}
-          value={registration.firstNames}
+          value={registration.firstNames || ''}
         />
         <CustomTextField
           {...getCustomTextFieldAttributes('lastName')}
-          value={registration.lastName}
+          value={registration.lastName || ''}
         />
       </div>
       <div className="registration-details__address-grid gapped">
         <CustomTextField
           {...getCustomTextFieldAttributes('address')}
-          value={registration.address}
+          value={registration.address || ''}
         />
         <div className="columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('postNumber')}
-            value={registration.postNumber}
+            value={registration.postNumber || ''}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('postOffice')}
-            value={registration.postOffice}
+            value={registration.postOffice || ''}
           />
         </div>
       </div>
