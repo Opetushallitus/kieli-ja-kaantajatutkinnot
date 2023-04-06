@@ -20,7 +20,7 @@ public class TicketValidatorTest {
 
   @Test
   public void testXmlParse() throws JsonProcessingException {
-    String xml =
+    final String xml =
       "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>" +
       "<cas:authenticationSuccess>" +
       "<cas:user>suomi.fi,010280-952L</cas:user>" +
@@ -40,7 +40,7 @@ public class TicketValidatorTest {
       "</cas:authenticationSuccess>" +
       "</cas:serviceResponse>";
 
-    CasResponse casResponse = XML_MAPPER.readValue(xml, CasResponse.class);
+    final CasResponse casResponse = XML_MAPPER.readValue(xml, CasResponse.class);
 
     assertEquals(
       CasResponse
