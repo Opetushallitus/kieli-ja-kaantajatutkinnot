@@ -116,8 +116,7 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session)
-    throws JsonProcessingException {
+  public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
     final PublicPersonDTO personDTO = publicAuthService.validate(ticket);
 
     SessionUtil.setPersonId(session, personDTO.id());

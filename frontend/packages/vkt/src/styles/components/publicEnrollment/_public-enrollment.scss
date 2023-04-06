@@ -2,6 +2,10 @@
   & &__grid {
     &__form-container {
       padding: 3rem;
+
+      &__auth-button {
+        width: 18rem;
+      }
     }
 
     &__stepper {

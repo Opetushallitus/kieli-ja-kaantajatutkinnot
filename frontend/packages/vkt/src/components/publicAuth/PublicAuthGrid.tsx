@@ -23,7 +23,7 @@ import { SerializationUtils } from 'utils/serialization';
 
 export const PublicAuthGrid = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { status } = useAppSelector(AuthSelector);
+  const { status: authStatus } = useAppSelector(AuthSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
   const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
   const { t } = usePublicTranslation({
@@ -36,10 +36,10 @@ export const PublicAuthGrid = () => {
   const ticket = searchParams.get('ticket');
 
   useEffect(() => {
-    if (ticket && status !== APIResponseStatus.InProgress) {
+    if (ticket && authStatus !== APIResponseStatus.InProgress) {
       navigate(AppRoutes.PublicAuth, { replace: true });
       dispatch(startAuthentication(ticket));
-    } else if (status === APIResponseStatus.Success) {
+    } else if (authStatus === APIResponseStatus.Success) {
       const examEvent = sessionStorage.getItem('examEvent');
 
       if (examEvent) {
@@ -49,13 +49,16 @@ export const PublicAuthGrid = () => {
         dispatch(setSelectedPublicExamEvent(parsedExamEvent));
       }
     }
-  }, [navigate, dispatch, ticket, status]);
+  }, [dispatch, navigate, ticket, authStatus]);
 
   useEffect(() => {
-    if (selectedExamEvent && status === APIResponseStatus.Success) {
+    if (selectedExamEvent && authStatus === APIResponseStatus.Success) {
       dispatch(initialisePublicEnrollment(selectedExamEvent));
+    } else if (authStatus === APIResponseStatus.Error) {
+      navigate(AppRoutes.PublicHomePage, { replace: true });
+      dispatch(resetAuthentication());
     }
-  }, [navigate, dispatch, selectedExamEvent, status]);
+  }, [dispatch, navigate, selectedExamEvent, authStatus]);
 
   useEffect(() => {
     if (
@@ -66,6 +69,23 @@ export const PublicAuthGrid = () => {
       dispatch(resetAuthentication());
     }
   }, [navigate, dispatch, selectedExamEvent, reservationDetailsStatus]);
+
+  useEffect(() => {
+    if (
+      !ticket &&
+      authStatus === APIResponseStatus.NotStarted &&
+      reservationDetailsStatus === APIResponseStatus.NotStarted &&
+      !selectedExamEvent
+    ) {
+      navigate(AppRoutes.PublicHomePage, { replace: true });
+    }
+  }, [
+    navigate,
+    selectedExamEvent,
+    authStatus,
+    reservationDetailsStatus,
+    ticket,
+  ]);
 
   if (!selectedExamEvent) {
     return null;
@@ -94,8 +114,8 @@ export const PublicAuthGrid = () => {
                 <div className="columns">
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
+                      className="public-enrollment__grid__form-container__auth-button"
                       href="https://testiopintopolku.fi/cas-oppija/login?service=http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu"
-                      sx={{ width: '168px' }}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}

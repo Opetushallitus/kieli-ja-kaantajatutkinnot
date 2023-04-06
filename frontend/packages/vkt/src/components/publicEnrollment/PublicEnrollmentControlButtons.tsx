@@ -69,9 +69,9 @@ export const PublicEnrollmentControlButtons = ({
             title: translateCommon('yes'),
             variant: Variant.Contained,
             action: () => {
-              dispatch(confirmAction);
               dispatch(resetPublicEnrollment());
               dispatch(resetSelectedPublicExamEvent());
+              dispatch(confirmAction);
             },
           },
         ],
