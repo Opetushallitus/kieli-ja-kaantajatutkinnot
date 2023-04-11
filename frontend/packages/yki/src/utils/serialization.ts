@@ -148,13 +148,16 @@ export class SerializationUtils {
       nationalities: ['358'],
       certificate_lang: registration.certificateLanguage,
       exam_lang: registration.instructionLanguage,
-      birthdate: DateUtils.serializeDate(registration.dateOfBirth),
+      // TODO Fix date of birth, currently not passed correctly from form to redux state
+      //birthdate: DateUtils.serializeDate(registration.dateOfBirth),
+      birtdate: '2000-01-01',
       ssn: registration.ssn,
       zip: registration.postNumber,
       post_office: registration.postNumber,
       street_address: registration.address,
       phone_number: registration.phoneNumber,
       email: registration.email,
+      // TODO Fix gender input
       gender: SerializationUtils.serializeGender(registration.gender),
     };
   }

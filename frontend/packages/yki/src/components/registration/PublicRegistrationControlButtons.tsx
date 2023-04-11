@@ -128,13 +128,19 @@ const SubmitButton = () => {
 export const PublicRegistrationControlButtons = () => {
   const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
     .emailLinkOrder.status;
-  const { activeStep } = useAppSelector(registrationSelector);
+  const {
+    activeStep,
+    submitRegistration: { status: submitRegistrationStatus },
+  } = useAppSelector(registrationSelector);
 
   const renderAbort =
     (activeStep === PublicRegistrationFormStep.Identify &&
       emailLinkOrderStatus !== APIResponseStatus.Success) ||
-    activeStep === PublicRegistrationFormStep.Register;
-  const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
+    (activeStep === PublicRegistrationFormStep.Register &&
+      submitRegistrationStatus !== APIResponseStatus.Success);
+  const renderSubmit =
+    activeStep === PublicRegistrationFormStep.Register &&
+    submitRegistrationStatus !== APIResponseStatus.Success;
 
   if (renderAbort || renderSubmit) {
     return (

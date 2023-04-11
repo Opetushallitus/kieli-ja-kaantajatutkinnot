@@ -1,6 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { H2, Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { CommonRegistrationDetails } from 'components/registration/steps/register/CommonRegistrationDetails';
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
@@ -9,12 +11,12 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { registrationSelector } from 'redux/selectors/registration';
 
-export const SubmitRegistrationDetails = () => {
-  const { isEmailRegistration } = useAppSelector(registrationSelector);
+const FillRegistrationDetails = () => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
+  const { isEmailRegistration } = useAppSelector(registrationSelector);
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -49,4 +51,62 @@ export const SubmitRegistrationDetails = () => {
       </Text>
     </div>
   );
+};
+
+const Error = () => {
+  const translateCommon = useCommonTranslation();
+  const { error } = useAppSelector(registrationSelector).submitRegistration;
+
+  return (
+    <div className="margin-top-xxl rows gapped">
+      <H2>
+        {error
+          ? translateCommon(`errors.registration.${error}`)
+          : translateCommon('error')}
+      </H2>
+    </div>
+  );
+};
+
+const Success = () => {
+  const { registration } = useAppSelector(registrationSelector);
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationFormSubmitted',
+  });
+
+  return (
+    <div className="margin-top-xxl rows gapped">
+      <H2>{t('title')}</H2>
+      <H2>{t('whatsNext.title')}</H2>
+      <Text>
+        <Trans
+          t={t}
+          i18nKey={'whatsNext.description1'}
+          email={registration.email}
+        >
+          {registration.email}
+        </Trans>
+      </Text>
+      <Text>
+        <Trans t={t} i18nKey={'whatsNext.description2'} />
+        <br />
+        {t('whatsNext.description3')}
+      </Text>
+    </div>
+  );
+};
+
+export const SubmitRegistrationDetails = () => {
+  const { status } = useAppSelector(registrationSelector).submitRegistration;
+
+  switch (status) {
+    case APIResponseStatus.NotStarted:
+    case APIResponseStatus.InProgress:
+      return <FillRegistrationDetails />;
+    case APIResponseStatus.Cancelled:
+    case APIResponseStatus.Error:
+      return <Error />;
+    case APIResponseStatus.Success:
+      return <Success />;
+  }
 };

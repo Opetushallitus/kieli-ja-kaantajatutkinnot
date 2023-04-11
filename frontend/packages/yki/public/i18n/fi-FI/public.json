@@ -169,6 +169,15 @@
             "title": "Mitä seuraavaksi"
           }
         },
+        "registrationFormSubmitted": {
+          "title": "Ilmoittautuminen onnistui",
+          "whatsNext": {
+            "description1": "Saat maksuohjeet ja varmistuksen ilmoittautumisesta sähköpostiosoitteeseen <strong><0></0></strong>",
+            "description2": "<strong>Tärkeää!</strong> Muistathan että tutkintomaksu on maksettava viimeistään eräpäivänä.",
+            "description3": "Jos et maksa, ilmoittautumisesi peruuntuu etkä voi osallistua tutkintotilaisuuteen.",
+            "title": "Mitä seuraavaksi"
+          }
+        },
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
