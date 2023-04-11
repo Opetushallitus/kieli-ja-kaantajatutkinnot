@@ -6,5 +6,6 @@ export enum APIEndpoints {
   EvaluationOrder = '/yki/api/evaluation/:evaluationId/order',
   InitRegistration = '/yki/api/registration/init',
   LoginLink = '/yki/api/login-link',
+  SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   SuomiFiAuthRedirect = '/yki/auth/',
 }

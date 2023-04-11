@@ -8,12 +8,13 @@ import {
 } from 'enums/publicRegistration';
 import {
   PublicEmailRegistration,
+  PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
 
-interface RegistrationState {
+export interface RegistrationState {
   initRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationInitError;
@@ -96,6 +97,33 @@ const registrationSlice = createSlice({
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;
     },
+    submitPublicRegistration(state) {
+      state.submitRegistration.status = APIResponseStatus.InProgress;
+    },
+    acceptPublicRegistrationSubmission(state) {
+      state.submitRegistration.status = APIResponseStatus.Success;
+    },
+    rejectPublicRegistrationSubmission(
+      state,
+      action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>
+    ) {
+      state.submitRegistration.status = APIResponseStatus.Error;
+      const { closed, create_payment, expired, person_creation } =
+        action.payload.error;
+      if (closed) {
+        state.submitRegistration.error =
+          PublicRegistrationFormSubmitError.RegistrationPeriodClosed;
+      } else if (create_payment) {
+        state.submitRegistration.error =
+          PublicRegistrationFormSubmitError.PaymentCreationFailed;
+      } else if (person_creation) {
+        state.submitRegistration.error =
+          PublicRegistrationFormSubmitError.PersonCreationFailed;
+      } else if (expired) {
+        state.submitRegistration.error =
+          PublicRegistrationFormSubmitError.FormExpired;
+      }
+    },
     updatePublicRegistration(
       state,
       action: PayloadAction<
@@ -116,11 +144,14 @@ const registrationSlice = createSlice({
 export const registrationReducer = registrationSlice.reducer;
 export const {
   acceptPublicRegistrationInit,
+  acceptPublicRegistrationSubmission,
   increaseActiveStep,
   initRegistration,
   rejectPublicRegistrationInit,
+  rejectPublicRegistrationSubmission,
   resetPublicRegistration,
   setActiveStep,
   setShowErrors,
+  submitPublicRegistration,
   updatePublicRegistration,
 } = registrationSlice.actions;

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { GenderEnum } from 'enums/app';
 import {
   EvaluationOrderRequest,
   ExaminationParts,
@@ -19,6 +20,10 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import {
+  PublicEmailRegistration,
+  PublicSuomiFiRegistration,
+} from 'interfaces/publicRegistration';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
@@ -120,5 +125,37 @@ export class SerializationUtils {
       case AppLanguage.English:
         return 'en';
     }
+  }
+
+  static serializeGender(gender?: GenderEnum) {
+    switch (gender) {
+      case GenderEnum.Male:
+        return '1';
+      case GenderEnum.Female:
+        return '2';
+      default:
+        return '';
+    }
+  }
+
+  static serializeRegistrationForm(
+    registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>
+  ) {
+    return {
+      first_name: registration.firstNames,
+      last_name: registration.lastName,
+      // TODO Get from state instead!
+      nationalities: ['358'],
+      certificate_lang: registration.certificateLanguage,
+      exam_lang: registration.instructionLanguage,
+      birthdate: DateUtils.serializeDate(registration.dateOfBirth),
+      ssn: registration.ssn,
+      zip: registration.postNumber,
+      post_office: registration.postNumber,
+      street_address: registration.address,
+      phone_number: registration.phoneNumber,
+      email: registration.email,
+      gender: SerializationUtils.serializeGender(registration.gender),
+    };
   }
 }

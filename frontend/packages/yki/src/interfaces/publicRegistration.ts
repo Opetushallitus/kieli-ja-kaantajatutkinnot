@@ -35,7 +35,7 @@ export interface PublicSuomiFiRegistration
 export interface PublicEmailRegistration
   extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
   nationality: string;
-  dateOfBirth: Dayjs | '';
+  dateOfBirth?: Dayjs;
   gender?: GenderEnum;
   hasSSN?: boolean;
   ssn?: string;

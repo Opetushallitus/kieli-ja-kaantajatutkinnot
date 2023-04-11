@@ -174,20 +174,12 @@
           "completed": "Suoritettu",
           "phase": "Vaihe",
           "step": {
-            "Done": "Valmis",
             "Identify": "Tunnistaudu",
+            "Payment": "Maksu",
             "Register": "Ilmoittaudu"
           }
         },
         "steps": {
-          "done": {
-            "description": {
-              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
-            },
-            "successToast": "Ilmoittautuminen onnistui!",
-            "title": "Maksu on suoritettu."
-          },
           "identify": {
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
@@ -209,6 +201,14 @@
             "title": "Tunnistaudu ilmoittautumista varten",
             "withFinnishSSN": "<strong>Jos sinulla on suomalainen henkilötunnus</strong>, ilmoittaudu Suomi.fi-tunnistautumisen kautta. tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
             "withoutFinnishSSN": "<strong>Jos sinulla ei ole suomalaista henkilötunnusta</strong>, voit ilmoittautua myös sähköpostilla. Saat tunnistautumisen jälkeen antamaasi sähköpostiin kirjautumislinkin, jonka kautta pääset jatkamaan ilmoittautumista."
+          },
+          "payment": {
+            "description": {
+              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
+              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+            },
+            "successToast": "Ilmoittautuminen onnistui!",
+            "title": "Maksu on suoritettu."
           }
         }
       }

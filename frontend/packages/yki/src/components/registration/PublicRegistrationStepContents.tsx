@@ -1,4 +1,4 @@
-import { Done } from 'components/registration/steps/Done';
+import { Payment } from 'components/registration/steps/Payment';
 import { SubmitRegistrationDetails } from 'components/registration/steps/register/SubmitRegistrationDetails';
 import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
@@ -11,8 +11,8 @@ export const PublicRegistrationStepContents = () => {
       return <></>;
     case PublicRegistrationFormStep.Register:
       return <SubmitRegistrationDetails />;
-    case PublicRegistrationFormStep.Done:
-      return <Done />;
+    case PublicRegistrationFormStep.Payment:
+      return <Payment />;
     default:
       return <> </>;
   }

@@ -89,7 +89,7 @@ export const EmailRegistrationDetails = () => {
           <CustomTextField
             {...getCustomTextFieldAttributes('dateOfBirth')}
             type={TextFieldTypes.Text}
-            value={registration.dateOfBirth}
+            value={registration.dateOfBirth || ''}
           />
         </div>
         <CustomTextField

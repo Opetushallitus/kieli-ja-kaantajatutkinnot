@@ -9,9 +9,9 @@ import { useAppSelector } from 'configs/redux';
 //import { resetPublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
 
-export const Done = () => {
+export const Payment = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.done',
+    keyPrefix: 'yki.component.registration.steps.payment',
   });
 
   const { registration } = useAppSelector(registrationSelector);

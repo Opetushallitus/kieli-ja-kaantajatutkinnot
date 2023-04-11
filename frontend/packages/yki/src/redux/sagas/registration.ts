@@ -1,19 +1,26 @@
-import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
+import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import {
+  PublicRegistrationFormSubmitErrorResponse,
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
 import { storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationInit,
+  acceptPublicRegistrationSubmission,
   initRegistration,
+  RegistrationState,
   rejectPublicRegistrationInit,
+  rejectPublicRegistrationSubmission,
+  submitPublicRegistration,
 } from 'redux/reducers/registration';
+import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
 function* initRegistrationSaga(action: PayloadAction<number>) {
@@ -43,6 +50,45 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
   }
 }
 
+function* submitRegistrationFormSaga() {
+  try {
+    const lang = getCurrentLang();
+    const registrationState: RegistrationState = yield select(
+      registrationSelector
+    );
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.SubmitRegistration.replace(
+        /:registrationId/,
+        `${registrationState.registration.id}`
+      ),
+      JSON.stringify(
+        SerializationUtils.serializeRegistrationForm(
+          registrationState.registration
+        )
+      ),
+      {
+        params: {
+          lang: SerializationUtils.serializeAppLanguage(lang),
+          'use-yki-ui': true,
+        },
+      }
+    );
+    yield put(acceptPublicRegistrationSubmission());
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('caught error!', error);
+    if (axios.isAxiosError(error) && error.response) {
+      const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
+        error.response;
+      yield put(rejectPublicRegistrationSubmission(response.data));
+    } else {
+      yield put(rejectPublicRegistrationSubmission({ error: {} }));
+    }
+  }
+}
+
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
+  yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
 }

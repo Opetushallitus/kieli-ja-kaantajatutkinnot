@@ -12,6 +12,7 @@ import {
   increaseActiveStep,
   resetPublicRegistration,
   setShowErrors,
+  submitPublicRegistration,
 } from 'redux/reducers/registration';
 import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -101,13 +102,13 @@ const SubmitButton = () => {
           ],
         });
       } else {
-        // TODO Instead submit registration order!
-        dispatch(increaseActiveStep());
+        dispatch(submitPublicRegistration());
       }
     } else {
       dispatch(increaseActiveStep());
     }
   };
+  // TODO Disable button and display spinner over it if submission in progress?
 
   return (
     <CustomButton

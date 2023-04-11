@@ -29,7 +29,7 @@ const PaperContents = () => {
 
   const translateCommon = useCommonTranslation();
 
-  const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
+  const isFinalStepActive = activeStep === PublicRegistrationFormStep.Payment;
 
   switch (status) {
     case APIResponseStatus.Cancelled:
@@ -51,10 +51,10 @@ const PaperContents = () => {
         <div className="public-registration__grid__form-container">
           <PublicRegistrationExamSessionDetails
             examSession={examSession as ExamSession}
-            showOpenings={!isDoneStepActive}
+            showOpenings={!isFinalStepActive}
           />
           <PublicRegistrationStepContents />
-          {!isDoneStepActive && <PublicRegistrationControlButtons />}
+          {!isFinalStepActive && <PublicRegistrationControlButtons />}
         </div>
       );
   }
