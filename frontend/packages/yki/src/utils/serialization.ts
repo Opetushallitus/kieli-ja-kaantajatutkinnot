@@ -147,7 +147,8 @@ export class SerializationUtils {
       // TODO Get from state instead!
       nationalities: ['358'],
       certificate_lang: registration.certificateLanguage,
-      exam_lang: registration.instructionLanguage,
+      // TODO Properly force exam_lang or set proper default!
+      exam_lang: registration.instructionLanguage || 'fi',
       // TODO Fix date of birth, currently not passed correctly from form to redux state
       //birthdate: DateUtils.serializeDate(registration.dateOfBirth),
       birtdate: '2000-01-01',

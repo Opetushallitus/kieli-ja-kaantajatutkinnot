@@ -79,9 +79,13 @@ function* submitRegistrationFormSaga() {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
     if (axios.isAxiosError(error) && error.response) {
-      const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
-        error.response;
-      yield put(rejectPublicRegistrationSubmission(response.data));
+      if (error.response.data && error.response.data.errpr) {
+        const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
+          error.response;
+        yield put(rejectPublicRegistrationSubmission(response.data));
+      } else {
+        yield put(rejectPublicRegistrationSubmission({ error: {} }));
+      }
     } else {
       yield put(rejectPublicRegistrationSubmission({ error: {} }));
     }
