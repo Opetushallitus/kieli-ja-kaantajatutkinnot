@@ -22,22 +22,25 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const PaperContents = () => {
-  const { activeStep, initRegistrationStatus } =
-    useAppSelector(registrationSelector);
+  const { activeStep } = useAppSelector(registrationSelector);
+  const { status, error } =
+    useAppSelector(registrationSelector).initRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
 
   const translateCommon = useCommonTranslation();
 
   const isDoneStepActive = activeStep === PublicRegistrationFormStep.Done;
 
-  switch (initRegistrationStatus) {
+  switch (status) {
     case APIResponseStatus.Cancelled:
     case APIResponseStatus.Error:
-      // TODO Add more fine-grained error message based on reported API error!
-
       return (
         <div className="public-registration__grid__form-container">
-          <H2>{translateCommon('errors.loadingFailed')}</H2>
+          <H2>
+            {error
+              ? translateCommon(`errors.registration.${error}`)
+              : translateCommon('error')}
+          </H2>
         </div>
       );
     case APIResponseStatus.NotStarted:
@@ -61,7 +64,8 @@ export const PublicRegistrationGrid = () => {
   const { status: examSessionStatus, examSession } =
     useAppSelector(examSessionSelector);
 
-  const { initRegistrationStatus } = useAppSelector(registrationSelector);
+  const initRegistrationStatus =
+    useAppSelector(registrationSelector).initRegistration.status;
 
   const dispatch = useAppDispatch();
 

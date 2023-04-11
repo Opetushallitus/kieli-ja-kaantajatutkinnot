@@ -1,10 +1,13 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
-import { PublicRegistrationInitResponse } from 'interfaces/publicRegistration';
+import {
+  PublicRegistrationInitErrorResponse,
+  PublicRegistrationInitResponse,
+} from 'interfaces/publicRegistration';
 import { storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptPublicRegistrationInit,
@@ -28,7 +31,15 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     );
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
-    yield put(rejectPublicRegistrationInit());
+    // eslint-disable-next-line no-console
+    console.error('caught error!', error);
+    if (axios.isAxiosError(error) && error.response) {
+      const response: AxiosResponse<PublicRegistrationInitErrorResponse> =
+        error.response;
+      yield put(rejectPublicRegistrationInit(response.data));
+    } else {
+      yield put(rejectPublicRegistrationInit({ error: {} }));
+    }
   }
 }
 

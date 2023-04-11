@@ -56,3 +56,20 @@ export interface PublicRegistrationInitResponse {
   };
   is_strongly_identified: boolean;
 }
+
+export interface PublicRegistrationInitErrorResponse {
+  error: {
+    closed?: boolean;
+    full?: boolean;
+    registered?: boolean;
+  };
+}
+
+export interface PublicRegistrationFormSubmitErrorResponse {
+  error: {
+    closed?: boolean;
+    create_payment?: boolean;
+    expired?: boolean;
+    person_creation?: boolean;
+  };
+}

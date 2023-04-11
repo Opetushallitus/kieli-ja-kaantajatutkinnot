@@ -1012,6 +1012,22 @@ module.exports = function (app) {
   app.post('/yki/api/registration/init', (req, res) => {
     const mockCall = () => {
       try {
+        /*
+        // Uncomment to test out different error messages.
+        switch (req.body.exam_session_id) {
+          case 11:
+            res.status(409).send({ error: { registered: true } });
+          case 13:
+            res.status(409).send({ error: { closed: true } });
+          case 12:
+            res.status(409).send({ error: { full: true } });
+          default:
+            req.body.exam_session_id % 2 === 0
+              ? res.send(initRegistrationEmailAuth)
+              : res.send(initRegistration);
+        }
+        */
+
         req.body.exam_session_id % 2 === 0
           ? res.send(initRegistrationEmailAuth)
           : res.send(initRegistration);
