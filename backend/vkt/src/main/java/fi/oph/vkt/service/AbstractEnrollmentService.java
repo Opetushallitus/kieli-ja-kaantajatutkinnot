@@ -31,8 +31,6 @@ public abstract class AbstractEnrollmentService {
     final Person person,
     final EnrollmentRepository enrollmentRepository
   ) {
-    return enrollmentRepository
-      .findByExamEventAndIdentityNumber(examEvent.getId(), person.getIdentityNumber())
-      .isPresent();
+    return enrollmentRepository.findByExamEventAndPerson(examEvent, person).isPresent();
   }
 }

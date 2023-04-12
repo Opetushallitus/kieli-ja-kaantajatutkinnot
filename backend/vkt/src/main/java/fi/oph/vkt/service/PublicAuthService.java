@@ -21,11 +21,17 @@ public class PublicAuthService {
 
   private final CasTicketValidationService casTicketValidationService;
 
-  private Person createPerson(final String identityNumber, final String firstName, final String lastName) {
+  private Person createPerson(
+    final String identityNumber,
+    final String firstName,
+    final String lastName,
+    final String OID
+  ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
     person.setLastName(lastName);
     person.setFirstName(firstName);
+    person.setOid(OID);
 
     return personRepository.saveAndFlush(person);
   }
@@ -37,10 +43,11 @@ public class PublicAuthService {
     final String identityNumber = personDetails.get("identityNumber");
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
+    final String OID = personDetails.get("oid");
 
     final Person person = personRepository
-      .findByIdentityNumber(identityNumber)
-      .orElseGet(() -> createPerson(identityNumber, firstName, lastName));
+      .findByOid(identityNumber)
+      .orElseGet(() -> createPerson(identityNumber, firstName, lastName, OID));
 
     return PublicPersonDTO
       .builder()

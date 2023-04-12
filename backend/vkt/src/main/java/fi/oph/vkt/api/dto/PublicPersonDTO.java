@@ -6,7 +6,7 @@ import lombok.NonNull;
 @Builder
 public record PublicPersonDTO(
   @NonNull Long id,
-  @NonNull String identityNumber,
+  String identityNumber,
   @NonNull String lastName,
   @NonNull String firstName
 ) {}

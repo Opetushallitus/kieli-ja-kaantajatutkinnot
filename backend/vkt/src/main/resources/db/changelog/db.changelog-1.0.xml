@@ -511,4 +511,11 @@
                 columnNames="session_primary_id, attribute_name"
         />
     </changeSet>
+
+    <changeSet id="2023-04-11-add_person_oid" author="jrkkp">
+        <addColumn tableName="person">
+            <column name="oid" type="TEXT" />
+        </addColumn>
+        <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="TEXT"/>
+    </changeSet>
 </databaseChangeLog>
