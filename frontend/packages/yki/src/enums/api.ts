@@ -9,3 +9,9 @@ export enum APIEndpoints {
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   SuomiFiAuthRedirect = '/yki/auth/',
 }
+
+export enum PaymentStatus {
+  Success = 'payment-success',
+  Cancel = 'payment-cancel',
+  Error = 'payment-error',
+}

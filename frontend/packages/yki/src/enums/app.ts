@@ -4,6 +4,7 @@ export enum AppConstants {
 
 export enum AppRoutes {
   Registration = '/yki/ilmoittautuminen',
+  RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
   Reassessment = '/yki/tarkistusarviointi',
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
