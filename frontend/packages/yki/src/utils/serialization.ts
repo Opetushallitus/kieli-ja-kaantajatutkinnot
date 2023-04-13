@@ -145,7 +145,9 @@ export class SerializationUtils {
       first_name: registration.firstNames,
       last_name: registration.lastName,
       // TODO Get from state instead!
-      nationalities: ['358'],
+      nationalities: ['831'],
+      // TODO Deduce from given nationality
+      nationality_desc: 'Guernsey',
       certificate_lang: registration.certificateLanguage,
       // TODO Properly force exam_lang or set proper default!
       exam_lang: registration.instructionLanguage || 'fi',
