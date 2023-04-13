@@ -5,7 +5,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent } from 'react';
-import { CustomTextField, Text } from 'shared/components';
+import { CustomDatePicker, CustomTextField, Text } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
@@ -97,10 +97,22 @@ export const EmailRegistrationDetails = () => {
             value={registration.nationality}
             type={TextFieldTypes.Text}
           />
-          <CustomTextField
-            {...getCustomTextFieldAttributes('dateOfBirth')}
-            type={TextFieldTypes.Text}
-            value={registration.dateOfBirth || ''}
+          <CustomDatePicker
+            placeholder={t('dateOfBirth')}
+            value={registration.dateOfBirth ?? null}
+            setValue={(value) => {
+              if (value) {
+                dispatch(updatePublicRegistration({ dateOfBirth: value }));
+              } else {
+                dispatch(updatePublicRegistration({ dateOfBirth: undefined }));
+              }
+            }}
+            error={showErrors && !!registrationErrors['dateOfBirth']}
+            helperText={
+              registrationErrors['dateOfBirth']
+                ? translateCommon(registrationErrors['dateOfBirth'] as string)
+                : ''
+            }
           />
         </div>
         <CustomTextField

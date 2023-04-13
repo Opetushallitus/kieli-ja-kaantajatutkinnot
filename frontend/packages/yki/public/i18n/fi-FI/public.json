@@ -124,6 +124,7 @@
             "fields": {
               "address": "Katuosoite",
               "certificateLanguage": "Valitse todistuksen kieli",
+              "dateOfBirth": "Syntymäaika",
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",

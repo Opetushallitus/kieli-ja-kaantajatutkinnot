@@ -1,4 +1,4 @@
-import { TextFieldTypes } from 'shared/enums';
+import { CustomTextFieldErrors, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useAppSelector } from 'configs/redux';
@@ -24,13 +24,13 @@ const getErrors = (
   }
   const errors: PublicRegistrationErrors = {};
   if (!registration.certificateLanguage) {
-    errors['certificateLanguage'] = 'required';
+    errors['certificateLanguage'] = CustomTextFieldErrors.Required;
   }
   if (!registration.termsAndConditionsAgreed) {
-    errors['termsAndConditionsAgreed'] = 'required';
+    errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
   }
   if (!registration.privacyStatementConfirmation) {
-    errors['privacyStatementConfirmation'] = 'required';
+    errors['privacyStatementConfirmation'] = CustomTextFieldErrors.Required;
   }
 
   errors['address'] = InputFieldUtils.validateCustomTextFieldErrors({
@@ -65,8 +65,11 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
+    if (!registration.dateOfBirth) {
+      errors['dateOfBirth'] = CustomTextFieldErrors.Required;
+    }
     if (registration.hasSSN === undefined) {
-      errors['hasSSN'] = 'required';
+      errors['hasSSN'] = CustomTextFieldErrors.Required;
     }
     if (registration.hasSSN) {
       errors['ssn'] = InputFieldUtils.validateCustomTextFieldErrors({
