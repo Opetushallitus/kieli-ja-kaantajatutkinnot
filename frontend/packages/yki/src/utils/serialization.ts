@@ -151,7 +151,7 @@ export class SerializationUtils {
       exam_lang: registration.instructionLanguage || 'fi',
       // TODO Fix date of birth, currently not passed correctly from form to redux state
       //birthdate: DateUtils.serializeDate(registration.dateOfBirth),
-      birtdate: '2000-01-01',
+      birthdate: '2000-01-01',
       ssn: registration.ssn,
       zip: registration.postNumber,
       post_office: registration.postNumber,
