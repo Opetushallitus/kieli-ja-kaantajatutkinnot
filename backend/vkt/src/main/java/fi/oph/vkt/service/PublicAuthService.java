@@ -9,6 +9,7 @@ import fi.oph.vkt.service.auth.ticketValidator.CasResponse;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,15 @@ public class PublicAuthService {
     final String identityNumber,
     final String firstName,
     final String lastName,
-    final String OID
+    final String OID,
+    final String otherIdentifier
   ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
     person.setLastName(lastName);
     person.setFirstName(firstName);
     person.setOid(OID);
+    person.setOtherIdentifier(otherIdentifier);
 
     return personRepository.saveAndFlush(person);
   }
@@ -41,13 +44,17 @@ public class PublicAuthService {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
 
     final String identityNumber = personDetails.get("identityNumber");
+    final String otherIdentifier = personDetails.get("otherIdentifier");
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
     final String OID = personDetails.get("oid");
 
-    final Person person = personRepository
-      .findByOid(identityNumber)
-      .orElseGet(() -> createPerson(identityNumber, firstName, lastName, OID));
+    final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
+      ? personRepository.findByIdentityNumber(identityNumber)
+      : personRepository.findByOtherIdentifier(otherIdentifier);
+    final Person person = maybePerson.orElseGet(() ->
+      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier)
+    );
 
     return PublicPersonDTO
       .builder()

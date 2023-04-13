@@ -60,6 +60,8 @@ public class CasTicketValidator implements TicketValidator {
 
     final Map<String, String> personDetails = new HashMap<>();
     personDetails.put("identityNumber", casAttributes.getNationalIdentificationNumber());
+    personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
+    personDetails.put("oid", casAttributes.getPersonOid());
     personDetails.put("firstName", casAttributes.getFirstName());
     personDetails.put("lastName", casAttributes.getSn());
 

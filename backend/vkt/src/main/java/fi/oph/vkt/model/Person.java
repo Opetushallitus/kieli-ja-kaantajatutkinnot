@@ -25,14 +25,18 @@ public class Person extends BaseEntity {
   private long id;
 
   @Size(max = 255)
-  @Column(name = "oid", nullable = false, unique = true)
+  @Column(name = "oid", unique = true)
   private String oid;
 
   @Size(max = 255)
   @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
-  @Column(name = "last_name", nullable = false)
+  @Size(max = 2048)
+  @Column(name = "other_identifier")
+  private String otherIdentifier;
+
+  @Column(name = "last_name")
   private String lastName;
 
   @Column(name = "first_name", nullable = false)

@@ -515,7 +515,9 @@
     <changeSet id="2023-04-11-add_person_oid" author="jrkkp">
         <addColumn tableName="person">
             <column name="oid" type="TEXT" />
+            <column name="other_identifier" type="TEXT" />
         </addColumn>
         <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="TEXT"/>
+        <dropNotNullConstraint tableName="person" columnName="last_name" columnDataType="TEXT"/>
     </changeSet>
 </databaseChangeLog>

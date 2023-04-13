@@ -7,6 +7,6 @@ import lombok.NonNull;
 public record PublicPersonDTO(
   @NonNull Long id,
   String identityNumber,
-  @NonNull String lastName,
+  String lastName,
   @NonNull String firstName
 ) {}
