@@ -164,7 +164,7 @@ export class SerializationUtils {
     return {
       first_name: registration.firstNames,
       last_name: registration.lastName,
-      nationalities: registration.nationality,
+      nationalities: [registration.nationality],
       // TODO Include also nationality_desc by finding correct Finnish name for nationality with code equal to registration.nationality
       certificate_lang: registration.certificateLanguage,
       // TODO Properly force exam_lang or set proper default!
