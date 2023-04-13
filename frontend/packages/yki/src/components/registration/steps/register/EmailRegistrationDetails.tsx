@@ -1,4 +1,9 @@
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { ChangeEvent } from 'react';
 import { CustomTextField, Text } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
@@ -11,6 +16,12 @@ import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { registrationSelector } from 'redux/selectors/registration';
+
+const ErrorLabelStyles = {
+  '&.Mui-error .MuiFormControlLabel-label': {
+    color: 'error.main',
+  },
+};
 
 export const EmailRegistrationDetails = () => {
   const { t } = usePublicTranslation({
@@ -103,28 +114,32 @@ export const EmailRegistrationDetails = () => {
         <Text>
           <b>{t('finnishSSN')}</b>
         </Text>
-        <RadioGroup row onChange={handleChange('hasSSN')}>
-          <FormControlLabel
-            className="radio-group-label"
-            value={RadioButtonValue.YES}
-            control={<Radio />}
-            label={translateCommon('yes')}
-          />
-          <FormControlLabel
-            className="radio-group-label"
-            value={RadioButtonValue.NO}
-            control={<Radio />}
-            label={translateCommon('no')}
-          />
-        </RadioGroup>
-        {registration.hasSSN && (
-          <CustomTextField
-            sx={{ width: 'calc(360px - 1rem)' }}
-            {...getCustomTextFieldAttributes('ssn')}
-            value={registration.ssn}
-            type={TextFieldTypes.Text}
-          />
-        )}
+        <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
+          <RadioGroup row onChange={handleChange('hasSSN')}>
+            <FormControlLabel
+              className="radio-group-label"
+              value={RadioButtonValue.YES}
+              control={<Radio />}
+              label={translateCommon('yes')}
+              sx={ErrorLabelStyles}
+            />
+            <FormControlLabel
+              className="radio-group-label"
+              value={RadioButtonValue.NO}
+              control={<Radio />}
+              label={translateCommon('no')}
+              sx={ErrorLabelStyles}
+            />
+          </RadioGroup>
+          {registration.hasSSN && (
+            <CustomTextField
+              sx={{ width: 'calc(360px - 1rem)' }}
+              {...getCustomTextFieldAttributes('ssn')}
+              value={registration.ssn}
+              type={TextFieldTypes.PersonalIdentityCode}
+            />
+          )}
+        </FormControl>
       </div>
     </>
   );

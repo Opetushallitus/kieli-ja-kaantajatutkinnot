@@ -65,6 +65,16 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
+    if (registration.hasSSN === undefined) {
+      errors['hasSSN'] = 'required';
+    }
+    if (registration.hasSSN) {
+      errors['ssn'] = InputFieldUtils.validateCustomTextFieldErrors({
+        type: TextFieldTypes.PersonalIdentityCode,
+        required: true,
+        value: registration.ssn,
+      });
+    }
   } else {
     errors['email'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Email,

@@ -127,11 +127,13 @@
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
+              "hasSSN": "Onko sinulla suomalainen henkilötunnus?",
               "lastName": "Sukunimi",
               "phoneNumber": "Puhelinnumero",
               "postNumber": "Postinumero",
               "postOffice": "Postitoimipaikka",
               "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
+              "ssn": "Henkilötunnus",
               "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
             },
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
