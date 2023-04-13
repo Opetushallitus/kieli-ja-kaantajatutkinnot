@@ -4,9 +4,4 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PublicPersonDTO(
-  @NonNull Long id,
-  String identityNumber,
-  String lastName,
-  @NonNull String firstName
-) {}
+public record PublicPersonDTO(@NonNull Long id, String identityNumber, String lastName, @NonNull String firstName) {}
