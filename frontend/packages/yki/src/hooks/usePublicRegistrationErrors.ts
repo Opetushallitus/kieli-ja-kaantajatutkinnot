@@ -78,6 +78,9 @@ const getErrors = (
         value: registration.ssn,
       });
     }
+    if (!registration.nationality) {
+      errors['nationality'] = CustomTextFieldErrors.Required;
+    }
   } else {
     errors['email'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Email,

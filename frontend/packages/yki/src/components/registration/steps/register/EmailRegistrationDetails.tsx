@@ -4,23 +4,59 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent } from 'react';
-import { CustomDatePicker, CustomTextField, Text } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { ChangeEvent, useEffect } from 'react';
+import {
+  AutocompleteValue,
+  ComboBox,
+  CustomDatePicker,
+  CustomTextField,
+  Text,
+} from 'shared/components';
+import {
+  APIResponseStatus,
+  TextFieldTypes,
+  TextFieldVariant,
+} from 'shared/enums';
+import { ComboBoxOption } from 'shared/interfaces';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { RadioButtonValue } from 'enums/app';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
+import { Nationality } from 'interfaces/nationality';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
+import { loadNationalities } from 'redux/reducers/nationalities';
 import { updatePublicRegistration } from 'redux/reducers/registration';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const ErrorLabelStyles = {
   '&.Mui-error .MuiFormControlLabel-label': {
     color: 'error.main',
   },
+};
+
+const nationalityToComboBoxOption = (
+  nationality: Nationality
+): ComboBoxOption => {
+  return { label: nationality.name, value: nationality.code };
+};
+
+const useNationalityOptions = () => {
+  const lang = getCurrentLang();
+  const { nationalities } = useAppSelector(nationalitiesSelector);
+
+  const options = [...nationalities]
+    .filter((v) => v.language === lang)
+    .map(nationalityToComboBoxOption);
+  options.sort((a, b) => (a.label < b.label ? -1 : 1));
+
+  return options;
 };
 
 export const EmailRegistrationDetails = () => {
@@ -33,6 +69,17 @@ export const EmailRegistrationDetails = () => {
   const registration: Partial<PublicEmailRegistration> =
     useAppSelector(registrationSelector).registration;
   const { showErrors } = useAppSelector(registrationSelector);
+  const { status: nationalitiesStatus, nationalities } = useAppSelector(
+    nationalitiesSelector
+  );
+  const nationalityOptions = useNationalityOptions();
+  const appLanguage = getCurrentLang();
+
+  useEffect(() => {
+    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadNationalities());
+    }
+  }, [dispatch, nationalitiesStatus]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
@@ -92,10 +139,31 @@ export const EmailRegistrationDetails = () => {
           />
         </div>
         <div className="grid-columns gapped">
-          <CustomTextField
-            {...getCustomTextFieldAttributes('nationality')}
-            value={registration.nationality}
-            type={TextFieldTypes.Text}
+          <ComboBox
+            variant={TextFieldVariant.Outlined}
+            values={nationalityOptions}
+            value={
+              registration.nationality
+                ? nationalityToComboBoxOption(
+                    nationalities.find(
+                      ({ code, language }) =>
+                        code === registration.nationality &&
+                        language === appLanguage
+                    ) as Nationality
+                  )
+                : null
+            }
+            onChange={(_, v: AutocompleteValue) => {
+              dispatch(updatePublicRegistration({ nationality: v?.value }));
+            }}
+            label={`${t('nationality')} *`}
+            aria-label={`${t('nationality')} *`}
+            showError={showErrors && !!registrationErrors['nationality']}
+            helperText={
+              registrationErrors['nationality']
+                ? translateCommon(registrationErrors['nationality'])
+                : ''
+            }
           />
           <CustomDatePicker
             placeholder={t('dateOfBirth')}

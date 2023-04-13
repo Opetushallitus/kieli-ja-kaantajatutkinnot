@@ -130,6 +130,7 @@
               "firstNames": "Etunimet",
               "hasSSN": "Onko sinulla suomalainen henkilötunnus?",
               "lastName": "Sukunimi",
+              "nationality": "Kansalaisuus",
               "phoneNumber": "Puhelinnumero",
               "postNumber": "Postinumero",
               "postOffice": "Postitoimipaikka",

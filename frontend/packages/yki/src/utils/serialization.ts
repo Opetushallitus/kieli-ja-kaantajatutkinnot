@@ -20,6 +20,7 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
@@ -138,22 +139,37 @@ export class SerializationUtils {
     }
   }
 
+  static deserializeNationalitiesResponse(
+    response: NationalitiesResponse
+  ): Array<Nationality> {
+    return response
+      .map((v) =>
+        v.metadata.map((metadata) => ({
+          code: v.koodiArvo,
+          name: metadata.nimi,
+          language:
+            metadata.kieli === 'EN'
+              ? AppLanguage.English
+              : metadata.kieli === 'SV'
+              ? AppLanguage.Swedish
+              : AppLanguage.Finnish,
+        }))
+      )
+      .flat();
+  }
+
   static serializeRegistrationForm(
     registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>
   ) {
     return {
       first_name: registration.firstNames,
       last_name: registration.lastName,
-      // TODO Get from state instead!
-      nationalities: ['831'],
-      // TODO Deduce from given nationality
-      nationality_desc: 'Guernsey',
+      nationalities: registration.nationality,
+      // TODO Include also nationality_desc by finding correct Finnish name for nationality with code equal to registration.nationality
       certificate_lang: registration.certificateLanguage,
       // TODO Properly force exam_lang or set proper default!
       exam_lang: registration.instructionLanguage || 'fi',
-      // TODO Fix date of birth, currently not passed correctly from form to redux state
-      //birthdate: DateUtils.serializeDate(registration.dateOfBirth),
-      birthdate: '2000-01-01',
+      birthdate: DateUtils.serializeDate(registration.dateOfBirth),
       ssn: registration.ssn,
       zip: registration.postNumber,
       post_office: registration.postNumber,
