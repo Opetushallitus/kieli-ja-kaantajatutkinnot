@@ -1,6 +1,7 @@
 export interface PublicPerson {
   id: number;
   identityNumber?: string;
-  lastName: string;
+  dateOfBirth?: string;
+  lastName?: string;
   firstName: string;
 }

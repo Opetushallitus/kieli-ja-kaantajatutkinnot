@@ -27,7 +27,8 @@ public class PublicAuthService {
     final String firstName,
     final String lastName,
     final String OID,
-    final String otherIdentifier
+    final String otherIdentifier,
+    final String dateOfBirth
   ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
@@ -35,6 +36,7 @@ public class PublicAuthService {
     person.setFirstName(firstName);
     person.setOid(OID);
     person.setOtherIdentifier(otherIdentifier);
+    person.setDateOfBirth(dateOfBirth);
 
     return personRepository.saveAndFlush(person);
   }
@@ -45,6 +47,7 @@ public class PublicAuthService {
 
     final String identityNumber = personDetails.get("identityNumber");
     final String otherIdentifier = personDetails.get("otherIdentifier");
+    final String dateOfBirth = personDetails.get("dateOfBirth");
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
     final String OID = personDetails.get("oid");
@@ -53,7 +56,7 @@ public class PublicAuthService {
       ? personRepository.findByIdentityNumber(identityNumber)
       : personRepository.findByOtherIdentifier(otherIdentifier);
     final Person person = maybePerson.orElseGet(() ->
-      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier)
+      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
 
     return PublicPersonDTO
@@ -61,6 +64,7 @@ public class PublicAuthService {
       .id(person.getId())
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
+      .dateOfBirth(dateOfBirth)
       .identityNumber(person.getIdentityNumber())
       .build();
   }

@@ -516,6 +516,7 @@
         <addColumn tableName="person">
             <column name="oid" type="TEXT" />
             <column name="other_identifier" type="TEXT" />
+            <column name="date_of_birth" type="TEXT" />
         </addColumn>
         <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="TEXT"/>
         <dropNotNullConstraint tableName="person" columnName="last_name" columnDataType="TEXT"/>

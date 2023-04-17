@@ -89,6 +89,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .id(person.getId())
       .identityNumber(person.getIdentityNumber())
       .lastName(person.getLastName())
+      .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())
       .build();
 

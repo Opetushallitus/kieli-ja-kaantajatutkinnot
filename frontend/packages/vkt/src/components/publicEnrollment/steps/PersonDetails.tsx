@@ -20,21 +20,34 @@ export const PersonDetails = () => {
     <div className="rows gapped">
       <H3>{t('title')}</H3>
       <div className="grid-columns gapped">
-        <CustomTextField
-          label={t('lastName')}
-          value={person.lastName}
-          disabled
-        />
-        <CustomTextField
-          label={t('firstName')}
-          value={person.firstName}
-          disabled
-        />
-        <CustomTextField
-          label={t('identityNumber')}
-          value={person.identityNumber}
-          disabled
-        />
+        {person.lastName && (
+          <CustomTextField
+            label={t('lastName')}
+            value={person.lastName}
+            disabled
+          />
+        )}
+        {person.firstName && (
+          <CustomTextField
+            label={t('firstName')}
+            value={person.firstName}
+            disabled
+          />
+        )}
+        {person.identityNumber && (
+          <CustomTextField
+            label={t('identityNumber')}
+            value={person.identityNumber}
+            disabled
+          />
+        )}
+        {person.dateOfBirth && (
+          <CustomTextField
+            label={t('dateOfBirth')}
+            value={person.dateOfBirth}
+            disabled
+          />
+        )}
       </div>
     </div>
   );
