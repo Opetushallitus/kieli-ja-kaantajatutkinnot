@@ -2,7 +2,15 @@ import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-mat
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CustomButtonLink, ExtLink, H1, H2, Text } from 'shared/components';
+import {
+  CustomButtonLink,
+  ExtLink,
+  H1,
+  H2,
+  H3,
+  HeaderSeparator,
+  Text,
+} from 'shared/components';
 import { Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
 
@@ -57,19 +65,19 @@ export const PrivacyPolicyPage = () => {
       rowSpacing={4}
       direction="column"
     >
+      <Grid item className="privacy-policy-page__back-button">
+        <BackButton />
+      </Grid>
       <Grid item className="privacy-policy-page__heading">
-        <H1>{translatePrivacy('title')}</H1>
+        <H1>{translatePrivacy('heading')}</H1>
+        <HeaderSeparator />
+        <Text>{translatePrivacy('description')}</Text>
       </Grid>
       <Grid item>
         <Paper
           className="privacy-policy-page__content rows gapped-xxl"
           elevation={3}
         >
-          <BackButton />
-          <div>
-            <H1>{translatePrivacy('heading')}</H1>
-            <Text>{translatePrivacy('description')}</Text>
-          </div>
           <div className="rows gapped">
             <H2>{translatePrivacy('registerName.heading')}</H2>
             <Text>{translatePrivacy('registerName.description')}</Text>
@@ -146,8 +154,7 @@ export const PrivacyPolicyPage = () => {
             <Text>{translatePrivacy('handlingPurpose.description3')}</Text>
             <Text>{translatePrivacy('handlingPurpose.description4')}</Text>
             <Text>
-              <b>{translatePrivacy('handlingPurpose.law.heading')}</b>
-              <br />
+              <H3>{translatePrivacy('handlingPurpose.law.heading')}</H3>
               {translatePrivacy('handlingPurpose.law.description')}
               {': '}
               <ExtLink
@@ -162,9 +169,11 @@ export const PrivacyPolicyPage = () => {
           <div className="rows gapped">
             <H2>{translatePrivacy('dataContents.heading')}</H2>
             <Text>
-              <b>{translatePrivacy('common.group')} 1</b>:{' '}
-              {translatePrivacy('dataContents.group1.name')}
-              <br /> {translatePrivacy('dataContents.group1.action')}
+              <H3>
+                {translatePrivacy('common.group')} 1:{' '}
+                {translatePrivacy('dataContents.group1.name')}
+              </H3>
+              {translatePrivacy('dataContents.group1.action')}
             </Text>
             <Text>
               {translatePrivacy('dataContents.group1.description1')}
@@ -175,15 +184,19 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>{translatePrivacy('dataContents.group1.description4')}</Text>
             <Text>
-              <b>{translatePrivacy('common.group')} 2</b>:{' '}
-              {translatePrivacy('dataContents.group2.name')}
-              <br /> {translatePrivacy('dataContents.group2.action')}
+              <H3>
+                {translatePrivacy('common.group')} 2:{' '}
+                {translatePrivacy('dataContents.group2.name')}
+              </H3>
+              {translatePrivacy('dataContents.group2.action')}
             </Text>
             <Text>{translatePrivacy('dataContents.group2.description')}</Text>
             <Text>
-              <b>{translatePrivacy('common.group')} 3</b>:{' '}
-              {translatePrivacy('dataContents.group3.name')}
-              <br /> {translatePrivacy('dataContents.group3.action')}
+              <H3>
+                {translatePrivacy('common.group')} 3:{' '}
+                {translatePrivacy('dataContents.group3.name')}
+              </H3>
+              {translatePrivacy('dataContents.group3.action')}
             </Text>
             <Text>
               {translatePrivacy('dataContents.group3.grounds.description1')}:
@@ -273,7 +286,6 @@ export const PrivacyPolicyPage = () => {
             <H2>{translatePrivacy('automatedDecisions.heading')}</H2>
             <Text>{translatePrivacy('automatedDecisions.description')}</Text>
           </div>
-          <BackButton />
         </Paper>
       </Grid>
     </Grid>
