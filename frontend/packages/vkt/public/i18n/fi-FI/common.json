@@ -98,8 +98,8 @@
       },
       "next": "Seuraava",
       "no": "Ei",
-      "ophLogoAlt": "Opetushallituksen logo",
-      "ophLogoToFrontPageAlt": "Opetushallitus – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "authenticate": "Ilmoittautuminen - tunnistaudu",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",

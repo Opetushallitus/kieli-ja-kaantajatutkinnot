@@ -1,7 +1,7 @@
 {
   "akr": {
     "common": {
-      "akrLogo": "Auktorisoidun kääntäjän tutkintojärjestelmän logo",
+      "akrLogoAlt": "Logo: Auktorisoidun kääntäjän tutkintojärjestelmä.",
       "appNameAbbreviation": "AKR",
       "appTitle": "Auktorisoitujen kääntäjien rekisteri | Opetushallitus",
       "back": "Takaisin",
@@ -22,8 +22,8 @@
       "newTab": "Avaa uudessa välilehdessä",
       "next": "Seuraava",
       "no": "Ei",
-      "ophLogoAlt": "Opetushallituksen logo",
-      "ophLogoToFrontPageAlt": "Opetushallitus – Auktorisoitujen kääntäjien rekisterin etusivulle",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Auktorisoitujen kääntäjien rekisterin etusivulle.",
       "phase": "Vaihe",
       "register": "Rekisteri",
       "save": "Tallenna",
