@@ -1,5 +1,6 @@
 package fi.oph.vkt.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -32,9 +33,8 @@ public class Person extends BaseEntity {
   @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
-  @Size(max = 255)
   @Column(name = "date_of_birth", unique = true)
-  private String dateOfBirth;
+  private LocalDate dateOfBirth;
 
   @Size(max = 2048)
   @Column(name = "other_identifier")

@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto;
 
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -7,7 +8,7 @@ import lombok.NonNull;
 public record PublicPersonDTO(
   @NonNull Long id,
   String identityNumber,
-  String dateOfBirth,
+  LocalDate dateOfBirth,
   String lastName,
   @NonNull String firstName
 ) {}

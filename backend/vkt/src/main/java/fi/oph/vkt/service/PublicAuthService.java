@@ -8,9 +8,11 @@ import fi.oph.vkt.service.auth.ticketValidator.CasAttributes;
 import fi.oph.vkt.service.auth.ticketValidator.CasResponse;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +30,7 @@ public class PublicAuthService {
     final String lastName,
     final String OID,
     final String otherIdentifier,
-    final String dateOfBirth
+    final LocalDate dateOfBirth
   ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
@@ -47,7 +49,7 @@ public class PublicAuthService {
 
     final String identityNumber = personDetails.get("identityNumber");
     final String otherIdentifier = personDetails.get("otherIdentifier");
-    final String dateOfBirth = personDetails.get("dateOfBirth");
+    final LocalDate dateOfBirth = LocalDate.parse(personDetails.get("dateOfBirth"));
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
     final String OID = personDetails.get("oid");
