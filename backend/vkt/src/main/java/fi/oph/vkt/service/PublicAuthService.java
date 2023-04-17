@@ -49,8 +49,8 @@ public class PublicAuthService {
 
     final String dateOfBirthRaw = personDetails.get("dateOfBirth");
     final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
-            ? null
-            : LocalDate.parse(dateOfBirthRaw);
+      ? null
+      : LocalDate.parse(dateOfBirthRaw);
 
     final String identityNumber = personDetails.get("identityNumber");
     final String otherIdentifier = personDetails.get("otherIdentifier");
