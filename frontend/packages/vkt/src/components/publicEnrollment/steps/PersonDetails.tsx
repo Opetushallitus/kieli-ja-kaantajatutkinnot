@@ -21,16 +21,22 @@ export const PersonDetails = () => {
     <div className="rows gapped">
       <H3>{t('title')}</H3>
       <div className="grid-columns gapped">
-        {person.lastName && (
+        {person.lastName && person.firstName ? (
+          <>
+            <CustomTextField
+              label={t('lastName')}
+              value={person.lastName}
+              disabled
+            />
+            <CustomTextField
+              label={t('firstName')}
+              value={person.firstName}
+              disabled
+            />
+          </>
+        ) : (
           <CustomTextField
-            label={t('lastName')}
-            value={person.lastName}
-            disabled
-          />
-        )}
-        {person.firstName && (
-          <CustomTextField
-            label={t('firstName')}
+            label={t('name')}
             value={person.firstName}
             disabled
           />

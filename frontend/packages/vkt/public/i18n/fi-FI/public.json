@@ -99,6 +99,7 @@
           },
           "personDetails": {
             "firstName": "Etunimet",
+            "name": "Nimi",
             "identityNumber": "Henkilötunnus",
             "dateOfBirth": "Syntymäaika",
             "lastName": "Sukunimi",

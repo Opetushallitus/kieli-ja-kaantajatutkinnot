@@ -47,9 +47,13 @@ public class PublicAuthService {
   public PublicPersonDTO validate(final String ticket) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
 
+    final String dateOfBirthRaw = personDetails.get("dateOfBirth");
+    final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
+            ? null
+            : LocalDate.parse(dateOfBirthRaw);
+
     final String identityNumber = personDetails.get("identityNumber");
     final String otherIdentifier = personDetails.get("otherIdentifier");
-    final LocalDate dateOfBirth = LocalDate.parse(personDetails.get("dateOfBirth"));
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
     final String OID = personDetails.get("oid");
