@@ -93,8 +93,9 @@ export const PublicAuthGrid = () => {
 
   const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
+  // TODO: change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
   const authUrl =
-    'https://untuvaopintopolku.fi/cas-oppija/login?service=https%3A%2F%2Fvkt%2Euntuvaopintopolku%2Efi%2Fvkt%2Ftunnistaudu';
+    'https://testiopintopolku.fi/cas-oppija/login?service=https%3A%2F%2Fvkt%2Etestiopintopolku%2Efi%2Fvkt%2Ftunnistaudu';
 
   const renderDesktopView = () => (
     <>
