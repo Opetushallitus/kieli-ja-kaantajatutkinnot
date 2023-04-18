@@ -9,17 +9,18 @@ import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.jupiter.api.Test;
 
-public class TicketValidatorTest {
+public class CasResponseTest {
 
-  private static final XmlFactory xf = XmlFactory
+  private static final XmlFactory XF = XmlFactory
     .builder()
     .xmlInputFactory(new WstxInputFactory())
     .xmlOutputFactory(new WstxOutputFactory())
     .build();
-  private static final XmlMapper XML_MAPPER = new XmlMapper(xf);
+
+  private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
 
   @Test
-  public void testXmlParse() throws JsonProcessingException {
+  public void testParseXmlToCasResponse() throws JsonProcessingException {
     final String xml =
       "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>" +
       "<cas:authenticationSuccess>" +

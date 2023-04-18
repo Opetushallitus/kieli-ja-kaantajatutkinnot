@@ -22,12 +22,13 @@ public class CasTicketValidator implements TicketValidator {
 
   private static final Logger LOG = LoggerFactory.getLogger(CasTicketValidator.class);
 
-  private static final XmlFactory xf = XmlFactory
+  private static final XmlFactory XF = XmlFactory
     .builder()
     .xmlInputFactory(new WstxInputFactory())
     .xmlOutputFactory(new WstxOutputFactory())
     .build();
-  private static final XmlMapper XML_MAPPER = new XmlMapper(xf);
+
+  private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
 
   @Autowired
   private Environment environment;
@@ -36,7 +37,6 @@ public class CasTicketValidator implements TicketValidator {
 
   @Override
   public Map<String, String> validateTicket(final String ticket) {
-    LOG.info("service url is: ", environment.getRequiredProperty("app.cas-oppija.service-url"));
     final Mono<String> response = webClient
       .get()
       .uri(uriBuilder ->

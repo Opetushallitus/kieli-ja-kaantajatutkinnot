@@ -1,11 +1,13 @@
-package fi.oph.vkt.service.auth;
+package fi.oph.vkt.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.repository.PersonRepository;
-import fi.oph.vkt.service.PublicAuthService;
+import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -17,7 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
 @DataJpaTest
-public class AuthServiceTest {
+public class PublicAuthServiceTest {
 
   @Resource
   private PersonRepository personRepository;
@@ -25,26 +27,41 @@ public class AuthServiceTest {
   @MockBean
   private TicketValidator ticketValidatorMock;
 
-  private CasTicketValidationService casTicketValidationService;
-
   private PublicAuthService publicAuthService;
 
   @BeforeEach
   public void setup() {
-    casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
+    final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
-    publicAuthService = new PublicAuthService(personRepository, casTicketValidationService);
-  }
-
-  @Test
-  public void testAuthentication() {
     final Map<String, String> personDetails = Map.ofEntries(
       Map.entry("identityNumber", "010280-952L"),
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä")
     );
     when(casTicketValidationService.validate(anyString())).thenReturn(personDetails);
-    publicAuthService.createPersonFromTicket("asdf");
+
+    publicAuthService = new PublicAuthService(personRepository, casTicketValidationService);
+  }
+
+  @Test
+  public void testCreatePersonFromTicket() {
+    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket("ticket-123");
+    assertEquals("010280-952L", personDTO.identityNumber());
+    assertEquals("Testilä", personDTO.lastName());
+    assertEquals("Tessa", personDTO.firstName());
+
     assertTrue(personRepository.findByIdentityNumber("010280-952L").isPresent());
+  }
+
+  @Test
+  public void testCreatePersonFromTicketForExistingPerson() {
+    publicAuthService.createPersonFromTicket("ticket-123");
+
+    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket("ticket-123");
+    assertEquals("010280-952L", personDTO.identityNumber());
+    assertEquals("Testilä", personDTO.lastName());
+    assertEquals("Tessa", personDTO.firstName());
+
+    assertEquals(1, personRepository.count());
   }
 }
