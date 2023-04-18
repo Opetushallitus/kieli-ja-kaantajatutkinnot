@@ -93,6 +93,9 @@ export const PublicAuthGrid = () => {
 
   const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
+  const authUrl =
+    'https://untuvaopintopolku.fi/cas-oppija/login?service=https%3A%2F%2Fvkt%2Euntuvaopintopolku%2Efi%2Fvkt%2Ftunnistaudu';
+
   const renderDesktopView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -115,7 +118,7 @@ export const PublicAuthGrid = () => {
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
                       className="public-enrollment__grid__form-container__auth-button"
-                      href="https://testiopintopolku.fi/cas-oppija/login?service=http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu"
+                      href={authUrl}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}
