@@ -65,24 +65,16 @@ export const Payment = () => {
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
 
-  switch (paymentStatus) {
-    case PaymentStatus.Success:
-      return (
-        <div className="margin-top-xxl rows gapped">
-          <PaymentSuccess />
-        </div>
-      );
-    case PaymentStatus.Cancel:
-      return (
-        <div className="margin-top-xxl rows gapped">
-          <PaymentCancel />
-        </div>
-      );
-    default:
-      return (
-        <div className="margin-top-xxl rows gapped">
-          <PaymentError />
-        </div>
-      );
-  }
+  const renderPayment = () => {
+    switch (paymentStatus) {
+      case PaymentStatus.Success:
+        return <PaymentSuccess />;
+      case PaymentStatus.Cancel:
+        return <PaymentCancel />;
+      default:
+        return <PaymentError />;
+    }
+  };
+
+  return <div className="margin-top-xxl rows gapped">{renderPayment()}</div>;
 };

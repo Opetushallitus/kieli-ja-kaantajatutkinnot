@@ -26,7 +26,6 @@ export const RegistrationPaymentStatusPage = () => {
   const { status, examSession } = useAppSelector(examSessionSelector);
   // React Router
   const [params] = useSearchParams();
-  //const paymentStatus = params.get('status');
   const examSessionId = params.get('id');
 
   const isLoading = status === APIResponseStatus.InProgress;

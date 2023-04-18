@@ -70,15 +70,27 @@ export const PublicExamSessionListingRow = ({
   const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
   const registrationPeriodOpen = ExamUtils.isRegistrationOpen(examSession, now);
   const postAdmissionOpen = ExamUtils.isPostAdmissionOpen(examSession, now);
-  const availablePlacesText =
-    (now.isBefore(examSession.registration_start_date) ||
-      registrationPeriodOpen) &&
-    examSession.participants < examSession.max_participants
-      ? examSession.max_participants - (examSession.participants ?? 0)
-      : postAdmissionOpen &&
-        examSession.pa_participants < examSession.post_admission_quota
-      ? examSession.post_admission_quota - (examSession.pa_participants ?? 0)
-      : t('full');
+
+  const getAvailablePlacesText = () => {
+    if (
+      (now.isBefore(examSession.registration_start_date) ||
+        registrationPeriodOpen) &&
+      examSession.participants < examSession.max_participants
+    ) {
+      return examSession.max_participants - (examSession.participants ?? 0);
+    } else if (
+      postAdmissionOpen &&
+      examSession.pa_participants < examSession.post_admission_quota
+    ) {
+      return (
+        examSession.post_admission_quota - (examSession.pa_participants ?? 0)
+      );
+    }
+
+    return t('full');
+  };
+
+  const availablePlacesText = getAvailablePlacesText();
 
   return (
     <TableRow

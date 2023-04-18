@@ -50,7 +50,7 @@ const RegistrationForm = () => {
       return (
         <div className="public-registration__grid__form-container">
           <PublicRegistrationExamSessionDetails
-            examSession={examSession as ExamSession}
+            examSession={examSession}
             showOpenings={submitFormStatus !== APIResponseStatus.Success}
           />
           <PublicRegistrationStepContents />
@@ -105,7 +105,7 @@ const PaperContents = () => {
   }
 };
 
-const useHeading = () => {
+const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
@@ -144,7 +144,7 @@ export const PublicRegistrationGrid = () => {
 
   const dispatch = useAppDispatch();
 
-  const stepHeading = useHeading();
+  const stepHeading = <Heading />;
 
   useEffect(() => {
     if (

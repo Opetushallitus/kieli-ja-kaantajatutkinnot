@@ -66,18 +66,18 @@ export class ExamUtils {
     } = examSession;
 
     if (
-      !post_admission_active ||
-      !post_admission_start_date ||
-      !post_admission_end_date
+      post_admission_active &&
+      post_admission_start_date &&
+      post_admission_end_date
     ) {
-      return false;
+      const postAdmissionOpensAt = post_admission_start_date.hour(10);
+      const postAdmissionClosesAt = post_admission_end_date.hour(16);
+
+      return (
+        postAdmissionOpensAt.isBefore(now) && postAdmissionClosesAt.isAfter(now)
+      );
     }
 
-    const postAdmissionOpensAt = post_admission_start_date.hour(10);
-    const postAdmissionClosesAt = post_admission_end_date.hour(16);
-
-    return (
-      postAdmissionOpensAt.isBefore(now) && postAdmissionClosesAt.isAfter(now)
-    );
+    return false;
   }
 }

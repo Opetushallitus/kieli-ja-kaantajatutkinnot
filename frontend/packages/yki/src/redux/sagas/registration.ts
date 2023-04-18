@@ -38,8 +38,6 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     );
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('caught error!', error);
     if (axios.isAxiosError(error) && error.response) {
       const response: AxiosResponse<PublicRegistrationInitErrorResponse> =
         error.response;
