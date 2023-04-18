@@ -1,6 +1,5 @@
 package fi.oph.vkt.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
@@ -117,7 +116,7 @@ public class PublicController {
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
   public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    final PublicPersonDTO personDTO = publicAuthService.validate(ticket);
+    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
 
     SessionUtil.setPersonId(session, personDTO.id());
 

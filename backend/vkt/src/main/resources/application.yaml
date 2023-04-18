@@ -61,11 +61,12 @@ cas:
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
   cas-oppija:
+    login: ${cas-oppija.login:https://testiopintopolku.fi/cas-oppija/login}
     validate-ticket-url: ${cas-oppija.validate-ticket-url:https://testiopintopolku.fi/cas-oppija/serviceValidate}
-  auth:
-    service-url: ${auth.service-url:http://localhost:4002/vkt/tunnistaudu}
+    service-url: ${cas-oppija.service-url:http://localhost:4002/vkt/tunnistaudu}
   reservation:
     duration: ${reservation.duration:PT30M}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+

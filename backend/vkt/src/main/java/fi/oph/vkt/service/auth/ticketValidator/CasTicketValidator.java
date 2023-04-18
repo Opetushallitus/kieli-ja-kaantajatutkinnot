@@ -5,7 +5,6 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CasTicketValidator implements TicketValidator {
 
-  private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CasTicketValidator.class);
 
   private static final XmlFactory xf = XmlFactory
     .builder()
@@ -37,11 +36,12 @@ public class CasTicketValidator implements TicketValidator {
 
   @Override
   public Map<String, String> validateTicket(final String ticket) {
+    LOG.info("service url is: ", environment.getRequiredProperty("app.cas-oppija.service-url"));
     final Mono<String> response = webClient
       .get()
       .uri(uriBuilder ->
         uriBuilder
-          .queryParam("service", environment.getRequiredProperty("app.auth.service-url"))
+          .queryParam("service", environment.getRequiredProperty("app.cas-oppija.service-url"))
           .queryParam("ticket", ticket)
           .build()
       )
@@ -49,13 +49,7 @@ public class CasTicketValidator implements TicketValidator {
       .bodyToMono(String.class);
 
     final String result = response.block();
-
     final CasResponse casResponse = parseCasResponse(result);
-
-    if (casResponse.getAuthenticationSuccess().getUser().isEmpty()) {
-      throw new APIException(APIExceptionType.INVALID_TICKET);
-    }
-
     final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
 
     final Map<String, String> personDetails = new HashMap<>();

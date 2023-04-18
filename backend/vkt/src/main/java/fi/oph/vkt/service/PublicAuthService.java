@@ -4,10 +4,6 @@ import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
-import fi.oph.vkt.service.auth.ticketValidator.CasAttributes;
-import fi.oph.vkt.service.auth.ticketValidator.CasResponse;
-import fi.oph.vkt.util.exception.APIException;
-import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +27,7 @@ public class PublicAuthService {
   }
 
   @Transactional
-  public PublicPersonDTO validate(final String ticket) {
+  public PublicPersonDTO createPersonFromTicket(final String ticket) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
 
     final String identityNumber = personDetails.get("identityNumber");
