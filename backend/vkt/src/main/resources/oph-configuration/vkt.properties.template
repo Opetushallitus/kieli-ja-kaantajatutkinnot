@@ -16,4 +16,6 @@ email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 
 reservation.duration=PT30M
 
-cas-oppija.validate-ticket-url=https://testiopintopolku.fi/cas-oppija/serviceValidate
+cas-oppija.login=${cas_oppija_suomifi_service_provider_entity_id}/login
+cas-oppija.validate-ticket-url=${cas_oppija_suomifi_service_provider_entity_id}/serviceValidate
+cas-oppija.service-url=${opintopolku_baseurl:${server.port}}/vkt/tunnistaudu
