@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
+import { GenderEnum } from 'enums/app';
 import {
   EvaluationOrderRequest,
   ExaminationParts,
@@ -19,6 +20,11 @@ import {
   ExamSessions,
   ExamSessionsResponse,
 } from 'interfaces/examSessions';
+import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
+import {
+  PublicEmailRegistration,
+  PublicSuomiFiRegistration,
+} from 'interfaces/publicRegistration';
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
@@ -120,5 +126,58 @@ export class SerializationUtils {
       case AppLanguage.English:
         return 'en';
     }
+  }
+
+  static serializeGender(gender?: GenderEnum) {
+    switch (gender) {
+      case GenderEnum.Male:
+        return '1';
+      case GenderEnum.Female:
+        return '2';
+      default:
+        return '';
+    }
+  }
+
+  static deserializeNationalitiesResponse(
+    response: NationalitiesResponse
+  ): Array<Nationality> {
+    return response
+      .map((v) =>
+        v.metadata.map((metadata) => ({
+          code: v.koodiArvo,
+          name: metadata.nimi,
+          language:
+            metadata.kieli === 'EN'
+              ? AppLanguage.English
+              : metadata.kieli === 'SV'
+              ? AppLanguage.Swedish
+              : AppLanguage.Finnish,
+        }))
+      )
+      .flat();
+  }
+
+  static serializeRegistrationForm(
+    registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>
+  ) {
+    return {
+      first_name: registration.firstNames,
+      last_name: registration.lastName,
+      nationalities: [registration.nationality],
+      // TODO Include also nationality_desc by finding correct Finnish name for nationality with code equal to registration.nationality
+      certificate_lang: registration.certificateLanguage,
+      // TODO Properly force exam_lang or set proper default!
+      exam_lang: registration.instructionLanguage || 'fi',
+      birthdate: DateUtils.serializeDate(registration.dateOfBirth),
+      ssn: registration.ssn,
+      zip: registration.postNumber,
+      post_office: registration.postNumber,
+      street_address: registration.address,
+      phone_number: registration.phoneNumber,
+      email: registration.email,
+      // TODO Fix gender input
+      gender: SerializationUtils.serializeGender(registration.gender),
+    };
   }
 }
