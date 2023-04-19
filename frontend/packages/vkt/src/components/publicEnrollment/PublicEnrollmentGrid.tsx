@@ -14,7 +14,7 @@ import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { AuthSelector } from 'redux/selectors/auth';
+import { authSelector } from 'redux/selectors/auth';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
@@ -24,7 +24,7 @@ export const PublicEnrollmentGrid = () => {
 
   const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
     useAppSelector(publicEnrollmentSelector);
-  const { status: authStatus } = useAppSelector(AuthSelector);
+  const { status: authStatus } = useAppSelector(authSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
   const navigate = useNavigate();

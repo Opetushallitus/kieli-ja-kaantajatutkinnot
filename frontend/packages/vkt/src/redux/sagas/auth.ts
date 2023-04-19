@@ -12,7 +12,7 @@ import {
 } from 'redux/reducers/auth';
 import { NotifierUtils } from 'utils/notifier';
 
-function* authSaga(action: PayloadAction<string>) {
+function* startAuthenticationSaga(action: PayloadAction<string>) {
   try {
     yield call(
       axiosInstance.get,
@@ -27,5 +27,5 @@ function* authSaga(action: PayloadAction<string>) {
 }
 
 export function* watchAuth() {
-  yield takeLeading(startAuthentication.type, authSaga);
+  yield takeLeading(startAuthentication.type, startAuthenticationSaga);
 }

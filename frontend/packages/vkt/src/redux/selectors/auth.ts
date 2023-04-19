@@ -1,3 +1,3 @@
 import { RootState } from 'configs/redux';
 
-export const AuthSelector = (state: RootState) => state.auth;
+export const authSelector = (state: RootState) => state.auth;

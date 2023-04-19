@@ -92,6 +92,7 @@
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
       },
+      "loadingContent": "Sisältöä ladataan",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

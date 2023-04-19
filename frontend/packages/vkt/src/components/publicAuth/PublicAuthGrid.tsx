@@ -1,6 +1,5 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
@@ -10,20 +9,20 @@ import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/Pu
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicAuthGridSkeleton } from 'components/skeletons/PublicAuthGridSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
 import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
-import { AuthSelector } from 'redux/selectors/auth';
+import { authSelector } from 'redux/selectors/auth';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 import { SerializationUtils } from 'utils/serialization';
 
 export const PublicAuthGrid = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { status: authStatus } = useAppSelector(AuthSelector);
+  const { status: authStatus } = useAppSelector(authSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
   const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
   const { t } = usePublicTranslation({
@@ -31,7 +30,7 @@ export const PublicAuthGrid = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const ticket = searchParams.get('ticket');
 
