@@ -239,11 +239,6 @@
           "name": "Namn",
           "languagePairs": "Språkpar",
           "region": "Verksamhetsområde"
-        },
-        "row": {
-          "email": "E-post",
-          "otherContactInfo": "Annan kontaktinformation",
-          "phoneNumber": "Telefonnummer"
         }
       },
       "table": {

@@ -1,5 +1,5 @@
-import { TableCell } from '@mui/material';
-import { H2, H3, Text } from 'shared/components';
+import { TableCell, Typography } from '@mui/material';
+import { Text } from 'shared/components';
 
 import { LanguagePairs } from 'components/publicInterpreter/listing/row/LanguagePairs';
 import { useAppTranslation } from 'configs/i18n';
@@ -16,18 +16,13 @@ const ContactInformationFields = ({
 }: {
   interpreter: PublicInterpreter;
 }) => {
-  const { t } = useAppTranslation({
-    keyPrefix: 'otr.component.publicInterpreterListing.row',
-  });
   const { email, phoneNumber, otherContactInfo } = interpreter;
 
   return (
     <>
-      {email && <Text>{`${t('email')}: ${email}`}</Text>}
-      {phoneNumber && <Text>{`${t('phoneNumber')}: ${phoneNumber}`}</Text>}
-      {otherContactInfo && (
-        <Text>{`${t('otherContactInfo')}: ${otherContactInfo}`}</Text>
-      )}
+      {email && <Text>{email}</Text>}
+      {phoneNumber && <Text>{phoneNumber}</Text>}
+      {otherContactInfo && <Text>{otherContactInfo}</Text>}
     </>
   );
 };
@@ -46,18 +41,27 @@ export const PublicInterpreterPhoneCells = ({
     <TableCell>
       <div className="columns space-between">
         <div className="rows gapped">
-          <H2>{`${lastName} ${firstName}`}</H2>
+          <Typography
+            variant="h2"
+            component="p"
+          >{`${lastName} ${firstName}`}</Typography>
           <div className="rows gapped">
             <div>
-              <H3>{t('header.languagePairs')}</H3>
+              <Typography variant="h3" component="p">
+                {t('header.languagePairs')}
+              </Typography>
               <LanguagePairs languagePairs={languages} />
             </div>
             <div>
-              <H3>{t('header.region')}</H3>
+              <Typography variant="h3" component="p">
+                {t('header.region')}
+              </Typography>
               {mapRegionsToTextElements(regions)}
             </div>
             <div>
-              <H3>{t('header.contactInformation')}</H3>
+              <Typography variant="h3" component="p">
+                {t('header.contactInformation')}
+              </Typography>
               <ContactInformationFields interpreter={interpreter} />
             </div>
           </div>

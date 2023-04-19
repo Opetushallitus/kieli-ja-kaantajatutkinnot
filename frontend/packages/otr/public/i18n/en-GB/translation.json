@@ -239,11 +239,6 @@
           "name": "Name",
           "languagePairs": "Language pairs",
           "region": "Operating area"
-        },
-        "row": {
-          "email": "Email",
-          "otherContactInfo": "Other contact detail",
-          "phoneNumber": "Telephone number"
         }
       },
       "table": {

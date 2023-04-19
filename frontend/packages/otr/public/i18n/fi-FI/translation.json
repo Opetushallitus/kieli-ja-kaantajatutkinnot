@@ -239,11 +239,6 @@
           "name": "Nimi",
           "languagePairs": "Kieliparit",
           "region": "Toiminta-alue"
-        },
-        "row": {
-          "email": "Sähköposti",
-          "otherContactInfo": "Muu yhteystieto",
-          "phoneNumber": "Puhelinnumero"
         }
       },
       "table": {
