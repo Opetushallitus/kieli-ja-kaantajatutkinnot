@@ -235,19 +235,16 @@
       },
       "publicInterpreterListing": {
         "header": {
+          "contactInformation": "Contact details",
           "name": "Name",
           "languagePairs": "Language pairs",
           "region": "Operating area"
         },
         "row": {
-          "additionalContactDetail": {
-            "email": "Email",
-            "otherContactInfo": "Other contact detail",
-            "phoneNumber": "Telephone number"
-          },
-          "ariaLabel": "Open additional information"
-        },
-        "searchResultsInfo": "Click the results to view interpreters' contact information"
+          "email": "Email",
+          "otherContactInfo": "Other contact detail",
+          "phoneNumber": "Telephone number"
+        }
       },
       "table": {
         "pagination": {

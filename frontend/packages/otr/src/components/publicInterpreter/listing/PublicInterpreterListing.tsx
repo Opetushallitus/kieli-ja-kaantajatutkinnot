@@ -5,7 +5,6 @@ import {
   H2,
   H3,
   PaginatedTable,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -62,9 +61,6 @@ export const PublicInterpreterListing = ({
           <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
               <H2>{translateCommon('searchResults')}</H2>
-              <Text className="margin-top-sm">
-                {t('component.publicInterpreterListing.searchResultsInfo')}
-              </Text>
             </div>
           </div>
           <PaginatedTable
