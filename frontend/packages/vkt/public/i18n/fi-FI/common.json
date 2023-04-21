@@ -51,10 +51,10 @@
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
-          "invalidTicket": "Toiminto epäonnistui, CAS-tiketti ei ollut validi",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
-          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen"
+          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -92,6 +92,7 @@
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
       },
+      "loadingContent": "Sisältöä ladataan",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

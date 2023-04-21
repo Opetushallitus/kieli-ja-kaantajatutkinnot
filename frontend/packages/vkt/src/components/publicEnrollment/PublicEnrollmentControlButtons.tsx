@@ -19,7 +19,9 @@ import {
   decreaseActiveStep,
   increaseActiveStep,
   loadPublicEnrollmentSave,
+  resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
+import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
@@ -66,7 +68,11 @@ export const PublicEnrollmentControlButtons = ({
           {
             title: translateCommon('yes'),
             variant: Variant.Contained,
-            action: () => dispatch(confirmAction),
+            action: () => {
+              dispatch(confirmAction);
+              dispatch(resetPublicEnrollment());
+              dispatch(resetSelectedPublicExamEvent());
+            },
           },
         ],
       });

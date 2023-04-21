@@ -1,5 +1,7 @@
 package fi.oph.vkt.service.auth.ticketValidator;
 
+import java.util.Map;
+
 public interface TicketValidator {
-  String validateTicket(String ticket);
+  Map<String, String> validateTicket(String ticket);
 }

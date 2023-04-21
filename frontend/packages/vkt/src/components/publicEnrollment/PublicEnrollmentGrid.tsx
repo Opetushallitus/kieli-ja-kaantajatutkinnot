@@ -23,6 +23,7 @@ export const PublicEnrollmentGrid = () => {
 
   const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
     useAppSelector(publicEnrollmentSelector);
+
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
   const navigate = useNavigate();
@@ -39,11 +40,7 @@ export const PublicEnrollmentGrid = () => {
       cancelStatus === APIResponseStatus.NotStarted
   );
 
-  if (!selectedExamEvent) {
-    return null;
-  }
-
-  const isLoading = status === APIResponseStatus.InProgress;
+  const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
@@ -53,42 +50,44 @@ export const PublicEnrollmentGrid = () => {
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            <div className="public-enrollment__grid__form-container">
-              <PublicEnrollmentStepper
-                activeStep={activeStep}
-                includePaymentStep={hasReservation}
-              />
-              {reservationDetails?.reservation && !isDoneStepActive && (
-                <PublicEnrollmentTimer
-                  reservation={reservationDetails.reservation}
-                  isLoading={isLoading}
+            {selectedExamEvent && (
+              <div className="public-enrollment__grid__form-container">
+                <PublicEnrollmentStepper
+                  activeStep={activeStep}
+                  includePaymentStep={hasReservation}
                 />
-              )}
-              <PublicEnrollmentExamEventDetails
-                examEvent={selectedExamEvent}
-                showOpenings={hasReservation && !isDoneStepActive}
-              />
-              <PublicEnrollmentStepContents
-                activeStep={activeStep}
-                enrollment={enrollment}
-                isLoading={isLoading}
-                setIsStepValid={setIsStepValid}
-                showValidation={showValidation}
-              />
-              {isPreviewStepActive && reservationDetails?.reservation && (
-                <PublicEnrollmentPaymentSum enrollment={enrollment} />
-              )}
-              {!isDoneStepActive && reservationDetails && (
-                <PublicEnrollmentControlButtons
+                {reservationDetails?.reservation && !isDoneStepActive && (
+                  <PublicEnrollmentTimer
+                    reservation={reservationDetails.reservation}
+                    isLoading={isLoading}
+                  />
+                )}
+                <PublicEnrollmentExamEventDetails
+                  examEvent={selectedExamEvent}
+                  showOpenings={hasReservation && !isDoneStepActive}
+                />
+                <PublicEnrollmentStepContents
                   activeStep={activeStep}
                   enrollment={enrollment}
-                  reservationDetails={reservationDetails}
                   isLoading={isLoading}
-                  isStepValid={isStepValid}
-                  setShowValidation={setShowValidation}
+                  setIsStepValid={setIsStepValid}
+                  showValidation={showValidation}
                 />
-              )}
-            </div>
+                {isPreviewStepActive && reservationDetails?.reservation && (
+                  <PublicEnrollmentPaymentSum enrollment={enrollment} />
+                )}
+                {!isDoneStepActive && reservationDetails && (
+                  <PublicEnrollmentControlButtons
+                    activeStep={activeStep}
+                    enrollment={enrollment}
+                    reservationDetails={reservationDetails}
+                    isLoading={isLoading}
+                    isStepValid={isStepValid}
+                    setShowValidation={setShowValidation}
+                  />
+                )}
+              </div>
+            )}
           </LoadingProgressIndicator>
         </Paper>
       </Grid>
