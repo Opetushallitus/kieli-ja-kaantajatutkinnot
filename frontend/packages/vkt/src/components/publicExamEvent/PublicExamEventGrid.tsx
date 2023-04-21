@@ -9,7 +9,6 @@ import {
   H1,
   H2,
   HeaderSeparator,
-  LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
@@ -23,7 +22,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
@@ -37,9 +35,6 @@ export const PublicExamEventGrid = () => {
   const { status, examEvents, selectedExamEvent } = useAppSelector(
     publicExamEventsSelector
   );
-  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
-  const isInitialisationInProgress =
-    reservationDetailsStatus === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
