@@ -2,15 +2,28 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { ExtLink, H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { useNavigate } from 'react-router-dom';
+import {
+  CustomButton,
+  ExtLink,
+  H1,
+  H2,
+  HeaderSeparator,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
+import { MobileAppBar } from 'components/common/MobileAppBar';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
@@ -21,9 +34,16 @@ export const PublicExamEventGrid = () => {
   const translateCommon = useCommonTranslation();
 
   // Redux
-  const { status, examEvents } = useAppSelector(publicExamEventsSelector);
+  const { status, examEvents, selectedExamEvent } = useAppSelector(
+    publicExamEventsSelector
+  );
+  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
+  const isInitialisationInProgress =
+    reservationDetailsStatus === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { isPhone } = useWindowProperties();
 
   useEffect(() => {
     dispatch(resetPublicEnrollment());
@@ -72,14 +92,29 @@ export const PublicExamEventGrid = () => {
               </Text>
             </>
           )}
-          {hasResults && <PublicExamEventListing status={status} />}
-          {!hasResults && !isLoading && (
-            <H2 className="public-homepage__grid-container__result-box__no-results">
-              {t('noSearchResults')}
-            </H2>
-          )}
         </Paper>
       </Grid>
+      <Grid item className="public-homepage__grid-container__result-box">
+        {hasResults && <PublicExamEventListing status={status} />}
+        {!hasResults && !isLoading && (
+          <H2 className="public-homepage__grid-container__result-box__no-results">
+            {t('noSearchResults')}
+          </H2>
+        )}
+      </Grid>
+      {isPhone && selectedExamEvent && (
+        <MobileAppBar>
+          <CustomButton
+            data-testid="public-exam-events__enroll-btn"
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            onClick={() => navigate(AppRoutes.PublicAuth)}
+            fullWidth
+          >
+            {translateCommon('enroll')}
+          </CustomButton>
+        </MobileAppBar>
+      )}
     </>
   );
 };

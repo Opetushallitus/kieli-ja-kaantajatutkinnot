@@ -36,7 +36,10 @@ export const PublicExamEventListingRow = ({
         selected={isSelected}
       >
         {isPhone ? (
-          <PublicExamEventPhoneCells examEvent={examEvent} />
+          <PublicExamEventPhoneCells
+            examEvent={examEvent}
+            isSelected={isSelected}
+          />
         ) : (
           <PublicExamEventDesktopCells
             examEvent={examEvent}

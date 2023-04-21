@@ -4,7 +4,7 @@ import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -14,6 +14,7 @@ export const PublicExamEventListingHeader = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventListing',
   });
+  const commonTranslation = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
@@ -47,7 +48,7 @@ export const PublicExamEventListingHeader = () => {
                 disabled={enrollButtonDisabled}
                 onClick={() => navigate(AppRoutes.PublicAuth)}
               >
-                {t('enroll')}
+                {commonTranslation('enroll')}
               </CustomButton>
             </LoadingProgressIndicator>
           </TableCell>

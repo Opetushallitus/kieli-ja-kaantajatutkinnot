@@ -17,8 +17,18 @@
       }
     }
 
-    div &__result-box__no-results {
-      margin: 2rem 0 1rem 1rem;
+    div &__result-box {
+      padding: 3rem;
+
+      @include phone {
+        padding: 0.5rem;
+      }
+
+      &__no-results {
+        @include phone {
+          margin: 2rem 0 1rem 1rem;
+        }
+      }
     }
   }
 
