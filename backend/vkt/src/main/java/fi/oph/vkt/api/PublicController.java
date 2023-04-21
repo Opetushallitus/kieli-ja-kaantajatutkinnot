@@ -116,7 +116,6 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  @CrossOrigin
   public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
     final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
 
@@ -126,7 +125,6 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/info")
-  @CrossOrigin
   public Person authInfo(final HttpSession session) {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }

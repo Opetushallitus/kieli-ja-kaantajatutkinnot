@@ -14,7 +14,7 @@ import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
 import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
+import { setOrToggleSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 import { authSelector } from 'redux/selectors/auth';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
@@ -35,7 +35,7 @@ export const PublicAuthGrid = () => {
   const ticket = searchParams.get('ticket');
 
   useEffect(() => {
-    if (ticket && authStatus !== APIResponseStatus.InProgress) {
+    if (ticket && authStatus !== APIResponseStatus.Success) {
       navigate(AppRoutes.PublicAuth, { replace: true });
       dispatch(startAuthentication(ticket));
     } else if (authStatus === APIResponseStatus.Success) {
@@ -45,7 +45,7 @@ export const PublicAuthGrid = () => {
         const parsedExamEvent = SerializationUtils.deserializePublicExamEvent(
           JSON.parse(examEvent)
         );
-        dispatch(setSelectedPublicExamEvent(parsedExamEvent));
+        dispatch(setOrToggleSelectedPublicExamEvent(parsedExamEvent));
       }
     }
   }, [dispatch, navigate, ticket, authStatus]);
@@ -94,8 +94,11 @@ export const PublicAuthGrid = () => {
 
   // TODO: change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
   const serviceParam = encodeURIComponent(
-    'https://vkt.testiopintopolku.fi/vkt/tunnistaudu'
+    'http://localhost:4002/vkt/tunnistaudu'
   );
+  // const serviceParam = encodeURIComponent(
+  //   'https://vkt.testiopintopolku.fi/vkt/tunnistaudu'
+  // );
   const authUrl = `https://testiopintopolku.fi/cas-oppija/login?service=${serviceParam}`;
 
   const renderDesktopView = () => (

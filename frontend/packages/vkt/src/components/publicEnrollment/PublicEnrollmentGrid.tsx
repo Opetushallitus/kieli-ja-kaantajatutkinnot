@@ -14,7 +14,6 @@ import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { authSelector } from 'redux/selectors/auth';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
@@ -24,7 +23,7 @@ export const PublicEnrollmentGrid = () => {
 
   const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
     useAppSelector(publicEnrollmentSelector);
-  const { status: authStatus } = useAppSelector(authSelector);
+
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ export const PublicEnrollmentGrid = () => {
       cancelStatus === APIResponseStatus.NotStarted
   );
 
-  const isLoading = [status, authStatus].includes(APIResponseStatus.InProgress);
+  const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
