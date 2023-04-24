@@ -34,7 +34,12 @@ public class PaytrailService {
   }
 
   private Body getBody(List<Item> itemList) {
-    return Body.builder().items(itemList).build();
+    return Body.builder()
+            .items(itemList)
+            .amount(5000)
+            .currency("EUR")
+            .language("FI")
+            .build();
   }
 
   public boolean createPayment(List<Item> itemList) {

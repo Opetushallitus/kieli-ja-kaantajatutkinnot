@@ -2,11 +2,16 @@ package fi.oph.vkt.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.payment.Item;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import okhttp3.mockwebserver.MockResponse;
@@ -25,7 +30,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class PaymentServiceTest {
 
   @Test
-  public void testInitialiseEnrollmentToExamEventWithRoom() throws IOException, InterruptedException {
+  public void testPaytrailCreatePayment() throws IOException, InterruptedException {
     MockWebServer mockWebServer;
     mockWebServer = new MockWebServer();
     mockWebServer.start();
@@ -47,8 +52,7 @@ public class PaymentServiceTest {
     final Item item2 = Item.builder().build();
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailService paytrailService = new PaytrailService(environment, WebClient.create());
-    final PaymentService paymentService = new PaymentService(paytrailService);
-    assertTrue(paymentService.createPayment(itemList));
+    assertTrue(paytrailService.createPayment(itemList));
 
     RecordedRequest request = mockWebServer.takeRequest();
 
@@ -56,5 +60,14 @@ public class PaymentServiceTest {
     assertEquals("9643a6831a6dfe3b752a17685ac76dc4285c8da853b3bb2f25a960744f7afa41", request.getHeader("signature"));
 
     mockWebServer.shutdown();
+  }
+
+  @Test
+  public void testCreatePayment() {
+    final PaytrailService paytrailService = mock(PaytrailService.class);
+    when(paytrailService.createPayment(anyList())).thenReturn(true);
+    final PaymentService paymentService = new PaymentService(paytrailService);
+    assertTrue(paymentService.createPayment());
+    verify(paytrailService, times(1)).createPayment(anyList());
   }
 }

@@ -7,6 +7,7 @@ import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +46,9 @@ public class PublicController {
 
   @Resource
   private PublicAuthService publicAuthService;
+
+  @Resource
+  private PaymentService paymentService;
 
   @Resource
   private PublicReservationService publicReservationService;
@@ -129,8 +132,8 @@ public class PublicController {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }
 
-  @GetMapping(path = "/payment/methods")
-  public List<PublicExamEventDTO> listPaymentMethods() {
-    return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
+  @PostMapping(path = "/payment/create/redirect")
+  public void createAndRedirect() {
+    paymentService.createPayment();
   }
 }
