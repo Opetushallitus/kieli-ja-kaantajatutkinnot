@@ -128,4 +128,9 @@ public class PublicController {
   public Person authInfo(final HttpSession session) {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }
+
+  @GetMapping(path = "/payment/methods")
+  public List<PublicExamEventDTO> listPaymentMethods() {
+    return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
+  }
 }
