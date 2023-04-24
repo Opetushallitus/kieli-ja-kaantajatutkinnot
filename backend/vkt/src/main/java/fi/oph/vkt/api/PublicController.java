@@ -133,7 +133,9 @@ public class PublicController {
   }
 
   @PostMapping(path = "/payment/create/redirect")
-  public void createAndRedirect() {
-    paymentService.createPayment();
+  public void createAndRedirect(final HttpSession session) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+
+    paymentService.createPayment(1L, person);
   }
 }

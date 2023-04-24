@@ -33,19 +33,21 @@ public class PaytrailService {
     return headers;
   }
 
-  private Body getBody(List<Item> itemList) {
-    return Body.builder()
-            .items(itemList)
-            .amount(5000)
-            .currency("EUR")
-            .language("FI")
-            .build();
+  private Body getBody(List<Item> itemList, Long paymentId) {
+    return Body
+      .builder()
+      .items(itemList)
+      .stamp(paymentId.toString())
+      .amount(5000)
+      .currency("EUR")
+      .language("FI")
+      .build();
   }
 
-  public boolean createPayment(List<Item> itemList) {
+  public boolean createPayment(List<Item> itemList, Long paymentId) {
     final ObjectMapper om = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList);
+    final Body body = getBody(itemList, paymentId);
     final String secret = environment.getRequiredProperty("app.payment.paytrail.secret");
 
     try {
