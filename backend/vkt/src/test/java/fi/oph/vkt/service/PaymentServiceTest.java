@@ -73,7 +73,7 @@ public class PaymentServiceTest {
     RecordedRequest request = mockWebServer.takeRequest();
 
     assertEquals("POST", request.getMethod());
-    assertEquals("9643a6831a6dfe3b752a17685ac76dc4285c8da853b3bb2f25a960744f7afa41", request.getHeader("signature"));
+    assertEquals("707a5a4de8077c0ce1f8c5823a171aecd62590125d8b494cedfffe9cfc17276b", request.getHeader("signature"));
 
     mockWebServer.shutdown();
   }
