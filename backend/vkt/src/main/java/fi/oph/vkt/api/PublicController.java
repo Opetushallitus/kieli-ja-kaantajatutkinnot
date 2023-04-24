@@ -13,13 +13,14 @@ import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -127,5 +128,11 @@ public class PublicController {
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
+  }
+
+  @GetMapping(path = "/auth/login")
+  public void casLoginRedirect(HttpServletResponse httpResponse) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    httpResponse.sendRedirect(casLoginUrl);
   }
 }

@@ -4,8 +4,11 @@ import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,8 @@ public class PublicAuthService {
   private final PersonRepository personRepository;
 
   private final CasTicketValidationService casTicketValidationService;
+
+  private final Environment environment;
 
   private Person createPerson(final String identityNumber, final String firstName, final String lastName) {
     final Person person = new Person();
@@ -45,5 +50,14 @@ public class PublicAuthService {
       .lastName(person.getLastName())
       .identityNumber(person.getIdentityNumber())
       .build();
+  }
+
+  public String createCasLoginUrl() {
+    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
+    final String casServiceUrl = URLEncoder.encode(
+      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      StandardCharsets.UTF_8
+    );
+    return casLoginUrl + "?service=" + casServiceUrl;
   }
 }
