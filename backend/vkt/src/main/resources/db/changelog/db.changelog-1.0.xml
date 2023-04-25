@@ -520,9 +520,15 @@
             <column name="person_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="enrollment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="version" type="INT" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
+            <column name="transaction_id" type="TEXT"/>
+            <column name="reference" type="TEXT"/>
+            <column name="redirect_url" type="TEXT"/>
             <column name="created_by" type="TEXT"/>
             <column name="modified_by" type="TEXT"/>
             <column name="deleted_by" type="TEXT"/>
@@ -537,6 +543,10 @@
         <addForeignKeyConstraint baseTableName="payment" baseColumnNames="person_id"
                                  referencedTableName="person" referencedColumnNames="person_id"
                                  constraintName="fk_payment_person"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"/>
+        <addForeignKeyConstraint baseTableName="payment" baseColumnNames="enrollment_id"
+                                 referencedTableName="enrollment" referencedColumnNames="enrollment_id"
+                                 constraintName="fk_payment_enrollment"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import static fi.oph.vkt.payment.Crypto.CalculateHmac;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.payment.Item;
 import fi.oph.vkt.payment.paytrail.Body;
+import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class PaytrailService {
 
   private final Environment environment;
-  private final WebClient webClient;
+  private final WebClient paytrailWebClient;
 
   private Map<String, String> getHeaders() {
     Map<String, String> headers = new LinkedHashMap<>();
@@ -44,7 +45,7 @@ public class PaytrailService {
       .build();
   }
 
-  public boolean createPayment(List<Item> itemList, Long paymentId) {
+  public PaytrailResponseDTO createPayment(List<Item> itemList, Long paymentId) {
     final ObjectMapper om = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
     final Body body = getBody(itemList, paymentId);
@@ -54,19 +55,18 @@ public class PaytrailService {
       final String bodyJson = om.writeValueAsString(body);
       final String hash = CalculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
-      final URI uri = new URI(environment.getRequiredProperty("app.payment.paytrail.url"));
-      final String response = webClient
+      final String response = paytrailWebClient
         .post()
-        .uri(uri)
+        .uri("/services")
         .body(BodyInserters.fromValue(bodyJson))
         .headers(httpHeaders -> headers.forEach(httpHeaders::add))
         .retrieve()
         .bodyToMono(String.class)
         .block();
 
-      return response != null && !response.isEmpty();
+      return om.readValue(response, PaytrailResponseDTO.class);
     } catch (Exception e) {
-      return false;
+      throw new RuntimeException(e);
     }
   }
 }

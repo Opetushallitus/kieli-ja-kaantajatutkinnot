@@ -1,5 +1,6 @@
 package fi.oph.vkt.config;
 
+import fi.oph.vkt.service.PaytrailService;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -33,6 +35,11 @@ public class AppConfig {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+  }
+
+  @Bean
+  public WebClient paytrailWebClient(Environment environment) {
+    return webClientBuilderWithCallerId().baseUrl(environment.getRequiredProperty("app.payment.paytrail.url")).build();
   }
 
   @Bean

@@ -68,3 +68,7 @@ app:
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  payment:
+    paytrail:
+      url: http://localhost
+      secret: SAIPPUAKAUPPIAS

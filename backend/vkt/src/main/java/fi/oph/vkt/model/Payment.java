@@ -26,4 +26,17 @@ public class Payment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "enrollment_id", referencedColumnName = "enrollment_id", nullable = false)
+  private Enrollment enrollment;
+
+  @Column(name = "transaction_id")
+  private String transactionId;
+
+  @Column(name = "reference")
+  private String reference;
+
+  @Column(name = "redirect_url")
+  private String redirectUrl;
 }
