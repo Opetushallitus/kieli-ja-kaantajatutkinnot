@@ -11,12 +11,6 @@ import org.apache.commons.codec.digest.HmacUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Crypto {
 
-  /**
-   *
-   * @param message Raw string
-   * @param secret Merchant shared secret
-   * @return
-   */
   public static String ComputeSha256Hash(String message, String secret) {
     String outMsg;
     var hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, secret);
@@ -24,13 +18,6 @@ public class Crypto {
     return outMsg.replace("-", "").toLowerCase();
   }
 
-  /**
-   *
-   * @param secret Merchant shared secret
-   * @param hParams Headers or query string parameters
-   * @param body Request body or empty string for GET request
-   * @return
-   */
   public static String CalculateHmac(String secret, Map<String, String> hParams, String body) {
     List<String> data = hParams
       .entrySet()

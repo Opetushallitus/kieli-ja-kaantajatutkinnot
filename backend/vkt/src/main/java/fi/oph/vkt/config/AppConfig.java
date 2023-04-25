@@ -1,5 +1,6 @@
 package fi.oph.vkt.config;
 
+import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.service.PaytrailService;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
@@ -35,6 +36,15 @@ public class AppConfig {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
+  }
+
+  @Bean
+  public PaytrailConfig paytrailConfig(Environment environment) {
+    return PaytrailConfig
+      .builder()
+      .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
+      .account(environment.getRequiredProperty("app.payment.paytrail.account"))
+      .build();
   }
 
   @Bean

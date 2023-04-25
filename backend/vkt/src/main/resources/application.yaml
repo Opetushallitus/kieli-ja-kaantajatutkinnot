@@ -72,3 +72,4 @@ app:
     paytrail:
       url: http://localhost
       secret: SAIPPUAKAUPPIAS
+      account: 12345

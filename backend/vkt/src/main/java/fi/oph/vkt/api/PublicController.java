@@ -14,8 +14,10 @@ import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -133,9 +135,20 @@ public class PublicController {
   }
 
   @PostMapping(path = "/payment/create/redirect")
-  public void createAndRedirect(final HttpSession session) {
+  public void createAndRedirect(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    paymentService.createPayment(1L, person);
+    String redirectUrl = paymentService.createPayment(1L, person);
+
+    httpResponse.sendRedirect(redirectUrl);
+  }
+
+  @GetMapping(path = "/payment/{id:\\S+}/success")
+  public void paymentSuccess(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+
+    String redirectUrl = paymentService.createPayment(1L, person);
+
+    httpResponse.sendRedirect(redirectUrl);
   }
 }

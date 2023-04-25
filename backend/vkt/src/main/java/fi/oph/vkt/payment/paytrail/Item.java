@@ -1,4 +1,4 @@
-package fi.oph.vkt.payment;
+package fi.oph.vkt.payment.paytrail;
 
 import lombok.Builder;
 

@@ -3,7 +3,9 @@ package fi.oph.vkt.service;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
-import fi.oph.vkt.payment.Item;
+import fi.oph.vkt.payment.paytrail.Customer;
+import fi.oph.vkt.payment.paytrail.Item;
+import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
@@ -46,11 +48,24 @@ public class PaymentService {
     return paymentRepository.saveAndFlush(payment);
   }
 
+  private Item getItem() {
+    return Item.builder().units(1).unitPrice(5000).vatPercentage(PaytrailConfig.VAT).build();
+  }
+
   private List<Item> getItems(final Enrollment enrollment) {
     final List<Item> itemList = new ArrayList<>();
 
     if (enrollment.isOralSkill()) {
-      itemList.add(Item.builder().build());
+      itemList.add(getItem());
+    }
+    if (enrollment.isTextualSkill()) {
+      itemList.add(getItem());
+    }
+    if (enrollment.isTextualSkill()) {
+      itemList.add(getItem());
+    }
+    if (enrollment.isUnderstandingSkill()) {
+      itemList.add(getItem());
     }
 
     return itemList;
@@ -62,11 +77,19 @@ public class PaymentService {
       .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
     if (!enrollment.getPerson().equals(person)) {
-      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+      throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
     }
 
+    final List<Item> itemList = getItems(enrollment);
+    final Customer customer = Customer
+      .builder()
+      .email(enrollment.getEmail())
+      .phone(enrollment.getPhoneNumber())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .build();
     final Payment payment = initializeNewPayment(person, enrollment);
-    final PaytrailResponseDTO response = paytrailService.createPayment(getItems(enrollment), payment.getPaymentId());
+    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getPaymentId(), customer);
     final String transactionId = response.getTransactionId();
     final String reference = response.getReference();
     final String redirectHref = response.getHref();
