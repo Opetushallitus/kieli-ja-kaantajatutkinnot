@@ -24,7 +24,7 @@ export const PublicEnrollmentGrid = () => {
 
   const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
     useAppSelector(publicEnrollmentSelector);
-  const { status: authStatus } = useAppSelector(AuthSelector);
+
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
 
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export const PublicEnrollmentGrid = () => {
       cancelStatus === APIResponseStatus.NotStarted
   );
 
-  const isLoading = [status, authStatus].includes(APIResponseStatus.InProgress);
+  const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;

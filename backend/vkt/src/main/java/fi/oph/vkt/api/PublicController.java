@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -117,7 +118,7 @@ public class PublicController {
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
   public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    final PublicPersonDTO personDTO = publicAuthService.validate(ticket);
+    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
 
     SessionUtil.setPersonId(session, personDTO.id());
 

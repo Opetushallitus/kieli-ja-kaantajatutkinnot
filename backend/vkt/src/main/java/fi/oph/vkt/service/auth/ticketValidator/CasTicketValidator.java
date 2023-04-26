@@ -5,7 +5,6 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.HashMap;
@@ -21,14 +20,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CasTicketValidator implements TicketValidator {
 
-  private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CasTicketValidator.class);
 
-  private static final XmlFactory xf = XmlFactory
+  private static final XmlFactory XF = XmlFactory
     .builder()
     .xmlInputFactory(new WstxInputFactory())
     .xmlOutputFactory(new WstxOutputFactory())
     .build();
-  private static final XmlMapper XML_MAPPER = new XmlMapper(xf);
+  private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
 
   @Autowired
   private Environment environment;
@@ -41,7 +40,7 @@ public class CasTicketValidator implements TicketValidator {
       .get()
       .uri(uriBuilder ->
         uriBuilder
-          .queryParam("service", environment.getRequiredProperty("app.auth.service-url"))
+          .queryParam("service", environment.getRequiredProperty("app.cas-oppija.service-url"))
           .queryParam("ticket", ticket)
           .build()
       )

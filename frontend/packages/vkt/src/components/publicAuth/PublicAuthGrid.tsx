@@ -1,6 +1,5 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
@@ -10,20 +9,20 @@ import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/Pu
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicAuthGridSkeleton } from 'components/skeletons/PublicAuthGridSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
 import { initialisePublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
-import { AuthSelector } from 'redux/selectors/auth';
+import { setOrToggleSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
+import { authSelector } from 'redux/selectors/auth';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 import { SerializationUtils } from 'utils/serialization';
 
 export const PublicAuthGrid = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { status: authStatus } = useAppSelector(AuthSelector);
+  const { status: authStatus } = useAppSelector(authSelector);
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
   const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
   const { t } = usePublicTranslation({
@@ -31,12 +30,12 @@ export const PublicAuthGrid = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const ticket = searchParams.get('ticket');
 
   useEffect(() => {
-    if (ticket && authStatus !== APIResponseStatus.InProgress) {
+    if (ticket && authStatus !== APIResponseStatus.Success) {
       navigate(AppRoutes.PublicAuth, { replace: true });
       dispatch(startAuthentication(ticket));
     } else if (authStatus === APIResponseStatus.Success) {
@@ -46,7 +45,7 @@ export const PublicAuthGrid = () => {
         const parsedExamEvent = SerializationUtils.deserializePublicExamEvent(
           JSON.parse(examEvent)
         );
-        dispatch(setSelectedPublicExamEvent(parsedExamEvent));
+        dispatch(setOrToggleSelectedPublicExamEvent(parsedExamEvent));
       }
     }
   }, [dispatch, navigate, ticket, authStatus]);
@@ -93,6 +92,15 @@ export const PublicAuthGrid = () => {
 
   const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
+  // TODO: change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
+  const serviceParam = encodeURIComponent(
+    'http://localhost:4002/vkt/tunnistaudu'
+  );
+  // const serviceParam = encodeURIComponent(
+  //   'https://vkt.testiopintopolku.fi/vkt/tunnistaudu'
+  // );
+  const authUrl = `https://testiopintopolku.fi/cas-oppija/login?service=${serviceParam}`;
+
   const renderDesktopView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -115,7 +123,7 @@ export const PublicAuthGrid = () => {
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
                       className="public-enrollment__grid__form-container__auth-button"
-                      href="https://testiopintopolku.fi/cas-oppija/login?service=http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu"
+                      href={authUrl}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}

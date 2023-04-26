@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
-module.exports = (appName, env, dirName, port, entryPage = 'etusivu') => {
+module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
   const STATIC_PATH = `${appName}/static`;
   const CONTEXT_PATH = appName;
 
@@ -122,6 +122,7 @@ module.exports = (appName, env, dirName, port, entryPage = 'etusivu') => {
       port,
       proxy: {
         [`/${CONTEXT_PATH}/api`]: env.proxy,
+        [`/${CONTEXT_PATH}/auth`]: env.proxy,
       },
     },
   });
@@ -207,7 +208,7 @@ const isGitAvailable = () => {
 
 const addThymeleafNoncePlaceholder = (e) => {
   e.attributes["th:attr"] = "nonce=${cspNonce}";
-}
+};
 
 class CSPNoncePlaceholderInjectorPlugin {
   apply(compiler) {

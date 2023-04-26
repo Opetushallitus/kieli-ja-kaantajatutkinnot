@@ -193,7 +193,7 @@ exports[`Footer should render Footer correctly 1`] = `
         className="footer__container"
       >
         <img
-          alt="akrLogo"
+          alt="akrLogoAlt"
           className="footer__container__logo__akr"
           src="test"
         />

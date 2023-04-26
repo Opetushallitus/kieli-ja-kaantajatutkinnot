@@ -1,14 +1,8 @@
 import { Box } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
 import { H1, H2 } from 'shared/components';
 
+import { OrderStatus } from 'components/orderStatus/OrderStatus';
 import { usePublicTranslation } from 'configs/i18n';
-
-enum OrderStatus {
-  Success = 'payment-success',
-  Cancel = 'payment-cancel',
-  Error = 'payment-error',
-}
 
 const Success = () => {
   const { t } = usePublicTranslation({
@@ -49,21 +43,10 @@ const Error = () => {
   );
 };
 
-const useOrderStatusComponent = () => {
-  const [params] = useSearchParams();
-  const status = params.get('status');
-  switch (status) {
-    case OrderStatus.Success:
-      return <Success />;
-    case OrderStatus.Cancel:
-      return <Cancel />;
-    default:
-      return <Error />;
-  }
-};
-
 export const EvaluationOrderStatusPage = () => {
-  const orderStatus = useOrderStatusComponent();
-
-  return <Box>{orderStatus}</Box>;
+  return (
+    <Box>
+      <OrderStatus onSuccess={Success} onCancel={Cancel} onDefault={Error} />
+    </Box>
+  );
 };

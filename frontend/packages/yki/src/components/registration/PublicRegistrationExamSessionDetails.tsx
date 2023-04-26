@@ -9,14 +9,18 @@ export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
 }: {
-  examSession: ExamSession;
+  examSession?: ExamSession;
   showOpenings: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
   });
-  const header = ExamUtils.languageAndLevelText(examSession);
 
+  if (!examSession) {
+    return null;
+  }
+
+  const header = ExamUtils.languageAndLevelText(examSession);
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (

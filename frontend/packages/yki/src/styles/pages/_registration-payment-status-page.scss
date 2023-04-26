@@ -1,0 +1,14 @@
+.registration-payment-status-page {
+  flex: 1;
+
+  & &__grid-container {
+    display: block;
+
+    &__item-header {
+      @include phone {
+        margin-top: 2rem;
+        padding: 2rem 2rem 0;
+      }
+    }
+  }
+}
