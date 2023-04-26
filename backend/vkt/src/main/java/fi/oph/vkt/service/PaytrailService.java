@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import static fi.oph.vkt.payment.Crypto.CalculateHmac;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Body;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
@@ -22,7 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @RequiredArgsConstructor
-public class PaytrailService {
+public class PaytrailService implements PaymentProvider {
 
   private final WebClient paytrailWebClient;
   private final PaytrailConfig paytrailConfig;
@@ -40,7 +41,7 @@ public class PaytrailService {
     return headers;
   }
 
-  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer) {
+  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int total) {
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()
       .successUrl(paytrailConfig.getSuccessUrl(paymentId))
@@ -52,7 +53,7 @@ public class PaytrailService {
       .items(itemList)
       .stamp(paymentId.toString())
       .reference(paymentId.toString())
-      .amount(5000)
+      .amount(total)
       .currency(PaytrailConfig.CURRENCY)
       .language("FI")
       .customer(customer)
@@ -63,7 +64,8 @@ public class PaytrailService {
   public PaytrailResponseDTO createPayment(
     @NonNull final List<Item> itemList,
     final Long paymentId,
-    final Customer customer
+    final Customer customer,
+    final int total
   ) {
     if (itemList.isEmpty()) {
       throw new RuntimeException("Items is required");
@@ -71,7 +73,7 @@ public class PaytrailService {
 
     final ObjectMapper om = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList, paymentId, customer);
+    final Body body = getBody(itemList, paymentId, customer, total);
     final String secret = paytrailConfig.getSecret();
 
     try {

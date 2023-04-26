@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,13 +93,13 @@ public class PaymentServiceTest {
     final Item item2 = Item.builder().productCode("bar").build();
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
-    assertNotNull(paytrailService.createPayment(itemList, 1L, customer));
+    assertNotNull(paytrailService.createPayment(itemList, 1L, customer, 100));
 
     RecordedRequest request = mockWebServer.takeRequest();
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("ddd5bc802b9c6d5ac859a040deec740ae14a3a7f7110b8601552ffc6ffa01a28", request.getHeader("signature"));
+    assertEquals("ebd356e5dd0b357f5b383af189bb9652afc278334246f46fb82e42bbd4550f57", request.getHeader("signature"));
     assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
@@ -120,13 +122,35 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
     final PaytrailService paytrailService = mock(PaytrailService.class);
-    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class))).thenReturn(response);
+    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
 
     final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
 
     assertEquals(url, redirectUrl);
-    verify(paytrailService, times(1)).createPayment(anyList(), any(Long.class), any(Customer.class));
+    verify(paytrailService, times(1)).createPayment(anyList(), any(Long.class), any(Customer.class), eq(10000));
+  }
+
+  @Test
+  public void testCreatePaymentWithTextualSkill() {
+    final String url = "http://localhost";
+    final PaytrailResponseDTO response = PaytrailResponseDTO
+      .builder()
+      .transactionId("test")
+      .reference("foo")
+      .href(url)
+      .build();
+    final Person person = createPerson();
+    final Enrollment enrollment = createEnrollment(person);
+    final PaytrailService paytrailService = mock(PaytrailService.class);
+    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
+    enrollment.setTextualSkill(true);
+
+    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final String redirectUrl = paymentService.create(enrollment.getId(), person);
+
+    assertEquals(url, redirectUrl);
+    verify(paytrailService, times(1)).createPayment(anyList(), any(Long.class), any(Customer.class), eq(15000));
   }
 
   @Test
@@ -135,13 +159,13 @@ public class PaymentServiceTest {
     final Person person2 = createPerson();
     final Enrollment enrollment = createEnrollment(person1);
     final PaytrailService paytrailService = mock(PaytrailService.class);
-    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class))).thenReturn(null);
+    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
 
     final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
 
     final APIException ex = assertThrows(APIException.class, () -> paymentService.create(enrollment.getId(), person2));
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
-    verify(paytrailService, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class));
+    verify(paytrailService, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class), anyInt());
   }
 
   @Test

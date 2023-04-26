@@ -55,13 +55,14 @@ public class PaymentService {
     return Item.builder().units(1).unitPrice(5000).vatPercentage(PaytrailConfig.VAT).productCode("foo").build();
   }
 
+  private int getTotal(List<Item> itemList) {
+    return itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum);
+  }
+
   private List<Item> getItems(final Enrollment enrollment) {
     final List<Item> itemList = new ArrayList<>();
 
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem());
-    }
-    if (enrollment.isTextualSkill()) {
       itemList.add(getItem());
     }
     if (enrollment.isTextualSkill()) {
@@ -115,7 +116,14 @@ public class PaymentService {
       .lastName(person.getLastName())
       .build();
     final Payment payment = initializeNewPayment(person, enrollment);
-    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getPaymentId(), customer);
+    final int total = getTotal(itemList);
+    final PaytrailResponseDTO response = paytrailService.createPayment(
+      itemList,
+      payment.getPaymentId(),
+      customer,
+      total
+    );
+
     final String transactionId = response.getTransactionId();
     final String reference = response.getReference();
     final String redirectHref = response.getHref();
