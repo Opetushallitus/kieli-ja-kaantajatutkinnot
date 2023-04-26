@@ -2,27 +2,49 @@ import {
   Collapse,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
+import { TextField } from 'shared/interfaces';
+import { getErrors, hasErrors } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 
+interface PreviousEnrollmentField {
+  previousEnrollment?: string;
+}
+
+enum PreviouslyEnrolled {
+  Yes = 'yes',
+  No = 'no',
+}
+
+const fields: TextField<PreviousEnrollmentField>[] = [
+  {
+    name: 'previousEnrollment',
+    required: true,
+    type: TextFieldTypes.Text,
+    maxLength: 1024,
+  },
+];
+
 export const PreviousEnrollment = ({
   enrollment,
   editingDisabled,
+  setValid,
   showValidation,
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
+  setValid?: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -30,12 +52,78 @@ export const PreviousEnrollment = ({
     keyPrefix: 'vkt.component.publicEnrollment.steps.previousEnrollment',
   });
 
-  const yes = 'yes';
-  const no = 'no';
-  const dispatch = useAppDispatch();
-  const [fieldError, setFieldError] = useState(false);
+  const [dirtyFields, setDirtyFields] = useState<
+    Array<keyof PreviousEnrollmentField>
+  >([]);
 
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!setValid) {
+      return;
+    }
+
+    if (enrollment.hasPreviousEnrollment === undefined) {
+      setValid(false);
+
+      return;
+    }
+
+    if (enrollment.hasPreviousEnrollment === false) {
+      setValid(true);
+
+      return;
+    }
+
+    setValid(
+      !hasErrors<PreviousEnrollmentField>({
+        fields,
+        values: enrollment,
+        t: translateCommon,
+      })
+    );
+  }, [setValid, enrollment, translateCommon]);
+
+  const dirty = showValidation ? undefined : dirtyFields;
+  const errors = getErrors<PreviousEnrollmentField>({
+    fields,
+    values: enrollment,
+    t: translateCommon,
+    dirtyFields: dirty,
+  });
+
+  const handleRadioButtonChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const hasPreviousEnrollment = event.target.value === PreviouslyEnrolled.Yes;
+    const previousEnrollment = '';
+
+    dispatch(
+      updatePublicEnrollment({
+        hasPreviousEnrollment,
+        previousEnrollment,
+      })
+    );
+  };
+
+  const hasRadioButtonError =
+    showValidation && enrollment.hasPreviousEnrollment === undefined;
+
+  const showCustomTextFieldError = (
+    fieldName: keyof PreviousEnrollmentField
+  ) => {
+    return !!errors[fieldName];
+  };
+
+  const handleBlur = () => {
+    if (!dirtyFields.includes('previousEnrollment')) {
+      setDirtyFields([...dirtyFields, 'previousEnrollment']);
+    }
+  };
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     dispatch(
       updatePublicEnrollment({
         previousEnrollment: event.target.value,
@@ -43,67 +131,65 @@ export const PreviousEnrollment = ({
     );
   };
 
-  const getError = () =>
-    InputFieldUtils.inspectCustomTextFieldErrors(
-      TextFieldTypes.Text,
-      enrollment.previousEnrollment,
-      true
-    );
-
-  const hasError = showValidation ? !!getError() : fieldError;
-
-  const handleErrors = (hasPreviousEnrollment: boolean) => {
-    if (!hasPreviousEnrollment) {
-      return false;
-    }
-
-    const error = getError();
-
-    setFieldError(!!error);
-  };
-
-  const handleRadioButtonChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const hasPreviousEnrollment = event.target.value == yes;
-
-    handleErrors(hasPreviousEnrollment);
-
-    dispatch(updatePublicEnrollment({ hasPreviousEnrollment }));
-  };
-
   return (
     <div className="public-enrollment__grid__previous-enrollment rows gapped">
-      <FormControl error={hasError}>
-        <FormLabel>{t('description')}</FormLabel>
+      <FormControl component="fieldset">
+        <FormLabel component="legend" className="heading-label">
+          {t('description')}
+        </FormLabel>
         <RadioGroup
           name="has-previous-enrollment-group"
-          value={enrollment.hasPreviousEnrollment ? yes : no}
+          value={
+            enrollment.hasPreviousEnrollment
+              ? PreviouslyEnrolled.Yes
+              : PreviouslyEnrolled.No
+          }
           onChange={handleRadioButtonChange}
         >
-          <div className="columns">
+          <div className="columns margin-top-sm">
             <FormControlLabel
               disabled={editingDisabled}
-              value={yes}
-              control={<Radio />}
+              value={PreviouslyEnrolled.Yes}
+              control={
+                <Radio aria-describedby="has-previous-enrollment-error" />
+              }
               label={translateCommon('yes')}
               checked={enrollment.hasPreviousEnrollment}
+              className="public-enrollment__grid__previous-enrollment__selection-label"
             />
             <FormControlLabel
               disabled={editingDisabled}
-              value={no}
-              control={<Radio />}
+              value={PreviouslyEnrolled.No}
+              control={
+                <Radio aria-describedby="has-previous-enrollment-error" />
+              }
               label={translateCommon('no')}
               checked={enrollment.hasPreviousEnrollment === false}
+              className="public-enrollment__grid__previous-enrollment__selection-label"
             />
           </div>
         </RadioGroup>
+        {hasRadioButtonError && (
+          <FormHelperText
+            id="has-previous-enrollment-error"
+            error={hasRadioButtonError}
+          >
+            {translateCommon('errors.customTextField.required')}
+          </FormHelperText>
+        )}
       </FormControl>
       <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
+        <FormLabel className="heading-label gapped-sm">
+          {t('whenPrevious')}
+        </FormLabel>
         <CustomTextField
+          className="margin-top-sm public-enrollment__grid__previous-enrollment__input"
           label={t('label')}
-          value={enrollment.previousEnrollment}
+          value={enrollment.previousEnrollment || ''}
+          onBlur={handleBlur}
           onChange={handleChange}
+          error={showCustomTextFieldError('previousEnrollment')}
+          helperText={errors['previousEnrollment']}
           disabled={editingDisabled}
         />
       </Collapse>
