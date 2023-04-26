@@ -528,7 +528,8 @@
             </column>
             <column name="transaction_id" type="TEXT"/>
             <column name="reference" type="TEXT"/>
-            <column name="redirect_url" type="TEXT"/>
+            <column name="payment_url" type="TEXT"/>
+            <column name="payment_status" type="TEXT"/>
             <column name="created_by" type="TEXT"/>
             <column name="modified_by" type="TEXT"/>
             <column name="deleted_by" type="TEXT"/>

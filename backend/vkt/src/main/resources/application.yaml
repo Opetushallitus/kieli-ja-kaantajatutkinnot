@@ -70,6 +70,6 @@ app:
     service-url: ${email.service-url:null}
   payment:
     paytrail:
-      url: http://localhost
-      secret: SAIPPUAKAUPPIAS
-      account: 12345
+      url: https://services.paytrail.com
+      secret: ${payment.paytrail.secret:null}
+      account: ${payment.paytrail.account:null}

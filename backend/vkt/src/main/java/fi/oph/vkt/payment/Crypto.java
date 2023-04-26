@@ -18,14 +18,24 @@ public class Crypto {
     return outMsg.replace("-", "").toLowerCase();
   }
 
-  public static String CalculateHmac(String secret, Map<String, String> hParams, String body) {
-    List<String> data = hParams
+  private static List<String> collectHeaders(Map<String, String> hParams) {
+    return hParams
       .entrySet()
       .stream()
       .filter(item -> item.getKey().startsWith("checkout-"))
       .map(entry -> String.format("%s:%s", entry.getKey(), entry.getValue()))
       .collect(Collectors.toList());
+  }
 
+  public static String CalculateHmac(String secret, Map<String, String> hParams) {
+    List<String> data = collectHeaders(hParams);
+
+    String message = String.join("\n", data);
+    return ComputeSha256Hash(message, secret);
+  }
+
+  public static String CalculateHmac(String secret, Map<String, String> hParams, String body) {
+    List<String> data = collectHeaders(hParams);
     data.add(body);
 
     String message = String.join("\n", data);

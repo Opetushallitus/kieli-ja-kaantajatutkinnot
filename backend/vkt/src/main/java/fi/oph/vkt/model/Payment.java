@@ -37,6 +37,9 @@ public class Payment extends BaseEntity {
   @Column(name = "reference")
   private String reference;
 
-  @Column(name = "redirect_url")
-  private String redirectUrl;
+  @Column(name = "payment_url")
+  private String paymentUrl;
+
+  @Column(name = "payment_status")
+  private String paymentStatus;
 }

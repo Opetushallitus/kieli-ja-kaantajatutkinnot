@@ -12,8 +12,10 @@ import fi.oph.vkt.payment.paytrail.RedirectUrls;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import jdk.jfr.ContentType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,13 +28,14 @@ public class PaytrailService {
   private final PaytrailConfig paytrailConfig;
 
   private Map<String, String> getHeaders() {
-    Map<String, String> headers = new LinkedHashMap<>();
+    final Map<String, String> headers = new LinkedHashMap<>();
 
     headers.put("checkout-account", paytrailConfig.getAccount());
     headers.put("checkout-algorithm", PaytrailConfig.HMAC_ALGORITHM);
     headers.put("checkout-method", "POST");
     headers.put("checkout-nonce", paytrailConfig.getRandomNonce());
     headers.put("checkout-timestamp", paytrailConfig.getTimestamp());
+    headers.put("content-type", "application/json; charset=utf-8");
 
     return headers;
   }
@@ -77,7 +80,7 @@ public class PaytrailService {
       headers.put("signature", hash);
       final String response = paytrailWebClient
         .post()
-        .uri("/services")
+        .uri("/payments")
         .body(BodyInserters.fromValue(bodyJson))
         .headers(httpHeaders -> headers.forEach(httpHeaders::add))
         .retrieve()
@@ -88,5 +91,27 @@ public class PaytrailService {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public boolean validate(Map<String, String> paymentParams) {
+    final String secret = paytrailConfig.getSecret();
+    final String hash = CalculateHmac(secret, paymentParams);
+    final String account = paymentParams.get("checkout-account");
+    final String algorithm = paymentParams.get("checkout-algorithm");
+    final String signature = paymentParams.get("signature");
+
+    if (account != null && !account.equals(paytrailConfig.getAccount())) {
+      throw new RuntimeException("Account mismatch");
+    }
+
+    if (algorithm != null && !algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
+      throw new RuntimeException("Unknown algorithm");
+    }
+
+    if (signature != null && !hash.equals(signature)) {
+      throw new RuntimeException("Signature mismatch ");
+    }
+
+    return true;
   }
 }

@@ -44,6 +44,7 @@ public class AppConfig {
       .builder()
       .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
       .account(environment.getRequiredProperty("app.payment.paytrail.account"))
+      .baseUrl("http://localhost")
       .build();
   }
 

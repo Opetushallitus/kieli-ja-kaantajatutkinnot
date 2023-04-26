@@ -1,9 +1,10 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.PaymentCallbackDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
@@ -14,6 +15,7 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,7 @@ public class PaymentService {
     final String href
   ) {
     payment.setReference(reference);
-    payment.setRedirectUrl(href);
+    payment.setPaymentUrl(href);
     payment.setTransactionId(transactionId);
 
     paymentRepository.saveAndFlush(payment);
@@ -72,14 +74,35 @@ public class PaymentService {
     return itemList;
   }
 
-  public void paymentSuccess(final PaymentCallbackDTO paymentCallbackDTO, final Person person) {}
+  private void updateStatus(final Payment payment, final PaymentStatus paymentStatus) {
+    final Enrollment enrollment = payment.getEnrollment();
 
-  public String createPayment(final Long enrollmentId, final Person person) {
+    switch (paymentStatus) {
+      case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
+      case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
+      case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED);
+    }
+
+    payment.setPaymentStatus(paymentStatus.toString());
+  }
+
+  public boolean success(final Long paymentId, final Map<String, String> paymentParams) {
+    final Payment payment = paymentRepository
+      .findById(paymentId)
+      .orElseThrow(() -> new RuntimeException("Payment not found"));
+
+    final PaymentStatus paymentStatus = PaymentStatus.valueOf(paymentParams.get("checkout-status"));
+    updateStatus(payment, paymentStatus);
+
+    return paytrailService.validate(paymentParams);
+  }
+
+  public String create(final Long enrollmentId, final Person person) {
     final Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
       .orElseThrow(() -> new RuntimeException("Enrollment not found"));
 
-    if (!enrollment.getPerson().equals(person)) {
+    if (enrollment.getPerson().getId() != person.getId()) {
       throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
     }
 
@@ -98,6 +121,7 @@ public class PaymentService {
     final String redirectHref = response.getHref();
 
     updatePaymentDetails(payment, transactionId, reference, redirectHref);
+    updateStatus(payment, PaymentStatus.NEW);
 
     return redirectHref;
   }
