@@ -1,3 +1,4 @@
+import { ContactPageOutlined, MailOutline, Phone } from '@mui/icons-material';
 import { TableCell, Typography } from '@mui/material';
 import { Text } from 'shared/components';
 
@@ -16,13 +17,40 @@ const ContactInformationFields = ({
 }: {
   interpreter: PublicInterpreter;
 }) => {
+  const { t } = useAppTranslation({
+    keyPrefix: 'otr.component.publicInterpreterListing.row',
+  });
   const { email, phoneNumber, otherContactInfo } = interpreter;
 
   return (
     <>
-      {email && <Text>{email}</Text>}
-      {phoneNumber && <Text>{phoneNumber}</Text>}
-      {otherContactInfo && <Text>{otherContactInfo}</Text>}
+      {email && (
+        <div className="columns">
+          <MailOutline
+            aria-label={t('emailAriaLabel')}
+            className="public-interpreter-listing-row__contact-icon"
+          />
+          <Text>{email}</Text>
+        </div>
+      )}
+      {phoneNumber && (
+        <div className="columns">
+          <Phone
+            aria-label={t('phoneAriaLabel')}
+            className="public-interpreter-listing-row__contact-icon"
+          />
+          <Text>{phoneNumber}</Text>
+        </div>
+      )}
+      {otherContactInfo && (
+        <div className="columns">
+          <ContactPageOutlined
+            aria-label={t('otherContactAriaLabel')}
+            className="public-interpreter-listing-row__contact-icon"
+          />
+          <Text>{otherContactInfo}</Text>
+        </div>
+      )}
     </>
   );
 };
