@@ -1,16 +1,19 @@
 package fi.oph.vkt.payment.paytrail;
 
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
+import lombok.NonNull;
 
 @Builder
 public record Body(
-  String stamp,
-  String reference,
+  @NonNull @NotNull @Size(max = 200) String stamp,
+  @NonNull @NotNull @Size(max = 200) String reference,
   int amount,
-  String currency,
-  String language,
-  List<Item> items,
-  RedirectUrls redirectUrls,
-  Customer customer
+  @NonNull @NotNull String currency,
+  @NonNull @NotNull String language,
+  @NonNull @NotNull List<Item> items,
+  @NonNull @NotNull RedirectUrls redirectUrls,
+  @NonNull @NotNull Customer customer
 ) {}

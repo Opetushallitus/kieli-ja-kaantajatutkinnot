@@ -1,5 +1,6 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.PaymentCallbackDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
@@ -49,7 +50,7 @@ public class PaymentService {
   }
 
   private Item getItem() {
-    return Item.builder().units(1).unitPrice(5000).vatPercentage(PaytrailConfig.VAT).build();
+    return Item.builder().units(1).unitPrice(5000).vatPercentage(PaytrailConfig.VAT).productCode("foo").build();
   }
 
   private List<Item> getItems(final Enrollment enrollment) {
@@ -70,6 +71,8 @@ public class PaymentService {
 
     return itemList;
   }
+
+  public void paymentSuccess(final PaymentCallbackDTO paymentCallbackDTO, final Person person) {}
 
   public String createPayment(final Long enrollmentId, final Person person) {
     final Enrollment enrollment = enrollmentRepository

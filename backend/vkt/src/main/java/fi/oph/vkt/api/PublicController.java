@@ -1,5 +1,6 @@
 package fi.oph.vkt.api;
 
+import fi.oph.vkt.api.dto.PaymentCallbackDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
@@ -16,6 +17,7 @@ import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -137,18 +139,19 @@ public class PublicController {
   @PostMapping(path = "/payment/create/redirect")
   public void createAndRedirect(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-
-    String redirectUrl = paymentService.createPayment(1L, person);
+    final String redirectUrl = paymentService.createPayment(1L, person);
 
     httpResponse.sendRedirect(redirectUrl);
   }
 
   @GetMapping(path = "/payment/{id:\\S+}/success")
-  public void paymentSuccess(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
+  public void paymentSuccess(
+    @PathVariable String id,
+    @RequestParam PaymentCallbackDTO paymentCallbackDTO,
+    final HttpSession session
+  ) throws IOException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    String redirectUrl = paymentService.createPayment(1L, person);
-
-    httpResponse.sendRedirect(redirectUrl);
+    paymentService.paymentSuccess(paymentCallbackDTO, person);
   }
 }

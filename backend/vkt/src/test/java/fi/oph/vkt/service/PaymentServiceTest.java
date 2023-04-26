@@ -32,8 +32,6 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -82,10 +80,12 @@ public class PaymentServiceTest {
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn("123456");
     when(paytrailConfig.getTimestamp()).thenReturn("2018-07-06T10:01:31.904Z");
+    when(paytrailConfig.getSuccessUrl(1L)).thenReturn("http://localhost/sucess");
+    when(paytrailConfig.getCancelUrl(1L)).thenReturn("http://localhost/cancel");
 
-    final Customer customer = Customer.builder().build();
-    final Item item1 = Item.builder().build();
-    final Item item2 = Item.builder().build();
+    final Customer customer = Customer.builder().email("testinen@test.invalid").build();
+    final Item item1 = Item.builder().productCode("foo").build();
+    final Item item2 = Item.builder().productCode("bar").build();
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
     assertNotNull(paytrailService.createPayment(itemList, 1L, customer));
@@ -94,7 +94,7 @@ public class PaymentServiceTest {
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("7092a4dd3ec89714faac94b595c9e9e464c40f9ff0e04a1d793ffe0e97a3a255", request.getHeader("signature"));
+    assertEquals("ddd5bc802b9c6d5ac859a040deec740ae14a3a7f7110b8601552ffc6ffa01a28", request.getHeader("signature"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
     assertEquals("POST", request.getHeader("checkout-method"));

@@ -12,6 +12,7 @@ import fi.oph.vkt.payment.paytrail.RedirectUrls;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -47,6 +48,7 @@ public class PaytrailService {
       .builder()
       .items(itemList)
       .stamp(paymentId.toString())
+      .reference(paymentId.toString())
       .amount(5000)
       .currency(PaytrailConfig.CURRENCY)
       .language("FI")
@@ -55,7 +57,15 @@ public class PaytrailService {
       .build();
   }
 
-  public PaytrailResponseDTO createPayment(final List<Item> itemList, final Long paymentId, final Customer customer) {
+  public PaytrailResponseDTO createPayment(
+    @NonNull final List<Item> itemList,
+    final Long paymentId,
+    final Customer customer
+  ) {
+    if (itemList.isEmpty()) {
+      throw new RuntimeException("Items is required");
+    }
+
     final ObjectMapper om = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
     final Body body = getBody(itemList, paymentId, customer);
