@@ -197,6 +197,29 @@ class ClerkEnrollmentServiceTest {
     verifyNoInteractions(auditService);
   }
 
+  @Test
+  public void testMoveFailsIfAlreadyEnrolledToMovedExamEvent() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final ExamEvent examEvent2 = Factory.examEvent();
+    examEvent2.setDate(examEvent2.getDate().plusDays(1));
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final Enrollment enrollment2 = Factory.enrollment(examEvent2, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(examEvent2);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+    entityManager.persist(enrollment2);
+
+    final ClerkEnrollmentMoveDTO moveDTO = createMoveDTO(enrollment, examEvent2);
+
+    final APIException ex = assertThrows(APIException.class, () -> clerkEnrollmentService.move(moveDTO));
+
+    assertEquals(APIExceptionType.ENROLLMENT_MOVE_PERSON_ALREADY_ENROLLED, ex.getExceptionType());
+    verifyNoInteractions(auditService);
+  }
+
   private static ClerkEnrollmentMoveDTO createMoveDTO(final Enrollment enrollment, final ExamEvent event) {
     return ClerkEnrollmentMoveDTO
       .builder()

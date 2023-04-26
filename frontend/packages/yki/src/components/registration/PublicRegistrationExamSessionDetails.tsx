@@ -9,14 +9,18 @@ export const PublicRegistrationExamSessionDetails = ({
   examSession,
   showOpenings,
 }: {
-  examSession: ExamSession;
+  examSession?: ExamSession;
   showOpenings: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
   });
-  const header = ExamUtils.languageAndLevelText(examSession);
 
+  if (!examSession) {
+    return null;
+  }
+
+  const header = ExamUtils.languageAndLevelText(examSession);
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
   return (
@@ -29,9 +33,9 @@ export const PublicRegistrationExamSessionDetails = ({
         <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
-            examSession.registration_end_date
-          )} - ${DateUtils.formatOptionalDate(
             examSession.registration_start_date
+          )} - ${DateUtils.formatOptionalDate(
+            examSession.registration_end_date
           )}`}</b>
         </Text>
         <Text>

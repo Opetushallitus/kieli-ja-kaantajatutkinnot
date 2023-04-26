@@ -5,7 +5,9 @@
     "language_code": "fin",
     "office_oid": "1.2.3.4.5",
     "published_at": null,
-    "session_date": "2019-09-27",
+    "registration_start_date": "2023-06-10",
+    "registration_end_date": "2024-04-15",
+    "session_date": "2024-06-01",
     "organizer_oid": "1.2.3.4",
     "id": 2,
     "location": [
@@ -42,5 +44,6 @@
   "user": {
     "email": "test@test.com"
   },
-  "registration_id": 2
+  "registration_id": 2,
+  "is_strongly_identified": false
 }

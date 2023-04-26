@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.2] - 2023-03-30
+
+### Changed
+
+- Improved accessibility of AccessibilityContent
+
+## [1.9.1] - 2023-03-29
+
+### Added
+
+- heading-text class added
+
 ## [1.9.0] - 2023-03-20
 
 ### Added

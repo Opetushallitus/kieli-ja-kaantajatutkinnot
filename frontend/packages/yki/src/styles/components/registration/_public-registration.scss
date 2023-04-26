@@ -14,7 +14,7 @@
         }
       }
 
-      .email-registration-details {
+      .registration-details {
         max-width: 720px;
 
         &__address-grid {
@@ -46,6 +46,12 @@
       @include phone {
         max-width: 100%;
       }
+    }
+  }
+
+  &--email-link-order__success {
+    svg {
+      color: $color-green-600;
     }
   }
 }

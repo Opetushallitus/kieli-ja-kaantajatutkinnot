@@ -49,13 +49,13 @@ export const Header = (): JSX.Element => {
                 <OPHClerkLogo
                   mainLabel={translateCommon('appNameAbbreviation')}
                   subLabel={translateCommon('clerk')}
-                  alt={translateCommon('ophLogo')}
+                  alt={translateCommon('ophLogoToFrontPageAlt')}
                 />
               ) : (
                 <OPHLogoViewer
                   className="header__left__logo"
                   direction={Direction.Horizontal}
-                  alt={translateCommon('ophLogo')}
+                  alt={translateCommon('ophLogoToFrontPageAlt')}
                   currentLang={getCurrentLang()}
                 />
               )}

@@ -60,10 +60,9 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/vkt}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
-  cas:
-    validate-ticket-url: ${cas.validate-ticket-url:https://testiopintopolku.fi/cas-oppija/serviceValidate}
-  auth:
-    service-url: ${auth.service-url:http://localhost:${server.port}/vkt}
+  cas-oppija:
+    service-url: ${cas-oppija.service-url:http://localhost:4002/vkt/tunnistaudu}
+    validate-ticket-url: ${cas-oppija.validate-ticket-url:https://testiopintopolku.fi/cas-oppija/serviceValidate}
   reservation:
     duration: ${reservation.duration:PT30M}
   email:

@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -30,22 +30,14 @@ export const PublicExamEventListingHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
           <TableCell padding="checkbox"></TableCell>
-          <TableCell>
-            <H3>{t('header.language')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{t('header.examDate')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{t('header.registrationCloses')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{t('header.openings')}</H3>
-          </TableCell>
+          <TableCell>{t('header.language')}</TableCell>
+          <TableCell>{t('header.examDate')}</TableCell>
+          <TableCell>{t('header.registrationCloses')}</TableCell>
+          <TableCell>{t('header.openings')}</TableCell>
           <TableCell>
             <LoadingProgressIndicator isLoading={isInitialisationInProgress}>
               <CustomButton

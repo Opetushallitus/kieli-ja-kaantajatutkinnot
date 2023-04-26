@@ -55,23 +55,21 @@ export const AccessibilityStatementPage = () => {
       rowSpacing={4}
       direction="column"
     >
+      <Grid item className="accessibility-statement-page__back-button">
+        <BackButton />
+      </Grid>
       <Grid item className="accessibility-statement-page__heading">
         <H1>{translateAccessibility('heading.title')}</H1>
         <HeaderSeparator />
         <Text>{translateAccessibility('heading.description')}</Text>
       </Grid>
       <Grid item>
-        <Paper
-          className="accessibility-statement-page__content rows gapped-xxl"
-          elevation={3}
-        >
-          <BackButton />
+        <Paper className="accessibility-statement-page__content" elevation={3}>
           <AccessibilityStatementContent
             caveats={caveats}
             feedbackEmail={feedbackEmail}
             translateAccessibility={translateAccessibility}
           />
-          <BackButton />
         </Paper>
       </Grid>
     </Grid>

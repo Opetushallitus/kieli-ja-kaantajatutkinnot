@@ -16,12 +16,15 @@ export enum APIEndpoints {
  */
 export enum APIError {
   EnrollmentMoveExamEventLanguageMismatch = 'enrollmentMoveExamEventLanguageMismatch',
+  EnrollmentMovePersonAlreadyEnrolled = 'enrollmentMovePersonAlreadyEnrolled',
   ExamEventDuplicate = 'examEventDuplicate',
+  InitialiseEnrollmentDuplicatePerson = 'initialiseEnrollmentDuplicatePerson',
   InitialiseEnrollmentHasCongestion = 'initialiseEnrollmentHasCongestion',
   InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
-  InitialiseEnrollmentDuplicatePerson = 'initialiseEnrollmentDuplicatePerson',
-  InvalidTicket = 'invalidTicket',
   InvalidVersion = 'invalidVersion',
+  RenewReservationNotAllowed = 'renewReservationNotAllowed',
+  ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
+  TicketValidationError = 'ticketValidationError',
 }

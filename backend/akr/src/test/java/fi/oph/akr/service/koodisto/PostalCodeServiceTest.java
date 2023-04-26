@@ -39,6 +39,7 @@ class PostalCodeServiceTest {
     assertEquals(Pair.of("Helsinki", "Helsingfors"), postalCodeService.translateTown("HELSINKI"));
     assertEquals(Pair.of("Helsinki", "Helsingfors"), postalCodeService.translateTown("HeLsInGfOrS"));
     assertEquals(Pair.of("Berliini", "Berliini"), postalCodeService.translateTown("BERLIINI"));
+    assertEquals(Pair.of("Yli-Ii", "Yli-Ii"), postalCodeService.translateTown("YLI-ii"));
     assertEquals(Pair.of("Smartpost", "Smartpost"), postalCodeService.translateTown("Smartpost"));
     assertEquals(Pair.of("Vastauslähetys", "Vastauslähetys"), postalCodeService.translateTown("Vastauslähetys"));
     assertEquals(Pair.of("Noutopiste", "Noutopiste"), postalCodeService.translateTown("Noutopiste"));

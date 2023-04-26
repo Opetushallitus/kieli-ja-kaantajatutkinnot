@@ -1,39 +1,36 @@
 import { useNavigate } from 'react-router';
-import { CustomButton } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { CustomButton, Text } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import {
   increaseActiveStep,
   resetPublicRegistration,
-} from 'redux/reducers/examSession';
+  setShowErrors,
+  submitPublicRegistration,
+} from 'redux/reducers/registration';
+import { publicIdentificationSelector } from 'redux/selectors/publicIdentifaction';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const PublicRegistrationControlButtons = ({
-  activeStep,
-  isLoading,
-}: {
-  activeStep: PublicRegistrationFormStep;
-  isLoading: boolean;
-}) => {
+const AbortButton = () => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
   });
-  const translateCommon = useCommonTranslation();
-
+  const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { showDialog } = useDialog();
-
-  const handleCancelBtnClick = () => {
+  const handleAbortBtnClick = () => {
     showDialog({
-      title: t('cancelDialog.title'),
+      title: t('abortDialog.title'),
       severity: Severity.Info,
-      description: t('cancelDialog.description'),
+      description: t('abortDialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -51,25 +48,69 @@ export const PublicRegistrationControlButtons = ({
     });
   };
 
-  const handleSubmitBtnClick = () => {
-    dispatch(increaseActiveStep());
-  };
-
-  const CancelButton = () => (
+  return (
     <>
       <CustomButton
         variant={Variant.Text}
         color={Color.Secondary}
-        onClick={handleCancelBtnClick}
-        data-testid="public-registration__controlButtons__cancel"
-        disabled={isLoading}
+        onClick={handleAbortBtnClick}
+        data-testid="public-registration__controlButtons__abort"
       >
-        {t('cancelRegistration')}
+        {t('abortRegistration')}
       </CustomButton>
     </>
   );
+};
 
-  const SubmitButton = () => (
+const SubmitButton = () => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration',
+  });
+  const translateCommon = useCommonTranslation();
+  const { activeStep } = useAppSelector(registrationSelector);
+  const { showDialog } = useDialog();
+  const dispatch = useAppDispatch();
+  const getRegistrationErrors = usePublicRegistrationErrors(true);
+
+  const handleSubmitBtnClick = () => {
+    if (activeStep === PublicRegistrationFormStep.Register) {
+      dispatch(setShowErrors(true));
+      const registrationErrors = getRegistrationErrors();
+      if (Object.values(registrationErrors).some((v) => v)) {
+        const dialogContent = (
+          <div>
+            <Text>{t('registrationDetails.errors.fixErrors')}</Text>
+            <ul>
+              {Object.entries(registrationErrors)
+                .filter(([_, val]) => val)
+                .map(([field, _]) => (
+                  <li key={field}>
+                    <Text>
+                      {t(`registrationDetails.errors.fields.${field}`)}
+                    </Text>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        );
+        showDialog({
+          title: t('registrationDetails.errors.title'),
+          severity: Severity.Error,
+          content: dialogContent,
+          actions: [
+            { title: translateCommon('back'), variant: Variant.Contained },
+          ],
+        });
+      } else {
+        dispatch(submitPublicRegistration());
+      }
+    } else {
+      dispatch(increaseActiveStep());
+    }
+  };
+  // TODO Disable button and display spinner over it if submission in progress?
+
+  return (
     <CustomButton
       className="margin-top-lg"
       size="large"
@@ -78,18 +119,39 @@ export const PublicRegistrationControlButtons = ({
       color={Color.Secondary}
       onClick={handleSubmitBtnClick}
       data-testid="public-registration__controlButtons__submit"
-      disabled={isLoading}
     >
-      {t('confirm')}
+      {t('controlButtons.confirm')}
     </CustomButton>
   );
+};
 
-  const renderSubmit = activeStep === PublicRegistrationFormStep.Register;
+export const PublicRegistrationControlButtons = () => {
+  const emailLinkOrderStatus = useAppSelector(publicIdentificationSelector)
+    .emailLinkOrder.status;
+  const {
+    activeStep,
+    submitRegistration: { status: submitRegistrationStatus },
+  } = useAppSelector(registrationSelector);
 
-  return (
-    <div className="rows flex-end gapped margin-top-lg align-items-center">
-      {renderSubmit && SubmitButton()}
-      {CancelButton()}
-    </div>
-  );
+  const renderAbort =
+    (activeStep === PublicRegistrationFormStep.Identify &&
+      emailLinkOrderStatus !== APIResponseStatus.Success) ||
+    (activeStep === PublicRegistrationFormStep.Register &&
+      submitRegistrationStatus !== APIResponseStatus.Success);
+  const renderSubmit =
+    activeStep === PublicRegistrationFormStep.Register &&
+    submitRegistrationStatus !== APIResponseStatus.Success;
+
+  if (renderAbort || renderSubmit) {
+    return (
+      <div className="columns margin-top-lg justify-content-center">
+        <div className="rows flex-end gapped margin-top-lg align-items-center">
+          {renderSubmit && <SubmitButton />}
+          {renderAbort && <AbortButton />}
+        </div>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
