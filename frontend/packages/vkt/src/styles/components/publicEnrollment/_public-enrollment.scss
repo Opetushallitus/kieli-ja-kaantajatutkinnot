@@ -1,4 +1,10 @@
 .public-enrollment {
+  .heading-label {
+    color: $color-text-primary;
+    display: block;
+    font-weight: bold;
+  }
+
   & &__grid {
     &__form-container {
       padding: 3rem;
@@ -22,6 +28,14 @@
 
     &__previous-enrollment {
       width: calc(50% - 1rem);
+
+      &__input {
+        width: 100%;
+      }
+
+      &__selection-label {
+        margin: 0 7rem 0 3rem;
+      }
     }
 
     &__partial-exam-selection {

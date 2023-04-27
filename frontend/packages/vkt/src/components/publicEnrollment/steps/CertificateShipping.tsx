@@ -54,14 +54,23 @@ export const CertificateShipping = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setValid &&
-      setValid(
-        hasErrors<CertificateShippingTextFields>({
-          fields,
-          values: enrollment,
-          t: translateCommon,
-        })
-      );
+    if (!setValid) {
+      return;
+    }
+
+    if (enrollment.digitalCertificateConsent) {
+      setValid(true);
+
+      return;
+    }
+
+    setValid(
+      !hasErrors<CertificateShippingTextFields>({
+        fields,
+        values: enrollment,
+        t: translateCommon,
+      })
+    );
   }, [setValid, enrollment, translateCommon]);
 
   const dirty = showValidation ? undefined : dirtyFields;
