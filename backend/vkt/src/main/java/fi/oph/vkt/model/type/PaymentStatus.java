@@ -17,4 +17,14 @@ public enum PaymentStatus {
   public String toString() {
     return text;
   }
+
+  public static PaymentStatus fromString(String text) {
+    for (PaymentStatus p : PaymentStatus.values()) {
+      if (p.text.equalsIgnoreCase(text)) {
+        return p;
+      }
+    }
+
+    throw new RuntimeException("Unkown status " + text);
+  }
 }

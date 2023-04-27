@@ -143,6 +143,11 @@ public class PublicController {
     httpResponse.sendRedirect(redirectUrl);
   }
 
+  @GetMapping(path = "/payment/{id:\\d}/cancel")
+  public boolean paymentCancel(@PathVariable Long paymentId, @RequestParam Map<String, String> paymentParams) {
+    return paymentService.cancel(paymentId, paymentParams);
+  }
+
   @GetMapping(path = "/payment/{id:\\d}/success")
   public boolean paymentSuccess(@PathVariable Long paymentId, @RequestParam Map<String, String> paymentParams) {
     return paymentService.success(paymentId, paymentParams);

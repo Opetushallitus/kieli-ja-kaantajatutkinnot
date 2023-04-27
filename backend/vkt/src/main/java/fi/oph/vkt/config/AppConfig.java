@@ -1,7 +1,6 @@
 package fi.oph.vkt.config;
 
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
-import fi.oph.vkt.service.PaytrailService;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
@@ -15,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
@@ -44,7 +44,7 @@ public class AppConfig {
       .builder()
       .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
       .account(environment.getRequiredProperty("app.payment.paytrail.account"))
-      .baseUrl("http://localhost")
+      .baseUrl(environment.getRequiredProperty("app.payment.paytrail.return-base-url"))
       .build();
   }
 

@@ -1,7 +1,10 @@
 package fi.oph.vkt.model;
 
+import fi.oph.vkt.model.type.PaymentStatus;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,6 +43,7 @@ public class Payment extends BaseEntity {
   @Column(name = "payment_url")
   private String paymentUrl;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "payment_status")
-  private String paymentStatus;
+  private PaymentStatus paymentStatus;
 }

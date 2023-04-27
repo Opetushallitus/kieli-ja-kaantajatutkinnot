@@ -73,3 +73,4 @@ app:
       url: https://services.paytrail.com
       secret: ${payment.paytrail.secret:null}
       account: ${payment.paytrail.account:null}
+      return-base-url: ${payment.paytrail.return-base-url:http://localhost:${server.port}/vkt/api/v1}

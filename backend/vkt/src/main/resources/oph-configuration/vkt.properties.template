@@ -18,3 +18,7 @@ reservation.duration=PT30M
 
 cas-oppija.service-url={{vkt_app_url}}/vkt/tunnistaudu
 cas-oppija.validate-ticket-url={{opintopolku_baseurl}}/cas-oppija/serviceValidate
+
+payment.paytrail.secret=
+payment.paytrail.account=
+payment.paytrail.return-base-url=

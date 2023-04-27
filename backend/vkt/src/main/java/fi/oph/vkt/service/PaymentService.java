@@ -13,6 +13,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PaymentService {
 
+  private static final int COST_SINGLE = 45400;
+  private static final int COST_MULTIPLE = 22700;
+
   private final PaytrailService paytrailService;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
@@ -33,10 +37,10 @@ public class PaymentService {
     final Payment payment,
     final String transactionId,
     final String reference,
-    final String href
+    final String paymentUrl
   ) {
     payment.setReference(reference);
-    payment.setPaymentUrl(href);
+    payment.setPaymentUrl(paymentUrl);
     payment.setTransactionId(transactionId);
 
     paymentRepository.saveAndFlush(payment);
@@ -52,16 +56,27 @@ public class PaymentService {
   }
 
   private Item getItem() {
-    return Item.builder().units(1).unitPrice(5000).vatPercentage(PaytrailConfig.VAT).productCode("foo").build();
+    return Item
+      .builder()
+      .units(1)
+      .unitPrice(COST_MULTIPLE)
+      .vatPercentage(PaytrailConfig.VAT)
+      .productCode("foo")
+      .build();
   }
 
   private int getTotal(List<Item> itemList) {
+    // TODO: Selvitä halutaanko jokainen taito omana rivinä vai yhtenä
+    //    return itemList.size() > 1
+    //            ? COST_MULTIPLE
+    //            : COST_SINGLE;
     return itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum);
   }
 
   private List<Item> getItems(final Enrollment enrollment) {
     final List<Item> itemList = new ArrayList<>();
 
+    // TODO: Selvitä halutaanko jokainen taito omana rivinä vai yhtenä
     if (enrollment.isOralSkill()) {
       itemList.add(getItem());
     }
@@ -84,27 +99,52 @@ public class PaymentService {
       case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED);
     }
 
-    payment.setPaymentStatus(paymentStatus.toString());
+    payment.setPaymentStatus(paymentStatus);
+
+    enrollmentRepository.saveAndFlush(enrollment);
+    paymentRepository.saveAndFlush(payment);
+  }
+
+  private boolean finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
+    final Payment payment = paymentRepository
+      .findById(paymentId)
+      .orElseThrow(() -> new NotFoundException("Payment not found"));
+    final PaymentStatus currentStatus = payment.getPaymentStatus();
+
+    if (!paytrailService.validate(paymentParams)) {
+      throw new RuntimeException("Invalid payload");
+    }
+
+    // TODO: voiko peruutetun maksun maksaa?
+    if (currentStatus != null && currentStatus.equals(PaymentStatus.OK)) {
+      throw new APIException(APIExceptionType.PAYMENT_ALREADY_PAID);
+    }
+
+    final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
+    updateStatus(payment, paymentStatus);
+
+    return true;
   }
 
   public boolean success(final Long paymentId, final Map<String, String> paymentParams) {
-    final Payment payment = paymentRepository
-      .findById(paymentId)
-      .orElseThrow(() -> new RuntimeException("Payment not found"));
+    return finalizePayment(paymentId, paymentParams);
+  }
 
-    final PaymentStatus paymentStatus = PaymentStatus.valueOf(paymentParams.get("checkout-status"));
-    updateStatus(payment, paymentStatus);
-
-    return paytrailService.validate(paymentParams);
+  public boolean cancel(final Long paymentId, final Map<String, String> paymentParams) {
+    return finalizePayment(paymentId, paymentParams);
   }
 
   public String create(final Long enrollmentId, final Person person) {
     final Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
-      .orElseThrow(() -> new RuntimeException("Enrollment not found"));
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
 
     if (enrollment.getPerson().getId() != person.getId()) {
       throw new APIException(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH);
+    }
+
+    if (enrollment.getStatus() == EnrollmentStatus.PAID) {
+      throw new APIException(APIExceptionType.ENROLLMENT_ALREADY_PAID);
     }
 
     final List<Item> itemList = getItems(enrollment);
@@ -126,11 +166,11 @@ public class PaymentService {
 
     final String transactionId = response.getTransactionId();
     final String reference = response.getReference();
-    final String redirectHref = response.getHref();
+    final String paymentUrl = response.getHref();
 
-    updatePaymentDetails(payment, transactionId, reference, redirectHref);
+    updatePaymentDetails(payment, transactionId, reference, paymentUrl);
     updateStatus(payment, PaymentStatus.NEW);
 
-    return redirectHref;
+    return paymentUrl;
   }
 }
