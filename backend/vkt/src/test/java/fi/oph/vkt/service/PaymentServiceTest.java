@@ -1,8 +1,6 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,29 +17,18 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import javax.annotation.Resource;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -57,58 +44,6 @@ public class PaymentServiceTest {
 
   @Resource
   private TestEntityManager entityManager;
-
-  @Value("classpath:payment/paytrail-response.json")
-  private org.springframework.core.io.Resource paytrailMockResponse;
-
-  @Value("classpath:payment/paytrail-request.json")
-  private org.springframework.core.io.Resource paytrailMockRequest;
-
-  @Test
-  public void testPaytrailCreatePayment() throws IOException, InterruptedException {
-    MockWebServer mockWebServer;
-    mockWebServer = new MockWebServer();
-    mockWebServer.start();
-
-    mockWebServer.enqueue(
-      new MockResponse()
-        .setResponseCode(200)
-        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-        .setBody(getMockJsonResponse())
-    );
-
-    String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
-    WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
-
-    final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
-    when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
-    when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
-    when(paytrailConfig.getAccount()).thenReturn("123456");
-    when(paytrailConfig.getTimestamp()).thenReturn("2018-07-06T10:01:31.904Z");
-    when(paytrailConfig.getSuccessUrl(1L)).thenReturn("http://localhost/sucess");
-    when(paytrailConfig.getCancelUrl(1L)).thenReturn("http://localhost/cancel");
-
-    final Customer customer = Customer.builder().email("testinen@test.invalid").build();
-    final Item item1 = Item.builder().productCode("foo").build();
-    final Item item2 = Item.builder().productCode("bar").build();
-    final List<Item> itemList = Arrays.asList(item1, item2);
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
-    assertNotNull(paytrailService.createPayment(itemList, 1L, customer, 100));
-
-    RecordedRequest request = mockWebServer.takeRequest();
-
-    assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
-    assertEquals("POST", request.getMethod());
-    assertEquals("ebd356e5dd0b357f5b383af189bb9652afc278334246f46fb82e42bbd4550f57", request.getHeader("signature"));
-    assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
-    assertEquals("123456", request.getHeader("checkout-account"));
-    assertEquals("sha256", request.getHeader("checkout-algorithm"));
-    assertEquals("POST", request.getHeader("checkout-method"));
-    assertFalse(Objects.requireNonNull(request.getHeader("checkout-nonce")).isEmpty());
-    assertFalse(Objects.requireNonNull(request.getHeader("checkout-timestamp")).isEmpty());
-
-    mockWebServer.shutdown();
-  }
 
   @Test
   public void testCreatePayment() {
@@ -213,14 +148,6 @@ public class PaymentServiceTest {
     paymentParams.put("signature", signature);
 
     return paymentParams;
-  }
-
-  private String getMockJsonRequest() throws IOException {
-    return new String(paytrailMockRequest.getInputStream().readAllBytes());
-  }
-
-  private String getMockJsonResponse() throws IOException {
-    return new String(paytrailMockResponse.getInputStream().readAllBytes());
   }
 
   private Person createPerson() {

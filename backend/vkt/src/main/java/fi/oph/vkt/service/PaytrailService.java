@@ -16,10 +16,12 @@ import java.util.Map;
 import jdk.jfr.ContentType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +46,8 @@ public class PaytrailService implements PaymentProvider {
   private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int total) {
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()
-      .successUrl(paytrailConfig.getSuccessUrl(paymentId))
-      .cancelUrl(paytrailConfig.getCancelUrl(paymentId))
+      .success(paytrailConfig.getSuccessUrl(paymentId))
+      .cancel(paytrailConfig.getCancelUrl(paymentId))
       .build();
 
     return Body
@@ -85,8 +87,14 @@ public class PaytrailService implements PaymentProvider {
         .uri("/payments")
         .body(BodyInserters.fromValue(bodyJson))
         .headers(httpHeaders -> headers.forEach(httpHeaders::add))
-        .retrieve()
-        .bodyToMono(String.class)
+        .exchangeToMono(clientResponse -> {
+          if (clientResponse.statusCode().isError()) {
+            clientResponse.body((clientHttpResponse, context) -> {
+              return clientHttpResponse.getBody();
+            });
+          }
+          return clientResponse.bodyToMono(String.class);
+        })
         .block();
 
       return om.readValue(response, PaytrailResponseDTO.class);

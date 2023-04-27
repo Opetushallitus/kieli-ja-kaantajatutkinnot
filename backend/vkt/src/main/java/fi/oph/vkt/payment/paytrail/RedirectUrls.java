@@ -7,6 +7,6 @@ import lombok.NonNull;
 
 @Builder
 public record RedirectUrls(
-  @NonNull @NotNull @Size(max = 200) String successUrl,
-  @NonNull @NotNull @Size(max = 200) String cancelUrl
+  @NonNull @NotNull @Size(max = 200) String success,
+  @NonNull @NotNull @Size(max = 200) String cancel
 ) {}
