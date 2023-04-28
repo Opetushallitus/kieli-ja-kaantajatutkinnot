@@ -1,5 +1,5 @@
-import { Checkbox, TableCell, TableRow } from '@mui/material';
-import { H2, H3, Text } from 'shared/components';
+import { Checkbox, TableCell, TableRow, Typography } from '@mui/material';
+import { Text } from 'shared/components';
 import { Color, Severity } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
@@ -93,11 +93,15 @@ export const PublicTranslatorListingRow = ({
   const renderPhoneTableCells = () => (
     <TableCell>
       <div className="rows gapped">
-        <H2>{`${lastName} ${firstName}`}</H2>
+        <Typography variant="h2" component="p">
+          {`${lastName} ${firstName}`}
+        </Typography>
         <div className="columns gapped space-between">
           <div className="rows gapped">
             <div>
-              <H3>{t('pages.translator.languagePairs')}</H3>
+              <Typography variant="h3" component="p">
+                {t('pages.translator.languagePairs')}
+              </Typography>
               <PublicTranslatorListingRowLanguagePairs
                 fromLang={fromLang}
                 toLang={toLang}
@@ -105,7 +109,9 @@ export const PublicTranslatorListingRow = ({
               />
             </div>
             <div>
-              <H3>{t('pages.translator.town')}</H3>
+              <Typography variant="h3" component="p">
+                {t('pages.translator.town')}
+              </Typography>
               <Text>{getTownDescription(town, country)}</Text>
             </div>
           </div>

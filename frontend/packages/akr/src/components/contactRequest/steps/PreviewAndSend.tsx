@@ -2,9 +2,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { CustomTextField, ExtLink, H3 } from 'shared/components';
+import { ExtLink, H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
 
 import {
   ChosenTranslators,
@@ -43,7 +42,7 @@ export const PreviewAndSend = ({
   disableNext: (disabled: boolean) => void;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm.previewAndSend',
   });
 
   // Redux
@@ -58,32 +57,19 @@ export const PreviewAndSend = ({
     dispatch(updateContactRequest({ confirmation: !request?.confirmation }));
   };
 
-  const getMessageHelperText = () => {
-    return `${request?.message?.length} / ${
-      InputFieldUtils.defaultMaxTextAreaLength
-    } ${t('characters')}`;
-  };
-
   return (
     <div className="rows">
       <StepHeading step={ContactRequestFormStep.PreviewAndSend} />
       <div className="rows gapped">
-        <ChosenTranslatorsHeading />
-        <ChosenTranslators />
+        <div className="rows gapped-xs">
+          <ChosenTranslatorsHeading />
+          <ChosenTranslators />
+        </div>
         <DisplayContactInfo />
-        <H3>{t('formLabels.message')}</H3>
-        <CustomTextField
-          disabled
-          data-testid="contact-request-page__message-text"
-          defaultValue={request?.message}
-          InputProps={{
-            readOnly: true,
-          }}
-          showHelperText
-          helperText={getMessageHelperText()}
-          multiline
-          fullWidth
-        />
+        <div className="rows gapped-xxs">
+          <H2>{t('yourMessage')}</H2>
+          <Text>{request?.message}</Text>
+        </div>
         <FormControlLabel
           control={
             <Checkbox

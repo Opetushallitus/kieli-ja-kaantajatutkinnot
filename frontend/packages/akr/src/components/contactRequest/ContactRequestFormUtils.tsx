@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { CustomTextField, H3, Text } from 'shared/components';
+import { H2, H3, Text } from 'shared/components';
 import { useFocus, useWindowProperties } from 'shared/hooks';
 
 import { Done } from 'components/contactRequest/steps/Done';
@@ -15,6 +15,7 @@ import {
 } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
+import { ContactDetails } from 'interfaces/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 import {
   publicTranslatorsSelector,
@@ -24,56 +25,43 @@ import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ChosenTranslatorsHeading = () => {
   const { filters } = useAppSelector(publicTranslatorsSelector);
-  const { activeStep } = useAppSelector(contactRequestSelector);
   const { fromLang, toLang } = filters;
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.contactRequestForm',
   });
   const translateLanguage = useKoodistoLanguagesTranslation();
-  const { isPhone } = useWindowProperties();
-  const showOnPhone =
-    activeStep === ContactRequestFormStep.VerifyTranslators ||
-    activeStep === ContactRequestFormStep.PreviewAndSend;
-  const divClassName = isPhone ? 'rows' : 'columns';
 
-  const renderChosenTranslatorsHeading = () => (
-    <div className={divClassName}>
-      <H3>{`${t('chosenTranslatorsForLanguagePair')}`}</H3>
-      <H3 className="contact-request-page__lang-pair">
-        {AuthorisationUtils.getLanguagePairLocalisation(
-          { from: fromLang, to: toLang },
-          translateLanguage
-        )}
+  return (
+    <div className="rows gapped">
+      <H2>{t('recipients')}</H2>
+      <H3>
+        {`${t('chosenTranslatorsForLanguagePair')}`}{' '}
+        <span className="contact-request-page__lang-pair">
+          {AuthorisationUtils.getLanguagePairLocalisation(
+            { from: fromLang, to: toLang },
+            translateLanguage
+          )}
+        </span>
       </H3>
     </div>
   );
-
-  const renderPhoneView = () =>
-    showOnPhone ? renderChosenTranslatorsHeading() : <></>;
-
-  return isPhone ? renderPhoneView() : renderChosenTranslatorsHeading();
 };
 
 export const ChosenTranslators = () => {
-  const { isPhone } = useWindowProperties();
-  const { activeStep } = useAppSelector(contactRequestSelector);
   const translators = useAppSelector(selectedPublicTranslatorsForLanguagePair);
-  const translatorsString = translators
-    .map(({ firstName, lastName }) => firstName + ' ' + lastName)
-    .join(', ');
-
-  const renderChosenTranslators = () => (
-    <Text data-testid="contact-request-page__chosen-translators-text">
-      {translatorsString}
-    </Text>
+  const translatorNames = translators.map(
+    ({ firstName, lastName }) => firstName + ' ' + lastName
   );
 
-  const showOnPhone = activeStep === ContactRequestFormStep.PreviewAndSend;
-
-  const renderPhoneView = () =>
-    showOnPhone ? renderChosenTranslators() : <></>;
-
-  return isPhone ? renderPhoneView() : renderChosenTranslators();
+  return (
+    <ul>
+      {translatorNames.map((name, i) => (
+        <Text key={i}>
+          <li>{name}</li>
+        </Text>
+      ))}
+    </ul>
+  );
 };
 
 export const DisplayContactInfo = () => {
@@ -82,30 +70,32 @@ export const DisplayContactInfo = () => {
   });
   const { request } = useAppSelector(contactRequestSelector);
 
+  if (!request) {
+    return null;
+  }
+
+  const printContactDetail = (detail: keyof ContactDetails) => (
+    <div className="rows">
+      <Text className="bold">
+        {t(detail)}
+        {':'}
+      </Text>
+      <Text data-testid={`contact-request-page__contact-detail__${detail}`}>
+        {request[detail]}
+      </Text>
+    </div>
+  );
+
   return (
     <div className="rows gapped">
-      <H3>{t('contactInfo')}</H3>
-      <div className="grid-columns gapped">
-        <CustomTextField
-          disabled
-          value={request?.firstName}
-          label={t('firstName')}
-        />
-        <CustomTextField
-          disabled
-          value={request?.lastName}
-          label={t('lastName')}
-        />
+      <H2>{t('contactInfo')}</H2>
+      <div className="grid-2-columns gapped">
+        {printContactDetail('firstName')}
+        {printContactDetail('lastName')}
       </div>
-      <div className="grid-columns gapped">
-        <CustomTextField disabled value={request?.email} label={t('email')} />
-        {request?.phoneNumber && (
-          <CustomTextField
-            disabled
-            value={request?.phoneNumber}
-            label={t('phoneNumber')}
-          />
-        )}
+      <div className="grid-2-columns gapped">
+        {printContactDetail('email')}
+        {request.phoneNumber && printContactDetail('phoneNumber')}
       </div>
     </div>
   );

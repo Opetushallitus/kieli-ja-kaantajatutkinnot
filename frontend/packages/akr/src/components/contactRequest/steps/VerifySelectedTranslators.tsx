@@ -38,32 +38,34 @@ export const VerifySelectedTranslators = ({
       <StepHeading step={ContactRequestFormStep.VerifyTranslators} />
       <div className="rows gapped">
         <ChosenTranslatorsHeading />
-        {translators.map(({ id, firstName, lastName }) => {
-          const ariaLabel =
-            t('accessibility.deselectTranslator') +
-            ': ' +
-            firstName +
-            ' ' +
-            lastName;
+        <div className="rows gapped-xxs">
+          {translators.map(({ id, firstName, lastName }) => {
+            const ariaLabel =
+              t('accessibility.deselectTranslator') +
+              ': ' +
+              firstName +
+              ' ' +
+              lastName;
 
-          return (
-            <div
-              className="columns"
-              key={id}
-              data-testid={`contact-request-page__chosen-translator-id-${id}`}
-            >
-              <Text>
-                {firstName} {lastName}
-              </Text>
-              <IconButton
-                aria-label={ariaLabel}
-                onClick={() => deselectTranslator(id)}
+            return (
+              <div
+                className="columns"
+                key={id}
+                data-testid={`contact-request-page__chosen-translator-id-${id}`}
               >
-                <DeleteOutlineIcon color={Color.Error} />
-              </IconButton>
-            </div>
-          );
-        })}
+                <Text>
+                  {firstName} {lastName}
+                </Text>
+                <IconButton
+                  aria-label={ariaLabel}
+                  onClick={() => deselectTranslator(id)}
+                >
+                  <DeleteOutlineIcon color={Color.Error} />
+                </IconButton>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

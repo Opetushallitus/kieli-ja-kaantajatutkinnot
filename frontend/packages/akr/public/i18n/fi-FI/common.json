@@ -26,6 +26,7 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Auktorisoitujen kääntäjien rekisterin etusivulle.",
       "phase": "Vaihe",
       "register": "Rekisteri",
+      "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "save": "Tallenna",
       "send": "Lähetä",
       "statistics": "Tilastot",

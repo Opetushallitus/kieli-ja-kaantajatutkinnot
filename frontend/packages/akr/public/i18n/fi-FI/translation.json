@@ -147,7 +147,7 @@
           "title": "Peruuta yhteydenottopyyntö"
         },
         "characters": "merkkiä",
-        "chosenTranslatorsForLanguagePair": "Valitsemasi kääntäjät kieliparista",
+        "chosenTranslatorsForLanguagePair": "Valitut kääntäjät kieliparista",
         "description": "Tällä yhteydenottolomakkeella voit jättää valitsemillesi auktorisoiduille kääntäjille yhteydenottopyynnön. Kirjoitathan viestiin mahdollisimman tarkan kuvauksen tarvittavasta käännöstyöstä.",
         "doneStep": {
           "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
@@ -160,18 +160,22 @@
         },
         "formLabels": {
           "contactInfo": "Yhteystietosi",
-          "email": "Sähköpostiosoite",
+          "email": "Sähköposti",
           "firstName": "Etunimi",
           "lastName": "Sukunimi",
           "message": "Viesti",
           "phoneNumber": "Puhelinnumero",
           "writeMessageHere": "Viesti"
         },
+        "previewAndSend": {
+          "yourMessage": "Viestisi"
+        },
         "privacyStatement": {
           "ariaLabel": "Tietosuojaseloste",
           "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
           "linkLabel": "tietosuojaselosteen"
         },
+        "recipients": "Vastaanottajat",
         "steps": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
@@ -186,6 +190,11 @@
           "accessibility": {
             "deselectTranslator": "Poista kääntäjä"
           }
+        },
+        "writeMessage": {
+          "mandatory": "pakollinen",
+          "message": "Viesti",
+          "title": "Kirjoita viestisi"
         }
       },
       "examinationDatesListing": {

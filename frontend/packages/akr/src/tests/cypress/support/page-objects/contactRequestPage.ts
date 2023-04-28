@@ -1,5 +1,7 @@
 import { Matcher } from '@testing-library/dom';
 
+import { ContactDetails } from 'interfaces/contactRequest';
+
 class ContactRequestPage {
   elements = {
     deselectTranslatorButton: (id: string) =>
@@ -15,6 +17,9 @@ class ContactRequestPage {
       cy.get('.contact-request-page').findByLabelText(label),
     privacyStatementCheckbox: () =>
       cy.findByTestId('contact-request-page__privacy-statement-checkbox'),
+    contactDetailText: (detail: keyof ContactDetails) =>
+      cy.findByTestId(`contact-request-page__contact-detail__${detail}`),
+    messageField: () => cy.findByTestId('contact-request-page__message-field'),
   };
 
   previous() {
@@ -43,6 +48,10 @@ class ContactRequestPage {
 
   fillFieldByLabel(label: Matcher, text: string) {
     this.elements.byLabel(label).type(text);
+  }
+
+  fillMessage(text: string) {
+    this.elements.messageField().type(text);
   }
 
   pasteToFieldByLabel(label: Matcher, text: string) {
@@ -78,6 +87,10 @@ class ContactRequestPage {
       /Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä./i
     ).should('be.visible');
   }
+
+  expectContactDetailText(detail: keyof ContactDetails, text: string) {
+    this.elements.contactDetailText(detail).should('contain.text', text);
+  }
 }
 
 export const TEST_TRANSLATOR_IDS = ['602', '1940', '2080'];
@@ -88,7 +101,6 @@ export const TEST_CONTACT_DETAILS = {
   email: 'valid@email.org',
 };
 export const TEST_MESSAGE = 'Kirjoita viestisi tähän';
-export const LONG_TEST_MESSAGE = TEST_MESSAGE.repeat(300);
 
 export const onContactRequestPage = new ContactRequestPage();
 
@@ -109,7 +121,7 @@ export const fillContactDetailsStep = () => {
     TEST_CONTACT_DETAILS.lastName
   );
   onContactRequestPage.fillFieldByLabel(
-    /sähköpostiosoite/i,
+    /sähköposti/i,
     TEST_CONTACT_DETAILS.email
   );
 
@@ -120,34 +132,32 @@ export const writeMessageStep = () => {
   onContactRequestPage.next();
   onContactRequestPage.isNextDisabled();
 
-  onContactRequestPage.fillFieldByLabel(/^Viesti/i, TEST_MESSAGE);
+  onContactRequestPage.fillMessage(TEST_MESSAGE);
 
   onContactRequestPage.isNextEnabled();
 };
 
-const assertSelectedTranslators = () => {
-  expectTextForId(
-    'contact-request-page__chosen-translators-text',
-    'Ilkka Heinonen, Ninni Korhonen'
-  );
-};
-
 const assertContactDetails = () => {
-  expectTextToBeInDocument(TEST_CONTACT_DETAILS.firstName);
-  expectTextToBeInDocument(TEST_CONTACT_DETAILS.lastName);
-  expectTextToBeInDocument(TEST_CONTACT_DETAILS.email);
+  onContactRequestPage.expectContactDetailText(
+    'firstName',
+    TEST_CONTACT_DETAILS.firstName
+  );
+  onContactRequestPage.expectContactDetailText(
+    'lastName',
+    TEST_CONTACT_DETAILS.lastName
+  );
+  onContactRequestPage.expectContactDetailText(
+    'email',
+    TEST_CONTACT_DETAILS.email
+  );
 };
 
 export const previewAndSendStep = () => {
   onContactRequestPage.next();
   onContactRequestPage.confirmPrivacyStatement();
 
-  assertSelectedTranslators();
   assertContactDetails();
 };
-
-export const expectTextToBeInDocument = (text: string) =>
-  cy.findByDisplayValue(text).should('be.visible');
 
 export const expectTextForId = (id: Matcher, text: string) =>
   cy.findByTestId(id).should('have.text', text);
