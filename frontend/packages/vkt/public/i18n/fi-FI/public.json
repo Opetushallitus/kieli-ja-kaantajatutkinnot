@@ -87,7 +87,7 @@
             "emailConfirmation": "Vahvista sähköpostiosoite",
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
-            "title": "Yhteystiedot"
+            "title": "Täytä yhteystietosi"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
@@ -98,13 +98,23 @@
             "identityNumber": "Henkilötunnus",
             "dateOfBirth": "Syntymäaika",
             "lastName": "Sukunimi",
-            "title": "Nimi ja henkilötunnus"
+            "title": "Henkilötietosi"
           },
           "preview": {
+            "certificateShippingDetails": {
+              "addressLabel": "Toimitusosoite",
+              "title": "Tutkintotodistuksen toimitus"
+            },
             "contactDetails": {
               "email": "Sähköpostiosoite",
               "phoneNumber": "Puhelinnumero",
-              "title": "Yhteystiedot"
+              "title": "Yhteystietosi"
+            },
+            "examEventDetails": {
+              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",
+              "selectedSkillsLabel": "Valitut tutkinnot",
+              "selectedPartialExamsLabel": "Valitut osakokeet",
+              "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
               "ariaLabel": "Tietosuojaseloste",

@@ -45,7 +45,7 @@ export const PartialExamsSelection = ({
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
-  setValid?: (disabled: boolean) => void;
+  setValid: (disabled: boolean) => void;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.partialExamsSelection',
@@ -54,9 +54,7 @@ export const PartialExamsSelection = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (setValid) {
-      setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
-    }
+    setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
   }, [setValid, enrollment]);
 
   const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {

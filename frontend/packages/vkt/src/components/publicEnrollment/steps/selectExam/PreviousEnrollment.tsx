@@ -44,7 +44,7 @@ export const PreviousEnrollment = ({
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
-  setValid?: (isValid: boolean) => void;
+  setValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -59,10 +59,6 @@ export const PreviousEnrollment = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!setValid) {
-      return;
-    }
-
     if (enrollment.hasPreviousEnrollment === undefined) {
       setValid(false);
 
@@ -115,15 +111,13 @@ export const PreviousEnrollment = ({
     return !!errors[fieldName];
   };
 
-  const handleBlur = () => {
+  const handleTextFieldBlur = () => {
     if (!dirtyFields.includes('previousEnrollment')) {
       setDirtyFields([...dirtyFields, 'previousEnrollment']);
     }
   };
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleTextFieldChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(
       updatePublicEnrollment({
         previousEnrollment: event.target.value,
@@ -185,9 +179,9 @@ export const PreviousEnrollment = ({
         <CustomTextField
           className="margin-top-sm public-enrollment__grid__previous-enrollment__input"
           label={t('label')}
-          value={enrollment.previousEnrollment || ''}
-          onBlur={handleBlur}
-          onChange={handleChange}
+          value={enrollment.previousEnrollment}
+          onBlur={handleTextFieldBlur}
+          onChange={handleTextFieldChange}
           error={showCustomTextFieldError('previousEnrollment')}
           helperText={errors['previousEnrollment']}
           disabled={editingDisabled}

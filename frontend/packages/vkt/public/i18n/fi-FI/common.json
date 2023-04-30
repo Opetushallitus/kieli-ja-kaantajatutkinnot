@@ -111,6 +111,7 @@
         "enrollment": "Ilmoittautuminen",
         "frontPage": "Etusivu"
       },
+      "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {
