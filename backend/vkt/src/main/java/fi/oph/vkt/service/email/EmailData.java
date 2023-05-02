@@ -11,7 +11,7 @@ public record EmailData(
   @NonNull String recipientAddress,
   @NonNull String subject,
   @NonNull String body,
-  List<EmailAttachmentData> attachments
+  @NonNull List<EmailAttachmentData> attachments
 ) {
   public static EmailData createFromEmail(final Email email) {
     return EmailData

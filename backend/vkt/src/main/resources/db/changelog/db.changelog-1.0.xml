@@ -532,4 +532,10 @@
         </addColumn>
         <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="VARCHAR(255)"/>
     </changeSet>
+
+    <changeSet id="2023-05-03-add-enrollment-to-queue-confirmation-email_type" author="mikhuttu">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_TO_QUEUE_CONFIRMATION"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

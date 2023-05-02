@@ -54,6 +54,7 @@ class EmailSenderViestintapalveluTest {
       .recipientAddress("vastaanottaja@invalid")
       .subject("testiotsikko")
       .body("testiviesti")
+      .attachments(List.of())
       .build();
 
     final String extId = sender.sendEmail(emailData);
