@@ -3,6 +3,6 @@ app:
     duration: PT5M
   payment:
     paytrail:
-      url: http://localhost:9000
+      url: https://services.paytrail.com
       secret: SAIPPUAKAUPPIAS
       account: 375917

@@ -21,7 +21,7 @@ public class PaytrailConfig {
   private final String baseUrl;
 
   public String getSuccessUrl(final Long paymentId) {
-    return String.format("%s/payment/%d/success", baseUrl, paymentId);
+    return String.format("%s/payment/%s/success", baseUrl, paymentId);
   }
 
   public String getCancelUrl(final Long paymentId) {

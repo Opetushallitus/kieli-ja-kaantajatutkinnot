@@ -123,7 +123,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public void createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person) {
+  public Long createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
     if (person.getId() != reservation.getPerson().getId()) {
@@ -133,7 +133,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Enrollment enrollment = new Enrollment();
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
-    enrollment.setStatus(EnrollmentStatus.PAID);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
@@ -142,6 +142,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentRepository.saveAndFlush(enrollment);
     reservationRepository.deleteById(reservationId);
+
+    return enrollment.getId();
   }
 
   private void clearAddress(final Enrollment enrollment) {

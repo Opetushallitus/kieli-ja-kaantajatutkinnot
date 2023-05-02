@@ -13,15 +13,11 @@ import fi.oph.vkt.payment.paytrail.RedirectUrls;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import jdk.jfr.ContentType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -105,7 +101,7 @@ public class PaytrailService implements PaymentProvider {
 
   public boolean validate(Map<String, String> paymentParams) {
     final String secret = paytrailConfig.getSecret();
-    final String hash = CalculateHmac(secret, paymentParams);
+    final String hash = CalculateHmac(secret, paymentParams, "");
     final String account = paymentParams.get("checkout-account");
     final String algorithm = paymentParams.get("checkout-algorithm");
     final String signature = paymentParams.get("signature");
@@ -119,7 +115,7 @@ public class PaytrailService implements PaymentProvider {
     }
 
     if (signature != null && !hash.equals(signature)) {
-      throw new RuntimeException("Signature mismatch ");
+      throw new RuntimeException("Signature mismatch" + hash + " vs " + signature + " secret " + secret);
     }
 
     return true;

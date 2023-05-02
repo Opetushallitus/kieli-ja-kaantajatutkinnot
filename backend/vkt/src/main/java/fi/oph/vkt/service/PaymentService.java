@@ -32,29 +32,6 @@ public class PaymentService {
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
 
-  @Transactional
-  protected void updatePaymentDetails(
-    final Payment payment,
-    final String transactionId,
-    final String reference,
-    final String paymentUrl
-  ) {
-    payment.setReference(reference);
-    payment.setPaymentUrl(paymentUrl);
-    payment.setTransactionId(transactionId);
-
-    paymentRepository.saveAndFlush(payment);
-  }
-
-  @Transactional
-  protected Payment initializeNewPayment(final Person person, final Enrollment enrollment) {
-    final Payment payment = new Payment();
-    payment.setPerson(person);
-    payment.setEnrollment(enrollment);
-
-    return paymentRepository.saveAndFlush(payment);
-  }
-
   private Item getItem() {
     return Item
       .builder()
@@ -90,7 +67,7 @@ public class PaymentService {
     return itemList;
   }
 
-  private void updateStatus(final Payment payment, final PaymentStatus paymentStatus) {
+  private Enrollment updateEnrollmentStatus(final Payment payment, final PaymentStatus paymentStatus) {
     final Enrollment enrollment = payment.getEnrollment();
 
     switch (paymentStatus) {
@@ -99,10 +76,7 @@ public class PaymentService {
       case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED);
     }
 
-    payment.setPaymentStatus(paymentStatus);
-
-    enrollmentRepository.saveAndFlush(enrollment);
-    paymentRepository.saveAndFlush(payment);
+    return enrollment;
   }
 
   private boolean finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
@@ -121,21 +95,27 @@ public class PaymentService {
     }
 
     final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
-    updateStatus(payment, paymentStatus);
+    final Enrollment enrollment = updateEnrollmentStatus(payment, paymentStatus);
+    payment.setPaymentStatus(paymentStatus);
+
+    enrollmentRepository.saveAndFlush(enrollment);
+    paymentRepository.saveAndFlush(payment);
 
     return true;
   }
 
+  @Transactional
   public boolean success(final Long paymentId, final Map<String, String> paymentParams) {
     return finalizePayment(paymentId, paymentParams);
   }
 
+  @Transactional
   public boolean cancel(final Long paymentId, final Map<String, String> paymentParams) {
     return finalizePayment(paymentId, paymentParams);
   }
 
   public String create(final Long enrollmentId, final Person person) {
-    final Enrollment enrollment = enrollmentRepository
+    Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
       .orElseThrow(() -> new NotFoundException("Enrollment not found"));
 
@@ -155,7 +135,12 @@ public class PaymentService {
       .firstName(person.getFirstName())
       .lastName(person.getLastName())
       .build();
-    final Payment payment = initializeNewPayment(person, enrollment);
+
+    final Payment payment = new Payment();
+    payment.setPerson(person);
+    payment.setEnrollment(enrollment);
+    paymentRepository.saveAndFlush(payment);
+
     final int total = getTotal(itemList);
     final PaytrailResponseDTO response = paytrailService.createPayment(
       itemList,
@@ -168,8 +153,14 @@ public class PaymentService {
     final String reference = response.getReference();
     final String paymentUrl = response.getHref();
 
-    updatePaymentDetails(payment, transactionId, reference, paymentUrl);
-    updateStatus(payment, PaymentStatus.NEW);
+    payment.setPaymentStatus(PaymentStatus.NEW);
+    payment.setReference(reference);
+    payment.setPaymentUrl(paymentUrl);
+    payment.setTransactionId(transactionId);
+    paymentRepository.saveAndFlush(payment);
+
+    enrollment = updateEnrollmentStatus(payment, PaymentStatus.NEW);
+    enrollmentRepository.saveAndFlush(enrollment);
 
     return paymentUrl;
   }

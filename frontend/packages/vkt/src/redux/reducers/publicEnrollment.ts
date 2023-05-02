@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
+import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -124,6 +125,10 @@ const publicEnrollmentSlice = createSlice({
       state.status = APIResponseStatus.Success;
       state.activeStep = PublicEnrollmentFormStep.Done;
     },
+    storePublicEnrollmentRedirect(state, action: PayloadAction<number>) {
+      state.status = APIResponseStatus.Success;
+      window.location.href = `${APIEndpoints.Payment}/create/${action.payload}/redirect`;
+    },
   },
 });
 
@@ -144,5 +149,6 @@ export const {
   rejectPublicEnrollmentSave,
   rejectPublicReservationRenew,
   storePublicEnrollmentSave,
+  storePublicEnrollmentRedirect,
   renewPublicEnrollmentReservation,
 } = publicEnrollmentSlice.actions;

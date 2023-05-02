@@ -85,14 +85,14 @@ public class PublicController {
 
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEnrollment(
+  public Long createEnrollment(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    publicEnrollmentService.createEnrollment(dto, reservationId, person);
+    return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
   @PostMapping(path = "/enrollment/queue")
@@ -135,21 +135,37 @@ public class PublicController {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }
 
-  @GetMapping(path = "/payment/create/redirect")
-  public void createAndRedirect(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
-    final Person person = publicPersonService.getPerson(1L);
-    final String redirectUrl = paymentService.create(1L, person);
+  @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
+  public void createAndRedirect(
+    @PathVariable Long enrollmentId,
+    final HttpSession session,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+    final String redirectUrl = paymentService.create(enrollmentId, person);
 
     httpResponse.sendRedirect(redirectUrl);
   }
 
-  @GetMapping(path = "/payment/{id:\\d}/cancel")
-  public boolean paymentCancel(@PathVariable Long paymentId, @RequestParam Map<String, String> paymentParams) {
-    return paymentService.cancel(paymentId, paymentParams);
+  @GetMapping(path = "/payment/{paymentId:\\d+}/cancel")
+  public void paymentCancel(
+    @PathVariable final Long paymentId,
+    @RequestParam final Map<String, String> paymentParams,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    paymentService.cancel(paymentId, paymentParams);
+
+    httpResponse.sendRedirect("/vkt/etusivu");
   }
 
-  @GetMapping(path = "/payment/{id:\\d}/success")
-  public boolean paymentSuccess(@PathVariable Long paymentId, @RequestParam Map<String, String> paymentParams) {
-    return paymentService.success(paymentId, paymentParams);
+  @GetMapping(path = "/payment/{paymentId:\\d+}/success")
+  public void paymentSuccess(
+    @PathVariable final Long paymentId,
+    @RequestParam final Map<String, String> paymentParams,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    paymentService.success(paymentId, paymentParams);
+
+    httpResponse.sendRedirect("/vkt/etusivu");
   }
 }

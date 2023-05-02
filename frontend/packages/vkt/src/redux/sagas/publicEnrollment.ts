@@ -24,6 +24,7 @@ import {
   renewPublicEnrollmentReservation,
   storePublicEnrollmentCancellation,
   storePublicEnrollmentInitialisation,
+  storePublicEnrollmentRedirect,
   storePublicEnrollmentSave,
   updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
@@ -108,13 +109,19 @@ function* loadPublicEnrollmentSaveSaga(
       ...body
     } = enrollment;
 
-    const saveUrl = reservationDetails.reservation
-      ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`
-      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
-
-    yield call(axiosInstance.post, saveUrl, body);
-
-    yield put(storePublicEnrollmentSave());
+    if (reservationDetails.reservation) {
+      const saveUrl = `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`;
+      const response: AxiosResponse<number> = yield call(
+        axiosInstance.post,
+        saveUrl,
+        body
+      );
+      yield put(storePublicEnrollmentRedirect(response.data));
+    } else {
+      const saveUrl = `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
+      yield call(axiosInstance.post, saveUrl, body);
+      yield put(storePublicEnrollmentSave());
+    }
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

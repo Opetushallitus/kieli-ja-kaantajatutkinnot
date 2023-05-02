@@ -87,7 +87,7 @@ public class PaytrailServiceTest {
   public void testValidatePaytrailSignature() {
     WebClient webClient = WebClient.builder().baseUrl("").build();
 
-    final String signature = "db25736539c6b22afe11699016eaea2f38a181f033dc4368cdfbb8010faf5862";
+    final String signature = "b2d3ecdda2c04563a4638fcade3d4e77dfdc58829b429ad2c2cb422d0fc64080";
     final String account = "375917";
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
@@ -102,7 +102,7 @@ public class PaytrailServiceTest {
   public void testValidatePaytrailSignatureWithNewHeader() {
     WebClient webClient = WebClient.builder().baseUrl("").build();
 
-    final String signature = "ffaa2fec0b16680c80e2b16383c8900f105934d801e77d604d153ef438dceffd";
+    final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
     final String account = "375917";
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
