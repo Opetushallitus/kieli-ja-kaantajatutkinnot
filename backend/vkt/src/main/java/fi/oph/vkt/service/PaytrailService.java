@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import static fi.oph.vkt.payment.Crypto.CalculateHmac;
+import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.payment.PaymentProvider;
@@ -15,13 +16,19 @@ import java.util.List;
 import java.util.Map;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class PaytrailService implements PaymentProvider {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
   private final WebClient paytrailWebClient;
   private final PaytrailConfig paytrailConfig;
@@ -53,7 +60,7 @@ public class PaytrailService implements PaymentProvider {
       .reference(paymentId.toString())
       .amount(total)
       .currency(PaytrailConfig.CURRENCY)
-      .language("FI")
+      .language("FI") // TODO: käyttäjän kielestä?
       .customer(customer)
       .redirectUrls(redirectUrls)
       .build();
@@ -74,8 +81,9 @@ public class PaytrailService implements PaymentProvider {
     final Body body = getBody(itemList, paymentId, customer, total);
     final String secret = paytrailConfig.getSecret();
 
+    String bodyJson = null;
     try {
-      final String bodyJson = om.writeValueAsString(body);
+      bodyJson = om.writeValueAsString(body);
       final String hash = CalculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
       final String response = paytrailWebClient
@@ -85,15 +93,22 @@ public class PaytrailService implements PaymentProvider {
         .headers(httpHeaders -> headers.forEach(httpHeaders::add))
         .exchangeToMono(clientResponse -> {
           if (clientResponse.statusCode().isError()) {
-            clientResponse.body((clientHttpResponse, context) -> {
-              return clientHttpResponse.getBody();
-            });
+            return clientResponse.createException().flatMap(Mono::error);
           }
           return clientResponse.bodyToMono(String.class);
         })
         .block();
 
       return om.readValue(response, PaytrailResponseDTO.class);
+    } catch (WebClientResponseException e) {
+      LOG.error(
+        "Paytrail returned error status {}\n response body: {}\n request body: {}\n request headers: \n\t{}",
+        e.getStatusCode().value(),
+        e.getResponseBodyAsString(),
+        bodyJson,
+        String.join("\n\t", collectHeaders(headers))
+      );
+      throw new RuntimeException(e);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -107,15 +122,18 @@ public class PaytrailService implements PaymentProvider {
     final String signature = paymentParams.get("signature");
 
     if (account != null && !account.equals(paytrailConfig.getAccount())) {
+      LOG.error("Paytrail account mismatch: response: {} != config: {}", account, paytrailConfig.getAccount());
       throw new RuntimeException("Account mismatch");
     }
 
     if (algorithm != null && !algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
+      LOG.error("Paytrail algorithm mismatch: response: {} != config: {}", algorithm, PaytrailConfig.HMAC_ALGORITHM);
       throw new RuntimeException("Unknown algorithm");
     }
 
     if (signature != null && !hash.equals(signature)) {
-      throw new RuntimeException("Signature mismatch" + hash + " vs " + signature + " secret " + secret);
+      LOG.error("Paytrail signature mismatch: response: {} != calculated: {}", signature, hash);
+      throw new RuntimeException("Signature mismatch");
     }
 
     return true;

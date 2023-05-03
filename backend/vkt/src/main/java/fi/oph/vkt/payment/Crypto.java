@@ -18,7 +18,7 @@ public class Crypto {
     return outMsg.replace("-", "").toLowerCase();
   }
 
-  private static List<String> collectHeaders(Map<String, String> hParams) {
+  public static List<String> collectHeaders(Map<String, String> hParams) {
     return hParams
       .entrySet()
       .stream()

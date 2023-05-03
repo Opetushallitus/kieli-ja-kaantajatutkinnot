@@ -18,12 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
   private static final int COST_SINGLE = 45400;
   private static final int COST_MULTIPLE = 22700;
@@ -38,7 +42,7 @@ public class PaymentService {
       .units(1)
       .unitPrice(COST_MULTIPLE)
       .vatPercentage(PaytrailConfig.VAT)
-      .productCode("foo")
+      .productCode("foo") // TODO: Mikä productCode halutaan? Onko väliä?
       .build();
   }
 
@@ -79,7 +83,7 @@ public class PaymentService {
     return enrollment;
   }
 
-  private boolean finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
+  private void finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
@@ -91,6 +95,7 @@ public class PaymentService {
 
     // TODO: voiko peruutetun maksun maksaa?
     if (currentStatus != null && currentStatus.equals(PaymentStatus.OK)) {
+      LOG.warn("Cannot change payment status from OK to {} for payment {}", currentStatus, paymentId);
       throw new APIException(APIExceptionType.PAYMENT_ALREADY_PAID);
     }
 
@@ -100,18 +105,16 @@ public class PaymentService {
 
     enrollmentRepository.saveAndFlush(enrollment);
     paymentRepository.saveAndFlush(payment);
-
-    return true;
   }
 
   @Transactional
-  public boolean success(final Long paymentId, final Map<String, String> paymentParams) {
-    return finalizePayment(paymentId, paymentParams);
+  public void success(final Long paymentId, final Map<String, String> paymentParams) {
+    finalizePayment(paymentId, paymentParams);
   }
 
   @Transactional
-  public boolean cancel(final Long paymentId, final Map<String, String> paymentParams) {
-    return finalizePayment(paymentId, paymentParams);
+  public void cancel(final Long paymentId, final Map<String, String> paymentParams) {
+    finalizePayment(paymentId, paymentParams);
   }
 
   public String create(final Long enrollmentId, final Person person) {

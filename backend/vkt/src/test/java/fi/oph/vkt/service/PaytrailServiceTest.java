@@ -2,7 +2,9 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,6 +28,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @WithMockUser
 @DataJpaTest
@@ -36,6 +39,9 @@ public class PaytrailServiceTest {
 
   @Value("classpath:payment/paytrail-request.json")
   private org.springframework.core.io.Resource paytrailMockRequest;
+
+  @Value("classpath:payment/paytrail-response-fail.json")
+  private org.springframework.core.io.Resource paytrailMockFailResponse;
 
   @Test
   public void testPaytrailCreatePayment() throws IOException, InterruptedException {
@@ -84,6 +90,45 @@ public class PaytrailServiceTest {
   }
 
   @Test
+  public void testPaytrailCreatePaymentBadResponse() throws IOException, InterruptedException {
+    MockWebServer mockWebServer;
+    mockWebServer = new MockWebServer();
+    mockWebServer.start();
+
+    mockWebServer.enqueue(
+      new MockResponse()
+        .setResponseCode(400)
+        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .setBody(getMockJsonFailResponse())
+    );
+
+    String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+    WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
+
+    final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
+    when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
+    when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
+    when(paytrailConfig.getAccount()).thenReturn("123456");
+    when(paytrailConfig.getTimestamp()).thenReturn("2018-07-06T10:01:31.904Z");
+    when(paytrailConfig.getSuccessUrl(1L)).thenReturn("http://localhost/sucess");
+    when(paytrailConfig.getCancelUrl(1L)).thenReturn("http://localhost/cancel");
+
+    final Customer customer = Customer.builder().email("testinen@test.invalid").build();
+    final Item item1 = Item.builder().productCode("foo").build();
+    final Item item2 = Item.builder().productCode("bar").build();
+    final List<Item> itemList = Arrays.asList(item1, item2);
+    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
+    final RuntimeException ex = assertThrows(
+      RuntimeException.class,
+      () -> paytrailService.createPayment(itemList, 1L, customer, 100)
+    );
+
+    assertInstanceOf(WebClientResponseException.class, ex.getCause());
+
+    mockWebServer.shutdown();
+  }
+
+  @Test
   public void testValidatePaytrailSignature() {
     WebClient webClient = WebClient.builder().baseUrl("").build();
 
@@ -117,6 +162,10 @@ public class PaytrailServiceTest {
 
   private String getMockJsonRequest() throws IOException {
     return new String(paytrailMockRequest.getInputStream().readAllBytes());
+  }
+
+  private String getMockJsonFailResponse() throws IOException {
+    return new String(paytrailMockFailResponse.getInputStream().readAllBytes());
   }
 
   private String getMockJsonResponse() throws IOException {
