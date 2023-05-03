@@ -13,8 +13,10 @@ import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -112,6 +114,12 @@ public class PublicController {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicReservationService.deleteReservation(reservationId, person);
+  }
+
+  @GetMapping(path = "/auth/login")
+  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    httpResponse.sendRedirect(casLoginUrl);
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")

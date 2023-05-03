@@ -118,8 +118,9 @@
             }
           },
           "previousEnrollment": {
-            "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? Milloin olet viimeksi osallistunut?",
-            "label": "Päivämäärä tai vapaa teksti"
+            "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *",
+            "whenPrevious": "Milloin olet viimeksi osallistunut?",
+            "label": "Päivämäärä tai vapaa teksti *"
           }
         }
       },

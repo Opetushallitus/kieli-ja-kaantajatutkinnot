@@ -4,10 +4,13 @@ import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,17 @@ public class PublicAuthService {
   private final PersonRepository personRepository;
 
   private final CasTicketValidationService casTicketValidationService;
+
+  private final Environment environment;
+
+  public String createCasLoginUrl() {
+    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
+    final String casServiceUrl = URLEncoder.encode(
+      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      StandardCharsets.UTF_8
+    );
+    return casLoginUrl + "?service=" + casServiceUrl;
+  }
 
   private Person createPerson(
     final String identityNumber,
