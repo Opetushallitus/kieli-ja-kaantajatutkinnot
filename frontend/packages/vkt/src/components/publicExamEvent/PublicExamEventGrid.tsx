@@ -9,6 +9,7 @@ import {
   H1,
   H2,
   HeaderSeparator,
+  LoadingProgressIndicator,
   Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
@@ -22,6 +23,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
@@ -35,6 +37,7 @@ export const PublicExamEventGrid = () => {
   const { status, examEvents, selectedExamEvent } = useAppSelector(
     publicExamEventsSelector
   );
+  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -48,6 +51,8 @@ export const PublicExamEventGrid = () => {
   // State
   const isLoading = status === APIResponseStatus.InProgress;
   const hasResults = examEvents.length > 0;
+  const isInitialisationInProgress =
+    reservationDetailsStatus === APIResponseStatus.InProgress;
 
   return (
     <>
@@ -99,15 +104,17 @@ export const PublicExamEventGrid = () => {
       </Grid>
       {isPhone && selectedExamEvent && (
         <MobileAppBar>
-          <CustomButton
-            data-testid="public-exam-events__enroll-btn"
-            color={Color.Secondary}
-            variant={Variant.Contained}
-            onClick={() => navigate(AppRoutes.PublicAuth)}
-            fullWidth
-          >
-            {translateCommon('enroll')}
-          </CustomButton>
+          <LoadingProgressIndicator isLoading={isInitialisationInProgress}>
+            <CustomButton
+              data-testid="public-exam-events__enroll-btn"
+              color={Color.Secondary}
+              variant={Variant.Contained}
+              onClick={() => navigate(AppRoutes.PublicAuth)}
+              fullWidth
+            >
+              {translateCommon('enroll')}
+            </CustomButton>
+          </LoadingProgressIndicator>
         </MobileAppBar>
       )}
     </>

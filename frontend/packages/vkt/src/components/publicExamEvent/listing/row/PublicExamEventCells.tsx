@@ -8,7 +8,24 @@ import { ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
-// TODO: not implemented
+const getOpeningsText = (
+  examEvent: PublicExamEvent,
+  t: (key: string) => string
+) => {
+  if (examEvent.hasCongestion) {
+    return (
+      <>
+        <Text>{t('openings.congestion.part1')}</Text>
+        <Text>{t('openings.congestion.part2')}</Text>
+      </>
+    );
+  } else if (examEvent.openings <= 0) {
+    return <Text>{t('openings.none')}</Text>;
+  }
+
+  return <Text>{`${examEvent.openings}`}</Text>;
+};
+
 export const PublicExamEventPhoneCells = ({
   examEvent,
   isSelected,
@@ -16,7 +33,7 @@ export const PublicExamEventPhoneCells = ({
   examEvent: PublicExamEvent;
   isSelected: boolean;
 }) => {
-  const { language, date, registrationCloses, openings } = examEvent;
+  const { language, date, registrationCloses } = examEvent;
 
   // I18n
   const { t } = usePublicTranslation({
@@ -53,7 +70,7 @@ export const PublicExamEventPhoneCells = ({
             </div>
             <div className="rows">
               <b>{t('header.openings')}</b>
-              <Text>{openings}</Text>
+              {getOpeningsText(examEvent, t)}
             </div>
           </div>
         </div>
@@ -89,21 +106,6 @@ export const PublicExamEventDesktopCells = ({
     ? t('accessibility.checkboxSelectedAriaLabel')
     : t('accessibility.checkboxUnselectedAriaLabel');
 
-  const getOpeningsText = () => {
-    if (examEvent.hasCongestion) {
-      return (
-        <>
-          <Text>{t('openings.congestion.part1')}</Text>
-          <Text>{t('openings.congestion.part2')}</Text>
-        </>
-      );
-    } else if (examEvent.openings <= 0) {
-      return <Text>{t('openings.none')}</Text>;
-    }
-
-    return <Text>{`${examEvent.openings}`}</Text>;
-  };
-
   return (
     <>
       <TableCell padding="checkbox">
@@ -133,7 +135,7 @@ export const PublicExamEventDesktopCells = ({
           {DateUtils.formatOptionalDate(examEvent.registrationCloses)}
         </Text>
       </TableCell>
-      <TableCell>{getOpeningsText()}</TableCell>
+      <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
       <TableCell />
     </>
   );

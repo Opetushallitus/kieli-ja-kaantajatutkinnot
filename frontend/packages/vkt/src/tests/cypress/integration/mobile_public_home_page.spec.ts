@@ -2,7 +2,7 @@ import { ExamLanguage } from 'enums/app';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
-describe('PublicHomePage', () => {
+describe('PublicHomePage (mobile)', () => {
   beforeEach(() => {
     cy.viewport('iphone-x');
     cy.openPublicHomePage();
@@ -21,7 +21,7 @@ describe('PublicHomePage', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
   });
 
-  it('should enable enroll button only if exam event without congestion is selected', () => {
+  it('should show enroll button only if exam event without congestion is selected', () => {
     onPublicHomePage.expectEnrollButtonToNotExist();
 
     onPublicHomePage.clickExamEventRow(2);
