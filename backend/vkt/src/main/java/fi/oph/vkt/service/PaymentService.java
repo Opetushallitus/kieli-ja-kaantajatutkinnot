@@ -117,6 +117,7 @@ public class PaymentService {
     finalizePayment(paymentId, paymentParams);
   }
 
+  @Transactional
   public String create(final Long enrollmentId, final Person person) {
     Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
