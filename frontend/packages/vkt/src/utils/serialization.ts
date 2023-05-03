@@ -47,9 +47,9 @@ export class SerializationUtils {
       reservationDetails.reservation &&
       SerializationUtils.deserializeReservation(reservationDetails.reservation);
 
-    const person =
-      reservationDetails.person &&
-      SerializationUtils.deserializePerson(reservationDetails.person);
+    const person = SerializationUtils.deserializePerson(
+      reservationDetails.person
+    );
 
     return {
       ...reservationDetails,

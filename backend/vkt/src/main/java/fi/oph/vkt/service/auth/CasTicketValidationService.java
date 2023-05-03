@@ -3,7 +3,6 @@ package fi.oph.vkt.service.auth;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service

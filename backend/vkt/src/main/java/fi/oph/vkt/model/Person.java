@@ -33,11 +33,11 @@ public class Person extends BaseEntity {
   @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
-  @Column(name = "date_of_birth", unique = true)
+  @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
 
   @Size(max = 2048)
-  @Column(name = "other_identifier")
+  @Column(name = "other_identifier", unique = true)
   private String otherIdentifier;
 
   @Column(name = "last_name")

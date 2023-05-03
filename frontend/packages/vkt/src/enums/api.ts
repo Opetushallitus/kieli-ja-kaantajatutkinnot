@@ -24,6 +24,7 @@ export enum APIError {
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
   InvalidVersion = 'invalidVersion',
+  InvalidTicket = 'invalidTicket',
   RenewReservationNotAllowed = 'renewReservationNotAllowed',
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
   TicketValidationError = 'ticketValidationError',

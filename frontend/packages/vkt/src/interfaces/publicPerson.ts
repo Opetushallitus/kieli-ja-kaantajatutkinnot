@@ -1,7 +1,8 @@
 import { Dayjs } from 'dayjs';
 
-export interface PublicPerson {
-  id: number;
+import { WithId } from 'interfaces/with';
+
+export interface PublicPerson extends WithId {
   identityNumber?: string;
   dateOfBirth?: Dayjs;
   lastName?: string;
