@@ -35,6 +35,9 @@ public class PublicAuthServiceTest {
   public void setup() {
     final Environment environment = mock(Environment.class);
 
+    when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
+    when(environment.getRequiredProperty("app.cas-oppija.service-url")).thenReturn("https://qwerty/login");
+
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
     final Map<String, String> personDetails = Map.ofEntries(
@@ -67,5 +70,11 @@ public class PublicAuthServiceTest {
     assertEquals("Tessa", personDTO.firstName());
 
     assertEquals(1, personRepository.count());
+  }
+
+  @Test
+  public void testCreateCasLoginUrl() {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    assertEquals("https://foo.bar?service=https%3A%2F%2Fqwerty%2Flogin", casLoginUrl);
   }
 }

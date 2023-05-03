@@ -116,6 +116,12 @@ public class PublicController {
     publicReservationService.deleteReservation(reservationId, person);
   }
 
+  @GetMapping(path = "/auth/login")
+  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    httpResponse.sendRedirect(casLoginUrl);
+  }
+
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
   public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
     final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
@@ -128,11 +134,5 @@ public class PublicController {
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
-  }
-
-  @GetMapping(path = "/auth/login")
-  public void casLoginRedirect(HttpServletResponse httpResponse) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl();
-    httpResponse.sendRedirect(casLoginUrl);
   }
 }

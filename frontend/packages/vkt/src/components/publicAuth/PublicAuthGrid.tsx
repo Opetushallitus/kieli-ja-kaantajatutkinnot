@@ -10,6 +10,7 @@ import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrol
 import { PublicAuthGridSkeleton } from 'components/skeletons/PublicAuthGridSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
@@ -123,7 +124,7 @@ export const PublicAuthGrid = () => {
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
                       className="public-enrollment__grid__form-container__auth-button"
-                      href={AppRoutes.PublicAuthLogin}
+                      href={APIEndpoints.PublicAuthLogin}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}

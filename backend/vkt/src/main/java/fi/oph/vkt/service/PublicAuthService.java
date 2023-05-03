@@ -22,6 +22,15 @@ public class PublicAuthService {
 
   private final Environment environment;
 
+  public String createCasLoginUrl() {
+    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
+    final String casServiceUrl = URLEncoder.encode(
+      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      StandardCharsets.UTF_8
+    );
+    return casLoginUrl + "?service=" + casServiceUrl;
+  }
+
   private Person createPerson(final String identityNumber, final String firstName, final String lastName) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
@@ -50,14 +59,5 @@ public class PublicAuthService {
       .lastName(person.getLastName())
       .identityNumber(person.getIdentityNumber())
       .build();
-  }
-
-  public String createCasLoginUrl() {
-    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
-    final String casServiceUrl = URLEncoder.encode(
-      environment.getRequiredProperty("app.cas-oppija.service-url"),
-      StandardCharsets.UTF_8
-    );
-    return casLoginUrl + "?service=" + casServiceUrl;
   }
 }
