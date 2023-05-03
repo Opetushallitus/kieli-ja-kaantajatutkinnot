@@ -36,7 +36,7 @@ public class Person extends BaseEntity {
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
 
-  @Size(max = 2048)
+  @Size(max = 1024)
   @Column(name = "other_identifier", unique = true)
   private String otherIdentifier;
 

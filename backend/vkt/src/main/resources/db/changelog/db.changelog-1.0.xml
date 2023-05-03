@@ -521,11 +521,11 @@
                         uniqueConstraintName="person_oid_uniq_idx"
                 />
             </column>
-            <column name="other_identifier" type="TEXT">
+            <column name="other_identifier" type="VARCHAR(1024)">
                 <constraints
                         nullable="true"
                         unique="true"
-                        uniqueConstraintName="person_other_identifier_uniq_idx"
+                        uniqueConstraintName="person_other_id_uniq_idx"
                 />
             </column>
             <column name="date_of_birth" type="DATE" />
