@@ -1,7 +1,9 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { useEffect } from 'react';
+import { CircularStepper } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentStepper = ({
@@ -16,10 +18,12 @@ export const PublicEnrollmentStepper = ({
       .getElementById(`public-enrollment-step-label-${activeStep}`)
       ?.focus();
   }, [activeStep]);
+  const { isPhone } = useWindowProperties();
 
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
+  const translateCommon = useCommonTranslation();
 
   const steps = includePaymentStep
     ? [
@@ -39,6 +43,8 @@ export const PublicEnrollmentStepper = ({
       ];
 
   const doneStepNumber = steps.length;
+  const mobileStepValue = activeStep * (100 / doneStepNumber);
+
   const getStatusText = (stepNumber: number) => {
     if (stepNumber < activeStep) {
       return t('completed');
@@ -65,7 +71,19 @@ export const PublicEnrollmentStepper = ({
   const isStepCompleted = (stepNumber: number) =>
     stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
 
-  return (
+  const phaseText = `${activeStep}/${doneStepNumber}`;
+  const ariaLabel = `${translateCommon('phase')} ${phaseText}: ${t(
+    PublicEnrollmentFormStep[activeStep]
+  )}`;
+
+  return isPhone ? (
+    <CircularStepper
+      value={mobileStepValue}
+      ariaLabel={ariaLabel}
+      phaseText={phaseText}
+      size={90}
+    />
+  ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}

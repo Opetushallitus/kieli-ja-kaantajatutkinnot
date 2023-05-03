@@ -1,20 +1,23 @@
 import { Grid, Paper } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { LoadingProgressIndicator } from 'shared/components';
+import { H2, LoadingProgressIndicator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
+import { StackableMobileAppBar } from 'components/common/StackableMobileAppBar';
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { MobileAppBarState } from 'interfaces/mobileAppBar';
 import {
   loadPublicEnrollment,
   loadPublicExamEvent,
@@ -27,12 +30,13 @@ export const PublicEnrollmentGrid = ({
 }: {
   activeStep: PublicEnrollmentFormStep;
 }) => {
-  const dispatch = useAppDispatch();
+  // State
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
-  const params = useParams();
-  const translateCommon = useCommonTranslation();
+  const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
 
+  // Redux
+  const dispatch = useAppDispatch();
   const {
     renewReservationStatus,
     enrollmentSubmitStatus,
@@ -43,7 +47,15 @@ export const PublicEnrollmentGrid = ({
     selectedExamEvent,
   } = useAppSelector(publicEnrollmentSelector);
 
+  // i18n
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.stepper',
+  });
+
   const navigate = useNavigate();
+  const params = useParams();
+  const { isPhone } = useWindowProperties();
 
   useEffect(() => {
     if (
@@ -85,6 +97,15 @@ export const PublicEnrollmentGrid = ({
     '/vkt/ilmoittaudu'
   );
 
+  const memoizedSetAppBarState = useCallback(
+    (order: number, height: number) =>
+      setAppBarState((prev) => ({
+        ...prev,
+        [order]: height,
+      })),
+    []
+  );
+
   const isLoading = [
     renewReservationStatus,
     cancelStatus,
@@ -102,6 +123,89 @@ export const PublicEnrollmentGrid = ({
   const isPaymentSumAvailable =
     isPreviewStepActive &&
     (reservationDetails?.reservation || isShiftedFromQueue);
+
+  const renderPhoneView = () => (
+    <>
+      <Grid className="public-enrollment__grid" item>
+        {!isDoneStepActive && (
+          <StackableMobileAppBar
+            order={1}
+            state={appBarState}
+            setState={memoizedSetAppBarState}
+          >
+            <div className="rows">
+              {reservationDetails?.reservation && !isDoneStepActive && (
+                <PublicEnrollmentTimer
+                  reservation={reservationDetails.reservation}
+                  isLoading={isLoading}
+                />
+              )}
+              {isPreviewStepActive && reservationDetails?.reservation && (
+                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+              )}
+            </div>
+          </StackableMobileAppBar>
+        )}
+        <Paper elevation={3}>
+          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+            {selectedExamEvent && (
+              <div className="public-enrollment__grid__form-container">
+                <div className="columns gapped">
+                  <PublicEnrollmentStepper
+                    activeStep={activeStep}
+                    includePaymentStep={hasReservation}
+                  />
+                  <div className="rows gapped-xs align-items-center grow">
+                    <H2>{t(`step.${PublicEnrollmentFormStep[activeStep]}`)}</H2>
+                    <div>
+                      <Text>
+                        Seuraava:{' '}
+                        {t(`step.${PublicEnrollmentFormStep[activeStep + 1]}`)}
+                      </Text>
+                    </div>
+                  </div>
+                </div>
+                <PublicEnrollmentExamEventDetails
+                  examEvent={selectedExamEvent}
+                  showOpenings={hasReservation && !isDoneStepActive}
+                />
+                <PublicEnrollmentStepContents
+                  selectedExamEvent={selectedExamEvent}
+                  activeStep={activeStep}
+                  enrollment={enrollment}
+                  isLoading={isLoading}
+                  setIsStepValid={setIsStepValid}
+                  showValidation={showValidation}
+                />
+              </div>
+            )}
+          </LoadingProgressIndicator>
+        </Paper>
+        {!isDoneStepActive && reservationDetails && (
+          <StackableMobileAppBar
+            order={2}
+            state={appBarState}
+            setState={memoizedSetAppBarState}
+          >
+            <div className="rows">
+              <PublicEnrollmentControlButtons
+                submitStatus={enrollmentSubmitStatus}
+                activeStep={activeStep}
+                enrollment={enrollment}
+                reservationDetails={reservationDetails}
+                isLoading={isLoading}
+                isStepValid={isStepValid}
+                setShowValidation={setShowValidation}
+                isPaymentLinkPreviewView={
+                  isShiftedFromQueue && isPreviewStepActive
+                }
+              />
+            </div>
+          </StackableMobileAppBar>
+        )}
+      </Grid>
+    </>
+  );
 
   const renderDesktopView = () => (
     <>
@@ -178,7 +282,7 @@ export const PublicEnrollmentGrid = ({
       direction="column"
       className="public-enrollment"
     >
-      {renderDesktopView()}
+      {isPhone ? renderPhoneView() : renderDesktopView()}
     </Grid>
   );
 };

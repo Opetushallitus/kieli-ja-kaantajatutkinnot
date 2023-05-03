@@ -11,30 +11,21 @@ describe('PublicHomePage (mobile)', () => {
   it('should show the filtered amount of exam events in table pagination', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
 
-    onPublicHomePage.filterByLanguage(ExamLanguage.FI);
+    onPublicHomePage.filterByLanguageMobile(ExamLanguage.FI);
     onPublicHomePage.expectFilteredExamEventsCount(6);
 
-    onPublicHomePage.filterByLanguage(ExamLanguage.SV);
+    onPublicHomePage.filterByLanguageMobile(ExamLanguage.SV);
     onPublicHomePage.expectFilteredExamEventsCount(5);
 
-    onPublicHomePage.filterByLanguage(ExamLanguage.ALL);
+    onPublicHomePage.filterByLanguageMobile(ExamLanguage.ALL);
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
   });
-
-  it('should show enroll button only if exam event without congestion is selected', () => {
-    onPublicHomePage.expectEnrollButtonToNotExist();
-
-    onPublicHomePage.clickExamEventRow(2);
-    onPublicHomePage.expectCheckboxChecked(2);
-    onPublicHomePage.expectEnrollButtonToExist();
-
-    onPublicHomePage.clickExamEventRow(1);
-    onPublicHomePage.expectCheckboxChecked(1);
-    onPublicHomePage.expectCheckboxNotChecked(2);
-    onPublicHomePage.expectEnrollButtonToExist();
-
-    onPublicHomePage.clickExamEventRow(1);
-    onPublicHomePage.expectCheckboxNotChecked(1);
-    onPublicHomePage.expectEnrollButtonToNotExist();
+  it('should display enroll button correctly', () => {
+    onPublicHomePage.expectEnrollButtonDisabled(1);
+    onPublicHomePage.expectEnrollButtonText(1, 'Ilmoittaudu');
+    onPublicHomePage.expectEnrollButtonEnabled(2);
+    onPublicHomePage.expectEnrollButtonText(2, 'Ilmoittaudu');
+    onPublicHomePage.expectEnrollButtonEnabled(5);
+    onPublicHomePage.expectEnrollButtonText(5, 'Ilmoittaudu jonoon');
   });
 });

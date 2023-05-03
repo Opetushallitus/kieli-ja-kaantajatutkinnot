@@ -37,9 +37,9 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
     [
       ['language', 'Ruotsi'],
-      ['level', 'Erinomainen'],
+      ['level', 'erinomainen taito'],
     ].forEach(([fieldName, fieldValue]) => {
-      onClerkExamEventOverviewPage.editExamEventField(fieldName, 'input', ' ');
+      onClerkExamEventOverviewPage.clearExamEventField(fieldName, 'input');
       onClerkExamEventOverviewPage.expectDisabledSaveExamEventDetailsButton();
 
       onClerkExamEventOverviewPage.editExamEventField(
@@ -107,7 +107,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
       newLanguage
     );
     onClerkExamEventOverviewPage.expectPageHeader(
-      'Suomi, erinomainen 22.10.2022'
+      'Suomi, erinomainen taito 22.10.2022'
     );
 
     onClerkExamEventOverviewPage.clickSaveExamEventDetailsButton();
@@ -119,7 +119,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
       newLanguage
     );
     onClerkExamEventOverviewPage.expectPageHeader(
-      'Ruotsi, erinomainen 22.10.2022'
+      'Ruotsi, erinomainen taito 22.10.2022'
     );
     onToast.expectText('Tiedot tallennettiin');
 

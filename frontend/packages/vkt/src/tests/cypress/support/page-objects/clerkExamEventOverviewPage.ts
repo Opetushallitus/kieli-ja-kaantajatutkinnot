@@ -89,6 +89,13 @@ class ClerkExamEventOverviewPage {
       .type(`${newValue}{enter}`);
   }
 
+  clearExamEventField(fieldName: string, fieldType: string) {
+    this.elements
+      .examEventDetailsField(fieldName, fieldType)
+      .clear()
+      .should('have.text', '');
+  }
+
   editExamEventField(fieldName: string, fieldType: string, newValue) {
     this.elements
       .examEventDetailsField(fieldName, fieldType)

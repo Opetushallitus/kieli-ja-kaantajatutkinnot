@@ -70,9 +70,6 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.selectedExamEvent = action.payload;
     },
-    unsetPublicEnrollmentSelectedExam(state) {
-      state.selectedExamEvent = initialState.selectedExamEvent;
-    },
     storePublicEnrollmentInitialisation(
       state,
       action: PayloadAction<PublicReservationDetails>
@@ -156,7 +153,6 @@ export const {
   rejectPublicEnrollmentInitialisation,
   rejectPublicExamEvent,
   setPublicEnrollmentSelectedExam,
-  unsetPublicEnrollmentSelectedExam,
   storePublicEnrollmentInitialisation,
   storePublicExamEvent,
   cancelPublicEnrollment,
