@@ -3,6 +3,7 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.api.dto.PublicPersonDTO;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -31,6 +33,11 @@ public class PublicAuthServiceTest {
 
   @BeforeEach
   public void setup() {
+    final Environment environment = mock(Environment.class);
+
+    when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
+    when(environment.getRequiredProperty("app.cas-oppija.service-url")).thenReturn("https://qwerty/login");
+
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
     final Map<String, String> personDetails = Map.ofEntries(
@@ -40,7 +47,7 @@ public class PublicAuthServiceTest {
     );
     when(casTicketValidationService.validate(anyString())).thenReturn(personDetails);
 
-    publicAuthService = new PublicAuthService(personRepository, casTicketValidationService);
+    publicAuthService = new PublicAuthService(personRepository, casTicketValidationService, environment);
   }
 
   @Test
@@ -63,5 +70,11 @@ public class PublicAuthServiceTest {
     assertEquals("Tessa", personDTO.firstName());
 
     assertEquals(1, personRepository.count());
+  }
+
+  @Test
+  public void testCreateCasLoginUrl() {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    assertEquals("https://foo.bar?service=https%3A%2F%2Fqwerty%2Flogin", casLoginUrl);
   }
 }
