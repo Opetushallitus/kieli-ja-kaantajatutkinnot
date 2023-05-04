@@ -1,6 +1,7 @@
 package fi.oph.vkt.service.auth.ticketValidator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -25,7 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @DataJpaTest
-public class TicketValidatorTest {
+public class CasTicketValidatorTest {
 
   @Value("classpath:auth/cas-response-fi.xml")
   private org.springframework.core.io.Resource casSuccessResponseFI;
@@ -39,8 +40,8 @@ public class TicketValidatorTest {
   private MockWebServer mockWebServer;
   private String casUrl;
 
-  final String serviceUrl = "https://qwerty/login";
-  final String ticket = "ST-313-JoKEv9YAhQqYSiK5bY3VKYEa7ks-ip-10-20-107-194";
+  private final String serviceUrl = "https://qwerty/login";
+  private final String ticket = "ST-313-JoKEv9YAhQqYSiK5bY3VKYEa7ks-ip-10-20-107-194";
 
   @BeforeEach
   public void setup() throws IOException {
@@ -56,9 +57,9 @@ public class TicketValidatorTest {
 
   @Test
   public void testValidateTicketFI() throws IOException, InterruptedException {
-    Map<String, String> params = doRequest(getMockFIResponse());
+    final Map<String, String> params = doRequest(getMockFIResponse());
 
-    RecordedRequest request = mockWebServer.takeRequest();
+    final RecordedRequest request = mockWebServer.takeRequest();
     assertEquals("GET", request.getMethod());
     assertEquals(serviceUrl, Objects.requireNonNull(request.getRequestUrl()).queryParameter("service"));
     assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
@@ -66,16 +67,20 @@ public class TicketValidatorTest {
     assertEquals("Testilä", params.get("lastName"));
     assertEquals("010280-952L", params.get("identityNumber"));
     assertEquals("1.2.246.562.24.40675408602", params.get("oid"));
+    assertNull(params.get("dateOfBirth"));
+    assertNull(params.get("otherIdentifier"));
   }
 
   @Test
   public void testValidateTicketUK() throws IOException, InterruptedException {
-    Map<String, String> params = doRequest(getMockUKResponse());
+    final Map<String, String> params = doRequest(getMockUKResponse());
 
-    RecordedRequest request = mockWebServer.takeRequest();
+    final RecordedRequest request = mockWebServer.takeRequest();
     assertEquals("GET", request.getMethod());
     assertEquals(serviceUrl, Objects.requireNonNull(request.getRequestUrl()).queryParameter("service"));
     assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
+    assertNull(params.get("oid"));
+    assertNull(params.get("identityNumber"));
     assertEquals("Oliver Jack", params.get("firstName"));
     assertEquals("Great Britain", params.get("lastName"));
     assertEquals("1981-02-04", params.get("dateOfBirth"));

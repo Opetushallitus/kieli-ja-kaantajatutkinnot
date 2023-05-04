@@ -9,6 +9,6 @@ public record PublicPersonDTO(
   @NonNull Long id,
   String identityNumber,
   LocalDate dateOfBirth,
-  String lastName,
+  @NonNull String lastName,
   @NonNull String firstName
 ) {}

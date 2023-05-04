@@ -29,7 +29,7 @@ public class Person extends BaseEntity {
   @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
-  @Column(name = "last_name")
+  @Column(name = "last_name", nullable = false)
   private String lastName;
 
   @Column(name = "first_name", nullable = false)

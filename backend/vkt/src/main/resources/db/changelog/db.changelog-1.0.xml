@@ -531,6 +531,5 @@
             <column name="date_of_birth" type="DATE" />
         </addColumn>
         <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="VARCHAR(255)"/>
-        <dropNotNullConstraint tableName="person" columnName="last_name" columnDataType="TEXT"/>
     </changeSet>
 </databaseChangeLog>

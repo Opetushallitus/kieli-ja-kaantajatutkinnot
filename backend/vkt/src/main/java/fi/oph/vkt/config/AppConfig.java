@@ -37,7 +37,7 @@ public class AppConfig {
   }
 
   @Bean
-  public CasTicketValidator casTicketValidator(Environment environment) {
+  public CasTicketValidator casTicketValidator(final Environment environment) {
     final WebClient webClient = webClientBuilderWithCallerId()
       .baseUrl(environment.getRequiredProperty("app.cas-oppija.validate-ticket-url"))
       .build();

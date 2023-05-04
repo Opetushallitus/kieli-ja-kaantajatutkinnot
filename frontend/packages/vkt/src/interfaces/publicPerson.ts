@@ -4,7 +4,7 @@ import { WithId } from 'shared/interfaces';
 export interface PublicPerson extends WithId {
   identityNumber?: string;
   dateOfBirth?: Dayjs;
-  lastName?: string;
+  lastName: string;
   firstName: string;
 }
 
