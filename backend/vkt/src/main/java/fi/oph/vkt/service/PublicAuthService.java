@@ -56,16 +56,15 @@ public class PublicAuthService {
   public PublicPersonDTO createPersonFromTicket(final String ticket) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
 
+    final String identityNumber = personDetails.get("identityNumber");
+    final String firstName = personDetails.get("firstName");
+    final String lastName = personDetails.get("lastName");
+    final String OID = personDetails.get("oid");
+    final String otherIdentifier = personDetails.get("otherIdentifier");
     final String dateOfBirthRaw = personDetails.get("dateOfBirth");
     final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
       ? null
       : LocalDate.parse(dateOfBirthRaw);
-
-    final String identityNumber = personDetails.get("identityNumber");
-    final String otherIdentifier = personDetails.get("otherIdentifier");
-    final String firstName = personDetails.get("firstName");
-    final String lastName = personDetails.get("lastName");
-    final String OID = personDetails.get("oid");
 
     final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
       ? personRepository.findByIdentityNumber(identityNumber)
@@ -77,10 +76,10 @@ public class PublicAuthService {
     return PublicPersonDTO
       .builder()
       .id(person.getId())
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
-      .dateOfBirth(dateOfBirth)
       .identityNumber(person.getIdentityNumber())
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .dateOfBirth(dateOfBirth)
       .build();
   }
 }
