@@ -1,90 +1,108 @@
 package fi.oph.vkt.service.auth.ticketValidator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.ctc.wstx.stax.WstxOutputFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.xml.XmlFactory;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import fi.oph.vkt.service.auth.CasTicketValidationService;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 
+@DataJpaTest
 public class TicketValidatorTest {
 
-  private static final XmlFactory xf = XmlFactory
-    .builder()
-    .xmlInputFactory(new WstxInputFactory())
-    .xmlOutputFactory(new WstxOutputFactory())
-    .build();
-  private static final XmlMapper XML_MAPPER = new XmlMapper(xf);
+  @Value("classpath:auth/cas-response-fi.xml")
+  private org.springframework.core.io.Resource casSuccessResponseFI;
 
-  /*
-<cas:authenticationSuccess>
-        <cas:user>suomi.fi,AAdzZWNyZXQxEFQWRo25htfoIsHzlWoaY2tF3pWY1LiPHphxFHC9Cc2tJQQXAzkLV9FWerPm967N6L3nmD2Cx9U//3+/Ql1CbQRwF+hLG9ryADvDR8i/udNikpk1+GZnUxSYmDRRbwx6sOP6x6NmqUj09Xn3r/TwadCxd5nOXPvvCaf/rZk5sg==</cas:user>
-        <cas:attributes>
-            <cas:firstName>Oliver Jack</cas:firstName>
-            <cas:clientName>suomi.fi</cas:clientName>
-            <cas:vtjVerified>false</cas:vtjVerified>
-            <cas:familyName>Great Britain</cas:familyName>
-            <cas:notOnOrAfter>2023-04-12T12:22:49.792Z</cas:notOnOrAfter>
-            <cas:personIdentifier>UK/FI/Lorem0ipsum0dolor0sit0amet10consectetur0adipiscing0elit10sed0do0eiusmod0tempor0incididunt0ut0labore0et0dolore0magna0aliqua.0Ut0enim0ad0minim0veniam10quis0nostrud0exercitation0ullamco0laboris0nisi0ut0aliquip0ex0ea0commodo0consequat.0Duis0aute0irure0do</cas:personIdentifier>
-            <cas:dateOfBirth>1981-02-04</cas:dateOfBirth>
-            <cas:notBefore>2023-04-12T12:17:49.792Z</cas:notBefore>
-            </cas:attributes>
-    </cas:authenticationSuccess>
-</cas:serviceResponse>
- */
+  @Value("classpath:auth/cas-response-uk.xml")
+  private org.springframework.core.io.Resource casSuccessResponseUK;
+
+  private MockWebServer mockWebServer;
+  private String casUrl;
+
+  final String serviceUrl = "https://qwerty/login";
+  final String ticket = "foobar";
+
+  @BeforeEach
+  public void setup() throws IOException {
+    mockWebServer = new MockWebServer();
+    mockWebServer.start();
+    casUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+  }
+
+  @AfterEach
+  public void tearDown() throws IOException {
+    mockWebServer.shutdown();
+  }
+
   @Test
-  public void testXmlParse() throws JsonProcessingException {
-    final String xml =
-      "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>" +
-      "<cas:authenticationSuccess>" +
-      "<cas:user>suomi.fi,010280-952L</cas:user>" +
-      "<cas:attributes>" +
-      "<cas:firstName>Tessa</cas:firstName>" +
-      "<cas:clientName>suomi.fi</cas:clientName>" +
-      "<cas:displayName>Tessa Testilä</cas:displayName>" +
-      "<cas:vtjVerified>true</cas:vtjVerified>" +
-      "<cas:givenName>Tessa</cas:givenName>" +
-      "<cas:notOnOrAfter>2023-03-23T05:18:32.713Z</cas:notOnOrAfter>" +
-      "<cas:cn>Testilä Tessa</cas:cn>" +
-      "<cas:sn>Testilä</cas:sn>" +
-      "<cas:notBefore>2023-03-23T05:13:32.713Z</cas:notBefore>" +
-      "<cas:nationalIdentificationNumber>010280-952L</cas:nationalIdentificationNumber>" +
-      "<cas:personOid>1.2.246.562.24.40675408602</cas:personOid>" +
-      "</cas:attributes>" +
-      "</cas:authenticationSuccess>" +
-      "</cas:serviceResponse>";
+  public void testValidateTicketFI() throws IOException, InterruptedException {
+    Map<String, String> params = doRequest(getMockFIResponse());
 
-    final CasResponse casResponse = XML_MAPPER.readValue(xml, CasResponse.class);
+    RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("GET", request.getMethod());
+    assertEquals(serviceUrl, Objects.requireNonNull(request.getRequestUrl()).queryParameter("service"));
+    assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
+    assertEquals("Tessa", params.get("firstName"));
+    assertEquals("Testilä", params.get("lastName"));
+    assertEquals("010280-952L", params.get("identityNumber"));
+    assertEquals("1.2.246.562.24.40675408602", params.get("oid"));
+  }
 
+  @Test
+  public void testValidateTicketUK() throws IOException, InterruptedException {
+    Map<String, String> params = doRequest(getMockUKResponse());
+
+    RecordedRequest request = mockWebServer.takeRequest();
+    assertEquals("GET", request.getMethod());
+    assertEquals(serviceUrl, Objects.requireNonNull(request.getRequestUrl()).queryParameter("service"));
+    assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
+    assertEquals("Oliver Jack", params.get("firstName"));
+    assertEquals("Great Britain", params.get("lastName"));
+    assertEquals("1981-02-04", params.get("dateOfBirth"));
     assertEquals(
-      CasResponse
-        .builder()
-        .authenticationSuccess(
-          CasAuthenticationSuccess
-            .builder()
-            .user("suomi.fi,010280-952L")
-            .attributes(
-              CasAttributes
-                .builder()
-                .firstName("Tessa")
-                .clientName("suomi.fi")
-                .displayName("Tessa Testilä")
-                .vtjVerified(true)
-                .givenName("Tessa")
-                .notOnOrAfter("2023-03-23T05:18:32.713Z")
-                .cn("Testilä Tessa")
-                .sn("Testilä")
-                .notBefore("2023-03-23T05:13:32.713Z")
-                .nationalIdentificationNumber("010280-952L")
-                .personOid("1.2.246.562.24.40675408602")
-                .build()
-            )
-            .build()
-        )
-        .build(),
-      casResponse
+      "UK/FI/Lorem0ipsum0dolor0sit0amet10consectetur0adipiscing0elit10sed0do0eiusmod0tempor0incididunt0ut0labore0et0dolore0magna0aliqua.0Ut0enim0ad0minim0veniam10quis0nostrud0exercitation0ullamco0laboris0nisi0ut0aliquip0ex0ea0commodo0consequat.0Duis0aute0irure0do",
+      params.get("otherIdentifier")
     );
+  }
+
+  private Map<String, String> doRequest(final String response) {
+    final WebClient webClient = WebClient.builder().baseUrl(casUrl).build();
+    final Environment environment = mock(Environment.class);
+
+    when(environment.getRequiredProperty("app.cas-oppija.service-url")).thenReturn(serviceUrl);
+
+    mockWebServer.enqueue(
+      new MockResponse()
+        .setResponseCode(200)
+        .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE)
+        .setBody(response)
+    );
+
+    final TicketValidator casTicketValidator = new CasTicketValidator(environment, webClient);
+    final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(casTicketValidator);
+
+    return casTicketValidationService.validate(ticket);
+  }
+
+  private String getMockUKResponse() throws IOException {
+    return new String(casSuccessResponseUK.getInputStream().readAllBytes());
+  }
+
+  private String getMockFIResponse() throws IOException {
+    return new String(casSuccessResponseFI.getInputStream().readAllBytes());
   }
 }

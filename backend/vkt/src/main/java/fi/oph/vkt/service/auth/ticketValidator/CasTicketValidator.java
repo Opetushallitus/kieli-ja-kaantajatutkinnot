@@ -29,9 +29,7 @@ public class CasTicketValidator implements TicketValidator {
     .build();
   private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
 
-  @Autowired
-  private Environment environment;
-
+  private final Environment environment;
   private final WebClient webClient;
 
   @Override
@@ -57,13 +55,14 @@ public class CasTicketValidator implements TicketValidator {
 
     final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
 
+    final String sn = casAttributes.getSn();
     final Map<String, String> personDetails = new HashMap<>();
     personDetails.put("identityNumber", casAttributes.getNationalIdentificationNumber());
     personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
     personDetails.put("dateOfBirth", casAttributes.getDateOfBirth());
     personDetails.put("oid", casAttributes.getPersonOid());
     personDetails.put("firstName", casAttributes.getFirstName());
-    personDetails.put("lastName", casAttributes.getSn());
+    personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : casAttributes.getSn());
 
     return personDetails;
   }
