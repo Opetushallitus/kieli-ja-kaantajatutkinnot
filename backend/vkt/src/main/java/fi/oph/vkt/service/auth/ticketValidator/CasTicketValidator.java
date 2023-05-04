@@ -62,7 +62,7 @@ public class CasTicketValidator implements TicketValidator {
     personDetails.put("dateOfBirth", casAttributes.getDateOfBirth());
     personDetails.put("oid", casAttributes.getPersonOid());
     personDetails.put("firstName", casAttributes.getFirstName());
-    personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : casAttributes.getSn());
+    personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : sn);
 
     return personDetails;
   }
