@@ -64,7 +64,7 @@ export const PublicInterpreterListing = ({
             </div>
           </div>
           <PaginatedTable
-            className="public-interpreter-listing"
+            className="table-layout-auto"
             data={interpreters}
             header={<PublicInterpreterListingHeader />}
             getRowDetails={getRowDetails}
