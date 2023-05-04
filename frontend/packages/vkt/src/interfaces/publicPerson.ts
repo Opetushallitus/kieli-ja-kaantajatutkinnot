@@ -1,6 +1,5 @@
 import { Dayjs } from 'dayjs';
-
-import { WithId } from 'interfaces/with';
+import { WithId } from 'shared/interfaces';
 
 export interface PublicPerson extends WithId {
   identityNumber?: string;
