@@ -84,7 +84,7 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkEnrollmentOverviewPage}
                 element={
-                  <TitlePage title={createTitle('bar')}>
+                  <TitlePage title={createTitle('clerkEnrollmentOverview')}>
                     <ClerkEnrollmentOverviewPage />
                   </TitlePage>
                 }

@@ -21,12 +21,11 @@ import { useAuthentication } from 'hooks/useAuthentication';
 
 export const Header = (): JSX.Element => {
   const translateCommon = useCommonTranslation();
-  const [finnish, swedish, english] = getSupportedLangs();
+  const [finnish, swedish] = getSupportedLangs();
 
   const langDict = new Map<string, AppLanguage>([
     [translateCommon('header.lang.fi'), finnish],
     [translateCommon('header.lang.sv'), swedish],
-    [translateCommon('header.lang.en'), english],
   ]);
 
   const { isAuthenticated, isClerkUI } = useAuthentication();
