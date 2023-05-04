@@ -139,7 +139,6 @@
           "checkboxSelectedAriaLabel": "Poista valinta",
           "checkboxUnselectedAriaLabel": "Valitse kielitutkinto"
         },
-        "enroll": "Ilmoittaudu",
         "header": {
           "examDate": "Tutkintopäivä",
           "language": "Kieli ja taso",

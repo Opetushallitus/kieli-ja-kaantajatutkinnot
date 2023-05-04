@@ -1,5 +1,9 @@
 .public-exam-event-header {
   margin: 2rem 0 1rem 1rem;
+
+  @include phone {
+    margin: 0 0 1rem;
+  }
 }
 
 .public-exam-event-listing {
