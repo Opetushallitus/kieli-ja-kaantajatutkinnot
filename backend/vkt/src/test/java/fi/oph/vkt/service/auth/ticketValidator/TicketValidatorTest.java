@@ -1,10 +1,13 @@
 package fi.oph.vkt.service.auth.ticketValidator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
@@ -30,11 +33,14 @@ public class TicketValidatorTest {
   @Value("classpath:auth/cas-response-uk.xml")
   private org.springframework.core.io.Resource casSuccessResponseUK;
 
+  @Value("classpath:auth/cas-response-fail.xml")
+  private org.springframework.core.io.Resource casFailResponse;
+
   private MockWebServer mockWebServer;
   private String casUrl;
 
   final String serviceUrl = "https://qwerty/login";
-  final String ticket = "foobar";
+  final String ticket = "ST-313-JoKEv9YAhQqYSiK5bY3VKYEa7ks-ip-10-20-107-194";
 
   @BeforeEach
   public void setup() throws IOException {
@@ -79,7 +85,23 @@ public class TicketValidatorTest {
     );
   }
 
+  @Test
+  public void testValidateTicketFail500() {
+    final APIException ex = assertThrows(APIException.class, () -> doRequest(getMockFailResponse(), 500));
+    assertEquals(APIExceptionType.TICKET_VALIDATION_ERROR, ex.getExceptionType());
+  }
+
+  @Test
+  public void testValidateTicketFail200() {
+    final APIException ex = assertThrows(APIException.class, () -> doRequest(getMockFailResponse(), 200));
+    assertEquals(APIExceptionType.TICKET_VALIDATION_ERROR, ex.getExceptionType());
+  }
+
   private Map<String, String> doRequest(final String response) {
+    return doRequest(response, 200);
+  }
+
+  private Map<String, String> doRequest(final String response, final int responseCode) {
     final WebClient webClient = WebClient.builder().baseUrl(casUrl).build();
     final Environment environment = mock(Environment.class);
 
@@ -87,7 +109,7 @@ public class TicketValidatorTest {
 
     mockWebServer.enqueue(
       new MockResponse()
-        .setResponseCode(200)
+        .setResponseCode(responseCode)
         .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE)
         .setBody(response)
     );
@@ -96,6 +118,10 @@ public class TicketValidatorTest {
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(casTicketValidator);
 
     return casTicketValidationService.validate(ticket);
+  }
+
+  private String getMockFailResponse() throws IOException {
+    return new String(casFailResponse.getInputStream().readAllBytes());
   }
 
   private String getMockUKResponse() throws IOException {
