@@ -26,28 +26,34 @@ const ContactInformationFields = ({
     <>
       {email && (
         <div className="columns">
-          <MailOutline
-            aria-label={t('emailAriaLabel')}
-            className="public-interpreter-listing-row__contact-icon"
-          />
+          <div title={t('emailAriaLabel')}>
+            <MailOutline
+              aria-label={t('emailAriaLabel')}
+              className="public-interpreter-listing-row__contact-icon"
+            />
+          </div>
           <Text>{email}</Text>
         </div>
       )}
       {phoneNumber && (
         <div className="columns">
-          <Phone
-            aria-label={t('phoneAriaLabel')}
-            className="public-interpreter-listing-row__contact-icon"
-          />
+          <div title={t('phoneAriaLabel')}>
+            <Phone
+              aria-label={t('phoneAriaLabel')}
+              className="public-interpreter-listing-row__contact-icon"
+            />
+          </div>
           <Text>{phoneNumber}</Text>
         </div>
       )}
       {otherContactInfo && (
         <div className="columns">
-          <ContactPageOutlined
-            aria-label={t('otherContactAriaLabel')}
-            className="public-interpreter-listing-row__contact-icon"
-          />
+          <div title={t('otherContactAriaLabel')}>
+            <ContactPageOutlined
+              aria-label={t('otherContactAriaLabel')}
+              className="public-interpreter-listing-row__contact-icon"
+            />
+          </div>
           <Text>{otherContactInfo}</Text>
         </div>
       )}
