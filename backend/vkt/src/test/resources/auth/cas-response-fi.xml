@@ -1,0 +1,18 @@
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+        <cas:user>suomi.fi,010280-952L</cas:user>
+        <cas:attributes>
+            <cas:firstName>Tessa</cas:firstName>
+            <cas:clientName>suomi.fi</cas:clientName>
+            <cas:displayName>Tessa Testilä</cas:displayName>
+            <cas:vtjVerified>true</cas:vtjVerified>
+            <cas:givenName>Tessa</cas:givenName>
+            <cas:notOnOrAfter>2023-03-23T05:18:32.713Z</cas:notOnOrAfter>
+            <cas:cn>Testilä Tessa</cas:cn>
+            <cas:sn>Testilä</cas:sn>
+            <cas:notBefore>2023-03-23T05:13:32.713Z</cas:notBefore>
+            <cas:nationalIdentificationNumber>010280-952L</cas:nationalIdentificationNumber>
+            <cas:personOid>1.2.246.562.24.40675408602</cas:personOid>
+        </cas:attributes>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>

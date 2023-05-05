@@ -12,6 +12,7 @@ public class CasAttributes {
   private String firstName;
   private String clientName;
   private String displayName;
+  private String familyName;
   private Boolean vtjVerified;
   private String givenName;
   private String notOnOrAfter;
@@ -20,4 +21,6 @@ public class CasAttributes {
   private String notBefore;
   private String nationalIdentificationNumber;
   private String personOid;
+  private String personIdentifier;
+  private String dateOfBirth;
 }

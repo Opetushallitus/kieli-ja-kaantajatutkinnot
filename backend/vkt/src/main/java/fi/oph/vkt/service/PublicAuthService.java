@@ -6,7 +6,9 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -31,11 +33,21 @@ public class PublicAuthService {
     return casLoginUrl + "?service=" + casServiceUrl;
   }
 
-  private Person createPerson(final String identityNumber, final String firstName, final String lastName) {
+  private Person createPerson(
+    final String identityNumber,
+    final String firstName,
+    final String lastName,
+    final String OID,
+    final String otherIdentifier,
+    final LocalDate dateOfBirth
+  ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
     person.setLastName(lastName);
     person.setFirstName(firstName);
+    person.setOid(OID);
+    person.setOtherIdentifier(otherIdentifier);
+    person.setDateOfBirth(dateOfBirth);
 
     return personRepository.saveAndFlush(person);
   }
@@ -47,17 +59,27 @@ public class PublicAuthService {
     final String identityNumber = personDetails.get("identityNumber");
     final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
+    final String OID = personDetails.get("oid");
+    final String otherIdentifier = personDetails.get("otherIdentifier");
+    final String dateOfBirthRaw = personDetails.get("dateOfBirth");
+    final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
+      ? null
+      : LocalDate.parse(dateOfBirthRaw);
 
-    final Person person = personRepository
-      .findByIdentityNumber(identityNumber)
-      .orElseGet(() -> createPerson(identityNumber, firstName, lastName));
+    final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
+      ? personRepository.findByIdentityNumber(identityNumber)
+      : personRepository.findByOtherIdentifier(otherIdentifier);
+    final Person person = maybePerson.orElseGet(() ->
+      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
+    );
 
     return PublicPersonDTO
       .builder()
       .id(person.getId())
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
       .identityNumber(person.getIdentityNumber())
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .dateOfBirth(dateOfBirth)
       .build();
   }
 }

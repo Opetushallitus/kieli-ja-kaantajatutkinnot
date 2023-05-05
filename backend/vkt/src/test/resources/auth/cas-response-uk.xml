@@ -1,0 +1,15 @@
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+        <cas:user>suomi.fi,AAdzZWNyZXQxEFQWRo25htfoIsHzlWoaY2tF3pWY1LiPHphxFHC9Cc2tJQQXAzkLV9FWerPm967N6L3nmD2Cx9U//3+/Ql1CbQRwF+hLG9ryADvDR8i/udNikpk1+GZnUxSYmDRRbwx6sOP6x6NmqUj09Xn3r/TwadCxd5nOXPvvCaf/rZk5sg==</cas:user>
+        <cas:attributes>
+            <cas:firstName>Oliver Jack</cas:firstName>
+            <cas:clientName>suomi.fi</cas:clientName>
+            <cas:vtjVerified>false</cas:vtjVerified>
+            <cas:familyName>Great Britain</cas:familyName>
+            <cas:notOnOrAfter>2023-04-12T12:22:49.792Z</cas:notOnOrAfter>
+            <cas:personIdentifier>UK/FI/Lorem0ipsum0dolor0sit0amet10consectetur0adipiscing0elit10sed0do0eiusmod0tempor0incididunt0ut0labore0et0dolore0magna0aliqua.0Ut0enim0ad0minim0veniam10quis0nostrud0exercitation0ullamco0laboris0nisi0ut0aliquip0ex0ea0commodo0consequat.0Duis0aute0irure0do</cas:personIdentifier>
+            <cas:dateOfBirth>1981-02-04</cas:dateOfBirth>
+            <cas:notBefore>2023-04-12T12:17:49.792Z</cas:notBefore>
+        </cas:attributes>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>

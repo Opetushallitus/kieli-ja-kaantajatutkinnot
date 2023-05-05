@@ -1,5 +1,6 @@
 package fi.oph.vkt.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ public class Person extends BaseEntity {
   private long id;
 
   @Size(max = 255)
-  @Column(name = "identity_number", nullable = false, unique = true)
+  @Column(name = "identity_number", unique = true)
   private String identityNumber;
 
   @Column(name = "last_name", nullable = false)
@@ -33,6 +34,17 @@ public class Person extends BaseEntity {
 
   @Column(name = "first_name", nullable = false)
   private String firstName;
+
+  @Size(max = 255)
+  @Column(name = "oid", unique = true)
+  private String oid;
+
+  @Size(max = 1024)
+  @Column(name = "other_identifier", unique = true)
+  private String otherIdentifier;
+
+  @Column(name = "date_of_birth")
+  private LocalDate dateOfBirth;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();

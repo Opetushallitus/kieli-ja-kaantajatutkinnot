@@ -12,9 +12,9 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -27,37 +27,57 @@ public class CasTicketValidator implements TicketValidator {
     .xmlInputFactory(new WstxInputFactory())
     .xmlOutputFactory(new WstxOutputFactory())
     .build();
-
   private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
 
-  @Autowired
-  private Environment environment;
-
+  private final Environment environment;
   private final WebClient webClient;
 
   @Override
   public Map<String, String> validateTicket(final String ticket) {
-    final Mono<String> response = webClient
-      .get()
-      .uri(uriBuilder ->
-        uriBuilder
-          .queryParam("service", environment.getRequiredProperty("app.cas-oppija.service-url"))
-          .queryParam("ticket", ticket)
-          .build()
-      )
-      .retrieve()
-      .bodyToMono(String.class);
+    try {
+      final String response = webClient
+        .get()
+        .uri(uriBuilder ->
+          uriBuilder
+            .queryParam("service", environment.getRequiredProperty("app.cas-oppija.service-url"))
+            .queryParam("ticket", ticket)
+            .build()
+        )
+        .exchangeToMono(clientResponse -> {
+          if (clientResponse.statusCode().isError()) {
+            return clientResponse.createException().flatMap(Mono::error);
+          }
+          return clientResponse.bodyToMono(String.class);
+        })
+        .block();
 
-    final String result = response.block();
-    final CasResponse casResponse = parseCasResponse(result);
-    final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
+      final CasResponse casResponse = parseCasResponse(response);
 
-    final Map<String, String> personDetails = new HashMap<>();
-    personDetails.put("identityNumber", casAttributes.getNationalIdentificationNumber());
-    personDetails.put("firstName", casAttributes.getFirstName());
-    personDetails.put("lastName", casAttributes.getSn());
+      if (casResponse.getAuthenticationSuccess().getUser().isEmpty()) {
+        throw new APIException(APIExceptionType.INVALID_TICKET);
+      }
 
-    return personDetails;
+      final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
+
+      final String sn = casAttributes.getSn();
+      final Map<String, String> personDetails = new HashMap<>();
+      personDetails.put("identityNumber", casAttributes.getNationalIdentificationNumber());
+      personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
+      personDetails.put("dateOfBirth", casAttributes.getDateOfBirth());
+      personDetails.put("oid", casAttributes.getPersonOid());
+      personDetails.put("firstName", casAttributes.getFirstName());
+      personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : sn);
+
+      return personDetails;
+    } catch (final WebClientResponseException e) {
+      LOG.error(
+        "CAS returned error status {}\n response body: {}\n request url: {}\n",
+        e.getStatusCode().value(),
+        e.getResponseBodyAsString(),
+        e.getRequest().getURI()
+      );
+      throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
+    }
   }
 
   private CasResponse parseCasResponse(final String result) {

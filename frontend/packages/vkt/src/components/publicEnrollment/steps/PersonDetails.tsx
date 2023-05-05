@@ -1,4 +1,5 @@
 import { CustomTextField, H3 } from 'shared/components';
+import { DateUtils } from 'shared/utils';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -30,11 +31,20 @@ export const PersonDetails = () => {
           value={person.firstName}
           disabled
         />
-        <CustomTextField
-          label={t('identityNumber')}
-          value={person.identityNumber}
-          disabled
-        />
+        {person.identityNumber && (
+          <CustomTextField
+            label={t('identityNumber')}
+            value={person.identityNumber}
+            disabled
+          />
+        )}
+        {person.dateOfBirth && (
+          <CustomTextField
+            label={t('dateOfBirth')}
+            value={DateUtils.formatOptionalDate(person.dateOfBirth)}
+            disabled
+          />
+        )}
       </div>
     </div>
   );
