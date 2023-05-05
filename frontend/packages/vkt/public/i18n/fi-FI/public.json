@@ -135,11 +135,8 @@
         "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       },
       "publicExamEventListing": {
-        "accessibility": {
-          "checkboxSelectedAriaLabel": "Poista valinta",
-          "checkboxUnselectedAriaLabel": "Valitse kielitutkinto"
-        },
         "header": {
+          "actions": "Toiminnot",
           "examDate": "Tutkintopäivä",
           "language": "Kieli ja taso",
           "openings": "Paikkoja vapaana",
@@ -151,6 +148,10 @@
             "part2": "Yritä hetken kuluttua uudelleen."
           },
           "none": "Tutkinto täynnä. Voit ilmottautua jonoon."
+        },
+        "row": {
+          "enroll": "Ilmoittaudu",
+          "enrollToQueue": "Ilmoittaudu jonoon"
         },
         "title": "Tulevat tutkintotilaisuudet"
       }

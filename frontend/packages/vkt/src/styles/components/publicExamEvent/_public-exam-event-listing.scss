@@ -5,13 +5,3 @@
     margin: 0 0 1rem;
   }
 }
-
-.public-exam-event-listing {
-  &__checkbox {
-    &#{&} {
-      @include phone {
-        padding-top: 0;
-      }
-    }
-  }
-}
