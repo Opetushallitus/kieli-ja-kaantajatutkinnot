@@ -80,14 +80,15 @@ export const PublicEnrollmentControlButtons = ({
   };
 
   const handleBackBtnClick = () => {
-    dispatch(decreaseActiveStep());
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => dispatch(decreaseActiveStep()), 150);
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       setShowValidation(false);
-      dispatch(increaseActiveStep());
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => dispatch(increaseActiveStep()), 150);
     } else {
       setShowValidation(true);
     }
