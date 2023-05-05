@@ -128,6 +128,7 @@ export const PublicAuthGrid = () => {
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}
+                      tabIndex={0}
                       data-testid="public-enrollment__authenticate-button"
                       disabled={isLoading}
                     >

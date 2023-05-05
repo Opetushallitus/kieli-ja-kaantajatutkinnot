@@ -30,6 +30,12 @@ export const PublicEnrollmentStepper = ({
     .map(Number)
     .filter((i) => i <= doneStepNumber);
 
+  const getStatusText = (stepNumber: number) => {
+    if (stepNumber < activeStep) {
+      return t('completed');
+    }
+  };
+
   const getDescription = (stepNumber: number) => {
     const i =
       !includePaymentStep && stepNumber >= PublicEnrollmentFormStep.Payment
@@ -39,17 +45,29 @@ export const PublicEnrollmentStepper = ({
     return t(`step.${PublicEnrollmentFormStep[i]}`);
   };
 
+  const getStepAriaLabel = (stepNumber: number) => {
+    const part = `${stepNumber} kautta ${stepNumbers.length}`;
+    const statusText = getStatusText(stepNumber);
+    const partStatus = statusText ? `${part}, ${statusText}` : part;
+
+    return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
+  };
+
   return (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}
+      aria-label="Ilmoittautumisen vaiheet"
     >
       {stepNumbers.map((i) => (
-        <Step key={i}>
+        <Step
+          key={i}
+          aria-label={getStepAriaLabel(i)}
+          aria-current={activeStep == i ? 'step' : undefined}
+          tabIndex={0}
+          id={`public-enrollment-step-label-${i}`}
+        >
           <StepLabel
-            aria-current={activeStep == i ? 'step' : undefined}
-            id={`public-enrollment-step-label-${i}`}
-            tabIndex={i}
             className={
               activeStep < i
                 ? 'public-enrollment__grid__stepper__step-disabled'
