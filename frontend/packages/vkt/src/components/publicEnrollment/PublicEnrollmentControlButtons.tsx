@@ -85,6 +85,7 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setShowValidation(false);
       dispatch(increaseActiveStep());
     } else {
