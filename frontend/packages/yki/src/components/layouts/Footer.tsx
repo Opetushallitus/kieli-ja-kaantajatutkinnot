@@ -24,11 +24,7 @@ export const Footer = () => {
 
   return (
     <footer>
-      <Svg
-        className="footer__wave"
-        src={FooterWave}
-        alt={t('accessibility.waveAriaLabel')}
-      />
+      <Svg className="footer__wave" src={FooterWave} alt="" />
       <Paper className="footer" elevation={3}>
         <div className="footer__info-row">
           <div className="footer__container footer__container__links">
@@ -71,7 +67,6 @@ export const Footer = () => {
                 className="inline-text"
                 text={t('address.phone.number')}
                 href={`tel:${t('address.phone.number')}`}
-                aria-label={t('accessibility.ophPhone')}
               />
             </div>
           </div>
