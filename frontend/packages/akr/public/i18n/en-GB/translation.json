@@ -164,7 +164,7 @@
         },
         "privacyStatement": {
           "ariaLabel": "Privacy policy",
-          "label": "I have read the <0></0> of this service and accept it.",
+          "label": "I have read the <0></0> of this service and accept it (mandatory).",
           "linkLabel": "privacy policy statement"
         },
         "recipients": "Recipients",

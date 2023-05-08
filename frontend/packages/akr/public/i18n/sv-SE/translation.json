@@ -164,7 +164,7 @@
         },
         "privacyStatement": {
           "ariaLabel": "Dataskyddsbeskrivning",
-          "label": "Jag har läst <0></0> av den här tjänsten och accepterar den.",
+          "label": "Jag har läst <0></0> av den här tjänsten och accepterar den (obligatorisk).",
           "linkLabel": "dataskyddsbeskrivningen"
         },
         "recipients": "Mottagare",

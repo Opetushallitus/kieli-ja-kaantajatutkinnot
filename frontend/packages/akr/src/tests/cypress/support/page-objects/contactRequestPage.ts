@@ -5,9 +5,7 @@ import { ContactDetails } from 'interfaces/contactRequest';
 class ContactRequestPage {
   elements = {
     deselectTranslatorButton: (id: string) =>
-      cy
-        .findByTestId(`contact-request-page__chosen-translator-id-${id}`)
-        .findByTestId('DeleteOutlineIcon'),
+      cy.findByTestId(`contact-request-page__deselect-translator-id-${id}-btn`),
     previousButton: () => cy.findByTestId('contact-request-page__previous-btn'),
     nextButton: () => cy.findByTestId('contact-request-page__next-btn'),
     cancelButton: () => cy.findByTestId('contact-request-page__cancel-btn'),
