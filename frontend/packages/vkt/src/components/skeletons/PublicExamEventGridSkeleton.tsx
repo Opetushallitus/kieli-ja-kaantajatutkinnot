@@ -4,7 +4,9 @@ import { SkeletonVariant } from 'shared/enums';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 
 export const PublicExamEventGridSkeleton = () => {
-  const { t } = usePublicTranslation({ keyPrefix: 'vkt.pages.homepage' });
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExamEventGrid',
+  });
   const translateCommon = useCommonTranslation();
   const ariaLabel = translateCommon('loadingContent');
 
@@ -12,7 +14,7 @@ export const PublicExamEventGridSkeleton = () => {
     <>
       <CustomSkeleton variant={SkeletonVariant.Text} ariaLabel={ariaLabel}>
         <H1 className="public-homepage__exam-events__heading-title">
-          {t('filters.title')}
+          {t('title')}
         </H1>
       </CustomSkeleton>
       <CustomSkeleton
@@ -21,7 +23,7 @@ export const PublicExamEventGridSkeleton = () => {
         ariaLabel={ariaLabel}
       >
         <Text className="public-homepage__exam-events__heading-description">
-          {t('note')}
+          {t('description.text')}
         </Text>
       </CustomSkeleton>
       <CustomSkeleton
