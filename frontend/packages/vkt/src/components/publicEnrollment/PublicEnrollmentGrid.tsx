@@ -36,7 +36,7 @@ export const PublicEnrollmentGrid = () => {
 
   useNavigationProtection(
     activeStep > PublicEnrollmentFormStep.Authenticate &&
-      activeStep < PublicEnrollmentFormStep.Done &&
+      activeStep < PublicEnrollmentFormStep.Preview &&
       cancelStatus === APIResponseStatus.NotStarted
   );
 
