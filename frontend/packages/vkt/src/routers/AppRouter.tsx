@@ -7,6 +7,7 @@ import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
@@ -41,22 +42,54 @@ export const AppRouter: FC = () => {
                   </TitlePage>
                 }
               />
-              <Route
-                path={AppRoutes.PublicAuth}
-                element={
-                  <TitlePage title={createTitle('authenticate')}>
-                    <PublicAuthPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.PublicEnrollment}
-                element={
-                  <TitlePage title={createTitle('enrollment')}>
-                    <PublicEnrollmentPage />
-                  </TitlePage>
-                }
-              />
+              <Route path={AppRoutes.PublicEnrollment}>
+                <Route
+                  index
+                  element={
+                    <TitlePage title={createTitle('enrollment')}>
+                      <PublicEnrollmentPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicAuth}
+                  element={
+                    <TitlePage title={createTitle('authenticate')}>
+                      <PublicAuthPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicEnrollmentContactDetails}
+                  element={
+                    <TitlePage title={createTitle('enrollment')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.FillContactDetails}
+                      />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicEnrollmentSelectExam}
+                  element={
+                    <TitlePage title={createTitle('enrollment')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.SelectExam}
+                      />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicEnrollmentSuccess}
+                  element={
+                    <TitlePage title={createTitle('enrollment')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.PaymentSuccess}
+                      />
+                    </TitlePage>
+                  }
+                />
+              </Route>
               <Route
                 path={AppRoutes.ClerkHomePage}
                 element={

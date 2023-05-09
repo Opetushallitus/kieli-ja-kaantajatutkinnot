@@ -45,7 +45,7 @@ export const PublicEnrollmentStepContents = ({
           setIsStepValid={setIsStepValid}
         />
       );
-    case PublicEnrollmentFormStep.Payment:
+    case PublicEnrollmentFormStep.PaymentSuccess:
       return <></>;
     case PublicEnrollmentFormStep.Done:
       return <Done enrollment={enrollment} />;

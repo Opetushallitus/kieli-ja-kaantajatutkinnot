@@ -65,6 +65,7 @@ export const PublicAuthGrid = () => {
       selectedExamEvent &&
       reservationDetailsStatus === APIResponseStatus.Success
     ) {
+      console.log('navigate front 1');
       navigate(AppRoutes.PublicEnrollment, { replace: true });
       dispatch(resetAuthentication());
     }
@@ -77,6 +78,12 @@ export const PublicAuthGrid = () => {
       reservationDetailsStatus === APIResponseStatus.NotStarted &&
       !selectedExamEvent
     ) {
+      console.log(
+        'navigate front 2',
+      authStatus,
+      reservationDetailsStatus,
+      selectedExamEvent
+      );
       navigate(AppRoutes.PublicHomePage, { replace: true });
     }
   }, [

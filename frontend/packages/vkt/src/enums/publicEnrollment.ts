@@ -3,6 +3,7 @@ export enum PublicEnrollmentFormStep {
   FillContactDetails,
   SelectExam,
   Preview,
-  Payment,
   Done,
+  PaymentSuccess,
+  PaymentFail,
 }

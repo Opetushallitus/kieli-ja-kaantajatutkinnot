@@ -17,7 +17,11 @@ import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
-export const PublicEnrollmentGrid = () => {
+export const PublicEnrollmentGrid = ({
+  step,
+}: {
+  step: PublicEnrollmentFormStep;
+}) => {
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
 
@@ -53,7 +57,7 @@ export const PublicEnrollmentGrid = () => {
             {selectedExamEvent && (
               <div className="public-enrollment__grid__form-container">
                 <PublicEnrollmentStepper
-                  activeStep={activeStep}
+                  activeStep={step}
                   includePaymentStep={hasReservation}
                 />
                 {reservationDetails?.reservation && !isDoneStepActive && (
@@ -67,7 +71,7 @@ export const PublicEnrollmentGrid = () => {
                   showOpenings={hasReservation && !isDoneStepActive}
                 />
                 <PublicEnrollmentStepContents
-                  activeStep={activeStep}
+                  activeStep={step}
                   enrollment={enrollment}
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
@@ -78,7 +82,7 @@ export const PublicEnrollmentGrid = () => {
                 )}
                 {!isDoneStepActive && reservationDetails && (
                   <PublicEnrollmentControlButtons
-                    activeStep={activeStep}
+                    activeStep={step}
                     enrollment={enrollment}
                     reservationDetails={reservationDetails}
                     isLoading={isLoading}

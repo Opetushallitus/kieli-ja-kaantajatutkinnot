@@ -7,7 +7,7 @@ import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 import { SerializationUtils } from 'utils/serialization';
 
-export const PublicEnrollmentPage: FC = () => {
+export const PublicEnrollmentPage: FC = ({ step }: { step: string }) => {
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
   const dispatch = useAppDispatch();
 
@@ -31,7 +31,7 @@ export const PublicEnrollmentPage: FC = () => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicEnrollmentGrid />
+        <PublicEnrollmentGrid step={step} />
       </Grid>
     </Box>
   );
