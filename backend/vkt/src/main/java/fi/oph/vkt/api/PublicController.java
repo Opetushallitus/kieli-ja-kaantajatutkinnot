@@ -84,7 +84,7 @@ public class PublicController {
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
-  ) {
+  ) throws IOException, InterruptedException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicEnrollmentService.createEnrollment(dto, reservationId, person);
