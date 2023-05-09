@@ -126,7 +126,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public void createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person)
+  public Long createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person)
     throws IOException, InterruptedException {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
@@ -148,6 +148,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     reservationRepository.deleteById(reservationId);
 
     publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+
+    return enrollment.getId();
   }
 
   private void clearAddress(final Enrollment enrollment) {

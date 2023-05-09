@@ -512,7 +512,6 @@
         />
     </changeSet>
 
-<<<<<<< HEAD
     <changeSet id="2023-24-04-payment-table" author="jrkkp">
         <createTable tableName="payment">
             <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
