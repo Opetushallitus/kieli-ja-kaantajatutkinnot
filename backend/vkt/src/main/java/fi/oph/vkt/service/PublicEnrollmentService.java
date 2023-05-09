@@ -147,7 +147,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentRepository.saveAndFlush(enrollment);
     reservationRepository.deleteById(reservationId);
 
-    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+    // TODO: Move to payment success
+    // publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
 
     return enrollment.getId();
   }
