@@ -11,6 +11,13 @@ import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 
+enum InputAutoComplete {
+  Street = 'street-address',
+  PostalCode = 'postal-code',
+  Town = 'address-level2',
+  Country = 'country-name',
+}
+
 const fields: Array<TextField<CertificateShippingTextFields>> = [
   {
     name: 'street',
@@ -148,18 +155,22 @@ export const CertificateShipping = ({
           <CustomTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}
+            autoComplete={InputAutoComplete.Street}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('postalCode')}
             value={enrollment.postalCode}
+            autoComplete={InputAutoComplete.PostalCode}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('town')}
             value={enrollment.town}
+            autoComplete={InputAutoComplete.Town}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('country')}
             value={enrollment.country}
+            autoComplete={InputAutoComplete.Country}
           />
         </div>
       </Collapse>

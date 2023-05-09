@@ -118,7 +118,7 @@
             },
             "privacyStatement": {
               "ariaLabel": "Tietosuojaseloste",
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
               "linkLabel": "tietosuojaselosteen"
             }
           },

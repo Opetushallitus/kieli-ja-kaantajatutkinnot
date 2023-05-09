@@ -11,6 +11,13 @@ import { ContactDetails } from 'interfaces/contactRequest';
 import { updateContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
 
+enum InputAutoComplete {
+  FirstName = 'given-name',
+  LastName = 'family-name',
+  Email = 'email',
+  PhoneNumber = 'tel',
+}
+
 export const FillContactDetails = ({
   disableNext,
   onDataChanged,
@@ -109,12 +116,14 @@ export const FillContactDetails = ({
             value={request?.firstName}
             type={TextFieldTypes.Text}
             required
+            autoComplete={InputAutoComplete.FirstName}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('lastName')}
             type={TextFieldTypes.Text}
             value={request?.lastName}
             required
+            autoComplete={InputAutoComplete.LastName}
           />
         </div>
         <div className="grid-columns gapped">
@@ -123,11 +132,13 @@ export const FillContactDetails = ({
             type={TextFieldTypes.Email}
             value={request?.email}
             required
+            autoComplete={InputAutoComplete.Email}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('phoneNumber')}
             value={request?.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
+            autoComplete={InputAutoComplete.PhoneNumber}
           />
         </div>
       </div>

@@ -13,6 +13,11 @@ import {
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 
+export enum InputAutoComplete {
+  Email = 'email',
+  PhoneNumber = 'tel',
+}
+
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {
     name: 'email',
@@ -143,6 +148,7 @@ export const FillContactDetails = ({
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={enrollment.email}
+            autoComplete={InputAutoComplete.Email}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('emailConfirmation')}
@@ -161,6 +167,7 @@ export const FillContactDetails = ({
         className="phone-number"
         value={enrollment.phoneNumber}
         type={TextFieldTypes.PhoneNumber}
+        autoComplete={InputAutoComplete.PhoneNumber}
       />
     </div>
   );
