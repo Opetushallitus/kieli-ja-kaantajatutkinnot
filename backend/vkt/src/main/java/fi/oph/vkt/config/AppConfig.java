@@ -52,11 +52,12 @@ public class AppConfig {
     return webClientBuilderWithCallerId().baseUrl(environment.getRequiredProperty("app.payment.paytrail.url")).build();
   }
 
-  @Bean
-  public CasTicketValidator casTicketValidator(@Value("${app.cas-oppija.validate-ticket-url}") String casValidateUrl) {
-    final WebClient webClient = webClientBuilderWithCallerId().baseUrl(casValidateUrl).build();
+  public CasTicketValidator casTicketValidator(final Environment environment) {
+    final WebClient webClient = webClientBuilderWithCallerId()
+      .baseUrl(environment.getRequiredProperty("app.cas-oppija.validate-ticket-url"))
+      .build();
 
-    return new CasTicketValidator(webClient);
+    return new CasTicketValidator(environment, webClient);
   }
 
   @Bean

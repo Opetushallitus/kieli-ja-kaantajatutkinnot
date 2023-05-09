@@ -512,6 +512,7 @@
         />
     </changeSet>
 
+<<<<<<< HEAD
     <changeSet id="2023-24-04-payment-table" author="jrkkp">
         <createTable tableName="payment">
             <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
@@ -549,5 +550,31 @@
                                  referencedTableName="enrollment" referencedColumnNames="enrollment_id"
                                  constraintName="fk_payment_enrollment"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="2023-04-11-add_person_oid" author="jrkkp">
+        <addColumn tableName="person">
+            <column name="oid" type="VARCHAR(255)">
+                <constraints
+                        nullable="true"
+                        unique="true"
+                        uniqueConstraintName="person_oid_uniq_idx"
+                />
+            </column>
+            <column name="other_identifier" type="VARCHAR(1024)">
+                <constraints
+                        nullable="true"
+                        unique="true"
+                        uniqueConstraintName="person_other_id_uniq_idx"
+                />
+            </column>
+            <column name="date_of_birth" type="DATE" />
+        </addColumn>
+        <dropNotNullConstraint tableName="person" columnName="identity_number" columnDataType="VARCHAR(255)"/>
+    </changeSet>
+
+    <changeSet id="2023-05-03-add-enrollment-to-queue-confirmation-email_type" author="mikhuttu">
+        <insert tableName="email_type">
+            <column name="name" value="ENROLLMENT_TO_QUEUE_CONFIRMATION"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

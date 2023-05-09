@@ -41,6 +41,7 @@ const initialState: PublicEnrollmentState = {
     postalCode: '',
     town: '',
     country: '',
+    previousEnrollment: '',
     privacyStatementConfirmation: false,
   },
 };

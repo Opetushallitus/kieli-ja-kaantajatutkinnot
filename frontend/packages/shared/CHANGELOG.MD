@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.3] - 2023-04-14
+
+### Changed
+
+- Removed h2 and h3 heading-text
+
 ## [1.9.2] - 2023-03-30
 
 ### Changed

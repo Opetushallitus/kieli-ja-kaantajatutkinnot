@@ -7,7 +7,6 @@ import fi.oph.vkt.repository.EmailAttachmentRepository;
 import fi.oph.vkt.repository.EmailRepository;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,20 +31,21 @@ public class EmailService {
     email.setRecipientAddress(emailData.recipientAddress());
     email.setSubject(emailData.subject());
     email.setBody(emailData.body());
-    Optional
-      .ofNullable(emailData.attachments())
-      .ifPresent(attachments ->
-        attachments.forEach(emailAttachmentData -> {
-          final EmailAttachment emailAttachment = new EmailAttachment();
-          emailAttachment.setEmail(email);
-          emailAttachment.setName(emailAttachmentData.name());
-          emailAttachment.setContentType(emailAttachmentData.contentType());
-          emailAttachment.setData(emailAttachmentData.data());
-          email.getAttachments().add(emailAttachment);
-        })
-      );
+
+    emailData
+      .attachments()
+      .forEach(emailAttachmentData -> {
+        final EmailAttachment emailAttachment = new EmailAttachment();
+        emailAttachment.setEmail(email);
+        emailAttachment.setName(emailAttachmentData.name());
+        emailAttachment.setContentType(emailAttachmentData.contentType());
+        emailAttachment.setData(emailAttachmentData.data());
+        email.getAttachments().add(emailAttachment);
+      });
+
     emailRepository.save(email);
     emailAttachmentRepository.saveAll(email.getAttachments());
+
     return emailRepository.saveAndFlush(email).getId();
   }
 

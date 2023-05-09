@@ -17,6 +17,7 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PersonRepository personRepository;
-  private final ReservationRepository reservationRepository;
+  private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
+  private final ReservationRepository reservationRepository;
 
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
@@ -89,6 +91,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .id(person.getId())
       .identityNumber(person.getIdentityNumber())
       .lastName(person.getLastName())
+      .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())
       .build();
 
@@ -123,7 +126,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public Long createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person) {
+  public void createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person)
+    throws IOException, InterruptedException {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
     if (person.getId() != reservation.getPerson().getId()) {
@@ -143,7 +147,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentRepository.saveAndFlush(enrollment);
     reservationRepository.deleteById(reservationId);
 
-    return enrollment.getId();
+    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
   }
 
   private void clearAddress(final Enrollment enrollment) {
@@ -173,5 +177,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     }
 
     enrollmentRepository.saveAndFlush(enrollment);
+
+    publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
   }
 }

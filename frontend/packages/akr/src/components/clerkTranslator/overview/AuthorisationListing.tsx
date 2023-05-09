@@ -63,7 +63,7 @@ export const AuthorisationListing = ({
         className={combinedClassNames}
         data-testid="clerk-translator-details__authorisations-table"
       >
-        <TableHead>
+        <TableHead className="heading-text">
           <TableRow>
             <TableCell>{t('fields.languagePair')}</TableCell>
             <TableCell>{t('fields.basis')}</TableCell>

@@ -2,7 +2,7 @@ import { Checkbox, TableCell, TableHead, TableRow } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { H2, H3, ManagedPaginatedTable, Text } from 'shared/components';
+import { H2, ManagedPaginatedTable, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -170,7 +170,7 @@ const ListingHeader: FC = () => {
   };
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -180,13 +180,9 @@ const ListingHeader: FC = () => {
             onClick={onCheckboxClick}
           />
         </TableCell>
-        <TableCell>
-          <H3>{t('name')}</H3>
-        </TableCell>
+        <TableCell>{t('name')}</TableCell>
         {Object.values(AuthorisationColumn).map((columnName, idx) => (
-          <TableCell key={idx}>
-            <H3>{t(columnName)}</H3>
-          </TableCell>
+          <TableCell key={idx}>{t(columnName)}</TableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -217,7 +213,7 @@ export const ClerkTranslatorListing: FC = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <H3>{t('errors.loadingFailed')}</H3>
+          <H2>{t('errors.loadingFailed')}</H2>
         </Box>
       );
     case APIResponseStatus.Success:

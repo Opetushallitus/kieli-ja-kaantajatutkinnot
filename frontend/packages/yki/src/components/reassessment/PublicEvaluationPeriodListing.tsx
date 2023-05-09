@@ -1,4 +1,4 @@
-import { H3, NormalTable } from 'shared/components';
+import { H2, NormalTable } from 'shared/components';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
 import { PublicEvaluationPeriodListingRow } from 'components/reassessment/PublicEvaluationPeriodListingRow';
@@ -22,7 +22,7 @@ export const PublicEvaluationPeriodListing = () => {
 
   return (
     <>
-      <H3>{t('heading')}</H3>
+      <H2>{t('heading')}</H2>
       <NormalTable
         className=""
         header={<PublicEvaluationPeriodListingHeader />}

@@ -59,7 +59,7 @@ export const QualificationListing = ({
         className={combinedClassNames}
         data-testid="clerk-interpreter-details__qualifications-table"
       >
-        <TableHead>
+        <TableHead className="heading-text">
           <TableRow>
             <TableCell>{t('fields.languagePair')}</TableCell>
             <TableCell>{t('fields.examinationType')}</TableCell>

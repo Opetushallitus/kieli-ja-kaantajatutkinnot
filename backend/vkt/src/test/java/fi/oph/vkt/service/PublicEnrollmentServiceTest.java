@@ -6,7 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
@@ -25,6 +29,7 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -54,6 +60,9 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private PersonRepository personRepository;
 
+  @MockBean
+  private PublicEnrollmentEmailService publicEnrollmentEmailServiceMock;
+
   @Resource
   private ReservationRepository reservationRepository;
 
@@ -63,7 +72,10 @@ public class PublicEnrollmentServiceTest {
   private PublicEnrollmentService publicEnrollmentService;
 
   @BeforeEach
-  public void setup() {
+  public void setup() throws IOException, InterruptedException {
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any(), any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
+
     final Environment environment = mock(Environment.class);
     when(environment.getRequiredProperty("app.reservation.duration")).thenReturn(ONE_MINUTE.toString());
 
@@ -76,8 +88,9 @@ public class PublicEnrollmentServiceTest {
         enrollmentRepository,
         examEventRepository,
         personRepository,
-        reservationRepository,
-        publicReservationService
+        publicEnrollmentEmailServiceMock,
+        publicReservationService,
+        reservationRepository
       );
   }
 
@@ -259,7 +272,8 @@ public class PublicEnrollmentServiceTest {
     assertEquals(person.getId(), personDTO.id());
     assertEquals(person.getIdentityNumber(), personDTO.identityNumber());
     assertEquals(person.getLastName(), personDTO.lastName());
-    assertEquals(person.getFirstName(), person.getFirstName());
+    assertEquals(person.getFirstName(), personDTO.firstName());
+    assertEquals(person.getDateOfBirth(), personDTO.dateOfBirth());
 
     if (isReservationPresent) {
       assertNotNull(dto.reservation());
@@ -301,7 +315,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentWithDigitalCertificateConsent() {
+  public void testCreateEnrollmentWithDigitalCertificateConsent() throws IOException, InterruptedException {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
@@ -316,10 +330,13 @@ public class PublicEnrollmentServiceTest {
     assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT, dto);
 
     assertEquals(0, reservationRepository.count());
+
+    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
+    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
   @Test
-  public void testCreateEnrollmentWithoutDigitalCertificateConsent() {
+  public void testCreateEnrollmentWithoutDigitalCertificateConsent() throws IOException, InterruptedException {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
@@ -332,6 +349,9 @@ public class PublicEnrollmentServiceTest {
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
     assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT, dto);
+
+    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
+    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
   private PublicEnrollmentCreateDTO.PublicEnrollmentCreateDTOBuilder createDTOBuilder() {
@@ -386,7 +406,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentToQueue() {
+  public void testCreateEnrollmentToQueue() throws IOException, InterruptedException {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
 
@@ -397,5 +417,8 @@ public class PublicEnrollmentServiceTest {
 
     publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person.getId());
     assertCreatedEnrollment(EnrollmentStatus.QUEUED, dto);
+
+    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any(), any());
+    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 }

@@ -1,5 +1,4 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
-import { H3 } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation } from 'configs/i18n';
@@ -10,28 +9,16 @@ export const PublicExamSessionListingHeader = () => {
 
   // TODO Handle case where isPhone is true
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       {!isPhone && (
         <TableRow>
-          <TableCell>
-            <H3>{translateCommon('examSession')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{translateCommon('date')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{translateCommon('institution')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{translateCommon('registrationPeriod')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{translateCommon('price')}</H3>
-          </TableCell>
-          <TableCell>
-            <H3>{translateCommon('placesAvailable')}</H3>
-          </TableCell>
-          <TableCell />
+          <TableCell>{translateCommon('examSession')}</TableCell>
+          <TableCell>{translateCommon('date')}</TableCell>
+          <TableCell>{translateCommon('institution')}</TableCell>
+          <TableCell>{translateCommon('registrationPeriod')}</TableCell>
+          <TableCell>{translateCommon('price')}</TableCell>
+          <TableCell>{translateCommon('placesAvailable')}</TableCell>
+          <TableCell>{translateCommon('actions')}</TableCell>
         </TableRow>
       )}
     </TableHead>

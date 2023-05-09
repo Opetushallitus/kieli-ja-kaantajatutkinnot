@@ -89,7 +89,7 @@ public class PublicController {
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
-  ) {
+  ) throws IOException, InterruptedException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
@@ -119,6 +119,12 @@ public class PublicController {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicReservationService.deleteReservation(reservationId, person);
+  }
+
+  @GetMapping(path = "/auth/login")
+  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    httpResponse.sendRedirect(casLoginUrl);
   }
 
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")

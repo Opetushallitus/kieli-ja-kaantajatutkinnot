@@ -127,10 +127,6 @@
         }
       },
       "footer": {
-        "accessibility": {
-          "ophPhone": "Telephone number of the Finnish National Agency for Education",
-          "waveAriaLabel": "Wavy vector image"
-        },
         "address": {
           "name": "Finnish National Agency for Education",
           "phone": {

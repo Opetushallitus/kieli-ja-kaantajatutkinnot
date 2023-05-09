@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import { FC } from 'react';
 import {
   CustomIconButton,
-  H3,
+  H2,
   ManagedPaginatedTable,
   Text,
 } from 'shared/components';
@@ -88,14 +88,10 @@ const ListingHeader: FC = () => {
   const translateCommon = useCommonTranslation();
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       <TableRow>
-        <TableCell>
-          <H3>{t('header')}</H3>
-        </TableCell>
-        <TableCell align="right">
-          <H3>{translateCommon('delete')}</H3>
-        </TableCell>
+        <TableCell>{t('header')}</TableCell>
+        <TableCell align="right">{translateCommon('delete')}</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -130,7 +126,7 @@ export const MeetingDatesListing: FC = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <H3>{t('errors.loadingFailed')}</H3>
+          <H2>{t('errors.loadingFailed')}</H2>
         </Box>
       );
     case APIResponseStatus.Success:

@@ -43,7 +43,6 @@ export const PublicEnrollmentStepContents = ({
           enrollment={enrollment}
           isLoading={isLoading}
           setIsStepValid={setIsStepValid}
-          showValidation={showValidation}
         />
       );
     case PublicEnrollmentFormStep.Payment:

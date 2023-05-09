@@ -1,0 +1,5 @@
+.mobile {
+  & &-app-bar {
+    @include app-bar-bottom;
+  }
+}

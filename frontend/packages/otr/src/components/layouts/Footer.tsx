@@ -1,9 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Divider, Paper } from '@mui/material';
+import { Divider, Paper, Typography } from '@mui/material';
 import {
   CustomButtonLink,
   ExtLink,
-  H2,
   OPHLogoViewer,
   Svg,
   Text,
@@ -29,11 +28,7 @@ export const Footer = () => {
     <footer>
       {!isAuthenticated && (
         <>
-          <Svg
-            className="footer__wave"
-            src={FooterWave}
-            alt={t('accessibility.waveAriaLabel')}
-          />
+          <Svg className="footer__wave" src={FooterWave} alt="" />
           <Paper className="footer" elevation={3}>
             <div className="footer__info-row">
               <div className="footer__container footer__container__links">
@@ -56,7 +51,9 @@ export const Footer = () => {
                   aria-label={t('links.otrHomepage.ariaLabel')}
                 />
                 <div className="footer__container__links__contact">
-                  <H2 className="heading-text">{t('links.contact.title')}:</H2>
+                  <Typography component="h2" variant="h3">
+                    {t('links.contact.title')}:
+                  </Typography>
                   <ExtLink
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
@@ -65,7 +62,9 @@ export const Footer = () => {
                 </div>
               </div>
               <div className="footer__container footer__container__contact-details">
-                <H2 className="heading-text">{t('address.name')}</H2>
+                <Typography component="h2" variant="h3">
+                  {t('address.name')}
+                </Typography>
                 <br />
                 <Text>{t('address.street')}</Text>
                 <Text>{t('address.zipCity')}</Text>
@@ -78,7 +77,6 @@ export const Footer = () => {
                     className="inline-text"
                     text={t('address.phone.number')}
                     href={`tel:${t('address.phone.number')}`}
-                    aria-label={t('accessibility.ophPhone')}
                   />
                 </div>
               </div>

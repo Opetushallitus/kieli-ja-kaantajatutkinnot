@@ -2,10 +2,6 @@
   "vkt": {
     "component": {
       "footer": {
-        "accessibility": {
-          "ophPhone": "Opetushallituksen puhelinnumero",
-          "waveAriaLabel": "Aaltoileva vektorikuvio"
-        },
         "address": {
           "name": "Opetushallitus",
           "phone": {
@@ -91,7 +87,7 @@
             "emailConfirmation": "Vahvista sähköpostiosoite",
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
-            "title": "Yhteystiedot"
+            "title": "Täytä yhteystietosi"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
@@ -100,14 +96,25 @@
           "personDetails": {
             "firstName": "Etunimet",
             "identityNumber": "Henkilötunnus",
+            "dateOfBirth": "Syntymäaika",
             "lastName": "Sukunimi",
-            "title": "Nimi ja henkilötunnus"
+            "title": "Henkilötietosi"
           },
           "preview": {
+            "certificateShippingDetails": {
+              "addressLabel": "Toimitusosoite",
+              "title": "Tutkintotodistuksen toimitus"
+            },
             "contactDetails": {
               "email": "Sähköpostiosoite",
               "phoneNumber": "Puhelinnumero",
-              "title": "Yhteystiedot"
+              "title": "Yhteystietosi"
+            },
+            "examEventDetails": {
+              "previousEnrollmentLabel": "Olen osallistunut valtionhallinnon kielitutkintoon aikaisemmin",
+              "selectedSkillsLabel": "Valitut tutkinnot",
+              "selectedPartialExamsLabel": "Valitut osakokeet",
+              "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
               "ariaLabel": "Tietosuojaseloste",
@@ -139,7 +146,6 @@
           "checkboxSelectedAriaLabel": "Poista valinta",
           "checkboxUnselectedAriaLabel": "Valitse kielitutkinto"
         },
-        "enroll": "Ilmoittaudu",
         "header": {
           "examDate": "Tutkintopäivä",
           "language": "Kieli ja taso",

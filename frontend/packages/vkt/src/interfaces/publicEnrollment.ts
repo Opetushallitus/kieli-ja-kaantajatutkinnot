@@ -8,7 +8,7 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
-import { PublicPerson } from 'interfaces/publicPerson';
+import { PublicPerson, PublicPersonResponse } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
 export interface PublicReservation extends WithId {
@@ -32,9 +32,13 @@ export interface PublicReservationResponse
 }
 
 export interface PublicReservationDetailsResponse
-  extends Omit<PublicReservationDetails, 'examEvent' | 'reservation'> {
+  extends Omit<
+    PublicReservationDetails,
+    'examEvent' | 'reservation' | 'person'
+  > {
   examEvent: PublicExamEventResponse;
   reservation?: PublicReservationResponse;
+  person: PublicPersonResponse;
 }
 
 export interface PublicEnrollmentContactDetails {

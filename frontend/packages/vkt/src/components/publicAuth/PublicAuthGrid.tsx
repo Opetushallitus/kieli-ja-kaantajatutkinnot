@@ -10,6 +10,7 @@ import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrol
 import { PublicAuthGridSkeleton } from 'components/skeletons/PublicAuthGridSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetAuthentication, startAuthentication } from 'redux/reducers/auth';
@@ -93,13 +94,13 @@ export const PublicAuthGrid = () => {
   const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
   // TODO: change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
-  const serviceParam = encodeURIComponent(
-    'http://localhost:4002/vkt/tunnistaudu'
-  );
+  // const serviceParam = encodeURIComponent(
+  //   'http://localhost:4002/vkt/tunnistaudu'
+  // );
   // const serviceParam = encodeURIComponent(
   //   'https://vkt.testiopintopolku.fi/vkt/tunnistaudu'
   // );
-  const authUrl = `https://testiopintopolku.fi/cas-oppija/login?service=${serviceParam}`;
+  // const authUrl = `https://testiopintopolku.fi/cas-oppija/login?service=${serviceParam}`;
 
   const renderDesktopView = () => (
     <>
@@ -123,7 +124,7 @@ export const PublicAuthGrid = () => {
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
                       className="public-enrollment__grid__form-container__auth-button"
-                      href={authUrl}
+                      href={APIEndpoints.PublicAuthLogin}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}
