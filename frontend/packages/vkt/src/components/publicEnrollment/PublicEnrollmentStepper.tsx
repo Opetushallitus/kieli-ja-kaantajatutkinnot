@@ -46,7 +46,10 @@ export const PublicEnrollmentStepper = ({
   };
 
   const getStepAriaLabel = (stepNumber: number) => {
-    const part = `${stepNumber} kautta ${stepNumbers.length}`;
+    const part = t('phaseNumber', {
+      current: stepNumber,
+      total: stepNumbers.length,
+    });
     const statusText = getStatusText(stepNumber);
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
@@ -57,14 +60,13 @@ export const PublicEnrollmentStepper = ({
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}
-      aria-label="Ilmoittautumisen vaiheet"
+      aria-label={t('phases')}
     >
       {stepNumbers.map((i) => (
         <Step
           key={i}
           aria-label={getStepAriaLabel(i)}
           aria-current={activeStep == i ? 'step' : undefined}
-          tabIndex={0}
           id={`public-enrollment-step-label-${i}`}
         >
           <StepLabel
@@ -73,6 +75,7 @@ export const PublicEnrollmentStepper = ({
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
+            aria-hidden="true"
           >
             {getDescription(i)}
           </StepLabel>
