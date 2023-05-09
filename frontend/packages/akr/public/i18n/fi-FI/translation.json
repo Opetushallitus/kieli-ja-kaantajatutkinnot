@@ -203,10 +203,6 @@
         "upcoming": "Tulevat"
       },
       "footer": {
-        "accessibility": {
-          "ophPhone": "Opetushallituksen puhelinnumero",
-          "waveAriaLabel": "Aaltoileva vektorikuvio"
-        },
         "address": {
           "name": "Opetushallitus",
           "phone": {

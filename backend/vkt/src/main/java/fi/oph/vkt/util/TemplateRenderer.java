@@ -12,6 +12,14 @@ public class TemplateRenderer {
 
   private final TemplateEngine templateEngine;
 
+  public String renderEnrollmentConfirmationEmailBody(final Map<String, Object> params) {
+    return renderTemplate("enrollment-confirmation", params);
+  }
+
+  public String renderEnrollmentToQueueConfirmationEmailBody(final Map<String, Object> params) {
+    return renderTemplate("enrollment-to-queue-confirmation", params);
+  }
+
   public String renderReceipt(final Map<String, Object> params) {
     return renderTemplate("receipt", params);
   }

@@ -3,7 +3,7 @@
 exports[`Footer should render Footer correctly 1`] = `
 <footer>
   <img
-    alt="accessibility.waveAriaLabel"
+    alt=""
     className="footer__wave"
     src="test"
   />
@@ -109,7 +109,7 @@ exports[`Footer should render Footer correctly 1`] = `
           className="footer__container__links__contact"
         >
           <h2
-            className="MuiTypography-root MuiTypography-h2 heading-text css-1sra7t5-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
           >
             links.contact.title
             :
@@ -141,7 +141,7 @@ exports[`Footer should render Footer correctly 1`] = `
         className="footer__container footer__container__contact-details"
       >
         <h2
-          className="MuiTypography-root MuiTypography-h2 heading-text css-1sra7t5-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
         >
           address.name
         </h2>
@@ -166,7 +166,6 @@ exports[`Footer should render Footer correctly 1`] = `
             address.phone.title
           </p>
           <a
-            aria-label="accessibility.ophPhone"
             className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit inline-text css-1y942vo-MuiButtonBase-root-MuiButton-root"
             href="tel:address.phone.number"
             onBlur={[Function]}

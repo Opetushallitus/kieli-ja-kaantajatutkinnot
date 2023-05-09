@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
-import { CustomSkeleton, H3, NormalTable } from 'shared/components';
+import { CustomSkeleton, H2, NormalTable } from 'shared/components';
 import { SkeletonVariant } from 'shared/enums';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
@@ -27,7 +27,7 @@ export const PublicEvaluationPeriodListingSkeleton = () => {
         className="full-max-width"
         variant={SkeletonVariant.Text}
       >
-        <H3>{t('heading')}</H3>
+        <H2>{t('heading')}</H2>
       </CustomSkeleton>
       <CustomSkeleton
         ariaLabel={translateCommon('loadingContent')}

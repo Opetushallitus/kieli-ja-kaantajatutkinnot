@@ -84,7 +84,6 @@
           "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
         },
         "lang": {
-          "en": "In English",
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
@@ -105,12 +104,14 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija",
         "enrollment": "Ilmoittautuminen",
         "frontPage": "Etusivu"
       },
+      "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {

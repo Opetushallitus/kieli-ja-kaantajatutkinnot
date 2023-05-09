@@ -41,7 +41,7 @@ export const CertificateShipping = ({
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
-  setValid?: (isValid: boolean) => void;
+  setValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
@@ -54,10 +54,6 @@ export const CertificateShipping = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!setValid) {
-      return;
-    }
-
     if (enrollment.digitalCertificateConsent) {
       setValid(true);
 
