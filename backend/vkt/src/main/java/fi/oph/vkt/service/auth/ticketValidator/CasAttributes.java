@@ -12,7 +12,6 @@ import lombok.extern.jackson.Jacksonized;
 public class CasAttributes {
 
   private String firstName;
-  private String displayName;
   private String familyName;
   private String sn;
   private String nationalIdentificationNumber;
