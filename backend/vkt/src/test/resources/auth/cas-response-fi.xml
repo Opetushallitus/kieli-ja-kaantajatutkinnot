@@ -2,7 +2,6 @@
     <cas:authenticationSuccess>
         <cas:user>suomi.fi,010280-952L</cas:user>
         <cas:attributes>
-            <cas:VakinainenKotimainenLahiosoiteS>Foo</cas:VakinainenKotimainenLahiosoiteS>
             <cas:firstName>Tessa</cas:firstName>
             <cas:clientName>suomi.fi</cas:clientName>
             <cas:displayName>Tessa Testilä</cas:displayName>
