@@ -93,7 +93,7 @@ export const PublicAuthGrid = () => {
 
   const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
-  // TODO: change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
+  // TODO:  change service query param to http%3A%2F%2Flocalhost%3A4002%2Fvkt%2Ftunnistaudu for local testing
   // const serviceParam = encodeURIComponent(
   //   'http://localhost:4002/vkt/tunnistaudu'
   // );
