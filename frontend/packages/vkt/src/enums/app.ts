@@ -5,7 +5,7 @@ export enum AppConstants {
 export enum AppRoutes {
   PublicHomePage = '/vkt/etusivu',
   PublicEnrollment = '/vkt/ilmoittaudu',
-  PublicAuth = '/vkt/ilmoittaudu/tunnistaudu',
+  PublicAuth = '/vkt/ilmoittaudu/:examEventId/tunnistaudu',
   PublicEnrollmentContactDetails = '/vkt/ilmoittaudu/tiedot',
   PublicEnrollmentSelectExam = '/vkt/ilmoittaudu/tutkinto',
   PublicEnrollmentSuccess = '/vkt/ilmoittaudu/maksu/valmis',

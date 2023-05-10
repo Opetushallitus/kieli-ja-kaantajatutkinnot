@@ -13,7 +13,7 @@ import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollm
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
-import { useNavigationProtection } from 'hooks/useNavigationProtection';
+//import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
@@ -38,12 +38,13 @@ export const PublicEnrollmentGrid = ({
     }
   }, [cancelStatus, navigate]);
 
+  /*
   useNavigationProtection(
     activeStep > PublicEnrollmentFormStep.Authenticate &&
       activeStep < PublicEnrollmentFormStep.Preview &&
       cancelStatus === APIResponseStatus.NotStarted
   );
-
+  */
   const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;

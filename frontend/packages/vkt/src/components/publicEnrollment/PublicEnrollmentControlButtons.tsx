@@ -2,12 +2,14 @@ import {
   ArrowBackOutlined as ArrowBackIcon,
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -44,6 +46,7 @@ export const PublicEnrollmentControlButtons = ({
   const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { showDialog } = useDialog();
 
@@ -81,12 +84,14 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleBackBtnClick = () => {
     dispatch(decreaseActiveStep());
+    navigate(AppRoutes.PublicEnrollmentContactDetails, { replace: true });
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
       dispatch(increaseActiveStep());
+      navigate(AppRoutes.PublicEnrollmentSelectExam, { replace: true });
     } else {
       setShowValidation(true);
     }

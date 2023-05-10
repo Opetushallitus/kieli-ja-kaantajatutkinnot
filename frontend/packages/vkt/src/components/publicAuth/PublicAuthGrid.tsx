@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
@@ -30,6 +30,7 @@ export const PublicAuthGrid = () => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
 
+  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
@@ -65,8 +66,7 @@ export const PublicAuthGrid = () => {
       selectedExamEvent &&
       reservationDetailsStatus === APIResponseStatus.Success
     ) {
-      console.log('navigate front 1');
-      navigate(AppRoutes.PublicEnrollment, { replace: true });
+      navigate(AppRoutes.PublicEnrollmentContactDetails, { replace: true });
       dispatch(resetAuthentication());
     }
   }, [navigate, dispatch, selectedExamEvent, reservationDetailsStatus]);
@@ -78,12 +78,6 @@ export const PublicAuthGrid = () => {
       reservationDetailsStatus === APIResponseStatus.NotStarted &&
       !selectedExamEvent
     ) {
-      console.log(
-        'navigate front 2',
-      authStatus,
-      reservationDetailsStatus,
-      selectedExamEvent
-      );
       navigate(AppRoutes.PublicHomePage, { replace: true });
     }
   }, [
