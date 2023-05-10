@@ -1,6 +1,7 @@
 {
   "akr": {
     "common": {
+      "acceptTerms": null,
       "akrLogoAlt": "Logo: Authorised translator’s examination system.",
       "appNameAbbreviation": "AKR",
       "appTitle": "Register of authorised translators | Finnish National Agency for Education",

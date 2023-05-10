@@ -1,6 +1,7 @@
 {
   "akr": {
     "common": {
+      "acceptTerms": null,
       "akrLogoAlt": "Logo: Examenssystemet för auktoriserade translatorer.",
       "appNameAbbreviation": "AKR",
       "appTitle": "Register över auktoriserade translatorer | Utbildningsstyrelsen",
