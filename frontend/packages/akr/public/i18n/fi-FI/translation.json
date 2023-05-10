@@ -451,6 +451,7 @@
         "noSearchResults": "Ei hakutuloksia",
         "note": "Kieliparilla haettaessa mahdolliset hakuvaihtoehdot ovat kotimaisista kielistä (suomi, ruotsi, saamen kielet) vieraisiin kieliin tai toisinpäin sekä kotimaisten kielten välillä. Yhdenvertaisen näkyvyyden turvaamiseksi kääntäjät arvotaan hakukoneessa satunnaisjärjestykseen kerran vuorokaudessa.",
         "requestContact": "Ota yhteyttä",
+        "requestContactAriaLabel": "Ota yhteyttä seuraavasta taulukosta valitsemiisi henkilöihin.",
         "title": "Auktorisoitujen kääntäjien rekisteri"
       },
       "meetingDatesPage": {

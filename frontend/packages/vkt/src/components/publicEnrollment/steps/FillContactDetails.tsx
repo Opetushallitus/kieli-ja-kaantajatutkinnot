@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H2, Text } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
@@ -12,11 +12,6 @@ import {
   PublicEnrollmentContactDetails,
 } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
-
-export enum InputAutoComplete {
-  Email = 'email',
-  PhoneNumber = 'tel',
-}
 
 const fields: Array<TextField<PublicEnrollmentContactDetails>> = [
   {

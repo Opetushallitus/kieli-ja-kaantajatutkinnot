@@ -442,6 +442,7 @@
         "noSearchResults": "Inga sökresultat",
         "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk. För att säkerställa likvärdig synlighet lottas translatorerna i slumpmässig ordning i sökmotorn en gång om dagen.",
         "requestContact": "Kontakta",
+        "requestContactAriaLabel": null,
         "title": "Register över auktoriserade translatorer"
       },
       "meetingDatesPage": {

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, Text } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
 import { StepHeading } from 'components/contactRequest/ContactRequestFormUtils';
@@ -10,13 +10,6 @@ import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactDetails } from 'interfaces/contactRequest';
 import { updateContactRequest } from 'redux/reducers/contactRequest';
 import { contactRequestSelector } from 'redux/selectors/contactRequest';
-
-enum InputAutoComplete {
-  FirstName = 'given-name',
-  LastName = 'family-name',
-  Email = 'email',
-  PhoneNumber = 'tel',
-}
 
 export const FillContactDetails = ({
   disableNext,

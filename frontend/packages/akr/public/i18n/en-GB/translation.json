@@ -442,6 +442,7 @@
         "noSearchResults": "No search results",
         "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland. To ensure equal visibility, the translators are randomly reordered once a day within the search engine.",
         "requestContact": "Contact",
+        "requestContactAriaLabel": null,
         "title": "Register of Authorised Translators"
       },
       "meetingDatesPage": {

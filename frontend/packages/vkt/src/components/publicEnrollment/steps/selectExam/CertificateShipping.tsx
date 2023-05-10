@@ -1,7 +1,7 @@
 import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
-import { Color, TextFieldTypes } from 'shared/enums';
+import { Color, InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
 
@@ -10,13 +10,6 @@ import { useAppDispatch } from 'configs/redux';
 import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
-
-enum InputAutoComplete {
-  Street = 'street-address',
-  PostalCode = 'postal-code',
-  Town = 'address-level2',
-  Country = 'country-name',
-}
 
 const fields: Array<TextField<CertificateShippingTextFields>> = [
   {
