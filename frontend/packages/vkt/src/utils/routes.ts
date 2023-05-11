@@ -5,67 +5,56 @@ export class RouteUtils {
   static stepToRoute(
     step: PublicEnrollmentFormStep,
     examEventId: number,
-    reservationId: number
   ) {
     switch (step) {
       case PublicEnrollmentFormStep.Authenticate:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicAuth,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.FillContactDetails:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentContactDetails,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.SelectExam:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentSelectExam,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.Preview:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentPreview,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.Done:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentDone,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.PaymentSuccess:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentSuccess,
-          examEventId,
-          reservationId
+          examEventId
         );
 
       case PublicEnrollmentFormStep.PaymentFail:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentFail,
-          examEventId,
-          reservationId
+          examEventId
         );
     }
   }
 
   static replaceParameters(
     route: string,
-    examEventId: number,
-    reservationId: number
+    examEventId: number
   ) {
-    return route
-      .replace(':examEventId', examEventId)
-      .replace(':reservationId', reservationId);
+    return route.replace(':examEventId', examEventId)
   }
 }

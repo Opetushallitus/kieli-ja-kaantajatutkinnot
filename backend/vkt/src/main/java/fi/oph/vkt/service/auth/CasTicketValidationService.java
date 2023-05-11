@@ -11,7 +11,7 @@ public class CasTicketValidationService {
 
   private final TicketValidator ticketValidator;
 
-  public Map<String, String> validate(final String ticket, long examEventId) {
-    return ticketValidator.validateTicket(ticket, examEventId);
+  public Map<String, String> validate(final String ticket, long examEventId, String type) {
+    return ticketValidator.validateTicket(ticket, examEventId, type);
   }
 }

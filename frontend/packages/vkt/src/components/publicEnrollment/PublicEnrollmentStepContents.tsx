@@ -12,16 +12,23 @@ export const PublicEnrollmentStepContents = ({
   isLoading,
   setIsStepValid,
   showValidation,
+  isExpectedToHaveOpenings,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
+  isExpectedToHaveOpenings: boolean;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentFormStep.Authenticate:
-      return <Authenticate isLoading={isLoading} />;
+      return (
+        <Authenticate
+          isLoading={isLoading}
+          isExpectedToHaveOpenings={isExpectedToHaveOpenings}
+        />
+      );
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
         <FillContactDetails
@@ -48,10 +55,10 @@ export const PublicEnrollmentStepContents = ({
           setIsStepValid={setIsStepValid}
         />
       );
+    case PublicEnrollmentFormStep.PaymentFail:
     case PublicEnrollmentFormStep.PaymentSuccess:
-      return <></>;
     case PublicEnrollmentFormStep.Done:
-      return <Done enrollment={enrollment} />;
+      return <Done step={activeStep} enrollment={enrollment} />;
     default:
       return <> </>;
   }

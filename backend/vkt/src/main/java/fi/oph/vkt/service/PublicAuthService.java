@@ -24,10 +24,10 @@ public class PublicAuthService {
 
   private final Environment environment;
 
-  public String createCasLoginUrl(long examEventId) {
+  public String createCasLoginUrl(long examEventId, String type) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
-      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId),
+      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
       StandardCharsets.UTF_8
     );
     return casLoginUrl + "?service=" + casServiceUrl;
@@ -53,8 +53,8 @@ public class PublicAuthService {
   }
 
   @Transactional
-  public Person createPersonFromTicket(final String ticket, long examEventId) {
-    final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId);
+  public Person createPersonFromTicket(final String ticket, long examEventId, String type) {
+    final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
     final String identityNumber = personDetails.get("identityNumber");
     final String firstName = personDetails.get("firstName");

@@ -1,5 +1,5 @@
 export enum APIEndpoints {
-  PublicAuthLogin = '/vkt/api/v1/auth/login/:examEventId',
+  PublicAuthLogin = '/vkt/api/v1/auth/login/:examEventId/:type',
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',

@@ -33,12 +33,11 @@ import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* loadPublicEnrollmentSaga(
-  action: PayloadAction<Record<string, number>>
+  action: PayloadAction<number>
 ) {
   try {
-    const eventId = action.payload.examEventId;
-    const reservationId = action.payload.reservationId;
-    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}/${reservationId}`;
+    const eventId = action.payload;
+    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}`;
 
     const response: AxiosResponse<PublicReservationDetailsResponse> =
       yield call(axiosInstance.get, loadUrl);

@@ -7,18 +7,17 @@ import { useToast } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
+export const Done = ({ step }: { step: PublicEnrollmentFormStep }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.done',
   });
   const translateCommon = useCommonTranslation();
 
-  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
+  const { enrollment } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
@@ -46,9 +45,9 @@ export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>
-        {reservationDetails?.reservation
-          ? t('title.reservation')
-          : t('title.queue')}
+        {step == PublicEnrollmentFormStep.Done
+          ? t('title.queue')
+          : t('title.reservation')}
       </H2>
       <Text>
         <strong>{`${t('description.part1')}: ${enrollment.email}`}</strong>

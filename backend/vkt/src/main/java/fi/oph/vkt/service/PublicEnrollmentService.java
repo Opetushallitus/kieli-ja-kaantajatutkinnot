@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
@@ -20,6 +21,8 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +63,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO);
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, Optional.empty());
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -73,25 +76,22 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(
     long examEventId,
-    long reservationId,
     Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+    final Optional<Reservation> reservationMaybe = reservationRepository.findByExamEventAndPerson(examEvent, person);
+    final Optional<Enrollment> enrollmentMaybe = findEnrollment(examEvent, person, enrollmentRepository);
+    final PublicReservationDTO reservationDTO = reservationMaybe.map(publicReservationService::createReservationDTO).orElse(null);
 
-    if (reservation.getPerson().getId() != person.getId()) {
-      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
-    }
-
-    final PublicReservationDTO reservationDTO = publicReservationService.createReservationDTO(reservation);
-    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO);
+    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO, enrollmentMaybe);
   }
 
   private PublicEnrollmentInitialisationDTO createEnrollmentInitialisationDTO(
     final ExamEvent examEvent,
     final Person person,
     final long openings,
-    final PublicReservationDTO reservationDTO
+    final PublicReservationDTO reservationDTO,
+    final Optional<Enrollment> enrollmentMaybe
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -111,6 +111,35 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())
       .build();
+
+    if (enrollmentMaybe.isPresent()) {
+      final Enrollment enrollment = enrollmentMaybe.get();
+      final PublicEnrollmentDTO enrollmentDTO = PublicEnrollmentDTO.builder()
+              .oralSkill(enrollment.isOralSkill())
+              .textualSkill(enrollment.isTextualSkill())
+              .understandingSkill(enrollment.isUnderstandingSkill())
+              .speakingPartialExam(enrollment.isSpeakingPartialExam())
+              .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
+              .writingPartialExam(enrollment.isWritingPartialExam())
+              .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+              .previousEnrollment(enrollment.getPreviousEnrollment())
+              .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
+              .email(enrollment.getEmail())
+              .phoneNumber(enrollment.getPhoneNumber())
+              .street(enrollment.getStreet())
+              .postalCode(enrollment.getPostalCode())
+              .town(enrollment.getTown())
+              .country(enrollment.getCountry())
+              .build();
+
+      return PublicEnrollmentInitialisationDTO
+              .builder()
+              .examEvent(examEventDTO)
+              .person(personDTO)
+              .reservation(reservationDTO)
+              .enrollment(enrollmentDTO)
+              .build();
+    }
 
     return PublicEnrollmentInitialisationDTO
       .builder()
@@ -139,7 +168,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, null);
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, null, Optional.empty());
   }
 
   @Transactional

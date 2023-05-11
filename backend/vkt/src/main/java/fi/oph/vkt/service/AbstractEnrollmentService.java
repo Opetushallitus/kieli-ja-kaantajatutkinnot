@@ -6,6 +6,8 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.EnrollmentRepository;
 
+import java.util.Optional;
+
 public abstract class AbstractEnrollmentService {
 
   protected void copyDtoFieldsToEnrollment(final Enrollment enrollment, final EnrollmentDTOCommonFields dto) {
@@ -26,11 +28,19 @@ public abstract class AbstractEnrollmentService {
     enrollment.setCountry(dto.country());
   }
 
+  protected Optional<Enrollment> findEnrollment(
+          final ExamEvent examEvent,
+          final Person person,
+          final EnrollmentRepository enrollmentRepository
+  ) {
+    return enrollmentRepository.findByExamEventAndPerson(examEvent, person);
+  }
+
   protected boolean isPersonEnrolled(
     final ExamEvent examEvent,
     final Person person,
     final EnrollmentRepository enrollmentRepository
   ) {
-    return enrollmentRepository.findByExamEventAndPerson(examEvent, person).isPresent();
+    return findEnrollment(examEvent, person, enrollmentRepository).isPresent();
   }
 }

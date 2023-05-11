@@ -39,6 +39,7 @@ export interface PublicReservationDetailsResponse
   examEvent: PublicExamEventResponse;
   reservation?: PublicReservationResponse;
   person: PublicPersonResponse;
+  enrollment?: PublicEnrollment;
 }
 
 export interface PublicEnrollmentContactDetails {

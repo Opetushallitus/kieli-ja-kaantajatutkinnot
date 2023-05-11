@@ -5,7 +5,13 @@ import { Color, Variant } from 'shared/enums';
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 
-export const Authenticate = ({ isLoading }: { isLoading: boolean }) => {
+export const Authenticate = ({
+  isLoading,
+  isExpectedToHaveOpenings,
+}: {
+  isLoading: boolean;
+  isExpectedToHaveOpenings: boolean;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
@@ -21,6 +27,9 @@ export const Authenticate = ({ isLoading }: { isLoading: boolean }) => {
             href={APIEndpoints.PublicAuthLogin.replace(
               ':examEventId',
               +params.examEventId
+            ).replace(
+              ':type',
+              isExpectedToHaveOpenings ? 'reservation' : 'queue'
             )}
             variant={Variant.Contained}
             onClick={() => setIsLoading(true)}

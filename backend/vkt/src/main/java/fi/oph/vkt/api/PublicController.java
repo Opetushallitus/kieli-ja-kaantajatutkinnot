@@ -107,15 +107,14 @@ public class PublicController {
     publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
-  @GetMapping(path = "/examEvent/{examEventId:\\d+}/{reservationId:\\d+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
     @PathVariable final long examEventId,
-    @PathVariable final long reservationId,
     final HttpSession session
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, reservationId, person);
+    return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, person);
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
@@ -132,25 +131,32 @@ public class PublicController {
     publicReservationService.deleteReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/auth/login/{examEventId:\\d+}")
-  public void casLoginRedirect(final HttpServletResponse httpResponse, @PathVariable final long examEventId)
+  @GetMapping(path = "/auth/login/{examEventId:\\d+}/{type:\\w+}")
+  public void casLoginRedirect(
+          final HttpServletResponse httpResponse,
+          @PathVariable final long examEventId,
+          @PathVariable final String type
+  )
     throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId);
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, type);
     httpResponse.sendRedirect(casLoginUrl);
   }
 
-  @GetMapping(path = "/auth/validate/{examEventId:\\d+}")
+  @GetMapping(path = "/auth/validate/{examEventId:\\d+}/{type:\\w+}")
   public void validateTicket(
     @RequestParam final String ticket,
     @PathVariable final long examEventId,
+    @PathVariable final String type,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
-    final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId);
+    final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, type);
 
     SessionUtil.setPersonId(session, person.getId());
 
-    PublicEnrollmentInitialisationDTO enrollmentDto = publicEnrollmentService.initialiseEnrollment(examEventId, person);
+    PublicEnrollmentInitialisationDTO enrollmentDto = type.equals("queue")
+      ? publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person)
+      : publicEnrollmentService.initialiseEnrollment(examEventId, person);
 
     httpResponse.sendRedirect(
       String.format("http://localhost:4002/vkt/ilmoittaudu/%s/%s/tiedot", examEventId, enrollmentDto.reservation().id())

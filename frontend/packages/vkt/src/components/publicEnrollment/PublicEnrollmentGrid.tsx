@@ -16,6 +16,7 @@ import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 //import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { loadPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = ({
   step,
@@ -36,7 +37,9 @@ export const PublicEnrollmentGrid = ({
     reservationDetailsStatus,
   } = useAppSelector(publicEnrollmentSelector);
 
-  const selectedExamEvent = reservationDetails?.examEvent;
+  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector) ?? {
+    selectedExamEvent: reservationDetails?.examEvent,
+  };
 
   const navigate = useNavigate();
 
@@ -45,13 +48,11 @@ export const PublicEnrollmentGrid = ({
       reservationDetailsStatus === APIResponseStatus.NotStarted &&
       !reservationDetails &&
       !selectedExamEvent &&
-      params.examEventId &&
-      params.reservationId
+      params.examEventId
     ) {
       dispatch(
         loadPublicEnrollment({
-          examEventId: +params.examEventId,
-          reservationId: +params.reservationId,
+          examEventId: +params.examEventId
         })
       );
     }
@@ -82,6 +83,7 @@ export const PublicEnrollmentGrid = ({
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
+  const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
 
   const renderDesktopView = () => (
     <>
@@ -110,6 +112,7 @@ export const PublicEnrollmentGrid = ({
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
                   showValidation={showValidation}
+                  isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
                 {isPreviewStepActive && reservationDetails?.reservation && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />

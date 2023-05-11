@@ -53,7 +53,7 @@ const publicEnrollmentSlice = createSlice({
   reducers: {
     loadPublicEnrollment(
       state,
-      _action: PayloadAction<Record<string, number>>
+      _action: PayloadAction<number>
     ) {
       state.reservationDetailsStatus = APIResponseStatus.InProgress;
     },
@@ -69,6 +69,7 @@ const publicEnrollmentSlice = createSlice({
     ) {
       state.reservationDetailsStatus = APIResponseStatus.Success;
       state.reservationDetails = action.payload;
+      state.enrollment = action.payload.enrollment ?? state.enrollment;
     },
     renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
