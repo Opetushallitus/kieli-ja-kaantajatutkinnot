@@ -24,10 +24,10 @@ public class PublicAuthService {
 
   private final Environment environment;
 
-  public String createCasLoginUrl() {
+  public String createCasLoginUrl(long examEventId) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
-      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId),
       StandardCharsets.UTF_8
     );
     return casLoginUrl + "?service=" + casServiceUrl;
@@ -53,8 +53,8 @@ public class PublicAuthService {
   }
 
   @Transactional
-  public PublicPersonDTO createPersonFromTicket(final String ticket) {
-    final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
+  public Person createPersonFromTicket(final String ticket, long examEventId) {
+    final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId);
 
     final String identityNumber = personDetails.get("identityNumber");
     final String firstName = personDetails.get("firstName");
@@ -69,17 +69,8 @@ public class PublicAuthService {
     final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
       ? personRepository.findByIdentityNumber(identityNumber)
       : personRepository.findByOtherIdentifier(otherIdentifier);
-    final Person person = maybePerson.orElseGet(() ->
+    return maybePerson.orElseGet(() ->
       createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
-
-    return PublicPersonDTO
-      .builder()
-      .id(person.getId())
-      .identityNumber(person.getIdentityNumber())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
-      .dateOfBirth(dateOfBirth)
-      .build();
   }
 }

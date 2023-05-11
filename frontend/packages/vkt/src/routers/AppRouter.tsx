@@ -13,7 +13,6 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
-import { PublicAuthPage } from 'pages/PublicAuthPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
@@ -44,18 +43,12 @@ export const AppRouter: FC = () => {
               />
               <Route path={AppRoutes.PublicEnrollment}>
                 <Route
-                  index
-                  element={
-                    <TitlePage title={createTitle('enrollment')}>
-                      <PublicEnrollmentPage />
-                    </TitlePage>
-                  }
-                />
-                <Route
                   path={AppRoutes.PublicAuth}
                   element={
                     <TitlePage title={createTitle('authenticate')}>
-                      <PublicAuthPage />
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.Authenticate}
+                      />
                     </TitlePage>
                   }
                 />
@@ -75,6 +68,16 @@ export const AppRouter: FC = () => {
                     <TitlePage title={createTitle('enrollment')}>
                       <PublicEnrollmentPage
                         step={PublicEnrollmentFormStep.SelectExam}
+                      />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicEnrollmentPreview}
+                  element={
+                    <TitlePage title={createTitle('enrollment')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.Preview}
                       />
                     </TitlePage>
                   }

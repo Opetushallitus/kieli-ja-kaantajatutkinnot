@@ -9,7 +9,6 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -24,6 +23,7 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
+import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
@@ -49,12 +49,13 @@ export const PublicEnrollmentControlButtons = ({
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
+  const reservationId = reservationDetails.reservation?.id;
+  const examEventId = reservationDetails.examEvent.id;
 
   const handleCancelBtnClick = () => {
     if (activeStep === PublicEnrollmentFormStep.Authenticate) {
       dispatch(cancelPublicEnrollment());
     } else {
-      const reservationId = reservationDetails.reservation?.id;
       const confirmAction = reservationId
         ? cancelPublicEnrollmentAndRemoveReservation(reservationId)
         : cancelPublicEnrollment();
@@ -84,14 +85,20 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleBackBtnClick = () => {
     dispatch(decreaseActiveStep());
-    navigate(AppRoutes.PublicEnrollmentContactDetails, { replace: true });
+    const nextStep: PublicEnrollmentFormStep = activeStep - 1;
+    navigate(RouteUtils.stepToRoute(nextStep, examEventId, reservationId), {
+      replace: true,
+    });
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
       dispatch(increaseActiveStep());
-      navigate(AppRoutes.PublicEnrollmentSelectExam, { replace: true });
+      const nextStep: PublicEnrollmentFormStep = activeStep + 1;
+      navigate(RouteUtils.stepToRoute(nextStep, examEventId, reservationId), {
+        replace: true,
+      });
     } else {
       setShowValidation(true);
     }

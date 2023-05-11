@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
@@ -30,7 +30,6 @@ export const PublicAuthGrid = () => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
 
-  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
@@ -125,7 +124,10 @@ export const PublicAuthGrid = () => {
                   <LoadingProgressIndicator isLoading={isLoading}>
                     <CustomButton
                       className="public-enrollment__grid__form-container__auth-button"
-                      href={APIEndpoints.PublicAuthLogin}
+                      href={APIEndpoints.PublicAuthLogin.replace(
+                        ':examEventId',
+                        selectedExamEvent.id
+                      )}
                       variant={Variant.Contained}
                       onClick={() => setIsLoading(true)}
                       color={Color.Secondary}

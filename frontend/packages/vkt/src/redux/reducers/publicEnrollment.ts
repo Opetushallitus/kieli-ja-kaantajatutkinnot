@@ -24,6 +24,7 @@ const initialState: PublicEnrollmentState = {
   reservationDetails: undefined,
   status: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
+  reservationDetailsStatus: APIResponseStatus.NotStarted,
   activeStep: PublicEnrollmentFormStep.Authenticate,
   enrollment: {
     email: '',
@@ -50,6 +51,12 @@ const publicEnrollmentSlice = createSlice({
   name: 'publicEnrollment',
   initialState,
   reducers: {
+    loadPublicEnrollment(
+      state,
+      _action: PayloadAction<Record<string, number>>
+    ) {
+      state.reservationDetailsStatus = APIResponseStatus.InProgress;
+    },
     initialisePublicEnrollment(state, _action: PayloadAction<PublicExamEvent>) {
       state.reservationDetailsStatus = APIResponseStatus.InProgress;
     },
@@ -135,6 +142,7 @@ const publicEnrollmentSlice = createSlice({
 
 export const publicEnrollmentReducer = publicEnrollmentSlice.reducer;
 export const {
+  loadPublicEnrollment,
   initialisePublicEnrollment,
   rejectPublicEnrollmentInitialisation,
   storePublicEnrollmentInitialisation,

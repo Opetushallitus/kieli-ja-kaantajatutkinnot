@@ -46,7 +46,14 @@ export const PublicExamEventListingHeader = () => {
                 color={Color.Secondary}
                 variant={Variant.Contained}
                 disabled={enrollButtonDisabled}
-                onClick={() => navigate(AppRoutes.PublicAuth)}
+                onClick={() =>
+                  navigate(
+                    AppRoutes.PublicAuth.replace(
+                      ':examEventId',
+                      selectedExamEvent.id
+                    )
+                  )
+                }
               >
                 {translateCommon('enroll')}
               </CustomButton>

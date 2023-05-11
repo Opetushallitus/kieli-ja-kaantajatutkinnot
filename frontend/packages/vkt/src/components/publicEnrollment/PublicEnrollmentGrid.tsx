@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -10,27 +10,60 @@ import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEn
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 //import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { loadPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = ({
   step,
 }: {
   step: PublicEnrollmentFormStep;
 }) => {
+  const dispatch = useAppDispatch();
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
+  const params = useParams();
 
-  const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
-    useAppSelector(publicEnrollmentSelector);
+  const {
+    status,
+    cancelStatus,
+    activeStep,
+    enrollment,
+    reservationDetails,
+    reservationDetailsStatus,
+  } = useAppSelector(publicEnrollmentSelector);
 
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
+  const selectedExamEvent = reservationDetails?.examEvent;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      reservationDetailsStatus === APIResponseStatus.NotStarted &&
+      !reservationDetails &&
+      !selectedExamEvent &&
+      params.examEventId &&
+      params.reservationId
+    ) {
+      dispatch(
+        loadPublicEnrollment({
+          examEventId: +params.examEventId,
+          reservationId: +params.reservationId,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    reservationDetailsStatus,
+    enrollment,
+    reservationDetails,
+    selectedExamEvent,
+    params.examEventId,
+    params.reservationId,
+  ]);
 
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {

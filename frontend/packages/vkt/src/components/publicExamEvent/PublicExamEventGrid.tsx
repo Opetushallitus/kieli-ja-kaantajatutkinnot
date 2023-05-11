@@ -109,7 +109,14 @@ export const PublicExamEventGrid = () => {
               data-testid="public-exam-events__enroll-btn"
               color={Color.Secondary}
               variant={Variant.Contained}
-              onClick={() => navigate(AppRoutes.PublicAuth)}
+              onClick={() =>
+                navigate(
+                  AppRoutes.PublicAuth.replace(
+                    ':examEventId',
+                    selectedExamEvent.id
+                  )
+                )
+              }
               fullWidth
             >
               {translateCommon('enroll')}

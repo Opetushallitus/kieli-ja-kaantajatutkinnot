@@ -33,13 +33,16 @@ public class CasTicketValidator implements TicketValidator {
   private final WebClient webClient;
 
   @Override
-  public Map<String, String> validateTicket(final String ticket) {
+  public Map<String, String> validateTicket(final String ticket, long examEventId) {
     try {
       final String response = webClient
         .get()
         .uri(uriBuilder ->
           uriBuilder
-            .queryParam("service", environment.getRequiredProperty("app.cas-oppija.service-url"))
+            .queryParam(
+              "service",
+              String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId)
+            )
             .queryParam("ticket", ticket)
             .build()
         )

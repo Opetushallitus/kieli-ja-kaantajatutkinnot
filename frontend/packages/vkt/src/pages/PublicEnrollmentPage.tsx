@@ -1,28 +1,15 @@
 import { Box, Grid } from '@mui/material';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
+import { PublicEnrollmentDoneGrid } from 'components/publicEnrollment/PublicEnrollmentDoneGrid';
 import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { setSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
-import { SerializationUtils } from 'utils/serialization';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
-export const PublicEnrollmentPage: FC = ({ step }: { step: string }) => {
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const examEvent = sessionStorage.getItem('examEvent');
-
-    if (examEvent && !selectedExamEvent) {
-      dispatch(
-        setSelectedPublicExamEvent(
-          SerializationUtils.deserializePublicExamEvent(JSON.parse(examEvent))
-        )
-      );
-    }
-  }, [dispatch, selectedExamEvent]);
-
+export const PublicEnrollmentPage: FC = ({
+  step,
+}: {
+  step: PublicEnrollmentFormStep;
+}) => {
   return (
     <Box className="public-homepage">
       <Grid
@@ -31,7 +18,11 @@ export const PublicEnrollmentPage: FC = ({ step }: { step: string }) => {
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicEnrollmentGrid step={step} />
+        {step <= PublicEnrollmentFormStep.Preview ? (
+          <PublicEnrollmentGrid step={step} />
+        ) : (
+          <PublicEnrollmentDoneGrid step={step} />
+        )}
       </Grid>
     </Box>
   );

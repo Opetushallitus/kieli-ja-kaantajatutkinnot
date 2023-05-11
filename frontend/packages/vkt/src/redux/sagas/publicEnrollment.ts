@@ -17,6 +17,7 @@ import {
   cancelPublicEnrollmentAndRemoveReservation,
   increaseActiveStep,
   initialisePublicEnrollment,
+  loadPublicEnrollment,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
@@ -30,6 +31,28 @@ import {
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadPublicEnrollmentSaga(
+  action: PayloadAction<Record<string, number>>
+) {
+  try {
+    const eventId = action.payload.examEventId;
+    const reservationId = action.payload.reservationId;
+    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}/${reservationId}`;
+
+    const response: AxiosResponse<PublicReservationDetailsResponse> =
+      yield call(axiosInstance.get, loadUrl);
+
+    const reservationDetails =
+      SerializationUtils.deserializePublicReservationDetails(response.data);
+
+    yield put(storePublicEnrollmentInitialisation(reservationDetails));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicEnrollmentInitialisation());
+  }
+}
 
 function* initialisePublicEnrollmentSaga(
   action: PayloadAction<PublicExamEvent>
@@ -130,6 +153,7 @@ function* loadPublicEnrollmentSaveSaga(
 }
 
 export function* watchPublicEnrollments() {
+  yield takeLatest(loadPublicEnrollment, loadPublicEnrollmentSaga);
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
   yield takeLatest(
     renewPublicEnrollmentReservation,

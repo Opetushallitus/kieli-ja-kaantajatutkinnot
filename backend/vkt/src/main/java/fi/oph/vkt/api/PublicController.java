@@ -107,6 +107,17 @@ public class PublicController {
     publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/{reservationId:\\d+}")
+  public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
+    @PathVariable final long examEventId,
+    @PathVariable final long reservationId,
+    final HttpSession session
+  ) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+
+    return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, reservationId, person);
+  }
+
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
@@ -121,19 +132,29 @@ public class PublicController {
     publicReservationService.deleteReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/auth/login")
-  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+  @GetMapping(path = "/auth/login/{examEventId:\\d+}")
+  public void casLoginRedirect(final HttpServletResponse httpResponse, @PathVariable final long examEventId)
+    throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId);
     httpResponse.sendRedirect(casLoginUrl);
   }
 
-  @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
+  @GetMapping(path = "/auth/validate/{examEventId:\\d+}")
+  public void validateTicket(
+    @RequestParam final String ticket,
+    @PathVariable final long examEventId,
+    final HttpSession session,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId);
 
-    SessionUtil.setPersonId(session, personDTO.id());
+    SessionUtil.setPersonId(session, person.getId());
 
-    return personDTO;
+    PublicEnrollmentInitialisationDTO enrollmentDto = publicEnrollmentService.initialiseEnrollment(examEventId, person);
+
+    httpResponse.sendRedirect(
+      String.format("http://localhost:4002/vkt/ilmoittaudu/%s/%s/tiedot", examEventId, enrollmentDto.reservation().id())
+    );
   }
 
   @GetMapping(path = "/auth/info")

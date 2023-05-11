@@ -1,3 +1,4 @@
+import { Authenticate } from 'components/publicEnrollment/steps/Authenticate';
 import { Done } from 'components/publicEnrollment/steps/Done';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
 import { Preview } from 'components/publicEnrollment/steps/Preview';
@@ -19,6 +20,8 @@ export const PublicEnrollmentStepContents = ({
   showValidation: boolean;
 }) => {
   switch (activeStep) {
+    case PublicEnrollmentFormStep.Authenticate:
+      return <Authenticate isLoading={isLoading} />;
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
         <FillContactDetails

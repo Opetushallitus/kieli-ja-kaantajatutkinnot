@@ -70,6 +70,23 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .count();
   }
 
+  @Transactional(readOnly = true)
+  public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(
+    long examEventId,
+    long reservationId,
+    Person person
+  ) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+    final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+
+    if (reservation.getPerson().getId() != person.getId()) {
+      throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
+    }
+
+    final PublicReservationDTO reservationDTO = publicReservationService.createReservationDTO(reservation);
+    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO);
+  }
+
   private PublicEnrollmentInitialisationDTO createEnrollmentInitialisationDTO(
     final ExamEvent examEvent,
     final Person person,
