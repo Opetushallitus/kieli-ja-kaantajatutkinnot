@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.5] - 2023-05-11
+
+### Changed
+
+- Refactored Table components
+
 ## [1.9.4] - 2023-05-10
 
 ### Added
