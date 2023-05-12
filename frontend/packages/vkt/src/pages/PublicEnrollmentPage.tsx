@@ -1,10 +1,9 @@
 import { Box, Grid } from '@mui/material';
-import { FC } from 'react';
 
 import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
-export const PublicEnrollmentPage: FC = ({
+export const PublicEnrollmentPage = ({
   step,
 }: {
   step: PublicEnrollmentFormStep;

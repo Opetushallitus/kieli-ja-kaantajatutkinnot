@@ -5,20 +5,24 @@ import { Duration, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const Done = ({ step }: { step: PublicEnrollmentFormStep }) => {
+export const Done = ({
+  step,
+  enrollment,
+}: {
+  step: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.done',
   });
   const translateCommon = useCommonTranslation();
-
-  const { enrollment } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
   const { showToast } = useToast();

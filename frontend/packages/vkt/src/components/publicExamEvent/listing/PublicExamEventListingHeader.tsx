@@ -47,10 +47,11 @@ export const PublicExamEventListingHeader = () => {
                 variant={Variant.Contained}
                 disabled={enrollButtonDisabled}
                 onClick={() =>
+                  !enrollButtonDisabled &&
                   navigate(
                     AppRoutes.PublicAuth.replace(
                       ':examEventId',
-                      selectedExamEvent.id
+                      selectedExamEvent.id.toString()
                     )
                   )
                 }

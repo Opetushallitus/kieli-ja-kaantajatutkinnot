@@ -22,6 +22,7 @@ export interface PublicReservationDetails {
   person: PublicPerson;
   examEvent: PublicExamEvent;
   reservation?: PublicReservation; // undefined if enrolling to queue
+  enrollment?: PublicEnrollment;
 }
 
 export interface PublicReservationResponse

@@ -9,7 +9,7 @@ import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
@@ -23,7 +23,6 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({

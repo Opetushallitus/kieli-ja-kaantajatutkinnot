@@ -114,7 +114,7 @@ public class PaymentService {
   public String success(final Long paymentId, final Map<String, String> paymentParams) {
     final Payment payment = finalizePayment(paymentId, paymentParams);
     final ExamEvent examEvent = findExam(payment);
-    
+
     return String.format("http://localhost:4002/vkt/ilmoittaudu/%d/maksu/valmis", examEvent.getId());
   }
 

@@ -5,6 +5,7 @@ import { Preview } from 'components/publicEnrollment/steps/Preview';
 import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
 export const PublicEnrollmentStepContents = ({
   activeStep,
@@ -13,6 +14,7 @@ export const PublicEnrollmentStepContents = ({
   setIsStepValid,
   showValidation,
   isExpectedToHaveOpenings,
+  selectedExamEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -20,6 +22,7 @@ export const PublicEnrollmentStepContents = ({
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
   isExpectedToHaveOpenings: boolean;
+  selectedExamEvent: PublicExamEvent;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentFormStep.Authenticate:
@@ -27,6 +30,7 @@ export const PublicEnrollmentStepContents = ({
         <Authenticate
           isLoading={isLoading}
           isExpectedToHaveOpenings={isExpectedToHaveOpenings}
+          selectedExamEvent={selectedExamEvent}
         />
       );
     case PublicEnrollmentFormStep.FillContactDetails:

@@ -33,7 +33,7 @@ export const PublicEnrollmentGrid = ({
   const {
     status,
     cancelStatus,
-    activeStep,
+    enrollToQueue,
     enrollment,
     reservationDetails,
     reservationDetailsStatus,
@@ -75,10 +75,10 @@ export const PublicEnrollmentGrid = ({
   );
   */
   const isLoading = [status].includes(APIResponseStatus.InProgress);
-  const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
+  const isPreviewStepActive = step === PublicEnrollmentFormStep.Preview;
+  const isDoneStepActive = step === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
-  const isExpectedToHaveOpenings = selectedExamEvent?.openings > 0;
+  const isExpectedToHaveOpenings = !enrollToQueue;
 
   const renderDesktopView = () => (
     <>
@@ -102,6 +102,7 @@ export const PublicEnrollmentGrid = ({
                   showOpenings={hasReservation && !isDoneStepActive}
                 />
                 <PublicEnrollmentStepContents
+                  selectedExamEvent={selectedExamEvent}
                   activeStep={step}
                   enrollment={enrollment}
                   isLoading={isLoading}

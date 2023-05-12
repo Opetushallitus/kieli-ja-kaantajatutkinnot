@@ -33,7 +33,8 @@ export const PublicEnrollmentStepper = ({
 
   const getDescription = (stepNumber: number) => {
     const i =
-      !includePaymentStep && stepNumber >= PublicEnrollmentFormStep.Payment
+      !includePaymentStep &&
+      stepNumber >= PublicEnrollmentFormStep.PaymentSuccess
         ? stepNumber + 1
         : stepNumber;
 

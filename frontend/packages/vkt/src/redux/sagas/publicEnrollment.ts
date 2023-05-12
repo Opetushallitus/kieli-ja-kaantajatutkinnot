@@ -15,7 +15,6 @@ import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
-  increaseActiveStep,
   initialisePublicEnrollment,
   loadPublicEnrollment,
   loadPublicEnrollmentSave,
@@ -65,7 +64,6 @@ function* initialisePublicEnrollmentSaga(
       SerializationUtils.deserializePublicReservationDetails(response.data);
 
     yield put(storePublicEnrollmentInitialisation(reservationDetails));
-    yield put(increaseActiveStep());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

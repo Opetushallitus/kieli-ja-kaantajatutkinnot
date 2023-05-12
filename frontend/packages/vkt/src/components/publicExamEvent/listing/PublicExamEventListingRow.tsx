@@ -7,7 +7,10 @@ import {
 } from 'components/publicExamEvent/listing/row/PublicExamEventCells';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
-import { setPublicEnrollmentSelectedExam } from 'redux/reducers/publicEnrollment';
+import {
+  setPublicEnrollmentSelectedExam,
+  unsetPublicEnrollmentSelectedExam,
+} from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PublicExamEventListingRow = ({
@@ -22,10 +25,13 @@ export const PublicExamEventListingRow = ({
   const { selectedExamEvent } = useAppSelector(publicEnrollmentSelector);
 
   const isSelected = examEvent.id === selectedExamEvent?.id;
+  const enrollToQueue = examEvent.openings <= 0;
 
   const handleRowClick = () => {
     dispatch(
-      setPublicEnrollmentSelectedExam(isSelected ? undefined : examEvent)
+      isSelected
+        ? unsetPublicEnrollmentSelectedExam()
+        : setPublicEnrollmentSelectedExam([examEvent, enrollToQueue])
     );
   };
 

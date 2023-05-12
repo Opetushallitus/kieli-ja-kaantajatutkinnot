@@ -113,7 +113,7 @@ export const PublicExamEventGrid = () => {
                 navigate(
                   AppRoutes.PublicAuth.replace(
                     ':examEventId',
-                    selectedExamEvent.id
+                    selectedExamEvent.id.toString()
                   )
                 )
               }

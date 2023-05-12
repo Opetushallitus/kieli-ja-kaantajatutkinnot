@@ -46,6 +46,6 @@ export class RouteUtils {
   }
 
   static replaceParameters(route: string, examEventId: number) {
-    return route.replace(':examEventId', examEventId);
+    return route.replace(':examEventId', examEventId.toString());
   }
 }

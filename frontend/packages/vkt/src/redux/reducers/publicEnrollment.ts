@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
   PublicReservation,
@@ -14,7 +13,8 @@ interface PublicEnrollmentState {
   reservationDetails?: PublicReservationDetails;
   status: APIResponseStatus;
   cancelStatus: APIResponseStatus;
-  activeStep: PublicEnrollmentFormStep;
+  selectedExamEvent?: PublicExamEvent;
+  enrollToQueue?: boolean;
   enrollment: PublicEnrollment;
 }
 
@@ -24,8 +24,6 @@ const initialState: PublicEnrollmentState = {
   selectedExamEvent: undefined,
   status: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
-  reservationDetailsStatus: APIResponseStatus.NotStarted,
-  activeStep: PublicEnrollmentFormStep.Authenticate,
   enrollToQueue: undefined,
   enrollment: {
     email: '',
@@ -63,9 +61,15 @@ const publicEnrollmentSlice = createSlice({
     },
     setPublicEnrollmentSelectedExam(
       state,
-      action: PayloadAction<PublicExamEvent>
+      action: PayloadAction<[PublicExamEvent, boolean]>
     ) {
-      state.selectedExamEvent = action.payload;
+      const [examEvent, enrollToQueue] = action.payload;
+      state.selectedExamEvent = examEvent;
+      state.enrollToQueue = enrollToQueue;
+    },
+    unsetPublicEnrollmentSelectedExam(state) {
+      state.selectedExamEvent = initialState.selectedExamEvent;
+      state.enrollToQueue = initialState.enrollToQueue;
     },
     storePublicEnrollmentInitialisation(
       state,
@@ -104,17 +108,10 @@ const publicEnrollmentSlice = createSlice({
     storePublicEnrollmentCancellation(state) {
       state.cancelStatus = APIResponseStatus.Success;
     },
-    decreaseActiveStep(state) {
-      state.activeStep = --state.activeStep;
-    },
-    increaseActiveStep(state) {
-      state.activeStep = ++state.activeStep;
-    },
     resetPublicEnrollment(state) {
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
       state.reservationDetails = initialState.reservationDetails;
       state.status = initialState.status;
-      state.activeStep = initialState.activeStep;
       state.enrollment = initialState.enrollment;
       state.cancelStatus = initialState.cancelStatus;
       state.selectedExamEvent = initialState.selectedExamEvent;
@@ -140,7 +137,6 @@ const publicEnrollmentSlice = createSlice({
     storePublicEnrollmentSave(state, action: PayloadAction<PublicEnrollment>) {
       state.status = APIResponseStatus.Success;
       state.enrollment = { ...state.enrollment, ...action.payload };
-      console.log('store enrollment');
     },
   },
 });
@@ -151,12 +147,11 @@ export const {
   initialisePublicEnrollment,
   rejectPublicEnrollmentInitialisation,
   setPublicEnrollmentSelectedExam,
+  unsetPublicEnrollmentSelectedExam,
   storePublicEnrollmentInitialisation,
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   storePublicEnrollmentCancellation,
-  decreaseActiveStep,
-  increaseActiveStep,
   resetPublicEnrollment,
   updatePublicEnrollment,
   updatePublicEnrollmentReservation,
