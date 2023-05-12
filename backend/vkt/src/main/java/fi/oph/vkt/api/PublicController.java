@@ -1,10 +1,12 @@
 package fi.oph.vkt.api;
 
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.PaymentService;
@@ -85,7 +87,7 @@ public class PublicController {
 
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
-  public Long createEnrollment(
+  public PublicEnrollmentDTO createEnrollment(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
@@ -97,14 +99,14 @@ public class PublicController {
 
   @PostMapping(path = "/enrollment/queue")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEnrollmentToQueue(
+  public PublicEnrollmentDTO createEnrollmentToQueue(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
+    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
@@ -133,11 +135,10 @@ public class PublicController {
 
   @GetMapping(path = "/auth/login/{examEventId:\\d+}/{type:\\w+}")
   public void casLoginRedirect(
-          final HttpServletResponse httpResponse,
-          @PathVariable final long examEventId,
-          @PathVariable final String type
-  )
-    throws IOException {
+    final HttpServletResponse httpResponse,
+    @PathVariable final long examEventId,
+    @PathVariable final String type
+  ) throws IOException {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, type);
     httpResponse.sendRedirect(casLoginUrl);
   }
@@ -151,16 +152,15 @@ public class PublicController {
     final HttpServletResponse httpResponse
   ) throws IOException {
     final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, type);
-
     SessionUtil.setPersonId(session, person.getId());
 
-    PublicEnrollmentInitialisationDTO enrollmentDto = type.equals("queue")
-      ? publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person)
-      : publicEnrollmentService.initialiseEnrollment(examEventId, person);
+    if (type.equals("queue")) {
+      publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
+    } else {
+      publicEnrollmentService.initialiseEnrollment(examEventId, person);
+    }
 
-    httpResponse.sendRedirect(
-      String.format("http://localhost:4002/vkt/ilmoittaudu/%s/%s/tiedot", examEventId, enrollmentDto.reservation().id())
-    );
+    httpResponse.sendRedirect(String.format("http://localhost:4002/vkt/ilmoittaudu/%s/tiedot", examEventId));
   }
 
   @GetMapping(path = "/auth/info")
@@ -186,9 +186,9 @@ public class PublicController {
     @RequestParam final Map<String, String> paymentParams,
     final HttpServletResponse httpResponse
   ) throws IOException {
-    paymentService.cancel(paymentId, paymentParams);
+    final String cancelUrl = paymentService.cancel(paymentId, paymentParams);
 
-    httpResponse.sendRedirect("/vkt/etusivu");
+    httpResponse.sendRedirect(cancelUrl);
   }
 
   @GetMapping(path = "/payment/{paymentId:\\d+}/success")
@@ -197,8 +197,8 @@ public class PublicController {
     @RequestParam final Map<String, String> paymentParams,
     final HttpServletResponse httpResponse
   ) throws IOException {
-    paymentService.success(paymentId, paymentParams);
+    final String successUrl = paymentService.success(paymentId, paymentParams);
 
-    httpResponse.sendRedirect("/vkt/etusivu");
+    httpResponse.sendRedirect(successUrl);
   }
 }

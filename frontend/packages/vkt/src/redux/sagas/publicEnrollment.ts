@@ -25,16 +25,13 @@ import {
   renewPublicEnrollmentReservation,
   storePublicEnrollmentCancellation,
   storePublicEnrollmentInitialisation,
-  storePublicEnrollmentRedirect,
   storePublicEnrollmentSave,
   updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* loadPublicEnrollmentSaga(
-  action: PayloadAction<number>
-) {
+function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
   try {
     const eventId = action.payload;
     const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}`;
@@ -131,19 +128,16 @@ function* loadPublicEnrollmentSaveSaga(
       ...body
     } = enrollment;
 
-    if (reservationDetails.reservation) {
-      const saveUrl = `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`;
-      const response: AxiosResponse<number> = yield call(
-        axiosInstance.post,
-        saveUrl,
-        body
-      );
-      yield put(storePublicEnrollmentRedirect(response.data));
-    } else {
-      const saveUrl = `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
-      yield call(axiosInstance.post, saveUrl, body);
-      yield put(storePublicEnrollmentSave());
-    }
+    const saveUrl = reservationDetails.reservation
+      ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`
+      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
+
+    const response: AxiosResponse<PublicEnrollment> = yield call(
+      axiosInstance.post,
+      saveUrl,
+      body
+    );
+    yield put(storePublicEnrollmentSave(response.data));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));

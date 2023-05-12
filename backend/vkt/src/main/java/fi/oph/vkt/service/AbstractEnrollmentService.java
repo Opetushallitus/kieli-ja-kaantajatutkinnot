@@ -5,7 +5,6 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.EnrollmentRepository;
-
 import java.util.Optional;
 
 public abstract class AbstractEnrollmentService {
@@ -29,9 +28,9 @@ public abstract class AbstractEnrollmentService {
   }
 
   protected Optional<Enrollment> findEnrollment(
-          final ExamEvent examEvent,
-          final Person person,
-          final EnrollmentRepository enrollmentRepository
+    final ExamEvent examEvent,
+    final Person person,
+    final EnrollmentRepository enrollmentRepository
   ) {
     return enrollmentRepository.findByExamEventAndPerson(examEvent, person);
   }

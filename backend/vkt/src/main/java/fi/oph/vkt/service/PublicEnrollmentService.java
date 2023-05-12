@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,16 +73,37 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(readOnly = true)
-  public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(
-    long examEventId,
-    Person person
-  ) {
+  public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(long examEventId, Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final Optional<Reservation> reservationMaybe = reservationRepository.findByExamEventAndPerson(examEvent, person);
     final Optional<Enrollment> enrollmentMaybe = findEnrollment(examEvent, person, enrollmentRepository);
-    final PublicReservationDTO reservationDTO = reservationMaybe.map(publicReservationService::createReservationDTO).orElse(null);
+    final PublicReservationDTO reservationDTO = reservationMaybe
+      .map(publicReservationService::createReservationDTO)
+      .orElse(null);
 
     return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO, enrollmentMaybe);
+  }
+
+  private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {
+    return PublicEnrollmentDTO
+      .builder()
+      .id(enrollment.getId())
+      .oralSkill(enrollment.isOralSkill())
+      .textualSkill(enrollment.isTextualSkill())
+      .understandingSkill(enrollment.isUnderstandingSkill())
+      .speakingPartialExam(enrollment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+      .previousEnrollment(enrollment.getPreviousEnrollment())
+      .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
+      .email(enrollment.getEmail())
+      .phoneNumber(enrollment.getPhoneNumber())
+      .street(enrollment.getStreet())
+      .postalCode(enrollment.getPostalCode())
+      .town(enrollment.getTown())
+      .country(enrollment.getCountry())
+      .build();
   }
 
   private PublicEnrollmentInitialisationDTO createEnrollmentInitialisationDTO(
@@ -113,32 +133,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .build();
 
     if (enrollmentMaybe.isPresent()) {
-      final Enrollment enrollment = enrollmentMaybe.get();
-      final PublicEnrollmentDTO enrollmentDTO = PublicEnrollmentDTO.builder()
-              .oralSkill(enrollment.isOralSkill())
-              .textualSkill(enrollment.isTextualSkill())
-              .understandingSkill(enrollment.isUnderstandingSkill())
-              .speakingPartialExam(enrollment.isSpeakingPartialExam())
-              .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
-              .writingPartialExam(enrollment.isWritingPartialExam())
-              .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
-              .previousEnrollment(enrollment.getPreviousEnrollment())
-              .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
-              .email(enrollment.getEmail())
-              .phoneNumber(enrollment.getPhoneNumber())
-              .street(enrollment.getStreet())
-              .postalCode(enrollment.getPostalCode())
-              .town(enrollment.getTown())
-              .country(enrollment.getCountry())
-              .build();
+      final PublicEnrollmentDTO enrollmentDTO = createEnrollmentDTO(enrollmentMaybe.get());
 
       return PublicEnrollmentInitialisationDTO
-              .builder()
-              .examEvent(examEventDTO)
-              .person(personDTO)
-              .reservation(reservationDTO)
-              .enrollment(enrollmentDTO)
-              .build();
+        .builder()
+        .examEvent(examEventDTO)
+        .person(personDTO)
+        .reservation(reservationDTO)
+        .enrollment(enrollmentDTO)
+        .build();
     }
 
     return PublicEnrollmentInitialisationDTO
@@ -172,8 +175,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public Long createEnrollment(final PublicEnrollmentCreateDTO dto, final long reservationId, final Person person)
-    throws IOException, InterruptedException {
+  public PublicEnrollmentDTO createEnrollment(
+    final PublicEnrollmentCreateDTO dto,
+    final long reservationId,
+    final Person person
+  ) throws IOException, InterruptedException {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
     if (person.getId() != reservation.getPerson().getId()) {
@@ -196,7 +202,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     // TODO: Move to payment success
     // publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
 
-    return enrollment.getId();
+    return createEnrollmentDTO(enrollment);
   }
 
   private void clearAddress(final Enrollment enrollment) {
@@ -207,7 +213,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional
-  public void createEnrollmentToQueue(
+  public PublicEnrollmentDTO createEnrollmentToQueue(
     final PublicEnrollmentCreateDTO dto,
     final long examEventId,
     final long personId
@@ -228,5 +234,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     enrollmentRepository.saveAndFlush(enrollment);
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
+
+    return createEnrollmentDTO(enrollment);
   }
 }

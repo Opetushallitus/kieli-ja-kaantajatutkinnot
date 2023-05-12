@@ -2,16 +2,10 @@ import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export class RouteUtils {
-  static stepToRoute(
-    step: PublicEnrollmentFormStep,
-    examEventId: number,
-  ) {
+  static stepToRoute(step: PublicEnrollmentFormStep, examEventId: number) {
     switch (step) {
       case PublicEnrollmentFormStep.Authenticate:
-        return RouteUtils.replaceParameters(
-          AppRoutes.PublicAuth,
-          examEventId
-        );
+        return RouteUtils.replaceParameters(AppRoutes.PublicAuth, examEventId);
 
       case PublicEnrollmentFormStep.FillContactDetails:
         return RouteUtils.replaceParameters(
@@ -51,10 +45,7 @@ export class RouteUtils {
     }
   }
 
-  static replaceParameters(
-    route: string,
-    examEventId: number
-  ) {
-    return route.replace(':examEventId', examEventId)
+  static replaceParameters(route: string, examEventId: number) {
+    return route.replace(':examEventId', examEventId);
   }
 }

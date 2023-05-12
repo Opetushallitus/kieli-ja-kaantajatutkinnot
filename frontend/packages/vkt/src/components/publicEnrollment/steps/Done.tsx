@@ -7,6 +7,7 @@ import { useToast } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';

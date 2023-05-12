@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
@@ -83,7 +84,7 @@ public class PaymentService {
     return enrollment;
   }
 
-  private void finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
+  private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
@@ -105,16 +106,24 @@ public class PaymentService {
 
     enrollmentRepository.saveAndFlush(enrollment);
     paymentRepository.saveAndFlush(payment);
+
+    return payment;
   }
 
   @Transactional
-  public void success(final Long paymentId, final Map<String, String> paymentParams) {
-    finalizePayment(paymentId, paymentParams);
+  public String success(final Long paymentId, final Map<String, String> paymentParams) {
+    final Payment payment = finalizePayment(paymentId, paymentParams);
+    final ExamEvent examEvent = findExam(payment);
+    
+    return String.format("http://localhost:4002/vkt/ilmoittaudu/%d/maksu/valmis", examEvent.getId());
   }
 
   @Transactional
-  public void cancel(final Long paymentId, final Map<String, String> paymentParams) {
-    finalizePayment(paymentId, paymentParams);
+  public String cancel(final Long paymentId, final Map<String, String> paymentParams) {
+    final Payment payment = finalizePayment(paymentId, paymentParams);
+    final ExamEvent examEvent = findExam(payment);
+
+    return String.format("http://localhost:4002/vkt/ilmoittaudu/%d/maksu/peruutettu", examEvent.getId());
   }
 
   @Transactional
@@ -167,5 +176,11 @@ public class PaymentService {
     enrollmentRepository.saveAndFlush(enrollment);
 
     return paymentUrl;
+  }
+
+  private ExamEvent findExam(Payment payment) {
+    final Enrollment enrollment = payment.getEnrollment();
+
+    return enrollment.getExamEvent();
   }
 }

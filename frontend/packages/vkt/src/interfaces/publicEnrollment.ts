@@ -52,6 +52,7 @@ export interface PublicEnrollment
   extends PublicEnrollmentContactDetails,
     PartialExamsAndSkills,
     CertificateShippingData {
+  id?: number;
   previousEnrollment?: string;
   hasPreviousEnrollment?: boolean;
   privacyStatementConfirmation: boolean;

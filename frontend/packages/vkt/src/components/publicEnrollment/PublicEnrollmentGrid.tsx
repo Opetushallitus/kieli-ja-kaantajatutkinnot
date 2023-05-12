@@ -14,9 +14,11 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 //import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { loadPublicEnrollment } from 'redux/reducers/publicEnrollment';
+import {
+  loadPublicEnrollment,
+  resetPublicEnrollment,
+} from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicEnrollmentGrid = ({
   step,
@@ -35,11 +37,8 @@ export const PublicEnrollmentGrid = ({
     enrollment,
     reservationDetails,
     reservationDetailsStatus,
+    selectedExamEvent,
   } = useAppSelector(publicEnrollmentSelector);
-
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector) ?? {
-    selectedExamEvent: reservationDetails?.examEvent,
-  };
 
   const navigate = useNavigate();
 
@@ -50,11 +49,7 @@ export const PublicEnrollmentGrid = ({
       !selectedExamEvent &&
       params.examEventId
     ) {
-      dispatch(
-        loadPublicEnrollment({
-          examEventId: +params.examEventId
-        })
-      );
+      dispatch(loadPublicEnrollment(+params.examEventId));
     }
   }, [
     dispatch,
@@ -63,14 +58,14 @@ export const PublicEnrollmentGrid = ({
     reservationDetails,
     selectedExamEvent,
     params.examEventId,
-    params.reservationId,
   ]);
 
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicHomePage);
+      dispatch(resetPublicEnrollment());
     }
-  }, [cancelStatus, navigate]);
+  }, [cancelStatus, navigate, dispatch]);
 
   /*
   useNavigationProtection(
@@ -83,7 +78,7 @@ export const PublicEnrollmentGrid = ({
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
-  const isExpectedToHaveOpenings = selectedExamEvent.openings > 0;
+  const isExpectedToHaveOpenings = selectedExamEvent?.openings > 0;
 
   const renderDesktopView = () => (
     <>
@@ -119,6 +114,7 @@ export const PublicEnrollmentGrid = ({
                 )}
                 {!isDoneStepActive && reservationDetails && (
                   <PublicEnrollmentControlButtons
+                    status={status}
                     activeStep={step}
                     enrollment={enrollment}
                     reservationDetails={reservationDetails}

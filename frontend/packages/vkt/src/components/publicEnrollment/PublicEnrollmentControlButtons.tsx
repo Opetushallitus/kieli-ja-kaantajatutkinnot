@@ -2,13 +2,15 @@ import {
   ArrowBackOutlined as ArrowBackIcon,
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -17,12 +19,11 @@ import {
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
-  decreaseActiveStep,
-  increaseActiveStep,
   loadPublicEnrollmentSave,
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
@@ -32,6 +33,7 @@ export const PublicEnrollmentControlButtons = ({
   isLoading,
   isStepValid,
   setShowValidation,
+  status,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -39,6 +41,7 @@ export const PublicEnrollmentControlButtons = ({
   isLoading: boolean;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
+  status: APIResponseStatus;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -83,10 +86,31 @@ export const PublicEnrollmentControlButtons = ({
     }
   };
 
+  useEffect(() => {
+    if (status === APIResponseStatus.Success) {
+      if (reservationDetails.reservation) {
+        window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+      } else {
+        navigate(
+          RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId),
+          {
+            replace: true,
+          }
+        );
+      }
+    }
+  }, [
+    status,
+    navigate,
+    dispatch,
+    examEventId,
+    enrollment.id,
+    reservationDetails.reservation,
+  ]);
+
   const handleBackBtnClick = () => {
-    dispatch(decreaseActiveStep());
     const nextStep: PublicEnrollmentFormStep = activeStep - 1;
-    navigate(RouteUtils.stepToRoute(nextStep, examEventId, reservationId), {
+    navigate(RouteUtils.stepToRoute(nextStep, examEventId), {
       replace: true,
     });
   };
@@ -94,9 +118,8 @@ export const PublicEnrollmentControlButtons = ({
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      dispatch(increaseActiveStep());
       const nextStep: PublicEnrollmentFormStep = activeStep + 1;
-      navigate(RouteUtils.stepToRoute(nextStep, examEventId, reservationId), {
+      navigate(RouteUtils.stepToRoute(nextStep, examEventId), {
         replace: true,
       });
     } else {

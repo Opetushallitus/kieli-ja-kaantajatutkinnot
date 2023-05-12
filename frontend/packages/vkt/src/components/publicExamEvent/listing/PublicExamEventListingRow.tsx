@@ -7,8 +7,8 @@ import {
 } from 'components/publicExamEvent/listing/row/PublicExamEventCells';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
-import { setOrToggleSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
+import { setPublicEnrollmentSelectedExam } from 'redux/reducers/publicEnrollment';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PublicExamEventListingRow = ({
   examEvent,
@@ -19,12 +19,14 @@ export const PublicExamEventListingRow = ({
 
   // Redux
   const dispatch = useAppDispatch();
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
+  const { selectedExamEvent } = useAppSelector(publicEnrollmentSelector);
 
   const isSelected = examEvent.id === selectedExamEvent?.id;
 
   const handleRowClick = () => {
-    dispatch(setOrToggleSelectedPublicExamEvent(examEvent));
+    dispatch(
+      setPublicEnrollmentSelectedExam(isSelected ? undefined : examEvent)
+    );
   };
 
   return (

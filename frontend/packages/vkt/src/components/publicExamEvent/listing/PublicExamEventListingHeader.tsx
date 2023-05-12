@@ -8,7 +8,6 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventListingHeader = () => {
   const { t } = usePublicTranslation({
@@ -17,8 +16,9 @@ export const PublicExamEventListingHeader = () => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
-  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
+  const { selectedExamEvent, reservationDetailsStatus } = useAppSelector(
+    publicEnrollmentSelector
+  );
 
   const isInitialisationInProgress =
     reservationDetailsStatus === APIResponseStatus.InProgress;
