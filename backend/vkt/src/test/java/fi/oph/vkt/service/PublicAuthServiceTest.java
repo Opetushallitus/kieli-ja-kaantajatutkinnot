@@ -40,7 +40,8 @@ public class PublicAuthServiceTest {
     final Environment environment = mock(Environment.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
-    when(environment.getRequiredProperty("app.cas-oppija.service-url")).thenReturn("https://qwerty/login");
+    when(environment.getRequiredProperty("app.cas-oppija.service-url"))
+      .thenReturn("https://foo/vkt/api/v1/auth/validate/%s/%s");
 
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
@@ -80,6 +81,9 @@ public class PublicAuthServiceTest {
   @Test
   public void testCreateCasLoginUrl() {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION);
-    assertEquals("https://foo.bar?service=https%3A%2F%2Fqwerty%2Flogin", casLoginUrl);
+    assertEquals(
+      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation",
+      casLoginUrl
+    );
   }
 }

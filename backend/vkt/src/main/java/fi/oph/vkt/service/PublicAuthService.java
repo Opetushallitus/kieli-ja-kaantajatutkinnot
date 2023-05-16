@@ -1,6 +1,5 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
@@ -51,6 +50,12 @@ public class PublicAuthService {
     person.setDateOfBirth(dateOfBirth);
 
     return personRepository.saveAndFlush(person);
+  }
+
+  public String getEnrollmentContactDetailsURL(long examEventId) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/ilmoittaudu/%s/tiedot", baseUrl, examEventId);
   }
 
   @Transactional

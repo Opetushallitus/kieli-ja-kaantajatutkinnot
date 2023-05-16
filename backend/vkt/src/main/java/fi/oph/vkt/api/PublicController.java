@@ -160,7 +160,7 @@ public class PublicController {
       publicEnrollmentService.initialiseEnrollment(examEventId, person);
     }
 
-    httpResponse.sendRedirect(String.format("http://localhost:4002/vkt/ilmoittaudu/%s/tiedot", examEventId));
+    httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsURL(examEventId));
   }
 
   @GetMapping(path = "/auth/info")
