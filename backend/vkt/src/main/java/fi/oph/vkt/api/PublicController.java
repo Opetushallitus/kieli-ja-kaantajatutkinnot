@@ -136,9 +136,15 @@ public class PublicController {
   public void casLoginRedirect(
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
-    @PathVariable final String type
+    @PathVariable final String type,
+    final HttpSession session
   ) throws IOException {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, EnrollmentType.fromString(type));
+
+    if (session != null) {
+      session.invalidate();
+    }
+
     httpResponse.sendRedirect(casLoginUrl);
   }
 

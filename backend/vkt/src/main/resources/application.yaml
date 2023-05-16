@@ -4,6 +4,11 @@ server:
     enabled: true
   servlet:
     context-path: "/vkt"
+    session:
+      cookie:
+        http-only: true
+        secure: true
+      timeout: 60m
 spring:
   datasource:
     url: ${postgresql.url:jdbc:postgresql://localhost:6432/vkt-postgres}
