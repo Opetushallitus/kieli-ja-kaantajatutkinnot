@@ -1,7 +1,7 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, H2, Text } from 'shared/components';
-import { Duration, Severity } from 'shared/enums';
+import { Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -28,24 +28,18 @@ export const Done = ({
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const resetAndRedirect = useCallback(() => {
+  const resetAndRedirect = () => {
     dispatch(resetPublicExamEventSelections());
     dispatch(resetPublicEnrollment());
     navigate(AppRoutes.PublicHomePage);
-  }, [dispatch, navigate]);
+  };
 
   useEffect(() => {
     showToast({
       severity: Severity.Success,
       description: t('successToast'),
     });
-
-    const timer = setTimeout(() => {
-      resetAndRedirect();
-    }, Duration.MediumExtra);
-
-    return () => clearTimeout(timer);
-  }, [t, showToast, resetAndRedirect]);
+  }, [t, showToast]);
 
   return (
     <div className="margin-top-xxl rows gapped">
