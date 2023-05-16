@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import java.net.URLEncoder;
@@ -24,7 +25,7 @@ public class PublicAuthService {
 
   private final Environment environment;
 
-  public String createCasLoginUrl(long examEventId, String type) {
+  public String createCasLoginUrl(long examEventId, EnrollmentType type) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
       String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
@@ -53,7 +54,7 @@ public class PublicAuthService {
   }
 
   @Transactional
-  public Person createPersonFromTicket(final String ticket, long examEventId, String type) {
+  public Person createPersonFromTicket(final String ticket, long examEventId, EnrollmentType type) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
     final String identityNumber = personDetails.get("identityNumber");

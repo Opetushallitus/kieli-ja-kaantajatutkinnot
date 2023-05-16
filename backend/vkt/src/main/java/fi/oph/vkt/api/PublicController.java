@@ -5,9 +5,8 @@ import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
-import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
@@ -139,7 +138,7 @@ public class PublicController {
     @PathVariable final long examEventId,
     @PathVariable final String type
   ) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, type);
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, EnrollmentType.fromString(type));
     httpResponse.sendRedirect(casLoginUrl);
   }
 
@@ -151,10 +150,11 @@ public class PublicController {
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
-    final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, type);
+    final EnrollmentType enrollmentType = EnrollmentType.fromString(type);
+    final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, enrollmentType);
     SessionUtil.setPersonId(session, person.getId());
 
-    if (type.equals("queue")) {
+    if (enrollmentType.equals(EnrollmentType.QUEUE)) {
       publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
     } else {
       publicEnrollmentService.initialiseEnrollment(examEventId, person);

@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
@@ -48,14 +49,14 @@ public class PublicAuthServiceTest {
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä")
     );
-    when(casTicketValidationService.validate(anyString(), anyLong(), eq("reservation"))).thenReturn(personDetails);
+    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION))).thenReturn(personDetails);
 
     publicAuthService = new PublicAuthService(personRepository, casTicketValidationService, environment);
   }
 
   @Test
   public void testCreatePersonFromTicket() {
-    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, "reservation");
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
     assertEquals("010280-952L", person.getIdentityNumber());
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
@@ -65,9 +66,9 @@ public class PublicAuthServiceTest {
 
   @Test
   public void testCreatePersonFromTicketForExistingPerson() {
-    publicAuthService.createPersonFromTicket("ticket-123", 1L, "reservation");
+    publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
 
-    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, "reservation");
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
     assertEquals("010280-952L", person.getIdentityNumber());
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
@@ -77,7 +78,7 @@ public class PublicAuthServiceTest {
 
   @Test
   public void testCreateCasLoginUrl() {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, "reservation");
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION);
     assertEquals("https://foo.bar?service=https%3A%2F%2Fqwerty%2Flogin", casLoginUrl);
   }
 }

@@ -5,6 +5,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class CasTicketValidator implements TicketValidator {
   private final WebClient webClient;
 
   @Override
-  public Map<String, String> validateTicket(final String ticket, long examEventId, String type) {
+  public Map<String, String> validateTicket(final String ticket, long examEventId, EnrollmentType type) {
     try {
       final String response = webClient
         .get()
@@ -77,7 +78,9 @@ public class CasTicketValidator implements TicketValidator {
         "CAS returned error status {}\n response body: {}\n request url: {}\n",
         e.getStatusCode().value(),
         e.getResponseBodyAsString(),
-        e.getRequest().getURI()
+        e.getRequest() != null
+                ? e.getRequest().getURI()
+                : ""
       );
       throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
     }
