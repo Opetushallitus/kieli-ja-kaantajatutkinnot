@@ -47,6 +47,7 @@ public class PaytrailService implements PaymentProvider {
   }
 
   private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int total) {
+    final String stamp = paymentId.toString() + "-" + paytrailConfig.getRandomNonce();
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()
       .success(paytrailConfig.getSuccessUrl(paymentId))
@@ -56,7 +57,7 @@ public class PaytrailService implements PaymentProvider {
     return Body
       .builder()
       .items(itemList)
-      .stamp(paymentId.toString())
+      .stamp(stamp)
       .reference(paymentId.toString())
       .amount(total)
       .currency(PaytrailConfig.CURRENCY)

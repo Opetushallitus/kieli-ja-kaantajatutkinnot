@@ -78,7 +78,7 @@ public class PaytrailServiceTest {
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("f481c1142d55bd50127cf445b116d646312e28a6964aa01ce9e50532e3b7cd37", request.getHeader("signature"));
+    assertEquals("151ca3e8755b49b908e4fccdfe4a0f14cf6098e22eb32c2b8866144783055555", request.getHeader("signature"));
     assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
