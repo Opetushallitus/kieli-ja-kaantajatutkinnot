@@ -49,7 +49,8 @@ public class PublicAuthServiceTest {
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä")
     );
-    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION))).thenReturn(personDetails);
+    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails);
 
     publicAuthService = new PublicAuthService(personRepository, casTicketValidationService, environment);
   }

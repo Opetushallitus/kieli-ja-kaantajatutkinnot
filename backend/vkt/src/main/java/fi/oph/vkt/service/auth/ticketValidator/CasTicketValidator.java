@@ -78,9 +78,7 @@ public class CasTicketValidator implements TicketValidator {
         "CAS returned error status {}\n response body: {}\n request url: {}\n",
         e.getStatusCode().value(),
         e.getResponseBodyAsString(),
-        e.getRequest() != null
-                ? e.getRequest().getURI()
-                : ""
+        e.getRequest() != null ? e.getRequest().getURI() : ""
       );
       throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
     }
