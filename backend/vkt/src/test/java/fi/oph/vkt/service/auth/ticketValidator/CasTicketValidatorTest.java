@@ -122,7 +122,7 @@ public class CasTicketValidatorTest {
     final TicketValidator casTicketValidator = new CasTicketValidator(environment, webClient);
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(casTicketValidator);
 
-    return casTicketValidationService.validate(ticket);
+    return casTicketValidationService.validate(ticket, 1, "reservation");
   }
 
   private String getMockFailResponse() throws IOException {

@@ -330,9 +330,9 @@ public class PublicEnrollmentServiceTest {
     assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT, dto);
 
     assertEquals(0, reservationRepository.count());
-
-    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    // TODO: move to payment success
+    // verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
+    // verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
   @Test
@@ -349,9 +349,9 @@ public class PublicEnrollmentServiceTest {
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
     assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT, dto);
-
-    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    // TODO: move to payment success
+    // verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
+    // verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
   private PublicEnrollmentCreateDTO.PublicEnrollmentCreateDTOBuilder createDTOBuilder() {
