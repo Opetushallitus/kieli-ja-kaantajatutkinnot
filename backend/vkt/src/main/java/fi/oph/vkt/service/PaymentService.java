@@ -21,6 +21,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,7 @@ public class PaymentService {
   private final PaytrailService paytrailService;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
+  private final Environment environment;
 
   private Item getItem() {
     return Item
@@ -112,18 +114,20 @@ public class PaymentService {
 
   @Transactional
   public String success(final Long paymentId, final Map<String, String> paymentParams) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
     final ExamEvent examEvent = findExam(payment);
 
-    return String.format("http://localhost:4002/vkt/ilmoittaudu/%d/maksu/valmis", examEvent.getId());
+    return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
   }
 
   @Transactional
   public String cancel(final Long paymentId, final Map<String, String> paymentParams) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
     final ExamEvent examEvent = findExam(payment);
 
-    return String.format("http://localhost:4002/vkt/ilmoittaudu/%d/maksu/peruutettu", examEvent.getId());
+    return String.format("%s/ilmoittaudu/%d/maksu/peruutettu", baseUrl, examEvent.getId());
   }
 
   @Transactional

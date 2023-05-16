@@ -29,9 +29,12 @@ import fi.oph.vkt.util.exception.NotFoundException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.core.env.Environment;
+import org.springframework.data.util.Pair;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -46,6 +49,15 @@ public class PaymentServiceTest {
 
   @Resource
   private TestEntityManager entityManager;
+
+  Environment environment;
+
+  @BeforeEach
+  public void setup() {
+    environment = mock(Environment.class);
+
+    when(environment.getRequiredProperty("app.base-url.public")).thenReturn("https://foo.bar");
+  }
 
   @Test
   public void testCreatePayment() {
@@ -62,7 +74,12 @@ public class PaymentServiceTest {
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
 
     assertEquals(url, redirectUrl);
@@ -85,7 +102,12 @@ public class PaymentServiceTest {
     enrollment.setTextualSkill(true);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
 
     assertEquals(url, redirectUrl);
@@ -100,7 +122,12 @@ public class PaymentServiceTest {
     final PaytrailService paytrailService = mock(PaytrailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
 
     final APIException ex = assertThrows(APIException.class, () -> paymentService.create(enrollment.getId(), person2));
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
@@ -109,38 +136,64 @@ public class PaymentServiceTest {
 
   @Test
   public void testPaymentSuccessOk() {
-    final Payment payment = createPayment();
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     final PaytrailService paytrailService = mock(PaytrailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
-    paymentService.success(payment.getPaymentId(), paymentParams);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
+    assertEquals(
+      String.format("https://foo.bar/ilmoittaudu/%d/maksu/valmis", enrollment.getExamEvent().getId()),
+      paymentService.success(payment.getPaymentId(), paymentParams)
+    );
   }
 
   @Test
   public void testPaymentSuccessCancel() {
-    final Payment payment = createPayment();
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
     final PaytrailService paytrailService = mock(PaytrailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
-    paymentService.success(payment.getPaymentId(), paymentParams);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
+    assertEquals(
+      String.format("https://foo.bar/ilmoittaudu/%d/maksu/peruutettu", enrollment.getExamEvent().getId()),
+      paymentService.cancel(payment.getPaymentId(), paymentParams)
+    );
   }
 
   @Test
   public void testPaymentAlreadyPaid() {
-    final Payment payment = createPayment();
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
     payment.setPaymentStatus(PaymentStatus.OK);
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     final PaytrailService paytrailService = mock(PaytrailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
 
     final APIException ex = assertThrows(
       APIException.class,
@@ -153,7 +206,12 @@ public class PaymentServiceTest {
   public void testPaymentNotFound() {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     final PaytrailService paytrailService = mock(PaytrailService.class);
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
 
     final NotFoundException ex = assertThrows(
       NotFoundException.class,
@@ -166,13 +224,18 @@ public class PaymentServiceTest {
   public void testEnrollmentNotFound() {
     final Person person = new Person();
     final PaytrailService paytrailService = mock(PaytrailService.class);
-    final PaymentService paymentService = new PaymentService(paytrailService, paymentRepository, enrollmentRepository);
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment
+    );
 
     final NotFoundException ex = assertThrows(NotFoundException.class, () -> paymentService.create(-1L, person));
     assertEquals("Enrollment not found", ex.getMessage());
   }
 
-  private Payment createPayment() {
+  private Pair<Payment, Enrollment> createPayment() {
     final Payment payment = new Payment();
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
@@ -182,7 +245,7 @@ public class PaymentServiceTest {
 
     entityManager.persist(payment);
 
-    return payment;
+    return Pair.of(payment, enrollment);
   }
 
   private Person createPerson() {
