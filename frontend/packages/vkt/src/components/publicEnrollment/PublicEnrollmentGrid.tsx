@@ -76,7 +76,7 @@ export const PublicEnrollmentGrid = ({
   */
   const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = step === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = step === PublicEnrollmentFormStep.Done;
+  const isDoneStepActive = step >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
 

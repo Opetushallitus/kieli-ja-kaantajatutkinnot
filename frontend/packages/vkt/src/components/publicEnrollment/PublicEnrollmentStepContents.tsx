@@ -1,5 +1,6 @@
 import { Authenticate } from 'components/publicEnrollment/steps/Authenticate';
 import { Done } from 'components/publicEnrollment/steps/Done';
+import { Fail } from 'components/publicEnrollment/steps/Fail';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
 import { Preview } from 'components/publicEnrollment/steps/Preview';
 import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
@@ -60,6 +61,7 @@ export const PublicEnrollmentStepContents = ({
         />
       );
     case PublicEnrollmentFormStep.PaymentFail:
+      return <Fail examEvent={selectedExamEvent} />;
     case PublicEnrollmentFormStep.PaymentSuccess:
     case PublicEnrollmentFormStep.Done:
       return <Done step={activeStep} enrollment={enrollment} />;

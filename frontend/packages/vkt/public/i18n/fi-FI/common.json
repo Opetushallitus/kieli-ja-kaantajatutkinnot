@@ -104,6 +104,12 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
+        "selectExam": "Ilmoittautuminen - valitse tutkinto",
+        "done": "Ilmoittautuminen - valmis",
+        "preview": "Ilmoittautuminen - esikatsele",
+        "success": "Ilmoittautuminen - maksu valmis",
+        "fail": "Ilmoittautuminen - maksua ei suoritettu",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",

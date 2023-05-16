@@ -14,7 +14,7 @@ public class PaytrailConfig {
 
   public static final String HMAC_ALGORITHM = "sha256";
   public static final String CURRENCY = "EUR";
-  public static final int VAT = 0; // TODO: Varmista oikea ALV
+  public static final int VAT = 0;
 
   private final String secret;
   private final String account;

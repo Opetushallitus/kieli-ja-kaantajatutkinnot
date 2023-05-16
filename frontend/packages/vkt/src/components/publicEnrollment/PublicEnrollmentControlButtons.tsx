@@ -91,10 +91,7 @@ export const PublicEnrollmentControlButtons = ({
         window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
       } else {
         navigate(
-          RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId),
-          {
-            replace: true,
-          }
+          RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId)
         );
       }
     }
@@ -109,18 +106,14 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleBackBtnClick = () => {
     const nextStep: PublicEnrollmentFormStep = activeStep - 1;
-    navigate(RouteUtils.stepToRoute(nextStep, examEventId), {
-      replace: true,
-    });
+    navigate(RouteUtils.stepToRoute(nextStep, examEventId));
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
       const nextStep: PublicEnrollmentFormStep = activeStep + 1;
-      navigate(RouteUtils.stepToRoute(nextStep, examEventId), {
-        replace: true,
-      });
+      navigate(RouteUtils.stepToRoute(nextStep, examEventId));
     } else {
       setShowValidation(true);
     }

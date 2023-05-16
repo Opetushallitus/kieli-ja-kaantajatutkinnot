@@ -31,6 +31,8 @@ export const PublicEnrollmentStepper = ({
     }
   };
 
+  const isError = activeStep === PublicEnrollmentFormStep.PaymentFail;
+
   const getDescription = (stepNumber: number) => {
     const i =
       !includePaymentStep &&
@@ -55,8 +57,9 @@ export const PublicEnrollmentStepper = ({
       activeStep={activeStep - 1}
     >
       {stepNumbers.map((i) => (
-        <Step key={i}>
+        <Step key={i} completed={!(i == doneStepNumber && isError)}>
           <StepLabel
+            error={i == doneStepNumber && isError}
             aria-label={getStepAriaLabel(i)}
             className={
               activeStep < i

@@ -55,7 +55,7 @@ export const AppRouter: FC = () => {
                 <Route
                   path={AppRoutes.PublicEnrollmentContactDetails}
                   element={
-                    <TitlePage title={createTitle('enrollment')}>
+                    <TitlePage title={createTitle('contactDetails')}>
                       <PublicEnrollmentPage
                         step={PublicEnrollmentFormStep.FillContactDetails}
                       />
@@ -65,7 +65,7 @@ export const AppRouter: FC = () => {
                 <Route
                   path={AppRoutes.PublicEnrollmentSelectExam}
                   element={
-                    <TitlePage title={createTitle('enrollment')}>
+                    <TitlePage title={createTitle('selectExam')}>
                       <PublicEnrollmentPage
                         step={PublicEnrollmentFormStep.SelectExam}
                       />
@@ -73,19 +73,9 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentDone}
-                  element={
-                    <TitlePage title={createTitle('enrollment')}>
-                      <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.Done}
-                      />
-                    </TitlePage>
-                  }
-                />
-                <Route
                   path={AppRoutes.PublicEnrollmentPreview}
                   element={
-                    <TitlePage title={createTitle('enrollment')}>
+                    <TitlePage title={createTitle('preview')}>
                       <PublicEnrollmentPage
                         step={PublicEnrollmentFormStep.Preview}
                       />
@@ -93,11 +83,31 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
+                  path={AppRoutes.PublicEnrollmentDone}
+                  element={
+                    <TitlePage title={createTitle('done')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.Done}
+                      />
+                    </TitlePage>
+                  }
+                />
+                <Route
                   path={AppRoutes.PublicEnrollmentSuccess}
                   element={
-                    <TitlePage title={createTitle('enrollment')}>
+                    <TitlePage title={createTitle('success')}>
                       <PublicEnrollmentPage
                         step={PublicEnrollmentFormStep.PaymentSuccess}
+                      />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.PublicEnrollmentFail}
+                  element={
+                    <TitlePage title={createTitle('fail')}>
+                      <PublicEnrollmentPage
+                        step={PublicEnrollmentFormStep.PaymentFail}
                       />
                     </TitlePage>
                   }

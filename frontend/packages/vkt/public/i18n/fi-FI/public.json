@@ -82,6 +82,12 @@
               "reservation": "Maksu on suoritettu."
             }
           },
+          "fail": {
+            "description": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista.",
+            "successToast": "Ilmoittautuminen epäonnistui!",
+            "title": "Maksua ei suoritettu.",
+            "tryAgain": "Yritä uudelleen"
+          },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
