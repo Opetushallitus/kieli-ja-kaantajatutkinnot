@@ -18,6 +18,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,6 +28,9 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class PaytrailService implements PaymentProvider {
+
+  @Value("${spring.profiles.active:}")
+  private String activeProfile;
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
@@ -53,9 +57,15 @@ public class PaytrailService implements PaymentProvider {
       .success(paytrailConfig.getSuccessUrl(paymentId))
       .cancel(paytrailConfig.getCancelUrl(paymentId))
       .build();
-
-    return Body
+    final RedirectUrls callbackUrls = RedirectUrls
       .builder()
+      .success(paytrailConfig.getSuccessUrl(paymentId))
+      .cancel(paytrailConfig.getCancelUrl(paymentId))
+      .build();
+
+    final Body.BodyBuilder bodyBuilder = Body.builder();
+
+    bodyBuilder
       .items(itemList)
       .stamp(stamp)
       .reference(paymentId.toString())
@@ -63,8 +73,14 @@ public class PaytrailService implements PaymentProvider {
       .currency(PaytrailConfig.CURRENCY)
       .language("FI") // TODO: käyttäjän kielestä?
       .customer(customer)
-      .redirectUrls(redirectUrls)
-      .build();
+      .redirectUrls(redirectUrls);
+
+    // localhost callback url's are not allowed
+    if (activeProfile == null || !activeProfile.equals("dev")) {
+      bodyBuilder.callbackUrls(callbackUrls);
+    }
+
+    return bodyBuilder.build();
   }
 
   public PaytrailResponseDTO createPayment(

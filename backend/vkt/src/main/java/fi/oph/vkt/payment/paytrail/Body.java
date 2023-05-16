@@ -1,5 +1,6 @@
 package fi.oph.vkt.payment.paytrail;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,5 +16,6 @@ public record Body(
   @NonNull @NotNull String language,
   @NonNull @NotNull List<Item> items,
   @NonNull @NotNull RedirectUrls redirectUrls,
+  @JsonInclude(JsonInclude.Include.NON_NULL) RedirectUrls callbackUrls,
   @NonNull @NotNull Customer customer
 ) {}
