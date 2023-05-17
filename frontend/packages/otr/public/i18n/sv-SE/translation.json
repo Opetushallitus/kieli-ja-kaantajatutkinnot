@@ -235,19 +235,16 @@
       },
       "publicInterpreterListing": {
         "header": {
+          "contactInformation": "Kontaktuppgifter",
           "name": "Namn",
           "languagePairs": "Språkpar",
           "region": "Verksamhetsområde"
         },
         "row": {
-          "additionalContactDetail": {
-            "email": "E-post",
-            "otherContactInfo": "Annan kontaktinformation",
-            "phoneNumber": "Telefonnummer"
-          },
-          "ariaLabel": "Öppna tilläggsuppgifterna"
-        },
-        "searchResultsInfo": "Klicka på raden för att se kontaktuppgifter"
+          "emailAriaLabel": "E-post",
+          "otherContactAriaLabel": "Annan kontaktinformation",
+          "phoneAriaLabel": "Telefonnummer"
+        }
       },
       "table": {
         "pagination": {
