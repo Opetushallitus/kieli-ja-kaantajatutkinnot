@@ -1,10 +1,10 @@
 package fi.oph.vkt.view;
 
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
+import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +23,13 @@ public class ExamEventXlsxView extends AbstractXlsxView {
 
   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  private final ClerkExamEventDTO examEvent;
 
-  public ExamEventXlsxView(final ClerkExamEventDTO examEvent) {
+  private final ExamEvent examEvent;
+  private final List<Enrollment> enrollments;
+
+  public ExamEventXlsxView(final ExamEvent examEvent, final List<Enrollment> enrollments) {
     this.examEvent = examEvent;
+    this.enrollments = enrollments;
   }
 
   @Override
@@ -38,7 +41,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
   ) {
     setFilenameHeader(
       response,
-      String.format("VKT_tilaisuus_%s_%s.xlsx", DATE_FORMAT.format(examEvent.date()), examEvent.language().name())
+      String.format("VKT_tilaisuus_%s_%s.xlsx", DATE_FORMAT.format(examEvent.getDate()), examEvent.getLanguage().name())
     );
 
     writeExcel(workbook);
@@ -56,6 +59,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       "Sukunimi",
       "Etunimi",
       "Henkilötunnus",
+      "Syntymäaika",
       "Aiempi tutkintopäivä",
       "Tila",
       "KT", // Kirjallinen taito
@@ -77,52 +81,43 @@ public class ExamEventXlsxView extends AbstractXlsxView {
 
     createExcelHeader((XSSFWorkbook) workbook, sheet, headers);
 
-    final List<ClerkEnrollmentDTO> enrollments = examEvent
-      .enrollments()
-      .stream()
-      .sorted(enrollmentComparator())
-      .toList();
-
     for (int i = 0; i < enrollments.size(); i++) {
       final Row row = sheet.createRow(i + 1);
-      final ClerkEnrollmentDTO enrollment = enrollments.get(i);
+      final Enrollment enrollment = enrollments.get(i);
+      final Person person = enrollment.getPerson();
+
       int ci = 0;
-      row.createCell(ci).setCellValue(DATE_FORMAT.format(examEvent.date()));
-      row.createCell(++ci).setCellValue(examEvent.language().name());
-      row.createCell(++ci).setCellValue(DATETIME_FORMAT.format(enrollment.enrollmentTime()));
-      row.createCell(++ci).setCellValue(enrollment.person().lastName());
-      row.createCell(++ci).setCellValue(enrollment.person().firstName());
-      row.createCell(++ci).setCellValue(enrollment.person().identityNumber());
-      setNullableValue(row.createCell(++ci), enrollment.previousEnrollment());
+      row.createCell(ci).setCellValue(DATE_FORMAT.format(examEvent.getDate()));
+      row.createCell(++ci).setCellValue(examEvent.getLanguage().name());
+      row.createCell(++ci).setCellValue(DATETIME_FORMAT.format(enrollment.getCreatedAt()));
+      row.createCell(++ci).setCellValue(person.getLastName());
+      row.createCell(++ci).setCellValue(person.getFirstName());
+      setNullableValue(row.createCell(++ci), person.getIdentityNumber());
+      setNullableValue(row.createCell(++ci), DATE_FORMAT.format(person.getDateOfBirth()));
+      setNullableValue(row.createCell(++ci), enrollment.getPreviousEnrollment());
 
-      row.createCell(++ci).setCellValue(statusToText(enrollment.status()));
+      row.createCell(++ci).setCellValue(statusToText(enrollment.getStatus()));
 
-      formatBoolean(row.createCell(++ci), enrollment.textualSkill());
-      formatBoolean(row.createCell(++ci), enrollment.oralSkill());
-      formatBoolean(row.createCell(++ci), enrollment.understandingSkill());
+      formatBoolean(row.createCell(++ci), enrollment.isTextualSkill());
+      formatBoolean(row.createCell(++ci), enrollment.isOralSkill());
+      formatBoolean(row.createCell(++ci), enrollment.isUnderstandingSkill());
 
-      formatBoolean(row.createCell(++ci), enrollment.writingPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.readingComprehensionPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.speakingPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.speechComprehensionPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.isWritingPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.isReadingComprehensionPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.isSpeakingPartialExam());
+      formatBoolean(row.createCell(++ci), enrollment.isSpeechComprehensionPartialExam());
 
-      row.createCell(++ci).setCellValue(enrollment.email());
-      row.createCell(++ci).setCellValue(enrollment.phoneNumber());
+      row.createCell(++ci).setCellValue(enrollment.getEmail());
+      row.createCell(++ci).setCellValue(enrollment.getPhoneNumber());
 
-      formatBoolean(row.createCell(++ci), enrollment.digitalCertificateConsent());
-      row.createCell(++ci).setCellValue(enrollment.street());
-      row.createCell(++ci).setCellValue(enrollment.postalCode());
-      row.createCell(++ci).setCellValue(enrollment.town());
-      row.createCell(++ci).setCellValue(enrollment.country());
+      formatBoolean(row.createCell(++ci), enrollment.isDigitalCertificateConsent());
+      row.createCell(++ci).setCellValue(enrollment.getStreet());
+      row.createCell(++ci).setCellValue(enrollment.getPostalCode());
+      row.createCell(++ci).setCellValue(enrollment.getTown());
+      row.createCell(++ci).setCellValue(enrollment.getCountry());
     }
 
     autoresizeExcelColumns(sheet, headers);
-  }
-
-  private static Comparator<ClerkEnrollmentDTO> enrollmentComparator() {
-    final Comparator<ClerkEnrollmentDTO> byStatus = Comparator.comparing(ClerkEnrollmentDTO::status);
-    final Comparator<ClerkEnrollmentDTO> byEnrollmentTime = Comparator.comparing(ClerkEnrollmentDTO::enrollmentTime);
-    return byStatus.thenComparing(byEnrollmentTime);
   }
 
   private static void setNullableValue(final Cell cell, final String string) {

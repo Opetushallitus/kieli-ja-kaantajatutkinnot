@@ -16,12 +16,14 @@ import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
+import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @Service
 @RequiredArgsConstructor
@@ -134,5 +136,27 @@ public class ClerkExamEventService {
     examEvent.setRegistrationCloses(dto.registrationCloses());
     examEvent.setHidden(dto.isHidden());
     examEvent.setMaxParticipants(dto.maxParticipants());
+  }
+
+  @Transactional
+  public AbstractXlsxView getExamEventExcel(final long examEventId) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    final List<Enrollment> enrollments = examEvent
+      .getEnrollments()
+      .stream()
+      .sorted(excelEnrollmentComparator())
+      .toList();
+
+    final AbstractXlsxView excel = new ExamEventXlsxView(examEvent, enrollments);
+
+    auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
+    return excel;
+  }
+
+  private static Comparator<Enrollment> excelEnrollmentComparator() {
+    final Comparator<Enrollment> byStatus = Comparator.comparing(Enrollment::getStatus);
+    final Comparator<Enrollment> byCreatedAt = Comparator.comparing(Enrollment::getCreatedAt);
+    return byStatus.thenComparing(byCreatedAt);
   }
 }

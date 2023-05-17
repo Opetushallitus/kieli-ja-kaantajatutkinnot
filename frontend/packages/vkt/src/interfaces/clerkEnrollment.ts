@@ -8,7 +8,6 @@ import {
 import { WithId, WithVersion } from 'interfaces/with';
 
 interface Person extends WithId, WithVersion {
-  identityNumber: string;
   lastName: string;
   firstName: string;
 }
