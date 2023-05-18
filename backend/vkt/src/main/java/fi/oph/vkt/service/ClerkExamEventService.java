@@ -140,7 +140,7 @@ public class ClerkExamEventService {
     examEvent.setMaxParticipants(dto.maxParticipants());
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   public AbstractXlsxView getExamEventExcel(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent
