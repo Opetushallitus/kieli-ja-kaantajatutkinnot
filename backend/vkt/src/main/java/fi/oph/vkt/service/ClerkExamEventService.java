@@ -11,11 +11,14 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
+import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
+import fi.oph.vkt.view.ExamEventXlsxData;
+import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
 import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 @RequiredArgsConstructor
 public class ClerkExamEventService {
 
+  private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
 
@@ -142,13 +146,17 @@ public class ClerkExamEventService {
   public AbstractXlsxView getExamEventExcel(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    final List<Enrollment> enrollments = examEvent
-      .getEnrollments()
+    // Enrollments are fetched from repository method to avoid LazyInitialisationException when enrollments
+    // are needed for fetching persons under `ExamEventXlsxDataRowUtil.createExcelData`.
+    // https://www.baeldung.com/hibernate-initialize-proxy-exception
+    final List<Enrollment> enrollments = enrollmentRepository
+      .findByExamEvent(examEvent)
       .stream()
       .sorted(excelEnrollmentComparator())
       .toList();
 
-    final AbstractXlsxView excel = new ExamEventXlsxView(examEvent, enrollments);
+    final ExamEventXlsxData excelData = ExamEventXlsxDataRowUtil.createExcelData(examEvent, enrollments);
+    final AbstractXlsxView excel = new ExamEventXlsxView(excelData);
 
     auditService.logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEventId);
     return excel;

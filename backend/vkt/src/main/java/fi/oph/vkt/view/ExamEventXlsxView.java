@@ -1,10 +1,5 @@
 package fi.oph.vkt.view;
 
-import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.type.EnrollmentStatus;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +16,10 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 public class ExamEventXlsxView extends AbstractXlsxView {
 
-  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-  private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  private final ExamEventXlsxData data;
 
-  private final ExamEvent examEvent;
-  private final List<Enrollment> enrollments;
-
-  public ExamEventXlsxView(final ExamEvent examEvent, final List<Enrollment> enrollments) {
-    this.examEvent = examEvent;
-    this.enrollments = enrollments;
+  public ExamEventXlsxView(final ExamEventXlsxData data) {
+    this.data = data;
   }
 
   @Override
@@ -39,11 +29,7 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     final @NonNull HttpServletRequest request,
     final @NonNull HttpServletResponse response
   ) {
-    setFilenameHeader(
-      response,
-      String.format("VKT_tilaisuus_%s_%s.xlsx", DATE_FORMAT.format(examEvent.getDate()), examEvent.getLanguage().name())
-    );
-
+    setFilenameHeader(response, String.format("VKT_tilaisuus_%s_%s.xlsx", data.date(), data.language()));
     writeExcel(workbook);
   }
 
@@ -81,41 +67,34 @@ public class ExamEventXlsxView extends AbstractXlsxView {
 
     createExcelHeader((XSSFWorkbook) workbook, sheet, headers);
 
-    for (int i = 0; i < enrollments.size(); i++) {
+    for (int i = 0; i < data.rows().size(); i++) {
       final Row row = sheet.createRow(i + 1);
-      final Enrollment enrollment = enrollments.get(i);
-      final Person person = enrollment.getPerson();
-
-      final String date = DATE_FORMAT.format(examEvent.getDate());
-      final String language = examEvent.getLanguage().name();
-      final String enrollmentTime = DATETIME_FORMAT.format(enrollment.getCreatedAt());
-      final String dateOfBirth = person.getDateOfBirth() != null ? DATE_FORMAT.format(person.getDateOfBirth()) : null;
-      final String status = statusToText(enrollment.getStatus());
+      final ExamEventXlsxDataRow dataRow = data.rows().get(i);
 
       int ci = 0;
-      row.createCell(ci).setCellValue(date);
-      row.createCell(++ci).setCellValue(language);
-      row.createCell(++ci).setCellValue(enrollmentTime);
-      row.createCell(++ci).setCellValue(person.getLastName());
-      row.createCell(++ci).setCellValue(person.getFirstName());
-      setNullableValue(row.createCell(++ci), person.getIdentityNumber());
-      setNullableValue(row.createCell(++ci), dateOfBirth);
-      setNullableValue(row.createCell(++ci), enrollment.getPreviousEnrollment());
-      row.createCell(++ci).setCellValue(status);
-      formatBoolean(row.createCell(++ci), enrollment.isTextualSkill());
-      formatBoolean(row.createCell(++ci), enrollment.isOralSkill());
-      formatBoolean(row.createCell(++ci), enrollment.isUnderstandingSkill());
-      formatBoolean(row.createCell(++ci), enrollment.isWritingPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.isReadingComprehensionPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.isSpeakingPartialExam());
-      formatBoolean(row.createCell(++ci), enrollment.isSpeechComprehensionPartialExam());
-      row.createCell(++ci).setCellValue(enrollment.getEmail());
-      row.createCell(++ci).setCellValue(enrollment.getPhoneNumber());
-      formatBoolean(row.createCell(++ci), enrollment.isDigitalCertificateConsent());
-      row.createCell(++ci).setCellValue(enrollment.getStreet());
-      row.createCell(++ci).setCellValue(enrollment.getPostalCode());
-      row.createCell(++ci).setCellValue(enrollment.getTown());
-      row.createCell(++ci).setCellValue(enrollment.getCountry());
+      row.createCell(ci).setCellValue(data.date());
+      row.createCell(++ci).setCellValue(data.language());
+      row.createCell(++ci).setCellValue(dataRow.enrollmentTime());
+      row.createCell(++ci).setCellValue(dataRow.lastName());
+      row.createCell(++ci).setCellValue(dataRow.firstName());
+      setNullableValue(row.createCell(++ci), dataRow.identityNumber());
+      setNullableValue(row.createCell(++ci), dataRow.dateOfBirth());
+      setNullableValue(row.createCell(++ci), dataRow.previousEnrollment());
+      row.createCell(++ci).setCellValue(dataRow.status());
+      row.createCell(++ci).setCellValue(dataRow.textualSkill());
+      row.createCell(++ci).setCellValue(dataRow.oralSkill());
+      row.createCell(++ci).setCellValue(dataRow.understandingSkill());
+      row.createCell(++ci).setCellValue(dataRow.writing());
+      row.createCell(++ci).setCellValue(dataRow.readingComprehension());
+      row.createCell(++ci).setCellValue(dataRow.speaking());
+      row.createCell(++ci).setCellValue(dataRow.speechComprehension());
+      row.createCell(++ci).setCellValue(dataRow.email());
+      row.createCell(++ci).setCellValue(dataRow.phoneNumber());
+      row.createCell(++ci).setCellValue(dataRow.digitalCertificateConsent());
+      row.createCell(++ci).setCellValue(dataRow.street());
+      row.createCell(++ci).setCellValue(dataRow.postalCode());
+      row.createCell(++ci).setCellValue(dataRow.town());
+      row.createCell(++ci).setCellValue(dataRow.country());
     }
 
     autoresizeExcelColumns(sheet, headers);
@@ -127,23 +106,6 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     } else {
       cell.setBlank();
     }
-  }
-
-  private static void formatBoolean(final Cell cell, final boolean b) {
-    if (b) {
-      cell.setCellValue(1);
-    } else {
-      cell.setBlank();
-    }
-  }
-
-  private static String statusToText(final EnrollmentStatus status) {
-    return switch (status) {
-      case PAID -> "Maksettu";
-      case EXPECTING_PAYMENT -> "Odottaa maksua";
-      case QUEUED -> "Jonossa";
-      case CANCELED -> "Peruttu";
-    };
   }
 
   private static void createExcelHeader(final XSSFWorkbook workbook, final Sheet sheet, final List<String> headers) {
