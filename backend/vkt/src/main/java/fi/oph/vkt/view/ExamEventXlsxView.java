@@ -86,30 +86,31 @@ public class ExamEventXlsxView extends AbstractXlsxView {
       final Enrollment enrollment = enrollments.get(i);
       final Person person = enrollment.getPerson();
 
+      final String date = DATE_FORMAT.format(examEvent.getDate());
+      final String language = examEvent.getLanguage().name();
+      final String enrollmentTime = DATETIME_FORMAT.format(enrollment.getCreatedAt());
+      final String dateOfBirth = person.getDateOfBirth() != null ? DATE_FORMAT.format(person.getDateOfBirth()) : null;
+      final String status = statusToText(enrollment.getStatus());
+
       int ci = 0;
-      row.createCell(ci).setCellValue(DATE_FORMAT.format(examEvent.getDate()));
-      row.createCell(++ci).setCellValue(examEvent.getLanguage().name());
-      row.createCell(++ci).setCellValue(DATETIME_FORMAT.format(enrollment.getCreatedAt()));
+      row.createCell(ci).setCellValue(date);
+      row.createCell(++ci).setCellValue(language);
+      row.createCell(++ci).setCellValue(enrollmentTime);
       row.createCell(++ci).setCellValue(person.getLastName());
       row.createCell(++ci).setCellValue(person.getFirstName());
       setNullableValue(row.createCell(++ci), person.getIdentityNumber());
-      setNullableValue(row.createCell(++ci), DATE_FORMAT.format(person.getDateOfBirth()));
+      setNullableValue(row.createCell(++ci), dateOfBirth);
       setNullableValue(row.createCell(++ci), enrollment.getPreviousEnrollment());
-
-      row.createCell(++ci).setCellValue(statusToText(enrollment.getStatus()));
-
+      row.createCell(++ci).setCellValue(status);
       formatBoolean(row.createCell(++ci), enrollment.isTextualSkill());
       formatBoolean(row.createCell(++ci), enrollment.isOralSkill());
       formatBoolean(row.createCell(++ci), enrollment.isUnderstandingSkill());
-
       formatBoolean(row.createCell(++ci), enrollment.isWritingPartialExam());
       formatBoolean(row.createCell(++ci), enrollment.isReadingComprehensionPartialExam());
       formatBoolean(row.createCell(++ci), enrollment.isSpeakingPartialExam());
       formatBoolean(row.createCell(++ci), enrollment.isSpeechComprehensionPartialExam());
-
       row.createCell(++ci).setCellValue(enrollment.getEmail());
       row.createCell(++ci).setCellValue(enrollment.getPhoneNumber());
-
       formatBoolean(row.createCell(++ci), enrollment.isDigitalCertificateConsent());
       row.createCell(++ci).setCellValue(enrollment.getStreet());
       row.createCell(++ci).setCellValue(enrollment.getPostalCode());
