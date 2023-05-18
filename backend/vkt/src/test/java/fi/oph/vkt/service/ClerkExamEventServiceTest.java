@@ -23,7 +23,6 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
-import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -44,9 +43,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 public class ClerkExamEventServiceTest {
 
   @Resource
-  private EnrollmentRepository enrollmentRepository;
-
-  @Resource
   private ExamEventRepository examEventRepository;
 
   @MockBean
@@ -59,7 +55,7 @@ public class ClerkExamEventServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkExamEventService = new ClerkExamEventService(enrollmentRepository, examEventRepository, auditService);
+    clerkExamEventService = new ClerkExamEventService(examEventRepository, auditService);
   }
 
   @Test

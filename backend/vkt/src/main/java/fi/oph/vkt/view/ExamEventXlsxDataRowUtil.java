@@ -13,9 +13,10 @@ public class ExamEventXlsxDataRowUtil {
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   public static ExamEventXlsxData createExcelData(final ExamEvent examEvent, final List<Enrollment> enrollments) {
-    final List<ExamEventXlsxDataRow> excelDataRows = enrollments.stream().map(enrollment ->
-      createDataRow(enrollment, enrollment.getPerson())
-    ).toList();
+    final List<ExamEventXlsxDataRow> excelDataRows = enrollments
+      .stream()
+      .map(enrollment -> createDataRow(enrollment, enrollment.getPerson()))
+      .toList();
 
     return ExamEventXlsxData
       .builder()

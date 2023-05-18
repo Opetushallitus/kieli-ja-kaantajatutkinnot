@@ -11,7 +11,6 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
-import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -32,7 +31,6 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 @RequiredArgsConstructor
 public class ClerkExamEventService {
 
-  private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
 
@@ -145,12 +143,8 @@ public class ClerkExamEventService {
   @Transactional
   public AbstractXlsxView getExamEventExcel(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-
-    // Enrollments are fetched from repository method to avoid LazyInitialisationException when enrollments
-    // are needed for fetching persons under `ExamEventXlsxDataRowUtil.createExcelData`.
-    // https://www.baeldung.com/hibernate-initialize-proxy-exception
-    final List<Enrollment> enrollments = enrollmentRepository
-      .findByExamEvent(examEvent)
+    final List<Enrollment> enrollments = examEvent
+      .getEnrollments()
       .stream()
       .sorted(excelEnrollmentComparator())
       .toList();
