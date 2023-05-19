@@ -21,9 +21,9 @@ import {
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const PublicEnrollmentGrid = ({
-  step,
+  activeStep,
 }: {
-  step: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentFormStep;
 }) => {
   const dispatch = useAppDispatch();
   const [isStepValid, setIsStepValid] = useState(false);
@@ -32,6 +32,7 @@ export const PublicEnrollmentGrid = ({
 
   const {
     status,
+    enrollmentSubmitStatus,
     cancelStatus,
     enrollToQueue,
     enrollment,
@@ -75,8 +76,8 @@ export const PublicEnrollmentGrid = ({
   );
   */
   const isLoading = [status].includes(APIResponseStatus.InProgress);
-  const isPreviewStepActive = step === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = step >= PublicEnrollmentFormStep.Done;
+  const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
+  const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
 
@@ -88,7 +89,7 @@ export const PublicEnrollmentGrid = ({
             {selectedExamEvent && (
               <div className="public-enrollment__grid__form-container">
                 <PublicEnrollmentStepper
-                  activeStep={step}
+                  activeStep={activeStep}
                   includePaymentStep={hasReservation}
                 />
                 {reservationDetails?.reservation && !isDoneStepActive && (
@@ -103,7 +104,7 @@ export const PublicEnrollmentGrid = ({
                 />
                 <PublicEnrollmentStepContents
                   selectedExamEvent={selectedExamEvent}
-                  activeStep={step}
+                  activeStep={activeStep}
                   enrollment={enrollment}
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
@@ -115,8 +116,8 @@ export const PublicEnrollmentGrid = ({
                 )}
                 {!isDoneStepActive && reservationDetails && (
                   <PublicEnrollmentControlButtons
-                    status={status}
-                    activeStep={step}
+                    submitStatus={enrollmentSubmitStatus}
+                    activeStep={activeStep}
                     enrollment={enrollment}
                     reservationDetails={reservationDetails}
                     isLoading={isLoading}

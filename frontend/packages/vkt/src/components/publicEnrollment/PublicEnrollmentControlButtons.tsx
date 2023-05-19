@@ -32,7 +32,7 @@ export const PublicEnrollmentControlButtons = ({
   isLoading,
   isStepValid,
   setShowValidation,
-  status,
+  submitStatus,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -40,7 +40,7 @@ export const PublicEnrollmentControlButtons = ({
   isLoading: boolean;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
-  status: APIResponseStatus;
+  submitStatus: APIResponseStatus;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -86,7 +86,7 @@ export const PublicEnrollmentControlButtons = ({
   };
 
   useEffect(() => {
-    if (status === APIResponseStatus.Success) {
+    if (submitStatus === APIResponseStatus.Success) {
       if (reservationDetails.reservation) {
         window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
       } else {
@@ -96,7 +96,7 @@ export const PublicEnrollmentControlButtons = ({
       }
     }
   }, [
-    status,
+    submitStatus,
     navigate,
     dispatch,
     examEventId,

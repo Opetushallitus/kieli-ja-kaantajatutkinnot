@@ -4,9 +4,9 @@ import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollme
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentPage = ({
-  step,
+  activeStep,
 }: {
-  step: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentFormStep;
 }) => {
   return (
     <Box className="public-homepage">
@@ -16,7 +16,7 @@ export const PublicEnrollmentPage = ({
         direction="column"
         className="public-homepage__grid-container"
       >
-        <PublicEnrollmentGrid step={step} />
+        <PublicEnrollmentGrid activeStep={activeStep} />
       </Grid>
     </Box>
   );

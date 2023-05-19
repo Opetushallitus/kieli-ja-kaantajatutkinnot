@@ -13,10 +13,10 @@ import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 
 export const Done = ({
-  step,
+  activeStep,
   enrollment,
 }: {
-  step: PublicEnrollmentFormStep;
+  activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
 }) => {
   const { t } = usePublicTranslation({
@@ -44,7 +44,7 @@ export const Done = ({
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>
-        {step == PublicEnrollmentFormStep.Done
+        {activeStep == PublicEnrollmentFormStep.Done
           ? t('title.queue')
           : t('title.reservation')}
       </H2>

@@ -12,6 +12,7 @@ interface PublicEnrollmentState {
   reservationDetailsStatus: APIResponseStatus;
   reservationDetails?: PublicReservationDetails;
   status: APIResponseStatus;
+  enrollmentSubmitStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   selectedExamEvent?: PublicExamEvent;
   enrollToQueue?: boolean;
@@ -20,11 +21,9 @@ interface PublicEnrollmentState {
 
 const initialState: PublicEnrollmentState = {
   reservationDetailsStatus: APIResponseStatus.NotStarted,
-  reservationDetails: undefined,
-  selectedExamEvent: undefined,
   status: APIResponseStatus.NotStarted,
+  enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
-  enrollToQueue: undefined,
   enrollment: {
     email: '',
     emailConfirmation: '',
@@ -112,6 +111,7 @@ const publicEnrollmentSlice = createSlice({
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
       state.reservationDetails = initialState.reservationDetails;
       state.status = initialState.status;
+      state.enrollmentSubmitStatus = initialState.enrollmentSubmitStatus;
       state.enrollment = initialState.enrollment;
       state.cancelStatus = initialState.cancelStatus;
       state.selectedExamEvent = initialState.selectedExamEvent;
@@ -129,13 +129,13 @@ const publicEnrollmentSlice = createSlice({
         reservationDetails: PublicReservationDetails;
       }>
     ) {
-      state.status = APIResponseStatus.InProgress;
+      state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
     rejectPublicEnrollmentSave(state) {
-      state.status = APIResponseStatus.Error;
+      state.enrollmentSubmitStatus = APIResponseStatus.Error;
     },
     storePublicEnrollmentSave(state, action: PayloadAction<PublicEnrollment>) {
-      state.status = APIResponseStatus.Success;
+      state.enrollmentSubmitStatus = APIResponseStatus.Success;
       state.enrollment = { ...state.enrollment, ...action.payload };
     },
   },

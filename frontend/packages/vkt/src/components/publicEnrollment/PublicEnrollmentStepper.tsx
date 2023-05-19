@@ -57,9 +57,9 @@ export const PublicEnrollmentStepper = ({
       activeStep={activeStep - 1}
     >
       {stepNumbers.map((i) => (
-        <Step key={i} completed={!(i == doneStepNumber && isError)}>
+        <Step key={i} completed={!(i === doneStepNumber && isError)}>
           <StepLabel
-            error={i == doneStepNumber && isError}
+            error={i === doneStepNumber && isError}
             aria-label={getStepAriaLabel(i)}
             className={
               activeStep < i

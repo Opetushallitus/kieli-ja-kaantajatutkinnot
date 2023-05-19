@@ -47,7 +47,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('authenticate')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.Authenticate}
+                        activeStep={PublicEnrollmentFormStep.Authenticate}
                       />
                     </TitlePage>
                   }
@@ -57,7 +57,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('contactDetails')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.FillContactDetails}
+                        activeStep={PublicEnrollmentFormStep.FillContactDetails}
                       />
                     </TitlePage>
                   }
@@ -67,7 +67,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('selectExam')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.SelectExam}
+                        activeStep={PublicEnrollmentFormStep.SelectExam}
                       />
                     </TitlePage>
                   }
@@ -77,7 +77,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('preview')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.Preview}
+                        activeStep={PublicEnrollmentFormStep.Preview}
                       />
                     </TitlePage>
                   }
@@ -87,7 +87,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('done')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.Done}
+                        activeStep={PublicEnrollmentFormStep.Done}
                       />
                     </TitlePage>
                   }
@@ -97,7 +97,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('success')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.PaymentSuccess}
+                        activeStep={PublicEnrollmentFormStep.PaymentSuccess}
                       />
                     </TitlePage>
                   }
@@ -107,7 +107,7 @@ export const AppRouter: FC = () => {
                   element={
                     <TitlePage title={createTitle('fail')}>
                       <PublicEnrollmentPage
-                        step={PublicEnrollmentFormStep.PaymentFail}
+                        activeStep={PublicEnrollmentFormStep.PaymentFail}
                       />
                     </TitlePage>
                   }
