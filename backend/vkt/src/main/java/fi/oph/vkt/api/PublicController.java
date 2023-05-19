@@ -191,7 +191,7 @@ public class PublicController {
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
     final HttpServletResponse httpResponse
-  ) throws IOException {
+  ) throws IOException, InterruptedException {
     final String cancelUrl = paymentService.cancel(paymentId, paymentParams);
 
     httpResponse.sendRedirect(cancelUrl);

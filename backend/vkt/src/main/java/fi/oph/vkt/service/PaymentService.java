@@ -89,20 +89,27 @@ public class PaymentService {
     return enrollment;
   }
 
-  private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams) {
+  private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
+    throws IOException, InterruptedException {
     final Payment payment = paymentRepository
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
     final PaymentStatus currentStatus = payment.getPaymentStatus();
+    final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
 
     if (!paytrailService.validate(paymentParams)) {
       LOG.error("Payment ({}) validation failed for params {}", paymentId, paymentParams);
       throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
     }
 
-    if (currentStatus != null && currentStatus.equals(PaymentStatus.OK)) {
-      LOG.error("Cannot change payment status from OK to {} for payment {}", currentStatus, paymentId);
+    if (currentStatus == PaymentStatus.OK && paymentStatus != PaymentStatus.OK) {
+      LOG.error("Cannot change payment status from OK to {} for payment {}", paymentStatus, paymentId);
       throw new APIException(APIExceptionType.PAYMENT_ALREADY_PAID);
+    }
+
+    // Already paid. Payment url may be called multiple times
+    if (currentStatus == PaymentStatus.OK) {
+      return payment;
     }
 
     final int amount = Integer.parseInt(paymentParams.get("checkout-amount"));
@@ -111,12 +118,16 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
-    final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
     final Enrollment enrollment = updateEnrollmentStatus(payment, paymentStatus);
     payment.setPaymentStatus(paymentStatus);
 
     enrollmentRepository.saveAndFlush(enrollment);
     paymentRepository.saveAndFlush(payment);
+
+    final Person person = payment.getPerson();
+    if (paymentStatus == PaymentStatus.OK) {
+      publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+    }
 
     return payment;
   }
@@ -126,17 +137,14 @@ public class PaymentService {
     throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
-    final Enrollment enrollment = payment.getEnrollment();
-    final Person person = payment.getPerson();
     final ExamEvent examEvent = findExam(payment);
-
-    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
 
     return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
   }
 
   @Transactional
-  public String cancel(final Long paymentId, final Map<String, String> paymentParams) {
+  public String cancel(final Long paymentId, final Map<String, String> paymentParams)
+    throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
     final ExamEvent examEvent = findExam(payment);

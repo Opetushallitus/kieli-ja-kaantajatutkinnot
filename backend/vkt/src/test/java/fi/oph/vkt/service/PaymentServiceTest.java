@@ -192,7 +192,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentSuccessCancel() {
+  public void testPaymentSuccessCancel() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -222,6 +222,7 @@ public class PaymentServiceTest {
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
+    paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     final PaytrailService paytrailService = mock(PaytrailService.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(false);
@@ -246,7 +247,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentAlreadyPaid() throws IOException, InterruptedException {
+  public void testPaymentAlreadyPaidTryCancel() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -272,6 +273,30 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
+    verify(publicEnrollmentEmailService, times(0))
+      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+  }
+
+  @Test
+  public void testPaymentAlreadyPaidTryOK() throws IOException, InterruptedException {
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    payment.setPaymentStatus(PaymentStatus.OK);
+    final Map<String, String> paymentParams = new LinkedHashMap<>();
+    paymentParams.put("checkout-status", PaymentStatus.OK.toString());
+    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(paytrailService.validate(anyMap())).thenReturn(true);
+
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    paymentService.success(payment.getPaymentId(), paymentParams);
     verify(publicEnrollmentEmailService, times(0))
       .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
   }
