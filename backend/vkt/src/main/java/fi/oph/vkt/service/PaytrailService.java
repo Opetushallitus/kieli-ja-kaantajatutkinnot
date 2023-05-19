@@ -59,8 +59,8 @@ public class PaytrailService implements PaymentProvider {
       .build();
     final RedirectUrls callbackUrls = RedirectUrls
       .builder()
-      .success(paytrailConfig.getSuccessUrl(paymentId))
-      .cancel(paytrailConfig.getCancelUrl(paymentId))
+      .success(paytrailConfig.getSuccessUrl(paymentId) + "?callback=true")
+      .cancel(paytrailConfig.getCancelUrl(paymentId) + "?callback=true")
       .build();
 
     final Body.BodyBuilder bodyBuilder = Body.builder();

@@ -18,6 +18,7 @@ import fi.oph.vkt.util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -190,21 +191,31 @@ public class PublicController {
   public void paymentCancel(
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
+    @RequestParam final Optional<Boolean> callback,
     final HttpServletResponse httpResponse
   ) throws IOException, InterruptedException {
     final String cancelUrl = paymentService.cancel(paymentId, paymentParams);
 
-    httpResponse.sendRedirect(cancelUrl);
+    if (callback.isPresent() && callback.get()) {
+      httpResponse.setStatus(HttpStatus.OK.value());
+    } else {
+      httpResponse.sendRedirect(cancelUrl);
+    }
   }
 
   @GetMapping(path = "/payment/{paymentId:\\d+}/success")
   public void paymentSuccess(
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
+    @RequestParam final Optional<Boolean> callback,
     final HttpServletResponse httpResponse
   ) throws IOException, InterruptedException {
     final String successUrl = paymentService.success(paymentId, paymentParams);
 
-    httpResponse.sendRedirect(successUrl);
+    if (callback.isPresent() && callback.get()) {
+      httpResponse.setStatus(HttpStatus.OK.value());
+    } else {
+      httpResponse.sendRedirect(successUrl);
+    }
   }
 }
