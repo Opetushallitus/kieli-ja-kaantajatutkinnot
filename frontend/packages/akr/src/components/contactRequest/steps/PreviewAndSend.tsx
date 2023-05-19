@@ -69,7 +69,9 @@ export const PreviewAndSend = ({
         <DisplayContactInfo />
         <div className="rows gapped-xs">
           <H2>{t('yourMessage')}</H2>
-          <Text>{request?.message}</Text>
+          <Text className="contact-request-page__grid__preview-and-send__message">
+            {request?.message}
+          </Text>
         </div>
         <div className="rows gapped-xs">
           <H2>{translateCommon('acceptTerms')}</H2>
