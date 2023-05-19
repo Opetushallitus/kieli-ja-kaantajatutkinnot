@@ -90,7 +90,7 @@ public class PublicController {
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
-  ) throws IOException, InterruptedException {
+  ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
@@ -175,7 +175,7 @@ public class PublicController {
   }
 
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
-  public void createAndRedirect(
+  public void createPaymentAndRedirect(
     @PathVariable Long enrollmentId,
     final HttpSession session,
     final HttpServletResponse httpResponse
@@ -202,7 +202,7 @@ public class PublicController {
     @PathVariable final Long paymentId,
     @RequestParam final Map<String, String> paymentParams,
     final HttpServletResponse httpResponse
-  ) throws IOException {
+  ) throws IOException, InterruptedException {
     final String successUrl = paymentService.success(paymentId, paymentParams);
 
     httpResponse.sendRedirect(successUrl);

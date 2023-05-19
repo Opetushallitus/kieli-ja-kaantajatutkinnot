@@ -18,7 +18,6 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -179,7 +178,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicEnrollmentCreateDTO dto,
     final long reservationId,
     final Person person
-  ) throws IOException, InterruptedException {
+  ) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
 
     if (person.getId() != reservation.getPerson().getId()) {
@@ -198,9 +197,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     enrollmentRepository.saveAndFlush(enrollment);
     reservationRepository.deleteById(reservationId);
-
-    // TODO: Move to payment success
-    // publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
 
     return createEnrollmentDTO(enrollment);
   }

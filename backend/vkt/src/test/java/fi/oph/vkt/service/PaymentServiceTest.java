@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -17,16 +18,20 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.paytrail.Customer;
+import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +76,7 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
@@ -78,12 +84,30 @@ public class PaymentServiceTest {
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
+    final List<Item> items = List.of(
+      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(22700)
+        .vatPercentage(0)
+        .productCode(EnrollmentSkill.UNDERSTANDING.toString())
+        .build()
+    );
+    final Customer customer = Customer
+      .builder()
+      .email(enrollment.getEmail())
+      .phone(enrollment.getPhoneNumber())
+      .firstName(person.getFirstName())
+      .lastName(person.getLastName())
+      .build();
 
     assertEquals(url, redirectUrl);
-    verify(paytrailService, times(1)).createPayment(anyList(), any(Long.class), any(Customer.class), eq(45400));
+    verify(paytrailService, times(1)).createPayment(eq(items), any(Long.class), eq(customer), eq(45400));
   }
 
   @Test
@@ -98,6 +122,7 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
     enrollment.setTextualSkill(true);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
@@ -106,7 +131,8 @@ public class PaymentServiceTest {
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
 
@@ -120,13 +146,15 @@ public class PaymentServiceTest {
     final Person person2 = createPerson();
     final Enrollment enrollment = createEnrollment(person1);
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
 
     final APIException ex = assertThrows(APIException.class, () -> paymentService.create(enrollment.getId(), person2));
@@ -135,25 +163,32 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentSuccessOk() {
+  public void testPaymentSuccessOk() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
+    paymentParams.put("checkout-amount", "45400");
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
     assertEquals(
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/valmis", enrollment.getExamEvent().getId()),
       paymentService.success(payment.getPaymentId(), paymentParams)
     );
+    verify(publicEnrollmentEmailService, times(1))
+      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    assertEquals(EnrollmentStatus.PAID, enrollment.getStatus());
+    assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
   }
 
   @Test
@@ -163,14 +198,17 @@ public class PaymentServiceTest {
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
+    paymentParams.put("checkout-amount", "45400");
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
     assertEquals(
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/peruutettu", enrollment.getExamEvent().getId()),
@@ -179,20 +217,52 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentAlreadyPaid() {
+  public void testPaymentValidationFailed() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
+    final Map<String, String> paymentParams = new LinkedHashMap<>();
+    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(paytrailService.validate(anyMap())).thenReturn(false);
+
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> paymentService.success(payment.getPaymentId(), paymentParams)
+    );
+    assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
+    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
+    assertNull(payment.getPaymentStatus());
+    verify(publicEnrollmentEmailService, times(0))
+      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+  }
+
+  @Test
+  public void testPaymentAlreadyPaid() throws IOException, InterruptedException {
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
     payment.setPaymentStatus(PaymentStatus.OK);
     final Map<String, String> paymentParams = new LinkedHashMap<>();
-    paymentParams.put("checkout-status", PaymentStatus.OK.toString());
+    paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
 
     final APIException ex = assertThrows(
@@ -200,17 +270,54 @@ public class PaymentServiceTest {
       () -> paymentService.success(payment.getPaymentId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
+    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
+    assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
+    verify(publicEnrollmentEmailService, times(0))
+      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+  }
+
+  @Test
+  public void testPaymentAmountMustMatch() throws IOException, InterruptedException {
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Enrollment enrollment = pair.getSecond();
+    final Map<String, String> paymentParams = new LinkedHashMap<>();
+    paymentParams.put("checkout-status", PaymentStatus.OK.toString());
+    paymentParams.put("checkout-amount", "21400");
+    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(paytrailService.validate(anyMap())).thenReturn(true);
+
+    final PaymentService paymentService = new PaymentService(
+      paytrailService,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> paymentService.success(payment.getPaymentId(), paymentParams)
+    );
+    assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
+    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
+    assertNull(payment.getPaymentStatus());
+    verify(publicEnrollmentEmailService, times(0))
+      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
   }
 
   @Test
   public void testPaymentNotFound() {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
 
     final NotFoundException ex = assertThrows(
@@ -224,11 +331,13 @@ public class PaymentServiceTest {
   public void testEnrollmentNotFound() {
     final Person person = new Person();
     final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     final PaymentService paymentService = new PaymentService(
       paytrailService,
       paymentRepository,
       enrollmentRepository,
-      environment
+      environment,
+      publicEnrollmentEmailService
     );
 
     final NotFoundException ex = assertThrows(NotFoundException.class, () -> paymentService.create(-1L, person));
@@ -240,6 +349,7 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
 
+    payment.setAmount(45400);
     payment.setPerson(person);
     payment.setEnrollment(enrollment);
 
@@ -258,6 +368,7 @@ public class PaymentServiceTest {
   private Enrollment createEnrollment(Person person) {
     final ExamEvent examEvent = Factory.examEvent();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
     entityManager.persist(examEvent);
     entityManager.persist(enrollment);
 

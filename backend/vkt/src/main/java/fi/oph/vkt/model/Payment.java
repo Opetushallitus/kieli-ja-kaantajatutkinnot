@@ -34,6 +34,9 @@ public class Payment extends BaseEntity {
   @JoinColumn(name = "enrollment_id", referencedColumnName = "enrollment_id", nullable = false)
   private Enrollment enrollment;
 
+  @Column(name = "amount", nullable = false)
+  private int amount;
+
   @Column(name = "transaction_id")
   private String transactionId;
 

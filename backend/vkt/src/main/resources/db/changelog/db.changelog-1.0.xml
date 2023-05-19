@@ -526,6 +526,9 @@
             <column name="version" type="INT" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
+            <column name="amount" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="transaction_id" type="TEXT"/>
             <column name="reference" type="TEXT"/>
             <column name="payment_url" type="TEXT"/>

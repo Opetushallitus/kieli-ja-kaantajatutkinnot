@@ -4,6 +4,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.paytrail.Customer;
@@ -15,6 +16,7 @@ import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +40,15 @@ public class PaymentService {
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
   private final Environment environment;
+  private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
-  private Item getItem() {
+  private Item getItem(final EnrollmentSkill enrollmentSkill) {
     return Item
       .builder()
       .units(1)
       .unitPrice(COST_MULTIPLE)
       .vatPercentage(PaytrailConfig.VAT)
-      .productCode("foo") // TODO: Mikä productCode halutaan? Onko väliä?
+      .productCode(enrollmentSkill.toString())
       .build();
   }
 
@@ -62,13 +65,13 @@ public class PaymentService {
 
     // TODO: Selvitä halutaanko jokainen taito omana rivinä vai yhtenä
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem());
+      itemList.add(getItem(EnrollmentSkill.ORAL));
     }
     if (enrollment.isTextualSkill()) {
-      itemList.add(getItem());
+      itemList.add(getItem(EnrollmentSkill.TEXTUAL));
     }
     if (enrollment.isUnderstandingSkill()) {
-      itemList.add(getItem());
+      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING));
     }
 
     return itemList;
@@ -93,13 +96,19 @@ public class PaymentService {
     final PaymentStatus currentStatus = payment.getPaymentStatus();
 
     if (!paytrailService.validate(paymentParams)) {
-      throw new RuntimeException("Invalid payload");
+      LOG.error("Payment ({}) validation failed for params {}", paymentId, paymentParams);
+      throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
     }
 
-    // TODO: voiko peruutetun maksun maksaa?
     if (currentStatus != null && currentStatus.equals(PaymentStatus.OK)) {
-      LOG.warn("Cannot change payment status from OK to {} for payment {}", currentStatus, paymentId);
+      LOG.error("Cannot change payment status from OK to {} for payment {}", currentStatus, paymentId);
       throw new APIException(APIExceptionType.PAYMENT_ALREADY_PAID);
+    }
+
+    final int amount = Integer.parseInt(paymentParams.get("checkout-amount"));
+    if (amount != payment.getAmount()) {
+      LOG.error("Payment ({}) amount ({}) does not match expected amount ({})", paymentId, amount, payment.getAmount());
+      throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
     final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
@@ -113,10 +122,15 @@ public class PaymentService {
   }
 
   @Transactional
-  public String success(final Long paymentId, final Map<String, String> paymentParams) {
+  public String success(final Long paymentId, final Map<String, String> paymentParams)
+    throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
+    final Enrollment enrollment = payment.getEnrollment();
+    final Person person = payment.getPerson();
     final ExamEvent examEvent = findExam(payment);
+
+    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
 
     return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
   }
@@ -153,12 +167,13 @@ public class PaymentService {
       .lastName(person.getLastName())
       .build();
 
+    final int total = getTotal(itemList);
     final Payment payment = new Payment();
     payment.setPerson(person);
+    payment.setAmount(total);
     payment.setEnrollment(enrollment);
     paymentRepository.saveAndFlush(payment);
 
-    final int total = getTotal(itemList);
     final PaytrailResponseDTO response = paytrailService.createPayment(
       itemList,
       payment.getPaymentId(),
