@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.5] - 2023-05-22
+
+### Added
+
+- ScrollToTop component
+
+### Changed
+
+- CommonUtils.ScrollToTop now accepts optional behaviour parameter
+
 ## [1.9.3] - 2023-04-14
 
 ### Changed

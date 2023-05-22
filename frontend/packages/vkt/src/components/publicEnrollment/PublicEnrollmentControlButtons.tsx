@@ -79,39 +79,14 @@ export const PublicEnrollmentControlButtons = ({
     }
   };
 
-  const scrollToTop = (callback: () => void) => {
-    const onScroll = () => {
-      if (window.pageYOffset.toFixed() === '0') {
-        const activeElement = document.activeElement;
-        if (activeElement instanceof HTMLElement) {
-          activeElement.blur();
-        }
-
-        window.removeEventListener('scroll', onScroll);
-        callback();
-      }
-    };
-
-    window.addEventListener('scroll', onScroll);
-    onScroll();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
   const handleBackBtnClick = () => {
-    scrollToTop(() => {
-      dispatch(decreaseActiveStep());
-    });
+    dispatch(decreaseActiveStep());
   };
 
   const handleNextBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      scrollToTop(() => {
-        dispatch(increaseActiveStep());
-      });
+      dispatch(increaseActiveStep());
     } else {
       setShowValidation(true);
     }

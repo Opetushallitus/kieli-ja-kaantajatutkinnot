@@ -39,3 +39,4 @@ export { Notifier } from './Notifier/Notifier';
 export { NotifierContextProvider } from './Notifier/NotifierContextProvider';
 export { CookieBanner } from './CookieBanner/CookieBanner';
 export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
+export { ScrollToTop } from './ScrollToTop/ScrollToTop';
