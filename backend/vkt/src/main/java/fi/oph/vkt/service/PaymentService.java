@@ -33,8 +33,8 @@ public class PaymentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
-  private static final int COST_SINGLE = 45400;
-  private static final int COST_MULTIPLE = 22700;
+  private static final int COST_MAX = 45400;
+  private static final int UNIT_PRICE = 22700;
 
   private final PaytrailService paytrailService;
   private final PaymentRepository paymentRepository;
@@ -42,36 +42,35 @@ public class PaymentService {
   private final Environment environment;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
-  private Item getItem(final EnrollmentSkill enrollmentSkill) {
+  private Item getItem(final EnrollmentSkill enrollmentSkill, final boolean isFree) {
     return Item
       .builder()
       .units(1)
-      .unitPrice(COST_MULTIPLE)
+      .unitPrice(isFree ? 0 : UNIT_PRICE)
       .vatPercentage(PaytrailConfig.VAT)
       .productCode(enrollmentSkill.toString())
       .build();
   }
 
   private int getTotal(List<Item> itemList) {
-    // TODO: Selvitä halutaanko jokainen taito omana rivinä vai yhtenä
-    //    return itemList.size() > 1
-    //            ? COST_MULTIPLE
-    //            : COST_SINGLE;
-    return itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum);
+    return Math.min(
+      COST_MAX,
+      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum)
+    );
   }
 
   private List<Item> getItems(final Enrollment enrollment) {
     final List<Item> itemList = new ArrayList<>();
 
-    // TODO: Selvitä halutaanko jokainen taito omana rivinä vai yhtenä
     if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL));
+      itemList.add(getItem(EnrollmentSkill.ORAL, false));
     }
     if (enrollment.isTextualSkill()) {
-      itemList.add(getItem(EnrollmentSkill.TEXTUAL));
+      itemList.add(getItem(EnrollmentSkill.TEXTUAL, false));
     }
     if (enrollment.isUnderstandingSkill()) {
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING));
+      // Third skill is free
+      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, itemList.size() >= 2));
     }
 
     return itemList;

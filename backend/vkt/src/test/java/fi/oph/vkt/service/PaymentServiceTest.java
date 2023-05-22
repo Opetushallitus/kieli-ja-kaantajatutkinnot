@@ -136,8 +136,20 @@ public class PaymentServiceTest {
     );
     final String redirectUrl = paymentService.create(enrollment.getId(), person);
 
+    final List<Item> items = List.of(
+      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
+      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
+      Item
+        .builder()
+        .units(1)
+        .unitPrice(0)
+        .vatPercentage(0)
+        .productCode(EnrollmentSkill.UNDERSTANDING.toString())
+        .build()
+    );
+
     assertEquals(url, redirectUrl);
-    verify(paytrailService, times(1)).createPayment(anyList(), any(Long.class), any(Customer.class), eq(68100));
+    verify(paytrailService, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(45400));
   }
 
   @Test
