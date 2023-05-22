@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0-M2</version>
+    <version>3.1.0</version>
     <relativePath/>
   </parent>
   <!-- lookup parent from repository -->
@@ -49,11 +49,6 @@
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-cas</artifactId>
-      <version>6.1.0-M2</version>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
@@ -87,6 +82,11 @@
       <groupId>net.javacrumbs.shedlock</groupId>
       <artifactId>shedlock-provider-jdbc-template</artifactId>
       <version>${shedlock.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.minidev</groupId>
+      <artifactId>json-smart</artifactId>
+      <version>2.4.11</version>
     </dependency>
 
     <dependency>
@@ -142,11 +142,6 @@
       <scope>test</scope>
     </dependency>
     <!-- CAS -->
-    <dependency>
-      <groupId>org.apereo.cas.client</groupId>
-      <artifactId>cas-client-core</artifactId>
-      <version>4.0.1</version>
-    </dependency>
     <dependency>
       <groupId>fi.vm.sade.java-utils</groupId>
       <artifactId>opintopolku-cas-servlet-filter</artifactId>
@@ -209,7 +204,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>3.1.0-M2</version>
+        <version>3.1.0</version>
         <configuration>
           <excludes>
             <exclude>
@@ -270,14 +265,22 @@
           </execution>
         </executions>
       </plugin>
+      <!--
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>6.0.0</version>
+        <configuration>
+          <offline>true</offline>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <dotGitDirectory>${project.basedir}../../.git</dotGitDirectory>
+        </configuration>
+      </plugin>
+      -->
     </plugins>
   </build>
 
   <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <url>https://repo.spring.io/milestone</url>
-    </repository>
     <repository>
       <id>oph-sade-artifactory-snapshots</id>
       <url>https://artifactory.opintopolku.fi/artifactory/oph-sade-snapshot-local</url>
@@ -299,15 +302,5 @@
       </snapshots>
     </repository>
   </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>spring-snapshots</id>
-      <url>https://repo.spring.io/snapshot</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>spring-milestones</id>
-      <url>https://repo.spring.io/milestone</url>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>
