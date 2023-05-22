@@ -1,13 +1,16 @@
 package fi.oph.vkt.service;
 
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
-import fi.oph.vkt.util.exception.APIException;
-import fi.oph.vkt.util.exception.APIExceptionType;
-import java.util.List;
-import java.util.Random;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,55 +22,64 @@ public class PublicAuthService {
 
   private final CasTicketValidationService casTicketValidationService;
 
-  // TODO: authenticate person with information received from suomi.fi authentication service
-  @Transactional
-  public Person authenticate() {
-    final Random random = new Random();
-    final List<String> identityNumbers = List.of(
-      "200714-982U",
-      "010934-984D",
-      "210110-9320",
-      "230182-980D",
-      "130421-9046"
-    );
-    final String identityNumber = identityNumbers.get(random.nextInt(identityNumbers.size()));
+  private final Environment environment;
 
-    return personRepository.findByIdentityNumber(identityNumber).orElseGet(() -> createPerson(identityNumber));
+  public String createCasLoginUrl() {
+    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
+    final String casServiceUrl = URLEncoder.encode(
+      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      StandardCharsets.UTF_8
+    );
+    return casLoginUrl + "?service=" + casServiceUrl;
   }
 
-  private Person createPerson(final String identityNumber) {
-    final Random random = new Random();
-    final List<String> lastNames = List.of("Aaltonen", "Alanen", "Eskola", "Hakala", "Heikkinen");
-    final List<String> firstNames = List.of("Anneli", "Ella", "Hanna", "Iiris", "Liisa");
-
+  private Person createPerson(
+    final String identityNumber,
+    final String firstName,
+    final String lastName,
+    final String OID,
+    final String otherIdentifier,
+    final LocalDate dateOfBirth
+  ) {
     final Person person = new Person();
     person.setIdentityNumber(identityNumber);
-    person.setLastName(lastNames.get(random.nextInt(lastNames.size())));
-    person.setFirstName(firstNames.get(random.nextInt(firstNames.size())));
+    person.setLastName(lastName);
+    person.setFirstName(firstName);
+    person.setOid(OID);
+    person.setOtherIdentifier(otherIdentifier);
+    person.setDateOfBirth(dateOfBirth);
 
-    personRepository.saveAndFlush(person);
-    return person;
+    return personRepository.saveAndFlush(person);
   }
 
   @Transactional
-  public Person validate(final String ticket) {
-    final Random random = new Random();
-    final List<String> identityNumbers = List.of(
-      "200714-982U",
-      "010934-984D",
-      "210110-9320",
-      "230182-980D",
-      "130421-9046"
+  public PublicPersonDTO createPersonFromTicket(final String ticket) {
+    final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
+
+    final String identityNumber = personDetails.get("identityNumber");
+    final String firstName = personDetails.get("firstName");
+    final String lastName = personDetails.get("lastName");
+    final String OID = personDetails.get("oid");
+    final String otherIdentifier = personDetails.get("otherIdentifier");
+    final String dateOfBirthRaw = personDetails.get("dateOfBirth");
+    final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
+      ? null
+      : LocalDate.parse(dateOfBirthRaw);
+
+    final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
+      ? personRepository.findByIdentityNumber(identityNumber)
+      : personRepository.findByOtherIdentifier(otherIdentifier);
+    final Person person = maybePerson.orElseGet(() ->
+      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
 
-    final boolean isValid = casTicketValidationService.validate(ticket);
-
-    if (!isValid) {
-      throw new APIException(APIExceptionType.INVALID_TICKET);
-    }
-
-    final String identityNumber = identityNumbers.get(random.nextInt(identityNumbers.size()));
-
-    return personRepository.findByIdentityNumber(identityNumber).orElseGet(() -> createPerson(identityNumber));
+    return PublicPersonDTO
+      .builder()
+      .id(person.getId())
+      .identityNumber(person.getIdentityNumber())
+      .lastName(person.getLastName())
+      .firstName(person.getFirstName())
+      .dateOfBirth(dateOfBirth)
+      .build();
   }
 }

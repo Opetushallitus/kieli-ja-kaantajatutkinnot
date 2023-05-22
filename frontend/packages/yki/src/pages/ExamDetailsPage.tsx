@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { initRegistration, setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
-import { registrationSelector } from 'redux/selectors/registration';
 
 export const ExamDetailsPage = () => {
   // i18n
@@ -24,17 +23,14 @@ export const ExamDetailsPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { status, examSession } = useAppSelector(examSessionSelector);
-  const { activeStep } = useAppSelector(registrationSelector);
   // React Router
   const params = useParams();
 
   const isLoading = status === APIResponseStatus.InProgress;
 
   useEffect(() => {
-    if (activeStep !== PublicRegistrationFormStep.Register) {
-      dispatch(setActiveStep(PublicRegistrationFormStep.Register));
-    }
-  }, [dispatch, activeStep]);
+    dispatch(setActiveStep(PublicRegistrationFormStep.Register));
+  }, [dispatch]);
 
   useEffect(() => {
     if (

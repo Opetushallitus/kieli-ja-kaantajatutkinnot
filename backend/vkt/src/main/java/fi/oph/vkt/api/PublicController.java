@@ -3,6 +3,7 @@ package fi.oph.vkt.api;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -11,9 +12,12 @@ import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
+import fi.oph.vkt.util.SessionUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,8 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicController {
-
-  private static final String PERSON_ID_SESSION_KEY = "person_id";
 
   @Resource
   private PublicPersonService publicPersonService;
@@ -56,16 +58,22 @@ public class PublicController {
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollment(@PathVariable final long examEventId) {
-    final Person person = publicAuthService.authenticate();
+  public PublicEnrollmentInitialisationDTO initialiseEnrollment(
+    @PathVariable final long examEventId,
+    final HttpSession session
+  ) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     return publicEnrollmentService.initialiseEnrollment(examEventId, person);
   }
 
   @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
   @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(@PathVariable final long examEventId) {
-    final Person person = publicAuthService.authenticate();
+  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(
+    @PathVariable final long examEventId,
+    final HttpSession session
+  ) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
   }
@@ -76,8 +84,8 @@ public class PublicController {
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
-  ) {
-    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+  ) throws IOException, InterruptedException {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
@@ -89,36 +97,42 @@ public class PublicController {
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
-    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
   public PublicReservationDTO renewReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     return publicReservationService.renewReservation(reservationId, person);
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
-    final Person person = publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
     publicReservationService.deleteReservation(reservationId, person);
   }
 
+  @GetMapping(path = "/auth/login")
+  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+    httpResponse.sendRedirect(casLoginUrl);
+  }
+
   @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public Person validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    final Person person = publicAuthService.validate(ticket);
+  public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
+    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
 
-    session.setAttribute(PERSON_ID_SESSION_KEY, person.getId());
+    SessionUtil.setPersonId(session, personDTO.id());
 
-    return person;
+    return personDTO;
   }
 
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson((Long) session.getAttribute(PERSON_ID_SESSION_KEY));
+    return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }
 }

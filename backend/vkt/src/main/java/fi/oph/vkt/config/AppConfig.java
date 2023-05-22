@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -36,9 +37,12 @@ public class AppConfig {
   }
 
   @Bean
-  public CasTicketValidator casTicketValidator(@Value("${app.cas.validate-ticket-url}") String casValidateUrl) {
-    final WebClient webClient = webClientBuilderWithCallerId().baseUrl(casValidateUrl).build();
-    return new CasTicketValidator(webClient);
+  public CasTicketValidator casTicketValidator(final Environment environment) {
+    final WebClient webClient = webClientBuilderWithCallerId()
+      .baseUrl(environment.getRequiredProperty("app.cas-oppija.validate-ticket-url"))
+      .build();
+
+    return new CasTicketValidator(environment, webClient);
   }
 
   @Bean

@@ -13,6 +13,7 @@ import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { IdentifyPage } from 'pages/IdentifyPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
+import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -38,6 +39,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ExamSessionRegistration}
                 element={<ExamDetailsPage />}
+              />
+              <Route
+                path={AppRoutes.RegistrationPaymentStatus}
+                element={<RegistrationPaymentStatusPage />}
               />
               <Route
                 path={AppRoutes.Reassessment}

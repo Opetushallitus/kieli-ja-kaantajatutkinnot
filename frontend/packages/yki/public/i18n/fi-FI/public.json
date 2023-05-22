@@ -50,10 +50,6 @@
         }
       },
       "footer": {
-        "accessibility": {
-          "ophPhone": "Opetushallituksen puhelinnumero",
-          "waveAriaLabel": "Aaltoileva vektorikuvio"
-        },
         "address": {
           "name": "Opetushallitus",
           "phone": {
@@ -96,9 +92,6 @@
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Vahvista ilmoittautuminen"
         },
-        "errors": {
-          "general": "Virhe tietojen lataamisessa!"
-        },
         "examSessionDetails": {
           "address": "Osoite",
           "exam": "Tutkinto",
@@ -110,6 +103,11 @@
         "paymentSum": {
           "title": "Tutkintomaksu"
         },
+        "registrationButtonLabels": {
+          "full": "Täynnä",
+          "periodNotOpen": "Ilmoittautuminen ei käynnissä",
+          "register": "Ilmoittaudu"
+        },
         "registrationDetails": {
           "address": "Katuosoite",
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
@@ -118,11 +116,31 @@
           "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "email": "Sähköpostiosoite",
           "emailConfirmation": "Vahvista sähköpostiosoite",
+          "errors": {
+            "fields": {
+              "address": "Katuosoite",
+              "certificateLanguage": "Valitse todistuksen kieli",
+              "dateOfBirth": "Syntymäaika",
+              "email": "Sähköpostiosoite",
+              "emailConfirmation": "Sähköpostiosoitteen vahvistus",
+              "firstNames": "Etunimet",
+              "hasSSN": "Onko sinulla suomalainen henkilötunnus?",
+              "lastName": "Sukunimi",
+              "nationality": "Kansalaisuus",
+              "phoneNumber": "Puhelinnumero",
+              "postNumber": "Postinumero",
+              "postOffice": "Postitoimipaikka",
+              "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
+              "ssn": "Henkilötunnus",
+              "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
+            },
+            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
+            "title": "Virheitä lomakkeella"
+          },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
           "firstNames": "Etunimet",
           "gender": "Sukupuoli",
           "lastName": "Sukunimi",
-          "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
           "nationality": "Kansalaisuus",
           "phoneNumber": "Puhelinnumero",
           "postNumber": "Postinumero",
@@ -141,6 +159,7 @@
             "label": "Hyväksyn edellä mainitut ehdot *",
             "title": "Hyväksy ehdot"
           },
+          "termsAndConditionsAgreed": "Hyväksy yleiset ehdot",
           "title": "Syötä tietosi",
           "whatsNext": {
             "description1": "Kun olet vahvistanut ilmoittautumisesi, saat sähköpostiisi linkin maksua varten.",
@@ -150,25 +169,26 @@
             "title": "Mitä seuraavaksi"
           }
         },
+        "registrationFormSubmitted": {
+          "title": "Ilmoittautuminen onnistui",
+          "whatsNext": {
+            "description1": "Saat maksuohjeet ja varmistuksen ilmoittautumisesta sähköpostiosoitteeseen <strong><0></0></strong>",
+            "description2": "<strong>Tärkeää!</strong> Muistathan että tutkintomaksu on maksettava viimeistään eräpäivänä.",
+            "description3": "Jos et maksa, ilmoittautumisesi peruuntuu etkä voi osallistua tutkintotilaisuuteen.",
+            "title": "Mitä seuraavaksi"
+          }
+        },
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
           "phase": "Vaihe",
           "step": {
-            "Done": "Valmis",
             "Identify": "Tunnistaudu",
+            "Payment": "Maksu",
             "Register": "Ilmoittaudu"
           }
         },
         "steps": {
-          "done": {
-            "description": {
-              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
-            },
-            "successToast": "Ilmoittautuminen onnistui!",
-            "title": "Maksu on suoritettu."
-          },
           "identify": {
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
@@ -190,6 +210,36 @@
             "title": "Tunnistaudu ilmoittautumista varten",
             "withFinnishSSN": "<strong>Jos sinulla on suomalainen henkilötunnus</strong>, ilmoittaudu Suomi.fi-tunnistautumisen kautta. tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
             "withoutFinnishSSN": "<strong>Jos sinulla ei ole suomalaista henkilötunnusta</strong>, voit ilmoittautua myös sähköpostilla. Saat tunnistautumisen jälkeen antamaasi sähköpostiin kirjautumislinkin, jonka kautta pääset jatkamaan ilmoittautumista."
+          },
+          "payment": {
+            "cancel": {
+              "description": "Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
+              "heading": "Maksutapahtuma keskeytyi",
+              "title": "Keskeytit maksutapahtuman"
+            },
+            "error": {
+              "description": "Voit yrittää maksamista uudestaan. Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
+              "heading": "Virhe maksutapahtumassa",
+              "title": "Maksutapahtuman käsittelyssä tapahtui virhe"
+            },
+            "success": {
+              "whatsNext": {
+                "linkLabel": "Ilmoittautuminen YKI-testiin (oph.fi)",
+                "part1": "Sinulle on lähetetty varmistus sähköpostilla",
+                "part2": "Jos tarvitset tutkinnossa erityisjärjestelyjä, ota heti yhteyttä testipaikkaasi.",
+                "part3": "Löydät ohjeet erityisjärjestelyjen hakemiseen verkkosivuiltamme:",
+                "title": "Mitä seuraavaksi"
+              },
+              "heading": "Maksu onnistui"
+            }
+          },
+          "register": {
+            "inProgress": {
+              "heading": "Ilmoittaudu tutkintotilaisuuteen"
+            },
+            "success": {
+              "heading": "Ilmoittautuminen onnistui"
+            }
           }
         }
       }

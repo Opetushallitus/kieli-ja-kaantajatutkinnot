@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CustomTextField, H3 } from 'shared/components';
+import { CustomTextField, H2, Text } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
@@ -135,8 +135,9 @@ export const FillContactDetails = ({
   return (
     <div className="margin-top-xxl rows gapped">
       <PersonDetails />
-      <div className="margin-top-sm rows gapped">
-        <H3>{t('title')}</H3>
+      <div className="margin-top-lg rows gapped">
+        <H2>{t('title')}</H2>
+        <Text>{translateCommon('requiredFieldsInfo')}</Text>
         <div className="grid-2-columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('email')}

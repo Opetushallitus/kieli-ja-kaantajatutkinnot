@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "actions": "Toiminnot",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
       "buttons": {
@@ -36,9 +37,18 @@
           "maxLength": "Teksti on liian pitkä",
           "numberFormat": "Arvo on virheellinen",
           "required": "Tieto on pakollinen",
+          "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "telFormat": "Puhelinnumero on virheellinen"
         },
-        "loadingFailed": "Tietojen lataaminen epäonnistui."
+        "loadingFailed": "Tietojen lataaminen epäonnistui.",
+        "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+        "registration": {
+          "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
+          "examSessionFull": "Tutkintotilaisuus on täynnä.",
+          "formExpired": "Lomakkeen täyttöaika on umpeutunut.",
+          "generic": "Lomakkeen lähetys epäonnistui.",
+          "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
+        }
       },
       "examDate": "Tutkinnon päivämäärä",
       "examParts": {
@@ -87,8 +97,8 @@
       },
       "next": "Seuraava",
       "no": "Ei",
-      "ophLogoAlt": "Opetushallituksen logo",
-      "ophLogoToFrontPageAlt": "Opetushallitus – Yleisten kielitutkintojen ilmoittautumissivulle",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
       "placesAvailable": "Paikkoja vapaana",
       "price": "Hinta",
       "privacyStatementLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta",

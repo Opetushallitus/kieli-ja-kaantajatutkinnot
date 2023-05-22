@@ -195,10 +195,6 @@
         "upcoming": "Kommande"
       },
       "footer": {
-        "accessibility": {
-          "ophPhone": "Utbildningsstyrelsens telefonnummer",
-          "waveAriaLabel": "Vektordiagram med vågor"
-        },
         "address": {
           "name": "Utbildningsstyrelsen",
           "phone": {

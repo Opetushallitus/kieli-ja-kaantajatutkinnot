@@ -1,6 +1,7 @@
 {
   "yki": {
     "common": {
+      "actions": "Actions",
       "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
@@ -34,7 +35,7 @@
         "swe": "Swedish"
       },
       "level": "Level",
-      "ophLogoAlt": "Logo of Finnish National Agency for Education",
+      "ophLogoAlt": "Logo: Finnish National Agency for Education.",
       "price": "Price",
       "reassessment": "Reassessment",
       "registration": "Registration"

@@ -1,12 +1,7 @@
 import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
-import {
-  CustomCircularProgress,
-  H2,
-  H3,
-  PaginatedTable,
-} from 'shared/components';
+import { CustomCircularProgress, H2, PaginatedTable } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -70,7 +65,7 @@ export const PublicExamEventListing = ({
           justifyContent="center"
           alignItems="center"
         >
-          <H3>{translateCommon('errors.loadingFailed')}</H3>
+          <H2>{translateCommon('errors.loadingFailed')}</H2>
         </Box>
       );
     case APIResponseStatus.Success:

@@ -1,7 +1,7 @@
 {
   "akr": {
     "common": {
-      "akrLogo": "Systemet med auktoriserade translatorers logo",
+      "akrLogoAlt": "Logo: Examenssystemet för auktoriserade translatorer.",
       "appNameAbbreviation": "AKR",
       "appTitle": "Register över auktoriserade translatorer | Utbildningsstyrelsen",
       "back": "Tillbaka",
@@ -22,8 +22,8 @@
       "newTab": "Öppna en ny flik",
       "next": "Följande",
       "no": "Nej",
-      "ophLogoAlt": "Utbildningsstyrelsens logo",
-      "ophLogoToFrontPageAlt": "Utbildningsstyrelsen – Till framsidan av register över auktoriserade translatorer",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Till framsidan av register över auktoriserade translatorer.",
       "phase": "Skede",
       "register": "Register",
       "save": "Spara",

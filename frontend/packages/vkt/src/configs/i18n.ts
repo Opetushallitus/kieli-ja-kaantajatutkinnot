@@ -8,10 +8,6 @@ import {
 import { AppLanguage, I18nNamespace } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
-import accessibilityEN from 'public/i18n/en-GB/accessibility.json';
-import clerkEN from 'public/i18n/en-GB/clerk.json';
-import commonEN from 'public/i18n/en-GB/common.json';
-import publicEN from 'public/i18n/en-GB/public.json';
 import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import clerkFI from 'public/i18n/fi-FI/clerk.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
@@ -24,9 +20,8 @@ import publicSV from 'public/i18n/sv-SE/public.json';
 // Defaults and resources
 const langFI = AppLanguage.Finnish;
 const langSV = AppLanguage.Swedish;
-const langEN = AppLanguage.English;
 
-const supportedLangs = [langFI, langSV, langEN];
+const supportedLangs = [langFI, langSV];
 
 const resources = {
   [langFI]: {
@@ -40,12 +35,6 @@ const resources = {
     [I18nNamespace.Common]: commonSV,
     [I18nNamespace.Public]: publicSV,
     [I18nNamespace.Accessibility]: accessibilitySV,
-  },
-  [langEN]: {
-    [I18nNamespace.Clerk]: clerkEN,
-    [I18nNamespace.Common]: commonEN,
-    [I18nNamespace.Public]: publicEN,
-    [I18nNamespace.Accessibility]: accessibilityEN,
   },
 };
 
@@ -61,7 +50,6 @@ declare module 'react-i18next' {
     resources: {
       [langFI]: typeof commonFI;
       [langSV]: typeof commonSV;
-      [langEN]: typeof commonEN;
     };
   }
 }

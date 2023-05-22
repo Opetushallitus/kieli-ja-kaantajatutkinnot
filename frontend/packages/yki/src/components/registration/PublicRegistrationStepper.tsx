@@ -11,7 +11,7 @@ export const PublicRegistrationStepper = () => {
     keyPrefix: 'yki.component.registration.stepper',
   });
 
-  const doneStepNumber = PublicRegistrationFormStep.Done;
+  const doneStepNumber = PublicRegistrationFormStep.Payment;
 
   const stepNumbers = Object.values(PublicRegistrationFormStep)
     .filter((i) => !isNaN(Number(i)))

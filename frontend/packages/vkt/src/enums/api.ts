@@ -1,4 +1,5 @@
 export enum APIEndpoints {
+  PublicAuthLogin = '/vkt/api/v1/auth/login',
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
@@ -23,8 +24,9 @@ export enum APIError {
   InitialiseEnrollmentIsFull = 'initialiseEnrollmentIsFull',
   InitialiseEnrollmentRegistrationClosed = 'initialiseEnrollmentRegistrationClosed',
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
-  InvalidTicket = 'invalidTicket',
   InvalidVersion = 'invalidVersion',
+  InvalidTicket = 'invalidTicket',
   RenewReservationNotAllowed = 'renewReservationNotAllowed',
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
+  TicketValidationError = 'ticketValidationError',
 }

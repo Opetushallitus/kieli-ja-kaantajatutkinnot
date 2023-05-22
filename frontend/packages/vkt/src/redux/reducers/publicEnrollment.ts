@@ -40,6 +40,7 @@ const initialState: PublicEnrollmentState = {
     postalCode: '',
     town: '',
     country: '',
+    previousEnrollment: '',
     privacyStatementConfirmation: false,
   },
 };
@@ -99,7 +100,6 @@ const publicEnrollmentSlice = createSlice({
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
       state.reservationDetails = initialState.reservationDetails;
       state.status = initialState.status;
-      state.cancelStatus = initialState.cancelStatus;
       state.activeStep = initialState.activeStep;
       state.enrollment = initialState.enrollment;
     },

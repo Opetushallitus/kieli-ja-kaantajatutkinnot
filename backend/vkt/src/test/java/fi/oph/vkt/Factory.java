@@ -34,6 +34,7 @@ public class Factory {
   public static Person person() {
     final Person person = new Person();
     person.setIdentityNumber(UUID.randomUUID().toString());
+    person.setOid(UUID.randomUUID().toString());
     person.setLastName("Tester");
     person.setFirstName("Foo Bar");
 

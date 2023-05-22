@@ -1,40 +1,18 @@
-import { Done } from 'components/registration/steps/Done';
-import { EmailRegistration } from 'components/registration/steps/EmailRegistration';
-import { SuomiFiRegistration } from 'components/registration/steps/SuomiFiRegistration';
+import { Payment } from 'components/registration/steps/Payment';
+import { SubmitRegistrationDetails } from 'components/registration/steps/register/SubmitRegistrationDetails';
+import { useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import {
-  PublicEmailRegistration,
-  PublicSuomiFiRegistration,
-} from 'interfaces/publicRegistration';
+import { registrationSelector } from 'redux/selectors/registration';
 
-export const PublicRegistrationStepContents = ({
-  activeStep,
-  registration,
-  isEmailRegistration,
-}: {
-  activeStep: PublicRegistrationFormStep;
-  registration: Partial<PublicEmailRegistration | PublicSuomiFiRegistration>;
-  isEmailRegistration?: boolean;
-}) => {
+export const PublicRegistrationStepContents = () => {
+  const { activeStep } = useAppSelector(registrationSelector);
   switch (activeStep) {
     case PublicRegistrationFormStep.Identify:
       return <></>;
     case PublicRegistrationFormStep.Register:
-      if (isEmailRegistration) {
-        return (
-          <EmailRegistration
-            registration={registration as PublicEmailRegistration}
-          />
-        );
-      }
-
-      return (
-        <SuomiFiRegistration
-          registration={registration as PublicSuomiFiRegistration}
-        />
-      );
-    case PublicRegistrationFormStep.Done:
-      return <Done registration={registration} />;
+      return <SubmitRegistrationDetails />;
+    case PublicRegistrationFormStep.Payment:
+      return <Payment />;
     default:
       return <> </>;
   }

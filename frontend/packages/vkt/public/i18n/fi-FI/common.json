@@ -14,6 +14,7 @@
       "contactEmail": "kielitutkinnot@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
+      "enroll": "Ilmoittaudu",
       "enrollment": {
         "certificateShipping": {
           "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
@@ -51,10 +52,11 @@
           "initialiseEnrollmentIsFull": "Tutkintotilaisuuteen ei ole enää paikkoja",
           "initialiseEnrollmentRegistrationClosed": "Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut",
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
-          "invalidTicket": "Toiminto epäonnistui, CAS-tiketti ei ollut validi",
+          "invalidTicket": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
-          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen"
+          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -82,7 +84,6 @@
           "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
         },
         "lang": {
-          "en": "In English",
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
@@ -92,22 +93,25 @@
         "FI": "Näytä vain suomi",
         "SV": "Näytä vain ruotsi"
       },
+      "loadingContent": "Sisältöä ladataan",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"
       },
       "next": "Seuraava",
       "no": "Ei",
-      "ophLogoAlt": "Opetushallituksen logo",
-      "ophLogoToFrontPageAlt": "Opetushallitus – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija",
         "enrollment": "Ilmoittautuminen",
         "frontPage": "Etusivu"
       },
+      "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "vktHomepage": {

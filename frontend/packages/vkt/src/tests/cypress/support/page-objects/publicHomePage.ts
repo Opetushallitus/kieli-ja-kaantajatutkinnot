@@ -56,6 +56,14 @@ class PublicHomePage {
     this.elements.enrollButton().should('be.enabled');
   }
 
+  expectEnrollButtonToNotExist() {
+    this.elements.enrollButton().should('not.exist');
+  }
+
+  expectEnrollButtonToExist() {
+    this.elements.enrollButton().should('exist');
+  }
+
   expectCheckboxChecked(id: number) {
     this.elements.examEventRowCheckbox(id).should('be.checked');
   }

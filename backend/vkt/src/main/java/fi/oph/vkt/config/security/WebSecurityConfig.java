@@ -47,7 +47,7 @@ public class WebSecurityConfig {
       environment.getRequiredProperty("cas.service-url") + environment.getRequiredProperty("cas.login-path")
     );
     serviceProperties.setSendRenew(environment.getRequiredProperty("cas.send-renew", Boolean.class));
-    serviceProperties.setAuthenticateAllArtifacts(true);
+    serviceProperties.setAuthenticateAllArtifacts(false);
     return serviceProperties;
   }
 

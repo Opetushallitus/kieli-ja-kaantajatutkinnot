@@ -4,7 +4,7 @@ import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -12,8 +12,9 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventListingHeader = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicExamEventListing',
+    keyPrefix: 'vkt.component.publicExamEventListing.header',
   });
+  const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
 
   const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
@@ -34,10 +35,10 @@ export const PublicExamEventListingHeader = () => {
       {!isPhone && (
         <TableRow>
           <TableCell padding="checkbox"></TableCell>
-          <TableCell>{t('header.language')}</TableCell>
-          <TableCell>{t('header.examDate')}</TableCell>
-          <TableCell>{t('header.registrationCloses')}</TableCell>
-          <TableCell>{t('header.openings')}</TableCell>
+          <TableCell>{t('language')}</TableCell>
+          <TableCell>{t('examDate')}</TableCell>
+          <TableCell>{t('registrationCloses')}</TableCell>
+          <TableCell>{t('openings')}</TableCell>
           <TableCell>
             <LoadingProgressIndicator isLoading={isInitialisationInProgress}>
               <CustomButton
@@ -47,7 +48,7 @@ export const PublicExamEventListingHeader = () => {
                 disabled={enrollButtonDisabled}
                 onClick={() => navigate(AppRoutes.PublicAuth)}
               >
-                {t('enroll')}
+                {translateCommon('enroll')}
               </CustomButton>
             </LoadingProgressIndicator>
           </TableCell>

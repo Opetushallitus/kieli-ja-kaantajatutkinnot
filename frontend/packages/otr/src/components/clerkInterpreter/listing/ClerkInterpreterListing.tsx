@@ -1,11 +1,6 @@
 import { Box } from '@mui/system';
 import { useEffect } from 'react';
-import {
-  CustomCircularProgress,
-  H2,
-  H3,
-  PaginatedTable,
-} from 'shared/components';
+import { CustomCircularProgress, H2, PaginatedTable } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 
 import { ClerkInterpreterListingHeader } from 'components/clerkInterpreter/listing/ClerkInterpreterListingHeader';
@@ -56,7 +51,7 @@ export const ClerkInterpreterListing = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <H3>{t('errors.loadingFailed')}</H3>
+          <H2>{t('errors.loadingFailed')}</H2>
         </Box>
       );
     case APIResponseStatus.Success:

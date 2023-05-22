@@ -1,9 +1,15 @@
 .privacy-policy-page {
   flex: 1;
 
-  & &__heading {
+  & &__back-button {
     @include phone {
       margin-top: 2rem;
+      padding: 2rem 2rem 0;
+    }
+  }
+
+  & &__heading {
+    @include phone {
       padding: 2rem 2rem 0;
     }
   }

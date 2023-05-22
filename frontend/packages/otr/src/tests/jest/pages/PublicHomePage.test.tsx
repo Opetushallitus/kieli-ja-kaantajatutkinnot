@@ -18,38 +18,6 @@ describe('PublicHomePage', () => {
     expect(searchBtnEl).toBeInTheDocument();
   });
 
-  it('should show additional details of an interpreter when its row is clicked', async () => {
-    // Interpreter info
-    const INTERPRETER_ID = 6;
-    const [interpreter] = publicInterpreters10.filter(
-      (i) => i.id === INTERPRETER_ID
-    );
-    const interpreterEmail = interpreter?.email as string;
-    const interpreterPhoneNumber = interpreter?.phoneNumber as string;
-    Element.prototype.scrollIntoView = jest.fn();
-
-    // Render the component
-    await act(async () => {
-      render(<PublicHomePage />);
-    });
-
-    const searchBtnEl = await screen.findByRole('button', {
-      name: `buttons.search (${publicInterpreters10.length})`,
-    });
-    await act(async () => {
-      await userEvent.click(searchBtnEl);
-    });
-    const interpreterRowEl = screen.getByTestId(
-      `public-interpreters__id-${INTERPRETER_ID}-row`
-    );
-    await act(async () => {
-      await userEvent.click(interpreterRowEl);
-    });
-
-    expect(screen.getByText(interpreterEmail)).toBeInTheDocument();
-    expect(screen.getByText(interpreterPhoneNumber)).toBeInTheDocument();
-  });
-
   it('should filter data based on active filters', async () => {
     await act(async () => {
       render(<PublicHomePage />);
@@ -75,7 +43,7 @@ describe('PublicHomePage', () => {
       await screen.findByTestId('public-interpreter-filters__search-btn')
     ).toHaveTextContent('4');
 
-    //Select the region
+    // Select the region
     await act(async () => {
       await userEvent.click(
         screen.getByRole('combobox', {

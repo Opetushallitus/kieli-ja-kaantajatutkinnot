@@ -11,6 +11,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
+import fi.oph.vkt.util.localisation.Language;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -69,7 +70,8 @@ public class ClerkEnrollmentController {
     final String filename = String.format("VKT_kuitti_%d.pdf", enrollmentId);
     response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId);
+    // TODO: possibility to download swedish receipt?
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, Language.FI);
     final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
   }

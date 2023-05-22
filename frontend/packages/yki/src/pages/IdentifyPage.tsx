@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { loadExamSession } from 'redux/reducers/examSession';
+import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
 import { setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -39,8 +40,7 @@ export const IdentifyPage = () => {
     }
 
     return () => {
-      // TODO: Reset fields on unmount
-      // dispatch(resetClerkTranslatorOverview());
+      dispatch(resetPublicIdentificationState());
     };
   }, [dispatch, activeStep]);
 
@@ -56,7 +56,6 @@ export const IdentifyPage = () => {
       status === APIResponseStatus.Error ||
       isNaN(Number(params.examSessionId))
     ) {
-      // Show an error
       showToast({
         severity: Severity.Error,
         description: t('toasts.notFound'),

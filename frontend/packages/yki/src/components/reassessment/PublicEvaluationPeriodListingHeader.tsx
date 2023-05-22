@@ -8,7 +8,7 @@ export const PublicEvaluationPeriodListingHeader = () => {
   });
 
   return (
-    <TableHead>
+    <TableHead className="heading-text">
       <TableRow>
         <TableCell>{t('examination')}</TableCell>
         <TableCell>{t('examDate')} </TableCell>
