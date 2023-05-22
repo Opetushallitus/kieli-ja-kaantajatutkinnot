@@ -144,8 +144,8 @@ public class WebSecurityConfig {
 
   public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests(authorize ->
-        authorize
+      .authorizeHttpRequests(registry ->
+        registry
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
           .hasRole(Constants.APP_ROLE)
           .requestMatchers("/", "/**")
@@ -157,10 +157,14 @@ public class WebSecurityConfig {
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-    requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler));
+
+    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+    requestHandler.setCsrfRequestAttributeName(null);
+
+    return http.csrf(configurer ->
+      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+    );
   }
 }

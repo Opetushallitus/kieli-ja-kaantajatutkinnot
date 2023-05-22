@@ -15,17 +15,20 @@ public class WebSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
     return configCsrf(http)
-      .authorizeHttpRequests(authorize -> authorize.requestMatchers("/", "/**").permitAll().anyRequest().authenticated()
-      )
+      .authorizeHttpRequests(registry -> registry.requestMatchers("/", "/**").permitAll().anyRequest().authenticated())
       .build();
   }
 
   public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-    requestHandler.setCsrfRequestAttributeName(null);
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
-    return http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler));
+
+    final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+    requestHandler.setCsrfRequestAttributeName(null);
+
+    return http.csrf(configurer ->
+      configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
+    );
   }
 }
