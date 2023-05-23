@@ -1,6 +1,6 @@
 package fi.oph.vkt.service;
 
-import static fi.oph.vkt.payment.Crypto.CalculateHmac;
+import static fi.oph.vkt.payment.Crypto.calculateHmac;
 import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -101,7 +101,7 @@ public class PaytrailService implements PaymentProvider {
     String bodyJson = null;
     try {
       bodyJson = om.writeValueAsString(body);
-      final String hash = CalculateHmac(secret, headers, bodyJson);
+      final String hash = calculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
       final String response = paytrailWebClient
         .post()
@@ -119,7 +119,7 @@ public class PaytrailService implements PaymentProvider {
       return om.readValue(response, PaytrailResponseDTO.class);
     } catch (WebClientResponseException e) {
       LOG.error(
-        "Paytrail returned error status {}\n response body: {}\n request body: {}\n request headers: \n\t{}",
+        "Paytrail returned error status {}\n response body: {}\n request body: {}\n paytrail headers: \n\t{}",
         e.getStatusCode().value(),
         e.getResponseBodyAsString(),
         bodyJson,
@@ -131,24 +131,39 @@ public class PaytrailService implements PaymentProvider {
     }
   }
 
-  public boolean validate(Map<String, String> paymentParams) {
+  private boolean hasRequiredHeaders(final Map<String, String> paymentParams) {
+    return (
+      paymentParams.get("checkout-account") != null &&
+      paymentParams.get("checkout-algorithm") != null &&
+      paymentParams.get("signature") != null &&
+      paymentParams.get("checkout-status") != null &&
+      paymentParams.get("checkout-transaction-id") != null
+    );
+  }
+
+  public boolean validate(final Map<String, String> paymentParams) {
     final String secret = paytrailConfig.getSecret();
-    final String hash = CalculateHmac(secret, paymentParams, "");
+    final String hash = calculateHmac(secret, paymentParams, "");
     final String account = paymentParams.get("checkout-account");
     final String algorithm = paymentParams.get("checkout-algorithm");
     final String signature = paymentParams.get("signature");
 
-    if (account != null && !account.equals(paytrailConfig.getAccount())) {
+    if (!hasRequiredHeaders(paymentParams)) {
+      LOG.error("Paytrail missing required headers: headers {}", paymentParams);
+      throw new RuntimeException("Invalid headers");
+    }
+
+    if (!account.equals(paytrailConfig.getAccount())) {
       LOG.error("Paytrail account mismatch: response: {} != config: {}", account, paytrailConfig.getAccount());
       throw new RuntimeException("Account mismatch");
     }
 
-    if (algorithm != null && !algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
+    if (!algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
       LOG.error("Paytrail algorithm mismatch: response: {} != config: {}", algorithm, PaytrailConfig.HMAC_ALGORITHM);
       throw new RuntimeException("Unknown algorithm");
     }
 
-    if (signature != null && !hash.equals(signature)) {
+    if (!hash.equals(signature)) {
       LOG.error("Paytrail signature mismatch: response: {} != calculated: {}", signature, hash);
       throw new RuntimeException("Signature mismatch");
     }

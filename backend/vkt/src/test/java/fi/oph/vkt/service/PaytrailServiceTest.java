@@ -90,7 +90,7 @@ public class PaytrailServiceTest {
   }
 
   @Test
-  public void testPaytrailCreatePaymentBadResponse() throws IOException, InterruptedException {
+  public void testPaytrailCreatePaymentBadResponse() throws IOException {
     MockWebServer mockWebServer;
     mockWebServer = new MockWebServer();
     mockWebServer.start();
@@ -158,6 +158,47 @@ public class PaytrailServiceTest {
 
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
     assertTrue(paytrailService.validate(paymentParams));
+  }
+
+  @Test
+  public void testValidatePaytrailWithHeaderVariations() {
+    WebClient webClient = WebClient.builder().baseUrl("").build();
+
+    final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
+    final String account = "375917";
+    final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
+    when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
+    when(paytrailConfig.getAccount()).thenReturn(account);
+    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
+
+    // No headers
+    final Map<String, String> paymentEmptyParams = new LinkedHashMap<>();
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentEmptyParams));
+
+    // Signature missing
+    final Map<String, String> paymentParams1 = getMockPaymentParams(account, signature);
+    paymentParams1.remove("signature");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams1));
+
+    // Account missing
+    final Map<String, String> paymentParams2 = getMockPaymentParams(account, signature);
+    paymentParams2.remove("checkout-account");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams2));
+
+    // Amount missing
+    final Map<String, String> paymentParams3 = getMockPaymentParams(account, signature);
+    paymentParams3.remove("checkout-amount");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams3));
+
+    // Status missing
+    final Map<String, String> paymentParams4 = getMockPaymentParams(account, signature);
+    paymentParams4.remove("checkout-status");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams4));
+
+    // Transaction id missing
+    final Map<String, String> paymentParams5 = getMockPaymentParams(account, signature);
+    paymentParams5.remove("checkout-transaction-id");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams5));
   }
 
   private String getMockJsonRequest() throws IOException {
