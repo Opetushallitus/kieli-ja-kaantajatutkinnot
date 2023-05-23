@@ -139,7 +139,7 @@
           "title": "Cancel contact request"
         },
         "characters": "characters",
-        "chosenTranslatorsForLanguagePair": "The translators selected from the language pair",
+        "chosenTranslatorsForLanguagePair": "The translators chosen from the language pair",
         "description": "You can use this contact request form to leave a contact request to the authorised translators you have selected. Please write a description of the required translation in as much detail as possible to your message.",
         "doneStep": {
           "description": "This page will automatically redirect you back to the home page. If nothing happens, click the button below.",
@@ -442,7 +442,7 @@
         "noSearchResults": "No search results",
         "note": "When searching by language pair, the possible search options are from the languages of Finland (Finnish, Swedish and Sámi languages) into foreign languages or vice versa, and between the languages of Finland. To ensure equal visibility, the translators are randomly reordered once a day within the search engine.",
         "requestContact": "Contact",
-        "requestContactAriaLabel": null,
+        "requestContactAriaLabel": "Contact chosen translators from listing.",
         "title": "Register of Authorised Translators"
       },
       "meetingDatesPage": {
