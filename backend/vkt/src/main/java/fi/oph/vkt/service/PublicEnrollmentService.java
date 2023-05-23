@@ -110,7 +110,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long openings,
     final PublicReservationDTO reservationDTO,
-    final Optional<Enrollment> enrollmentMaybe
+    final Optional<Enrollment> optionalEnrollment
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -131,27 +131,22 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .firstName(person.getFirstName())
       .build();
 
-    if (enrollmentMaybe.isPresent()) {
-      final PublicEnrollmentDTO enrollmentDTO = createEnrollmentDTO(enrollmentMaybe.get());
-
-      return PublicEnrollmentInitialisationDTO
+    return optionalEnrollment.isPresent()
+      ? PublicEnrollmentInitialisationDTO
         .builder()
         .examEvent(examEventDTO)
         .person(personDTO)
         .reservation(reservationDTO)
-        .enrollment(enrollmentDTO)
+        .enrollment(createEnrollmentDTO(optionalEnrollment.get()))
+        .build()
+      : PublicEnrollmentInitialisationDTO
+        .builder()
+        .examEvent(examEventDTO)
+        .person(personDTO)
+        .reservation(reservationDTO)
         .build();
-    }
-
-    return PublicEnrollmentInitialisationDTO
-      .builder()
-      .examEvent(examEventDTO)
-      .person(personDTO)
-      .reservation(reservationDTO)
-      .build();
   }
-
-  @Transactional(readOnly = true)
+@Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();

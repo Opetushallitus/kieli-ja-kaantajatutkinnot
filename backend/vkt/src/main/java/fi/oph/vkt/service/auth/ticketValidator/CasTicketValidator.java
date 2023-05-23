@@ -34,7 +34,7 @@ public class CasTicketValidator implements TicketValidator {
   private final WebClient webClient;
 
   @Override
-  public Map<String, String> validateTicket(final String ticket, long examEventId, EnrollmentType type) {
+  public Map<String, String> validateTicket(final String ticket, final long examEventId, final EnrollmentType type) {
     try {
       final String response = webClient
         .get()

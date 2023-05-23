@@ -182,7 +182,7 @@ public class PublicController {
     final HttpServletResponse httpResponse
   ) throws IOException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-    final String redirectUrl = paymentService.create(enrollmentId, person);
+    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
 
     httpResponse.sendRedirect(redirectUrl);
   }

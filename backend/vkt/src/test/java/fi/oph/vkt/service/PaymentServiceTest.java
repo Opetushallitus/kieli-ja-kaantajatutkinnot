@@ -87,7 +87,7 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    final String redirectUrl = paymentService.create(enrollment.getId(), person);
+    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
     final List<Item> items = List.of(
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
       Item
@@ -134,7 +134,7 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    final String redirectUrl = paymentService.create(enrollment.getId(), person);
+    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
 
     final List<Item> items = List.of(
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
@@ -169,7 +169,10 @@ public class PaymentServiceTest {
       publicEnrollmentEmailService
     );
 
-    final APIException ex = assertThrows(APIException.class, () -> paymentService.create(enrollment.getId(), person2));
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> paymentService.createPaymentForEnrollment(enrollment.getId(), person2)
+    );
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
     verify(paytrailService, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class), anyInt());
   }
@@ -377,7 +380,10 @@ public class PaymentServiceTest {
       publicEnrollmentEmailService
     );
 
-    final NotFoundException ex = assertThrows(NotFoundException.class, () -> paymentService.create(-1L, person));
+    final NotFoundException ex = assertThrows(
+      NotFoundException.class,
+      () -> paymentService.createPaymentForEnrollment(-1L, person)
+    );
     assertEquals("Enrollment not found", ex.getMessage());
   }
 

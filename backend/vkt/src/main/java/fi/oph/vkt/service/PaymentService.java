@@ -52,7 +52,7 @@ public class PaymentService {
       .build();
   }
 
-  private int getTotal(List<Item> itemList) {
+  private int getTotal(final List<Item> itemList) {
     return Math.min(
       COST_MAX,
       itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum)
@@ -76,16 +76,14 @@ public class PaymentService {
     return itemList;
   }
 
-  private Enrollment updateEnrollmentStatus(final Payment payment, final PaymentStatus paymentStatus) {
-    final Enrollment enrollment = payment.getEnrollment();
-
+  private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
       case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
       case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED);
     }
 
-    return enrollment;
+    enrollmentRepository.saveAndFlush(enrollment);
   }
 
   private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
@@ -94,15 +92,15 @@ public class PaymentService {
       .findById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
     final PaymentStatus currentStatus = payment.getPaymentStatus();
-    final PaymentStatus paymentStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
+    final PaymentStatus newStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
 
     if (!paytrailService.validate(paymentParams)) {
       LOG.error("Payment ({}) validation failed for params {}", paymentId, paymentParams);
       throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
     }
 
-    if (currentStatus == PaymentStatus.OK && paymentStatus != PaymentStatus.OK) {
-      LOG.error("Cannot change payment status from OK to {} for payment {}", paymentStatus, paymentId);
+    if (currentStatus == PaymentStatus.OK && newStatus != PaymentStatus.OK) {
+      LOG.error("Cannot change payment status from OK to {} for payment {}", newStatus, paymentId);
       throw new APIException(APIExceptionType.PAYMENT_ALREADY_PAID);
     }
 
@@ -117,14 +115,14 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
-    final Enrollment enrollment = updateEnrollmentStatus(payment, paymentStatus);
-    payment.setPaymentStatus(paymentStatus);
+    final Enrollment enrollment = payment.getEnrollment();
+    updateEnrollmentStatus(enrollment, newStatus);
 
-    enrollmentRepository.saveAndFlush(enrollment);
+    payment.setPaymentStatus(newStatus);
     paymentRepository.saveAndFlush(payment);
 
     final Person person = payment.getPerson();
-    if (paymentStatus == PaymentStatus.OK) {
+    if (newStatus == PaymentStatus.OK) {
       publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
     }
 
@@ -136,7 +134,7 @@ public class PaymentService {
     throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = findExam(payment);
+    final ExamEvent examEvent = getExam(payment);
 
     return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
   }
@@ -146,14 +144,14 @@ public class PaymentService {
     throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = findExam(payment);
+    final ExamEvent examEvent = getExam(payment);
 
     return String.format("%s/ilmoittaudu/%d/maksu/peruutettu", baseUrl, examEvent.getId());
   }
 
   @Transactional
-  public String create(final Long enrollmentId, final Person person) {
-    Enrollment enrollment = enrollmentRepository
+  public String createPaymentForEnrollment(final Long enrollmentId, final Person person) {
+    final Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
       .orElseThrow(() -> new NotFoundException("Enrollment not found"));
 
@@ -198,13 +196,12 @@ public class PaymentService {
     payment.setTransactionId(transactionId);
     paymentRepository.saveAndFlush(payment);
 
-    enrollment = updateEnrollmentStatus(payment, PaymentStatus.NEW);
-    enrollmentRepository.saveAndFlush(enrollment);
+    updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     return paymentUrl;
   }
 
-  private ExamEvent findExam(Payment payment) {
+  private ExamEvent getExam(final Payment payment) {
     final Enrollment enrollment = payment.getEnrollment();
 
     return enrollment.getExamEvent();
