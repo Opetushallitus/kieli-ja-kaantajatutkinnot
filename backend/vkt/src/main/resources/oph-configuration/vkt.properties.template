@@ -19,7 +19,7 @@ reservation.duration=PT30M
 public-base-url={{vkt_app_url}}
 
 cas-oppija.login-url={{opintopolku_baseurl}}/cas-oppija/login
-cas-oppija.service-url={{vkt_app_url}}/vkt/tunnistaudu
+cas-oppija.service-url={{vkt_app_url}}/vkt/api/v1/auth/validate/%s/%s
 cas-oppija.validate-ticket-url={{opintopolku_baseurl}}/cas-oppija/serviceValidate
 
 payment.paytrail.secret={{vkt_paytrail_secret}}
