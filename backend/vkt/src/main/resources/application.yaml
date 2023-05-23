@@ -66,8 +66,8 @@ cas:
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
   base-url:
-    public: ${public-base-url:http://localhost:4002/vkt}
-    api: ${api-base-url:http://localhost:${server.port}/vkt/api/v1}
+    public: ${public-base-url:http://localhost:4002}/vkt
+    api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
   cas-oppija:
     login-url: ${cas-oppija.login-url:https://testiopintopolku.fi/cas-oppija/login}
     service-url: ${cas-oppija.service-url:http://localhost:${server.port}/vkt/api/v1/auth/validate/%s/%s}
@@ -82,4 +82,4 @@ app:
       url: https://services.paytrail.com
       secret: ${payment.paytrail.secret:null}
       account: ${payment.paytrail.account:null}
-      return-base-url: ${payment.paytrail.return-base-url:http://localhost:${server.port}/vkt/api/v1}
+      return-base-url: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
