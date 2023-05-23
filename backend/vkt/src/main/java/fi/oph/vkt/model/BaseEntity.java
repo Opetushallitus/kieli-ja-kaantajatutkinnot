@@ -9,6 +9,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Getter
@@ -39,7 +41,9 @@ public class BaseEntity {
   private LocalDateTime deletedAt;
 
   private String getCurrentUserId() {
-    return SecurityContextHolder.getContext().getAuthentication().getName();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    return authentication != null ? authentication.getName() : null;
   }
 
   @PrePersist
