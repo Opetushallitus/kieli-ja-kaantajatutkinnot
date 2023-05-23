@@ -25,6 +25,6 @@ public enum PaymentStatus {
       }
     }
 
-    throw new RuntimeException("Unkown status " + text);
+    throw new RuntimeException("Unknown status " + text);
   }
 }

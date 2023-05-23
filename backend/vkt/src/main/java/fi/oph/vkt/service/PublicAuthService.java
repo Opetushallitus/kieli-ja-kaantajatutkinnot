@@ -24,7 +24,7 @@ public class PublicAuthService {
 
   private final Environment environment;
 
-  public String createCasLoginUrl(long examEventId, EnrollmentType type) {
+  public String createCasLoginUrl(final long examEventId, final EnrollmentType type) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
       String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
@@ -52,14 +52,14 @@ public class PublicAuthService {
     return personRepository.saveAndFlush(person);
   }
 
-  public String getEnrollmentContactDetailsURL(long examEventId) {
+  public String getEnrollmentContactDetailsURL(final long examEventId) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
 
     return String.format("%s/ilmoittaudu/%s/tiedot", baseUrl, examEventId);
   }
 
   @Transactional
-  public Person createPersonFromTicket(final String ticket, long examEventId, EnrollmentType type) {
+  public Person createPersonFromTicket(final String ticket, final long examEventId, final EnrollmentType type) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
     final String identityNumber = personDetails.get("identityNumber");

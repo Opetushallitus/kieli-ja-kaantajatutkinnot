@@ -1,21 +1,23 @@
 package fi.oph.vkt.api.dto;
 
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.NonNull;
 
 @Builder
 public record PublicEnrollmentDTO(
-  Long id,
-  Boolean oralSkill,
-  Boolean textualSkill,
-  Boolean understandingSkill,
-  Boolean speakingPartialExam,
-  Boolean speechComprehensionPartialExam,
-  Boolean writingPartialExam,
-  Boolean readingComprehensionPartialExam,
+  @NonNull @NotNull Long id,
+  @NonNull @NotNull Boolean oralSkill,
+  @NonNull @NotNull Boolean textualSkill,
+  @NonNull @NotNull Boolean understandingSkill,
+  @NonNull @NotNull Boolean speakingPartialExam,
+  @NonNull @NotNull Boolean speechComprehensionPartialExam,
+  @NonNull @NotNull Boolean writingPartialExam,
+  @NonNull @NotNull Boolean readingComprehensionPartialExam,
   String previousEnrollment,
-  Boolean digitalCertificateConsent,
-  String email,
-  String phoneNumber,
+  @NonNull @NotNull Boolean digitalCertificateConsent,
+  @NonNull @NotNull String email,
+  @NonNull @NotNull String phoneNumber,
   String street,
   String postalCode,
   String town,

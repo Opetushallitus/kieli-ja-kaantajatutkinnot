@@ -11,14 +11,13 @@ import org.apache.commons.codec.digest.HmacUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Crypto {
 
-  public static String computeSha256Hash(String message, String secret) {
-    String outMsg;
-    var hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, secret);
-    outMsg = hmac.hmacHex(message);
-    return outMsg.replace("-", "").toLowerCase();
+  public static String computeSha256Hash(final String message, final String secret) {
+    final HmacUtils hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, secret);
+
+    return hmac.hmacHex(message).replace("-", "").toLowerCase();
   }
 
-  public static List<String> collectHeaders(Map<String, String> hParams) {
+  public static List<String> collectHeaders(final Map<String, String> hParams) {
     return hParams
       .entrySet()
       .stream()
@@ -28,11 +27,10 @@ public class Crypto {
       .collect(Collectors.toList());
   }
 
-  public static String calculateHmac(String secret, Map<String, String> hParams, String body) {
-    List<String> data = collectHeaders(hParams);
+  public static String calculateHmac(final String secret, final Map<String, String> hParams, final String body) {
+    final List<String> data = collectHeaders(hParams);
     data.add(body);
 
-    String message = String.join("\n", data);
-    return computeSha256Hash(message, secret);
+    return computeSha256Hash(String.join("\n", data), secret);
   }
 }

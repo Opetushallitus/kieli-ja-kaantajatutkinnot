@@ -90,17 +90,17 @@ public class PaytrailService implements PaymentProvider {
     final int total
   ) {
     if (itemList.isEmpty()) {
-      throw new RuntimeException("Items is required");
+      throw new RuntimeException("itemList is required");
     }
 
-    final ObjectMapper om = new ObjectMapper();
+    final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
     final Body body = getBody(itemList, paymentId, customer, total);
     final String secret = paytrailConfig.getSecret();
 
     String bodyJson = null;
     try {
-      bodyJson = om.writeValueAsString(body);
+      bodyJson = objectMapper.writeValueAsString(body);
       final String hash = calculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
       final String response = paytrailWebClient
@@ -116,7 +116,7 @@ public class PaytrailService implements PaymentProvider {
         })
         .block();
 
-      return om.readValue(response, PaytrailResponseDTO.class);
+      return objectMapper.readValue(response, PaytrailResponseDTO.class);
     } catch (WebClientResponseException e) {
       LOG.error(
         "Paytrail returned error status {}\n response body: {}\n request body: {}\n paytrail headers: \n\t{}",
@@ -149,7 +149,7 @@ public class PaytrailService implements PaymentProvider {
     final String signature = paymentParams.get("signature");
 
     if (!hasRequiredHeaders(paymentParams)) {
-      LOG.error("Paytrail missing required headers: headers {}", paymentParams);
+      LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams);
       throw new RuntimeException("Invalid headers");
     }
 

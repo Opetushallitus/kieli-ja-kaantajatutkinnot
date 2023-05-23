@@ -40,7 +40,7 @@ public class BaseEntity {
   private LocalDateTime deletedAt;
 
   private String getCurrentUserId() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     return authentication != null ? authentication.getName() : null;
   }
