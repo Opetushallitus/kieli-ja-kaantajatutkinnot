@@ -146,7 +146,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
         .reservation(reservationDTO)
         .build();
   }
-@Transactional(readOnly = true)
+
+  @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
