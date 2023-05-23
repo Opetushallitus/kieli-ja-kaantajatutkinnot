@@ -4,14 +4,16 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClerkEnrollmentUtil {
 
   public static ClerkEnrollmentDTO createClerkEnrollmentDTO(final Enrollment enrollment) {
     final ClerkPersonDTO personDTO = createClerkPersonDTO(enrollment.getPerson());
-    final List<ClerkExamPaymentDTO> paymentDTOs = List.of(); // TODO implement
+    final List<ClerkExamPaymentDTO> paymentDTOs = createClerkPaymentDTO(enrollment.getPayments());
 
     return ClerkEnrollmentDTO
       .builder()
@@ -37,6 +39,21 @@ public class ClerkEnrollmentUtil {
       .country(enrollment.getCountry())
       .payments(paymentDTOs)
       .build();
+  }
+
+  private static List<ClerkExamPaymentDTO> createClerkPaymentDTO(final List<Payment> payments) {
+    return payments
+      .stream()
+      .map((final Payment payment) ->
+        ClerkExamPaymentDTO
+          .builder()
+          .id(payment.getPaymentId())
+          .paymentId(payment.getTransactionId())
+          .version(payment.getVersion())
+          .amount(payment.getAmount())
+          .build()
+      )
+      .collect(Collectors.toList());
   }
 
   private static ClerkPersonDTO createClerkPersonDTO(final Person person) {

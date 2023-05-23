@@ -13,6 +13,13 @@ interface Person extends WithId, WithVersion {
   firstName: string;
 }
 
+interface ClerkPayment extends WithId {
+  id: number;
+  version: number;
+  paymentId: string;
+  amount: number;
+}
+
 export interface ClerkEnrollment
   extends WithId,
     WithVersion,
@@ -24,6 +31,7 @@ export interface ClerkEnrollment
   previousEnrollment?: string;
   email: string;
   phoneNumber: string;
+  payments: ClerkPayment[];
 }
 
 export interface ClerkEnrollmentResponse

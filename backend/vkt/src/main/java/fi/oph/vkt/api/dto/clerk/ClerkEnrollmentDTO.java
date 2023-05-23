@@ -30,5 +30,5 @@ public record ClerkEnrollmentDTO(
   String postalCode,
   String town,
   String country,
-  @NonNull @NotNull List<ClerkExamPaymentDTO> payments
+  List<ClerkExamPaymentDTO> payments
 ) {}

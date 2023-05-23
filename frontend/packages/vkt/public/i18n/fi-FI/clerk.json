@@ -29,6 +29,9 @@
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
+        },
+        "enrollmentStatus": {
+          "paid": "Maksettu"
         }
       },
       "clerkEnrollmentListing": {

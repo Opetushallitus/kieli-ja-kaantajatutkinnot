@@ -1,6 +1,6 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { CustomTextField, H2, H3, InfoText } from 'shared/components';
+import { CustomTextField, H2, H3, InfoText, Text } from 'shared/components';
 import { Color, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
@@ -9,6 +9,7 @@ import {
   useClerkTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
+import { EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
@@ -218,6 +219,19 @@ export const ClerkEnrollmentDetailsFields = ({
     onCheckboxFieldChange(fieldName, false);
   };
 
+  const formatAmount = (amount: number) => {
+    return (amount / 100).toFixed(2);
+  };
+
+  const statusToDescription = (status: EnrollmentStatus) => {
+    switch (status) {
+      case EnrollmentStatus.PAID:
+        return t('enrollmentStatus.paid');
+    }
+
+    return <></>;
+  };
+
   return (
     <div className="clerk-enrollment-details-fields">
       <div className="columns margin-top-lg space-between">
@@ -333,6 +347,18 @@ export const ClerkEnrollmentDetailsFields = ({
               />
             </div>
           </div>
+        </div>
+        <div className="rows gapped-sm margin-top-lg">
+          <H3>Maksutunniste</H3>
+          <Text>{statusToDescription(enrollment.status)}</Text>
+          {enrollment.payments && (
+            <>
+              <Text>{enrollment.payments[0].paymentId}</Text>
+              <Text>
+                Summa: {formatAmount(enrollment.payments[0].amount)} &euro;
+              </Text>
+            </>
+          )}
         </div>
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>

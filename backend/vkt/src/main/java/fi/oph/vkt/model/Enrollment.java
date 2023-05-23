@@ -1,6 +1,8 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -82,4 +85,7 @@ public class Enrollment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
+
+  @OneToMany(mappedBy = "enrollment")
+  private List<Payment> payments = new ArrayList<>();
 }

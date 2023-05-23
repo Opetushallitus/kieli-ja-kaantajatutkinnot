@@ -10,5 +10,5 @@ public record ClerkExamPaymentDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotBlank String paymentId,
-  @NonNull @NotNull Long amount
+  @NonNull @NotNull Integer amount
 ) {}
