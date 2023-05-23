@@ -10,7 +10,6 @@ import javax.persistence.Version;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Getter
