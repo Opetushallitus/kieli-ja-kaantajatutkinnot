@@ -408,7 +408,7 @@ public class PaymentServiceTest {
     return person;
   }
 
-  private Enrollment createEnrollment(Person person) {
+  private Enrollment createEnrollment(final Person person) {
     final ExamEvent examEvent = Factory.examEvent();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);

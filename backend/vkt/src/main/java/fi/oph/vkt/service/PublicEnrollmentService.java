@@ -74,13 +74,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(long examEventId, Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Optional<Reservation> reservationMaybe = reservationRepository.findByExamEventAndPerson(examEvent, person);
-    final Optional<Enrollment> enrollmentMaybe = findEnrollment(examEvent, person, enrollmentRepository);
-    final PublicReservationDTO reservationDTO = reservationMaybe
+    final Optional<Reservation> optionalReservation = reservationRepository.findByExamEventAndPerson(examEvent, person);
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
+    final PublicReservationDTO reservationDTO = optionalReservation
       .map(publicReservationService::createReservationDTO)
       .orElse(null);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO, enrollmentMaybe);
+    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO, optionalEnrollment);
   }
 
   private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {

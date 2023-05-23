@@ -45,8 +45,7 @@ public class PaytrailServiceTest {
 
   @Test
   public void testPaytrailCreatePayment() throws IOException, InterruptedException {
-    MockWebServer mockWebServer;
-    mockWebServer = new MockWebServer();
+    final MockWebServer mockWebServer = new MockWebServer();
     mockWebServer.start();
 
     mockWebServer.enqueue(
@@ -56,8 +55,8 @@ public class PaytrailServiceTest {
         .setBody(getMockJsonResponse())
     );
 
-    String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
-    WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
+    final String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+    final WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
 
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
@@ -74,7 +73,7 @@ public class PaytrailServiceTest {
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
     assertNotNull(paytrailService.createPayment(itemList, 1L, customer, 100));
 
-    RecordedRequest request = mockWebServer.takeRequest();
+    final RecordedRequest request = mockWebServer.takeRequest();
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
@@ -91,8 +90,7 @@ public class PaytrailServiceTest {
 
   @Test
   public void testPaytrailCreatePaymentBadResponse() throws IOException {
-    MockWebServer mockWebServer;
-    mockWebServer = new MockWebServer();
+    final MockWebServer mockWebServer = new MockWebServer();
     mockWebServer.start();
 
     mockWebServer.enqueue(
@@ -102,8 +100,8 @@ public class PaytrailServiceTest {
         .setBody(getMockJsonFailResponse())
     );
 
-    String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
-    WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
+    final String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
+    final WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
 
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
@@ -130,7 +128,7 @@ public class PaytrailServiceTest {
 
   @Test
   public void testValidatePaytrailSignature() {
-    WebClient webClient = WebClient.builder().baseUrl("").build();
+    final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "b2d3ecdda2c04563a4638fcade3d4e77dfdc58829b429ad2c2cb422d0fc64080";
     final String account = "375917";
@@ -145,7 +143,7 @@ public class PaytrailServiceTest {
 
   @Test
   public void testValidatePaytrailSignatureWithNewHeader() {
-    WebClient webClient = WebClient.builder().baseUrl("").build();
+    final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
     final String account = "375917";
@@ -162,7 +160,7 @@ public class PaytrailServiceTest {
 
   @Test
   public void testValidatePaytrailWithHeaderVariations() {
-    WebClient webClient = WebClient.builder().baseUrl("").build();
+    final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
     final String account = "375917";
