@@ -51,13 +51,16 @@ export const PublicEnrollmentStepper = ({
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
+  const isStepCompleted = (stepNumber: number) =>
+    stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
+
   return (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}
     >
       {stepNumbers.map((i) => (
-        <Step key={i} completed={!(i === doneStepNumber && isError)}>
+        <Step key={i} completed={isStepCompleted(i)}>
           <StepLabel
             error={i === doneStepNumber && isError}
             aria-label={getStepAriaLabel(i)}

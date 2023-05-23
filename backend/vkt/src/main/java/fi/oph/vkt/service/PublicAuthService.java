@@ -72,10 +72,10 @@ public class PublicAuthService {
       ? null
       : LocalDate.parse(dateOfBirthRaw);
 
-    final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
+    final Optional<Person> optionalPerson = identityNumber != null && !identityNumber.isEmpty()
       ? personRepository.findByIdentityNumber(identityNumber)
       : personRepository.findByOtherIdentifier(otherIdentifier);
-    return maybePerson.orElseGet(() ->
+    return optionalPerson.orElseGet(() ->
       createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
   }
