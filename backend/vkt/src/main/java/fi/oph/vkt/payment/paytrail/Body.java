@@ -11,7 +11,7 @@ import lombok.NonNull;
 public record Body(
   @NonNull @NotNull @Size(max = 200) String stamp,
   @NonNull @NotNull @Size(max = 200) String reference,
-  int amount,
+  @NonNull @NotNull Integer amount,
   @NonNull @NotNull String currency,
   @NonNull @NotNull String language,
   @NonNull @NotNull List<Item> items,

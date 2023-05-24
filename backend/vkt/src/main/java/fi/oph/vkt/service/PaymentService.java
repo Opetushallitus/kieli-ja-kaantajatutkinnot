@@ -121,9 +121,8 @@ public class PaymentService {
     payment.setPaymentStatus(newStatus);
     paymentRepository.saveAndFlush(payment);
 
-    final Person person = payment.getPerson();
     if (newStatus == PaymentStatus.OK) {
-      publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+      publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
     }
 
     return payment;
@@ -174,7 +173,6 @@ public class PaymentService {
 
     final int total = getTotal(itemList);
     final Payment payment = new Payment();
-    payment.setPerson(person);
     payment.setAmount(total);
     payment.setEnrollment(enrollment);
     paymentRepository.saveAndFlush(payment);

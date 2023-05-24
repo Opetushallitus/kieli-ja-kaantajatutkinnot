@@ -36,8 +36,8 @@ public class PublicEnrollmentEmailService {
   private Boolean emailSendingEnabled;
 
   @Transactional
-  public void sendEnrollmentConfirmationEmail(final Enrollment enrollment, final Person person)
-    throws IOException, InterruptedException {
+  public void sendEnrollmentConfirmationEmail(final Enrollment enrollment) throws IOException, InterruptedException {
+    final Person person = enrollment.getPerson();
     final Map<String, Object> templateParams = getEmailParams(enrollment);
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();

@@ -26,10 +26,6 @@ public class Payment extends BaseEntity {
   @Column(name = "payment_id", nullable = false)
   private long paymentId;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
-  private Person person;
-
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "enrollment_id", referencedColumnName = "enrollment_id", nullable = false)
   private Enrollment enrollment;

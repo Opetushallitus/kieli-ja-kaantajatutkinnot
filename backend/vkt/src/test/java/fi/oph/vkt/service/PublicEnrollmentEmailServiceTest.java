@@ -129,7 +129,7 @@ public class PublicEnrollmentEmailServiceTest {
     when(templateRenderer.renderEnrollmentConfirmationEmailBody(expectedTemplateParams))
       .thenReturn("<html>enrollment</html>");
 
-    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
 
     final List<Email> emails = emailRepository.findAll();
     assertEquals(1, emails.size());
