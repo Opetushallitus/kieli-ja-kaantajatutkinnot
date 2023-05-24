@@ -139,7 +139,7 @@
           "title": "Avbryt kontaktförfrågan"
         },
         "characters": "tecken",
-        "chosenTranslatorsForLanguagePair": "Translatorerna du valt med språkparet",
+        "chosenTranslatorsForLanguagePair": "Valda translatorer i språkparet",
         "description": "Med denna blankett kan du lämna en kontaktförfrågan till vald auktoriserad translator. Skriv en så noggrann beskrivning som möjligt av översättningsarbetet i meddelandet.",
         "doneStep": {
           "description": "Denna sida leder dig automatiskt tillbaka till framsidan. Om ingenting händer kan du klicka på knappen ovan.",
@@ -152,18 +152,22 @@
         },
         "formLabels": {
           "contactInfo": "Dina kontaktuppgifter",
-          "email": "E-postadress",
+          "email": "E-post",
           "firstName": "Förnamn",
           "lastName": "Efternamn",
           "message": "Meddelande",
           "phoneNumber": "Telefonnummer",
           "writeMessageHere": "Meddelande"
         },
+        "previewAndSend": {
+          "yourMessage": "Ditt meddelande"
+        },
         "privacyStatement": {
           "ariaLabel": "Dataskyddsbeskrivning",
-          "label": "Jag har läst <0></0> av den här tjänsten och accepterar den.",
+          "label": "Jag har läst <0></0> av den här tjänsten och accepterar den (obligatoriskt).",
           "linkLabel": "dataskyddsbeskrivningen"
         },
+        "recipients": "Mottagare",
         "steps": {
           "active": "Aktiv",
           "completed": "Utfört",
@@ -178,6 +182,11 @@
           "accessibility": {
             "deselectTranslator": "Ta bort translator"
           }
+        },
+        "writeMessage": {
+          "mandatory": "obligatoriskt",
+          "message": "Meddelande",
+          "title": "Skriv ditt meddelande"
         }
       },
       "examinationDatesListing": {
@@ -433,6 +442,7 @@
         "noSearchResults": "Inga sökresultat",
         "note": "När du söker med språkpar är de möjliga sökalternativen från inhemska språk (finska, svenska, samiska) till främmande språk eller tvärtom samt mellan inhemska språk. För att säkerställa likvärdig synlighet lottas translatorerna i slumpmässig ordning i sökmotorn en gång om dagen.",
         "requestContact": "Kontakta",
+        "requestContactAriaLabel": "Kontakta valda translatorer i tabellen.",
         "title": "Register över auktoriserade translatorer"
       },
       "meetingDatesPage": {
