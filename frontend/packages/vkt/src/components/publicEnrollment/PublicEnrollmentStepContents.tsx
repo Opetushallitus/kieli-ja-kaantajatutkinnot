@@ -61,7 +61,7 @@ export const PublicEnrollmentStepContents = ({
         />
       );
     case PublicEnrollmentFormStep.PaymentFail:
-      return <Fail examEvent={selectedExamEvent} />;
+      return <Fail enrollment={enrollment} />;
     case PublicEnrollmentFormStep.PaymentSuccess:
     case PublicEnrollmentFormStep.Done:
       return <Done activeStep={activeStep} enrollment={enrollment} />;
