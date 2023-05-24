@@ -7,7 +7,7 @@ export class NotifierUtils {
   static getURLErrorMessage(error: string) {
     const t = translateOutsideComponent();
 
-    return Object.values(APIError).includes(error)
+    return Object.values(APIError).includes(error as APIError)
       ? t(`vkt.common.errors.api.${error}`)
       : t('vkt.common.errors.api.generic');
   }

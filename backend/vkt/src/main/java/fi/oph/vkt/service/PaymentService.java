@@ -78,9 +78,9 @@ public class PaymentService {
 
   private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
-      case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
+      case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
       case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
-      case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED);
+      case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED_PUBLIC);
     }
 
     enrollmentRepository.saveAndFlush(enrollment);
@@ -177,12 +177,7 @@ public class PaymentService {
     payment.setEnrollment(enrollment);
     paymentRepository.saveAndFlush(payment);
 
-    final PaytrailResponseDTO response = paytrailService.createPayment(
-      itemList,
-      payment.getPaymentId(),
-      customer,
-      total
-    );
+    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getId(), customer, total);
 
     final String transactionId = response.getTransactionId();
     final String reference = response.getReference();

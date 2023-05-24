@@ -18,8 +18,8 @@ public enum PaymentStatus {
     return text;
   }
 
-  public static PaymentStatus fromString(String text) {
-    for (PaymentStatus p : PaymentStatus.values()) {
+  public static PaymentStatus fromString(final String text) {
+    for (final PaymentStatus p : PaymentStatus.values()) {
       if (p.text.equalsIgnoreCase(text)) {
         return p;
       }

@@ -8,6 +8,5 @@ app:
     duration: PT5M
   payment:
     paytrail:
-      url: htps://services.paytrail.com
       secret: SAIPPUAKAUPPIAS
       account: 375917

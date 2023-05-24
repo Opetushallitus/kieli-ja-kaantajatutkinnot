@@ -78,7 +78,7 @@ public class PaymentServiceTest {
     final PaytrailService paytrailService = mock(PaytrailService.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,
@@ -198,7 +198,7 @@ public class PaymentServiceTest {
     );
     assertEquals(
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/valmis", enrollment.getExamEvent().getId()),
-      paymentService.success(payment.getPaymentId(), paymentParams)
+      paymentService.success(payment.getId(), paymentParams)
     );
     verify(publicEnrollmentEmailService, times(1)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
     assertEquals(EnrollmentStatus.PAID, enrollment.getStatus());
@@ -226,7 +226,7 @@ public class PaymentServiceTest {
     );
     assertEquals(
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/peruutettu", enrollment.getExamEvent().getId()),
-      paymentService.cancel(payment.getPaymentId(), paymentParams)
+      paymentService.cancel(payment.getId(), paymentParams)
     );
   }
 
@@ -251,7 +251,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getPaymentId(), paymentParams)
+      () -> paymentService.success(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
@@ -281,7 +281,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getPaymentId(), paymentParams)
+      () -> paymentService.success(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
@@ -308,7 +308,7 @@ public class PaymentServiceTest {
       publicEnrollmentEmailService
     );
 
-    paymentService.success(payment.getPaymentId(), paymentParams);
+    paymentService.success(payment.getId(), paymentParams);
     verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
@@ -334,7 +334,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getPaymentId(), paymentParams)
+      () -> paymentService.success(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());

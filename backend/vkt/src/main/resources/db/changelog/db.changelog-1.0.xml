@@ -511,6 +511,7 @@
                 columnNames="session_primary_id, attribute_name"
         />
     </changeSet>
+
     <changeSet id="2023-04-11-add_person_oid" author="jrkkp">
         <addColumn tableName="person">
             <column name="oid" type="VARCHAR(255)">
@@ -538,7 +539,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="2023-24-05-payment-table" author="jrkkp">
+    <changeSet id="2023-05-25-payment-table" author="jrkkp">
         <createTable tableName="payment">
             <column autoIncrement="true" name="payment_id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="payment_id_pkey"/>
@@ -567,6 +568,14 @@
             <column name="payment_url" type="TEXT"/>
             <column name="payment_status" type="TEXT"/>
         </createTable>
+
+        <insert tableName="enrollment_status">
+            <column name="name" value="EXPECTING_PAYMENT_PUBLIC"/>
+        </insert>
+        <insert tableName="enrollment_status">
+            <column name="name" value="CANCELED_PUBLIC"/>
+        </insert>
+
         <addForeignKeyConstraint baseTableName="payment" baseColumnNames="enrollment_id"
                                  referencedTableName="enrollment" referencedColumnNames="enrollment_id"
                                  constraintName="fk_payment_enrollment"

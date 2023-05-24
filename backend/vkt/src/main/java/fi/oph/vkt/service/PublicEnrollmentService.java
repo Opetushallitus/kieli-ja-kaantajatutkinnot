@@ -67,7 +67,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   private long getParticipants(final List<Enrollment> enrollments) {
     return enrollments
       .stream()
-      .filter(e -> e.getStatus() == EnrollmentStatus.PAID || e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT)
+      .filter(e ->
+        e.getStatus() == EnrollmentStatus.PAID ||
+        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT ||
+        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC
+      )
       .count();
   }
 
