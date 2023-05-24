@@ -10,9 +10,9 @@ import { NotifierUtils } from 'utils/notifier';
 export const useAPIErrorToast = () => {
   const dispatch = useAppDispatch();
   const params = new URLSearchParams(window.location.search);
-  const errorMessageQuery = params.get('error')
-    ? NotifierUtils.getURLErrorMessage(params.get('error'))
-    : null;
+  const paramError = params.get('error');
+  const errorMessageQuery =
+    paramError !== null ? NotifierUtils.getURLErrorMessage(paramError) : null;
   const errorMessage =
     useAppSelector(APIErrorSelector).message || errorMessageQuery;
   const { showToast } = useToast();

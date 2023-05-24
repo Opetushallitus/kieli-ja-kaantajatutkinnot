@@ -15,8 +15,8 @@ public enum EnrollmentType {
     return text;
   }
 
-  public static EnrollmentType fromString(String text) {
-    for (EnrollmentType p : EnrollmentType.values()) {
+  public static EnrollmentType fromString(final String text) {
+    for (final EnrollmentType p : EnrollmentType.values()) {
       if (p.text.equalsIgnoreCase(text)) {
         return p;
       }

@@ -24,9 +24,9 @@ public class Payment extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "payment_id", nullable = false)
-  private long paymentId;
+  private long id;
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "enrollment_id", referencedColumnName = "enrollment_id", nullable = false)
   private Enrollment enrollment;
 

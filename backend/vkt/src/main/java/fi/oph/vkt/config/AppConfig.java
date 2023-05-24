@@ -38,7 +38,7 @@ public class AppConfig {
   }
 
   @Bean
-  public PaytrailConfig paytrailConfig(Environment environment) {
+  public PaytrailConfig paytrailConfig(final Environment environment) {
     return PaytrailConfig
       .builder()
       .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
@@ -48,7 +48,7 @@ public class AppConfig {
   }
 
   @Bean
-  public WebClient paytrailWebClient(Environment environment) {
+  public WebClient paytrailWebClient(final Environment environment) {
     return webClientBuilderWithCallerId().baseUrl(environment.getRequiredProperty("app.payment.paytrail.url")).build();
   }
 
