@@ -4,6 +4,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -78,5 +79,17 @@ public class PublicAuthService {
     return optionalPerson.orElseGet(() ->
       createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
+  }
+
+  public String getErrorUrl() {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/etusivu?error=generic", baseUrl);
+  }
+
+  public String getErrorUrl(APIExceptionType exceptionType) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/etusivu?error=%s", baseUrl, exceptionType.getCode());
   }
 }
