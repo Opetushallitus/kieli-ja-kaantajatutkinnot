@@ -466,12 +466,12 @@
         "title": "Valitettavasti etsimääsi sivua ei löytynyt"
       },
       "statisticsPage": {
-        "title": "Tilastojen lataus",
         "contactRequests": "Yhteydenottopyynnöt",
+        "daily": "Päivittäin",
         "emails": "Sähköpostit",
-        "yearly": "Vuosittain",
         "monthly": "Kuukausittain",
-        "daily": "Päivittäin"
+        "title": "Tilastojen lataus",
+        "yearly": "Vuosittain"
       },
       "translator": {
         "languagePairs": "Kieliparit",
