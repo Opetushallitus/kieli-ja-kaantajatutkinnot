@@ -67,8 +67,8 @@ public class PaytrailServiceTest {
     when(paytrailConfig.getCancelUrl(1L)).thenReturn("http://localhost/cancel");
 
     final Customer customer = Customer.builder().email("testinen@test.invalid").build();
-    final Item item1 = Item.builder().productCode("foo").build();
-    final Item item2 = Item.builder().productCode("bar").build();
+    final Item item1 = getItem("foo");
+    final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
     assertNotNull(paytrailService.createPayment(itemList, 1L, customer, 100));
@@ -77,7 +77,7 @@ public class PaytrailServiceTest {
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("da4650bf2ad0b26668571c9e01df992d6600a927120aa2129f9d7b8730121bd7", request.getHeader("signature"));
+    assertEquals("446b6902b0a15b2bec030cb64e5adac6eaf1c29941208eb4f7f2c791bd052b10", request.getHeader("signature"));
     assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
@@ -112,8 +112,8 @@ public class PaytrailServiceTest {
     when(paytrailConfig.getCancelUrl(1L)).thenReturn("http://localhost/cancel");
 
     final Customer customer = Customer.builder().email("testinen@test.invalid").build();
-    final Item item1 = Item.builder().productCode("foo").build();
-    final Item item2 = Item.builder().productCode("bar").build();
+    final Item item1 = getItem("foo");
+    final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
     final RuntimeException ex = assertThrows(
@@ -209,6 +209,10 @@ public class PaytrailServiceTest {
 
   private String getMockJsonResponse() throws IOException {
     return new String(paytrailMockResponse.getInputStream().readAllBytes());
+  }
+
+  private Item getItem(final String productCode) {
+    return Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(productCode).build();
   }
 
   private Map<String, String> getMockPaymentParams(final String account, final String signature) {

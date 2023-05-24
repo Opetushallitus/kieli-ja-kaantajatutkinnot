@@ -200,8 +200,7 @@ public class PaymentServiceTest {
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/valmis", enrollment.getExamEvent().getId()),
       paymentService.success(payment.getPaymentId(), paymentParams)
     );
-    verify(publicEnrollmentEmailService, times(1))
-      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    verify(publicEnrollmentEmailService, times(1)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
     assertEquals(EnrollmentStatus.PAID, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
   }
@@ -257,8 +256,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0))
-      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
   @Test
@@ -288,8 +286,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0))
-      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
   @Test
@@ -312,8 +309,7 @@ public class PaymentServiceTest {
     );
 
     paymentService.success(payment.getPaymentId(), paymentParams);
-    verify(publicEnrollmentEmailService, times(0))
-      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
   @Test
@@ -343,8 +339,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0))
-      .sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()), eq(payment.getPerson()));
+    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
   @Test
@@ -393,7 +388,6 @@ public class PaymentServiceTest {
     final Enrollment enrollment = createEnrollment(person);
 
     payment.setAmount(45400);
-    payment.setPerson(person);
     payment.setEnrollment(enrollment);
 
     entityManager.persist(payment);

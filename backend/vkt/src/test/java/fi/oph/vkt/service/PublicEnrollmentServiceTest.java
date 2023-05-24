@@ -73,7 +73,7 @@ public class PublicEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
-    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any(), any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
 
     final Environment environment = mock(Environment.class);
@@ -412,7 +412,7 @@ public class PublicEnrollmentServiceTest {
     publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person.getId());
     assertCreatedEnrollment(EnrollmentStatus.QUEUED, dto);
 
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any(), any());
+    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any());
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 }
