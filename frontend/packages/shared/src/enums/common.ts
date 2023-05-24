@@ -123,3 +123,14 @@ export enum Variant {
   Outlined = 'outlined',
   Contained = 'contained',
 }
+
+export enum InputAutoComplete {
+  FirstName = 'given-name',
+  LastName = 'family-name',
+  Email = 'email',
+  PhoneNumber = 'tel',
+  Street = 'street-address',
+  PostalCode = 'postal-code',
+  Town = 'address-level2',
+  Country = 'country-name',
+}

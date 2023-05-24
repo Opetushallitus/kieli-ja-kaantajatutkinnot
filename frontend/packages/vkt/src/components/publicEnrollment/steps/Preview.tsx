@@ -183,6 +183,8 @@ export const Preview = ({
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
 }) => {
+  const translateCommon = useCommonTranslation();
+
   useEffect(() => {
     setIsStepValid(enrollment.privacyStatementConfirmation);
   }, [setIsStepValid, enrollment]);
@@ -206,18 +208,21 @@ export const Preview = ({
       />
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />
-      <FormControlLabel
-        control={
-          <Checkbox
-            onClick={handleCheckboxClick}
-            color={Color.Secondary}
-            checked={enrollment.privacyStatementConfirmation}
-            disabled={isLoading}
-          />
-        }
-        label={<PrivacyStatementCheckboxLabel />}
-        className="public-enrollment__grid__preview__privacy-statement-checkbox-label"
-      />
+      <div className="rows gapped">
+        <H2>{translateCommon('acceptTerms')}</H2>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onClick={handleCheckboxClick}
+              color={Color.Secondary}
+              checked={enrollment.privacyStatementConfirmation}
+              disabled={isLoading}
+            />
+          }
+          label={<PrivacyStatementCheckboxLabel />}
+          className="public-enrollment__grid__preview__privacy-statement-checkbox-label"
+        />
+      </div>
     </div>
   );
 };

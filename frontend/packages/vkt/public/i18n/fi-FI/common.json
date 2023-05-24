@@ -1,6 +1,7 @@
 {
   "vkt": {
     "common": {
+      "acceptTerms": "Hyväksy ehdot",
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
       "back": "Takaisin",

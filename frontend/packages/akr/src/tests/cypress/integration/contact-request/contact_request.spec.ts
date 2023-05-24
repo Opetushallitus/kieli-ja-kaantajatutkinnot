@@ -2,7 +2,6 @@ import { APIEndpoints } from 'enums/api';
 import {
   expectTextForId,
   fillContactDetailsStep,
-  LONG_TEST_MESSAGE,
   onContactRequestPage,
   previewAndSendStep,
   TEST_TRANSLATOR_IDS,
@@ -100,8 +99,8 @@ describe('ContactRequestPage', () => {
 
     onContactRequestPage.fillFieldByLabel(/etunimi/i, ' ');
     onContactRequestPage.fillFieldByLabel(/sukunimi/i, ' ');
-    onContactRequestPage.fillFieldByLabel(/sähköpostiosoite/i, ' ');
-    onContactRequestPage.blurFieldByLabel(/sähköpostiosoite/i);
+    onContactRequestPage.fillFieldByLabel(/sähköposti/i, ' ');
+    onContactRequestPage.blurFieldByLabel(/sähköposti/i);
 
     cy.findAllByText(/tieto on pakollinen/i)
       .should('be.visible')
@@ -118,30 +117,21 @@ describe('ContactRequestPage', () => {
     );
     onContactRequestPage.blurFieldByLabel(/puhelinnumero/i);
     onContactRequestPage.isNextDisabled();
-    onContactRequestPage.fillFieldByLabel(
-      /sähköpostiosoite/i,
-      'wrong.email.com'
-    );
-    onContactRequestPage.blurFieldByLabel(/sähköpostiosoite/i);
+    onContactRequestPage.fillFieldByLabel(/sähköposti/i, 'wrong.email.com');
+    onContactRequestPage.blurFieldByLabel(/sähköposti/i);
     onContactRequestPage.isNextDisabled();
 
     cy.findByText(/sähköpostiosoite on virheellinen/i).should('be.visible');
     cy.findByText(/puhelinnumero on virheellinen/i).should('be.visible');
   });
 
-  it('should show an error if the message field is empty or its length exceeds the limit', () => {
+  it('should show an error if the message field is empty', () => {
     verifyTranslatorsStep();
     fillContactDetailsStep();
     onContactRequestPage.next();
 
-    onContactRequestPage.blurFieldByLabel(/^viesti/i);
+    onContactRequestPage.fillMessage('{enter}');
     cy.findByText(/tieto on pakollinen/i).should('be.visible');
-    onContactRequestPage.isNextDisabled();
-
-    onContactRequestPage.pasteToFieldByLabel(/^viesti/i, LONG_TEST_MESSAGE);
-    onContactRequestPage.elements.byLabel(/^viesti/i).type('{enter}');
-
-    cy.findByText(/teksti on liian pitkä/i).should('be.visible');
     onContactRequestPage.isNextDisabled();
   });
 

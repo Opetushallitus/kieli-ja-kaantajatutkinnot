@@ -25,6 +25,7 @@ export const ContactRequestButton = () => {
       onClick={handleButtonClick}
       disabled={selectedTranslators.length == 0}
       data-testid="public-translators__contact-request-btn"
+      aria-label={t('requestContactAriaLabel')}
     >
       {t('requestContact')}
     </CustomButton>

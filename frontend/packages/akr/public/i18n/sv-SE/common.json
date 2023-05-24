@@ -1,6 +1,7 @@
 {
   "akr": {
     "common": {
+      "acceptTerms": "Acceptera villkoren",
       "akrLogoAlt": "Logo: Examenssystemet för auktoriserade translatorer.",
       "appNameAbbreviation": "AKR",
       "appTitle": "Register över auktoriserade translatorer | Utbildningsstyrelsen",
@@ -26,6 +27,7 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Till framsidan av register över auktoriserade translatorer.",
       "phase": "Skede",
       "register": "Register",
+      "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
       "save": "Spara",
       "send": "Sänd",
       "yes": "Ja"
