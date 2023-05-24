@@ -17,6 +17,7 @@ export enum APIEndpoints {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
+  EnrollmentAlreadyPaid = 'enrollmentAlreadyPaid',
   EnrollmentMoveExamEventLanguageMismatch = 'enrollmentMoveExamEventLanguageMismatch',
   EnrollmentMovePersonAlreadyEnrolled = 'enrollmentMovePersonAlreadyEnrolled',
   ExamEventDuplicate = 'examEventDuplicate',
@@ -30,4 +31,8 @@ export enum APIError {
   RenewReservationNotAllowed = 'renewReservationNotAllowed',
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
   TicketValidationError = 'ticketValidationError',
+  PaymentAlreadyPaid = 'paymentAlreadyPaid',
+  PaymentAmountMismatch = 'paymentAmountMismatch',
+  PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
+  PaymentValidationFail = 'paymentValidationFail',
 }
