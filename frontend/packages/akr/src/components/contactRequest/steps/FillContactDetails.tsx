@@ -1,14 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CustomTextField, H3 } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { CustomTextField, Text } from 'shared/components';
+import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
 
-import {
-  ChosenTranslators,
-  ChosenTranslatorsHeading,
-  StepHeading,
-} from 'components/contactRequest/ContactRequestFormUtils';
-import { useAppTranslation } from 'configs/i18n';
+import { StepHeading } from 'components/contactRequest/ContactRequestFormUtils';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { ContactDetails } from 'interfaces/contactRequest';
@@ -26,6 +22,7 @@ export const FillContactDetails = ({
   const { t } = useAppTranslation({
     keyPrefix: 'akr',
   });
+  const translateCommon = useCommonTranslation();
 
   // State
   const [fieldErrors, setFieldErrors] = useState({
@@ -105,44 +102,37 @@ export const FillContactDetails = ({
     <div className="rows">
       <StepHeading step={ContactRequestFormStep.FillContactDetails} />
       <div className="rows gapped">
-        <ChosenTranslatorsHeading />
-        <ChosenTranslators />
-        <div className="rows gapped">
-          <H3>
-            {t(
-              'component.contactRequestForm.steps.' +
-                ContactRequestFormStep[
-                  ContactRequestFormStep.FillContactDetails
-                ]
-            )}
-          </H3>
-          <div className="grid-columns gapped">
-            <CustomTextField
-              {...getCustomTextFieldAttributes('firstName')}
-              value={request?.firstName}
-              type={TextFieldTypes.Text}
-              required
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('lastName')}
-              type={TextFieldTypes.Text}
-              value={request?.lastName}
-              required
-            />
-          </div>
-          <div className="grid-columns gapped">
-            <CustomTextField
-              {...getCustomTextFieldAttributes('email')}
-              type={TextFieldTypes.Email}
-              value={request?.email}
-              required
-            />
-            <CustomTextField
-              {...getCustomTextFieldAttributes('phoneNumber')}
-              value={request?.phoneNumber}
-              type={TextFieldTypes.PhoneNumber}
-            />
-          </div>
+        <Text>{translateCommon('requiredFieldsInfo')}</Text>
+        <div className="grid-columns gapped">
+          <CustomTextField
+            {...getCustomTextFieldAttributes('firstName')}
+            value={request?.firstName}
+            type={TextFieldTypes.Text}
+            required
+            autoComplete={InputAutoComplete.FirstName}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('lastName')}
+            type={TextFieldTypes.Text}
+            value={request?.lastName}
+            required
+            autoComplete={InputAutoComplete.LastName}
+          />
+        </div>
+        <div className="grid-columns gapped">
+          <CustomTextField
+            {...getCustomTextFieldAttributes('email')}
+            type={TextFieldTypes.Email}
+            value={request?.email}
+            required
+            autoComplete={InputAutoComplete.Email}
+          />
+          <CustomTextField
+            {...getCustomTextFieldAttributes('phoneNumber')}
+            value={request?.phoneNumber}
+            type={TextFieldTypes.PhoneNumber}
+            autoComplete={InputAutoComplete.PhoneNumber}
+          />
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ export const PublicInterpreterListingHeader = () => {
           <TableCell>{t('name')}</TableCell>
           <TableCell>{t('languagePairs')}</TableCell>
           <TableCell>{t('region')}</TableCell>
+          <TableCell>{t('contactInformation')}</TableCell>
         </TableRow>
       )}
     </TableHead>

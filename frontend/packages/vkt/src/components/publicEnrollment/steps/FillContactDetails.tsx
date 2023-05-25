@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H2, Text } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
 
@@ -143,6 +143,7 @@ export const FillContactDetails = ({
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={enrollment.email}
+            autoComplete={InputAutoComplete.Email}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('emailConfirmation')}
@@ -161,6 +162,7 @@ export const FillContactDetails = ({
         className="phone-number"
         value={enrollment.phoneNumber}
         type={TextFieldTypes.PhoneNumber}
+        autoComplete={InputAutoComplete.PhoneNumber}
       />
     </div>
   );
