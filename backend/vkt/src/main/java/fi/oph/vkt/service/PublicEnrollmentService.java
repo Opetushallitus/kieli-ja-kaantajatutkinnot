@@ -190,7 +190,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    final Enrollment enrollment = new Enrollment();
+    final Enrollment enrollment = findEnrollment(reservation.getExamEvent(), person, enrollmentRepository)
+      .orElseGet(Enrollment::new);
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);

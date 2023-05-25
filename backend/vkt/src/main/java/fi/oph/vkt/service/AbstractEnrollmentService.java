@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import java.util.Optional;
 
@@ -40,6 +41,14 @@ public abstract class AbstractEnrollmentService {
     final Person person,
     final EnrollmentRepository enrollmentRepository
   ) {
-    return findEnrollment(examEvent, person, enrollmentRepository).isPresent();
+    final Optional<Enrollment> enrollment = findEnrollment(examEvent, person, enrollmentRepository);
+
+    if (enrollment.isEmpty()) {
+      return false;
+    }
+
+    final EnrollmentStatus status = enrollment.get().getStatus();
+
+    return status != EnrollmentStatus.CANCELED_PUBLIC && status != EnrollmentStatus.CANCELED;
   }
 }
