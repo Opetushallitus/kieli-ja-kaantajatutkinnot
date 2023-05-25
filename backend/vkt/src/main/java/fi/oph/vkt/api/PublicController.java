@@ -64,28 +64,6 @@ public class PublicController {
     return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
   }
 
-  @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
-  @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollment(
-    @PathVariable final long examEventId,
-    final HttpSession session
-  ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-
-    return publicEnrollmentService.initialiseEnrollment(examEventId, person);
-  }
-
-  @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
-  @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(
-    @PathVariable final long examEventId,
-    final HttpSession session
-  ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-
-    return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
-  }
-
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentDTO createEnrollment(
