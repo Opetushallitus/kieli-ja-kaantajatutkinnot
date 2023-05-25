@@ -47,7 +47,7 @@ public class ClerkEnrollmentUtil {
       .map((final Payment payment) ->
         ClerkExamPaymentDTO
           .builder()
-          .id(payment.getPaymentId())
+          .id(payment.getId())
           .paymentId(payment.getTransactionId())
           .version(payment.getVersion())
           .amount(payment.getAmount())
