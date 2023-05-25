@@ -12,16 +12,33 @@ import {
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
+  createClerkEnrollmentPaymentLink,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentDetailsUpdate,
   rejectMoveEnrollment,
   storeClerkEnrollmentDetailsUpdate,
+  storeClerkEnrollmentPaymentLink,
   updateClerkEnrollmentDetails,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { storeClerkExamEventOverview } from 'redux/reducers/clerkExamEventOverview';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
+
+function* createClerkEnrollmentPaymentLinkSaga(
+  action: PayloadAction<ClerkEnrollment>
+) {
+  const enrollment = action.payload;
+
+  try {
+    const apiResponse: AxiosResponse<string> = yield call(
+      axiosInstance.post,
+      `${APIEndpoints.ClerkEnrollment}/payment/${enrollment.id}/link`,
+      {}
+    );
+    yield put(storeClerkEnrollmentPaymentLink(apiResponse.data));
+  } catch (error) {}
+}
 
 function* updateClerkEnrollmentDetailsSaga(
   action: PayloadAction<{
@@ -81,4 +98,8 @@ export function* watchClerkEnrollmentDetails() {
     updateClerkEnrollmentDetailsSaga
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
+  yield takeLatest(
+    createClerkEnrollmentPaymentLink,
+    createClerkEnrollmentPaymentLinkSaga
+  );
 }

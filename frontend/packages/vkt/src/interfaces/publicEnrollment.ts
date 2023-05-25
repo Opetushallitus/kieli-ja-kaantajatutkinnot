@@ -57,4 +57,5 @@ export interface PublicEnrollment
   previousEnrollment?: string;
   hasPreviousEnrollment?: boolean;
   privacyStatementConfirmation: boolean;
+  status?: string;
 }

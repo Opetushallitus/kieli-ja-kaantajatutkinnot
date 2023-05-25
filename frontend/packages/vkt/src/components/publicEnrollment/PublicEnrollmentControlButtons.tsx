@@ -33,6 +33,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid,
   setShowValidation,
   submitStatus,
+  isStepsAvailable,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -41,6 +42,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
+  isStepsAvailable: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -188,12 +190,14 @@ export const PublicEnrollmentControlButtons = ({
     </CustomButton>
   );
 
-  const renderBack = activeStep !== PublicEnrollmentFormStep.Authenticate;
+  const renderBack =
+    activeStep !== PublicEnrollmentFormStep.Authenticate && isStepsAvailable;
 
-  const renderNext = [
-    PublicEnrollmentFormStep.FillContactDetails,
-    PublicEnrollmentFormStep.SelectExam,
-  ].includes(activeStep);
+  const renderNext =
+    [
+      PublicEnrollmentFormStep.FillContactDetails,
+      PublicEnrollmentFormStep.SelectExam,
+    ].includes(activeStep) && isStepsAvailable;
 
   const renderSubmit = activeStep === PublicEnrollmentFormStep.Preview;
 

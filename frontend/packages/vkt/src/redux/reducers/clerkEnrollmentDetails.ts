@@ -11,6 +11,7 @@ interface ClerkEnrollmentDetailsState {
   status: APIResponseStatus;
   moveStatus: APIResponseStatus;
   enrollment?: ClerkEnrollment;
+  paymentLink?: string;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
@@ -47,6 +48,16 @@ const clerkEnrollmentDetailsSlice = createSlice({
     rejectClerkEnrollmentDetailsUpdate(state) {
       state.status = APIResponseStatus.Error;
     },
+    createClerkEnrollmentPaymentLink(
+      state,
+      _action: PayloadAction<ClerkEnrollment>
+    ) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentPaymentLink(state, action: PayloadAction<string>) {
+      state.status = APIResponseStatus.Success;
+      state.paymentLink = action.payload;
+    },
     moveEnrollment(state, _action: PayloadAction<ClerkEnrollmentMove>) {
       state.moveStatus = APIResponseStatus.InProgress;
     },
@@ -70,6 +81,8 @@ export const {
   updateClerkEnrollmentDetails,
   storeClerkEnrollmentDetailsUpdate,
   rejectClerkEnrollmentDetailsUpdate,
+  createClerkEnrollmentPaymentLink,
+  storeClerkEnrollmentPaymentLink,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectMoveEnrollment,

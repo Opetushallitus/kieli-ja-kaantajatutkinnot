@@ -80,6 +80,8 @@ export const PublicEnrollmentGrid = ({
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
+  const isStepsAvailable =
+    enrollment?.status !== 'paid' && enrollment?.status !== 'expectinPayment';
 
   const renderDesktopView = () => (
     <>
@@ -88,10 +90,12 @@ export const PublicEnrollmentGrid = ({
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             {selectedExamEvent && (
               <div className="public-enrollment__grid__form-container">
-                <PublicEnrollmentStepper
-                  activeStep={activeStep}
-                  includePaymentStep={hasReservation}
-                />
+                {isStepsAvailable && (
+                  <PublicEnrollmentStepper
+                    activeStep={activeStep}
+                    includePaymentStep={hasReservation}
+                  />
+                )}
                 {reservationDetails?.reservation && !isDoneStepActive && (
                   <PublicEnrollmentTimer
                     reservation={reservationDetails.reservation}
@@ -123,6 +127,7 @@ export const PublicEnrollmentGrid = ({
                     isLoading={isLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}
+                    isStepsAvailable={isStepsAvailable}
                   />
                 )}
               </div>

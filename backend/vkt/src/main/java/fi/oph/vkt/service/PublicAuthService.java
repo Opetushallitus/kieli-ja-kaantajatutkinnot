@@ -92,4 +92,10 @@ public class PublicAuthService {
 
     return String.format("%s/etusivu?error=%s", baseUrl, exceptionType.getCode());
   }
+
+  public String getPreviewUrl(long examEventId) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/ilmoittaudu/%s/esikatsele", baseUrl, examEventId);
+  }
 }

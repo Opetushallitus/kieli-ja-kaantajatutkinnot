@@ -1,7 +1,15 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { CustomTextField, H2, H3, InfoText, Text } from 'shared/components';
-import { Color, TextFieldTypes } from 'shared/enums';
+import {
+  CustomButton,
+  CustomModal,
+  CustomTextField,
+  H2,
+  H3,
+  InfoText,
+  Text,
+} from 'shared/components';
+import { Color, TextFieldTypes, Variant } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
@@ -9,11 +17,14 @@ import {
   useClerkTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { createClerkEnrollmentPaymentLink } from 'redux/reducers/clerkEnrollmentDetails';
+import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
 const CheckboxField = ({
   enrollment,
@@ -150,6 +161,12 @@ export const ClerkEnrollmentDetailsFields = ({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
   const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
+  const paymentLink = useAppSelector(
+    clerkEnrollmentDetailsSelector
+  ).paymentLink;
+
+  const [paymentLinkModalClosed, setPaymentLinkModalClosed] = useState(false);
 
   const initialFieldErrors = Object.values(ClerkEnrollmentDetailsFields).reduce(
     (acc, val) => {
@@ -351,14 +368,25 @@ export const ClerkEnrollmentDetailsFields = ({
         <div className="rows gapped-sm margin-top-lg">
           <H3>Maksutunniste</H3>
           <Text>{statusToDescription(enrollment.status)}</Text>
-          {enrollment.payments && (
+          {enrollment.payments?.length > 0 && (
             <>
-              <Text>{enrollment.payments[0].paymentId}</Text>
+              <Text>{enrollment.payments[0].id}</Text>
               <Text>
                 Summa: {formatAmount(enrollment.payments[0].amount)} &euro;
               </Text>
             </>
           )}
+          <div className="columns gapped flex-start">
+            <CustomButton
+              color={Color.Secondary}
+              variant={Variant.Outlined}
+              onClick={() => {
+                dispatch(createClerkEnrollmentPaymentLink(enrollment));
+              }}
+            >
+              Luo maksulinkki
+            </CustomButton>
+          </div>
         </div>
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>
@@ -415,6 +443,24 @@ export const ClerkEnrollmentDetailsFields = ({
           </div>
         )}
       </div>
+      <CustomModal
+        open={!!paymentLink && !paymentLinkModalClosed}
+        modalTitle={t('reservationExpired')}
+        onCloseModal={() => setPaymentLinkModalClosed(true)}
+      >
+        <>
+          <Text>{paymentLink}</Text>
+          <div className="columns gapped flex-end">
+            <CustomButton
+              variant={Variant.Contained}
+              color={Color.Secondary}
+              onClick={() => setPaymentLinkModalClosed(true)}
+            >
+              Sulje
+            </CustomButton>
+          </div>
+        </>
+      </CustomModal>
     </div>
   );
 };

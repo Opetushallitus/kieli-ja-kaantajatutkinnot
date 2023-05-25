@@ -8,12 +8,14 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
+  private final Environment environment;
 
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
@@ -70,5 +73,15 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     auditService.logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
 
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+  }
+
+  @Transactional
+  public String createPaymentLink(final long enrollmentId) {
+    final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
+    final ExamEvent examEvent = enrollment.getExamEvent();
+    final Person person = enrollment.getPerson();
+    final String baseUrl = environment.getRequiredProperty("app.base-url.api");
+
+    return String.format("%s/examEvent/%d/redirect/%d", baseUrl, examEvent.getId(), person.getId());
   }
 }

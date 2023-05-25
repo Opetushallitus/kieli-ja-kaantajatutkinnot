@@ -22,6 +22,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,12 @@ public class ClerkEnrollmentController {
 
   @Resource
   private ReceiptRenderer receiptRenderer;
+  @PostMapping("/payment/{enrollmentId:\\d+}/link")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
+  public String createPaymentLink(@PathVariable final long enrollmentId) {
+    return clerkEnrollmentService.createPaymentLink(enrollmentId);
+  }
+
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")

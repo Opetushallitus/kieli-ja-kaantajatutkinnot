@@ -1,6 +1,8 @@
 package fi.oph.vkt.api.dto;
 
 import javax.validation.constraints.NotNull;
+
+import fi.oph.vkt.model.type.EnrollmentStatus;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -21,6 +23,7 @@ public record PublicEnrollmentDTO(
   String street,
   String postalCode,
   String town,
-  String country
+  String country,
+  String status
 )
   implements EnrollmentDTOCommonFields {}

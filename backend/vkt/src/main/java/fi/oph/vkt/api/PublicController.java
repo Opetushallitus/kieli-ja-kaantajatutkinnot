@@ -105,6 +105,19 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personId:\\d+}")
+  public void createSessionAndRedirectToPreview(
+    final HttpServletResponse httpResponse,
+    @PathVariable final long examEventId,
+    @PathVariable final long personId,
+    final HttpSession session
+  ) throws IOException {
+    final Person person = publicPersonService.getPerson(personId);
+    SessionUtil.setPersonId(session, person.getId());
+
+    httpResponse.sendRedirect(publicAuthService.getPreviewUrl(examEventId));
+  }
+
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
   public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));

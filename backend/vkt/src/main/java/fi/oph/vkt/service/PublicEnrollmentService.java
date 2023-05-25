@@ -112,6 +112,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
+      .status(enrollment.getStatus().getCode())
       .build();
   }
 
