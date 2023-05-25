@@ -194,7 +194,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .orElseGet(Enrollment::new);
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
