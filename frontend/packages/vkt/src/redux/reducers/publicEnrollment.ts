@@ -8,7 +8,7 @@ import {
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
-interface PublicEnrollmentState {
+export interface PublicEnrollmentState {
   reservationDetailsStatus: APIResponseStatus;
   reservationDetails?: PublicReservationDetails;
   renewReservationStatus: APIResponseStatus;

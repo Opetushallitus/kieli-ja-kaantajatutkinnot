@@ -95,6 +95,14 @@ export const PublicEnrollmentGrid = ({
     }
   }, [cancelStatus, navigate, dispatch]);
 
+  useEffect(() => {
+    return () => {
+      if (cancelStatus === APIResponseStatus.Success) {
+        dispatch(resetPublicEnrollment());
+      }
+    };
+  }, [dispatch, cancelStatus]);
+
   useNavigationProtection(
     activeStep > PublicEnrollmentFormStep.Authenticate &&
       activeStep < PublicEnrollmentFormStep.Preview &&
