@@ -39,11 +39,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final List<Enrollment> enrollments = examEvent.getEnrollments();
-
-    final long participants = getParticipants(enrollments);
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
-    final long openings = hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
+    final long openings = getOpenings(examEvent);
     final long reservations = examEvent.getReservations().stream().filter(Reservation::isActive).count();
 
     if (openings <= 0) {
@@ -75,6 +71,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .count();
   }
 
+  private long getOpenings(final ExamEvent examEvent) {
+    final List<Enrollment> enrollments = examEvent.getEnrollments();
+
+    final long participants = getParticipants(enrollments);
+    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
+
+    return hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
+  }
+
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(long examEventId, Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
@@ -83,8 +88,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicReservationDTO reservationDTO = optionalReservation
       .map(publicReservationService::createReservationDTO)
       .orElse(null);
+    final long openings = getOpenings(examEvent);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, 0L, reservationDTO, optionalEnrollment);
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, optionalEnrollment);
   }
 
   private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {
@@ -156,9 +162,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
-    final long participants = getParticipants(enrollments);
     final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
-    final long openings = examEvent.getMaxParticipants() - participants;
+    final long openings = getOpenings(examEvent);
 
     if (!hasQueue && openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
