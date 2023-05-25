@@ -581,4 +581,15 @@
                                  constraintName="fk_payment_enrollment"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+    <changeSet id="2023-05-26-person-payment-link-hash" author="jrkkp">
+        <addColumn tableName="person">
+            <column name="payment_link_hash" type="VARCHAR(255)">
+                <constraints
+                        nullable="true"
+                        unique="true"
+                        uniqueConstraintName="person_payment_link_hash_uniq_idx"
+                />
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

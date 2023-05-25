@@ -43,12 +43,12 @@ public class ClerkEnrollmentController {
 
   @Resource
   private ReceiptRenderer receiptRenderer;
+
   @PostMapping("/payment/{enrollmentId:\\d+}/link")
   @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
   public String createPaymentLink(@PathVariable final long enrollmentId) {
     return clerkEnrollmentService.createPaymentLink(enrollmentId);
   }
-
 
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")

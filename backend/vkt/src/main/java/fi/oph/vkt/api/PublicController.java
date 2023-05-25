@@ -105,14 +105,14 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personId:\\d+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personHash:\\w+}")
   public void createSessionAndRedirectToPreview(
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
-    @PathVariable final long personId,
+    @PathVariable final String personHash,
     final HttpSession session
   ) throws IOException {
-    final Person person = publicPersonService.getPerson(personId);
+    final Person person = publicPersonService.getPersonByHash(personHash);
     SessionUtil.setPersonId(session, person.getId());
 
     httpResponse.sendRedirect(publicAuthService.getPreviewUrl(examEventId));

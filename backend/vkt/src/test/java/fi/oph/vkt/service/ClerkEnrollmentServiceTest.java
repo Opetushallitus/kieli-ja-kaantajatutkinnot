@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -20,6 +21,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.util.Arrays;
@@ -29,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -41,6 +44,9 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private ExamEventRepository examEventRepository;
 
+  @Resource
+  private PersonRepository personRepository;
+
   @MockBean
   private AuditService auditService;
 
@@ -51,7 +57,16 @@ class ClerkEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkEnrollmentService = new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService);
+    final Environment environment = mock(Environment.class);
+
+    clerkEnrollmentService =
+      new ClerkEnrollmentService(
+        enrollmentRepository,
+        personRepository,
+        examEventRepository,
+        auditService,
+        environment
+      );
   }
 
   @Test

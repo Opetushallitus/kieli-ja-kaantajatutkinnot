@@ -1,5 +1,7 @@
 package fi.oph.vkt.payment;
 
+import static java.util.UUID.randomUUID;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,5 +34,9 @@ public class Crypto {
     data.add(body);
 
     return computeSha256Hash(String.join("\n", data), secret);
+  }
+
+  public static String getRandomNonce() {
+    return randomUUID().toString();
   }
 }

@@ -15,4 +15,10 @@ public class PublicPersonService {
   public Person getPerson(final Long personId) {
     return personRepository.findById(personId).orElseThrow(() -> new NotFoundException("Person not found"));
   }
+
+  public Person getPersonByHash(final String personHash) {
+    return personRepository
+      .findByPaymentLinkHash(personHash)
+      .orElseThrow(() -> new NotFoundException("Person not found"));
+  }
 }

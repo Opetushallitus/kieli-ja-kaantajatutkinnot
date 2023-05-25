@@ -9,12 +9,15 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.payment.Crypto;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.Crypt;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
+  private final PersonRepository personRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
   private final Environment environment;
@@ -81,7 +85,16 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent = enrollment.getExamEvent();
     final Person person = enrollment.getPerson();
     final String baseUrl = environment.getRequiredProperty("app.base-url.api");
+    final String hash;
 
-    return String.format("%s/examEvent/%d/redirect/%d", baseUrl, examEvent.getId(), person.getId());
+    if (person.getPaymentLinkHash() != null) {
+      hash = person.getPaymentLinkHash();
+    } else {
+      hash = Crypto.getRandomNonce();
+      person.setPaymentLinkHash(hash);
+      personRepository.saveAndFlush(person);
+    }
+
+    return String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), hash);
   }
 }

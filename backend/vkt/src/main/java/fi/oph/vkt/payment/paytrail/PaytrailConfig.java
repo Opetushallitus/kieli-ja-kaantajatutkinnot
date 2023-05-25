@@ -2,6 +2,7 @@ package fi.oph.vkt.payment.paytrail;
 
 import static java.util.UUID.randomUUID;
 
+import fi.oph.vkt.payment.Crypto;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +33,8 @@ public class PaytrailConfig {
     return ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
   }
 
+  // Needed for tests
   public String getRandomNonce() {
-    return randomUUID().toString();
+    return Crypto.getRandomNonce();
   }
 }
