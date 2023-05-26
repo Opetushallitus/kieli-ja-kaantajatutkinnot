@@ -1,4 +1,4 @@
-package fi.oph.akr.config;
+package fi.oph.akr.config.security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
