@@ -11,7 +11,7 @@ import { PublicEnrollmentStepContents } from 'components/publicEnrollment/Public
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 //import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
@@ -81,11 +81,12 @@ export const PublicEnrollmentGrid = ({
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
   const isStepsAvailable =
-    enrollment?.status !== 'paid' && enrollment?.status !== 'expectingPayment';
+    enrollment?.status !== 'paid' &&
+    enrollment?.status !== EnrollmentStatus.EXPECTING_PAYMENT;
   const isPaymentSumAvailable =
     isPreviewStepActive &&
     (reservationDetails?.reservation ||
-      enrollment?.status === 'expectingPayment');
+      enrollment?.status === EnrollmentStatus.EXPECTING_PAYMENT);
 
   const renderDesktopView = () => (
     <>

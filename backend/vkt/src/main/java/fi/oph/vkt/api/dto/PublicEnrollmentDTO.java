@@ -23,6 +23,6 @@ public record PublicEnrollmentDTO(
   String postalCode,
   String town,
   String country,
-  String status
+  EnrollmentStatus status
 )
   implements EnrollmentDTOCommonFields {}

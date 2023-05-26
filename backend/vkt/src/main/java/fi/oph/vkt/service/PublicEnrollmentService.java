@@ -57,7 +57,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, Optional.empty());
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, Optional.empty(), true);
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -90,7 +90,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .orElse(null);
     final long openings = getOpenings(examEvent);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, optionalEnrollment);
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, optionalEnrollment, false);
   }
 
   private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {
@@ -112,7 +112,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
-      .status(enrollment.getStatus().getCode())
+      .status(enrollment.getStatus())
       .build();
   }
 
@@ -121,7 +121,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long openings,
     final PublicReservationDTO reservationDTO,
-    final Optional<Enrollment> optionalEnrollment
+    final Optional<Enrollment> optionalEnrollment,
+    final boolean includePersonalInfo
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -136,8 +137,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicPersonDTO personDTO = PublicPersonDTO
       .builder()
       .id(person.getId())
+      .identityNumber(includePersonalInfo ? person.getIdentityNumber() : null)
+      .dateOfBirth(includePersonalInfo ? person.getDateOfBirth() : null)
       .lastName(person.getLastName())
-      .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())
       .build();
 
@@ -175,7 +177,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, null, Optional.empty());
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, null, Optional.empty(), true);
   }
 
   @Transactional

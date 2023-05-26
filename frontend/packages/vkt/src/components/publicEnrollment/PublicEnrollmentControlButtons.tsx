@@ -11,7 +11,7 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-//import { EnrollmentStatus } from 'enums/app';
+import { EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -57,7 +57,8 @@ export const PublicEnrollmentControlButtons = ({
   const reservationId = reservationDetails.reservation?.id;
   const examEventId = reservationDetails.examEvent.id;
   const enrollToQueue =
-    !reservationDetails.reservation && enrollment.status != 'expectingPayment';
+    !reservationDetails.reservation &&
+    enrollment.status != EnrollmentStatus.EXPECTING_PAYMENT;
 
   const handleCancelBtnClick = () => {
     if (activeStep === PublicEnrollmentFormStep.Authenticate) {
@@ -127,7 +128,7 @@ export const PublicEnrollmentControlButtons = ({
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      if (enrollment.status === 'expectingPayment') {
+      if (enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT) {
         window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
       } else {
         dispatch(
