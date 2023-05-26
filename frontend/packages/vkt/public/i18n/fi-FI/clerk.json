@@ -31,7 +31,11 @@
           "updated": "Tiedot tallennettiin"
         },
         "enrollmentStatus": {
-          "paid": "Maksettu"
+          "paid": "Maksettu",
+          "expectingPayment": "Odottaa maksua"
+        },
+        "paymentLinkModal": {
+          "title": "Maksulinkki"
         }
       },
       "clerkEnrollmentListing": {

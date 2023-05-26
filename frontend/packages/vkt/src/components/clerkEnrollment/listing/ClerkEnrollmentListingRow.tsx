@@ -74,6 +74,7 @@ export const ClerkEnrollmentListingRow = ({
       <TableRow
         data-testid={`enrollments-table__id-${enrollment.id}-row`}
         onClick={onClick}
+        className="cursor-pointer"
       >
         <TableCell>
           <Text>{enrollment.person.lastName}</Text>

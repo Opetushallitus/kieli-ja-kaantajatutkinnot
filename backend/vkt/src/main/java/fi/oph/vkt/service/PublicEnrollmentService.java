@@ -136,7 +136,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicPersonDTO personDTO = PublicPersonDTO
       .builder()
       .id(person.getId())
-      .identityNumber(person.getIdentityNumber())
       .lastName(person.getLastName())
       .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())

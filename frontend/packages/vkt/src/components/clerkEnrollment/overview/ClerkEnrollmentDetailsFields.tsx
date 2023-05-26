@@ -166,7 +166,7 @@ export const ClerkEnrollmentDetailsFields = ({
     clerkEnrollmentDetailsSelector
   ).paymentLink;
 
-  const [paymentLinkModalClosed, setPaymentLinkModalClosed] = useState(false);
+  const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
 
   const initialFieldErrors = Object.values(ClerkEnrollmentDetailsFields).reduce(
     (acc, val) => {
@@ -244,6 +244,8 @@ export const ClerkEnrollmentDetailsFields = ({
     switch (status) {
       case EnrollmentStatus.PAID:
         return t('enrollmentStatus.paid');
+      case EnrollmentStatus.EXPECTING_PAYMENT:
+        return t('enrollmentStatus.expectingPayment');
     }
 
     return <></>;
@@ -370,23 +372,27 @@ export const ClerkEnrollmentDetailsFields = ({
           <Text>{statusToDescription(enrollment.status)}</Text>
           {enrollment.payments?.length > 0 && (
             <>
-              <Text>{enrollment.payments[0].id}</Text>
+              <Text>Tunniste: {enrollment.payments[0].id}</Text>
+              <Text>Aikaleima: 26.5.2023 12:32</Text>
               <Text>
                 Summa: {formatAmount(enrollment.payments[0].amount)} &euro;
               </Text>
             </>
           )}
-          <div className="columns gapped flex-start">
-            <CustomButton
-              color={Color.Secondary}
-              variant={Variant.Outlined}
-              onClick={() => {
-                dispatch(createClerkEnrollmentPaymentLink(enrollment));
-              }}
-            >
-              Luo maksulinkki
-            </CustomButton>
-          </div>
+          {enrollment.status === 'EXPECTING_PAYMENT' && (
+            <div className="columns gapped flex-start">
+              <CustomButton
+                color={Color.Secondary}
+                variant={Variant.Outlined}
+                onClick={() => {
+                  setPaymentLinkModalOpen(true);
+                  dispatch(createClerkEnrollmentPaymentLink(enrollment));
+                }}
+              >
+                Luo maksulinkki
+              </CustomButton>
+            </div>
+          )}
         </div>
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>
@@ -444,9 +450,9 @@ export const ClerkEnrollmentDetailsFields = ({
         )}
       </div>
       <CustomModal
-        open={!!paymentLink && !paymentLinkModalClosed}
-        modalTitle={t('reservationExpired')}
-        onCloseModal={() => setPaymentLinkModalClosed(true)}
+        open={paymentLinkModalOpen}
+        modalTitle={t('paymentLinkModal.title')}
+        onCloseModal={() => setPaymentLinkModalOpen(false)}
       >
         <>
           <Text>{paymentLink}</Text>
@@ -454,7 +460,7 @@ export const ClerkEnrollmentDetailsFields = ({
             <CustomButton
               variant={Variant.Contained}
               color={Color.Secondary}
-              onClick={() => setPaymentLinkModalClosed(true)}
+              onClick={() => setPaymentLinkModalOpen(false)}
             >
               Sulje
             </CustomButton>

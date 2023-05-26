@@ -81,7 +81,11 @@ export const PublicEnrollmentGrid = ({
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
   const isStepsAvailable =
-    enrollment?.status !== 'paid' && enrollment?.status !== 'expectinPayment';
+    enrollment?.status !== 'paid' && enrollment?.status !== 'expectingPayment';
+  const isPaymentSumAvailable =
+    isPreviewStepActive &&
+    (reservationDetails?.reservation ||
+      enrollment?.status === 'expectingPayment');
 
   const renderDesktopView = () => (
     <>
@@ -115,7 +119,7 @@ export const PublicEnrollmentGrid = ({
                   showValidation={showValidation}
                   isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
-                {isPreviewStepActive && reservationDetails?.reservation && (
+                {isPaymentSumAvailable && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />
                 )}
                 {!isDoneStepActive && reservationDetails && (

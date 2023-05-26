@@ -105,7 +105,7 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personHash:\\w+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personHash:[a-z0-9\\-]+}")
   public void createSessionAndRedirectToPreview(
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,

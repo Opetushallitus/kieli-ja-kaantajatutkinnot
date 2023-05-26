@@ -25,6 +25,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
   reducers: {
     storeClerkEnrollmentDetails(state, action: PayloadAction<ClerkEnrollment>) {
       state.enrollment = action.payload;
+      state.paymentLink = initialState.paymentLink;
     },
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;

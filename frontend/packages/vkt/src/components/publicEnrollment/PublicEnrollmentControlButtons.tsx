@@ -11,6 +11,7 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
+//import { EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -55,6 +56,8 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservationDetails.reservation?.id;
   const examEventId = reservationDetails.examEvent.id;
+  const enrollToQueue =
+    !reservationDetails.reservation && enrollment.status != 'expectingPayment';
 
   const handleCancelBtnClick = () => {
     if (activeStep === PublicEnrollmentFormStep.Authenticate) {
@@ -124,12 +127,16 @@ export const PublicEnrollmentControlButtons = ({
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      dispatch(
-        loadPublicEnrollmentSave({
-          enrollment,
-          reservationDetails,
-        })
-      );
+      if (enrollment.status === 'expectingPayment') {
+        window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+      } else {
+        dispatch(
+          loadPublicEnrollmentSave({
+            enrollment,
+            reservationDetails,
+          })
+        );
+      }
     } else {
       setShowValidation(true);
     }
@@ -186,7 +193,7 @@ export const PublicEnrollmentControlButtons = ({
       endIcon={<ArrowForwardIcon />}
       disabled={isLoading}
     >
-      {reservationDetails.reservation ? t('pay') : t('sendForm')}
+      {enrollToQueue ? t('sendForm') : t('pay')}
     </CustomButton>
   );
 
