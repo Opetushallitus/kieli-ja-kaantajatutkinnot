@@ -11,6 +11,7 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -78,6 +79,10 @@ export const PublicEnrollmentControlButtons = ({
               dispatch(confirmAction);
               dispatch(resetPublicEnrollment());
               dispatch(resetSelectedPublicExamEvent());
+
+              if (!reservationId) {
+                navigate(AppRoutes.PublicHomePage);
+              }
             },
           },
         ],

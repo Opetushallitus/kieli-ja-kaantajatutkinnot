@@ -187,8 +187,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    final Enrollment enrollment = findEnrollment(reservation.getExamEvent(), person, enrollmentRepository)
-      .orElseGet(Enrollment::new);
+    deleteEnrollmentIfExists(reservation, person);
+
+    final Enrollment enrollment = new Enrollment();
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
@@ -202,6 +203,20 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     reservationRepository.deleteById(reservationId);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  private void deleteEnrollmentIfExists(Reservation reservation, Person person) {
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(
+      reservation.getExamEvent(),
+      person,
+      enrollmentRepository
+    );
+
+    if (optionalEnrollment.isPresent()) {
+      final Enrollment enrollment = optionalEnrollment.get();
+      enrollmentRepository.delete(enrollment);
+      enrollmentRepository.saveAndFlush(enrollment);
+    }
   }
 
   private void clearAddress(final Enrollment enrollment) {
