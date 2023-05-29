@@ -154,7 +154,7 @@ public class PublicEnrollmentEmailServiceTest {
   }
 
   @Test
-  public void testSendEnrollmentToQueueConfirmationEmail() throws IOException, InterruptedException {
+  public void testSendEnrollmentToQueueConfirmationEmail() {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setLanguage(ExamLanguage.SV);
     examEvent.setLevel(ExamLevel.EXCELLENT);

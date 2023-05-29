@@ -315,7 +315,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentWithDigitalCertificateConsent() throws IOException, InterruptedException {
+  public void testCreateEnrollmentWithDigitalCertificateConsent() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
@@ -333,7 +333,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentWithoutDigitalCertificateConsent() throws IOException, InterruptedException {
+  public void testCreateEnrollmentWithoutDigitalCertificateConsent() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
