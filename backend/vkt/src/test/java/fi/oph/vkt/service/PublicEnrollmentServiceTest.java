@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
@@ -352,6 +353,41 @@ public class PublicEnrollmentServiceTest {
 
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
     verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+  }
+
+  @Test
+  public void testCreateEnrollmentSanitizeHTML() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    final PublicEnrollmentCreateDTO dto = createDTOBuilder()
+      .previousEnrollment("<b>Foobar</b>")
+      .email("<a>foo@bar.foo")
+      .phoneNumber("<asd>04012345")
+      .street("<script>alert('baa')</script>")
+      .postalCode("<body>00000</body>")
+      .town("<i>Kaupunki</i>")
+      .country("<3")
+      .digitalCertificateConsent(false)
+      .build();
+
+    final PublicEnrollmentDTO publicEnrollmentDTO = publicEnrollmentService.createEnrollment(
+      dto,
+      reservation.getId(),
+      person
+    );
+    assertEquals("Foobar", publicEnrollmentDTO.previousEnrollment());
+    assertEquals("foo@bar.foo", publicEnrollmentDTO.email());
+    assertEquals("04012345", publicEnrollmentDTO.phoneNumber());
+    assertEquals("", publicEnrollmentDTO.street());
+    assertEquals("00000", publicEnrollmentDTO.postalCode());
+    assertEquals("Kaupunki", publicEnrollmentDTO.town());
+    assertEquals("&lt;3", publicEnrollmentDTO.country());
   }
 
   private PublicEnrollmentCreateDTO.PublicEnrollmentCreateDTOBuilder createDTOBuilder() {
