@@ -327,7 +327,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC, dto);
+    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
 
     assertEquals(0, reservationRepository.count());
   }
@@ -345,7 +345,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(false).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC, dto);
+    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
   }
 
   private PublicEnrollmentCreateDTO.PublicEnrollmentCreateDTOBuilder createDTOBuilder() {

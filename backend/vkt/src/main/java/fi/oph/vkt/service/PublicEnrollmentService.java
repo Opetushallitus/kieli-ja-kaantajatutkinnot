@@ -66,7 +66,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .filter(e ->
         e.getStatus() == EnrollmentStatus.PAID ||
         e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC
+        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
       )
       .count();
   }
@@ -160,12 +160,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final List<Enrollment> enrollments = examEvent.getEnrollments();
-
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
     final long openings = getOpenings(examEvent);
 
-    if (!hasQueue && openings > 0) {
+    if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
@@ -194,7 +191,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .orElseGet(Enrollment::new);
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {

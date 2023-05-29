@@ -570,10 +570,10 @@
         </createTable>
 
         <insert tableName="enrollment_status">
-            <column name="name" value="EXPECTING_PAYMENT_PUBLIC"/>
+            <column name="name" value="EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT"/>
         </insert>
         <insert tableName="enrollment_status">
-            <column name="name" value="CANCELED_PUBLIC"/>
+            <column name="name" value="CANCELED_UNFINISHED_ENROLLMENT"/>
         </insert>
 
         <addForeignKeyConstraint baseTableName="payment" baseColumnNames="enrollment_id"
