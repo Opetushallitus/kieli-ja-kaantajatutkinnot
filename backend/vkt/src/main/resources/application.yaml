@@ -4,6 +4,11 @@ server:
     enabled: true
   servlet:
     context-path: "/vkt"
+    session:
+      cookie:
+        http-only: true
+        secure: true
+      timeout: 60m
 spring:
   datasource:
     url: ${postgresql.url:jdbc:postgresql://localhost:6432/vkt-postgres}
@@ -60,12 +65,21 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/vkt}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
+  base-url:
+    public: ${public-base-url:http://localhost:4002}/vkt
+    api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
   cas-oppija:
     login-url: ${cas-oppija.login-url:https://testiopintopolku.fi/cas-oppija/login}
-    service-url: ${cas-oppija.service-url:http://localhost:4002/vkt/tunnistaudu}
+    service-url: ${cas-oppija.service-url:http://localhost:${server.port}/vkt/api/v1/auth/validate/%s/%s}
     validate-ticket-url: ${cas-oppija.validate-ticket-url:https://testiopintopolku.fi/cas-oppija/serviceValidate}
   reservation:
     duration: ${reservation.duration:PT30M}
   email:
     sending-enabled: ${email.sending-enabled:false}
     service-url: ${email.service-url:null}
+  payment:
+    paytrail:
+      url: https://services.paytrail.com
+      secret: ${payment.paytrail.secret:null}
+      account: ${payment.paytrail.account:null}
+      return-base-url: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1

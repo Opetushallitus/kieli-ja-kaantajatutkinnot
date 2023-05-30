@@ -45,29 +45,7 @@ const publicExamEventSlice = createSlice({
     ) {
       state.languageFilter = action.payload;
     },
-    setOrToggleSelectedPublicExamEvent(
-      state,
-      action: PayloadAction<PublicExamEvent>
-    ) {
-      if (
-        !state.selectedExamEvent ||
-        state.selectedExamEvent.id !== action.payload.id
-      ) {
-        sessionStorage.setItem('examEvent', JSON.stringify(action.payload));
-        state.selectedExamEvent = action.payload;
-      } else {
-        sessionStorage.removeItem('examEvent');
-        state.selectedExamEvent = undefined;
-      }
-    },
-    // setOrToggle works fine with user generated function calls with e.g. onClick handlers
-    // but useEffect since React 18 always runs effects twice in dev mode
-    setSelectedPublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
-      sessionStorage.setItem('examEvent', JSON.stringify(action.payload));
-      state.selectedExamEvent = action.payload;
-    },
     resetSelectedPublicExamEvent(state) {
-      sessionStorage.removeItem('examEvent');
       state.selectedExamEvent = undefined;
     },
   },
@@ -80,7 +58,5 @@ export const {
   resetPublicExamEventSelections,
   storePublicExamEvents,
   setPublicExamEventLanguageFilter,
-  setOrToggleSelectedPublicExamEvent,
-  setSelectedPublicExamEvent,
   resetSelectedPublicExamEvent,
 } = publicExamEventSlice.actions;

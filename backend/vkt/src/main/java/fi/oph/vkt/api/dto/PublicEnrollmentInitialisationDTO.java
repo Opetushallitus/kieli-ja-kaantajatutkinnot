@@ -7,5 +7,6 @@ import lombok.NonNull;
 public record PublicEnrollmentInitialisationDTO(
   @NonNull PublicExamEventDTO examEvent,
   @NonNull PublicPersonDTO person,
-  PublicReservationDTO reservation
+  PublicReservationDTO reservation,
+  PublicEnrollmentDTO enrollment
 ) {}
