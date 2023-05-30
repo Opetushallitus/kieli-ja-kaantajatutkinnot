@@ -13,11 +13,27 @@ interface Person extends WithId, WithVersion {
   firstName: string;
 }
 
-interface ClerkPayment extends WithId {
+export interface ClerkPaymentLink {
+  url: string;
+  expires: Dayjs;
+}
+
+export interface ClerkPaymentLinkResponse
+  extends Omit<ClerkPaymentLink, 'expires'> {
+  expires: string;
+}
+
+export interface ClerkPayment extends WithId {
   id: number;
   version: number;
   paymentId: string;
   amount: number;
+  status: string;
+  modifiedAt: Dayjs;
+}
+
+export interface ClerkPaymentResponse extends Omit<ClerkPayment, 'modifiedAt'> {
+  modifiedAt: string;
 }
 
 export interface ClerkEnrollment
@@ -35,8 +51,9 @@ export interface ClerkEnrollment
 }
 
 export interface ClerkEnrollmentResponse
-  extends Omit<ClerkEnrollment, 'enrollmentTime'> {
+  extends Omit<ClerkEnrollment, 'enrollmentTime' | 'payments'> {
   enrollmentTime: string;
+  payments: ClerkPaymentResponse[];
 }
 
 export interface ClerkEnrollmentStatusChange extends WithId, WithVersion {

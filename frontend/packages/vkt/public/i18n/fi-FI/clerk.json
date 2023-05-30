@@ -34,8 +34,18 @@
           "paid": "Maksettu",
           "expectingPayment": "Odottaa maksua"
         },
-        "paymentLinkModal": {
-          "title": "Maksulinkki"
+        "payment": {
+          "title": "Maksutiedot",
+          "history": "Maksuhistoria",
+          "linkTitle": "Maksulinkki",
+          "status": "Maksun tila",
+          "paymentStatus": "Tila",
+          "reference": "Maksutunniste",
+          "date": "Aikaleima",
+          "amount": "Summa",
+          "link": "Linkki",
+          "expires": "Voimassa asti",
+          "create": "Luo maksulinkki"
         }
       },
       "clerkEnrollmentListing": {

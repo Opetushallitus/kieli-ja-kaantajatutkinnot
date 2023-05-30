@@ -590,6 +590,7 @@
                         uniqueConstraintName="person_payment_link_hash_uniq_idx"
                 />
             </column>
+            <column name="payment_link_expires" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
     </changeSet>
 </databaseChangeLog>

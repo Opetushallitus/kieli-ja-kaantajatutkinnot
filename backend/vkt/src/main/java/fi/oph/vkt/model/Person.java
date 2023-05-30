@@ -1,6 +1,7 @@
 package fi.oph.vkt.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -48,6 +49,9 @@ public class Person extends BaseEntity {
 
   @Column(name = "payment_link_hash")
   private String paymentLinkHash;
+
+  @Column(name = "payment_link_expires")
+  private LocalDateTime paymentLinkExpires;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();

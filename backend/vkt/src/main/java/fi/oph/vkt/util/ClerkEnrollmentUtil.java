@@ -51,6 +51,8 @@ public class ClerkEnrollmentUtil {
           .paymentId(payment.getTransactionId())
           .version(payment.getVersion())
           .amount(payment.getAmount())
+          .modifiedAt(payment.getModifiedAt())
+          .status(payment.getPaymentStatus())
           .build()
       )
       .collect(Collectors.toList());

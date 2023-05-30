@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
+  ClerkPaymentLink,
 } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
@@ -11,7 +12,7 @@ interface ClerkEnrollmentDetailsState {
   status: APIResponseStatus;
   moveStatus: APIResponseStatus;
   enrollment?: ClerkEnrollment;
-  paymentLink?: string;
+  paymentLink?: ClerkPaymentLink;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
@@ -55,7 +56,10 @@ const clerkEnrollmentDetailsSlice = createSlice({
     ) {
       state.status = APIResponseStatus.InProgress;
     },
-    storeClerkEnrollmentPaymentLink(state, action: PayloadAction<string>) {
+    storeClerkEnrollmentPaymentLink(
+      state,
+      action: PayloadAction<ClerkPaymentLink>
+    ) {
       state.status = APIResponseStatus.Success;
       state.paymentLink = action.payload;
     },

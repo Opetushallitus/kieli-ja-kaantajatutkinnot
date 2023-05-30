@@ -4,6 +4,8 @@ import { DateUtils } from 'shared/utils';
 import {
   ClerkEnrollment,
   ClerkEnrollmentResponse,
+  ClerkPaymentLinkResponse,
+  ClerkPaymentResponse,
 } from 'interfaces/clerkEnrollment';
 import {
   ClerkExamEvent,
@@ -87,10 +89,27 @@ export class SerializationUtils {
     };
   }
 
+  static deserializeClerkPaymentLink(paymentLink: ClerkPaymentLinkResponse) {
+    return {
+      ...paymentLink,
+      expires: dayjs(paymentLink.expires),
+    };
+  }
+
   static deserializeClerkEnrollment(enrollment: ClerkEnrollmentResponse) {
     return {
       ...enrollment,
       enrollmentTime: dayjs(enrollment.enrollmentTime),
+      payments: enrollment.payments?.map(
+        SerializationUtils.deserializeClerkPayment
+      ),
+    };
+  }
+
+  static deserializeClerkPayment(payment: ClerkPaymentResponse) {
+    return {
+      ...payment,
+      modifiedAt: dayjs(payment.modifiedAt),
     };
   }
 

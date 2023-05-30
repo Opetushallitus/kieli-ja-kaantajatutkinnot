@@ -8,6 +8,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
@@ -46,7 +47,7 @@ public class ClerkEnrollmentController {
 
   @PostMapping("/payment/{enrollmentId:\\d+}/link")
   @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
-  public String createPaymentLink(@PathVariable final long enrollmentId) {
+  public ClerkPaymentLinkDTO createPaymentLink(@PathVariable final long enrollmentId) {
     return clerkEnrollmentService.createPaymentLink(enrollmentId);
   }
 

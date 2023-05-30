@@ -6,12 +6,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
@@ -22,8 +24,10 @@ import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +55,7 @@ class ClerkEnrollmentServiceTest {
   private AuditService auditService;
 
   private ClerkEnrollmentService clerkEnrollmentService;
+  private PublicPersonService publicPersonService;
 
   @Resource
   private TestEntityManager entityManager;
@@ -58,6 +63,10 @@ class ClerkEnrollmentServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
+
+    final UUIDSource uuidSource = mock(UUIDSource.class);
+    when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
     clerkEnrollmentService =
       new ClerkEnrollmentService(
@@ -65,8 +74,10 @@ class ClerkEnrollmentServiceTest {
         personRepository,
         examEventRepository,
         auditService,
-        environment
+        environment,
+        uuidSource
       );
+    publicPersonService = new PublicPersonService(personRepository);
   }
 
   @Test
@@ -233,6 +244,67 @@ class ClerkEnrollmentServiceTest {
 
     assertEquals(APIExceptionType.ENROLLMENT_MOVE_PERSON_ALREADY_ENROLLED, ex.getExceptionType());
     verifyNoInteractions(auditService);
+  }
+
+  @Test
+  public void testCreatePaymentLink() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ClerkPaymentLinkDTO clerkPaymentLinkDTO = clerkEnrollmentService.createPaymentLink(enrollment.getId());
+    final String expectedUrl = String.format(
+      "http://localhost/examEvent/%d/redirect/269a2da4-58bb-45eb-b125-522b77e9167c",
+      examEvent.getId()
+    );
+
+    assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
+    assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", person.getPaymentLinkHash());
+  }
+
+  @Test
+  public void testPaymentLinkRedirect() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
+
+    person.setPaymentLinkExpires(LocalDateTime.now().plusDays(1));
+    person.setPaymentLinkHash(hash);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    clerkEnrollmentService.createPaymentLink(enrollment.getId());
+
+    final Person person2 = publicPersonService.getPersonByHash(hash);
+    assertEquals(person.getId(), person2.getId());
+  }
+
+  @Test
+  public void testPaymentLinkRedirectExpired() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
+
+    person.setPaymentLinkExpires(LocalDateTime.now().minusDays(1));
+    person.setPaymentLinkHash(hash);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () -> publicPersonService.getPersonByHash("269a2da4-58bb-45eb-b125-522b77e9167c")
+    );
+    assertEquals(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED, ex.getExceptionType());
   }
 
   private static ClerkEnrollmentMoveDTO createMoveDTO(final Enrollment enrollment, final ExamEvent event) {

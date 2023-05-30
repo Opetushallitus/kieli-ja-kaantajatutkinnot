@@ -8,6 +8,7 @@ import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
   ClerkEnrollmentResponse,
+  ClerkPaymentLinkResponse,
 } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -31,12 +32,17 @@ function* createClerkEnrollmentPaymentLinkSaga(
   const enrollment = action.payload;
 
   try {
-    const apiResponse: AxiosResponse<string> = yield call(
+    const apiResponse: AxiosResponse<ClerkPaymentLinkResponse> = yield call(
       axiosInstance.post,
       `${APIEndpoints.ClerkEnrollment}/payment/${enrollment.id}/link`,
       {}
     );
-    yield put(storeClerkEnrollmentPaymentLink(apiResponse.data));
+
+    const paymentLink = SerializationUtils.deserializeClerkPaymentLink(
+      apiResponse.data
+    );
+
+    yield put(storeClerkEnrollmentPaymentLink(paymentLink));
   } catch (error) {}
 }
 
