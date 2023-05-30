@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -366,8 +367,51 @@ public class PaymentServiceTest {
   }
 
   @Test
+  public void testCreatePaymentPassesProperCustomerDataToPaymentProvider() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    person.setFirstName("a" + "b".repeat(48) + "cd");
+    person.setLastName("a" + "b".repeat(48) + "cd");
+
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setEmail("a@" + "b".repeat(197) + "cd");
+    enrollment.setPhoneNumber("+234567890123456");
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    final PaymentService paymentService = new PaymentService(
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    final Customer expectedCustomerData = Customer
+      .builder()
+      .email("a@" + "b".repeat(197) + "c")
+      .phone("+23456789012345")
+      .firstName("a" + "b".repeat(48) + "c")
+      .lastName("a" + "b".repeat(48) + "c")
+      .build();
+
+    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt()))
+      .thenReturn(PaytrailResponseDTO.builder().transactionId("12345").reference("RF123").href("http").build());
+
+    final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
+
+    assertEquals("http", paymentUrl);
+  }
+
+  @Test
   public void testCreatePaymentEnrollmentNotFound() {
-    final Person person = new Person();
+    final Person person = Factory.person();
+
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     final PaymentService paymentService = new PaymentService(

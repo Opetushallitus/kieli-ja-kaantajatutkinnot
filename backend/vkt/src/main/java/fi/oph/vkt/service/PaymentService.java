@@ -164,10 +164,10 @@ public class PaymentService {
     final List<Item> itemList = getItems(enrollment);
     final Customer customer = Customer
       .builder()
-      .email(enrollment.getEmail())
-      .phone(enrollment.getPhoneNumber())
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
+      .email(getCustomerField(enrollment.getEmail(), Customer.EMAIL_MAX_LENGTH))
+      .phone(getCustomerField(enrollment.getPhoneNumber(), Customer.PHONE_MAX_LENGTH))
+      .firstName(getCustomerField(person.getFirstName(), Customer.FIRST_NAME_MAX_LENGTH))
+      .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
     final int amount = getTotalAmount(itemList);
@@ -185,8 +185,10 @@ public class PaymentService {
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
 
-    updateEnrollmentStatus(enrollment, payment.getPaymentStatus());
-
     return payment.getPaymentUrl();
+  }
+
+  private String getCustomerField(final String content, final int maxLength) {
+    return content.substring(0, Math.min(content.length(), maxLength));
   }
 }
