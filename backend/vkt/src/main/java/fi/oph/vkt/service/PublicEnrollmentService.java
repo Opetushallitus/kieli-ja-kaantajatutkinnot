@@ -66,7 +66,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .filter(e ->
         e.getStatus() == EnrollmentStatus.PAID ||
         e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC
+        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
       )
       .count();
   }
@@ -162,12 +162,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final List<Enrollment> enrollments = examEvent.getEnrollments();
-
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
     final long openings = getOpenings(examEvent);
 
-    if (!hasQueue && openings > 0) {
+    if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
@@ -192,11 +189,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    final Enrollment enrollment = findEnrollment(reservation.getExamEvent(), person, enrollmentRepository)
-      .orElseGet(Enrollment::new);
+    deleteEnrollmentIfExists(reservation, person);
+
+    final Enrollment enrollment = new Enrollment();
     enrollment.setExamEvent(reservation.getExamEvent());
     enrollment.setPerson(reservation.getPerson());
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
@@ -207,6 +205,20 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     reservationRepository.deleteById(reservationId);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  private void deleteEnrollmentIfExists(Reservation reservation, Person person) {
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(
+      reservation.getExamEvent(),
+      person,
+      enrollmentRepository
+    );
+
+    if (optionalEnrollment.isPresent()) {
+      final Enrollment enrollment = optionalEnrollment.get();
+      enrollmentRepository.delete(enrollment);
+      enrollmentRepository.saveAndFlush(enrollment);
+    }
   }
 
   private void clearAddress(final Enrollment enrollment) {

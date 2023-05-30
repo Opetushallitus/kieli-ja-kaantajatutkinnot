@@ -4,7 +4,6 @@ import static fi.oph.vkt.payment.Crypto.calculateHmac;
 import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.oph.vkt.payment.Crypto;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Body;
 import fi.oph.vkt.payment.paytrail.Customer;

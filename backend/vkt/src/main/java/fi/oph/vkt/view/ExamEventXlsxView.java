@@ -145,10 +145,10 @@ public class ExamEventXlsxView extends AbstractXlsxView {
     return switch (status) {
       case PAID -> "Maksettu";
       case EXPECTING_PAYMENT -> "Odottaa maksua";
-      case EXPECTING_PAYMENT_PUBLIC -> "Odottaa maksua (asiakas)";
+      case EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT -> "Odottaa maksua (keskeneräinen ilmoittautuminen)";
       case QUEUED -> "Jonossa";
       case CANCELED -> "Peruttu";
-      case CANCELED_PUBLIC -> "Peruttu (asiakas)";
+      case CANCELED_UNFINISHED_ENROLLMENT -> "Peruttu (keskeneräinen ilmoittautuminen)";
     };
   }
 

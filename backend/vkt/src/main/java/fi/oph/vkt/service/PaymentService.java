@@ -78,9 +78,9 @@ public class PaymentService {
 
   private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
-      case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
+      case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
       case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
-      case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED_PUBLIC);
+      case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
     }
 
     enrollmentRepository.saveAndFlush(enrollment);

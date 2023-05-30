@@ -78,7 +78,7 @@ public class PaymentServiceTest {
     final PaytrailService paytrailService = mock(PaytrailService.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_PUBLIC);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     final PaymentService paymentService = new PaymentService(
       paytrailService,

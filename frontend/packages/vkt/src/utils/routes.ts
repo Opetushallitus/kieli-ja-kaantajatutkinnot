@@ -19,6 +19,7 @@ export class RouteUtils {
           examEventId
         );
 
+      case PublicEnrollmentFormStep.Payment: // Un-used step. Just to make linter happy
       case PublicEnrollmentFormStep.Preview:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentPreview,

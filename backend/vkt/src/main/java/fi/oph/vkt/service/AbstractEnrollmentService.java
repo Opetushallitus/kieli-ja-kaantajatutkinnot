@@ -49,6 +49,6 @@ public abstract class AbstractEnrollmentService {
 
     final EnrollmentStatus status = enrollment.get().getStatus();
 
-    return status != EnrollmentStatus.CANCELED_PUBLIC && status != EnrollmentStatus.CANCELED;
+    return status != EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT && status != EnrollmentStatus.CANCELED;
   }
 }

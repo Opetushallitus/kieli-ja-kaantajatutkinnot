@@ -1,7 +1,5 @@
 package fi.oph.vkt.payment.paytrail;
 
-import static java.util.UUID.randomUUID;
-
 import fi.oph.vkt.payment.Crypto;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
