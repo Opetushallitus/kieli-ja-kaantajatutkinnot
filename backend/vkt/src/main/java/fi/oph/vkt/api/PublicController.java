@@ -88,6 +88,9 @@ public class PublicController {
     return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
   }
 
+  /**
+   * Returns info about enrollment when refreshing a page during an enrollment step
+   */
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
     @PathVariable final long examEventId,
@@ -148,9 +151,9 @@ public class PublicController {
       }
 
       httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsURL(examEventId));
-    } catch (APIException e) {
+    } catch (final APIException e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl());
     }
   }
@@ -171,9 +174,9 @@ public class PublicController {
       final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
 
       httpResponse.sendRedirect(redirectUrl);
-    } catch (APIException e) {
+    } catch (final APIException e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl());
     }
   }
@@ -193,13 +196,13 @@ public class PublicController {
       } else {
         httpResponse.sendRedirect(cancelUrl);
       }
-    } catch (APIException e) {
+    } catch (final APIException e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
         httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {
@@ -223,13 +226,13 @@ public class PublicController {
       } else {
         httpResponse.sendRedirect(successUrl);
       }
-    } catch (APIException e) {
+    } catch (final APIException e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
         httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {

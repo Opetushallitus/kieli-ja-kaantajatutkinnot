@@ -52,10 +52,10 @@ public class PaymentService {
       .build();
   }
 
-  private int getTotal(final List<Item> itemList) {
+  private int getTotalAmount(final List<Item> itemList) {
     return Math.min(
       COST_MAX,
-      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum)
+      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.units() * item.unitPrice(), Integer::sum)
     );
   }
 
@@ -70,6 +70,7 @@ public class PaymentService {
     }
     if (enrollment.isUnderstandingSkill()) {
       // Third skill is free
+      // TODO: should be always free only if exam event is of excellent level
       itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, itemList.size() >= 2));
     }
 
@@ -81,6 +82,7 @@ public class PaymentService {
       case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
       case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
       case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+      case PENDING, DELAYED -> {}
     }
 
     enrollmentRepository.saveAndFlush(enrollment);
@@ -133,7 +135,7 @@ public class PaymentService {
     throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExam(payment);
+    final ExamEvent examEvent = getExamEvent(payment);
 
     return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
   }
@@ -143,7 +145,7 @@ public class PaymentService {
     throws IOException, InterruptedException {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
     final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExam(payment);
+    final ExamEvent examEvent = getExamEvent(payment);
 
     return String.format("%s/ilmoittaudu/%d/maksu/peruutettu", baseUrl, examEvent.getId());
   }
@@ -171,30 +173,27 @@ public class PaymentService {
       .lastName(person.getLastName())
       .build();
 
-    final int total = getTotal(itemList);
+    final int amount = getTotalAmount(itemList);
+
     final Payment payment = new Payment();
-    payment.setAmount(total);
     payment.setEnrollment(enrollment);
+    payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
-    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getId(), customer, total);
+    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getId(), customer, amount);
 
-    final String transactionId = response.getTransactionId();
-    final String reference = response.getReference();
-    final String paymentUrl = response.getHref();
-
+    payment.setTransactionId(response.getTransactionId());
+    payment.setReference(response.getReference());
+    payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
-    payment.setReference(reference);
-    payment.setPaymentUrl(paymentUrl);
-    payment.setTransactionId(transactionId);
     paymentRepository.saveAndFlush(payment);
 
-    updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
+    updateEnrollmentStatus(enrollment, payment.getPaymentStatus());
 
-    return paymentUrl;
+    return payment.getPaymentUrl();
   }
 
-  private ExamEvent getExam(final Payment payment) {
+  private ExamEvent getExamEvent(final Payment payment) {
     final Enrollment enrollment = payment.getEnrollment();
 
     return enrollment.getExamEvent();

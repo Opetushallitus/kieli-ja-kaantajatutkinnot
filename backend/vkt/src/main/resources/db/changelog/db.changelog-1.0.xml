@@ -581,4 +581,8 @@
                                  constraintName="fk_payment_enrollment"
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
+
+    <changeSet id="2023-05-30-modify_payment-table_amount" author="mikhuttu">
+        <modifyDataType tableName="payment" columnName="amount" newDataType="INT"/>
+    </changeSet>
 </databaseChangeLog>

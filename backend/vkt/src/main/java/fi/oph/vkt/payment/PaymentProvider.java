@@ -11,6 +11,6 @@ public interface PaymentProvider {
     @NonNull final List<Item> itemList,
     final Long paymentId,
     final Customer customer,
-    final int total
+    final int amount
   );
 }

@@ -50,8 +50,9 @@ public class PaytrailService implements PaymentProvider {
     return headers;
   }
 
-  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int total) {
+  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int amount) {
     final String stamp = paymentId.toString() + "-" + paytrailConfig.getRandomNonce();
+
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()
       .success(paytrailConfig.getSuccessUrl(paymentId))
@@ -63,23 +64,22 @@ public class PaytrailService implements PaymentProvider {
       .cancel(paytrailConfig.getCancelUrl(paymentId) + "?callback=true")
       .build();
 
-    final Body.BodyBuilder bodyBuilder = Body.builder();
-
-    bodyBuilder
+    final Body.BodyBuilder bodyBuilder = Body
+      .builder()
       .items(itemList)
       .stamp(stamp)
       .reference(paymentId.toString())
-      .amount(total)
+      .amount(amount)
       .currency(PaytrailConfig.CURRENCY)
       .language("FI") // TODO: käyttäjän kielestä?
       .customer(customer)
       .redirectUrls(redirectUrls);
 
-    // localhost callback url's are not allowed
     if (activeProfile == null || !activeProfile.equals("dev")) {
-      bodyBuilder.callbackUrls(callbackUrls);
+      return bodyBuilder.callbackUrls(callbackUrls).build();
     }
 
+    // localhost callback urls are not allowed
     return bodyBuilder.build();
   }
 
@@ -87,7 +87,7 @@ public class PaytrailService implements PaymentProvider {
     @NonNull final List<Item> itemList,
     final Long paymentId,
     final Customer customer,
-    final int total
+    final int amount
   ) {
     if (itemList.isEmpty()) {
       throw new RuntimeException("itemList is required");
@@ -95,7 +95,7 @@ public class PaytrailService implements PaymentProvider {
 
     final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList, paymentId, customer, total);
+    final Body body = getBody(itemList, paymentId, customer, amount);
     final String secret = paytrailConfig.getSecret();
 
     String bodyJson = null;
@@ -103,6 +103,7 @@ public class PaytrailService implements PaymentProvider {
       bodyJson = objectMapper.writeValueAsString(body);
       final String hash = calculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
+
       final String response = paytrailWebClient
         .post()
         .uri("/payments")
@@ -117,7 +118,7 @@ public class PaytrailService implements PaymentProvider {
         .block();
 
       return objectMapper.readValue(response, PaytrailResponseDTO.class);
-    } catch (WebClientResponseException e) {
+    } catch (final WebClientResponseException e) {
       LOG.error(
         "Paytrail returned error status {}\n response body: {}\n request body: {}\n paytrail headers: \n\t{}",
         e.getStatusCode().value(),
@@ -126,7 +127,7 @@ public class PaytrailService implements PaymentProvider {
         String.join("\n\t", collectHeaders(headers))
       );
       throw new RuntimeException(e);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }
@@ -149,7 +150,7 @@ public class PaytrailService implements PaymentProvider {
     final String signature = paymentParams.get("signature");
 
     if (!hasRequiredHeaders(paymentParams)) {
-      LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams);
+      LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams.keySet());
       throw new RuntimeException("Invalid headers");
     }
 
