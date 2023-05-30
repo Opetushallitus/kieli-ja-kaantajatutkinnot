@@ -89,7 +89,8 @@ public class PaymentService {
     enrollmentRepository.saveAndFlush(enrollment);
   }
 
-  private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
+  @Transactional
+  public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
     throws IOException, InterruptedException {
     final Payment payment = paymentRepository
       .findById(paymentId)
@@ -131,24 +132,19 @@ public class PaymentService {
     return payment;
   }
 
-  @Transactional
-  public String success(final Long paymentId, final Map<String, String> paymentParams)
-    throws IOException, InterruptedException {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
-    final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExamEvent(payment);
-
-    return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
+  public String getFinalizePaymentSuccessRedirectUrl(final Payment payment) {
+    return getFinalizePaymentRedirectUrl(payment, "valmis");
   }
 
-  @Transactional
-  public String cancel(final Long paymentId, final Map<String, String> paymentParams)
-    throws IOException, InterruptedException {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
-    final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExamEvent(payment);
+  public String getFinalizePaymentCancelRedirectUrl(final Payment payment) {
+    return getFinalizePaymentRedirectUrl(payment, "peruutettu");
+  }
 
-    return String.format("%s/ilmoittaudu/%d/maksu/peruutettu", baseUrl, examEvent.getId());
+  private String getFinalizePaymentRedirectUrl(final Payment payment, final String state) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+    final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
+
+    return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
   }
 
   @Transactional
@@ -192,11 +188,5 @@ public class PaymentService {
     updateEnrollmentStatus(enrollment, payment.getPaymentStatus());
 
     return payment.getPaymentUrl();
-  }
-
-  private ExamEvent getExamEvent(final Payment payment) {
-    final Enrollment enrollment = payment.getEnrollment();
-
-    return enrollment.getExamEvent();
   }
 }

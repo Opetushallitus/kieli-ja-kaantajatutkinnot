@@ -180,7 +180,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentSuccessOk() throws IOException, InterruptedException {
+  public void testFinalizePaymentOnSuccess() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -198,17 +198,16 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    assertEquals(
-      String.format("https://foo.bar/ilmoittaudu/%d/maksu/valmis", enrollment.getExamEvent().getId()),
-      paymentService.success(payment.getId(), paymentParams)
-    );
+
+    paymentService.finalizePayment(payment.getId(), paymentParams);
+
     verify(publicEnrollmentEmailService, times(1)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
     assertEquals(EnrollmentStatus.PAID, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
   }
 
   @Test
-  public void testPaymentSuccessCancel() throws IOException, InterruptedException {
+  public void testFinalizePaymentOnFailure() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -226,17 +225,16 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    assertEquals(
-      String.format("https://foo.bar/ilmoittaudu/%d/maksu/peruutettu", enrollment.getExamEvent().getId()),
-      paymentService.cancel(payment.getId(), paymentParams)
-    );
+
+    paymentService.finalizePayment(payment.getId(), paymentParams);
+
     verifyNoInteractions(publicEnrollmentEmailService);
     assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
     assertEquals(PaymentStatus.FAIL, payment.getPaymentStatus());
   }
 
   @Test
-  public void testPaymentValidationFailed() throws IOException, InterruptedException {
+  public void testFinalizePaymentValidationFailed() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -256,7 +254,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getId(), paymentParams)
+      () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
@@ -265,7 +263,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentAlreadyPaidTryCancel() throws IOException, InterruptedException {
+  public void testFinalizePaymentOnFailureAlreadyPaid() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -286,7 +284,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getId(), paymentParams)
+      () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
@@ -295,7 +293,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentAlreadyPaidTryOK() throws IOException, InterruptedException {
+  public void testFinalizePaymentOnSuccessAlreadyPaid() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     payment.setPaymentStatus(PaymentStatus.OK);
@@ -313,12 +311,12 @@ public class PaymentServiceTest {
       publicEnrollmentEmailService
     );
 
-    paymentService.success(payment.getId(), paymentParams);
+    paymentService.finalizePayment(payment.getId(), paymentParams);
     verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
   }
 
   @Test
-  public void testPaymentAmountMustMatch() throws IOException, InterruptedException {
+  public void testFinalizePaymentAmountMustMatch() throws IOException, InterruptedException {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -339,7 +337,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.success(payment.getId(), paymentParams)
+      () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
@@ -348,7 +346,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testPaymentNotFound() {
+  public void testFinalizePaymentPaymentNotFound() {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
@@ -362,13 +360,13 @@ public class PaymentServiceTest {
 
     final NotFoundException ex = assertThrows(
       NotFoundException.class,
-      () -> paymentService.success(-1L, paymentParams)
+      () -> paymentService.finalizePayment(-1L, paymentParams)
     );
     assertEquals("Payment not found", ex.getMessage());
   }
 
   @Test
-  public void testEnrollmentNotFound() {
+  public void testCreatePaymentEnrollmentNotFound() {
     final Person person = new Person();
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
