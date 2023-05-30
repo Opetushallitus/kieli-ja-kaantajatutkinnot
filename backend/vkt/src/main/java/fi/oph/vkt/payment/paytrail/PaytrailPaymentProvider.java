@@ -1,16 +1,10 @@
-package fi.oph.vkt.service;
+package fi.oph.vkt.payment.paytrail;
 
 import static fi.oph.vkt.payment.Crypto.calculateHmac;
 import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.payment.PaymentProvider;
-import fi.oph.vkt.payment.paytrail.Body;
-import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
-import fi.oph.vkt.payment.paytrail.PaytrailConfig;
-import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
-import fi.oph.vkt.payment.paytrail.RedirectUrls;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,20 +13,18 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-@Service
 @RequiredArgsConstructor
-public class PaytrailService implements PaymentProvider {
+public class PaytrailPaymentProvider implements PaymentProvider {
 
   @Value("${spring.profiles.active:}")
   private String activeProfile;
 
-  private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PaytrailPaymentProvider.class);
 
   private final WebClient paytrailWebClient;
   private final PaytrailConfig paytrailConfig;
@@ -83,6 +75,7 @@ public class PaytrailService implements PaymentProvider {
     return bodyBuilder.build();
   }
 
+  @Override
   public PaytrailResponseDTO createPayment(
     @NonNull final List<Item> itemList,
     final Long paymentId,
@@ -142,6 +135,7 @@ public class PaytrailService implements PaymentProvider {
     );
   }
 
+  @Override
   public boolean validate(final Map<String, String> paymentParams) {
     final String secret = paytrailConfig.getSecret();
     final String hash = calculateHmac(secret, paymentParams, "");

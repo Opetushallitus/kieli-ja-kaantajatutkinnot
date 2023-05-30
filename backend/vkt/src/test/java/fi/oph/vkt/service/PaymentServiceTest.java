@@ -24,6 +24,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
+import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
@@ -76,13 +77,13 @@ public class PaymentServiceTest {
       .build();
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -108,7 +109,7 @@ public class PaymentServiceTest {
       .build();
 
     assertEquals(url, redirectUrl);
-    verify(paytrailService, times(1)).createPayment(eq(items), any(Long.class), eq(customer), eq(45400));
+    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), eq(customer), eq(45400));
   }
 
   @Test
@@ -122,14 +123,14 @@ public class PaymentServiceTest {
       .build();
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
     enrollment.setTextualSkill(true);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -150,7 +151,7 @@ public class PaymentServiceTest {
     );
 
     assertEquals(url, redirectUrl);
-    verify(paytrailService, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(45400));
+    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(45400));
   }
 
   @Test
@@ -158,12 +159,12 @@ public class PaymentServiceTest {
     final Person person1 = createPerson();
     final Person person2 = createPerson();
     final Enrollment enrollment = createEnrollment(person1);
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -175,7 +176,7 @@ public class PaymentServiceTest {
       () -> paymentService.createPaymentForEnrollment(enrollment.getId(), person2)
     );
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
-    verify(paytrailService, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class), anyInt());
+    verify(paymentProvider, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class), anyInt());
   }
 
   @Test
@@ -186,12 +187,12 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "45400");
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(true);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -214,12 +215,12 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
     paymentParams.put("checkout-amount", "45400");
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(true);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -241,12 +242,12 @@ public class PaymentServiceTest {
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(false);
+    when(paymentProvider.validate(anyMap())).thenReturn(false);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -271,12 +272,12 @@ public class PaymentServiceTest {
     payment.setPaymentStatus(PaymentStatus.OK);
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(true);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -300,12 +301,12 @@ public class PaymentServiceTest {
     payment.setPaymentStatus(PaymentStatus.OK);
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(true);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -324,12 +325,12 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "21400");
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paytrailService.validate(anyMap())).thenReturn(true);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -349,10 +350,10 @@ public class PaymentServiceTest {
   @Test
   public void testPaymentNotFound() {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,
@@ -369,10 +370,10 @@ public class PaymentServiceTest {
   @Test
   public void testEnrollmentNotFound() {
     final Person person = new Person();
-    final PaytrailService paytrailService = mock(PaytrailService.class);
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     final PaymentService paymentService = new PaymentService(
-      paytrailService,
+      paymentProvider,
       paymentRepository,
       enrollmentRepository,
       environment,

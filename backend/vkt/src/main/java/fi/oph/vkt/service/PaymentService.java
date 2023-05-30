@@ -7,6 +7,7 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
+import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
@@ -36,7 +37,7 @@ public class PaymentService {
   private static final int COST_MAX = 45400;
   private static final int UNIT_PRICE = 22700;
 
-  private final PaytrailService paytrailService;
+  private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
   private final Environment environment;
@@ -96,7 +97,7 @@ public class PaymentService {
     final PaymentStatus currentStatus = payment.getPaymentStatus();
     final PaymentStatus newStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
 
-    if (!paytrailService.validate(paymentParams)) {
+    if (!paymentProvider.validate(paymentParams)) {
       LOG.error("Payment ({}) validation failed for params {}", paymentId, paymentParams);
       throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
     }
@@ -180,7 +181,7 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
-    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getId(), customer, amount);
+    final PaytrailResponseDTO response = paymentProvider.createPayment(itemList, payment.getId(), customer, amount);
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
