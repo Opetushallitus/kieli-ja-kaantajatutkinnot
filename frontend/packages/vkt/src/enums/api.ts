@@ -1,11 +1,12 @@
 export enum APIEndpoints {
-  PublicAuthLogin = '/vkt/api/v1/auth/login',
+  PublicAuthLogin = '/vkt/api/v1/auth/login/:examEventId/:type',
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
   PublicSession = '/vkt/api/v1/session',
   PublicAuth = '/vkt/api/v1/auth',
   PublicValidateTicket = '/vkt/api/v1/auth/validate',
+  Payment = '/vkt/api/v1/payment',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
@@ -16,6 +17,7 @@ export enum APIEndpoints {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
+  EnrollmentAlreadyPaid = 'enrollmentAlreadyPaid',
   EnrollmentMoveExamEventLanguageMismatch = 'enrollmentMoveExamEventLanguageMismatch',
   EnrollmentMovePersonAlreadyEnrolled = 'enrollmentMovePersonAlreadyEnrolled',
   ExamEventDuplicate = 'examEventDuplicate',
@@ -29,4 +31,8 @@ export enum APIError {
   RenewReservationNotAllowed = 'renewReservationNotAllowed',
   ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
   TicketValidationError = 'ticketValidationError',
+  PaymentAlreadyPaid = 'paymentAlreadyPaid',
+  PaymentAmountMismatch = 'paymentAmountMismatch',
+  PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
+  PaymentValidationFail = 'paymentValidationFail',
 }

@@ -129,7 +129,7 @@ public class PublicEnrollmentEmailServiceTest {
     when(templateRenderer.renderEnrollmentConfirmationEmailBody(expectedTemplateParams))
       .thenReturn("<html>enrollment</html>");
 
-    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
 
     final List<Email> emails = emailRepository.findAll();
     assertEquals(1, emails.size());
@@ -154,7 +154,7 @@ public class PublicEnrollmentEmailServiceTest {
   }
 
   @Test
-  public void testSendEnrollmentToQueueConfirmationEmail() throws IOException, InterruptedException {
+  public void testSendEnrollmentToQueueConfirmationEmail() {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setLanguage(ExamLanguage.SV);
     examEvent.setLevel(ExamLevel.EXCELLENT);

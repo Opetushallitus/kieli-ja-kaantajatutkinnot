@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -122,7 +123,7 @@ public class CasTicketValidatorTest {
     final TicketValidator casTicketValidator = new CasTicketValidator(environment, webClient);
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(casTicketValidator);
 
-    return casTicketValidationService.validate(ticket);
+    return casTicketValidationService.validate(ticket, 1, EnrollmentType.RESERVATION);
   }
 
   private String getMockFailResponse() throws IOException {

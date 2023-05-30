@@ -1,54 +1,52 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { CustomButton, H2, Text } from 'shared/components';
-import { Duration, Severity } from 'shared/enums';
+import { Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
+export const Done = ({
+  activeStep,
+  enrollment,
+}: {
+  activeStep: PublicEnrollmentFormStep;
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.done',
   });
   const translateCommon = useCommonTranslation();
 
-  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
-
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const resetAndRedirect = useCallback(() => {
+  const resetAndRedirect = () => {
     dispatch(resetPublicExamEventSelections());
     dispatch(resetPublicEnrollment());
     navigate(AppRoutes.PublicHomePage);
-  }, [dispatch, navigate]);
+  };
 
   useEffect(() => {
     showToast({
       severity: Severity.Success,
       description: t('successToast'),
     });
-
-    const timer = setTimeout(() => {
-      resetAndRedirect();
-    }, Duration.MediumExtra);
-
-    return () => clearTimeout(timer);
-  }, [t, showToast, resetAndRedirect]);
+  }, [t, showToast]);
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>
-        {reservationDetails?.reservation
-          ? t('title.reservation')
-          : t('title.queue')}
+        {activeStep == PublicEnrollmentFormStep.Done
+          ? t('title.queue')
+          : t('title.reservation')}
       </H2>
       <Text>
         <strong>{`${t('description.part1')}: ${enrollment.email}`}</strong>

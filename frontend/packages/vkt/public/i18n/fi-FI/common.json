@@ -44,6 +44,7 @@
       },
       "errors": {
         "api": {
+          "enrollmentAlreadyPaid": "Ilmoittautumisen maksu epäonnistui, koska ilmoittautuminen on jo maksettu",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto epäonnistui, koska valitun tilaisuuden kieli ei ole sama",
           "enrollmentMovePersonAlreadyEnrolled": "Ilmoittautumisen siirto epäonnistui, koska ko. henkilö on jo ilmoittautunut valittuun tilaisuuteen",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
@@ -57,7 +58,11 @@
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
           "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
-          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
+          "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
+          "paymentAmountMismatch": "Maksun käsittely epäonnistui",
+          "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
+          "paymentValidationFail": "Maksun käsittely epäonnistui"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",
@@ -105,6 +110,12 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "authenticate": "Ilmoittautuminen - tunnistaudu",
+        "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
+        "selectExam": "Ilmoittautuminen - valitse tutkinto",
+        "done": "Ilmoittautuminen - valmis",
+        "preview": "Ilmoittautuminen - esikatsele",
+        "success": "Ilmoittautuminen - maksu valmis",
+        "fail": "Ilmoittautuminen - maksua ei suoritettu",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",

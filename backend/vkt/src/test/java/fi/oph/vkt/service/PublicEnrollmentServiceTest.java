@@ -74,7 +74,7 @@ public class PublicEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
-    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any(), any());
+    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
 
     final Environment environment = mock(Environment.class);
@@ -316,7 +316,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentWithDigitalCertificateConsent() throws IOException, InterruptedException {
+  public void testCreateEnrollmentWithDigitalCertificateConsent() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
@@ -328,16 +328,13 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.PAID, dto);
+    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
 
     assertEquals(0, reservationRepository.count());
-
-    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 
   @Test
-  public void testCreateEnrollmentWithoutDigitalCertificateConsent() throws IOException, InterruptedException {
+  public void testCreateEnrollmentWithoutDigitalCertificateConsent() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Reservation reservation = Factory.reservation(examEvent, person);
@@ -349,10 +346,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(false).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.PAID, dto);
-
-    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentConfirmationEmail(any(), any());
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
   }
 
   @Test
@@ -454,7 +448,7 @@ public class PublicEnrollmentServiceTest {
     publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person.getId());
     assertCreatedEnrollment(EnrollmentStatus.QUEUED, dto);
 
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any(), any());
+    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any());
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 }
