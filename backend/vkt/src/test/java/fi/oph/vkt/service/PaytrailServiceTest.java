@@ -127,7 +127,7 @@ public class PaytrailServiceTest {
   }
 
   @Test
-  public void testValidatePaytrailSignature() {
+  public void testPaytrailValidateSignature() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "b2d3ecdda2c04563a4638fcade3d4e77dfdc58829b429ad2c2cb422d0fc64080";
@@ -142,7 +142,7 @@ public class PaytrailServiceTest {
   }
 
   @Test
-  public void testValidatePaytrailSignatureWithNewHeader() {
+  public void testPaytrailValidateSignatureWithNewHeader() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
@@ -159,7 +159,7 @@ public class PaytrailServiceTest {
   }
 
   @Test
-  public void testValidatePaytrailWithHeaderVariations() {
+  public void testPaytrailValidateErrors() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
@@ -198,9 +198,18 @@ public class PaytrailServiceTest {
     paymentParams5.remove("checkout-transaction-id");
     assertFalse(paytrailService.validate(paymentParams5));
 
-    // Signature mismatch
-    final Map<String, String> paymentParams6 = getMockPaymentParams(account, "xyz");
+    // Invalid algorithm
+    final Map<String, String> paymentParams6 = getMockPaymentParams(account, signature);
+    paymentParams6.put("checkout-algorithm", "sha1");
     assertFalse(paytrailService.validate(paymentParams6));
+
+    // Invalid account
+    final Map<String, String> paymentParams7 = getMockPaymentParams("123456", signature);
+    assertFalse(paytrailService.validate(paymentParams7));
+
+    // Signature mismatch
+    final Map<String, String> paymentParams8 = getMockPaymentParams(account, "xyz");
+    assertFalse(paytrailService.validate(paymentParams8));
   }
 
   private String getMockJsonRequest() throws IOException {
