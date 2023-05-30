@@ -171,36 +171,36 @@ public class PaytrailServiceTest {
 
     // No headers
     final Map<String, String> paymentEmptyParams = new LinkedHashMap<>();
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentEmptyParams));
+    assertFalse(paytrailService.validate(paymentEmptyParams));
 
     // Signature missing
     final Map<String, String> paymentParams1 = getMockPaymentParams(account, signature);
     paymentParams1.remove("signature");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams1));
+    assertFalse(paytrailService.validate(paymentParams1));
 
     // Account missing
     final Map<String, String> paymentParams2 = getMockPaymentParams(account, signature);
     paymentParams2.remove("checkout-account");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams2));
+    assertFalse(paytrailService.validate(paymentParams2));
 
     // Amount missing
     final Map<String, String> paymentParams3 = getMockPaymentParams(account, signature);
     paymentParams3.remove("checkout-amount");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams3));
+    assertFalse(paytrailService.validate(paymentParams3));
 
     // Status missing
     final Map<String, String> paymentParams4 = getMockPaymentParams(account, signature);
     paymentParams4.remove("checkout-status");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams4));
+    assertFalse(paytrailService.validate(paymentParams4));
 
     // Transaction id missing
     final Map<String, String> paymentParams5 = getMockPaymentParams(account, signature);
     paymentParams5.remove("checkout-transaction-id");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams5));
+    assertFalse(paytrailService.validate(paymentParams5));
 
     // Signature mismatch
     final Map<String, String> paymentParams6 = getMockPaymentParams(account, "xyz");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams6));
+    assertFalse(paytrailService.validate(paymentParams6));
   }
 
   private String getMockJsonRequest() throws IOException {

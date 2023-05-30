@@ -151,22 +151,22 @@ public class PaytrailService implements PaymentProvider {
 
     if (!hasRequiredHeaders(paymentParams)) {
       LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams.keySet());
-      throw new RuntimeException("Invalid headers");
+      return false;
     }
 
     if (!account.equals(paytrailConfig.getAccount())) {
       LOG.error("Paytrail account mismatch: response: {} != config: {}", account, paytrailConfig.getAccount());
-      throw new RuntimeException("Account mismatch");
+      return false;
     }
 
     if (!algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
       LOG.error("Paytrail algorithm mismatch: response: {} != config: {}", algorithm, PaytrailConfig.HMAC_ALGORITHM);
-      throw new RuntimeException("Unknown algorithm");
+      return false;
     }
 
     if (!hash.equals(signature)) {
       LOG.error("Paytrail signature mismatch: response: {} != calculated: {}", signature, hash);
-      throw new RuntimeException("Signature mismatch");
+      return false;
     }
 
     return true;
