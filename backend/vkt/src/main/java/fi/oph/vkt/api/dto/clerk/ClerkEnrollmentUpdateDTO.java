@@ -30,12 +30,12 @@ public record ClerkEnrollmentUpdateDTO(
 )
   implements EnrollmentDTOCommonFields {
   public ClerkEnrollmentUpdateDTO {
-    previousEnrollment = StringUtil.trim(previousEnrollment);
-    email = StringUtil.trim(email);
-    phoneNumber = StringUtil.trim(phoneNumber);
-    street = StringUtil.trim(street);
-    postalCode = StringUtil.trim(postalCode);
-    town = StringUtil.trim(town);
-    country = StringUtil.trim(country);
+    previousEnrollment = StringUtil.sanitize(previousEnrollment);
+    email = StringUtil.sanitize(email);
+    phoneNumber = StringUtil.sanitize(phoneNumber);
+    street = StringUtil.sanitize(street);
+    postalCode = StringUtil.sanitize(postalCode);
+    town = StringUtil.sanitize(town);
+    country = StringUtil.sanitize(country);
   }
 }
