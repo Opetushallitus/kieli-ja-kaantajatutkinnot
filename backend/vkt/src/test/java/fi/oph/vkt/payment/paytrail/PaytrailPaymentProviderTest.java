@@ -1,4 +1,4 @@
-package fi.oph.vkt.payment;
+package fi.oph.vkt.payment.paytrail;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,10 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
-import fi.oph.vkt.payment.paytrail.PaytrailConfig;
-import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
