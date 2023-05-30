@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
@@ -228,6 +229,9 @@ public class PaymentServiceTest {
       String.format("https://foo.bar/ilmoittaudu/%d/maksu/peruutettu", enrollment.getExamEvent().getId()),
       paymentService.cancel(payment.getId(), paymentParams)
     );
+    verifyNoInteractions(publicEnrollmentEmailService);
+    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+    assertEquals(PaymentStatus.FAIL, payment.getPaymentStatus());
   }
 
   @Test

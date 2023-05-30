@@ -85,7 +85,7 @@ public class PublicController {
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
+    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person);
   }
 
   /**

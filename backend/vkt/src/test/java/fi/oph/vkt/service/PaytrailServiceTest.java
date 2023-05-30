@@ -197,6 +197,10 @@ public class PaytrailServiceTest {
     final Map<String, String> paymentParams5 = getMockPaymentParams(account, signature);
     paymentParams5.remove("checkout-transaction-id");
     assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams5));
+
+    // Signature mismatch
+    final Map<String, String> paymentParams6 = getMockPaymentParams(account, "xyz");
+    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams6));
   }
 
   private String getMockJsonRequest() throws IOException {

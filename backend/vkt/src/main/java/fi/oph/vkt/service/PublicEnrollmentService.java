@@ -189,16 +189,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+    final ExamEvent examEvent = reservation.getExamEvent();
 
     if (person.getId() != reservation.getPerson().getId()) {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    deleteEnrollmentIfExists(reservation, person);
+    deleteEnrollmentIfExists(examEvent, person);
 
     final Enrollment enrollment = new Enrollment();
-    enrollment.setExamEvent(reservation.getExamEvent());
-    enrollment.setPerson(reservation.getPerson());
+    enrollment.setExamEvent(examEvent);
+    enrollment.setPerson(person);
     enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
@@ -212,18 +213,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return createEnrollmentDTO(enrollment);
   }
 
-  private void deleteEnrollmentIfExists(final Reservation reservation, final Person person) {
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(
-      reservation.getExamEvent(),
-      person,
-      enrollmentRepository
-    );
+  private void deleteEnrollmentIfExists(final ExamEvent examEvent, final Person person) {
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
 
-    if (optionalEnrollment.isPresent()) {
-      final Enrollment enrollment = optionalEnrollment.get();
-      enrollmentRepository.delete(enrollment);
-      enrollmentRepository.saveAndFlush(enrollment);
-    }
+    optionalEnrollment.ifPresent(enrollment -> enrollmentRepository.deleteById(enrollment.getId()));
   }
 
   private void clearAddress(final Enrollment enrollment) {
@@ -237,10 +230,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public PublicEnrollmentDTO createEnrollmentToQueue(
     final PublicEnrollmentCreateDTO dto,
     final long examEventId,
-    final long personId
+    final Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Person person = personRepository.getReferenceById(personId);
+
+    deleteEnrollmentIfExists(examEvent, person);
 
     final Enrollment enrollment = new Enrollment();
     enrollment.setExamEvent(examEvent);
