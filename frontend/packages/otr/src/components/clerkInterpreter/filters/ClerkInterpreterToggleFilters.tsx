@@ -6,7 +6,11 @@ import { QualificationStatus } from 'enums/clerkInterpreter';
 import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
-export const ClerkInterpreterToggleFilters = () => {
+export const ClerkInterpreterToggleFilters = ({
+  setPage,
+}: {
+  setPage: (page: number) => void;
+}) => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterFilters.qualificationStatus',
   });
@@ -17,6 +21,7 @@ export const ClerkInterpreterToggleFilters = () => {
   const filterByQualificationStatus = (
     qualificationStatus: QualificationStatus
   ) => {
+    setPage(0);
     dispatch(addClerkInterpreterFilter({ qualificationStatus }));
   };
 

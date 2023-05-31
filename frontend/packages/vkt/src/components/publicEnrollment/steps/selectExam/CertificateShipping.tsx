@@ -1,7 +1,7 @@
 import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextField, H3 } from 'shared/components';
-import { Color, TextFieldTypes } from 'shared/enums';
+import { Color, InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
 
@@ -148,18 +148,22 @@ export const CertificateShipping = ({
           <CustomTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}
+            autoComplete={InputAutoComplete.Street}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('postalCode')}
             value={enrollment.postalCode}
+            autoComplete={InputAutoComplete.PostalCode}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('town')}
             value={enrollment.town}
+            autoComplete={InputAutoComplete.Town}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('country')}
             value={enrollment.country}
+            autoComplete={InputAutoComplete.Country}
           />
         </div>
       </Collapse>

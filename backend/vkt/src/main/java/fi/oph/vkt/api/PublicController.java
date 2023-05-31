@@ -1,20 +1,27 @@
 package fi.oph.vkt.api;
 
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
-import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.service.PaymentService;
 import fi.oph.vkt.service.PublicAuthService;
 import fi.oph.vkt.service.PublicEnrollmentService;
 import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
+import fi.oph.vkt.util.exception.APIException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,6 +56,9 @@ public class PublicController {
   private PublicAuthService publicAuthService;
 
   @Resource
+  private PaymentService paymentService;
+
+  @Resource
   private PublicReservationService publicReservationService;
 
   @GetMapping(path = "/examEvent")
@@ -56,50 +66,41 @@ public class PublicController {
     return publicExamEventService.listExamEvents(ExamLevel.EXCELLENT);
   }
 
-  @PostMapping(path = "/examEvent/{examEventId:\\d+}/reservation")
-  @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollment(
-    @PathVariable final long examEventId,
-    final HttpSession session
-  ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-
-    return publicEnrollmentService.initialiseEnrollment(examEventId, person);
-  }
-
-  @PostMapping(path = "/examEvent/{examEventId:\\d+}/queue")
-  @ResponseStatus(HttpStatus.CREATED)
-  public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(
-    @PathVariable final long examEventId,
-    final HttpSession session
-  ) {
-    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-
-    return publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
-  }
-
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEnrollment(
+  public PublicEnrollmentDTO createEnrollment(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
-  ) throws IOException, InterruptedException {
+  ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    publicEnrollmentService.createEnrollment(dto, reservationId, person);
+    return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
   @PostMapping(path = "/enrollment/queue")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createEnrollmentToQueue(
+  public PublicEnrollmentDTO createEnrollmentToQueue(
     @RequestBody @Valid PublicEnrollmentCreateDTO dto,
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
+    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person);
+  }
+
+  /**
+   * Returns info about enrollment when refreshing a page during an enrollment step
+   */
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}")
+  public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
+    @PathVariable final long examEventId,
+    final HttpSession session
+  ) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+
+    return publicEnrollmentService.getEnrollmentInitialisationDTO(examEventId, person);
   }
 
   @PutMapping(path = "/reservation/{reservationId:\\d+}/renew")
@@ -116,23 +117,132 @@ public class PublicController {
     publicReservationService.deleteReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/auth/login")
-  public void casLoginRedirect(final HttpServletResponse httpResponse) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl();
+  @GetMapping(path = "/auth/login/{examEventId:\\d+}/{type:\\w+}")
+  public void casLoginRedirect(
+    final HttpServletResponse httpResponse,
+    @PathVariable final long examEventId,
+    @PathVariable final String type,
+    final HttpSession session
+  ) throws IOException {
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, EnrollmentType.fromString(type));
+
+    if (session != null) {
+      session.invalidate();
+    }
+
     httpResponse.sendRedirect(casLoginUrl);
   }
 
-  @GetMapping(path = "/auth/validate/{ticket:\\S+}")
-  public PublicPersonDTO validateTicket(@PathVariable final String ticket, final HttpSession session) {
-    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket(ticket);
+  @GetMapping(path = "/auth/validate/{examEventId:\\d+}/{type:\\w+}")
+  public void validateTicket(
+    @RequestParam final String ticket,
+    @PathVariable final long examEventId,
+    @PathVariable final String type,
+    final HttpSession session,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    try {
+      final EnrollmentType enrollmentType = EnrollmentType.fromString(type);
+      final Person person = publicAuthService.createPersonFromTicket(ticket, examEventId, enrollmentType);
+      SessionUtil.setPersonId(session, person.getId());
 
-    SessionUtil.setPersonId(session, personDTO.id());
+      if (enrollmentType.equals(EnrollmentType.QUEUE)) {
+        publicEnrollmentService.initialiseEnrollmentToQueue(examEventId, person);
+      } else {
+        publicEnrollmentService.initialiseEnrollment(examEventId, person);
+      }
 
-    return personDTO;
+      httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsURL(examEventId));
+    } catch (final APIException e) {
+      httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+    } catch (final Exception e) {
+      httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+    }
   }
 
   @GetMapping(path = "/auth/info")
   public Person authInfo(final HttpSession session) {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
+  }
+
+  @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
+  public void createPaymentAndRedirect(
+    @PathVariable Long enrollmentId,
+    final HttpSession session,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    try {
+      final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+      final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
+
+      httpResponse.sendRedirect(redirectUrl);
+    } catch (final APIException e) {
+      httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+    } catch (final Exception e) {
+      httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+    }
+  }
+
+  @GetMapping(path = "/payment/{paymentId:\\d+}/success")
+  public void paymentSuccess(
+    @PathVariable final Long paymentId,
+    @RequestParam final Map<String, String> paymentParams,
+    @RequestParam final Optional<Boolean> callback,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    handleFinalizePayment(
+      paymentId,
+      paymentParams,
+      callback,
+      httpResponse,
+      paymentService::getFinalizePaymentSuccessRedirectUrl
+    );
+  }
+
+  @GetMapping(path = "/payment/{paymentId:\\d+}/cancel")
+  public void paymentCancel(
+    @PathVariable final Long paymentId,
+    @RequestParam final Map<String, String> paymentParams,
+    @RequestParam final Optional<Boolean> callback,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    handleFinalizePayment(
+      paymentId,
+      paymentParams,
+      callback,
+      httpResponse,
+      paymentService::getFinalizePaymentCancelRedirectUrl
+    );
+  }
+
+  private void handleFinalizePayment(
+    final Long paymentId,
+    final Map<String, String> paymentParams,
+    final Optional<Boolean> callback,
+    final HttpServletResponse httpResponse,
+    final Function<Payment, String> getRedirectUrlFunction
+  ) throws IOException {
+    try {
+      final Payment payment = paymentService.finalizePayment(paymentId, paymentParams);
+      final String redirectUrl = getRedirectUrlFunction.apply(payment);
+
+      if (callback.isPresent() && callback.get()) {
+        httpResponse.setStatus(HttpStatus.OK.value());
+      } else {
+        httpResponse.sendRedirect(redirectUrl);
+      }
+    } catch (final APIException e) {
+      if (callback.isPresent() && callback.get()) {
+        httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+      } else {
+        httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+      }
+    } catch (final Exception e) {
+      if (callback.isPresent() && callback.get()) {
+        httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+      } else {
+        httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+      }
+    }
   }
 }

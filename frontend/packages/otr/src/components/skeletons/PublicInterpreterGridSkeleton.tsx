@@ -40,6 +40,9 @@ export const PublicInterpreterGridSkeleton = ({
         <PublicInterpreterFilters
           showTable={showTable}
           setShowTable={setShowTable}
+          setPage={() => {
+            return;
+          }}
         />
       </CustomSkeleton>
     </>

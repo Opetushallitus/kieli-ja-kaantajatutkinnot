@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class PublicEnrollmentEmailService {
 
   private final EmailService emailService;
+  private final Environment environment;
   private final ReceiptRenderer receiptRenderer;
   private final TemplateRenderer templateRenderer;
 
   @Transactional
-  public void sendEnrollmentConfirmationEmail(final Enrollment enrollment, final Person person)
-    throws IOException, InterruptedException {
+  public void sendEnrollmentConfirmationEmail(final Enrollment enrollment) throws IOException, InterruptedException {
+    final Person person = enrollment.getPerson();
     final Map<String, Object> templateParams = getEmailParams(enrollment);
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
@@ -41,10 +43,12 @@ public class PublicEnrollmentEmailService {
     final String subject = "Vahvistus tutkintoon ilmoittautumisesta | Samma på svenska";
     final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
 
-    final List<EmailAttachmentData> attachments = List.of(
-      createReceiptAttachment(enrollment, Language.FI),
-      createReceiptAttachment(enrollment, Language.SV)
-    );
+    final List<EmailAttachmentData> attachments = environment.getRequiredProperty(
+        "app.email.sending-enabled",
+        Boolean.class
+      )
+      ? List.of(createReceiptAttachment(enrollment, Language.FI), createReceiptAttachment(enrollment, Language.SV))
+      : List.of(); // for local development
 
     createEmail(recipientName, recipientAddress, subject, body, attachments, EmailType.ENROLLMENT_CONFIRMATION);
   }

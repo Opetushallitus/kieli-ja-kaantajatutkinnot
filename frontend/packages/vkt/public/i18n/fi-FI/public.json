@@ -57,6 +57,8 @@
           "active": "Aktiivinen",
           "completed": "Suoritettu",
           "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
@@ -74,13 +76,19 @@
           "done": {
             "description": {
               "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-              "part2": "Tämä sivu ohjaa sinut automaattisesti takaisin etusivulle. Jos mitään ei tapahdu voit klikata alla olevasta napista."
+              "part2": "Ilmoittautuminen on valmis. Voit jatkaa etusivulle alla olevasta painikkeesta."
             },
             "successToast": "Ilmoittautuminen onnistui!",
             "title": {
               "queue": "Jonopaikka on varattu.",
               "reservation": "Maksu on suoritettu."
             }
+          },
+          "fail": {
+            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
+            "successToast": "Ilmoittautuminen epäonnistui!",
+            "title": "Maksua ei suoritettu.",
+            "tryAgain": "Yritä uudelleen"
           },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
@@ -118,7 +126,7 @@
             },
             "privacyStatement": {
               "ariaLabel": "Tietosuojaseloste",
-              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen.",
+              "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
               "linkLabel": "tietosuojaselosteen"
             }
           },

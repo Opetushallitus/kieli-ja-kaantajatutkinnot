@@ -42,9 +42,11 @@ import { RegionUtils } from 'utils/regions';
 export const PublicInterpreterFilters = ({
   showTable,
   setShowTable,
+  setPage,
 }: {
   showTable: boolean;
   setShowTable: Dispatch<SetStateAction<boolean>>;
+  setPage: (page: number) => void;
 }) => {
   // I18
   const { t } = useAppTranslation({
@@ -102,6 +104,7 @@ export const PublicInterpreterFilters = ({
 
   // Handlers
   const handleSearchBtnClick = () => {
+    setPage(0);
     dispatch(setPublicInterpreterFilters(filters));
     setShowTable(true);
     setSearchButtonDisabled(true);
@@ -116,6 +119,7 @@ export const PublicInterpreterFilters = ({
   };
 
   const handleEmptyBtnClick = () => {
+    setPage(0);
     setFilters(defaultFiltersState);
     setInputValues(defaultFiltersState);
     setValues(defaultValuesState);

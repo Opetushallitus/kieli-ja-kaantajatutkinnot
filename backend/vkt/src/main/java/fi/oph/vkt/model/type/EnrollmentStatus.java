@@ -4,6 +4,8 @@ package fi.oph.vkt.model.type;
 public enum EnrollmentStatus {
   PAID,
   EXPECTING_PAYMENT,
+  EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
   QUEUED,
   CANCELED,
+  CANCELED_UNFINISHED_ENROLLMENT,
 }

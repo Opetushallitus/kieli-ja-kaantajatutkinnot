@@ -82,4 +82,8 @@ public class Enrollment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
+
+  public boolean isCancelled() {
+    return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;
+  }
 }

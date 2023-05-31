@@ -235,19 +235,16 @@
       },
       "publicInterpreterListing": {
         "header": {
+          "contactInformation": "Yhteystiedot",
           "name": "Nimi",
           "languagePairs": "Kieliparit",
           "region": "Toiminta-alue"
         },
         "row": {
-          "additionalContactDetail": {
-            "email": "Sähköposti",
-            "otherContactInfo": "Muu yhteystieto",
-            "phoneNumber": "Puhelinnumero"
-          },
-          "ariaLabel": "Avaa lisätiedot"
-        },
-        "searchResultsInfo": "Klikkaa riviä nähdäksesi yhteystiedot"
+          "emailAriaLabel": "Sähköposti",
+          "otherContactAriaLabel": "Muu yhteystieto",
+          "phoneAriaLabel": "Puhelinnumero"
+        }
       },
       "table": {
         "pagination": {

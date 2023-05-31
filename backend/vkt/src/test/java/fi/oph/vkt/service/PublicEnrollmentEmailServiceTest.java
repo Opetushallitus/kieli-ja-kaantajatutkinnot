@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -49,6 +50,9 @@ public class PublicEnrollmentEmailServiceTest {
 
   @MockBean
   private EmailSender emailSender;
+
+  @MockBean
+  private Environment environment;
 
   @MockBean
   private TemplateRenderer templateRenderer;
@@ -76,7 +80,8 @@ public class PublicEnrollmentEmailServiceTest {
       );
     when(receiptRenderer.getReceiptPdfBytes(any())).thenReturn(new byte[] { 'a', 'b', 'c' });
 
-    publicEnrollmentEmailService = new PublicEnrollmentEmailService(emailService, receiptRenderer, templateRenderer);
+    publicEnrollmentEmailService =
+      new PublicEnrollmentEmailService(emailService, environment, receiptRenderer, templateRenderer);
   }
 
   @Test
@@ -126,10 +131,11 @@ public class PublicEnrollmentEmailServiceTest {
       "puhuminen, puheen ymmärtäminen"
     );
 
+    when(environment.getRequiredProperty("app.email.sending-enabled", Boolean.class)).thenReturn(true);
     when(templateRenderer.renderEnrollmentConfirmationEmailBody(expectedTemplateParams))
       .thenReturn("<html>enrollment</html>");
 
-    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment, person);
+    publicEnrollmentEmailService.sendEnrollmentConfirmationEmail(enrollment);
 
     final List<Email> emails = emailRepository.findAll();
     assertEquals(1, emails.size());
@@ -154,7 +160,7 @@ public class PublicEnrollmentEmailServiceTest {
   }
 
   @Test
-  public void testSendEnrollmentToQueueConfirmationEmail() throws IOException, InterruptedException {
+  public void testSendEnrollmentToQueueConfirmationEmail() {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setLanguage(ExamLanguage.SV);
     examEvent.setLevel(ExamLevel.EXCELLENT);

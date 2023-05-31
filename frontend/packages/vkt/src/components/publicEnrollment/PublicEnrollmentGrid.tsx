@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 
@@ -10,40 +10,76 @@ import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEn
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import {
+  loadPublicEnrollment,
+  resetPublicEnrollment,
+} from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
-import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
-export const PublicEnrollmentGrid = () => {
+export const PublicEnrollmentGrid = ({
+  activeStep,
+}: {
+  activeStep: PublicEnrollmentFormStep;
+}) => {
+  const dispatch = useAppDispatch();
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
+  const params = useParams();
 
-  const { status, cancelStatus, activeStep, enrollment, reservationDetails } =
-    useAppSelector(publicEnrollmentSelector);
-
-  const { selectedExamEvent } = useAppSelector(publicExamEventsSelector);
+  const {
+    status,
+    enrollmentSubmitStatus,
+    cancelStatus,
+    enrollToQueue,
+    enrollment,
+    reservationDetails,
+    reservationDetailsStatus,
+    selectedExamEvent,
+  } = useAppSelector(publicEnrollmentSelector);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (
+      reservationDetailsStatus === APIResponseStatus.NotStarted &&
+      !reservationDetails &&
+      !selectedExamEvent &&
+      params.examEventId
+    ) {
+      dispatch(loadPublicEnrollment(+params.examEventId));
+    }
+  }, [
+    dispatch,
+    reservationDetailsStatus,
+    enrollment,
+    reservationDetails,
+    selectedExamEvent,
+    params.examEventId,
+  ]);
+
+  useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicHomePage);
+      dispatch(resetPublicEnrollment());
     }
-  }, [cancelStatus, navigate]);
+  }, [cancelStatus, navigate, dispatch]);
 
   useNavigationProtection(
     activeStep > PublicEnrollmentFormStep.Authenticate &&
-      activeStep < PublicEnrollmentFormStep.Done &&
-      cancelStatus === APIResponseStatus.NotStarted
+      activeStep < PublicEnrollmentFormStep.Preview &&
+      cancelStatus === APIResponseStatus.NotStarted,
+    '/vkt/ilmoittaudu'
   );
 
   const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = activeStep === PublicEnrollmentFormStep.Done;
+  const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
+  const isExpectedToHaveOpenings = !enrollToQueue;
 
   const renderDesktopView = () => (
     <>
@@ -67,17 +103,20 @@ export const PublicEnrollmentGrid = () => {
                   showOpenings={hasReservation && !isDoneStepActive}
                 />
                 <PublicEnrollmentStepContents
+                  selectedExamEvent={selectedExamEvent}
                   activeStep={activeStep}
                   enrollment={enrollment}
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
                   showValidation={showValidation}
+                  isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
                 {isPreviewStepActive && reservationDetails?.reservation && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />
                 )}
                 {!isDoneStepActive && reservationDetails && (
                   <PublicEnrollmentControlButtons
+                    submitStatus={enrollmentSubmitStatus}
                     activeStep={activeStep}
                     enrollment={enrollment}
                     reservationDetails={reservationDetails}

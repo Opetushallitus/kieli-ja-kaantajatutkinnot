@@ -5,7 +5,6 @@ import {
   H2,
   H3,
   PaginatedTable,
-  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -22,9 +21,14 @@ const getRowDetails = (interpreter: PublicInterpreter) => {
 export const PublicInterpreterListing = ({
   status,
   interpreters,
+  controlledPaging,
 }: {
   status: APIResponseStatus;
   interpreters: Array<PublicInterpreter>;
+  controlledPaging: {
+    page: number;
+    setPage: (page: number) => void;
+  };
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
   const { isPhone } = useWindowProperties();
@@ -62,19 +66,17 @@ export const PublicInterpreterListing = ({
           <div className="columns" ref={listingHeaderRef}>
             <div className="grow">
               <H2>{translateCommon('searchResults')}</H2>
-              <Text className="margin-top-sm">
-                {t('component.publicInterpreterListing.searchResultsInfo')}
-              </Text>
             </div>
           </div>
           <PaginatedTable
-            className="public-interpreter-listing"
+            className="table-layout-auto"
             data={interpreters}
             header={<PublicInterpreterListingHeader />}
             getRowDetails={getRowDetails}
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
             rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
+            controlledPaging={controlledPaging}
             stickyHeader
           />
         </>

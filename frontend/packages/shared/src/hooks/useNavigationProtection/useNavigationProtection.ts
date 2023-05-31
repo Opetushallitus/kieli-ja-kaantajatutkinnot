@@ -7,10 +7,13 @@ export const useNavigationProtection = (
   showConfirmationDialog: (
     confirmNavigation: () => void,
     cancelNavigation: () => void
-  ) => void
+  ) => void,
+  baseUrl?: string
 ) => {
-  const { showPrompt, confirmNavigation, cancelNavigation } =
-    useCallbackPrompt(when);
+  const { showPrompt, confirmNavigation, cancelNavigation } = useCallbackPrompt(
+    when,
+    baseUrl
+  );
 
   useEffect(() => {
     if (showPrompt) {

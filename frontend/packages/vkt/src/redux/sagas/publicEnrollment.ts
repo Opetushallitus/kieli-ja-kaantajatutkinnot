@@ -15,8 +15,8 @@ import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
-  increaseActiveStep,
   initialisePublicEnrollment,
+  loadPublicEnrollment,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
@@ -29,6 +29,25 @@ import {
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
+  try {
+    const eventId = action.payload;
+    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}`;
+
+    const response: AxiosResponse<PublicReservationDetailsResponse> =
+      yield call(axiosInstance.get, loadUrl);
+
+    const reservationDetails =
+      SerializationUtils.deserializePublicReservationDetails(response.data);
+
+    yield put(storePublicEnrollmentInitialisation(reservationDetails));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicEnrollmentInitialisation());
+  }
+}
 
 function* initialisePublicEnrollmentSaga(
   action: PayloadAction<PublicExamEvent>
@@ -45,7 +64,6 @@ function* initialisePublicEnrollmentSaga(
       SerializationUtils.deserializePublicReservationDetails(response.data);
 
     yield put(storePublicEnrollmentInitialisation(reservationDetails));
-    yield put(increaseActiveStep());
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -112,9 +130,12 @@ function* loadPublicEnrollmentSaveSaga(
       ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`
       : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
 
-    yield call(axiosInstance.post, saveUrl, body);
-
-    yield put(storePublicEnrollmentSave());
+    const response: AxiosResponse<PublicEnrollment> = yield call(
+      axiosInstance.post,
+      saveUrl,
+      body
+    );
+    yield put(storePublicEnrollmentSave(response.data));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
@@ -123,6 +144,7 @@ function* loadPublicEnrollmentSaveSaga(
 }
 
 export function* watchPublicEnrollments() {
+  yield takeLatest(loadPublicEnrollment, loadPublicEnrollmentSaga);
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
   yield takeLatest(
     renewPublicEnrollmentReservation,

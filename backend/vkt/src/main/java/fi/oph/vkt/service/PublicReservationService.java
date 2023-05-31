@@ -61,7 +61,7 @@ public class PublicReservationService {
     return createReservationDTO(reservation);
   }
 
-  private PublicReservationDTO createReservationDTO(final Reservation reservation) {
+  public PublicReservationDTO createReservationDTO(final Reservation reservation) {
     final ZonedDateTime renewedAt = reservation.getRenewedAt() != null
       ? ZonedDateTime.of(reservation.getRenewedAt(), ZoneId.systemDefault())
       : null;

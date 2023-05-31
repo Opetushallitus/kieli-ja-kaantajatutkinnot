@@ -1,9 +1,10 @@
 package fi.oph.vkt.service;
 
-import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -24,10 +25,10 @@ public class PublicAuthService {
 
   private final Environment environment;
 
-  public String createCasLoginUrl() {
+  public String createCasLoginUrl(final long examEventId, final EnrollmentType type) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
-      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
       StandardCharsets.UTF_8
     );
     return casLoginUrl + "?service=" + casServiceUrl;
@@ -52,9 +53,15 @@ public class PublicAuthService {
     return personRepository.saveAndFlush(person);
   }
 
+  public String getEnrollmentContactDetailsURL(final long examEventId) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/ilmoittaudu/%s/tiedot", baseUrl, examEventId);
+  }
+
   @Transactional
-  public PublicPersonDTO createPersonFromTicket(final String ticket) {
-    final Map<String, String> personDetails = casTicketValidationService.validate(ticket);
+  public Person createPersonFromTicket(final String ticket, final long examEventId, final EnrollmentType type) {
+    final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
     final String identityNumber = personDetails.get("identityNumber");
     final String firstName = personDetails.get("firstName");
@@ -66,20 +73,24 @@ public class PublicAuthService {
       ? null
       : LocalDate.parse(dateOfBirthRaw);
 
-    final Optional<Person> maybePerson = identityNumber != null && !identityNumber.isEmpty()
+    final Optional<Person> optionalPerson = identityNumber != null && !identityNumber.isEmpty()
       ? personRepository.findByIdentityNumber(identityNumber)
       : personRepository.findByOtherIdentifier(otherIdentifier);
-    final Person person = maybePerson.orElseGet(() ->
+
+    return optionalPerson.orElseGet(() ->
       createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
+  }
 
-    return PublicPersonDTO
-      .builder()
-      .id(person.getId())
-      .identityNumber(person.getIdentityNumber())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
-      .dateOfBirth(dateOfBirth)
-      .build();
+  public String getErrorUrl() {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/etusivu?error=generic", baseUrl);
+  }
+
+  public String getErrorUrl(final APIExceptionType exceptionType) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/etusivu?error=%s", baseUrl, exceptionType.getCode());
   }
 }
