@@ -265,14 +265,7 @@ export const ClerkEnrollmentDetailsFields = ({
   };
 
   const statusToDescription = (status: EnrollmentStatus) => {
-    switch (status) {
-      case EnrollmentStatus.PAID:
-        return t('enrollmentStatus.paid');
-      case EnrollmentStatus.EXPECTING_PAYMENT:
-        return t('enrollmentStatus.expectingPayment');
-    }
-
-    return <></>;
+    return t(`enrollmentStatus.${status}`);
   };
 
   return (

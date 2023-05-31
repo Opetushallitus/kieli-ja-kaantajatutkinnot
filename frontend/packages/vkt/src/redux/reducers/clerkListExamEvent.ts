@@ -54,9 +54,11 @@ const clerkListExamEventSlice = createSlice({
     },
     upsertExamEvents(state, action: PayloadAction<ClerkExamEvent>) {
       const participants = action.payload.enrollments.filter((enrollment) =>
-        [EnrollmentStatus.PAID, EnrollmentStatus.EXPECTING_PAYMENT].includes(
-          enrollment.status
-        )
+        [
+          EnrollmentStatus.PAID,
+          EnrollmentStatus.EXPECTING_PAYMENT,
+          EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+        ].includes(enrollment.status)
       ).length;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { version, enrollments, ...rest } = action.payload;
