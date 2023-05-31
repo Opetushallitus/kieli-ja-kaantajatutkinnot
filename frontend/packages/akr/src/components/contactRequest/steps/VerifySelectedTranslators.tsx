@@ -1,32 +1,62 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { IconButton } from '@mui/material';
 import { useEffect } from 'react';
-import { Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { CustomButton, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import {
   ChosenTranslatorsHeading,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ContactRequestFormStep } from 'enums/contactRequest';
 import { deselectPublicTranslator } from 'redux/reducers/publicTranslator';
 import { selectedPublicTranslatorsForLanguagePair } from 'redux/selectors/publicTranslator';
+
+const TranslatorRow = ({
+  id,
+  firstName,
+  lastName,
+}: {
+  id: number;
+  firstName: string;
+  lastName: string;
+}) => {
+  const { t } = useAppTranslation({
+    keyPrefix: 'akr.component.contactRequestForm.verifySelectedTranslatorsStep',
+  });
+  const translateCommon = useCommonTranslation();
+
+  const dispatch = useAppDispatch();
+
+  const deselectTranslator = () => dispatch(deselectPublicTranslator(id));
+
+  const deselectButtonAriaLabel =
+    t('accessibility.deselectTranslator') + ': ' + firstName + ' ' + lastName;
+
+  return (
+    <div className="columns gapped">
+      <Text>
+        {firstName} {lastName}
+      </Text>
+      <CustomButton
+        data-testid={`contact-request-page__deselect-translator-id-${id}-btn`}
+        variant={Variant.Outlined}
+        onClick={deselectTranslator}
+        color={Color.Secondary}
+        aria-label={deselectButtonAriaLabel}
+      >
+        {translateCommon('delete')}
+      </CustomButton>
+    </div>
+  );
+};
 
 export const VerifySelectedTranslators = ({
   disableNext,
 }: {
   disableNext: (disabled: boolean) => void;
 }) => {
-  const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.contactRequestForm.verifySelectedTranslatorsStep',
-  });
   const translators = useAppSelector(selectedPublicTranslatorsForLanguagePair);
-  const dispatch = useAppDispatch();
-
-  const deselectTranslator = (id: number) =>
-    dispatch(deselectPublicTranslator(id));
 
   useEffect(
     () => disableNext(translators.length == 0),
@@ -38,32 +68,16 @@ export const VerifySelectedTranslators = ({
       <StepHeading step={ContactRequestFormStep.VerifyTranslators} />
       <div className="rows gapped">
         <ChosenTranslatorsHeading />
-        {translators.map(({ id, firstName, lastName }) => {
-          const ariaLabel =
-            t('accessibility.deselectTranslator') +
-            ': ' +
-            firstName +
-            ' ' +
-            lastName;
-
-          return (
-            <div
-              className="columns"
+        <div className="rows gapped-xs">
+          {translators.map(({ id, firstName, lastName }) => (
+            <TranslatorRow
               key={id}
-              data-testid={`contact-request-page__chosen-translator-id-${id}`}
-            >
-              <Text>
-                {firstName} {lastName}
-              </Text>
-              <IconButton
-                aria-label={ariaLabel}
-                onClick={() => deselectTranslator(id)}
-              >
-                <DeleteOutlineIcon color={Color.Error} />
-              </IconButton>
-            </div>
-          );
-        })}
+              id={id}
+              firstName={firstName}
+              lastName={lastName}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

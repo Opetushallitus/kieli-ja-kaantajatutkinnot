@@ -26,7 +26,13 @@ const HeaderTitle = () => {
   return <H2>{t('title')}</H2>;
 };
 
-export const ClerkInterpreterListing = () => {
+export const ClerkInterpreterListing = ({
+  page,
+  setPage,
+}: {
+  page: number;
+  setPage: (page: number) => void;
+}) => {
   const { status } = useAppSelector(clerkInterpretersSelector);
   const filteredInterpreters = useAppSelector(selectFilteredClerkInterpreters);
   const dispatch = useAppDispatch();
@@ -65,6 +71,7 @@ export const ClerkInterpreterListing = () => {
           rowsPerPageOptions={[10, 20, 50]}
           rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
           className="table-layout-auto"
+          controlledPaging={{ page, setPage }}
           stickyHeader
         />
       );

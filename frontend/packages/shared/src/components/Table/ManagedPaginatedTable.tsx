@@ -2,7 +2,10 @@ import { Table, TableBody, TablePagination } from '@mui/material';
 import { ChangeEvent, Fragment } from 'react';
 
 import { WithId } from '../../interfaces/with';
-import { defaultDisplayedRowsLabel, PaginatedTableProps } from './Table';
+import {
+  defaultDisplayedRowsLabel,
+  PaginatedTableProps,
+} from './PaginatedTable';
 import './Table.scss';
 
 interface ManagedPaginatedTableProps<T extends WithId>
@@ -13,6 +16,10 @@ interface ManagedPaginatedTableProps<T extends WithId>
   onRowsPerPageChange: (rowsPerPage: number) => void;
 }
 
+/**
+ * Use ManagedPaginatedTable when the pagination state needs to be controlled by redux
+ * e.g. to preserve pagination state between tab or view toggles
+ */
 export function ManagedPaginatedTable<T extends WithId>({
   header,
   data,
@@ -24,6 +31,7 @@ export function ManagedPaginatedTable<T extends WithId>({
   rowsPerPageLabel,
   headerContent,
   page,
+  size = 'medium',
   onPageChange,
   rowsPerPage,
   onRowsPerPageChange,
@@ -65,7 +73,11 @@ export function ManagedPaginatedTable<T extends WithId>({
   return (
     <>
       <Pagination showHeaderContent={!!headerContent} />
-      <Table className={`${className} table`} stickyHeader={stickyHeader}>
+      <Table
+        className={`${className} table`}
+        stickyHeader={stickyHeader}
+        size={size}
+      >
         {header}
         <TableBody>
           {data

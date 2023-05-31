@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect } from 'react';
-import { CustomTextField, H3 } from 'shared/components';
+import { CustomTextField, H2, Text } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { InputFieldUtils, StringUtils } from 'shared/utils';
@@ -7,7 +7,6 @@ import { InputFieldUtils, StringUtils } from 'shared/utils';
 import {
   ChosenTranslators,
   ChosenTranslatorsHeading,
-  DisplayContactInfo,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
 import { translateOutsideComponent, useAppTranslation } from 'configs/i18n';
@@ -80,20 +79,20 @@ export const WriteMessage = ({
     <div className="rows">
       <StepHeading step={ContactRequestFormStep.WriteMessage} />
       <div className="rows gapped">
-        <ChosenTranslatorsHeading />
-        <ChosenTranslators />
-        {!isPhone && <DisplayContactInfo />}
-        <div className="rows gapped">
-          <H3>
-            {t(
-              `steps.${
-                ContactRequestFormStep[ContactRequestFormStep.WriteMessage]
-              }`
-            )}
-          </H3>
+        <div className="rows gapped-xs">
+          <ChosenTranslatorsHeading />
+          <ChosenTranslators />
+        </div>
+        <H2>{t('writeMessage.title')}</H2>
+        <div className="rows gapped-xxs">
+          <Text>
+            <span className="bold">{t('writeMessage.message')}</span>
+            {' ('}
+            {t('writeMessage.mandatory')}
+            {')'}
+          </Text>
           <CustomTextField
-            id="contact-request-page__message-field"
-            label={t('formLabels.writeMessageHere')}
+            data-testid="contact-request-page__message-field"
             value={request?.message}
             type={TextFieldTypes.Textarea}
             onChange={handleMessageFieldChange}

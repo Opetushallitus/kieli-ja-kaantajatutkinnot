@@ -1,6 +1,6 @@
 import { Add as AddIcon } from '@mui/icons-material';
 import { Divider, Grid, Paper } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
@@ -15,6 +15,7 @@ import { AppRoutes } from 'enums/app';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkHomePage: FC = () => {
+  const [page, setPage] = useState(0);
   const { interpreters, status } = useAppSelector(clerkInterpretersSelector);
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -50,12 +51,12 @@ export const ClerkHomePage: FC = () => {
       <Grid item>
         <div className="columns">
           <div className="clerk-homepage__grid-container__register-controls grow columns">
-            <ClerkInterpreterToggleFilters />
+            <ClerkInterpreterToggleFilters setPage={setPage} />
           </div>
         </div>
       </Grid>
       <Grid item>
-        <ClerkInterpreterAutocompleteFilters />
+        <ClerkInterpreterAutocompleteFilters setPage={setPage} />
       </Grid>
       <Grid item>
         <div className="columns space-between">
@@ -66,7 +67,7 @@ export const ClerkHomePage: FC = () => {
         <Divider />
       </Grid>
       <Grid item>
-        <ClerkInterpreterListing />
+        <ClerkInterpreterListing page={page} setPage={setPage} />
       </Grid>
     </>
   );

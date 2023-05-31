@@ -8,7 +8,11 @@ import { UNSAFE_NavigationContext } from 'react-router';
 // added back to a recent version of react-router v6.
 // For reference, see the issue at https://github.com/remix-run/react-router/issues/8139
 
-export const useBlocker = (blocker: Blocker, when: boolean) => {
+export const useBlocker = (
+  blocker: Blocker,
+  when: boolean,
+  baseUrl?: string
+) => {
   const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
 
   useEffect(() => {
@@ -21,10 +25,18 @@ export const useBlocker = (blocker: Blocker, when: boolean) => {
             tx.retry();
           },
         };
-        blocker(autoUnblockingTx);
+        if (
+          !baseUrl ||
+          !autoUnblockingTx.location.pathname.includes(baseUrl) ||
+          autoUnblockingTx.action === 'PUSH'
+        ) {
+          blocker(autoUnblockingTx);
+        } else {
+          autoUnblockingTx.retry();
+        }
       });
 
       return unblock;
     }
-  }, [navigator, blocker, when]);
+  }, [navigator, blocker, when, baseUrl]);
 };

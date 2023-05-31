@@ -73,9 +73,7 @@ public class PublicReservationServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> {
-        publicReservationService.renewReservation(reservation.getId(), person2);
-      }
+      () -> publicReservationService.renewReservation(reservation.getId(), person2)
     );
     assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
   }
@@ -141,9 +139,7 @@ public class PublicReservationServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> {
-        publicReservationService.deleteReservation(reservation.getId(), person2);
-      }
+      () -> publicReservationService.deleteReservation(reservation.getId(), person2)
     );
     assertEquals(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH, ex.getExceptionType());
   }
