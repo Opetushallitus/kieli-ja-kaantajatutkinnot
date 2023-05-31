@@ -6,7 +6,9 @@ import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
+import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
@@ -36,7 +38,7 @@ public class PaymentService {
   private static final int COST_MAX = 45400;
   private static final int UNIT_PRICE = 22700;
 
-  private final PaytrailService paytrailService;
+  private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
   private final Environment environment;
@@ -52,10 +54,10 @@ public class PaymentService {
       .build();
   }
 
-  private int getTotal(final List<Item> itemList) {
+  private int getTotalAmount(final List<Item> itemList) {
     return Math.min(
       COST_MAX,
-      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.unitPrice(), Integer::sum)
+      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.units() * item.unitPrice(), Integer::sum)
     );
   }
 
@@ -69,8 +71,10 @@ public class PaymentService {
       itemList.add(getItem(EnrollmentSkill.TEXTUAL, false));
     }
     if (enrollment.isUnderstandingSkill()) {
-      // Third skill is free
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, itemList.size() >= 2));
+      final boolean isUnderstandingSkillFree =
+        enrollment.getExamEvent().getLevel() == ExamLevel.EXCELLENT || itemList.size() >= 2;
+
+      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, isUnderstandingSkillFree));
     }
 
     return itemList;
@@ -81,12 +85,14 @@ public class PaymentService {
       case NEW -> enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
       case OK -> enrollment.setStatus(EnrollmentStatus.PAID);
       case FAIL -> enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+      case PENDING, DELAYED -> {}
     }
 
     enrollmentRepository.saveAndFlush(enrollment);
   }
 
-  private Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
+  @Transactional
+  public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
     throws IOException, InterruptedException {
     final Payment payment = paymentRepository
       .findById(paymentId)
@@ -94,7 +100,7 @@ public class PaymentService {
     final PaymentStatus currentStatus = payment.getPaymentStatus();
     final PaymentStatus newStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
 
-    if (!paytrailService.validate(paymentParams)) {
+    if (!paymentProvider.validate(paymentParams)) {
       LOG.error("Payment ({}) validation failed for params {}", paymentId, paymentParams);
       throw new APIException(APIExceptionType.PAYMENT_VALIDATION_FAIL);
     }
@@ -128,24 +134,19 @@ public class PaymentService {
     return payment;
   }
 
-  @Transactional
-  public String success(final Long paymentId, final Map<String, String> paymentParams)
-    throws IOException, InterruptedException {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
-    final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExam(payment);
-
-    return String.format("%s/ilmoittaudu/%d/maksu/valmis", baseUrl, examEvent.getId());
+  public String getFinalizePaymentSuccessRedirectUrl(final Payment payment) {
+    return getFinalizePaymentRedirectUrl(payment, "valmis");
   }
 
-  @Transactional
-  public String cancel(final Long paymentId, final Map<String, String> paymentParams)
-    throws IOException, InterruptedException {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
-    final Payment payment = finalizePayment(paymentId, paymentParams);
-    final ExamEvent examEvent = getExam(payment);
+  public String getFinalizePaymentCancelRedirectUrl(final Payment payment) {
+    return getFinalizePaymentRedirectUrl(payment, "peruutettu");
+  }
 
-    return String.format("%s/ilmoittaudu/%d/maksu/peruutettu", baseUrl, examEvent.getId());
+  private String getFinalizePaymentRedirectUrl(final Payment payment, final String state) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+    final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
+
+    return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
   }
 
   @Transactional
@@ -165,38 +166,35 @@ public class PaymentService {
     final List<Item> itemList = getItems(enrollment);
     final Customer customer = Customer
       .builder()
-      .email(enrollment.getEmail())
-      .phone(enrollment.getPhoneNumber())
-      .firstName(person.getFirstName())
-      .lastName(person.getLastName())
+      .email(getCustomerField(enrollment.getEmail(), Customer.EMAIL_MAX_LENGTH))
+      .phone(getCustomerField(enrollment.getPhoneNumber(), Customer.PHONE_MAX_LENGTH))
+      .firstName(getCustomerField(person.getFirstName(), Customer.FIRST_NAME_MAX_LENGTH))
+      .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
-    final int total = getTotal(itemList);
+    final int amount = getTotalAmount(itemList);
+
     final Payment payment = new Payment();
-    payment.setAmount(total);
     payment.setEnrollment(enrollment);
+    payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
-    final PaytrailResponseDTO response = paytrailService.createPayment(itemList, payment.getId(), customer, total);
+    final PaytrailResponseDTO response = paymentProvider.createPayment(itemList, payment.getId(), customer, amount);
 
-    final String transactionId = response.getTransactionId();
-    final String reference = response.getReference();
-    final String paymentUrl = response.getHref();
-
+    payment.setTransactionId(response.getTransactionId());
+    payment.setReference(response.getReference());
+    payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
-    payment.setReference(reference);
-    payment.setPaymentUrl(paymentUrl);
-    payment.setTransactionId(transactionId);
     paymentRepository.saveAndFlush(payment);
 
+    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
+    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
     updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
-    return paymentUrl;
+    return payment.getPaymentUrl();
   }
 
-  private ExamEvent getExam(final Payment payment) {
-    final Enrollment enrollment = payment.getEnrollment();
-
-    return enrollment.getExamEvent();
+  private String getCustomerField(final String content, final int maxLength) {
+    return content.substring(0, Math.min(content.length(), maxLength));
   }
 }
