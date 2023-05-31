@@ -1,8 +1,15 @@
 import { TFunction } from 'i18next';
 
+type ScrollBehavior = 'auto' | 'smooth';
+
 export class CommonUtils {
-  static scrollToTop() {
-    window.scrollTo({ top: 0, left: 0 });
+  static scrollToTop(behavior?: ScrollBehavior) {
+    const options = {
+      top: 0,
+      left: 0,
+      ...(behavior && { behavior }),
+    };
+    window.scrollTo(options);
   }
 
   static createMapFromArray(

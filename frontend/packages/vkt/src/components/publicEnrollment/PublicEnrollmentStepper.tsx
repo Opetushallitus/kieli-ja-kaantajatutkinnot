@@ -1,4 +1,5 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
+import { useEffect } from 'react';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -10,6 +11,12 @@ export const PublicEnrollmentStepper = ({
   activeStep: PublicEnrollmentFormStep;
   includePaymentStep: boolean;
 }) => {
+  useEffect(() => {
+    document
+      .getElementById(`public-enrollment-step-label-${activeStep}`)
+      ?.focus();
+  }, [activeStep]);
+
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
@@ -35,8 +42,6 @@ export const PublicEnrollmentStepper = ({
   const getStatusText = (stepNumber: number) => {
     if (stepNumber < activeStep) {
       return t('completed');
-    } else if (stepNumber === activeStep) {
-      return t('active');
     }
   };
 
@@ -47,7 +52,10 @@ export const PublicEnrollmentStepper = ({
   };
 
   const getStepAriaLabel = (stepNumber: number) => {
-    const part = `${stepNumber}/${steps.length}`;
+    const part = t('phaseNumber', {
+      current: stepNumber,
+      total: steps.length,
+    });
     const statusText = getStatusText(stepNumber);
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
@@ -61,6 +69,7 @@ export const PublicEnrollmentStepper = ({
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}
+      aria-label={t('phases')}
     >
       {steps.map((i) => (
         <Step key={i} completed={isStepCompleted(i)}>
@@ -72,6 +81,7 @@ export const PublicEnrollmentStepper = ({
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
+            aria-hidden="true"
           >
             {getDescription(i)}
           </StepLabel>

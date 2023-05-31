@@ -57,6 +57,8 @@
           "active": "Aktiivinen",
           "completed": "Suoritettu",
           "phase": "Vaihe",
+          "phaseNumber": "{{current}} kautta {{total}}",
+          "phases": "Ilmoittautumisen vaiheet",
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
