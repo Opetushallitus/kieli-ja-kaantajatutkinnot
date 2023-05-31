@@ -195,28 +195,34 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    deleteEnrollmentIfExists(examEvent, person);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+    );
+    reservationRepository.deleteById(reservationId);
 
-    final Enrollment enrollment = new Enrollment();
+    return createEnrollmentDTO(enrollment);
+  }
+
+  private Enrollment createOrUpdateExistingEnrollment(
+    final PublicEnrollmentCreateDTO dto,
+    final ExamEvent examEvent,
+    final Person person,
+    final EnrollmentStatus enrollmentStatus
+  ) {
+    final Enrollment enrollment = findEnrollment(examEvent, person, enrollmentRepository).orElse(new Enrollment());
     enrollment.setExamEvent(examEvent);
     enrollment.setPerson(person);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    enrollment.setStatus(enrollmentStatus);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
       clearAddress(enrollment);
     }
 
-    enrollmentRepository.saveAndFlush(enrollment);
-    reservationRepository.deleteById(reservationId);
-
-    return createEnrollmentDTO(enrollment);
-  }
-
-  private void deleteEnrollmentIfExists(final ExamEvent examEvent, final Person person) {
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
-
-    optionalEnrollment.ifPresent(enrollment -> enrollmentRepository.deleteById(enrollment.getId()));
+    return enrollmentRepository.saveAndFlush(enrollment);
   }
 
   private void clearAddress(final Enrollment enrollment) {
@@ -233,20 +239,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-
-    deleteEnrollmentIfExists(examEvent, person);
-
-    final Enrollment enrollment = new Enrollment();
-    enrollment.setExamEvent(examEvent);
-    enrollment.setPerson(person);
-    enrollment.setStatus(EnrollmentStatus.QUEUED);
-
-    copyDtoFieldsToEnrollment(enrollment, dto);
-    if (dto.digitalCertificateConsent()) {
-      clearAddress(enrollment);
-    }
-
-    enrollmentRepository.saveAndFlush(enrollment);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, EnrollmentStatus.QUEUED);
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
 
