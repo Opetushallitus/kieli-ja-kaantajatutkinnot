@@ -22,6 +22,7 @@ export interface PublicReservationDetails {
   person: PublicPerson;
   examEvent: PublicExamEvent;
   reservation?: PublicReservation; // undefined if enrolling to queue
+  enrollment?: PublicEnrollment;
 }
 
 export interface PublicReservationResponse
@@ -39,6 +40,7 @@ export interface PublicReservationDetailsResponse
   examEvent: PublicExamEventResponse;
   reservation?: PublicReservationResponse;
   person: PublicPersonResponse;
+  enrollment?: PublicEnrollment;
 }
 
 export interface PublicEnrollmentContactDetails {
@@ -51,6 +53,7 @@ export interface PublicEnrollment
   extends PublicEnrollmentContactDetails,
     PartialExamsAndSkills,
     CertificateShippingData {
+  id?: number;
   previousEnrollment?: string;
   hasPreviousEnrollment?: boolean;
   privacyStatementConfirmation: boolean;

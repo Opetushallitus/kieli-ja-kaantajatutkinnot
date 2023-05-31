@@ -23,7 +23,11 @@ import { addClerkInterpreterFilter } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 import { QualificationUtils } from 'utils/qualifications';
 
-export const ClerkInterpreterAutocompleteFilters = () => {
+export const ClerkInterpreterAutocompleteFilters = ({
+  setPage,
+}: {
+  setPage: (page: number) => void;
+}) => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.component.clerkInterpreterFilters',
   });
@@ -49,6 +53,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    setPage(0);
     setName(event.target.value);
     debounce(() => {
       dispatch(
@@ -62,6 +67,7 @@ export const ClerkInterpreterAutocompleteFilters = () => {
   const handleFilterChange =
     (filter: keyof ClerkInterpreterFilters) =>
     ({}, value: AutocompleteValue) => {
+      setPage(0);
       dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
     };
 

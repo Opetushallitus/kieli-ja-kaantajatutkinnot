@@ -1,4 +1,4 @@
-import { H2, NormalTable } from 'shared/components';
+import { CustomTable, H2 } from 'shared/components';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
 import { PublicEvaluationPeriodListingRow } from 'components/reassessment/PublicEvaluationPeriodListingRow';
@@ -23,7 +23,7 @@ export const PublicEvaluationPeriodListing = () => {
   return (
     <>
       <H2>{t('heading')}</H2>
-      <NormalTable
+      <CustomTable
         className=""
         header={<PublicEvaluationPeriodListingHeader />}
         data={evaluation_periods}

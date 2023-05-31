@@ -7,7 +7,7 @@ import {
 
 import { useCommonTranslation } from 'configs/i18n';
 
-export const useNavigationProtection = (when: boolean) => {
+export const useNavigationProtection = (when: boolean, baseUrl?: string) => {
   const translateCommon = useCommonTranslation();
   const { showDialog } = useDialog();
 
@@ -35,5 +35,5 @@ export const useNavigationProtection = (when: boolean) => {
     [showDialog, translateCommon]
   );
 
-  useCommonNavigationProtection(when, showConfirmationDialog);
+  useCommonNavigationProtection(when, showConfirmationDialog, baseUrl);
 };

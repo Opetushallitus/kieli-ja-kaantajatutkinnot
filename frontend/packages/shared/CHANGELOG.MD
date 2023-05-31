@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.9.5] - 2023-05-22
+## [1.9.7] - 2023-05-31
 
 ### Added
 
@@ -18,6 +18,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - CommonUtils.ScrollToTop now accepts optional behaviour parameter
+
+## [1.9.6] - 2023-05-17
+
+### Changed
+
+- useNavigationProtection now accepts baseUrl parameter
+
+## [1.9.5] - 2023-05-11
+
+### Changed
+
+- Refactored Table components
+
+## [1.9.4] - 2023-05-10
+
+### Added
+
+- `InputAutoComplete` enum
 
 ## [1.9.3] - 2023-04-14
 

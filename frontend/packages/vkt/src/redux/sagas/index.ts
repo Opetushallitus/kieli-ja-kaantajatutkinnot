@@ -1,6 +1,5 @@
 import { all } from 'redux-saga/effects';
 
-import { watchAuth } from 'redux/sagas/auth';
 import { watchClerkEnrollmentDetails } from 'redux/sagas/clerkEnrollmentDetails';
 import { watchClerkExamEventOverview } from 'redux/sagas/clerkExamEventOverview';
 import { watchListExamEvents } from 'redux/sagas/clerkListExamEvent';
@@ -18,6 +17,5 @@ export default function* rootSaga() {
     watchPublicExamEvents(),
     watchClerkExamEventOverview(),
     watchClerkEnrollmentDetails(),
-    watchAuth(),
   ]);
 }

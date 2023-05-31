@@ -21,34 +21,40 @@ export const PublicEnrollmentStepper = ({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
 
-  const doneStepNumber = includePaymentStep
-    ? PublicEnrollmentFormStep.Done
-    : PublicEnrollmentFormStep.Done - 1;
+  const steps = includePaymentStep
+    ? [
+        PublicEnrollmentFormStep.Authenticate,
+        PublicEnrollmentFormStep.FillContactDetails,
+        PublicEnrollmentFormStep.SelectExam,
+        PublicEnrollmentFormStep.Preview,
+        PublicEnrollmentFormStep.Payment,
+        PublicEnrollmentFormStep.Done,
+      ]
+    : [
+        PublicEnrollmentFormStep.Authenticate,
+        PublicEnrollmentFormStep.FillContactDetails,
+        PublicEnrollmentFormStep.SelectExam,
+        PublicEnrollmentFormStep.Preview,
+        PublicEnrollmentFormStep.Done,
+      ];
 
-  const stepNumbers = Object.values(PublicEnrollmentFormStep)
-    .filter((i) => !isNaN(Number(i)))
-    .map(Number)
-    .filter((i) => i <= doneStepNumber);
-
+  const doneStepNumber = steps.length;
   const getStatusText = (stepNumber: number) => {
     if (stepNumber < activeStep) {
       return t('completed');
     }
   };
 
-  const getDescription = (stepNumber: number) => {
-    const i =
-      !includePaymentStep && stepNumber >= PublicEnrollmentFormStep.Payment
-        ? stepNumber + 1
-        : stepNumber;
+  const isError = activeStep === PublicEnrollmentFormStep.PaymentFail;
 
-    return t(`step.${PublicEnrollmentFormStep[i]}`);
+  const getDescription = (stepNumber: number) => {
+    return t(`step.${PublicEnrollmentFormStep[stepNumber]}`);
   };
 
   const getStepAriaLabel = (stepNumber: number) => {
     const part = t('phaseNumber', {
       current: stepNumber,
-      total: stepNumbers.length,
+      total: steps.length,
     });
     const statusText = getStatusText(stepNumber);
     const partStatus = statusText ? `${part}, ${statusText}` : part;
@@ -56,20 +62,20 @@ export const PublicEnrollmentStepper = ({
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
+  const isStepCompleted = (stepNumber: number) =>
+    stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
+
   return (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={activeStep - 1}
       aria-label={t('phases')}
     >
-      {stepNumbers.map((i) => (
-        <Step
-          key={i}
-          aria-label={getStepAriaLabel(i)}
-          aria-current={activeStep == i ? 'step' : undefined}
-          id={`public-enrollment-step-label-${i}`}
-        >
+      {steps.map((i) => (
+        <Step key={i} completed={isStepCompleted(i)}>
           <StepLabel
+            error={i === doneStepNumber && isError}
+            aria-label={getStepAriaLabel(i)}
             className={
               activeStep < i
                 ? 'public-enrollment__grid__stepper__step-disabled'

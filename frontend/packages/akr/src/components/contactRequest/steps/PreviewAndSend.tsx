@@ -2,9 +2,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { CustomTextField, ExtLink, H3 } from 'shared/components';
+import { ExtLink, H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
 
 import {
   ChosenTranslators,
@@ -12,7 +11,7 @@ import {
   DisplayContactInfo,
   StepHeading,
 } from 'components/contactRequest/ContactRequestFormUtils';
-import { useAppTranslation } from 'configs/i18n';
+import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ContactRequestFormStep } from 'enums/contactRequest';
@@ -43,8 +42,9 @@ export const PreviewAndSend = ({
   disableNext: (disabled: boolean) => void;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.contactRequestForm',
+    keyPrefix: 'akr.component.contactRequestForm.previewAndSend',
   });
+  const translateCommon = useCommonTranslation();
 
   // Redux
   const { request } = useAppSelector(contactRequestSelector);
@@ -58,44 +58,36 @@ export const PreviewAndSend = ({
     dispatch(updateContactRequest({ confirmation: !request?.confirmation }));
   };
 
-  const getMessageHelperText = () => {
-    return `${request?.message?.length} / ${
-      InputFieldUtils.defaultMaxTextAreaLength
-    } ${t('characters')}`;
-  };
-
   return (
     <div className="rows">
       <StepHeading step={ContactRequestFormStep.PreviewAndSend} />
-      <div className="rows gapped">
-        <ChosenTranslatorsHeading />
-        <ChosenTranslators />
+      <div className="rows gapped-xxl">
+        <div className="rows gapped-xs">
+          <ChosenTranslatorsHeading />
+          <ChosenTranslators />
+        </div>
         <DisplayContactInfo />
-        <H3>{t('formLabels.message')}</H3>
-        <CustomTextField
-          disabled
-          data-testid="contact-request-page__message-text"
-          defaultValue={request?.message}
-          InputProps={{
-            readOnly: true,
-          }}
-          showHelperText
-          helperText={getMessageHelperText()}
-          multiline
-          fullWidth
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              onClick={handleCheckboxClick}
-              color={Color.Secondary}
-              data-testid="contact-request-page__privacy-statement-checkbox"
-              checked={request?.confirmation}
-            />
-          }
-          label={<PrivacyStatementCheckboxLabel />}
-          className="contact-request-page__grid__privacy-statement-checkbox-label"
-        />
+        <div className="rows gapped-xs">
+          <H2>{t('yourMessage')}</H2>
+          <Text className="contact-request-page__grid__preview-and-send__message">
+            {request?.message}
+          </Text>
+        </div>
+        <div className="rows gapped-xs">
+          <H2>{translateCommon('acceptTerms')}</H2>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onClick={handleCheckboxClick}
+                color={Color.Secondary}
+                data-testid="contact-request-page__privacy-statement-checkbox"
+                checked={request?.confirmation}
+              />
+            }
+            label={<PrivacyStatementCheckboxLabel />}
+            className="contact-request-page__grid__privacy-statement-checkbox-label"
+          />
+        </div>
       </div>
     </div>
   );

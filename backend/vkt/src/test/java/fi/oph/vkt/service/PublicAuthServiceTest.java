@@ -2,11 +2,14 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import fi.oph.vkt.api.dto.PublicPersonDTO;
+import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
@@ -36,7 +39,8 @@ public class PublicAuthServiceTest {
     final Environment environment = mock(Environment.class);
 
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
-    when(environment.getRequiredProperty("app.cas-oppija.service-url")).thenReturn("https://qwerty/login");
+    when(environment.getRequiredProperty("app.cas-oppija.service-url"))
+      .thenReturn("https://foo/vkt/api/v1/auth/validate/%s/%s");
 
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
@@ -45,36 +49,40 @@ public class PublicAuthServiceTest {
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä")
     );
-    when(casTicketValidationService.validate(anyString())).thenReturn(personDetails);
+    when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
+      .thenReturn(personDetails);
 
     publicAuthService = new PublicAuthService(personRepository, casTicketValidationService, environment);
   }
 
   @Test
   public void testCreatePersonFromTicket() {
-    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket("ticket-123");
-    assertEquals("010280-952L", personDTO.identityNumber());
-    assertEquals("Testilä", personDTO.lastName());
-    assertEquals("Tessa", personDTO.firstName());
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+    assertEquals("010280-952L", person.getIdentityNumber());
+    assertEquals("Testilä", person.getLastName());
+    assertEquals("Tessa", person.getFirstName());
 
     assertTrue(personRepository.findByIdentityNumber("010280-952L").isPresent());
   }
 
   @Test
   public void testCreatePersonFromTicketForExistingPerson() {
-    publicAuthService.createPersonFromTicket("ticket-123");
+    publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
 
-    final PublicPersonDTO personDTO = publicAuthService.createPersonFromTicket("ticket-123");
-    assertEquals("010280-952L", personDTO.identityNumber());
-    assertEquals("Testilä", personDTO.lastName());
-    assertEquals("Tessa", personDTO.firstName());
+    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+    assertEquals("010280-952L", person.getIdentityNumber());
+    assertEquals("Testilä", person.getLastName());
+    assertEquals("Tessa", person.getFirstName());
 
     assertEquals(1, personRepository.count());
   }
 
   @Test
   public void testCreateCasLoginUrl() {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl();
-    assertEquals("https://foo.bar?service=https%3A%2F%2Fqwerty%2Flogin", casLoginUrl);
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION);
+    assertEquals(
+      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation",
+      casLoginUrl
+    );
   }
 }
