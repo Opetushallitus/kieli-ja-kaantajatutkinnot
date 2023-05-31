@@ -2,8 +2,8 @@ package fi.oph.vkt.model.type;
 
 public enum EnrollmentSkill {
   ORAL("oral-skill"),
-  UNDERSTANDING("understanding-skill"),
-  TEXTUAL("textual-skill");
+  TEXTUAL("textual-skill"),
+  UNDERSTANDING("understanding-skill");
 
   private final String text;
 

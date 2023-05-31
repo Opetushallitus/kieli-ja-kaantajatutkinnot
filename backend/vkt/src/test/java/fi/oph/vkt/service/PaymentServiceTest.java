@@ -68,7 +68,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testCreatePayment() {
+  public void testCreatePaymentWithAllSkills() {
     final String url = "http://localhost";
     final PaytrailResponseDTO response = PaytrailResponseDTO
       .builder()
@@ -76,12 +76,17 @@ public class PaymentServiceTest {
       .reference("foo")
       .href(url)
       .build();
+
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
+    enrollment.setOralSkill(true);
+    enrollment.setTextualSkill(true);
+    enrollment.setUnderstandingSkill(true);
+    enrollment.setStatus(EnrollmentStatus.CANCELED);
+
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
 
     final PaymentService paymentService = new PaymentService(
       paymentProvider,
@@ -93,10 +98,11 @@ public class PaymentServiceTest {
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
     final List<Item> items = List.of(
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
+      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
       Item
         .builder()
         .units(1)
-        .unitPrice(22700)
+        .unitPrice(0)
         .vatPercentage(0)
         .productCode(EnrollmentSkill.UNDERSTANDING.toString())
         .build()
@@ -111,10 +117,22 @@ public class PaymentServiceTest {
 
     assertEquals(url, redirectUrl);
     verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), eq(customer), eq(45400));
+
+    final List<Payment> payments = paymentRepository.findAll();
+    assertEquals(1, payments.size());
+
+    final Payment payment = payments.get(0);
+    assertEquals(45400, payment.getAmount());
+    assertEquals("test", payment.getTransactionId());
+    assertEquals("foo", payment.getReference());
+    assertEquals(url, payment.getPaymentUrl());
+    assertEquals(PaymentStatus.NEW, payment.getPaymentStatus());
+
+    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, payment.getEnrollment().getStatus());
   }
 
   @Test
-  public void testCreatePaymentWithTextualSkill() {
+  public void testCreatePaymentWithoutOralSkill() {
     final String url = "http://localhost";
     final PaytrailResponseDTO response = PaytrailResponseDTO
       .builder()
@@ -122,13 +140,17 @@ public class PaymentServiceTest {
       .reference("foo")
       .href(url)
       .build();
+
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
+    enrollment.setOralSkill(false);
+    enrollment.setTextualSkill(true);
+    enrollment.setUnderstandingSkill(true);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
-    enrollment.setTextualSkill(true);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
 
     final PaymentService paymentService = new PaymentService(
       paymentProvider,
@@ -140,7 +162,6 @@ public class PaymentServiceTest {
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
 
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
       Item
         .builder()
@@ -152,7 +173,49 @@ public class PaymentServiceTest {
     );
 
     assertEquals(url, redirectUrl);
-    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(45400));
+    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(22700));
+  }
+
+  @Test
+  public void testCreatePaymentPassesProperCustomerDataToPaymentProvider() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    person.setFirstName("a" + "b".repeat(48) + "cd");
+    person.setLastName("a" + "b".repeat(48) + "cd");
+
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setEmail("a@" + "b".repeat(197) + "cd");
+    enrollment.setPhoneNumber("+234567890123456");
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    final PaymentService paymentService = new PaymentService(
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    final Customer expectedCustomerData = Customer
+      .builder()
+      .email("a@" + "b".repeat(197) + "c")
+      .phone("+23456789012345")
+      .firstName("a" + "b".repeat(48) + "c")
+      .lastName("a" + "b".repeat(48) + "c")
+      .build();
+
+    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt()))
+      .thenReturn(PaytrailResponseDTO.builder().transactionId("12345").reference("RF123").href("http").build());
+
+    final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
+
+    assertEquals("http", paymentUrl);
   }
 
   @Test
@@ -178,6 +241,27 @@ public class PaymentServiceTest {
     );
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
     verifyNoInteractions(paymentProvider);
+  }
+
+  @Test
+  public void testCreatePaymentEnrollmentNotFound() {
+    final Person person = Factory.person();
+
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    final PaymentService paymentService = new PaymentService(
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
+    );
+
+    final NotFoundException ex = assertThrows(
+      NotFoundException.class,
+      () -> paymentService.createPaymentForEnrollment(-1L, person)
+    );
+    assertEquals("Enrollment not found", ex.getMessage());
   }
 
   @Test
@@ -364,69 +448,6 @@ public class PaymentServiceTest {
       () -> paymentService.finalizePayment(-1L, paymentParams)
     );
     assertEquals("Payment not found", ex.getMessage());
-  }
-
-  @Test
-  public void testCreatePaymentPassesProperCustomerDataToPaymentProvider() {
-    final ExamEvent examEvent = Factory.examEvent();
-    final Person person = Factory.person();
-    person.setFirstName("a" + "b".repeat(48) + "cd");
-    person.setLastName("a" + "b".repeat(48) + "cd");
-
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    enrollment.setEmail("a@" + "b".repeat(197) + "cd");
-    enrollment.setPhoneNumber("+234567890123456");
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
-
-    entityManager.persist(examEvent);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
-    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    final PaymentService paymentService = new PaymentService(
-      paymentProvider,
-      paymentRepository,
-      enrollmentRepository,
-      environment,
-      publicEnrollmentEmailService
-    );
-
-    final Customer expectedCustomerData = Customer
-      .builder()
-      .email("a@" + "b".repeat(197) + "c")
-      .phone("+23456789012345")
-      .firstName("a" + "b".repeat(48) + "c")
-      .lastName("a" + "b".repeat(48) + "c")
-      .build();
-
-    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt()))
-      .thenReturn(PaytrailResponseDTO.builder().transactionId("12345").reference("RF123").href("http").build());
-
-    final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
-
-    assertEquals("http", paymentUrl);
-  }
-
-  @Test
-  public void testCreatePaymentEnrollmentNotFound() {
-    final Person person = Factory.person();
-
-    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
-    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    final PaymentService paymentService = new PaymentService(
-      paymentProvider,
-      paymentRepository,
-      enrollmentRepository,
-      environment,
-      publicEnrollmentEmailService
-    );
-
-    final NotFoundException ex = assertThrows(
-      NotFoundException.class,
-      () -> paymentService.createPaymentForEnrollment(-1L, person)
-    );
-    assertEquals("Enrollment not found", ex.getMessage());
   }
 
   private Pair<Payment, Enrollment> createPayment() {

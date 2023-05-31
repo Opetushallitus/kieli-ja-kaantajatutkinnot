@@ -6,6 +6,7 @@ import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
@@ -70,9 +71,10 @@ public class PaymentService {
       itemList.add(getItem(EnrollmentSkill.TEXTUAL, false));
     }
     if (enrollment.isUnderstandingSkill()) {
-      // Third skill is free
-      // TODO: should be always free only if exam event is of excellent level
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, itemList.size() >= 2));
+      final boolean isUnderstandingSkillFree =
+        enrollment.getExamEvent().getLevel() == ExamLevel.EXCELLENT || itemList.size() >= 2;
+
+      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, isUnderstandingSkillFree));
     }
 
     return itemList;
@@ -184,6 +186,10 @@ public class PaymentService {
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
+
+    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
+    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
+    updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     return payment.getPaymentUrl();
   }
