@@ -5,6 +5,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -105,15 +106,15 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{personHash:[a-z0-9\\-]+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{enrollmentHash:[a-z0-9\\-]+}")
   public void createSessionAndRedirectToPreview(
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
-    @PathVariable final String personHash,
+    @PathVariable final String enrollmentHash,
     final HttpSession session
   ) throws IOException {
-    final Person person = publicPersonService.getPersonByHash(personHash);
-    SessionUtil.setPersonId(session, person.getId());
+    final Enrollment enrollment = publicEnrollmentService.getEnrollmentByHash(enrollmentHash);
+    SessionUtil.setPersonId(session, enrollment.getPerson().getId());
 
     httpResponse.sendRedirect(publicAuthService.getPreviewUrl(examEventId));
   }

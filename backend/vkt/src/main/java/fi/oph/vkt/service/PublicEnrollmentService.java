@@ -18,7 +18,9 @@ import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -252,5 +254,18 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  public Enrollment getEnrollmentByHash(String enrollmentHash) {
+    final Enrollment enrollment = enrollmentRepository
+      .findByPaymentLinkHash(enrollmentHash)
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+    final LocalDateTime expires = enrollment.getPaymentLinkExpires();
+
+    if (expires == null || expires.isBefore(LocalDateTime.now())) {
+      throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);
+    }
+
+    return enrollment;
   }
 }

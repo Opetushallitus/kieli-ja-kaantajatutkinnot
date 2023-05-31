@@ -18,17 +18,4 @@ public class PublicPersonService {
   public Person getPerson(final Long personId) {
     return personRepository.findById(personId).orElseThrow(() -> new NotFoundException("Person not found"));
   }
-
-  public Person getPersonByHash(final String personHash) {
-    final Person person = personRepository
-      .findByPaymentLinkHash(personHash)
-      .orElseThrow(() -> new NotFoundException("Person not found"));
-    final LocalDateTime expires = person.getPaymentLinkExpires();
-
-    if (expires == null || expires.isBefore(LocalDateTime.now())) {
-      throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);
-    }
-
-    return person;
-  }
 }

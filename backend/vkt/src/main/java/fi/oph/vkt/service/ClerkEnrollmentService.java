@@ -88,24 +88,23 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   public ClerkPaymentLinkDTO createPaymentLink(final long enrollmentId) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final ExamEvent examEvent = enrollment.getExamEvent();
-    final Person person = enrollment.getPerson();
     final String baseUrl = environment.getRequiredProperty("app.base-url.api");
     final String hash;
 
-    if (person.getPaymentLinkHash() != null) {
-      hash = person.getPaymentLinkHash();
+    if (enrollment.getPaymentLinkHash() != null) {
+      hash = enrollment.getPaymentLinkHash();
     } else {
       hash = uuidSource.getRandomNonce();
-      person.setPaymentLinkHash(hash);
+      enrollment.setPaymentLinkHash(hash);
     }
 
-    person.setPaymentLinkExpires(LocalDateTime.now().plusDays(2));
-    personRepository.saveAndFlush(person);
+    enrollment.setPaymentLinkExpires(LocalDateTime.now().plusDays(2));
+    enrollmentRepository.saveAndFlush(enrollment);
 
     return ClerkPaymentLinkDTO
       .builder()
       .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), hash))
-      .expires(person.getPaymentLinkExpires())
+      .expires(enrollment.getPaymentLinkExpires())
       .build();
   }
 }

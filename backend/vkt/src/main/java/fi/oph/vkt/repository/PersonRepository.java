@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface PersonRepository extends BaseRepository<Person> {
   Optional<Person> findByIdentityNumber(final String identityNumber);
   Optional<Person> findByOtherIdentifier(final String otherIdentifier);
-  Optional<Person> findByPaymentLinkHash(final String personHash);
 }

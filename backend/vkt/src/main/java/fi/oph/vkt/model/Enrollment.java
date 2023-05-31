@@ -1,6 +1,7 @@
 package fi.oph.vkt.model;
 
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -77,6 +78,12 @@ public class Enrollment extends BaseEntity {
 
   @Column(name = "country")
   private String country;
+
+  @Column(name = "payment_link_hash")
+  private String paymentLinkHash;
+
+  @Column(name = "payment_link_expires")
+  private LocalDateTime paymentLinkExpires;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)

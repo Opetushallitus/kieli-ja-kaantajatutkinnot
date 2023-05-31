@@ -582,8 +582,8 @@
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
-    <changeSet id="2023-05-26-person-payment-link-hash" author="jrkkp">
-        <addColumn tableName="person">
+    <changeSet id="2023-05-26-enrollment-payment-link-hash" author="jrkkp">
+        <addColumn tableName="enrollment">
             <column name="payment_link_hash" type="VARCHAR(255)">
                 <constraints
                         nullable="true"

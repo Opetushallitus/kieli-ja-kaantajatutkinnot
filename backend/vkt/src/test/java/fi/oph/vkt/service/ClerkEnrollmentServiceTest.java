@@ -24,6 +24,7 @@ import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PersonRepository;
+import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -51,11 +52,14 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private PersonRepository personRepository;
 
+  @Resource
+  private ReservationRepository reservationRepository;
+
   @MockBean
   private AuditService auditService;
 
   private ClerkEnrollmentService clerkEnrollmentService;
-  private PublicPersonService publicPersonService;
+  private PublicEnrollmentService publicEnrollmentService;
 
   @Resource
   private TestEntityManager entityManager;
@@ -68,6 +72,9 @@ class ClerkEnrollmentServiceTest {
     final UUIDSource uuidSource = mock(UUIDSource.class);
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    final PublicReservationService publicReservationService = mock(PublicReservationService.class);
+
     clerkEnrollmentService =
       new ClerkEnrollmentService(
         enrollmentRepository,
@@ -77,7 +84,15 @@ class ClerkEnrollmentServiceTest {
         environment,
         uuidSource
       );
-    publicPersonService = new PublicPersonService(personRepository);
+    publicEnrollmentService =
+      new PublicEnrollmentService(
+        enrollmentRepository,
+        examEventRepository,
+        personRepository,
+        publicEnrollmentEmailService,
+        publicReservationService,
+        reservationRepository
+      );
   }
 
   @Test
@@ -263,7 +278,7 @@ class ClerkEnrollmentServiceTest {
     );
 
     assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
-    assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", person.getPaymentLinkHash());
+    assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());
   }
 
   @Test
@@ -273,8 +288,8 @@ class ClerkEnrollmentServiceTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
 
-    person.setPaymentLinkExpires(LocalDateTime.now().plusDays(1));
-    person.setPaymentLinkHash(hash);
+    enrollment.setPaymentLinkExpires(LocalDateTime.now().plusDays(1));
+    enrollment.setPaymentLinkHash(hash);
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
@@ -282,8 +297,8 @@ class ClerkEnrollmentServiceTest {
 
     clerkEnrollmentService.createPaymentLink(enrollment.getId());
 
-    final Person person2 = publicPersonService.getPersonByHash(hash);
-    assertEquals(person.getId(), person2.getId());
+    final Enrollment enrollment1 = publicEnrollmentService.getEnrollmentByHash(hash);
+    assertEquals(person.getId(), enrollment1.getId());
   }
 
   @Test
@@ -293,8 +308,8 @@ class ClerkEnrollmentServiceTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
 
-    person.setPaymentLinkExpires(LocalDateTime.now().minusDays(1));
-    person.setPaymentLinkHash(hash);
+    enrollment.setPaymentLinkExpires(LocalDateTime.now().minusDays(1));
+    enrollment.setPaymentLinkHash(hash);
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
@@ -302,7 +317,7 @@ class ClerkEnrollmentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> publicPersonService.getPersonByHash("269a2da4-58bb-45eb-b125-522b77e9167c")
+      () -> publicEnrollmentService.getEnrollmentByHash("269a2da4-58bb-45eb-b125-522b77e9167c")
     );
     assertEquals(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED, ex.getExceptionType());
   }

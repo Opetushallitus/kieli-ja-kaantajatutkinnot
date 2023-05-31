@@ -47,12 +47,6 @@ public class Person extends BaseEntity {
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
 
-  @Column(name = "payment_link_hash")
-  private String paymentLinkHash;
-
-  @Column(name = "payment_link_expires")
-  private LocalDateTime paymentLinkExpires;
-
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();
 
