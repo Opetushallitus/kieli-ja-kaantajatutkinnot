@@ -21,9 +21,14 @@ const getRowDetails = (interpreter: PublicInterpreter) => {
 export const PublicInterpreterListing = ({
   status,
   interpreters,
+  controlledPaging,
 }: {
   status: APIResponseStatus;
   interpreters: Array<PublicInterpreter>;
+  controlledPaging: {
+    page: number;
+    setPage: (page: number) => void;
+  };
 }) => {
   const { t } = useAppTranslation({ keyPrefix: 'otr' });
   const { isPhone } = useWindowProperties();
@@ -71,6 +76,7 @@ export const PublicInterpreterListing = ({
             initialRowsPerPage={10}
             rowsPerPageOptions={[10, 20, 50]}
             rowsPerPageLabel={translateCommon('rowsPerPageLabel')}
+            controlledPaging={controlledPaging}
             stickyHeader
           />
         </>

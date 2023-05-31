@@ -1,4 +1,4 @@
-import { NormalTable } from 'shared/components';
+import { CustomTable } from 'shared/components';
 
 import { ClerkEnrollmentListingHeader } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingHeader';
 import { ClerkEnrollmentListingRow } from 'components/clerkEnrollment/listing/ClerkEnrollmentListingRow';
@@ -26,7 +26,7 @@ export const ClerkEnrollmentListing = ({
   enrollments,
   examEventId,
 }: ClerkEnrollmentListingProps) => (
-  <NormalTable
+  <CustomTable
     className="table-layout-auto"
     data={enrollments}
     header={<ClerkEnrollmentListingHeader />}
