@@ -177,7 +177,7 @@ public class PaymentServiceTest {
       () -> paymentService.createPaymentForEnrollment(enrollment.getId(), person2)
     );
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
-    verify(paymentProvider, times(0)).createPayment(anyList(), any(Long.class), any(Customer.class), anyInt());
+    verifyNoInteractions(paymentProvider);
   }
 
   @Test
@@ -260,7 +260,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
+    verifyNoInteractions(publicEnrollmentEmailService);
   }
 
   @Test
@@ -290,7 +290,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
+    verifyNoInteractions(publicEnrollmentEmailService);
   }
 
   @Test
@@ -313,7 +313,7 @@ public class PaymentServiceTest {
     );
 
     paymentService.finalizePayment(payment.getId(), paymentParams);
-    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
+    verifyNoInteractions(publicEnrollmentEmailService);
   }
 
   @Test
@@ -343,7 +343,7 @@ public class PaymentServiceTest {
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
     assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
-    verify(publicEnrollmentEmailService, times(0)).sendEnrollmentConfirmationEmail(eq(payment.getEnrollment()));
+    verifyNoInteractions(publicEnrollmentEmailService);
   }
 
   @Test
