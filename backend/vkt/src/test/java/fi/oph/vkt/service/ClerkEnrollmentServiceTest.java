@@ -298,7 +298,7 @@ class ClerkEnrollmentServiceTest {
     clerkEnrollmentService.createPaymentLink(enrollment.getId());
 
     final Enrollment enrollment1 = publicEnrollmentService.getEnrollmentByHash(hash);
-    assertEquals(person.getId(), enrollment1.getId());
+    assertEquals(enrollment.getId(), enrollment1.getId());
   }
 
   @Test
