@@ -80,13 +80,13 @@ export const PublicEnrollmentGrid = ({
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
-  const isStepsAvailable =
-    enrollment?.status !== 'paid' &&
-    enrollment?.status !== EnrollmentStatus.EXPECTING_PAYMENT;
+
+  const isExpectingPayment =
+    enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT;
+
   const isPaymentSumAvailable =
     isPreviewStepActive &&
-    (reservationDetails?.reservation ||
-      enrollment?.status === EnrollmentStatus.EXPECTING_PAYMENT);
+    (reservationDetails?.reservation || isExpectingPayment);
 
   const renderDesktopView = () => (
     <>
@@ -95,7 +95,7 @@ export const PublicEnrollmentGrid = ({
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             {selectedExamEvent && (
               <div className="public-enrollment__grid__form-container">
-                {isStepsAvailable && (
+                {!isExpectingPayment && (
                   <PublicEnrollmentStepper
                     activeStep={activeStep}
                     includePaymentStep={hasReservation}
@@ -132,7 +132,9 @@ export const PublicEnrollmentGrid = ({
                     isLoading={isLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}
-                    isStepsAvailable={isStepsAvailable}
+                    isPaymentLinkPreviewView={
+                      isExpectingPayment && isPreviewStepActive
+                    }
                   />
                 )}
               </div>

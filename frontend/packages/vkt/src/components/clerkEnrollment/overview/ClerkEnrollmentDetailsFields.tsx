@@ -71,7 +71,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         <b>{t(`paymentStatus.${payment.status}`)}</b>
       </Text>
       <Text>
-        {t('payment.details.reference')}: <b>{payment.id}</b>
+        {t('payment.details.reference')}: <b>{payment.transactionId}</b>
       </Text>
       <Text>
         {t('payment.details.date')}:{' '}

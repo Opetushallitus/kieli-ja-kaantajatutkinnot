@@ -11,7 +11,7 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes, EnrollmentStatus } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -34,7 +34,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid,
   setShowValidation,
   submitStatus,
-  isStepsAvailable,
+  isPaymentLinkPreviewView,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -43,7 +43,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
-  isStepsAvailable: boolean;
+  isPaymentLinkPreviewView: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -56,9 +56,8 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservationDetails.reservation?.id;
   const examEventId = reservationDetails.examEvent.id;
-  const enrollToQueue =
-    !reservationDetails.reservation &&
-    enrollment.status != EnrollmentStatus.EXPECTING_PAYMENT;
+  const isEnrollmentToQueue =
+    !reservationDetails.reservation && !isPaymentLinkPreviewView;
 
   const handleCancelBtnClick = () => {
     if (activeStep === PublicEnrollmentFormStep.Authenticate) {
@@ -132,7 +131,7 @@ export const PublicEnrollmentControlButtons = ({
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      if (enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT) {
+      if (isPaymentLinkPreviewView) {
         window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
       } else {
         dispatch(
@@ -198,18 +197,18 @@ export const PublicEnrollmentControlButtons = ({
       endIcon={<ArrowForwardIcon />}
       disabled={isLoading}
     >
-      {enrollToQueue ? t('sendForm') : t('pay')}
+      {isEnrollmentToQueue ? t('sendForm') : t('pay')}
     </CustomButton>
   );
 
   const renderBack =
-    activeStep !== PublicEnrollmentFormStep.Authenticate && isStepsAvailable;
+    activeStep !== PublicEnrollmentFormStep.Authenticate &&
+    !isPaymentLinkPreviewView;
 
-  const renderNext =
-    [
-      PublicEnrollmentFormStep.FillContactDetails,
-      PublicEnrollmentFormStep.SelectExam,
-    ].includes(activeStep) && isStepsAvailable;
+  const renderNext = [
+    PublicEnrollmentFormStep.FillContactDetails,
+    PublicEnrollmentFormStep.SelectExam,
+  ].includes(activeStep);
 
   const renderSubmit = activeStep === PublicEnrollmentFormStep.Preview;
 
