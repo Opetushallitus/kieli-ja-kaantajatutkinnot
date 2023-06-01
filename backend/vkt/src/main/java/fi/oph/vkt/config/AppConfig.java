@@ -7,6 +7,7 @@ import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
 import fi.oph.vkt.service.email.sender.EmailSenderViestintapalvelu;
+import fi.oph.vkt.util.UUIDSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +53,9 @@ public class AppConfig {
       .baseUrl(environment.getRequiredProperty("app.payment.paytrail.url"))
       .build();
 
-    return new PaytrailPaymentProvider(webClient, paytrailConfig);
+    final UUIDSource uuidSource = new UUIDSource();
+
+    return new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
   }
 
   @Bean

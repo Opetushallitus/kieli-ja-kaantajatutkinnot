@@ -79,11 +79,11 @@ public class Enrollment extends BaseEntity {
   @Column(name = "country")
   private String country;
 
-  @Column(name = "payment_link_hash")
+  @Column(name = "payment_link_hash", unique = true)
   private String paymentLinkHash;
 
-  @Column(name = "payment_link_expires")
-  private LocalDateTime paymentLinkExpires;
+  @Column(name = "payment_link_expires_at")
+  private LocalDateTime paymentLinkExpiresAt;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)

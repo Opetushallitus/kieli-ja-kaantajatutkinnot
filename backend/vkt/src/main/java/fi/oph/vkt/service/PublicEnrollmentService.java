@@ -256,7 +256,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Enrollment enrollment = enrollmentRepository
       .findByPaymentLinkHash(enrollmentHash)
       .orElseThrow(() -> new NotFoundException("Enrollment not found"));
-    final LocalDateTime expires = enrollment.getPaymentLinkExpires();
+    final LocalDateTime expires = enrollment.getPaymentLinkExpiresAt();
 
     if (expires == null || expires.isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);

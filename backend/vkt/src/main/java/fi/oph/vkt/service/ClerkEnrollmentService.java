@@ -9,8 +9,6 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
-import fi.oph.vkt.model.Person;
-import fi.oph.vkt.payment.Crypto;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PersonRepository;
@@ -20,8 +18,6 @@ import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.codec.digest.Crypt;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,13 +94,13 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       enrollment.setPaymentLinkHash(hash);
     }
 
-    enrollment.setPaymentLinkExpires(LocalDateTime.now().plusDays(2));
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(2));
     enrollmentRepository.saveAndFlush(enrollment);
 
     return ClerkPaymentLinkDTO
       .builder()
       .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), hash))
-      .expires(enrollment.getPaymentLinkExpires())
+      .expires(enrollment.getPaymentLinkExpiresAt())
       .build();
   }
 }

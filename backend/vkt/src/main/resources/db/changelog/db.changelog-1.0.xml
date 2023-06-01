@@ -582,20 +582,20 @@
                                  onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
 
-    <changeSet id="2023-05-26-enrollment-payment-link-hash" author="jrkkp">
+    <changeSet id="2023-05-30-modify_payment-table_amount" author="mikhuttu">
+        <modifyDataType tableName="payment" columnName="amount" newDataType="INT"/>
+    </changeSet>
+
+    <changeSet id="2023-06-01-enrollment-payment-link-hash" author="jrkkp">
         <addColumn tableName="enrollment">
             <column name="payment_link_hash" type="VARCHAR(255)">
                 <constraints
                         nullable="true"
                         unique="true"
-                        uniqueConstraintName="person_payment_link_hash_uniq_idx"
+                        uniqueConstraintName="enrollment_payment_link_hash_uniq_idx"
                 />
             </column>
-            <column name="payment_link_expires" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="payment_link_expires_at" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
-    </changeSet>
-
-    <changeSet id="2023-05-30-modify_payment-table_amount" author="mikhuttu">
-        <modifyDataType tableName="payment" columnName="amount" newDataType="INT"/>
     </changeSet>
 </databaseChangeLog>

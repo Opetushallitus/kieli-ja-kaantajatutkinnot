@@ -1,7 +1,7 @@
 package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkExamPaymentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Payment;
@@ -13,7 +13,12 @@ public class ClerkEnrollmentUtil {
 
   public static ClerkEnrollmentDTO createClerkEnrollmentDTO(final Enrollment enrollment) {
     final ClerkPersonDTO personDTO = createClerkPersonDTO(enrollment.getPerson());
-    final List<ClerkExamPaymentDTO> paymentDTOs = createClerkPaymentDTO(enrollment.getPayments());
+
+    final List<ClerkPaymentDTO> paymentDTOs = enrollment
+      .getPayments()
+      .stream()
+      .map(ClerkEnrollmentUtil::createClerkPaymentDTO)
+      .collect(Collectors.toList());
 
     return ClerkEnrollmentDTO
       .builder()
@@ -41,21 +46,16 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
-  private static List<ClerkExamPaymentDTO> createClerkPaymentDTO(final List<Payment> payments) {
-    return payments
-      .stream()
-      .map((final Payment payment) ->
-        ClerkExamPaymentDTO
-          .builder()
-          .id(payment.getId())
-          .paymentId(payment.getTransactionId())
-          .version(payment.getVersion())
-          .amount(payment.getAmount())
-          .modifiedAt(payment.getModifiedAt())
-          .status(payment.getPaymentStatus())
-          .build()
-      )
-      .collect(Collectors.toList());
+  private static ClerkPaymentDTO createClerkPaymentDTO(final Payment payment) {
+    return ClerkPaymentDTO
+      .builder()
+      .id(payment.getId())
+      .version(payment.getVersion())
+      .paymentId(payment.getTransactionId())
+      .amount(payment.getAmount())
+      .status(payment.getPaymentStatus())
+      .modifiedAt(payment.getModifiedAt())
+      .build();
   }
 
   private static ClerkPersonDTO createClerkPersonDTO(final Person person) {

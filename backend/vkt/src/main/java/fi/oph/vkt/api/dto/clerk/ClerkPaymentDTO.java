@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkExamPaymentDTO(
+public record ClerkPaymentDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
   @NonNull @NotBlank String paymentId,

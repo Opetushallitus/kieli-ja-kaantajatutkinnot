@@ -5,6 +5,7 @@ import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.payment.PaymentProvider;
+import fi.oph.vkt.util.UUIDSource;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
 
   private final WebClient paytrailWebClient;
   private final PaytrailConfig paytrailConfig;
+  private final UUIDSource uuidSource;
 
   private Map<String, String> getHeaders() {
     final Map<String, String> headers = new LinkedHashMap<>();
@@ -35,7 +37,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
     headers.put("checkout-account", paytrailConfig.getAccount());
     headers.put("checkout-algorithm", PaytrailConfig.HMAC_ALGORITHM);
     headers.put("checkout-method", "POST");
-    headers.put("checkout-nonce", paytrailConfig.getRandomNonce());
+    headers.put("checkout-nonce", uuidSource.getRandomNonce());
     headers.put("checkout-timestamp", paytrailConfig.getTimestamp());
     headers.put("content-type", "application/json; charset=utf-8");
 
@@ -43,7 +45,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
   }
 
   private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int amount) {
-    final String stamp = paymentId.toString() + "-" + paytrailConfig.getRandomNonce();
+    final String stamp = paymentId.toString() + "-" + uuidSource.getRandomNonce();
 
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()

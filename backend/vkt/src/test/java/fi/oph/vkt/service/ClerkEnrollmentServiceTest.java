@@ -288,7 +288,7 @@ class ClerkEnrollmentServiceTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
 
-    enrollment.setPaymentLinkExpires(LocalDateTime.now().plusDays(1));
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(1));
     enrollment.setPaymentLinkHash(hash);
 
     entityManager.persist(examEvent);
@@ -308,7 +308,7 @@ class ClerkEnrollmentServiceTest {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
     final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
 
-    enrollment.setPaymentLinkExpires(LocalDateTime.now().minusDays(1));
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().minusDays(1));
     enrollment.setPaymentLinkHash(hash);
 
     entityManager.persist(examEvent);
