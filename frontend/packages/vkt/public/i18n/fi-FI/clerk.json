@@ -13,7 +13,7 @@
         "header": {
           "contactDetails": "Yhteystiedot",
           "digitalCertificateConsent": "Suostumus sähköisestä todistuksesta",
-          "nameAndSSN": "Nimi ja henkilötunnus",
+          "personalInformation": "Henkilötiedot",
           "previousEnrollment": "Aikaisempi osallistuminen valtionhallinnon kielitutkintoon",
           "selectedPartialExams": "Valitut osakokeet",
           "selectedSkills": "Valitut tutkinnot"
