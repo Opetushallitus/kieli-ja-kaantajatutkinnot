@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -79,6 +80,7 @@ public class Enrollment extends BaseEntity {
   @Column(name = "country")
   private String country;
 
+  @Size(max = 255)
   @Column(name = "payment_link_hash", unique = true)
   private String paymentLinkHash;
 
