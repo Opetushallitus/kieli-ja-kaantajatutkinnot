@@ -34,7 +34,7 @@ function* createClerkEnrollmentPaymentLinkSaga(
   try {
     const apiResponse: AxiosResponse<ClerkPaymentLinkResponse> = yield call(
       axiosInstance.post,
-      `${APIEndpoints.ClerkEnrollment}/payment/${enrollment.id}/link`,
+      `${APIEndpoints.ClerkEnrollment}/${enrollment.id}/paymentLink`,
       {}
     );
 

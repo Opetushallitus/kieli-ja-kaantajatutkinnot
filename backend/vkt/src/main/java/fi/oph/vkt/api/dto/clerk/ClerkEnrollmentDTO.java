@@ -1,5 +1,6 @@
 package fi.oph.vkt.api.dto.clerk;
 
+import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,4 +32,5 @@ public record ClerkEnrollmentDTO(
   String town,
   String country,
   @NonNull @NotNull List<ClerkPaymentDTO> payments
-) {}
+)
+  implements EnrollmentDTOCommonFields {}

@@ -11,7 +11,6 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
@@ -27,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
-  private final PersonRepository personRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
   private final Environment environment;
@@ -85,22 +83,17 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final ExamEvent examEvent = enrollment.getExamEvent();
     final String baseUrl = environment.getRequiredProperty("app.base-url.api");
-    final String hash;
 
-    if (enrollment.getPaymentLinkHash() != null) {
-      hash = enrollment.getPaymentLinkHash();
-    } else {
-      hash = uuidSource.getRandomNonce();
-      enrollment.setPaymentLinkHash(hash);
+    if (enrollment.getPaymentLinkHash() == null) {
+      enrollment.setPaymentLinkHash(uuidSource.getRandomNonce());
     }
-
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(2));
     enrollmentRepository.saveAndFlush(enrollment);
 
     return ClerkPaymentLinkDTO
       .builder()
-      .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), hash))
-      .expires(enrollment.getPaymentLinkExpiresAt())
+      .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), enrollment.getPaymentLinkHash()))
+      .expiresAt(enrollment.getPaymentLinkExpiresAt())
       .build();
   }
 }

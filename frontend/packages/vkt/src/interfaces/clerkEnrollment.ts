@@ -1,13 +1,13 @@
 import { Dayjs } from 'dayjs';
+import { WithId, WithVersion } from 'shared/interfaces';
 
 import { EnrollmentStatus } from 'enums/app';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
-import { WithId, WithVersion } from 'interfaces/with';
 
-interface Person extends WithId, WithVersion {
+interface ClerkPerson extends WithId, WithVersion {
   identityNumber: string;
   lastName: string;
   firstName: string;
@@ -15,17 +15,15 @@ interface Person extends WithId, WithVersion {
 
 export interface ClerkPaymentLink {
   url: string;
-  expires: Dayjs;
+  expiresAt: Dayjs;
 }
 
 export interface ClerkPaymentLinkResponse
-  extends Omit<ClerkPaymentLink, 'expires'> {
-  expires: string;
+  extends Omit<ClerkPaymentLink, 'expiresAt'> {
+  expiresAt: string;
 }
 
-export interface ClerkPayment extends WithId {
-  id: number;
-  version: number;
+export interface ClerkPayment extends WithId, WithVersion {
   paymentId: string;
   amount: number;
   status: string;
@@ -42,18 +40,18 @@ export interface ClerkEnrollment
     PartialExamsAndSkills,
     CertificateShippingData {
   enrollmentTime: Dayjs;
-  person: Person;
+  person: ClerkPerson;
   status: EnrollmentStatus;
   previousEnrollment?: string;
   email: string;
   phoneNumber: string;
-  payments: ClerkPayment[];
+  payments: Array<ClerkPayment>;
 }
 
 export interface ClerkEnrollmentResponse
   extends Omit<ClerkEnrollment, 'enrollmentTime' | 'payments'> {
   enrollmentTime: string;
-  payments: ClerkPaymentResponse[];
+  payments: Array<ClerkPaymentResponse>;
 }
 
 export interface ClerkEnrollmentStatusChange extends WithId, WithVersion {

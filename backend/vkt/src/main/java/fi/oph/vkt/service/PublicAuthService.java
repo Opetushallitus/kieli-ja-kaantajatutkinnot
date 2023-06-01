@@ -53,10 +53,16 @@ public class PublicAuthService {
     return personRepository.saveAndFlush(person);
   }
 
-  public String getEnrollmentContactDetailsURL(final long examEventId) {
+  public String getEnrollmentContactDetailsUrl(final long examEventId) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
 
     return String.format("%s/ilmoittaudu/%s/tiedot", baseUrl, examEventId);
+  }
+
+  public String getEnrollmentPreviewUrl(final long examEventId) {
+    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+
+    return String.format("%s/ilmoittaudu/%s/esikatsele", baseUrl, examEventId);
   }
 
   @Transactional
@@ -92,11 +98,5 @@ public class PublicAuthService {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
 
     return String.format("%s/etusivu?error=%s", baseUrl, exceptionType.getCode());
-  }
-
-  public String getPreviewUrl(long examEventId) {
-    final String baseUrl = environment.getRequiredProperty("app.base-url.public");
-
-    return String.format("%s/ilmoittaudu/%s/esikatsele", baseUrl, examEventId);
   }
 }

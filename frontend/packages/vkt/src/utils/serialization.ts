@@ -92,7 +92,7 @@ export class SerializationUtils {
   static deserializeClerkPaymentLink(paymentLink: ClerkPaymentLinkResponse) {
     return {
       ...paymentLink,
-      expires: dayjs(paymentLink.expires),
+      expiresAt: dayjs(paymentLink.expiresAt),
     };
   }
 
@@ -100,13 +100,13 @@ export class SerializationUtils {
     return {
       ...enrollment,
       enrollmentTime: dayjs(enrollment.enrollmentTime),
-      payments: enrollment.payments?.map(
+      payments: enrollment.payments.map(
         SerializationUtils.deserializeClerkPayment
       ),
     };
   }
 
-  static deserializeClerkPayment(payment: ClerkPaymentResponse) {
+  private static deserializeClerkPayment(payment: ClerkPaymentResponse) {
     return {
       ...payment,
       modifiedAt: dayjs(payment.modifiedAt),

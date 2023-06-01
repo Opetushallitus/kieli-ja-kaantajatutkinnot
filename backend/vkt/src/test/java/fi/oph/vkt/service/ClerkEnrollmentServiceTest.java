@@ -2,6 +2,7 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,8 +24,6 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.PersonRepository;
-import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -49,17 +48,10 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private ExamEventRepository examEventRepository;
 
-  @Resource
-  private PersonRepository personRepository;
-
-  @Resource
-  private ReservationRepository reservationRepository;
-
   @MockBean
   private AuditService auditService;
 
   private ClerkEnrollmentService clerkEnrollmentService;
-  private PublicEnrollmentService publicEnrollmentService;
 
   @Resource
   private TestEntityManager entityManager;
@@ -72,27 +64,8 @@ class ClerkEnrollmentServiceTest {
     final UUIDSource uuidSource = mock(UUIDSource.class);
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
-    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    final PublicReservationService publicReservationService = mock(PublicReservationService.class);
-
     clerkEnrollmentService =
-      new ClerkEnrollmentService(
-        enrollmentRepository,
-        personRepository,
-        examEventRepository,
-        auditService,
-        environment,
-        uuidSource
-      );
-    publicEnrollmentService =
-      new PublicEnrollmentService(
-        enrollmentRepository,
-        examEventRepository,
-        personRepository,
-        publicEnrollmentEmailService,
-        publicReservationService,
-        reservationRepository
-      );
+      new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService, environment, uuidSource);
   }
 
   @Test
@@ -261,6 +234,15 @@ class ClerkEnrollmentServiceTest {
     verifyNoInteractions(auditService);
   }
 
+  private static ClerkEnrollmentMoveDTO createMoveDTO(final Enrollment enrollment, final ExamEvent event) {
+    return ClerkEnrollmentMoveDTO
+      .builder()
+      .id(enrollment.getId())
+      .version(enrollment.getVersion())
+      .toExamEventId(event.getId())
+      .build();
+  }
+
   @Test
   public void testCreatePaymentLink() {
     final ExamEvent examEvent = Factory.examEvent();
@@ -279,55 +261,6 @@ class ClerkEnrollmentServiceTest {
 
     assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
     assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());
-  }
-
-  @Test
-  public void testPaymentLinkRedirect() {
-    final ExamEvent examEvent = Factory.examEvent();
-    final Person person = Factory.person();
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
-
-    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(1));
-    enrollment.setPaymentLinkHash(hash);
-
-    entityManager.persist(examEvent);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    clerkEnrollmentService.createPaymentLink(enrollment.getId());
-
-    final Enrollment enrollment1 = publicEnrollmentService.getEnrollmentByHash(hash);
-    assertEquals(enrollment.getId(), enrollment1.getId());
-  }
-
-  @Test
-  public void testPaymentLinkRedirectExpired() {
-    final ExamEvent examEvent = Factory.examEvent();
-    final Person person = Factory.person();
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    final String hash = "269a2da4-58bb-45eb-b125-522b77e9167c";
-
-    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().minusDays(1));
-    enrollment.setPaymentLinkHash(hash);
-
-    entityManager.persist(examEvent);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    final APIException ex = assertThrows(
-      APIException.class,
-      () -> publicEnrollmentService.getEnrollmentByHash("269a2da4-58bb-45eb-b125-522b77e9167c")
-    );
-    assertEquals(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED, ex.getExceptionType());
-  }
-
-  private static ClerkEnrollmentMoveDTO createMoveDTO(final Enrollment enrollment, final ExamEvent event) {
-    return ClerkEnrollmentMoveDTO
-      .builder()
-      .id(enrollment.getId())
-      .version(enrollment.getVersion())
-      .toExamEventId(event.getId())
-      .build();
+    assertTrue(enrollment.getPaymentLinkExpiresAt().isAfter(LocalDateTime.now()));
   }
 }

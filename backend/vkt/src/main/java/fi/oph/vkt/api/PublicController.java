@@ -111,17 +111,20 @@ public class PublicController {
     return publicReservationService.renewReservation(reservationId, person);
   }
 
-  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{enrollmentHash:[a-z0-9\\-]+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/redirect/{paymentLinkHash:[a-z0-9\\-]+}")
   public void createSessionAndRedirectToPreview(
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
-    @PathVariable final String enrollmentHash,
+    @PathVariable final String paymentLinkHash,
     final HttpSession session
   ) throws IOException {
-    final Enrollment enrollment = publicEnrollmentService.getEnrollmentByHash(enrollmentHash);
+    final Enrollment enrollment = publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+      examEventId,
+      paymentLinkHash
+    );
     SessionUtil.setPersonId(session, enrollment.getPerson().getId());
 
-    httpResponse.sendRedirect(publicAuthService.getPreviewUrl(examEventId));
+    httpResponse.sendRedirect(publicAuthService.getEnrollmentPreviewUrl(examEventId));
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
@@ -166,7 +169,7 @@ public class PublicController {
         publicEnrollmentService.initialiseEnrollment(examEventId, person);
       }
 
-      httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsURL(examEventId));
+      httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsUrl(examEventId));
     } catch (final APIException e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
     } catch (final Exception e) {

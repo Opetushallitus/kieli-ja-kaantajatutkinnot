@@ -6,6 +6,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,7 @@ public class ClerkEnrollmentUtil {
       .getPayments()
       .stream()
       .map(ClerkEnrollmentUtil::createClerkPaymentDTO)
+      .sorted(Comparator.comparing(ClerkPaymentDTO::modifiedAt).reversed())
       .collect(Collectors.toList());
 
     return ClerkEnrollmentDTO

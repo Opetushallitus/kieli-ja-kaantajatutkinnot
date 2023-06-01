@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnrollmentRepository extends BaseRepository<Enrollment> {
   Optional<Enrollment> findByExamEventAndPerson(final ExamEvent examEvent, final Person person);
-  Optional<Enrollment> findByPaymentLinkHash(final String enrollmentHash);
+  Optional<Enrollment> findByExamEventAndPaymentLinkHash(final ExamEvent examEvent, final String paymentLinkHash);
 }

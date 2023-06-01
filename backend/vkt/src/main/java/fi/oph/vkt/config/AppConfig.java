@@ -46,7 +46,7 @@ public class AppConfig {
       .builder()
       .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
       .account(environment.getRequiredProperty("app.payment.paytrail.account"))
-      .baseUrl(environment.getRequiredProperty("app.payment.paytrail.return-base-url"))
+      .baseUrl(environment.getRequiredProperty("app.base-url.api"))
       .build();
 
     final WebClient webClient = webClientBuilderWithCallerId()

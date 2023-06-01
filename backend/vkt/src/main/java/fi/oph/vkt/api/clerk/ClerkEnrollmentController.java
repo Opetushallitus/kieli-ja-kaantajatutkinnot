@@ -45,12 +45,6 @@ public class ClerkEnrollmentController {
   @Resource
   private ReceiptRenderer receiptRenderer;
 
-  @PostMapping("/payment/{enrollmentId:\\d+}/link")
-  @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
-  public ClerkPaymentLinkDTO createPaymentLink(@PathVariable final long enrollmentId) {
-    return clerkEnrollmentService.createPaymentLink(enrollmentId);
-  }
-
   @PutMapping
   @Operation(tags = TAG_ENROLLMENT, summary = "Update enrollment")
   public ClerkEnrollmentDTO updateEnrollment(@RequestBody @Valid final ClerkEnrollmentUpdateDTO dto) {
@@ -69,7 +63,14 @@ public class ClerkEnrollmentController {
     return clerkEnrollmentService.move(dto);
   }
 
-  @GetMapping(path = "/receipt/{enrollmentId:\\d+}", consumes = ALL_VALUE, produces = APPLICATION_PDF_VALUE)
+  @PostMapping("/{enrollmentId:\\d+}/paymentLink")
+  @Operation(tags = TAG_ENROLLMENT, summary = "Create payment link for enrollment")
+  public ClerkPaymentLinkDTO createPaymentLink(@PathVariable final long enrollmentId) {
+    return clerkEnrollmentService.createPaymentLink(enrollmentId);
+  }
+
+  // TODO: this is currently an unused endpoint
+  @GetMapping(path = "/{enrollmentId:\\d+}/receipt", consumes = ALL_VALUE, produces = APPLICATION_PDF_VALUE)
   @Operation(tags = TAG_ENROLLMENT, summary = "Download payment PDF")
   public ResponseEntity<InputStreamResource> downloadReceipt(
     final HttpServletResponse response,

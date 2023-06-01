@@ -486,7 +486,7 @@ export const ClerkEnrollmentDetailsFields = ({
               <Text>{paymentLink.url}</Text>
               <H3>{t('payment.expires')}</H3>
               <Text>
-                {DateUtils.formatOptionalDateTime(paymentLink.expires)}
+                {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
               </Text>
             </>
           )}

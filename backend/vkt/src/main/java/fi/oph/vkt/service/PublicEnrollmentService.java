@@ -13,7 +13,6 @@ import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
@@ -33,7 +32,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
-  private final PersonRepository personRepository;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
@@ -122,6 +120,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
       .writingPartialExam(enrollment.isWritingPartialExam())
       .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+      .status(enrollment.getStatus())
       .previousEnrollment(enrollment.getPreviousEnrollment())
       .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
       .email(enrollment.getEmail())
@@ -130,7 +129,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
-      .status(enrollment.getStatus())
       .build();
   }
 
@@ -140,7 +138,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final long openings,
     final Optional<PublicReservationDTO> optionalReservationDTO,
     final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO,
-    final boolean includePersonalInfo
+    final boolean includePersonIdentity
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -155,8 +153,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicPersonDTO personDTO = PublicPersonDTO
       .builder()
       .id(person.getId())
-      .identityNumber(includePersonalInfo ? person.getIdentityNumber() : null)
-      .dateOfBirth(includePersonalInfo ? person.getDateOfBirth() : null)
+      .identityNumber(includePersonIdentity ? person.getIdentityNumber() : null)
+      .dateOfBirth(includePersonIdentity ? person.getDateOfBirth() : null)
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
       .build();
@@ -252,13 +250,17 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     return createEnrollmentDTO(enrollment);
   }
 
-  public Enrollment getEnrollmentByHash(String enrollmentHash) {
-    final Enrollment enrollment = enrollmentRepository
-      .findByPaymentLinkHash(enrollmentHash)
-      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
-    final LocalDateTime expires = enrollment.getPaymentLinkExpiresAt();
+  @Transactional(readOnly = true)
+  public Enrollment getEnrollmentByExamEventAndPaymentLink(final long examEventId, final String paymentLinkHash) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    if (expires == null || expires.isBefore(LocalDateTime.now())) {
+    final Enrollment enrollment = enrollmentRepository
+      .findByExamEventAndPaymentLinkHash(examEvent, paymentLinkHash)
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+
+    final LocalDateTime expiresAt = enrollment.getPaymentLinkExpiresAt();
+
+    if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);
     }
 
