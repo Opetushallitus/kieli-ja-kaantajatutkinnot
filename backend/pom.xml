@@ -136,6 +136,11 @@
       <artifactId>mockwebserver</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.16.1</version>
+    </dependency>
     <!-- CAS -->
     <dependency>
       <groupId>fi.vm.sade.java-utils</groupId>
