@@ -107,7 +107,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       openings,
       optionalReservationDTO,
       optionalEnrollmentDTO,
-    false
+      false
     );
   }
 
