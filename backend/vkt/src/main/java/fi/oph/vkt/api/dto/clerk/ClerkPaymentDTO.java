@@ -11,7 +11,7 @@ import lombok.NonNull;
 public record ClerkPaymentDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @NonNull @NotBlank String paymentId,
+  @NonNull @NotBlank String transactionId,
   @NonNull @NotNull Integer amount,
   @NonNull @NotNull PaymentStatus status,
   @NonNull @NotNull LocalDateTime modifiedAt

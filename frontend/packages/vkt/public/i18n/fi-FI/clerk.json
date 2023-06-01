@@ -10,6 +10,14 @@
         "controlButtons": {
           "move": "Siirrä"
         },
+        "enrollmentStatus": {
+          "CANCELED": "Peruutettu",
+          "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
+          "EXPECTING_PAYMENT": "Siirretty jonosta / maksu puuttuu",
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
+          "PAID": "Maksettu",
+          "QUEUED": "Jonossa"
+        },
         "header": {
           "contactDetails": "Yhteystiedot",
           "digitalCertificateConsent": "Suostumus sähköisestä todistuksesta",
@@ -25,31 +33,34 @@
           "title": "Siirrä ilmoittautuminen toiseen tilaisuuteen",
           "successToast": "Ilmoittautumisen siirto onnistui"
         },
+        "payment": {
+          "create": "Luo maksulinkki",
+          "details": {
+            "amount": "Summa",
+            "date": "Aikaleima",
+            "reference": "Maksutunniste",
+            "status": "Tila"
+          },
+          "modal": {
+            "expires": "Voimassaolo päättyy",
+            "link": "Linkki",
+            "title": "Maksulinkki"
+          },
+          "historyTitle": "Maksuhistoria",
+          "recentTitle": "Maksun tila"
+        },
+        "paymentStatus": {
+          "DELAYED": "Myöhässä",
+          "FAIL": "Peruttu",
+          "NEW": "Aloitettu",
+          "OK": "Maksettu",
+          "PENDING": "Odottaa"
+        },
+        "status": "Ilmoittautumisen tila",
         "title": "Ilmoittautumisen tiedot",
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
           "updated": "Tiedot tallennettiin"
-        },
-        "enrollmentStatus": {
-          "CANCELED": "Peruutettu (virkailija)",
-          "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
-          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
-          "EXPECTING_PAYMENT": "Siirretty jonosta / maksu puuttuu",
-          "PAID": "Maksettu",
-          "QUEUED": "Jonossa"
-        },
-        "payment": {
-          "title": "Maksutiedot",
-          "history": "Maksuhistoria",
-          "linkTitle": "Maksulinkki",
-          "status": "Maksun tila",
-          "paymentStatus": "Tila",
-          "reference": "Maksutunniste",
-          "date": "Aikaleima",
-          "amount": "Summa",
-          "link": "Linkki",
-          "expires": "Voimassa asti",
-          "create": "Luo maksulinkki"
         }
       },
       "clerkEnrollmentListing": {
@@ -107,8 +118,8 @@
         "examEventListingHeader": {
           "CANCELED": "Peruutetut",
           "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttaneet",
-          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
           "EXPECTING_PAYMENT": "Jonosta siirretyt / maksu puuttuu",
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
           "PAID": "Ilmoittautuneet",
           "QUEUED": "Jonoon ilmoittautuneet"
         },

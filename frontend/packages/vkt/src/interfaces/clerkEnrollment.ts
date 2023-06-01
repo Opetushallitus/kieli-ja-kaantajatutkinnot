@@ -24,7 +24,7 @@ export interface ClerkPaymentLinkResponse
 }
 
 export interface ClerkPayment extends WithId, WithVersion {
-  paymentId: string;
+  transactionId: string;
   amount: number;
   status: string;
   modifiedAt: Dayjs;

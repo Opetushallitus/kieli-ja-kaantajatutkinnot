@@ -50,10 +50,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
     rejectClerkEnrollmentDetailsUpdate(state) {
       state.status = APIResponseStatus.Error;
     },
-    createClerkEnrollmentPaymentLink(
-      state,
-      _action: PayloadAction<ClerkEnrollment>
-    ) {
+    createClerkEnrollmentPaymentLink(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
     },
     storeClerkEnrollmentPaymentLink(

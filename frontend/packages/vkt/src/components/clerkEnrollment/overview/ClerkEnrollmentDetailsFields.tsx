@@ -26,10 +26,6 @@ import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { createClerkEnrollmentPaymentLink } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
-const formatAmount = (amount: number) => {
-  return (amount / 100).toFixed(2);
-};
-
 const CheckboxField = ({
   enrollment,
   fieldName,
@@ -64,22 +60,28 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
 
+  const formatAmount = (amount: number) => {
+    return (amount / 100).toFixed(2);
+  };
+
   return (
-    <>
+    <div className="rows">
       <Text>
-        {t('payment.paymentStatus')}: {payment.status}
+        {t('payment.details.status')}:{' '}
+        <b>{t(`paymentStatus.${payment.status}`)}</b>
       </Text>
       <Text>
-        {t('payment.reference')}: {payment.id}
+        {t('payment.details.reference')}: <b>{payment.id}</b>
       </Text>
       <Text>
-        {t('payment.date')}:{' '}
-        {DateUtils.formatOptionalDateTime(payment.modifiedAt)}
+        {t('payment.details.date')}:{' '}
+        <b>{DateUtils.formatOptionalDate(payment.modifiedAt)}</b>
       </Text>
       <Text>
-        {t('payment.amount')}: {formatAmount(payment.amount)} &euro;
+        {t('payment.details.amount')}:{' '}
+        <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
-    </>
+    </div>
   );
 };
 
@@ -264,9 +266,14 @@ export const ClerkEnrollmentDetailsFields = ({
     onCheckboxFieldChange(fieldName, false);
   };
 
-  const statusToDescription = (status: EnrollmentStatus) => {
-    return t(`enrollmentStatus.${status}`);
-  };
+  const displayPaymentInformation =
+    [
+      EnrollmentStatus.PAID,
+      EnrollmentStatus.EXPECTING_PAYMENT,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+    ].includes(enrollment.status) || enrollment.payments.length > 0;
+
+  const displayPaymentHistory = enrollment.payments.length > 1;
 
   return (
     <div className="clerk-enrollment-details-fields">
@@ -385,40 +392,44 @@ export const ClerkEnrollmentDetailsFields = ({
           </div>
         </div>
         <div className="rows gapped-sm margin-top-lg">
-          <H3>{t('payment.title')}</H3>
-          <Text>{statusToDescription(enrollment.status)}</Text>
-          {enrollment.payments?.length > 0 && (
-            <div className="margin-top-lg">
-              <H3>{t('payment.status')}</H3>
-              <PaymentDetails payment={enrollment.payments[0]} />
-            </div>
-          )}
-          {enrollment.payments?.length > 1 && (
-            <div className="margin-top-lg">
-              <H3>{t('payment.history')}</H3>
-              {enrollment.payments.map((payment: ClerkPayment) => (
-                <PaymentDetails
-                  key={`payment-row-${payment.id}`}
-                  payment={payment}
-                />
-              ))}
-            </div>
-          )}
-          {enrollment.status === 'EXPECTING_PAYMENT' && (
-            <div className="columns gapped flex-start">
-              <CustomButton
-                color={Color.Secondary}
-                variant={Variant.Outlined}
-                onClick={() => {
-                  setPaymentLinkModalOpen(true);
-                  dispatch(createClerkEnrollmentPaymentLink(enrollment));
-                }}
-              >
-                {t('payment.create')}
-              </CustomButton>
-            </div>
-          )}
+          <H3>{t('status')}</H3>
+          <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
         </div>
+        {displayPaymentInformation && (
+          <div className="rows gapped-xxl margin-top-lg">
+            <div className="rows gapped">
+              <H3>{t('payment.recentTitle')}</H3>
+              {enrollment.payments.length > 0 && (
+                <PaymentDetails payment={enrollment.payments[0]} />
+              )}
+              {enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT && (
+                <div className="columns flex-start">
+                  <CustomButton
+                    color={Color.Secondary}
+                    variant={Variant.Outlined}
+                    onClick={() => {
+                      setPaymentLinkModalOpen(true);
+                      dispatch(createClerkEnrollmentPaymentLink(enrollment.id));
+                    }}
+                  >
+                    {t('payment.create')}
+                  </CustomButton>
+                </div>
+              )}
+            </div>
+            {displayPaymentHistory && (
+              <div className="rows gapped">
+                <H3>{t('payment.historyTitle')}</H3>
+                {enrollment.payments.slice(1).map((payment: ClerkPayment) => (
+                  <PaymentDetails
+                    key={`payment-row-${payment.id}`}
+                    payment={payment}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>
           <FormControlLabel
@@ -476,19 +487,23 @@ export const ClerkEnrollmentDetailsFields = ({
       </div>
       <CustomModal
         open={paymentLinkModalOpen}
-        modalTitle={t('payment.linkTitle')}
+        modalTitle={t('payment.modal.title')}
         onCloseModal={() => setPaymentLinkModalOpen(false)}
       >
         <>
           {paymentLink && (
-            <>
-              <H3>{t('payment.link')}</H3>
-              <Text>{paymentLink.url}</Text>
-              <H3>{t('payment.expires')}</H3>
-              <Text>
-                {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
-              </Text>
-            </>
+            <div className="rows gapped">
+              <div className="rows gapped-xs">
+                <H3>{t('payment.modal.link')}</H3>
+                <Text>{paymentLink.url}</Text>
+              </div>
+              <div className="rows gapped-xs">
+                <H3>{t('payment.modal.expires')}</H3>
+                <Text>
+                  {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
+                </Text>
+              </div>
+            </div>
           )}
           <div className="columns gapped flex-end">
             <CustomButton
@@ -496,7 +511,7 @@ export const ClerkEnrollmentDetailsFields = ({
               color={Color.Secondary}
               onClick={() => setPaymentLinkModalOpen(false)}
             >
-              Sulje
+              {translateCommon('close')}
             </CustomButton>
           </div>
         </>

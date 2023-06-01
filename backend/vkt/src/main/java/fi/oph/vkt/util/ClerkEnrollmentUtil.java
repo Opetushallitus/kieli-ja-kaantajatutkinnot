@@ -53,7 +53,7 @@ public class ClerkEnrollmentUtil {
       .builder()
       .id(payment.getId())
       .version(payment.getVersion())
-      .paymentId(payment.getTransactionId())
+      .transactionId(payment.getTransactionId())
       .amount(payment.getAmount())
       .status(payment.getPaymentStatus())
       .modifiedAt(payment.getModifiedAt())

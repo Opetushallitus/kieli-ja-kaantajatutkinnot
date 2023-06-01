@@ -26,24 +26,23 @@ import { storeClerkExamEventOverview } from 'redux/reducers/clerkExamEventOvervi
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* createClerkEnrollmentPaymentLinkSaga(
-  action: PayloadAction<ClerkEnrollment>
-) {
-  const enrollment = action.payload;
-
+function* createClerkEnrollmentPaymentLinkSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkPaymentLinkResponse> = yield call(
       axiosInstance.post,
-      `${APIEndpoints.ClerkEnrollment}/${enrollment.id}/paymentLink`,
+      `${APIEndpoints.ClerkEnrollment}/${action.payload}/paymentLink`,
       {}
     );
-
     const paymentLink = SerializationUtils.deserializeClerkPaymentLink(
       apiResponse.data
     );
 
     yield put(storeClerkEnrollmentPaymentLink(paymentLink));
-  } catch (error) {}
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectClerkEnrollmentDetailsUpdate());
+  }
 }
 
 function* updateClerkEnrollmentDetailsSaga(
@@ -100,12 +99,12 @@ function* moveEnrollmentSaga(action: PayloadAction<ClerkEnrollmentMove>) {
 
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
+    createClerkEnrollmentPaymentLink,
+    createClerkEnrollmentPaymentLinkSaga
+  );
+  yield takeLatest(
     updateClerkEnrollmentDetails.type,
     updateClerkEnrollmentDetailsSaga
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
-  yield takeLatest(
-    createClerkEnrollmentPaymentLink,
-    createClerkEnrollmentPaymentLinkSaga
-  );
 }
