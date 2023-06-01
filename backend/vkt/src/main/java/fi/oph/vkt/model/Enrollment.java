@@ -95,4 +95,8 @@ public class Enrollment extends BaseEntity {
 
   @OneToMany(mappedBy = "enrollment")
   private List<Payment> payments = new ArrayList<>();
+
+  public boolean isCancelled() {
+    return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;
+  }
 }

@@ -25,14 +25,22 @@ export const ClerkHomePageSkeleton = () => {
         ariaLabel={ariaLabel}
         variant={SkeletonVariant.Rectangular}
       >
-        <ClerkInterpreterToggleFilters />
+        <ClerkInterpreterToggleFilters
+          setPage={() => {
+            return;
+          }}
+        />
       </CustomSkeleton>
       <CustomSkeleton
         className="full-max-width"
         variant={SkeletonVariant.Rectangular}
         ariaLabel={ariaLabel}
       >
-        <ClerkInterpreterAutocompleteFilters />
+        <ClerkInterpreterAutocompleteFilters
+          setPage={() => {
+            return;
+          }}
+        />
       </CustomSkeleton>
       <CustomSkeleton
         className="full-max-width"
@@ -46,7 +54,12 @@ export const ClerkHomePageSkeleton = () => {
         variant={SkeletonVariant.Rectangular}
         ariaLabel={ariaLabel}
       >
-        <ClerkInterpreterListing />
+        <ClerkInterpreterListing
+          page={0}
+          setPage={() => {
+            return;
+          }}
+        />
       </CustomSkeleton>
     </>
   );

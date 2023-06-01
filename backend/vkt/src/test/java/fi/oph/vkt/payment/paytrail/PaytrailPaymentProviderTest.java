@@ -1,4 +1,4 @@
-package fi.oph.vkt.service;
+package fi.oph.vkt.payment.paytrail;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,9 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
-import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -32,7 +29,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 @WithMockUser
 @DataJpaTest
-public class PaytrailServiceTest {
+public class PaytrailPaymentProviderTest {
 
   @Value("classpath:payment/paytrail-response.json")
   private org.springframework.core.io.Resource paytrailMockResponse;
@@ -70,14 +67,14 @@ public class PaytrailServiceTest {
     final Item item1 = getItem("foo");
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
-    assertNotNull(paytrailService.createPayment(itemList, 1L, customer, 100));
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    assertNotNull(paymentProvider.createPayment(itemList, 1L, customer, 100));
 
     final RecordedRequest request = mockWebServer.takeRequest();
 
     assertEquals(getMockJsonRequest().trim(), request.getBody().readUtf8().trim());
     assertEquals("POST", request.getMethod());
-    assertEquals("446b6902b0a15b2bec030cb64e5adac6eaf1c29941208eb4f7f2c791bd052b10", request.getHeader("signature"));
+    assertEquals("030c90e7982b363b16c4ca534fc335abd343e8832f7e7a8d5bbbcebbdc9f92f0", request.getHeader("signature"));
     assertEquals("application/json; charset=utf-8", request.getHeader("content-type"));
     assertEquals("123456", request.getHeader("checkout-account"));
     assertEquals("sha256", request.getHeader("checkout-algorithm"));
@@ -115,10 +112,10 @@ public class PaytrailServiceTest {
     final Item item1 = getItem("foo");
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
     final RuntimeException ex = assertThrows(
       RuntimeException.class,
-      () -> paytrailService.createPayment(itemList, 1L, customer, 100)
+      () -> paymentProvider.createPayment(itemList, 1L, customer, 100)
     );
 
     assertInstanceOf(WebClientResponseException.class, ex.getCause());
@@ -127,7 +124,7 @@ public class PaytrailServiceTest {
   }
 
   @Test
-  public void testValidatePaytrailSignature() {
+  public void testPaytrailValidateSignature() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "b2d3ecdda2c04563a4638fcade3d4e77dfdc58829b429ad2c2cb422d0fc64080";
@@ -137,12 +134,12 @@ public class PaytrailServiceTest {
     when(paytrailConfig.getAccount()).thenReturn(account);
 
     final Map<String, String> paymentParams = getMockPaymentParams(account, signature);
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
-    assertTrue(paytrailService.validate(paymentParams));
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    assertTrue(paymentProvider.validate(paymentParams));
   }
 
   @Test
-  public void testValidatePaytrailSignatureWithNewHeader() {
+  public void testPaytrailValidateSignatureWithNewHeader() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
@@ -154,12 +151,12 @@ public class PaytrailServiceTest {
     final Map<String, String> paymentParams = getMockPaymentParams(account, signature);
     paymentParams.put("checkout-foo", "bar");
 
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
-    assertTrue(paytrailService.validate(paymentParams));
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    assertTrue(paymentProvider.validate(paymentParams));
   }
 
   @Test
-  public void testValidatePaytrailWithHeaderVariations() {
+  public void testPaytrailValidateErrors() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
 
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
@@ -167,36 +164,49 @@ public class PaytrailServiceTest {
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn(account);
-    final PaytrailService paytrailService = new PaytrailService(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
 
     // No headers
     final Map<String, String> paymentEmptyParams = new LinkedHashMap<>();
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentEmptyParams));
+    assertFalse(paymentProvider.validate(paymentEmptyParams));
 
     // Signature missing
     final Map<String, String> paymentParams1 = getMockPaymentParams(account, signature);
     paymentParams1.remove("signature");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams1));
+    assertFalse(paymentProvider.validate(paymentParams1));
 
     // Account missing
     final Map<String, String> paymentParams2 = getMockPaymentParams(account, signature);
     paymentParams2.remove("checkout-account");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams2));
+    assertFalse(paymentProvider.validate(paymentParams2));
 
     // Amount missing
     final Map<String, String> paymentParams3 = getMockPaymentParams(account, signature);
     paymentParams3.remove("checkout-amount");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams3));
+    assertFalse(paymentProvider.validate(paymentParams3));
 
     // Status missing
     final Map<String, String> paymentParams4 = getMockPaymentParams(account, signature);
     paymentParams4.remove("checkout-status");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams4));
+    assertFalse(paymentProvider.validate(paymentParams4));
 
     // Transaction id missing
     final Map<String, String> paymentParams5 = getMockPaymentParams(account, signature);
     paymentParams5.remove("checkout-transaction-id");
-    assertThrows(RuntimeException.class, () -> paytrailService.validate(paymentParams5));
+    assertFalse(paymentProvider.validate(paymentParams5));
+
+    // Invalid algorithm
+    final Map<String, String> paymentParams6 = getMockPaymentParams(account, signature);
+    paymentParams6.put("checkout-algorithm", "sha1");
+    assertFalse(paymentProvider.validate(paymentParams6));
+
+    // Invalid account
+    final Map<String, String> paymentParams7 = getMockPaymentParams("123456", signature);
+    assertFalse(paymentProvider.validate(paymentParams7));
+
+    // Signature mismatch
+    final Map<String, String> paymentParams8 = getMockPaymentParams(account, "xyz");
+    assertFalse(paymentProvider.validate(paymentParams8));
   }
 
   private String getMockJsonRequest() throws IOException {

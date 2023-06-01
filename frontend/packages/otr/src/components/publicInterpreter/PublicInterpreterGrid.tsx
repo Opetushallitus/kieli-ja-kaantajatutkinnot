@@ -25,6 +25,7 @@ export const PublicInterpreterGrid = () => {
   const hasResults = interpreters.length > 0 && showTable;
   const hasNoResults = !hasResults && showTable;
   const isLoading = status === APIResponseStatus.InProgress;
+  const [page, setPage] = useState(0);
 
   return (
     <>
@@ -54,6 +55,7 @@ export const PublicInterpreterGrid = () => {
               <PublicInterpreterFilters
                 showTable={hasResults && showTable}
                 setShowTable={setShowTable}
+                setPage={setPage}
               />
             </>
           )}
@@ -64,6 +66,7 @@ export const PublicInterpreterGrid = () => {
           <PublicInterpreterListing
             status={status}
             interpreters={interpreters}
+            controlledPaging={{ page, setPage }}
           />
         )}
         {hasNoResults && (

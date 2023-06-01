@@ -13,7 +13,7 @@ import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollm
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
-//import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   loadPublicEnrollment,
   resetPublicEnrollment,
@@ -68,13 +68,13 @@ export const PublicEnrollmentGrid = ({
     }
   }, [cancelStatus, navigate, dispatch]);
 
-  /*
   useNavigationProtection(
     activeStep > PublicEnrollmentFormStep.Authenticate &&
       activeStep < PublicEnrollmentFormStep.Preview &&
-      cancelStatus === APIResponseStatus.NotStarted
+      cancelStatus === APIResponseStatus.NotStarted,
+    '/vkt/ilmoittaudu'
   );
-  */
+
   const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;

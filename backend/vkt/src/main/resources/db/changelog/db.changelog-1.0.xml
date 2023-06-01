@@ -594,4 +594,8 @@
             <column name="payment_link_expires" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
     </changeSet>
+
+    <changeSet id="2023-05-30-modify_payment-table_amount" author="mikhuttu">
+        <modifyDataType tableName="payment" columnName="amount" newDataType="INT"/>
+    </changeSet>
 </databaseChangeLog>

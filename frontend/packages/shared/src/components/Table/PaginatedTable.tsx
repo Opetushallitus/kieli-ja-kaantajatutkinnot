@@ -8,26 +8,8 @@ import {
 import { ChangeEvent, Fragment, useState } from 'react';
 
 import { WithId } from '../../interfaces/with';
+import { CustomTableProps } from './CustomTable';
 import './Table.scss';
-
-export interface PaginatedTableProps<T extends WithId> {
-  data: Array<T>;
-  getRowDetails: (details: T) => JSX.Element;
-  initialRowsPerPage: number;
-  rowsPerPageOptions: Array<number | { value: number; label: string }>;
-  className: string;
-  rowsPerPageLabel: string;
-  header?: JSX.Element;
-  headerContent?: JSX.Element;
-  stickyHeader?: boolean;
-  showBottomPagination?: boolean;
-  size?: 'small' | 'medium';
-  labelDisplayedRows?: (
-    labelDisplayedRowsArgs: LabelDisplayedRowsArgs
-  ) => React.ReactNode;
-  backIconButtonProps?: Partial<IconButtonProps>;
-  nextIconButtonProps?: Partial<IconButtonProps>;
-}
 
 export const defaultDisplayedRowsLabel = ({
   from,
@@ -37,6 +19,30 @@ export const defaultDisplayedRowsLabel = ({
   return `${from} - ${to} / ${count}`;
 };
 
+export interface PaginatedTableProps<T extends WithId>
+  extends CustomTableProps<T> {
+  initialRowsPerPage: number;
+  rowsPerPageOptions: Array<number | { value: number; label: string }>;
+  rowsPerPageLabel: string;
+  headerContent?: JSX.Element;
+  showBottomPagination?: boolean;
+  labelDisplayedRows?: (
+    labelDisplayedRowsArgs: LabelDisplayedRowsArgs
+  ) => React.ReactNode;
+  backIconButtonProps?: Partial<IconButtonProps>;
+  nextIconButtonProps?: Partial<IconButtonProps>;
+  controlledPaging?: {
+    page: number;
+    setPage: (page: number) => void;
+  };
+}
+
+/**
+ * Use Paginated table when paging can reset between e.g. switching to different views or tabs
+ *
+ * If the underlaying data can change, .e.g via filtering results, provide controlledPaging prop
+ * to reset paging on relevant handlers
+ */
 export function PaginatedTable<T extends WithId>({
   header,
   data,
@@ -52,24 +58,31 @@ export function PaginatedTable<T extends WithId>({
   labelDisplayedRows,
   backIconButtonProps,
   nextIconButtonProps,
+  controlledPaging,
 }: PaginatedTableProps<T>): JSX.Element {
-  const [page, setPage] = useState(0);
+  const [internalPage, setInternalPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setRowsPerPage(+event.target.value);
   };
 
+  const page = controlledPaging?.page ?? internalPage;
+  const setPage = controlledPaging?.setPage ?? setInternalPage;
+  const count = data.length;
+
   const Pagination = ({
+    page,
     showHeaderContent,
   }: {
+    page: number;
     showHeaderContent: boolean;
   }) => (
     <div className="table__head-box">
       {showHeaderContent && headerContent}
       <TablePagination
         className="table__head-box__pagination"
-        count={data.length}
+        count={count}
         component="div"
         onPageChange={(_event, newPage) => setPage(newPage)}
         page={page}
@@ -86,7 +99,7 @@ export function PaginatedTable<T extends WithId>({
 
   return (
     <>
-      <Pagination showHeaderContent={!!headerContent} />
+      <Pagination page={page} showHeaderContent={!!headerContent} />
       <Table
         className={`${className} table`}
         stickyHeader={stickyHeader}
@@ -101,40 +114,9 @@ export function PaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && <Pagination showHeaderContent={false} />}
+      {showBottomPagination && (
+        <Pagination page={page} showHeaderContent={false} />
+      )}
     </>
-  );
-}
-
-export interface NormalTableProps<T extends WithId> {
-  data: Array<T>;
-  getRowDetails: (details: T) => JSX.Element;
-  className: string;
-  header?: JSX.Element;
-  stickyHeader?: boolean;
-  size?: 'small' | 'medium';
-}
-
-export function NormalTable<T extends WithId>({
-  header,
-  data,
-  getRowDetails,
-  className,
-  stickyHeader,
-  size,
-}: NormalTableProps<T>): JSX.Element {
-  return (
-    <Table
-      className={`${className} table`}
-      stickyHeader={stickyHeader}
-      size={size}
-    >
-      {header}
-      <TableBody>
-        {data.map((val) => {
-          return <Fragment key={val.id}>{getRowDetails(val)}</Fragment>;
-        })}
-      </TableBody>
-    </Table>
   );
 }

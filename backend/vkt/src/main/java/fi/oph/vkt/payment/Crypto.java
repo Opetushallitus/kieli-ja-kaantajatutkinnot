@@ -13,7 +13,7 @@ import org.apache.commons.codec.digest.HmacUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Crypto {
 
-  public static String computeSha256Hash(final String message, final String secret) {
+  private static String computeSha256Hash(final String message, final String secret) {
     final HmacUtils hmac = new HmacUtils(HmacAlgorithms.HMAC_SHA_256, secret);
 
     return hmac.hmacHex(message).replace("-", "").toLowerCase();
