@@ -65,7 +65,6 @@ public class ClerkEnrollmentUtil {
       .builder()
       .id(person.getId())
       .version(person.getVersion())
-      .identityNumber(person.getIdentityNumber())
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
       .build();

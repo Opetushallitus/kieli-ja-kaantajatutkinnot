@@ -8,7 +8,6 @@ import {
 } from 'interfaces/common/enrollment';
 
 interface ClerkPerson extends WithId, WithVersion {
-  identityNumber: string;
   lastName: string;
   firstName: string;
 }
