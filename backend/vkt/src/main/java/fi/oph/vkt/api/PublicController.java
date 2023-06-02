@@ -17,6 +17,7 @@ import fi.oph.vkt.service.PublicExamEventService;
 import fi.oph.vkt.service.PublicPersonService;
 import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
+import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
 import java.io.IOException;
 import java.util.List;
@@ -61,6 +62,9 @@ public class PublicController {
 
   @Resource
   private PublicReservationService publicReservationService;
+
+  @Resource
+  private UIRouteUtil uiRouteUtil;
 
   @GetMapping(path = "/examEvent")
   public List<PublicExamEventDTO> list() {
@@ -124,7 +128,7 @@ public class PublicController {
     );
     SessionUtil.setPersonId(session, enrollment.getPerson().getId());
 
-    httpResponse.sendRedirect(publicAuthService.getEnrollmentPreviewUrl(examEventId));
+    httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
@@ -169,11 +173,11 @@ public class PublicController {
         publicEnrollmentService.initialiseEnrollment(examEventId, person);
       }
 
-      httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsUrl(examEventId));
+      httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
     } catch (final APIException e) {
-      httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
-      httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
 
@@ -194,9 +198,9 @@ public class PublicController {
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
-      httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
-      httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
 
@@ -252,13 +256,13 @@ public class PublicController {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
-        httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
+        httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
       }
     } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {
-        httpResponse.sendRedirect(publicAuthService.getErrorUrl());
+        httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
       }
     }
   }
