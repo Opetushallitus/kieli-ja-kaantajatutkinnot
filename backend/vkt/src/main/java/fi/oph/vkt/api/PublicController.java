@@ -122,13 +122,19 @@ public class PublicController {
     @PathVariable final String paymentLinkHash,
     final HttpSession session
   ) throws IOException {
-    final Enrollment enrollment = publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
-      examEventId,
-      paymentLinkHash
-    );
-    SessionUtil.setPersonId(session, enrollment.getPerson().getId());
+    try {
+      final Enrollment enrollment = publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+        examEventId,
+        paymentLinkHash
+      );
+      SessionUtil.setPersonId(session, enrollment.getPerson().getId());
 
-    httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
+      httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
+    } catch (final APIException e) {
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
+    } catch (final Exception e) {
+      httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
+    }
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
