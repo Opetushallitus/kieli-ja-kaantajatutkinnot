@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.0
+-- Dumped by pg_dump version 14.7 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,6 +22,7 @@ SET row_security = off;
 
 COPY public.email_type (name) FROM stdin;
 ENROLLMENT_CONFIRMATION
+ENROLLMENT_TO_QUEUE_CONFIRMATION
 \.
 
 
@@ -31,9 +32,11 @@ ENROLLMENT_CONFIRMATION
 
 COPY public.enrollment_status (name) FROM stdin;
 PAID
-EXPECTING_PAYMENT
 QUEUED
 CANCELED
+EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+CANCELED_UNFINISHED_ENROLLMENT
+SHIFTED_FROM_QUEUE
 \.
 
 

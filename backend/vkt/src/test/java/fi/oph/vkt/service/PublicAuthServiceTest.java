@@ -52,7 +52,7 @@ public class PublicAuthServiceTest {
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
 
-    publicAuthService = new PublicAuthService(personRepository, casTicketValidationService, environment);
+    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment);
   }
 
   @Test

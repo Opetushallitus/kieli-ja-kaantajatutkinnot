@@ -308,7 +308,7 @@ INSERT INTO enrollment(exam_event_id, person_id,
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3), person_id,
        true, true, true,
        true, true, true, true,
-       'EXPECTING_PAYMENT', true,
+       'SHIFTED_FROM_QUEUE', true,
        'person' || person_id::text || '@example.invalid',
        '+35840' || (1000000 + person_id)::text,
        CASE mod(person_id, 5)

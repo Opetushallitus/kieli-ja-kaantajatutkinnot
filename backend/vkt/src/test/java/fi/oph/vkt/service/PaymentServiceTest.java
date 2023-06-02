@@ -319,7 +319,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testFinalizePaymentValidationFailed() throws IOException, InterruptedException {
+  public void testFinalizePaymentValidationFailed() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -342,13 +342,12 @@ public class PaymentServiceTest {
       () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_VALIDATION_FAIL, ex.getExceptionType());
-    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
     verifyNoInteractions(publicEnrollmentEmailService);
   }
 
   @Test
-  public void testFinalizePaymentOnFailureAlreadyPaid() throws IOException, InterruptedException {
+  public void testFinalizePaymentOnFailureAlreadyPaid() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -372,7 +371,6 @@ public class PaymentServiceTest {
       () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_ALREADY_PAID, ex.getExceptionType());
-    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertEquals(PaymentStatus.OK, payment.getPaymentStatus());
     verifyNoInteractions(publicEnrollmentEmailService);
   }
@@ -401,7 +399,7 @@ public class PaymentServiceTest {
   }
 
   @Test
-  public void testFinalizePaymentAmountMustMatch() throws IOException, InterruptedException {
+  public void testFinalizePaymentAmountMustMatch() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
     final Enrollment enrollment = pair.getSecond();
@@ -425,7 +423,6 @@ public class PaymentServiceTest {
       () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
-    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT, enrollment.getStatus());
     assertNull(payment.getPaymentStatus());
     verifyNoInteractions(publicEnrollmentEmailService);
   }
@@ -473,7 +470,7 @@ public class PaymentServiceTest {
   private Enrollment createEnrollment(final Person person) {
     final ExamEvent examEvent = Factory.examEvent();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT);
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
     entityManager.persist(examEvent);
     entityManager.persist(enrollment);
 

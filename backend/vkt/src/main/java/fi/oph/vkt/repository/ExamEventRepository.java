@@ -13,7 +13,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     "SELECT new fi.oph.vkt.repository.PublicExamEventProjection(e.id, e.language, e.date, e.registrationCloses," +
     " COUNT(en), e.maxParticipants)" +
     " FROM ExamEvent e" +
-    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
+    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'SHIFTED_FROM_QUEUE' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_DATE" +
     " AND e.isHidden = false" +
@@ -37,7 +37,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
     "SELECT new fi.oph.vkt.repository.ClerkExamEventProjection(e.id, e.language, e.level, e.date," +
     " e.registrationCloses, COUNT(en), e.maxParticipants, e.isHidden)" +
     " FROM ExamEvent e" +
-    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'EXPECTING_PAYMENT' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
+    " LEFT JOIN e.enrollments en ON en.status = 'PAID' OR en.status = 'SHIFTED_FROM_QUEUE' OR en.status = 'EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT'" +
     " GROUP BY e.id"
   )
   List<ClerkExamEventProjection> listClerkExamEventProjections();

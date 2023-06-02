@@ -4,6 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
+  ClerkPaymentLink,
 } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
@@ -11,6 +12,7 @@ interface ClerkEnrollmentDetailsState {
   status: APIResponseStatus;
   moveStatus: APIResponseStatus;
   enrollment?: ClerkEnrollment;
+  paymentLink?: ClerkPaymentLink;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
@@ -24,6 +26,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
   reducers: {
     storeClerkEnrollmentDetails(state, action: PayloadAction<ClerkEnrollment>) {
       state.enrollment = action.payload;
+      state.paymentLink = initialState.paymentLink;
     },
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;
@@ -46,6 +49,16 @@ const clerkEnrollmentDetailsSlice = createSlice({
     },
     rejectClerkEnrollmentDetailsUpdate(state) {
       state.status = APIResponseStatus.Error;
+    },
+    createClerkEnrollmentPaymentLink(state, _action: PayloadAction<number>) {
+      state.status = APIResponseStatus.InProgress;
+    },
+    storeClerkEnrollmentPaymentLink(
+      state,
+      action: PayloadAction<ClerkPaymentLink>
+    ) {
+      state.status = APIResponseStatus.Success;
+      state.paymentLink = action.payload;
     },
     moveEnrollment(state, _action: PayloadAction<ClerkEnrollmentMove>) {
       state.moveStatus = APIResponseStatus.InProgress;
@@ -70,6 +83,8 @@ export const {
   updateClerkEnrollmentDetails,
   storeClerkEnrollmentDetailsUpdate,
   rejectClerkEnrollmentDetailsUpdate,
+  createClerkEnrollmentPaymentLink,
+  storeClerkEnrollmentPaymentLink,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectMoveEnrollment,

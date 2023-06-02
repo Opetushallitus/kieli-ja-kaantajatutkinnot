@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
@@ -11,9 +12,12 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,8 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final AuditService auditService;
+  private final Environment environment;
+  private final UUIDSource uuidSource;
 
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
@@ -70,5 +76,24 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     auditService.logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
 
     return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+  }
+
+  @Transactional
+  public ClerkPaymentLinkDTO createPaymentLink(final long enrollmentId) {
+    final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
+    final ExamEvent examEvent = enrollment.getExamEvent();
+    final String baseUrl = environment.getRequiredProperty("app.base-url.api");
+
+    if (enrollment.getPaymentLinkHash() == null) {
+      enrollment.setPaymentLinkHash(uuidSource.getRandomNonce());
+    }
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(1));
+    enrollmentRepository.saveAndFlush(enrollment);
+
+    return ClerkPaymentLinkDTO
+      .builder()
+      .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), enrollment.getPaymentLinkHash()))
+      .expiresAt(enrollment.getPaymentLinkExpiresAt())
+      .build();
   }
 }

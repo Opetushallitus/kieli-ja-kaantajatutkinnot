@@ -13,15 +13,17 @@ import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
-  private final PersonRepository personRepository;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
   private final PublicReservationService publicReservationService;
   private final ReservationRepository reservationRepository;
@@ -62,7 +63,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       person,
       openings,
       Optional.of(reservationDTO),
-      Optional.empty()
+      Optional.empty(),
+      true
     );
   }
 
@@ -71,7 +73,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .stream()
       .filter(e ->
         e.getStatus() == EnrollmentStatus.PAID ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT ||
+        e.getStatus() == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
         e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
       )
       .count();
@@ -95,15 +97,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .findByExamEventAndPerson(examEvent, person)
       .map(publicReservationService::createReservationDTO);
 
-    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
-      .map(this::createEnrollmentDTO);
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
 
     return createEnrollmentInitialisationDTO(
       examEvent,
       person,
       openings,
       optionalReservationDTO,
-      optionalEnrollmentDTO
+      optionalEnrollment.map(this::createEnrollmentDTO),
+      optionalEnrollment.stream().allMatch(e -> StringUtils.isEmpty(e.getPaymentLinkHash()) || e.isCancelled())
     );
   }
 
@@ -118,6 +120,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
       .writingPartialExam(enrollment.isWritingPartialExam())
       .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+      .status(enrollment.getStatus())
       .previousEnrollment(enrollment.getPreviousEnrollment())
       .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
       .email(enrollment.getEmail())
@@ -134,7 +137,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long openings,
     final Optional<PublicReservationDTO> optionalReservationDTO,
-    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO,
+    final boolean includePersonIdentity
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -149,9 +153,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final PublicPersonDTO personDTO = PublicPersonDTO
       .builder()
       .id(person.getId())
-      .identityNumber(person.getIdentityNumber())
+      .identityNumber(includePersonIdentity ? person.getIdentityNumber() : null)
+      .dateOfBirth(includePersonIdentity ? person.getDateOfBirth() : null)
       .lastName(person.getLastName())
-      .dateOfBirth(person.getDateOfBirth())
       .firstName(person.getFirstName())
       .build();
 
@@ -179,7 +183,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty());
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty(), true);
   }
 
   @Transactional
@@ -244,5 +248,25 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  @Transactional(readOnly = true)
+  public Enrollment getEnrollmentByExamEventAndPaymentLink(final long examEventId, final String paymentLinkHash) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    final Enrollment enrollment = enrollmentRepository
+      .findByExamEventAndPaymentLinkHash(examEvent, paymentLinkHash)
+      .orElseThrow(() -> new NotFoundException("Enrollment not found"));
+
+    final LocalDateTime expiresAt = enrollment.getPaymentLinkExpiresAt();
+
+    if (enrollment.getStatus() != EnrollmentStatus.SHIFTED_FROM_QUEUE) {
+      throw new APIException(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS);
+    }
+    if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {
+      throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);
+    }
+
+    return enrollment;
   }
 }

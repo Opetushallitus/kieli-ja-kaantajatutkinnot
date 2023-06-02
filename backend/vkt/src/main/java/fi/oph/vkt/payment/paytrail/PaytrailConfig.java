@@ -3,7 +3,6 @@ package fi.oph.vkt.payment.paytrail;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -27,11 +26,8 @@ public class PaytrailConfig {
     return String.format("%s/payment/%d/cancel", baseUrl, paymentId);
   }
 
+  // TODO: could be moved elsewhere, mocked in tests
   public String getTimestamp() {
     return ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
-  }
-
-  public String getRandomNonce() {
-    return UUID.randomUUID().toString();
   }
 }

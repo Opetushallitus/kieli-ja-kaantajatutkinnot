@@ -1,14 +1,10 @@
 package fi.oph.vkt.api.dto.clerk;
 
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record ClerkExamPaymentDTO(
-  @NonNull @NotNull Long id,
-  @NonNull @NotNull Integer version,
-  @NonNull @NotBlank String paymentId,
-  @NonNull @NotNull Long amount
-) {}
+public record ClerkPaymentLinkDTO(@NonNull @NotBlank String url, @NonNull @NotNull LocalDateTime expiresAt) {}

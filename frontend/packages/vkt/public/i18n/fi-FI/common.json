@@ -12,6 +12,7 @@
       },
       "choose": "Valitse",
       "clerk": "Virkailija",
+      "close": "Sulje",
       "contactEmail": "kielitutkinnot@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
@@ -61,6 +62,8 @@
           "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
           "paymentAmountMismatch": "Maksun käsittely epäonnistui",
+          "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
+          "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Ilmoittautuminen on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
           "paymentValidationFail": "Maksun käsittely epäonnistui"
         },

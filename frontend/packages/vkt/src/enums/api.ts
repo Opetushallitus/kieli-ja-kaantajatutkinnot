@@ -33,6 +33,8 @@ export enum APIError {
   TicketValidationError = 'ticketValidationError',
   PaymentAlreadyPaid = 'paymentAlreadyPaid',
   PaymentAmountMismatch = 'paymentAmountMismatch',
+  PaymentLinkHasExpired = 'paymentLinkHasExpired',
+  PaymentLinkInvalidEnrollmentStatus = 'paymentLinkInvalidEnrollmentStatus',
   PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
   PaymentValidationFail = 'paymentValidationFail',
 }

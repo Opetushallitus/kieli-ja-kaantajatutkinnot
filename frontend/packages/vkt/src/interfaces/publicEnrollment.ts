@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
 
+import { EnrollmentStatus } from 'enums/app';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
@@ -57,4 +58,5 @@ export interface PublicEnrollment
   previousEnrollment?: string;
   hasPreviousEnrollment?: boolean;
   privacyStatementConfirmation: boolean;
+  status?: EnrollmentStatus;
 }

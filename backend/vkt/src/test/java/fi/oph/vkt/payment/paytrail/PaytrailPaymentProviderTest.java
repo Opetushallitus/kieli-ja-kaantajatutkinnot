@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.vkt.util.UUIDSource;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -55,8 +56,10 @@ public class PaytrailPaymentProviderTest {
     final String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
     final WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
 
+    final UUIDSource uuidSource = mock(UUIDSource.class);
+    when(uuidSource.getRandomNonce()).thenReturn("54321-54312");
+
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
-    when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn("123456");
     when(paytrailConfig.getTimestamp()).thenReturn("2018-07-06T10:01:31.904Z");
@@ -67,7 +70,7 @@ public class PaytrailPaymentProviderTest {
     final Item item1 = getItem("foo");
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
-    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
     assertNotNull(paymentProvider.createPayment(itemList, 1L, customer, 100));
 
     final RecordedRequest request = mockWebServer.takeRequest();
@@ -100,8 +103,10 @@ public class PaytrailPaymentProviderTest {
     final String baseUrl = String.format("http://localhost:%s", mockWebServer.getPort());
     final WebClient webClient = WebClient.builder().baseUrl(baseUrl).build();
 
+    final UUIDSource uuidSource = mock(UUIDSource.class);
+    when(uuidSource.getRandomNonce()).thenReturn("54321-54312");
+
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
-    when(paytrailConfig.getRandomNonce()).thenReturn("54321-54312");
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn("123456");
     when(paytrailConfig.getTimestamp()).thenReturn("2018-07-06T10:01:31.904Z");
@@ -112,7 +117,7 @@ public class PaytrailPaymentProviderTest {
     final Item item1 = getItem("foo");
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
-    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
     final RuntimeException ex = assertThrows(
       RuntimeException.class,
       () -> paymentProvider.createPayment(itemList, 1L, customer, 100)
@@ -126,24 +131,28 @@ public class PaytrailPaymentProviderTest {
   @Test
   public void testPaytrailValidateSignature() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
-
     final String signature = "b2d3ecdda2c04563a4638fcade3d4e77dfdc58829b429ad2c2cb422d0fc64080";
     final String account = "375917";
+
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn(account);
 
     final Map<String, String> paymentParams = getMockPaymentParams(account, signature);
-    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(
+      webClient,
+      paytrailConfig,
+      new UUIDSource()
+    );
     assertTrue(paymentProvider.validate(paymentParams));
   }
 
   @Test
   public void testPaytrailValidateSignatureWithNewHeader() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
-
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
     final String account = "375917";
+
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn(account);
@@ -151,20 +160,29 @@ public class PaytrailPaymentProviderTest {
     final Map<String, String> paymentParams = getMockPaymentParams(account, signature);
     paymentParams.put("checkout-foo", "bar");
 
-    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(
+      webClient,
+      paytrailConfig,
+      new UUIDSource()
+    );
     assertTrue(paymentProvider.validate(paymentParams));
   }
 
   @Test
   public void testPaytrailValidateErrors() {
     final WebClient webClient = WebClient.builder().baseUrl("").build();
-
     final String signature = "27f1c453898413db167a28127d25c90c7dd8c7cc122ba8cf978d905cc4245121";
     final String account = "375917";
+
     final PaytrailConfig paytrailConfig = mock(PaytrailConfig.class);
     when(paytrailConfig.getSecret()).thenReturn("SAIPPUAKAUPPIAS");
     when(paytrailConfig.getAccount()).thenReturn(account);
-    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig);
+
+    final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(
+      webClient,
+      paytrailConfig,
+      new UUIDSource()
+    );
 
     // No headers
     final Map<String, String> paymentEmptyParams = new LinkedHashMap<>();

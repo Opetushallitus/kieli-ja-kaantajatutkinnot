@@ -11,7 +11,7 @@ import { PublicEnrollmentStepContents } from 'components/publicEnrollment/Public
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
+import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
@@ -81,6 +81,13 @@ export const PublicEnrollmentGrid = ({
   const hasReservation = !!reservationDetails?.reservation;
   const isExpectedToHaveOpenings = !enrollToQueue;
 
+  const isShiftedFromQueue =
+    enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
+
+  const isPaymentSumAvailable =
+    isPreviewStepActive &&
+    (reservationDetails?.reservation || isShiftedFromQueue);
+
   const renderDesktopView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -88,10 +95,12 @@ export const PublicEnrollmentGrid = ({
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             {selectedExamEvent && (
               <div className="public-enrollment__grid__form-container">
-                <PublicEnrollmentStepper
-                  activeStep={activeStep}
-                  includePaymentStep={hasReservation}
-                />
+                {!isShiftedFromQueue && (
+                  <PublicEnrollmentStepper
+                    activeStep={activeStep}
+                    includePaymentStep={hasReservation}
+                  />
+                )}
                 {reservationDetails?.reservation && !isDoneStepActive && (
                   <PublicEnrollmentTimer
                     reservation={reservationDetails.reservation}
@@ -111,7 +120,7 @@ export const PublicEnrollmentGrid = ({
                   showValidation={showValidation}
                   isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
-                {isPreviewStepActive && reservationDetails?.reservation && (
+                {isPaymentSumAvailable && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />
                 )}
                 {!isDoneStepActive && reservationDetails && (
@@ -123,6 +132,9 @@ export const PublicEnrollmentGrid = ({
                     isLoading={isLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}
+                    isPaymentLinkPreviewView={
+                      isShiftedFromQueue && isPreviewStepActive
+                    }
                   />
                 )}
               </div>
