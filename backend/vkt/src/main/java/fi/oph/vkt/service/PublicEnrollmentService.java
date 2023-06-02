@@ -72,7 +72,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .stream()
       .filter(e ->
         e.getStatus() == EnrollmentStatus.PAID ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT ||
+        e.getStatus() == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
         e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
       )
       .count();
@@ -82,9 +82,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
     final long participants = getParticipants(enrollments);
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
+    final boolean hasEnrollmentsToQueue = enrollments.stream().anyMatch(Enrollment::isEnrolledToQueue);
 
-    return hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
+    return hasEnrollmentsToQueue ? 0L : examEvent.getMaxParticipants() - participants;
   }
 
   @Transactional(readOnly = true)

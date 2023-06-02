@@ -269,7 +269,7 @@ export const ClerkEnrollmentDetailsFields = ({
   const displayPaymentInformation =
     [
       EnrollmentStatus.PAID,
-      EnrollmentStatus.EXPECTING_PAYMENT,
+      EnrollmentStatus.SHIFTED_FROM_QUEUE,
       EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
     ].includes(enrollment.status) || enrollment.payments.length > 0;
 
@@ -402,7 +402,7 @@ export const ClerkEnrollmentDetailsFields = ({
               {enrollment.payments.length > 0 && (
                 <PaymentDetails payment={enrollment.payments[0]} />
               )}
-              {enrollment.status === EnrollmentStatus.EXPECTING_PAYMENT && (
+              {enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE && (
                 <div className="columns flex-start">
                   <CustomButton
                     color={Color.Secondary}

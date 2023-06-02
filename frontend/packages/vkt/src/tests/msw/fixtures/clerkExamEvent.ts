@@ -174,7 +174,7 @@ export const clerkExamEvent = {
       speechComprehensionPartialExam: true,
       writingPartialExam: true,
       readingComprehensionPartialExam: true,
-      status: 'EXPECTING_PAYMENT',
+      status: 'SHIFTED_FROM_QUEUE',
       digitalCertificateConsent: true,
       email: 'person7@example.invalid',
       phoneNumber: '+358401000007',

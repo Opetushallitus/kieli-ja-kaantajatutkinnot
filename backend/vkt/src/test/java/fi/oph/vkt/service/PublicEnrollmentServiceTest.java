@@ -140,7 +140,7 @@ public class PublicEnrollmentServiceTest {
   public void testInitialiseEnrollmentFailsToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
     createEnrollment(examEvent, EnrollmentStatus.PAID);
-    createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(examEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
     final Person person = createPerson();
 
     final APIException ex = assertThrows(

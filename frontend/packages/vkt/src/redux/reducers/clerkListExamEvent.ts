@@ -56,7 +56,7 @@ const clerkListExamEventSlice = createSlice({
       const participants = action.payload.enrollments.filter((enrollment) =>
         [
           EnrollmentStatus.PAID,
-          EnrollmentStatus.EXPECTING_PAYMENT,
+          EnrollmentStatus.SHIFTED_FROM_QUEUE,
           EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
         ].includes(enrollment.status)
       ).length;

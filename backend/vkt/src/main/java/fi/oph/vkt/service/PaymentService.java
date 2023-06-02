@@ -83,7 +83,7 @@ public class PaymentService {
   private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> {
-        if (enrollment.isCancelled() || enrollment.getStatus() == EnrollmentStatus.QUEUED) {
+        if (enrollment.isCancelled()) {
           enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
         }
       }

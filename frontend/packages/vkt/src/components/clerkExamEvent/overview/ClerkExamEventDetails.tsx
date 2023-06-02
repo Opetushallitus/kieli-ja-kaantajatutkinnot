@@ -305,7 +305,7 @@ export const ClerkExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
-        status={EnrollmentStatus.EXPECTING_PAYMENT}
+        status={EnrollmentStatus.SHIFTED_FROM_QUEUE}
         examEventId={examEventDetails.id}
       />
       <EnrollmentList

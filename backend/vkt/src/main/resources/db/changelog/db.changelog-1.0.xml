@@ -598,4 +598,16 @@
             <column name="payment_link_expires_at" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
     </changeSet>
+
+    <changeSet id="2023-06-02-rename-enrollment-status-EXPECTING_PAYMENT" author="mikhuttu">
+        <insert tableName="enrollment_status">
+            <column name="name" value="SHIFTED_FROM_QUEUE"/>
+        </insert>
+        <sql>
+            UPDATE enrollment SET status = 'SHIFTED_FROM_QUEUE' WHERE status = 'EXPECTING_PAYMENT'
+        </sql>
+        <sql>
+            DELETE FROM enrollment_status WHERE name = 'EXPECTING_PAYMENT'
+        </sql>
+    </changeSet>
 </databaseChangeLog>

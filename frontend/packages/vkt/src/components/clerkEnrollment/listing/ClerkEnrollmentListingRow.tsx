@@ -92,7 +92,7 @@ export const ClerkEnrollmentListingRow = ({
         </TableCell>
         <TableCell sx={{ width: '20%' }} align="right">
           {[
-            EnrollmentStatus.EXPECTING_PAYMENT,
+            EnrollmentStatus.SHIFTED_FROM_QUEUE,
             EnrollmentStatus.QUEUED,
           ].includes(enrollment.status) && (
             <ChangeEnrollmentStatusButton enrollment={enrollment} />

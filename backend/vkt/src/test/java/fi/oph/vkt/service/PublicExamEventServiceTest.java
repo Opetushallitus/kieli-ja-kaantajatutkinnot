@@ -99,7 +99,7 @@ public class PublicExamEventServiceTest {
     createReservations(futureEvent1, 1, LocalDateTime.now());
 
     createEnrollment(futureEvent2, EnrollmentStatus.PAID);
-    createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
     createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
     createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 
@@ -245,7 +245,7 @@ public class PublicExamEventServiceTest {
   }
 
   @Test
-  public void testExamEventHasNoOpeningsEvenIfOneInQueue() {
+  public void testExamEventHasNoOpeningsEvenIfOneEnrolledToQueue() {
     final LocalDate now = LocalDate.now();
 
     final ExamEvent event = Factory.examEvent(ExamLanguage.FI);

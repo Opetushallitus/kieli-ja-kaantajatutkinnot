@@ -13,10 +13,10 @@
         "enrollmentStatus": {
           "CANCELED": "Peruutettu",
           "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
-          "EXPECTING_PAYMENT": "Siirretty jonosta / maksu puuttuu",
           "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
           "PAID": "Maksettu",
-          "QUEUED": "Jonossa"
+          "QUEUED": "Jonossa",
+          "SHIFTED_FROM_QUEUE": "Siirretty jonosta / maksu puuttuu"
         },
         "header": {
           "contactDetails": "Yhteystiedot",
@@ -117,11 +117,11 @@
         },
         "examEventListingHeader": {
           "CANCELED": "Peruutetut",
-          "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttaneet",
-          "EXPECTING_PAYMENT": "Jonosta siirretyt / maksu puuttuu",
-          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
+          "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
           "PAID": "Ilmoittautuneet",
-          "QUEUED": "Jonoon ilmoittautuneet"
+          "QUEUED": "Jonoon ilmoittautuneet",
+          "SHIFTED_FROM_QUEUE": "Jonosta siirretyt / maksu puuttuu"
         },
         "copyClipboard": {
           "copyAll": "Kopioi sähköpostit",
