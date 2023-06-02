@@ -54,3 +54,11 @@ export enum EnrollmentStatus {
   CANCELED = 'CANCELED',
   CANCELED_UNFINISHED_ENROLLMENT = 'CANCELED_UNFINISHED_ENROLLMENT',
 }
+
+export enum PaymentStatus {
+  NEW = 'NEW',
+  OK = 'OK',
+  FAIL = 'FAIL',
+  PENDING = 'PENDING',
+  DELAYED = 'DELAYED',
+}

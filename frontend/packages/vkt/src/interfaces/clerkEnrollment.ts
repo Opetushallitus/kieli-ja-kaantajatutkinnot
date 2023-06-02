@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { WithId, WithVersion } from 'shared/interfaces';
 
-import { EnrollmentStatus } from 'enums/app';
+import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import {
   CertificateShippingData,
   PartialExamsAndSkills,
@@ -25,7 +25,7 @@ export interface ClerkPaymentLinkResponse
 export interface ClerkPayment extends WithId, WithVersion {
   transactionId: string;
   amount: number;
-  status: string;
+  status: PaymentStatus;
   modifiedAt: Dayjs;
 }
 
