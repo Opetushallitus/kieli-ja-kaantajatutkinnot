@@ -3,7 +3,7 @@ package fi.oph.akr.scheduled;
 import fi.oph.akr.config.Constants;
 import fi.oph.akr.service.StatisticsService;
 import fi.oph.akr.util.SchedulingUtil;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

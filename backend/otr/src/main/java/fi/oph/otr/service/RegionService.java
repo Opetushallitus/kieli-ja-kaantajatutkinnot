@@ -1,7 +1,7 @@
 package fi.oph.otr.service;
 
+import jakarta.annotation.PostConstruct;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 @Service

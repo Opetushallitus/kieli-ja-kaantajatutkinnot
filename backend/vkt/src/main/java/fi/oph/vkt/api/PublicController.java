@@ -19,15 +19,15 @@ import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,7 +74,7 @@ public class PublicController {
   @PostMapping(path = "/enrollment/reservation/{reservationId:\\d+}")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentDTO createEnrollment(
-    @RequestBody @Valid PublicEnrollmentCreateDTO dto,
+    @RequestBody @Valid final PublicEnrollmentCreateDTO dto,
     @PathVariable final long reservationId,
     final HttpSession session
   ) {
@@ -86,7 +86,7 @@ public class PublicController {
   @PostMapping(path = "/enrollment/queue")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentDTO createEnrollmentToQueue(
-    @RequestBody @Valid PublicEnrollmentCreateDTO dto,
+    @RequestBody @Valid final PublicEnrollmentCreateDTO dto,
     @RequestParam final long examEventId,
     final HttpSession session
   ) {
@@ -194,7 +194,7 @@ public class PublicController {
 
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
-    @PathVariable Long enrollmentId,
+    @PathVariable final Long enrollmentId,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {

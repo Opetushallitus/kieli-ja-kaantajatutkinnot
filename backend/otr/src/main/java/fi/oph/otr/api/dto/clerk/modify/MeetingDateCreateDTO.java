@@ -1,7 +1,7 @@
 package fi.oph.otr.api.dto.clerk.modify;
 
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
 

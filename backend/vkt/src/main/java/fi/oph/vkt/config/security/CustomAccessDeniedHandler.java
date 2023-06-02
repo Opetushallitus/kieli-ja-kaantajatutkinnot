@@ -1,6 +1,6 @@
-package fi.oph.otr.config;
+package fi.oph.vkt.config.security;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;

@@ -3,8 +3,8 @@ package fi.oph.otr.service;
 import fi.oph.otr.api.dto.clerk.PersonDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.onr.OnrService;
+import jakarta.annotation.Resource;
 import java.util.Optional;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
