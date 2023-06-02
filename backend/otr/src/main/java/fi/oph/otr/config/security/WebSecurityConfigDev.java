@@ -1,7 +1,6 @@
 package fi.oph.otr.config.security;
 
 import fi.oph.otr.config.Constants;
-import fi.oph.otr.config.CustomAccessDeniedHandler;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -48,25 +47,33 @@ public class WebSecurityConfigDev {
   private Boolean devWebSecurityOff;
 
   @Bean
-  public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(final HttpSecurity httpSecurity) throws Exception {
     if (devWebSecurityOff) {
       LOG.warn("Web security is OFF");
       return WebSecurityConfig
-        .configCsrf(http)
+        .configCsrf(httpSecurity)
         .authorizeHttpRequests(registry -> registry.requestMatchers("/", "/**").permitAll().anyRequest().authenticated()
         )
         .build();
     }
     return WebSecurityConfig
-      .commonConfig(http)
+      .commonConfig(httpSecurity)
       // formLogin and httpBasic enabled for development, testing APIs manually is easier.
-      .formLogin()
-      .and()
-      .httpBasic()
-      .and()
-      .exceptionHandling()
-      .accessDeniedHandler(CustomAccessDeniedHandler.create())
-      .and()
+      .formLogin(formLoginConfigurer -> {
+        try {
+          formLoginConfigurer.init(httpSecurity);
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+      })
+      .httpBasic(httpBasicConfigurer -> httpBasicConfigurer.init(httpSecurity))
+      .exceptionHandling(exceptionHandlingConfigurer -> {
+        try {
+          exceptionHandlingConfigurer.accessDeniedHandler(CustomAccessDeniedHandler.create()).init(httpSecurity);
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+      })
       .build();
   }
 

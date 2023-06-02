@@ -1,4 +1,4 @@
-package fi.oph.vkt.config;
+package fi.oph.otr.config.security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;

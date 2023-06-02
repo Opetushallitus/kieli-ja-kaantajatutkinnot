@@ -1,7 +1,6 @@
 package fi.oph.otr.config.security;
 
 import fi.oph.otr.config.Constants;
-import fi.oph.otr.config.CustomAccessDeniedHandler;
 import fi.oph.otr.util.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
 import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
@@ -122,28 +121,36 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(
-    final HttpSecurity http,
+    final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
-    return commonConfig(http)
+    return commonConfig(httpSecurity)
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
-      .exceptionHandling()
-      .accessDeniedHandler(CustomAccessDeniedHandler.create())
-      .authenticationEntryPoint(casAuthenticationEntryPoint())
-      .and()
-      .logout()
-      .logoutRequestMatcher(new AntPathRequestMatcher(environment.getRequiredProperty("cas.logout-path")))
-      .logoutSuccessUrl(environment.getRequiredProperty("cas.logout-success-path"))
-      .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
-      .invalidateHttpSession(true)
-      .and()
+      .exceptionHandling(exceptionHandlingConfigurer -> {
+        try {
+          exceptionHandlingConfigurer
+            .accessDeniedHandler(CustomAccessDeniedHandler.create())
+            .authenticationEntryPoint(casAuthenticationEntryPoint())
+            .init(httpSecurity);
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+      })
+      .logout(logoutConfigurer ->
+        logoutConfigurer
+          .logoutRequestMatcher(new AntPathRequestMatcher(environment.getRequiredProperty("cas.logout-path")))
+          .logoutSuccessUrl(environment.getRequiredProperty("cas.logout-success-path"))
+          .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
+          .invalidateHttpSession(true)
+          .init(httpSecurity)
+      )
       .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
       .build();
   }
 
-  public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
-    return configCsrf(http)
+  public static HttpSecurity commonConfig(final HttpSecurity httpSecurity) throws Exception {
+    return configCsrf(httpSecurity)
       .authorizeHttpRequests(registry ->
         registry
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
@@ -155,7 +162,7 @@ public class WebSecurityConfig {
       );
   }
 
-  public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
+  public static HttpSecurity configCsrf(final HttpSecurity httpSecurity) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
@@ -163,7 +170,7 @@ public class WebSecurityConfig {
     final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
     requestHandler.setCsrfRequestAttributeName(null);
 
-    return http.csrf(configurer ->
+    return httpSecurity.csrf(configurer ->
       configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
     );
   }

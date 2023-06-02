@@ -19,7 +19,7 @@ public class WebSecurityConfig {
       .build();
   }
 
-  public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
+  public static HttpSecurity configCsrf(final HttpSecurity httpSecurity) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
@@ -27,7 +27,7 @@ public class WebSecurityConfig {
     final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
     requestHandler.setCsrfRequestAttributeName(null);
 
-    return http.csrf(configurer ->
+    return httpSecurity.csrf(configurer ->
       configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
     );
   }

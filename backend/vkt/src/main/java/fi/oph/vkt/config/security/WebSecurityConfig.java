@@ -1,7 +1,6 @@
 package fi.oph.vkt.config.security;
 
 import fi.oph.vkt.config.Constants;
-import fi.oph.vkt.config.CustomAccessDeniedHandler;
 import fi.oph.vkt.util.OpintopolkuCasAuthenticationFilter;
 import fi.vm.sade.javautils.kayttooikeusclient.OphUserDetailsServiceImpl;
 import org.apereo.cas.client.session.HashMapBackedSessionMappingStorage;
@@ -150,8 +149,8 @@ public class WebSecurityConfig {
       .build();
   }
 
-  public static HttpSecurity commonConfig(final HttpSecurity http) throws Exception {
-    return configCsrf(http)
+  public static HttpSecurity commonConfig(final HttpSecurity httpSecurity) throws Exception {
+    return configCsrf(httpSecurity)
       .authorizeHttpRequests(registry ->
         registry
           .requestMatchers("/api/v1/clerk/**", "/virkailija/**", "/virkailija")
@@ -163,7 +162,7 @@ public class WebSecurityConfig {
       );
   }
 
-  public static HttpSecurity configCsrf(final HttpSecurity http) throws Exception {
+  public static HttpSecurity configCsrf(final HttpSecurity httpSecurity) throws Exception {
     final CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
     csrfTokenRepository.setCookieName("CSRF");
     csrfTokenRepository.setHeaderName("CSRF");
@@ -171,7 +170,7 @@ public class WebSecurityConfig {
     final CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
     requestHandler.setCsrfRequestAttributeName(null);
 
-    return http.csrf(configurer ->
+    return httpSecurity.csrf(configurer ->
       configurer.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler)
     );
   }

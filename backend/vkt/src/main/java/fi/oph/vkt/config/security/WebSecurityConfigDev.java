@@ -1,7 +1,6 @@
 package fi.oph.vkt.config.security;
 
 import fi.oph.vkt.config.Constants;
-import fi.oph.vkt.config.CustomAccessDeniedHandler;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
