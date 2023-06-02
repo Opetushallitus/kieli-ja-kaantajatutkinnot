@@ -460,6 +460,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
 
@@ -476,11 +477,37 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
+  public void testGetEnrollmentByExamEventAndInvalidEnrollmentStatus() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.PAID);
+    enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+          examEvent.getId(),
+          enrollment.getPaymentLinkHash()
+        )
+    );
+    assertEquals(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS, ex.getExceptionType());
+  }
+
+  @Test
   public void testGetEnrollmentByExamEventAndExpiredPaymentLink() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().minusMinutes(5));
 
@@ -505,6 +532,7 @@ public class PublicEnrollmentServiceTest {
     final Person person = Factory.person();
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
     enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
 

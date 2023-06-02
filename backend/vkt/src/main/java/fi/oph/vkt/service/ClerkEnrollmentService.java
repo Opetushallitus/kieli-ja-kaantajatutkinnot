@@ -87,7 +87,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     if (enrollment.getPaymentLinkHash() == null) {
       enrollment.setPaymentLinkHash(uuidSource.getRandomNonce());
     }
-    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(2));
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(1));
     enrollmentRepository.saveAndFlush(enrollment);
 
     return ClerkPaymentLinkDTO

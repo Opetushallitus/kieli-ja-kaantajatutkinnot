@@ -24,7 +24,7 @@ public interface ExamEventRepository extends BaseRepository<ExamEvent> {
   @Query(
     "SELECT e.id" +
     " FROM ExamEvent e" +
-    " LEFT JOIN e.enrollments en ON en.status = 'SHIFTED_FROM_QUEUE' OR en.status = 'QUEUED'" +
+    " LEFT JOIN e.enrollments en ON en.status = 'QUEUED'" +
     " WHERE e.level = ?1" +
     " AND e.registrationCloses >= CURRENT_DATE" +
     " AND e.isHidden = false" +

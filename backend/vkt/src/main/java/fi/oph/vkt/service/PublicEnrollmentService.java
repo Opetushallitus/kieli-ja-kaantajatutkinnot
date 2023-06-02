@@ -82,9 +82,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final List<Enrollment> enrollments = examEvent.getEnrollments();
 
     final long participants = getParticipants(enrollments);
-    final boolean hasEnrollmentsToQueue = enrollments.stream().anyMatch(Enrollment::isEnrolledToQueue);
+    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
 
-    return hasEnrollmentsToQueue ? 0L : examEvent.getMaxParticipants() - participants;
+    return hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
   }
 
   @Transactional(readOnly = true)
@@ -260,6 +260,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final LocalDateTime expiresAt = enrollment.getPaymentLinkExpiresAt();
 
+    if (enrollment.getStatus() != EnrollmentStatus.SHIFTED_FROM_QUEUE) {
+      throw new APIException(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS);
+    }
     if (expiresAt == null || expiresAt.isBefore(LocalDateTime.now())) {
       throw new APIException(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED);
     }
