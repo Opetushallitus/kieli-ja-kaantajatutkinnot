@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,16 +97,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .findByExamEventAndPerson(examEvent, person)
       .map(publicReservationService::createReservationDTO);
 
-    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
-      .map(this::createEnrollmentDTO);
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
 
     return createEnrollmentInitialisationDTO(
       examEvent,
       person,
       openings,
       optionalReservationDTO,
-      optionalEnrollmentDTO,
-      false
+      optionalEnrollment.map(this::createEnrollmentDTO),
+      optionalEnrollment.stream().allMatch(e -> StringUtils.isEmpty(e.getPaymentLinkHash()) || e.isCancelled())
     );
   }
 
