@@ -122,22 +122,30 @@ public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(
-    final HttpSecurity http,
+    final HttpSecurity httpSecurity,
     final CasAuthenticationFilter casAuthenticationFilter
   ) throws Exception {
-    return commonConfig(http)
+    return commonConfig(httpSecurity)
       .addFilter(casAuthenticationFilter)
       .authenticationProvider(casAuthenticationProvider())
-      .exceptionHandling()
-      .accessDeniedHandler(CustomAccessDeniedHandler.create())
-      .authenticationEntryPoint(casAuthenticationEntryPoint())
-      .and()
-      .logout()
-      .logoutRequestMatcher(new AntPathRequestMatcher(environment.getRequiredProperty("cas.logout-path")))
-      .logoutSuccessUrl(environment.getRequiredProperty("cas.logout-success-path"))
-      .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
-      .invalidateHttpSession(true)
-      .and()
+      .exceptionHandling(exceptionHandlingConfigurer -> {
+        try {
+          exceptionHandlingConfigurer
+            .accessDeniedHandler(CustomAccessDeniedHandler.create())
+            .authenticationEntryPoint(casAuthenticationEntryPoint())
+            .init(httpSecurity);
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+      })
+      .logout(logoutConfigurer ->
+        logoutConfigurer
+          .logoutRequestMatcher(new AntPathRequestMatcher(environment.getRequiredProperty("cas.logout-path")))
+          .logoutSuccessUrl(environment.getRequiredProperty("cas.logout-success-path"))
+          .deleteCookies(environment.getRequiredProperty("cas.cookie-name"))
+          .invalidateHttpSession(true)
+          .init(httpSecurity)
+      )
       .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
       .build();
   }
