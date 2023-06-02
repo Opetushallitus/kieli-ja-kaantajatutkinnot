@@ -36,17 +36,17 @@ public record ClerkInterpreterCreateDTO(
 )
   implements ClerkInterpreterDTOCommonFields {
   public ClerkInterpreterCreateDTO {
-    identityNumber = StringUtil.trim(identityNumber);
-    lastName = StringUtil.trim(lastName);
-    firstName = StringUtil.trim(firstName);
-    nickName = StringUtil.trim(nickName);
-    email = StringUtil.trim(email);
-    phoneNumber = StringUtil.trim(phoneNumber);
-    otherContactInfo = StringUtil.trim(otherContactInfo);
-    street = StringUtil.trim(street);
-    postalCode = StringUtil.trim(postalCode);
-    town = StringUtil.trim(town);
-    country = StringUtil.trim(country);
-    extraInformation = StringUtil.trim(extraInformation);
+    identityNumber = StringUtil.sanitize(identityNumber);
+    lastName = StringUtil.sanitize(lastName);
+    firstName = StringUtil.sanitize(firstName);
+    nickName = StringUtil.sanitize(nickName);
+    email = StringUtil.sanitize(email);
+    phoneNumber = StringUtil.sanitize(phoneNumber);
+    otherContactInfo = StringUtil.sanitize(otherContactInfo);
+    street = StringUtil.sanitize(street);
+    postalCode = StringUtil.sanitize(postalCode);
+    town = StringUtil.sanitize(town);
+    country = StringUtil.sanitize(country);
+    extraInformation = StringUtil.sanitize(extraInformation);
   }
 }

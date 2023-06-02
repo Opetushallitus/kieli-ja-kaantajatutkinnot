@@ -20,12 +20,12 @@ public record ContactRequestDTO(
   @NonNull @NotEmpty List<Long> translatorIds
 ) {
   public ContactRequestDTO {
-    firstName = StringUtil.trim(firstName);
-    lastName = StringUtil.trim(lastName);
-    email = StringUtil.trim(email);
-    phoneNumber = StringUtil.trim(phoneNumber);
-    message = StringUtil.trim(message);
-    fromLang = StringUtil.trim(fromLang);
-    toLang = StringUtil.trim(toLang);
+    firstName = StringUtil.sanitize(firstName);
+    lastName = StringUtil.sanitize(lastName);
+    email = StringUtil.sanitize(email);
+    phoneNumber = StringUtil.sanitize(phoneNumber);
+    message = StringUtil.sanitize(message);
+    fromLang = StringUtil.sanitize(fromLang);
+    toLang = StringUtil.sanitize(toLang);
   }
 }

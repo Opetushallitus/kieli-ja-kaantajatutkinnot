@@ -136,7 +136,7 @@ public class ClerkEmailServiceTest {
 
         assertEquals(translator.getFullName(), emailData.recipientName());
         assertEquals(translator.getEmail(), emailData.recipientAddress());
-        assertEquals("otsikko<ääkköset>", emailData.subject());
+        assertEquals("otsikko&lt;ääkköset&gt;", emailData.subject());
         assertEquals("<p>viesti</p>", emailData.body());
       });
   }
