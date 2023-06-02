@@ -227,7 +227,7 @@ export const ClerkEnrollmentDetailsFields = ({
       <div className="rows gapped">
         <div className="margin-top-lg columns gapped">
           <div className="columns margin-top-lg grow">
-            <H3>{t('header.nameAndSSN')}</H3>
+            <H3>{t('header.personalInformation')}</H3>
           </div>
         </div>
         <div className="columns align-items-start gapped">

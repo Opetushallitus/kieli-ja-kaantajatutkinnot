@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -35,6 +36,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 @WithMockUser
 @DataJpaTest
@@ -256,7 +258,6 @@ public class ClerkExamEventServiceTest {
   private void assertPersonDTO(final Person expected, final ClerkPersonDTO personDTO) {
     assertEquals(expected.getId(), personDTO.id());
     assertEquals(expected.getVersion(), personDTO.version());
-    assertEquals(expected.getIdentityNumber(), personDTO.identityNumber());
     assertEquals(expected.getLastName(), personDTO.lastName());
     assertEquals(expected.getFirstName(), personDTO.firstName());
   }
@@ -381,5 +382,21 @@ public class ClerkExamEventServiceTest {
       .registrationCloses(examEvent.getRegistrationCloses().plusDays(1))
       .isHidden(!examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants() + 1);
+  }
+
+  @Test
+  public void testGetExamEventExcel() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final AbstractXlsxView excel = clerkExamEventService.getExamEventExcel(examEvent.getId());
+    assertNotNull(excel);
+
+    verify(auditService).logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEvent.getId());
   }
 }

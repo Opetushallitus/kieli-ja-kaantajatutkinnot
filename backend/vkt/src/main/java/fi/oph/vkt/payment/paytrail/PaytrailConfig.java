@@ -1,10 +1,9 @@
 package fi.oph.vkt.payment.paytrail;
 
-import static java.util.UUID.randomUUID;
-
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,7 +20,7 @@ public class PaytrailConfig {
   private final String baseUrl;
 
   public String getSuccessUrl(final Long paymentId) {
-    return String.format("%s/payment/%s/success", baseUrl, paymentId);
+    return String.format("%s/payment/%d/success", baseUrl, paymentId);
   }
 
   public String getCancelUrl(final Long paymentId) {
@@ -33,6 +32,6 @@ public class PaytrailConfig {
   }
 
   public String getRandomNonce() {
-    return randomUUID().toString();
+    return UUID.randomUUID().toString();
   }
 }

@@ -15,7 +15,7 @@ public record InformalEmailRequestDTO(
   @NonNull @NotEmpty List<Long> translatorIds
 ) {
   public InformalEmailRequestDTO {
-    subject = StringUtil.trim(subject);
-    body = StringUtil.trim(body);
+    subject = StringUtil.sanitize(subject);
+    body = StringUtil.sanitize(body);
   }
 }

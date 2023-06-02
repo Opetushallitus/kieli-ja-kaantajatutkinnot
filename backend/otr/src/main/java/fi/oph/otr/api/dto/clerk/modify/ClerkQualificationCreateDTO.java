@@ -22,6 +22,8 @@ public record ClerkQualificationCreateDTO(
 )
   implements ClerkQualificationDTOCommonFields {
   public ClerkQualificationCreateDTO {
-    diaryNumber = StringUtil.trim(diaryNumber);
+    fromLang = StringUtil.sanitize(fromLang);
+    toLang = StringUtil.sanitize(toLang);
+    diaryNumber = StringUtil.sanitize(diaryNumber);
   }
 }

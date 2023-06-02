@@ -4,13 +4,15 @@ import fi.oph.vkt.payment.paytrail.Customer;
 import fi.oph.vkt.payment.paytrail.Item;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import java.util.List;
-import lombok.NonNull;
+import java.util.Map;
 
 public interface PaymentProvider {
   PaytrailResponseDTO createPayment(
-    @NonNull final List<Item> itemList,
+    final List<Item> itemList,
     final Long paymentId,
     final Customer customer,
-    final int total
+    final int amount
   );
+
+  boolean validate(final Map<String, String> paymentParams);
 }

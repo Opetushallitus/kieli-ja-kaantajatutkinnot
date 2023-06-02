@@ -1,16 +1,10 @@
-package fi.oph.vkt.service;
+package fi.oph.vkt.payment.paytrail;
 
 import static fi.oph.vkt.payment.Crypto.calculateHmac;
 import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.vkt.payment.PaymentProvider;
-import fi.oph.vkt.payment.paytrail.Body;
-import fi.oph.vkt.payment.paytrail.Customer;
-import fi.oph.vkt.payment.paytrail.Item;
-import fi.oph.vkt.payment.paytrail.PaytrailConfig;
-import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
-import fi.oph.vkt.payment.paytrail.RedirectUrls;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,20 +13,18 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-@Service
 @RequiredArgsConstructor
-public class PaytrailService implements PaymentProvider {
+public class PaytrailPaymentProvider implements PaymentProvider {
 
   @Value("${spring.profiles.active:}")
   private String activeProfile;
 
-  private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PaytrailPaymentProvider.class);
 
   private final WebClient paytrailWebClient;
   private final PaytrailConfig paytrailConfig;
@@ -50,8 +42,9 @@ public class PaytrailService implements PaymentProvider {
     return headers;
   }
 
-  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int total) {
+  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int amount) {
     final String stamp = paymentId.toString() + "-" + paytrailConfig.getRandomNonce();
+
     final RedirectUrls redirectUrls = RedirectUrls
       .builder()
       .success(paytrailConfig.getSuccessUrl(paymentId))
@@ -63,31 +56,31 @@ public class PaytrailService implements PaymentProvider {
       .cancel(paytrailConfig.getCancelUrl(paymentId) + "?callback=true")
       .build();
 
-    final Body.BodyBuilder bodyBuilder = Body.builder();
-
-    bodyBuilder
+    final Body.BodyBuilder bodyBuilder = Body
+      .builder()
       .items(itemList)
       .stamp(stamp)
       .reference(paymentId.toString())
-      .amount(total)
+      .amount(amount)
       .currency(PaytrailConfig.CURRENCY)
       .language("FI") // TODO: käyttäjän kielestä?
       .customer(customer)
       .redirectUrls(redirectUrls);
 
-    // localhost callback url's are not allowed
     if (activeProfile == null || !activeProfile.equals("dev")) {
-      bodyBuilder.callbackUrls(callbackUrls);
+      return bodyBuilder.callbackUrls(callbackUrls).build();
     }
 
+    // localhost callback urls are not allowed
     return bodyBuilder.build();
   }
 
+  @Override
   public PaytrailResponseDTO createPayment(
     @NonNull final List<Item> itemList,
     final Long paymentId,
     final Customer customer,
-    final int total
+    final int amount
   ) {
     if (itemList.isEmpty()) {
       throw new RuntimeException("itemList is required");
@@ -95,7 +88,7 @@ public class PaytrailService implements PaymentProvider {
 
     final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList, paymentId, customer, total);
+    final Body body = getBody(itemList, paymentId, customer, amount);
     final String secret = paytrailConfig.getSecret();
 
     String bodyJson = null;
@@ -103,6 +96,7 @@ public class PaytrailService implements PaymentProvider {
       bodyJson = objectMapper.writeValueAsString(body);
       final String hash = calculateHmac(secret, headers, bodyJson);
       headers.put("signature", hash);
+
       final String response = paytrailWebClient
         .post()
         .uri("/payments")
@@ -117,7 +111,7 @@ public class PaytrailService implements PaymentProvider {
         .block();
 
       return objectMapper.readValue(response, PaytrailResponseDTO.class);
-    } catch (WebClientResponseException e) {
+    } catch (final WebClientResponseException e) {
       LOG.error(
         "Paytrail returned error status {}\n response body: {}\n request body: {}\n paytrail headers: \n\t{}",
         e.getStatusCode().value(),
@@ -126,7 +120,7 @@ public class PaytrailService implements PaymentProvider {
         String.join("\n\t", collectHeaders(headers))
       );
       throw new RuntimeException(e);
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
   }
@@ -141,6 +135,7 @@ public class PaytrailService implements PaymentProvider {
     );
   }
 
+  @Override
   public boolean validate(final Map<String, String> paymentParams) {
     final String secret = paytrailConfig.getSecret();
     final String hash = calculateHmac(secret, paymentParams, "");
@@ -149,23 +144,23 @@ public class PaytrailService implements PaymentProvider {
     final String signature = paymentParams.get("signature");
 
     if (!hasRequiredHeaders(paymentParams)) {
-      LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams);
-      throw new RuntimeException("Invalid headers");
+      LOG.error("Paytrail missing required headers. Given headers: {}", paymentParams.keySet());
+      return false;
     }
 
     if (!account.equals(paytrailConfig.getAccount())) {
       LOG.error("Paytrail account mismatch: response: {} != config: {}", account, paytrailConfig.getAccount());
-      throw new RuntimeException("Account mismatch");
+      return false;
     }
 
     if (!algorithm.equals(PaytrailConfig.HMAC_ALGORITHM)) {
       LOG.error("Paytrail algorithm mismatch: response: {} != config: {}", algorithm, PaytrailConfig.HMAC_ALGORITHM);
-      throw new RuntimeException("Unknown algorithm");
+      return false;
     }
 
     if (!hash.equals(signature)) {
       LOG.error("Paytrail signature mismatch: response: {} != calculated: {}", signature, hash);
-      throw new RuntimeException("Signature mismatch");
+      return false;
     }
 
     return true;

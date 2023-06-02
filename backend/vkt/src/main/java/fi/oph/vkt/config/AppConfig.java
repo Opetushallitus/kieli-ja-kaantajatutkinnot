@@ -1,6 +1,8 @@
 package fi.oph.vkt.config;
 
+import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.PaytrailConfig;
+import fi.oph.vkt.payment.paytrail.PaytrailPaymentProvider;
 import fi.oph.vkt.service.auth.ticketValidator.CasTicketValidator;
 import fi.oph.vkt.service.email.sender.EmailSender;
 import fi.oph.vkt.service.email.sender.EmailSenderNoOp;
@@ -38,18 +40,19 @@ public class AppConfig {
   }
 
   @Bean
-  public PaytrailConfig paytrailConfig(final Environment environment) {
-    return PaytrailConfig
+  public PaymentProvider paytrailPaymentProvider(final Environment environment) {
+    final PaytrailConfig paytrailConfig = PaytrailConfig
       .builder()
       .secret(environment.getRequiredProperty("app.payment.paytrail.secret"))
       .account(environment.getRequiredProperty("app.payment.paytrail.account"))
       .baseUrl(environment.getRequiredProperty("app.payment.paytrail.return-base-url"))
       .build();
-  }
 
-  @Bean
-  public WebClient paytrailWebClient(final Environment environment) {
-    return webClientBuilderWithCallerId().baseUrl(environment.getRequiredProperty("app.payment.paytrail.url")).build();
+    final WebClient webClient = webClientBuilderWithCallerId()
+      .baseUrl(environment.getRequiredProperty("app.payment.paytrail.url"))
+      .build();
+
+    return new PaytrailPaymentProvider(webClient, paytrailConfig);
   }
 
   @Bean

@@ -22,8 +22,8 @@ public record AuthorisationCreateDTO(
 )
   implements AuthorisationDTOCommonFields {
   public AuthorisationCreateDTO {
-    from = StringUtil.trim(from);
-    to = StringUtil.trim(to);
-    diaryNumber = StringUtil.trim(diaryNumber);
+    from = StringUtil.sanitize(from);
+    to = StringUtil.sanitize(to);
+    diaryNumber = StringUtil.sanitize(diaryNumber);
   }
 }

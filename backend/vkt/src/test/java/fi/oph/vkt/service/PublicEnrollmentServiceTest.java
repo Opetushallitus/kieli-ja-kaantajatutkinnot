@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicPersonDTO;
@@ -73,7 +74,6 @@ public class PublicEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() throws IOException, InterruptedException {
-    doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentConfirmationEmail(any());
     doNothing().when(publicEnrollmentEmailServiceMock).sendEnrollmentToQueueConfirmationEmail(any(), any());
 
     final Environment environment = mock(Environment.class);
@@ -327,7 +327,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
 
     assertEquals(0, reservationRepository.count());
   }
@@ -345,7 +345,62 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(false).build();
 
     publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
-    assertCreatedEnrollment(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+    assertCreatedEnrollment(0L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+  }
+
+  @Test
+  public void testCreateEnrollmentReplacingExistingEnrollment() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+
+    final Enrollment existingEnrollment = Factory.enrollment(examEvent, person);
+    existingEnrollment.setStatus(EnrollmentStatus.CANCELED);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+    entityManager.persist(existingEnrollment);
+
+    final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
+
+    publicEnrollmentService.createEnrollment(dto, reservation.getId(), person);
+    assertCreatedEnrollment(1L, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, dto);
+  }
+
+  @Test
+  public void testCreateEnrollmentSanitizeHTML() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Reservation reservation = Factory.reservation(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(reservation);
+
+    final PublicEnrollmentCreateDTO dto = createDTOBuilder()
+      .previousEnrollment("<b>Foobar</b>")
+      .email("<a>foo@bar.foo")
+      .phoneNumber("<asd>04012345")
+      .street("<script>alert('baa')</script>")
+      .postalCode("<body>00000</body>")
+      .town("<i>Kaupunki</i>")
+      .country("<3")
+      .digitalCertificateConsent(false)
+      .build();
+
+    final PublicEnrollmentDTO publicEnrollmentDTO = publicEnrollmentService.createEnrollment(
+      dto,
+      reservation.getId(),
+      person
+    );
+    assertEquals("Foobar", publicEnrollmentDTO.previousEnrollment());
+    assertEquals("foo@bar.foo", publicEnrollmentDTO.email());
+    assertEquals("04012345", publicEnrollmentDTO.phoneNumber());
+    assertEquals("", publicEnrollmentDTO.street());
+    assertEquals("00000", publicEnrollmentDTO.postalCode());
+    assertEquals("Kaupunki", publicEnrollmentDTO.town());
+    assertEquals("&lt;3", publicEnrollmentDTO.country());
   }
 
   private PublicEnrollmentCreateDTO.PublicEnrollmentCreateDTOBuilder createDTOBuilder() {
@@ -367,12 +422,16 @@ public class PublicEnrollmentServiceTest {
       .country("Maa");
   }
 
-  private void assertCreatedEnrollment(final EnrollmentStatus expectedStatus, final PublicEnrollmentCreateDTO dto) {
+  private void assertCreatedEnrollment(
+    final long expectedVersion,
+    final EnrollmentStatus expectedStatus,
+    final PublicEnrollmentCreateDTO dto
+  ) {
     final List<Enrollment> enrollments = enrollmentRepository.findAll();
     assertEquals(1, enrollments.size());
 
     final Enrollment enrollment = enrollments.get(0);
-    assertEquals(0L, enrollment.getVersion());
+    assertEquals(expectedVersion, enrollment.getVersion());
     assertEquals(dto.oralSkill(), enrollment.isOralSkill());
     assertEquals(dto.textualSkill(), enrollment.isTextualSkill());
     assertEquals(dto.understandingSkill(), enrollment.isUnderstandingSkill());
@@ -400,7 +459,7 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
-  public void testCreateEnrollmentToQueue() throws IOException, InterruptedException {
+  public void testCreateEnrollmentToQueue() {
     final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
 
@@ -409,10 +468,29 @@ public class PublicEnrollmentServiceTest {
 
     final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
 
-    publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person.getId());
-    assertCreatedEnrollment(EnrollmentStatus.QUEUED, dto);
+    publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person);
 
-    verify(publicEnrollmentEmailServiceMock, times(0)).sendEnrollmentConfirmationEmail(any());
+    assertCreatedEnrollment(0L, EnrollmentStatus.QUEUED, dto);
+    verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+  }
+
+  @Test
+  public void testCreateEnrollmentToQueueReplacingExistingEnrollment() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+
+    final Enrollment existingEnrollment = Factory.enrollment(examEvent, person);
+    existingEnrollment.setStatus(EnrollmentStatus.CANCELED);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(existingEnrollment);
+
+    final PublicEnrollmentCreateDTO dto = createDTOBuilder().digitalCertificateConsent(true).build();
+
+    publicEnrollmentService.createEnrollmentToQueue(dto, examEvent.getId(), person);
+
+    assertCreatedEnrollment(1L, EnrollmentStatus.QUEUED, dto);
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
   }
 }

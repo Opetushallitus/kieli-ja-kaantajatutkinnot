@@ -5,6 +5,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -17,13 +18,18 @@ import fi.oph.vkt.service.PublicReservationService;
 import fi.oph.vkt.util.SessionUtil;
 import fi.oph.vkt.util.exception.APIException;
 import jakarta.annotation.Resource;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,9 +91,12 @@ public class PublicController {
   ) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person.getId());
+    return publicEnrollmentService.createEnrollmentToQueue(dto, examEventId, person);
   }
 
+  /**
+   * Returns info about enrollment when refreshing a page during an enrollment step
+   */
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
     @PathVariable final long examEventId,
@@ -148,9 +157,9 @@ public class PublicController {
       }
 
       httpResponse.sendRedirect(publicAuthService.getEnrollmentContactDetailsURL(examEventId));
-    } catch (APIException e) {
+    } catch (final APIException e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl());
     }
   }
@@ -171,40 +180,10 @@ public class PublicController {
       final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
 
       httpResponse.sendRedirect(redirectUrl);
-    } catch (APIException e) {
+    } catch (final APIException e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
-    } catch (Exception e) {
+    } catch (final Exception e) {
       httpResponse.sendRedirect(publicAuthService.getErrorUrl());
-    }
-  }
-
-  @GetMapping(path = "/payment/{paymentId:\\d+}/cancel")
-  public void paymentCancel(
-    @PathVariable final Long paymentId,
-    @RequestParam final Map<String, String> paymentParams,
-    @RequestParam final Optional<Boolean> callback,
-    final HttpServletResponse httpResponse
-  ) throws IOException {
-    try {
-      final String cancelUrl = paymentService.cancel(paymentId, paymentParams);
-
-      if (callback.isPresent() && callback.get()) {
-        httpResponse.setStatus(HttpStatus.OK.value());
-      } else {
-        httpResponse.sendRedirect(cancelUrl);
-      }
-    } catch (APIException e) {
-      if (callback.isPresent() && callback.get()) {
-        httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-      } else {
-        httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
-      }
-    } catch (Exception e) {
-      if (callback.isPresent() && callback.get()) {
-        httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-      } else {
-        httpResponse.sendRedirect(publicAuthService.getErrorUrl());
-      }
     }
   }
 
@@ -215,21 +194,54 @@ public class PublicController {
     @RequestParam final Optional<Boolean> callback,
     final HttpServletResponse httpResponse
   ) throws IOException {
+    handleFinalizePayment(
+      paymentId,
+      paymentParams,
+      callback,
+      httpResponse,
+      paymentService::getFinalizePaymentSuccessRedirectUrl
+    );
+  }
+
+  @GetMapping(path = "/payment/{paymentId:\\d+}/cancel")
+  public void paymentCancel(
+    @PathVariable final Long paymentId,
+    @RequestParam final Map<String, String> paymentParams,
+    @RequestParam final Optional<Boolean> callback,
+    final HttpServletResponse httpResponse
+  ) throws IOException {
+    handleFinalizePayment(
+      paymentId,
+      paymentParams,
+      callback,
+      httpResponse,
+      paymentService::getFinalizePaymentCancelRedirectUrl
+    );
+  }
+
+  private void handleFinalizePayment(
+    final Long paymentId,
+    final Map<String, String> paymentParams,
+    final Optional<Boolean> callback,
+    final HttpServletResponse httpResponse,
+    final Function<Payment, String> getRedirectUrlFunction
+  ) throws IOException {
     try {
-      final String successUrl = paymentService.success(paymentId, paymentParams);
+      final Payment payment = paymentService.finalizePayment(paymentId, paymentParams);
+      final String redirectUrl = getRedirectUrlFunction.apply(payment);
 
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.OK.value());
       } else {
-        httpResponse.sendRedirect(successUrl);
+        httpResponse.sendRedirect(redirectUrl);
       }
-    } catch (APIException e) {
+    } catch (final APIException e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
         httpResponse.sendRedirect(publicAuthService.getErrorUrl(e.getExceptionType()));
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {

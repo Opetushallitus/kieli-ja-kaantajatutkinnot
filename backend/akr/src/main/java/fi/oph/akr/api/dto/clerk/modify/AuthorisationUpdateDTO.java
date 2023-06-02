@@ -24,8 +24,8 @@ public record AuthorisationUpdateDTO(
 )
   implements AuthorisationDTOCommonFields {
   public AuthorisationUpdateDTO {
-    from = StringUtil.trim(from);
-    to = StringUtil.trim(to);
-    diaryNumber = StringUtil.trim(diaryNumber);
+    from = StringUtil.sanitize(from);
+    to = StringUtil.sanitize(to);
+    diaryNumber = StringUtil.sanitize(diaryNumber);
   }
 }

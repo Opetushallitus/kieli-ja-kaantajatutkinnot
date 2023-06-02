@@ -60,7 +60,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     if (enrollment.getExamEvent().getLanguage() != toExamEvent.getLanguage()) {
       throw new APIException(APIExceptionType.ENROLLMENT_MOVE_EXAM_EVENT_LANGUAGE_MISMATCH);
     }
-    if (isPersonEnrolled(toExamEvent, enrollment.getPerson(), enrollmentRepository)) {
+    if (findEnrollment(toExamEvent, enrollment.getPerson(), enrollmentRepository).isPresent()) {
       throw new APIException(APIExceptionType.ENROLLMENT_MOVE_PERSON_ALREADY_ENROLLED);
     }
 

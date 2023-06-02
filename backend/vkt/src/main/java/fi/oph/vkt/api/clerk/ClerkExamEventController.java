@@ -7,7 +7,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.service.ClerkExamEventService;
-import fi.oph.vkt.view.ExamEventXlsxView;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -56,9 +55,8 @@ public class ClerkExamEventController {
   }
 
   @GetMapping(value = "/{examEventId:\\d+}/excel")
-  @Operation(tags = TAG_EXAM_EVENT, summary = "Download exam event excel")
+  @Operation(tags = TAG_EXAM_EVENT, summary = "Download excel of enrollments to exam event")
   public AbstractXlsxView getExamEventExcel(@PathVariable final long examEventId) {
-    final ClerkExamEventDTO examEvent = clerkExamEventService.getExamEvent(examEventId);
-    return new ExamEventXlsxView(examEvent);
+    return clerkExamEventService.getExamEventExcel(examEventId);
   }
 }

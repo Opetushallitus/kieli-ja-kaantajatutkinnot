@@ -76,6 +76,7 @@ public class PublicAuthService {
     final Optional<Person> optionalPerson = identityNumber != null && !identityNumber.isEmpty()
       ? personRepository.findByIdentityNumber(identityNumber)
       : personRepository.findByOtherIdentifier(otherIdentifier);
+
     return optionalPerson.orElseGet(() ->
       createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
     );
@@ -87,7 +88,7 @@ public class PublicAuthService {
     return String.format("%s/etusivu?error=generic", baseUrl);
   }
 
-  public String getErrorUrl(APIExceptionType exceptionType) {
+  public String getErrorUrl(final APIExceptionType exceptionType) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
 
     return String.format("%s/etusivu?error=%s", baseUrl, exceptionType.getCode());

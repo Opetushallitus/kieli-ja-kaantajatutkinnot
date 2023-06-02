@@ -57,7 +57,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, Optional.empty());
+    return createEnrollmentInitialisationDTO(
+      examEvent,
+      person,
+      openings,
+      Optional.of(reservationDTO),
+      Optional.empty()
+    );
   }
 
   private long getParticipants(final List<Enrollment> enrollments) {
@@ -81,16 +87,24 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(readOnly = true)
-  public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(long examEventId, Person person) {
+  public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Optional<Reservation> optionalReservation = reservationRepository.findByExamEventAndPerson(examEvent, person);
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
-    final PublicReservationDTO reservationDTO = optionalReservation
-      .map(publicReservationService::createReservationDTO)
-      .orElse(null);
     final long openings = getOpenings(examEvent);
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, reservationDTO, optionalEnrollment);
+    final Optional<PublicReservationDTO> optionalReservationDTO = reservationRepository
+      .findByExamEventAndPerson(examEvent, person)
+      .map(publicReservationService::createReservationDTO);
+
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
+      .map(this::createEnrollmentDTO);
+
+    return createEnrollmentInitialisationDTO(
+      examEvent,
+      person,
+      openings,
+      optionalReservationDTO,
+      optionalEnrollmentDTO
+    );
   }
 
   private PublicEnrollmentDTO createEnrollmentDTO(final Enrollment enrollment) {
@@ -119,8 +133,8 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final ExamEvent examEvent,
     final Person person,
     final long openings,
-    final PublicReservationDTO reservationDTO,
-    final Optional<Enrollment> optionalEnrollment
+    final Optional<PublicReservationDTO> optionalReservationDTO,
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -141,20 +155,13 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .firstName(person.getFirstName())
       .build();
 
-    return optionalEnrollment.isPresent()
-      ? PublicEnrollmentInitialisationDTO
-        .builder()
-        .examEvent(examEventDTO)
-        .person(personDTO)
-        .reservation(reservationDTO)
-        .enrollment(createEnrollmentDTO(optionalEnrollment.get()))
-        .build()
-      : PublicEnrollmentInitialisationDTO
-        .builder()
-        .examEvent(examEventDTO)
-        .person(personDTO)
-        .reservation(reservationDTO)
-        .build();
+    return PublicEnrollmentInitialisationDTO
+      .builder()
+      .examEvent(examEventDTO)
+      .person(personDTO)
+      .reservation(optionalReservationDTO.orElse(null))
+      .enrollment(optionalEnrollmentDTO.orElse(null))
+      .build();
   }
 
   @Transactional(readOnly = true)
@@ -172,7 +179,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, null, Optional.empty());
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty());
   }
 
   @Transactional
@@ -182,41 +189,40 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person
   ) {
     final Reservation reservation = reservationRepository.getReferenceById(reservationId);
+    final ExamEvent examEvent = reservation.getExamEvent();
 
     if (person.getId() != reservation.getPerson().getId()) {
       throw new APIException(APIExceptionType.RESERVATION_PERSON_SESSION_MISMATCH);
     }
 
-    deleteEnrollmentIfExists(reservation, person);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+    );
+    reservationRepository.deleteById(reservationId);
 
-    final Enrollment enrollment = new Enrollment();
-    enrollment.setExamEvent(reservation.getExamEvent());
-    enrollment.setPerson(reservation.getPerson());
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    return createEnrollmentDTO(enrollment);
+  }
+
+  private Enrollment createOrUpdateExistingEnrollment(
+    final PublicEnrollmentCreateDTO dto,
+    final ExamEvent examEvent,
+    final Person person,
+    final EnrollmentStatus enrollmentStatus
+  ) {
+    final Enrollment enrollment = findEnrollment(examEvent, person, enrollmentRepository).orElse(new Enrollment());
+    enrollment.setExamEvent(examEvent);
+    enrollment.setPerson(person);
+    enrollment.setStatus(enrollmentStatus);
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     if (dto.digitalCertificateConsent()) {
       clearAddress(enrollment);
     }
 
-    enrollmentRepository.saveAndFlush(enrollment);
-    reservationRepository.deleteById(reservationId);
-
-    return createEnrollmentDTO(enrollment);
-  }
-
-  private void deleteEnrollmentIfExists(Reservation reservation, Person person) {
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(
-      reservation.getExamEvent(),
-      person,
-      enrollmentRepository
-    );
-
-    if (optionalEnrollment.isPresent()) {
-      final Enrollment enrollment = optionalEnrollment.get();
-      enrollmentRepository.delete(enrollment);
-      enrollmentRepository.saveAndFlush(enrollment);
-    }
+    return enrollmentRepository.saveAndFlush(enrollment);
   }
 
   private void clearAddress(final Enrollment enrollment) {
@@ -230,22 +236,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public PublicEnrollmentDTO createEnrollmentToQueue(
     final PublicEnrollmentCreateDTO dto,
     final long examEventId,
-    final long personId
+    final Person person
   ) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final Person person = personRepository.getReferenceById(personId);
-
-    final Enrollment enrollment = new Enrollment();
-    enrollment.setExamEvent(examEvent);
-    enrollment.setPerson(person);
-    enrollment.setStatus(EnrollmentStatus.QUEUED);
-
-    copyDtoFieldsToEnrollment(enrollment, dto);
-    if (dto.digitalCertificateConsent()) {
-      clearAddress(enrollment);
-    }
-
-    enrollmentRepository.saveAndFlush(enrollment);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(dto, examEvent, person, EnrollmentStatus.QUEUED);
 
     publicEnrollmentEmailService.sendEnrollmentToQueueConfirmationEmail(enrollment, person);
 

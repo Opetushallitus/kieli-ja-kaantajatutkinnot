@@ -9,13 +9,13 @@ import lombok.NonNull;
 
 @Builder
 public record Body(
+  @NonNull @NotNull List<Item> items,
   @NonNull @NotNull @Size(max = 200) String stamp,
   @NonNull @NotNull @Size(max = 200) String reference,
   @NonNull @NotNull Integer amount,
   @NonNull @NotNull String currency,
   @NonNull @NotNull String language,
-  @NonNull @NotNull List<Item> items,
+  @NonNull @NotNull Customer customer,
   @NonNull @NotNull RedirectUrls redirectUrls,
-  @JsonInclude(JsonInclude.Include.NON_NULL) RedirectUrls callbackUrls,
-  @NonNull @NotNull Customer customer
+  @JsonInclude(JsonInclude.Include.NON_NULL) RedirectUrls callbackUrls
 ) {}
