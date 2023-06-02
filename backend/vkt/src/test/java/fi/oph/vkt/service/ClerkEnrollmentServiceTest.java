@@ -2,15 +2,19 @@ package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
@@ -20,15 +24,18 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -51,7 +58,14 @@ class ClerkEnrollmentServiceTest {
 
   @BeforeEach
   public void setup() {
-    clerkEnrollmentService = new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService);
+    final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
+
+    final UUIDSource uuidSource = mock(UUIDSource.class);
+    when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
+
+    clerkEnrollmentService =
+      new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService, environment, uuidSource);
   }
 
   @Test
@@ -227,5 +241,26 @@ class ClerkEnrollmentServiceTest {
       .version(enrollment.getVersion())
       .toExamEventId(event.getId())
       .build();
+  }
+
+  @Test
+  public void testCreatePaymentLink() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ClerkPaymentLinkDTO clerkPaymentLinkDTO = clerkEnrollmentService.createPaymentLink(enrollment.getId());
+    final String expectedUrl = String.format(
+      "http://localhost/examEvent/%d/redirect/269a2da4-58bb-45eb-b125-522b77e9167c",
+      examEvent.getId()
+    );
+
+    assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
+    assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());
+    assertTrue(enrollment.getPaymentLinkExpiresAt().isAfter(LocalDateTime.now()));
   }
 }

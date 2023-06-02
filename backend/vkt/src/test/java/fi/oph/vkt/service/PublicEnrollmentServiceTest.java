@@ -26,10 +26,10 @@ import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
-import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.time.Duration;
@@ -58,9 +58,6 @@ public class PublicEnrollmentServiceTest {
   @Resource
   private ExamEventRepository examEventRepository;
 
-  @Resource
-  private PersonRepository personRepository;
-
   @MockBean
   private PublicEnrollmentEmailService publicEnrollmentEmailServiceMock;
 
@@ -87,7 +84,6 @@ public class PublicEnrollmentServiceTest {
       new PublicEnrollmentService(
         enrollmentRepository,
         examEventRepository,
-        personRepository,
         publicEnrollmentEmailServiceMock,
         publicReservationService,
         reservationRepository
@@ -145,7 +141,7 @@ public class PublicEnrollmentServiceTest {
   public void testInitialiseEnrollmentFailsToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
     createEnrollment(examEvent, EnrollmentStatus.PAID);
-    createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(examEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
     final Person person = createPerson();
 
     final APIException ex = assertThrows(
@@ -492,5 +488,98 @@ public class PublicEnrollmentServiceTest {
 
     assertCreatedEnrollment(1L, EnrollmentStatus.QUEUED, dto);
     verify(publicEnrollmentEmailServiceMock, times(1)).sendEnrollmentToQueueConfirmationEmail(any(), any());
+  }
+
+  @Test
+  public void testGetEnrollmentByExamEventAndPaymentLink() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final Enrollment foundEnrollment = publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+      examEvent.getId(),
+      enrollment.getPaymentLinkHash()
+    );
+
+    assertEquals(enrollment.getId(), foundEnrollment.getId());
+  }
+
+  @Test
+  public void testGetEnrollmentByExamEventAndInvalidEnrollmentStatus() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.PAID);
+    enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+          examEvent.getId(),
+          enrollment.getPaymentLinkHash()
+        )
+    );
+    assertEquals(APIExceptionType.PAYMENT_LINK_INVALID_ENROLLMENT_STATUS, ex.getExceptionType());
+  }
+
+  @Test
+  public void testGetEnrollmentByExamEventAndExpiredPaymentLink() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().minusMinutes(5));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final APIException ex = assertThrows(
+      APIException.class,
+      () ->
+        publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(
+          examEvent.getId(),
+          enrollment.getPaymentLinkHash()
+        )
+    );
+    assertEquals(APIExceptionType.PAYMENT_LINK_HAS_EXPIRED, ex.getExceptionType());
+  }
+
+  @Test
+  public void testGetEnrollmentByIncorrectExamEventAndPaymentLink() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.SHIFTED_FROM_QUEUE);
+    enrollment.setPaymentLinkHash("269a2da4-58bb-45eb-b125-522b77e9167c");
+    enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusMinutes(5));
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final NotFoundException ex = assertThrows(
+      NotFoundException.class,
+      () -> publicEnrollmentService.getEnrollmentByExamEventAndPaymentLink(-1L, enrollment.getPaymentLinkHash())
+    );
+    assertEquals("Enrollment not found", ex.getMessage());
   }
 }

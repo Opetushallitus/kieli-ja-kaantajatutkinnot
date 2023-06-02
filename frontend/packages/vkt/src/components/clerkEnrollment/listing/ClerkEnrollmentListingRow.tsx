@@ -74,6 +74,7 @@ export const ClerkEnrollmentListingRow = ({
       <TableRow
         data-testid={`enrollments-table__id-${enrollment.id}-row`}
         onClick={onClick}
+        className="cursor-pointer"
       >
         <TableCell>
           <Text>{enrollment.person.lastName}</Text>
@@ -91,7 +92,7 @@ export const ClerkEnrollmentListingRow = ({
         </TableCell>
         <TableCell sx={{ width: '20%' }} align="right">
           {[
-            EnrollmentStatus.EXPECTING_PAYMENT,
+            EnrollmentStatus.SHIFTED_FROM_QUEUE,
             EnrollmentStatus.QUEUED,
           ].includes(enrollment.status) && (
             <ChangeEnrollmentStatusButton enrollment={enrollment} />

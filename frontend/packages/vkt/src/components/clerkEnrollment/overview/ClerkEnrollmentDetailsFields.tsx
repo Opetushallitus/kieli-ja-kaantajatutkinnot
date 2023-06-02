@@ -1,18 +1,30 @@
 import { Checkbox, FormControlLabel, FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
-import { CustomTextField, H2, H3, InfoText } from 'shared/components';
-import { Color, TextFieldTypes } from 'shared/enums';
-import { InputFieldUtils } from 'shared/utils';
+import {
+  CustomButton,
+  CustomModal,
+  CustomTextField,
+  H2,
+  H3,
+  InfoText,
+  Text,
+} from 'shared/components';
+import { Color, TextFieldTypes, Variant } from 'shared/enums';
+import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
   useClerkTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
-import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
+import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
+import { createClerkEnrollmentPaymentLink } from 'redux/reducers/clerkEnrollmentDetails';
+import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
 const CheckboxField = ({
   enrollment,
@@ -40,6 +52,36 @@ const CheckboxField = ({
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
     />
+  );
+};
+
+const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
+  const { t } = useClerkTranslation({
+    keyPrefix: 'vkt.component.clerkEnrollmentDetails',
+  });
+
+  const formatAmount = (amount: number) => {
+    return (amount / 100).toFixed(2);
+  };
+
+  return (
+    <div className="rows">
+      <Text>
+        {t('payment.details.status')}:{' '}
+        <b>{t(`paymentStatus.${payment.status}`)}</b>
+      </Text>
+      <Text>
+        {t('payment.details.reference')}: <b>{payment.transactionId}</b>
+      </Text>
+      <Text>
+        {t('payment.details.date')}:{' '}
+        <b>{DateUtils.formatOptionalDate(payment.modifiedAt)}</b>
+      </Text>
+      <Text>
+        {t('payment.details.amount')}:{' '}
+        <b>{formatAmount(payment.amount)} &euro;</b>
+      </Text>
+    </div>
   );
 };
 
@@ -149,6 +191,12 @@ export const ClerkEnrollmentDetailsFields = ({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
   const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
+  const paymentLink = useAppSelector(
+    clerkEnrollmentDetailsSelector
+  ).paymentLink;
+
+  const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
 
   const initialFieldErrors = Object.values(ClerkEnrollmentDetailsFields).reduce(
     (acc, val) => {
@@ -217,6 +265,15 @@ export const ClerkEnrollmentDetailsFields = ({
   const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
     onCheckboxFieldChange(fieldName, false);
   };
+
+  const displayPaymentInformation =
+    [
+      EnrollmentStatus.PAID,
+      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+    ].includes(enrollment.status) || enrollment.payments.length > 0;
+
+  const displayPaymentHistory = enrollment.payments.length > 1;
 
   return (
     <div className="clerk-enrollment-details-fields">
@@ -335,6 +392,45 @@ export const ClerkEnrollmentDetailsFields = ({
           </div>
         </div>
         <div className="rows gapped-sm margin-top-lg">
+          <H3>{t('status')}</H3>
+          <Text>{t(`enrollmentStatus.${enrollment.status}`)}</Text>
+        </div>
+        {displayPaymentInformation && (
+          <div className="rows gapped-xxl margin-top-lg">
+            <div className="rows gapped">
+              <H3>{t('payment.recentTitle')}</H3>
+              {enrollment.payments.length > 0 && (
+                <PaymentDetails payment={enrollment.payments[0]} />
+              )}
+              {enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE && (
+                <div className="columns flex-start">
+                  <CustomButton
+                    color={Color.Secondary}
+                    variant={Variant.Outlined}
+                    onClick={() => {
+                      setPaymentLinkModalOpen(true);
+                      dispatch(createClerkEnrollmentPaymentLink(enrollment.id));
+                    }}
+                  >
+                    {t('payment.create')}
+                  </CustomButton>
+                </div>
+              )}
+            </div>
+            {displayPaymentHistory && (
+              <div className="rows gapped">
+                <H3>{t('payment.historyTitle')}</H3>
+                {enrollment.payments.slice(1).map((payment: ClerkPayment) => (
+                  <PaymentDetails
+                    key={`payment-row-${payment.id}`}
+                    payment={payment}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        <div className="rows gapped-sm margin-top-lg">
           <H3>{t('header.digitalCertificateConsent')}</H3>
           <FormControlLabel
             className="clerk-enrollment-details-fields__certificate-shipping__consent"
@@ -389,6 +485,37 @@ export const ClerkEnrollmentDetailsFields = ({
           </div>
         )}
       </div>
+      <CustomModal
+        open={paymentLinkModalOpen}
+        modalTitle={t('payment.modal.title')}
+        onCloseModal={() => setPaymentLinkModalOpen(false)}
+      >
+        <>
+          {paymentLink && (
+            <div className="rows gapped">
+              <div className="rows gapped-xs">
+                <H3>{t('payment.modal.link')}</H3>
+                <Text>{paymentLink.url}</Text>
+              </div>
+              <div className="rows gapped-xs">
+                <H3>{t('payment.modal.expires')}</H3>
+                <Text>
+                  {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
+                </Text>
+              </div>
+            </div>
+          )}
+          <div className="columns gapped flex-end">
+            <CustomButton
+              variant={Variant.Contained}
+              color={Color.Secondary}
+              onClick={() => setPaymentLinkModalOpen(false)}
+            >
+              {translateCommon('close')}
+            </CustomButton>
+          </div>
+        </>
+      </CustomModal>
     </div>
   );
 };

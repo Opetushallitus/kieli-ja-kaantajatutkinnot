@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepository extends BaseRepository<Person> {
-  Optional<Person> findByIdentityNumber(String identityNumber);
-  Optional<Person> findByOtherIdentifier(String otherIdentifier);
+  Optional<Person> findByIdentityNumber(final String identityNumber);
+  Optional<Person> findByOtherIdentifier(final String otherIdentifier);
 }

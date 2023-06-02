@@ -305,7 +305,12 @@ export const ClerkExamEventDetails = () => {
       />
       <EnrollmentList
         enrollments={enrollments}
-        status={EnrollmentStatus.EXPECTING_PAYMENT}
+        status={EnrollmentStatus.SHIFTED_FROM_QUEUE}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT}
         examEventId={examEventDetails.id}
       />
       <EnrollmentList
@@ -316,6 +321,11 @@ export const ClerkExamEventDetails = () => {
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.CANCELED}
+        examEventId={examEventDetails.id}
+      />
+      <EnrollmentList
+        enrollments={enrollments}
+        status={EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT}
         examEventId={examEventDetails.id}
       />
       {enrollments.length > 0 && (

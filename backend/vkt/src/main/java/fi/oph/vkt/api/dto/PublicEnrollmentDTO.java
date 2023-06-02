@@ -1,5 +1,7 @@
 package fi.oph.vkt.api.dto;
 
+import fi.oph.vkt.model.type.EnrollmentStatus;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.NonNull;
@@ -14,10 +16,11 @@ public record PublicEnrollmentDTO(
   @NonNull @NotNull Boolean speechComprehensionPartialExam,
   @NonNull @NotNull Boolean writingPartialExam,
   @NonNull @NotNull Boolean readingComprehensionPartialExam,
+  @NonNull @NotNull EnrollmentStatus status,
   String previousEnrollment,
   @NonNull @NotNull Boolean digitalCertificateConsent,
-  @NonNull @NotNull String email,
-  @NonNull @NotNull String phoneNumber,
+  @NonNull @NotBlank String email,
+  @NonNull @NotBlank String phoneNumber,
   String street,
   String postalCode,
   String town,

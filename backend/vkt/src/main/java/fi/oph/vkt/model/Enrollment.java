@@ -11,7 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -75,6 +80,13 @@ public class Enrollment extends BaseEntity {
   @Column(name = "country")
   private String country;
 
+  @Size(max = 255)
+  @Column(name = "payment_link_hash", unique = true)
+  private String paymentLinkHash;
+
+  @Column(name = "payment_link_expires_at")
+  private LocalDateTime paymentLinkExpiresAt;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)
   private ExamEvent examEvent;
@@ -82,6 +94,9 @@ public class Enrollment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "person_id", referencedColumnName = "person_id", nullable = false)
   private Person person;
+
+  @OneToMany(mappedBy = "enrollment")
+  private List<Payment> payments = new ArrayList<>();
 
   public boolean isCancelled() {
     return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;

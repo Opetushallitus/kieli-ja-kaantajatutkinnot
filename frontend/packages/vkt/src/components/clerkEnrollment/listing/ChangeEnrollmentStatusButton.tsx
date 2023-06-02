@@ -32,7 +32,7 @@ export const ChangeEnrollmentStatusButton = ({
 
   const newStatus =
     enrollment.status === EnrollmentStatus.QUEUED
-      ? EnrollmentStatus.EXPECTING_PAYMENT
+      ? EnrollmentStatus.SHIFTED_FROM_QUEUE
       : EnrollmentStatus.QUEUED;
 
   const changeStatus = (
@@ -51,7 +51,7 @@ export const ChangeEnrollmentStatusButton = ({
   };
 
   const getStatusText = (status: EnrollmentStatus) => {
-    if (status === EnrollmentStatus.EXPECTING_PAYMENT) {
+    if (status === EnrollmentStatus.SHIFTED_FROM_QUEUE) {
       return t('backToQueue');
     }
 

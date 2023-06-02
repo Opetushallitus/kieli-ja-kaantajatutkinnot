@@ -99,7 +99,7 @@ public class PublicExamEventServiceTest {
     createReservations(futureEvent1, 1, LocalDateTime.now());
 
     createEnrollment(futureEvent2, EnrollmentStatus.PAID);
-    createEnrollment(futureEvent2, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(futureEvent2, EnrollmentStatus.SHIFTED_FROM_QUEUE);
     createEnrollment(futureEvent2, EnrollmentStatus.CANCELED);
     createReservations(futureEvent2, 2, LocalDateTime.now().plusMinutes(1));
 

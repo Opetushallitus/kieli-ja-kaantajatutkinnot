@@ -10,6 +10,14 @@
         "controlButtons": {
           "move": "Siirrä"
         },
+        "enrollmentStatus": {
+          "CANCELED": "Peruutettu",
+          "CANCELED_UNFINISHED_ENROLLMENT": "Peruuttanut",
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksu kesken",
+          "PAID": "Maksettu",
+          "QUEUED": "Jonossa",
+          "SHIFTED_FROM_QUEUE": "Siirretty jonosta / maksu puuttuu"
+        },
         "header": {
           "contactDetails": "Yhteystiedot",
           "digitalCertificateConsent": "Suostumus sähköisestä todistuksesta",
@@ -25,6 +33,30 @@
           "title": "Siirrä ilmoittautuminen toiseen tilaisuuteen",
           "successToast": "Ilmoittautumisen siirto onnistui"
         },
+        "payment": {
+          "create": "Luo maksulinkki",
+          "details": {
+            "amount": "Summa",
+            "date": "Aikaleima",
+            "reference": "Maksutunniste",
+            "status": "Tila"
+          },
+          "modal": {
+            "expires": "Voimassaolo päättyy",
+            "link": "Linkki",
+            "title": "Maksulinkki"
+          },
+          "historyTitle": "Maksuhistoria",
+          "recentTitle": "Maksun tila"
+        },
+        "paymentStatus": {
+          "DELAYED": "Myöhässä",
+          "FAIL": "Peruttu",
+          "NEW": "Aloitettu",
+          "OK": "Maksettu",
+          "PENDING": "Odottaa"
+        },
+        "status": "Ilmoittautumisen tila",
         "title": "Ilmoittautumisen tiedot",
         "toasts": {
           "enrollmentCanceled": "Ilmoittautuminen peruutettiin",
@@ -85,9 +117,11 @@
         },
         "examEventListingHeader": {
           "CANCELED": "Peruutetut",
-          "EXPECTING_PAYMENT": "Jonosta siirretyt / maksu puuttuu",
+          "CANCELED_UNFINISHED_ENROLLMENT": "Keskeytetyt (keskeneräinen)",
+          "EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT": "Maksua odottavat (keskeneräinen)",
           "PAID": "Ilmoittautuneet",
-          "QUEUED": "Jonoon ilmoittautuneet"
+          "QUEUED": "Jonoon ilmoittautuneet",
+          "SHIFTED_FROM_QUEUE": "Jonosta siirretyt / maksu puuttuu"
         },
         "copyClipboard": {
           "copyAll": "Kopioi sähköpostit",

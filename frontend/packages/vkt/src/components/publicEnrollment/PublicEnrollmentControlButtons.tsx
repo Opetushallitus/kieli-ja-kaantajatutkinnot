@@ -34,6 +34,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid,
   setShowValidation,
   submitStatus,
+  isPaymentLinkPreviewView,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
@@ -42,6 +43,7 @@ export const PublicEnrollmentControlButtons = ({
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
+  isPaymentLinkPreviewView: boolean;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
@@ -54,6 +56,8 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservationDetails.reservation?.id;
   const examEventId = reservationDetails.examEvent.id;
+  const isEnrollmentToQueue =
+    !reservationDetails.reservation && !isPaymentLinkPreviewView;
 
   const handleCancelBtnClick = () => {
     if (activeStep === PublicEnrollmentFormStep.Authenticate) {
@@ -127,12 +131,16 @@ export const PublicEnrollmentControlButtons = ({
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
       setShowValidation(false);
-      dispatch(
-        loadPublicEnrollmentSave({
-          enrollment,
-          reservationDetails,
-        })
-      );
+      if (isPaymentLinkPreviewView) {
+        window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+      } else {
+        dispatch(
+          loadPublicEnrollmentSave({
+            enrollment,
+            reservationDetails,
+          })
+        );
+      }
     } else {
       setShowValidation(true);
     }
@@ -189,11 +197,13 @@ export const PublicEnrollmentControlButtons = ({
       endIcon={<ArrowForwardIcon />}
       disabled={isLoading}
     >
-      {reservationDetails.reservation ? t('pay') : t('sendForm')}
+      {isEnrollmentToQueue ? t('sendForm') : t('pay')}
     </CustomButton>
   );
 
-  const renderBack = activeStep !== PublicEnrollmentFormStep.Authenticate;
+  const renderBack =
+    activeStep !== PublicEnrollmentFormStep.Authenticate &&
+    !isPaymentLinkPreviewView;
 
   const renderNext = [
     PublicEnrollmentFormStep.FillContactDetails,

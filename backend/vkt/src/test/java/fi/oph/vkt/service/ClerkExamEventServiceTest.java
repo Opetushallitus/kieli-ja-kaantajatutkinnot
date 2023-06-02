@@ -94,7 +94,7 @@ public class ClerkExamEventServiceTest {
 
     createEnrollment(futureEvent, EnrollmentStatus.PAID);
     createEnrollment(futureEvent, EnrollmentStatus.QUEUED);
-    createEnrollment(futureEvent, EnrollmentStatus.EXPECTING_PAYMENT);
+    createEnrollment(futureEvent, EnrollmentStatus.SHIFTED_FROM_QUEUE);
     createEnrollment(futureEvent, EnrollmentStatus.CANCELED);
 
     final List<ClerkExamEventListDTO> examEventListDTOs = clerkExamEventService.list();
