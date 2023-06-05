@@ -81,7 +81,9 @@ public class ClerkEnrollmentController {
 
     // TODO: possibility to download swedish receipt?
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, Language.FI);
-    final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData));
+    final ByteArrayInputStream bis = new ByteArrayInputStream(
+      receiptRenderer.getReceiptPdfBytes(Language.FI, receiptData)
+    );
     return ResponseEntity.ok().body(new InputStreamResource(bis));
   }
 }

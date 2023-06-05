@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.Pdf;
 import com.github.jhonnymertz.wkhtmltopdf.wrapper.configurations.WrapperConfig;
 import fi.oph.vkt.model.Enrollment;
+import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.EnrollmentRepository;
@@ -16,6 +19,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,44 +39,38 @@ public class ReceiptRenderer {
   @Transactional(readOnly = true)
   public ReceiptData getReceiptData(final long enrollmentId, final Language language) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
-    final String personName = enrollment.getPerson().getLastName() + ", " + enrollment.getPerson().getFirstName();
-    final String dateOfReceipt = DATE_FORMAT.format(LocalDate.now());
-    // TODO Payment date should be taken from actual payment
-    final String paymentDate = "24.12.1987";
-    // TODO Paid amount should be taken from actual payment
-    final String totalAmount = String.format("%d €", EnrollmentUtil.calculateExaminationPaymentSum(enrollment));
+    final ExamEvent examEvent = enrollment.getExamEvent();
+    final Person person = enrollment.getPerson();
+    final Payment payment = enrollment.getPayments().get(0);
 
-    final String receiptItemName = language == Language.FI
-      ? "Valtionhallinnon kielitutkinnot (VKT), tutkintomaksu"
-      : "Valtionhallinnon kielitutkinnot (VKT), examensavgift";
+    final String date = DATE_FORMAT.format(LocalDate.now());
+    final String paymentDate = DATE_FORMAT.format(payment.getModifiedAt());
 
-    final String additionalInfo1 = String.format(
+    final String payer = String.format("%s, %s", person.getLastName(), person.getFirstName());
+    final String exam = String.format(
       "%s, %s, %s",
-      getLang(enrollment, language),
-      getLevel(enrollment, language),
-      DATE_FORMAT.format(enrollment.getExamEvent().getDate())
+      getLang(examEvent, language),
+      getLevelDescription(examEvent, language),
+      DATE_FORMAT.format(examEvent.getDate())
     );
-    final String additionalInfo2 = language == Language.FI ? "Osallistuja: " + personName : "Deltagaren: " + personName;
+    final String totalAmount = String.format("%s €", payment.getAmount() / 100);
+
+    final List<ReceiptItem> items = getReceiptItems(enrollment, language);
 
     return ReceiptData
       .builder()
-      .dateOfReceipt(dateOfReceipt)
-      .payerName(personName)
+      .date(date)
       .paymentDate(paymentDate)
+      .payer(payer)
+      .exam(exam)
+      .participant(payer)
       .totalAmount(totalAmount)
-      .item(
-        ReceiptItem
-          .builder()
-          .name(receiptItemName)
-          .value(totalAmount)
-          .additionalInfos(List.of(additionalInfo1, additionalInfo2))
-          .build()
-      )
+      .items(items)
       .build();
   }
 
-  private static String getLang(final Enrollment enrollment, final Language language) {
-    final ExamLanguage examLanguage = enrollment.getExamEvent().getLanguage();
+  private static String getLang(final ExamEvent examEvent, final Language language) {
+    final ExamLanguage examLanguage = examEvent.getLanguage();
 
     if (examLanguage == ExamLanguage.FI && language == Language.FI) {
       return "Suomi";
@@ -86,27 +85,64 @@ public class ReceiptRenderer {
     return "-";
   }
 
-  private static String getLevel(final Enrollment enrollment, final Language language) {
-    final ExamLevel examLevel = enrollment.getExamEvent().getLevel();
+  private static String getLevelDescription(final ExamEvent examEvent, final Language language) {
+    final ExamLevel examLevel = examEvent.getLevel();
 
     if (examLevel == ExamLevel.EXCELLENT && language == Language.FI) {
-      return "erinomainen";
+      return "erinomainen taito";
     } else if (examLevel == ExamLevel.EXCELLENT && language == Language.SV) {
-      return "utmärkt";
+      return "utmärkta språkkunskaper";
     }
 
     return "-";
   }
 
-  public byte[] getReceiptPdfBytes(final ReceiptData data) throws IOException, InterruptedException {
-    final String html = getReceiptHtml(data);
+  private static List<ReceiptItem> getReceiptItems(final Enrollment enrollment, final Language language) {
+    return Stream
+      .of(
+        Optional.ofNullable(
+          enrollment.isTextualSkill()
+            ? ReceiptItem
+              .builder()
+              .name(language == Language.FI ? "Kirjallinen taito" : "Förmåga att använda svenska i skrift")
+              .amount("227 €")
+              .build()
+            : null
+        ),
+        Optional.ofNullable(
+          enrollment.isOralSkill()
+            ? ReceiptItem
+              .builder()
+              .name(language == Language.FI ? "Suullinen taito" : "Förmåga att använda svenska i tal")
+              .amount("227 €")
+              .build()
+            : null
+        ),
+        Optional.ofNullable(
+          enrollment.isUnderstandingSkill()
+            ? ReceiptItem
+              .builder()
+              .name(language == Language.FI ? "Ymmärtämisen taito" : "Förmåga att förstå svenska")
+              .amount(EnrollmentUtil.isUnderstandingSkillFree(enrollment) ? "0 €" : "227 €")
+              .build()
+            : null
+        )
+      )
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .toList();
+  }
+
+  public byte[] getReceiptPdfBytes(final Language language, final ReceiptData data)
+    throws IOException, InterruptedException {
+    final String html = getReceiptHtml(language, data);
     final Pdf pdf = new Pdf(new WrapperConfig("wkhtmltopdf"));
     pdf.addPageFromString(html);
     return pdf.getPDF();
   }
 
-  protected String getReceiptHtml(final ReceiptData data) {
+  protected String getReceiptHtml(final Language language, final ReceiptData data) {
     final Map<String, Object> params = OBJECT_MAPPER.convertValue(data, TYPE_REF);
-    return templateRenderer.renderReceipt(params);
+    return templateRenderer.renderReceipt(language, params);
   }
 }

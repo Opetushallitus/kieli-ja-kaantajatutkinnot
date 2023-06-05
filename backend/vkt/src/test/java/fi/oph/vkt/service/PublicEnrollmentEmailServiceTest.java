@@ -71,14 +71,16 @@ public class PublicEnrollmentEmailServiceTest {
       .thenReturn(
         ReceiptData
           .builder()
-          .dateOfReceipt("20.02.2025")
-          .payerName("Payer")
+          .date("20.02.2025")
           .paymentDate("19.02.2025")
-          .totalAmount("500")
-          .item(ReceiptItem.builder().name("A").value("B").additionalInfos(List.of()).build())
+          .payer("Foo Bar")
+          .exam("Suomi, erinomainen taito, 27.03.2025")
+          .participant("Bar, Foo")
+          .totalAmount("500 €")
+          .items(List.of(ReceiptItem.builder().name("A").amount("500 €").build()))
           .build()
       );
-    when(receiptRenderer.getReceiptPdfBytes(any())).thenReturn(new byte[] { 'a', 'b', 'c' });
+    when(receiptRenderer.getReceiptPdfBytes(any(), any())).thenReturn(new byte[] { 'a', 'b', 'c' });
 
     publicEnrollmentEmailService =
       new PublicEnrollmentEmailService(emailService, environment, receiptRenderer, templateRenderer);

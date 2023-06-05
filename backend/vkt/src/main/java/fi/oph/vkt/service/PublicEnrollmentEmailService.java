@@ -141,13 +141,13 @@ public class PublicEnrollmentEmailService {
   private EmailAttachmentData createReceiptAttachment(final Enrollment enrollment, final Language language)
     throws IOException, InterruptedException {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), language);
-    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData);
+    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(language, receiptData);
 
     final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningkvittot";
 
     return EmailAttachmentData
       .builder()
-      .name(attachmentNamePrefix + " " + receiptData.dateOfReceipt() + ".pdf")
+      .name(attachmentNamePrefix + " " + receiptData.date() + ".pdf")
       .contentType("application/pdf")
       .data(receiptBytes)
       .build();
