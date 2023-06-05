@@ -10,14 +10,16 @@ import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 
 interface ClerkEnrollmentDetailsState {
   status: APIResponseStatus;
-  moveStatus: APIResponseStatus;
   enrollment?: ClerkEnrollment;
+  moveStatus: APIResponseStatus;
+  paymentLinkStatus: APIResponseStatus;
   paymentLink?: ClerkPaymentLink;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
   status: APIResponseStatus.NotStarted,
   moveStatus: APIResponseStatus.NotStarted,
+  paymentLinkStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkEnrollmentDetailsSlice = createSlice({
@@ -51,14 +53,17 @@ const clerkEnrollmentDetailsSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     createClerkEnrollmentPaymentLink(state, _action: PayloadAction<number>) {
-      state.status = APIResponseStatus.InProgress;
+      state.paymentLinkStatus = APIResponseStatus.InProgress;
     },
     storeClerkEnrollmentPaymentLink(
       state,
       action: PayloadAction<ClerkPaymentLink>
     ) {
-      state.status = APIResponseStatus.Success;
+      state.paymentLinkStatus = APIResponseStatus.Success;
       state.paymentLink = action.payload;
+    },
+    rejectClerkEnrollmentPaymentLink(state) {
+      state.paymentLinkStatus = APIResponseStatus.Error;
     },
     moveEnrollment(state, _action: PayloadAction<ClerkEnrollmentMove>) {
       state.moveStatus = APIResponseStatus.InProgress;
@@ -85,6 +90,7 @@ export const {
   rejectClerkEnrollmentDetailsUpdate,
   createClerkEnrollmentPaymentLink,
   storeClerkEnrollmentPaymentLink,
+  rejectClerkEnrollmentPaymentLink,
   moveEnrollment,
   moveEnrollmentSucceeded,
   rejectMoveEnrollment,
