@@ -55,7 +55,6 @@ class ReceiptRendererIntegrationTest {
   @Test
   public void testGetReceiptPdfBytes() throws IOException, InterruptedException {
     final byte[] pdfBytes = receiptRenderer.getReceiptPdfBytes(
-      Language.FI,
       ReceiptData
         .builder()
         .date("25.12.2022")
@@ -70,7 +69,8 @@ class ReceiptRendererIntegrationTest {
             ReceiptItem.builder().name("Suullinen taito").amount("15 €").build()
           )
         )
-        .build()
+        .build(),
+      Language.FI
     );
     assertNotNull(pdfBytes);
     assertTrue(pdfBytes.length > 0);

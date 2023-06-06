@@ -37,11 +37,13 @@ public class ReceiptRenderer {
   private final TemplateRenderer templateRenderer;
 
   @Transactional(readOnly = true)
-  public ReceiptData getReceiptData(final long enrollmentId, final Language language) {
+  public ReceiptData getReceiptData(final long enrollmentId, final Language receiptLanguage) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final ExamEvent examEvent = enrollment.getExamEvent();
     final Person person = enrollment.getPerson();
     final Payment payment = enrollment.getPayments().get(0);
+
+    final ExamLanguage examLanguage = examEvent.getLanguage();
 
     final String date = DATE_FORMAT.format(LocalDate.now());
     final String paymentDate = DATE_FORMAT.format(payment.getModifiedAt());
@@ -49,13 +51,13 @@ public class ReceiptRenderer {
     final String payer = String.format("%s, %s", person.getLastName(), person.getFirstName());
     final String exam = String.format(
       "%s, %s, %s",
-      getLang(examEvent, language),
-      getLevelDescription(examEvent, language),
+      getLang(examLanguage, receiptLanguage),
+      getLevelDescription(examEvent, receiptLanguage),
       DATE_FORMAT.format(examEvent.getDate())
     );
     final String totalAmount = String.format("%s €", payment.getAmount() / 100);
 
-    final List<ReceiptItem> items = getReceiptItems(enrollment, language);
+    final List<ReceiptItem> items = getReceiptItems(enrollment, examLanguage, receiptLanguage);
 
     return ReceiptData
       .builder()
@@ -69,42 +71,50 @@ public class ReceiptRenderer {
       .build();
   }
 
-  private static String getLang(final ExamEvent examEvent, final Language language) {
-    final ExamLanguage examLanguage = examEvent.getLanguage();
-
-    if (examLanguage == ExamLanguage.FI && language == Language.FI) {
+  private static String getLang(final ExamLanguage examLanguage, final Language receiptLanguage) {
+    if (examLanguage == ExamLanguage.FI && receiptLanguage == Language.FI) {
       return "Suomi";
-    } else if (examLanguage == ExamLanguage.FI && language == Language.SV) {
+    } else if (examLanguage == ExamLanguage.FI && receiptLanguage == Language.SV) {
       return "Finska";
-    } else if (examLanguage == ExamLanguage.SV & language == Language.FI) {
+    } else if (examLanguage == ExamLanguage.SV & receiptLanguage == Language.FI) {
       return "Ruotsi";
-    } else if (examLanguage == ExamLanguage.SV && language == Language.SV) {
+    } else if (examLanguage == ExamLanguage.SV && receiptLanguage == Language.SV) {
       return "Svenska";
     }
 
     return "-";
   }
 
-  private static String getLevelDescription(final ExamEvent examEvent, final Language language) {
+  private static String getLevelDescription(final ExamEvent examEvent, final Language receiptLanguage) {
     final ExamLevel examLevel = examEvent.getLevel();
 
-    if (examLevel == ExamLevel.EXCELLENT && language == Language.FI) {
+    if (examLevel == ExamLevel.EXCELLENT && receiptLanguage == Language.FI) {
       return "erinomainen taito";
-    } else if (examLevel == ExamLevel.EXCELLENT && language == Language.SV) {
+    } else if (examLevel == ExamLevel.EXCELLENT && receiptLanguage == Language.SV) {
       return "utmärkta språkkunskaper";
     }
 
     return "-";
   }
 
-  private static List<ReceiptItem> getReceiptItems(final Enrollment enrollment, final Language language) {
+  private static List<ReceiptItem> getReceiptItems(
+    final Enrollment enrollment,
+    final ExamLanguage examLanguage,
+    final Language receiptLanguage
+  ) {
+    final String examLanguageSV = examLanguage == ExamLanguage.FI ? "finska" : "svenska";
+
     return Stream
       .of(
         Optional.ofNullable(
           enrollment.isTextualSkill()
             ? ReceiptItem
               .builder()
-              .name(language == Language.FI ? "Kirjallinen taito" : "Förmåga att använda svenska i skrift")
+              .name(
+                receiptLanguage == Language.FI
+                  ? "Kirjallinen taito"
+                  : "Förmåga att använda " + examLanguageSV + " i skrift"
+              )
               .amount(String.format("%s €", EnrollmentUtil.getTextualSkillFee(enrollment) / 100))
               .build()
             : null
@@ -113,7 +123,9 @@ public class ReceiptRenderer {
           enrollment.isOralSkill()
             ? ReceiptItem
               .builder()
-              .name(language == Language.FI ? "Suullinen taito" : "Förmåga att använda svenska i tal")
+              .name(
+                receiptLanguage == Language.FI ? "Suullinen taito" : "Förmåga att använda " + examLanguageSV + " i tal"
+              )
               .amount(String.format("%s €", EnrollmentUtil.getOralSkillFee(enrollment) / 100))
               .build()
             : null
@@ -122,7 +134,7 @@ public class ReceiptRenderer {
           enrollment.isUnderstandingSkill()
             ? ReceiptItem
               .builder()
-              .name(language == Language.FI ? "Ymmärtämisen taito" : "Förmåga att förstå svenska")
+              .name(receiptLanguage == Language.FI ? "Ymmärtämisen taito" : "Förmåga att förstå " + examLanguageSV)
               .amount(String.format("%s €", EnrollmentUtil.getUnderstandingSkillFee(enrollment) / 100))
               .build()
             : null
@@ -133,7 +145,7 @@ public class ReceiptRenderer {
       .toList();
   }
 
-  public byte[] getReceiptPdfBytes(final Language language, final ReceiptData data)
+  public byte[] getReceiptPdfBytes(final ReceiptData data, final Language language)
     throws IOException, InterruptedException {
     final String html = getReceiptHtml(language, data);
     final Pdf pdf = new Pdf(new WrapperConfig("wkhtmltopdf"));
