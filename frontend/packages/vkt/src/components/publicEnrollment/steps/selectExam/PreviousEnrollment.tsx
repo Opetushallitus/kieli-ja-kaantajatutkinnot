@@ -142,6 +142,7 @@ export const PreviousEnrollment = ({
         >
           <div className="columns margin-top-sm">
             <FormControlLabel
+              data-testid="enrollment-checkbox-previously-enrolled-yes"
               disabled={editingDisabled}
               value={PreviouslyEnrolled.Yes}
               control={
@@ -152,6 +153,7 @@ export const PreviousEnrollment = ({
               className="public-enrollment__grid__previous-enrollment__selection-label"
             />
             <FormControlLabel
+              data-testid="enrollment-checkbox-previously-enrolled-no"
               disabled={editingDisabled}
               value={PreviouslyEnrolled.No}
               control={

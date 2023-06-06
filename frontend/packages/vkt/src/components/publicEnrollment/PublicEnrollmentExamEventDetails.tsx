@@ -19,7 +19,7 @@ export const PublicEnrollmentExamEventDetails = ({
   const translateCommon = useCommonTranslation();
 
   return (
-    <div className="margin-top-xxl rows">
+    <div className="margin-top-xxl rows" data-testid="enrollment-details">
       <div className="rows gapped-xs">
         <H2>
           {ExamEventUtils.languageAndLevelText(

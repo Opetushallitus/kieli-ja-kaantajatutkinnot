@@ -1,21 +1,14 @@
+import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 
 beforeEach(() => {
-  cy.openPublicHomePage();
+  cy.openPublicEnrollmentPage(2);
 });
 
 describe('Public enrollment', () => {
-  // TODO: Enable again once auth flow is complete.
   describe('to exam event with room', () => {
-    const EXAM_EVENT_ID = 2;
-
-    beforeEach(() => {
-      onPublicHomePage.clickEnrollButton(EXAM_EVENT_ID);
-    });
-
-    it.skip('reservation should have timer', () => {
-      onPublicHomePage.clickEnrollAuthenticateButton();
+    it('reservation should have timer', () => {
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(3000);
       onPublicHomePage.expectReservationTimeLeft('29', '57');
@@ -23,30 +16,166 @@ describe('Public enrollment', () => {
       onPublicHomePage.expectReservationTimeLeft('00', '00');
     });
 
-    it.skip('reservation should allow renewal', () => {
-      onPublicHomePage.clickEnrollAuthenticateButton();
+    it('reservation should allow renewal', () => {
+      onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);
       onPublicHomePage.clickReservationRenewButton();
       cy.tick(30 * 1000);
       onPublicHomePage.expectReservationTimeLeft('29', '30');
     });
 
-    it.skip('reservation expired should display info modal', () => {
-      onPublicHomePage.clickEnrollAuthenticateButton();
+    it('reservation expired should display info modal', () => {
       cy.tick(31 * 60 * 1000);
       onPublicHomePage.expectReservationExpiredOkButtonEnabled();
+    });
+
+    it('should be able to fill out enrollment info', () => {
+      cy.tick(3000);
+      onPublicEnrollmentPage.expectEnrollmentDetails(
+        'Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+      );
+      onPublicEnrollmentPage.expectEnrollmentPersonDetails(
+        'Sukunimi:TestiläEtunimet:TessaHenkilötunnus:010280-952L'
+      );
+      onPublicEnrollmentPage.fillOutContactDetails(
+        'email',
+        'test@test.invalid'
+      );
+      onPublicEnrollmentPage.fillOutContactDetails(
+        'emailConfirmation',
+        'test@test.invalid'
+      );
+      onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
+        'previously-enrolled-no'
+      );
+      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
+      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
+        'writingPartialExam'
+      );
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'street',
+        'Katu'
+      );
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'postalCode',
+        '99800'
+      );
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'town',
+        'Kaupunki'
+      );
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'country',
+        'Suomi'
+      );
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectEnrollmentDetails(
+        'Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+      );
+      onPublicEnrollmentPage.expectEnrollmentPersonDetails(
+        'Sukunimi:TestiläEtunimet:TessaHenkilötunnus:010280-952L'
+      );
+      onPublicEnrollmentPage.expectPreviewDetails('email', 'test@test.invalid');
+      onPublicEnrollmentPage.expectPreviewDetails('phoneNumber', '040112233');
+      onPublicEnrollmentPage.expectPreviewBulletList(0, 'Kirjallinen taito');
+      onPublicEnrollmentPage.expectPreviewBulletList(1, 'Kirjoittaminen');
+      onPublicEnrollmentPage.expectPreviewCertificateShippingDetails(
+        'Katu, 99800, Kaupunki, Suomi'
+      );
+    });
+
+    it('should display errors if mandatory info is missing', () => {
+      cy.tick(3000);
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectContactDetailsError(
+        'email',
+        'Tieto on pakollinen'
+      );
+      onPublicEnrollmentPage.expectContactDetailsError(
+        'emailConfirmation',
+        'Tieto on pakollinen'
+      );
+      onPublicEnrollmentPage.expectContactDetailsError(
+        'phoneNumber',
+        'Tieto on pakollinen'
+      );
+      onPublicEnrollmentPage.fillOutContactDetails(
+        'email',
+        'test@test.invalid'
+      );
+      onPublicEnrollmentPage.expectContactDetailsErrorNotExist('email');
+      onPublicEnrollmentPage.fillOutContactDetails(
+        'emailConfirmation',
+        'test@test.invalid'
+      );
+      onPublicEnrollmentPage.expectContactDetailsErrorNotExist(
+        'emailConfirmation'
+      );
+      onPublicEnrollmentPage.expectContactDetailsErrorNotExist(
+        'emailConfirmation'
+      );
+      onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
+      onPublicEnrollmentPage.expectContactDetailsErrorNotExist('phoneNumber');
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.clickNext();
+      onPublicEnrollmentPage.expectPreviuoslyEnrolledError();
+      onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
+        'previously-enrolled-no'
+      );
+      onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
+
+      // TODO: test once error display for exams is added, just filling out for now
+      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
+      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
+        'writingPartialExam'
+      );
+
+      onPublicEnrollmentPage.expectCertificateShippingDetailsError('street');
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'street',
+        'Katu'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
+        'street'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsError(
+        'postalCode'
+      );
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'postalCode',
+        '99800'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
+        'postalCode'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsError('town');
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'town',
+        'Kaupunki'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
+        'town'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsError('country');
+      onPublicEnrollmentPage.fillOutCertificateShippingDetails(
+        'country',
+        'Suomi'
+      );
+      onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
+        'country'
+      );
+      onPublicEnrollmentPage.clickNext();
+
+      // TODO: test when consent error handling is added
+      // onPublicEnrollmentPage.clickSubmit();
     });
   });
 
   describe('to exam event that is full', () => {
-    const EXAM_EVENT_ID = 5;
-
-    beforeEach(() => {
-      onPublicHomePage.clickEnrollButton(EXAM_EVENT_ID);
-    });
-
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    it('WIP: allow user to enroll to the exam event', () => {});
+    it.skip('WIP: allow user to enroll to the exam event', () => {});
   });
 
   // TODO: Enable again once auth flow is complete.

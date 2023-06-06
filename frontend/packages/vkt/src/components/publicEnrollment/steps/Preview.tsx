@@ -33,14 +33,16 @@ const ContactDetails = ({
             {t('email')}
             {':'}
           </Text>
-          <Text>{email}</Text>
+          <Text data-testid="enrollment-preview-email">{email}</Text>
         </div>
         <div className="rows">
           <Text className="bold">
             {t('phoneNumber')}
             {':'}
           </Text>
-          <Text>{phoneNumber}</Text>
+          <Text data-testid="enrollment-preview-phoneNumber">
+            {phoneNumber}
+          </Text>
         </div>
       </div>
     </div>
@@ -142,7 +144,7 @@ const CertificateShippingDetails = ({
           {t('addressLabel')}
           {':'}
         </Text>
-        <Text>
+        <Text data-testid="enrollment-preview-certificate-shipping-details">
           {enrollment.street}
           {', '}
           {enrollment.postalCode}

@@ -1,14 +1,35 @@
 import { AppRoutes } from 'enums/app';
+import { RouteUtils } from 'utils/routes';
 
 Cypress.Commands.add('openPublicHomePage', () => {
+  cy.window().then((win) => {
+    win.sessionStorage.setItem('persist:root', '{}');
+  });
   cy.visit(AppRoutes.PublicHomePage);
 });
 
+Cypress.Commands.add(
+  'openPublicEnrollmentPage',
+  (examEventId: number, persistedState = '{}') => {
+    cy.window().then((win) => {
+      win.sessionStorage.setItem('persist:root', persistedState);
+    });
+    cy.visit(
+      RouteUtils.replaceParameters(
+        AppRoutes.PublicEnrollmentContactDetails,
+        examEventId
+      )
+    );
+  }
+);
+
 Cypress.Commands.add('openClerkHomePage', () => {
+  cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkHomePage);
 });
 
 Cypress.Commands.add('openClerkCreateExamEventPage', () => {
+  cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExamEventCreatePage);
 });
 

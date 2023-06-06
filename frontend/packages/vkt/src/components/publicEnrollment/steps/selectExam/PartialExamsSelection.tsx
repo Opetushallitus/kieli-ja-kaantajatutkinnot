@@ -27,6 +27,7 @@ const CheckboxField = ({
     <FormControlLabel
       control={
         <Checkbox
+          data-testid={`enrollment-checkbox-${fieldName}`}
           onClick={() => onClick(fieldName)}
           color={Color.Secondary}
           checked={enrollment[fieldName]}
@@ -153,6 +154,7 @@ export const PartialExamsSelection = ({
               disabled={!enrollment.oralSkill || editingDisabled}
             />
             <CheckboxField
+              data-testid="enrollment-checkbox-speec-comprehension-partial-exam"
               enrollment={enrollment}
               fieldName={'speechComprehensionPartialExam'}
               onClick={togglePartialExam}
