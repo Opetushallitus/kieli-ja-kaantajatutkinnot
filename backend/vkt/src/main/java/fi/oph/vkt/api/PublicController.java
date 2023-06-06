@@ -96,7 +96,7 @@ public class PublicController {
   }
 
   /**
-   * Returns info about exam when refreshing a page during authenticate step
+   * Returns info about exam event when refreshing a page during authenticate step
    */
   @GetMapping(path = "/examEvent/{examEventId:\\d+}")
   public PublicExamEventDTO getExamEventInfo(@PathVariable final long examEventId) {
@@ -106,7 +106,7 @@ public class PublicController {
   /**
    * Returns info about enrollment when refreshing a page during an enrollment step
    */
-  @GetMapping(path = "/enrollment/{examEventId:\\d+}")
+  @GetMapping(path = "/examEvent/{examEventId:\\d+}/enrollment")
   public PublicEnrollmentInitialisationDTO getEnrollmentInfo(
     @PathVariable final long examEventId,
     final HttpSession session

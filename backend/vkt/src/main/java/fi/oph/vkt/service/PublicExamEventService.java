@@ -7,10 +7,14 @@ import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
+
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import fi.oph.vkt.util.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,10 @@ public class PublicExamEventService {
   @Transactional(readOnly = true)
   public PublicExamEventDTO getExamEvent(final long examEventId) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+      throw new NotFoundException(String.format("Exam event (%d) enrollment is closed", examEvent.getId()));
+    }
 
     return PublicExamEventDTO
       .builder()
