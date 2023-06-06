@@ -14,7 +14,6 @@ export const PublicEnrollmentStepContents = ({
   isLoading,
   setIsStepValid,
   showValidation,
-  isExpectedToHaveOpenings,
   selectedExamEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
@@ -22,7 +21,6 @@ export const PublicEnrollmentStepContents = ({
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
-  isExpectedToHaveOpenings: boolean;
   selectedExamEvent: PublicExamEvent;
 }) => {
   switch (activeStep) {
@@ -30,7 +28,6 @@ export const PublicEnrollmentStepContents = ({
       return (
         <Authenticate
           isLoading={isLoading}
-          isExpectedToHaveOpenings={isExpectedToHaveOpenings}
           selectedExamEvent={selectedExamEvent}
         />
       );

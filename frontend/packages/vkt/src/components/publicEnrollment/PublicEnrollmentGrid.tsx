@@ -35,7 +35,6 @@ export const PublicEnrollmentGrid = ({
     status,
     enrollmentSubmitStatus,
     cancelStatus,
-    enrollToQueue,
     enrollment,
     reservationDetails,
     reservationDetailsStatus,
@@ -85,7 +84,6 @@ export const PublicEnrollmentGrid = ({
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
-  const isExpectedToHaveOpenings = !enrollToQueue;
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
@@ -124,7 +122,6 @@ export const PublicEnrollmentGrid = ({
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
                   showValidation={showValidation}
-                  isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
                 {isPaymentSumAvailable && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />

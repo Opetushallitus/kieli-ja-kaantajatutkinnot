@@ -5,14 +5,13 @@ import { Color, Variant } from 'shared/enums';
 import { usePublicTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { ExamEventUtils } from 'utils/examEvent';
 
 export const Authenticate = ({
   isLoading,
-  isExpectedToHaveOpenings,
   selectedExamEvent,
 }: {
   isLoading: boolean;
-  isExpectedToHaveOpenings: boolean;
   selectedExamEvent: PublicExamEvent;
 }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -32,7 +31,9 @@ export const Authenticate = ({
               selectedExamEvent.id.toString()
             ).replace(
               ':type',
-              isExpectedToHaveOpenings ? 'reservation' : 'queue'
+              ExamEventUtils.isEnrollingToQueue(selectedExamEvent)
+                ? 'queue'
+                : 'reservation'
             )}
             variant={Variant.Contained}
             onClick={() => setIsRedirecting(true)}

@@ -7,7 +7,6 @@ import {
   PublicReservationDetails,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
-import { ExamEventUtils } from 'utils/examEvent';
 
 interface PublicEnrollmentState {
   reservationDetailsStatus: APIResponseStatus;
@@ -16,7 +15,6 @@ interface PublicEnrollmentState {
   enrollmentSubmitStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   selectedExamEvent?: PublicExamEvent;
-  enrollToQueue?: boolean;
   enrollment: PublicEnrollment;
 }
 
@@ -71,11 +69,9 @@ const publicEnrollmentSlice = createSlice({
       action: PayloadAction<PublicExamEvent>
     ) {
       state.selectedExamEvent = action.payload;
-      state.enrollToQueue = ExamEventUtils.isEnrollingToQueue(action.payload);
     },
     unsetPublicEnrollmentSelectedExam(state) {
       state.selectedExamEvent = initialState.selectedExamEvent;
-      state.enrollToQueue = initialState.enrollToQueue;
     },
     storePublicEnrollmentInitialisation(
       state,
@@ -89,7 +85,6 @@ const publicEnrollmentSlice = createSlice({
     storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
       state.reservationDetailsStatus = APIResponseStatus.Success;
       state.selectedExamEvent = action.payload;
-      state.enrollToQueue = ExamEventUtils.isEnrollingToQueue(action.payload);
     },
     renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
       state.status = APIResponseStatus.InProgress;
