@@ -143,7 +143,7 @@ public class PublicEnrollmentEmailService {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), language);
     final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(language, receiptData);
 
-    final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningkvittot";
+    final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningkvitto";
 
     return EmailAttachmentData
       .builder()
