@@ -20,7 +20,6 @@ import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
@@ -40,13 +39,12 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final long openings = getOpenings(examEvent);
-    final long reservations = examEvent.getReservations().stream().filter(Reservation::isActive).count();
+    final long openings = ExamEventUtil.getOpenings(examEvent);
 
     if (openings <= 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_IS_FULL);
     }
-    if (ExamEventUtil.isCongested(openings, reservations)) {
+    if (ExamEventUtil.isCongested(examEvent)) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_HAS_CONGESTION);
     }
     if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
@@ -68,30 +66,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     );
   }
 
-  private long getParticipants(final List<Enrollment> enrollments) {
-    return enrollments
-      .stream()
-      .filter(e ->
-        e.getStatus() == EnrollmentStatus.PAID ||
-        e.getStatus() == EnrollmentStatus.SHIFTED_FROM_QUEUE ||
-        e.getStatus() == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
-      )
-      .count();
-  }
-
-  private long getOpenings(final ExamEvent examEvent) {
-    final List<Enrollment> enrollments = examEvent.getEnrollments();
-
-    final long participants = getParticipants(enrollments);
-    final boolean hasQueue = enrollments.stream().anyMatch(e -> e.getStatus() == EnrollmentStatus.QUEUED);
-
-    return hasQueue ? 0L : examEvent.getMaxParticipants() - participants;
-  }
-
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO getEnrollmentInitialisationDTO(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final long openings = getOpenings(examEvent);
+    final long openings = ExamEventUtil.getOpenings(examEvent);
 
     final Optional<PublicReservationDTO> optionalReservationDTO = reservationRepository
       .findByExamEventAndPerson(examEvent, person)
@@ -171,7 +149,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional(readOnly = true)
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final long openings = getOpenings(examEvent);
+    final long openings = ExamEventUtil.getOpenings(examEvent);
 
     if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);

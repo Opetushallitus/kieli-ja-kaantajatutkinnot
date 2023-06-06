@@ -16,6 +16,7 @@ import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   loadPublicEnrollment,
+  loadPublicExamEvent,
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -50,7 +51,11 @@ export const PublicEnrollmentGrid = ({
       !selectedExamEvent &&
       params.examEventId
     ) {
-      dispatch(loadPublicEnrollment(+params.examEventId));
+      if (activeStep === PublicEnrollmentFormStep.Authenticate) {
+        dispatch(loadPublicExamEvent(+params.examEventId));
+      } else {
+        dispatch(loadPublicEnrollment(+params.examEventId));
+      }
     }
   }, [
     dispatch,
@@ -59,6 +64,7 @@ export const PublicEnrollmentGrid = ({
     reservationDetails,
     selectedExamEvent,
     params.examEventId,
+    activeStep,
   ]);
 
   useEffect(() => {

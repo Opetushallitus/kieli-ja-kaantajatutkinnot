@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
@@ -20,6 +21,21 @@ public class PublicExamEventService {
 
   private final ExamEventRepository examEventRepository;
   private final ReservationRepository reservationRepository;
+
+  @Transactional(readOnly = true)
+  public PublicExamEventDTO getExamEvent(final long examEventId) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    return PublicExamEventDTO
+      .builder()
+      .id(examEvent.getId())
+      .language(examEvent.getLanguage())
+      .date(examEvent.getDate())
+      .registrationCloses(examEvent.getRegistrationCloses())
+      .openings(ExamEventUtil.getOpenings(examEvent))
+      .hasCongestion(ExamEventUtil.isCongested(examEvent))
+      .build();
+  }
 
   @Transactional(readOnly = true)
   public List<PublicExamEventDTO> listExamEvents(final ExamLevel level) {
