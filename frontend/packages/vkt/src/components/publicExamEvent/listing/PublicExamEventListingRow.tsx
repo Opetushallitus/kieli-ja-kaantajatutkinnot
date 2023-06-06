@@ -25,13 +25,12 @@ export const PublicExamEventListingRow = ({
   const { selectedExamEvent } = useAppSelector(publicEnrollmentSelector);
 
   const isSelected = examEvent.id === selectedExamEvent?.id;
-  const enrollToQueue = examEvent.openings <= 0;
 
   const handleRowClick = () => {
     dispatch(
       isSelected
         ? unsetPublicEnrollmentSelectedExam()
-        : setPublicEnrollmentSelectedExam([examEvent, enrollToQueue])
+        : setPublicEnrollmentSelectedExam(examEvent)
     );
   };
 

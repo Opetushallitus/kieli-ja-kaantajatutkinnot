@@ -3,6 +3,7 @@ import { DateUtils } from 'shared/utils';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
 export class ExamEventUtils {
   static getUpcomingExamEvents(examEvents: Array<ClerkListExamEvent>) {
@@ -15,6 +16,10 @@ export class ExamEventUtils {
     return examEvents.filter((e) =>
       DateUtils.isDatePartBefore(e.date, dayjs())
     );
+  }
+
+  static isEnrollingToQueue(examEvent: PublicExamEvent) {
+    return examEvent.openings <= 0;
   }
 
   static languageAndLevelText(
