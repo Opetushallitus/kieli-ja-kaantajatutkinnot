@@ -1,44 +1,47 @@
 package fi.oph.vkt.util;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
-import fi.oph.vkt.model.type.ExamLevel;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-@DataJpaTest
-class EnrollmentUtilTest {
-
-  @Resource
-  private TestEntityManager entityManager;
+public class EnrollmentUtilTest {
 
   @Test
-  public void testIsUnderstandingSkillFree() {
+  public void testGetTextualSkillFee() {
     final ExamEvent examEvent = Factory.examEvent();
-    examEvent.setLevel(ExamLevel.EXCELLENT);
-    entityManager.persist(examEvent);
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
-    assertTrue(EnrollmentUtil.isUnderstandingSkillFree(createEnrollment(examEvent, true, false)));
-    assertTrue(EnrollmentUtil.isUnderstandingSkillFree(createEnrollment(examEvent, false, true)));
-    assertTrue(EnrollmentUtil.isUnderstandingSkillFree(createEnrollment(examEvent, true, true)));
+    enrollment.setTextualSkill(false);
+    assertEquals(0, EnrollmentUtil.getTextualSkillFee(enrollment));
+
+    enrollment.setTextualSkill(true);
+    assertEquals(22700, EnrollmentUtil.getTextualSkillFee(enrollment));
   }
 
-  private Enrollment createEnrollment(final ExamEvent examEvent, final boolean textualSkill, final boolean oralSkill) {
+  @Test
+  public void testGetOralSkillFee() {
+    final ExamEvent examEvent = Factory.examEvent();
     final Person person = Factory.person();
-    entityManager.persist(person);
-
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    enrollment.setTextualSkill(textualSkill);
-    enrollment.setOralSkill(oralSkill);
-    enrollment.setUnderstandingSkill(true);
-    entityManager.persist(enrollment);
 
-    return enrollment;
+    enrollment.setOralSkill(false);
+    assertEquals(0, EnrollmentUtil.getOralSkillFee(enrollment));
+
+    enrollment.setOralSkill(true);
+    assertEquals(22700, EnrollmentUtil.getOralSkillFee(enrollment));
+  }
+
+  @Test
+  public void testGetUnderstandingSkillFee() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    assertEquals(0, EnrollmentUtil.getUnderstandingSkillFee(enrollment));
   }
 }

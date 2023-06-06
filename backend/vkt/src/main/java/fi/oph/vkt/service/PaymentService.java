@@ -6,7 +6,6 @@ import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
-import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.payment.paytrail.Customer;
@@ -15,6 +14,7 @@ import fi.oph.vkt.payment.paytrail.PaytrailConfig;
 import fi.oph.vkt.payment.paytrail.PaytrailResponseDTO;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
@@ -35,46 +35,33 @@ public class PaymentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
-  private static final int COST_MAX = 45400;
-  private static final int UNIT_PRICE = 22700;
-
   private final PaymentProvider paymentProvider;
   private final PaymentRepository paymentRepository;
   private final EnrollmentRepository enrollmentRepository;
   private final Environment environment;
   private final PublicEnrollmentEmailService publicEnrollmentEmailService;
 
-  private Item getItem(final EnrollmentSkill enrollmentSkill, final boolean isFree) {
+  private Item getItem(final EnrollmentSkill enrollmentSkill, final int unitPrice) {
     return Item
       .builder()
       .units(1)
-      .unitPrice(isFree ? 0 : UNIT_PRICE)
+      .unitPrice(unitPrice)
       .vatPercentage(PaytrailConfig.VAT)
       .productCode(enrollmentSkill.toString())
       .build();
   }
 
-  private int getTotalAmount(final List<Item> itemList) {
-    return Math.min(
-      COST_MAX,
-      itemList.stream().reduce(0, (subtotal, item) -> subtotal + item.units() * item.unitPrice(), Integer::sum)
-    );
-  }
-
   private List<Item> getItems(final Enrollment enrollment) {
     final List<Item> itemList = new ArrayList<>();
 
-    if (enrollment.isOralSkill()) {
-      itemList.add(getItem(EnrollmentSkill.ORAL, false));
-    }
     if (enrollment.isTextualSkill()) {
-      itemList.add(getItem(EnrollmentSkill.TEXTUAL, false));
+      itemList.add(getItem(EnrollmentSkill.TEXTUAL, EnrollmentUtil.getTextualSkillFee(enrollment)));
+    }
+    if (enrollment.isOralSkill()) {
+      itemList.add(getItem(EnrollmentSkill.ORAL, EnrollmentUtil.getOralSkillFee(enrollment)));
     }
     if (enrollment.isUnderstandingSkill()) {
-      final boolean isUnderstandingSkillFree =
-        enrollment.getExamEvent().getLevel() == ExamLevel.EXCELLENT || itemList.size() >= 2;
-
-      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, isUnderstandingSkillFree));
+      itemList.add(getItem(EnrollmentSkill.UNDERSTANDING, EnrollmentUtil.getUnderstandingSkillFee(enrollment)));
     }
 
     return itemList;
@@ -180,7 +167,7 @@ public class PaymentService {
       .lastName(getCustomerField(person.getLastName(), Customer.LAST_NAME_MAX_LENGTH))
       .build();
 
-    final int amount = getTotalAmount(itemList);
+    final int amount = EnrollmentUtil.getTotalFee(enrollment);
 
     final Payment payment = new Payment();
     payment.setEnrollment(enrollment);

@@ -105,7 +105,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(language == Language.FI ? "Kirjallinen taito" : "Förmåga att använda svenska i skrift")
-              .amount("227 €")
+              .amount(String.format("%s €", EnrollmentUtil.getTextualSkillFee(enrollment) / 100))
               .build()
             : null
         ),
@@ -114,7 +114,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(language == Language.FI ? "Suullinen taito" : "Förmåga att använda svenska i tal")
-              .amount("227 €")
+              .amount(String.format("%s €", EnrollmentUtil.getOralSkillFee(enrollment) / 100))
               .build()
             : null
         ),
@@ -123,7 +123,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(language == Language.FI ? "Ymmärtämisen taito" : "Förmåga att förstå svenska")
-              .amount(EnrollmentUtil.isUnderstandingSkillFree(enrollment) ? "0 €" : "227 €")
+              .amount(String.format("%s €", EnrollmentUtil.getUnderstandingSkillFee(enrollment) / 100))
               .build()
             : null
         )
