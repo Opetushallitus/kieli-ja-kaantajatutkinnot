@@ -31,9 +31,9 @@ export const Authenticate = ({
               selectedExamEvent.id.toString()
             ).replace(
               ':type',
-              ExamEventUtils.isEnrollingToQueue(selectedExamEvent)
-                ? 'queue'
-                : 'reservation'
+              ExamEventUtils.hasOpenings(selectedExamEvent)
+                ? 'reservation'
+                : 'queue'
             )}
             variant={Variant.Contained}
             onClick={() => setIsRedirecting(true)}

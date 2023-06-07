@@ -18,8 +18,8 @@ export class ExamEventUtils {
     );
   }
 
-  static isEnrollingToQueue(examEvent: PublicExamEvent) {
-    return examEvent.openings <= 0;
+  static hasOpenings(examEvent: PublicExamEvent) {
+    return examEvent.openings > 0;
   }
 
   static languageAndLevelText(

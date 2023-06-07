@@ -11,7 +11,6 @@ import { useDialog } from 'shared/hooks';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -21,7 +20,6 @@ import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
-  resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 import { RouteUtils } from 'utils/routes';
@@ -81,12 +79,7 @@ export const PublicEnrollmentControlButtons = ({
             variant: Variant.Contained,
             action: () => {
               dispatch(confirmAction);
-              dispatch(resetPublicEnrollment());
               dispatch(resetSelectedPublicExamEvent());
-
-              if (!reservationId) {
-                navigate(AppRoutes.PublicHomePage);
-              }
             },
           },
         ],

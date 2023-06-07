@@ -81,6 +81,8 @@ export const PublicEnrollmentGrid = ({
   );
 
   const isLoading = [status].includes(APIResponseStatus.InProgress);
+  const isAuthenticateStepActive =
+    activeStep === PublicEnrollmentFormStep.Authenticate;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
@@ -126,20 +128,22 @@ export const PublicEnrollmentGrid = ({
                 {isPaymentSumAvailable && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />
                 )}
-                {!isDoneStepActive && reservationDetails && (
-                  <PublicEnrollmentControlButtons
-                    submitStatus={enrollmentSubmitStatus}
-                    activeStep={activeStep}
-                    enrollment={enrollment}
-                    reservationDetails={reservationDetails}
-                    isLoading={isLoading}
-                    isStepValid={isStepValid}
-                    setShowValidation={setShowValidation}
-                    isPaymentLinkPreviewView={
-                      isShiftedFromQueue && isPreviewStepActive
-                    }
-                  />
-                )}
+                {!isDoneStepActive &&
+                  !isAuthenticateStepActive &&
+                  reservationDetails && (
+                    <PublicEnrollmentControlButtons
+                      submitStatus={enrollmentSubmitStatus}
+                      activeStep={activeStep}
+                      enrollment={enrollment}
+                      reservationDetails={reservationDetails}
+                      isLoading={isLoading}
+                      isStepValid={isStepValid}
+                      setShowValidation={setShowValidation}
+                      isPaymentLinkPreviewView={
+                        isShiftedFromQueue && isPreviewStepActive
+                      }
+                    />
+                  )}
               </div>
             )}
           </LoadingProgressIndicator>
