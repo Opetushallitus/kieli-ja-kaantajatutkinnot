@@ -69,7 +69,10 @@ export const PublicEnrollmentGrid = ({
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicHomePage);
-      dispatch(resetPublicEnrollment());
+
+      // Navigation is not instant so we delay reset a bit
+      // to prevent instant re-render of this component
+      setTimeout(() => dispatch(resetPublicEnrollment()), 50);
     }
   }, [cancelStatus, navigate, dispatch]);
 

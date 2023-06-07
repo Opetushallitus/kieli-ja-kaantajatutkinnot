@@ -14,7 +14,6 @@ import { PublicReservation } from 'interfaces/publicEnrollment';
 import {
   cancelPublicEnrollmentAndRemoveReservation,
   renewPublicEnrollmentReservation,
-  resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 
@@ -72,7 +71,6 @@ export const PublicEnrollmentTimer = ({
 
   const cancelReservation = () => {
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
-    dispatch(resetPublicEnrollment());
     dispatch(resetSelectedPublicExamEvent());
   };
 
