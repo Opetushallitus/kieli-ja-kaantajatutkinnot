@@ -73,7 +73,6 @@ public class PublicEnrollmentEmailServiceTest {
           .builder()
           .date("20.02.2025")
           .paymentDate("19.02.2025")
-          .payer("Foo Bar")
           .exam("Suomi, erinomainen taito, 27.03.2025")
           .participant("Bar, Foo")
           .totalAmount("500 €")

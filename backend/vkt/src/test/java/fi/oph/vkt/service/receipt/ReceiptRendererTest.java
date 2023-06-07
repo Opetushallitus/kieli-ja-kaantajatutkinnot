@@ -68,7 +68,6 @@ class ReceiptRendererTest {
 
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.FI);
     assertNotNull(receiptData);
-    assertEquals("Bar, Foo", receiptData.payer());
     assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
     assertEquals("Bar, Foo", receiptData.participant());
     assertEquals("227 €", receiptData.totalAmount());

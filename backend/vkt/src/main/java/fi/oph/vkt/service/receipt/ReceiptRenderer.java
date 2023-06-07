@@ -48,13 +48,13 @@ public class ReceiptRenderer {
     final String date = DATE_FORMAT.format(LocalDate.now());
     final String paymentDate = DATE_FORMAT.format(payment.getModifiedAt());
 
-    final String payer = String.format("%s, %s", person.getLastName(), person.getFirstName());
     final String exam = String.format(
       "%s, %s, %s",
       getLang(examLanguage, receiptLanguage),
       getLevelDescription(examEvent, receiptLanguage),
       DATE_FORMAT.format(examEvent.getDate())
     );
+    final String participant = String.format("%s, %s", person.getLastName(), person.getFirstName());
     final String totalAmount = String.format("%s €", payment.getAmount() / 100);
 
     final List<ReceiptItem> items = getReceiptItems(enrollment, examLanguage, receiptLanguage);
@@ -63,9 +63,8 @@ public class ReceiptRenderer {
       .builder()
       .date(date)
       .paymentDate(paymentDate)
-      .payer(payer)
       .exam(exam)
-      .participant(payer)
+      .participant(participant)
       .totalAmount(totalAmount)
       .items(items)
       .build();

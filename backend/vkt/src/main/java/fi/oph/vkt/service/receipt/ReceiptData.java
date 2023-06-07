@@ -8,7 +8,6 @@ import lombok.NonNull;
 public record ReceiptData(
   @NonNull String date,
   @NonNull String paymentDate,
-  @NonNull String payer,
   @NonNull String exam,
   @NonNull String participant,
   @NonNull String totalAmount,
