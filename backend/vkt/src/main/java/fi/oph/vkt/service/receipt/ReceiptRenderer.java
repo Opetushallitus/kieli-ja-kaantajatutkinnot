@@ -47,6 +47,7 @@ public class ReceiptRenderer {
 
     final String date = DATE_FORMAT.format(LocalDate.now());
     final String paymentDate = DATE_FORMAT.format(payment.getModifiedAt());
+    final String paymentReference = payment.getReference();
 
     final String exam = String.format(
       "%s, %s, %s",
@@ -63,6 +64,7 @@ public class ReceiptRenderer {
       .builder()
       .date(date)
       .paymentDate(paymentDate)
+      .paymentReference(paymentReference)
       .exam(exam)
       .participant(participant)
       .totalAmount(totalAmount)

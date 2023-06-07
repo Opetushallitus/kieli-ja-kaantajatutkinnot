@@ -26,6 +26,7 @@ class ReceiptRendererIntegrationTest {
         .builder()
         .date("25.12.2022")
         .paymentDate("24.12.2022")
+        .paymentReference("RF-123")
         .exam("Suomi, erinomainen taito, 28.1.2023")
         .participant("Ainolainen, Aino")
         .totalAmount("25 €")
@@ -41,6 +42,7 @@ class ReceiptRendererIntegrationTest {
     assertTrue(html.contains("<html "));
     assertTrue(html.contains("25.12.2022"));
     assertTrue(html.contains("Maksupäivä: 24.12.2022"));
+    assertTrue(html.contains("Maksun viite: RF-123"));
     assertTrue(html.contains("Tutkinto: Suomi, erinomainen taito, 28.1.2023"));
     assertTrue(html.contains("Osallistuja: Ainolainen, Aino"));
     assertTrue(html.contains("Kirjallinen taito"));
@@ -57,6 +59,7 @@ class ReceiptRendererIntegrationTest {
         .builder()
         .date("25.12.2022")
         .paymentDate("24.12.2022")
+        .paymentReference("RF-123")
         .exam("Suomi, erinomainen taito, 28.1.2023")
         .participant("Ainolainen, Aino")
         .totalAmount("25 €")

@@ -60,6 +60,7 @@ class ReceiptRendererTest {
 
     final Payment payment = Factory.payment(enrollment);
     payment.setAmount(22700);
+    payment.setReference("RF-123");
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
@@ -68,6 +69,7 @@ class ReceiptRendererTest {
 
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.FI);
     assertNotNull(receiptData);
+    assertEquals("RF-123", receiptData.paymentReference());
     assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
     assertEquals("Bar, Foo", receiptData.participant());
     assertEquals("227 €", receiptData.totalAmount());
