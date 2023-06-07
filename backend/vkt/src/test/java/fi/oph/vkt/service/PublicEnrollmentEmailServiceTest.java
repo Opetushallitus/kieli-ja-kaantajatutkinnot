@@ -157,7 +157,7 @@ public class PublicEnrollmentEmailServiceTest {
     final EmailAttachment attachment = attachments.get(0);
 
     assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Maksukuitti 20.02.2025.pdf")));
-    assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Betalningkvitto 20.02.2025.pdf")));
+    assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Betalningskvitto 20.02.2025.pdf")));
     assertTrue(attachments.stream().allMatch(a -> attachment.getContentType().equals("application/pdf")));
   }
 
