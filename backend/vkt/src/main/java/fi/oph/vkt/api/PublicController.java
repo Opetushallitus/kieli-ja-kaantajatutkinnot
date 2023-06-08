@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -138,9 +139,10 @@ public class PublicController {
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
-  public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
+  public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) throws InterruptedException {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
+    TimeUnit.SECONDS.sleep(10);
     publicReservationService.deleteReservation(reservationId, person);
   }
 

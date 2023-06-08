@@ -90,6 +90,7 @@
       },
       "level": "Taso",
       "loadingContent": "Sisältöä ladataan",
+      "loadingDone": "Lataus valmis",
       "municipality": "Paikkakunta",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",

@@ -17,6 +17,7 @@
       },
       "frontPage": "Etusivu",
       "loadingContent": "Sisältöä ladataan",
+      "loadingDone": "Lataus valmis",
       "meetingDates": "Kokouspäivät",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
