@@ -1,13 +1,16 @@
 package fi.oph.vkt.service.receipt;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
 public record ReceiptData(
-  @NonNull String dateOfReceipt,
-  @NonNull String payerName,
+  @NonNull String date,
   @NonNull String paymentDate,
+  @NonNull String paymentReference,
+  @NonNull String exam,
+  @NonNull String participant,
   @NonNull String totalAmount,
-  @NonNull ReceiptItem item
+  @NonNull List<ReceiptItem> items
 ) {}

@@ -75,7 +75,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       </Text>
       <Text>
         {t('payment.details.date')}:{' '}
-        <b>{DateUtils.formatOptionalDate(payment.modifiedAt)}</b>
+        <b>{DateUtils.formatOptionalDateTime(payment.modifiedAt)}</b>
       </Text>
       <Text>
         {t('payment.details.amount')}:{' '}

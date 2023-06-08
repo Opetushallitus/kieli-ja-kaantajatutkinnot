@@ -2,34 +2,46 @@ package fi.oph.vkt.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
-import lombok.NonNull;
+import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Person;
 import org.junit.jupiter.api.Test;
 
-class EnrollmentUtilTest {
+public class EnrollmentUtilTest {
 
   @Test
-  public void testCalculateExaminationPaymentSum() {
-    assertEquals(0, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(false, false, false)));
-    assertEquals(227, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(true, false, false)));
-    assertEquals(454, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(true, true, false)));
-    assertEquals(454, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(true, false, true)));
-    assertEquals(227, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(false, true, false)));
-    assertEquals(227, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(false, false, true)));
-    assertEquals(454, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(false, true, true)));
-    assertEquals(454, EnrollmentUtil.calculateExaminationPaymentSum(createEnrollment(true, true, true)));
+  public void testGetTextualSkillFee() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setTextualSkill(false);
+    assertEquals(0, EnrollmentUtil.getTextualSkillFee(enrollment));
+
+    enrollment.setTextualSkill(true);
+    assertEquals(22700, EnrollmentUtil.getTextualSkillFee(enrollment));
   }
 
-  @NonNull
-  private static Enrollment createEnrollment(
-    final boolean oralSkill,
-    final boolean textualSkill,
-    final boolean understandingSkill
-  ) {
-    final Enrollment enrollment = new Enrollment();
-    enrollment.setOralSkill(oralSkill);
-    enrollment.setTextualSkill(textualSkill);
-    enrollment.setUnderstandingSkill(understandingSkill);
-    return enrollment;
+  @Test
+  public void testGetOralSkillFee() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setOralSkill(false);
+    assertEquals(0, EnrollmentUtil.getOralSkillFee(enrollment));
+
+    enrollment.setOralSkill(true);
+    assertEquals(22700, EnrollmentUtil.getOralSkillFee(enrollment));
+  }
+
+  @Test
+  public void testGetUnderstandingSkillFee() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    assertEquals(0, EnrollmentUtil.getUnderstandingSkillFee(enrollment));
   }
 }

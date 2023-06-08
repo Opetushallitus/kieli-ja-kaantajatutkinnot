@@ -40,7 +40,8 @@ public class PublicEnrollmentEmailService {
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
-    final String subject = "Vahvistus tutkintoon ilmoittautumisesta | Samma på svenska";
+    final String subject =
+      "Vahvistus ilmoittautumisesta Valtionhallinnon kielitutkintoon (VKT) | Bekräftelse av anmälan till Språkexamen för statsförvaltningen (VKT)";
     final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
 
     final List<EmailAttachmentData> attachments = environment.getRequiredProperty(
@@ -59,7 +60,8 @@ public class PublicEnrollmentEmailService {
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
-    final String subject = "Vahvistus ilmoittautumisesta tutkinnon jonotuspaikalle | Samma på svenska";
+    final String subject =
+      "Vahvistus ilmoittautumisesta jonotuspaikalle Valtionhallinnon kielitutkintoon (VKT) | Bekräftelse av plats i kön för Språkexamen för statsförvaltningen (VKT)";
     final String body = templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(templateParams);
 
     createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_TO_QUEUE_CONFIRMATION);
@@ -78,8 +80,8 @@ public class PublicEnrollmentEmailService {
       params.put("examLanguageSV", "svenska");
     }
 
-    params.put("examLevelFI", "erinomainen");
-    params.put("examLevelSV", "utmärkt");
+    params.put("examLevelFI", "erinomainen taito");
+    params.put("examLevelSV", "utmärkta språkkunskaper");
 
     params.put("examDate", examEvent.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 
@@ -93,13 +95,15 @@ public class PublicEnrollmentEmailService {
         )
       )
     );
+
+    final String examLanguageSV = (String) params.get("examLanguageSV");
     params.put(
       "skillsSV",
       joinNonEmptyStrings(
         Stream.of(
-          enrollment.isTextualSkill() ? "kirjallinen taito" : "",
-          enrollment.isOralSkill() ? "suullinen taito" : "",
-          enrollment.isUnderstandingSkill() ? "ymmärtämisen taito" : ""
+          enrollment.isTextualSkill() ? "förmåga att använda " + examLanguageSV + " i skrift" : "",
+          enrollment.isOralSkill() ? "förmåga att använda " + examLanguageSV + " i tal" : "",
+          enrollment.isUnderstandingSkill() ? "förmåga att förstå " + examLanguageSV : ""
         )
       )
     );
@@ -119,10 +123,10 @@ public class PublicEnrollmentEmailService {
       "partialExamsSV",
       joinNonEmptyStrings(
         Stream.of(
-          enrollment.isWritingPartialExam() ? "kirjoittaminen" : "",
-          enrollment.isReadingComprehensionPartialExam() ? "tekstin ymmärtäminen" : "",
-          enrollment.isSpeakingPartialExam() ? "puhuminen" : "",
-          enrollment.isSpeechComprehensionPartialExam() ? "puheen ymmärtäminen" : ""
+          enrollment.isWritingPartialExam() ? "skriftlig färdighet" : "",
+          enrollment.isReadingComprehensionPartialExam() ? "textförståelse" : "",
+          enrollment.isSpeakingPartialExam() ? "muntlig färdighet" : "",
+          enrollment.isSpeechComprehensionPartialExam() ? "hörförståelse" : ""
         )
       )
     );
@@ -137,13 +141,13 @@ public class PublicEnrollmentEmailService {
   private EmailAttachmentData createReceiptAttachment(final Enrollment enrollment, final Language language)
     throws IOException, InterruptedException {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), language);
-    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData);
+    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData, language);
 
-    final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningkvittot";
+    final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningskvitto";
 
     return EmailAttachmentData
       .builder()
-      .name(attachmentNamePrefix + " " + receiptData.dateOfReceipt() + ".pdf")
+      .name(attachmentNamePrefix + " " + receiptData.date() + ".pdf")
       .contentType("application/pdf")
       .data(receiptBytes)
       .build();

@@ -97,8 +97,8 @@ public class PaymentServiceTest {
     );
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
+      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
       Item
         .builder()
         .units(1)

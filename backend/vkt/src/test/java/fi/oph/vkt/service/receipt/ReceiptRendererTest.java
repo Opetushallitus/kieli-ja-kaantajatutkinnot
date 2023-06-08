@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
@@ -53,22 +54,32 @@ class ReceiptRendererTest {
     person.setLastName("Bar");
 
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setTextualSkill(true);
+    enrollment.setOralSkill(false);
+    enrollment.setUnderstandingSkill(true);
+
+    final Payment payment = Factory.payment(enrollment);
+    payment.setAmount(22700);
+    payment.setReference("RF-123");
 
     entityManager.persist(examEvent);
     entityManager.persist(person);
     entityManager.persist(enrollment);
+    entityManager.persist(payment);
 
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.FI);
     assertNotNull(receiptData);
-    assertEquals("Bar, Foo", receiptData.payerName());
-    assertEquals("454 €", receiptData.totalAmount());
+    assertEquals("RF-123", receiptData.paymentReference());
+    assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
+    assertEquals("Bar, Foo", receiptData.participant());
+    assertEquals("227 €", receiptData.totalAmount());
 
-    final ReceiptItem receiptItem = receiptData.item();
-    assertEquals("Valtionhallinnon kielitutkinnot (VKT), tutkintomaksu", receiptItem.name());
-    assertEquals("454 €", receiptItem.value());
+    final ReceiptItem item1 = receiptData.items().get(0);
+    assertEquals("Kirjallinen taito", item1.name());
+    assertEquals("227 €", item1.amount());
 
-    assertEquals(2, receiptItem.additionalInfos().size());
-    assertEquals("Ruotsi, erinomainen, 07.10.2024", receiptItem.additionalInfos().get(0));
-    assertEquals("Osallistuja: Bar, Foo", receiptData.item().additionalInfos().get(1));
+    final ReceiptItem item2 = receiptData.items().get(1);
+    assertEquals("Ymmärtämisen taito", item2.name());
+    assertEquals("0 €", item2.amount());
   }
 }

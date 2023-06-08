@@ -3,6 +3,7 @@ package fi.oph.vkt.service.receipt;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import fi.oph.vkt.util.localisation.Language;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
@@ -18,47 +19,58 @@ class ReceiptRendererIntegrationTest {
   private ReceiptRenderer receiptRenderer;
 
   @Test
-  public void testHtml() {
+  public void testGetReceiptHtml() {
     final String html = receiptRenderer.getReceiptHtml(
+      Language.FI,
       ReceiptData
         .builder()
-        .dateOfReceipt("24.12.2013")
-        .payerName("Raimo Rahamies")
-        .paymentDate("24.12.1987")
-        .totalAmount("454 €")
-        .item(
-          ReceiptItem
-            .builder()
-            .name("Valtionhallinnon kielitutkinnot (VKT) tutkintomaksu")
-            .value("454 €")
-            .additionalInfos(List.of("Suomi, erinomainen, 28.1.2023", "Osallistuja: Ainolainen, Aino"))
-            .build()
+        .date("25.12.2022")
+        .paymentDate("24.12.2022")
+        .paymentReference("RF-123")
+        .exam("Suomi, erinomainen taito, 28.1.2023")
+        .participant("Ainolainen, Aino")
+        .totalAmount("25 €")
+        .items(
+          List.of(
+            ReceiptItem.builder().name("Kirjallinen taito").amount("10 €").build(),
+            ReceiptItem.builder().name("Suullinen taito").amount("15 €").build()
+          )
         )
         .build()
     );
     assertNotNull(html);
     assertTrue(html.contains("<html "));
-    assertTrue(html.contains("Maksupäivä: 24.12.1987"));
+    assertTrue(html.contains("25.12.2022"));
+    assertTrue(html.contains("Maksupäivä: 24.12.2022"));
+    assertTrue(html.contains("Maksun viite: RF-123"));
+    assertTrue(html.contains("Tutkinto: Suomi, erinomainen taito, 28.1.2023"));
+    assertTrue(html.contains("Osallistuja: Ainolainen, Aino"));
+    assertTrue(html.contains("Kirjallinen taito"));
+    assertTrue(html.contains("Suullinen taito"));
+    assertTrue(html.contains("10 €"));
+    assertTrue(html.contains("15 €"));
+    assertTrue(html.contains("25 €"));
   }
 
   @Test
-  public void testPdf() throws IOException, InterruptedException {
+  public void testGetReceiptPdfBytes() throws IOException, InterruptedException {
     final byte[] pdfBytes = receiptRenderer.getReceiptPdfBytes(
       ReceiptData
         .builder()
-        .dateOfReceipt("24.12.2013")
-        .payerName("Raimo Rahamies")
-        .paymentDate("24.12.1987")
-        .totalAmount("454 €")
-        .item(
-          ReceiptItem
-            .builder()
-            .name("Valtionhallinnon kielitutkinnot (VKT) tutkintomaksu")
-            .value("454 €")
-            .additionalInfos(List.of("Suomi, erinomainen, 28.1.2023", "Osallistuja: Ainolainen, Aino"))
-            .build()
+        .date("25.12.2022")
+        .paymentDate("24.12.2022")
+        .paymentReference("RF-123")
+        .exam("Suomi, erinomainen taito, 28.1.2023")
+        .participant("Ainolainen, Aino")
+        .totalAmount("25 €")
+        .items(
+          List.of(
+            ReceiptItem.builder().name("Kirjallinen taito").amount("10 €").build(),
+            ReceiptItem.builder().name("Suullinen taito").amount("15 €").build()
+          )
         )
-        .build()
+        .build(),
+      Language.FI
     );
     assertNotNull(pdfBytes);
     assertTrue(pdfBytes.length > 0);
