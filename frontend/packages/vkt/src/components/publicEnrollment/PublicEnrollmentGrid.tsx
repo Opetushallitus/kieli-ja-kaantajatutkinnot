@@ -16,6 +16,7 @@ import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   loadPublicEnrollment,
+  loadPublicExamEvent,
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
@@ -34,7 +35,6 @@ export const PublicEnrollmentGrid = ({
     status,
     enrollmentSubmitStatus,
     cancelStatus,
-    enrollToQueue,
     enrollment,
     reservationDetails,
     reservationDetailsStatus,
@@ -50,7 +50,11 @@ export const PublicEnrollmentGrid = ({
       !selectedExamEvent &&
       params.examEventId
     ) {
-      dispatch(loadPublicEnrollment(+params.examEventId));
+      if (activeStep === PublicEnrollmentFormStep.Authenticate) {
+        dispatch(loadPublicExamEvent(+params.examEventId));
+      } else {
+        dispatch(loadPublicEnrollment(+params.examEventId));
+      }
     }
   }, [
     dispatch,
@@ -59,12 +63,16 @@ export const PublicEnrollmentGrid = ({
     reservationDetails,
     selectedExamEvent,
     params.examEventId,
+    activeStep,
   ]);
 
   useEffect(() => {
     if (cancelStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicHomePage);
-      dispatch(resetPublicEnrollment());
+
+      // Navigation is not instant so we delay reset a bit
+      // to prevent instant re-render of this component
+      setTimeout(() => dispatch(resetPublicEnrollment()), 50);
     }
   }, [cancelStatus, navigate, dispatch]);
 
@@ -76,10 +84,11 @@ export const PublicEnrollmentGrid = ({
   );
 
   const isLoading = [status].includes(APIResponseStatus.InProgress);
+  const isAuthenticateStepActive =
+    activeStep === PublicEnrollmentFormStep.Authenticate;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
-  const isExpectedToHaveOpenings = !enrollToQueue;
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
@@ -118,25 +127,26 @@ export const PublicEnrollmentGrid = ({
                   isLoading={isLoading}
                   setIsStepValid={setIsStepValid}
                   showValidation={showValidation}
-                  isExpectedToHaveOpenings={isExpectedToHaveOpenings}
                 />
                 {isPaymentSumAvailable && (
                   <PublicEnrollmentPaymentSum enrollment={enrollment} />
                 )}
-                {!isDoneStepActive && reservationDetails && (
-                  <PublicEnrollmentControlButtons
-                    submitStatus={enrollmentSubmitStatus}
-                    activeStep={activeStep}
-                    enrollment={enrollment}
-                    reservationDetails={reservationDetails}
-                    isLoading={isLoading}
-                    isStepValid={isStepValid}
-                    setShowValidation={setShowValidation}
-                    isPaymentLinkPreviewView={
-                      isShiftedFromQueue && isPreviewStepActive
-                    }
-                  />
-                )}
+                {!isDoneStepActive &&
+                  !isAuthenticateStepActive &&
+                  reservationDetails && (
+                    <PublicEnrollmentControlButtons
+                      submitStatus={enrollmentSubmitStatus}
+                      activeStep={activeStep}
+                      enrollment={enrollment}
+                      reservationDetails={reservationDetails}
+                      isLoading={isLoading}
+                      isStepValid={isStepValid}
+                      setShowValidation={setShowValidation}
+                      isPaymentLinkPreviewView={
+                        isShiftedFromQueue && isPreviewStepActive
+                      }
+                    />
+                  )}
               </div>
             )}
           </LoadingProgressIndicator>

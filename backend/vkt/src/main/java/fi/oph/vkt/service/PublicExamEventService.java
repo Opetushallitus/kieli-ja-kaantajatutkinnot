@@ -1,11 +1,14 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PublicExamEventProjection;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
+import fi.oph.vkt.util.exception.NotFoundException;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,25 @@ public class PublicExamEventService {
 
   private final ExamEventRepository examEventRepository;
   private final ReservationRepository reservationRepository;
+
+  @Transactional(readOnly = true)
+  public PublicExamEventDTO getExamEvent(final long examEventId) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    if (examEvent.getRegistrationCloses().isBefore(LocalDate.now())) {
+      throw new NotFoundException(String.format("Exam event (%d) enrollment is closed", examEvent.getId()));
+    }
+
+    return PublicExamEventDTO
+      .builder()
+      .id(examEvent.getId())
+      .language(examEvent.getLanguage())
+      .date(examEvent.getDate())
+      .registrationCloses(examEvent.getRegistrationCloses())
+      .openings(ExamEventUtil.getOpenings(examEvent))
+      .hasCongestion(ExamEventUtil.isCongested(examEvent))
+      .build();
+  }
 
   @Transactional(readOnly = true)
   public List<PublicExamEventDTO> listExamEvents(final ExamLevel level) {
