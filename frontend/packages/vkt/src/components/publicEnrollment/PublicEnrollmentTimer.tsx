@@ -6,17 +6,16 @@ import {
   CustomModal,
   LoadingProgressIndicator,
 } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicReservation } from 'interfaces/publicEnrollment';
 import {
   cancelPublicEnrollmentAndRemoveReservation,
   renewPublicEnrollmentReservation,
-  resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
-import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 const calcProgress = (expires: Dayjs, total: number) => {
   const secondsDiff = Math.max(0, expires.diff(dayjs(), 'second'));
@@ -41,6 +40,8 @@ export const PublicEnrollmentTimer = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.expirationTimer',
   });
+  const { cancelStatus } = useAppSelector(publicEnrollmentSelector);
+  const cancelLoading = cancelStatus === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
   const expirationStart = reservation.renewedAt ?? reservation.createdAt;
@@ -72,8 +73,6 @@ export const PublicEnrollmentTimer = ({
 
   const cancelReservation = () => {
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
-    dispatch(resetPublicEnrollment());
-    dispatch(resetSelectedPublicExamEvent());
   };
 
   const isExpired = progress.secondsDiff <= 0;
@@ -120,19 +119,23 @@ export const PublicEnrollmentTimer = ({
         <>
           <p id="expires-modal-description">{t('reservationInfoText')}</p>
           <div className="columns gapped flex-end">
-            <CustomButton
-              data-testid="public-enrollment__cancel-reservation-modal-button"
-              variant={Variant.Text}
-              color={Color.Secondary}
-              onClick={cancelReservation}
-            >
-              {t('cancelReservation')}
-            </CustomButton>
+            <LoadingProgressIndicator isLoading={cancelLoading}>
+              <CustomButton
+                data-testid="public-enrollment__cancel-reservation-modal-button"
+                variant={Variant.Text}
+                color={Color.Secondary}
+                onClick={cancelReservation}
+                disabled={cancelLoading || isLoading}
+              >
+                {t('cancelReservation')}
+              </CustomButton>
+            </LoadingProgressIndicator>
             <CustomButton
               data-testid="public-enrollment__renew-reservation-modal-button"
               variant={Variant.Contained}
               color={Color.Secondary}
               onClick={renewReservation}
+              disabled={cancelLoading || isLoading}
             >
               {t('continueEnrollment')}
             </CustomButton>
@@ -151,14 +154,17 @@ export const PublicEnrollmentTimer = ({
         <>
           <p id="expired-modal-description">{t('reservationExpiredText')}</p>
           <div className="columns gapped flex-end">
-            <CustomButton
-              data-testid="public-enrollment__reservation-expired-ok-button"
-              variant={Variant.Text}
-              color={Color.Secondary}
-              onClick={cancelReservation}
-            >
-              {t('reservationExpiredContinue')}
-            </CustomButton>
+            <LoadingProgressIndicator isLoading={cancelLoading}>
+              <CustomButton
+                data-testid="public-enrollment__reservation-expired-ok-button"
+                variant={Variant.Text}
+                color={Color.Secondary}
+                onClick={cancelReservation}
+                disabled={cancelLoading || isLoading}
+              >
+                {t('reservationExpiredContinue')}
+              </CustomButton>
+            </LoadingProgressIndicator>
           </div>
         </>
       </CustomModal>

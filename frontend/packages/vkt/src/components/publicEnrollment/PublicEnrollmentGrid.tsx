@@ -75,7 +75,9 @@ export const PublicEnrollmentGrid = ({
     '/vkt/ilmoittaudu'
   );
 
-  const isLoading = [status].includes(APIResponseStatus.InProgress);
+  const isLoading = [status, enrollmentSubmitStatus].includes(
+    APIResponseStatus.InProgress
+  );
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
