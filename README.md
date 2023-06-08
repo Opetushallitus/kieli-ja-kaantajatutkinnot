@@ -152,6 +152,14 @@ Names count to use static import with '*': 999
 
 &nbsp;
 
+### Non-final parameters and variables
+
+If you are using IntelliJ, you might want to configure it to warn for non-final parameters and variables.
+
+`Preferences/Settings > Editor > Inspections > Java > Code style issues > Local variable or parameter can be final`
+
+&nbsp;
+
 ## Git conventions
 
 ### Commit message conventions

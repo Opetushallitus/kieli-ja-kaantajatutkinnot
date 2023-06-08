@@ -2,6 +2,7 @@
 <html lang="fi">
 <head>
     <meta charset="UTF-8"/>
+    <title>Maksukuitti</title>
     <style>
         body {
             margin: 30px;
@@ -58,30 +59,26 @@
     </tr>
 </table>
 
-<p>
-    [[${dateOfReceipt}]]
-</p>
-<p>
-    Maksupäivä: [[${paymentDate}]]
-</p>
-<p>
-    [[${payerName}]]
-</p>
+<p>[[${date}]]</p>
+<p>Maksupäivä: [[${paymentDate}]]</p>
+<p>Maksun viite: [[${paymentReference}]]</p>
+<p>Tutkinto: [[${exam}]]</p>
+<p>Osallistuja: [[${participant}]]</p>
 
 <table style="width: 100%;border-spacing: 0;">
     <tr>
         <td colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;">
-            [[${item.name}]]
-        </td>
-        <td class="cell" style="border-width: 1px 1px 0 0;">
-            [[${item.value}]]
-        </td>
-    </tr>
-    <tr th:each="additionalInfo : ${item.additionalInfos}">
-        <td colspan="4" class="cell" style="border-width: 0 1px 0 1px;">
-            [[${additionalInfo}]]
+            Valtionhallinnon kielitutkinnot (VKT), tutkintomaksu
         </td>
         <td class="cell" style="border-width: 0 1px 0 0;"></td>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td colspan="4" class="cell" style="border-width: 0 1px 0 1px;">
+            [[${item.name}]]
+        </td>
+        <td class="cell" style="border-width: 0 1px 0 1px;">
+            [[${item.amount}]]
+        </td>
     </tr>
     <tr style="font-weight: bold">
         <td class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;">
@@ -95,7 +92,7 @@
 
 <div style="font-size: 14px;">
     <p>Hinnat ALV 0%</p>
-    <p>Valtionhallinnon kielitutkinnon tutkintomaksut ovat opetus- ja kulttuuriministeriön asetuksella Opetushallituksen suoritteiden maksullisuudesta (1223/2022) määrättyjä maksuja, joista ei peritä arvonlisäveroa.</p>
+    <p>Valtionhallinnon kielitutkinnon tutkintomaksut ovat opetus- ja kulttuuriministeriön asetuksella Opetushallituksen suoritteiden maksullisuudesta (1371/2021) määrättyjä maksuja, joista ei peritä arvonlisäveroa.</p>
 </div>
 
 <table class="footer">
@@ -109,8 +106,8 @@
         </td>
         <td>
             <div class="hf_center">
-                <div>Sähköposti: kirjaamo@oph.fi</div>
                 <div>Puhelin: +358 29 533 1000</div>
+                <div>&nbsp;</div>
                 <div>&nbsp;</div>
             </div>
         </td>

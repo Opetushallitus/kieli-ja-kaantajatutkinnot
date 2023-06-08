@@ -4,11 +4,13 @@ import fi.oph.vkt.model.Email;
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
+import fi.oph.vkt.model.type.PaymentStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -62,6 +64,20 @@ public class Factory {
     person.getEnrollments().add(enrollment);
 
     return enrollment;
+  }
+
+  public static Payment payment(final Enrollment enrollment) {
+    final Payment payment = new Payment();
+    payment.setAmount(22700);
+    payment.setTransactionId("t-123");
+    payment.setReference("RF-test");
+    payment.setPaymentUrl("url");
+    payment.setPaymentStatus(PaymentStatus.OK);
+
+    payment.setEnrollment(enrollment);
+    enrollment.getPayments().add(payment);
+
+    return payment;
   }
 
   public static Reservation reservation(final ExamEvent examEvent, final Person person) {

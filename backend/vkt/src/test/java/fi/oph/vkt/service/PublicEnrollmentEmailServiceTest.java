@@ -71,14 +71,16 @@ public class PublicEnrollmentEmailServiceTest {
       .thenReturn(
         ReceiptData
           .builder()
-          .dateOfReceipt("20.02.2025")
-          .payerName("Payer")
+          .date("20.02.2025")
           .paymentDate("19.02.2025")
-          .totalAmount("500")
-          .item(ReceiptItem.builder().name("A").value("B").additionalInfos(List.of()).build())
+          .paymentReference("RF-123")
+          .exam("Suomi, erinomainen taito, 27.03.2025")
+          .participant("Bar, Foo")
+          .totalAmount("500 €")
+          .items(List.of(ReceiptItem.builder().name("A").amount("500 €").build()))
           .build()
       );
-    when(receiptRenderer.getReceiptPdfBytes(any())).thenReturn(new byte[] { 'a', 'b', 'c' });
+    when(receiptRenderer.getReceiptPdfBytes(any(), any())).thenReturn(new byte[] { 'a', 'b', 'c' });
 
     publicEnrollmentEmailService =
       new PublicEnrollmentEmailService(emailService, environment, receiptRenderer, templateRenderer);
@@ -116,19 +118,19 @@ public class PublicEnrollmentEmailServiceTest {
       "examLanguageSV",
       "finska",
       "examLevelFI",
-      "erinomainen",
+      "erinomainen taito",
       "examLevelSV",
-      "utmärkt",
+      "utmärkta språkkunskaper",
       "examDate",
       "12.03.2025",
       "skillsFI",
       "suullinen taito",
       "skillsSV",
-      "suullinen taito",
+      "förmåga att använda finska i tal",
       "partialExamsFI",
       "puhuminen, puheen ymmärtäminen",
       "partialExamsSV",
-      "puhuminen, puheen ymmärtäminen"
+      "muntlig färdighet, hörförståelse"
     );
 
     when(environment.getRequiredProperty("app.email.sending-enabled", Boolean.class)).thenReturn(true);
@@ -144,7 +146,7 @@ public class PublicEnrollmentEmailServiceTest {
     assertEquals(EmailType.ENROLLMENT_CONFIRMATION, email.getEmailType());
     assertEquals("Foo Bar", email.getRecipientName());
     assertEquals("foo.bar@vkt.test", email.getRecipientAddress());
-    assertTrue(email.getSubject().contains("Vahvistus tutkintoon ilmoittautumisesta"));
+    assertTrue(email.getSubject().contains("Vahvistus ilmoittautumisesta Valtionhallinnon kielitutkintoon"));
     assertEquals("<html>enrollment</html>", email.getBody());
     assertNull(email.getSentAt());
     assertNull(email.getError());
@@ -155,7 +157,7 @@ public class PublicEnrollmentEmailServiceTest {
     final EmailAttachment attachment = attachments.get(0);
 
     assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Maksukuitti 20.02.2025.pdf")));
-    assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Betalningkvittot 20.02.2025.pdf")));
+    assertTrue(attachments.stream().anyMatch(a -> a.getName().equals("Betalningskvitto 20.02.2025.pdf")));
     assertTrue(attachments.stream().allMatch(a -> attachment.getContentType().equals("application/pdf")));
   }
 
@@ -191,19 +193,19 @@ public class PublicEnrollmentEmailServiceTest {
       "examLanguageSV",
       "svenska",
       "examLevelFI",
-      "erinomainen",
+      "erinomainen taito",
       "examLevelSV",
-      "utmärkt",
+      "utmärkta språkkunskaper",
       "examDate",
       "12.03.2025",
       "skillsFI",
       "kirjallinen taito, ymmärtämisen taito",
       "skillsSV",
-      "kirjallinen taito, ymmärtämisen taito",
+      "förmåga att använda svenska i skrift, förmåga att förstå svenska",
       "partialExamsFI",
       "kirjoittaminen, tekstin ymmärtäminen, puheen ymmärtäminen",
       "partialExamsSV",
-      "kirjoittaminen, tekstin ymmärtäminen, puheen ymmärtäminen"
+      "skriftlig färdighet, textförståelse, hörförståelse"
     );
 
     when(templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(expectedTemplateParams))
@@ -218,7 +220,7 @@ public class PublicEnrollmentEmailServiceTest {
     assertEquals(EmailType.ENROLLMENT_TO_QUEUE_CONFIRMATION, email.getEmailType());
     assertEquals("Foo Bar", email.getRecipientName());
     assertEquals("foo.bar@vkt.test", email.getRecipientAddress());
-    assertTrue(email.getSubject().contains("Vahvistus ilmoittautumisesta tutkinnon jonotuspaikalle"));
+    assertTrue(email.getSubject().contains("Vahvistus ilmoittautumisesta jonotuspaikalle"));
     assertEquals("<html>enrollment-to-queue</html>", email.getBody());
     assertNull(email.getSentAt());
     assertNull(email.getError());

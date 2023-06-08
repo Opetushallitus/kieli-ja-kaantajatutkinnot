@@ -10,7 +10,10 @@ import {
   PublicReservationDetailsResponse,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
-import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import {
+  PublicExamEvent,
+  PublicExamEventResponse,
+} from 'interfaces/publicExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
@@ -18,13 +21,16 @@ import {
   initialisePublicEnrollment,
   loadPublicEnrollment,
   loadPublicEnrollmentSave,
+  loadPublicExamEvent,
   rejectPublicEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
+  rejectPublicExamEvent,
   rejectPublicReservationRenew,
   renewPublicEnrollmentReservation,
   storePublicEnrollmentCancellation,
   storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
+  storePublicExamEvent,
   updatePublicEnrollmentReservation,
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
@@ -33,7 +39,7 @@ import { SerializationUtils } from 'utils/serialization';
 function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
   try {
     const eventId = action.payload;
-    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}`;
+    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}/enrollment`;
 
     const response: AxiosResponse<PublicReservationDetailsResponse> =
       yield call(axiosInstance.get, loadUrl);
@@ -46,6 +52,28 @@ function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
     yield put(rejectPublicEnrollmentInitialisation());
+  }
+}
+
+function* loadPublicExamEventSaga(action: PayloadAction<number>) {
+  try {
+    const eventId = action.payload;
+    const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}`;
+
+    const response: AxiosResponse<PublicExamEventResponse> = yield call(
+      axiosInstance.get,
+      loadUrl
+    );
+
+    const examEvent = SerializationUtils.deserializePublicExamEvent(
+      response.data
+    );
+
+    yield put(storePublicExamEvent(examEvent));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicExamEvent());
   }
 }
 
@@ -145,6 +173,7 @@ function* loadPublicEnrollmentSaveSaga(
 
 export function* watchPublicEnrollments() {
   yield takeLatest(loadPublicEnrollment, loadPublicEnrollmentSaga);
+  yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
   yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
   yield takeLatest(
     renewPublicEnrollmentReservation,
