@@ -10,6 +10,7 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
@@ -23,6 +24,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -102,7 +104,15 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       .build();
   }
 
-  @Transactional
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void cancelUnfinishedEnrollment(final Enrollment enrollment) {
+    assert enrollment.isUnfinished();
+
+    enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+    enrollmentRepository.saveAndFlush(enrollment);
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
   public void deleteEnrollment(final Enrollment enrollment) {
     final List<Payment> payments = enrollment.getPayments();
 

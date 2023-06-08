@@ -279,6 +279,42 @@ class ClerkEnrollmentServiceTest {
   }
 
   @Test
+  public void testCancelUnfinishedEnrollmentOnSuccess() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment);
+
+    assertEquals(
+      EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT,
+      enrollmentRepository.getReferenceById(enrollment.getId()).getStatus()
+    );
+  }
+
+  @Test
+  public void testCancelUnfinishedEnrollmentFailsIfEnrollmentHasCompleteStatus() {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    enrollment.setStatus(EnrollmentStatus.QUEUED);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    assertThrows(AssertionError.class, () -> clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment));
+    assertEquals(EnrollmentStatus.QUEUED, enrollmentRepository.getReferenceById(enrollment.getId()).getStatus());
+  }
+
+  @Test
   public void testDeleteEnrollmentOnSuccess() {
     final ExamEvent examEvent = Factory.examEvent();
     entityManager.persist(examEvent);

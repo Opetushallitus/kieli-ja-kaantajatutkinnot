@@ -3,6 +3,7 @@ package fi.oph.vkt.scheduled;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
+import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.util.SchedulingUtil;
 import jakarta.annotation.Resource;
 import java.time.Duration;
@@ -33,6 +34,9 @@ public class CancelPassiveEnrollmentsExpectingPayment {
   private static final Duration PAYMENT_TIME = Duration.of(3, ChronoUnit.HOURS);
 
   @Resource
+  private final ClerkEnrollmentService clerkEnrollmentService;
+
+  @Resource
   private final EnrollmentRepository enrollmentRepository;
 
   @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
@@ -51,10 +55,7 @@ public class CancelPassiveEnrollmentsExpectingPayment {
         .filter(e -> e.getModifiedAt().plus(PAYMENT_TIME).isBefore(LocalDateTime.now()))
         .toList();
 
-      enrollmentsToCancel.forEach(e -> {
-        e.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
-        enrollmentRepository.saveAndFlush(e);
-      });
+      enrollmentsToCancel.forEach(clerkEnrollmentService::cancelUnfinishedEnrollment);
     });
   }
 }
