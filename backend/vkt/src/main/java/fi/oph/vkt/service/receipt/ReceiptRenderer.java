@@ -77,7 +77,7 @@ public class ReceiptRenderer {
       return "Suomi";
     } else if (examLanguage == ExamLanguage.FI && receiptLanguage == Language.SV) {
       return "Finska";
-    } else if (examLanguage == ExamLanguage.SV & receiptLanguage == Language.FI) {
+    } else if (examLanguage == ExamLanguage.SV && receiptLanguage == Language.FI) {
       return "Ruotsi";
     } else if (examLanguage == ExamLanguage.SV && receiptLanguage == Language.SV) {
       return "Svenska";
