@@ -10,6 +10,7 @@ import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEn
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -30,6 +31,7 @@ export const PublicEnrollmentGrid = ({
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const params = useParams();
+  const translateCommon = useCommonTranslation();
 
   const {
     status,
@@ -83,15 +85,11 @@ export const PublicEnrollmentGrid = ({
     '/vkt/ilmoittaudu'
   );
 
-<<<<<<< HEAD
-  const isLoading = [status, enrollmentSubmitStatus].includes(
+  const isLoading = [status, cancelStatus, enrollmentSubmitStatus].includes(
     APIResponseStatus.InProgress
   );
-=======
-  const isLoading = [status].includes(APIResponseStatus.InProgress);
   const isAuthenticateStepActive =
     activeStep === PublicEnrollmentFormStep.Authenticate;
->>>>>>> dev
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
   const hasReservation = !!reservationDetails?.reservation;
@@ -107,9 +105,19 @@ export const PublicEnrollmentGrid = ({
     <>
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+          <LoadingProgressIndicator
+            isLoading={isLoading}
+            translateCommon={translateCommon}
+            displayBlock={true}
+          >
             {selectedExamEvent && (
-              <div className="public-enrollment__grid__form-container">
+              <div
+                className={
+                  isLoading
+                    ? 'dimmed public-enrollment__grid__form-container'
+                    : 'public-enrollment__grid__form-container'
+                }
+              >
                 {!isShiftedFromQueue && (
                   <PublicEnrollmentStepper
                     activeStep={activeStep}

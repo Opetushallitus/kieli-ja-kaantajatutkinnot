@@ -182,7 +182,10 @@ export const PublicEnrollmentControlButtons = ({
   );
 
   const SubmitButton = () => (
-    <LoadingProgressIndicator isLoading={isLoading}>
+    <LoadingProgressIndicator
+      translateCommon={translateCommon}
+      isLoading={isLoading}
+    >
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}

@@ -8,7 +8,7 @@ import {
 } from 'shared/components';
 import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicReservation } from 'interfaces/publicEnrollment';
 import {
@@ -40,6 +40,7 @@ export const PublicEnrollmentTimer = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.expirationTimer',
   });
+  const translateCommon = useCommonTranslation();
   const { cancelStatus } = useAppSelector(publicEnrollmentSelector);
   const cancelLoading = cancelStatus === APIResponseStatus.InProgress;
 
@@ -87,7 +88,10 @@ export const PublicEnrollmentTimer = ({
 
   return (
     <Box className="public-enrollment__grid__progress-container">
-      <LoadingProgressIndicator isLoading={isLoading}>
+      <LoadingProgressIndicator
+        translateCommon={translateCommon}
+        isLoading={isLoading}
+      >
         <div
           data-testid="public-enrollment__reservation-timer-text"
           className="public-enrollment__grid__progress-text"
@@ -119,7 +123,10 @@ export const PublicEnrollmentTimer = ({
         <>
           <p id="expires-modal-description">{t('reservationInfoText')}</p>
           <div className="columns gapped flex-end">
-            <LoadingProgressIndicator isLoading={cancelLoading}>
+            <LoadingProgressIndicator
+              translateCommon={translateCommon}
+              isLoading={cancelLoading}
+            >
               <CustomButton
                 data-testid="public-enrollment__cancel-reservation-modal-button"
                 variant={Variant.Text}
@@ -154,7 +161,10 @@ export const PublicEnrollmentTimer = ({
         <>
           <p id="expired-modal-description">{t('reservationExpiredText')}</p>
           <div className="columns gapped flex-end">
-            <LoadingProgressIndicator isLoading={cancelLoading}>
+            <LoadingProgressIndicator
+              translateCommon={translateCommon}
+              isLoading={cancelLoading}
+            >
               <CustomButton
                 data-testid="public-enrollment__reservation-expired-ok-button"
                 variant={Variant.Text}

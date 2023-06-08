@@ -147,10 +147,9 @@ public class PublicController {
   }
 
   @DeleteMapping(path = "/reservation/{reservationId:\\d+}")
-  public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) throws InterruptedException {
+  public void deleteReservation(@PathVariable final long reservationId, final HttpSession session) {
     final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
 
-    TimeUnit.SECONDS.sleep(10);
     publicReservationService.deleteReservation(reservationId, person);
   }
 
