@@ -9,13 +9,17 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
+  private final PaymentRepository paymentRepository;
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
@@ -95,5 +100,15 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), enrollment.getPaymentLinkHash()))
       .expiresAt(enrollment.getPaymentLinkExpiresAt())
       .build();
+  }
+
+  @Transactional
+  public void deleteEnrollment(final Enrollment enrollment) {
+    final List<Payment> payments = enrollment.getPayments();
+
+    assert payments.stream().noneMatch(p -> p.getPaymentStatus() == PaymentStatus.OK);
+
+    paymentRepository.deleteAllInBatch(enrollment.getPayments());
+    enrollmentRepository.deleteById(enrollment.getId());
   }
 }
