@@ -10,7 +10,6 @@ import jakarta.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
@@ -46,13 +45,12 @@ public class CanceledUnfinishedEnrollmentsDestroyer {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("canceledUnfinishedEnrollmentsDestroyer");
 
-      final List<Enrollment> enrollmentsToDelete = enrollmentRepository
+      enrollmentRepository
         .findAllByStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT)
         .stream()
         .filter(e -> e.getModifiedAt().plus(TTL).isBefore(LocalDateTime.now()))
-        .toList();
-
-      enrollmentsToDelete.forEach(clerkEnrollmentService::deleteEnrollment);
+        .map(Enrollment::getId)
+        .forEach(clerkEnrollmentService::deleteEnrollment);
     });
   }
 }

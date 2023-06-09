@@ -105,7 +105,8 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
-  public void cancelUnfinishedEnrollment(final Enrollment enrollment) {
+  public void cancelUnfinishedEnrollment(final long enrollmentId) {
+    final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     assert enrollment.isUnfinished();
 
     enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
@@ -113,7 +114,8 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
-  public void deleteEnrollment(final Enrollment enrollment) {
+  public void deleteEnrollment(final long enrollmentId) {
+    final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final List<Payment> payments = enrollment.getPayments();
 
     assert payments.stream().noneMatch(p -> p.getPaymentStatus() == PaymentStatus.OK);

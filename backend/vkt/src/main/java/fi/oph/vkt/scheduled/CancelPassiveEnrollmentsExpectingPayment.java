@@ -9,7 +9,6 @@ import jakarta.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.slf4j.Logger;
@@ -49,13 +48,12 @@ public class CancelPassiveEnrollmentsExpectingPayment {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("cancelPassiveEnrollmentsExpectingPayment");
 
-      final List<Enrollment> enrollmentsToCancel = enrollmentRepository
+      enrollmentRepository
         .findAllByStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT)
         .stream()
         .filter(e -> e.getModifiedAt().plus(PAYMENT_TIME).isBefore(LocalDateTime.now()))
-        .toList();
-
-      enrollmentsToCancel.forEach(clerkEnrollmentService::cancelUnfinishedEnrollment);
+        .map(Enrollment::getId)
+        .forEach(clerkEnrollmentService::cancelUnfinishedEnrollment);
     });
   }
 }

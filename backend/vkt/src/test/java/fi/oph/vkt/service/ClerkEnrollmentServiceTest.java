@@ -290,7 +290,7 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment);
+    clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment.getId());
 
     assertEquals(
       EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT,
@@ -310,7 +310,7 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    assertThrows(AssertionError.class, () -> clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment));
+    assertThrows(AssertionError.class, () -> clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment.getId()));
     assertEquals(EnrollmentStatus.QUEUED, enrollmentRepository.getReferenceById(enrollment.getId()).getStatus());
   }
 
@@ -335,7 +335,7 @@ class ClerkEnrollmentServiceTest {
       entityManager.persist(payment);
     }
 
-    clerkEnrollmentService.deleteEnrollment(enrollment1);
+    clerkEnrollmentService.deleteEnrollment(enrollment1.getId());
 
     assertFalse(enrollmentRepository.existsById(enrollment1.getId()));
     assertTrue(enrollmentRepository.existsById(enrollment2.getId()));
@@ -356,7 +356,7 @@ class ClerkEnrollmentServiceTest {
     payment.setPaymentStatus(PaymentStatus.OK);
     entityManager.persist(payment);
 
-    assertThrows(AssertionError.class, () -> clerkEnrollmentService.deleteEnrollment(enrollment));
+    assertThrows(AssertionError.class, () -> clerkEnrollmentService.deleteEnrollment(enrollment.getId()));
     assertTrue(enrollmentRepository.existsById(enrollment.getId()));
     assertTrue(paymentRepository.existsById(payment.getId()));
   }
