@@ -11,6 +11,8 @@ virkailija.cas.service-url=${virkailija.cas.base-url}/vkt/virkailija
 virkailija.cas.url=${virkailija.cas.base-url}/cas
 virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 
+docs-enabled={{vkt_docs_enabled}}
+
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
 

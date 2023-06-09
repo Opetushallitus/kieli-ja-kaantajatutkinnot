@@ -49,8 +49,10 @@ management:
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
+    enabled: ${docs-enabled:false}
   api-docs:
     path: /api/api-docs
+    enabled: ${docs-enabled:false}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:
