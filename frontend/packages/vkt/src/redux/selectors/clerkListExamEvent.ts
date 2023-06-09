@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
 import { ExamEventToggleFilter, ExamLanguage } from 'enums/app';
+import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const clerkListExamEventsSelector = (state: RootState) =>
@@ -16,7 +17,7 @@ export const selectFilteredClerkExamEvents = createSelector(
 
     if (languageFilter !== ExamLanguage.ALL) {
       filteredExamEvents = filteredExamEvents.filter(
-        (e) => e.language === languageFilter
+        (e: ClerkListExamEvent) => e.language === languageFilter
       );
     }
 

@@ -97,7 +97,10 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
   };
 
   const selectableExamEventOptions = examEvents
-    .filter((e) => e.language === examEvent.language && e.id !== examEvent.id)
+    .filter(
+      (e: ClerkListExamEvent) =>
+        e.language === examEvent.language && e.id !== examEvent.id
+    )
     .reverse()
     .map(getComboBoxOption);
 
