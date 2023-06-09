@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -210,6 +211,7 @@ public class PublicController {
       final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
       final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
 
+      TimeUnit.SECONDS.sleep(10);
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));

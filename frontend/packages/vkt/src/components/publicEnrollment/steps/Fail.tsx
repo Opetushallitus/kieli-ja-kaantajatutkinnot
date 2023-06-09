@@ -1,5 +1,10 @@
-import { useEffect } from 'react';
-import { CustomButton, H2, Text } from 'shared/components';
+import { useEffect, useState } from 'react';
+import {
+  CustomButton,
+  H2,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 import { Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
@@ -8,7 +13,6 @@ import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
-import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 
 export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { t } = usePublicTranslation({
@@ -19,9 +23,16 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  const [isCancelLoading, setIsCancelLoading] = useState(false);
 
   const handleTryAgainBtnClick = () => {
-    window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+    setIsPaymentLoading(true);
+
+    // Safari needs time to re-render loading indicator
+    setTimeout(() => {
+      window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+    }, 200);
   };
 
   const handleCancelBtnClick = () => {
@@ -38,8 +49,8 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
+            setIsCancelLoading(true);
             dispatch(cancelPublicEnrollment());
-            dispatch(resetSelectedPublicExamEvent());
           },
         },
       ],
@@ -58,20 +69,32 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
       <H2>{t('steps.fail.title')}</H2>
       <Text>{t('steps.fail.description')}</Text>
       <div className="columns flex-start gapped margin-top-lg">
-        <CustomButton
-          variant={Variant.Outlined}
-          color={Color.Secondary}
-          onClick={handleCancelBtnClick}
+        <LoadingProgressIndicator
+          translateCommon={translateCommon}
+          isLoading={isCancelLoading}
         >
-          {translateCommon('cancel')}
-        </CustomButton>
-        <CustomButton
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          onClick={handleTryAgainBtnClick}
+          <CustomButton
+            variant={Variant.Outlined}
+            color={Color.Secondary}
+            onClick={handleCancelBtnClick}
+            disabled={isPaymentLoading || isCancelLoading}
+          >
+            {translateCommon('cancel')}
+          </CustomButton>
+        </LoadingProgressIndicator>
+        <LoadingProgressIndicator
+          translateCommon={translateCommon}
+          isLoading={isPaymentLoading}
         >
-          {t('steps.fail.tryAgain')}
-        </CustomButton>
+          <CustomButton
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={handleTryAgainBtnClick}
+            disabled={isPaymentLoading || isCancelLoading}
+          >
+            {t('steps.fail.tryAgain')}
+          </CustomButton>
+        </LoadingProgressIndicator>
       </div>
     </div>
   );

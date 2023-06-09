@@ -88,20 +88,15 @@ export const PublicEnrollmentTimer = ({
 
   return (
     <Box className="public-enrollment__grid__progress-container">
-      <LoadingProgressIndicator
-        translateCommon={translateCommon}
-        isLoading={isLoading}
+      <div
+        data-testid="public-enrollment__reservation-timer-text"
+        className="public-enrollment__grid__progress-text"
       >
-        <div
-          data-testid="public-enrollment__reservation-timer-text"
-          className="public-enrollment__grid__progress-text"
-        >
-          {t('reservationExpiresIn', {
-            minutes: progress.minutes,
-            seconds: progress.seconds,
-          })}
-        </div>
-      </LoadingProgressIndicator>
+        {t('reservationExpiresIn', {
+          minutes: progress.minutes,
+          seconds: progress.seconds,
+        })}
+      </div>
       <LinearProgress
         className="public-enrollment__grid__timer-progressbar"
         variant="determinate"

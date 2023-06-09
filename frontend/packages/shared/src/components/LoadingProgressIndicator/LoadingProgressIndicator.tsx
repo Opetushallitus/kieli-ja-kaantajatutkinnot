@@ -1,5 +1,6 @@
-import { FC, PropsWithChildren, useRef, useEffect } from 'react';
+import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 
+import { Color } from '../../enums';
 import { CustomCircularProgress } from '../CustomCircularProgress/CustomCircularProgress';
 import './LoadingProgressIndicator.scss';
 
@@ -8,13 +9,14 @@ const usePreviousValue = (value: boolean) => {
   useEffect(() => {
     ref.current = value;
   });
+
   return ref.current;
 };
 
 interface LoadingProgressIndicatorProps {
   isLoading: boolean;
   displayBlock?: boolean;
-  translateCommon?: (t: string) => string
+  translateCommon?: (t: string) => string;
 }
 
 export const LoadingProgressIndicator: FC<
@@ -33,11 +35,14 @@ export const LoadingProgressIndicator: FC<
               title={translateCommon && translateCommon('loadingContent')}
               aria-live="assertive"
               size={'3rem'}
-              color={'secondary'}
+              color={Color.Secondary}
             />
           )}
           {prevIsLoading && !isLoading && (
-            <span title={translateCommon && translateCommon('loadingDone')} aria-live="assertive" />
+            <span
+              title={translateCommon && translateCommon('loadingDone')}
+              aria-live="assertive"
+            />
           )}
         </div>
       </div>
