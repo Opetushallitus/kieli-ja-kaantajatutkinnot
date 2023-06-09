@@ -1,5 +1,6 @@
 package fi.oph.vkt.scheduled;
 
+import fi.oph.vkt.config.Constants;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.util.SchedulingUtil;
 import jakarta.annotation.Resource;
@@ -12,32 +13,28 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CancelPassiveEnrollmentsExpectingPayment {
+public class DeleteCanceledUnfinishedEnrollments {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CancelPassiveEnrollmentsExpectingPayment.class);
-
-  private static final String INITIAL_DELAY = "PT5S";
-
-  private static final String FIXED_DELAY = "PT30M";
+  private static final Logger LOG = LoggerFactory.getLogger(DeleteCanceledUnfinishedEnrollments.class);
 
   private static final String LOCK_AT_LEAST = "PT1S";
 
-  private static final String LOCK_AT_MOST = "PT1M";
+  private static final String LOCK_AT_MOST = "PT1H";
 
   @Resource
   private final ClerkEnrollmentService clerkEnrollmentService;
 
-  @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
+  @Scheduled(cron = Constants.DELETE_CANCELED_UNFINISHED_ENROLLMENTS_CRON)
   @SchedulerLock(
-    name = "cancelPassiveEnrollmentsExpectingPayment",
+    name = "deleteCanceledUnfinishedEnrollments",
     lockAtLeastFor = LOCK_AT_LEAST,
     lockAtMostFor = LOCK_AT_MOST
   )
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.debug("cancelPassiveEnrollmentsExpectingPayment");
+      LOG.debug("deleteCanceledUnfinishedEnrollments");
 
-      clerkEnrollmentService.cancelPassiveEnrollmentsExpectingPayment();
+      clerkEnrollmentService.deleteCanceledUnfinishedEnrollments();
     });
   }
 }

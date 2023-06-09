@@ -1,7 +1,6 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -276,88 +275,5 @@ class ClerkEnrollmentServiceTest {
     assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
     assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());
     assertTrue(enrollment.getPaymentLinkExpiresAt().isAfter(LocalDateTime.now()));
-  }
-
-  @Test
-  public void testCancelUnfinishedEnrollmentOnSuccess() {
-    final ExamEvent examEvent = Factory.examEvent();
-    final Person person = Factory.person();
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-
-    enrollment.setStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
-
-    entityManager.persist(examEvent);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment.getId());
-
-    assertEquals(
-      EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT,
-      enrollmentRepository.getReferenceById(enrollment.getId()).getStatus()
-    );
-  }
-
-  @Test
-  public void testCancelUnfinishedEnrollmentFailsIfEnrollmentHasCompleteStatus() {
-    final ExamEvent examEvent = Factory.examEvent();
-    final Person person = Factory.person();
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-
-    enrollment.setStatus(EnrollmentStatus.QUEUED);
-
-    entityManager.persist(examEvent);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    assertThrows(AssertionError.class, () -> clerkEnrollmentService.cancelUnfinishedEnrollment(enrollment.getId()));
-    assertEquals(EnrollmentStatus.QUEUED, enrollmentRepository.getReferenceById(enrollment.getId()).getStatus());
-  }
-
-  @Test
-  public void testDeleteEnrollmentOnSuccess() {
-    final ExamEvent examEvent = Factory.examEvent();
-    entityManager.persist(examEvent);
-
-    final Person person1 = Factory.person();
-    final Enrollment enrollment1 = Factory.enrollment(examEvent, person1);
-    entityManager.persist(person1);
-    entityManager.persist(enrollment1);
-
-    final Person person2 = Factory.person();
-    final Enrollment enrollment2 = Factory.enrollment(examEvent, person2);
-    entityManager.persist(person2);
-    entityManager.persist(enrollment2);
-
-    for (int i = 0; i < 2; i++) {
-      final Payment payment = Factory.payment(enrollment1);
-      payment.setPaymentStatus(PaymentStatus.FAIL);
-      entityManager.persist(payment);
-    }
-
-    clerkEnrollmentService.deleteEnrollment(enrollment1.getId());
-
-    assertFalse(enrollmentRepository.existsById(enrollment1.getId()));
-    assertTrue(enrollmentRepository.existsById(enrollment2.getId()));
-    assertEquals(0, paymentRepository.count());
-  }
-
-  @Test
-  public void testDeleteEnrollmentFailsIfEnrollmentHasPaidPayment() {
-    final ExamEvent examEvent = Factory.examEvent();
-    entityManager.persist(examEvent);
-
-    final Person person = Factory.person();
-    final Enrollment enrollment = Factory.enrollment(examEvent, person);
-    entityManager.persist(person);
-    entityManager.persist(enrollment);
-
-    final Payment payment = Factory.payment(enrollment);
-    payment.setPaymentStatus(PaymentStatus.OK);
-    entityManager.persist(payment);
-
-    assertThrows(AssertionError.class, () -> clerkEnrollmentService.deleteEnrollment(enrollment.getId()));
-    assertTrue(enrollmentRepository.existsById(enrollment.getId()));
-    assertTrue(paymentRepository.existsById(payment.getId()));
   }
 }

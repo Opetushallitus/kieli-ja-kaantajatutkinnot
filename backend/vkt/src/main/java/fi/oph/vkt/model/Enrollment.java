@@ -101,11 +101,4 @@ public class Enrollment extends BaseEntity {
   public boolean isCancelled() {
     return this.status == EnrollmentStatus.CANCELED || this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT;
   }
-
-  public boolean isUnfinished() {
-    return (
-      this.status == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT ||
-      this.status == EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT
-    );
-  }
 }
