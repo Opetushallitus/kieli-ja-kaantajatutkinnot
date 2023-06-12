@@ -86,7 +86,7 @@ export const ClerkExamEventCreatePage: FC = () => {
   }, [showToast, t, status, dispatch]);
 
   const isLoading = status === APIResponseStatus.InProgress;
-  const canSave = isLoading || !ExamCreateEventUtils.isValidForm(examDate);
+  const canSave = isLoading || !ExamCreateEventUtils.isValidExamEvent(examDate);
   const onSave = () => examDate && dispatch(saveClerkNewExamDate(examDate));
 
   return (

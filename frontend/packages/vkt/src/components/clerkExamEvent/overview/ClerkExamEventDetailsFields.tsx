@@ -5,9 +5,10 @@ import {
   ComboBox,
   CustomDatePicker,
   CustomSwitch,
+  CustomTextField,
   H3,
 } from 'shared/components';
-import { TextFieldVariant } from 'shared/enums';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -23,6 +24,7 @@ export const ClerkExamEventDetailsFields = ({
   onComboBoxChange,
   onDateChange,
   onCheckBoxChange,
+  onMaxParticipantsChange,
 }: {
   examEvent?: ClerkExamEvent;
   editDisabled: boolean;
@@ -38,6 +40,9 @@ export const ClerkExamEventDetailsFields = ({
   onCheckBoxChange: (
     field: keyof ClerkExamEventBasicInformation
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  onMaxParticipantsChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }) => {
   // I18n
   const { t } = useClerkTranslation({
@@ -63,9 +68,9 @@ export const ClerkExamEventDetailsFields = ({
 
   return (
     <>
-      <div className="clerk-exam-event-details margin-top-lg columns gapped">
+      <div className="margin-top-lg grid-columns gapped">
         <div className="rows gapped">
-          <H3>{t('header.language')}</H3>
+          <H3>{t('language')}</H3>
           <ComboBox
             data-testid="clerk-exam-event__basic-information__language"
             autoHighlight
@@ -83,7 +88,7 @@ export const ClerkExamEventDetailsFields = ({
           />
         </div>
         <div className="rows gapped">
-          <H3>{t('header.level')}</H3>
+          <H3>{t('level')}</H3>
           <ComboBox
             data-testid="clerk-exam-event__basic-information__level"
             autoHighlight
@@ -98,18 +103,20 @@ export const ClerkExamEventDetailsFields = ({
           className="rows gapped"
           data-testid="clerk-exam-event__basic-information__date"
         >
-          <H3>{t('header.date')}</H3>
+          <H3>{t('date')}</H3>
           <CustomDatePicker
             value={dayjs(examEvent?.date) ?? null}
             setValue={onDateChange('date')}
             disabled={editDisabled}
           />
         </div>
+      </div>
+      <div className="margin-top-lg grid-columns gapped">
         <div
           className="rows gapped"
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
-          <H3>{t('header.registrationCloses')}</H3>
+          <H3>{t('registrationCloses')}</H3>
           <CustomDatePicker
             value={dayjs(examEvent?.registrationCloses) ?? null}
             setValue={onDateChange('registrationCloses')}
@@ -117,7 +124,19 @@ export const ClerkExamEventDetailsFields = ({
           />
         </div>
         <div className="rows gapped">
-          <H3>{t('header.isHidden')}</H3>
+          <H3>{t('fillingsTotal')}</H3>
+          <CustomTextField
+            className="clerk-exam-create-max-participants"
+            label={translateCommon('choose')}
+            type={TextFieldTypes.Number}
+            variant={TextFieldVariant.Outlined}
+            value={examEvent?.maxParticipants}
+            onChange={onMaxParticipantsChange}
+            disabled={editDisabled}
+          />
+        </div>
+        <div className="rows gapped">
+          <H3>{t('isHidden')}</H3>
           <CustomSwitch
             dataTestId="clerk-exam-event__basic-information__is-hidden-switch"
             disabled={editDisabled}

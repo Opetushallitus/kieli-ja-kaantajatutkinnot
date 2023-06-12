@@ -1,8 +1,9 @@
-import dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { ComboBoxOption } from 'shared/interfaces';
+import { DateUtils, StringUtils } from 'shared/utils';
 
 import { ExamLanguage, ExamLevel } from 'enums/app';
-import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
+import { ClerkExamEvent, DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export class ExamCreateEventUtils {
@@ -16,40 +17,27 @@ export class ExamCreateEventUtils {
     );
   }
 
-  static isValidForm(examForm: DraftClerkExamEvent | undefined) {
-    if (!examForm) {
-      return false;
+  static isValidExamEvent(
+    examEvent: DraftClerkExamEvent | ClerkExamEvent | undefined
+  ) {
+    if (examEvent) {
+      return (
+        StringUtils.isNonBlankString(examEvent.language) &&
+        StringUtils.isNonBlankString(examEvent.level) &&
+        DateUtils.isValidDate(examEvent.date) &&
+        DateUtils.isValidDate(examEvent.registrationCloses) &&
+        DateUtils.isDatePartBefore(
+          examEvent.registrationCloses as Dayjs,
+          examEvent.date as Dayjs
+        ) &&
+        !ExamCreateEventUtils.maxParticipantsHasError(
+          true,
+          examEvent.maxParticipants
+        )
+      );
     }
 
-    if (!examForm.date || !examForm.registrationCloses) {
-      return false;
-    }
-
-    if (
-      examForm.date.isBefore(dayjs()) ||
-      examForm.registrationCloses.isBefore(dayjs())
-    ) {
-      return false;
-    }
-
-    if (examForm.date.isBefore(examForm.registrationCloses)) {
-      return false;
-    }
-
-    if (
-      ExamCreateEventUtils.maxParticipantsHasError(
-        true,
-        examForm.maxParticipants
-      )
-    ) {
-      return false;
-    }
-
-    if (!examForm.language || !examForm.level) {
-      return false;
-    }
-
-    return true;
+    return false;
   }
 
   static getLangLevelComboOpt(
