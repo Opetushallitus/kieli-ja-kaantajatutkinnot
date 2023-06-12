@@ -104,7 +104,8 @@
         "examEventDetails": {
           "copyEmails": "Kopioi sähköpostit",
           "chooseCopyEmails": "Valitse kopiointi",
-          "downloadExcel": "Lataa Excel"
+          "downloadExcel": "Lataa Excel",
+          "enrollmentLink": "Ilmoittautumislinkki"
         },
         "examEventDetailsFields": {
           "date": "Tutkintopäivä",

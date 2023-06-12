@@ -27,10 +27,7 @@ export const Footer = () => {
 
   const { isAuthenticated } = useAuthentication();
   const showFooter =
-    !isAuthenticated &&
-    ![AppRoutes.PublicEnrollment, AppRoutes.PublicAuth].includes(
-      location.pathname as AppRoutes
-    );
+    !isAuthenticated && !location.pathname.includes(AppRoutes.PublicEnrollment);
 
   return (
     <footer>

@@ -7,6 +7,7 @@ import {
   DropDownMenuButton,
   ExtLink,
   H2,
+  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
@@ -17,7 +18,7 @@ import { ControlButtons } from 'components/clerkExamEvent/overview/ControlButton
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { EnrollmentStatus, UIMode } from 'enums/app';
+import { AppRoutes, EnrollmentStatus, UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import {
@@ -268,6 +269,10 @@ export const ClerkExamEventDetails = () => {
     }
   };
 
+  const enrollmentLinkUrl = `https://${
+    window.location.host
+  }${AppRoutes.PublicAuth.replace(/:examEventId/, `${examEvent?.id}`)}`;
+
   return (
     <>
       <div className="columns margin-top-lg flex-end">
@@ -299,6 +304,11 @@ export const ClerkExamEventDetails = () => {
           onMaxParticipantsChange={handleMaxParticipantsChange}
           editDisabled={isViewMode}
         />
+      </div>
+      <div className="margin-top-lg">
+        <Text>
+          <b>{t('examEventDetails.enrollmentLink')}:</b> {enrollmentLinkUrl}
+        </Text>
       </div>
       <EnrollmentList
         enrollments={enrollments}
