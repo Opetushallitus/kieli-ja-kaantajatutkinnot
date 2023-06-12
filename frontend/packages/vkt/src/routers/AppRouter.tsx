@@ -117,7 +117,11 @@ export const AppRouter: FC = () => {
               </Route>
               <Route
                 path={AppRoutes.PrivacyPolicyPage}
-                element={<PrivacyPolicyPage />}
+                element={
+                  <TitlePage title={createTitle('privacyPolicy')}>
+                    <PrivacyPolicyPage />
+                  </TitlePage>
+                }
               />
               <Route
                 path={AppRoutes.ClerkHomePage}
