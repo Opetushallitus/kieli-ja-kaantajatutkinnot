@@ -8,7 +8,6 @@ import { ChangeEvent, useEffect } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
-  CustomDatePicker,
   CustomTextField,
   Text,
 } from 'shared/components';
@@ -165,22 +164,10 @@ export const EmailRegistrationDetails = () => {
                 : ''
             }
           />
-          <CustomDatePicker
-            placeholder={t('dateOfBirth')}
-            value={registration.dateOfBirth ?? null}
-            setValue={(value) => {
-              if (value) {
-                dispatch(updatePublicRegistration({ dateOfBirth: value }));
-              } else {
-                dispatch(updatePublicRegistration({ dateOfBirth: undefined }));
-              }
-            }}
-            error={showErrors && !!registrationErrors['dateOfBirth']}
-            helperText={
-              registrationErrors['dateOfBirth']
-                ? translateCommon(registrationErrors['dateOfBirth'] as string)
-                : ''
-            }
+          <CustomTextField
+            {...getCustomTextFieldAttributes('dateOfBirth')}
+            type={TextFieldTypes.Text}
+            value={registration.dateOfBirth}
           />
         </div>
         <CustomTextField

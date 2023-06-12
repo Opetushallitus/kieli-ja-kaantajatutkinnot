@@ -65,9 +65,11 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
-    if (!registration.dateOfBirth) {
-      errors['dateOfBirth'] = CustomTextFieldErrors.Required;
-    }
+    errors['dateOfBirth'] = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Date,
+      required: true,
+      value: registration.dateOfBirth,
+    });
     if (registration.hasSSN === undefined) {
       errors['hasSSN'] = CustomTextFieldErrors.Required;
     }
