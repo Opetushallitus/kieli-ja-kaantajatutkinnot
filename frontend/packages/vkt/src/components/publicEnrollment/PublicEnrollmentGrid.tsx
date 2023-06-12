@@ -34,7 +34,7 @@ export const PublicEnrollmentGrid = ({
   const translateCommon = useCommonTranslation();
 
   const {
-    status,
+    renewReservationStatus,
     enrollmentSubmitStatus,
     cancelStatus,
     enrollment,
@@ -85,9 +85,11 @@ export const PublicEnrollmentGrid = ({
     '/vkt/ilmoittaudu'
   );
 
-  const isLoading = [status, cancelStatus, enrollmentSubmitStatus].includes(
-    APIResponseStatus.InProgress
-  );
+  const isLoading = [
+    renewReservationStatus,
+    cancelStatus,
+    enrollmentSubmitStatus,
+  ].includes(APIResponseStatus.InProgress);
   const isAuthenticateStepActive =
     activeStep === PublicEnrollmentFormStep.Authenticate;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;

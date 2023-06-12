@@ -5,14 +5,15 @@ import {
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { Color, Severity, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { t } = usePublicTranslation({
@@ -24,7 +25,9 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   const { showToast } = useToast();
   const { showDialog } = useDialog();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  const [isCancelLoading, setIsCancelLoading] = useState(false);
+  const { cancelStatus } = useAppSelector(publicEnrollmentSelector);
+  const isCancelLoading = cancelStatus === APIResponseStatus.InProgress;
+  const isLoading = isPaymentLoading || isCancelLoading;
 
   const handleTryAgainBtnClick = () => {
     setIsPaymentLoading(true);
@@ -49,7 +52,6 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
           title: translateCommon('yes'),
           variant: Variant.Contained,
           action: () => {
-            setIsCancelLoading(true);
             dispatch(cancelPublicEnrollment());
           },
         },
@@ -77,7 +79,7 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             variant={Variant.Outlined}
             color={Color.Secondary}
             onClick={handleCancelBtnClick}
-            disabled={isPaymentLoading || isCancelLoading}
+            disabled={isLoading}
           >
             {translateCommon('cancel')}
           </CustomButton>
@@ -90,7 +92,7 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             variant={Variant.Contained}
             color={Color.Secondary}
             onClick={handleTryAgainBtnClick}
-            disabled={isPaymentLoading || isCancelLoading}
+            disabled={isLoading}
           >
             {t('steps.fail.tryAgain')}
           </CustomButton>
