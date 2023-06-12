@@ -13,6 +13,7 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
 
@@ -114,6 +115,10 @@ export const AppRouter: FC = () => {
                   }
                 />
               </Route>
+              <Route
+                path={AppRoutes.PrivacyPolicyPage}
+                element={<PrivacyPolicyPage />}
+              />
               <Route
                 path={AppRoutes.ClerkHomePage}
                 element={
