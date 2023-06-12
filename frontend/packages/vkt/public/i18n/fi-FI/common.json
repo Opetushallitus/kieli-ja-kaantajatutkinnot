@@ -5,6 +5,7 @@
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
+      "backToHomePage": "Takaisin etusivulle",
       "cancel": "Peruuta",
       "cancelUpdateDialog": {
         "description": "Menetät tekemäsi muutokset.",
