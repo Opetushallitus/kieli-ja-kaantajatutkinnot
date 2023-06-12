@@ -119,8 +119,7 @@
       },
       "registrar": {
         "contact": {
-          "address1": "PB 380, 00531 Helsingfors",
-          "address2": "Besöksadress Hagnäskajen 6, 00530 Helsingfors",
+          "address": "PB 380, 00531 Helsingfors (besöksadress Hagnäskajen 6, 00530 Helsingfors)",
           "name": "Utbildningsstyrelsen",
           "otherDetails": "Övriga kontaktuppgifter",
           "phoneSwitch": "Telefonväxel: 029 533 1000"

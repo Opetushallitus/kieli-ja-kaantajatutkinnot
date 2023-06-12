@@ -147,8 +147,7 @@
       },
       "registrar": {
         "contact": {
-          "address1": "PL 380, 00531 Helsinki",
-          "address2": "Käyntiosoite Hakaniemenranta 6, 00530 Helsinki",
+          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki)",
           "name": "Opetushallitus",
           "otherDetails": "Muut yhteystiedot",
           "phoneSwitch": "Puhelinvaihde: 029 533 1000"

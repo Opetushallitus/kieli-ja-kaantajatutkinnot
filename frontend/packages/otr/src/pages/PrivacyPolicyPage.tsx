@@ -96,11 +96,7 @@ export const PrivacyPolicyPage = () => {
           <div className="rows gapped">
             <H2>{translatePrivacy('registrar.heading')}</H2>
             <Text>{translatePrivacy('registrar.contact.name')}</Text>
-            <Text>
-              {translatePrivacy('registrar.contact.address1')}
-              <br />
-              {translatePrivacy('registrar.contact.address2')}
-            </Text>
+            <Text>{translatePrivacy('registrar.contact.address')}</Text>
             <Text>
               {translatePrivacy('registrar.contact.otherDetails')}
               <br />
