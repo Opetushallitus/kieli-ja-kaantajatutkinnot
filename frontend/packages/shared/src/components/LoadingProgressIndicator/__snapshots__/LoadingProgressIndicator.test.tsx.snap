@@ -14,6 +14,7 @@ exports[`LoadingProgressIndicator should render LoadingProgressIndicator correct
         className="custom-circular-progress"
       >
         <span
+          aria-live="assertive"
           className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
           role="progressbar"
           style={

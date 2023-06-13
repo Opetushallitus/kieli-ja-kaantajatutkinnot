@@ -17,6 +17,7 @@
       },
       "frontPage": "Home",
       "loadingContent": "Downloading content",
+      "loadingDone": "Loading done",
       "meetingDates": "Meeting days",
       "navigationProtection": {
         "description": "You will lose any changes you have made",

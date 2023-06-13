@@ -1,17 +1,29 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 
+import { Color } from '../../enums';
 import { CustomCircularProgress } from '../CustomCircularProgress/CustomCircularProgress';
 import './LoadingProgressIndicator.scss';
+
+const usePreviousValue = (value: boolean) => {
+  const ref = useRef<boolean>();
+  useEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
+};
 
 interface LoadingProgressIndicatorProps {
   isLoading: boolean;
   displayBlock?: boolean;
+  translateCommon?: (t: string) => string;
 }
 
 export const LoadingProgressIndicator: FC<
   PropsWithChildren<LoadingProgressIndicatorProps>
-> = ({ isLoading, displayBlock, children }) => {
+> = ({ isLoading, displayBlock, translateCommon, children }) => {
   const classSuffix = displayBlock ? '__block' : '__inline-flex';
+  const prevIsLoading = usePreviousValue(isLoading);
 
   return (
     <div className={`loading-progress-indicator${classSuffix}`}>
@@ -19,7 +31,18 @@ export const LoadingProgressIndicator: FC<
         {children}
         <div className="loading-progress-indicator__container__spinner-box">
           {isLoading && (
-            <CustomCircularProgress size={'3rem'} color={'secondary'} />
+            <CustomCircularProgress
+              title={translateCommon && translateCommon('loadingContent')}
+              aria-live="assertive"
+              size={'3rem'}
+              color={Color.Secondary}
+            />
+          )}
+          {prevIsLoading && !isLoading && (
+            <span
+              title={translateCommon && translateCommon('loadingDone')}
+              aria-live="assertive"
+            />
           )}
         </div>
       </div>

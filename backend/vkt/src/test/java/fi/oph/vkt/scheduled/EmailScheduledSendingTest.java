@@ -53,7 +53,7 @@ class EmailScheduledSendingTest {
     createEmail(LocalDateTime.now(), "error msg"); // sentWasInError
     final long unsentInErrorId = createEmail(null, "error msg").getId();
 
-    emailScheduledSending.pollEmailsToSend();
+    emailScheduledSending.action();
 
     verify(emailService, times(2)).sendEmail(longCaptor.capture());
 
@@ -74,7 +74,7 @@ class EmailScheduledSendingTest {
     changeEmail(email5);
     changeEmail(email4);
 
-    emailScheduledSending.pollEmailsToSend();
+    emailScheduledSending.action();
 
     verify(emailService, times(5)).sendEmail(longCaptor.capture());
 
@@ -88,7 +88,7 @@ class EmailScheduledSendingTest {
   public void testBatchSize() {
     IntStream.range(0, EmailScheduledSending.BATCH_SIZE + 1).forEach(n -> createEmail(null, null));
 
-    emailScheduledSending.pollEmailsToSend();
+    emailScheduledSending.action();
     verify(emailService, times(EmailScheduledSending.BATCH_SIZE)).sendEmail(anyLong());
   }
 

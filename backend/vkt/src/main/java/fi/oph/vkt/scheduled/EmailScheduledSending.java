@@ -37,7 +37,7 @@ public class EmailScheduledSending {
 
   @Scheduled(initialDelayString = INITIAL_DELAY, fixedDelayString = FIXED_DELAY)
   @SchedulerLock(name = "pollEmailsToSend", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
-  public void pollEmailsToSend() {
+  public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.debug("pollEmailsToSend");
       final List<Long> emailsBatch = emailRepository.findEmailsToSend(PageRequest.of(0, BATCH_SIZE));
