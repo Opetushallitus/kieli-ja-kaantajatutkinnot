@@ -9,24 +9,37 @@ import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.type.EnrollmentStatus;
+import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkEnrollmentService.class);
+
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
+  private final PaymentRepository paymentRepository;
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
@@ -95,5 +108,39 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
       .url(String.format("%s/examEvent/%d/redirect/%s", baseUrl, examEvent.getId(), enrollment.getPaymentLinkHash()))
       .expiresAt(enrollment.getPaymentLinkExpiresAt())
       .build();
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void cancelPassiveEnrollmentsExpectingPayment() {
+    final Duration paymentTime = Duration.of(3, ChronoUnit.HOURS);
+
+    enrollmentRepository
+      .findAllByStatus(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT)
+      .stream()
+      .filter(e -> e.getModifiedAt().plus(paymentTime).isBefore(LocalDateTime.now()))
+      .forEach(enrollment -> {
+        enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollmentRepository.saveAndFlush(enrollment);
+      });
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void deleteCanceledUnfinishedEnrollments() {
+    final Duration ttl = Duration.of(24, ChronoUnit.HOURS);
+
+    enrollmentRepository
+      .findAllByStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT)
+      .stream()
+      .filter(e -> e.getModifiedAt().plus(ttl).isBefore(LocalDateTime.now()))
+      .forEach(enrollment -> {
+        final List<Payment> payments = enrollment.getPayments();
+
+        if (payments.stream().anyMatch(p -> p.getPaymentStatus() == PaymentStatus.OK)) {
+          LOG.warn(String.format("Tried to delete enrollment (%d) with paid payment", enrollment.getId()));
+        } else {
+          paymentRepository.deleteAllInBatch(payments);
+          enrollmentRepository.deleteById(enrollment.getId());
+        }
+      });
   }
 }

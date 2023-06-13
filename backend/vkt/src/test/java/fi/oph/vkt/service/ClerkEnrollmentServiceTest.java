@@ -24,6 +24,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -48,6 +49,9 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private ExamEventRepository examEventRepository;
 
+  @Resource
+  private PaymentRepository paymentRepository;
+
   @MockBean
   private AuditService auditService;
 
@@ -65,7 +69,14 @@ class ClerkEnrollmentServiceTest {
     when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
 
     clerkEnrollmentService =
-      new ClerkEnrollmentService(enrollmentRepository, examEventRepository, auditService, environment, uuidSource);
+      new ClerkEnrollmentService(
+        enrollmentRepository,
+        examEventRepository,
+        paymentRepository,
+        auditService,
+        environment,
+        uuidSource
+      );
   }
 
   @Test
