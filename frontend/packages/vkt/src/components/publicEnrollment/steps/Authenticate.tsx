@@ -8,10 +8,8 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const Authenticate = ({
-  isLoading,
   selectedExamEvent,
 }: {
-  isLoading: boolean;
   selectedExamEvent: PublicExamEvent;
 }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -20,30 +18,33 @@ export const Authenticate = ({
   });
   const translateCommon = useCommonTranslation();
 
+  const onClick = () => {
+    setIsRedirecting(true);
+
+    window.location.href = APIEndpoints.PublicAuthLogin.replace(
+      ':examEventId',
+      selectedExamEvent.id.toString()
+    ).replace(
+      ':type',
+      ExamEventUtils.hasOpenings(selectedExamEvent) ? 'reservation' : 'queue'
+    );
+  };
+
   return (
     <div className="margin-top-xxl gapped rows">
       <H3>{t('title')}</H3>
       <div className="columns">
         <LoadingProgressIndicator
           translateCommon={translateCommon}
-          isLoading={isLoading}
+          isLoading={isRedirecting}
         >
           <CustomButton
             className="public-enrollment__grid__form-container__auth-button"
-            href={APIEndpoints.PublicAuthLogin.replace(
-              ':examEventId',
-              selectedExamEvent.id.toString()
-            ).replace(
-              ':type',
-              ExamEventUtils.hasOpenings(selectedExamEvent)
-                ? 'reservation'
-                : 'queue'
-            )}
             variant={Variant.Contained}
-            onClick={() => setIsRedirecting(true)}
+            onClick={onClick}
             color={Color.Secondary}
             data-testid="public-enrollment__authenticate-button"
-            disabled={isLoading || isRedirecting}
+            disabled={isRedirecting}
           >
             {t('buttonText')}
           </CustomButton>

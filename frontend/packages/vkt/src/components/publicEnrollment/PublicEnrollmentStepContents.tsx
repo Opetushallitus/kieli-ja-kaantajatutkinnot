@@ -25,12 +25,7 @@ export const PublicEnrollmentStepContents = ({
 }) => {
   switch (activeStep) {
     case PublicEnrollmentFormStep.Authenticate:
-      return (
-        <Authenticate
-          isLoading={isLoading}
-          selectedExamEvent={selectedExamEvent}
-        />
-      );
+      return <Authenticate selectedExamEvent={selectedExamEvent} />;
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
         <FillContactDetails
