@@ -21,8 +21,7 @@ describe('PublicHomePage (mobile)', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
   });
 
-  // TODO fix
-  it.skip('should show enroll button only if exam event without congestion is selected', () => {
+  it('should show enroll button only if exam event without congestion is selected', () => {
     onPublicHomePage.expectEnrollButtonToNotExist();
 
     onPublicHomePage.clickExamEventRow(2);

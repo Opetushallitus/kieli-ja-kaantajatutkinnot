@@ -11,7 +11,7 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 interface PublicEnrollmentState {
   reservationDetailsStatus: APIResponseStatus;
   reservationDetails?: PublicReservationDetails;
-  status: APIResponseStatus;
+  renewReservationStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   selectedExamEvent?: PublicExamEvent;
@@ -20,7 +20,7 @@ interface PublicEnrollmentState {
 
 const initialState: PublicEnrollmentState = {
   reservationDetailsStatus: APIResponseStatus.NotStarted,
-  status: APIResponseStatus.NotStarted,
+  renewReservationStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
   enrollment: {
@@ -87,16 +87,16 @@ const publicEnrollmentSlice = createSlice({
       state.selectedExamEvent = action.payload;
     },
     renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
-      state.status = APIResponseStatus.InProgress;
+      state.renewReservationStatus = APIResponseStatus.InProgress;
     },
     rejectPublicReservationRenew(state) {
-      state.status = APIResponseStatus.Error;
+      state.renewReservationStatus = APIResponseStatus.Error;
     },
     updatePublicEnrollmentReservation(
       state,
       action: PayloadAction<PublicReservation>
     ) {
-      state.status = APIResponseStatus.Success;
+      state.renewReservationStatus = APIResponseStatus.Success;
       state.reservationDetails = {
         ...state.reservationDetails,
         reservation: action.payload,
@@ -117,7 +117,7 @@ const publicEnrollmentSlice = createSlice({
     resetPublicEnrollment(state) {
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
       state.reservationDetails = initialState.reservationDetails;
-      state.status = initialState.status;
+      state.renewReservationStatus = initialState.renewReservationStatus;
       state.enrollmentSubmitStatus = initialState.enrollmentSubmitStatus;
       state.enrollment = initialState.enrollment;
       state.cancelStatus = initialState.cancelStatus;
