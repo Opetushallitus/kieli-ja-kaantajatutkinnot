@@ -103,6 +103,7 @@
         "SV": "Näytä vain ruotsi"
       },
       "loadingContent": "Sisältöä ladataan",
+      "loadingDone": "Lataus valmis",
       "navigationProtection": {
         "description": "Menetät tekemäsi muutokset.",
         "header": "Haluatko varmasti poistua sivulta?"

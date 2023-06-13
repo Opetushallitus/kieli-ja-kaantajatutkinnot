@@ -2,9 +2,9 @@ import {
   ArrowBackOutlined as ArrowBackIcon,
   ArrowForwardOutlined as ArrowForwardIcon,
 } from '@mui/icons-material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { CustomButton } from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
@@ -21,7 +21,6 @@ import {
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
 } from 'redux/reducers/publicEnrollment';
-import { resetSelectedPublicExamEvent } from 'redux/reducers/publicExamEvent';
 import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
@@ -47,6 +46,7 @@ export const PublicEnrollmentControlButtons = ({
     keyPrefix: 'vkt.component.publicEnrollment.controlButtons',
   });
   const translateCommon = useCommonTranslation();
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -79,7 +79,6 @@ export const PublicEnrollmentControlButtons = ({
             variant: Variant.Contained,
             action: () => {
               dispatch(confirmAction);
-              dispatch(resetSelectedPublicExamEvent());
             },
           },
         ],
@@ -90,7 +89,10 @@ export const PublicEnrollmentControlButtons = ({
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
       if (reservationDetails.reservation) {
-        window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+        // Safari needs time to re-render loading indicator
+        setTimeout(() => {
+          window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+        }, 200);
       } else {
         navigate(
           RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId)
@@ -123,9 +125,13 @@ export const PublicEnrollmentControlButtons = ({
 
   const handleSubmitBtnClick = () => {
     if (isStepValid) {
+      setIsPaymentLoading(true);
       setShowValidation(false);
       if (isPaymentLinkPreviewView) {
-        window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+        // Safari needs time to re-render loading indicator
+        setTimeout(() => {
+          window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+        }, 200);
       } else {
         dispatch(
           loadPublicEnrollmentSave({
@@ -146,7 +152,7 @@ export const PublicEnrollmentControlButtons = ({
         color={Color.Secondary}
         onClick={handleCancelBtnClick}
         data-testid="public-enrollment__controlButtons__cancel"
-        disabled={isLoading}
+        disabled={isLoading || isPaymentLoading}
       >
         {translateCommon('cancel')}
       </CustomButton>
@@ -161,7 +167,9 @@ export const PublicEnrollmentControlButtons = ({
       data-testid="public-enrollment__controlButtons__back"
       startIcon={<ArrowBackIcon />}
       disabled={
-        activeStep == PublicEnrollmentFormStep.FillContactDetails || isLoading
+        activeStep == PublicEnrollmentFormStep.FillContactDetails ||
+        isLoading ||
+        isPaymentLoading
       }
     >
       {translateCommon('back')}
@@ -175,23 +183,28 @@ export const PublicEnrollmentControlButtons = ({
       onClick={handleNextBtnClick}
       data-testid="public-enrollment__controlButtons__next"
       endIcon={<ArrowForwardIcon />}
-      disabled={isLoading}
+      disabled={isLoading || isPaymentLoading}
     >
       {translateCommon('next')}
     </CustomButton>
   );
 
   const SubmitButton = () => (
-    <CustomButton
-      variant={Variant.Contained}
-      color={Color.Secondary}
-      onClick={handleSubmitBtnClick}
-      data-testid="public-enrollment__controlButtons__submit"
-      endIcon={<ArrowForwardIcon />}
-      disabled={isLoading}
+    <LoadingProgressIndicator
+      translateCommon={translateCommon}
+      isLoading={isPaymentLoading}
     >
-      {isEnrollmentToQueue ? t('sendForm') : t('pay')}
-    </CustomButton>
+      <CustomButton
+        variant={Variant.Contained}
+        color={Color.Secondary}
+        onClick={handleSubmitBtnClick}
+        data-testid="public-enrollment__controlButtons__submit"
+        endIcon={<ArrowForwardIcon />}
+        disabled={isLoading || isPaymentLoading}
+      >
+        {isEnrollmentToQueue ? t('sendForm') : t('pay')}
+      </CustomButton>
+    </LoadingProgressIndicator>
   );
 
   const renderBack =

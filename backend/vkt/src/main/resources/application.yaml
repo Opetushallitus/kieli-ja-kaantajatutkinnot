@@ -21,7 +21,7 @@ spring:
       initialize-schema: never
   jpa:
     open-in-view: false
-    show-sql: true
+    show-sql: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml
   data:
@@ -49,8 +49,10 @@ management:
 springdoc:
   swagger-ui:
     path: /api/swagger-ui.html
+    enabled: ${docs-enabled:false}
   api-docs:
     path: /api/api-docs
+    enabled: ${docs-enabled:false}
 host:
   alb: ${virkailija.host.alb:localhost:${server.port}}
 cas:

@@ -7,14 +7,12 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 interface PublicExamEventState {
   status: APIResponseStatus;
   examEvents: Array<PublicExamEvent>;
-  selectedExamEvent?: PublicExamEvent;
   languageFilter: ExamLanguage;
 }
 
 const initialState: PublicExamEventState = {
   status: APIResponseStatus.NotStarted,
   examEvents: [],
-  selectedExamEvent: undefined,
   languageFilter: ExamLanguage.ALL,
 };
 
@@ -29,7 +27,6 @@ const publicExamEventSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     resetPublicExamEventSelections(state) {
-      state.selectedExamEvent = initialState.selectedExamEvent;
       state.languageFilter = initialState.languageFilter;
     },
     storePublicExamEvents(
@@ -45,9 +42,6 @@ const publicExamEventSlice = createSlice({
     ) {
       state.languageFilter = action.payload;
     },
-    resetSelectedPublicExamEvent(state) {
-      state.selectedExamEvent = undefined;
-    },
   },
 });
 
@@ -58,5 +52,4 @@ export const {
   resetPublicExamEventSelections,
   storePublicExamEvents,
   setPublicExamEventLanguageFilter,
-  resetSelectedPublicExamEvent,
 } = publicExamEventSlice.actions;

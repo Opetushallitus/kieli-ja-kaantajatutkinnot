@@ -34,10 +34,10 @@ export const PublicExamEventGrid = () => {
   const translateCommon = useCommonTranslation();
 
   // Redux
-  const { status, examEvents, selectedExamEvent } = useAppSelector(
-    publicExamEventsSelector
+  const { status, examEvents } = useAppSelector(publicExamEventsSelector);
+  const { reservationDetailsStatus, selectedExamEvent } = useAppSelector(
+    publicEnrollmentSelector
   );
-  const { reservationDetailsStatus } = useAppSelector(publicEnrollmentSelector);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

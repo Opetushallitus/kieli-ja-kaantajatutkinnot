@@ -10,3 +10,9 @@ app:
     paytrail:
       secret: SAIPPUAKAUPPIAS
       account: 375917
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
