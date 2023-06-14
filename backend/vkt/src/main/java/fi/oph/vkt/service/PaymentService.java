@@ -116,6 +116,12 @@ public class PaymentService {
       throw new APIException(APIExceptionType.PAYMENT_AMOUNT_MISMATCH);
     }
 
+    final int checkoutId = Integer.parseInt(paymentParams.get("checkout-reference"));
+    if (checkoutId != payment.getId()) {
+      LOG.error("Checkout reference ({}) does not match expected payment id ({})", checkoutId, payment.getId());
+      throw new APIException(APIExceptionType.PAYMENT_REFERENCE_MISMATCH);
+    }
+
     final Enrollment enrollment = payment.getEnrollment();
     updateEnrollmentStatus(enrollment, newStatus);
 

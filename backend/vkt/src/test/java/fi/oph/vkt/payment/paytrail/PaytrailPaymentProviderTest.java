@@ -203,28 +203,33 @@ public class PaytrailPaymentProviderTest {
     paymentParams3.remove("checkout-amount");
     assertFalse(paymentProvider.validate(paymentParams3));
 
-    // Status missing
+    // Reference missing
     final Map<String, String> paymentParams4 = getMockPaymentParams(account, signature);
-    paymentParams4.remove("checkout-status");
+    paymentParams4.remove("checkout-reference");
     assertFalse(paymentProvider.validate(paymentParams4));
 
-    // Transaction id missing
+    // Status missing
     final Map<String, String> paymentParams5 = getMockPaymentParams(account, signature);
-    paymentParams5.remove("checkout-transaction-id");
+    paymentParams5.remove("checkout-status");
     assertFalse(paymentProvider.validate(paymentParams5));
 
-    // Invalid algorithm
+    // Transaction id missing
     final Map<String, String> paymentParams6 = getMockPaymentParams(account, signature);
-    paymentParams6.put("checkout-algorithm", "sha1");
+    paymentParams6.remove("checkout-transaction-id");
     assertFalse(paymentProvider.validate(paymentParams6));
 
-    // Invalid account
-    final Map<String, String> paymentParams7 = getMockPaymentParams("123456", signature);
+    // Invalid algorithm
+    final Map<String, String> paymentParams7 = getMockPaymentParams(account, signature);
+    paymentParams7.put("checkout-algorithm", "sha1");
     assertFalse(paymentProvider.validate(paymentParams7));
 
-    // Signature mismatch
-    final Map<String, String> paymentParams8 = getMockPaymentParams(account, "xyz");
+    // Invalid account
+    final Map<String, String> paymentParams8 = getMockPaymentParams("123456", signature);
     assertFalse(paymentProvider.validate(paymentParams8));
+
+    // Signature mismatch
+    final Map<String, String> paymentParams9 = getMockPaymentParams(account, "xyz");
+    assertFalse(paymentProvider.validate(paymentParams9));
   }
 
   private String getMockJsonRequest() throws IOException {
