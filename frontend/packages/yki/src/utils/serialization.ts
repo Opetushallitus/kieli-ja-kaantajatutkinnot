@@ -165,7 +165,7 @@ export class SerializationUtils {
     const nationality = registration.nationality;
     const nationality_desc = nationalities.find(
       (v) => v.code === nationality && v.language === AppLanguage.Finnish
-    );
+    )?.name;
 
     return {
       first_name: registration.firstNames,

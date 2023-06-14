@@ -4,18 +4,14 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomTextField,
   Text,
 } from 'shared/components';
-import {
-  APIResponseStatus,
-  TextFieldTypes,
-  TextFieldVariant,
-} from 'shared/enums';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
@@ -29,7 +25,6 @@ import { GenderEnum, RadioButtonValue } from 'enums/app';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { Nationality } from 'interfaces/nationality';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
-import { loadNationalities } from 'redux/reducers/nationalities';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -68,9 +63,7 @@ export const EmailRegistrationDetails = () => {
   const registration: Partial<PublicEmailRegistration> =
     useAppSelector(registrationSelector).registration;
   const { showErrors } = useAppSelector(registrationSelector);
-  const { status: nationalitiesStatus, nationalities } = useAppSelector(
-    nationalitiesSelector
-  );
+  const { nationalities } = useAppSelector(nationalitiesSelector);
   const nationalityOptions = useNationalityOptions();
   const appLanguage = getCurrentLang();
 
@@ -81,12 +74,6 @@ export const EmailRegistrationDetails = () => {
     }),
     [translateCommon]
   );
-
-  useEffect(() => {
-    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadNationalities());
-    }
-  }, [dispatch, nationalitiesStatus]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();

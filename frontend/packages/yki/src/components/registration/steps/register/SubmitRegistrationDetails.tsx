@@ -1,5 +1,6 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -8,15 +9,24 @@ import { CommonRegistrationDetails } from 'components/registration/steps/registe
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { loadNationalities } from 'redux/reducers/nationalities';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const FillRegistrationDetails = () => {
+  const dispatch = useAppDispatch();
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const { status: nationalitiesStatus } = useAppSelector(nationalitiesSelector);
+  useEffect(() => {
+    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadNationalities());
+    }
+  }, [dispatch, nationalitiesStatus]);
 
   return (
     <div className="margin-top-xxl rows gapped">
