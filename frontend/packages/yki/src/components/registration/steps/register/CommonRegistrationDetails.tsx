@@ -7,19 +7,26 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { CertificateLanguage } from 'enums/app';
+import {
+  CertificateLanguage,
+  ExamLanguage,
+  ExamLevel,
+  InstructionLanguage,
+} from 'enums/app';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
+import { ExamSession } from 'interfaces/examSessions';
 import {
   PersonFillOutDetails,
   RegistrationCheckboxDetails,
 } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
+import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const ErrorLabelStyles = {
@@ -35,6 +42,8 @@ export const CommonRegistrationDetails = () => {
   const translateCommon = useCommonTranslation();
 
   const { registration, showErrors } = useAppSelector(registrationSelector);
+  const { language_code, level_code } = useAppSelector(examSessionSelector)
+    .examSession as ExamSession;
   const dispatch = useAppDispatch();
   const handleCheckboxClick = (
     fieldName: keyof RegistrationCheckboxDetails
@@ -50,6 +59,21 @@ export const CommonRegistrationDetails = () => {
       dispatch(updatePublicRegistration({ [fieldname]: event.target.value }));
     };
   };
+
+  const hideInstructionLanguageSelection =
+    language_code === ExamLanguage.FIN ||
+    language_code === ExamLanguage.SWE ||
+    (language_code === ExamLanguage.ENG && level_code !== ExamLevel.PERUS);
+
+  useEffect(() => {
+    if (hideInstructionLanguageSelection) {
+      const instructionLanguage =
+        language_code === ExamLanguage.SWE
+          ? InstructionLanguage.SV
+          : InstructionLanguage.FI;
+      dispatch(updatePublicRegistration({ instructionLanguage }));
+    }
+  }, [dispatch, hideInstructionLanguageSelection, language_code]);
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
@@ -86,6 +110,31 @@ export const CommonRegistrationDetails = () => {
           </RadioGroup>
         </FormControl>
       </div>
+      {hideInstructionLanguageSelection ? null : (
+        <div>
+          <Text>
+            <b>{t('instructionLanguage')}</b>
+          </Text>
+          <FormControl error={!!registrationErrors['instructionLanguage']}>
+            <RadioGroup row onChange={handleChange('instructionLanguage')}>
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.FI}
+                control={<Radio />}
+                label={translateCommon('languages.fin')}
+                sx={ErrorLabelStyles}
+              />
+              <FormControlLabel
+                className="radio-group-label"
+                value={InstructionLanguage.SV}
+                control={<Radio />}
+                label={translateCommon('languages.swe')}
+                sx={ErrorLabelStyles}
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
+      )}
       <H2>{t('termsAndConditions.title')}</H2>
       <Text>
         <b>{t('termsAndConditions.description1')}</b>

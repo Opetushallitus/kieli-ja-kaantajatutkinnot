@@ -26,6 +26,9 @@ const getErrors = (
   if (!registration.certificateLanguage) {
     errors['certificateLanguage'] = CustomTextFieldErrors.Required;
   }
+  if (!registration.instructionLanguage) {
+    errors['instructionLanguage'] = CustomTextFieldErrors.Required;
+  }
   if (!registration.termsAndConditionsAgreed) {
     errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
   }

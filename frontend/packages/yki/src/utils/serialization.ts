@@ -173,8 +173,7 @@ export class SerializationUtils {
       nationalities: [nationality],
       nationality_desc,
       certificate_lang: registration.certificateLanguage,
-      // TODO Properly force exam_lang or set proper default!
-      exam_lang: registration.instructionLanguage || 'fi',
+      exam_lang: registration.instructionLanguage,
       birthdate: DateUtils.serializeDate(
         DateUtils.parseDateString(registration.dateOfBirth)
       ),
