@@ -440,16 +440,16 @@ public class PaymentServiceTest {
     when(paymentProvider.validate(anyMap())).thenReturn(true);
 
     final PaymentService paymentService = new PaymentService(
-            paymentProvider,
-            paymentRepository,
-            enrollmentRepository,
-            environment,
-            publicEnrollmentEmailService
+      paymentProvider,
+      paymentRepository,
+      enrollmentRepository,
+      environment,
+      publicEnrollmentEmailService
     );
 
     final APIException ex = assertThrows(
-            APIException.class,
-            () -> paymentService.finalizePayment(payment.getId(), paymentParams)
+      APIException.class,
+      () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_REFERENCE_MISMATCH, ex.getExceptionType());
     assertNull(payment.getPaymentStatus());
