@@ -16,7 +16,7 @@
       },
       "dataContents": {
         "group1": {
-          "action": "Kontaktbegäran har lämnats till en auktoriserad translator",
+          "action": "Kontaktbegäran har lämnats till en auktoriserad translator.",
           "description1": "Personuppgifter: I huvudsak samlas personuppgifter in av användaren själv i samband med att kontaktblanketten lämnas in.",
           "description2": "Användarens uppgifter: namn, e-postadress och telefonnummer.",
           "description3": "Övriga uppgifter: användarnas meddelanden om översättningsuppdrag.",
@@ -24,14 +24,14 @@
           "name": "Sökmotoranvändare"
         },
         "group2": {
-          "action": "Bläddra i sökmotorns uppgifter / gör sökningar",
+          "action": "Bläddra i sökmotorns uppgifter / gör sökningar.",
           "description": "Inga uppgifter sparas.",
           "name": "Sökmotoranvändare"
         },
         "group3": {
           "action": "I sökmotorn antecknas namn, bostadsort samt de språkpar för vilka auktorisering har givits för den auktoriserade translatorn som gett publiceringstillstånd.",
           "details": {
-            "description": "Personuppgifter: namn, personbeteckning, adress, e-postadress, telefonnummer och boendeort",
+            "description": "Personuppgifter: namn, personbeteckning, adress, e-postadress, telefonnummer och boendeort.",
             "heading": "Den registrerades uppgifter",
             "otherDetails": {
               "description": "Övriga uppgifter",
@@ -58,7 +58,7 @@
         "description": "Uppgifter lämnas i regel inte ut eller överförs från registret till länder utanför EU eller Europeiska ekonomiska samarbetsområdet.",
         "heading": "Information om överföring av uppgifter till tredje land och de skyddsåtgärder som vidtas (inkl. information om huruvida kommissionens beslut om adekvat dataskydd existerar eller saknas) och metoder för att få en kopia eller information om vad de innehåller"
       },
-      "description": "EU:s dataskyddsförordning 2016/679 (GDPR)",
+      "description": "EU:s dataskyddsförordning 2016/679 (GDPR).",
       "handlingPurpose": {
         "description1": "I registret över auktoriserade translatorer har införts uppgifter om auktoriserade translatorer som Examensnämnden för auktoriserade translatorer på ansökan har beviljats rätten att verka som auktoriserade translatorer.",
         "description2": "I registrets offentliga sökmotor kan man söka auktoriserade translatorer och lämna en kontaktförfrågan till dem för översättningsuppdrag. Man kan också göra sökningar i registret utan att lämna en kontaktförfrågan.",
@@ -66,7 +66,7 @@
         "description4": "Vid förfrågan om samtycke för publiceringstillståndet begärs den registrerade på förhand om samtycke för behandling av uppgifter. Samtidigt ges en redogörelse för hur uppgifterna behandlas med detta formulär.",
         "heading": "Syftet med behandlingen av personuppgifter samt den rättsliga grunden för behandlingen",
         "law": {
-          "clause": "15 §",
+          "clause": "15 §.",
           "description": "Lag om auktoriserade translatorer",
           "heading": "Laggrunder",
           "link": "https://www.finlex.fi/sv/laki/ajantasa/2007/20071231#L5P15"
@@ -114,12 +114,12 @@
           "item1": "auktoriserade translatorer som antecknats i registret",
           "item2": "offentlig sökmotor"
         },
-        "description": "Register över auktoriserade translatorer",
+        "description": "Register över auktoriserade translatorer.",
         "heading": "Registrets namn"
       },
       "registrar": {
         "contact": {
-          "address": "PB 380, 00531 Helsingfors (besöksadress Hagnäskajen 6, 00530 Helsingfors)",
+          "address": "PB 380, 00531 Helsingfors (besöksadress Hagnäskajen 6, 00530 Helsingfors).",
           "name": "Utbildningsstyrelsen",
           "otherDetails": "Övriga kontaktuppgifter",
           "phoneSwitch": "Telefonväxel: 029 533 1000"

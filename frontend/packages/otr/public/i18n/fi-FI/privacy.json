@@ -30,7 +30,7 @@
             "description": "Erityisiä henkilötietoja ei käsitellä. Salassa pidettäviä henkilötietoja ei käsitellä."
           },
           "givenDetails": {
-            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka.",
             "heading": "Rekisteröitävän antamat tiedot"
           },
           "prerequisites": {
@@ -59,7 +59,7 @@
             "description": "Rekisteri varmentaa virkailijakäyttäjän osoite- ja henkilötiedot väestötietojärjestelmästä."
           },
           "givenDetails": {
-            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka"
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka."
           },
           "name": "Rekisterin ylläpitoa hoitavat virkailijat"
         },
@@ -73,7 +73,7 @@
         "description": "Tietoja ei säännönmukaisesti luovuteta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
         "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
       },
-      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
+      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR).",
       "handlingPurpose": {
         "description1": "Oikeustulkkirekisteriin on tallennettu tiedot oikeustulkeista, jotka Oikeustulkkirekisterilautakunta on hyväksynyt hakemuksesta merkittäväksi oikeustulkkirekisteriin.",
         "description2": "Rekisterin julkisesta hakukoneesta voi etsiä oikeustulkkeja tulkkaustoimeksiantoa varten. Tulkkeihin voi ottaa suoraan yhteyttä heidän ilmoittamiensa julkisten yhteystietojen kautta.",
@@ -138,16 +138,16 @@
       },
       "registerName": {
         "contents": {
-          "description": "Rekisteri koostuu seuraavista:",
+          "description": "Rekisteri koostuu seuraavista",
           "item1": "rekisteriin merkityt oikeustulkit",
           "item2": "julkinen hakukone"
         },
-        "description": "Oikeustulkkirekisteri",
+        "description": "Oikeustulkkirekisteri.",
         "heading": "Rekisterin nimi"
       },
       "registrar": {
         "contact": {
-          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki)",
+          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki).",
           "name": "Opetushallitus",
           "otherDetails": "Muut yhteystiedot",
           "phoneSwitch": "Puhelinvaihde: 029 533 1000"

@@ -85,8 +85,10 @@ export const PrivacyPolicyPage = () => {
           </div>
           <div className="rows gapped">
             <H2>{translatePrivacy('registrar.heading')}</H2>
-            <Text>{translatePrivacy('registrar.contact.name')}</Text>
-            <Text>{translatePrivacy('registrar.contact.address')}</Text>
+            <div className="rows gapped-xxs">
+              <Text>{translatePrivacy('registrar.contact.name')}</Text>
+              <Text>{translatePrivacy('registrar.contact.address')}</Text>
+            </div>
             <Text>
               {translatePrivacy('registrar.contact.otherDetails')}
               <br />
@@ -122,6 +124,7 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy('registrarContactPerson.liable.description')}
+              {':'}
               <br />
               {translatePrivacy('registrarContactPerson.liable.name')}
               <br />

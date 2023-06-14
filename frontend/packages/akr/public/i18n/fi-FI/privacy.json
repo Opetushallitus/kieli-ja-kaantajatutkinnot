@@ -16,7 +16,7 @@
       },
       "dataContents": {
         "group1": {
-          "action": "Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle",
+          "action": "Yhteydenottopyyntö jätetty auktorisoidulle kääntäjälle.",
           "description1": "Henkilötiedot: Pääasiallisesti henkilötiedot kerätään käyttäjältä itseltään yhteydenottolomakkeen jättämisen yhteydessä.",
           "description2": "Käyttäjän antamat tiedot: nimi, sähköpostiosoite ja puhelinnumero.",
           "description3": "Muut tiedot: käyttäjien viestit koskien käännöstoimeksiantoa.",
@@ -24,14 +24,14 @@
           "name": "Hakukoneen käyttäjät"
         },
         "group2": {
-          "action": "Hakukoneen tietojen selaaminen / hakujen teko",
+          "action": "Hakukoneen tietojen selaaminen / hakujen teko.",
           "description": "Mitään tietoa ei tallennu.",
           "name": "Hakukoneen käyttäjät"
         },
         "group3": {
           "action": "Hakukoneeseen merkitään julkaisuluvan antaneen auktorisoidun kääntäjän nimi, asuinpaikka sekä kielipari(t), jo(i)ssa kääntäjä on auktorisoitu.",
           "details": {
-            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka",
+            "description": "Henkilötiedot: nimi, henkilötunnus, osoite, sähköpostiosoite, puhelinnumero ja asuinpaikka.",
             "heading": "Rekisteröitävän antamat tiedot",
             "otherDetails": {
               "description": "Muut tiedot",
@@ -58,7 +58,7 @@
         "description": "Tietoja ei säännönmukaisesti luovuteta tai siirretä rekisteristä EU:n tai Euroopan talousalueen ulkopuolelle.",
         "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
       },
-      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
+      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR).",
       "handlingPurpose": {
         "description1": "Auktorisoitujen kääntäjien rekisteriin on tallennettu tiedot auktorisoiduista kääntäjistä, joille Auktorisoitujen kääntäjien tutkintolautakunta on myöntänyt hakemuksesta auktorisoidun kääntäjän oikeuden.",
         "description2": "Rekisterin julkisesta hakukoneesta voi etsiä auktorisoituja kääntäjiä ja jättää heille yhteydenottopyynnön käännöstoimeksiantoa varten. Rekisteristä voi myös tehdä hakuja ilman että jättää yhteydenottopyyntöä.",
@@ -66,7 +66,7 @@
         "description4": "Kysyttäessä suostumusta julkaisulupaan rekisteröidyltä pyydetään lupa etukäteen ja samassa yhteydessä annetaan selvitys tällä lomakkeella, miten tietoja käsitellään.",
         "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
         "law": {
-          "clause": "15 §",
+          "clause": "15 §.",
           "description": "Laki auktorisoiduista kääntäjistä",
           "heading": "Lakiperusteet",
           "link": "https://www.finlex.fi/fi/laki/ajantasa/2007/20071231#L5P15"
@@ -110,16 +110,16 @@
       },
       "registerName": {
         "contents": {
-          "description": "Rekisteri koostuu seuraavista:",
+          "description": "Rekisteri koostuu seuraavista",
           "item1": "rekisteriin merkityt auktorisoidut kääntäjät",
           "item2": "julkinen hakukone"
         },
-        "description": "Auktorisoitujen kääntäjien rekisteri",
+        "description": "Auktorisoitujen kääntäjien rekisteri.",
         "heading": "Rekisterin nimi"
       },
       "registrar": {
         "contact": {
-          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki)",
+          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki).",
           "name": "Opetushallitus",
           "otherDetails": "Muut yhteystiedot",
           "phoneSwitch": "Puhelinvaihde: 029 533 1000"

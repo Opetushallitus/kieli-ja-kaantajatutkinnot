@@ -95,8 +95,10 @@ export const PrivacyPolicyPage = () => {
           </div>
           <div className="rows gapped">
             <H2>{translatePrivacy('registrar.heading')}</H2>
-            <Text>{translatePrivacy('registrar.contact.name')}</Text>
-            <Text>{translatePrivacy('registrar.contact.address')}</Text>
+            <div className="rows gapped-xxs">
+              <Text>{translatePrivacy('registrar.contact.name')}</Text>
+              <Text>{translatePrivacy('registrar.contact.address')}</Text>
+            </div>
             <Text>
               {translatePrivacy('registrar.contact.otherDetails')}
               <br />
@@ -132,6 +134,7 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy('registrarContactPerson.liable.description')}
+              {':'}
               <br />
               {translatePrivacy('registrarContactPerson.liable.name')}
               <br />
@@ -203,12 +206,16 @@ export const PrivacyPolicyPage = () => {
                 {translatePrivacy('dataContents.group1.name')}
               </H3>
             </Text>
-            <Text>
-              {translatePrivacy('dataContents.group1.givenDetails.heading')}:
-            </Text>
-            <Text>
-              {translatePrivacy('dataContents.group1.givenDetails.description')}
-            </Text>
+            <div className="rows gapped-xxs">
+              <Text>
+                {translatePrivacy('dataContents.group1.givenDetails.heading')}:
+              </Text>
+              <Text>
+                {translatePrivacy(
+                  'dataContents.group1.givenDetails.description'
+                )}
+              </Text>
+            </div>
             <Text>
               {translatePrivacy(
                 'dataContents.group1.civilRegistry.description'

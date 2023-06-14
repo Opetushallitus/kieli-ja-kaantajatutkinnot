@@ -22,7 +22,7 @@
             "description3": "Erityisiä henkilötietoja ei käsitellä. Salassa pidettäviä henkilötietoja ei käsitellä."
           },
           "givenDetails": {
-            "description": "Henkilön nykyinen nimi, sähköpostiosoite, postiosoite ja puhelinnumero",
+            "description": "Henkilön nykyinen nimi, sähköpostiosoite, postiosoite ja puhelinnumero.",
             "heading": "Tutkintoon ilmoittautujan henkilötiedot"
           },
           "otherDetails": {
@@ -43,7 +43,7 @@
         "description": "Tietoja ei siirretä EU:n tai Euroopan talousalueen ulkopuolelle.",
         "heading": "Tiedot tietojen siirrosta kolmansiin maihin ja tiedot käytettävistä suojatoimista (sis. tiedon komission tietosuojan riittävyyttä koskevasta päätöksen olemassaolosta tai puuttumisesta) ja keinot saada kopio tai tieto niiden sisällöstä"
       },
-      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR)",
+      "description": "EU:n tietosuoja-asetus 2016/679 (GDPR).",
       "handlingPurpose": {
         "description": "Rekisteriin on kerätty henkilöiden yhteystiedot Valtionhallinnon kielitutkintojen (VKT) erinomaisen taidon tutkintoon ilmoittautumista varten. Rekisteriin talletetaan, ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia tutkintoon osallistumista varten.",
         "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
@@ -51,11 +51,11 @@
           "heading": "Lakiperusteet",
           "part1": {
             "content": "481/2003",
-            "description": "Valtioneuvoston asetus suomen ja ruotsin kielen taidon osoittamisesta valtionhallinnossa (<0></0>)",
+            "description": "Valtioneuvoston asetus suomen ja ruotsin kielen taidon osoittamisesta valtionhallinnossa (<0></0>).",
             "link": "https://www.finlex.fi/fi/laki/alkup/2003/20030481"
           },
           "part2": {
-            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c- ja 1e-kohdat / EU:n yleisen tietosuoja-asetuksen 6 artiklan 1a-kohta (suostumus)"
+            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c- ja 1e-kohdat / EU:n yleisen tietosuoja-asetuksen 6 artiklan 1a-kohta (suostumus)."
           }
         }
       },
@@ -92,12 +92,12 @@
         }
       },
       "registerName": {
-        "description": "Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnon ilmoittautuminen ja tutkintomaksun maksaminen",
+        "description": "Valtionhallinnon kielitutkintojen erinomaisen taidon tutkinnon ilmoittautuminen ja tutkintomaksun maksaminen.",
         "heading": "Rekisterin nimi"
       },
       "registrar": {
         "contact": {
-          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki)",
+          "address": "PL 380, 00531 Helsinki (käyntiosoite Hakaniemenranta 6, 00530 Helsinki).",
           "name": "Opetushallitus",
           "otherDetails": "Muut yhteystiedot",
           "phoneSwitch": "Puhelinvaihde: 029 533 1000"
