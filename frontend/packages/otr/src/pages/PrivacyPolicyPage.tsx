@@ -85,6 +85,7 @@ export const PrivacyPolicyPage = () => {
             <Text>{translatePrivacy('registerName.description')}</Text>
             <Text>
               {translatePrivacy('registerName.contents.description')}
+              {':'}
               <BulletList
                 localisationKeys={[
                   'registerName.contents.item1',

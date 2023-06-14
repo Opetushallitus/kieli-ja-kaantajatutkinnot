@@ -110,7 +110,7 @@
       },
       "registerName": {
         "contents": {
-          "description": "Registret består av följande:",
+          "description": "Registret består av följande",
           "item1": "auktoriserade translatorer som antecknats i registret",
           "item2": "offentlig sökmotor"
         },
