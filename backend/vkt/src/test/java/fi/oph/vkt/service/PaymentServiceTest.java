@@ -272,6 +272,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -299,6 +300,7 @@ public class PaymentServiceTest {
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
     paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -322,7 +324,6 @@ public class PaymentServiceTest {
   public void testFinalizePaymentValidationFailed() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
-    final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
@@ -350,7 +351,6 @@ public class PaymentServiceTest {
   public void testFinalizePaymentOnFailureAlreadyPaid() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
-    final Enrollment enrollment = pair.getSecond();
     payment.setPaymentStatus(PaymentStatus.OK);
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
@@ -402,10 +402,10 @@ public class PaymentServiceTest {
   public void testFinalizePaymentAmountMustMatch() {
     final Pair<Payment, Enrollment> pair = createPayment();
     final Payment payment = pair.getFirst();
-    final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
     paymentParams.put("checkout-amount", "21400");
+    paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
     when(paymentProvider.validate(anyMap())).thenReturn(true);
@@ -423,6 +423,35 @@ public class PaymentServiceTest {
       () -> paymentService.finalizePayment(payment.getId(), paymentParams)
     );
     assertEquals(APIExceptionType.PAYMENT_AMOUNT_MISMATCH, ex.getExceptionType());
+    assertNull(payment.getPaymentStatus());
+    verifyNoInteractions(publicEnrollmentEmailService);
+  }
+
+  @Test
+  public void testFinalizePaymentReferenceIdMustMatch() {
+    final Pair<Payment, Enrollment> pair = createPayment();
+    final Payment payment = pair.getFirst();
+    final Map<String, String> paymentParams = new LinkedHashMap<>();
+    paymentParams.put("checkout-status", PaymentStatus.OK.toString());
+    paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-reference", "-1");
+    final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
+    final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
+    when(paymentProvider.validate(anyMap())).thenReturn(true);
+
+    final PaymentService paymentService = new PaymentService(
+            paymentProvider,
+            paymentRepository,
+            enrollmentRepository,
+            environment,
+            publicEnrollmentEmailService
+    );
+
+    final APIException ex = assertThrows(
+            APIException.class,
+            () -> paymentService.finalizePayment(payment.getId(), paymentParams)
+    );
+    assertEquals(APIExceptionType.PAYMENT_REFERENCE_MISMATCH, ex.getExceptionType());
     assertNull(payment.getPaymentStatus());
     verifyNoInteractions(publicEnrollmentEmailService);
   }
