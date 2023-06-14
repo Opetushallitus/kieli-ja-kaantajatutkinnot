@@ -66,6 +66,7 @@
           "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
           "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Ilmoittautuminen on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
+          "paymentReferenceMismatch": "Maksun käsittely epäonnistui",
           "paymentValidationFail": "Maksun käsittely epäonnistui"
         },
         "customTextField": {

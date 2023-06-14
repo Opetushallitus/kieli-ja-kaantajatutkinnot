@@ -130,6 +130,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
   private boolean hasRequiredHeaders(final Map<String, String> paymentParams) {
     return (
       paymentParams.get("checkout-account") != null &&
+      paymentParams.get("checkout-reference") != null &&
       paymentParams.get("checkout-algorithm") != null &&
       paymentParams.get("signature") != null &&
       paymentParams.get("checkout-status") != null &&
