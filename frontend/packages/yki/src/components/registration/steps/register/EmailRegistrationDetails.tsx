@@ -4,7 +4,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
@@ -25,7 +25,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { RadioButtonValue } from 'enums/app';
+import { GenderEnum, RadioButtonValue } from 'enums/app';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { Nationality } from 'interfaces/nationality';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
@@ -73,6 +73,14 @@ export const EmailRegistrationDetails = () => {
   );
   const nationalityOptions = useNationalityOptions();
   const appLanguage = getCurrentLang();
+
+  const genderToComboBoxOption = useCallback(
+    (gender: GenderEnum) => ({
+      label: translateCommon(`gender.${gender}`) as string,
+      value: gender,
+    }),
+    [translateCommon]
+  );
 
   useEffect(() => {
     if (nationalitiesStatus === APIResponseStatus.NotStarted) {
@@ -172,11 +180,24 @@ export const EmailRegistrationDetails = () => {
             value={registration.dateOfBirth}
           />
         </div>
-        <CustomTextField
+        <ComboBox
           className="half-width-on-desktop"
-          {...getCustomTextFieldAttributes('gender')}
-          type={TextFieldTypes.Text}
-          value={registration.gender}
+          variant={TextFieldVariant.Outlined}
+          values={[
+            ...Object.values(GenderEnum).map(genderToComboBoxOption),
+          ].sort((a, b) => a.label.localeCompare(b.label))}
+          value={
+            registration.gender
+              ? genderToComboBoxOption(registration.gender)
+              : null
+          }
+          onChange={(_, v: AutocompleteValue) => {
+            dispatch(
+              updatePublicRegistration({ gender: v?.value as GenderEnum })
+            );
+          }}
+          label={`${t('gender')}`}
+          aria-label={`${t('gender')}`}
         />
       </div>
       <div>

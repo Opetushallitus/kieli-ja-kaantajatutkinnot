@@ -178,7 +178,6 @@ export class SerializationUtils {
       street_address: registration.address,
       phone_number: registration.phoneNumber,
       email: registration.email,
-      // TODO Fix gender input
       gender: SerializationUtils.serializeGender(registration.gender),
     };
   }

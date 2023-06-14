@@ -60,6 +60,10 @@
       },
       "examSession": "Tutkintotilaisuus",
       "examination": "Tutkinto",
+      "gender": {
+        "female": "nainen",
+        "male": "mies"
+      },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
