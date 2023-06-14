@@ -19,25 +19,30 @@ export const PersonDetails = ({
         <CustomTextField
           {...getCustomTextFieldAttributes('firstNames')}
           value={registration.firstNames || ''}
+          autoComplete="given-name"
         />
         <CustomTextField
           {...getCustomTextFieldAttributes('lastName')}
           value={registration.lastName || ''}
+          autoComplete="family-name"
         />
       </div>
       <div className="registration-details__address-grid gapped">
         <CustomTextField
           {...getCustomTextFieldAttributes('address')}
           value={registration.address || ''}
+          autoComplete="address-line1"
         />
         <div className="columns gapped">
           <CustomTextField
             {...getCustomTextFieldAttributes('postNumber')}
             value={registration.postNumber || ''}
+            autoComplete="postal-code"
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('postOffice')}
             value={registration.postOffice || ''}
+            autoComplete="address-level1"
           />
         </div>
       </div>

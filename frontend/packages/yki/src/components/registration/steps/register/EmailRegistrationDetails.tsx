@@ -129,12 +129,14 @@ export const EmailRegistrationDetails = () => {
             {...getCustomTextFieldAttributes('phoneNumber')}
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
+            autoComplete="tel"
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={registration.email}
             disabled={true}
+            autoComplete="email"
           />
         </div>
         <div className="grid-columns gapped">
