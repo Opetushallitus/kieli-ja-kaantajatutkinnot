@@ -53,6 +53,7 @@ export interface PublicRegistrationInitResponse {
     zip?: string;
     street_address?: string;
     email?: string;
+    nationalities?: Array<string>;
   };
   is_strongly_identified: boolean;
 }

@@ -20,6 +20,7 @@ import {
   rejectPublicRegistrationSubmission,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -54,6 +55,7 @@ function* submitRegistrationFormSaga() {
     const registrationState: RegistrationState = yield select(
       registrationSelector
     );
+    const { nationalities } = yield select(nationalitiesSelector);
     yield call(
       axiosInstance.post,
       APIEndpoints.SubmitRegistration.replace(
@@ -62,7 +64,8 @@ function* submitRegistrationFormSaga() {
       ),
       JSON.stringify(
         SerializationUtils.serializeRegistrationForm(
-          registrationState.registration
+          registrationState.registration,
+          nationalities
         )
       ),
       {

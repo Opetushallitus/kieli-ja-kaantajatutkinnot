@@ -4,7 +4,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { NationalitiesResponse, Nationality } from 'interfaces/nationality';
 import { SerializationUtils } from 'utils/serialization';
 
-interface NationalityCodesState {
+export interface NationalityCodesState {
   status: APIResponseStatus;
   nationalities: Array<Nationality>;
 }
