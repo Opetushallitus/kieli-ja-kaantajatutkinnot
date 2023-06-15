@@ -12,7 +12,7 @@ interface ControlButtonsProps {
   onEdit: () => void;
   onSave: () => void;
   isViewMode: boolean;
-  hasRequiredDetails: boolean;
+  isValidExamEvent: boolean;
 }
 
 export const ControlButtons: FC<ControlButtonsProps> = ({
@@ -20,7 +20,7 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
   onEdit,
   onSave,
   isViewMode,
-  hasRequiredDetails,
+  isValidExamEvent,
 }) => {
   const translateCommon = useCommonTranslation();
   const { examEventDetailsStatus } = useAppSelector(
@@ -59,7 +59,7 @@ export const ControlButtons: FC<ControlButtonsProps> = ({
             variant={Variant.Contained}
             color={Color.Secondary}
             onClick={onSave}
-            disabled={isLoading || !hasRequiredDetails}
+            disabled={isLoading || !isValidExamEvent}
           >
             {translateCommon('save')}
           </CustomButton>

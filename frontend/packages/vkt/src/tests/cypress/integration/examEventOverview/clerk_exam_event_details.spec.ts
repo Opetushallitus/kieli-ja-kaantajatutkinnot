@@ -38,6 +38,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     [
       ['language', 'Ruotsi'],
       ['level', 'Erinomainen'],
+      ['maxParticipants', '3'],
     ].forEach(([fieldName, fieldValue]) => {
       onClerkExamEventOverviewPage.editExamEventField(fieldName, 'input', ' ');
       onClerkExamEventOverviewPage.expectDisabledSaveExamEventDetailsButton();

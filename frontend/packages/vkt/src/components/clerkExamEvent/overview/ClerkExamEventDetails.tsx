@@ -7,10 +7,10 @@ import {
   DropDownMenuButton,
   ExtLink,
   H2,
+  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
-import { DateUtils, StringUtils } from 'shared/utils';
 
 import { ClerkEnrollmentListing } from 'components/clerkEnrollment/listing/ClerkEnrollmentListing';
 import { ClerkExamEventDetailsFields } from 'components/clerkExamEvent/overview/ClerkExamEventDetailsFields';
@@ -18,7 +18,7 @@ import { ControlButtons } from 'components/clerkExamEvent/overview/ControlButton
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
-import { EnrollmentStatus, UIMode } from 'enums/app';
+import { AppRoutes, EnrollmentStatus, UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import {
@@ -31,6 +31,7 @@ import {
   updateClerkExamEventDetails,
 } from 'redux/reducers/clerkExamEventOverview';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
+import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 
 interface EnrollmentListProps {
   enrollments: Array<ClerkEnrollment>;
@@ -166,15 +167,6 @@ export const ClerkExamEventDetails = () => {
     return null;
   }
 
-  const hasRequiredDetails =
-    StringUtils.isNonBlankString(examEventDetails.language) &&
-    StringUtils.isNonBlankString(examEventDetails.level) &&
-    DateUtils.isValidDate(examEventDetails.date) &&
-    DateUtils.isValidDate(examEventDetails.registrationCloses) &&
-    DateUtils.isDatePartBefore(
-      examEventDetails.registrationCloses,
-      examEventDetails.date
-    );
   const { enrollments } = examEventDetails;
 
   const copyOptions = [
@@ -223,9 +215,15 @@ export const ClerkExamEventDetails = () => {
       handleFieldChange(field, date);
     };
 
+  const handleMaxParticipantsChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    handleFieldChange('maxParticipants', event.target.value);
+  };
+
   const handleFieldChange = (
     field: keyof ClerkExamEventBasicInformation,
-    fieldValue: string | boolean | undefined | Dayjs | null
+    fieldValue: string | number | boolean | undefined | Dayjs | null
   ) => {
     const updatedExamEventDetails = {
       ...examEventDetails,
@@ -271,6 +269,10 @@ export const ClerkExamEventDetails = () => {
     }
   };
 
+  const enrollmentLinkUrl = `https://${
+    window.location.host
+  }${AppRoutes.PublicAuth.replace(/:examEventId/, `${examEvent?.id}`)}`;
+
   return (
     <>
       <div className="columns margin-top-lg flex-end">
@@ -279,25 +281,27 @@ export const ClerkExamEventDetails = () => {
           onEdit={onEdit}
           onSave={onSave}
           isViewMode={isViewMode}
-          hasRequiredDetails={hasRequiredDetails}
+          isValidExamEvent={
+            examEventDetails &&
+            ExamCreateEventUtils.isValidExamEvent(examEventDetails)
+          }
         />
       </div>
-      <ClerkExamEventDetailsFields
-        examEvent={examEventDetails}
-        onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-          handleComboBoxChange(field)
-        }
-        onDateChange={(
-          field: keyof Pick<
-            ClerkExamEventBasicInformation,
-            'date' | 'registrationCloses'
-          >
-        ) => handleDateChange(field)}
-        onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-          handleCheckBoxChange(field)
-        }
-        editDisabled={isViewMode}
-      />
+      <div className="clerk-homepage__exam-events clerk-homepage-create-exam-events">
+        <ClerkExamEventDetailsFields
+          examEvent={examEventDetails}
+          onComboBoxChange={handleComboBoxChange}
+          onDateChange={handleDateChange}
+          onCheckBoxChange={handleCheckBoxChange}
+          onMaxParticipantsChange={handleMaxParticipantsChange}
+          editDisabled={isViewMode}
+        />
+      </div>
+      <div className="margin-top-lg">
+        <Text>
+          <b>{t('examEventDetails.enrollmentLink')}:</b> {enrollmentLinkUrl}
+        </Text>
+      </div>
       <EnrollmentList
         enrollments={enrollments}
         status={EnrollmentStatus.PAID}
