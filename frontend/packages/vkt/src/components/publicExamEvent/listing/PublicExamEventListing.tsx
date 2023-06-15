@@ -72,7 +72,7 @@ export const PublicExamEventListing = ({
       return (
         <>
           <div
-            className="public-exam-event-header columns"
+            className="public-exam-event-heading columns"
             ref={listingHeaderRef}
           >
             <div className="grow">
@@ -86,7 +86,7 @@ export const PublicExamEventListing = ({
                 onChange={handleLanguageFilterChange}
               />
             }
-            className={'public-exam-event-listing table-layout-auto'}
+            className="table-layout-auto"
             data={filteredExamEvents}
             header={<PublicExamEventListingHeader />}
             getRowDetails={getRowDetails}

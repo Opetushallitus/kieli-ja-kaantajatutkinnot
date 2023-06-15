@@ -62,7 +62,7 @@
           "step": {
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
-            "FillContactDetails": "Täytä henkilötietosi",
+            "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Siirry maksamaan",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
@@ -166,6 +166,7 @@
         },
         "row": {
           "enroll": "Ilmoittaudu",
+          "enrollLater": "Ilmoittaudu myöhemmin",
           "enrollToQueue": "Ilmoittaudu jonoon"
         },
         "title": "Tulevat tutkintotilaisuudet"

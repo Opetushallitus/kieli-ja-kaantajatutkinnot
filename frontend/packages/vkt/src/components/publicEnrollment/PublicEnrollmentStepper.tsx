@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export const PublicEnrollmentStepper = ({
@@ -23,7 +23,6 @@ export const PublicEnrollmentStepper = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
-  const translateCommon = useCommonTranslation();
 
   const steps = includePaymentStep
     ? [
@@ -43,7 +42,6 @@ export const PublicEnrollmentStepper = ({
       ];
 
   const doneStepNumber = steps.length;
-  const mobileStepValue = activeStep * (100 / doneStepNumber);
 
   const getStatusText = (stepNumber: number) => {
     if (stepNumber < activeStep) {
@@ -71,16 +69,17 @@ export const PublicEnrollmentStepper = ({
   const isStepCompleted = (stepNumber: number) =>
     stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
 
-  const phaseText = `${activeStep}/${doneStepNumber}`;
-  const ariaLabel = `${translateCommon('phase')} ${phaseText}: ${t(
+  const mobileStepValue = activeStep * (100 / doneStepNumber);
+  const mobilePhaseText = `${activeStep}/${doneStepNumber}`;
+  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
     PublicEnrollmentFormStep[activeStep]
   )}`;
 
   return isPhone ? (
     <CircularStepper
       value={mobileStepValue}
-      ariaLabel={ariaLabel}
-      phaseText={phaseText}
+      ariaLabel={mobileAriaLabel}
+      phaseText={mobilePhaseText}
       size={90}
     />
   ) : (

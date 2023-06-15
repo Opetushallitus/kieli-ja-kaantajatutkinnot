@@ -39,10 +39,14 @@ const renderEnrollmentButton = (
   isLoading: boolean,
   isDisabled: boolean,
   onClick: () => void,
-  t: (key: string) => string
+  t: (key: string) => string,
+  translateCommon: (t: string) => string
 ) => {
   return (
-    <LoadingProgressIndicator isLoading={isLoading}>
+    <LoadingProgressIndicator
+      translateCommon={translateCommon}
+      isLoading={isLoading}
+    >
       <CustomButton
         data-testid={`public-exam-events-${examEvent.id}__enroll-btn`}
         color={Color.Secondary}
@@ -50,7 +54,11 @@ const renderEnrollmentButton = (
         disabled={isDisabled}
         onClick={onClick}
       >
-        {examEvent.openings > 0 ? t('row.enroll') : t('row.enrollToQueue')}
+        {examEvent.hasCongestion
+          ? t('row.enrollLater')
+          : ExamEventUtils.hasOpenings(examEvent)
+          ? t('row.enroll')
+          : t('row.enrollToQueue')}
       </CustomButton>
     </LoadingProgressIndicator>
   );
@@ -81,7 +89,7 @@ export const PublicExamEventPhoneCells = ({
   const handleOnClick = () => {
     dispatch(setPublicEnrollmentSelectedExam(examEvent));
     navigate(
-      AppRoutes.PublicAuth.replace(':examEventId', examEvent?.id.toString())
+      AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString())
     );
   };
 
@@ -115,8 +123,9 @@ export const PublicExamEventPhoneCells = ({
             examEvent,
             examEvent === selectedExamEvent,
             examEvent.hasCongestion || isInitialisationInProgress,
-            () => handleOnClick(),
-            t
+            handleOnClick,
+            t,
+            translateCommon
           )}
         </div>
       </TableCell>
@@ -129,20 +138,22 @@ export const PublicExamEventDesktopCells = ({
 }: {
   examEvent: PublicExamEvent;
 }) => {
+  const { language, date, registrationCloses } = examEvent;
+
   // I18n
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventListing',
   });
   const translateCommon = useCommonTranslation();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const { reservationDetailsStatus, selectedExamEvent } = useAppSelector(
     publicEnrollmentSelector
   );
-
   const isInitialisationInProgress =
     reservationDetailsStatus === APIResponseStatus.InProgress;
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleOnClick = () => {
     dispatch(setPublicEnrollmentSelectedExam(examEvent));
@@ -156,19 +167,17 @@ export const PublicExamEventDesktopCells = ({
       <TableCell>
         <Text>
           {ExamEventUtils.languageAndLevelText(
-            examEvent.language,
+            language,
             ExamLevel.EXCELLENT,
             translateCommon
           )}
         </Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(examEvent.date)}</Text>
+        <Text>{DateUtils.formatOptionalDate(date)}</Text>
       </TableCell>
       <TableCell>
-        <Text>
-          {DateUtils.formatOptionalDate(examEvent.registrationCloses)}
-        </Text>
+        <Text>{DateUtils.formatOptionalDate(registrationCloses)}</Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
       <TableCell>
@@ -177,7 +186,8 @@ export const PublicExamEventDesktopCells = ({
           examEvent === selectedExamEvent,
           examEvent.hasCongestion || isInitialisationInProgress,
           handleOnClick,
-          t
+          t,
+          translateCommon
         )}
       </TableCell>
     </>

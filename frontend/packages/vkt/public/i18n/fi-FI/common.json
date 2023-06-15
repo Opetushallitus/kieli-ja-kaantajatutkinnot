@@ -99,9 +99,9 @@
         }
       },
       "languageFilter": {
-        "ALL": "Näytä kaikki kielet",
-        "FI": "Näytä vain suomi",
-        "SV": "Näytä vain ruotsi"
+        "ALL": "Kaikki kielet",
+        "FI": "Suomi",
+        "SV": "Ruotsi"
       },
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",
@@ -128,7 +128,6 @@
         "clerkExamOverview": "Virkailija tutkintosivu",
         "clerkHomepage": "Virkailija"
       },
-      "phase": "Vaihe",
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",

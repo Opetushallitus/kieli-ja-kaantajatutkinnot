@@ -26,24 +26,6 @@ class PublicHomePage {
   }
 
   filterByLanguage(language: ExamLanguage) {
-    let value;
-    switch (language) {
-      case ExamLanguage.FI:
-        value = 'Näytä vain suomi';
-        break;
-
-      case ExamLanguage.SV:
-        value = 'Näytä vain ruotsi';
-        break;
-
-      default:
-        value = 'Näytä kaikki kielet';
-    }
-
-    this.elements.languageFilter().should('be.visible').type(`${value}{enter}`);
-  }
-
-  filterByLanguageMobile(language: ExamLanguage) {
     this.elements
       .languageFilter()
       .should('be.visible')

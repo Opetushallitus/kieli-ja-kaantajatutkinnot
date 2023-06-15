@@ -23,9 +23,9 @@ interface StackableMobileAppBarProps {
 */
 export const StackableMobileAppBar = ({
   order,
+  children,
   state,
   setState,
-  children,
 }: StackableMobileAppBarProps) => {
   const [margin, setMargin] = useState({});
   const [bottom, setBottom] = useState('');
@@ -41,13 +41,15 @@ export const StackableMobileAppBar = ({
 
   const ref = useResizeObserver(onResize);
 
+  const isLastInOrder = order === parseInt(allOrders[allOrders.length - 1]);
+
   useEffect(() => {
     setMargin(() => {
       if (order === 1) {
         return {
           margin: '1.5rem 0 0 0',
         };
-      } else if (order === parseInt(allOrders[allOrders.length - 1])) {
+      } else if (isLastInOrder) {
         return {
           margin: '0 0 1.5rem 0',
         };
@@ -57,7 +59,7 @@ export const StackableMobileAppBar = ({
         };
       }
     });
-  }, [state, allOrders, order, setMargin, setBottom]);
+  }, [order, isLastInOrder, setMargin]);
 
   useEffect(() => {
     setBottom(() => {
@@ -80,8 +82,7 @@ export const StackableMobileAppBar = ({
         className="mobile-app-bar"
         style={{
           bottom,
-          boxShadow:
-            order === parseInt(allOrders[allOrders.length - 1]) ? 'none' : '',
+          boxShadow: isLastInOrder ? 'none' : '',
         }}
       >
         <Toolbar className="mobile-app-bar__tool-bar" style={margin}>

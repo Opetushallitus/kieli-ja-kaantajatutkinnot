@@ -54,14 +54,12 @@ describe('Public enrollment', () => {
     it.skip('exam event received congestion after the home page was opened', () => {
       onPublicHomePage.clickEnrollButton(10);
 
-      onPublicHomePage.expectEnrollButtonEnabled(10);
       onToast.expectText('Tutkintotilaisuus on ruuhkautunut');
     });
 
     it.skip('registration to exam event closed after the home page was opened', () => {
       onPublicHomePage.clickEnrollButton(11);
 
-      onPublicHomePage.expectEnrollButtonEnabled(11);
       onToast.expectText(
         'Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut'
       );
