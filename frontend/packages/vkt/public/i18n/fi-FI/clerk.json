@@ -104,16 +104,16 @@
         "examEventDetails": {
           "copyEmails": "Kopioi sähköpostit",
           "chooseCopyEmails": "Valitse kopiointi",
-          "downloadExcel": "Lataa Excel"
+          "downloadExcel": "Lataa Excel",
+          "enrollmentLink": "Ilmoittautumislinkki"
         },
         "examEventDetailsFields": {
-          "header": {
-            "date": "Tutkintopäivä",
-            "isHidden": "Piilotettu",
-            "language": "Kieli",
-            "level": "Taso",
-            "registrationCloses": "Ilmoittautuminen sulkeutuu"
-          }
+          "date": "Tutkintopäivä",
+          "fillingsTotal": "Paikkojen lukumäärä",
+          "isHidden": "Piilotettu",
+          "language": "Kieli",
+          "level": "Taso",
+          "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
         "examEventListingHeader": {
           "CANCELED": "Peruutetut",

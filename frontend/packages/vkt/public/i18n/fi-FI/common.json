@@ -5,6 +5,7 @@
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
+      "backToHomePage": "Takaisin etusivulle",
       "cancel": "Peruuta",
       "cancelUpdateDialog": {
         "description": "Menetät tekemäsi muutokset.",
@@ -64,6 +65,7 @@
           "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
           "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Ilmoittautuminen on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
+          "paymentReferenceMismatch": "Maksun käsittely epäonnistui",
           "paymentValidationFail": "Maksun käsittely epäonnistui"
         },
         "customTextField": {
@@ -112,6 +114,7 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
+        "frontPage": "Etusivu",
         "authenticate": "Ilmoittautuminen - tunnistaudu",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "selectExam": "Ilmoittautuminen - valitse tutkinto",
@@ -119,12 +122,11 @@
         "preview": "Ilmoittautuminen - esikatsele",
         "success": "Ilmoittautuminen - maksu valmis",
         "fail": "Ilmoittautuminen - maksua ei suoritettu",
+        "privacyPolicy": "Tietosuojaseloste",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
-        "clerkHomepage": "Virkailija",
-        "enrollment": "Ilmoittautuminen",
-        "frontPage": "Etusivu"
+        "clerkHomepage": "Virkailija"
       },
       "phase": "Vaihe",
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",

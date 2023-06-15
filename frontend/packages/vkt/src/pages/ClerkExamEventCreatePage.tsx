@@ -1,6 +1,7 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import { Box, Grid, Paper } from '@mui/material';
 import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import {
   CustomButton,
   CustomButtonLink,
@@ -18,7 +19,6 @@ import { ClerkExamRegistrationCloses } from 'components/clerkExamEvent/create/Cl
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { DraftClerkExamEvent } from 'interfaces/clerkExamEvent';
 import {
   resetClerkNewExamDate,
   saveClerkNewExamDate,
@@ -43,10 +43,10 @@ const BackButton = () => {
 };
 
 type SaveButtonProps = {
-  isEnabled: boolean;
+  disabled: boolean;
   onSave: () => void;
 };
-const SaveButton = ({ isEnabled, onSave }: SaveButtonProps) => {
+const SaveButton = ({ disabled, onSave }: SaveButtonProps) => {
   const translateCommon = useCommonTranslation();
 
   return (
@@ -54,7 +54,7 @@ const SaveButton = ({ isEnabled, onSave }: SaveButtonProps) => {
       data-testid="clerk-translator-overview__translator-details__save-btn"
       variant={Variant.Contained}
       color={Color.Secondary}
-      disabled={isEnabled}
+      disabled={disabled}
       onClick={onSave}
     >
       {translateCommon('save')}
@@ -66,13 +66,10 @@ export const ClerkExamEventCreatePage: FC = () => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventCreate',
   });
-  const {
-    status,
-    examDate,
-  }: { status: APIResponseStatus; examDate: DraftClerkExamEvent } =
-    useAppSelector(clerkNewExamDateSelector);
-  const dispatch = useAppDispatch();
+  const { status, examDate, id } = useAppSelector(clerkNewExamDateSelector);
 
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -81,13 +78,18 @@ export const ClerkExamEventCreatePage: FC = () => {
         severity: Severity.Success,
         description: t('toasts.addingSucceeded'),
       });
+      navigate(
+        AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId/, `${id}`)
+      );
       dispatch(resetClerkNewExamDate());
     }
-  }, [showToast, t, status, dispatch]);
+  }, [showToast, t, status, navigate, id, dispatch]);
 
   const isLoading = status === APIResponseStatus.InProgress;
-  const canSave = isLoading || !ExamCreateEventUtils.isValidForm(examDate);
-  const onSave = () => examDate && dispatch(saveClerkNewExamDate(examDate));
+  const isSavingDisabled =
+    isLoading || !ExamCreateEventUtils.isValidExamEvent(examDate);
+
+  const onSave = () => dispatch(saveClerkNewExamDate(examDate));
 
   return (
     <Box className="clerk-homepage">
@@ -120,7 +122,7 @@ export const ClerkExamEventCreatePage: FC = () => {
             </div>
             <div className="columns flex-end">
               <LoadingProgressIndicator isLoading={isLoading}>
-                <SaveButton isEnabled={canSave} onSave={onSave} />
+                <SaveButton disabled={isSavingDisabled} onSave={onSave} />
               </LoadingProgressIndicator>
             </div>
           </Paper>

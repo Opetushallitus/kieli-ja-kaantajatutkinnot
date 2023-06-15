@@ -33,7 +33,7 @@ export const ClerkExamRegistrationCloses = ({
       <H3>{t('header.registrationCloses')}</H3>
       <CustomDatePicker
         minDate={dayjs()}
-        maxDate={examForm.date}
+        maxDate={examForm.date?.subtract(1, 'd')}
         setValue={onRegistrationClosesChange}
         label={translateCommon('choose')}
         value={examForm?.registrationCloses ?? null}

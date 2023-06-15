@@ -5,9 +5,10 @@ import {
   ComboBox,
   CustomDatePicker,
   CustomSwitch,
+  CustomTextField,
   H3,
 } from 'shared/components';
-import { TextFieldVariant } from 'shared/enums';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -23,8 +24,9 @@ export const ClerkExamEventDetailsFields = ({
   onComboBoxChange,
   onDateChange,
   onCheckBoxChange,
+  onMaxParticipantsChange,
 }: {
-  examEvent?: ClerkExamEvent;
+  examEvent: ClerkExamEvent;
   editDisabled: boolean;
   onComboBoxChange: (
     field: keyof ClerkExamEventBasicInformation
@@ -38,6 +40,9 @@ export const ClerkExamEventDetailsFields = ({
   onCheckBoxChange: (
     field: keyof ClerkExamEventBasicInformation
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  onMaxParticipantsChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }) => {
   // I18n
   const { t } = useClerkTranslation({
@@ -63,9 +68,9 @@ export const ClerkExamEventDetailsFields = ({
 
   return (
     <>
-      <div className="clerk-exam-event-details margin-top-lg columns gapped">
+      <div className="margin-top-lg grid-columns gapped">
         <div className="rows gapped">
-          <H3>{t('header.language')}</H3>
+          <H3>{t('language')}</H3>
           <ComboBox
             data-testid="clerk-exam-event__basic-information__language"
             autoHighlight
@@ -74,23 +79,19 @@ export const ClerkExamEventDetailsFields = ({
             values={Object.keys(ExamLanguage)
               .filter((l) => l !== ExamLanguage.ALL)
               .map(languageCodeToLabel)}
-            value={
-              examEvent?.language
-                ? languageCodeToLabel(examEvent.language)
-                : null
-            }
+            value={languageCodeToLabel(examEvent.language)}
             onChange={onComboBoxChange('language')}
           />
         </div>
         <div className="rows gapped">
-          <H3>{t('header.level')}</H3>
+          <H3>{t('level')}</H3>
           <ComboBox
             data-testid="clerk-exam-event__basic-information__level"
             autoHighlight
             disabled={editDisabled}
             variant={TextFieldVariant.Outlined}
             values={Object.keys(ExamLevel).map(examLevelToLabel)}
-            value={examEvent?.level ? examLevelToLabel(examEvent.level) : null}
+            value={examLevelToLabel(examEvent.level)}
             onChange={onComboBoxChange('level')}
           />
         </div>
@@ -98,31 +99,47 @@ export const ClerkExamEventDetailsFields = ({
           className="rows gapped"
           data-testid="clerk-exam-event__basic-information__date"
         >
-          <H3>{t('header.date')}</H3>
+          <H3>{t('date')}</H3>
           <CustomDatePicker
-            value={dayjs(examEvent?.date) ?? null}
+            value={dayjs(examEvent.date)}
             setValue={onDateChange('date')}
             disabled={editDisabled}
           />
         </div>
+      </div>
+      <div className="margin-top-lg grid-columns gapped">
         <div
           className="rows gapped"
           data-testid="clerk-exam-event__basic-information__registrationCloses"
         >
-          <H3>{t('header.registrationCloses')}</H3>
+          <H3>{t('registrationCloses')}</H3>
           <CustomDatePicker
-            value={dayjs(examEvent?.registrationCloses) ?? null}
+            value={dayjs(examEvent.registrationCloses)}
             setValue={onDateChange('registrationCloses')}
+            maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
             disabled={editDisabled}
           />
         </div>
         <div className="rows gapped">
-          <H3>{t('header.isHidden')}</H3>
+          <H3>{t('fillingsTotal')}</H3>
+          <CustomTextField
+            data-testid="clerk-exam-event__basic-information__maxParticipants"
+            className="clerk-exam-create-max-participants"
+            label={translateCommon('choose')}
+            type={TextFieldTypes.Number}
+            variant={TextFieldVariant.Outlined}
+            value={examEvent.maxParticipants}
+            onChange={onMaxParticipantsChange}
+            disabled={editDisabled}
+          />
+        </div>
+        <div className="rows gapped">
+          <H3>{t('isHidden')}</H3>
           <CustomSwitch
             dataTestId="clerk-exam-event__basic-information__is-hidden-switch"
             disabled={editDisabled}
             onChange={onCheckBoxChange('isHidden')}
-            value={examEvent?.isHidden}
+            value={examEvent.isHidden}
             leftLabel={translateCommon('no')}
             rightLabel={translateCommon('yes')}
           />

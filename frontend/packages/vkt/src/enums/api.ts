@@ -36,5 +36,6 @@ export enum APIError {
   PaymentLinkHasExpired = 'paymentLinkHasExpired',
   PaymentLinkInvalidEnrollmentStatus = 'paymentLinkInvalidEnrollmentStatus',
   PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
+  PaymentReferenceMismatch = 'paymentReferenceMismatch',
   PaymentValidationFail = 'paymentValidationFail',
 }

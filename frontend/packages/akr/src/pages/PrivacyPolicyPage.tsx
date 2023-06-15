@@ -83,6 +83,7 @@ export const PrivacyPolicyPage = () => {
             <Text>{translatePrivacy('registerName.description')}</Text>
             <Text>
               {translatePrivacy('registerName.contents.description')}
+              {':'}
               <BulletList
                 localisationKeys={[
                   'registerName.contents.item1',
@@ -93,12 +94,10 @@ export const PrivacyPolicyPage = () => {
           </div>
           <div className="rows gapped">
             <H2>{translatePrivacy('registrar.heading')}</H2>
-            <Text>{translatePrivacy('registrar.contact.name')}</Text>
-            <Text>
-              {translatePrivacy('registrar.contact.address1')}
-              <br />
-              {translatePrivacy('registrar.contact.address2')}
-            </Text>
+            <div className="rows gapped-xxs">
+              <Text>{translatePrivacy('registrar.contact.name')}</Text>
+              <Text>{translatePrivacy('registrar.contact.address')}</Text>
+            </div>
             <Text>
               {translatePrivacy('registrar.contact.otherDetails')}
               <br />
@@ -134,6 +133,7 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy('registrarContactPerson.liable.description')}
+              {':'}
               <br />
               {translatePrivacy('registrarContactPerson.liable.name')}
               <br />
@@ -209,11 +209,15 @@ export const PrivacyPolicyPage = () => {
               />
               {translatePrivacy('dataContents.group3.grounds.description2')}
             </Text>
-            <Text>
-              {translatePrivacy('dataContents.group3.details.heading')}
-              <br />
-              {translatePrivacy('dataContents.group3.details.description')}
-            </Text>
+            <div className="rows gapped-xxs">
+              <Text>
+                {translatePrivacy('dataContents.group3.details.heading')}
+                {':'}
+              </Text>
+              <Text>
+                {translatePrivacy('dataContents.group3.details.description')}
+              </Text>
+            </div>
             <Text>
               {translatePrivacy(
                 'dataContents.group3.details.otherDetails.description'

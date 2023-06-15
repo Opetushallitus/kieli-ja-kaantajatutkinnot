@@ -32,7 +32,7 @@ public class DeleteCanceledUnfinishedEnrollments {
   )
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
-      LOG.debug("deleteCanceledUnfinishedEnrollments");
+      LOG.info("deleteCanceledUnfinishedEnrollments");
 
       clerkEnrollmentService.deleteCanceledUnfinishedEnrollments();
     });

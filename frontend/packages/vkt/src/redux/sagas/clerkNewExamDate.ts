@@ -26,17 +26,13 @@ function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
       SerializationUtils.serializeNewClerkExamEvent(action.payload)
     );
 
-    if (!apiResponse.data.id) {
-      throw new Error('Save failed. No Id found.');
-    }
-
     const examEvent: ClerkExamEvent =
       SerializationUtils.deserializeClerkExamEvent({
         ...apiResponse.data,
         enrollments: [],
       });
 
-    yield put(successClerkNewExamDate());
+    yield put(successClerkNewExamDate(examEvent.id));
     yield put(upsertExamEvents(examEvent));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
