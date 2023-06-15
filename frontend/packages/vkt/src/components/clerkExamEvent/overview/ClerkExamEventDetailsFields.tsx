@@ -116,13 +116,14 @@ export const ClerkExamEventDetailsFields = ({
           <CustomDatePicker
             value={dayjs(examEvent.registrationCloses)}
             setValue={onDateChange('registrationCloses')}
-            maxDate={examEvent.date.subtract(1, 'd')}
+            maxDate={examEvent.date && examEvent.date.subtract(1, 'd')}
             disabled={editDisabled}
           />
         </div>
         <div className="rows gapped">
           <H3>{t('fillingsTotal')}</H3>
           <CustomTextField
+            data-testid="clerk-exam-event__basic-information__maxParticipants"
             className="clerk-exam-create-max-participants"
             label={translateCommon('choose')}
             type={TextFieldTypes.Number}
