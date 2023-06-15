@@ -30,12 +30,13 @@ const clerkNewExamDateSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     resetClerkNewExamDate(state) {
-      state.status = APIResponseStatus.NotStarted;
+      state.status = initialState.status;
       state.examDate = initialState.examDate;
-      state.id = undefined;
+      state.id = initialState.id;
     },
-    successClerkNewExamDate(state) {
+    successClerkNewExamDate(state, action: PayloadAction<number>) {
       state.status = APIResponseStatus.Success;
+      state.id = action.payload;
     },
     saveClerkNewExamDate(state, _action: PayloadAction<DraftClerkExamEvent>) {
       state.status = APIResponseStatus.InProgress;
