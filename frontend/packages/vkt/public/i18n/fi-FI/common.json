@@ -5,6 +5,7 @@
       "appNameAbbreviation": "VKT",
       "appTitle": "Valtionhallinnon kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
+      "backToHomePage": "Takaisin etusivulle",
       "cancel": "Peruuta",
       "cancelUpdateDialog": {
         "description": "Menetät tekemäsi muutokset.",
@@ -114,6 +115,7 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
+        "frontPage": "Etusivu",
         "authenticate": "Ilmoittautuminen - tunnistaudu",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "selectExam": "Ilmoittautuminen - valitse tutkinto",
@@ -121,12 +123,11 @@
         "preview": "Ilmoittautuminen - esikatsele",
         "success": "Ilmoittautuminen - maksu valmis",
         "fail": "Ilmoittautuminen - maksua ei suoritettu",
+        "privacyPolicy": "Tietosuojaseloste",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
-        "clerkHomepage": "Virkailija",
-        "enrollment": "Ilmoittautuminen",
-        "frontPage": "Etusivu"
+        "clerkHomepage": "Virkailija"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",
