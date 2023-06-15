@@ -17,27 +17,21 @@ export class ExamCreateEventUtils {
     );
   }
 
-  static isValidExamEvent(
-    examEvent: DraftClerkExamEvent | ClerkExamEvent | undefined
-  ) {
-    if (examEvent) {
-      return (
-        StringUtils.isNonBlankString(examEvent.language) &&
-        StringUtils.isNonBlankString(examEvent.level) &&
-        DateUtils.isValidDate(examEvent.date) &&
-        DateUtils.isValidDate(examEvent.registrationCloses) &&
-        DateUtils.isDatePartBefore(
-          examEvent.registrationCloses as Dayjs,
-          examEvent.date as Dayjs
-        ) &&
-        !ExamCreateEventUtils.maxParticipantsHasError(
-          true,
-          examEvent.maxParticipants
-        )
-      );
-    }
-
-    return false;
+  static isValidExamEvent(examEvent: DraftClerkExamEvent | ClerkExamEvent) {
+    return (
+      StringUtils.isNonBlankString(examEvent.language) &&
+      StringUtils.isNonBlankString(examEvent.level) &&
+      DateUtils.isValidDate(examEvent.date) &&
+      DateUtils.isValidDate(examEvent.registrationCloses) &&
+      DateUtils.isDatePartBefore(
+        examEvent.registrationCloses as Dayjs,
+        examEvent.date as Dayjs
+      ) &&
+      !ExamCreateEventUtils.maxParticipantsHasError(
+        true,
+        examEvent.maxParticipants
+      )
+    );
   }
 
   static getLangLevelComboOpt(

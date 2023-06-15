@@ -281,26 +281,18 @@ export const ClerkExamEventDetails = () => {
           onEdit={onEdit}
           onSave={onSave}
           isViewMode={isViewMode}
-          isValidExamEvent={ExamCreateEventUtils.isValidExamEvent(
-            examEventDetails
-          )}
+          isValidExamEvent={
+            examEventDetails &&
+            ExamCreateEventUtils.isValidExamEvent(examEventDetails)
+          }
         />
       </div>
       <div className="clerk-homepage__exam-events clerk-homepage-create-exam-events">
         <ClerkExamEventDetailsFields
           examEvent={examEventDetails}
-          onComboBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-            handleComboBoxChange(field)
-          }
-          onDateChange={(
-            field: keyof Pick<
-              ClerkExamEventBasicInformation,
-              'date' | 'registrationCloses'
-            >
-          ) => handleDateChange(field)}
-          onCheckBoxChange={(field: keyof ClerkExamEventBasicInformation) =>
-            handleCheckBoxChange(field)
-          }
+          onComboBoxChange={handleComboBoxChange}
+          onDateChange={handleDateChange}
+          onCheckBoxChange={handleCheckBoxChange}
           onMaxParticipantsChange={handleMaxParticipantsChange}
           editDisabled={isViewMode}
         />
