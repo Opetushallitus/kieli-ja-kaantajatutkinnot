@@ -24,6 +24,7 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentGrid = ({
   activeStep,
@@ -94,7 +95,7 @@ export const PublicEnrollmentGrid = ({
     activeStep > PublicEnrollmentFormStep.Authenticate &&
       activeStep < PublicEnrollmentFormStep.Preview &&
       cancelStatus === APIResponseStatus.NotStarted,
-    '/vkt/ilmoittaudu'
+    AppRoutes.PublicEnrollment
   );
 
   const memoizedSetAppBarState = useCallback(
@@ -124,6 +125,13 @@ export const PublicEnrollmentGrid = ({
     isPreviewStepActive &&
     (reservationDetails?.reservation || isShiftedFromQueue);
 
+  const getNextEnrollmentStep = () => {
+    const steps = PublicEnrollmentUtils.getEnrollmentSteps(hasReservation);
+    const currentIndex = steps.findIndex((step) => step === activeStep);
+
+    return steps[currentIndex + 1];
+  };
+
   const renderPhoneView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -140,7 +148,7 @@ export const PublicEnrollmentGrid = ({
                   isLoading={isLoading}
                 />
               )}
-              {isPreviewStepActive && reservationDetails?.reservation && (
+              {isPaymentSumAvailable && (
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
             </div>
@@ -149,22 +157,37 @@ export const PublicEnrollmentGrid = ({
         <Paper elevation={3}>
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
             {selectedExamEvent && (
-              <div className="public-enrollment__grid__form-container">
-                <div className="columns gapped">
-                  <PublicEnrollmentStepper
-                    activeStep={activeStep}
-                    includePaymentStep={hasReservation}
-                  />
-                  <div className="rows gapped-xs align-items-center grow">
-                    <H2>{t(`step.${PublicEnrollmentFormStep[activeStep]}`)}</H2>
-                    <div>
-                      <Text>
-                        Seuraava:{' '}
-                        {t(`step.${PublicEnrollmentFormStep[activeStep + 1]}`)}
-                      </Text>
+              <div
+                className={
+                  isLoading
+                    ? 'dimmed public-enrollment__grid__form-container'
+                    : 'public-enrollment__grid__form-container'
+                }
+              >
+                {!isShiftedFromQueue && (
+                  <div className="columns gapped">
+                    <PublicEnrollmentStepper
+                      activeStep={activeStep}
+                      includePaymentStep={hasReservation}
+                    />
+                    <div className="rows gapped-xs align-items-center grow">
+                      <H2>
+                        {t(`step.${PublicEnrollmentFormStep[activeStep]}`)}
+                      </H2>
+                      <div>
+                        <Text>
+                          {translateCommon('next')}
+                          {': '}
+                          {t(
+                            `step.${
+                              PublicEnrollmentFormStep[getNextEnrollmentStep()]
+                            }`
+                          )}
+                        </Text>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <PublicEnrollmentExamEventDetails
                   examEvent={selectedExamEvent}
                   showOpenings={hasReservation && !isDoneStepActive}
@@ -181,28 +204,30 @@ export const PublicEnrollmentGrid = ({
             )}
           </LoadingProgressIndicator>
         </Paper>
-        {!isDoneStepActive && reservationDetails && (
-          <StackableMobileAppBar
-            order={2}
-            state={appBarState}
-            setState={memoizedSetAppBarState}
-          >
-            <div className="rows">
-              <PublicEnrollmentControlButtons
-                submitStatus={enrollmentSubmitStatus}
-                activeStep={activeStep}
-                enrollment={enrollment}
-                reservationDetails={reservationDetails}
-                isLoading={isLoading}
-                isStepValid={isStepValid}
-                setShowValidation={setShowValidation}
-                isPaymentLinkPreviewView={
-                  isShiftedFromQueue && isPreviewStepActive
-                }
-              />
-            </div>
-          </StackableMobileAppBar>
-        )}
+        {!isDoneStepActive &&
+          !isAuthenticateStepActive &&
+          reservationDetails && (
+            <StackableMobileAppBar
+              order={2}
+              state={appBarState}
+              setState={memoizedSetAppBarState}
+            >
+              <div className="rows">
+                <PublicEnrollmentControlButtons
+                  submitStatus={enrollmentSubmitStatus}
+                  activeStep={activeStep}
+                  enrollment={enrollment}
+                  reservationDetails={reservationDetails}
+                  isLoading={isLoading}
+                  isStepValid={isStepValid}
+                  setShowValidation={setShowValidation}
+                  isPaymentLinkPreviewView={
+                    isShiftedFromQueue && isPreviewStepActive
+                  }
+                />
+              </div>
+            </StackableMobileAppBar>
+          )}
       </Grid>
     </>
   );

@@ -5,6 +5,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentStepper = ({
   activeStep,
@@ -24,22 +25,7 @@ export const PublicEnrollmentStepper = ({
     keyPrefix: 'vkt.component.publicEnrollment.stepper',
   });
 
-  const steps = includePaymentStep
-    ? [
-        PublicEnrollmentFormStep.Authenticate,
-        PublicEnrollmentFormStep.FillContactDetails,
-        PublicEnrollmentFormStep.SelectExam,
-        PublicEnrollmentFormStep.Preview,
-        PublicEnrollmentFormStep.Payment,
-        PublicEnrollmentFormStep.Done,
-      ]
-    : [
-        PublicEnrollmentFormStep.Authenticate,
-        PublicEnrollmentFormStep.FillContactDetails,
-        PublicEnrollmentFormStep.SelectExam,
-        PublicEnrollmentFormStep.Preview,
-        PublicEnrollmentFormStep.Done,
-      ];
+  const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
 
   const doneStepNumber = steps.length;
 
@@ -72,7 +58,7 @@ export const PublicEnrollmentStepper = ({
   const mobileStepValue = activeStep * (100 / doneStepNumber);
   const mobilePhaseText = `${activeStep}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    PublicEnrollmentFormStep[activeStep]
+    `step.${PublicEnrollmentFormStep[activeStep]}`
   )}`;
 
   return isPhone ? (
