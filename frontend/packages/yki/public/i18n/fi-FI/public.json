@@ -296,6 +296,26 @@
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },
       "registrationPage": {
+        "description": {
+          "part1": {
+            "link": {
+              "label": "Sopivan YKI-testin valinta ja testipäivät",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/sopivan-yki-testin-valinta-ja-testipaivat"
+            },
+            "text": "Yleiset kielitutkinnot ovat aikuisille tarkoitettuja kielitutkintoja. Saat suoritetusta tutkinnosta todistuksen, jolla voit osoittaa virallisesti kielitaitosi eri kielissä. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
+          },
+          "part2": {
+            "link": {
+              "label": "Yleiset kielitutkinnot (YKI)",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+            },
+            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan. Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
+          }
+        },
+        "filters": {
+          "heading": "Etsi yleisiä kielitutkintoja (YKI)",
+          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta."
+        },
         "labels": {
           "excludeFullSessions": "Näytä vain tutkintotilaisuudet, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain nyt avoinna olevat tutkintotilaisuudet",

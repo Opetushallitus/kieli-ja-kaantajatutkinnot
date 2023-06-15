@@ -54,7 +54,7 @@ const FillRegistrationDetails = () => {
             href={translateCommon('specialArrangementsLink')}
             target="_blank"
           >
-            {t('whatsNext.linkLabel')}
+            <Text>{t('whatsNext.linkLabel')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
