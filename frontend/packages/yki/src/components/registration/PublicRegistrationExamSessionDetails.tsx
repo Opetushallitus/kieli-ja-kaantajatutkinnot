@@ -1,7 +1,11 @@
 import { Text } from 'shared/components';
 import { DateUtils } from 'shared/utils';
 
-import { getCurrentLang, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
 import { ExamUtils } from 'utils/exam';
 
@@ -15,6 +19,7 @@ export const PublicRegistrationExamSessionDetails = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.examSessionDetails',
   });
+  const translateCommon = useCommonTranslation();
 
   if (!examSession) {
     return null;
@@ -27,7 +32,7 @@ export const PublicRegistrationExamSessionDetails = ({
     <div className="rows">
       <div className="rows-gapped-xxs">
         <Text>
-          {`${t('exam')}: `}
+          {`${translateCommon('examSession')}: `}
           <b>{header}</b>
         </Text>
         <Text>
@@ -39,7 +44,7 @@ export const PublicRegistrationExamSessionDetails = ({
           )}`}</b>
         </Text>
         <Text>
-          {`${t('address')}: `}
+          {`${translateCommon('institution')}: `}
           <b>{`${location.name}, ${location.street_address}, ${location.post_office}`}</b>
         </Text>
         <Text>

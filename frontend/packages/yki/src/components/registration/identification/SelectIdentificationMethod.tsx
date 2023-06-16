@@ -39,6 +39,7 @@ export const SelectIdentificationMethod = () => {
     return (
       <>
         <H2>{t('title')}</H2>
+        <Text>{t('caption')}</Text>
         <SuomiFiIdentification />
         <EmailIdentification />
       </>

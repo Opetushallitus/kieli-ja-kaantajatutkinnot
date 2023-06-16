@@ -46,14 +46,6 @@ export const Footer = () => {
               endIcon={<OpenInNewIcon />}
               aria-label={translateCommon('ykiHomepage.ariaLabel')}
             />
-            <div className="footer__container__links__contact">
-              <H3>{t('links.contact.title')}:</H3>
-              <ExtLink
-                className="footer__container__links__contact__email"
-                href={`mailto:${translateCommon('contactEmail')}`}
-                text={translateCommon('contactEmail')}
-              ></ExtLink>
-            </div>
           </div>
           <div className="footer__container footer__container__contact-details">
             <H3>{t('address.name')}</H3>
@@ -68,6 +60,14 @@ export const Footer = () => {
                 text={t('address.phone.number')}
                 href={`tel:${t('address.phone.number')}`}
               />
+            </div>
+            <div className="footer__container__links__contact">
+              <H3>{t('links.contact.title')}:</H3>
+              <ExtLink
+                className="footer__container__links__contact__email"
+                href={`mailto:${translateCommon('contactEmail')}`}
+                text={translateCommon('contactEmail')}
+              ></ExtLink>
             </div>
           </div>
         </div>
