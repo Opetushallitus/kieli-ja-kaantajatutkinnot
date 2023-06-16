@@ -28,6 +28,16 @@ Cypress.Commands.add('openClerkHomePage', () => {
   cy.visit(AppRoutes.ClerkHomePage);
 });
 
+Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {
+  cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
+  cy.visit(
+    RouteUtils.replaceParameters(
+      AppRoutes.ClerkExamEventOverviewPage,
+      examEventId
+    )
+  );
+});
+
 Cypress.Commands.add('openClerkCreateExamEventPage', () => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(AppRoutes.ClerkExamEventCreatePage);

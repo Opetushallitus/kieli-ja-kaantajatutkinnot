@@ -51,12 +51,6 @@ class ClerkExamEventOverviewPage {
     this.elements.enrollmentRow(id).should('contain.text', text);
   }
 
-  navigateById(id: number) {
-    cy.visit(
-      AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId$/, `${id}`)
-    );
-  }
-
   navigateBackToRegister() {
     this.elements.backToRegisterButton().should('be.visible').click();
   }

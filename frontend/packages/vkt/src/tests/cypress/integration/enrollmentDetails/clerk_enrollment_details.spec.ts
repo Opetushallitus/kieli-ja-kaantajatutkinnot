@@ -24,7 +24,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   ];
 
   beforeEach(() => {
-    onClerkExamEventOverviewPage.navigateById(clerkExamEvent.id);
+    cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
   it('should show disabled enrollment details', () => {

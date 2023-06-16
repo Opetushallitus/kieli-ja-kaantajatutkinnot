@@ -11,6 +11,7 @@ declare global {
         persistedState?: string
       ): void;
       openClerkHomePage(): void;
+      openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;
       usePhoneViewport(): void;
       goBack(): void;
