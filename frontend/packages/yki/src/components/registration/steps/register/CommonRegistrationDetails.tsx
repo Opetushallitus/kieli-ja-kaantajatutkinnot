@@ -140,8 +140,6 @@ export const CommonRegistrationDetails = () => {
         <b>{t('termsAndConditions.description1')}</b>
         <br />
         <b>{t('termsAndConditions.description2')}</b>
-        <br />
-        {t('termsAndConditions.description3')}
       </Text>
       <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
         <FormControlLabel

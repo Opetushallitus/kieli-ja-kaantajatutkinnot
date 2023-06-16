@@ -36,16 +36,20 @@ export const PublicRegistrationExamSessionDetails = ({
           <b>{header}</b>
         </Text>
         <Text>
+          {`${translateCommon('examDate')}: `}
+          <b>{DateUtils.formatOptionalDate(examSession.session_date)}</b>
+        </Text>
+        <Text>
+          {`${translateCommon('institution')}: `}
+          <b>{`${location.name}, ${location.street_address}, ${location.post_office}`}</b>
+        </Text>
+        <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
             examSession.registration_start_date
           )} - ${DateUtils.formatOptionalDate(
             examSession.registration_end_date
           )}`}</b>
-        </Text>
-        <Text>
-          {`${translateCommon('institution')}: `}
-          <b>{`${location.name}, ${location.street_address}, ${location.post_office}`}</b>
         </Text>
         <Text>
           {`${t('examFee')}: `}

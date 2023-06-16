@@ -1,5 +1,3 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Link } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text } from 'shared/components';
@@ -16,7 +14,6 @@ import { registrationSelector } from 'redux/selectors/registration';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
@@ -43,22 +40,7 @@ const FillRegistrationDetails = () => {
       )}
       <CommonRegistrationDetails />
       <H2>{t('whatsNext.title')}</H2>
-      <Text>{t('whatsNext.description1')}</Text>
-      <Text>
-        {t('whatsNext.description2')}
-        <br />
-        {t('whatsNext.description3')}:
-        <br />
-        <div className="columns gapped-xxs">
-          <Link
-            href={translateCommon('specialArrangementsLink')}
-            target="_blank"
-          >
-            <Text>{t('whatsNext.linkLabel')}</Text>
-          </Link>
-          <OpenInNewIcon />
-        </div>
-      </Text>
+      <Text>{t('whatsNext.description')}</Text>
     </div>
   );
 };
@@ -81,26 +63,22 @@ const Error = () => {
 const Success = () => {
   const { registration } = useAppSelector(registrationSelector);
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.registrationFormSubmitted',
+    keyPrefix:
+      'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>{t('title')}</H2>
-      <H2>{t('whatsNext.title')}</H2>
       <Text>
-        <Trans
-          t={t}
-          i18nKey={'whatsNext.description1'}
-          email={registration.email}
-        >
+        <Trans t={t} i18nKey={'description1'} email={registration.email}>
           {registration.email}
         </Trans>
       </Text>
       <Text>
-        <Trans t={t} i18nKey={'whatsNext.description2'} />
+        <Trans t={t} i18nKey={'description2'} />
         <br />
-        {t('whatsNext.description3')}
+        {t('description3')}
       </Text>
     </div>
   );

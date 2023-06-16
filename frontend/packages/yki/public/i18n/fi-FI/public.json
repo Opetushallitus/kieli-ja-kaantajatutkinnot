@@ -90,7 +90,7 @@
             "title": "Keskeytä ilmoittautuminen"
           },
           "abortRegistration": "Keskeytä ilmoittautuminen",
-          "confirm": "Vahvista ilmoittautuminen"
+          "confirm": "Lähetä"
         },
         "examSessionDetails": {
           "address": "Osoite",
@@ -112,7 +112,7 @@
           "address": "Katuosoite",
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
           "dateOfBirth": "Syntymäaika (pp.kk.vvvv)",
-          "description1": "Ole hyvä ja täytä lomake ilmoittautuaksesi tutkintoon.",
+          "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot. Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "email": "Sähköpostiosoite",
           "emailConfirmation": "Vahvista sähköpostiosoite",
@@ -148,36 +148,34 @@
           "postNumber": "Postinumero",
           "postOffice": "Postitoimipaikka",
           "privacyStatement": {
-            "description": "Noudatamme henkilötietojen käsittelyssä GDPR-lainsäädäntöä",
+            "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
             "ariaLabel": "Tietosuojaseloste",
             "label": "Hyväksyn henkilötietojeni käsittelyn *",
-            "linkLabel": "Lue henkilötietojen käsittelyn ehdot (oph.fi)"
+            "linkLabel": "Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta"
           },
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
             "description2": "Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin.",
-            "description3": "1.1.2023 alkaen tarvitset todistuksen sairaudesta tai muusta painavasta syystä, jos haluat perua ilmoittautumisesi YKI-testiin.",
-            "label": "Hyväksyn edellä mainitut ehdot *",
-            "title": "Hyväksy ehdot"
+            "label": "Hyväksyn ilmoittautumisen ehdot *",
+            "title": "Ilmoittautumisen ehdot"
           },
           "termsAndConditionsAgreed": "Hyväksy yleiset ehdot",
           "title": "Syötä tietosi",
           "whatsNext": {
-            "description1": "Kun olet vahvistanut ilmoittautumisesi, saat sähköpostiisi linkin maksua varten.",
+            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun. ",
             "description2": "Jos tarvitset tutkinnossa erityisjärjestelyjä, ota heti yhteyttä testipaikkaasi.",
             "description3": "Löydät ohjeet erityisjärjestelyiden hakemiseen verkkosivuiltamme",
             "linkLabel": "Ilmoittautuminen YKI-testiin (oph.fi)",
-            "title": "Mitä seuraavaksi"
+            "title": "Mitä tapahtuu seuraavaksi?"
           }
         },
         "registrationFormSubmitted": {
-          "title": "Ilmoittautuminen onnistui",
-          "whatsNext": {
+          "proceedToPayment": {
             "description1": "Saat maksuohjeet ja varmistuksen ilmoittautumisesta sähköpostiosoitteeseen <strong><0></0></strong>",
             "description2": "<strong>Tärkeää!</strong> Muistathan että tutkintomaksu on maksettava viimeistään eräpäivänä.",
             "description3": "Jos et maksa, ilmoittautumisesi peruuntuu etkä voi osallistua tutkintotilaisuuteen.",
-            "title": "Mitä seuraavaksi"
+            "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
           }
         },
         "stepper": {
@@ -237,7 +235,7 @@
               "heading": "Ilmoittaudu tutkintotilaisuuteen"
             },
             "success": {
-              "heading": "Ilmoittautuminen onnistui"
+              "heading": "Ilmoittautumislomake on lähetetty"
             }
           }
         }
