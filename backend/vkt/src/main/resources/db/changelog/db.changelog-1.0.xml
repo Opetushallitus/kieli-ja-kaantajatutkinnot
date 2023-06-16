@@ -613,10 +613,14 @@
 
     <changeSet id="2023-06-16-person-latest-identified-at" author="mikhuttu">
         <addColumn tableName="person">
-            <column name="latest_identified_at" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
+            <column name="latest_identified_at" type="TIMESTAMP WITH TIME ZONE" />
         </addColumn>
+
+        <sql>
+            UPDATE person SET latest_identified_at = NOW()
+        </sql>
+
+        <addNotNullConstraint tableName="person" columnName="latest_identified_at" />
     </changeSet>
 
 </databaseChangeLog>
