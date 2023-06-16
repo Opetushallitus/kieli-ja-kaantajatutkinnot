@@ -15,11 +15,9 @@ public interface PersonRepository extends BaseRepository<Person> {
   @Query(
     "SELECT p" +
     " FROM Person p" +
-    " LEFT JOIN p.enrollments e" +
-    " LEFT JOIN p.reservations r" +
     " WHERE p.latestIdentifiedAt < ?1" +
-    " GROUP BY p" +
-    " HAVING COUNT(e) = 0 AND COUNT(r) = 0"
+    " AND NOT EXISTS (SELECT 1 FROM Enrollment e WHERE e.person = p)" +
+    " AND NOT EXISTS (SELECT 1 FROM Reservation r WHERE r.person = p)"
   )
   List<Person> findObsoletePersons(final LocalDateTime latestIdentifiedBefore);
 }
