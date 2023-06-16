@@ -25,7 +25,7 @@ public class DeleteExpiredReservations {
   private final ClerkReservationService clerkReservationService;
 
   @Scheduled(cron = Constants.DELETE_EXPIRED_RESERVATIONS_CRON)
-  @SchedulerLock(name = "deleteObsoleteReservations", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
+  @SchedulerLock(name = "deleteExpiredReservations", lockAtLeastFor = LOCK_AT_LEAST, lockAtMostFor = LOCK_AT_MOST)
   public void action() {
     SchedulingUtil.runWithScheduledUser(() -> {
       LOG.info("deleteExpiredReservations");

@@ -17,7 +17,7 @@ public class ClerkReservationService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void deleteExpiredReservations() {
-    // Pretty much arbitrary ttl after expiry time of the reservation
+    // Pretty much arbitrary ttl after expiry time of a reservation
     final Duration ttl = Duration.of(1, ChronoUnit.HOURS);
 
     reservationRepository
