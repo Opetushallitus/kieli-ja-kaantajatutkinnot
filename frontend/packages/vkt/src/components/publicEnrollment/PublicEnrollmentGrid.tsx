@@ -1,11 +1,16 @@
 import { Grid, Paper } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { H2, LoadingProgressIndicator, Text } from 'shared/components';
+import {
+  H2,
+  LoadingProgressIndicator,
+  StackableMobileAppBar,
+  Text,
+} from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
+import { MobileAppBarState } from 'shared/interfaces';
 
-import { StackableMobileAppBar } from 'components/common/StackableMobileAppBar';
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
@@ -17,7 +22,6 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
-import { MobileAppBarState } from 'interfaces/mobileAppBar';
 import {
   loadPublicEnrollment,
   loadPublicExamEvent,

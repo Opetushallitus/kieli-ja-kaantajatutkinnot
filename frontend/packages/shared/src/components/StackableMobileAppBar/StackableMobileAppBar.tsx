@@ -1,8 +1,8 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
-import useResizeObserver from 'hooks/useResizeObserver';
-import { MobileAppBarState } from 'interfaces/mobileAppBar';
+import { useResizeObserver } from '../../hooks';
+import { MobileAppBarState } from '../../interfaces';
 
 interface StackableMobileAppBarProps {
   order: number;

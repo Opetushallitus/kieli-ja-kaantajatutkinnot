@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.9] - 2023-06-16
+
+### Added
+
+- StackableMobileAppBar
+
 ## [1.9.8] - 2023-06-08
 
 ### Changed
