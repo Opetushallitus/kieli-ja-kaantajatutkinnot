@@ -41,3 +41,4 @@ export { NotifierContextProvider } from './Notifier/NotifierContextProvider';
 export { CookieBanner } from './CookieBanner/CookieBanner';
 export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
+export { StackableMobileAppBar } from './StackableMobileAppBar/StackableMobileAppBar';

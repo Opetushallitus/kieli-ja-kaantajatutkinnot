@@ -11,8 +11,7 @@ describe('Public enrollment', () => {
     const EXAM_EVENT_ID = 2;
 
     beforeEach(() => {
-      onPublicHomePage.clickExamEventRow(EXAM_EVENT_ID);
-      onPublicHomePage.clickEnrollButton();
+      onPublicHomePage.clickEnrollButton(EXAM_EVENT_ID);
     });
 
     it.skip('reservation should have timer', () => {
@@ -43,8 +42,7 @@ describe('Public enrollment', () => {
     const EXAM_EVENT_ID = 5;
 
     beforeEach(() => {
-      onPublicHomePage.clickExamEventRow(EXAM_EVENT_ID);
-      onPublicHomePage.clickEnrollButton();
+      onPublicHomePage.clickEnrollButton(EXAM_EVENT_ID);
     });
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -54,18 +52,14 @@ describe('Public enrollment', () => {
   // TODO: Enable again once auth flow is complete.
   describe('errors when enroll button is clicked on the home page', () => {
     it.skip('exam event received congestion after the home page was opened', () => {
-      onPublicHomePage.clickExamEventRow(10);
-      onPublicHomePage.clickEnrollButton();
+      onPublicHomePage.clickEnrollButton(10);
 
-      onPublicHomePage.expectEnrollButtonEnabled();
       onToast.expectText('Tutkintotilaisuus on ruuhkautunut');
     });
 
     it.skip('registration to exam event closed after the home page was opened', () => {
-      onPublicHomePage.clickExamEventRow(11);
-      onPublicHomePage.clickEnrollButton();
+      onPublicHomePage.clickEnrollButton(11);
 
-      onPublicHomePage.expectEnrollButtonEnabled();
       onToast.expectText(
         'Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut'
       );

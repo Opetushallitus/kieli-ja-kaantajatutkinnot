@@ -9,6 +9,10 @@
     &__form-container {
       padding: 3rem;
 
+      @include phone {
+        margin-bottom: 22rem;
+      }
+
       &__auth-button {
         width: 18rem;
       }
@@ -28,6 +32,10 @@
 
     &__previous-enrollment {
       width: calc(50% - 1rem);
+
+      @include phone {
+        width: 100%;
+      }
 
       &__input {
         width: 100%;
@@ -81,7 +89,11 @@
     &__progress-container {
       float: right;
       margin: 4rem 0 0;
-      width: 38rem;
+      max-width: 38rem;
+
+      @include phone {
+        margin: 0;
+      }
     }
 
     &__progress-text {

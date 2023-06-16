@@ -4,7 +4,8 @@ const row = (id: number) => `public-exam-events__id-${id}-row`;
 
 class PublicHomePage {
   elements = {
-    enrollButton: () => cy.findByTestId('public-exam-events__enroll-btn'),
+    enrollButton: (examEventId: number) =>
+      cy.findByTestId(`public-exam-events-${examEventId}__enroll-btn`),
     examEventRow: (id: number) => cy.findByTestId(row(id)),
     examEventRowCheckbox: (id: number) =>
       cy.findByTestId(row(id)).find('input[type=checkbox]'),
@@ -25,21 +26,11 @@ class PublicHomePage {
   }
 
   filterByLanguage(language: ExamLanguage) {
-    let value;
-    switch (language) {
-      case ExamLanguage.FI:
-        value = 'Näytä vain suomi';
-        break;
-
-      case ExamLanguage.SV:
-        value = 'Näytä vain ruotsi';
-        break;
-
-      default:
-        value = 'Näytä kaikki kielet';
-    }
-
-    this.elements.languageFilter().should('be.visible').type(`${value}{enter}`);
+    this.elements
+      .languageFilter()
+      .should('be.visible')
+      .get('[type="radio"]')
+      .check(language);
   }
 
   expectFilteredExamEventsCount(count: number) {
@@ -48,20 +39,16 @@ class PublicHomePage {
       .should('contain.text', `1 - ${count} / ${count}`);
   }
 
-  expectEnrollButtonDisabled() {
-    this.elements.enrollButton().should('be.disabled');
+  expectEnrollButtonText(examEventId: number, text: string) {
+    this.elements.enrollButton(examEventId).should('have.text', text);
   }
 
-  expectEnrollButtonEnabled() {
-    this.elements.enrollButton().should('be.enabled');
+  expectEnrollButtonDisabled(examEventId: number) {
+    this.elements.enrollButton(examEventId).should('be.disabled');
   }
 
-  expectEnrollButtonToNotExist() {
-    this.elements.enrollButton().should('not.exist');
-  }
-
-  expectEnrollButtonToExist() {
-    this.elements.enrollButton().should('exist');
+  expectEnrollButtonEnabled(examEventId: number) {
+    this.elements.enrollButton(examEventId).should('be.enabled');
   }
 
   expectCheckboxChecked(id: number) {
@@ -72,8 +59,8 @@ class PublicHomePage {
     this.elements.examEventRowCheckbox(id).should('not.be.checked');
   }
 
-  clickEnrollButton() {
-    this.elements.enrollButton().should('be.visible').click();
+  clickEnrollButton(examEventId) {
+    this.elements.enrollButton(examEventId).should('be.visible').click();
   }
 
   expectReservationExpiredOkButtonEnabled() {

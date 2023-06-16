@@ -17,7 +17,6 @@
       "contactEmail": "kielitutkinnot@oph.fi",
       "delete": "Poista",
       "edit": "Muokkaa",
-      "enroll": "Ilmoittaudu",
       "enrollment": {
         "certificateShipping": {
           "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
@@ -85,7 +84,7 @@
         "SV": "Ruotsi"
       },
       "examLevel": {
-        "EXCELLENT": "Erinomainen"
+        "EXCELLENT": "erinomainen taito"
       },
       "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
       "frontPage": "Etusivu",
@@ -100,9 +99,9 @@
         }
       },
       "languageFilter": {
-        "ALL": "Näytä kaikki kielet",
-        "FI": "Näytä vain suomi",
-        "SV": "Näytä vain ruotsi"
+        "ALL": "Kaikki kielet",
+        "FI": "Suomi",
+        "SV": "Ruotsi"
       },
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",

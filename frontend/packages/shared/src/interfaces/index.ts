@@ -1,4 +1,5 @@
 export * from './comboBox';
+export * from './mobileAppBar';
 export * from './notifier';
-export * from './with';
 export * from './validation';
+export * from './with';

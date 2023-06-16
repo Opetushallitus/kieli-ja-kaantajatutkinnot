@@ -24,21 +24,11 @@ class ClerkHomePage {
   }
 
   filterByLanguage(language: ExamLanguage) {
-    let value;
-    switch (language) {
-      case ExamLanguage.FI:
-        value = 'Näytä vain suomi';
-        break;
-
-      case ExamLanguage.SV:
-        value = 'Näytä vain ruotsi';
-        break;
-
-      default:
-        value = 'Näytä kaikki kielet';
-    }
-
-    this.elements.languageFilter().should('be.visible').type(`${value}{enter}`);
+    this.elements
+      .languageFilter()
+      .should('be.visible')
+      .get('[type="radio"]')
+      .check(language);
   }
 
   expectFilteredExamEventsCount(count: number) {

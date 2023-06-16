@@ -2,28 +2,15 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Alert, Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import {
-  CustomButton,
-  ExtLink,
-  H1,
-  H2,
-  HeaderSeparator,
-  LoadingProgressIndicator,
-  Text,
-} from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { ExtLink, H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus, Severity } from 'shared/enums';
 
-import { MobileAppBar } from 'components/common/MobileAppBar';
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
 import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
-import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 export const PublicExamEventGrid = () => {
@@ -35,13 +22,8 @@ export const PublicExamEventGrid = () => {
 
   // Redux
   const { status, examEvents } = useAppSelector(publicExamEventsSelector);
-  const { reservationDetailsStatus, selectedExamEvent } = useAppSelector(
-    publicEnrollmentSelector
-  );
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { isPhone } = useWindowProperties();
 
   useEffect(() => {
     dispatch(resetPublicEnrollment());
@@ -51,8 +33,6 @@ export const PublicExamEventGrid = () => {
   // State
   const isLoading = status === APIResponseStatus.InProgress;
   const hasResults = examEvents.length > 0;
-  const isInitialisationInProgress =
-    reservationDetailsStatus === APIResponseStatus.InProgress;
 
   return (
     <>
@@ -102,28 +82,6 @@ export const PublicExamEventGrid = () => {
           </H2>
         )}
       </Grid>
-      {isPhone && selectedExamEvent && (
-        <MobileAppBar>
-          <LoadingProgressIndicator isLoading={isInitialisationInProgress}>
-            <CustomButton
-              data-testid="public-exam-events__enroll-btn"
-              color={Color.Secondary}
-              variant={Variant.Contained}
-              onClick={() =>
-                navigate(
-                  AppRoutes.PublicAuth.replace(
-                    ':examEventId',
-                    selectedExamEvent.id.toString()
-                  )
-                )
-              }
-              fullWidth
-            >
-              {translateCommon('enroll')}
-            </CustomButton>
-          </LoadingProgressIndicator>
-        </MobileAppBar>
-      )}
     </>
   );
 };

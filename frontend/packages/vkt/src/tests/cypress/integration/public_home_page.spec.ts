@@ -20,16 +20,12 @@ describe('PublicHomePage', () => {
     onPublicHomePage.expectFilteredExamEventsCount(publicExamEvents11.length);
   });
 
-  it('should enable enroll button only if exam event without congestion is selected', () => {
-    onPublicHomePage.expectEnrollButtonDisabled();
-
-    onPublicHomePage.clickExamEventRow(2);
-    onPublicHomePage.expectCheckboxChecked(2);
-    onPublicHomePage.expectEnrollButtonEnabled();
-
-    onPublicHomePage.clickExamEventRow(1);
-    onPublicHomePage.expectCheckboxChecked(1);
-    onPublicHomePage.expectCheckboxNotChecked(2);
-    onPublicHomePage.expectEnrollButtonDisabled();
+  it('should display enroll button correctly based on enrollment status', () => {
+    onPublicHomePage.expectEnrollButtonDisabled(1);
+    onPublicHomePage.expectEnrollButtonText(1, 'Ilmoittaudu myöhemmin');
+    onPublicHomePage.expectEnrollButtonEnabled(2);
+    onPublicHomePage.expectEnrollButtonText(2, 'Ilmoittaudu');
+    onPublicHomePage.expectEnrollButtonEnabled(5);
+    onPublicHomePage.expectEnrollButtonText(5, 'Ilmoittaudu jonoon');
   });
 });
