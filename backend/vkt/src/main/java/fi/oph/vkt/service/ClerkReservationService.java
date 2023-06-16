@@ -24,8 +24,6 @@ public class ClerkReservationService {
       .findAll()
       .stream()
       .filter(r -> r.getExpiresAt().plus(ttl).isBefore(LocalDateTime.now()))
-      .forEach(reservation -> {
-        reservationRepository.deleteById(reservation.getId());
-      });
+      .forEach(reservation -> reservationRepository.deleteById(reservation.getId()));
   }
 }
