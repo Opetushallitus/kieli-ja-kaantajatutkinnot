@@ -288,7 +288,8 @@ CREATE TABLE public.person (
     first_name text NOT NULL,
     oid character varying(255),
     other_identifier character varying(1024),
-    date_of_birth date
+    date_of_birth date,
+    latest_identified_at timestamp with time zone NOT NULL
 );
 
 
