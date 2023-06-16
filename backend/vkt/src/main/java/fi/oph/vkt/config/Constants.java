@@ -9,4 +9,8 @@ public class Constants {
 
   // Daily at 9:00
   public static final String DELETE_CANCELED_UNFINISHED_ENROLLMENTS_CRON = "0 0 9 * * *";
+  // Daily at 9:30
+  public static final String DELETE_EXPIRED_RESERVATIONS_CRON = "0 30 9 * * *";
+  // Daily at 10:00
+  public static final String DELETE_OBSOLETE_PERSONS_CRON = "0 0 10 * * *";
 }
