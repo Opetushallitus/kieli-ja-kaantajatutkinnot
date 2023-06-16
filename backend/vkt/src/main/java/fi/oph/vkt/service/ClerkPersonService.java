@@ -17,6 +17,7 @@ public class ClerkPersonService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void deleteObsoletePersons() {
+    // A suitable time for us to expect anyone enrolling to queue to either finish enrolling or quit
     final Duration ttl = Duration.of(24, ChronoUnit.HOURS);
 
     personRepository
