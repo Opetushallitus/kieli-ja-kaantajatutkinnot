@@ -11,7 +11,11 @@ import {
   CustomTextField,
   Text,
 } from 'shared/components';
-import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
+import {
+  InputAutoComplete,
+  TextFieldTypes,
+  TextFieldVariant,
+} from 'shared/enums';
 import { ComboBoxOption } from 'shared/interfaces';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
@@ -124,14 +128,14 @@ export const EmailRegistrationDetails = () => {
             {...getCustomTextFieldAttributes('phoneNumber')}
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
-            autoComplete="tel"
+            autoComplete={InputAutoComplete.PhoneNumber}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={registration.email}
             disabled={true}
-            autoComplete="email"
+            autoComplete={InputAutoComplete.Email}
           />
         </div>
         <div className="grid-columns gapped">
