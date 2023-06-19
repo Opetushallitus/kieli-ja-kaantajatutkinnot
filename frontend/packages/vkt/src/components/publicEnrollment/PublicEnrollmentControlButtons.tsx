@@ -199,10 +199,9 @@ export const PublicEnrollmentControlButtons = ({
         color={Color.Secondary}
         onClick={handleSubmitBtnClick}
         data-testid="public-enrollment__controlButtons__submit"
-        endIcon={<ArrowForwardIcon />}
         disabled={isLoading || isPaymentLoading}
       >
-        {isEnrollmentToQueue ? t('sendForm') : t('pay')}
+        {isEnrollmentToQueue ? t('enrollToQueue') : t('pay')}
       </CustomButton>
     </LoadingProgressIndicator>
   );

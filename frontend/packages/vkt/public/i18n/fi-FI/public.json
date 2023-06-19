@@ -32,12 +32,13 @@
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
             "title": "Peruuta ilmoittautuminen"
           },
-          "pay": "Siirry maksamaan",
-          "sendForm": "Lähetä lomake"
+          "enrollToQueue": "Ilmoittaudu jonoon",
+          "pay": "Siirry maksamaan"
         },
         "examEventDetails": {
           "enrollmentToQueue": "ilmoittautuminen jonoon",
           "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
@@ -55,16 +56,19 @@
           "title": "Tutkintomaksu"
         },
         "stepHeading": {
-          "toExam": {
-            "Authenticate": "Tunnistaudu ilmoittautumista varten",
-            "Done": "Maksu suoritettu",
+          "common": {
+            "Done": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
+            "PaymentFail": "Maksua ei suoritettu",
+            "PaymentSuccess": "Maksu suoritettu",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           },
+          "toExam": {
+            "Authenticate": "Tunnistaudu ilmoittautumista varten"
+          },
           "toQueue": {
-            "Authenticate": "Tunnistaudu jonoon ilmoittautumista varten",
-            "Done": "Valmis – jonopaikka varattu"
+            "Authenticate": "Tunnistaudu jonoon ilmoittautumista varten"
           }
         },
         "stepper": {
@@ -77,7 +81,7 @@
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
-            "Payment": "Siirry maksamaan",
+            "Payment": "Maksu",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           }
@@ -89,19 +93,15 @@
           },
           "done": {
             "description": {
-              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-              "part2": "Ilmoittautuminen on valmis. Voit jatkaa etusivulle alla olevasta painikkeesta."
+              "confirmationEmail": "Sinulle lähetetään vahvistus osoitteeseen",
+              "queueInfo": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
             },
-            "successToast": "Ilmoittautuminen onnistui!",
-            "title": {
-              "queue": "Jonopaikka on varattu.",
-              "reservation": "Maksu on suoritettu."
-            }
+            "successfulPaymentToast": "Ilmoittautuminen onnistui!"
           },
           "fail": {
+            "cancel": "Peruuta ilmoittautuminen",
             "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
-            "successToast": "Ilmoittautuminen epäonnistui!",
-            "title": "Maksua ei suoritettu.",
+            "toast": "Maksua ei suoritettu.",
             "tryAgain": "Yritä uudelleen"
           },
           "fillContactDetails": {
@@ -109,7 +109,7 @@
             "emailConfirmation": "Vahvista sähköpostiosoite",
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
-            "title": "Täytä yhteystietosi"
+            "title": "Yhteystietosi"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",

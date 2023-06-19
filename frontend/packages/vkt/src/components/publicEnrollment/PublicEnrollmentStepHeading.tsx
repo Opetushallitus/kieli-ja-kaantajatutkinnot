@@ -1,4 +1,4 @@
-import { H2, HeaderSeparator } from 'shared/components';
+import { H1, HeaderSeparator } from 'shared/components';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -15,15 +15,15 @@ export const PublicEnrollmentStepHeading = ({
   });
 
   const headingText =
-    isEnrollmentToQueue &&
-    (activeStep === PublicEnrollmentFormStep.Authenticate ||
-      activeStep === PublicEnrollmentFormStep.Done)
-      ? t(`toQueue.${activeStep}`)
-      : t(`toExam.${activeStep}`);
+    activeStep === PublicEnrollmentFormStep.Authenticate
+      ? isEnrollmentToQueue
+        ? t(`toQueue.${PublicEnrollmentFormStep[activeStep]}`)
+        : t(`toExam.${PublicEnrollmentFormStep[activeStep]}`)
+      : t(`common.${PublicEnrollmentFormStep[activeStep]}`);
 
   return (
     <div className="margin-top-xxl rows gapped-xs">
-      <H2>{headingText}</H2>
+      <H1>{headingText}</H1>
       <HeaderSeparator />
     </div>
   );

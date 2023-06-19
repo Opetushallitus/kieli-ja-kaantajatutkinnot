@@ -84,10 +84,9 @@
         "SV": "Ruotsi"
       },
       "examLevel": {
-        "EXCELLENT": "erinomainen taito"
+        "EXCELLENT": "Erinomainen taito"
       },
       "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
-      "frontPage": "Etusivu",
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
@@ -120,7 +119,7 @@
         "selectExam": "Ilmoittautuminen - valitse tutkinto",
         "done": "Ilmoittautuminen - valmis",
         "preview": "Ilmoittautuminen - esikatsele",
-        "success": "Ilmoittautuminen - maksu valmis",
+        "success": "Ilmoittautuminen - maksu suoritettu",
         "fail": "Ilmoittautuminen - maksua ei suoritettu",
         "privacyPolicy": "Tietosuojaseloste",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",

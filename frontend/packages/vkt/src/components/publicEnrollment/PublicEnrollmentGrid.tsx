@@ -122,16 +122,15 @@ export const PublicEnrollmentGrid = ({
     cancelStatus,
     enrollmentSubmitStatus,
   ].includes(APIResponseStatus.InProgress);
-  const isAuthenticateStepActive =
-    activeStep === PublicEnrollmentFormStep.Authenticate;
+
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
+  const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
   const hasReservation = !!reservationDetails?.reservation;
 
   const isEnrollmentToQueue =
     (activeStep === PublicEnrollmentFormStep.Authenticate &&
       !ExamEventUtils.hasOpenings(selectedExamEvent)) ||
-    !hasReservation;
+    (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
@@ -149,14 +148,14 @@ export const PublicEnrollmentGrid = ({
   const renderPhoneView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
-        {!isDoneStepActive && (
+        {!isPreviewPassed && (
           <StackableMobileAppBar
             order={1}
             state={appBarState}
             setState={memoizedSetAppBarState}
           >
             <div className="rows">
-              {reservationDetails?.reservation && !isDoneStepActive && (
+              {reservationDetails?.reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservationDetails.reservation}
                   isLoading={isLoading}
@@ -205,7 +204,7 @@ export const PublicEnrollmentGrid = ({
               />
               <PublicEnrollmentExamEventDetails
                 examEvent={selectedExamEvent}
-                showOpenings={!isDoneStepActive}
+                showOpenings={!isPreviewPassed}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
@@ -219,8 +218,8 @@ export const PublicEnrollmentGrid = ({
             </div>
           </LoadingProgressIndicator>
         </Paper>
-        {!isDoneStepActive &&
-          !isAuthenticateStepActive &&
+        {activeStep > PublicEnrollmentFormStep.Authenticate &&
+          !isPreviewPassed &&
           reservationDetails && (
             <StackableMobileAppBar
               order={2}
@@ -269,7 +268,7 @@ export const PublicEnrollmentGrid = ({
                   includePaymentStep={hasReservation}
                 />
               )}
-              {reservationDetails?.reservation && !isDoneStepActive && (
+              {reservationDetails?.reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservationDetails.reservation}
                   isLoading={isLoading}
@@ -281,7 +280,7 @@ export const PublicEnrollmentGrid = ({
               />
               <PublicEnrollmentExamEventDetails
                 examEvent={selectedExamEvent}
-                showOpenings={!isDoneStepActive}
+                showOpenings={!isPreviewPassed}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
@@ -295,8 +294,8 @@ export const PublicEnrollmentGrid = ({
               {isPaymentSumAvailable && (
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
-              {!isDoneStepActive &&
-                !isAuthenticateStepActive &&
+              {activeStep > PublicEnrollmentFormStep.Authenticate &&
+                !isPreviewPassed &&
                 reservationDetails && (
                   <PublicEnrollmentControlButtons
                     submitStatus={enrollmentSubmitStatus}

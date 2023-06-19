@@ -21,9 +21,9 @@ export const PublicEnrollmentExamEventDetails = ({
   const translateCommon = useCommonTranslation();
 
   const getOpeningsText = () => {
-    return isEnrollmentToQueue
-      ? `${t('openings')}: ${Math.max(examEvent.openings, 0)}`
-      : `${t('openings')}: ${Math.max(examEvent.openings, 0)} ${t(
+    return !isEnrollmentToQueue
+      ? `${Math.max(examEvent.openings, 0)}`
+      : `${t('openings')}: ${Math.max(examEvent.openings, 0)} (${t(
           'enrollmentToQueue'
         )})`;
   };
@@ -31,19 +31,33 @@ export const PublicEnrollmentExamEventDetails = ({
   return (
     <div className="rows-gapped-xxs">
       <Text>
-        {ExamEventUtils.languageAndLevelText(
-          examEvent.language,
-          ExamLevel.EXCELLENT,
-          translateCommon
-        )}
+        {t('examEvent')}
+        {': '}
+        <b>
+          {ExamEventUtils.languageAndLevelText(
+            examEvent.language,
+            ExamLevel.EXCELLENT,
+            translateCommon
+          )}
+        </b>
       </Text>
-      <Text>{`${t('examDate')}: ${DateUtils.formatOptionalDate(
-        examEvent.date
-      )}`}</Text>
-      <Text>{`${t('registrationCloses')}: ${DateUtils.formatOptionalDate(
-        examEvent.registrationCloses
-      )}`}</Text>
-      {showOpenings && <Text>{getOpeningsText()}</Text>}
+      <Text>
+        {t('examDate')}
+        {': '}
+        <b>{DateUtils.formatOptionalDate(examEvent.date)}</b>
+      </Text>
+      <Text>
+        {t('registrationCloses')}
+        {': '}
+        <b>{DateUtils.formatOptionalDate(examEvent.registrationCloses)}</b>
+      </Text>
+      {showOpenings && (
+        <Text>
+          {t('openings')}
+          {': '}
+          <b>{getOpeningsText()}</b>
+        </Text>
+      )}
     </div>
   );
 };
