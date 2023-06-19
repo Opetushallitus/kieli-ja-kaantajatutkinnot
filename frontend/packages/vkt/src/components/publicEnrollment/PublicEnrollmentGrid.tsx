@@ -15,6 +15,7 @@ import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/Publ
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
+import { PublicEnrollmentStepHeading } from 'components/publicEnrollment/PublicEnrollmentStepHeading';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -120,17 +121,17 @@ export const PublicEnrollmentGrid = ({
     activeStep === PublicEnrollmentFormStep.Authenticate;
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
-  const hasReservation = !!reservationDetails?.reservation;
+  const isEnrollmentToQueue = !reservationDetails?.reservation;
+  const includePaymentStep = !isEnrollmentToQueue;
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
 
   const isPaymentSumAvailable =
-    isPreviewStepActive &&
-    (reservationDetails?.reservation || isShiftedFromQueue);
+    isPreviewStepActive && (includePaymentStep || isShiftedFromQueue);
 
   const getNextEnrollmentStep = () => {
-    const steps = PublicEnrollmentUtils.getEnrollmentSteps(hasReservation);
+    const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
     const currentIndex = steps.findIndex((step) => step === activeStep);
 
     return steps[currentIndex + 1];
@@ -172,7 +173,7 @@ export const PublicEnrollmentGrid = ({
                   <div className="columns gapped">
                     <PublicEnrollmentStepper
                       activeStep={activeStep}
-                      includePaymentStep={hasReservation}
+                      includePaymentStep={includePaymentStep}
                     />
                     <div className="rows gapped-xs align-items-center grow">
                       <H2>
@@ -192,9 +193,14 @@ export const PublicEnrollmentGrid = ({
                     </div>
                   </div>
                 )}
+                <PublicEnrollmentStepHeading
+                  activeStep={activeStep}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
+                />
                 <PublicEnrollmentExamEventDetails
                   examEvent={selectedExamEvent}
-                  showOpenings={hasReservation && !isDoneStepActive}
+                  showOpenings={!isDoneStepActive}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
                 />
                 <PublicEnrollmentStepContents
                   selectedExamEvent={selectedExamEvent}
@@ -256,7 +262,7 @@ export const PublicEnrollmentGrid = ({
                 {!isShiftedFromQueue && (
                   <PublicEnrollmentStepper
                     activeStep={activeStep}
-                    includePaymentStep={hasReservation}
+                    includePaymentStep={includePaymentStep}
                   />
                 )}
                 {reservationDetails?.reservation && !isDoneStepActive && (
@@ -265,9 +271,14 @@ export const PublicEnrollmentGrid = ({
                     isLoading={isLoading}
                   />
                 )}
+                <PublicEnrollmentStepHeading
+                  activeStep={activeStep}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
+                />
                 <PublicEnrollmentExamEventDetails
                   examEvent={selectedExamEvent}
-                  showOpenings={hasReservation && !isDoneStepActive}
+                  showOpenings={!isDoneStepActive}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
                 />
                 <PublicEnrollmentStepContents
                   selectedExamEvent={selectedExamEvent}

@@ -36,6 +36,7 @@
           "sendForm": "Lähetä lomake"
         },
         "examEventDetails": {
+          "enrollmentToQueue": "ilmoittautuminen jonoon",
           "examDate": "Tutkintopäivä",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
@@ -52,6 +53,19 @@
         },
         "paymentSum": {
           "title": "Tutkintomaksu"
+        },
+        "stepHeading": {
+          "toExam": {
+            "Authenticate": "Tunnistaudu ilmoittautumista varten",
+            "Done": "Maksu suoritettu",
+            "FillContactDetails": "Täytä yhteystietosi",
+            "Preview": "Esikatsele",
+            "SelectExam": "Valitse tutkinto"
+          },
+          "toQueue": {
+            "Authenticate": "Tunnistaudu jonoon ilmoittautumista varten",
+            "Done": "Valmis – jonopaikka varattu"
+          }
         },
         "stepper": {
           "active": "Aktiivinen",
