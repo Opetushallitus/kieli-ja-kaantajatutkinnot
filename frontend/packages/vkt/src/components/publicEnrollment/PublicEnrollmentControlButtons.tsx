@@ -58,7 +58,7 @@ export const PublicEnrollmentControlButtons = ({
     !reservationDetails.reservation && !isPaymentLinkPreviewView;
 
   const handleCancelBtnClick = () => {
-    if (activeStep === PublicEnrollmentFormStep.Authenticate) {
+    if (isPaymentLinkPreviewView) {
       dispatch(cancelPublicEnrollment());
     } else {
       const confirmAction = reservationId
@@ -206,9 +206,7 @@ export const PublicEnrollmentControlButtons = ({
     </LoadingProgressIndicator>
   );
 
-  const renderBack =
-    activeStep !== PublicEnrollmentFormStep.Authenticate &&
-    !isPaymentLinkPreviewView;
+  const renderBack = !isPaymentLinkPreviewView;
 
   const renderNext = [
     PublicEnrollmentFormStep.FillContactDetails,

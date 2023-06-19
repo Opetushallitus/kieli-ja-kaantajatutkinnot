@@ -204,7 +204,7 @@ export const PublicEnrollmentGrid = ({
               />
               <PublicEnrollmentExamEventDetails
                 examEvent={selectedExamEvent}
-                showOpenings={!isPreviewPassed}
+                showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
@@ -280,7 +280,7 @@ export const PublicEnrollmentGrid = ({
               />
               <PublicEnrollmentExamEventDetails
                 examEvent={selectedExamEvent}
-                showOpenings={!isPreviewPassed}
+                showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
