@@ -76,16 +76,18 @@ export const PublicEnrollmentStepper = ({
     >
       {steps.map((i) => (
         <Step key={i} completed={isStepCompleted(i)}>
+          {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
             error={i === doneStepNumber && isError}
             aria-label={getStepAriaLabel(i)}
+            role="text"
             className={
               activeStep < i
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
-            aria-hidden="true"
           >
+            {/* eslint-enable */}
             {getDescription(i)}
           </StepLabel>
         </Step>
