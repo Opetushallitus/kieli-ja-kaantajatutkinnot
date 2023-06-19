@@ -3,11 +3,10 @@ import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { H2, Text } from 'shared/components';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { PaymentStatus } from 'enums/api';
 
 const PaymentSuccess = () => {
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.payment.success.whatsNext',
   });
@@ -16,21 +15,31 @@ const PaymentSuccess = () => {
     <>
       <H2>{t('title')}</H2>
       <Text>{t('part1')}</Text>
-      <div>
-        <Text>{t('part2')}</Text>
-        <Text>{t('part3')}</Text>
+      <Text>
+        {t('part2')}
+        <br />
+        {t('part3')}
+      </Text>
+      <Text>
+        {t('beforeYkiTest.description')}
+        <br />
         <div className="columns gapped-xxs">
-          <Text>
-            <Link
-              href={translateCommon('specialArrangementsLink')}
-              target="_blank"
-            >
-              {t('linkLabel')}
-            </Link>
-          </Text>
+          <Link href={t('beforeYkiTest.url')} target="_blank">
+            {t('beforeYkiTest.label')}
+          </Link>
           <OpenInNewIcon />
         </div>
-      </div>
+      </Text>
+      <Text>
+        {t('specialArrangements.description')}
+        <br />
+        <div className="columns gapped-xxs">
+          <Link href={t('specialArrangements.url')} target="_blank">
+            {t('specialArrangements.label')}
+          </Link>
+          <OpenInNewIcon />
+        </div>
+      </Text>
     </>
   );
 };

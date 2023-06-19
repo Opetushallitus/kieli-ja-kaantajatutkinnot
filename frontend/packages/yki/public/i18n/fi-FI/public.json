@@ -172,9 +172,16 @@
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "description1": "Saat maksuohjeet ja varmistuksen ilmoittautumisesta sähköpostiosoitteeseen <strong><0></0></strong>",
-            "description2": "<strong>Tärkeää!</strong> Muistathan että tutkintomaksu on maksettava viimeistään eräpäivänä.",
-            "description3": "Jos et maksa, ilmoittautumisesi peruuntuu etkä voi osallistua tutkintotilaisuuteen.",
+            "confirmation": "Olet lähettänyt ilmoittautumislomakkeen tutkintotilaisuuteen: <0></0>.",
+            "dueDateReminder": {
+              "text1": "<strong>Tärkeää!</strong> Viestissä on myös tutkintomaksun viimeinen maksupäivä.",
+              "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."
+            },
+            "paymentLinkEmail": {
+              "text1": "Saat sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
+              "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi.",
+              "text3": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun."
+            },
             "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
           }
         },
@@ -221,13 +228,22 @@
             },
             "success": {
               "whatsNext": {
-                "linkLabel": "Ilmoittautuminen YKI-testiin (oph.fi)",
-                "part1": "Sinulle on lähetetty varmistus sähköpostilla",
-                "part2": "Jos tarvitset tutkinnossa erityisjärjestelyjä, ota heti yhteyttä testipaikkaasi.",
-                "part3": "Löydät ohjeet erityisjärjestelyjen hakemiseen verkkosivuiltamme:",
-                "title": "Mitä seuraavaksi"
+                "beforeYkiTest": {
+                  "description": "Valmistaudu YKI-testiin lukemalla Opetushallituksen ohjeet:",
+                  "label": "Ennen YKI-testia (oph.fi)",
+                  "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
+                },
+                "part1": "Ilmoittautuminen onnistui! Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
+                "part2": "Testipaikkasi lähettää lähempänä testipäivää sähköpostiisi tarkemmat ohjeet testiin saapumista varten.",
+                "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+                "specialArrangements": {
+                  "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian Opetushallituksen ohjeiden mukaan:",
+                  "label": "Tarvitsetko erikoisjärjestelyjä? (oph.fi)",
+                  "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
+                },
+                "title": "Tervetuloa YKI-testiin!"
               },
-              "heading": "Maksu onnistui"
+              "heading": "Ilmoittautuminen onnistui!"
             }
           },
           "register": {

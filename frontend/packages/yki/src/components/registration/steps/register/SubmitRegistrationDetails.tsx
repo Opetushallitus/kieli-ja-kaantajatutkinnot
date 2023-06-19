@@ -8,9 +8,12 @@ import { EmailRegistrationDetails } from 'components/registration/steps/register
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { ExamSession } from 'interfaces/examSessions';
 import { loadNationalities } from 'redux/reducers/nationalities';
+import { examSessionSelector } from 'redux/selectors/examSession';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { ExamUtils } from 'utils/exam';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -61,24 +64,34 @@ const Error = () => {
 };
 
 const Success = () => {
-  const { registration } = useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
   const { t } = usePublicTranslation({
     keyPrefix:
       'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
+  const sessionDetails = ExamUtils.languageAndLevelText(
+    examSession as ExamSession
+  );
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>{t('title')}</H2>
       <Text>
-        <Trans t={t} i18nKey={'description1'} email={registration.email}>
-          {registration.email}
+        <Trans t={t} i18nKey={'confirmation'} sessionDetails={sessionDetails}>
+          {sessionDetails}
         </Trans>
       </Text>
       <Text>
-        <Trans t={t} i18nKey={'description2'} />
+        {t('paymentLinkEmail.text1')}
         <br />
-        {t('description3')}
+        {t('paymentLinkEmail.text2')}
+        <br />
+        {t('paymentLinkEmail.text3')}
+      </Text>
+      <Text>
+        <Trans t={t} i18nKey={'dueDateReminder.text1'} />
+        <br />
+        {t('dueDateReminder.text2')}
       </Text>
     </div>
   );
