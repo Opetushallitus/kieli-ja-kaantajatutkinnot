@@ -22,10 +22,10 @@ export const PublicEnrollmentExamEventDetails = ({
 
   const getOpeningsText = () => {
     return isEnrollmentToQueue
-      ? `${t('openings')}: ${Math.max(examEvent.openings, 0)} ${t(
+      ? `${t('openings')}: ${Math.max(examEvent.openings, 0)}`
+      : `${t('openings')}: ${Math.max(examEvent.openings, 0)} ${t(
           'enrollmentToQueue'
-        )})`
-      : `${t('openings')}: ${Math.max(examEvent.openings, 0)}`;
+        )})`;
   };
 
   return (
