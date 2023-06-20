@@ -104,7 +104,7 @@ export const PublicExamSessionListingRow = ({
       <TableCell>
         {locationInfo?.name}
         <br />
-        <b>{locationInfo?.post_office}</b>
+        {locationInfo?.post_office}
       </TableCell>
       <TableCell>
         {ExamUtils.renderDateTime(
