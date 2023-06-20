@@ -41,9 +41,9 @@ export const PublicEnrollmentStepper = ({
     return t(`step.${PublicEnrollmentFormStep[stepNumber]}`);
   };
 
-  const getStepAriaLabel = (stepNumber: number) => {
+  const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
     const part = t('phaseNumber', {
-      current: stepNumber,
+      current: stepIndex + 1,
       total: steps.length,
     });
     const statusText = getStatusText(stepNumber);
@@ -55,8 +55,9 @@ export const PublicEnrollmentStepper = ({
   const isStepCompleted = (stepNumber: number) =>
     stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
 
+  const activeStepIndex = steps.indexOf(activeStep);
   const mobileStepValue = activeStep * (100 / doneStepNumber);
-  const mobilePhaseText = `${activeStep}/${doneStepNumber}`;
+  const mobilePhaseText = `${activeStepIndex + 1}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
     `step.${PublicEnrollmentFormStep[activeStep]}`
   )}`;
@@ -74,12 +75,12 @@ export const PublicEnrollmentStepper = ({
       activeStep={activeStep - 1}
       aria-label={t('phases')}
     >
-      {steps.map((i) => (
+      {steps.map((i, index) => (
         <Step key={i} completed={isStepCompleted(i)}>
           {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
             error={i === doneStepNumber && isError}
-            aria-label={getStepAriaLabel(i)}
+            aria-label={getStepAriaLabel(i, index)}
             role="text"
             className={
               activeStep < i

@@ -28,6 +28,7 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { ExamEventUtils } from 'utils/examEvent';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentGrid = ({
@@ -172,7 +173,9 @@ export const PublicEnrollmentGrid = ({
                   <div className="columns gapped">
                     <PublicEnrollmentStepper
                       activeStep={activeStep}
-                      includePaymentStep={hasReservation}
+                      includePaymentStep={ExamEventUtils.hasOpenings(
+                        selectedExamEvent
+                      )}
                     />
                     <div className="rows gapped-xs align-items-center grow">
                       <H2>
@@ -256,7 +259,9 @@ export const PublicEnrollmentGrid = ({
                 {!isShiftedFromQueue && (
                   <PublicEnrollmentStepper
                     activeStep={activeStep}
-                    includePaymentStep={hasReservation}
+                    includePaymentStep={ExamEventUtils.hasOpenings(
+                      selectedExamEvent
+                    )}
                   />
                 )}
                 {reservationDetails?.reservation && !isDoneStepActive && (
