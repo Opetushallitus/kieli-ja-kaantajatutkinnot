@@ -3,10 +3,7 @@
     "component": {
       "evaluationOrderForm": {
         "acceptConditions": {
-          "grantApproval": "Hyväksyn henkilötietojeni käsittelyn *",
-          "heading": "Hyväksy ehdot",
-          "legalBasis": "Noudatamme henkilötietojen käsittelyssä GDPR-lainsäädäntöä.",
-          "readConditions": "Lue henkilötietojen käsittelyn ehdot"
+          "heading": "Henkilötietojen käsittelyn ehdot"
         },
         "actionButtons": {
           "cancel": "Peruuta",
@@ -15,20 +12,20 @@
         "errorDialog": {
           "errors": {
             "acceptConditions": "Hyväksy henkilötietojen käsittelyn ehdot",
-            "birthdate": "Maksajan tiedot -> Syntymäaika",
-            "email": "Maksajan tiedot -> Sähköpostiosoite",
-            "firstNames": "Maksajan tiedot -> Etunimet",
-            "lastName": "Maksajan tiedot -> Sukunimi",
+            "birthdate": "Syntymäaika",
+            "email": "Sähköpostiosoite",
+            "firstNames": "Etunimet",
+            "lastName": "Sukunimi",
             "noExaminationPartsSelected": "Valitse ainakin yksi tarkistettava osakoe"
           },
           "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
           "title": "Virheitä lomakkeella!"
         },
-        "fillPayerDetails": {
+        "fillParticipantDetails": {
           "errors": {
             "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
           },
-          "heading": "Maksajan tiedot",
+          "heading": "Osallistujan tiedot",
           "placeholders": {
             "birthdate": "Syntymäaika (pp.kk.vvvv) *",
             "email": "Sähköpostiosoite *",
@@ -37,15 +34,18 @@
           }
         },
         "info": {
-          "fillForm": "Ole hyvä ja täytä lomake pyytääkseksi tarkistusarviointia.",
-          "refundIfChangeInEvaluation": "Opetushallitus palauttaa maksun, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
-          "requestSummaryByEmail": "Pyynnöstä lähetetään yhteenveto sähköpostiin.",
+          "refundIfChangeInEvaluation": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
+          "requestSummaryByEmail": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
+        "renderEvaluationDetails": {
+          "heading": "Tutkinnon tiedot",
+          "info": "Olet pyytämässä tarkistusarviointia seuraavasta tutkinnosta:"
+        },
         "selectExaminationParts": {
-          "heading": "Tarkistettavat tutkinnon osat",
-          "selectAtLeastOne": "Valitse vähintään yksi",
-          "selectParts": "Valitse tutkinnon osat, joista haluat tarkistusarvioinnin *",
+          "heading": "Osakokeiden valinta",
+          "selectAtLeastOne": "Valitse vähintään yksi osakoe",
+          "selectParts": "Valitse ne osakokeet, joista haluat pyytää tarkistusarviointia *",
           "sumTotal": "Tarkistusarvioinnin hinta yhteensä"
         }
       },
@@ -75,10 +75,9 @@
         }
       },
       "publicEvaluationPeriodListing": {
+        "evaluationPeriodNotYetOpen": "Pyyntöaika ei ole alkanut",
         "header": {
-          "evaluationPeriod": "Tarkistusarvioinnin tilaaminen mahdollista",
-          "examDate": "Tutkinnon päivämäärä",
-          "examination": "Tutkinto"
+          "evaluationPeriod": "Tarkistusarvioinnin pyyntöaika"
         },
         "heading": "Tutkinnot",
         "requestReassessment": "Pyydä tarkistusarviointia"
@@ -147,12 +146,6 @@
           "phoneNumber": "Puhelinnumero",
           "postNumber": "Postinumero",
           "postOffice": "Postitoimipaikka",
-          "privacyStatement": {
-            "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
-            "ariaLabel": "Tietosuojaseloste",
-            "label": "Hyväksyn henkilötietojeni käsittelyn *",
-            "linkLabel": "Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta"
-          },
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
@@ -260,7 +253,7 @@
     "pages": {
       "evaluationOrderPage": {
         "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
-        "title": "Pyydä tarkistusarviointi",
+        "title": "Pyydä tarkistusarviointia",
         "toasts": {
           "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"
         }
@@ -275,8 +268,8 @@
           "info": "Voit yrittää uudelleen."
         },
         "success": {
-          "title": "Maksu onnistui!",
-          "info": "Sinulle lähetetään varmistus sähköpostilla."
+          "title": "Olet lähettänyt tarkistusarviointipyynnön!",
+          "info": "Olet lähettänyt tarkistusarviointipyynnön. Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         }
       },
       "examDetailsPage": {

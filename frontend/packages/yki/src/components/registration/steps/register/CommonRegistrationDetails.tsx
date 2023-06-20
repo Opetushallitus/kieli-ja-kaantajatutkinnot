@@ -156,10 +156,17 @@ export const CommonRegistrationDetails = () => {
         />
       </FormControl>
       <div>
-        <Text>{t('privacyStatement.description')}:</Text>
+        <Text>
+          {translateCommon('privacyStatement.description')}
+          <br />
+          {translateCommon('privacyStatement.readConditions')}
+        </Text>
         <div className="columns gapped-xxs">
-          <Link href={translateCommon('privacyStatementLink')} target="_blank">
-            <Text>{t('privacyStatement.linkLabel')}</Text>
+          <Link
+            href={translateCommon('privacyStatement.link.url')}
+            target="_blank"
+          >
+            <Text>{translateCommon('privacyStatement.link.label')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
@@ -175,7 +182,7 @@ export const CommonRegistrationDetails = () => {
               checked={registration.privacyStatementConfirmation}
             />
           }
-          label={t('privacyStatement.label')}
+          label={translateCommon('privacyStatement.grantApproval')}
           className="public-registration__grid__preview__privacy-statement-checkbox-label"
           sx={ErrorLabelStyles}
         />

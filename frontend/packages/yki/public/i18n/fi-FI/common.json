@@ -107,6 +107,15 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
       "placesAvailable": "Paikkoja vapaana",
       "price": "Hinta",
+      "privacyStatement": {
+        "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
+        "grantApproval": "Hyväksyn henkilötietojeni käsittelyn *",
+        "link": {
+          "label": "Tietoa henkilötietojen käsittelystä (oph.fi)",
+          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
+        },
+        "readConditions": "Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta:"
+      },
       "privacyStatementLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta",
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",

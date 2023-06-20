@@ -105,13 +105,15 @@ export class SerializationUtils {
 
   static serializeEvaluationOrder({
     examinationParts,
-    payerDetails,
+    participantDetails,
   }: EvaluationOrderState): EvaluationOrderRequest {
     return {
-      first_names: payerDetails.firstNames as string,
-      last_name: payerDetails.lastName as string,
-      birthdate: DateUtils.serializeDate(payerDetails.birthdate) as string,
-      email: payerDetails.email as string,
+      first_names: participantDetails.firstNames as string,
+      last_name: participantDetails.lastName as string,
+      birthdate: DateUtils.serializeDate(
+        DateUtils.parseDateString(participantDetails.birthdate)
+      ) as string,
+      email: participantDetails.email as string,
       subtests:
         SerializationUtils.serializeEvaluationSubtests(examinationParts),
     };

@@ -1,8 +1,9 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 
 export const PublicEvaluationPeriodListingHeader = () => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.publicEvaluationPeriodListing.header',
   });
@@ -10,8 +11,8 @@ export const PublicEvaluationPeriodListingHeader = () => {
   return (
     <TableHead className="heading-text">
       <TableRow>
-        <TableCell>{t('examination')}</TableCell>
-        <TableCell>{t('examDate')} </TableCell>
+        <TableCell>{translateCommon('examination')}</TableCell>
+        <TableCell>{translateCommon('examDate')} </TableCell>
         <TableCell>{t('evaluationPeriod')}</TableCell>
         <TableCell></TableCell>
       </TableRow>
