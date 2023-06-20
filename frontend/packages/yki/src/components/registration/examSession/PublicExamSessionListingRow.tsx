@@ -1,7 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router';
-import { CustomButton } from 'shared/components';
+import { CustomButtonLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -22,7 +21,6 @@ const RegisterToExamButton = ({
   postAdmissionOpen: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
@@ -35,25 +33,22 @@ const RegisterToExamButton = ({
     (postAdmissionOpen &&
       examSession.pa_participants < examSession.post_admission_quota);
 
-  // TODO Instead of disabling button, perhaps style it differently and indicate error when clicking.
   return (
-    <CustomButton
+    <CustomButtonLink
       color={Color.Secondary}
       variant={Variant.Outlined}
       disabled={!(placesAvailable && registrationOrPostAdmissionOpen)}
       onClick={() => {
         dispatch(storeExamSession(examSession));
-        navigate(
-          AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)
-        );
       }}
+      to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
     >
       {placesAvailable && registrationOrPostAdmissionOpen
         ? t('register')
         : !registrationOrPostAdmissionOpen
         ? t('periodNotOpen')
         : t('full')}
-    </CustomButton>
+    </CustomButtonLink>
   );
 };
 

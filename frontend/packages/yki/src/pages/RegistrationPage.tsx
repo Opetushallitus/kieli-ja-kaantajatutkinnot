@@ -15,13 +15,6 @@ import {
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
 
-/*
-const ExamSessionsSkeleton = () => {
-  // TODO
-  return <div />;
-};
-*/
-
 export const RegistrationPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
