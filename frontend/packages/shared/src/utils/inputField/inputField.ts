@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 import { TextField } from '../../interfaces';
+import { DateUtils } from '../../utils';
 
 export type FieldErrors<T> = {
   [Property in keyof T]: string;
@@ -147,6 +148,10 @@ export class InputFieldUtils {
           return CustomTextFieldErrors.PersonalIdentityCodeFormat;
         }
         break;
+      case TextFieldTypes.Date:
+        if (!DateUtils.parseDateString(value)) {
+          return CustomTextFieldErrors.DateFormat;
+        }
     }
 
     return '';

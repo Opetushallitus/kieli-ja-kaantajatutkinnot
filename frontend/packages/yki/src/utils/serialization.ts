@@ -159,24 +159,30 @@ export class SerializationUtils {
   }
 
   static serializeRegistrationForm(
-    registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>
+    registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>,
+    nationalities: Array<Nationality>
   ) {
+    const nationality = registration.nationality;
+    const nationality_desc = nationalities.find(
+      (v) => v.code === nationality && v.language === AppLanguage.Finnish
+    )?.name;
+
     return {
       first_name: registration.firstNames,
       last_name: registration.lastName,
-      nationalities: [registration.nationality],
-      // TODO Include also nationality_desc by finding correct Finnish name for nationality with code equal to registration.nationality
+      nationalities: [nationality],
+      nationality_desc,
       certificate_lang: registration.certificateLanguage,
-      // TODO Properly force exam_lang or set proper default!
-      exam_lang: registration.instructionLanguage || 'fi',
-      birthdate: DateUtils.serializeDate(registration.dateOfBirth),
+      exam_lang: registration.instructionLanguage,
+      birthdate: DateUtils.serializeDate(
+        DateUtils.parseDateString(registration.dateOfBirth)
+      ),
       ssn: registration.ssn,
       zip: registration.postNumber,
       post_office: registration.postNumber,
       street_address: registration.address,
       phone_number: registration.phoneNumber,
       email: registration.email,
-      // TODO Fix gender input
       gender: SerializationUtils.serializeGender(registration.gender),
     };
   }

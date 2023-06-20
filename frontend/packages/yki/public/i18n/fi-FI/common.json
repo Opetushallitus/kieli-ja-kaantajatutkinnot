@@ -33,6 +33,7 @@
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "customTextField": {
+          "dateFormat": "Syötä päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
           "numberFormat": "Arvo on virheellinen",
@@ -59,6 +60,10 @@
       },
       "examSession": "Tutkintotilaisuus",
       "examination": "Tutkinto",
+      "gender": {
+        "female": "nainen",
+        "male": "mies"
+      },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
