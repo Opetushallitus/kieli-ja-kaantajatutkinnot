@@ -814,42 +814,6 @@ class ClerkInterpreterServiceTest {
   }
 
   @Test
-  public void testUpdateInterpreterFailsForInvalidNickName() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    entityManager.persist(meetingDate);
-
-    final long id = createInterpreter(meetingDate, "1");
-    final ClerkInterpreterDTO original = clerkInterpreterService.getInterpreter(id);
-
-    // We are testing update, previous interactions were just setup.
-    reset(onrService, auditService);
-
-    final ClerkInterpreterUpdateDTO updateDto = ClerkInterpreterUpdateDTO
-      .builder()
-      .id(original.id())
-      .version(original.version())
-      .isIndividualised(false)
-      .hasIndividualisedAddress(false)
-      .identityNumber(original.identityNumber())
-      .lastName(original.lastName())
-      .firstName("Pek Pekka")
-      .nickName("Pekk")
-      .email(original.email())
-      .permissionToPublishEmail(false)
-      .permissionToPublishPhone(false)
-      .otherContactInfo("interpreter@test.invalid")
-      .permissionToPublishOtherContactInfo(true)
-      .extraInformation("extra")
-      .regions(List.of())
-      .build();
-
-    assertAPIExceptionIsThrown(
-      APIExceptionType.INTERPRETER_INVALID_NICK_NAME,
-      () -> clerkInterpreterService.updateInterpreter(updateDto)
-    );
-  }
-
-  @Test
   public void testDeleteInterpreter() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);

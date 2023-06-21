@@ -255,7 +255,6 @@
     "errors": {
       "api": {
         "generic": "The action failed, please try again later",
-        "interpreterInvalidNickName": null,
         "interpreterOnrIdAndIndividualisedMismatch": null,
         "interpreterRegionUnknown": null,
         "invalidVersion": "The action failed because you tried to modify outdated data. Please refresh the page and try again later if necessary.",

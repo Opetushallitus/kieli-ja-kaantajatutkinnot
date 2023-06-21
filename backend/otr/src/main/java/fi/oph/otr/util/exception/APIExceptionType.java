@@ -5,7 +5,6 @@ package fi.oph.otr.util.exception;
  * The respective frontend enum is `APIError`.
  */
 public enum APIExceptionType {
-  INTERPRETER_INVALID_NICK_NAME,
   INTERPRETER_ONR_ID_AND_INDIVIDUALISED_MISMATCH,
   INTERPRETER_REGION_UNKNOWN,
   INVALID_VERSION,
