@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import fi.oph.otr.onr.model.PersonalData;
+import fi.oph.otr.util.exception.APIException;
+import fi.oph.otr.util.exception.APIExceptionType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +95,9 @@ public class OnrServiceTest {
   @Test
   public void testInsertPersonalDataDoesntUpdateCacheIfExceptionAtApiOccurs() throws Exception {
     doThrow(new RuntimeException()).when(onrOperationApi).insertPersonalData(any());
-    assertThrows(RuntimeException.class, () -> onrService.insertPersonalData(personalData));
+
+    final APIException ex = assertThrows(APIException.class, () -> onrService.insertPersonalData(personalData));
+    assertEquals(APIExceptionType.ONR_SAVE_EXCEPTION, ex.getExceptionType());
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(0, cachedPersonalDatas.size());
@@ -119,7 +123,9 @@ public class OnrServiceTest {
     final PersonalData updatedPersonalData = createUpdatedPersonalData(onrId);
 
     doThrow(new RuntimeException()).when(onrOperationApi).updatePersonalData(updatedPersonalData);
-    assertThrows(RuntimeException.class, () -> onrService.updatePersonalData(updatedPersonalData));
+
+    final APIException ex = assertThrows(APIException.class, () -> onrService.updatePersonalData(updatedPersonalData));
+    assertEquals(APIExceptionType.ONR_SAVE_EXCEPTION, ex.getExceptionType());
 
     final Map<String, PersonalData> cachedPersonalDatas = onrService.getCachedPersonalDatas();
     assertEquals(1, cachedPersonalDatas.size());

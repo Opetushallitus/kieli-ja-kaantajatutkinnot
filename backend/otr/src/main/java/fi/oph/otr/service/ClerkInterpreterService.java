@@ -189,7 +189,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) throws Exception {
+  public ClerkInterpreterDTO createInterpreter(final ClerkInterpreterCreateDTO dto) {
     validateRegions(dto);
 
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
@@ -350,7 +350,7 @@ public class ClerkInterpreterService {
   }
 
   @Transactional
-  public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) throws Exception {
+  public ClerkInterpreterDTO updateInterpreter(final ClerkInterpreterUpdateDTO dto) {
     validateRegions(dto);
 
     final Interpreter interpreter = interpreterRepository.getReferenceById(dto.id());
