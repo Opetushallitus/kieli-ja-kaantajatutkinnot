@@ -11,7 +11,6 @@ export enum AppRoutes {
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   NotFoundPage = '*',
-  PrivacyPolicyPage = '/yki/tietosuojaseloste',
 }
 
 export enum HeaderTabNav {

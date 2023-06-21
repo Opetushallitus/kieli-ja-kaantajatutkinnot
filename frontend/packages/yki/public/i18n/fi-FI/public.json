@@ -92,7 +92,6 @@
           "confirm": "Lähetä"
         },
         "examSessionDetails": {
-          "address": "Osoite",
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
           "openings": "Paikkoja vapaana",
@@ -159,13 +158,12 @@
             "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun. ",
             "description2": "Jos tarvitset tutkinnossa erityisjärjestelyjä, ota heti yhteyttä testipaikkaasi.",
             "description3": "Löydät ohjeet erityisjärjestelyiden hakemiseen verkkosivuiltamme",
-            "linkLabel": "Ilmoittautuminen YKI-testiin (oph.fi)",
             "title": "Mitä tapahtuu seuraavaksi?"
           }
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "Olet lähettänyt ilmoittautumislomakkeen tutkintotilaisuuteen: <0></0>.",
+            "confirmation": "Olet lähettänyt ilmoittautumislomakkeen tutkintotilaisuuteen",
             "dueDateReminder": {
               "text1": "<strong>Tärkeää!</strong> Viestissä on myös tutkintomaksun viimeinen maksupäivä.",
               "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."

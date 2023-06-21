@@ -69,17 +69,13 @@ const Success = () => {
     keyPrefix:
       'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
-  const sessionDetails = ExamUtils.languageAndLevelText(
-    examSession as ExamSession
-  );
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>{t('title')}</H2>
       <Text>
-        <Trans t={t} i18nKey={'confirmation'} sessionDetails={sessionDetails}>
-          {sessionDetails}
-        </Trans>
+        {t('confirmation')}:{' '}
+        {ExamUtils.languageAndLevelText(examSession as ExamSession)}
       </Text>
       <Text>
         {t('paymentLinkEmail.text1')}
