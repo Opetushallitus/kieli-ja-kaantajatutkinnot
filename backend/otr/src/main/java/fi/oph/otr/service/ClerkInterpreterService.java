@@ -30,7 +30,6 @@ import fi.oph.otr.util.exception.NotFoundException;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -276,12 +275,6 @@ public class ClerkInterpreterService {
   }
 
   private void validatePersonalData(final PersonalData personalData) {
-    final String[] firstNames = personalData.getFirstName().split(" ");
-
-    if (Arrays.stream(firstNames).noneMatch(name -> name.equals(personalData.getNickName()))) {
-      throw new APIException(APIExceptionType.INTERPRETER_INVALID_NICK_NAME);
-    }
-
     if (!personalData.isOnrIdAndIndividualisedInformationConsistent()) {
       throw new APIException(APIExceptionType.INTERPRETER_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
     }

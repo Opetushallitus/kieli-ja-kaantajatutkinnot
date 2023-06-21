@@ -255,7 +255,6 @@
     "errors": {
       "api": {
         "generic": "Funktionen misslyckades, försök på nytt senare",
-        "interpreterInvalidNickName": null,
         "interpreterOnrIdAndIndividualisedMismatch": null,
         "interpreterRegionUnknown": null,
         "invalidVersion": "Funktionen misslyckades därför att du försökte att ändra förlegad data. Uppdatera sidan och försöka vid behov igen.",

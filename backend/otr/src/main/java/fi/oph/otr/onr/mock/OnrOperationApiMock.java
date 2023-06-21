@@ -74,7 +74,7 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .hasIndividualisedAddress(false)
           .lastName("Oppija")
           .firstName("Olli Pekka")
-          .nickName("Olli")
+          .nickName("Olli Pekka") // ONR doesn't validate nickname
           .identityNumber(identityNumber)
           .build();
         default -> null;

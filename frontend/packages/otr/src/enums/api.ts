@@ -12,7 +12,6 @@ export enum APIEndpoints {
  * The respective backend enum is `APIExceptionType`.
  */
 export enum APIError {
-  InterpreterInvalidNickName = 'interpreterInvalidNickName',
   InterpreterOnrIdAndIndividualisedMismatch = 'interpreterOnrIdAndIndividualisedMismatch',
   InterpreterRegionUnknown = 'interpreterRegionUnknown',
   InvalidVersion = 'invalidVersion',
