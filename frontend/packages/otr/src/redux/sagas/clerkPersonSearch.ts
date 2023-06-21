@@ -17,7 +17,12 @@ function* searchClerkPersonSaga(action: PayloadAction<string>) {
   try {
     const response: AxiosResponse<ClerkPerson> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkPersonSearch}/?identityNumber=${action.payload}`
+      APIEndpoints.ClerkPersonSearch,
+      {
+        params: {
+          identityNumber: action.payload,
+        },
+      }
     );
     const clerkPerson = response.data ? response.data : undefined;
 
