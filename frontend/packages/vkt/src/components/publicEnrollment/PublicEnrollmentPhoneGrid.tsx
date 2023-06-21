@@ -1,3 +1,4 @@
+import WarningIcon from '@mui/icons-material/Warning';
 import { Grid, Paper } from '@mui/material';
 import { useCallback, useState } from 'react';
 import {
@@ -148,7 +149,9 @@ export const PublicEnrollmentPhoneGrid = ({
                   <div className="columns gapped-xxl">
                     <PublicEnrollmentStepper
                       activeStep={activeStep}
-                      includePaymentStep={hasReservation}
+                      includePaymentStep={ExamEventUtils.hasOpenings(
+                        selectedExamEvent
+                      )}
                     />
                     <div className="rows gapped-xs grow">
                       {getMobileStepperContent()}
