@@ -55,10 +55,15 @@ export const PublicEnrollmentStepper = ({
   const isStepCompleted = (stepNumber: number) =>
     stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
 
-  const mobileStepValue = activeStep * (100 / doneStepNumber);
-  const mobilePhaseText = `${activeStep}/${doneStepNumber}`;
+  const stepValue =
+    activeStep >= PublicEnrollmentFormStep.Done
+      ? PublicEnrollmentFormStep.Done
+      : activeStep;
+
+  const mobileStepValue = stepValue * (100 / PublicEnrollmentFormStep.Done);
+  const mobilePhaseText = `${stepValue}/${PublicEnrollmentFormStep.Done}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentFormStep[activeStep]}`
+    `step.${PublicEnrollmentFormStep[stepValue]}`
   )}`;
 
   return isPhone ? (
@@ -66,6 +71,7 @@ export const PublicEnrollmentStepper = ({
       value={mobileStepValue}
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
+      color={isError ? 'error' : 'secondary'}
       size={90}
     />
   ) : (
