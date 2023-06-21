@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
+=======
+import WarningIcon from '@mui/icons-material/Warning';
+import { Grid, Paper } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+>>>>>>> feature/OPHVKTKEH-202-mobile-improvements
 import { useNavigate, useParams } from 'react-router';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';

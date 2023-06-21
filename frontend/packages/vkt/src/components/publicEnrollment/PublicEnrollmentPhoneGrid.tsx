@@ -76,6 +76,42 @@ export const PublicEnrollmentPhoneGrid = ({
     return steps[currentIndex + 1];
   };
 
+  const getMobileStepperContent = () => {
+    switch (activeStep) {
+      case PublicEnrollmentFormStep.PaymentFail: {
+        return (
+          <div className="columns gapped-xxs">
+            <WarningIcon color="error" />
+            <H2>{t(`step.${PublicEnrollmentFormStep[5]}`)}!</H2>
+          </div>
+        );
+      }
+      case PublicEnrollmentFormStep.PaymentSuccess:
+      case PublicEnrollmentFormStep.Done: {
+        return (
+          <>
+            <H2>{t(`step.${PublicEnrollmentFormStep[5]}`)}!</H2>
+          </>
+        );
+      }
+
+      default: {
+        return (
+          <>
+            <H2>{t(`step.${PublicEnrollmentFormStep[activeStep]}`)}</H2>
+            <div>
+              <Text>
+                {translateCommon('next')}
+                {': '}
+                {t(`step.${PublicEnrollmentFormStep[getNextEnrollmentStep()]}`)}
+              </Text>
+            </div>
+          </>
+        );
+      }
+    }
+  };
+
   return (
     <>
       <Grid className="public-enrollment__grid" item>
@@ -109,28 +145,13 @@ export const PublicEnrollmentPhoneGrid = ({
                 }
               >
                 {!isShiftedFromQueue && (
-                  <div className="columns gapped">
+                  <div className="columns gapped-xxl">
                     <PublicEnrollmentStepper
                       activeStep={activeStep}
-                      includePaymentStep={ExamEventUtils.hasOpenings(
-                        selectedExamEvent
-                      )}
+                      includePaymentStep={hasReservation}
                     />
-                    <div className="rows gapped-xs align-items-center grow">
-                      <H2>
-                        {t(`step.${PublicEnrollmentFormStep[activeStep]}`)}
-                      </H2>
-                      <div>
-                        <Text>
-                          {translateCommon('next')}
-                          {': '}
-                          {t(
-                            `step.${
-                              PublicEnrollmentFormStep[getNextEnrollmentStep()]
-                            }`
-                          )}
-                        </Text>
-                      </div>
+                    <div className="rows gapped-xs grow">
+                      {getMobileStepperContent()}
                     </div>
                   </div>
                 )}

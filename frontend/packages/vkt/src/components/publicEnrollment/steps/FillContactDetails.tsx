@@ -148,7 +148,7 @@ export const FillContactDetails = ({
           <CustomTextField
             {...getCustomTextFieldAttributes('emailConfirmation')}
             type={TextFieldTypes.Email}
-            value={enrollment.emailConfirmation}
+            value={enrollment.emailConfirmation ?? ''}
             onPaste={(e) => {
               e.preventDefault();
 
