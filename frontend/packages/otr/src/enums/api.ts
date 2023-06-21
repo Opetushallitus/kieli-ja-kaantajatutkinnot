@@ -19,6 +19,7 @@ export enum APIError {
   MeetingDateDeleteHasQualifications = 'meetingDateDeleteHasQualifications',
   MeetingDateUpdateDuplicateDate = 'meetingDateUpdateDuplicateDate',
   MeetingDateUpdateHasQualifications = 'meetingDateUpdateHasQualifications',
+  OnrSaveException = 'onrSaveException',
   QualificationDeleteLastQualification = 'qualificationDeleteLastQualification',
   QualificationInvalidTerm = 'qualificationInvalidTerm',
   QualificationLanguageUnknown = 'qualificationLanguageUnknown',

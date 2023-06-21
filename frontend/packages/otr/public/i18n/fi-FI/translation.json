@@ -262,6 +262,7 @@
         "meetingDateDeleteHasQualifications": "Kokouspäivän poisto epäonnistui, koska sille on kirjattu rekisteröintejä",
         "meetingDateUpdateDuplicateDate": "Kokouspäivän muokkaus epäonnistui, koska valitulla päivämäärällä on jo kokouspäivä",
         "meetingDateUpdateHasQualifications": "Kokouspäivän muokkaus epäonnistui, koska sille on kirjattu rekisteröintejä",
+        "onrSaveException": "Tietojen tallennus oppijanumerorekisteriin ei onnistunut. Tarkistathan, ettei henkilötiedoissa ole virheitä. Tulkin tietoja ei tallennettu.",
         "qualificationDeleteLastQualification": "Rekisteröinnin poisto epäonnistui, koska tulkin viimeistä rekisteröintiä ei voi poistaa",
         "qualificationInvalidTerm": "Toiminto epäonnistui, rekisteröinnillä virheellinen voimassaoloaika",
         "qualificationLanguageUnknown": "Toiminto epäonnistui, rekisteröinnillä tuntematon kieli",

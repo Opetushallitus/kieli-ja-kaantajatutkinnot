@@ -262,6 +262,7 @@
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
         "meetingDateUpdateHasQualifications": null,
+        "onrSaveException": null,
         "qualificationDeleteLastQualification": null,
         "qualificationInvalidTerm": null,
         "qualificationLanguageUnknown": null,
