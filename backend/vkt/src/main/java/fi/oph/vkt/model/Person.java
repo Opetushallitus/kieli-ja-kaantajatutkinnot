@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -45,6 +46,9 @@ public class Person extends BaseEntity {
 
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
+
+  @Column(name = "latest_identified_at", nullable = false)
+  private LocalDateTime latestIdentifiedAt;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();

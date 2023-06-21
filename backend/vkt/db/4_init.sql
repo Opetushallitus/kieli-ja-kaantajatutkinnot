@@ -171,11 +171,12 @@ VALUES (
 );
 
 -- Insert persons
-INSERT INTO person(identity_number, last_name, first_name)
+INSERT INTO person(identity_number, last_name, first_name, latest_identified_at)
 SELECT
   'id' || i::text,
   last_names[mod(i, array_length(last_names, 1)) + 1],
-  first_names[mod(i, array_length(first_names, 1)) + 1]
+  first_names[mod(i, array_length(first_names, 1)) + 1],
+  NOW()
 FROM generate_series(1, 22) i,
    (SELECT ('{Anneli, Ella, Hanna, Iiris, Liisa, Maria, Ninni, Viivi, Sointu, Jaakko, Lasse, Kyösti, ' ||
             'Markku, Kristian, Mikael, Nooa, Otto, Olli}')::text[] AS first_names) AS first_name_table,
