@@ -90,7 +90,7 @@ export const PublicExamSessionListing = ({
             </H3>
           </div>
           <ManagedPaginatedTable
-            className="public-exam-session-listing"
+            className="public-exam-session-listing table-layout-auto"
             data={examSessions}
             header={<PublicExamSessionListingHeader />}
             getRowDetails={getRowDetails}

@@ -38,15 +38,7 @@ export const PublicIdentificationGrid = () => {
                   examSession={examSession}
                   showOpenings={true}
                 />
-                <Text>{t('steps.identify.instructionDescription')}</Text>
-                <ul>
-                  <Text>
-                    <li>{t('steps.identify.instructions.location')}</li>
-                  </Text>
-                  <Text>
-                    <li>{t('steps.identify.instructions.time')}</li>
-                  </Text>
-                </ul>
+                <Text>{t('steps.identify.registrationIsBindingAdvisory')}</Text>
                 <div className="gapped rows">
                   <SelectIdentificationMethod />
                   <PublicRegistrationControlButtons />

@@ -32,7 +32,7 @@ export const EvaluationOrderPage = () => {
     loadPeriodState,
     submitOrderState,
     evaluationPeriod,
-    payerDetails,
+    participantDetails,
     examinationParts,
     evaluationPaymentRedirect,
   } = useAppSelector(evaluationOrderSelector);
@@ -44,7 +44,7 @@ export const EvaluationOrderPage = () => {
   // Enable on changed form details, disable when redirecting to payments provider.
   const isDirtyState =
     initialState.acceptConditions !== acceptConditions ||
-    initialState.payerDetails !== payerDetails ||
+    initialState.participantDetails !== participantDetails ||
     initialState.examinationParts !== examinationParts;
   useNavigationProtection(isDirtyState && !evaluationPaymentRedirect);
 
