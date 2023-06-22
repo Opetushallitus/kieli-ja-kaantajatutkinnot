@@ -14,6 +14,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.util.EnrollmentUtil;
 import fi.oph.vkt.util.TemplateRenderer;
 import fi.oph.vkt.util.localisation.Language;
+import fi.oph.vkt.util.localisation.LocalisationUtil;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -73,29 +75,15 @@ public class ReceiptRenderer {
   }
 
   private static String getLang(final ExamLanguage examLanguage, final Language receiptLanguage) {
-    if (examLanguage == ExamLanguage.FI && receiptLanguage == Language.FI) {
-      return "Suomi";
-    } else if (examLanguage == ExamLanguage.FI && receiptLanguage == Language.SV) {
-      return "Finska";
-    } else if (examLanguage == ExamLanguage.SV && receiptLanguage == Language.FI) {
-      return "Ruotsi";
-    } else if (examLanguage == ExamLanguage.SV && receiptLanguage == Language.SV) {
-      return "Svenska";
-    }
+    final String key = examLanguage == ExamLanguage.FI ? "lang.finnish" : "lang.swedish";
 
-    return "-";
+    return StringUtils.capitalize(LocalisationUtil.translate(receiptLanguage, key));
   }
 
   private static String getLevelDescription(final ExamEvent examEvent, final Language receiptLanguage) {
-    final ExamLevel examLevel = examEvent.getLevel();
+    final String key = examEvent.getLevel() == ExamLevel.EXCELLENT ? "examLevel.excellent" : "-";
 
-    if (examLevel == ExamLevel.EXCELLENT && receiptLanguage == Language.FI) {
-      return "erinomainen taito";
-    } else if (examLevel == ExamLevel.EXCELLENT && receiptLanguage == Language.SV) {
-      return "utmärkta språkkunskaper";
-    }
-
-    return "-";
+    return LocalisationUtil.translate(receiptLanguage, key);
   }
 
   private static List<ReceiptItem> getReceiptItems(
@@ -103,7 +91,8 @@ public class ReceiptRenderer {
     final ExamLanguage examLanguage,
     final Language receiptLanguage
   ) {
-    final String examLanguageSV = examLanguage == ExamLanguage.FI ? "finska" : "svenska";
+    final String examLanguageKey = examLanguage == ExamLanguage.FI ? "lang.finnish" : "lang.swedish";
+    final String examLanguageName = LocalisationUtil.translate(receiptLanguage, examLanguageKey);
 
     return Stream
       .of(
@@ -112,9 +101,7 @@ public class ReceiptRenderer {
             ? ReceiptItem
               .builder()
               .name(
-                receiptLanguage == Language.FI
-                  ? "Kirjallinen taito"
-                  : "Förmåga att använda " + examLanguageSV + " i skrift"
+                StringUtils.capitalize(LocalisationUtil.translate(receiptLanguage, "skill.textual", examLanguageName))
               )
               .amount(String.format("%s €", EnrollmentUtil.getTextualSkillFee(enrollment) / 100))
               .build()
@@ -124,9 +111,7 @@ public class ReceiptRenderer {
           enrollment.isOralSkill()
             ? ReceiptItem
               .builder()
-              .name(
-                receiptLanguage == Language.FI ? "Suullinen taito" : "Förmåga att använda " + examLanguageSV + " i tal"
-              )
+              .name(StringUtils.capitalize(LocalisationUtil.translate(receiptLanguage, "skill.oral", examLanguageName)))
               .amount(String.format("%s €", EnrollmentUtil.getOralSkillFee(enrollment) / 100))
               .build()
             : null
@@ -135,7 +120,11 @@ public class ReceiptRenderer {
           enrollment.isUnderstandingSkill()
             ? ReceiptItem
               .builder()
-              .name(receiptLanguage == Language.FI ? "Ymmärtämisen taito" : "Förmåga att förstå " + examLanguageSV)
+              .name(
+                StringUtils.capitalize(
+                  LocalisationUtil.translate(receiptLanguage, "skill.understanding", examLanguageName)
+                )
+              )
               .amount(String.format("%s €", EnrollmentUtil.getUnderstandingSkillFee(enrollment) / 100))
               .build()
             : null

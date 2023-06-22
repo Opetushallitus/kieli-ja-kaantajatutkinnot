@@ -43,7 +43,7 @@ class ReceiptRendererTest {
   }
 
   @Test
-  public void testGetReceiptData() {
+  public void testGetReceiptDataInFinnish() {
     final ExamEvent examEvent = Factory.examEvent();
     examEvent.setLanguage(ExamLanguage.SV);
     examEvent.setLevel(ExamLevel.EXCELLENT);
@@ -81,5 +81,38 @@ class ReceiptRendererTest {
     final ReceiptItem item2 = receiptData.items().get(1);
     assertEquals("Ymmärtämisen taito", item2.name());
     assertEquals("0 €", item2.amount());
+  }
+
+  @Test
+  public void testGetReceiptDataInSwedish() {
+    final ExamEvent examEvent = Factory.examEvent();
+    examEvent.setLanguage(ExamLanguage.SV);
+    examEvent.setLevel(ExamLevel.EXCELLENT);
+    examEvent.setDate(LocalDate.of(2024, 10, 7));
+
+    final Person person = Factory.person();
+
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+    enrollment.setTextualSkill(false);
+    enrollment.setOralSkill(true);
+    enrollment.setUnderstandingSkill(true);
+
+    final Payment payment = Factory.payment(enrollment);
+    payment.setAmount(22700);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+    entityManager.persist(payment);
+
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.SV);
+    assertNotNull(receiptData);
+    assertEquals("Svenska, utmärkta språkkunskaper, 07.10.2024", receiptData.exam());
+
+    final ReceiptItem item1 = receiptData.items().get(0);
+    assertEquals("Förmåga att använda svenska i tal", item1.name());
+
+    final ReceiptItem item2 = receiptData.items().get(1);
+    assertEquals("Förmåga att förstå svenska", item2.name());
   }
 }
