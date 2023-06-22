@@ -9,6 +9,7 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { storeExamSession } from 'redux/reducers/examSession';
+import { resetPublicRegistration } from 'redux/reducers/registration';
 import { ExamUtils } from 'utils/exam';
 
 const RegisterToExamButton = ({
@@ -40,6 +41,7 @@ const RegisterToExamButton = ({
       disabled={!(placesAvailable && registrationOrPostAdmissionOpen)}
       onClick={() => {
         dispatch(storeExamSession(examSession));
+        dispatch(resetPublicRegistration());
       }}
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
     >

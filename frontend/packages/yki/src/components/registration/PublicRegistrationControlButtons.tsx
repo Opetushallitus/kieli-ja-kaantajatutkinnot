@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router';
-import { CustomButton, Text } from 'shared/components';
+import { CustomButton, CustomButtonLink, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
@@ -10,7 +9,6 @@ import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import {
   increaseActiveStep,
-  resetPublicRegistration,
   setShowErrors,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
@@ -18,46 +16,20 @@ import { publicIdentificationSelector } from 'redux/selectors/publicIdentifactio
 import { registrationSelector } from 'redux/selectors/registration';
 
 const AbortButton = () => {
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.controlButtons',
   });
-  const { showDialog } = useDialog();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleAbortBtnClick = () => {
-    showDialog({
-      title: t('abortDialog.title'),
-      severity: Severity.Info,
-      description: t('abortDialog.description'),
-      actions: [
-        {
-          title: translateCommon('back'),
-          variant: Variant.Outlined,
-        },
-        {
-          title: translateCommon('yes'),
-          variant: Variant.Contained,
-          action: () => {
-            dispatch(resetPublicRegistration());
-            navigate(AppRoutes.Registration);
-          },
-        },
-      ],
-    });
-  };
 
   return (
     <>
-      <CustomButton
+      <CustomButtonLink
         variant={Variant.Text}
         color={Color.Secondary}
-        onClick={handleAbortBtnClick}
+        to={AppRoutes.Registration}
         data-testid="public-registration__controlButtons__abort"
       >
         {t('abortRegistration')}
-      </CustomButton>
+      </CustomButtonLink>
     </>
   );
 };
@@ -108,7 +80,6 @@ const SubmitButton = () => {
       dispatch(increaseActiveStep());
     }
   };
-  // TODO Disable button and display spinner over it if submission in progress?
 
   return (
     <CustomButton
