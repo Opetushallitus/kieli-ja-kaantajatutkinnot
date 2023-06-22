@@ -114,7 +114,15 @@ export const PublicEnrollmentGrid = ({
   );
 
   if (!selectedExamEvent) {
-    return null;
+    return (
+      <Grid className="public-enrollment__grid" item>
+        <LoadingProgressIndicator
+          isLoading={true}
+          translateCommon={translateCommon}
+          displayBlock={true}
+        />
+      </Grid>
+    );
   }
 
   const isLoading = [

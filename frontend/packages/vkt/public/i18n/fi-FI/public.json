@@ -93,10 +93,9 @@
           },
           "done": {
             "description": {
-              "confirmationEmail": "Sinulle lähetetään vahvistus osoitteeseen",
+              "confirmationEmail": "Ilmoittautuminen onnistui! Sinulle lähetetään vahvistus osoitteeseen",
               "queueInfo": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
-            },
-            "successfulPaymentToast": "Ilmoittautuminen onnistui!"
+            }
           },
           "fail": {
             "cancel": "Peruuta ilmoittautuminen",
