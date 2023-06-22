@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.10] - 2023-06-12
+
+### Added
+
+- DateUtils: Support for parsing text input as Dayjs dates using a few common formats
+- InputFieldUtils: Support for validating text input as date
+
 ## [1.9.9] - 2023-06-16
 
 ### Added

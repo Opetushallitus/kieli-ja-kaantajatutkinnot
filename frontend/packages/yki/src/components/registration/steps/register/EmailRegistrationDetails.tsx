@@ -4,16 +4,15 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
-  CustomDatePicker,
   CustomTextField,
   Text,
 } from 'shared/components';
 import {
-  APIResponseStatus,
+  InputAutoComplete,
   TextFieldTypes,
   TextFieldVariant,
 } from 'shared/enums';
@@ -26,11 +25,10 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { RadioButtonValue } from 'enums/app';
+import { GenderEnum, RadioButtonValue } from 'enums/app';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { Nationality } from 'interfaces/nationality';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
-import { loadNationalities } from 'redux/reducers/nationalities';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -69,17 +67,17 @@ export const EmailRegistrationDetails = () => {
   const registration: Partial<PublicEmailRegistration> =
     useAppSelector(registrationSelector).registration;
   const { showErrors } = useAppSelector(registrationSelector);
-  const { status: nationalitiesStatus, nationalities } = useAppSelector(
-    nationalitiesSelector
-  );
+  const { nationalities } = useAppSelector(nationalitiesSelector);
   const nationalityOptions = useNationalityOptions();
   const appLanguage = getCurrentLang();
 
-  useEffect(() => {
-    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadNationalities());
-    }
-  }, [dispatch, nationalitiesStatus]);
+  const genderToComboBoxOption = useCallback(
+    (gender: GenderEnum) => ({
+      label: translateCommon(`gender.${gender}`) as string,
+      value: gender,
+    }),
+    [translateCommon]
+  );
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
@@ -130,12 +128,14 @@ export const EmailRegistrationDetails = () => {
             {...getCustomTextFieldAttributes('phoneNumber')}
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
+            autoComplete={InputAutoComplete.PhoneNumber}
           />
           <CustomTextField
             {...getCustomTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={registration.email}
             disabled={true}
+            autoComplete={InputAutoComplete.Email}
           />
         </div>
         <div className="grid-columns gapped">
@@ -165,29 +165,30 @@ export const EmailRegistrationDetails = () => {
                 : ''
             }
           />
-          <CustomDatePicker
-            placeholder={t('dateOfBirth')}
-            value={registration.dateOfBirth ?? null}
-            setValue={(value) => {
-              if (value) {
-                dispatch(updatePublicRegistration({ dateOfBirth: value }));
-              } else {
-                dispatch(updatePublicRegistration({ dateOfBirth: undefined }));
-              }
-            }}
-            error={showErrors && !!registrationErrors['dateOfBirth']}
-            helperText={
-              registrationErrors['dateOfBirth']
-                ? translateCommon(registrationErrors['dateOfBirth'] as string)
-                : ''
-            }
+          <CustomTextField
+            {...getCustomTextFieldAttributes('dateOfBirth')}
+            type={TextFieldTypes.Text}
+            value={registration.dateOfBirth}
           />
         </div>
-        <CustomTextField
+        <ComboBox
           className="half-width-on-desktop"
-          {...getCustomTextFieldAttributes('gender')}
-          type={TextFieldTypes.Text}
-          value={registration.gender}
+          variant={TextFieldVariant.Outlined}
+          values={[
+            ...Object.values(GenderEnum).map(genderToComboBoxOption),
+          ].sort((a, b) => a.label.localeCompare(b.label))}
+          value={
+            registration.gender
+              ? genderToComboBoxOption(registration.gender)
+              : null
+          }
+          onChange={(_, v: AutocompleteValue) => {
+            dispatch(
+              updatePublicRegistration({ gender: v?.value as GenderEnum })
+            );
+          }}
+          label={`${t('gender')}`}
+          aria-label={`${t('gender')}`}
         />
       </div>
       <div>

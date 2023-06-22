@@ -1,6 +1,8 @@
 package fi.oph.otr.onr;
 
 import fi.oph.otr.onr.model.PersonalData;
+import fi.oph.otr.util.exception.APIException;
+import fi.oph.otr.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ public class OnrService {
     return api.findPersonalDataByIdentityNumber(identityNumber);
   }
 
-  public String insertPersonalData(final PersonalData data) throws Exception {
+  public String insertPersonalData(final PersonalData data) {
     final PersonalData personalData = PersonalData
       .builder()
       .individualised(false)
@@ -56,16 +58,28 @@ public class OnrService {
       .country(data.getCountry())
       .build();
 
-    final String onrId = api.insertPersonalData(personalData);
+    try {
+      final String onrId = api.insertPersonalData(personalData);
 
-    personalData.setOnrId(onrId);
-    personalDataCache.put(onrId, personalData);
-    return onrId;
+      personalData.setOnrId(onrId);
+      personalDataCache.put(onrId, personalData);
+      return onrId;
+    } catch (final Exception e) {
+      LOG.info("Error inserting personal data to onr");
+      throw new APIException(APIExceptionType.ONR_SAVE_EXCEPTION);
+    }
   }
 
-  public void updatePersonalData(final PersonalData personalData) throws Exception {
+  public void updatePersonalData(final PersonalData personalData) {
     personalData.assertOnrUpdatePossible();
-    api.updatePersonalData(personalData);
+
+    try {
+      api.updatePersonalData(personalData);
+    } catch (final Exception e) {
+      LOG.info("Error updating personal data to onr for oid {}", personalData.getOnrId());
+      throw new APIException(APIExceptionType.ONR_SAVE_EXCEPTION);
+    }
+
     personalDataCache.put(personalData.getOnrId(), personalData);
   }
 }

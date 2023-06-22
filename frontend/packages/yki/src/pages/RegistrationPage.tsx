@@ -1,4 +1,5 @@
-import { Alert, Box, Grid, Paper } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Alert, Box, Grid, Link, Paper } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
@@ -13,13 +14,6 @@ import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
-
-/*
-const ExamSessionsSkeleton = () => {
-  // TODO
-  return <div />;
-};
-*/
 
 export const RegistrationPage: FC = () => {
   const { t } = usePublicTranslation({
@@ -61,11 +55,24 @@ export const RegistrationPage: FC = () => {
             {t('title')}
           </H1>
           <HeaderSeparator />
-          <Text>Tähän hieman tekstiä. Jotain yleistä selostusta kenties?</Text>
-          <Text>
-            Toinenkin kappale. Lisää selostusta. Laitetaan ehkä joku linkkikin
-            mukaan?
-          </Text>
+          <p>
+            <Text>{t('description.part1.text')}</Text>
+            <div className="columns gapped-xxs">
+              <Link href={t('description.part1.link.url')} target="_blank">
+                <Text>{t('description.part1.link.label')}</Text>
+              </Link>
+              <OpenInNewIcon />
+            </div>
+          </p>
+          <p>
+            <Text>{t('description.part2.text')}</Text>
+            <div className="columns gapped-xxs">
+              <Link href={t('description.part2.link.url')} target="_blank">
+                <Text>{t('description.part2.link.label')}</Text>
+              </Link>
+              <OpenInNewIcon />
+            </div>
+          </p>
         </Grid>
         <Grid
           item
@@ -73,13 +80,13 @@ export const RegistrationPage: FC = () => {
         >
           <Paper elevation={3} className="public-registration-page__filters">
             <H2 className="public-registration-page__filters__heading-title">
-              Hae tutkintotilaisuuksia
+              {t('filters.heading')}
             </H2>
             <Alert
               className="public-registration-page__filters__heading-description"
               severity={Severity.Info}
             >
-              Joku lisähuomio hakukriteereistä tähän?
+              {t('filters.information')}
             </Alert>
             <PublicExamSessionFilters
               onApplyFilters={onApplyFilters}

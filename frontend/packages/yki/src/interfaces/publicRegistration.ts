@@ -1,4 +1,3 @@
-import { Dayjs } from 'dayjs';
 import { WithId } from 'shared/interfaces';
 
 import {
@@ -35,7 +34,7 @@ export interface PublicSuomiFiRegistration
 export interface PublicEmailRegistration
   extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
   nationality: string;
-  dateOfBirth?: Dayjs;
+  dateOfBirth?: string;
   gender?: GenderEnum;
   hasSSN?: boolean;
   ssn?: string;
@@ -53,6 +52,7 @@ export interface PublicRegistrationInitResponse {
     zip?: string;
     street_address?: string;
     email?: string;
+    nationalities?: Array<string>;
   };
   is_strongly_identified: boolean;
 }

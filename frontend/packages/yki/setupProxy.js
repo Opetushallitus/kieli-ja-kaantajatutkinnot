@@ -1202,7 +1202,12 @@ module.exports = function (app) {
   app.get('/yki/api/evaluation/:id', (req, res) => {
     const mockCall = () => {
       try {
-        res.send(evaluationPeriods[0]);
+        evaluationPeriod = evaluationPeriods.evaluation_periods.find(ep => ep.id === req.params.id);
+        if (evaluationPeriod) {
+          res.send(evaluationPeriod);
+        } else {
+          res.status(404).send();
+        }
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);

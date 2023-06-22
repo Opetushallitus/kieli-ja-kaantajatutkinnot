@@ -1,11 +1,13 @@
 import { Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { LoadingProgressIndicator } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicEnrollmentDesktopGrid } from 'components/publicEnrollment/PublicEnrollmentDesktopGrid';
 import { PublicEnrollmentPhoneGrid } from 'components/publicEnrollment/PublicEnrollmentPhoneGrid';
+import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -16,6 +18,7 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { ExamEventUtils } from 'utils/examEvent';
 
 export const PublicEnrollmentGrid = ({
   activeStep,
@@ -25,6 +28,7 @@ export const PublicEnrollmentGrid = ({
   // State
   const [isStepValid, setIsStepValid] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
+  const translateCommon = useCommonTranslation();
 
   // Redux
   const dispatch = useAppDispatch();
@@ -82,22 +86,38 @@ export const PublicEnrollmentGrid = ({
     AppRoutes.PublicEnrollment
   );
 
+  if (!selectedExamEvent) {
+    return (
+      <Grid className="public-enrollment__grid" item>
+        <LoadingProgressIndicator
+          isLoading={true}
+          translateCommon={translateCommon}
+          displayBlock={true}
+        />
+      </Grid>
+    );
+  }
+
   const isLoading = [
     renewReservationStatus,
     cancelStatus,
     enrollmentSubmitStatus,
   ].includes(APIResponseStatus.InProgress);
-  const isAuthenticateStepActive =
-    activeStep === PublicEnrollmentFormStep.Authenticate;
+
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
+  const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
+  const hasReservation = !!reservationDetails?.reservation;
+
+  const isEnrollmentToQueue =
+    (activeStep === PublicEnrollmentFormStep.Authenticate &&
+      !ExamEventUtils.hasOpenings(selectedExamEvent)) ||
+    (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
 
   const isPaymentSumAvailable =
-    isPreviewStepActive &&
-    (reservationDetails?.reservation || isShiftedFromQueue);
+    isPreviewStepActive && (hasReservation || isShiftedFromQueue);
 
   return (
     <Grid
@@ -112,9 +132,9 @@ export const PublicEnrollmentGrid = ({
           isLoading={isLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={!!isPaymentSumAvailable}
-          isAuthenticateStepActive={isAuthenticateStepActive}
           isPreviewStepActive={isPreviewStepActive}
-          isDoneStepActive={isDoneStepActive}
+          isPreviewPassed={isPreviewPassed}
+          isEnrollmentToQueue={isEnrollmentToQueue}
           setShowValidation={setShowValidation}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
@@ -126,13 +146,14 @@ export const PublicEnrollmentGrid = ({
           isLoading={isLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={!!isPaymentSumAvailable}
-          isAuthenticateStepActive={isAuthenticateStepActive}
           isPreviewStepActive={isPreviewStepActive}
-          isDoneStepActive={isDoneStepActive}
+          isPreviewPassed={isPreviewPassed}
+          isEnrollmentToQueue={isEnrollmentToQueue}
           setShowValidation={setShowValidation}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
           activeStep={activeStep}
+          selectedExamEvent={selectedExamEvent}
         />
       )}
     </Grid>

@@ -8,6 +8,10 @@
         "dateTimeFormat": "l [at] HH:mm"
       },
       "error": "An unexpected error has occurred.",
+      "gender": {
+        "female": "female",
+        "male": "male"
+      },
       "header": {
         "accessibility": {
           "langSelectorAriaLabel": "Change the language of the user interface"

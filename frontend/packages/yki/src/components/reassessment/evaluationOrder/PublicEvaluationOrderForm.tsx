@@ -8,16 +8,9 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { Dayjs } from 'dayjs';
 import { useCallback } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import {
-  CustomButton,
-  CustomDatePicker,
-  CustomTextField,
-  H2,
-  Text,
-} from 'shared/components';
+import { useNavigate } from 'react-router-dom';
+import { CustomButton, CustomTextField, H2, H3, Text } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -32,12 +25,15 @@ import { DateUtils, InputFieldUtils } from 'shared/utils';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
-import { ExaminationParts, PayerDetails } from 'interfaces/evaluationOrder';
+import {
+  ExaminationParts,
+  ParticipantDetails,
+} from 'interfaces/evaluationOrder';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 import {
   setAcceptConditions,
   setExaminationParts,
-  setPayerDetails,
+  setParticipantDetails,
   setShowErrors,
   submitEvaluationOrder,
 } from 'redux/reducers/evaluationOrder';
@@ -46,20 +42,24 @@ import { ExamUtils } from 'utils/exam';
 
 const RenderEvaluationDetails = () => {
   const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.evaluationOrderForm.renderEvaluationDetails',
+  });
   const evaluationPeriod = useAppSelector(evaluationOrderSelector)
     .evaluationPeriod as EvaluationPeriod;
 
   return (
-    <div>
+    <>
+      <H2>{t('heading')}</H2>
+      <H3>{t('info')}</H3>
       <Text>
         {translateCommon('examination')}:{' '}
         <b>{ExamUtils.languageAndLevelText(evaluationPeriod)}</b>
-      </Text>
-      <Text>
+        <br />
         {translateCommon('examDate')}:{' '}
         <b>{DateUtils.formatOptionalDate(evaluationPeriod.exam_date)}</b>
       </Text>
-    </div>
+    </>
   );
 };
 
@@ -128,28 +128,34 @@ const SelectExaminationParts = () => {
   );
 };
 
-const PayerDetailsTextField = ({
+const ParticipantDetailsTextField = ({
   field,
 }: {
-  field: keyof Omit<PayerDetails, 'birthdate'>;
+  field: keyof ParticipantDetails;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix:
-      'yki.component.evaluationOrderForm.fillPayerDetails.placeholders',
+      'yki.component.evaluationOrderForm.fillParticipantDetails.placeholders',
   });
   const translateCommon = useCommonTranslation();
-  const value = useAppSelector(evaluationOrderSelector).payerDetails[field];
+  const value = useAppSelector(evaluationOrderSelector).participantDetails[
+    field
+  ];
   const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
   const dispatch = useAppDispatch();
 
   const getFieldError = useCallback(
-    (field: keyof Omit<PayerDetails, 'birthdate'>) => {
+    (field: keyof ParticipantDetails) => {
       if (!showErrors) {
         return null;
       }
 
       const fieldType =
-        field === 'email' ? TextFieldTypes.Email : TextFieldTypes.Text;
+        field === 'email'
+          ? TextFieldTypes.Email
+          : field === 'birthdate'
+          ? TextFieldTypes.Date
+          : TextFieldTypes.Text;
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         fieldType,
         value,
@@ -170,7 +176,7 @@ const PayerDetailsTextField = ({
       placeholder={t(field)}
       value={value}
       onChange={(event) =>
-        dispatch(setPayerDetails({ [field]: event.target.value }))
+        dispatch(setParticipantDetails({ [field]: event.target.value }))
       }
       error={!!getFieldError(field)}
       helperText={getFieldError(field)}
@@ -178,69 +184,26 @@ const PayerDetailsTextField = ({
   );
 };
 
-const BirthdateField = () => {
+const FillParticipantDetails = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
-  });
-  const translateCommon = useCommonTranslation();
-  const { birthdate } = useAppSelector(evaluationOrderSelector).payerDetails;
-  const showErrors = useAppSelector(evaluationOrderSelector).showErrors;
-  const dispatch = useAppDispatch();
-  const getHelperText = useCallback(
-    (showErrors: boolean, birthdate: Dayjs | undefined) => {
-      if (!showErrors) {
-        return null;
-      }
-
-      if (!birthdate) {
-        return translateCommon('errors.customTextField.required');
-      }
-
-      // TODO Could perform more exhaustive validity checks - eg. that person has to be of certain age.
-      // Check with OPH.
-      if (!birthdate.isValid()) {
-        return t('errors.invalidBirthdate');
-      }
-    },
-    [t, translateCommon]
-  );
-
-  return (
-    <CustomDatePicker
-      placeholder={t('placeholders.birthdate')}
-      value={birthdate ?? null}
-      setValue={(value) => {
-        if (value) {
-          dispatch(setPayerDetails({ birthdate: value }));
-        } else {
-          dispatch(setPayerDetails({ birthdate: undefined }));
-        }
-      }}
-      error={showErrors && (!birthdate || !birthdate.isValid())}
-      helperText={getHelperText(showErrors, birthdate)}
-    />
-  );
-};
-
-const FillPayerDetails = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.evaluationOrderForm.fillPayerDetails',
+    keyPrefix: 'yki.component.evaluationOrderForm.fillParticipantDetails',
   });
 
   return (
     <>
       <H2>{t('heading')}</H2>
-      <div className="public-evaluation-order-page__order-form__payer-details-grid">
-        <PayerDetailsTextField field="firstNames" />
-        <PayerDetailsTextField field="lastName" />
-        <BirthdateField />
-        <PayerDetailsTextField field="email" />
+      <div className="public-evaluation-order-page__order-form__participant-details-grid">
+        <ParticipantDetailsTextField field="firstNames" />
+        <ParticipantDetailsTextField field="lastName" />
+        <ParticipantDetailsTextField field="birthdate" />
+        <ParticipantDetailsTextField field="email" />
       </div>
     </>
   );
 };
 
 const AcceptConditions = () => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.evaluationOrderForm.acceptConditions',
   });
@@ -253,14 +216,17 @@ const AcceptConditions = () => {
     <>
       <H2>{t('heading')}</H2>
       <div>
-        <Text>{t('legalBasis')}</Text>
+        <Text>
+          {translateCommon('privacyStatement.description')}
+          <br />
+          {translateCommon('privacyStatement.readConditions')}
+        </Text>
         <div className="columns gapped-xxs">
           <Link
-            component={RouterLink}
-            variant="body1"
-            to={AppRoutes.PrivacyPolicyPage}
+            href={translateCommon('privacyStatement.link.url')}
+            target="_blank"
           >
-            {t('readConditions')}
+            <Text>{translateCommon('privacyStatement.link.label')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
@@ -273,7 +239,7 @@ const AcceptConditions = () => {
               onChange={(_, checked) => dispatch(setAcceptConditions(checked))}
             />
           }
-          label={t('grantApproval')}
+          label={translateCommon('privacyStatement.grantApproval')}
           sx={{
             '&.Mui-error .MuiFormControlLabel-label': { color: 'error.main' },
           }}
@@ -284,9 +250,8 @@ const AcceptConditions = () => {
 };
 
 const useEvaluationOrderErrors = () => {
-  const { acceptConditions, examinationParts, payerDetails } = useAppSelector(
-    evaluationOrderSelector
-  );
+  const { acceptConditions, examinationParts, participantDetails } =
+    useAppSelector(evaluationOrderSelector);
   const errors: Array<string> = [];
   if (!acceptConditions) {
     errors.push('acceptConditions');
@@ -296,15 +261,21 @@ const useEvaluationOrderErrors = () => {
     errors.push('noExaminationPartsSelected');
   }
 
-  if (!payerDetails.firstNames) {
+  if (!participantDetails.firstNames) {
     errors.push('firstNames');
   }
 
-  if (!payerDetails.lastName) {
+  if (!participantDetails.lastName) {
     errors.push('lastName');
   }
 
-  if (!payerDetails.birthdate || !payerDetails.birthdate.isValid()) {
+  if (
+    InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Date,
+      required: true,
+      value: participantDetails.birthdate,
+    })
+  ) {
     errors.push('birthdate');
   }
 
@@ -312,7 +283,7 @@ const useEvaluationOrderErrors = () => {
     InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Email,
       required: true,
-      value: payerDetails.email,
+      value: participantDetails.email,
     })
   ) {
     errors.push('email');
@@ -406,16 +377,14 @@ export const PublicEvaluationOrderForm = () => {
   return (
     <Paper elevation={3} className="public-evaluation-order-page__order-form">
       <RenderEvaluationDetails />
-      <div>
-        <Text>{t('info.fillForm')}</Text>
-        <Text>{t('info.requiredFields')}</Text>
-      </div>
+      <Text>{t('info.requiredFields')}</Text>
       <SelectExaminationParts />
-      <div>
-        <Text>{t('info.refundIfChangeInEvaluation')}</Text>
-        <Text>{t('info.requestSummaryByEmail')}</Text>
-      </div>
-      <FillPayerDetails />
+      <Text>
+        {t('info.refundIfChangeInEvaluation')}
+        <br />
+        {t('info.requestSummaryByEmail')}
+      </Text>
+      <FillParticipantDetails />
       <AcceptConditions />
       <ActionButtons />
     </Paper>

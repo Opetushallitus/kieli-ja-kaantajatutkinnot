@@ -255,7 +255,6 @@
     "errors": {
       "api": {
         "generic": "Funktionen misslyckades, försök på nytt senare",
-        "interpreterInvalidNickName": null,
         "interpreterOnrIdAndIndividualisedMismatch": null,
         "interpreterRegionUnknown": null,
         "invalidVersion": "Funktionen misslyckades därför att du försökte att ändra förlegad data. Uppdatera sidan och försöka vid behov igen.",
@@ -263,6 +262,7 @@
         "meetingDateDeleteHasQualifications": null,
         "meetingDateUpdateDuplicateDate": "Mötesdagen kunde inte redigeras eftersom det valda datumet redan är en mötesdag",
         "meetingDateUpdateHasQualifications": null,
+        "onrSaveException": null,
         "qualificationDeleteLastQualification": null,
         "qualificationInvalidTerm": null,
         "qualificationLanguageUnknown": null,

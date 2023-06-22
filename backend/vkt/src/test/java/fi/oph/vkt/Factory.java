@@ -39,6 +39,7 @@ public class Factory {
     person.setOid(UUID.randomUUID().toString());
     person.setLastName("Tester");
     person.setFirstName("Foo Bar");
+    person.setLatestIdentifiedAt(LocalDateTime.now());
 
     return person;
   }
