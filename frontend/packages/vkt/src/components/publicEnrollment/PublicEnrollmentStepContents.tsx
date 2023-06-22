@@ -55,8 +55,9 @@ export const PublicEnrollmentStepContents = ({
     case PublicEnrollmentFormStep.PaymentFail:
       return <Fail enrollment={enrollment} />;
     case PublicEnrollmentFormStep.PaymentSuccess:
+      return <Done enrollment={enrollment} isEnrollmentToQueue={false} />;
     case PublicEnrollmentFormStep.Done:
-      return <Done activeStep={activeStep} enrollment={enrollment} />;
+      return <Done enrollment={enrollment} isEnrollmentToQueue={true} />;
     default:
       return <> </>;
   }

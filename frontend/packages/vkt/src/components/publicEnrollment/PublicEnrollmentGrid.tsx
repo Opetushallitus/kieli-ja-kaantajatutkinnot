@@ -15,6 +15,7 @@ import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/Publ
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
 import { PublicEnrollmentPaymentSum } from 'components/publicEnrollment/PublicEnrollmentPaymentSum';
 import { PublicEnrollmentStepContents } from 'components/publicEnrollment/PublicEnrollmentStepContents';
+import { PublicEnrollmentStepHeading } from 'components/publicEnrollment/PublicEnrollmentStepHeading';
 import { PublicEnrollmentStepper } from 'components/publicEnrollment/PublicEnrollmentStepper';
 import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollmentTimer';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -28,6 +29,7 @@ import {
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { ExamEventUtils } from 'utils/examEvent';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentGrid = ({
@@ -111,23 +113,38 @@ export const PublicEnrollmentGrid = ({
     []
   );
 
+  if (!selectedExamEvent) {
+    return (
+      <Grid className="public-enrollment__grid" item>
+        <LoadingProgressIndicator
+          isLoading={true}
+          translateCommon={translateCommon}
+          displayBlock={true}
+        />
+      </Grid>
+    );
+  }
+
   const isLoading = [
     renewReservationStatus,
     cancelStatus,
     enrollmentSubmitStatus,
   ].includes(APIResponseStatus.InProgress);
-  const isAuthenticateStepActive =
-    activeStep === PublicEnrollmentFormStep.Authenticate;
+
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isDoneStepActive = activeStep >= PublicEnrollmentFormStep.Done;
+  const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
   const hasReservation = !!reservationDetails?.reservation;
+
+  const isEnrollmentToQueue =
+    (activeStep === PublicEnrollmentFormStep.Authenticate &&
+      !ExamEventUtils.hasOpenings(selectedExamEvent)) ||
+    (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
 
   const isPaymentSumAvailable =
-    isPreviewStepActive &&
-    (reservationDetails?.reservation || isShiftedFromQueue);
+    isPreviewStepActive && (hasReservation || isShiftedFromQueue);
 
   const getNextEnrollmentStep = () => {
     const steps = PublicEnrollmentUtils.getEnrollmentSteps(hasReservation);
@@ -139,14 +156,14 @@ export const PublicEnrollmentGrid = ({
   const renderPhoneView = () => (
     <>
       <Grid className="public-enrollment__grid" item>
-        {!isDoneStepActive && (
+        {!isPreviewPassed && (
           <StackableMobileAppBar
             order={1}
             state={appBarState}
             setState={memoizedSetAppBarState}
           >
             <div className="rows">
-              {reservationDetails?.reservation && !isDoneStepActive && (
+              {reservationDetails?.reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservationDetails.reservation}
                   isLoading={isLoading}
@@ -160,56 +177,57 @@ export const PublicEnrollmentGrid = ({
         )}
         <Paper elevation={3}>
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            {selectedExamEvent && (
-              <div
-                className={
-                  isLoading
-                    ? 'dimmed public-enrollment__grid__form-container'
-                    : 'public-enrollment__grid__form-container'
-                }
-              >
-                {!isShiftedFromQueue && (
-                  <div className="columns gapped">
-                    <PublicEnrollmentStepper
-                      activeStep={activeStep}
-                      includePaymentStep={hasReservation}
-                    />
-                    <div className="rows gapped-xs align-items-center grow">
-                      <H2>
-                        {t(`step.${PublicEnrollmentFormStep[activeStep]}`)}
-                      </H2>
-                      <div>
-                        <Text>
-                          {translateCommon('next')}
-                          {': '}
-                          {t(
-                            `step.${
-                              PublicEnrollmentFormStep[getNextEnrollmentStep()]
-                            }`
-                          )}
-                        </Text>
-                      </div>
+            <div
+              className={
+                isLoading
+                  ? 'dimmed public-enrollment__grid__form-container'
+                  : 'public-enrollment__grid__form-container'
+              }
+            >
+              {!isShiftedFromQueue && (
+                <div className="columns gapped">
+                  <PublicEnrollmentStepper
+                    activeStep={activeStep}
+                    includePaymentStep={hasReservation}
+                  />
+                  <div className="rows gapped-xs align-items-center grow">
+                    <H2>{t(`step.${PublicEnrollmentFormStep[activeStep]}`)}</H2>
+                    <div>
+                      <Text>
+                        {translateCommon('next')}
+                        {': '}
+                        {t(
+                          `step.${
+                            PublicEnrollmentFormStep[getNextEnrollmentStep()]
+                          }`
+                        )}
+                      </Text>
                     </div>
                   </div>
-                )}
-                <PublicEnrollmentExamEventDetails
-                  examEvent={selectedExamEvent}
-                  showOpenings={hasReservation && !isDoneStepActive}
-                />
-                <PublicEnrollmentStepContents
-                  selectedExamEvent={selectedExamEvent}
-                  activeStep={activeStep}
-                  enrollment={enrollment}
-                  isLoading={isLoading}
-                  setIsStepValid={setIsStepValid}
-                  showValidation={showValidation}
-                />
-              </div>
-            )}
+                </div>
+              )}
+              <PublicEnrollmentStepHeading
+                activeStep={activeStep}
+                isEnrollmentToQueue={isEnrollmentToQueue}
+              />
+              <PublicEnrollmentExamEventDetails
+                examEvent={selectedExamEvent}
+                showOpenings={!isPreviewPassed && !isShiftedFromQueue}
+                isEnrollmentToQueue={isEnrollmentToQueue}
+              />
+              <PublicEnrollmentStepContents
+                selectedExamEvent={selectedExamEvent}
+                activeStep={activeStep}
+                enrollment={enrollment}
+                isLoading={isLoading}
+                setIsStepValid={setIsStepValid}
+                showValidation={showValidation}
+              />
+            </div>
           </LoadingProgressIndicator>
         </Paper>
-        {!isDoneStepActive &&
-          !isAuthenticateStepActive &&
+        {activeStep > PublicEnrollmentFormStep.Authenticate &&
+          !isPreviewPassed &&
           reservationDetails && (
             <StackableMobileAppBar
               order={2}
@@ -245,59 +263,62 @@ export const PublicEnrollmentGrid = ({
             translateCommon={translateCommon}
             displayBlock={true}
           >
-            {selectedExamEvent && (
-              <div
-                className={
-                  isLoading
-                    ? 'dimmed public-enrollment__grid__form-container'
-                    : 'public-enrollment__grid__form-container'
-                }
-              >
-                {!isShiftedFromQueue && (
-                  <PublicEnrollmentStepper
-                    activeStep={activeStep}
-                    includePaymentStep={hasReservation}
-                  />
-                )}
-                {reservationDetails?.reservation && !isDoneStepActive && (
-                  <PublicEnrollmentTimer
-                    reservation={reservationDetails.reservation}
-                    isLoading={isLoading}
-                  />
-                )}
-                <PublicEnrollmentExamEventDetails
-                  examEvent={selectedExamEvent}
-                  showOpenings={hasReservation && !isDoneStepActive}
-                />
-                <PublicEnrollmentStepContents
-                  selectedExamEvent={selectedExamEvent}
+            <div
+              className={
+                isLoading
+                  ? 'dimmed public-enrollment__grid__form-container'
+                  : 'public-enrollment__grid__form-container'
+              }
+            >
+              {!isShiftedFromQueue && (
+                <PublicEnrollmentStepper
                   activeStep={activeStep}
-                  enrollment={enrollment}
-                  isLoading={isLoading}
-                  setIsStepValid={setIsStepValid}
-                  showValidation={showValidation}
+                  includePaymentStep={hasReservation}
                 />
-                {isPaymentSumAvailable && (
-                  <PublicEnrollmentPaymentSum enrollment={enrollment} />
+              )}
+              {reservationDetails?.reservation && !isPreviewPassed && (
+                <PublicEnrollmentTimer
+                  reservation={reservationDetails.reservation}
+                  isLoading={isLoading}
+                />
+              )}
+              <PublicEnrollmentStepHeading
+                activeStep={activeStep}
+                isEnrollmentToQueue={isEnrollmentToQueue}
+              />
+              <PublicEnrollmentExamEventDetails
+                examEvent={selectedExamEvent}
+                showOpenings={!isPreviewPassed && !isShiftedFromQueue}
+                isEnrollmentToQueue={isEnrollmentToQueue}
+              />
+              <PublicEnrollmentStepContents
+                selectedExamEvent={selectedExamEvent}
+                activeStep={activeStep}
+                enrollment={enrollment}
+                isLoading={isLoading}
+                setIsStepValid={setIsStepValid}
+                showValidation={showValidation}
+              />
+              {isPaymentSumAvailable && (
+                <PublicEnrollmentPaymentSum enrollment={enrollment} />
+              )}
+              {activeStep > PublicEnrollmentFormStep.Authenticate &&
+                !isPreviewPassed &&
+                reservationDetails && (
+                  <PublicEnrollmentControlButtons
+                    submitStatus={enrollmentSubmitStatus}
+                    activeStep={activeStep}
+                    enrollment={enrollment}
+                    reservationDetails={reservationDetails}
+                    isLoading={isLoading}
+                    isStepValid={isStepValid}
+                    setShowValidation={setShowValidation}
+                    isPaymentLinkPreviewView={
+                      isShiftedFromQueue && isPreviewStepActive
+                    }
+                  />
                 )}
-                {!isDoneStepActive &&
-                  !isAuthenticateStepActive &&
-                  reservationDetails && (
-                    <PublicEnrollmentControlButtons
-                      submitStatus={enrollmentSubmitStatus}
-                      activeStep={activeStep}
-                      enrollment={enrollment}
-                      reservationDetails={reservationDetails}
-                      isLoading={isLoading}
-                      isStepValid={isStepValid}
-                      setShowValidation={setShowValidation}
-                      isPaymentLinkPreviewView={
-                        isShiftedFromQueue && isPreviewStepActive
-                      }
-                    />
-                  )}
-              </div>
-            )}
+            </div>
           </LoadingProgressIndicator>
         </Paper>
       </Grid>

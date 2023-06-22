@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   CustomButton,
-  H2,
   LoadingProgressIndicator,
   Text,
 } from 'shared/components';
@@ -62,13 +61,12 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   useEffect(() => {
     showToast({
       severity: Severity.Error,
-      description: t('steps.fail.title'),
+      description: t('steps.fail.toast'),
     });
   }, [t, showToast]);
 
   return (
-    <div className="margin-top-xxl rows gapped">
-      <H2>{t('steps.fail.title')}</H2>
+    <div className="margin-top-lg rows gapped">
       <Text>{t('steps.fail.description')}</Text>
       <div className="columns flex-start gapped margin-top-lg">
         <LoadingProgressIndicator
@@ -81,7 +79,7 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             onClick={handleCancelBtnClick}
             disabled={isLoading}
           >
-            {translateCommon('cancel')}
+            {t('steps.fail.cancel')}
           </CustomButton>
         </LoadingProgressIndicator>
         <LoadingProgressIndicator

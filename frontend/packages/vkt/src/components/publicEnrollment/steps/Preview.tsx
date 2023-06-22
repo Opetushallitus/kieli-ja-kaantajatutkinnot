@@ -91,6 +91,8 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
+      {displayBulletList(t('selectedSkillsLabel'), skills)}
+      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
       <div className="rows gapped-xxs">
         <Text className="bold">
           {t('previousEnrollmentLabel')}
@@ -102,8 +104,6 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             : translateCommon('no')}
         </Text>
       </div>
-      {displayBulletList(t('selectedSkillsLabel'), skills)}
-      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
     </div>
   );
 };
