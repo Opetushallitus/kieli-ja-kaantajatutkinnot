@@ -6,13 +6,20 @@ import java.util.ResourceBundle;
 
 public class LocalisationUtil {
 
-  private static final ResourceBundle bundleFI = ResourceBundle.getBundle("localisation", Locale.forLanguageTag("fi"));
-  private static final ResourceBundle bundleSV = ResourceBundle.getBundle("localisation", Locale.forLanguageTag("sv"));
+  private static final ResourceBundle localisationFI = ResourceBundle.getBundle(
+    "localisation",
+    Locale.forLanguageTag("fi")
+  );
+
+  private static final ResourceBundle localisationSV = ResourceBundle.getBundle(
+    "localisation",
+    Locale.forLanguageTag("sv")
+  );
 
   public static String translate(final Language language, final String key) {
-    final ResourceBundle bundle = language == Language.FI ? bundleFI : bundleSV;
+    final ResourceBundle localisation = language == Language.FI ? localisationFI : localisationSV;
 
-    return bundle.getString(key);
+    return localisation.getString(key);
   }
 
   public static String translate(final Language language, final String key, final Object... args) {
