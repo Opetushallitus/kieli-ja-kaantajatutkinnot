@@ -14,10 +14,12 @@ Keep in mind: `No ARIA is better than bad ARIA`
 - [ARIA implementation guide](https://www.w3.org/WAI/ARIA/apg/)
 - [ARIA specification](https://www.w3.org/TR/wai-aria-1.2/)
 - [Accessibility support check](https://a11ysupport.io/)
+- [MDN Accessibility resources](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
 
 ## Guides
 
 - [Dropdown](https://www.24a11y.com/2019/select-your-poison-part-2/#select-poison-recommendations)
+- [a11y linting](https://dev.to/steady5063/automated-accessibility-part-1-linting-5378)
 
 ## General guidelines
 
@@ -28,4 +30,4 @@ Keep in mind: `No ARIA is better than bad ARIA`
 
 ## Usability considerations
 
-- `disabled`property and state on components (e.g. input fields, buttons) should only be used in relation to async task(s) (e.g. network request) to signal an on-going transaction. E.g. avoid using disabled input fields, display the value as plain text instead
+- `disabled` property and state on components (e.g. input fields, buttons) should only be used in relation to async tasks (e.g. network request) to signal on-going transactions. Avoid using disabled input fields, display the value as plain text instead.
