@@ -138,7 +138,7 @@ public class PublicEnrollmentEmailService {
     final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), locale);
     final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData, locale);
 
-    final String attachmentNamePrefix = LocalisationUtil.translate(locale, "paymentReceipt");
+    final String attachmentNamePrefix = LocalisationUtil.translate(locale, "payment.receipt");
 
     return EmailAttachmentData
       .builder()

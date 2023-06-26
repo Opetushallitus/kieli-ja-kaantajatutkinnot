@@ -2,7 +2,7 @@
 <html lang="fi">
 <head>
     <meta charset="UTF-8"/>
-    <title>Maksukuitti</title>
+    <title th:text="#{payment.receipt}"></title>
     <style>
         body {
             margin: 30px;
@@ -51,25 +51,23 @@
             </svg>
         </td>
         <td>
-            <div class="hf_center">Opetushallitus</div>
+            <div th:text="#{oph.name}" class="hf_center"></div>
         </td>
         <td>
-            <div class="hf_right">Kuitti</div>
+            <div th:text="#{common.receipt}" class="hf_right"></div>
         </td>
     </tr>
 </table>
 
 <p>[[${date}]]</p>
-<p>Maksupäivä: [[${paymentDate}]]</p>
-<p>Maksun viite: [[${paymentReference}]]</p>
-<p>Tutkinto: [[${exam}]]</p>
-<p>Osallistuja: [[${participant}]]</p>
+<p><span th:text="#{payment.date}"></span>: [[${paymentDate}]]</p>
+<p><span th:text="#{payment.reference}"></span>: [[${paymentReference}]]</p>
+<p><span th:text="#{common.exam}"></span>: [[${exam}]]</p>
+<p><span th:text="#{common.participant}"></span>: [[${participant}]]</p>
 
 <table style="width: 100%;border-spacing: 0;">
     <tr>
-        <td colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;">
-            Valtionhallinnon kielitutkinnot (VKT), tutkintomaksu
-        </td>
+        <td th:text="#{receipt.title}" colspan="4" class="cell" style="font-weight: bold; border-width: 1px 1px 0 1px;"></td>
         <td class="cell" style="border-width: 0 1px 0 0;"></td>
     </tr>
     <tr th:each="item : ${items}">
@@ -81,9 +79,7 @@
         </td>
     </tr>
     <tr style="font-weight: bold">
-        <td class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;">
-            Yhteensä
-        </td>
+        <td th:text="#{common.total}" class="cell" colspan="4" style="font-weight: bold; border-width: 1px 1px 1px 1px;"></td>
         <td class="cell" style="border-width: 1px 1px 1px 0;">
             [[${totalAmount}]]
         </td>
@@ -91,29 +87,29 @@
 </table>
 
 <div style="font-size: 14px;">
-    <p>Hinnat ALV 0%</p>
-    <p>Valtionhallinnon kielitutkinnon tutkintomaksut ovat opetus- ja kulttuuriministeriön asetuksella Opetushallituksen suoritteiden maksullisuudesta (1371/2021) määrättyjä maksuja, joista ei peritä arvonlisäveroa.</p>
+    <p th:text="#{receipt.description.line1}">/p>
+    <p th:text="#{receipt.description.line2}">/p>
 </div>
 
 <table class="footer">
     <tr>
         <td>
             <div>
-                <div><strong>Opetushallitus</strong></div>
-                <div>Hakaniemenranta 6</div>
-                <div>PL 380, 00531 Helsinki</div>
+                <div><strong th:text="#{oph.name}"></strong></div>
+                <div th:text="#{oph.street}"></div>
+                <div th:text="#{oph.postAddress}"></div>
             </div>
         </td>
         <td>
             <div class="hf_center">
-                <div>Puhelin: +358 29 533 1000</div>
+                <div><span th:text="#{common.phone}"></span>: +358 29 533 1000</div>
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
             </div>
         </td>
         <td>
             <div class="hf_right">
-                <div>Y-tunnus: 2769790-1</div>
+                <div><span th:text="#{common.businessId}"></span>: 2769790-1</div>
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
             </div>
