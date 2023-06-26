@@ -41,10 +41,10 @@ class ReceiptRendererIntegrationTest {
     assertNotNull(html);
     assertTrue(html.contains("<html "));
     assertTrue(html.contains("25.12.2022"));
-    assertTrue(html.contains("Maksupäivä: 24.12.2022"));
-    assertTrue(html.contains("Maksun viite: RF-123"));
-    assertTrue(html.contains("Tutkinto: Suomi, erinomainen taito, 28.1.2023"));
-    assertTrue(html.contains("Osallistuja: Ainolainen, Aino"));
+    assertTrue(html.contains("<span>Maksupäivä</span>: 24.12.2022"));
+    assertTrue(html.contains("<span>Maksun viite</span>: RF-123"));
+    assertTrue(html.contains("<span>Tutkinto</span>: Suomi, erinomainen taito, 28.1.2023"));
+    assertTrue(html.contains("<span>Osallistuja</span>: Ainolainen, Aino"));
     assertTrue(html.contains("Kirjallinen taito"));
     assertTrue(html.contains("Suullinen taito"));
     assertTrue(html.contains("10 €"));
