@@ -11,8 +11,8 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.EnrollmentRepository;
+import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.TemplateRenderer;
-import fi.oph.vkt.util.localisation.Language;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class ReceiptRendererTest {
     entityManager.persist(enrollment);
     entityManager.persist(payment);
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.FI);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), LocalisationUtil.localeFI);
     assertNotNull(receiptData);
     assertEquals("RF-123", receiptData.paymentReference());
     assertEquals("Ruotsi, erinomainen taito, 07.10.2024", receiptData.exam());
@@ -105,7 +105,7 @@ class ReceiptRendererTest {
     entityManager.persist(enrollment);
     entityManager.persist(payment);
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), Language.SV);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), LocalisationUtil.localeSV);
     assertNotNull(receiptData);
     assertEquals("Svenska, utmärkta språkkunskaper, 07.10.2024", receiptData.exam());
 

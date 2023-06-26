@@ -3,7 +3,7 @@ package fi.oph.vkt.service.receipt;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import fi.oph.vkt.util.localisation.Language;
+import fi.oph.vkt.util.LocalisationUtil;
 import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +21,6 @@ class ReceiptRendererIntegrationTest {
   @Test
   public void testGetReceiptHtml() {
     final String html = receiptRenderer.getReceiptHtml(
-      Language.FI,
       ReceiptData
         .builder()
         .date("25.12.2022")
@@ -36,7 +35,8 @@ class ReceiptRendererIntegrationTest {
             ReceiptItem.builder().name("Suullinen taito").amount("15 €").build()
           )
         )
-        .build()
+        .build(),
+      LocalisationUtil.localeFI
     );
     assertNotNull(html);
     assertTrue(html.contains("<html "));
@@ -70,7 +70,7 @@ class ReceiptRendererIntegrationTest {
           )
         )
         .build(),
-      Language.FI
+      LocalisationUtil.localeFI
     );
     assertNotNull(pdfBytes);
     assertTrue(pdfBytes.length > 0);
