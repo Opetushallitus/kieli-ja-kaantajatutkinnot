@@ -25,11 +25,13 @@ const FillRegistrationDetails = () => {
   const submitRegistrationStatus =
     useAppSelector(registrationSelector).submitRegistration.status;
   const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
+
   useEffect(() => {
     if (nationalitiesStatus === APIResponseStatus.NotStarted) {
       dispatch(loadNationalities());
     }
   }, [dispatch, nationalitiesStatus]);
+
   useNavigationProtection(
     submitRegistrationStatus === APIResponseStatus.NotStarted ||
       submitRegistrationStatus === APIResponseStatus.InProgress
