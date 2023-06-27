@@ -29,12 +29,6 @@ export const PublicEnrollmentStepper = ({
 
   const doneStepNumber = steps.length;
 
-  const getStatusText = (step: PublicEnrollmentFormStep) => {
-    if (step < activeStep) {
-      return t('completed');
-    }
-  };
-
   const getDescription = (step: PublicEnrollmentFormStep) => {
     return t(`step.${PublicEnrollmentFormStep[step]}`);
   };
@@ -44,7 +38,7 @@ export const PublicEnrollmentStepper = ({
       current: stepIndex + 1,
       total: steps.length,
     });
-    const statusText = getStatusText(stepNumber);
+    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
