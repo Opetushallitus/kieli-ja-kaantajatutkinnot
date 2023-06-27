@@ -4,18 +4,19 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   PublicEnrollment,
   PublicReservation,
-  PublicReservationDetails,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { PublicPerson } from 'interfaces/publicPerson';
 
 interface PublicEnrollmentState {
-  reservationDetailsStatus: APIResponseStatus;
-  reservationDetails?: PublicReservationDetails;
+  reservationDetailsStatus: APIResponseStatus; // TODO: rename
   renewReservationStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
-  examEvent?: PublicExamEvent;
   enrollment: PublicEnrollment;
+  examEvent?: PublicExamEvent;
+  person?: PublicPerson;
+  reservation?: PublicReservation; // undefined if enrolling to queue
 }
 
 const initialState: PublicEnrollmentState = {
@@ -69,20 +70,22 @@ const publicEnrollmentSlice = createSlice({
     },
     storeReservationDetails(
       state,
-      action: PayloadAction<PublicReservationDetails>
+      action: PayloadAction<{
+        examEvent: PublicExamEvent;
+        person: PublicPerson;
+        reservation?: PublicReservation;
+        enrollment?: PublicEnrollment;
+      }>
     ) {
       state.reservationDetailsStatus = APIResponseStatus.Success;
-      state.reservationDetails = action.payload;
+      state.enrollment = action.payload.enrollment ?? state.enrollment;
+      state.examEvent = action.payload.examEvent;
+      state.person = action.payload.person;
+      state.reservation = action.payload.reservation;
     },
     storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
       state.reservationDetailsStatus = APIResponseStatus.Success;
       state.examEvent = action.payload;
-    },
-    setPublicEnrollment(
-      state,
-      action: PayloadAction<PublicEnrollment | undefined>
-    ) {
-      state.enrollment = action.payload ?? state.enrollment;
     },
     renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;
@@ -95,10 +98,7 @@ const publicEnrollmentSlice = createSlice({
       action: PayloadAction<PublicReservation>
     ) {
       state.renewReservationStatus = APIResponseStatus.Success;
-      state.reservationDetails = {
-        ...state.reservationDetails,
-        reservation: action.payload,
-      } as PublicReservationDetails;
+      state.reservation = action.payload;
     },
     cancelPublicEnrollment(state) {
       state.cancelStatus = APIResponseStatus.InProgress;
@@ -114,12 +114,13 @@ const publicEnrollmentSlice = createSlice({
     },
     resetPublicEnrollment(state) {
       state.reservationDetailsStatus = initialState.reservationDetailsStatus;
-      state.reservationDetails = initialState.reservationDetails;
       state.renewReservationStatus = initialState.renewReservationStatus;
       state.enrollmentSubmitStatus = initialState.enrollmentSubmitStatus;
       state.cancelStatus = initialState.cancelStatus;
-      state.examEvent = initialState.examEvent;
       state.enrollment = initialState.enrollment;
+      state.examEvent = initialState.examEvent;
+      state.person = initialState.person;
+      state.reservation = initialState.reservation;
     },
     updatePublicEnrollment(
       state,
@@ -130,9 +131,9 @@ const publicEnrollmentSlice = createSlice({
     loadPublicEnrollmentSave(
       state,
       _action: PayloadAction<{
-        examEventId: number;
         enrollment: PublicEnrollment;
-        reservationDetails: PublicReservationDetails;
+        examEventId: number;
+        reservationId?: number;
       }>
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
@@ -157,7 +158,6 @@ export const {
   setPublicExamEvent,
   storeReservationDetails,
   storePublicExamEvent,
-  setPublicEnrollment,
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   storePublicEnrollmentCancellation,

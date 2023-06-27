@@ -17,8 +17,6 @@ import {
 } from 'interfaces/clerkListExamEvent';
 import {
   PublicReservation,
-  PublicReservationDetails,
-  PublicReservationDetailsResponse,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import {
@@ -36,20 +34,6 @@ export class SerializationUtils {
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
     };
-  }
-
-  static deserializePublicReservationDetails(
-    reservationDetails: PublicReservationDetailsResponse
-  ): PublicReservationDetails {
-    const person = SerializationUtils.deserializePerson(
-      reservationDetails.person
-    );
-
-    const reservation =
-      reservationDetails.reservation &&
-      SerializationUtils.deserializeReservation(reservationDetails.reservation);
-
-    return { person, reservation };
   }
 
   static deserializeReservation(

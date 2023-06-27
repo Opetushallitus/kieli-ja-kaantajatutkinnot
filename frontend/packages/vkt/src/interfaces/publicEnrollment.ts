@@ -6,7 +6,7 @@ import {
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
-import { PublicPerson, PublicPersonResponse } from 'interfaces/publicPerson';
+import { PublicPersonResponse } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
 export interface PublicReservation extends WithId {
@@ -16,11 +16,6 @@ export interface PublicReservation extends WithId {
   isRenewable: boolean;
 }
 
-export interface PublicReservationDetails {
-  person: PublicPerson;
-  reservation?: PublicReservation; // undefined if enrolling to queue
-}
-
 export interface PublicReservationResponse
   extends Omit<PublicReservation, 'expiresAt' | 'renewedAt' | 'createdAt'> {
   expiresAt: string;
@@ -28,8 +23,7 @@ export interface PublicReservationResponse
   createdAt: string;
 }
 
-export interface PublicReservationDetailsResponse
-  extends Omit<PublicReservationDetails, 'person' | 'reservation'> {
+export interface PublicReservationDetailsResponse {
   examEvent: PublicExamEventResponse;
   person: PublicPersonResponse;
   reservation?: PublicReservationResponse;

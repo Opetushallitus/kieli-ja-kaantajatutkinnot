@@ -49,7 +49,7 @@ export const PublicEnrollmentGrid = ({
     enrollmentSubmitStatus,
     cancelStatus,
     enrollment,
-    reservationDetails,
+    reservation,
     reservationDetailsStatus,
     examEvent,
   } = useAppSelector(publicEnrollmentSelector);
@@ -67,7 +67,6 @@ export const PublicEnrollmentGrid = ({
   useEffect(() => {
     if (
       reservationDetailsStatus === APIResponseStatus.NotStarted &&
-      !reservationDetails &&
       !examEvent &&
       params.examEventId
     ) {
@@ -80,8 +79,6 @@ export const PublicEnrollmentGrid = ({
   }, [
     dispatch,
     reservationDetailsStatus,
-    enrollment,
-    reservationDetails,
     examEvent,
     params.examEventId,
     activeStep,
@@ -133,7 +130,7 @@ export const PublicEnrollmentGrid = ({
 
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
-  const hasReservation = !!reservationDetails?.reservation;
+  const hasReservation = !!reservation;
 
   const isEnrollmentToQueue =
     (activeStep === PublicEnrollmentFormStep.Authenticate &&
@@ -163,9 +160,9 @@ export const PublicEnrollmentGrid = ({
             setState={memoizedSetAppBarState}
           >
             <div className="rows">
-              {reservationDetails?.reservation && !isPreviewPassed && (
+              {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
-                  reservation={reservationDetails.reservation}
+                  reservation={reservation}
                   isLoading={isLoading}
                 />
               )}
@@ -227,8 +224,7 @@ export const PublicEnrollmentGrid = ({
           </LoadingProgressIndicator>
         </Paper>
         {activeStep > PublicEnrollmentFormStep.Authenticate &&
-          !isPreviewPassed &&
-          reservationDetails && (
+          !isPreviewPassed && (
             <StackableMobileAppBar
               order={2}
               state={appBarState}
@@ -240,7 +236,7 @@ export const PublicEnrollmentGrid = ({
                   examEvent={examEvent}
                   activeStep={activeStep}
                   enrollment={enrollment}
-                  reservationDetails={reservationDetails}
+                  reservation={reservation}
                   isLoading={isLoading}
                   isStepValid={isStepValid}
                   setShowValidation={setShowValidation}
@@ -277,9 +273,9 @@ export const PublicEnrollmentGrid = ({
                   includePaymentStep={hasReservation}
                 />
               )}
-              {reservationDetails?.reservation && !isPreviewPassed && (
+              {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
-                  reservation={reservationDetails.reservation}
+                  reservation={reservation}
                   isLoading={isLoading}
                 />
               )}
@@ -304,14 +300,13 @@ export const PublicEnrollmentGrid = ({
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
-                !isPreviewPassed &&
-                reservationDetails && (
+                !isPreviewPassed && (
                   <PublicEnrollmentControlButtons
                     submitStatus={enrollmentSubmitStatus}
                     examEvent={examEvent}
                     activeStep={activeStep}
                     enrollment={enrollment}
-                    reservationDetails={reservationDetails}
+                    reservation={reservation}
                     isLoading={isLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}

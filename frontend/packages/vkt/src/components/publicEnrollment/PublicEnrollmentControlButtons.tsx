@@ -14,7 +14,7 @@ import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
-  PublicReservationDetails,
+  PublicReservation,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import {
@@ -28,7 +28,7 @@ export const PublicEnrollmentControlButtons = ({
   activeStep,
   examEvent,
   enrollment,
-  reservationDetails,
+  reservation,
   isLoading,
   isStepValid,
   setShowValidation,
@@ -38,7 +38,7 @@ export const PublicEnrollmentControlButtons = ({
   activeStep: PublicEnrollmentFormStep;
   examEvent: PublicExamEvent;
   enrollment: PublicEnrollment;
-  reservationDetails: PublicReservationDetails;
+  reservation?: PublicReservation;
   isLoading: boolean;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
@@ -55,10 +55,9 @@ export const PublicEnrollmentControlButtons = ({
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
-  const reservationId = reservationDetails.reservation?.id;
+  const reservationId = reservation?.id;
   const examEventId = examEvent.id;
-  const isEnrollmentToQueue =
-    !reservationDetails.reservation && !isPaymentLinkPreviewView;
+  const isEnrollmentToQueue = !reservation && !isPaymentLinkPreviewView;
 
   const handleCancelBtnClick = () => {
     if (isPaymentLinkPreviewView) {
@@ -91,7 +90,7 @@ export const PublicEnrollmentControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      if (reservationDetails.reservation) {
+      if (reservation) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
@@ -108,7 +107,7 @@ export const PublicEnrollmentControlButtons = ({
     dispatch,
     examEventId,
     enrollment.id,
-    reservationDetails.reservation,
+    reservation,
   ]);
 
   const handleBackBtnClick = () => {
@@ -138,9 +137,9 @@ export const PublicEnrollmentControlButtons = ({
       } else {
         dispatch(
           loadPublicEnrollmentSave({
-            examEventId,
             enrollment,
-            reservationDetails,
+            examEventId,
+            reservationId,
           })
         );
       }
