@@ -29,16 +29,14 @@ export const PublicEnrollmentStepper = ({
 
   const doneStepNumber = steps.length;
 
-  const getStatusText = (stepNumber: number) => {
-    if (stepNumber < activeStep) {
+  const getStatusText = (step: PublicEnrollmentFormStep) => {
+    if (step < activeStep) {
       return t('completed');
     }
   };
 
-  const isError = activeStep === PublicEnrollmentFormStep.PaymentFail;
-
-  const getDescription = (stepNumber: number) => {
-    return t(`step.${PublicEnrollmentFormStep[stepNumber]}`);
+  const getDescription = (step: PublicEnrollmentFormStep) => {
+    return t(`step.${PublicEnrollmentFormStep[step]}`);
   };
 
   const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
@@ -52,16 +50,32 @@ export const PublicEnrollmentStepper = ({
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  const isStepCompleted = (stepNumber: number) =>
-    stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
+  const getDesktopActiveStep = () => {
+    if (activeStep === PublicEnrollmentFormStep.Done) {
+      return 5 - 1;
+    } else if (activeStep > PublicEnrollmentFormStep.PaymentFail) {
+      return activeStep - 2;
+    }
+
+    return activeStep - 1;
+  };
+
+  const hasError = (step: PublicEnrollmentFormStep) => {
+    return (
+      step === PublicEnrollmentFormStep.Payment &&
+      activeStep === PublicEnrollmentFormStep.PaymentFail
+    );
+  };
+
+  const isStepCompleted = (step: PublicEnrollmentFormStep) => {
+    return step < activeStep && !hasError(step);
+  };
 
   const stepValue =
-    activeStep >= PublicEnrollmentFormStep.Done
-      ? PublicEnrollmentFormStep.Done
-      : activeStep;
+    activeStep > PublicEnrollmentFormStep.Preview ? doneStepNumber : activeStep;
 
-  const mobileStepValue = stepValue * (100 / PublicEnrollmentFormStep.Done);
-  const mobilePhaseText = `${stepValue}/${PublicEnrollmentFormStep.Done}`;
+  const mobileStepValue = stepValue * (100 / doneStepNumber);
+  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
     `step.${PublicEnrollmentFormStep[stepValue]}`
   )}`;
@@ -71,30 +85,34 @@ export const PublicEnrollmentStepper = ({
       value={mobileStepValue}
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
-      color={isError ? 'error' : 'secondary'}
+      color={
+        activeStep === PublicEnrollmentFormStep.PaymentFail
+          ? 'error'
+          : 'secondary'
+      }
       size={90}
     />
   ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
-      activeStep={activeStep - 1}
+      activeStep={getDesktopActiveStep()}
       aria-label={t('phases')}
     >
-      {steps.map((i, index) => (
-        <Step key={i} completed={isStepCompleted(i)}>
+      {steps.map((step, index) => (
+        <Step key={step} completed={isStepCompleted(step)}>
           {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
-            error={i === doneStepNumber && isError}
-            aria-label={getStepAriaLabel(i, index)}
+            error={hasError(step)}
+            aria-label={getStepAriaLabel(step, index)}
             role="text"
             className={
-              activeStep < i
+              activeStep < step
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
           >
             {/* eslint-enable */}
-            {getDescription(i)}
+            {getDescription(step)}
           </StepLabel>
         </Step>
       ))}

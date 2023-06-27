@@ -10,7 +10,7 @@ export class PublicEnrollmentUtils {
           PublicEnrollmentFormStep.SelectExam,
           PublicEnrollmentFormStep.Preview,
           PublicEnrollmentFormStep.Payment,
-          PublicEnrollmentFormStep.Done,
+          PublicEnrollmentFormStep.PaymentSuccess,
         ]
       : [
           PublicEnrollmentFormStep.Authenticate,

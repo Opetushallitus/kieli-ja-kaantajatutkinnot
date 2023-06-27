@@ -84,6 +84,8 @@
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
+            "PaymentFail": "Maksua ei suoritettu",
+            "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           }
