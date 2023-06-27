@@ -21,6 +21,16 @@ export class PublicEnrollmentUtils {
         ];
   }
 
+  static getEnrollmentNextStep(
+    activeStep: PublicEnrollmentFormStep,
+    includePaymentStep: boolean
+  ) {
+    const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
+    const currentIndex = steps.findIndex((step) => step === activeStep);
+
+    return steps[currentIndex + 1];
+  }
+
   static calculateExaminationPaymentSum(enrollment: PublicEnrollment) {
     const selectedSkillsCount = [
       enrollment.oralSkill,

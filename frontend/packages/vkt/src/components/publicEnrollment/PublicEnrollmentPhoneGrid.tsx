@@ -1,8 +1,7 @@
-import WarningIcon from '@mui/icons-material/Warning';
-import { Grid, Paper } from '@mui/material';
+import { Warning } from '@mui/icons-material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 import {
-  H2,
   LoadingProgressIndicator,
   StackableMobileAppBar,
   Text,
@@ -18,6 +17,7 @@ import { PublicEnrollmentTimer } from 'components/publicEnrollment/PublicEnrollm
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
 import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
@@ -34,6 +34,7 @@ export const PublicEnrollmentPhoneGrid = ({
   showValidation,
   setIsStepValid,
   setShowValidation,
+  selectedExamEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   isLoading: boolean;
@@ -46,17 +47,14 @@ export const PublicEnrollmentPhoneGrid = ({
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
+  selectedExamEvent: PublicExamEvent;
 }) => {
   const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
-  const {
-    enrollmentSubmitStatus,
-    enrollment,
-    reservationDetails,
-    selectedExamEvent,
-  } = useAppSelector(publicEnrollmentSelector);
+  const { enrollmentSubmitStatus, enrollment, reservationDetails } =
+    useAppSelector(publicEnrollmentSelector);
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepper',
+    keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
   });
 
   const memoizedSetAppBarState = useCallback(
@@ -68,22 +66,15 @@ export const PublicEnrollmentPhoneGrid = ({
     []
   );
 
-  const hasReservation = !!reservationDetails?.reservation;
-
-  const getNextEnrollmentStep = () => {
-    const steps = PublicEnrollmentUtils.getEnrollmentSteps(hasReservation);
-    const currentIndex = steps.findIndex((step) => step === activeStep);
-
-    return steps[currentIndex + 1];
-  };
-
-  const getMobileStepperContent = () => {
+  const getMobileStepperHeading = () => {
     switch (activeStep) {
       case PublicEnrollmentFormStep.PaymentFail: {
         return (
           <div className="columns gapped-xxs">
-            <WarningIcon color="error" />
-            <H2>{t(`step.${PublicEnrollmentFormStep[5]}`)}!</H2>
+            <Warning color="error" />
+            <Typography component="h1" variant="h2">
+              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}!
+            </Typography>
           </div>
         );
       }
@@ -91,20 +82,29 @@ export const PublicEnrollmentPhoneGrid = ({
       case PublicEnrollmentFormStep.Done: {
         return (
           <>
-            <H2>{t(`step.${PublicEnrollmentFormStep[5]}`)}!</H2>
+            <Typography component="h1" variant="h2">
+              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}!
+            </Typography>
           </>
         );
       }
 
       default: {
+        const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
+          activeStep,
+          ExamEventUtils.hasOpenings(selectedExamEvent)
+        );
+
         return (
           <>
-            <H2>{t(`step.${PublicEnrollmentFormStep[activeStep]}`)}</H2>
+            <Typography component="h1" variant="h2">
+              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}
+            </Typography>
             <div>
               <Text>
                 {translateCommon('next')}
                 {': '}
-                {t(`step.${PublicEnrollmentFormStep[getNextEnrollmentStep()]}`)}
+                {t(`common.${PublicEnrollmentFormStep[nextStepIndex]}`)}
               </Text>
             </div>
           </>
@@ -136,43 +136,47 @@ export const PublicEnrollmentPhoneGrid = ({
           </StackableMobileAppBar>
         )}
         <Paper elevation={3}>
-          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            {selectedExamEvent && (
-              <div
-                className={
-                  isLoading
-                    ? 'dimmed public-enrollment__grid__form-container'
-                    : 'public-enrollment__grid__form-container'
-                }
-              >
-                {!isShiftedFromQueue && (
-                  <div className="columns gapped-xxl">
-                    <PublicEnrollmentStepper
-                      activeStep={activeStep}
-                      includePaymentStep={ExamEventUtils.hasOpenings(
-                        selectedExamEvent
-                      )}
-                    />
-                    <div className="rows gapped-xs grow">
-                      {getMobileStepperContent()}
-                    </div>
+          <LoadingProgressIndicator
+            translateCommon={translateCommon}
+            isLoading={isLoading}
+            displayBlock={true}
+          >
+            <div
+              className={
+                isLoading
+                  ? 'dimmed public-enrollment__grid__form-container'
+                  : 'public-enrollment__grid__form-container'
+              }
+            >
+              {!isShiftedFromQueue && (
+                <div className="columns gapped-xxl">
+                  <PublicEnrollmentStepper
+                    activeStep={activeStep}
+                    includePaymentStep={ExamEventUtils.hasOpenings(
+                      selectedExamEvent
+                    )}
+                  />
+                  <div className="rows gapped-xs grow">
+                    {getMobileStepperHeading()}
                   </div>
-                )}
+                </div>
+              )}
+              <div className="margin-top-lg">
                 <PublicEnrollmentExamEventDetails
                   examEvent={selectedExamEvent}
                   showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                   isEnrollmentToQueue={isEnrollmentToQueue}
                 />
-                <PublicEnrollmentStepContents
-                  selectedExamEvent={selectedExamEvent}
-                  activeStep={activeStep}
-                  enrollment={enrollment}
-                  isLoading={isLoading}
-                  setIsStepValid={setIsStepValid}
-                  showValidation={showValidation}
-                />
               </div>
-            )}
+              <PublicEnrollmentStepContents
+                selectedExamEvent={selectedExamEvent}
+                activeStep={activeStep}
+                enrollment={enrollment}
+                isLoading={isLoading}
+                setIsStepValid={setIsStepValid}
+                showValidation={showValidation}
+              />
+            </div>
           </LoadingProgressIndicator>
         </Paper>
         {activeStep > PublicEnrollmentFormStep.Authenticate &&

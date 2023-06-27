@@ -131,7 +131,7 @@ export const PublicEnrollmentGrid = ({
           isStepValid={isStepValid}
           isLoading={isLoading}
           isShiftedFromQueue={isShiftedFromQueue}
-          isPaymentSumAvailable={!!isPaymentSumAvailable}
+          isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}
           isEnrollmentToQueue={isEnrollmentToQueue}
@@ -139,13 +139,14 @@ export const PublicEnrollmentGrid = ({
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
           activeStep={activeStep}
+          selectedExamEvent={selectedExamEvent}
         />
       ) : (
         <PublicEnrollmentDesktopGrid
           isStepValid={isStepValid}
           isLoading={isLoading}
           isShiftedFromQueue={isShiftedFromQueue}
-          isPaymentSumAvailable={!!isPaymentSumAvailable}
+          isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}
           isEnrollmentToQueue={isEnrollmentToQueue}
