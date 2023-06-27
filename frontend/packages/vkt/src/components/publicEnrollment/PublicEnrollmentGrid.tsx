@@ -24,7 +24,7 @@ import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
-  loadPublicEnrollment,
+  loadEnrollmentInitialisation,
   loadPublicExamEvent,
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
@@ -50,7 +50,7 @@ export const PublicEnrollmentGrid = ({
     cancelStatus,
     enrollment,
     reservation,
-    reservationDetailsStatus,
+    enrollmentInitialisationStatus,
     examEvent,
   } = useAppSelector(publicEnrollmentSelector);
 
@@ -66,19 +66,19 @@ export const PublicEnrollmentGrid = ({
 
   useEffect(() => {
     if (
-      reservationDetailsStatus === APIResponseStatus.NotStarted &&
+      enrollmentInitialisationStatus === APIResponseStatus.NotStarted &&
       !examEvent &&
       params.examEventId
     ) {
       if (activeStep === PublicEnrollmentFormStep.Authenticate) {
         dispatch(loadPublicExamEvent(+params.examEventId));
       } else {
-        dispatch(loadPublicEnrollment(+params.examEventId));
+        dispatch(loadEnrollmentInitialisation(+params.examEventId));
       }
     }
   }, [
     dispatch,
-    reservationDetailsStatus,
+    enrollmentInitialisationStatus,
     examEvent,
     params.examEventId,
     activeStep,

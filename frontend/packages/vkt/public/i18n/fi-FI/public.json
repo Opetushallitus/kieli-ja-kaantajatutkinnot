@@ -43,7 +43,7 @@
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
         "expirationTimer": {
-          "cancelReservation": "Peruuta ilmoittautuminen",
+          "cancelEnrollment": "Peruuta ilmoittautuminen",
           "continueEnrollment": "Jatka ilmoittautumista",
           "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
           "reservationExpiredContinue": "Jatka etusivulle",
