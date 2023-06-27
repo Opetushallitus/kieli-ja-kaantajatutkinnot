@@ -5,10 +5,7 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
-import {
-  PublicExamEvent,
-  PublicExamEventResponse,
-} from 'interfaces/publicExamEvent';
+import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import { PublicPerson, PublicPersonResponse } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
@@ -21,9 +18,7 @@ export interface PublicReservation extends WithId {
 
 export interface PublicReservationDetails {
   person: PublicPerson;
-  examEvent: PublicExamEvent;
   reservation?: PublicReservation; // undefined if enrolling to queue
-  enrollment?: PublicEnrollment;
 }
 
 export interface PublicReservationResponse
@@ -34,13 +29,10 @@ export interface PublicReservationResponse
 }
 
 export interface PublicReservationDetailsResponse
-  extends Omit<
-    PublicReservationDetails,
-    'examEvent' | 'reservation' | 'person'
-  > {
+  extends Omit<PublicReservationDetails, 'person' | 'reservation'> {
   examEvent: PublicExamEventResponse;
-  reservation?: PublicReservationResponse;
   person: PublicPersonResponse;
+  reservation?: PublicReservationResponse;
   enrollment?: PublicEnrollment;
 }
 

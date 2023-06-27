@@ -51,7 +51,7 @@ export const PublicEnrollmentGrid = ({
     enrollment,
     reservationDetails,
     reservationDetailsStatus,
-    selectedExamEvent,
+    examEvent,
   } = useAppSelector(publicEnrollmentSelector);
 
   // i18n
@@ -68,7 +68,7 @@ export const PublicEnrollmentGrid = ({
     if (
       reservationDetailsStatus === APIResponseStatus.NotStarted &&
       !reservationDetails &&
-      !selectedExamEvent &&
+      !examEvent &&
       params.examEventId
     ) {
       if (activeStep === PublicEnrollmentFormStep.Authenticate) {
@@ -82,7 +82,7 @@ export const PublicEnrollmentGrid = ({
     reservationDetailsStatus,
     enrollment,
     reservationDetails,
-    selectedExamEvent,
+    examEvent,
     params.examEventId,
     activeStep,
   ]);
@@ -113,7 +113,7 @@ export const PublicEnrollmentGrid = ({
     []
   );
 
-  if (!selectedExamEvent) {
+  if (!examEvent) {
     return (
       <Grid className="public-enrollment__grid" item>
         <LoadingProgressIndicator
@@ -137,7 +137,7 @@ export const PublicEnrollmentGrid = ({
 
   const isEnrollmentToQueue =
     (activeStep === PublicEnrollmentFormStep.Authenticate &&
-      !ExamEventUtils.hasOpenings(selectedExamEvent)) ||
+      !ExamEventUtils.hasOpenings(examEvent)) ||
     (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
 
   const isShiftedFromQueue =
@@ -211,12 +211,12 @@ export const PublicEnrollmentGrid = ({
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentExamEventDetails
-                examEvent={selectedExamEvent}
+                examEvent={examEvent}
                 showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
-                selectedExamEvent={selectedExamEvent}
+                examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
@@ -237,6 +237,7 @@ export const PublicEnrollmentGrid = ({
               <div className="rows">
                 <PublicEnrollmentControlButtons
                   submitStatus={enrollmentSubmitStatus}
+                  examEvent={examEvent}
                   activeStep={activeStep}
                   enrollment={enrollment}
                   reservationDetails={reservationDetails}
@@ -287,12 +288,12 @@ export const PublicEnrollmentGrid = ({
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentExamEventDetails
-                examEvent={selectedExamEvent}
+                examEvent={examEvent}
                 showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
-                selectedExamEvent={selectedExamEvent}
+                examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
@@ -307,6 +308,7 @@ export const PublicEnrollmentGrid = ({
                 reservationDetails && (
                   <PublicEnrollmentControlButtons
                     submitStatus={enrollmentSubmitStatus}
+                    examEvent={examEvent}
                     activeStep={activeStep}
                     enrollment={enrollment}
                     reservationDetails={reservationDetails}

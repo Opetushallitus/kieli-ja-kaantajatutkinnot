@@ -12,7 +12,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, ExamLevel } from 'enums/app';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
-import { setPublicEnrollmentSelectedExam } from 'redux/reducers/publicEnrollment';
+import { setPublicExamEvent } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
 
@@ -77,9 +77,8 @@ export const PublicExamEventPhoneCells = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const { reservationDetailsStatus, selectedExamEvent } = useAppSelector(
-    publicEnrollmentSelector
-  );
+  const { reservationDetailsStatus, examEvent: selectedExamEvent } =
+    useAppSelector(publicEnrollmentSelector);
   const isInitialisationInProgress =
     reservationDetailsStatus === APIResponseStatus.InProgress;
 
@@ -87,7 +86,7 @@ export const PublicExamEventPhoneCells = ({
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    dispatch(setPublicEnrollmentSelectedExam(examEvent));
+    dispatch(setPublicExamEvent(examEvent));
     navigate(
       AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString())
     );
@@ -146,9 +145,8 @@ export const PublicExamEventDesktopCells = ({
   });
   const translateCommon = useCommonTranslation();
 
-  const { reservationDetailsStatus, selectedExamEvent } = useAppSelector(
-    publicEnrollmentSelector
-  );
+  const { reservationDetailsStatus, examEvent: selectedExamEvent } =
+    useAppSelector(publicEnrollmentSelector);
   const isInitialisationInProgress =
     reservationDetailsStatus === APIResponseStatus.InProgress;
 
@@ -156,7 +154,7 @@ export const PublicExamEventDesktopCells = ({
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    dispatch(setPublicEnrollmentSelectedExam(examEvent));
+    dispatch(setPublicExamEvent(examEvent));
     navigate(
       AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString())
     );

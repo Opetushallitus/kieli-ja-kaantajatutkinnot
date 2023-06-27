@@ -41,24 +41,15 @@ export class SerializationUtils {
   static deserializePublicReservationDetails(
     reservationDetails: PublicReservationDetailsResponse
   ): PublicReservationDetails {
-    const examEvent = SerializationUtils.deserializePublicExamEvent(
-      reservationDetails.examEvent
+    const person = SerializationUtils.deserializePerson(
+      reservationDetails.person
     );
 
     const reservation =
       reservationDetails.reservation &&
       SerializationUtils.deserializeReservation(reservationDetails.reservation);
 
-    const person = SerializationUtils.deserializePerson(
-      reservationDetails.person
-    );
-
-    return {
-      ...reservationDetails,
-      person,
-      examEvent,
-      reservation,
-    };
+    return { person, reservation };
   }
 
   static deserializeReservation(

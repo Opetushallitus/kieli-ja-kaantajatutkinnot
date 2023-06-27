@@ -16,6 +16,7 @@ import {
   PublicEnrollment,
   PublicReservationDetails,
 } from 'interfaces/publicEnrollment';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
@@ -25,6 +26,7 @@ import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
+  examEvent,
   enrollment,
   reservationDetails,
   isLoading,
@@ -34,6 +36,7 @@ export const PublicEnrollmentControlButtons = ({
   isPaymentLinkPreviewView,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  examEvent: PublicExamEvent;
   enrollment: PublicEnrollment;
   reservationDetails: PublicReservationDetails;
   isLoading: boolean;
@@ -53,7 +56,7 @@ export const PublicEnrollmentControlButtons = ({
 
   const { showDialog } = useDialog();
   const reservationId = reservationDetails.reservation?.id;
-  const examEventId = reservationDetails.examEvent.id;
+  const examEventId = examEvent.id;
   const isEnrollmentToQueue =
     !reservationDetails.reservation && !isPaymentLinkPreviewView;
 
@@ -135,6 +138,7 @@ export const PublicEnrollmentControlButtons = ({
       } else {
         dispatch(
           loadPublicEnrollmentSave({
+            examEventId,
             enrollment,
             reservationDetails,
           })
