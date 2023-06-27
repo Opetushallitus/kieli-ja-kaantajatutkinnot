@@ -45,9 +45,10 @@ function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
       storeEnrollmentInitialisation({
         enrollment,
         examEvent: SerializationUtils.deserializePublicExamEvent(examEvent),
-        person: SerializationUtils.deserializePerson(person),
+        person: SerializationUtils.deserializePublicPerson(person),
         reservation:
-          reservation && SerializationUtils.deserializeReservation(reservation),
+          reservation &&
+          SerializationUtils.deserializePublicReservation(reservation),
       })
     );
   } catch (error) {
@@ -88,7 +89,7 @@ function* renewReservationSaga(action: PayloadAction<number>) {
       renewUrl
     );
 
-    const reservation = SerializationUtils.deserializeReservation(
+    const reservation = SerializationUtils.deserializePublicReservation(
       response.data
     );
 
@@ -126,7 +127,7 @@ function* loadPublicEnrollmentSaveSaga(
     reservationId?: number;
   }>
 ) {
-  const { examEventId, enrollment, reservationId } = action.payload;
+  const { enrollment, examEventId, reservationId } = action.payload;
 
   try {
     const {

@@ -110,7 +110,10 @@ export const PublicEnrollmentGrid = ({
     []
   );
 
-  if (!examEvent) {
+  if (
+    enrollmentInitialisationStatus !== APIResponseStatus.Success ||
+    !examEvent
+  ) {
     return (
       <Grid className="public-enrollment__grid" item>
         <LoadingProgressIndicator

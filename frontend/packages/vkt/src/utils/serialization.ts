@@ -36,7 +36,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializeReservation(
+  static deserializePublicReservation(
     reservation: PublicReservationResponse
   ): PublicReservation {
     return {
@@ -47,7 +47,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializePerson(person: PublicPersonResponse): PublicPerson {
+  static deserializePublicPerson(person: PublicPersonResponse): PublicPerson {
     return {
       ...person,
       dateOfBirth: DateUtils.optionalStringToDate(person.dateOfBirth),
