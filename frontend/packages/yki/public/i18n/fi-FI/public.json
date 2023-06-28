@@ -99,8 +99,14 @@
         },
         "registrationButtonLabels": {
           "full": "Täynnä",
+          "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
           "register": "Ilmoittaudu"
+        },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
+          "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
+          "examSessionIsFull": "Tilaisuus on täynnä"
         },
         "registrationDetails": {
           "address": "Katuosoite",

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -42,10 +42,10 @@ export class SerializationUtils {
       ),
       registration_start_date: DateUtils.optionalStringToDate(
         examSessionResponse.registration_start_date
-      ),
+      ) as Dayjs,
       registration_end_date: DateUtils.optionalStringToDate(
         examSessionResponse.registration_end_date
-      ),
+      ) as Dayjs,
       exam_fee: parseInt(examSessionResponse.exam_fee as string),
     };
   }

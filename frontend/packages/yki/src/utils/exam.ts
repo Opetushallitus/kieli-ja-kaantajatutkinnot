@@ -1,9 +1,9 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamUtils {
@@ -44,10 +44,6 @@ export class ExamUtils {
   static isRegistrationOpen(examSession: ExamSession, now: Dayjs) {
     const { registration_start_date, registration_end_date } = examSession;
 
-    if (!registration_start_date || !registration_end_date) {
-      return false;
-    }
-
     // TODO Consider timezones! Registration opening / closing times are supposed to be
     // wrt. Finnish times, but user can be on a different timezone.
     const registrationOpensAt = registration_start_date.hour(10);
@@ -79,5 +75,48 @@ export class ExamUtils {
     }
 
     return false;
+  }
+
+  static getCurrentOrFutureAdmissionPeriod(examSession: ExamSession) {
+    const now = dayjs();
+    const registrationOpensAt = examSession.registration_start_date?.hour(10);
+    const registrationClosesAt = examSession.registration_end_date?.hour(16);
+    if (now.isBefore(registrationClosesAt)) {
+      return {
+        kind: RegistrationKind.Admission,
+        start: registrationOpensAt,
+        end: registrationClosesAt,
+        open:
+          registrationOpensAt.isBefore(now) &&
+          registrationClosesAt.isAfter(now),
+      };
+    } else if (
+      examSession.post_admission_active &&
+      examSession.post_admission_start_date &&
+      examSession.post_admission_end_date
+    ) {
+      const postAdmissionOpensAt =
+        examSession.post_admission_start_date.hour(10);
+      const postAdmissionClosesAt =
+        examSession.post_admission_end_date.hour(16);
+
+      return {
+        kind: RegistrationKind.PostAdmission,
+        start: postAdmissionOpensAt,
+        end: postAdmissionClosesAt,
+        open:
+          postAdmissionOpensAt.isBefore(now) &&
+          postAdmissionClosesAt.isAfter(now),
+      };
+    } else {
+      return {
+        kind: RegistrationKind.Admission,
+        start: registrationOpensAt,
+        end: registrationClosesAt,
+        open:
+          registrationOpensAt.isBefore(now) &&
+          registrationClosesAt.isAfter(now),
+      };
+    }
   }
 }
