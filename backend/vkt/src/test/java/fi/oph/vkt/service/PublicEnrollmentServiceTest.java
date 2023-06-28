@@ -380,7 +380,7 @@ public class PublicEnrollmentServiceTest {
       .phoneNumber("<asd>04012345")
       .street("<script>alert('baa')</script>")
       .postalCode("<body>00000</body>")
-      .town("<i>Kaupunki</i>")
+      .town("=Kaupunki")
       .country("<3")
       .digitalCertificateConsent(false)
       .build();
