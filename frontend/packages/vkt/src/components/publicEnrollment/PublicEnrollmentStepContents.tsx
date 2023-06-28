@@ -11,14 +11,16 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 export const PublicEnrollmentStepContents = ({
   activeStep,
   enrollment,
-  isLoading,
+  isRenewOrCancelLoading,
+  isEnrollmentSubmitLoading,
   setIsStepValid,
   showValidation,
   examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
-  isLoading: boolean;
+  isRenewOrCancelLoading: boolean;
+  isEnrollmentSubmitLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
   examEvent: PublicExamEvent;
@@ -30,7 +32,7 @@ export const PublicEnrollmentStepContents = ({
       return (
         <FillContactDetails
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
@@ -39,7 +41,7 @@ export const PublicEnrollmentStepContents = ({
       return (
         <SelectExam
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
@@ -48,7 +50,7 @@ export const PublicEnrollmentStepContents = ({
       return (
         <Preview
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading || isEnrollmentSubmitLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />

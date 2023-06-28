@@ -35,8 +35,6 @@ export const PublicEnrollmentGrid = ({
   const {
     loadExamEventStatus,
     enrollmentInitialisationStatus,
-    renewReservationStatus,
-    enrollmentSubmitStatus,
     cancelStatus,
     enrollment,
     examEvent,
@@ -80,7 +78,7 @@ export const PublicEnrollmentGrid = ({
     if (cancelStatus === APIResponseStatus.Success) {
       navigate(AppRoutes.PublicHomePage);
 
-      // Navigation is not instant so we delay reset a bit
+      // Navigation is not instant, so we delay reset a bit
       // to prevent instant re-render of this component
       setTimeout(() => dispatch(resetPublicEnrollment()), 50);
     }
@@ -112,12 +110,6 @@ export const PublicEnrollmentGrid = ({
     );
   }
 
-  const isUserActionLoading = [
-    renewReservationStatus,
-    enrollmentSubmitStatus,
-    cancelStatus,
-  ].includes(APIResponseStatus.InProgress);
-
   const isEnrollmentToQueue =
     (isAuthenticateActive && !ExamEventUtils.hasOpenings(examEvent)) ||
     (isAuthenticatePassed && !reservation);
@@ -141,7 +133,6 @@ export const PublicEnrollmentGrid = ({
       {isPhone ? (
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}
-          isLoading={isUserActionLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
@@ -156,7 +147,6 @@ export const PublicEnrollmentGrid = ({
       ) : (
         <PublicEnrollmentDesktopGrid
           isStepValid={isStepValid}
-          isLoading={isUserActionLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}

@@ -6,6 +6,7 @@ import {
   StackableMobileAppBar,
   Text,
 } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { MobileAppBarState } from 'shared/interfaces';
 
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
@@ -24,7 +25,6 @@ import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentPhoneGrid = ({
   activeStep,
-  isLoading,
   isStepValid,
   isShiftedFromQueue,
   isPaymentSumAvailable,
@@ -37,7 +37,6 @@ export const PublicEnrollmentPhoneGrid = ({
   examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
-  isLoading: boolean;
   isStepValid: boolean;
   isPaymentSumAvailable: boolean;
   isPreviewStepActive: boolean;
@@ -49,14 +48,28 @@ export const PublicEnrollmentPhoneGrid = ({
   setShowValidation: (showValidation: boolean) => void;
   examEvent: PublicExamEvent;
 }) => {
-  const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
-  const { enrollmentSubmitStatus, enrollment, reservation } = useAppSelector(
-    publicEnrollmentSelector
-  );
-  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
   });
+  const translateCommon = useCommonTranslation();
+
+  const {
+    enrollmentSubmitStatus,
+    renewReservationStatus,
+    cancelStatus,
+    enrollment,
+    reservation,
+  } = useAppSelector(publicEnrollmentSelector);
+
+  const isRenewOrCancelLoading = [
+    renewReservationStatus,
+    cancelStatus,
+  ].includes(APIResponseStatus.InProgress);
+
+  const isEnrollmentSubmitLoading =
+    enrollmentSubmitStatus === APIResponseStatus.InProgress;
+
+  const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
 
   const memoizedSetAppBarState = useCallback(
     (order: number, height: number) =>
@@ -127,7 +140,7 @@ export const PublicEnrollmentPhoneGrid = ({
               {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservation}
-                  isLoading={isLoading}
+                  isLoading={isRenewOrCancelLoading}
                 />
               )}
               {isPaymentSumAvailable && (
@@ -138,13 +151,13 @@ export const PublicEnrollmentPhoneGrid = ({
         )}
         <Paper elevation={3}>
           <LoadingProgressIndicator
+            isLoading={isRenewOrCancelLoading}
             translateCommon={translateCommon}
-            isLoading={isLoading}
             displayBlock={true}
           >
             <div
               className={
-                isLoading
+                isRenewOrCancelLoading
                   ? 'dimmed public-enrollment__grid__form-container'
                   : 'public-enrollment__grid__form-container'
               }
@@ -171,7 +184,8 @@ export const PublicEnrollmentPhoneGrid = ({
                 examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
-                isLoading={isLoading}
+                isRenewOrCancelLoading={isRenewOrCancelLoading}
+                isEnrollmentSubmitLoading={isEnrollmentSubmitLoading}
                 setIsStepValid={setIsStepValid}
                 showValidation={showValidation}
               />
@@ -192,7 +206,8 @@ export const PublicEnrollmentPhoneGrid = ({
                   examEvent={examEvent}
                   enrollment={enrollment}
                   reservation={reservation}
-                  isLoading={isLoading}
+                  isRenewOrCancelLoading={isRenewOrCancelLoading}
+                  isEnrollmentSubmitLoading={isEnrollmentSubmitLoading}
                   isStepValid={isStepValid}
                   setShowValidation={setShowValidation}
                   isPaymentLinkPreviewView={
