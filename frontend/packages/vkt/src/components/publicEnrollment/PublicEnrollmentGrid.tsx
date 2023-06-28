@@ -33,37 +33,47 @@ export const PublicEnrollmentGrid = ({
   // Redux
   const dispatch = useAppDispatch();
   const {
+    loadExamEventStatus,
+    enrollmentInitialisationStatus,
     renewReservationStatus,
     enrollmentSubmitStatus,
     cancelStatus,
     enrollment,
-    reservation,
-    enrollmentInitialisationStatus,
     examEvent,
+    reservation,
   } = useAppSelector(publicEnrollmentSelector);
 
   const navigate = useNavigate();
   const params = useParams();
   const { isPhone } = useWindowProperties();
 
+  const isAuthenticatePassed =
+    activeStep > PublicEnrollmentFormStep.Authenticate;
+  const isAuthenticateActive = !isAuthenticatePassed;
+
   useEffect(() => {
     if (
-      enrollmentInitialisationStatus === APIResponseStatus.NotStarted &&
-      !examEvent &&
+      isAuthenticateActive &&
+      loadExamEventStatus === APIResponseStatus.NotStarted &&
       params.examEventId
     ) {
-      if (activeStep === PublicEnrollmentFormStep.Authenticate) {
-        dispatch(loadPublicExamEvent(+params.examEventId));
-      } else {
-        dispatch(loadEnrollmentInitialisation(+params.examEventId));
-      }
+      dispatch(loadPublicExamEvent(+params.examEventId));
+    }
+  }, [dispatch, isAuthenticateActive, loadExamEventStatus, params.examEventId]);
+
+  useEffect(() => {
+    if (
+      isAuthenticatePassed &&
+      enrollmentInitialisationStatus === APIResponseStatus.NotStarted &&
+      params.examEventId
+    ) {
+      dispatch(loadEnrollmentInitialisation(+params.examEventId));
     }
   }, [
     dispatch,
+    isAuthenticatePassed,
     enrollmentInitialisationStatus,
-    examEvent,
     params.examEventId,
-    activeStep,
   ]);
 
   useEffect(() => {
@@ -77,16 +87,20 @@ export const PublicEnrollmentGrid = ({
   }, [cancelStatus, navigate, dispatch]);
 
   useNavigationProtection(
-    activeStep > PublicEnrollmentFormStep.Authenticate &&
+    isAuthenticatePassed &&
       activeStep < PublicEnrollmentFormStep.Preview &&
       cancelStatus === APIResponseStatus.NotStarted,
     AppRoutes.PublicEnrollment
   );
 
-  if (
-    enrollmentInitialisationStatus !== APIResponseStatus.Success ||
-    !examEvent
-  ) {
+  const isViewLoading =
+    (isAuthenticateActive &&
+      loadExamEventStatus !== APIResponseStatus.Success) ||
+    (isAuthenticatePassed &&
+      enrollmentInitialisationStatus !== APIResponseStatus.Success) ||
+    !examEvent;
+
+  if (isViewLoading) {
     return (
       <Grid className="public-enrollment__grid" item>
         <LoadingProgressIndicator
@@ -98,26 +112,24 @@ export const PublicEnrollmentGrid = ({
     );
   }
 
-  const isLoading = [
+  const isUserActionLoading = [
     renewReservationStatus,
-    cancelStatus,
     enrollmentSubmitStatus,
+    cancelStatus,
   ].includes(APIResponseStatus.InProgress);
 
-  const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
-  const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
-  const hasReservation = !!reservation;
-
   const isEnrollmentToQueue =
-    (activeStep === PublicEnrollmentFormStep.Authenticate &&
-      !ExamEventUtils.hasOpenings(examEvent)) ||
-    (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
+    (isAuthenticateActive && !ExamEventUtils.hasOpenings(examEvent)) ||
+    (isAuthenticatePassed && !reservation);
 
   const isShiftedFromQueue =
     enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
 
+  const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
+  const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
+
   const isPaymentSumAvailable =
-    isPreviewStepActive && (hasReservation || isShiftedFromQueue);
+    isPreviewStepActive && (!!reservation || isShiftedFromQueue);
 
   return (
     <Grid
@@ -129,7 +141,7 @@ export const PublicEnrollmentGrid = ({
       {isPhone ? (
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}
-          isLoading={isLoading}
+          isLoading={isUserActionLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
@@ -144,7 +156,7 @@ export const PublicEnrollmentGrid = ({
       ) : (
         <PublicEnrollmentDesktopGrid
           isStepValid={isStepValid}
-          isLoading={isLoading}
+          isLoading={isUserActionLoading}
           isShiftedFromQueue={isShiftedFromQueue}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
