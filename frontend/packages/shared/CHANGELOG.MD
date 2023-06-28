@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Checkbox error class
+- Checkbox error style class
 
 ## [1.9.10] - 2023-06-12
 
