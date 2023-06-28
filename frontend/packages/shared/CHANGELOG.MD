@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.11] - 2023-06-28
+
+### Added
+
+- Checkbox error style class
+
 ## [1.9.10] - 2023-06-12
 
 ### Added
