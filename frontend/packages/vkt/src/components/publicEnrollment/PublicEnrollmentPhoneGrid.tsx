@@ -179,8 +179,7 @@ export const PublicEnrollmentPhoneGrid = ({
           </LoadingProgressIndicator>
         </Paper>
         {activeStep > PublicEnrollmentFormStep.Authenticate &&
-          !isPreviewPassed &&
-          reservation && (
+          !isPreviewPassed && (
             <StackableMobileAppBar
               order={2}
               state={appBarState}
