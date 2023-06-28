@@ -1,12 +1,12 @@
-import {Step, StepLabel, Stepper} from '@mui/material';
-import {useEffect} from 'react';
-import {CircularStepper} from 'shared/components';
-import {Color} from 'shared/enums';
-import {useWindowProperties} from 'shared/hooks';
+import { Step, StepLabel, Stepper } from '@mui/material';
+import { useEffect } from 'react';
+import { CircularStepper } from 'shared/components';
+import { Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
-import {usePublicTranslation} from 'configs/i18n';
-import {PublicEnrollmentFormStep} from 'enums/publicEnrollment';
-import {PublicEnrollmentUtils} from 'utils/publicEnrollment';
+import { usePublicTranslation } from 'configs/i18n';
+import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
+import { PublicEnrollmentUtils } from 'utils/publicEnrollment';
 
 export const PublicEnrollmentStepper = ({
   activeStep,
@@ -46,7 +46,10 @@ export const PublicEnrollmentStepper = ({
   };
 
   const getDesktopActiveStep = () => {
-    if (activeStep === PublicEnrollmentFormStep.Done) {
+    // "Hack" for not having Mui-Active for Payment step
+    if (activeStep === PublicEnrollmentFormStep.Payment) {
+      return activeStep;
+    } else if (activeStep === PublicEnrollmentFormStep.Done) {
       return doneStepNumber - 1;
     }
 

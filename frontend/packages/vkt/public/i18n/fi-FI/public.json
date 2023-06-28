@@ -60,8 +60,7 @@
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
-            "Payment": "Maksu",
-            "PaymentFail": "Maksua ei suoritettu",
+            "Payment": "Maksua ei suoritettu",
             "PaymentSuccess": "Maksu suoritettu",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
@@ -84,7 +83,6 @@
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
-            "PaymentFail": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
