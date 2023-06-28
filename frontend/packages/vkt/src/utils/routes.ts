@@ -19,16 +19,16 @@ export class RouteUtils {
           examEventId
         );
 
-      case PublicEnrollmentFormStep.Payment: // Un-used step. Just to make linter happy
       case PublicEnrollmentFormStep.Preview:
         return RouteUtils.replaceParameters(
           AppRoutes.PublicEnrollmentPreview,
           examEventId
         );
 
-      case PublicEnrollmentFormStep.Done:
+      case PublicEnrollmentFormStep.Payment: // Un-used step. Just to make linter happy
+      case PublicEnrollmentFormStep.PaymentFail:
         return RouteUtils.replaceParameters(
-          AppRoutes.PublicEnrollmentDone,
+          AppRoutes.PublicEnrollmentFail,
           examEventId
         );
 
@@ -38,9 +38,9 @@ export class RouteUtils {
           examEventId
         );
 
-      case PublicEnrollmentFormStep.PaymentFail:
+      case PublicEnrollmentFormStep.Done:
         return RouteUtils.replaceParameters(
-          AppRoutes.PublicEnrollmentFail,
+          AppRoutes.PublicEnrollmentDone,
           examEventId
         );
     }

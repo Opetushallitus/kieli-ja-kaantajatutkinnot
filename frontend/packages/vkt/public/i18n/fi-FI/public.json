@@ -57,8 +57,10 @@
         },
         "stepHeading": {
           "common": {
+            "Authenticate": "Tunnistaudu",
             "Done": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
+            "Payment": "Maksu",
             "PaymentFail": "Maksua ei suoritettu",
             "PaymentSuccess": "Maksu suoritettu",
             "Preview": "Esikatsele",
@@ -82,6 +84,8 @@
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
+            "PaymentFail": "Maksua ei suoritettu",
+            "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           }
