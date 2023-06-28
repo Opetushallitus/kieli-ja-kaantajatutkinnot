@@ -202,7 +202,7 @@ export const Preview = ({
   };
 
   const hasPrivacyStatementError =
-    showValidation && enrollment.privacyStatementConfirmation !== true;
+    showValidation && !enrollment.privacyStatementConfirmation;
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
@@ -227,8 +227,7 @@ export const Preview = ({
             }
             label={<PrivacyStatementCheckboxLabel />}
             className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
-              hasPrivacyStatementError &&
-              'public-enrollment__grid__preview__privacy-statement-checkbox-label-error'
+              hasPrivacyStatementError && 'checkbox-error'
             }`}
           />
           {hasPrivacyStatementError && (
