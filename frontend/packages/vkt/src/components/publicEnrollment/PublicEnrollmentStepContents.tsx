@@ -14,18 +14,18 @@ export const PublicEnrollmentStepContents = ({
   isLoading,
   setIsStepValid,
   showValidation,
-  selectedExamEvent,
+  examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
-  selectedExamEvent: PublicExamEvent;
+  examEvent: PublicExamEvent;
 }) => {
   switch (activeStep) {
     case PublicEnrollmentFormStep.Authenticate:
-      return <Authenticate selectedExamEvent={selectedExamEvent} />;
+      return <Authenticate examEvent={examEvent} />;
     case PublicEnrollmentFormStep.FillContactDetails:
       return (
         <FillContactDetails

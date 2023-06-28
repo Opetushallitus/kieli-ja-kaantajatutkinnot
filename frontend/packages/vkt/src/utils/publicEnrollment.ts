@@ -10,7 +10,7 @@ export class PublicEnrollmentUtils {
           PublicEnrollmentFormStep.SelectExam,
           PublicEnrollmentFormStep.Preview,
           PublicEnrollmentFormStep.Payment,
-          PublicEnrollmentFormStep.Done,
+          PublicEnrollmentFormStep.PaymentSuccess,
         ]
       : [
           PublicEnrollmentFormStep.Authenticate,
@@ -19,6 +19,16 @@ export class PublicEnrollmentUtils {
           PublicEnrollmentFormStep.Preview,
           PublicEnrollmentFormStep.Done,
         ];
+  }
+
+  static getEnrollmentNextStep(
+    activeStep: PublicEnrollmentFormStep,
+    includePaymentStep: boolean
+  ) {
+    const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
+    const currentIndex = steps.findIndex((step) => step === activeStep);
+
+    return steps[currentIndex + 1];
   }
 
   static calculateExaminationPaymentSum(enrollment: PublicEnrollment) {

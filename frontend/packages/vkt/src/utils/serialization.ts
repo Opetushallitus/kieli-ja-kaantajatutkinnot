@@ -17,8 +17,6 @@ import {
 } from 'interfaces/clerkListExamEvent';
 import {
   PublicReservation,
-  PublicReservationDetails,
-  PublicReservationDetailsResponse,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
 import {
@@ -38,30 +36,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializePublicReservationDetails(
-    reservationDetails: PublicReservationDetailsResponse
-  ): PublicReservationDetails {
-    const examEvent = SerializationUtils.deserializePublicExamEvent(
-      reservationDetails.examEvent
-    );
-
-    const reservation =
-      reservationDetails.reservation &&
-      SerializationUtils.deserializeReservation(reservationDetails.reservation);
-
-    const person = SerializationUtils.deserializePerson(
-      reservationDetails.person
-    );
-
-    return {
-      ...reservationDetails,
-      person,
-      examEvent,
-      reservation,
-    };
-  }
-
-  static deserializeReservation(
+  static deserializePublicReservation(
     reservation: PublicReservationResponse
   ): PublicReservation {
     return {
@@ -72,7 +47,7 @@ export class SerializationUtils {
     };
   }
 
-  static deserializePerson(person: PublicPersonResponse): PublicPerson {
+  static deserializePublicPerson(person: PublicPersonResponse): PublicPerson {
     return {
       ...person,
       dateOfBirth: DateUtils.optionalStringToDate(person.dateOfBirth),

@@ -6,37 +6,32 @@ import axiosInstance from 'configs/axios';
 import { APIEndpoints } from 'enums/api';
 import {
   PublicEnrollment,
-  PublicReservationDetails,
   PublicReservationDetailsResponse,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
-import {
-  PublicExamEvent,
-  PublicExamEventResponse,
-} from 'interfaces/publicExamEvent';
+import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
-  initialisePublicEnrollment,
-  loadPublicEnrollment,
+  loadEnrollmentInitialisation,
   loadPublicEnrollmentSave,
   loadPublicExamEvent,
-  rejectPublicEnrollmentInitialisation,
+  rejectEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
   rejectPublicExamEvent,
-  rejectPublicReservationRenew,
-  renewPublicEnrollmentReservation,
+  rejectReservationRenew,
+  renewReservation,
+  storeEnrollmentInitialisation,
   storePublicEnrollmentCancellation,
-  storePublicEnrollmentInitialisation,
   storePublicEnrollmentSave,
   storePublicExamEvent,
-  updatePublicEnrollmentReservation,
+  storeReservationRenew,
 } from 'redux/reducers/publicEnrollment';
 import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
-function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
+function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
   try {
     const eventId = action.payload;
     const loadUrl = `${APIEndpoints.PublicExamEvent}/${eventId}/enrollment`;
@@ -44,14 +39,22 @@ function* loadPublicEnrollmentSaga(action: PayloadAction<number>) {
     const response: AxiosResponse<PublicReservationDetailsResponse> =
       yield call(axiosInstance.get, loadUrl);
 
-    const reservationDetails =
-      SerializationUtils.deserializePublicReservationDetails(response.data);
+    const { examEvent, person, reservation, enrollment } = response.data;
 
-    yield put(storePublicEnrollmentInitialisation(reservationDetails));
+    yield put(
+      storeEnrollmentInitialisation({
+        enrollment,
+        examEvent: SerializationUtils.deserializePublicExamEvent(examEvent),
+        person: SerializationUtils.deserializePublicPerson(person),
+        reservation:
+          reservation &&
+          SerializationUtils.deserializePublicReservation(reservation),
+      })
+    );
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicEnrollmentInitialisation());
+    yield put(rejectEnrollmentInitialisation());
   }
 }
 
@@ -77,29 +80,7 @@ function* loadPublicExamEventSaga(action: PayloadAction<number>) {
   }
 }
 
-function* initialisePublicEnrollmentSaga(
-  action: PayloadAction<PublicExamEvent>
-) {
-  try {
-    const initialisationUrl = action.payload.openings
-      ? `${APIEndpoints.PublicExamEvent}/${action.payload.id}/reservation`
-      : `${APIEndpoints.PublicExamEvent}/${action.payload.id}/queue`;
-
-    const response: AxiosResponse<PublicReservationDetailsResponse> =
-      yield call(axiosInstance.post, initialisationUrl, action.payload);
-
-    const reservationDetails =
-      SerializationUtils.deserializePublicReservationDetails(response.data);
-
-    yield put(storePublicEnrollmentInitialisation(reservationDetails));
-  } catch (error) {
-    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
-    yield put(setAPIError(errorMessage));
-    yield put(rejectPublicEnrollmentInitialisation());
-  }
-}
-
-function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
+function* renewReservationSaga(action: PayloadAction<number>) {
   try {
     const renewUrl = `${APIEndpoints.PublicReservation}/${action.payload}/renew`;
 
@@ -108,15 +89,15 @@ function* renewPublicEnrollmentReservationSaga(action: PayloadAction<number>) {
       renewUrl
     );
 
-    const reservation = SerializationUtils.deserializeReservation(
+    const reservation = SerializationUtils.deserializePublicReservation(
       response.data
     );
 
-    yield put(updatePublicEnrollmentReservation(reservation));
+    yield put(storeReservationRenew(reservation));
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
-    yield put(rejectPublicReservationRenew());
+    yield put(rejectReservationRenew());
   }
 }
 
@@ -142,10 +123,11 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
 function* loadPublicEnrollmentSaveSaga(
   action: PayloadAction<{
     enrollment: PublicEnrollment;
-    reservationDetails: PublicReservationDetails;
+    examEventId: number;
+    reservationId?: number;
   }>
 ) {
-  const { enrollment, reservationDetails } = action.payload;
+  const { enrollment, examEventId, reservationId } = action.payload;
 
   try {
     const {
@@ -154,9 +136,9 @@ function* loadPublicEnrollmentSaveSaga(
       ...body
     } = enrollment;
 
-    const saveUrl = reservationDetails.reservation
-      ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationDetails.reservation.id}`
-      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${reservationDetails.examEvent.id}`;
+    const saveUrl = reservationId
+      ? `${APIEndpoints.PublicEnrollment}/reservation/${reservationId}`
+      : `${APIEndpoints.PublicEnrollment}/queue?examEventId=${examEventId}`;
 
     const response: AxiosResponse<PublicEnrollment> = yield call(
       axiosInstance.post,
@@ -172,13 +154,12 @@ function* loadPublicEnrollmentSaveSaga(
 }
 
 export function* watchPublicEnrollments() {
-  yield takeLatest(loadPublicEnrollment, loadPublicEnrollmentSaga);
-  yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
-  yield takeLatest(initialisePublicEnrollment, initialisePublicEnrollmentSaga);
   yield takeLatest(
-    renewPublicEnrollmentReservation,
-    renewPublicEnrollmentReservationSaga
+    loadEnrollmentInitialisation,
+    loadEnrollmentInitialisationSaga
   );
+  yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
+  yield takeLatest(renewReservation, renewReservationSaga);
   yield takeLatest(cancelPublicEnrollment, cancelPublicEnrollmentSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,
