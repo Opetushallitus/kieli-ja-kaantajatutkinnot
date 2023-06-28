@@ -12,8 +12,8 @@ public class StringUtil {
     }
 
     final String clean = Jsoup
-            .clean(nullable, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false))
-            .trim();
+      .clean(nullable, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false))
+      .trim();
 
     return clean.startsWith("=") ? clean.substring(1) : clean;
   }
