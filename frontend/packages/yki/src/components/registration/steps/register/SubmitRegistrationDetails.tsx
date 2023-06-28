@@ -8,7 +8,7 @@ import { EmailRegistrationDetails } from 'components/registration/steps/register
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { useNavigationProtection } from 'hooks/useNavigationProtection';
+import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -32,7 +32,7 @@ const FillRegistrationDetails = () => {
     }
   }, [dispatch, nationalitiesStatus]);
 
-  useNavigationProtection(
+  useRegistrationNavigationProtection(
     submitRegistrationStatus === APIResponseStatus.NotStarted ||
       submitRegistrationStatus === APIResponseStatus.InProgress
   );
