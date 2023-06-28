@@ -27,7 +27,7 @@ export const PublicEnrollmentDesktopGrid = ({
   showValidation,
   setIsStepValid,
   setShowValidation,
-  selectedExamEvent,
+  examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   isLoading: boolean;
@@ -40,10 +40,11 @@ export const PublicEnrollmentDesktopGrid = ({
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
-  selectedExamEvent: PublicExamEvent;
+  examEvent: PublicExamEvent;
 }) => {
-  const { enrollmentSubmitStatus, enrollment, reservationDetails } =
-    useAppSelector(publicEnrollmentSelector);
+  const { enrollmentSubmitStatus, enrollment, reservation } = useAppSelector(
+    publicEnrollmentSelector
+  );
   const translateCommon = useCommonTranslation();
 
   return (
@@ -65,14 +66,12 @@ export const PublicEnrollmentDesktopGrid = ({
               {!isShiftedFromQueue && (
                 <PublicEnrollmentStepper
                   activeStep={activeStep}
-                  includePaymentStep={ExamEventUtils.hasOpenings(
-                    selectedExamEvent
-                  )}
+                  includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
                 />
               )}
-              {reservationDetails?.reservation && !isPreviewPassed && (
+              {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
-                  reservation={reservationDetails.reservation}
+                  reservation={reservation}
                   isLoading={isLoading}
                 />
               )}
@@ -81,12 +80,12 @@ export const PublicEnrollmentDesktopGrid = ({
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentExamEventDetails
-                examEvent={selectedExamEvent}
+                examEvent={examEvent}
                 showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
               <PublicEnrollmentStepContents
-                selectedExamEvent={selectedExamEvent}
+                examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
@@ -97,13 +96,13 @@ export const PublicEnrollmentDesktopGrid = ({
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
-                !isPreviewPassed &&
-                reservationDetails && (
+                !isPreviewPassed && (
                   <PublicEnrollmentControlButtons
                     submitStatus={enrollmentSubmitStatus}
                     activeStep={activeStep}
+                    examEvent={examEvent}
                     enrollment={enrollment}
-                    reservationDetails={reservationDetails}
+                    reservation={reservation}
                     isLoading={isLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}

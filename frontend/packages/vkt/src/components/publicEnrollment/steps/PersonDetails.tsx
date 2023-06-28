@@ -11,8 +11,7 @@ export const PersonDetails = () => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });
 
-  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
-  const person = reservationDetails?.person;
+  const { person } = useAppSelector(publicEnrollmentSelector);
 
   if (!person) {
     return null;

@@ -13,7 +13,7 @@ import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
-  loadPublicEnrollment,
+  loadEnrollmentInitialisation,
   loadPublicExamEvent,
   resetPublicEnrollment,
 } from 'redux/reducers/publicEnrollment';
@@ -37,9 +37,9 @@ export const PublicEnrollmentGrid = ({
     enrollmentSubmitStatus,
     cancelStatus,
     enrollment,
-    reservationDetails,
-    reservationDetailsStatus,
-    selectedExamEvent,
+    reservation,
+    enrollmentInitialisationStatus,
+    examEvent,
   } = useAppSelector(publicEnrollmentSelector);
 
   const navigate = useNavigate();
@@ -48,23 +48,20 @@ export const PublicEnrollmentGrid = ({
 
   useEffect(() => {
     if (
-      reservationDetailsStatus === APIResponseStatus.NotStarted &&
-      !reservationDetails &&
-      !selectedExamEvent &&
+      enrollmentInitialisationStatus === APIResponseStatus.NotStarted &&
+      !examEvent &&
       params.examEventId
     ) {
       if (activeStep === PublicEnrollmentFormStep.Authenticate) {
         dispatch(loadPublicExamEvent(+params.examEventId));
       } else {
-        dispatch(loadPublicEnrollment(+params.examEventId));
+        dispatch(loadEnrollmentInitialisation(+params.examEventId));
       }
     }
   }, [
     dispatch,
-    reservationDetailsStatus,
-    enrollment,
-    reservationDetails,
-    selectedExamEvent,
+    enrollmentInitialisationStatus,
+    examEvent,
     params.examEventId,
     activeStep,
   ]);
@@ -86,7 +83,10 @@ export const PublicEnrollmentGrid = ({
     AppRoutes.PublicEnrollment
   );
 
-  if (!selectedExamEvent) {
+  if (
+    enrollmentInitialisationStatus !== APIResponseStatus.Success ||
+    !examEvent
+  ) {
     return (
       <Grid className="public-enrollment__grid" item>
         <LoadingProgressIndicator
@@ -106,11 +106,11 @@ export const PublicEnrollmentGrid = ({
 
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
-  const hasReservation = !!reservationDetails?.reservation;
+  const hasReservation = !!reservation;
 
   const isEnrollmentToQueue =
     (activeStep === PublicEnrollmentFormStep.Authenticate &&
-      !ExamEventUtils.hasOpenings(selectedExamEvent)) ||
+      !ExamEventUtils.hasOpenings(examEvent)) ||
     (activeStep > PublicEnrollmentFormStep.Authenticate && !hasReservation);
 
   const isShiftedFromQueue =
@@ -139,7 +139,7 @@ export const PublicEnrollmentGrid = ({
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
           activeStep={activeStep}
-          selectedExamEvent={selectedExamEvent}
+          examEvent={examEvent}
         />
       ) : (
         <PublicEnrollmentDesktopGrid
@@ -154,7 +154,7 @@ export const PublicEnrollmentGrid = ({
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
           activeStep={activeStep}
-          selectedExamEvent={selectedExamEvent}
+          examEvent={examEvent}
         />
       )}
     </Grid>

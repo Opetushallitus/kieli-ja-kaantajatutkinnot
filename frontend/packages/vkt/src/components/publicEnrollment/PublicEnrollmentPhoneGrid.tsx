@@ -34,7 +34,7 @@ export const PublicEnrollmentPhoneGrid = ({
   showValidation,
   setIsStepValid,
   setShowValidation,
-  selectedExamEvent,
+  examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   isLoading: boolean;
@@ -47,11 +47,12 @@ export const PublicEnrollmentPhoneGrid = ({
   showValidation: boolean;
   setIsStepValid: (isValid: boolean) => void;
   setShowValidation: (showValidation: boolean) => void;
-  selectedExamEvent: PublicExamEvent;
+  examEvent: PublicExamEvent;
 }) => {
   const [appBarState, setAppBarState] = useState<MobileAppBarState>({});
-  const { enrollmentSubmitStatus, enrollment, reservationDetails } =
-    useAppSelector(publicEnrollmentSelector);
+  const { enrollmentSubmitStatus, enrollment, reservation } = useAppSelector(
+    publicEnrollmentSelector
+  );
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
@@ -92,7 +93,7 @@ export const PublicEnrollmentPhoneGrid = ({
       default: {
         const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
           activeStep,
-          ExamEventUtils.hasOpenings(selectedExamEvent)
+          ExamEventUtils.hasOpenings(examEvent)
         );
 
         return (
@@ -123,9 +124,9 @@ export const PublicEnrollmentPhoneGrid = ({
             setState={memoizedSetAppBarState}
           >
             <div className="rows">
-              {reservationDetails?.reservation && !isPreviewPassed && (
+              {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
-                  reservation={reservationDetails.reservation}
+                  reservation={reservation}
                   isLoading={isLoading}
                 />
               )}
@@ -152,9 +153,7 @@ export const PublicEnrollmentPhoneGrid = ({
                 <div className="columns gapped-xxl">
                   <PublicEnrollmentStepper
                     activeStep={activeStep}
-                    includePaymentStep={ExamEventUtils.hasOpenings(
-                      selectedExamEvent
-                    )}
+                    includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
                   />
                   <div className="rows gapped-xs grow">
                     {getMobileStepperHeading()}
@@ -163,13 +162,13 @@ export const PublicEnrollmentPhoneGrid = ({
               )}
               <div className="margin-top-lg">
                 <PublicEnrollmentExamEventDetails
-                  examEvent={selectedExamEvent}
+                  examEvent={examEvent}
                   showOpenings={!isPreviewPassed && !isShiftedFromQueue}
                   isEnrollmentToQueue={isEnrollmentToQueue}
                 />
               </div>
               <PublicEnrollmentStepContents
-                selectedExamEvent={selectedExamEvent}
+                examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
                 isLoading={isLoading}
@@ -180,8 +179,7 @@ export const PublicEnrollmentPhoneGrid = ({
           </LoadingProgressIndicator>
         </Paper>
         {activeStep > PublicEnrollmentFormStep.Authenticate &&
-          !isPreviewPassed &&
-          reservationDetails && (
+          !isPreviewPassed && (
             <StackableMobileAppBar
               order={2}
               state={appBarState}
@@ -191,8 +189,9 @@ export const PublicEnrollmentPhoneGrid = ({
                 <PublicEnrollmentControlButtons
                   submitStatus={enrollmentSubmitStatus}
                   activeStep={activeStep}
+                  examEvent={examEvent}
                   enrollment={enrollment}
-                  reservationDetails={reservationDetails}
+                  reservation={reservation}
                   isLoading={isLoading}
                   isStepValid={isStepValid}
                   setShowValidation={setShowValidation}
