@@ -96,8 +96,7 @@ export const PublicEnrollmentDesktopGrid = ({
                 <PublicEnrollmentPaymentSum enrollment={enrollment} />
               )}
               {activeStep > PublicEnrollmentFormStep.Authenticate &&
-                !isPreviewPassed &&
-                reservation && (
+                !isPreviewPassed && (
                   <PublicEnrollmentControlButtons
                     submitStatus={enrollmentSubmitStatus}
                     activeStep={activeStep}
