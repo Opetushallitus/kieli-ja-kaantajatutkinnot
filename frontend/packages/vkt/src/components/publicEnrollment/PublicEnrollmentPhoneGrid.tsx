@@ -82,7 +82,7 @@ export const PublicEnrollmentPhoneGrid = ({
 
   const getMobileStepperHeading = () => {
     switch (activeStep) {
-      case PublicEnrollmentFormStep.PaymentFail: {
+      case PublicEnrollmentFormStep.Payment: {
         return (
           <div className="columns gapped-xxs">
             <Warning color="error" />

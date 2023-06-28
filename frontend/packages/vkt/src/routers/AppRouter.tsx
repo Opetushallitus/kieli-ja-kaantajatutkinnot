@@ -95,7 +95,7 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentSuccess}
+                  path={AppRoutes.PublicEnrollmentPaymentSuccess}
                   element={
                     <TitlePage title={createTitle('success')}>
                       <PublicEnrollmentPage
@@ -105,11 +105,11 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentFail}
+                  path={AppRoutes.PublicEnrollmentPaymentFail}
                   element={
                     <TitlePage title={createTitle('fail')}>
                       <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.PaymentFail}
+                        activeStep={PublicEnrollmentFormStep.Payment}
                       />
                     </TitlePage>
                   }
