@@ -79,6 +79,27 @@ export const PartialExamsSelection = ({
     setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
   }, [setValid, enrollment]);
 
+  const updateField = (
+    fieldName: keyof PartialExamsAndSkills,
+    value: boolean
+  ) => {
+    const newEnrollment = {
+      ...enrollment,
+      ...{ [fieldName]: value },
+    };
+
+    dispatch(
+      updatePublicEnrollment({
+        ...newEnrollment,
+        ...{
+          understandingSkill:
+            newEnrollment.speechComprehensionPartialExam &&
+            newEnrollment.readingComprehensionPartialExam,
+        },
+      })
+    );
+  };
+
   const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
     const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
 
@@ -97,19 +118,11 @@ export const PartialExamsSelection = ({
   };
 
   const toggleField = (fieldName: keyof PartialExamsAndSkills) => {
-    dispatch(
-      updatePublicEnrollment({
-        [fieldName]: !enrollment[fieldName],
-      })
-    );
+    updateField(fieldName, !enrollment[fieldName]);
   };
 
   const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
-    dispatch(
-      updatePublicEnrollment({
-        [fieldName]: false,
-      })
-    );
+    updateField(fieldName, false);
   };
 
   const handleFullExamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,6 +166,7 @@ export const PartialExamsSelection = ({
     !enrollment.writingPartialExam &&
     !enrollment.readingComprehensionPartialExam;
 
+  console.log(enrollment);
   return (
     <div className="rows gapped">
       <FormControl component="fieldset">
