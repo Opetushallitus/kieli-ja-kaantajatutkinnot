@@ -18,24 +18,19 @@ import { ExamUtils } from 'utils/exam';
 
 const RegisterToExamButton = ({
   examSession,
-  registrationPeriodOpen,
-  postAdmissionOpen,
 }: {
   examSession: ExamSession;
-  registrationPeriodOpen: boolean;
-  postAdmissionOpen: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
 
-  const placesAvailable =
-    (registrationPeriodOpen &&
-      examSession.participants < examSession.max_participants) ||
-    (postAdmissionOpen &&
-      examSession.pa_participants < examSession.post_admission_quota);
-  const queueAvailable = registrationPeriodOpen && !examSession.queue_full;
+  const { participants, quota, open, kind } =
+    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+  const placesAvailable = participants < quota;
+  const queueAvailable =
+    open && kind === RegistrationKind.Admission && !examSession.queue_full;
 
   return (
     <CustomButtonLink
@@ -170,11 +165,7 @@ export const PublicExamSessionListingRow = ({
       <TableCell>{availablePlacesText}</TableCell>
       <TableCell>
         {registerActionAvailable ? (
-          <RegisterToExamButton
-            examSession={examSession}
-            registrationPeriodOpen={registrationPeriodOpen}
-            postAdmissionOpen={postAdmissionOpen}
-          />
+          <RegisterToExamButton examSession={examSession} />
         ) : (
           <RegistrationUnavailableText examSession={examSession} />
         )}

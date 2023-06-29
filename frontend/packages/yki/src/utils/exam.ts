@@ -81,41 +81,38 @@ export class ExamUtils {
     const now = dayjs();
     const registrationOpensAt = examSession.registration_start_date?.hour(10);
     const registrationClosesAt = examSession.registration_end_date?.hour(16);
-    if (now.isBefore(registrationClosesAt)) {
+    const postAdmissionAvailable =
+      examSession.post_admission_active &&
+      examSession.post_admission_start_date &&
+      examSession.post_admission_end_date;
+    if (now.isBefore(registrationClosesAt) || !postAdmissionAvailable) {
       return {
         kind: RegistrationKind.Admission,
         start: registrationOpensAt,
         end: registrationClosesAt,
+        participants: examSession.participants,
+        quota: examSession.max_participants,
         open:
           registrationOpensAt.isBefore(now) &&
           registrationClosesAt.isAfter(now),
       };
-    } else if (
-      examSession.post_admission_active &&
-      examSession.post_admission_start_date &&
-      examSession.post_admission_end_date
-    ) {
-      const postAdmissionOpensAt =
-        examSession.post_admission_start_date.hour(10);
-      const postAdmissionClosesAt =
-        examSession.post_admission_end_date.hour(16);
+    } else {
+      const postAdmissionOpensAt = examSession.post_admission_start_date?.hour(
+        10
+      ) as Dayjs;
+      const postAdmissionClosesAt = examSession.post_admission_end_date?.hour(
+        16
+      ) as Dayjs;
 
       return {
         kind: RegistrationKind.PostAdmission,
         start: postAdmissionOpensAt,
         end: postAdmissionClosesAt,
+        participants: examSession.pa_participants,
+        quota: examSession.post_admission_quota,
         open:
           postAdmissionOpensAt.isBefore(now) &&
           postAdmissionClosesAt.isAfter(now),
-      };
-    } else {
-      return {
-        kind: RegistrationKind.Admission,
-        start: registrationOpensAt,
-        end: registrationClosesAt,
-        open:
-          registrationOpensAt.isBefore(now) &&
-          registrationClosesAt.isAfter(now),
       };
     }
   }

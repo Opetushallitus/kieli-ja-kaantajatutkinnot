@@ -25,6 +25,9 @@ export const PublicRegistrationExamSessionDetails = ({
     return null;
   }
 
+  const { start, end, participants, quota /*open, kind*/ } =
+    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+
   const header = ExamUtils.languageAndLevelText(examSession);
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
 
@@ -46,10 +49,8 @@ export const PublicRegistrationExamSessionDetails = ({
         <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
-            examSession.registration_start_date
-          )} - ${DateUtils.formatOptionalDate(
-            examSession.registration_end_date
-          )}`}</b>
+            start
+          )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
         <Text>
           {`${t('examFee')}: `}
@@ -59,14 +60,7 @@ export const PublicRegistrationExamSessionDetails = ({
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
-            <b>{`${
-              examSession.participants
-                ? Math.max(
-                    examSession.max_participants - examSession.participants,
-                    0
-                  )
-                : examSession.max_participants
-            }`}</b>
+            <b>{`${Math.max(quota - participants, 0)}`}</b>
           </Text>
         )}
       </div>
