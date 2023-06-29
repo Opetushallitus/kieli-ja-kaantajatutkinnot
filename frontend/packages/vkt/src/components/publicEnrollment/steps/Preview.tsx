@@ -27,7 +27,7 @@ const ContactDetails = ({
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      <div className="grid-columns gapped">
+      <div className="grid-2-columns gapped">
         <div className="rows">
           <Text className="bold">
             {t('email')}
