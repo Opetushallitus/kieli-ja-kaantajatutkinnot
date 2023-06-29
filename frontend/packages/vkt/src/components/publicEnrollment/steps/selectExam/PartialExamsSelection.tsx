@@ -134,6 +134,7 @@ export const PartialExamsSelection = ({
       updatePublicEnrollment({
         textualSkill: checked,
         oralSkill: checked,
+        understandingSkill: checked,
         speakingPartialExam: checked,
         speechComprehensionPartialExam: checked,
         writingPartialExam: checked,
@@ -166,7 +167,6 @@ export const PartialExamsSelection = ({
     !enrollment.writingPartialExam &&
     !enrollment.readingComprehensionPartialExam;
 
-  console.log(enrollment);
   return (
     <div className="rows gapped">
       <FormControl component="fieldset">
