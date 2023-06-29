@@ -1,7 +1,7 @@
 import { Authenticate } from 'components/publicEnrollment/steps/Authenticate';
 import { Done } from 'components/publicEnrollment/steps/Done';
-import { Fail } from 'components/publicEnrollment/steps/Fail';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
+import { PaymentFail } from 'components/publicEnrollment/steps/PaymentFail';
 import { Preview } from 'components/publicEnrollment/steps/Preview';
 import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -56,7 +56,7 @@ export const PublicEnrollmentStepContents = ({
         />
       );
     case PublicEnrollmentFormStep.Payment:
-      return <Fail enrollment={enrollment} />;
+      return <PaymentFail enrollment={enrollment} />;
     case PublicEnrollmentFormStep.PaymentSuccess:
       return <Done enrollment={enrollment} isEnrollmentToQueue={false} />;
     case PublicEnrollmentFormStep.Done:

@@ -99,12 +99,6 @@
               "queueInfo": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
             }
           },
-          "fail": {
-            "cancel": "Peruuta ilmoittautuminen",
-            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
-            "toast": "Maksua ei suoritettu.",
-            "tryAgain": "Yritä uudelleen"
-          },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
@@ -115,6 +109,12 @@
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
             "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
+          },
+          "paymentFail": {
+            "cancel": "Peruuta ilmoittautuminen",
+            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
+            "toast": "Maksua ei suoritettu.",
+            "tryAgain": "Yritä uudelleen"
           },
           "personDetails": {
             "firstName": "Etunimet",

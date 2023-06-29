@@ -81,50 +81,43 @@ export const PublicEnrollmentPhoneGrid = ({
   );
 
   const getMobileStepperHeading = () => {
-    switch (activeStep) {
-      case PublicEnrollmentFormStep.Payment: {
-        return (
+    const heading = (
+      <Typography component="h1" variant="h2">
+        {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}
+      </Typography>
+    );
+
+    if (
+      activeStep === PublicEnrollmentFormStep.PaymentSuccess ||
+      activeStep === PublicEnrollmentFormStep.Done
+    ) {
+      return <>{heading}</>;
+    }
+
+    const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
+      activeStep,
+      ExamEventUtils.hasOpenings(examEvent)
+    );
+
+    return (
+      <>
+        {activeStep === PublicEnrollmentFormStep.Payment ? (
           <div className="columns gapped-xxs">
             <Warning color="error" />
-            <Typography component="h1" variant="h2">
-              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}!
-            </Typography>
+            {heading}
           </div>
-        );
-      }
-      case PublicEnrollmentFormStep.PaymentSuccess:
-      case PublicEnrollmentFormStep.Done: {
-        return (
-          <>
-            <Typography component="h1" variant="h2">
-              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}!
-            </Typography>
-          </>
-        );
-      }
-
-      default: {
-        const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
-          activeStep,
-          ExamEventUtils.hasOpenings(examEvent)
-        );
-
-        return (
-          <>
-            <Typography component="h1" variant="h2">
-              {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}
-            </Typography>
-            <div>
-              <Text>
-                {translateCommon('next')}
-                {': '}
-                {t(`common.${PublicEnrollmentFormStep[nextStepIndex]}`)}
-              </Text>
-            </div>
-          </>
-        );
-      }
-    }
+        ) : (
+          <>{heading}</>
+        )}
+        <div>
+          <Text>
+            {translateCommon('next')}
+            {': '}
+            {t(`common.${PublicEnrollmentFormStep[nextStepIndex]}`)}
+          </Text>
+        </div>
+      </>
+    );
   };
 
   return (
