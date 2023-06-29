@@ -56,16 +56,17 @@ export const SelectExam = ({
           i18nKey="examinationPaymentsDescription"
         ></Trans>
       </Text>
+      <PartialExamsSelection
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        setValid={setPartialExamsSelection}
+        showValidation={showValidation}
+      />
       <PreviousEnrollment
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
         showValidation={showValidation}
-      />
-      <PartialExamsSelection
-        enrollment={enrollment}
-        editingDisabled={isLoading}
-        setValid={setPartialExamsSelection}
       />
       <CertificateShipping
         enrollment={enrollment}

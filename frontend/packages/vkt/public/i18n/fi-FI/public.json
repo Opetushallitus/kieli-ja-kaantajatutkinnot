@@ -47,7 +47,7 @@
           "continueEnrollment": "Jatka ilmoittautumista",
           "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
           "reservationExpiredContinue": "Jatka etusivulle",
-          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiredText": "Paikkavarauksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
           "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
