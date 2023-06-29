@@ -377,7 +377,7 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder()
       .previousEnrollment("<b>Foobar</b>")
       .email("<a>foo@bar.foo")
-      .phoneNumber("<asd>04012345")
+      .phoneNumber("====04012345")
       .street("<script>alert('baa')</script>")
       .postalCode("<body>00000</body>")
       .town("=Kaupunki")

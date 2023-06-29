@@ -7,14 +7,11 @@ import org.jsoup.safety.Safelist;
 public class StringUtil {
 
   public static String sanitize(final String nullable) {
-    if (nullable == null) {
-      return null;
-    }
-
-    final String clean = Jsoup
-      .clean(nullable, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false))
-      .trim();
-
-    return clean.startsWith("=") ? clean.substring(1) : clean;
+    return nullable == null
+      ? null
+      : Jsoup
+        .clean(nullable, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false))
+        .trim()
+        .replaceAll("^=*", "");
   }
 }
