@@ -79,38 +79,15 @@ export const PartialExamsSelection = ({
     setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
   }, [setValid, enrollment]);
 
-  const updateField = (
-    fieldName: keyof PartialExamsAndSkills,
-    value: boolean
-  ) => {
-    const newEnrollment = {
-      ...enrollment,
-      ...{ [fieldName]: value },
-    };
-
-    dispatch(
-      updatePublicEnrollment({
-        ...newEnrollment,
-        ...{
-          understandingSkill:
-            newEnrollment.speechComprehensionPartialExam &&
-            newEnrollment.readingComprehensionPartialExam,
-        },
-      })
-    );
-  };
-
   const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
     const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
 
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('speechComprehensionPartialExam');
+      partialExamsToUncheck.push('speechComprehensionPartialExam');
     } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
       partialExamsToUncheck.push('writingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('readingComprehensionPartialExam');
+      partialExamsToUncheck.push('readingComprehensionPartialExam');
     }
 
     toggleField(fieldName);
@@ -118,11 +95,19 @@ export const PartialExamsSelection = ({
   };
 
   const toggleField = (fieldName: keyof PartialExamsAndSkills) => {
-    updateField(fieldName, !enrollment[fieldName]);
+    dispatch(
+      updatePublicEnrollment({
+        [fieldName]: !enrollment[fieldName],
+      })
+    );
   };
 
   const uncheckPartialExam = (fieldName: keyof PartialExamsAndSkills) => {
-    updateField(fieldName, false);
+    dispatch(
+      updatePublicEnrollment({
+        [fieldName]: false,
+      })
+    );
   };
 
   const handleFullExamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
