@@ -6,6 +6,7 @@ import { watchExamSessions } from 'redux/sagas/examSession';
 import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
+import { watchReservationRequest } from 'redux/sagas/reservation';
 
 export default function* rootSaga() {
   yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     watchNationalities(),
     watchPublicIdentification(),
     watchRegistration(),
+    watchReservationRequest(),
   ]);
 }

@@ -88,9 +88,19 @@
           "confirm": "Lähetä"
         },
         "enrollToQueue": {
-          "errorDialog": {
-            "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
-            "title": "Virheitä lomakkeella"
+          "dialog": {
+            "emailAlreadyQueued": {
+              "description": "Olet jo aiemmin tilannut ilmoituksen peruutuspaikoista sähköpostiisi.",
+              "title": "Ilmoituksen tilaaminen ei onnistu"
+            },
+            "genericError": {
+              "description": "Tapahtui odottamaton virhe. Voit yrittää uudelleen.",
+              "title": "Ilmoituksen tilaaminen ei onnistunut"
+            },
+            "inputError": {
+              "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
+              "title": "Virheitä lomakkeella"
+            }
           },
           "header": "Tilaa ilmoitus peruutuspaikoista",
           "info": {
@@ -109,6 +119,10 @@
             "submit": {
               "label": "Tilaa ilmoitus"
             }
+          },
+          "success": {
+            "heading": "Ilmoituksen tilaaminen onnistui!",
+            "info": "Jos paikkoja tutkintoon vapautuu, saat ilmoituksen antamaasi sähköpostiosoitteeseen"
           }
         },
         "examSessionDetails": {

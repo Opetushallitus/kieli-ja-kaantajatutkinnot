@@ -1,30 +1,16 @@
 import { Box, Grid, Paper } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  CustomButton,
-  CustomTextField,
-  H1,
-  H2,
-  HeaderSeparator,
-  Text,
-} from 'shared/components';
-import {
-  APIResponseStatus,
-  Color,
-  InputAutoComplete,
-  Severity,
-  TextFieldTypes,
-  Variant,
-} from 'shared/enums';
-import { useDialog, useToast } from 'shared/hooks';
-import { InputFieldUtils } from 'shared/utils';
+import { H1, H2, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
+import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicIdentificationGrid } from 'components/registration/PublicIdentificationGrid';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicIdentificationPageSkeleton } from 'components/skeletons/PublicIdentificationPageSkeleton';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes, RegistrationKind } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
@@ -73,112 +59,6 @@ const DescribeUnavailability = ({
     <>
       <H2>{t(reasonForUnavailability + '.title')}</H2>
       <Text>{t(reasonForUnavailability + '.description')}</Text>
-    </>
-  );
-};
-
-const EnrollToQueue = () => {
-  const { showDialog } = useDialog();
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.enrollToQueue',
-  });
-  const translateCommon = useCommonTranslation();
-  const [email, setEmail] = useState('');
-  const [confirmEmail, setConfirmEmail] = useState('');
-  const [showErrors, setShowErrors] = useState(false);
-  const getInputEmailError = useCallback(
-    () =>
-      InputFieldUtils.validateCustomTextFieldErrors({
-        type: TextFieldTypes.Email,
-        required: true,
-        value: email,
-      }),
-    [email]
-  );
-  const getConfirmEmailError = useCallback(
-    () => (email !== confirmEmail ? 'errors.mismatchingEmailsError' : ''),
-    [confirmEmail, email]
-  );
-
-  const inputEmailError = showErrors ? getInputEmailError() : '';
-  const confirmEmailError = showErrors ? getConfirmEmailError() : '';
-  const handleSubmit = useCallback(() => {
-    setShowErrors(true);
-    if (getInputEmailError() || getConfirmEmailError()) {
-      showDialog({
-        title: t('errorDialog.title'),
-        description: t('errorDialog.description'),
-        severity: Severity.Error,
-        actions: [
-          { title: translateCommon('back'), variant: Variant.Contained },
-        ],
-      });
-    }
-  }, [
-    getConfirmEmailError,
-    getInputEmailError,
-    showDialog,
-    t,
-    translateCommon,
-  ]);
-
-  return (
-    <>
-      <Text>
-        {t('info.part1')}
-        <br />
-        {t('info.part2')}
-      </Text>
-      <div className="columns gapped-xxl">
-        <div className="rows">
-          <label htmlFor="enroll-to-queue__input-email">
-            <Text>
-              <b>{t('inputs.email.heading')}</b>
-            </Text>
-          </label>
-          <Text>{t('inputs.email.description')}</Text>
-          <CustomTextField
-            id="enroll-to-queue__input-email"
-            autoComplete={InputAutoComplete.Email}
-            error={inputEmailError !== ''}
-            helperText={
-              inputEmailError ? translateCommon(inputEmailError) : ' '
-            }
-            showHelperText={true}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></CustomTextField>
-        </div>
-        <div className="rows">
-          <label htmlFor="enroll-to-queue__confirm-email">
-            <Text>
-              <b>{t('inputs.confirmEmail.heading')}</b>
-            </Text>
-          </label>
-          <Text>{t('inputs.confirmEmail.description')}</Text>
-          <CustomTextField
-            id="enroll-to-queue__confirm-email"
-            autoComplete={InputAutoComplete.Email}
-            error={confirmEmailError !== ''}
-            helperText={
-              confirmEmailError ? translateCommon(confirmEmailError) : ' '
-            }
-            showHelperText={true}
-            value={confirmEmail}
-            onChange={(e) => setConfirmEmail(e.target.value)}
-          ></CustomTextField>
-        </div>
-      </div>
-      <div className="columns">
-        <CustomButton
-          className="full-max-width"
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          onClick={handleSubmit}
-        >
-          {t('inputs.submit.label')}
-        </CustomButton>
-      </div>
     </>
   );
 };
