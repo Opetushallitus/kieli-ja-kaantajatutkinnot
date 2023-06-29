@@ -116,7 +116,17 @@
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
-            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
+            "speakingSkill": "Suullinen taito *",
+            "writingSkill": "Kirjallinen taito *",
+            "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
+            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
+            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito, ja ymmärtämisen taito)",
+            "noFullExam": "En, haluan suorittaa vain jonkin osakokeen"
+          },
+          "selectExam": {
+            "chooseExam": "Tutkinnon valinta",
+            "previousEnrollment": "Aikaisempiin tutkintoihin osallistuminen",
+            "certificateShipping": "Tutkintotodistuksen toimitus"
           },
           "personDetails": {
             "firstName": "Etunimet",

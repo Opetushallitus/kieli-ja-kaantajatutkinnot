@@ -52,6 +52,10 @@
   gap: map-get($spacing, 'lg');
 }
 
+.gapped-xl {
+  gap: map-get($spacing, 'xl');
+}
+
 .gapped-xxl {
   gap: map-get($spacing, 'xxl');
 }

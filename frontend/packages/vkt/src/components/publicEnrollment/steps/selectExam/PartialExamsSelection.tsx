@@ -19,7 +19,7 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
-enum PreviouslyEnrolled {
+enum YesNo {
   Yes = 'yes',
   No = 'no',
 }
@@ -113,7 +113,7 @@ export const PartialExamsSelection = ({
   };
 
   const handleFullExamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.target.value === PreviouslyEnrolled.Yes;
+    const checked = event.target.value === YesNo.Yes;
 
     setDirtyFullExam(true);
 
@@ -151,30 +151,24 @@ export const PartialExamsSelection = ({
   const hasWritingExamError =
     showValidation &&
     !enrollment.writingPartialExam &&
-    !enrollment.writingComprehensionPartialExam;
+    !enrollment.readingComprehensionPartialExam;
 
   return (
     <div className="rows gapped">
       <FormControl component="fieldset">
         <FormLabel component="legend" className="heading-label">
-          Haluatko suorittaa koko tutkinnon? *
+          {t('doFullExam')}
         </FormLabel>
         <RadioGroup
-          name="has-previous-enrollment-group"
-          value={
-            enrollment.hasPreviousEnrollment
-              ? PreviouslyEnrolled.Yes
-              : PreviouslyEnrolled.No
-          }
+          name="full-exam-group"
+          value={enrollment.hasPreviousEnrollment ? YesNo.Yes : YesNo.No}
           onChange={handleFullExamChange}
         >
           <FormControlLabel
             disabled={editingDisabled}
-            value={PreviouslyEnrolled.Yes}
-            control={<Radio aria-describedby="has-previous-enrollment-error" />}
-            label={
-              'Kyllä (sis. suullinen taito, kirjallinen taito, ja ymmärtämisen taito)'
-            }
+            value={YesNo.Yes}
+            control={<Radio aria-describedby="full-exam-error" />}
+            label={t('yesFullExam')}
             checked={allChecked}
             className={`public-enrollment__grid__previous-enrollment__selection-label ${
               hasFullExamError && 'checkbox-error'
@@ -182,9 +176,9 @@ export const PartialExamsSelection = ({
           />
           <FormControlLabel
             disabled={editingDisabled}
-            value={PreviouslyEnrolled.No}
-            control={<Radio aria-describedby="has-previous-enrollment-error" />}
-            label={'En, haluan suorittaa vain jonkin osakokeen'}
+            value={YesNo.No}
+            control={<Radio aria-describedby="full-exam-error" />}
+            label={t('noFullExam')}
             checked={(dirtyFullExam || someChecked) && !allChecked}
             className={`public-enrollment__grid__previous-enrollment__selection-label ${
               hasFullExamError && 'checkbox-error'
@@ -192,7 +186,7 @@ export const PartialExamsSelection = ({
           />
         </RadioGroup>
         {hasFullExamError && (
-          <FormHelperText id="has-previous-enrollment-error" error={true}>
+          <FormHelperText id="full-exam-error" error={true}>
             {translateCommon('errors.customTextField.required')}
           </FormHelperText>
         )}
@@ -230,7 +224,7 @@ export const PartialExamsSelection = ({
           className="grid-columns public-enrollment__grid__partial-exam-selection"
         >
           <div className="rows gapped-sm">
-            <H3>{t('partialExamsTitle')}</H3>
+            <H3>{t('writingSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'writingPartialExam'}
@@ -258,7 +252,7 @@ export const PartialExamsSelection = ({
           className="grid-columns public-enrollment__grid__partial-exam-selection"
         >
           <div className="rows gapped-sm">
-            <H3>{t('partialExamsTitle')}</H3>
+            <H3>{t('speakingSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'speakingPartialExam'}
