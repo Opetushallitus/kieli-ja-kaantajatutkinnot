@@ -283,12 +283,10 @@ CREATE TABLE public.person (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     modified_at timestamp with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp with time zone,
-    identity_number character varying(255),
     last_name text NOT NULL,
     first_name text NOT NULL,
     oid character varying(255),
     other_identifier character varying(1024),
-    date_of_birth date,
     latest_identified_at timestamp with time zone NOT NULL
 );
 
@@ -547,14 +545,6 @@ ALTER TABLE ONLY public.enrollment
 
 ALTER TABLE ONLY public.exam_event
     ADD CONSTRAINT uk_exam_event_language_level_date UNIQUE (language, level, date);
-
-
---
--- Name: person uk_person_identity_number; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.person
-    ADD CONSTRAINT uk_person_identity_number UNIQUE (identity_number);
 
 
 --
