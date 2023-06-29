@@ -116,12 +116,12 @@
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
-            "speakingSkill": "Suullinen taito *",
-            "writingSkill": "Kirjallinen taito *",
+            "oralSkill": "Suullinen taito *",
+            "textualSkill": "Kirjallinen taito *",
             "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
             "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
-            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito, ja ymmärtämisen taito)",
-            "noFullExam": "En, haluan suorittaa vain jonkin osakokeen"
+            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+            "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
           },
           "selectExam": {
             "chooseExam": "Tutkinnon valinta",
@@ -160,7 +160,7 @@
           "previousEnrollment": {
             "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *",
             "label": "Päivämäärä tai vapaa teksti *",
-            "whenPrevious": "Milloin olet viimeksi osallistunut?"
+            "whenPrevious": "Milloin olet viimeksi osallistunut? *"
           }
         }
       },

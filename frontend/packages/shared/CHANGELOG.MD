@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Gapped-xl style
+- Gapped-xl and margin-left-sm styles
 
 ## [1.9.11] - 2023-06-28
 

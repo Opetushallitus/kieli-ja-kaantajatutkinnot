@@ -47,6 +47,18 @@
   }
 }
 
+.margin-left-sm {
+  &#{&} {
+    margin-left: map-get($spacing, 'sm');
+  }
+}
+
+.margin-left-lg {
+  &#{&} {
+    margin-left: map-get($spacing, 'lg');
+  }
+}
+
 /* Gaps */
 .gapped {
   gap: map-get($spacing, 'lg');

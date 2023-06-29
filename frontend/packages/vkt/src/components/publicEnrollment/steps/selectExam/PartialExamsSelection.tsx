@@ -30,12 +30,14 @@ const CheckboxField = ({
   onClick,
   disabled,
   error,
+  describedBy,
 }: {
   enrollment: PublicEnrollment;
   fieldName: keyof PartialExamsAndSkills;
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
   error: boolean;
+  describedBy: string;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -47,6 +49,7 @@ const CheckboxField = ({
           color={Color.Secondary}
           checked={enrollment[fieldName]}
           disabled={disabled}
+          aria-describedby={describedBy}
         />
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
@@ -169,7 +172,7 @@ export const PartialExamsSelection = ({
             control={<Radio aria-describedby="full-exam-error" />}
             label={t('yesFullExam')}
             checked={allChecked}
-            className={`public-enrollment__grid__previous-enrollment__selection-label ${
+            className={`margin-top-sm margin-left-sm ${
               hasFullExamError && 'checkbox-error'
             }`}
           />
@@ -179,7 +182,7 @@ export const PartialExamsSelection = ({
             control={<Radio aria-describedby="full-exam-error" />}
             label={t('noFullExam')}
             checked={(dirtyFullExam || someChecked) && !allChecked}
-            className={`public-enrollment__grid__previous-enrollment__selection-label ${
+            className={`margin-top-sm margin-left-sm ${
               hasFullExamError && 'checkbox-error'
             }`}
           />
@@ -193,13 +196,14 @@ export const PartialExamsSelection = ({
       <Collapse orientation="vertical" in={dirtyFullExam && !allChecked}>
         <div className="rows gapped-sm">
           <H3>{t('skillsTitle')}</H3>
-          <div className="public-enrollment__grid__partial-exam-selection rows">
+          <div className="rows margin-left-lg">
             <CheckboxField
               enrollment={enrollment}
               fieldName={'textualSkill'}
               onClick={toggleSkill}
               disabled={editingDisabled}
               error={hasSkillError}
+              describedBy="skill-selection-error"
             />
             <CheckboxField
               enrollment={enrollment}
@@ -207,29 +211,37 @@ export const PartialExamsSelection = ({
               onClick={toggleSkill}
               disabled={editingDisabled}
               error={hasSkillError}
+              describedBy="skill-selection-error"
             />
           </div>
           {hasSkillError && (
-            <FormHelperText id="has-previous-enrollment-error" error={true}>
+            <FormHelperText id="skill-selection-error" error={true}>
               {translateCommon('errors.customTextField.required')}
             </FormHelperText>
           )}
         </div>
       </Collapse>
-      <div className="columns">
+      <Collapse
+        orientation="vertical"
+        in={(enrollment.textualSkill || enrollment.oralSkill) && !allChecked}
+      >
+        <H3>{t('partialExamsTitle')}</H3>
+      </Collapse>
+      <div>
         <Collapse
           orientation="vertical"
           in={enrollment.textualSkill && !allChecked}
-          className="grid-columns public-enrollment__grid__partial-exam-selection"
+          className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows gapped-sm">
-            <H3>{t('writingSkill')}</H3>
+          <div className="rows margin-top-sm gapped-sm">
+            <H3>{t('textualSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'writingPartialExam'}
               onClick={toggleField}
               disabled={editingDisabled}
               error={hasWritingExamError}
+              describedBy="textual-exam-selection-error"
             />
             <CheckboxField
               enrollment={enrollment}
@@ -237,10 +249,11 @@ export const PartialExamsSelection = ({
               onClick={toggleField}
               disabled={editingDisabled}
               error={hasWritingExamError}
+              describedBy="textual-exam-selection-error"
             />
           </div>
           {hasWritingExamError && (
-            <FormHelperText id="has-previous-enrollment-error" error={true}>
+            <FormHelperText id="textual-exam-selection-error" error={true}>
               {translateCommon('errors.customTextField.required')}
             </FormHelperText>
           )}
@@ -248,16 +261,17 @@ export const PartialExamsSelection = ({
         <Collapse
           orientation="vertical"
           in={enrollment.oralSkill && !allChecked}
-          className="grid-columns public-enrollment__grid__partial-exam-selection"
+          className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows gapped-sm">
-            <H3>{t('speakingSkill')}</H3>
+          <div className="rows margin-top-sm gapped-sm">
+            <H3>{t('oralSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'speakingPartialExam'}
               onClick={toggleField}
               disabled={editingDisabled}
               error={hasSpeakingExamError}
+              describedBy="oral-exam-selection-error"
             />
             <CheckboxField
               enrollment={enrollment}
@@ -265,10 +279,11 @@ export const PartialExamsSelection = ({
               onClick={toggleField}
               disabled={editingDisabled}
               error={hasSpeakingExamError}
+              describedBy="oral-exam-selection-error"
             />
           </div>
           {hasSpeakingExamError && (
-            <FormHelperText id="has-previous-enrollment-error" error={true}>
+            <FormHelperText id="oral-exam-selection-error" error={true}>
               {translateCommon('errors.customTextField.required')}
             </FormHelperText>
           )}

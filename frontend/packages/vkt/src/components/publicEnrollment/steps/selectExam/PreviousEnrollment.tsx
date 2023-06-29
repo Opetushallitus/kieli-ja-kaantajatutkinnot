@@ -146,7 +146,7 @@ export const PreviousEnrollment = ({
             control={<Radio aria-describedby="has-previous-enrollment-error" />}
             label={translateCommon('yes')}
             checked={enrollment.hasPreviousEnrollment}
-            className={`public-enrollment__grid__previous-enrollment__selection-label ${
+            className={`margin-top-sm margin-left-sm ${
               hasRadioButtonError && 'checkbox-error'
             }`}
           />
@@ -156,7 +156,7 @@ export const PreviousEnrollment = ({
             control={<Radio aria-describedby="has-previous-enrollment-error" />}
             label={translateCommon('no')}
             checked={enrollment.hasPreviousEnrollment === false}
-            className={`public-enrollment__grid__previous-enrollment__selection-label ${
+            className={`margin-left-sm ${
               hasRadioButtonError && 'checkbox-error'
             }`}
           />
