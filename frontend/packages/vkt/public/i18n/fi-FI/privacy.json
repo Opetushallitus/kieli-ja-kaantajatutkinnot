@@ -46,7 +46,7 @@
       },
       "description": "EU:n tietosuoja-asetus 2016/679 (GDPR).",
       "handlingPurpose": {
-        "description": "Rekisteriin on kerätty henkilöiden yhteystiedot Valtionhallinnon kielitutkintojen (VKT) erinomaisen taidon tutkintoon ilmoittautumista varten. Rekisteriin talletetaan, ja siinä käsitellään henkilötietoja, jotka ovat tarpeellisia tutkintoon osallistumista varten.",
+        "description": "Valtionhallinnon kielitutkintojen toimeenpanosta vastaa Opetushallitus. Tätä varten Opetushallituksella on rekisteri (VKT), johon on kerätty henkilöiden yhteystiedot Valtionhallinnon kielitutkintojen (VKT) erinomaisen taidon tutkintoon ilmoittautumista varten. Ilmoittautumiseen, tutkinnon suorittamiseen ja maksamiseen liittyvää asiointia varten rekisteriin kerätään henkilöiden yhteystiedot.",
         "heading": "Henkilötietojen käsittelyn tarkoitus sekä käsittelyn oikeusperuste",
         "law": {
           "heading": "Lakiperusteet",
@@ -56,7 +56,7 @@
             "link": "https://www.finlex.fi/fi/laki/alkup/2003/20030481"
           },
           "part2": {
-            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c- ja 1e-kohdat."
+            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c-kohta."
           }
         }
       },
