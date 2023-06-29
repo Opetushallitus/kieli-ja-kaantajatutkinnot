@@ -8,8 +8,6 @@ public record ExamEventXlsxDataRow(
   @NonNull String enrollmentTime,
   @NonNull String lastName,
   @NonNull String firstName,
-  String identityNumber,
-  String dateOfBirth,
   String previousEnrollment,
   @NonNull String status,
   @NonNull Integer textualSkill,

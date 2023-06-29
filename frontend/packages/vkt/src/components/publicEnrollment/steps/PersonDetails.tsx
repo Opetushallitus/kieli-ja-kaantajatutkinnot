@@ -1,5 +1,4 @@
 import { H2, Text } from 'shared/components';
-import { DateUtils } from 'shared/utils';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -17,22 +16,15 @@ export const PersonDetails = () => {
     return null;
   }
 
-  const displayField = (field: keyof PublicPerson) => {
-    const value =
-      field === 'dateOfBirth'
-        ? DateUtils.formatOptionalDate(person.dateOfBirth)
-        : person[field];
-
-    return (
-      <div className="rows">
-        <Text className="bold">
-          {t(field)}
-          {':'}
-        </Text>
-        <Text>{value}</Text>
-      </div>
-    );
-  };
+  const displayField = (field: keyof PublicPerson) => (
+    <div className="rows">
+      <Text className="bold">
+        {t(field)}
+        {':'}
+      </Text>
+      <Text>{person[field]}</Text>
+    </div>
+  );
 
   return (
     <div className="rows gapped">
@@ -40,8 +32,6 @@ export const PersonDetails = () => {
       <div className="grid-columns gapped">
         {displayField('lastName')}
         {displayField('firstName')}
-        {person.identityNumber && displayField('identityNumber')}
-        {person.dateOfBirth && displayField('dateOfBirth')}
       </div>
     </div>
   );

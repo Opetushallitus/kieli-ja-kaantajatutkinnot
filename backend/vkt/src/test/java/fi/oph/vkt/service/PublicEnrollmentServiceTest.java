@@ -266,10 +266,8 @@ public class PublicEnrollmentServiceTest {
 
     final PublicPersonDTO personDTO = dto.person();
     assertEquals(person.getId(), personDTO.id());
-    assertEquals(person.getIdentityNumber(), personDTO.identityNumber());
     assertEquals(person.getLastName(), personDTO.lastName());
     assertEquals(person.getFirstName(), personDTO.firstName());
-    assertEquals(person.getDateOfBirth(), personDTO.dateOfBirth());
 
     if (isReservationPresent) {
       assertNotNull(dto.reservation());

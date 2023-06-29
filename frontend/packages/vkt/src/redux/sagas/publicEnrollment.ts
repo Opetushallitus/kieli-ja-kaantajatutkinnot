@@ -39,13 +39,13 @@ function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
     const response: AxiosResponse<PublicReservationDetailsResponse> =
       yield call(axiosInstance.get, loadUrl);
 
-    const { examEvent, person, reservation, enrollment } = response.data;
+    const { person, enrollment, examEvent, reservation } = response.data;
 
     yield put(
       storeEnrollmentInitialisation({
+        person,
         enrollment,
         examEvent: SerializationUtils.deserializePublicExamEvent(examEvent),
-        person: SerializationUtils.deserializePublicPerson(person),
         reservation:
           reservation &&
           SerializationUtils.deserializePublicReservation(reservation),

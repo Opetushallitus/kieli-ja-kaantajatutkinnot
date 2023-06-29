@@ -171,11 +171,14 @@ VALUES (
 );
 
 -- Insert persons
-INSERT INTO person(identity_number, last_name, first_name, latest_identified_at)
+INSERT INTO person(last_name, first_name, oid, other_identifier, latest_identified_at)
 SELECT
-  'id' || i::text,
   last_names[mod(i, array_length(last_names, 1)) + 1],
   first_names[mod(i, array_length(first_names, 1)) + 1],
+  CASE mod(i, 7)
+    WHEN 0 THEN NULL ELSE '1.2.246.init-' || i::text END,
+  CASE mod(i, 7)
+    WHEN 0 THEN 'FI/init-' || i::text END,
   NOW()
 FROM generate_series(1, 22) i,
    (SELECT ('{Anneli, Ella, Hanna, Iiris, Liisa, Maria, Ninni, Viivi, Sointu, Jaakko, Lasse, Kyösti, ' ||
