@@ -626,9 +626,6 @@
     <changeSet id="2023-06-29-remove-person-identity_number" author="mikhuttu">
         <dropColumn tableName="person" columnName="identity_number" />
         <dropColumn tableName="person" columnName="date_of_birth" />
-
-        <addUniqueConstraint tableName="person" columnNames="oid" constraintName="uk_person_oid" />
-        <addUniqueConstraint tableName="person" columnNames="other_identifier" constraintName="uk_person_other_identifier" />
     </changeSet>
 
 </databaseChangeLog>
