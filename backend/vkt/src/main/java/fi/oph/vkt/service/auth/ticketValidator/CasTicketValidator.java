@@ -63,14 +63,13 @@ public class CasTicketValidator implements TicketValidator {
 
       final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
 
-      final String sn = casAttributes.getSn();
       final Map<String, String> personDetails = new HashMap<>();
-      personDetails.put("identityNumber", casAttributes.getNationalIdentificationNumber());
-      personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
-      personDetails.put("dateOfBirth", casAttributes.getDateOfBirth());
-      personDetails.put("oid", casAttributes.getPersonOid());
-      personDetails.put("firstName", casAttributes.getFirstName());
+      final String sn = casAttributes.getSn();
+
       personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : sn);
+      personDetails.put("firstName", casAttributes.getFirstName());
+      personDetails.put("oid", casAttributes.getPersonOid());
+      personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
 
       return personDetails;
     } catch (final WebClientResponseException e) {

@@ -40,11 +40,11 @@ public class PublicAuthService {
     final String oid = personDetails.get("oid");
     final String otherIdentifier = personDetails.get("otherIdentifier");
 
-    final Optional<Person> optionalPerson = oid != null && !oid.isEmpty()
+    final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
       ? personRepository.findByOid(oid)
       : personRepository.findByOtherIdentifier(otherIdentifier);
 
-    final Person person = optionalPerson.orElse(new Person());
+    final Person person = optionalExistingPerson.orElse(new Person());
     person.setLastName(lastName);
     person.setFirstName(firstName);
     person.setOid(oid);
