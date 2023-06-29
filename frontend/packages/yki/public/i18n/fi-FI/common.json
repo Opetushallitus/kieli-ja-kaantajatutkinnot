@@ -59,6 +59,7 @@
       },
       "examSession": "Tutkinto",
       "examination": "Tutkinto",
+      "full": "Täynnä",
       "gender": {
         "female": "nainen",
         "male": "mies"

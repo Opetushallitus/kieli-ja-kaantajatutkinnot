@@ -25,8 +25,9 @@ export const PublicRegistrationExamSessionDetails = ({
     return null;
   }
 
-  const { start, end, participants, quota /*open, kind*/ } =
+  const { start, end, participants, quota } =
     ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+  const openings = Math.max(quota - participants, 0);
 
   const header = ExamUtils.languageAndLevelText(examSession);
   const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
@@ -60,7 +61,7 @@ export const PublicRegistrationExamSessionDetails = ({
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
-            <b>{`${Math.max(quota - participants, 0)}`}</b>
+            <b>{openings > 0 ? openings : translateCommon('full')}</b>
           </Text>
         )}
       </div>
