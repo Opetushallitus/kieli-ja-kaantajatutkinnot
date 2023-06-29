@@ -30,7 +30,8 @@
             "ul1": "tutkintopäivä",
             "ul2": "tutkintokieli",
             "ul3": "tutkinnot ja osakokeet",
-            "ul4": "onko osallistunut aiemmin Valtionhallinnon kielitutkintoon"
+            "ul4": "tutkintomaksun viite, summa ja maksupäivä",
+            "ul5": "onko osallistunut aiemmin Valtionhallinnon kielitutkintoon"
           }
         },
         "heading": "Rekisterin tietosisältö / käsiteltävät henkilötietoryhmät"
@@ -55,7 +56,7 @@
             "link": "https://www.finlex.fi/fi/laki/alkup/2003/20030481"
           },
           "part2": {
-            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c- ja 1e-kohdat / EU:n yleisen tietosuoja-asetuksen 6 artiklan 1a-kohta (suostumus)."
+            "description": "EU:n yleisen tietosuoja-asetuksen 6 artiklan 1c- ja 1e-kohdat."
           }
         }
       },
