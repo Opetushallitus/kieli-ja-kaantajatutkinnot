@@ -5,7 +5,40 @@ import {
   useDialog,
 } from 'shared/hooks';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+
+export const useRegistrationNavigationProtection = (when: boolean) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage.abortDialog',
+  });
+  const { showDialog } = useDialog();
+
+  const showConfirmationDialog = useCallback(
+    (confirmNavigation: () => void, cancelNavigation: () => void) => {
+      showDialog({
+        title: t('title'),
+        severity: Severity.Info,
+        description: t('description'),
+        actions: [
+          {
+            title: t('actions.confirm'),
+            variant: Variant.Outlined,
+            action: confirmNavigation,
+          },
+          {
+            title: t('actions.cancel'),
+            variant: Variant.Contained,
+            action: cancelNavigation,
+          },
+        ],
+        onClose: cancelNavigation,
+      });
+    },
+    [showDialog, t]
+  );
+
+  useCommonNavigationProtection(when, showConfirmationDialog);
+};
 
 export const useNavigationProtection = (when: boolean) => {
   const translateCommon = useCommonTranslation();

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
+import { CommonUtils } from 'shared/utils';
 
 import { EmailIdentification } from 'components/registration/identification/EmailIdentification';
 import { SuomiFiIdentification } from 'components/registration/identification/SuomiFiIdentification';
@@ -23,6 +24,8 @@ export const SelectIdentificationMethod = () => {
         severity: Severity.Error,
         description: t('emailLink.error'),
       });
+    } else if (emailLinkOrder.status === APIResponseStatus.Success) {
+      CommonUtils.scrollToTop();
     }
   }, [emailLinkOrder.status, showToast, t]);
 

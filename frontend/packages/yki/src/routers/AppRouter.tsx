@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Notifier } from 'shared/components';
+import { Notifier, ScrollToTop } from 'shared/components';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -28,6 +28,7 @@ export const AppRouter: FC = () => {
       <div className="app">
         <Header />
         <Notifier />
+        <ScrollToTop />
         <main className="content" id="main-content">
           <div className="content__container">
             <Routes>

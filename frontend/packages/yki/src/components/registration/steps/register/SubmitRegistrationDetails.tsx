@@ -8,6 +8,7 @@ import { EmailRegistrationDetails } from 'components/registration/steps/register
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadNationalities } from 'redux/reducers/nationalities';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -21,12 +22,20 @@ const FillRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
-  const { status: nationalitiesStatus } = useAppSelector(nationalitiesSelector);
+  const submitRegistrationStatus =
+    useAppSelector(registrationSelector).submitRegistration.status;
+  const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
+
   useEffect(() => {
     if (nationalitiesStatus === APIResponseStatus.NotStarted) {
       dispatch(loadNationalities());
     }
   }, [dispatch, nationalitiesStatus]);
+
+  useRegistrationNavigationProtection(
+    submitRegistrationStatus === APIResponseStatus.NotStarted ||
+      submitRegistrationStatus === APIResponseStatus.InProgress
+  );
 
   return (
     <div className="margin-top-xxl rows gapped">

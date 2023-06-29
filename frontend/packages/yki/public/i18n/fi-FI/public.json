@@ -84,10 +84,6 @@
       },
       "registration": {
         "controlButtons": {
-          "abortDialog": {
-            "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
-            "title": "Keskeytä ilmoittautuminen"
-          },
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Lähetä"
         },
@@ -296,6 +292,14 @@
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },
       "registrationPage": {
+        "abortDialog": {
+          "actions": {
+            "cancel": "En halua keskeyttää",
+            "confirm": "Kyllä, keskeytän ilmoittautumisen"
+          },
+          "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
+          "title": "Keskeytä ilmoittautuminen"
+        },
         "description": {
           "part1": {
             "link": {

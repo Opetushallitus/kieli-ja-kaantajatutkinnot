@@ -17,7 +17,6 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { ExamSession } from 'interfaces/examSessions';
 import { initRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -155,10 +154,6 @@ export const PublicRegistrationGrid = () => {
       dispatch(initRegistration(examSession.id));
     }
   }, [activeStep, dispatch, examSession, initRegistrationStatus]);
-
-  // TODO: Add bypass or some another way to skip nav prot when user
-  // intentionally chooses to cancel the registration and navigate back
-  useNavigationProtection(false);
 
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
 
