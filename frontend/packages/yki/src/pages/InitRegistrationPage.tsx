@@ -1,6 +1,6 @@
 import { Box, Grid, Paper } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   CustomButton,
@@ -18,7 +18,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
-import { useToast } from 'shared/hooks';
+import { useDialog, useToast } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import { PublicIdentificationGrid } from 'components/registration/PublicIdentificationGrid';
@@ -78,6 +78,7 @@ const DescribeUnavailability = ({
 };
 
 const EnrollToQueue = () => {
+  const { showDialog } = useDialog();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.enrollToQueue',
   });
@@ -85,16 +86,41 @@ const EnrollToQueue = () => {
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
   const [showErrors, setShowErrors] = useState(false);
+  const getInputEmailError = useCallback(
+    () =>
+      InputFieldUtils.validateCustomTextFieldErrors({
+        type: TextFieldTypes.Email,
+        required: true,
+        value: email,
+      }),
+    [email]
+  );
+  const getConfirmEmailError = useCallback(
+    () => (email !== confirmEmail ? 'errors.mismatchingEmailsError' : ''),
+    [confirmEmail, email]
+  );
 
-  const inputEmailError =
-    showErrors &&
-    InputFieldUtils.validateCustomTextFieldErrors({
-      type: TextFieldTypes.Email,
-      required: true,
-      value: email,
-    });
-  const confirmEmailError =
-    showErrors && email !== confirmEmail ? 'errors.mismatchingEmailsError' : '';
+  const inputEmailError = showErrors ? getInputEmailError() : '';
+  const confirmEmailError = showErrors ? getConfirmEmailError() : '';
+  const handleSubmit = useCallback(() => {
+    setShowErrors(true);
+    if (getInputEmailError() || getConfirmEmailError()) {
+      showDialog({
+        title: t('errorDialog.title'),
+        description: t('errorDialog.description'),
+        severity: Severity.Error,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
+    }
+  }, [
+    getConfirmEmailError,
+    getInputEmailError,
+    showDialog,
+    t,
+    translateCommon,
+  ]);
 
   return (
     <>
@@ -114,7 +140,7 @@ const EnrollToQueue = () => {
           <CustomTextField
             id="enroll-to-queue__input-email"
             autoComplete={InputAutoComplete.Email}
-            error={showErrors}
+            error={inputEmailError !== ''}
             helperText={
               inputEmailError ? translateCommon(inputEmailError) : ' '
             }
@@ -133,7 +159,7 @@ const EnrollToQueue = () => {
           <CustomTextField
             id="enroll-to-queue__confirm-email"
             autoComplete={InputAutoComplete.Email}
-            error={showErrors}
+            error={confirmEmailError !== ''}
             helperText={
               confirmEmailError ? translateCommon(confirmEmailError) : ' '
             }
@@ -148,9 +174,7 @@ const EnrollToQueue = () => {
           className="full-max-width"
           color={Color.Secondary}
           variant={Variant.Contained}
-          onClick={() => {
-            setShowErrors(true);
-          }}
+          onClick={handleSubmit}
         >
           {t('inputs.submit.label')}
         </CustomButton>

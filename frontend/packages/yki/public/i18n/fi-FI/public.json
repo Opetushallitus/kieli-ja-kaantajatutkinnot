@@ -88,6 +88,10 @@
           "confirm": "Lähetä"
         },
         "enrollToQueue": {
+          "errorDialog": {
+            "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
+            "title": "Virheitä lomakkeella"
+          },
           "header": "Tilaa ilmoitus peruutuspaikoista",
           "info": {
             "part1": "Tässä testissä ei ole juuri nyt vapaita paikkoja. Voit tilata ilmoituksen peruutuspaikoista.",
