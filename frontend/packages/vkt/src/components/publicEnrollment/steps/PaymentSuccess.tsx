@@ -29,7 +29,8 @@ export const PaymentSuccess = ({
 
   return (
     <div className="margin-top-lg rows gapped">
-      <Text>{`${t('description')}: ${enrollment.email}`}</Text>
+      <Text>{t('description1')}</Text>
+      <Text>{`${t('description2')}: ${enrollment.email}`}</Text>
       <CustomButton
         className="align-self-start margin-top-lg"
         color="secondary"

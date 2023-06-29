@@ -115,7 +115,8 @@
             "tryAgain": "Yritä uudelleen"
           },
           "paymentSuccess": {
-            "description": "Maksu onnistui! Tervetuloa tutkintoon! Sinulle lähetetään vahvistus osoitteeseen"
+            "description1": "Maksu onnistui! Tervetuloa tutkintoon!",
+            "description2": "Sinulle lähetetään vahvistus osoitteeseen"
           },
           "personDetails": {
             "firstName": "Etunimet",

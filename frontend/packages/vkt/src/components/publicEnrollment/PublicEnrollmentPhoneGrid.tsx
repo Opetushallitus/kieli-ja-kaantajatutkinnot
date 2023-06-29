@@ -49,7 +49,7 @@ export const PublicEnrollmentPhoneGrid = ({
   examEvent: PublicExamEvent;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.stepHeading',
+    keyPrefix: 'vkt.component.publicEnrollment',
   });
   const translateCommon = useCommonTranslation();
 
@@ -83,7 +83,7 @@ export const PublicEnrollmentPhoneGrid = ({
   const getMobileStepperHeading = () => {
     const heading = (
       <Typography component="h1" variant="h2">
-        {t(`common.${PublicEnrollmentFormStep[activeStep]}`)}
+        {t(`stepHeading.common.${PublicEnrollmentFormStep[activeStep]}`)}
       </Typography>
     );
 
@@ -113,7 +113,7 @@ export const PublicEnrollmentPhoneGrid = ({
           <Text>
             {translateCommon('next')}
             {': '}
-            {t(`common.${PublicEnrollmentFormStep[nextStepIndex]}`)}
+            {t(`stepper.step.${PublicEnrollmentFormStep[nextStepIndex]}`)}
           </Text>
         </div>
       </>
