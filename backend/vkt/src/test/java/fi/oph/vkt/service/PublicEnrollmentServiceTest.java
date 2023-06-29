@@ -377,10 +377,10 @@ public class PublicEnrollmentServiceTest {
     final PublicEnrollmentCreateDTO dto = createDTOBuilder()
       .previousEnrollment("<b>Foobar</b>")
       .email("<a>foo@bar.foo")
-      .phoneNumber("====04012345")
+      .phoneNumber("====040=12345")
       .street("<script>alert('baa')</script>")
       .postalCode("<body>00000</body>")
-      .town("=Kaupunki")
+      .town("=<i>Kaupunki</i>")
       .country("<3")
       .digitalCertificateConsent(false)
       .build();
@@ -392,7 +392,7 @@ public class PublicEnrollmentServiceTest {
     );
     assertEquals("Foobar", publicEnrollmentDTO.previousEnrollment());
     assertEquals("foo@bar.foo", publicEnrollmentDTO.email());
-    assertEquals("04012345", publicEnrollmentDTO.phoneNumber());
+    assertEquals("040=12345", publicEnrollmentDTO.phoneNumber());
     assertEquals("", publicEnrollmentDTO.street());
     assertEquals("00000", publicEnrollmentDTO.postalCode());
     assertEquals("Kaupunki", publicEnrollmentDTO.town());
