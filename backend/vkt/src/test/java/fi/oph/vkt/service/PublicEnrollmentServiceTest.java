@@ -378,7 +378,7 @@ public class PublicEnrollmentServiceTest {
       .previousEnrollment("<b>Foobar</b>")
       .email("<a>foo@bar.foo")
       .phoneNumber("====040=12345")
-      .street("<script>alert('baa')</script>")
+      .street("<script>alert('baa')</script>   =FUNC")
       .postalCode("<body>00000</body>")
       .town("=<i>Kaupunki</i>")
       .country("<3")
@@ -393,7 +393,7 @@ public class PublicEnrollmentServiceTest {
     assertEquals("Foobar", publicEnrollmentDTO.previousEnrollment());
     assertEquals("foo@bar.foo", publicEnrollmentDTO.email());
     assertEquals("040=12345", publicEnrollmentDTO.phoneNumber());
-    assertEquals("", publicEnrollmentDTO.street());
+    assertEquals("FUNC", publicEnrollmentDTO.street());
     assertEquals("00000", publicEnrollmentDTO.postalCode());
     assertEquals("Kaupunki", publicEnrollmentDTO.town());
     assertEquals("&lt;3", publicEnrollmentDTO.country());
