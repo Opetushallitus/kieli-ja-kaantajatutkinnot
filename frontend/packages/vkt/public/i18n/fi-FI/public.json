@@ -61,7 +61,7 @@
             "Done": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksua ei suoritettu",
-            "PaymentSuccess": "Maksu suoritettu",
+            "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           },
@@ -94,10 +94,8 @@
             "title": "Tunnistaudu ilmoittautumista varten"
           },
           "done": {
-            "description": {
-              "confirmationEmail": "Ilmoittautuminen onnistui! Sinulle lähetetään vahvistus osoitteeseen",
-              "queueInfo": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
-            }
+            "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
           },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
@@ -115,6 +113,9 @@
             "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
             "toast": "Maksua ei suoritettu.",
             "tryAgain": "Yritä uudelleen"
+          },
+          "paymentSuccess": {
+            "description": "Maksu onnistui! Tervetuloa tutkintoon! Sinulle lähetetään vahvistus osoitteeseen"
           },
           "personDetails": {
             "firstName": "Etunimet",
