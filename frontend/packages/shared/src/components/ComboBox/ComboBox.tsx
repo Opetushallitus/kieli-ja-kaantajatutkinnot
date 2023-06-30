@@ -6,6 +6,8 @@ import {
   TextField,
 } from '@mui/material';
 
+import { Text } from '../Text/Text';
+
 type ComboBoxOption = { label: string; value: string };
 export type AutocompleteValue = ComboBoxOption | null;
 interface ComboBoxProps {
@@ -76,6 +78,51 @@ export const ComboBox = ({
           <TextField
             {...params}
             label={label}
+            variant={variant}
+            error={showError}
+          />
+        )}
+      />
+      {showError && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
+  );
+};
+
+export const LabeledComboBox = ({
+  id,
+  label,
+  values,
+  variant,
+  helperText,
+  showError,
+  placeholder,
+  ...rest
+}: ComboBoxProps & AutocompleteComboBox & { id: string }) => {
+  const getOptionLabel = (option: AutocompleteValue): string => {
+    const [activeOption] = values.filter((v) => v.value === option?.value);
+
+    return activeOption ? activeOption.label : '';
+  };
+  const errorStyles = showError ? { color: 'error.main' } : {};
+
+  return (
+    <FormControl fullWidth error={showError}>
+      <label htmlFor={id}>
+        <Text sx={errorStyles}>
+          <b>{label}</b>
+        </Text>
+      </label>
+      <Autocomplete
+        disablePortal
+        id={id}
+        {...rest}
+        getOptionLabel={getOptionLabel}
+        isOptionEqualToValue={isOptionEqualToValue}
+        options={values}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder={placeholder}
             variant={variant}
             error={showError}
           />
