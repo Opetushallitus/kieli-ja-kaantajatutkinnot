@@ -93,14 +93,17 @@ export const EmailIdentification = () => {
           helperText={error}
           autoComplete={InputAutoComplete.Email}
         />
-        <CustomButton
-          className="public-registration__grid__form-container__registration-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          onClick={onSubmit}
-        >
-          {t('emailButtonText')}
-        </CustomButton>
+        <div className="rows">
+          <CustomButton
+            className="public-registration__grid__form-container__registration-button"
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={onSubmit}
+          >
+            {t('emailButtonText')}
+          </CustomButton>
+          {showError && <Text>&nbsp;</Text>}
+        </div>
       </div>
     </>
   );
