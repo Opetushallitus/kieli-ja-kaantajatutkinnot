@@ -5,6 +5,7 @@ export {
   sortOptionsByLabels,
   valueAsOption,
   ComboBox,
+  LabeledComboBox,
 } from './ComboBox/ComboBox';
 export type { AutocompleteValue } from './ComboBox/ComboBox';
 export { CustomButton } from './CustomButton/CustomButton';
@@ -20,6 +21,8 @@ export type { CustomTextFieldProps } from './CustomTextField/CustomTextField';
 export { CustomDatePicker } from './CustomDatePicker/CustomDatePicker';
 export { ExtLink } from './ExtLink/ExtLink';
 export { HeaderSeparator } from './HeaderSeparator/HeaderSeparator';
+export type { LabeledTextFieldProps } from './LabeledTextField/LabeledTextField';
+export { LabeledTextField } from './LabeledTextField/LabeledTextField';
 export {
   LanguageSelect,
   languageToComboBoxOption,
