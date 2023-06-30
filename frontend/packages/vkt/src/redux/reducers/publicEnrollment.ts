@@ -122,7 +122,16 @@ const publicEnrollmentSlice = createSlice({
       state,
       action: PayloadAction<Partial<PublicEnrollment>>
     ) {
-      state.enrollment = { ...state.enrollment, ...action.payload };
+      const newEnrollment = { ...state.enrollment, ...action.payload };
+
+      state.enrollment = {
+        ...newEnrollment,
+        ...{
+          understandingSkill:
+            newEnrollment.speechComprehensionPartialExam ||
+            newEnrollment.readingComprehensionPartialExam,
+        },
+      };
     },
     loadPublicEnrollmentSave(
       state,

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.12] - 2023-06-29
+
+### Added
+
+- Gapped-xl and margin-left-sm styles
+
 ## [1.9.11] - 2023-06-28
 
 ### Added

@@ -41,14 +41,17 @@
       &__input {
         width: 100%;
       }
-
-      &__selection-label {
-        margin: 0 7rem 0 3rem;
-      }
     }
 
     &__partial-exam-selection {
-      padding-left: 1rem;
+      float: left;
+      margin-left: 3rem;
+      width: 40%;
+
+      @include phone {
+        float: none;
+        width: 90%;
+      }
     }
 
     &__certificate-shipping {

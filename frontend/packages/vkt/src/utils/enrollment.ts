@@ -6,6 +6,19 @@ import {
 } from 'interfaces/common/enrollment';
 
 export class EnrollmentUtils {
+  static isValidTextualSkillAndPartialExams(skills: PartialExamsAndSkills) {
+    return skills.textualSkill
+      ? skills.writingPartialExam || skills.readingComprehensionPartialExam
+      : true;
+  }
+
+  static isValidOralSkillAndPartialExams(skills: PartialExamsAndSkills) {
+    return skills.oralSkill
+      ? skills.speakingPartialExam || skills.speechComprehensionPartialExam
+      : true;
+  }
+
+  // TODO: clerk use case could be potentially replaced with the above two validity methods
   static isValidPartialExamsAndSkills(skills: PartialExamsAndSkills) {
     const isSkillsSelected =
       skills.oralSkill || skills.textualSkill || skills.understandingSkill;

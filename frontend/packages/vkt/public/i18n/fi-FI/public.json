@@ -47,7 +47,7 @@
           "continueEnrollment": "Jatka ilmoittautumista",
           "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
           "reservationExpiredContinue": "Jatka etusivulle",
-          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiredText": "Paikkavarauksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
           "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
@@ -116,7 +116,17 @@
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
-            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
+            "oralSkill": "Suullinen taito *",
+            "textualSkill": "Kirjallinen taito *",
+            "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
+            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
+            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+            "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
+          },
+          "selectExam": {
+            "chooseExam": "Tutkinnon valinta",
+            "previousEnrollment": "Aikaisempiin tutkintoihin osallistuminen",
+            "certificateShipping": "Tutkintotodistuksen toimitus"
           },
           "personDetails": {
             "firstName": "Etunimet",
@@ -150,7 +160,7 @@
           "previousEnrollment": {
             "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *",
             "label": "Päivämäärä tai vapaa teksti *",
-            "whenPrevious": "Milloin olet viimeksi osallistunut?"
+            "whenPrevious": "Milloin olet viimeksi osallistunut? *"
           }
         }
       },

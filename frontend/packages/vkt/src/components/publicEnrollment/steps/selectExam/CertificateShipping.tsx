@@ -122,7 +122,7 @@ export const CertificateShipping = ({
   };
 
   return (
-    <div className="margin-top-lg rows gapped">
+    <div className="rows gapped">
       {digitalConsentEnabled && (
         <FormControlLabel
           className="public-enrollment__grid__certificate-shipping__consent"
