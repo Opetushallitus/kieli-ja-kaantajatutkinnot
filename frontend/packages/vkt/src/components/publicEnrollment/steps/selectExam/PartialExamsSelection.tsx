@@ -184,8 +184,8 @@ export const PartialExamsSelection = ({
             control={<Radio aria-describedby="full-exam-error" />}
             label={t('noFullExam')}
             checked={
-              (dirtyFullExam || somePartialExamsChecked) &&
-              !allPartialExamsChecked
+              !allPartialExamsChecked &&
+              (dirtyFullExam || somePartialExamsChecked)
             }
             className={`margin-top-sm margin-left-sm ${
               hasFullExamError && 'checkbox-error'
@@ -200,7 +200,7 @@ export const PartialExamsSelection = ({
       </FormControl>
       <Collapse
         orientation="vertical"
-        in={dirtyFullExam && !allPartialExamsChecked}
+        in={!allPartialExamsChecked && (dirtyFullExam || isSkillsSelected)}
       >
         <div className="rows gapped-sm">
           <H3>{t('skillsTitle')}</H3>
@@ -231,14 +231,14 @@ export const PartialExamsSelection = ({
       </Collapse>
       <Collapse
         orientation="vertical"
-        in={isSkillsSelected && !allPartialExamsChecked}
+        in={!allPartialExamsChecked && isSkillsSelected}
       >
         <H3>{t('partialExamsTitle')}</H3>
       </Collapse>
       <div>
         <Collapse
           orientation="vertical"
-          in={enrollment.textualSkill && !allPartialExamsChecked}
+          in={!allPartialExamsChecked && enrollment.textualSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
           <div className="rows margin-top-sm gapped-sm">
@@ -268,7 +268,7 @@ export const PartialExamsSelection = ({
         </Collapse>
         <Collapse
           orientation="vertical"
-          in={enrollment.oralSkill && !allPartialExamsChecked}
+          in={!allPartialExamsChecked && enrollment.oralSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
           <div className="rows margin-top-sm gapped-sm">
