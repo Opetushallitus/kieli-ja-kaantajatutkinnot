@@ -8,9 +8,13 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { resetPublicExamEventSelections } from 'redux/reducers/publicExamEvent';
 
-export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
+export const PaymentSuccess = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'vkt.component.publicEnrollment.steps.done',
+    keyPrefix: 'vkt.component.publicEnrollment.steps.paymentSuccess',
   });
   const translateCommon = useCommonTranslation();
 
@@ -25,8 +29,8 @@ export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   return (
     <div className="margin-top-lg rows gapped">
-      <Text>{`${t('description1')}: ${enrollment.email}`}</Text>
-      <Text>{t('description2')}</Text>
+      <Text>{t('description1')}</Text>
+      <Text>{`${t('description2')}: ${enrollment.email}`}</Text>
       <CustomButton
         className="align-self-start margin-top-lg"
         color="secondary"

@@ -9,6 +9,7 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
 
 interface PublicEnrollmentState {
+  loadExamEventStatus: APIResponseStatus;
   enrollmentInitialisationStatus: APIResponseStatus;
   renewReservationStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
@@ -20,6 +21,7 @@ interface PublicEnrollmentState {
 }
 
 const initialState: PublicEnrollmentState = {
+  loadExamEventStatus: APIResponseStatus.NotStarted,
   enrollmentInitialisationStatus: APIResponseStatus.NotStarted,
   renewReservationStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
@@ -52,16 +54,15 @@ const publicEnrollmentSlice = createSlice({
   name: 'publicEnrollment',
   initialState,
   reducers: {
-    // TODO: the following three actions are used for fetching exam event details for Authenticate step and should use a separate status
     loadPublicExamEvent(state, _action: PayloadAction<number>) {
-      state.enrollmentInitialisationStatus = APIResponseStatus.InProgress;
+      state.loadExamEventStatus = APIResponseStatus.InProgress;
     },
     rejectPublicExamEvent(state) {
-      state.enrollmentInitialisationStatus = APIResponseStatus.Error;
+      state.loadExamEventStatus = APIResponseStatus.Error;
       state.examEvent = initialState.examEvent;
     },
     storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
-      state.enrollmentInitialisationStatus = APIResponseStatus.Success;
+      state.loadExamEventStatus = APIResponseStatus.Success;
       state.examEvent = action.payload;
     },
     loadEnrollmentInitialisation(state, _action: PayloadAction<number>) {
@@ -107,16 +108,8 @@ const publicEnrollmentSlice = createSlice({
     storePublicEnrollmentCancellation(state) {
       state.cancelStatus = APIResponseStatus.Success;
     },
-    resetPublicEnrollment(state) {
-      state.enrollmentInitialisationStatus =
-        initialState.enrollmentInitialisationStatus;
-      state.renewReservationStatus = initialState.renewReservationStatus;
-      state.enrollmentSubmitStatus = initialState.enrollmentSubmitStatus;
-      state.cancelStatus = initialState.cancelStatus;
-      state.enrollment = initialState.enrollment;
-      state.examEvent = initialState.examEvent;
-      state.person = initialState.person;
-      state.reservation = initialState.reservation;
+    resetPublicEnrollment() {
+      return initialState;
     },
     updatePublicEnrollment(
       state,

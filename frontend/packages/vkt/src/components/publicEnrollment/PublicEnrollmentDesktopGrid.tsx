@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { LoadingProgressIndicator } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 
 import { PublicEnrollmentControlButtons } from 'components/publicEnrollment/PublicEnrollmentControlButtons';
 import { PublicEnrollmentExamEventDetails } from 'components/publicEnrollment/PublicEnrollmentExamEventDetails';
@@ -17,7 +18,6 @@ import { ExamEventUtils } from 'utils/examEvent';
 
 export const PublicEnrollmentDesktopGrid = ({
   activeStep,
-  isLoading,
   isStepValid,
   isShiftedFromQueue,
   isPaymentSumAvailable,
@@ -30,7 +30,6 @@ export const PublicEnrollmentDesktopGrid = ({
   examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
-  isLoading: boolean;
   isStepValid: boolean;
   isPaymentSumAvailable: boolean;
   isPreviewStepActive: boolean;
@@ -42,23 +41,36 @@ export const PublicEnrollmentDesktopGrid = ({
   setShowValidation: (showValidation: boolean) => void;
   examEvent: PublicExamEvent;
 }) => {
-  const { enrollmentSubmitStatus, enrollment, reservation } = useAppSelector(
-    publicEnrollmentSelector
-  );
   const translateCommon = useCommonTranslation();
+
+  const {
+    enrollmentSubmitStatus,
+    renewReservationStatus,
+    cancelStatus,
+    enrollment,
+    reservation,
+  } = useAppSelector(publicEnrollmentSelector);
+
+  const isRenewOrCancelLoading = [
+    renewReservationStatus,
+    cancelStatus,
+  ].includes(APIResponseStatus.InProgress);
+
+  const isEnrollmentSubmitLoading =
+    enrollmentSubmitStatus === APIResponseStatus.InProgress;
 
   return (
     <>
       <Grid className="public-enrollment__grid" item>
         <Paper elevation={3}>
           <LoadingProgressIndicator
-            isLoading={isLoading}
+            isLoading={isRenewOrCancelLoading}
             translateCommon={translateCommon}
             displayBlock={true}
           >
             <div
               className={
-                isLoading
+                isRenewOrCancelLoading
                   ? 'dimmed public-enrollment__grid__form-container'
                   : 'public-enrollment__grid__form-container'
               }
@@ -72,7 +84,7 @@ export const PublicEnrollmentDesktopGrid = ({
               {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservation}
-                  isLoading={isLoading}
+                  isLoading={isRenewOrCancelLoading}
                 />
               )}
               <PublicEnrollmentStepHeading
@@ -88,7 +100,8 @@ export const PublicEnrollmentDesktopGrid = ({
                 examEvent={examEvent}
                 activeStep={activeStep}
                 enrollment={enrollment}
-                isLoading={isLoading}
+                isRenewOrCancelLoading={isRenewOrCancelLoading}
+                isEnrollmentSubmitLoading={isEnrollmentSubmitLoading}
                 setIsStepValid={setIsStepValid}
                 showValidation={showValidation}
               />
@@ -103,7 +116,8 @@ export const PublicEnrollmentDesktopGrid = ({
                     examEvent={examEvent}
                     enrollment={enrollment}
                     reservation={reservation}
-                    isLoading={isLoading}
+                    isRenewOrCancelLoading={isRenewOrCancelLoading}
+                    isEnrollmentSubmitLoading={isEnrollmentSubmitLoading}
                     isStepValid={isStepValid}
                     setShowValidation={setShowValidation}
                     isPaymentLinkPreviewView={

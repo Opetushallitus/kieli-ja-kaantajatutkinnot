@@ -1,6 +1,7 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
+import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
@@ -45,30 +46,25 @@ export const PublicEnrollmentStepper = ({
   };
 
   const getDesktopActiveStep = () => {
-    if (activeStep === PublicEnrollmentFormStep.Done) {
-      return 5 - 1;
-    } else if (activeStep > PublicEnrollmentFormStep.PaymentFail) {
-      return activeStep - 2;
+    // "Hack" for not having Mui-Active for Payment step
+    if (activeStep === PublicEnrollmentFormStep.Payment) {
+      return activeStep;
+    } else if (activeStep === PublicEnrollmentFormStep.Done) {
+      return doneStepNumber - 1;
     }
 
     return activeStep - 1;
   };
 
   const hasError = (step: PublicEnrollmentFormStep) => {
-    return (
-      step === PublicEnrollmentFormStep.Payment &&
-      activeStep === PublicEnrollmentFormStep.PaymentFail
-    );
+    return step === PublicEnrollmentFormStep.Payment && step === activeStep;
   };
 
   const isStepCompleted = (step: PublicEnrollmentFormStep) => {
-    return step < activeStep && !hasError(step);
+    return step < activeStep;
   };
 
-  const stepValue =
-    activeStep === PublicEnrollmentFormStep.PaymentFail
-      ? PublicEnrollmentFormStep.Payment
-      : Math.min(activeStep, doneStepNumber);
+  const stepValue = Math.min(activeStep, doneStepNumber);
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
@@ -82,9 +78,9 @@ export const PublicEnrollmentStepper = ({
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
       color={
-        activeStep === PublicEnrollmentFormStep.PaymentFail
-          ? 'error'
-          : 'secondary'
+        activeStep === PublicEnrollmentFormStep.Payment
+          ? Color.Error
+          : Color.Secondary
       }
       size={90}
     />

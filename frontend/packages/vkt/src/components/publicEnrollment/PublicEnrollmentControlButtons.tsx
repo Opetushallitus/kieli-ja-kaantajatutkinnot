@@ -29,7 +29,8 @@ export const PublicEnrollmentControlButtons = ({
   examEvent,
   enrollment,
   reservation,
-  isLoading,
+  isRenewOrCancelLoading,
+  isEnrollmentSubmitLoading,
   isStepValid,
   setShowValidation,
   submitStatus,
@@ -39,7 +40,8 @@ export const PublicEnrollmentControlButtons = ({
   examEvent: PublicExamEvent;
   enrollment: PublicEnrollment;
   reservation?: PublicReservation;
-  isLoading: boolean;
+  isRenewOrCancelLoading: boolean;
+  isEnrollmentSubmitLoading: boolean;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
@@ -50,6 +52,9 @@ export const PublicEnrollmentControlButtons = ({
   });
   const translateCommon = useCommonTranslation();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+
+  const isUserActionLoading =
+    isRenewOrCancelLoading || isEnrollmentSubmitLoading;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -155,7 +160,7 @@ export const PublicEnrollmentControlButtons = ({
         color={Color.Secondary}
         onClick={handleCancelBtnClick}
         data-testid="public-enrollment__controlButtons__cancel"
-        disabled={isLoading || isPaymentLoading}
+        disabled={isUserActionLoading || isPaymentLoading}
       >
         {translateCommon('cancel')}
       </CustomButton>
@@ -171,7 +176,7 @@ export const PublicEnrollmentControlButtons = ({
       startIcon={<ArrowBackIcon />}
       disabled={
         activeStep == PublicEnrollmentFormStep.FillContactDetails ||
-        isLoading ||
+        isUserActionLoading ||
         isPaymentLoading
       }
     >
@@ -186,7 +191,7 @@ export const PublicEnrollmentControlButtons = ({
       onClick={handleNextBtnClick}
       data-testid="public-enrollment__controlButtons__next"
       endIcon={<ArrowForwardIcon />}
-      disabled={isLoading || isPaymentLoading}
+      disabled={isUserActionLoading || isPaymentLoading}
     >
       {translateCommon('next')}
     </CustomButton>
@@ -195,14 +200,14 @@ export const PublicEnrollmentControlButtons = ({
   const SubmitButton = () => (
     <LoadingProgressIndicator
       translateCommon={translateCommon}
-      isLoading={isPaymentLoading}
+      isLoading={isEnrollmentSubmitLoading || isPaymentLoading}
     >
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}
         onClick={handleSubmitBtnClick}
         data-testid="public-enrollment__controlButtons__submit"
-        disabled={isLoading || isPaymentLoading}
+        disabled={isUserActionLoading || isPaymentLoading}
       >
         {isEnrollmentToQueue ? t('enrollToQueue') : t('pay')}
       </CustomButton>

@@ -14,7 +14,11 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
-export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
+export const PaymentFail = ({
+  enrollment,
+}: {
+  enrollment: PublicEnrollment;
+}) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment',
   });
@@ -61,13 +65,13 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   useEffect(() => {
     showToast({
       severity: Severity.Error,
-      description: t('steps.fail.toast'),
+      description: t('steps.paymentFail.toast'),
     });
   }, [t, showToast]);
 
   return (
     <div className="margin-top-lg rows gapped">
-      <Text>{t('steps.fail.description')}</Text>
+      <Text>{t('steps.paymentFail.description')}</Text>
       <div className="columns flex-start gapped margin-top-lg">
         <LoadingProgressIndicator
           translateCommon={translateCommon}
@@ -79,7 +83,7 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             onClick={handleCancelBtnClick}
             disabled={isLoading}
           >
-            {t('steps.fail.cancel')}
+            {t('steps.paymentFail.cancel')}
           </CustomButton>
         </LoadingProgressIndicator>
         <LoadingProgressIndicator
@@ -92,7 +96,7 @@ export const Fail = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             onClick={handleTryAgainBtnClick}
             disabled={isLoading}
           >
-            {t('steps.fail.tryAgain')}
+            {t('steps.paymentFail.tryAgain')}
           </CustomButton>
         </LoadingProgressIndicator>
       </div>

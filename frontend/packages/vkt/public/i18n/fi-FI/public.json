@@ -60,9 +60,8 @@
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis – jonopaikka varattu",
             "FillContactDetails": "Täytä yhteystietosi",
-            "Payment": "Maksu",
-            "PaymentFail": "Maksua ei suoritettu",
-            "PaymentSuccess": "Maksu suoritettu",
+            "Payment": "Maksua ei suoritettu",
+            "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           },
@@ -84,7 +83,6 @@
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
             "Payment": "Maksu",
-            "PaymentFail": "Maksua ei suoritettu",
             "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
@@ -96,16 +94,8 @@
             "title": "Tunnistaudu ilmoittautumista varten"
           },
           "done": {
-            "description": {
-              "confirmationEmail": "Ilmoittautuminen onnistui! Sinulle lähetetään vahvistus osoitteeseen",
-              "queueInfo": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
-            }
-          },
-          "fail": {
-            "cancel": "Peruuta ilmoittautuminen",
-            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
-            "toast": "Maksua ei suoritettu.",
-            "tryAgain": "Yritä uudelleen"
+            "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
           },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
@@ -127,6 +117,16 @@
             "chooseExam": "Tutkinnon valinta",
             "previousEnrollment": "Aikaisempiin tutkintoihin osallistuminen",
             "certificateShipping": "Tutkintotodistuksen toimitus"
+          },
+          "paymentFail": {
+            "cancel": "Peruuta ilmoittautuminen",
+            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
+            "toast": "Maksua ei suoritettu.",
+            "tryAgain": "Yritä uudelleen"
+          },
+          "paymentSuccess": {
+            "description1": "Maksu onnistui! Tervetuloa tutkintoon!",
+            "description2": "Sinulle lähetetään vahvistus osoitteeseen"
           },
           "personDetails": {
             "firstName": "Etunimet",

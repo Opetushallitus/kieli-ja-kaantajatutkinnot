@@ -25,16 +25,15 @@ export class RouteUtils {
           examEventId
         );
 
-      case PublicEnrollmentFormStep.Payment: // Un-used step. Just to make linter happy
-      case PublicEnrollmentFormStep.PaymentFail:
+      case PublicEnrollmentFormStep.Payment:
         return RouteUtils.replaceParameters(
-          AppRoutes.PublicEnrollmentFail,
+          AppRoutes.PublicEnrollmentPaymentFail,
           examEventId
         );
 
       case PublicEnrollmentFormStep.PaymentSuccess:
         return RouteUtils.replaceParameters(
-          AppRoutes.PublicEnrollmentSuccess,
+          AppRoutes.PublicEnrollmentPaymentSuccess,
           examEventId
         );
 
