@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CustomTextField should render correctly with error 1`] = `
+exports[`LabeledTextField should render correctly with error 1`] = `
 <div
   className="rows"
 >
@@ -60,7 +60,7 @@ exports[`CustomTextField should render correctly with error 1`] = `
 </div>
 `;
 
-exports[`CustomTextField should render correctly with text 1`] = `
+exports[`LabeledTextField should render correctly with text 1`] = `
 <div
   className="rows"
 >

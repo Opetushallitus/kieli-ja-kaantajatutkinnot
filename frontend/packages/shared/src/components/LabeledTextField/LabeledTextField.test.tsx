@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer';
 
 import { LabeledTextField } from './LabeledTextField';
 
-describe('CustomTextField', () => {
+describe('LabeledTextField', () => {
   it('should render correctly with text', () => {
     const tree = renderer
       .create(

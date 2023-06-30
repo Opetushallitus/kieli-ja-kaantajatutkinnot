@@ -7,7 +7,7 @@ import { Text } from '../Text/Text';
 export type LabeledTextFieldProps = {
   id: string;
   label: string;
-} & Omit<CustomTextFieldProps, 'label'>;
+} & CustomTextFieldProps;
 
 export const LabeledTextField = ({
   id,
@@ -25,7 +25,7 @@ export const LabeledTextField = ({
           <b>{label}</b>
         </Text>
       </label>
-      {placeholder ? <Text sx={errorStyles}>{placeholder}</Text> : null}
+      {placeholder && <Text sx={errorStyles}>{placeholder}</Text>}
       <CustomTextField id={id} error={error} {...rest} />
     </div>
   );
