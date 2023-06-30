@@ -97,7 +97,7 @@ export const LabeledComboBox = ({
   showError,
   placeholder,
   ...rest
-}: ComboBoxProps & AutocompleteComboBox & { id: string }) => {
+}: ComboBoxProps & AutoCompleteComboBox & { id: string }) => {
   const getOptionLabel = (option: AutocompleteValue): string => {
     const [activeOption] = values.filter((v) => v.value === option?.value);
 
