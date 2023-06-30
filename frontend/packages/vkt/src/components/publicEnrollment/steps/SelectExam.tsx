@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { Text } from 'shared/components';
+import { H2, Text } from 'shared/components';
 
 import { CertificateShipping } from 'components/publicEnrollment/steps/selectExam/CertificateShipping';
 import { PartialExamsSelection } from 'components/publicEnrollment/steps/selectExam/PartialExamsSelection';
 import { PreviousEnrollment } from 'components/publicEnrollment/steps/selectExam/PreviousEnrollment';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export const SelectExam = ({
@@ -20,6 +20,9 @@ export const SelectExam = ({
   showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps.selectExam',
+  });
 
   const [isValidPreviousEnrollment, setIsValidPreviousEnrollment] =
     useState(false);
@@ -49,24 +52,28 @@ export const SelectExam = ({
   ]);
 
   return (
-    <div className="margin-top-xxl rows gapped-xxl">
+    <div className="margin-top-xxl rows gapped-xl">
+      <H2>{t('chooseExam')}</H2>
       <Text>
         <Trans
           t={translateCommon}
           i18nKey="examinationPaymentsDescription"
         ></Trans>
       </Text>
+      <PartialExamsSelection
+        enrollment={enrollment}
+        editingDisabled={isLoading}
+        setValid={setPartialExamsSelection}
+        showValidation={showValidation}
+      />
+      <H2>{t('previousEnrollment')}</H2>
       <PreviousEnrollment
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
         showValidation={showValidation}
       />
-      <PartialExamsSelection
-        enrollment={enrollment}
-        editingDisabled={isLoading}
-        setValid={setPartialExamsSelection}
-      />
+      <H2>{t('certificateShipping')}</H2>
       <CertificateShipping
         enrollment={enrollment}
         editingDisabled={isLoading}

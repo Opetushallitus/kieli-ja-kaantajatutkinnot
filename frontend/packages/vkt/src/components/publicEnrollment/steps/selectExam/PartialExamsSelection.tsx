@@ -1,5 +1,14 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
-import { useEffect } from 'react';
+import {
+  Checkbox,
+  Collapse,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
 import { H3 } from 'shared/components';
 import { Color } from 'shared/enums';
 
@@ -10,16 +19,25 @@ import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { EnrollmentUtils } from 'utils/enrollment';
 
+enum YesNo {
+  Yes = 'yes',
+  No = 'no',
+}
+
 const CheckboxField = ({
   enrollment,
   fieldName,
   onClick,
   disabled,
+  error,
+  describedBy,
 }: {
   enrollment: PublicEnrollment;
   fieldName: keyof PartialExamsAndSkills;
   onClick: (fieldName: keyof PartialExamsAndSkills) => void;
   disabled: boolean;
+  error: boolean;
+  describedBy: string;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -31,9 +49,11 @@ const CheckboxField = ({
           color={Color.Secondary}
           checked={enrollment[fieldName]}
           disabled={disabled}
+          aria-describedby={describedBy}
         />
       }
       label={translateCommon(`enrollment.partialExamsAndSkills.${fieldName}`)}
+      className={error ? 'checkbox-error' : ''}
     />
   );
 };
@@ -42,51 +62,47 @@ export const PartialExamsSelection = ({
   enrollment,
   editingDisabled,
   setValid,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   editingDisabled: boolean;
-  setValid: (disabled: boolean) => void;
+  setValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
+  const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.partialExamsSelection',
   });
 
   const dispatch = useAppDispatch();
+  const [dirtyFullExam, setDirtyFullExam] = useState(false);
+
+  const isSkillsSelected = enrollment.textualSkill || enrollment.oralSkill;
 
   useEffect(() => {
-    setValid(EnrollmentUtils.isValidPartialExamsAndSkills(enrollment));
-  }, [setValid, enrollment]);
+    setValid(
+      isSkillsSelected &&
+        EnrollmentUtils.isValidTextualSkillAndPartialExams(enrollment) &&
+        EnrollmentUtils.isValidOralSkillAndPartialExams(enrollment)
+    );
+  }, [setValid, enrollment, isSkillsSelected]);
 
   const toggleSkill = (fieldName: keyof PartialExamsAndSkills) => {
     const partialExamsToUncheck: Array<keyof PartialExamsAndSkills> = [];
 
     if (fieldName === 'oralSkill' && enrollment.oralSkill) {
       partialExamsToUncheck.push('speakingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('speechComprehensionPartialExam');
+      partialExamsToUncheck.push('speechComprehensionPartialExam');
     } else if (fieldName === 'textualSkill' && enrollment.textualSkill) {
       partialExamsToUncheck.push('writingPartialExam');
-      !enrollment.understandingSkill &&
-        partialExamsToUncheck.push('readingComprehensionPartialExam');
-    } else if (
-      fieldName === 'understandingSkill' &&
-      enrollment.understandingSkill
-    ) {
-      if (!enrollment.oralSkill) {
-        partialExamsToUncheck.push('speakingPartialExam');
-        partialExamsToUncheck.push('speechComprehensionPartialExam');
-      }
-      if (!enrollment.textualSkill) {
-        partialExamsToUncheck.push('writingPartialExam');
-        partialExamsToUncheck.push('readingComprehensionPartialExam');
-      }
+      partialExamsToUncheck.push('readingComprehensionPartialExam');
     }
 
-    togglePartialExam(fieldName);
+    toggleField(fieldName);
     partialExamsToUncheck.forEach(uncheckPartialExam);
   };
 
-  const togglePartialExam = (fieldName: keyof PartialExamsAndSkills) => {
+  const toggleField = (fieldName: keyof PartialExamsAndSkills) => {
     dispatch(
       updatePublicEnrollment({
         [fieldName]: !enrollment[fieldName],
@@ -102,67 +118,184 @@ export const PartialExamsSelection = ({
     );
   };
 
+  const handleFullExamChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.value === YesNo.Yes;
+
+    setDirtyFullExam(true);
+
+    dispatch(
+      updatePublicEnrollment({
+        textualSkill: checked,
+        oralSkill: checked,
+        speakingPartialExam: checked,
+        speechComprehensionPartialExam: checked,
+        writingPartialExam: checked,
+        readingComprehensionPartialExam: checked,
+      })
+    );
+  };
+
+  const allPartialExamsChecked =
+    enrollment.writingPartialExam &&
+    enrollment.readingComprehensionPartialExam &&
+    enrollment.speakingPartialExam &&
+    enrollment.speechComprehensionPartialExam;
+
+  const somePartialExamsChecked =
+    enrollment.writingPartialExam ||
+    enrollment.readingComprehensionPartialExam ||
+    enrollment.speakingPartialExam ||
+    enrollment.speechComprehensionPartialExam;
+
+  const hasFullExamError = showValidation && !dirtyFullExam;
+  const hasSkillError =
+    showValidation && !enrollment.oralSkill && !enrollment.textualSkill;
+  const hasTextualSkillError =
+    showValidation &&
+    !EnrollmentUtils.isValidTextualSkillAndPartialExams(enrollment);
+  const hasOralSkillError =
+    showValidation &&
+    !EnrollmentUtils.isValidOralSkillAndPartialExams(enrollment);
+
   return (
-    <div className="margin-top-lg rows gapped">
-      <div className="rows gapped-sm">
-        <H3>{t('skillsTitle')}</H3>
-        <div className="public-enrollment__grid__partial-exam-selection rows">
-          <CheckboxField
-            enrollment={enrollment}
-            fieldName={'textualSkill'}
-            onClick={toggleSkill}
+    <div className="rows gapped">
+      <FormControl component="fieldset">
+        <FormLabel component="legend" className="heading-label">
+          {t('doFullExam')}
+        </FormLabel>
+        <RadioGroup
+          name="full-exam-group"
+          value={enrollment.hasPreviousEnrollment ? YesNo.Yes : YesNo.No}
+          onChange={handleFullExamChange}
+        >
+          <FormControlLabel
             disabled={editingDisabled}
+            value={YesNo.Yes}
+            control={<Radio aria-describedby="full-exam-error" />}
+            label={t('yesFullExam')}
+            checked={allPartialExamsChecked}
+            className={`margin-top-sm margin-left-sm ${
+              hasFullExamError && 'checkbox-error'
+            }`}
           />
-          <CheckboxField
-            enrollment={enrollment}
-            fieldName={'oralSkill'}
-            onClick={toggleSkill}
+          <FormControlLabel
             disabled={editingDisabled}
+            value={YesNo.No}
+            control={<Radio aria-describedby="full-exam-error" />}
+            label={t('noFullExam')}
+            checked={
+              !allPartialExamsChecked &&
+              (dirtyFullExam || somePartialExamsChecked)
+            }
+            className={`margin-top-sm margin-left-sm ${
+              hasFullExamError && 'checkbox-error'
+            }`}
           />
-          <CheckboxField
-            enrollment={enrollment}
-            fieldName={'understandingSkill'}
-            onClick={toggleSkill}
-            disabled={editingDisabled}
-          />
-        </div>
-      </div>
-      <div className="public-enrollment__grid__partial-exam-selection">
+        </RadioGroup>
+        {hasFullExamError && (
+          <FormHelperText id="full-exam-error" error={true}>
+            {translateCommon('errors.customTextField.required')}
+          </FormHelperText>
+        )}
+      </FormControl>
+      <Collapse
+        orientation="vertical"
+        in={!allPartialExamsChecked && (dirtyFullExam || isSkillsSelected)}
+      >
         <div className="rows gapped-sm">
-          <H3>{t('partialExamsTitle')}</H3>
-          <div className="grid-columns">
+          <H3>{t('skillsTitle')}</H3>
+          <div className="rows margin-left-lg">
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'textualSkill'}
+              onClick={toggleSkill}
+              disabled={editingDisabled}
+              error={hasSkillError}
+              describedBy="skill-selection-error"
+            />
+            <CheckboxField
+              enrollment={enrollment}
+              fieldName={'oralSkill'}
+              onClick={toggleSkill}
+              disabled={editingDisabled}
+              error={hasSkillError}
+              describedBy="skill-selection-error"
+            />
+          </div>
+          {hasSkillError && (
+            <FormHelperText id="skill-selection-error" error={true}>
+              {translateCommon('errors.customTextField.required')}
+            </FormHelperText>
+          )}
+        </div>
+      </Collapse>
+      <Collapse
+        orientation="vertical"
+        in={!allPartialExamsChecked && isSkillsSelected}
+      >
+        <H3>{t('partialExamsTitle')}</H3>
+      </Collapse>
+      <div>
+        <Collapse
+          orientation="vertical"
+          in={!allPartialExamsChecked && enrollment.textualSkill}
+          className="public-enrollment__grid__partial-exam-selection"
+        >
+          <div className="rows margin-top-sm gapped-sm">
+            <H3>{t('textualSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'writingPartialExam'}
-              onClick={togglePartialExam}
-              disabled={!enrollment.textualSkill || editingDisabled}
+              onClick={toggleField}
+              disabled={editingDisabled}
+              error={hasTextualSkillError}
+              describedBy="textual-skill-selection-error"
             />
             <CheckboxField
               enrollment={enrollment}
               fieldName={'readingComprehensionPartialExam'}
-              onClick={togglePartialExam}
-              disabled={
-                (!enrollment.textualSkill && !enrollment.understandingSkill) ||
-                editingDisabled
-              }
+              onClick={toggleField}
+              disabled={editingDisabled}
+              error={hasTextualSkillError}
+              describedBy="textual-skill-selection-error"
             />
+          </div>
+          {hasTextualSkillError && (
+            <FormHelperText id="textual-skill-selection-error" error={true}>
+              {translateCommon('errors.customTextField.required')}
+            </FormHelperText>
+          )}
+        </Collapse>
+        <Collapse
+          orientation="vertical"
+          in={!allPartialExamsChecked && enrollment.oralSkill}
+          className="public-enrollment__grid__partial-exam-selection"
+        >
+          <div className="rows margin-top-sm gapped-sm">
+            <H3>{t('oralSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
               fieldName={'speakingPartialExam'}
-              onClick={togglePartialExam}
-              disabled={!enrollment.oralSkill || editingDisabled}
+              onClick={toggleField}
+              disabled={editingDisabled}
+              error={hasOralSkillError}
+              describedBy="oral-skill-selection-error"
             />
             <CheckboxField
               enrollment={enrollment}
               fieldName={'speechComprehensionPartialExam'}
-              onClick={togglePartialExam}
-              disabled={
-                (!enrollment.oralSkill && !enrollment.understandingSkill) ||
-                editingDisabled
-              }
+              onClick={toggleField}
+              disabled={editingDisabled}
+              error={hasOralSkillError}
+              describedBy="oral-skill-selection-error"
             />
           </div>
-        </div>
+          {hasOralSkillError && (
+            <FormHelperText id="oral-skill-selection-error" error={true}>
+              {translateCommon('errors.customTextField.required')}
+            </FormHelperText>
+          )}
+        </Collapse>
       </div>
     </div>
   );

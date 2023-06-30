@@ -1,7 +1,8 @@
 import { Authenticate } from 'components/publicEnrollment/steps/Authenticate';
 import { Done } from 'components/publicEnrollment/steps/Done';
-import { Fail } from 'components/publicEnrollment/steps/Fail';
 import { FillContactDetails } from 'components/publicEnrollment/steps/FillContactDetails';
+import { PaymentFail } from 'components/publicEnrollment/steps/PaymentFail';
+import { PaymentSuccess } from 'components/publicEnrollment/steps/PaymentSuccess';
 import { Preview } from 'components/publicEnrollment/steps/Preview';
 import { SelectExam } from 'components/publicEnrollment/steps/SelectExam';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
@@ -11,14 +12,16 @@ import { PublicExamEvent } from 'interfaces/publicExamEvent';
 export const PublicEnrollmentStepContents = ({
   activeStep,
   enrollment,
-  isLoading,
+  isRenewOrCancelLoading,
+  isEnrollmentSubmitLoading,
   setIsStepValid,
   showValidation,
   examEvent,
 }: {
   activeStep: PublicEnrollmentFormStep;
   enrollment: PublicEnrollment;
-  isLoading: boolean;
+  isRenewOrCancelLoading: boolean;
+  isEnrollmentSubmitLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
   showValidation: boolean;
   examEvent: PublicExamEvent;
@@ -30,7 +33,7 @@ export const PublicEnrollmentStepContents = ({
       return (
         <FillContactDetails
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
@@ -39,7 +42,7 @@ export const PublicEnrollmentStepContents = ({
       return (
         <SelectExam
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
@@ -48,18 +51,16 @@ export const PublicEnrollmentStepContents = ({
       return (
         <Preview
           enrollment={enrollment}
-          isLoading={isLoading}
+          isLoading={isRenewOrCancelLoading || isEnrollmentSubmitLoading}
           setIsStepValid={setIsStepValid}
           showValidation={showValidation}
         />
       );
-    case PublicEnrollmentFormStep.PaymentFail:
-      return <Fail enrollment={enrollment} />;
+    case PublicEnrollmentFormStep.Payment:
+      return <PaymentFail enrollment={enrollment} />;
     case PublicEnrollmentFormStep.PaymentSuccess:
-      return <Done enrollment={enrollment} isEnrollmentToQueue={false} />;
+      return <PaymentSuccess enrollment={enrollment} />;
     case PublicEnrollmentFormStep.Done:
-      return <Done enrollment={enrollment} isEnrollmentToQueue={true} />;
-    default:
-      return <> </>;
+      return <Done enrollment={enrollment} />;
   }
 };

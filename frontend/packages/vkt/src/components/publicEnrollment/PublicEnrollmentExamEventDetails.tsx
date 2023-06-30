@@ -23,9 +23,7 @@ export const PublicEnrollmentExamEventDetails = ({
   const getOpeningsText = () => {
     return !isEnrollmentToQueue
       ? `${Math.max(examEvent.openings, 0)}`
-      : `${t('openings')}: ${Math.max(examEvent.openings, 0)} (${t(
-          'enrollmentToQueue'
-        )})`;
+      : `${Math.max(examEvent.openings, 0)} (${t('enrollmentToQueue')})`;
   };
 
   return (

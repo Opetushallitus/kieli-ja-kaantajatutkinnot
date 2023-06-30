@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.13] - 2023-06-30
+
+### Added
+
+- Components LabeledTextField and LabeledComboBox
+
+The new components are (almost) drop-in replacements for, respectively, CustomTextField and ComboBox
+but with fixed labels that are rendered above the input elements.
+
+## [1.9.12] - 2023-06-29
+
+### Added
+
+- Gapped-xl and margin-left-sm styles
+
 ## [1.9.11] - 2023-06-28
 
 ### Added

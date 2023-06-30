@@ -1,5 +1,8 @@
 package fi.oph.vkt.service;
 
+import static fi.oph.vkt.util.LocalisationUtil.localeFI;
+import static fi.oph.vkt.util.LocalisationUtil.localeSV;
+
 import fi.oph.vkt.model.EmailType;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
@@ -10,12 +13,13 @@ import fi.oph.vkt.service.email.EmailData;
 import fi.oph.vkt.service.email.EmailService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
+import fi.oph.vkt.util.LocalisationUtil;
 import fi.oph.vkt.util.TemplateRenderer;
-import fi.oph.vkt.util.localisation.Language;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -40,15 +44,18 @@ public class PublicEnrollmentEmailService {
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
-    final String subject =
-      "Vahvistus ilmoittautumisesta Valtionhallinnon kielitutkintoon (VKT) | Bekräftelse av anmälan till Språkexamen för statsförvaltningen (VKT)";
+    final String subject = String.format(
+      "%s | %s",
+      LocalisationUtil.translate(localeFI, "subject.enrollment-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-confirmation")
+    );
     final String body = templateRenderer.renderEnrollmentConfirmationEmailBody(templateParams);
 
     final List<EmailAttachmentData> attachments = environment.getRequiredProperty(
         "app.email.sending-enabled",
         Boolean.class
       )
-      ? List.of(createReceiptAttachment(enrollment, Language.FI), createReceiptAttachment(enrollment, Language.SV))
+      ? List.of(createReceiptAttachment(enrollment, localeFI), createReceiptAttachment(enrollment, localeSV))
       : List.of(); // for local development
 
     createEmail(recipientName, recipientAddress, subject, body, attachments, EmailType.ENROLLMENT_CONFIRMATION);
@@ -60,8 +67,11 @@ public class PublicEnrollmentEmailService {
 
     final String recipientName = person.getFirstName() + " " + person.getLastName();
     final String recipientAddress = enrollment.getEmail();
-    final String subject =
-      "Vahvistus ilmoittautumisesta jonotuspaikalle Valtionhallinnon kielitutkintoon (VKT) | Bekräftelse av plats i kön för Språkexamen för statsförvaltningen (VKT)";
+    final String subject = String.format(
+      "%s | %s",
+      LocalisationUtil.translate(localeFI, "subject.enrollment-to-queue-confirmation"),
+      LocalisationUtil.translate(localeSV, "subject.enrollment-to-queue-confirmation")
+    );
     final String body = templateRenderer.renderEnrollmentToQueueConfirmationEmailBody(templateParams);
 
     createEmail(recipientName, recipientAddress, subject, body, List.of(), EmailType.ENROLLMENT_TO_QUEUE_CONFIRMATION);
@@ -73,77 +83,62 @@ public class PublicEnrollmentEmailService {
     final Map<String, Object> params = new HashMap<>(Map.of());
 
     if (examEvent.getLanguage() == ExamLanguage.FI) {
-      params.put("examLanguageFI", "suomi");
-      params.put("examLanguageSV", "finska");
+      params.put("examLanguageFI", LocalisationUtil.translate(LocalisationUtil.localeFI, "lang.finnish"));
+      params.put("examLanguageSV", LocalisationUtil.translate(LocalisationUtil.localeSV, "lang.finnish"));
     } else {
-      params.put("examLanguageFI", "ruotsi");
-      params.put("examLanguageSV", "svenska");
+      params.put("examLanguageFI", LocalisationUtil.translate(LocalisationUtil.localeFI, "lang.swedish"));
+      params.put("examLanguageSV", LocalisationUtil.translate(LocalisationUtil.localeSV, "lang.swedish"));
     }
 
-    params.put("examLevelFI", "erinomainen taito");
-    params.put("examLevelSV", "utmärkta språkkunskaper");
+    params.put("examLevelFI", LocalisationUtil.translate(localeFI, "examLevel.excellent"));
+    params.put("examLevelSV", LocalisationUtil.translate(localeSV, "examLevel.excellent"));
 
     params.put("examDate", examEvent.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 
-    params.put(
-      "skillsFI",
-      joinNonEmptyStrings(
-        Stream.of(
-          enrollment.isTextualSkill() ? "kirjallinen taito" : "",
-          enrollment.isOralSkill() ? "suullinen taito" : "",
-          enrollment.isUnderstandingSkill() ? "ymmärtämisen taito" : ""
-        )
-      )
-    );
+    params.put("skillsFI", getEmailParamSkills(enrollment, localeFI, params.get("examLanguageFI")));
+    params.put("skillsSV", getEmailParamSkills(enrollment, localeSV, params.get("examLanguageSV")));
 
-    final String examLanguageSV = (String) params.get("examLanguageSV");
-    params.put(
-      "skillsSV",
-      joinNonEmptyStrings(
-        Stream.of(
-          enrollment.isTextualSkill() ? "förmåga att använda " + examLanguageSV + " i skrift" : "",
-          enrollment.isOralSkill() ? "förmåga att använda " + examLanguageSV + " i tal" : "",
-          enrollment.isUnderstandingSkill() ? "förmåga att förstå " + examLanguageSV : ""
-        )
-      )
-    );
-
-    params.put(
-      "partialExamsFI",
-      joinNonEmptyStrings(
-        Stream.of(
-          enrollment.isWritingPartialExam() ? "kirjoittaminen" : "",
-          enrollment.isReadingComprehensionPartialExam() ? "tekstin ymmärtäminen" : "",
-          enrollment.isSpeakingPartialExam() ? "puhuminen" : "",
-          enrollment.isSpeechComprehensionPartialExam() ? "puheen ymmärtäminen" : ""
-        )
-      )
-    );
-    params.put(
-      "partialExamsSV",
-      joinNonEmptyStrings(
-        Stream.of(
-          enrollment.isWritingPartialExam() ? "skriftlig färdighet" : "",
-          enrollment.isReadingComprehensionPartialExam() ? "textförståelse" : "",
-          enrollment.isSpeakingPartialExam() ? "muntlig färdighet" : "",
-          enrollment.isSpeechComprehensionPartialExam() ? "hörförståelse" : ""
-        )
-      )
-    );
+    params.put("partialExamsFI", getEmailParamPartialExams(enrollment, localeFI));
+    params.put("partialExamsSV", getEmailParamPartialExams(enrollment, localeSV));
 
     return params;
+  }
+
+  private String getEmailParamSkills(final Enrollment enrollment, final Locale locale, final Object... args) {
+    return joinNonEmptyStrings(
+      Stream.of(
+        enrollment.isTextualSkill() ? LocalisationUtil.translate(locale, "skill.textual", args) : "",
+        enrollment.isOralSkill() ? LocalisationUtil.translate(locale, "skill.oral", args) : "",
+        enrollment.isUnderstandingSkill() ? LocalisationUtil.translate(locale, "skill.understanding", args) : ""
+      )
+    );
+  }
+
+  private String getEmailParamPartialExams(final Enrollment enrollment, final Locale locale) {
+    return joinNonEmptyStrings(
+      Stream.of(
+        enrollment.isWritingPartialExam() ? LocalisationUtil.translate(locale, "partialExam.writing") : "",
+        enrollment.isReadingComprehensionPartialExam()
+          ? LocalisationUtil.translate(locale, "partialExam.readingComprehension")
+          : "",
+        enrollment.isSpeakingPartialExam() ? LocalisationUtil.translate(locale, "partialExam.speaking") : "",
+        enrollment.isSpeechComprehensionPartialExam()
+          ? LocalisationUtil.translate(locale, "partialExam.speechComprehension")
+          : ""
+      )
+    );
   }
 
   private String joinNonEmptyStrings(final Stream<String> stream) {
     return stream.filter(s -> !s.isEmpty()).collect(Collectors.joining(", "));
   }
 
-  private EmailAttachmentData createReceiptAttachment(final Enrollment enrollment, final Language language)
+  private EmailAttachmentData createReceiptAttachment(final Enrollment enrollment, final Locale locale)
     throws IOException, InterruptedException {
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), language);
-    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData, language);
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollment.getId(), locale);
+    final byte[] receiptBytes = receiptRenderer.getReceiptPdfBytes(receiptData, locale);
 
-    final String attachmentNamePrefix = language == Language.FI ? "Maksukuitti" : "Betalningskvitto";
+    final String attachmentNamePrefix = LocalisationUtil.translate(locale, "payment.receipt");
 
     return EmailAttachmentData
       .builder()
