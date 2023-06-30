@@ -12,13 +12,14 @@ import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
-import fi.oph.vkt.util.localisation.Language;
+import fi.oph.vkt.util.LocalisationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Locale;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,12 +81,10 @@ public class ClerkEnrollmentController {
     response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 
     // TODO: possibility to download swedish receipt?
-    final Language receiptLanguage = Language.FI;
+    final Locale locale = LocalisationUtil.localeFI;
 
-    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, receiptLanguage);
-    final ByteArrayInputStream bis = new ByteArrayInputStream(
-      receiptRenderer.getReceiptPdfBytes(receiptData, receiptLanguage)
-    );
+    final ReceiptData receiptData = receiptRenderer.getReceiptData(enrollmentId, locale);
+    final ByteArrayInputStream bis = new ByteArrayInputStream(receiptRenderer.getReceiptPdfBytes(receiptData, locale));
     return ResponseEntity.ok().body(new InputStreamResource(bis));
   }
 }
