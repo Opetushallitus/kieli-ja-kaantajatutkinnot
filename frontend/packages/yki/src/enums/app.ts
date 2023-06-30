@@ -61,3 +61,7 @@ export enum RegistrationKind {
   Admission,
   PostAdmission,
 }
+
+export enum YkiValidationErrors {
+  MismatchingEmails = 'errors.mismatchingEmails',
+}

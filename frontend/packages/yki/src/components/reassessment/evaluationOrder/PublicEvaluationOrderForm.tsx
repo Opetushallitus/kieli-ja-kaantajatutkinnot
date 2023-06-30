@@ -10,7 +10,13 @@ import {
 } from '@mui/material';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CustomButton, CustomTextField, H2, H3, Text } from 'shared/components';
+import {
+  CustomButton,
+  H2,
+  H3,
+  LabeledTextField,
+  Text,
+} from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -134,8 +140,7 @@ const ParticipantDetailsTextField = ({
   field: keyof ParticipantDetails;
 }) => {
   const { t } = usePublicTranslation({
-    keyPrefix:
-      'yki.component.evaluationOrderForm.fillParticipantDetails.placeholders',
+    keyPrefix: 'yki.component.evaluationOrderForm.fillParticipantDetails',
   });
   const translateCommon = useCommonTranslation();
   const value = useAppSelector(evaluationOrderSelector).participantDetails[
@@ -172,8 +177,10 @@ const ParticipantDetailsTextField = ({
   );
 
   return (
-    <CustomTextField
-      placeholder={t(field)}
+    <LabeledTextField
+      id={'public-evaluation-order-form__field__' + field}
+      label={t('labels.' + field)}
+      placeholder={t('placeholders.' + field)}
       value={value}
       onChange={(event) =>
         dispatch(setParticipantDetails({ [field]: event.target.value }))

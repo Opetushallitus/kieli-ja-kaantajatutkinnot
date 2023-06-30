@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CustomButton, CustomTextField, H2, Text } from 'shared/components';
+import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
+  CustomTextFieldErrors,
   InputAutoComplete,
   Severity,
   TextFieldTypes,
@@ -13,6 +14,7 @@ import { InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { YkiValidationErrors } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import {
   resetReservationRequest,
@@ -43,10 +45,15 @@ export const EnrollToQueue = () => {
       }),
     [email]
   );
-  const getConfirmEmailError = useCallback(
-    () => (email !== confirmEmail ? 'errors.mismatchingEmailsError' : ''),
-    [confirmEmail, email]
-  );
+  const getConfirmEmailError = useCallback(() => {
+    if (!confirmEmail) {
+      return CustomTextFieldErrors.Required;
+    } else if (confirmEmail !== email) {
+      return YkiValidationErrors.MismatchingEmails;
+    } else {
+      return '';
+    }
+  }, [confirmEmail, email]);
 
   const inputEmailError = showErrors ? getInputEmailError() : '';
   const confirmEmailError = showErrors ? getConfirmEmailError() : '';
@@ -118,46 +125,34 @@ export const EnrollToQueue = () => {
             {t('info.part2')}
           </Text>
           <div className="columns gapped-xxl">
-            <div className="rows">
-              <label htmlFor="enroll-to-queue__input-email">
-                <Text>
-                  <b>{t('inputs.email.heading')}</b>
-                </Text>
-              </label>
-              <Text>{t('inputs.email.description')}</Text>
-              <CustomTextField
-                id="enroll-to-queue__input-email"
-                autoComplete={InputAutoComplete.Email}
-                error={inputEmailError !== ''}
-                helperText={
-                  inputEmailError ? translateCommon(inputEmailError) : ' '
-                }
-                showHelperText={true}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
-            <div className="rows">
-              <label htmlFor="enroll-to-queue__confirm-email">
-                <Text>
-                  <b>{t('inputs.confirmEmail.heading')}</b>
-                </Text>
-              </label>
-              <Text>{t('inputs.confirmEmail.description')}</Text>
-              <CustomTextField
-                id="enroll-to-queue__confirm-email"
-                autoComplete={InputAutoComplete.Email}
-                error={confirmEmailError !== ''}
-                helperText={
-                  confirmEmailError ? translateCommon(confirmEmailError) : ' '
-                }
-                showHelperText={true}
-                value={confirmEmail}
-                onChange={(e) => setConfirmEmail(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
+            <LabeledTextField
+              id="enroll-to-queue__input-email"
+              label={t('inputs.email.heading')}
+              placeholder={t('inputs.email.description')}
+              autoComplete={InputAutoComplete.Email}
+              error={inputEmailError !== ''}
+              helperText={
+                inputEmailError ? translateCommon(inputEmailError) : ' '
+              }
+              showHelperText={true}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoading}
+            />
+            <LabeledTextField
+              id="enroll-to-queue__confirm-email"
+              label={t('inputs.confirmEmail.heading')}
+              placeholder={t('inputs.confirmEmail.description')}
+              autoComplete={InputAutoComplete.Email}
+              error={confirmEmailError !== ''}
+              helperText={
+                confirmEmailError ? translateCommon(confirmEmailError) : ' '
+              }
+              showHelperText={true}
+              value={confirmEmail}
+              onChange={(e) => setConfirmEmail(e.target.value)}
+              disabled={isLoading}
+            />
           </div>
           <div className="columns">
             <CustomButton

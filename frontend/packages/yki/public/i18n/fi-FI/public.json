@@ -26,11 +26,17 @@
             "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
           },
           "heading": "Osallistujan tiedot",
-          "placeholders": {
-            "birthdate": "Syntymäaika (pp.kk.vvvv) *",
+          "labels": {
+            "birthdate": "Syntymäaika *",
             "email": "Sähköpostiosoite *",
             "firstNames": "Etunimet *",
             "lastName": "Sukunimi *"
+          },
+          "placeholders": {
+            "birthdate": "Syötä muodossa pp.kk.vvvv",
+            "email": "Esim. nimi@sahkoposti.fi",
+            "firstNames": "",
+            "lastName": ""
           }
         },
         "info": {
@@ -147,12 +153,9 @@
           "examSessionIsFull": "Tilaisuus on täynnä"
         },
         "registrationDetails": {
-          "address": "Katuosoite",
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
-          "dateOfBirth": "Syntymäaika (pp.kk.vvvv)",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot. Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
-          "email": "Sähköpostiosoite",
           "emailConfirmation": "Vahvista sähköpostiosoite",
           "errors": {
             "fields": {
@@ -176,15 +179,32 @@
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
             "title": "Virheitä lomakkeella"
           },
+          "labels": {
+            "address": "Katuosoite",
+            "dateOfBirth": "Syntymäaika",
+            "email": "Sähköpostiosoite",
+            "firstNames": "Etunimet",
+            "gender": "Sukupuoli",
+            "lastName": "Sukunimi",
+            "nationality": "Kansalaisuus",
+            "phoneNumber": "Puhelinnumero",
+            "postNumber": "Postinumero",
+            "postOffice": "Postitoimipaikka"
+          },
+          "placeholders": {
+            "address": "",
+            "dateOfBirth": "Syötä muodossa pp.kk.vvvv",
+            "email": "Esim. nimi@sahkoposti.fi",
+            "firstNames": "",
+            "gender": "Valitse",
+            "lastName": "",
+            "nationality": "Valitse",
+            "phoneNumber": "Syötä muodossa +358 50 123 4567",
+            "postNumber": "",
+            "postOffice": ""
+          },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
-          "firstNames": "Etunimet",
-          "gender": "Sukupuoli",
           "instructionLanguage": "Millä kielellä haluat tehdä tehtävät? *",
-          "lastName": "Sukunimi",
-          "nationality": "Kansalaisuus",
-          "phoneNumber": "Puhelinnumero",
-          "postNumber": "Postinumero",
-          "postOffice": "Postitoimipaikka",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
