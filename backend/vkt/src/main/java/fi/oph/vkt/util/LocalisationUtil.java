@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 public class LocalisationUtil {
 
-  public static Locale localeFI = Locale.forLanguageTag("fi");
-  public static Locale localeSV = Locale.forLanguageTag("sv");
+  public static final Locale localeFI = Locale.forLanguageTag("fi");
+  public static final Locale localeSV = Locale.forLanguageTag("sv");
 
   public static String translate(final Locale locale, final String key) {
     final ResourceBundle localisation = ResourceBundle.getBundle("localisation", locale);
