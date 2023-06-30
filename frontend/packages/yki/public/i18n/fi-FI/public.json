@@ -249,6 +249,10 @@
             "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
+            "emailInput": {
+              "label": "Syötä sähköpostiosoitteesi",
+              "placeholder": "Esim. nimi@sahkoposti.fi"
+            },
             "emailLink": {
               "error": "Kirjautumislinkin tilaaminen epäonnistui. Voit yrittää uudestaan.",
               "incorrectEmailDialog": {
@@ -257,7 +261,6 @@
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
-            "emailPlaceholder": "Syötä sähköpostiosoitteesi",
             "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
