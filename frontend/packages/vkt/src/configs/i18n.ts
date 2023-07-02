@@ -81,6 +81,17 @@ const useAppTranslation = (
   return useTranslation(ns, options);
 };
 
+export const useAccessibilityTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'vkt.accessibility',
+    },
+    I18nNamespace.Accessibility
+  );
+
+  return t;
+};
+
 export const useClerkTranslation = (options: UseTranslationOptions<string>) => {
   return useAppTranslation(options, I18nNamespace.Clerk);
 };
