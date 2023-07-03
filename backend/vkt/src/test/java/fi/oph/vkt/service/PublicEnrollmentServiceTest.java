@@ -150,6 +150,7 @@ public class PublicEnrollmentServiceTest {
     assertInitialisedEnrollmentDTO(examEvent, person, 2, true, dto);
 
     assertTrue(reservationRepository.findById(dto.reservation().id()).isPresent());
+    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
   }
 
   @Test
@@ -323,6 +324,8 @@ public class PublicEnrollmentServiceTest {
       () -> publicEnrollmentService.initialiseEnrollmentToQueue(examEvent.getId(), person)
     );
     assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM, ex.getExceptionType());
+
+    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
   }
 
   @Test
