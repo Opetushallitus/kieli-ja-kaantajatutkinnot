@@ -111,7 +111,7 @@ class PublicEnrollmentPage {
       .should('be.exist')
       .check();
   }
-  enrollmentFullExamCheckbox(checkboxName: string) {
+  enrollmentFullExamCheckbox() {
     this.elements.enrollmentFullExamCheckbox().should('be.exist').check();
   }
   checkEnrollmentPartialExamCheckbox(checkboxName: string) {

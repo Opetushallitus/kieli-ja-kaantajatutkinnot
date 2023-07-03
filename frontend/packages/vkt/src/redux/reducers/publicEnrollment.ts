@@ -20,7 +20,7 @@ export interface PublicEnrollmentState {
   reservation?: PublicReservation; // undefined if enrolling to queue
 }
 
-const initialState: PublicEnrollmentState = {
+export const initialState: PublicEnrollmentState = {
   loadExamEventStatus: APIResponseStatus.NotStarted,
   enrollmentInitialisationStatus: APIResponseStatus.NotStarted,
   renewReservationStatus: APIResponseStatus.NotStarted,

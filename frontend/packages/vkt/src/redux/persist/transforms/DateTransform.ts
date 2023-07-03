@@ -1,31 +1,26 @@
 import { createTransform } from 'reduxjs-toolkit-persist';
 
-import { PublicReservationResponse } from 'interfaces/publicEnrollment';
-import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
-import { PublicEnrollmentState } from 'redux/reducers/publicEnrollment';
-import { SerializationUtils } from 'utils/serialization';
+import {
+  initialState,
+  PublicEnrollmentState,
+} from 'redux/reducers/publicEnrollment';
 
-interface OutboundState
-  extends Omit<PublicEnrollmentState, 'examEvent' | 'reservation'> {
-  examEvent: PublicExamEventResponse;
-  reservation: PublicReservationResponse;
-}
+type OutboundState = PublicEnrollmentState;
 
 export const DateTransform = createTransform(
   // transform state on its way to being serialized and persisted.
   (inboundState: PublicEnrollmentState) => {
-    return inboundState;
+    return {
+      enrollment: inboundState.enrollment,
+    };
   },
   // transform state being rehydrated
-  (outboundState: OutboundState) => ({
-    ...outboundState,
-    examEvent: SerializationUtils.deserializePublicExamEvent(
-      outboundState.examEvent
-    ),
-    reservation: SerializationUtils.deserializePublicReservation(
-      outboundState.reservation
-    ),
-  }),
+  (outboundState: OutboundState) => {
+    return {
+      ...initialState,
+      ...outboundState,
+    };
+  },
   // define which reducers this transform gets called for.
   { whitelist: ['publicEnrollment'] }
 );
