@@ -44,7 +44,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     cancelPotentialUnfinishedEnrollment(examEvent, person);
 
     final long openings = ExamEventUtil.getOpenings(examEvent);
-
     if (openings <= 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_IS_FULL);
     }
