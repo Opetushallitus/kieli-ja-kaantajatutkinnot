@@ -3,13 +3,15 @@
     "accessibility": {
       "content": {
         "administrativeAgency": {
-          "description": "Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta meille eli sivuston ylläpitäjälle. Vastauksessa voi mennä 14 päivää. Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana,",
-          "extraDescription": "Etelä-Suomen aluehallintoviraston sivulla kerrotaan tarkasti, miten ilmoituksen voi tehdä ja miten asia käsitellään.",
-          "links": {
-            "link": "https://www.saavutettavuusvaatimukset.fi/kayttajan-oikeudet/",
-            "title": "voit tehdä ilmoituksen Etelä-Suomen aluehallintovirastoon (avautuu uuteen ikkunaan)."
+          "description": "Saavutettavuuden valvonnan yksikkö",
+          "email": "saavutettavuus@avi.fi",
+          "link": {
+            "label": "Saavutettavuusvaatimukset.fi",
+            "url": "https://saavutettavuusvaatimukset.fi"
           },
-          "title": "Valvontaviranomainen"
+          "phone": "0295 016 000",
+          "switchboard": "Vaihde",
+          "title": "Valvontaviranomaisen yhteystiedot"
         },
         "caveats": [
           {
@@ -82,34 +84,22 @@
             ]
           }
         ],
-        "contactAdministrativeAgency": {
-          "details": {
-            "name": "Etelä-Suomen aluehallintovirasto",
-            "phone": "Puhelinnumero vaihde 0295 016 000",
-            "unit": "Saavutettavuuden valvonnan yksikkö"
-          },
-          "links": {
-            "email": {
-              "link": "saavutettavuus@avi.fi",
-              "title": "saavutettavuus@avi.fi"
-            },
-            "website": {
-              "ariaLabel": "Saavutettavuusvaatimukset-verkkosivusto, avaa uudessa välilehdessä",
-              "link": "https://saavutettavuusvaatimukset.fi",
-              "title": "Saavutettavuusvaatimukset-verkkosivusto"
-            }
-          },
-          "title": "Valvontaviranomaisen yhteystiedot"
+        "composition": {
+          "description": "Tämä seloste perustuu ulkopuolisen asiantuntijaorganisaation (Knowit Solutions Oy) toteuttamaan arviointiin siitä, täyttääkö verkkosivusto Lain digitaalisten palvelujen tarjoamisesta 306/209 vaatimukset.",
+          "title": "Tämän saavutettavuusselosteen laatiminen"
+        },
+        "enforcement": {
+          "description": "Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta meille eli sivuston ylläpitäjälle. Vastauksessa voi mennä 14 päivää. Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana, voit antaa palautteen Etelä-Suomen aluehallintovirastoon.",
+          "title": "Täytäntöönpanomenettely"
         },
         "feedback": {
-          "description": "Sähköpostilla: {{email}}",
-          "subtitle": "Huomasitko saavutettavuuspuutteen digipalvelussamme? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
+          "description1": "Huomasitko saavutettavuuspuutteen digipalvelussamme? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
+          "description2": "Sähköpostilla",
           "title": "Palaute ja yhteystiedot"
         },
         "furtherImprove": {
-          "description": "Olemme sitoutuneet digipalveluiden saavutettavuuden parantamiseen.",
-          "extraDescription": "Huomasitko saavutettavuuspuutteen? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi.",
-          "subtitle": "Tarjoamme tukea käyttäjille joille digipalvelut eivät ole saavutettavissa",
+          "description1": "Tarjoamme tukea käyttäjille joille digipalvelut eivät ole saavutettavissa.",
+          "description2": "Olemme sitoutuneet digipalveluiden saavutettavuuden parantamiseen.",
           "title": "Teemme jatkuvasti työtä saavutettavuuden parantamiseksi"
         },
         "nonAccessible": {

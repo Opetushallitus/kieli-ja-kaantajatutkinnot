@@ -1,5 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
-import { Grid, Paper } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Grid, Link, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -43,7 +44,7 @@ const ItemBulletList = ({
   bulletPoints: Array<string>;
 }) => (
   <Text>
-    <ul>
+    <ul className="accessibility-statement-page__item-bullet-list">
       <li>{item}</li>
       <ul>
         {bulletPoints.map((bulletPoint, i) => (
@@ -62,7 +63,6 @@ export const AccessibilityStatementPage = () => {
   const caveats = Object.keys(
     accessibilityFI.vkt.accessibility.content.caveats
   );
-  const _feedbackEmail = translateCommon('contactEmail');
 
   useEffect(() => {
     CommonUtils.scrollToTop();
@@ -85,34 +85,111 @@ export const AccessibilityStatementPage = () => {
       </Grid>
       <Grid item>
         <Paper className="accessibility-statement-page__content" elevation={3}>
-          <div className="accessibility-statement">
-            <div className="accessibility-statement-content rows gapped-xxl">
+          <div className="accessibility-statement rows gapped-xxl">
+            <div className="rows gapped-xxs">
+              <H2>{translateAccessibility('content.status.title')}</H2>
+              <Text>
+                {translateAccessibility('content.status.description')}
+              </Text>
+            </div>
+            <div className="rows gapped-xxs">
+              <H3>{translateAccessibility('content.nonAccessible.title')}</H3>
+              <Text>
+                {translateAccessibility('content.nonAccessible.description1')}
+                {':'}
+              </Text>
+              <Text>
+                {translateAccessibility('content.nonAccessible.description2')}
+              </Text>
+              {caveats.map(({}, i) => (
+                <ItemBulletList
+                  key={`items-${i}`}
+                  item={translateAccessibility(`content.caveats.${i}.name`)}
+                  bulletPoints={translateAccessibility(
+                    `content.caveats.${i}.points`,
+                    { returnObjects: true }
+                  )}
+                />
+              ))}
+            </div>
+            <div className="rows gapped-xxs">
+              <H2>{translateAccessibility('content.composition.title')}</H2>
+              <Text>
+                {translateAccessibility('content.composition.description')}
+              </Text>
+            </div>
+            <div className="rows gapped-xxs">
+              <H2>{translateAccessibility('content.feedback.title')}</H2>
+              <Text>
+                {translateAccessibility('content.feedback.description1')}
+              </Text>
+              <Text>
+                {translateAccessibility('content.feedback.description2')}
+                {': '}
+                <a href={`mailto:${translateCommon('contactEmail')}`}>
+                  {translateCommon('contactEmail')}
+                </a>
+              </Text>
+            </div>
+            <div className="rows gapped">
               <div className="rows gapped-xxs">
-                <H2>{translateAccessibility('content.status.title')}</H2>
+                <H3>{translateAccessibility('content.enforcement.title')}</H3>
                 <Text>
-                  {translateAccessibility('content.status.description')}
+                  {translateAccessibility('content.enforcement.description')}
                 </Text>
               </div>
               <div className="rows gapped-xxs">
-                <H3>{translateAccessibility('content.nonAccessible.title')}</H3>
+                <H3>
+                  {translateAccessibility('content.administrativeAgency.title')}
+                </H3>
                 <Text>
-                  {translateAccessibility('content.nonAccessible.description1')}
-                  {':'}
+                  {translateAccessibility(
+                    'content.administrativeAgency.description'
+                  )}
                 </Text>
-                <Text>
-                  {translateAccessibility('content.nonAccessible.description2')}
-                </Text>
-                {caveats.map(({}, i) => (
-                  <ItemBulletList
-                    key={`items-${i}`}
-                    item={translateAccessibility(`content.caveats.${i}.name`)}
-                    bulletPoints={translateAccessibility(
-                      `content.caveats.${i}.points`,
-                      { returnObjects: true }
+                <div className="columns gapped-xxs">
+                  <Link
+                    href={translateAccessibility(
+                      'content.administrativeAgency.link.url'
                     )}
-                  />
-                ))}
+                    target="_blank"
+                  >
+                    <Text>
+                      {translateAccessibility(
+                        'content.administrativeAgency.link.label'
+                      )}
+                    </Text>
+                  </Link>
+                  <OpenInNewIcon />
+                </div>
+                <Text>
+                  <a
+                    href={`mailto:${translateAccessibility(
+                      'content.administrativeAgency.email'
+                    )}`}
+                  >
+                    {translateAccessibility(
+                      'content.administrativeAgency.email'
+                    )}
+                  </a>
+                </Text>
+                <Text>
+                  {translateAccessibility(
+                    'content.administrativeAgency.switchboard'
+                  )}
+                  {': '}
+                  {translateAccessibility('content.administrativeAgency.phone')}
+                </Text>
               </div>
+            </div>
+            <div className="rows gapped-xxs">
+              <H2>{translateAccessibility('content.furtherImprove.title')}</H2>
+              <Text>
+                {translateAccessibility('content.furtherImprove.description1')}
+              </Text>
+              <Text>
+                {translateAccessibility('content.furtherImprove.description2')}
+              </Text>
             </div>
           </div>
         </Paper>
