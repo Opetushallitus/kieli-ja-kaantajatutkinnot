@@ -14,6 +14,7 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,9 +46,10 @@ public class PublicAuthServiceTest {
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
     final Map<String, String> personDetails = Map.ofEntries(
-      Map.entry("identityNumber", "010280-952L"),
       Map.entry("firstName", "Tessa"),
-      Map.entry("lastName", "Testilä")
+      Map.entry("lastName", "Testilä"),
+      Map.entry("oid", "999"),
+      Map.entry("otherIdentifier", "10000")
     );
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
@@ -58,23 +60,30 @@ public class PublicAuthServiceTest {
   @Test
   public void testCreatePersonFromTicket() {
     final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-    assertEquals("010280-952L", person.getIdentityNumber());
-    assertEquals("Testilä", person.getLastName());
-    assertEquals("Tessa", person.getFirstName());
 
-    assertTrue(personRepository.findByIdentityNumber("010280-952L").isPresent());
+    assertPersonDetails(person);
+    assertTrue(personRepository.findByOid("999").isPresent());
   }
 
   @Test
   public void testCreatePersonFromTicketForExistingPerson() {
-    publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-
     final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-    assertEquals("010280-952L", person.getIdentityNumber());
+    final int originalVersion = person.getVersion();
+    final LocalDateTime originalLatestIdentifiedAt = person.getLatestIdentifiedAt();
+    final Person updatedPerson = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
+
+    assertEquals(person.getId(), updatedPerson.getId());
+    assertEquals(originalVersion + 1, updatedPerson.getVersion());
+    assertTrue(originalLatestIdentifiedAt.isBefore(updatedPerson.getLatestIdentifiedAt()));
+    assertPersonDetails(updatedPerson);
+    assertEquals(1, personRepository.count());
+  }
+
+  private void assertPersonDetails(final Person person) {
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
-
-    assertEquals(1, personRepository.count());
+    assertEquals("999", person.getOid());
+    assertEquals("10000", person.getOtherIdentifier());
   }
 
   @Test

@@ -84,6 +84,10 @@ const registrationSlice = createSlice({
           lastName: user.last_name,
           hasSSN: !!user.ssn,
           ssn: user.ssn,
+          nationality: user.nationalities && user.nationalities[0],
+          address: user.street_address,
+          postNumber: user.zip,
+          postOffice: user.post_office,
         };
       } else {
         state.isEmailRegistration = true;

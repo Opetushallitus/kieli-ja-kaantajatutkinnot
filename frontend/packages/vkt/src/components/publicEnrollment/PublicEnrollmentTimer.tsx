@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicReservation } from 'interfaces/publicEnrollment';
 import {
   cancelPublicEnrollmentAndRemoveReservation,
-  renewPublicEnrollmentReservation,
+  renewReservation,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
@@ -67,12 +67,12 @@ export const PublicEnrollmentTimer = ({
     };
   }, [reservation, expirationTime]);
 
-  const renewReservation = () => {
-    dispatch(renewPublicEnrollmentReservation(reservation.id));
+  const handleRenewReservation = () => {
+    dispatch(renewReservation(reservation.id));
     setTimerWarningClosed(true);
   };
 
-  const cancelReservation = () => {
+  const handleCancelEnrollment = () => {
     dispatch(cancelPublicEnrollmentAndRemoveReservation(reservation.id));
   };
 
@@ -123,20 +123,20 @@ export const PublicEnrollmentTimer = ({
               isLoading={cancelLoading}
             >
               <CustomButton
-                data-testid="public-enrollment__cancel-reservation-modal-button"
+                data-testid="public-enrollment__cancel-enrollment-modal-button"
                 variant={Variant.Text}
                 color={Color.Secondary}
-                onClick={cancelReservation}
+                onClick={handleCancelEnrollment}
                 disabled={cancelLoading || isLoading}
               >
-                {t('cancelReservation')}
+                {t('cancelEnrollment')}
               </CustomButton>
             </LoadingProgressIndicator>
             <CustomButton
               data-testid="public-enrollment__renew-reservation-modal-button"
               variant={Variant.Contained}
               color={Color.Secondary}
-              onClick={renewReservation}
+              onClick={handleRenewReservation}
               disabled={cancelLoading || isLoading}
             >
               {t('continueEnrollment')}
@@ -164,7 +164,7 @@ export const PublicEnrollmentTimer = ({
                 data-testid="public-enrollment__reservation-expired-ok-button"
                 variant={Variant.Text}
                 color={Color.Secondary}
-                onClick={cancelReservation}
+                onClick={handleCancelEnrollment}
                 disabled={cancelLoading || isLoading}
               >
                 {t('reservationExpiredContinue')}

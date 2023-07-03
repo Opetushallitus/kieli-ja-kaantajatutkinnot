@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 import 'dayjs/locale/fi';
@@ -7,6 +8,7 @@ import 'dayjs/locale/en-gb';
 import { AppLanguage } from '../../enums';
 
 dayjs.extend(localizedFormat);
+dayjs.extend(customParseFormat);
 
 export class DateUtils {
   static setDayjsLocale(locale: AppLanguage) {
@@ -70,5 +72,16 @@ export class DateUtils {
 
   static isValidDate(date?: Dayjs) {
     return date ? date.isValid() : false;
+  }
+
+  static parseDateString(dateString?: string) {
+    const date = dayjs(
+      dateString,
+      ['D.M.YYYY', 'D.MM.YYYY', 'DD.M.YYYY', 'DD.MM.YYYY'],
+      true
+    );
+    if (date.isValid()) {
+      return date;
+    }
   }
 }

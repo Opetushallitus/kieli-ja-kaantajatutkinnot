@@ -1,7 +1,8 @@
 package fi.oph.vkt.util;
 
-import fi.oph.vkt.util.localisation.Language;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -14,23 +15,25 @@ public class TemplateRenderer {
   private final TemplateEngine templateEngine;
 
   public String renderEnrollmentConfirmationEmailBody(final Map<String, Object> params) {
-    return renderTemplate("enrollment-confirmation", params);
+    return renderTemplate("enrollment-confirmation", params, Optional.empty());
   }
 
   public String renderEnrollmentToQueueConfirmationEmailBody(final Map<String, Object> params) {
-    return renderTemplate("enrollment-to-queue-confirmation", params);
+    return renderTemplate("enrollment-to-queue-confirmation", params, Optional.empty());
   }
 
-  public String renderReceipt(final Language language, final Map<String, Object> params) {
-    return switch (language) {
-      case FI -> renderTemplate("receipt_fi-FI", params);
-      case SV -> renderTemplate("receipt_sv-SE", params);
-    };
+  public String renderReceipt(final Locale locale, final Map<String, Object> params) {
+    return renderTemplate("receipt", params, Optional.of(locale));
   }
 
-  private String renderTemplate(final String template, final Map<String, Object> params) {
+  private String renderTemplate(
+    final String template,
+    final Map<String, Object> params,
+    final Optional<Locale> optionalLocale
+  ) {
     final Context context = new Context();
     context.setVariables(params);
+    optionalLocale.ifPresent(context::setLocale);
 
     return templateEngine.process(template, context);
   }

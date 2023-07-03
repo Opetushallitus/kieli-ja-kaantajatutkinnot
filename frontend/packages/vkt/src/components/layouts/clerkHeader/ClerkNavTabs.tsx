@@ -1,10 +1,17 @@
 import { Tab, Tabs } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Color } from 'shared/enums';
 
 import { useClerkTranslation } from 'configs/i18n';
 import { AppRoutes, HeaderNavTab } from 'enums/app';
+
+const getTabForPath = (path: string) => {
+  if (path === AppRoutes.ClerkHomePage) {
+    return HeaderNavTab.ExamEvents;
+  } else {
+    return false;
+  }
+};
 
 export const ClerkNavTabs = (): JSX.Element => {
   const { t } = useClerkTranslation({
@@ -13,22 +20,9 @@ export const ClerkNavTabs = (): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [selectedTab, setSelectedTab] = useState<HeaderNavTab | boolean>(false);
-
-  const handleChange = ({}, newTab: HeaderNavTab) => {
-    setSelectedTab(newTab);
-  };
-
-  useEffect(() => {
-    if (pathname === AppRoutes.ClerkHomePage) {
-      setSelectedTab(HeaderNavTab.ExamEvents);
-    } else setSelectedTab(false);
-  }, [pathname]);
-
   return (
     <Tabs
-      value={selectedTab}
-      onChange={handleChange}
+      value={getTabForPath(pathname)}
       textColor={Color.Secondary}
       indicatorColor={Color.Secondary}
     >

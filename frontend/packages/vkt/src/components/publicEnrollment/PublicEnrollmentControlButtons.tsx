@@ -14,8 +14,9 @@ import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
-  PublicReservationDetails,
+  PublicReservation,
 } from 'interfaces/publicEnrollment';
+import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
@@ -25,18 +26,22 @@ import { RouteUtils } from 'utils/routes';
 
 export const PublicEnrollmentControlButtons = ({
   activeStep,
+  examEvent,
   enrollment,
-  reservationDetails,
-  isLoading,
+  reservation,
+  isRenewOrCancelLoading,
+  isEnrollmentSubmitLoading,
   isStepValid,
   setShowValidation,
   submitStatus,
   isPaymentLinkPreviewView,
 }: {
   activeStep: PublicEnrollmentFormStep;
+  examEvent: PublicExamEvent;
   enrollment: PublicEnrollment;
-  reservationDetails: PublicReservationDetails;
-  isLoading: boolean;
+  reservation?: PublicReservation;
+  isRenewOrCancelLoading: boolean;
+  isEnrollmentSubmitLoading: boolean;
   isStepValid: boolean;
   setShowValidation: (showValidation: boolean) => void;
   submitStatus: APIResponseStatus;
@@ -48,17 +53,19 @@ export const PublicEnrollmentControlButtons = ({
   const translateCommon = useCommonTranslation();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
+  const isUserActionLoading =
+    isRenewOrCancelLoading || isEnrollmentSubmitLoading;
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { showDialog } = useDialog();
-  const reservationId = reservationDetails.reservation?.id;
-  const examEventId = reservationDetails.examEvent.id;
-  const isEnrollmentToQueue =
-    !reservationDetails.reservation && !isPaymentLinkPreviewView;
+  const reservationId = reservation?.id;
+  const examEventId = examEvent.id;
+  const isEnrollmentToQueue = !reservation && !isPaymentLinkPreviewView;
 
   const handleCancelBtnClick = () => {
-    if (activeStep === PublicEnrollmentFormStep.Authenticate) {
+    if (isPaymentLinkPreviewView) {
       dispatch(cancelPublicEnrollment());
     } else {
       const confirmAction = reservationId
@@ -88,7 +95,7 @@ export const PublicEnrollmentControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      if (reservationDetails.reservation) {
+      if (reservation) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
@@ -105,7 +112,7 @@ export const PublicEnrollmentControlButtons = ({
     dispatch,
     examEventId,
     enrollment.id,
-    reservationDetails.reservation,
+    reservation,
   ]);
 
   const handleBackBtnClick = () => {
@@ -136,7 +143,8 @@ export const PublicEnrollmentControlButtons = ({
         dispatch(
           loadPublicEnrollmentSave({
             enrollment,
-            reservationDetails,
+            examEventId,
+            reservationId,
           })
         );
       }
@@ -152,7 +160,7 @@ export const PublicEnrollmentControlButtons = ({
         color={Color.Secondary}
         onClick={handleCancelBtnClick}
         data-testid="public-enrollment__controlButtons__cancel"
-        disabled={isLoading || isPaymentLoading}
+        disabled={isUserActionLoading || isPaymentLoading}
       >
         {translateCommon('cancel')}
       </CustomButton>
@@ -168,7 +176,7 @@ export const PublicEnrollmentControlButtons = ({
       startIcon={<ArrowBackIcon />}
       disabled={
         activeStep == PublicEnrollmentFormStep.FillContactDetails ||
-        isLoading ||
+        isUserActionLoading ||
         isPaymentLoading
       }
     >
@@ -183,7 +191,7 @@ export const PublicEnrollmentControlButtons = ({
       onClick={handleNextBtnClick}
       data-testid="public-enrollment__controlButtons__next"
       endIcon={<ArrowForwardIcon />}
-      disabled={isLoading || isPaymentLoading}
+      disabled={isUserActionLoading || isPaymentLoading}
     >
       {translateCommon('next')}
     </CustomButton>
@@ -192,24 +200,21 @@ export const PublicEnrollmentControlButtons = ({
   const SubmitButton = () => (
     <LoadingProgressIndicator
       translateCommon={translateCommon}
-      isLoading={isPaymentLoading}
+      isLoading={isEnrollmentSubmitLoading || isPaymentLoading}
     >
       <CustomButton
         variant={Variant.Contained}
         color={Color.Secondary}
         onClick={handleSubmitBtnClick}
         data-testid="public-enrollment__controlButtons__submit"
-        endIcon={<ArrowForwardIcon />}
-        disabled={isLoading || isPaymentLoading}
+        disabled={isUserActionLoading || isPaymentLoading}
       >
-        {isEnrollmentToQueue ? t('sendForm') : t('pay')}
+        {isEnrollmentToQueue ? t('enrollToQueue') : t('pay')}
       </CustomButton>
     </LoadingProgressIndicator>
   );
 
-  const renderBack =
-    activeStep !== PublicEnrollmentFormStep.Authenticate &&
-    !isPaymentLinkPreviewView;
+  const renderBack = !isPaymentLinkPreviewView;
 
   const renderNext = [
     PublicEnrollmentFormStep.FillContactDetails,

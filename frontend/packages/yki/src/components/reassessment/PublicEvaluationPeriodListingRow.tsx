@@ -50,7 +50,9 @@ export const PublicEvaluationPeriodListingRow = ({
             );
           }}
         >
-          {t('requestReassessment')}
+          {evaluationPeriod.open
+            ? t('requestReassessment')
+            : t('evaluationPeriodNotYetOpen')}
         </CustomButton>
       </TableCell>
     </TableRow>

@@ -4,22 +4,25 @@ import { APIResponseStatus } from 'shared/enums';
 import {
   PublicEnrollment,
   PublicReservation,
-  PublicReservationDetails,
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { PublicPerson } from 'interfaces/publicPerson';
 
 export interface PublicEnrollmentState {
-  reservationDetailsStatus: APIResponseStatus;
-  reservationDetails?: PublicReservationDetails;
+  loadExamEventStatus: APIResponseStatus;
+  enrollmentInitialisationStatus: APIResponseStatus;
   renewReservationStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
-  selectedExamEvent?: PublicExamEvent;
   enrollment: PublicEnrollment;
+  examEvent?: PublicExamEvent;
+  person?: PublicPerson;
+  reservation?: PublicReservation; // undefined if enrolling to queue
 }
 
 const initialState: PublicEnrollmentState = {
-  reservationDetailsStatus: APIResponseStatus.NotStarted,
+  loadExamEventStatus: APIResponseStatus.NotStarted,
+  enrollmentInitialisationStatus: APIResponseStatus.NotStarted,
   renewReservationStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
@@ -42,62 +45,56 @@ const initialState: PublicEnrollmentState = {
     previousEnrollment: '',
     privacyStatementConfirmation: false,
   },
+  examEvent: undefined,
+  person: undefined,
+  reservation: undefined,
 };
 
 const publicEnrollmentSlice = createSlice({
   name: 'publicEnrollment',
   initialState,
   reducers: {
-    loadPublicEnrollment(state, _action: PayloadAction<number>) {
-      state.reservationDetailsStatus = APIResponseStatus.InProgress;
-    },
     loadPublicExamEvent(state, _action: PayloadAction<number>) {
-      state.reservationDetailsStatus = APIResponseStatus.InProgress;
-    },
-    initialisePublicEnrollment(state, _action: PayloadAction<PublicExamEvent>) {
-      state.reservationDetailsStatus = APIResponseStatus.InProgress;
-    },
-    rejectPublicEnrollmentInitialisation(state) {
-      state.reservationDetailsStatus = APIResponseStatus.Error;
+      state.loadExamEventStatus = APIResponseStatus.InProgress;
     },
     rejectPublicExamEvent(state) {
-      state.reservationDetailsStatus = APIResponseStatus.Error;
-      state.selectedExamEvent = initialState.selectedExamEvent;
-    },
-    setPublicEnrollmentSelectedExam(
-      state,
-      action: PayloadAction<PublicExamEvent>
-    ) {
-      state.selectedExamEvent = action.payload;
-    },
-    storePublicEnrollmentInitialisation(
-      state,
-      action: PayloadAction<PublicReservationDetails>
-    ) {
-      state.reservationDetailsStatus = APIResponseStatus.Success;
-      state.reservationDetails = action.payload;
-      state.selectedExamEvent = action.payload.examEvent;
-      state.enrollment = action.payload.enrollment ?? state.enrollment;
+      state.loadExamEventStatus = APIResponseStatus.Error;
+      state.examEvent = initialState.examEvent;
     },
     storePublicExamEvent(state, action: PayloadAction<PublicExamEvent>) {
-      state.reservationDetailsStatus = APIResponseStatus.Success;
-      state.selectedExamEvent = action.payload;
+      state.loadExamEventStatus = APIResponseStatus.Success;
+      state.examEvent = action.payload;
     },
-    renewPublicEnrollmentReservation(state, _action: PayloadAction<number>) {
+    loadEnrollmentInitialisation(state, _action: PayloadAction<number>) {
+      state.enrollmentInitialisationStatus = APIResponseStatus.InProgress;
+    },
+    rejectEnrollmentInitialisation(state) {
+      state.enrollmentInitialisationStatus = APIResponseStatus.Error;
+    },
+    storeEnrollmentInitialisation(
+      state,
+      action: PayloadAction<{
+        enrollment?: PublicEnrollment;
+        examEvent: PublicExamEvent;
+        person: PublicPerson;
+        reservation?: PublicReservation;
+      }>
+    ) {
+      state.enrollmentInitialisationStatus = APIResponseStatus.Success;
+      state.enrollment = action.payload.enrollment ?? state.enrollment;
+      state.examEvent = action.payload.examEvent;
+      state.person = action.payload.person;
+      state.reservation = action.payload.reservation;
+    },
+    renewReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;
     },
-    rejectPublicReservationRenew(state) {
+    rejectReservationRenew(state) {
       state.renewReservationStatus = APIResponseStatus.Error;
     },
-    updatePublicEnrollmentReservation(
-      state,
-      action: PayloadAction<PublicReservation>
-    ) {
+    storeReservationRenew(state, action: PayloadAction<PublicReservation>) {
       state.renewReservationStatus = APIResponseStatus.Success;
-      state.reservationDetails = {
-        ...state.reservationDetails,
-        reservation: action.payload,
-      } as PublicReservationDetails;
+      state.reservation = action.payload;
     },
     cancelPublicEnrollment(state) {
       state.cancelStatus = APIResponseStatus.InProgress;
@@ -111,26 +108,30 @@ const publicEnrollmentSlice = createSlice({
     storePublicEnrollmentCancellation(state) {
       state.cancelStatus = APIResponseStatus.Success;
     },
-    resetPublicEnrollment(state) {
-      state.reservationDetailsStatus = initialState.reservationDetailsStatus;
-      state.reservationDetails = initialState.reservationDetails;
-      state.renewReservationStatus = initialState.renewReservationStatus;
-      state.enrollmentSubmitStatus = initialState.enrollmentSubmitStatus;
-      state.enrollment = initialState.enrollment;
-      state.cancelStatus = initialState.cancelStatus;
-      state.selectedExamEvent = initialState.selectedExamEvent;
+    resetPublicEnrollment() {
+      return initialState;
     },
     updatePublicEnrollment(
       state,
       action: PayloadAction<Partial<PublicEnrollment>>
     ) {
-      state.enrollment = { ...state.enrollment, ...action.payload };
+      const newEnrollment = { ...state.enrollment, ...action.payload };
+
+      state.enrollment = {
+        ...newEnrollment,
+        ...{
+          understandingSkill:
+            newEnrollment.speechComprehensionPartialExam ||
+            newEnrollment.readingComprehensionPartialExam,
+        },
+      };
     },
     loadPublicEnrollmentSave(
       state,
       _action: PayloadAction<{
         enrollment: PublicEnrollment;
-        reservationDetails: PublicReservationDetails;
+        examEventId: number;
+        reservationId?: number;
       }>
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
@@ -147,23 +148,21 @@ const publicEnrollmentSlice = createSlice({
 
 export const publicEnrollmentReducer = publicEnrollmentSlice.reducer;
 export const {
-  loadPublicEnrollment,
   loadPublicExamEvent,
-  initialisePublicEnrollment,
-  rejectPublicEnrollmentInitialisation,
   rejectPublicExamEvent,
-  setPublicEnrollmentSelectedExam,
-  storePublicEnrollmentInitialisation,
   storePublicExamEvent,
+  loadEnrollmentInitialisation,
+  rejectEnrollmentInitialisation,
+  storeEnrollmentInitialisation,
+  renewReservation,
+  rejectReservationRenew,
+  storeReservationRenew,
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   storePublicEnrollmentCancellation,
   resetPublicEnrollment,
   updatePublicEnrollment,
-  updatePublicEnrollmentReservation,
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentSave,
-  rejectPublicReservationRenew,
   storePublicEnrollmentSave,
-  renewPublicEnrollmentReservation,
 } = publicEnrollmentSlice.actions;

@@ -1,4 +1,4 @@
-import { AppRoutes, EnrollmentStatus, UIMode } from 'enums/app';
+import { EnrollmentStatus, UIMode } from 'enums/app';
 
 const enrollmentRowTestId = (id: number) => `enrollments-table__id-${id}-row`;
 

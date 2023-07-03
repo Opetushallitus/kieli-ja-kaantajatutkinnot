@@ -45,8 +45,7 @@ public class ClerkInterpreterController {
   @Operation(tags = TAG_INTERPRETER, summary = "Create new interpreter")
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public ClerkInterpreterDTO createInterpreter(@RequestBody @Valid final ClerkInterpreterCreateDTO dto)
-    throws Exception {
+  public ClerkInterpreterDTO createInterpreter(@RequestBody @Valid final ClerkInterpreterCreateDTO dto) {
     return clerkInterpreterService.createInterpreter(dto);
   }
 
@@ -58,8 +57,7 @@ public class ClerkInterpreterController {
 
   @Operation(tags = TAG_INTERPRETER, summary = "Update interpreter")
   @PutMapping(consumes = APPLICATION_JSON_VALUE)
-  public ClerkInterpreterDTO updateInterpreter(@RequestBody @Valid final ClerkInterpreterUpdateDTO dto)
-    throws Exception {
+  public ClerkInterpreterDTO updateInterpreter(@RequestBody @Valid final ClerkInterpreterUpdateDTO dto) {
     return clerkInterpreterService.updateInterpreter(dto);
   }
 

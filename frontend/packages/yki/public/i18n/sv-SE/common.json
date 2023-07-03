@@ -8,6 +8,10 @@
         "dateTimeFormat": "l [kl.] HH:mm"
       },
       "error": "Ett oväntat fel uppstod.",
+      "gender": {
+        "female": "kvinna",
+        "male": "man"
+      },
       "header": {
         "accessibility": {
           "langSelectorAriaLabel": "Ändra språk i användargränssnittet"

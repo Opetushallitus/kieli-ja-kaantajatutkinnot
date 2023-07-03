@@ -85,19 +85,19 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentDone}
+                  path={AppRoutes.PublicEnrollmentPaymentFail}
                   element={
-                    <TitlePage title={createTitle('done')}>
+                    <TitlePage title={createTitle('paymentFail')}>
                       <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.Done}
+                        activeStep={PublicEnrollmentFormStep.Payment}
                       />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentSuccess}
+                  path={AppRoutes.PublicEnrollmentPaymentSuccess}
                   element={
-                    <TitlePage title={createTitle('success')}>
+                    <TitlePage title={createTitle('paymentSuccess')}>
                       <PublicEnrollmentPage
                         activeStep={PublicEnrollmentFormStep.PaymentSuccess}
                       />
@@ -105,11 +105,11 @@ export const AppRouter: FC = () => {
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentFail}
+                  path={AppRoutes.PublicEnrollmentDone}
                   element={
-                    <TitlePage title={createTitle('fail')}>
+                    <TitlePage title={createTitle('done')}>
                       <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.PaymentFail}
+                        activeStep={PublicEnrollmentFormStep.Done}
                       />
                     </TitlePage>
                   }

@@ -1,5 +1,4 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Link } from '@mui/material';
+import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -8,15 +7,35 @@ import { CommonRegistrationDetails } from 'components/registration/steps/registe
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useRegistrationNavigationProtection } from 'hooks/useNavigationProtection';
+import { ExamSession } from 'interfaces/examSessions';
+import { loadNationalities } from 'redux/reducers/nationalities';
+import { examSessionSelector } from 'redux/selectors/examSession';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { ExamUtils } from 'utils/exam';
 
 const FillRegistrationDetails = () => {
-  const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const { isEmailRegistration } = useAppSelector(registrationSelector);
+  const submitRegistrationStatus =
+    useAppSelector(registrationSelector).submitRegistration.status;
+  const nationalitiesStatus = useAppSelector(nationalitiesSelector).status;
+
+  useEffect(() => {
+    if (nationalitiesStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadNationalities());
+    }
+  }, [dispatch, nationalitiesStatus]);
+
+  useRegistrationNavigationProtection(
+    submitRegistrationStatus === APIResponseStatus.NotStarted ||
+      submitRegistrationStatus === APIResponseStatus.InProgress
+  );
 
   return (
     <div className="margin-top-xxl rows gapped">
@@ -33,22 +52,7 @@ const FillRegistrationDetails = () => {
       )}
       <CommonRegistrationDetails />
       <H2>{t('whatsNext.title')}</H2>
-      <Text>{t('whatsNext.description1')}</Text>
-      <Text>
-        {t('whatsNext.description2')}
-        <br />
-        {t('whatsNext.description3')}:
-        <br />
-        <div className="columns gapped-xxs">
-          <Link
-            href={translateCommon('specialArrangementsLink')}
-            target="_blank"
-          >
-            {t('whatsNext.linkLabel')}
-          </Link>
-          <OpenInNewIcon />
-        </div>
-      </Text>
+      <Text>{t('whatsNext.description')}</Text>
     </div>
   );
 };
@@ -69,28 +73,30 @@ const Error = () => {
 };
 
 const Success = () => {
-  const { registration } = useAppSelector(registrationSelector);
+  const { examSession } = useAppSelector(examSessionSelector);
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.registrationFormSubmitted',
+    keyPrefix:
+      'yki.component.registration.registrationFormSubmitted.proceedToPayment',
   });
 
   return (
     <div className="margin-top-xxl rows gapped">
       <H2>{t('title')}</H2>
-      <H2>{t('whatsNext.title')}</H2>
       <Text>
-        <Trans
-          t={t}
-          i18nKey={'whatsNext.description1'}
-          email={registration.email}
-        >
-          {registration.email}
-        </Trans>
+        {t('confirmation')}:{' '}
+        {ExamUtils.languageAndLevelText(examSession as ExamSession)}
       </Text>
       <Text>
-        <Trans t={t} i18nKey={'whatsNext.description2'} />
+        {t('paymentLinkEmail.text1')}
         <br />
-        {t('whatsNext.description3')}
+        {t('paymentLinkEmail.text2')}
+        <br />
+        {t('paymentLinkEmail.text3')}
+      </Text>
+      <Text>
+        <Trans t={t} i18nKey={'dueDateReminder.text1'} />
+        <br />
+        {t('dueDateReminder.text2')}
       </Text>
     </div>
   );

@@ -6,7 +6,7 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -31,45 +31,26 @@ public class PublicAuthService {
     return casLoginUrl + "?service=" + casServiceUrl;
   }
 
-  private Person createPerson(
-    final String identityNumber,
-    final String firstName,
-    final String lastName,
-    final String OID,
-    final String otherIdentifier,
-    final LocalDate dateOfBirth
-  ) {
-    final Person person = new Person();
-    person.setIdentityNumber(identityNumber);
-    person.setLastName(lastName);
-    person.setFirstName(firstName);
-    person.setOid(OID);
-    person.setOtherIdentifier(otherIdentifier);
-    person.setDateOfBirth(dateOfBirth);
-
-    return personRepository.saveAndFlush(person);
-  }
-
   @Transactional
   public Person createPersonFromTicket(final String ticket, final long examEventId, final EnrollmentType type) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
-    final String identityNumber = personDetails.get("identityNumber");
-    final String firstName = personDetails.get("firstName");
     final String lastName = personDetails.get("lastName");
-    final String OID = personDetails.get("oid");
+    final String firstName = personDetails.get("firstName");
+    final String oid = personDetails.get("oid");
     final String otherIdentifier = personDetails.get("otherIdentifier");
-    final String dateOfBirthRaw = personDetails.get("dateOfBirth");
-    final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
-      ? null
-      : LocalDate.parse(dateOfBirthRaw);
 
-    final Optional<Person> optionalPerson = identityNumber != null && !identityNumber.isEmpty()
-      ? personRepository.findByIdentityNumber(identityNumber)
+    final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
+      ? personRepository.findByOid(oid)
       : personRepository.findByOtherIdentifier(otherIdentifier);
 
-    return optionalPerson.orElseGet(() ->
-      createPerson(identityNumber, firstName, lastName, OID, otherIdentifier, dateOfBirth)
-    );
+    final Person person = optionalExistingPerson.orElse(new Person());
+    person.setLastName(lastName);
+    person.setFirstName(firstName);
+    person.setOid(oid);
+    person.setOtherIdentifier(otherIdentifier);
+    person.setLatestIdentifiedAt(LocalDateTime.now());
+
+    return personRepository.saveAndFlush(person);
   }
 }

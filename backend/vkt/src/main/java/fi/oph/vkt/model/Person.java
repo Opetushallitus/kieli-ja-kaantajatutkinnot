@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -25,10 +25,6 @@ public class Person extends BaseEntity {
   @Column(name = "person_id", nullable = false)
   private long id;
 
-  @Size(max = 255)
-  @Column(name = "identity_number", unique = true)
-  private String identityNumber;
-
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
@@ -43,8 +39,8 @@ public class Person extends BaseEntity {
   @Column(name = "other_identifier", unique = true)
   private String otherIdentifier;
 
-  @Column(name = "date_of_birth")
-  private LocalDate dateOfBirth;
+  @Column(name = "latest_identified_at", nullable = false)
+  private LocalDateTime latestIdentifiedAt;
 
   @OneToMany(mappedBy = "person")
   private List<Enrollment> enrollments = new ArrayList<>();

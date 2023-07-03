@@ -180,6 +180,7 @@ export const PrivacyPolicyPage = () => {
                   'dataContents.group1.otherDetails.ul2',
                   'dataContents.group1.otherDetails.ul3',
                   'dataContents.group1.otherDetails.ul4',
+                  'dataContents.group1.otherDetails.ul5',
                 ]}
               />
             </Text>

@@ -1,5 +1,3 @@
-import { Dayjs } from 'dayjs';
-
 export interface ExaminationParts {
   readingComprehension: boolean;
   speechComprehension: boolean;
@@ -7,11 +5,11 @@ export interface ExaminationParts {
   writing: boolean;
 }
 
-export interface PayerDetails {
+export interface ParticipantDetails {
   firstNames?: string;
   lastName?: string;
   email?: string;
-  birthdate?: Dayjs;
+  birthdate?: string;
 }
 
 export type Subtest = 'LISTENING' | 'READING' | 'SPEAKING' | 'WRITING';

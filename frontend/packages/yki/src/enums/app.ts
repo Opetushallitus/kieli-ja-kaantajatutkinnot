@@ -11,7 +11,6 @@ export enum AppRoutes {
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
   NotFoundPage = '*',
-  PrivacyPolicyPage = '/yki/tietosuojaseloste',
 }
 
 export enum HeaderTabNav {
@@ -56,5 +55,4 @@ export enum RadioButtonValue {
 export enum GenderEnum {
   Male = 'male',
   Female = 'female',
-  Other = 'other',
 }

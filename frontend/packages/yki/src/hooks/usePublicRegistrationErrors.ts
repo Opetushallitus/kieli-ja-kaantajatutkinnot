@@ -26,6 +26,9 @@ const getErrors = (
   if (!registration.certificateLanguage) {
     errors['certificateLanguage'] = CustomTextFieldErrors.Required;
   }
+  if (!registration.instructionLanguage) {
+    errors['instructionLanguage'] = CustomTextFieldErrors.Required;
+  }
   if (!registration.termsAndConditionsAgreed) {
     errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
   }
@@ -65,9 +68,11 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
-    if (!registration.dateOfBirth) {
-      errors['dateOfBirth'] = CustomTextFieldErrors.Required;
-    }
+    errors['dateOfBirth'] = InputFieldUtils.validateCustomTextFieldErrors({
+      type: TextFieldTypes.Date,
+      required: true,
+      value: registration.dateOfBirth,
+    });
     if (registration.hasSSN === undefined) {
       errors['hasSSN'] = CustomTextFieldErrors.Required;
     }

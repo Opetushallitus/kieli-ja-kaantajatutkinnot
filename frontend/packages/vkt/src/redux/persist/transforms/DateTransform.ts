@@ -1,6 +1,6 @@
 import { createTransform } from 'reduxjs-toolkit-persist';
 
-import { PublicReservationDetailsResponse } from 'interfaces/publicEnrollment';
+import { PublicReservationResponse } from 'interfaces/publicEnrollment';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
 import { PublicEnrollmentState } from 'redux/reducers/publicEnrollment';
 import { SerializationUtils } from 'utils/serialization';
@@ -11,7 +11,7 @@ interface OutboundState
     'selectedExamEvent' | 'reservationDetails'
   > {
   selectedExamEvent: PublicExamEventResponse;
-  reservationDetails: PublicReservationDetailsResponse;
+  reservationDetails: PublicReservationResponse;
 }
 
 export const DateTransform = createTransform(
@@ -25,7 +25,7 @@ export const DateTransform = createTransform(
     selectedExamEvent: SerializationUtils.deserializePublicExamEvent(
       outboundState.selectedExamEvent
     ),
-    reservationDetails: SerializationUtils.deserializePublicReservationDetails(
+    reservationDetails: SerializationUtils.deserializePublicReservation(
       outboundState.reservationDetails
     ),
   }),

@@ -1,41 +1,35 @@
 import { Tab, Tabs } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { Color } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes, HeaderTabNav } from 'enums/app';
 
+const getTabForPath = (path: string) => {
+  if (
+    path === AppRoutes.Registration ||
+    matchPath(AppRoutes.ExamSession, path) ||
+    matchPath(AppRoutes.ExamSessionRegistration, path)
+  ) {
+    return HeaderTabNav.Registration;
+  } else if (
+    path === AppRoutes.Reassessment ||
+    matchPath(AppRoutes.ReassessmentOrder, path)
+  ) {
+    return HeaderTabNav.Reassessment;
+  } else {
+    return false;
+  }
+};
+
 export const PublicNavTabs = (): JSX.Element => {
   const translateCommon = useCommonTranslation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const [value, setValue] = useState<HeaderTabNav | boolean>(false);
-
-  const handleChange = ({}, newValue: HeaderTabNav) => {
-    setValue(newValue);
-  };
-
-  useEffect(() => {
-    if (
-      pathname === AppRoutes.Registration ||
-      matchPath(AppRoutes.ExamSession, pathname) ||
-      matchPath(AppRoutes.ExamSessionRegistration, pathname)
-    ) {
-      setValue(HeaderTabNav.Registration);
-    } else if (
-      pathname === AppRoutes.Reassessment ||
-      matchPath(AppRoutes.ReassessmentOrder, pathname)
-    ) {
-      setValue(HeaderTabNav.Reassessment);
-    }
-  }, [pathname]);
-
   return (
     <Tabs
-      value={value}
-      onChange={handleChange}
+      value={getTabForPath(pathname)}
       textColor={Color.Secondary}
       indicatorColor={Color.Secondary}
     >

@@ -1,5 +1,4 @@
 import { H2, Text } from 'shared/components';
-import { DateUtils } from 'shared/utils';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -11,41 +10,31 @@ export const PersonDetails = () => {
     keyPrefix: 'vkt.component.publicEnrollment.steps.personDetails',
   });
 
-  const { reservationDetails } = useAppSelector(publicEnrollmentSelector);
-  const person = reservationDetails?.person;
+  const { person } = useAppSelector(publicEnrollmentSelector);
 
   if (!person) {
     return null;
   }
 
-  const displayField = (field: keyof PublicPerson) => {
-    const value =
-      field === 'dateOfBirth'
-        ? DateUtils.formatOptionalDate(person.dateOfBirth)
-        : person[field];
-
-    return (
-      <div className="rows">
-        <Text className="bold">
-          {t(field)}
-          {':'}
-        </Text>
-        <Text>{value}</Text>
-      </div>
-    );
-  };
+  const displayField = (field: keyof PublicPerson) => (
+    <div className="rows">
+      <Text className="bold">
+        {t(field)}
+        {':'}
+      </Text>
+      <Text>{person[field]}</Text>
+    </div>
+  );
 
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
       <div
-        className="grid-columns gapped"
+        className="grid-2-columns gapped"
         data-testid="enrollment-person-details"
       >
         {displayField('lastName')}
         {displayField('firstName')}
-        {person.identityNumber && displayField('identityNumber')}
-        {person.dateOfBirth && displayField('dateOfBirth')}
       </div>
     </div>
   );

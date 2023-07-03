@@ -1,6 +1,7 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
+import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
@@ -29,34 +30,44 @@ export const PublicEnrollmentStepper = ({
 
   const doneStepNumber = steps.length;
 
-  const getStatusText = (stepNumber: number) => {
-    if (stepNumber < activeStep) {
-      return t('completed');
-    }
+  const getDescription = (step: PublicEnrollmentFormStep) => {
+    return t(`step.${PublicEnrollmentFormStep[step]}`);
   };
 
-  const isError = activeStep === PublicEnrollmentFormStep.PaymentFail;
-
-  const getDescription = (stepNumber: number) => {
-    return t(`step.${PublicEnrollmentFormStep[stepNumber]}`);
-  };
-
-  const getStepAriaLabel = (stepNumber: number) => {
+  const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
     const part = t('phaseNumber', {
-      current: stepNumber,
+      current: stepIndex + 1,
       total: steps.length,
     });
-    const statusText = getStatusText(stepNumber);
+    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  const isStepCompleted = (stepNumber: number) =>
-    stepNumber < activeStep && !(isError && stepNumber === doneStepNumber);
+  const getDesktopActiveStep = () => {
+    // "Hack" for not having Mui-Active for Payment step
+    if (activeStep === PublicEnrollmentFormStep.Payment) {
+      return activeStep;
+    } else if (activeStep === PublicEnrollmentFormStep.Done) {
+      return doneStepNumber - 1;
+    }
 
-  const mobileStepValue = activeStep * (100 / doneStepNumber);
-  const mobilePhaseText = `${activeStep}/${doneStepNumber}`;
+    return activeStep - 1;
+  };
+
+  const hasError = (step: PublicEnrollmentFormStep) => {
+    return step === PublicEnrollmentFormStep.Payment && step === activeStep;
+  };
+
+  const isStepCompleted = (step: PublicEnrollmentFormStep) => {
+    return step < activeStep;
+  };
+
+  const stepValue = Math.min(activeStep, doneStepNumber);
+
+  const mobileStepValue = stepValue * (100 / doneStepNumber);
+  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
     `step.${PublicEnrollmentFormStep[activeStep]}`
   )}`;
@@ -66,31 +77,38 @@ export const PublicEnrollmentStepper = ({
       value={mobileStepValue}
       ariaLabel={mobileAriaLabel}
       phaseText={mobilePhaseText}
+      color={
+        activeStep === PublicEnrollmentFormStep.Payment
+          ? Color.Error
+          : Color.Secondary
+      }
       size={90}
     />
   ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
-      activeStep={activeStep - 1}
+      activeStep={getDesktopActiveStep()}
       aria-label={t('phases')}
     >
-      {steps.map((i) => (
+      {steps.map((step, index) => (
         <Step
-          data-testid={`enrollment-step-${i}`}
-          key={i}
-          completed={isStepCompleted(i)}
+          data-testid={`enrollment-step-${index}`}
+          key={step}
+          completed={isStepCompleted(step)}
         >
+          {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
-            error={i === doneStepNumber && isError}
-            aria-label={getStepAriaLabel(i)}
+            error={hasError(step)}
+            aria-label={getStepAriaLabel(step, index)}
+            role="text"
             className={
-              activeStep < i
+              activeStep < step
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
-            aria-hidden="true"
           >
-            {getDescription(i)}
+            {/* eslint-enable */}
+            {getDescription(step)}
           </StepLabel>
         </Step>
       ))}

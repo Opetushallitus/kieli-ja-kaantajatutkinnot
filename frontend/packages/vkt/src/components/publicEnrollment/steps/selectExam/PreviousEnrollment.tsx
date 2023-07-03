@@ -140,36 +140,29 @@ export const PreviousEnrollment = ({
           }
           onChange={handleRadioButtonChange}
         >
-          <div className="columns margin-top-sm">
-            <FormControlLabel
-              data-testid="enrollment-checkbox-previously-enrolled-yes"
-              disabled={editingDisabled}
-              value={PreviouslyEnrolled.Yes}
-              control={
-                <Radio aria-describedby="has-previous-enrollment-error" />
-              }
-              label={translateCommon('yes')}
-              checked={enrollment.hasPreviousEnrollment}
-              className="public-enrollment__grid__previous-enrollment__selection-label"
-            />
-            <FormControlLabel
-              data-testid="enrollment-checkbox-previously-enrolled-no"
-              disabled={editingDisabled}
-              value={PreviouslyEnrolled.No}
-              control={
-                <Radio aria-describedby="has-previous-enrollment-error" />
-              }
-              label={translateCommon('no')}
-              checked={enrollment.hasPreviousEnrollment === false}
-              className="public-enrollment__grid__previous-enrollment__selection-label"
-            />
-          </div>
+          <FormControlLabel
+            disabled={editingDisabled}
+            value={PreviouslyEnrolled.Yes}
+            control={<Radio aria-describedby="has-previous-enrollment-error" />}
+            label={translateCommon('yes')}
+            checked={enrollment.hasPreviousEnrollment}
+            className={`margin-top-sm margin-left-sm ${
+              hasRadioButtonError && 'checkbox-error'
+            }`}
+          />
+          <FormControlLabel
+            disabled={editingDisabled}
+            value={PreviouslyEnrolled.No}
+            control={<Radio aria-describedby="has-previous-enrollment-error" />}
+            label={translateCommon('no')}
+            checked={enrollment.hasPreviousEnrollment === false}
+            className={`margin-left-sm ${
+              hasRadioButtonError && 'checkbox-error'
+            }`}
+          />
         </RadioGroup>
         {hasRadioButtonError && (
-          <FormHelperText
-            id="has-previous-enrollment-error"
-            error={hasRadioButtonError}
-          >
+          <FormHelperText id="has-previous-enrollment-error" error={true}>
             {translateCommon('errors.customTextField.required')}
           </FormHelperText>
         )}

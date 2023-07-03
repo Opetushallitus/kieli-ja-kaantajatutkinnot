@@ -32,8 +32,6 @@ public class ExamEventXlsxDataRowUtil {
       .enrollmentTime(DATETIME_FORMAT.format(enrollment.getCreatedAt()))
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
-      .identityNumber(person.getIdentityNumber())
-      .dateOfBirth(person.getDateOfBirth() != null ? DATE_FORMAT.format(person.getDateOfBirth()) : null)
       .previousEnrollment(enrollment.getPreviousEnrollment())
       .status(statusToText(enrollment.getStatus()))
       .textualSkill(boolToInt(enrollment.isTextualSkill()))

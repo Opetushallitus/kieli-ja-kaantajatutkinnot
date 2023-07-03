@@ -13,7 +13,7 @@ export const PublicExamSessionListingHeader = () => {
       {!isPhone && (
         <TableRow>
           <TableCell>{translateCommon('examSession')}</TableCell>
-          <TableCell>{translateCommon('date')}</TableCell>
+          <TableCell>{translateCommon('examDate')}</TableCell>
           <TableCell>{translateCommon('institution')}</TableCell>
           <TableCell>{translateCommon('registrationPeriod')}</TableCell>
           <TableCell>{translateCommon('price')}</TableCell>

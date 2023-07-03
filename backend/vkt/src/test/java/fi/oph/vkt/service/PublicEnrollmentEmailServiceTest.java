@@ -147,6 +147,7 @@ public class PublicEnrollmentEmailServiceTest {
     assertEquals("Foo Bar", email.getRecipientName());
     assertEquals("foo.bar@vkt.test", email.getRecipientAddress());
     assertTrue(email.getSubject().contains("Vahvistus ilmoittautumisesta Valtionhallinnon kielitutkintoon"));
+    assertTrue(email.getSubject().contains("Bekräftelse av anmälan till Språkexamen för statsförvaltningen"));
     assertEquals("<html>enrollment</html>", email.getBody());
     assertNull(email.getSentAt());
     assertNull(email.getError());
@@ -221,6 +222,7 @@ public class PublicEnrollmentEmailServiceTest {
     assertEquals("Foo Bar", email.getRecipientName());
     assertEquals("foo.bar@vkt.test", email.getRecipientAddress());
     assertTrue(email.getSubject().contains("Vahvistus ilmoittautumisesta jonotuspaikalle"));
+    assertTrue(email.getSubject().contains("Bekräftelse av plats i kön"));
     assertEquals("<html>enrollment-to-queue</html>", email.getBody());
     assertNull(email.getSentAt());
     assertNull(email.getError());

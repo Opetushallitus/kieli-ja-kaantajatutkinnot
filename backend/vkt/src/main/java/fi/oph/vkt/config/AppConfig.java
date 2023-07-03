@@ -13,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -65,6 +67,14 @@ public class AppConfig {
       .build();
 
     return new CasTicketValidator(environment, webClient);
+  }
+
+  @Bean
+  public MessageSource messageSource() {
+    final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    messageSource.setBasename("localisation");
+    messageSource.setDefaultEncoding("utf-8");
+    return messageSource;
   }
 
   @Bean

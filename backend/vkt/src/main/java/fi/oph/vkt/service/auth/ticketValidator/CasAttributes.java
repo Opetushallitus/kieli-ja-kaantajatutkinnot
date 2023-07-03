@@ -14,8 +14,6 @@ public class CasAttributes {
   private String firstName;
   private String familyName;
   private String sn;
-  private String nationalIdentificationNumber;
   private String personOid;
   private String personIdentifier;
-  private String dateOfBirth;
 }

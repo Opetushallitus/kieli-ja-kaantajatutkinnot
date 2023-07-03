@@ -27,6 +27,7 @@ export enum CustomTextFieldErrors {
   EmailFormat = 'errors.customTextField.emailFormat',
   TelFormat = 'errors.customTextField.telFormat',
   PersonalIdentityCodeFormat = 'errors.customTextField.personalIdentityCodeFormat',
+  DateFormat = 'errors.customTextField.dateFormat',
 }
 
 export enum Direction {
@@ -110,6 +111,7 @@ export enum TextFieldTypes {
   PhoneNumber = 'tel',
   Textarea = 'textarea',
   PersonalIdentityCode = 'personalIdentityCode',
+  Date = 'date',
 }
 
 export enum TextFieldVariant {

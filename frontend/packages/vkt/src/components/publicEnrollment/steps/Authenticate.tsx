@@ -7,11 +7,7 @@ import { APIEndpoints } from 'enums/api';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { ExamEventUtils } from 'utils/examEvent';
 
-export const Authenticate = ({
-  selectedExamEvent,
-}: {
-  selectedExamEvent: PublicExamEvent;
-}) => {
+export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
@@ -23,10 +19,10 @@ export const Authenticate = ({
 
     window.location.href = APIEndpoints.PublicAuthLogin.replace(
       ':examEventId',
-      selectedExamEvent.id.toString()
+      examEvent.id.toString()
     ).replace(
       ':type',
-      ExamEventUtils.hasOpenings(selectedExamEvent) ? 'reservation' : 'queue'
+      ExamEventUtils.hasOpenings(examEvent) ? 'reservation' : 'queue'
     );
   };
 

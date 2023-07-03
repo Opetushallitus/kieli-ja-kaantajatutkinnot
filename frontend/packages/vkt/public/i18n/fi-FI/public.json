@@ -32,26 +32,45 @@
             "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
             "title": "Peruuta ilmoittautuminen"
           },
-          "pay": "Siirry maksamaan",
-          "sendForm": "Lähetä lomake"
+          "enrollToQueue": "Ilmoittaudu jonoon",
+          "pay": "Siirry maksamaan"
         },
         "examEventDetails": {
+          "enrollmentToQueue": "ilmoittautuminen jonoon",
           "examDate": "Tutkintopäivä",
+          "examEvent": "Tutkinto",
           "openings": "Paikkoja vapaana",
           "registrationCloses": "Ilmoittautuminen sulkeutuu"
         },
         "expirationTimer": {
-          "cancelReservation": "Peruuta ilmoittautuminen",
+          "cancelEnrollment": "Peruuta ilmoittautuminen",
           "continueEnrollment": "Jatka ilmoittautumista",
           "reservationExpired": "Paikkavaraus tutkintoon umpeutunut",
           "reservationExpiredContinue": "Jatka etusivulle",
-          "reservationExpiredText": "Paikkavaruksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
+          "reservationExpiredText": "Paikkavarauksesi tutkintoon on umpeutunut. Jatka etusivulle uusiaksesi ilmoittautuminen.",
           "reservationExpiresIn": "Paikkavarauksesi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationExpiresInTitle": "Paikkavarauksesi valitsemaasi tutkintoon umpeutuu: {{minutes}}:{{seconds}}",
           "reservationInfoText": "Jos ilmoittautumisesi on kesken, paina \"Jatka ilmoittautumista\"."
         },
         "paymentSum": {
           "title": "Tutkintomaksu"
+        },
+        "stepHeading": {
+          "common": {
+            "Authenticate": "Tunnistaudu",
+            "Done": "Valmis – jonopaikka varattu",
+            "FillContactDetails": "Täytä yhteystietosi",
+            "Payment": "Maksua ei suoritettu",
+            "PaymentSuccess": "Valmis - ilmoittautuminen onnistui",
+            "Preview": "Esikatsele",
+            "SelectExam": "Valitse tutkinto"
+          },
+          "toExam": {
+            "Authenticate": "Tunnistaudu ilmoittautumista varten"
+          },
+          "toQueue": {
+            "Authenticate": "Tunnistaudu jonoon ilmoittautumista varten"
+          }
         },
         "stepper": {
           "active": "Aktiivinen",
@@ -63,7 +82,8 @@
             "Authenticate": "Tunnistaudu",
             "Done": "Valmis",
             "FillContactDetails": "Täytä yhteystietosi",
-            "Payment": "Siirry maksamaan",
+            "Payment": "Maksu",
+            "PaymentSuccess": "Valmis",
             "Preview": "Esikatsele",
             "SelectExam": "Valitse tutkinto"
           }
@@ -74,37 +94,42 @@
             "title": "Tunnistaudu ilmoittautumista varten"
           },
           "done": {
-            "description": {
-              "part1": "Sinulle lähetetään vahvistus osoitteeseen",
-              "part2": "Ilmoittautuminen on valmis. Voit jatkaa etusivulle alla olevasta painikkeesta."
-            },
-            "successToast": "Ilmoittautuminen onnistui!",
-            "title": {
-              "queue": "Jonopaikka on varattu.",
-              "reservation": "Maksu on suoritettu."
-            }
-          },
-          "fail": {
-            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
-            "successToast": "Ilmoittautuminen epäonnistui!",
-            "title": "Maksua ei suoritettu.",
-            "tryAgain": "Yritä uudelleen"
+            "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
+            "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
           },
           "fillContactDetails": {
             "email": "Sähköpostiosoite",
             "emailConfirmation": "Vahvista sähköpostiosoite",
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
             "phoneNumber": "Puhelinnumero",
-            "title": "Täytä yhteystietosi"
+            "title": "Yhteystietosi"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Valitse osakokeet",
-            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen)"
+            "oralSkill": "Suullinen taito *",
+            "textualSkill": "Kirjallinen taito *",
+            "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
+            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
+            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
+            "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
+          },
+          "selectExam": {
+            "chooseExam": "Tutkinnon valinta",
+            "previousEnrollment": "Aikaisempiin tutkintoihin osallistuminen",
+            "certificateShipping": "Tutkintotodistuksen toimitus"
+          },
+          "paymentFail": {
+            "cancel": "Peruuta ilmoittautuminen",
+            "description": "Maksu epäonnistui tai se peruttiin. Voit yrittää maksamista uudelleen tai peruuttaa ilmoittautumisen. Klikkaa yritä uudelleen siirtyäksesi maksupalveluun.",
+            "toast": "Maksua ei suoritettu.",
+            "tryAgain": "Yritä uudelleen"
+          },
+          "paymentSuccess": {
+            "description1": "Maksu onnistui! Tervetuloa tutkintoon!",
+            "description2": "Sinulle lähetetään vahvistus osoitteeseen"
           },
           "personDetails": {
             "firstName": "Etunimet",
-            "identityNumber": "Henkilötunnus",
-            "dateOfBirth": "Syntymäaika",
             "lastName": "Sukunimi",
             "title": "Henkilötietosi"
           },
@@ -133,7 +158,7 @@
           "previousEnrollment": {
             "description": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *",
             "label": "Päivämäärä tai vapaa teksti *",
-            "whenPrevious": "Milloin olet viimeksi osallistunut?"
+            "whenPrevious": "Milloin olet viimeksi osallistunut? *"
           }
         }
       },

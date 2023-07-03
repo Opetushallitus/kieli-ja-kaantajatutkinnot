@@ -26,13 +26,13 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
-      "date": "Päivämäärä",
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm"
       },
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "customTextField": {
+          "dateFormat": "Syötä päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
           "numberFormat": "Arvo on virheellinen",
@@ -50,15 +50,19 @@
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         }
       },
-      "examDate": "Tutkinnon päivämäärä",
+      "examDate": "Testipäivä",
       "examParts": {
         "readingComprehension": "Tekstin ymmärtäminen",
         "speaking": "Puhuminen",
         "speechComprehension": "Puheen ymmärtäminen",
         "writing": "Kirjoittaminen"
       },
-      "examSession": "Tutkintotilaisuus",
+      "examSession": "Tutkinto",
       "examination": "Tutkinto",
+      "gender": {
+        "female": "nainen",
+        "male": "mies"
+      },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
@@ -70,7 +74,7 @@
           "sv": "På svenska"
         }
       },
-      "institution": "Oppilaitos",
+      "institution": "Testipaikka",
       "language": "Kieli",
       "languageLevel": {
         "KESKI": "keskitaso",
@@ -88,7 +92,7 @@
         "spa": "espanja",
         "swe": "ruotsi"
       },
-      "level": "Taso",
+      "level": "Taitotaso",
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",
       "municipality": "Paikkakunta",
@@ -102,14 +106,22 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
       "placesAvailable": "Paikkoja vapaana",
       "price": "Hinta",
-      "privacyStatementLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta",
+      "privacyStatement": {
+        "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",
+        "grantApproval": "Hyväksyn henkilötietojeni käsittelyn *",
+        "link": {
+          "label": "Tietoa henkilötietojen käsittelystä (oph.fi)",
+          "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
+        },
+        "readConditions": "Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta:"
+      },
       "reassessment": "Tarkistusarviointi",
       "registration": "Ilmoittautuminen",
       "registrationPeriod": "Ilmoittautumisaika",
       "specialArrangementsLink": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin",
       "yes": "Kyllä",
       "ykiHomepage": {
-        "ariaLabel": "Yleisten kielitutkintojen kotisivu (oph.fi), avaa uudessa välilehdessä",
+        "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
       }
     }

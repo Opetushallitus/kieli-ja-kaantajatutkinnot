@@ -1,7 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router';
-import { CustomButton } from 'shared/components';
+import { CustomButtonLink } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { DateUtils } from 'shared/utils';
 
@@ -10,6 +9,7 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { storeExamSession } from 'redux/reducers/examSession';
+import { resetPublicRegistration } from 'redux/reducers/registration';
 import { ExamUtils } from 'utils/exam';
 
 const RegisterToExamButton = ({
@@ -22,7 +22,6 @@ const RegisterToExamButton = ({
   postAdmissionOpen: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
@@ -35,25 +34,23 @@ const RegisterToExamButton = ({
     (postAdmissionOpen &&
       examSession.pa_participants < examSession.post_admission_quota);
 
-  // TODO Instead of disabling button, perhaps style it differently and indicate error when clicking.
   return (
-    <CustomButton
+    <CustomButtonLink
       color={Color.Secondary}
       variant={Variant.Outlined}
       disabled={!(placesAvailable && registrationOrPostAdmissionOpen)}
       onClick={() => {
         dispatch(storeExamSession(examSession));
-        navigate(
-          AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)
-        );
+        dispatch(resetPublicRegistration());
       }}
+      to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
     >
       {placesAvailable && registrationOrPostAdmissionOpen
         ? t('register')
         : !registrationOrPostAdmissionOpen
         ? t('periodNotOpen')
         : t('full')}
-    </CustomButton>
+    </CustomButtonLink>
   );
 };
 
@@ -104,7 +101,7 @@ export const PublicExamSessionListingRow = ({
       <TableCell>
         {locationInfo?.name}
         <br />
-        <b>{locationInfo?.post_office}</b>
+        {locationInfo?.post_office}
       </TableCell>
       <TableCell>
         {ExamUtils.renderDateTime(

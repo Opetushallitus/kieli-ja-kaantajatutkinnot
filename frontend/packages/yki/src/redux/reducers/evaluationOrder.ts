@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ExaminationParts, PayerDetails } from 'interfaces/evaluationOrder';
+import {
+  ExaminationParts,
+  ParticipantDetails,
+} from 'interfaces/evaluationOrder';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 
 export interface EvaluationOrderState {
@@ -10,7 +13,7 @@ export interface EvaluationOrderState {
   evaluationPeriod?: EvaluationPeriod;
   examinationParts: ExaminationParts;
   acceptConditions: boolean;
-  payerDetails: PayerDetails;
+  participantDetails: ParticipantDetails;
   showErrors: boolean;
   evaluationPaymentRedirect?: string;
 }
@@ -25,7 +28,7 @@ export const initialState: EvaluationOrderState = {
     writing: false,
   },
   acceptConditions: false,
-  payerDetails: {},
+  participantDetails: {},
   showErrors: false,
 };
 
@@ -62,8 +65,14 @@ const evaluationOrderSlice = createSlice({
     setAcceptConditions(state, action: PayloadAction<boolean>) {
       state.acceptConditions = action.payload;
     },
-    setPayerDetails(state, action: PayloadAction<Partial<PayerDetails>>) {
-      state.payerDetails = { ...state.payerDetails, ...action.payload };
+    setParticipantDetails(
+      state,
+      action: PayloadAction<Partial<ParticipantDetails>>
+    ) {
+      state.participantDetails = {
+        ...state.participantDetails,
+        ...action.payload,
+      };
     },
     setShowErrors(state, action: PayloadAction<boolean>) {
       state.showErrors = action.payload;
@@ -82,7 +91,7 @@ export const {
   rejectEvaluationOrder,
   setAcceptConditions,
   setExaminationParts,
-  setPayerDetails,
+  setParticipantDetails,
   setShowErrors,
   submitEvaluationOrder,
   resetEvaluationOrderState,

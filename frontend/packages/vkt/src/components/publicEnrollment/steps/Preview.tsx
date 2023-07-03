@@ -1,5 +1,5 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { ExtLink, H2, Text } from 'shared/components';
@@ -27,7 +27,7 @@ const ContactDetails = ({
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      <div className="grid-columns gapped">
+      <div className="grid-2-columns gapped">
         <div className="rows">
           <Text className="bold">
             {t('email')}
@@ -93,6 +93,8 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
+      {displayBulletList(t('selectedSkillsLabel'), skills)}
+      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
       <div className="rows gapped-xxs">
         <Text className="bold">
           {t('previousEnrollmentLabel')}
@@ -104,8 +106,6 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
             : translateCommon('no')}
         </Text>
       </div>
-      {displayBulletList(t('selectedSkillsLabel'), skills)}
-      {displayBulletList(t('selectedPartialExamsLabel'), partialExams)}
     </div>
   );
 };
@@ -180,10 +180,12 @@ export const Preview = ({
   enrollment,
   isLoading,
   setIsStepValid,
+  showValidation,
 }: {
   enrollment: PublicEnrollment;
   isLoading: boolean;
   setIsStepValid: (isValid: boolean) => void;
+  showValidation: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -201,6 +203,9 @@ export const Preview = ({
     );
   };
 
+  const hasPrivacyStatementError =
+    showValidation && !enrollment.privacyStatementConfirmation;
+
   return (
     <div className="margin-top-xxl rows gapped-xxl">
       <PersonDetails />
@@ -212,18 +217,30 @@ export const Preview = ({
       <CertificateShippingDetails enrollment={enrollment} />
       <div className="rows gapped">
         <H2>{translateCommon('acceptTerms')}</H2>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onClick={handleCheckboxClick}
-              color={Color.Secondary}
-              checked={enrollment.privacyStatementConfirmation}
-              disabled={isLoading}
-            />
-          }
-          label={<PrivacyStatementCheckboxLabel />}
-          className="public-enrollment__grid__preview__privacy-statement-checkbox-label"
-        />
+        <div>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onClick={handleCheckboxClick}
+                color={Color.Secondary}
+                checked={enrollment.privacyStatementConfirmation}
+                disabled={isLoading}
+              />
+            }
+            label={<PrivacyStatementCheckboxLabel />}
+            className={`public-enrollment__grid__preview__privacy-statement-checkbox-label ${
+              hasPrivacyStatementError && 'checkbox-error'
+            }`}
+          />
+          {hasPrivacyStatementError && (
+            <FormHelperText
+              id="has-privacy-statement-error"
+              error={hasPrivacyStatementError}
+            >
+              {translateCommon('errors.customTextField.required')}
+            </FormHelperText>
+          )}
+        </div>
       </div>
     </div>
   );
