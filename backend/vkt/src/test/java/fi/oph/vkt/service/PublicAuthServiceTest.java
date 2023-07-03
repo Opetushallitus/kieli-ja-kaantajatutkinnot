@@ -14,7 +14,6 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import fi.oph.vkt.service.auth.ticketValidator.TicketValidator;
 import jakarta.annotation.Resource;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,12 +46,10 @@ public class PublicAuthServiceTest {
     final CasTicketValidationService casTicketValidationService = new CasTicketValidationService(ticketValidatorMock);
 
     final Map<String, String> personDetails = Map.ofEntries(
-      Map.entry("identityNumber", "010280-952L"),
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä"),
       Map.entry("oid", "999"),
-      Map.entry("otherIdentifier", "10000"),
-      Map.entry("dateOfBirth", "1980-02-01")
+      Map.entry("otherIdentifier", "10000")
     );
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
@@ -65,7 +62,7 @@ public class PublicAuthServiceTest {
     final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
 
     assertPersonDetails(person);
-    assertTrue(personRepository.findByIdentityNumber("010280-952L").isPresent());
+    assertTrue(personRepository.findByOid("999").isPresent());
   }
 
   @Test
@@ -83,12 +80,10 @@ public class PublicAuthServiceTest {
   }
 
   private void assertPersonDetails(final Person person) {
-    assertEquals("010280-952L", person.getIdentityNumber());
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
     assertEquals("999", person.getOid());
     assertEquals("10000", person.getOtherIdentifier());
-    assertEquals(LocalDate.of(1980, 2, 1), person.getDateOfBirth());
   }
 
   @Test

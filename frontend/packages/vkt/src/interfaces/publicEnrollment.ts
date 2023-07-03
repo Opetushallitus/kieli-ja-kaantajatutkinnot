@@ -6,7 +6,7 @@ import {
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
 import { PublicExamEventResponse } from 'interfaces/publicExamEvent';
-import { PublicPersonResponse } from 'interfaces/publicPerson';
+import { PublicPerson } from 'interfaces/publicPerson';
 import { WithId } from 'interfaces/with';
 
 export interface PublicReservation extends WithId {
@@ -24,10 +24,10 @@ export interface PublicReservationResponse
 }
 
 export interface PublicReservationDetailsResponse {
-  examEvent: PublicExamEventResponse;
-  person: PublicPersonResponse;
-  reservation?: PublicReservationResponse;
+  person: PublicPerson;
   enrollment?: PublicEnrollment;
+  examEvent: PublicExamEventResponse;
+  reservation?: PublicReservationResponse;
 }
 
 export interface PublicEnrollmentContactDetails {

@@ -6,7 +6,6 @@ import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -36,28 +35,20 @@ public class PublicAuthService {
   public Person createPersonFromTicket(final String ticket, final long examEventId, final EnrollmentType type) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
 
-    final String identityNumber = personDetails.get("identityNumber");
     final String lastName = personDetails.get("lastName");
     final String firstName = personDetails.get("firstName");
-    final String OID = personDetails.get("oid");
+    final String oid = personDetails.get("oid");
     final String otherIdentifier = personDetails.get("otherIdentifier");
-    final String dateOfBirthRaw = personDetails.get("dateOfBirth");
-    final LocalDate dateOfBirth = dateOfBirthRaw == null || dateOfBirthRaw.isEmpty()
-      ? null
-      : LocalDate.parse(dateOfBirthRaw);
 
-    final Optional<Person> optionalExistingPerson = identityNumber != null && !identityNumber.isEmpty()
-      ? personRepository.findByIdentityNumber(identityNumber)
+    final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
+      ? personRepository.findByOid(oid)
       : personRepository.findByOtherIdentifier(otherIdentifier);
 
     final Person person = optionalExistingPerson.orElse(new Person());
-
-    person.setIdentityNumber(identityNumber);
     person.setLastName(lastName);
     person.setFirstName(firstName);
-    person.setOid(OID);
+    person.setOid(oid);
     person.setOtherIdentifier(otherIdentifier);
-    person.setDateOfBirth(dateOfBirth);
     person.setLatestIdentifiedAt(LocalDateTime.now());
 
     return personRepository.saveAndFlush(person);

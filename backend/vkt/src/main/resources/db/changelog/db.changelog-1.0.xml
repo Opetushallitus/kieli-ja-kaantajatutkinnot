@@ -623,4 +623,9 @@
         <addNotNullConstraint tableName="person" columnName="latest_identified_at" />
     </changeSet>
 
+    <changeSet id="2023-06-29-remove-person-identity_number" author="mikhuttu">
+        <dropColumn tableName="person" columnName="identity_number" />
+        <dropColumn tableName="person" columnName="date_of_birth" />
+    </changeSet>
+
 </databaseChangeLog>

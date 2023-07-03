@@ -87,6 +87,7 @@ COPY public.databasechangelog (id, author, filename, dateexecuted, orderexecuted
 2023-06-01-enrollment-payment-link-hash	jrkkp	migrations.xml	2023-06-01 13:53:01.472105	22	EXECUTED	8:0fc928a86fa41527372d8e8af21e813b	addColumn tableName=enrollment		\N	4.9.1	\N	\N	5627581378
 2023-06-02-rename-enrollment-status-EXPECTING_PAYMENT	mikhuttu	migrations.xml	2023-06-02 08:38:57.704377	23	EXECUTED	8:a35dc4c9e0d0d241f4293f0b2ba16224	insert tableName=enrollment_status; sql; sql		\N	4.9.1	\N	\N	5695137627
 2023-06-16-person-latest-identified-at	mikhuttu	migrations.xml	2023-06-16 09:46:36.462511	24	EXECUTED	8:51d5c16082a3fd83108e9c40e7ae78e6	addColumn tableName=person; sql; addNotNullConstraint columnName=latest_identified_at, tableName=person		\N	4.20.0	\N	\N	6908796433
+2023-06-29-remove-person-identity_number	mikhuttu	migrations.xml	2023-06-29 09:32:48.572192	25	EXECUTED	8:5b23bce4f54b5583b757ad6bb81c612d	dropColumn columnName=identity_number, tableName=person; dropColumn columnName=date_of_birth, tableName=person		\N	4.20.0	\N	\N	8031168558
 \.
 
 

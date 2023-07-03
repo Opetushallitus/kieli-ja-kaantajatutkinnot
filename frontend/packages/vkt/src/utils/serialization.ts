@@ -23,7 +23,6 @@ import {
   PublicExamEvent,
   PublicExamEventResponse,
 } from 'interfaces/publicExamEvent';
-import { PublicPerson, PublicPersonResponse } from 'interfaces/publicPerson';
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
@@ -44,13 +43,6 @@ export class SerializationUtils {
       expiresAt: dayjs(reservation.expiresAt),
       renewedAt: DateUtils.optionalStringToDate(reservation.renewedAt),
       createdAt: dayjs(reservation.createdAt),
-    };
-  }
-
-  static deserializePublicPerson(person: PublicPersonResponse): PublicPerson {
-    return {
-      ...person,
-      dateOfBirth: DateUtils.optionalStringToDate(person.dateOfBirth),
     };
   }
 
