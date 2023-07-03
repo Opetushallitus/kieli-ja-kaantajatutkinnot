@@ -172,6 +172,7 @@ export const PartialExamsSelection = ({
           <FormControlLabel
             disabled={editingDisabled}
             value={YesNo.Yes}
+            data-testid="enrollment-checkbox-spec-full-exam"
             control={<Radio aria-describedby="full-exam-error" />}
             label={t('yesFullExam')}
             checked={allPartialExamsChecked}

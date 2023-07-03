@@ -32,10 +32,10 @@ describe('Public enrollment', () => {
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
-        'Sukunimi:TestiläEtunimet:TessaHenkilötunnus:010280-952L'
+        'Sukunimi:TestiläEtunimet:Tessa'
       );
       onPublicEnrollmentPage.fillOutContactDetails(
         'email',
@@ -50,10 +50,10 @@ describe('Public enrollment', () => {
       onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
         'previously-enrolled-no'
       );
-      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
-      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
-        'writingPartialExam'
-      );
+      onPublicEnrollmentPage.enrollmentFullExamCheckbox();
+      //onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
+      //  'writingPartialExam'
+      //);
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'street',
         'Katu'
@@ -72,15 +72,15 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
-        'Sukunimi:TestiläEtunimet:TessaHenkilötunnus:010280-952L'
+        'Sukunimi:TestiläEtunimet:Tessa'
       );
       onPublicEnrollmentPage.expectPreviewDetails('email', 'test@test.invalid');
       onPublicEnrollmentPage.expectPreviewDetails('phoneNumber', '040112233');
-      onPublicEnrollmentPage.expectPreviewBulletList(0, 'Kirjallinen taito');
-      onPublicEnrollmentPage.expectPreviewBulletList(1, 'Kirjoittaminen');
+      onPublicEnrollmentPage.expectPreviewBulletList(0, 'Kirjallinen taitoSuullinen taitoYmmärtämisen taito');
+      onPublicEnrollmentPage.expectPreviewBulletList(1, 'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen');
       onPublicEnrollmentPage.expectPreviewCertificateShippingDetails(
         'Katu, 99800, Kaupunki, Suomi'
       );
@@ -127,10 +127,10 @@ describe('Public enrollment', () => {
       onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
 
       // TODO: test once error display for exams is added, just filling out for now
-      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
-      onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
-        'writingPartialExam'
-      );
+      // onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
+      // onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
+      //   'writingPartialExam'
+      // );
 
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('street');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
