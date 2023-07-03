@@ -39,6 +39,10 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollment(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+
+    // Should be done before computing the amount of openings
+    cancelPotentialUnfinishedEnrollment(examEvent, person);
+
     final long openings = ExamEventUtil.getOpenings(examEvent);
 
     if (openings <= 0) {
@@ -51,7 +55,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
-      handleDuplicateEnrollment(examEvent, person);
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
@@ -64,6 +68,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       Optional.empty(),
       true
     );
+  }
+
+  private void cancelPotentialUnfinishedEnrollment(final ExamEvent examEvent, final Person person) {
+    findEnrollment(examEvent, person, enrollmentRepository)
+      .filter(Enrollment::isUnfinished)
+      .ifPresent(enrollment -> {
+        enrollment.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollmentRepository.saveAndFlush(enrollment);
+      });
   }
 
   @Transactional(readOnly = true)
@@ -149,8 +162,11 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
-    final long openings = ExamEventUtil.getOpenings(examEvent);
 
+    // Should be done before computing the amount of openings
+    cancelPotentialUnfinishedEnrollment(examEvent, person);
+
+    final long openings = ExamEventUtil.getOpenings(examEvent);
     if (openings > 0) {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM);
     }
@@ -158,7 +174,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
-      handleDuplicateEnrollment(examEvent, person);
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty(), true);
@@ -186,25 +202,6 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     reservationRepository.deleteById(reservationId);
 
     return createEnrollmentDTO(enrollment);
-  }
-
-  private void handleDuplicateEnrollment(final ExamEvent examEvent, final Person person) {
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
-
-    if (
-      optionalEnrollment
-        .map(Enrollment::getStatus)
-        .equals(Optional.of(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT))
-    ) {
-      optionalEnrollment.map(e -> {
-        e.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
-        enrollmentRepository.saveAndFlush(e);
-
-        return e;
-      });
-    } else {
-      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
-    }
   }
 
   private Enrollment createOrUpdateExistingEnrollment(
