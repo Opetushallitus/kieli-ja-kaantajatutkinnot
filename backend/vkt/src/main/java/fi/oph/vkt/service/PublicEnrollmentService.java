@@ -51,7 +51,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
-      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
+      handleDuplicateEnrollment(examEvent, person);
     }
 
     final PublicReservationDTO reservationDTO = publicReservationService.createOrReplaceReservation(examEvent, person);
@@ -146,7 +146,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .build();
   }
 
-  @Transactional(readOnly = true)
+  @Transactional
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
     final long openings = ExamEventUtil.getOpenings(examEvent);
@@ -158,7 +158,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_REGISTRATION_CLOSED);
     }
     if (isPersonEnrolled(examEvent, person, enrollmentRepository)) {
-      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
+      handleDuplicateEnrollment(examEvent, person);
     }
 
     return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty(), true);
@@ -186,6 +186,25 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     reservationRepository.deleteById(reservationId);
 
     return createEnrollmentDTO(enrollment);
+  }
+
+  private void handleDuplicateEnrollment(final ExamEvent examEvent, final Person person) {
+    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
+
+    if (
+      optionalEnrollment
+        .map(Enrollment::getStatus)
+        .equals(Optional.of(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT))
+    ) {
+      optionalEnrollment.map(e -> {
+        e.setStatus(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT);
+        enrollmentRepository.saveAndFlush(e);
+
+        return e;
+      });
+    } else {
+      throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
+    }
   }
 
   private Enrollment createOrUpdateExistingEnrollment(

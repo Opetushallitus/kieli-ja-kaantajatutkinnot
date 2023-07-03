@@ -138,6 +138,34 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
+  public void testInitialiseEnrollmentWithUnfinishedPayment() {
+    final ExamEvent examEvent = createExamEvent(2);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    final Person person = enrollment.getPerson();
+
+    final PublicEnrollmentInitialisationDTO dto = publicEnrollmentService.initialiseEnrollment(
+      examEvent.getId(),
+      person
+    );
+    assertInitialisedEnrollmentDTO(examEvent, person, 1, true, dto);
+
+    assertTrue(reservationRepository.findById(dto.reservation().id()).isPresent());
+  }
+
+  @Test
+  public void testInitialiseEnrollmentToQueueWithUnfinishedPayment() {
+    final ExamEvent examEvent = createExamEvent(1);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    final Person person = enrollment.getPerson();
+
+    final PublicEnrollmentInitialisationDTO dto = publicEnrollmentService.initialiseEnrollmentToQueue(
+      examEvent.getId(),
+      person
+    );
+    assertInitialisedEnrollmentDTO(examEvent, person, 0, false, dto);
+  }
+
+  @Test
   public void testInitialiseEnrollmentFailsToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
     createEnrollment(examEvent, EnrollmentStatus.PAID);
