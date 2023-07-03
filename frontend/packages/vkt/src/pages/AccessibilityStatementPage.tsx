@@ -1,6 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Grid, Link, Paper } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -10,6 +10,7 @@ import {
   H3,
   HeaderSeparator,
   Text,
+  WebLink,
 } from 'shared/components';
 import { Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
@@ -126,9 +127,10 @@ export const AccessibilityStatementPage = () => {
               <Text>
                 {translateAccessibility('content.feedback.description2')}
                 {': '}
-                <a href={`mailto:${translateCommon('contactEmail')}`}>
-                  {translateCommon('contactEmail')}
-                </a>
+                <WebLink
+                  href={`mailto:${translateCommon('contactEmail')}`}
+                  label={translateCommon('contactEmail')}
+                />
               </Text>
             </div>
             <div className="rows gapped">
@@ -147,31 +149,26 @@ export const AccessibilityStatementPage = () => {
                     'content.administrativeAgency.description'
                   )}
                 </Text>
-                <div className="columns gapped-xxs">
-                  <Link
+                <Text>
+                  <WebLink
                     href={translateAccessibility(
                       'content.administrativeAgency.link.url'
                     )}
-                    target="_blank"
-                  >
-                    <Text>
-                      {translateAccessibility(
-                        'content.administrativeAgency.link.label'
-                      )}
-                    </Text>
-                  </Link>
-                  <OpenInNewIcon />
-                </div>
+                    label={translateAccessibility(
+                      'content.administrativeAgency.link.label'
+                    )}
+                    endIcon={<OpenInNewIcon />}
+                  />
+                </Text>
                 <Text>
-                  <a
+                  <WebLink
                     href={`mailto:${translateAccessibility(
                       'content.administrativeAgency.email'
                     )}`}
-                  >
-                    {translateAccessibility(
+                    label={translateAccessibility(
                       'content.administrativeAgency.email'
                     )}
-                  </a>
+                  />
                 </Text>
                 <Text>
                   {translateAccessibility(

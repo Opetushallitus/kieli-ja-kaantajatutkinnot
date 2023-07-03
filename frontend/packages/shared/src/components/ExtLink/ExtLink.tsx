@@ -1,7 +1,7 @@
 import { ButtonProps } from '@mui/material';
 import { FC } from 'react';
 
-import { Color } from '../../enums/common';
+import { Color } from '../../enums';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 export interface ExtLinkProps {
@@ -9,6 +9,7 @@ export interface ExtLinkProps {
   href: string;
 }
 
+// TODO: use accessible WebLink instead
 export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
   text,
   href,
