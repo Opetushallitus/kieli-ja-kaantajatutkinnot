@@ -22,7 +22,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,8 +63,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       person,
       openings,
       Optional.of(reservationDTO),
-      Optional.empty(),
-      true
+      Optional.empty()
     );
   }
 
@@ -87,15 +85,15 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .findByExamEventAndPerson(examEvent, person)
       .map(publicReservationService::createReservationDTO);
 
-    final Optional<Enrollment> optionalEnrollment = findEnrollment(examEvent, person, enrollmentRepository);
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO = findEnrollment(examEvent, person, enrollmentRepository)
+      .map(this::createEnrollmentDTO);
 
     return createEnrollmentInitialisationDTO(
       examEvent,
       person,
       openings,
       optionalReservationDTO,
-      optionalEnrollment.map(this::createEnrollmentDTO),
-      optionalEnrollment.stream().allMatch(e -> StringUtils.isEmpty(e.getPaymentLinkHash()) || e.isCancelled())
+      optionalEnrollmentDTO
     );
   }
 
@@ -127,8 +125,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
     final Person person,
     final long openings,
     final Optional<PublicReservationDTO> optionalReservationDTO,
-    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO,
-    final boolean includePersonIdentity
+    final Optional<PublicEnrollmentDTO> optionalEnrollmentDTO
   ) {
     final PublicExamEventDTO examEventDTO = PublicExamEventDTO
       .builder()
@@ -174,7 +171,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       throw new APIException(APIExceptionType.INITIALISE_ENROLLMENT_DUPLICATE_PERSON);
     }
 
-    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty(), true);
+    return createEnrollmentInitialisationDTO(examEvent, person, openings, Optional.empty(), Optional.empty());
   }
 
   @Transactional
