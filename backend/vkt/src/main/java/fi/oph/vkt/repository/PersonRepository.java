@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepository extends BaseRepository<Person> {
-  Optional<Person> findByIdentityNumber(final String identityNumber);
+  Optional<Person> findByOid(final String oid);
   Optional<Person> findByOtherIdentifier(final String otherIdentifier);
 
   @Query(

@@ -66,9 +66,7 @@ public class CasTicketValidatorTest {
     assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
     assertEquals("Tessa", params.get("firstName"));
     assertEquals("Testilä", params.get("lastName"));
-    assertEquals("010280-952L", params.get("identityNumber"));
     assertEquals("1.2.246.562.24.40675408602", params.get("oid"));
-    assertNull(params.get("dateOfBirth"));
     assertNull(params.get("otherIdentifier"));
   }
 
@@ -80,11 +78,9 @@ public class CasTicketValidatorTest {
     assertEquals("GET", request.getMethod());
     assertEquals(serviceUrl, Objects.requireNonNull(request.getRequestUrl()).queryParameter("service"));
     assertEquals(ticket, Objects.requireNonNull(request.getRequestUrl()).queryParameter("ticket"));
-    assertNull(params.get("oid"));
-    assertNull(params.get("identityNumber"));
     assertEquals("Oliver Jack", params.get("firstName"));
     assertEquals("Great Britain", params.get("lastName"));
-    assertEquals("1981-02-04", params.get("dateOfBirth"));
+    assertNull(params.get("oid"));
     assertEquals(
       "UK/FI/Lorem0ipsum0dolor0sit0amet10consectetur0adipiscing0elit10sed0do0eiusmod0tempor0incididunt0ut0labore0et0dolore0magna0aliqua.0Ut0enim0ad0minim0veniam10quis0nostrud0exercitation0ullamco0laboris0nisi0ut0aliquip0ex0ea0commodo0consequat.0Duis0aute0irure0do",
       params.get("otherIdentifier")

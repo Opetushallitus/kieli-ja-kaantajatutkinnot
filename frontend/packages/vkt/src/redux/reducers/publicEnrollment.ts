@@ -74,10 +74,10 @@ const publicEnrollmentSlice = createSlice({
     storeEnrollmentInitialisation(
       state,
       action: PayloadAction<{
+        enrollment?: PublicEnrollment;
         examEvent: PublicExamEvent;
         person: PublicPerson;
         reservation?: PublicReservation;
-        enrollment?: PublicEnrollment;
       }>
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
