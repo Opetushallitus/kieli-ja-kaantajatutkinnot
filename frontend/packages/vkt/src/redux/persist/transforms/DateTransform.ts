@@ -6,12 +6,9 @@ import { PublicEnrollmentState } from 'redux/reducers/publicEnrollment';
 import { SerializationUtils } from 'utils/serialization';
 
 interface OutboundState
-  extends Omit<
-    PublicEnrollmentState,
-    'selectedExamEvent' | 'reservationDetails'
-  > {
-  selectedExamEvent: PublicExamEventResponse;
-  reservationDetails: PublicReservationResponse;
+  extends Omit<PublicEnrollmentState, 'examEvent' | 'reservation'> {
+  examEvent: PublicExamEventResponse;
+  reservation: PublicReservationResponse;
 }
 
 export const DateTransform = createTransform(
@@ -22,11 +19,11 @@ export const DateTransform = createTransform(
   // transform state being rehydrated
   (outboundState: OutboundState) => ({
     ...outboundState,
-    selectedExamEvent: SerializationUtils.deserializePublicExamEvent(
-      outboundState.selectedExamEvent
+    examEvent: SerializationUtils.deserializePublicExamEvent(
+      outboundState.examEvent
     ),
-    reservationDetails: SerializationUtils.deserializePublicReservation(
-      outboundState.reservationDetails
+    reservation: SerializationUtils.deserializePublicReservation(
+      outboundState.reservation
     ),
   }),
   // define which reducers this transform gets called for.

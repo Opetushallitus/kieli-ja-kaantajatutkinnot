@@ -79,8 +79,14 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.expectPreviewDetails('email', 'test@test.invalid');
       onPublicEnrollmentPage.expectPreviewDetails('phoneNumber', '040112233');
-      onPublicEnrollmentPage.expectPreviewBulletList(0, 'Kirjallinen taitoSuullinen taitoYmmärtämisen taito');
-      onPublicEnrollmentPage.expectPreviewBulletList(1, 'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen');
+      onPublicEnrollmentPage.expectPreviewBulletList(
+        0,
+        'Kirjallinen taitoSuullinen taitoYmmärtämisen taito'
+      );
+      onPublicEnrollmentPage.expectPreviewBulletList(
+        1,
+        'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen'
+      );
       onPublicEnrollmentPage.expectPreviewCertificateShippingDetails(
         'Katu, 99800, Kaupunki, Suomi'
       );
