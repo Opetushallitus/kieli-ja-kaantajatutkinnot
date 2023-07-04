@@ -1,8 +1,7 @@
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
-import { ExtLink, H2, Text } from 'shared/components';
+import { H2, Text, WebLink } from 'shared/components';
 import { Color } from 'shared/enums';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
@@ -163,13 +162,7 @@ const PrivacyStatementCheckboxLabel = () => {
 
   return (
     <Trans t={t} i18nKey="label">
-      <ExtLink
-        className="public-enrollment__grid__preview__privacy-statement-checkbox-label__link"
-        text={t('linkLabel')}
-        href={AppRoutes.PrivacyPolicyPage}
-        endIcon={<OpenInNewIcon />}
-        aria-label={t('ariaLabel')}
-      />
+      <WebLink href={AppRoutes.PrivacyPolicyPage} label={t('linkLabel')} />
     </Trans>
   );
 };

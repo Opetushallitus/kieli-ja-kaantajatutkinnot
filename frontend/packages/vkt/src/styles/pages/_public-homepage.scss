@@ -1,6 +1,10 @@
 .public-homepage {
   flex: 1;
 
+  @include phone {
+    margin-bottom: 2rem;
+  }
+
   & &__grid-container {
     display: block;
 
@@ -11,47 +15,10 @@
       }
     }
 
-    div &__item-exam-events {
-      @include phone {
-        padding-top: 1rem;
-      }
-    }
-
     div &__result-box {
-      padding: 3rem;
-
       @include phone {
-        padding: 1.5rem;
-      }
-
-      &__no-results {
-        @include phone {
-          margin: 2rem;
-        }
-      }
-    }
-  }
-
-  & &__exam-events {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 2.5rem;
-
-    @include phone {
-      @include phone-divider-border-top;
-      @include phone-divider-border-bottom;
-      gap: 1.5rem;
-      padding: 1rem 2rem;
-    }
-
-    &__heading-title {
-      margin-bottom: 0;
-    }
-
-    &__heading-description {
-      & svg {
-        color: $color-secondary;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
     }
   }
