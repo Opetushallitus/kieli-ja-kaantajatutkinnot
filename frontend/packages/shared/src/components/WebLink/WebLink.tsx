@@ -1,5 +1,6 @@
 import { Link } from '@mui/material';
 import React, { FC } from 'react';
+import './WebLink.scss';
 
 export interface WebLinkProps {
   href: string;
@@ -27,10 +28,14 @@ export const WebLink: FC<WebLinkProps> = ({
   }
 
   return (
-    <div className="columns gapped-xxs">
-      {startIcon && startIcon}
+    <span className="weblink">
+      <span className="icon">
+        {startIcon && startIcon}
+      </span>
       {link}
-      {endIcon && endIcon}
-    </div>
+      <span className="icon">
+        {endIcon && endIcon}
+      </span>
+    </span>
   );
 };

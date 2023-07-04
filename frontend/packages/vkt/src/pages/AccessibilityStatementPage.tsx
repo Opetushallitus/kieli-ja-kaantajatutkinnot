@@ -1,6 +1,6 @@
 import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -44,7 +44,7 @@ const ItemBulletList = ({
   item: string;
   bulletPoints: Array<string>;
 }) => (
-  <Text>
+  <Typography variant="body1" component="div">
     <ul className="accessibility-statement-page__item-bullet-list">
       <li>{item}</li>
       <ul>
@@ -53,7 +53,7 @@ const ItemBulletList = ({
         ))}
       </ul>
     </ul>
-  </Text>
+  </Typography>
 );
 
 export const AccessibilityStatementPage = () => {
