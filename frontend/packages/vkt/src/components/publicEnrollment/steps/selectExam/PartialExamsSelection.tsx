@@ -172,7 +172,7 @@ export const PartialExamsSelection = ({
           <FormControlLabel
             disabled={editingDisabled}
             value={YesNo.Yes}
-            data-testid="enrollment-checkbox-spec-full-exam"
+            data-testid="enrollment-checkbox-full-exam"
             control={<Radio aria-describedby="full-exam-error" />}
             label={t('yesFullExam')}
             checked={allPartialExamsChecked}
@@ -284,7 +284,7 @@ export const PartialExamsSelection = ({
               describedBy="oral-skill-selection-error"
             />
             <CheckboxField
-              data-testid="enrollment-checkbox-speec-comprehension-partial-exam"
+              data-testid="enrollment-checkbox-speech-comprehension-partial-exam"
               enrollment={enrollment}
               fieldName={'speechComprehensionPartialExam'}
               onClick={toggleField}

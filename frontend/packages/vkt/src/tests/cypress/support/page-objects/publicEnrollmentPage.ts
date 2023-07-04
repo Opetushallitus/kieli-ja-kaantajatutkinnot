@@ -30,10 +30,8 @@ class PublicEnrollmentPage {
       cy.findByTestId(`enrollment-checkbox-${checkboxName}`).find('span>input'),
     enrollmentPreviouslyEnrolledError: () =>
       cy.get(`#has-previous-enrollment-error`),
-    enrollmentPartialExamCheckbox: (checkboxName: string) =>
-      cy.findByTestId(`enrollment-checkbox-${checkboxName}`).find('input'),
     enrollmentFullExamCheckbox: () =>
-      cy.findByTestId('enrollment-checkbox-spec-full-exam').find('input'),
+      cy.findByTestId('enrollment-checkbox-full-exam').find('input'),
   };
 
   expectEnrollmentDetails(details: string) {
@@ -113,12 +111,6 @@ class PublicEnrollmentPage {
   }
   enrollmentFullExamCheckbox() {
     this.elements.enrollmentFullExamCheckbox().should('be.exist').check();
-  }
-  checkEnrollmentPartialExamCheckbox(checkboxName: string) {
-    this.elements
-      .enrollmentPartialExamCheckbox(checkboxName)
-      .should('be.exist')
-      .check();
   }
 }
 

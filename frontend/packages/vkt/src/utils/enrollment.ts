@@ -4,6 +4,7 @@ import {
   CertificateShippingData,
   PartialExamsAndSkills,
 } from 'interfaces/common/enrollment';
+import { PublicEnrollment } from 'interfaces/publicEnrollment';
 
 export class EnrollmentUtils {
   static isValidTextualSkillAndPartialExams(skills: PartialExamsAndSkills) {
@@ -53,5 +54,61 @@ export class EnrollmentUtils {
     ].every(StringUtils.isNonBlankString);
 
     return shippingData.digitalCertificateConsent || isAddressFieldsFilled;
+  }
+
+  static mergeEnrollment(
+    localEnrollment: PublicEnrollment,
+    serverEnrollment: PublicEnrollment
+  ): PublicEnrollment {
+    // If email value has been given in local state,
+    // then local values must be newer and thus overwrite
+    const hasLocalValues = localEnrollment['email'] !== '';
+
+    return {
+      id: serverEnrollment.id,
+      status: serverEnrollment.status,
+      privacyStatementConfirmation:
+        localEnrollment.privacyStatementConfirmation,
+      emailConfirmation: localEnrollment.emailConfirmation,
+      oralSkill: hasLocalValues
+        ? localEnrollment.oralSkill
+        : serverEnrollment.oralSkill,
+      textualSkill: hasLocalValues
+        ? localEnrollment.textualSkill
+        : serverEnrollment.textualSkill,
+      understandingSkill: hasLocalValues
+        ? localEnrollment.understandingSkill
+        : serverEnrollment.understandingSkill,
+      speakingPartialExam: hasLocalValues
+        ? localEnrollment.speakingPartialExam
+        : serverEnrollment.speakingPartialExam,
+      speechComprehensionPartialExam: hasLocalValues
+        ? localEnrollment.speechComprehensionPartialExam
+        : serverEnrollment.speechComprehensionPartialExam,
+      writingPartialExam: hasLocalValues
+        ? localEnrollment.writingPartialExam
+        : serverEnrollment.writingPartialExam,
+      readingComprehensionPartialExam: hasLocalValues
+        ? localEnrollment.readingComprehensionPartialExam
+        : serverEnrollment.readingComprehensionPartialExam,
+      previousEnrollment: hasLocalValues
+        ? localEnrollment.previousEnrollment
+        : serverEnrollment.previousEnrollment,
+      digitalCertificateConsent: hasLocalValues
+        ? localEnrollment.digitalCertificateConsent
+        : serverEnrollment.digitalCertificateConsent,
+      email: hasLocalValues ? localEnrollment.email : serverEnrollment.email,
+      phoneNumber: hasLocalValues
+        ? localEnrollment.phoneNumber
+        : serverEnrollment.phoneNumber,
+      street: hasLocalValues ? localEnrollment.street : serverEnrollment.street,
+      postalCode: hasLocalValues
+        ? localEnrollment.postalCode
+        : serverEnrollment.postalCode,
+      town: hasLocalValues ? localEnrollment.town : serverEnrollment.town,
+      country: hasLocalValues
+        ? localEnrollment.country
+        : serverEnrollment.country,
+    };
   }
 }

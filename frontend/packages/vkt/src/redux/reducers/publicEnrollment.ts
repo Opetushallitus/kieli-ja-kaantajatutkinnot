@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
@@ -7,6 +7,7 @@ import {
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
+import { EnrollmentUtils } from 'utils/enrollment';
 
 export interface PublicEnrollmentState {
   loadExamEventStatus: APIResponseStatus;
@@ -81,7 +82,12 @@ const publicEnrollmentSlice = createSlice({
       }>
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
-      state.enrollment = action.payload.enrollment ?? state.enrollment;
+      state.enrollment = action.payload.enrollment
+        ? EnrollmentUtils.mergeEnrollment(
+            current(state.enrollment),
+            action.payload.enrollment
+          )
+        : state.enrollment;
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;

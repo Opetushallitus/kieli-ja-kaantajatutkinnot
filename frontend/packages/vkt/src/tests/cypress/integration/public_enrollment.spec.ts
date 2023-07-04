@@ -51,9 +51,6 @@ describe('Public enrollment', () => {
         'previously-enrolled-no'
       );
       onPublicEnrollmentPage.enrollmentFullExamCheckbox();
-      //onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
-      //  'writingPartialExam'
-      //);
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'street',
         'Katu'
@@ -131,12 +128,6 @@ describe('Public enrollment', () => {
         'previously-enrolled-no'
       );
       onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
-
-      // TODO: test once error display for exams is added, just filling out for now
-      // onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox('textualSkill');
-      // onPublicEnrollmentPage.checkEnrollmentPartialExamCheckbox(
-      //   'writingPartialExam'
-      // );
 
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('street');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
