@@ -9,6 +9,7 @@ import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
@@ -115,6 +116,14 @@ export const AppRouter: FC = () => {
                   }
                 />
               </Route>
+              <Route
+                path={AppRoutes.AccessibilityStatementPage}
+                element={
+                  <TitlePage title={createTitle('accessibilityStatement')}>
+                    <AccessibilityStatementPage />
+                  </TitlePage>
+                }
+              />
               <Route
                 path={AppRoutes.PrivacyPolicyPage}
                 element={

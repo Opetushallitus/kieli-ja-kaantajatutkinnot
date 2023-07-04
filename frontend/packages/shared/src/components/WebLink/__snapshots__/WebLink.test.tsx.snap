@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebLink should render correctly with start and end icons 1`] = `
+<span
+  className="weblink"
+>
+  <span
+    className="icon start-icon"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="DownloadOutlinedIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z"
+      />
+    </svg>
+  </span>
+  <a
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-co79bh-MuiTypography-root-MuiLink-root"
+    href="http://localhost:4000"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    target=""
+  >
+    Localhost
+  </a>
+  <span
+    className="icon end-icon"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="OpenInNewIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+      />
+    </svg>
+  </span>
+</span>
+`;
+
+exports[`WebLink should render correctly without icons 1`] = `
+<a
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-co79bh-MuiTypography-root-MuiLink-root"
+  href="http://localhost:4000"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  target="_blank"
+>
+  Localhost
+</a>
+`;

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.14] - 2023-07-03
+
+### Added
+
+- WebLink component
+
 ## [1.9.13] - 2023-06-30
 
 ### Added

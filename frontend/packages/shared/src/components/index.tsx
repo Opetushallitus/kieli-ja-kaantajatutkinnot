@@ -45,3 +45,4 @@ export { CookieBanner } from './CookieBanner/CookieBanner';
 export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 export { StackableMobileAppBar } from './StackableMobileAppBar/StackableMobileAppBar';
+export { WebLink } from './WebLink/WebLink';
