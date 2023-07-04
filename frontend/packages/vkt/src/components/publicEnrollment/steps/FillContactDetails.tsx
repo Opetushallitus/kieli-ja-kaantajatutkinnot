@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CustomTextField, H2, Text } from 'shared/components';
+import { H2, LabeledTextField, Text } from 'shared/components';
 import { InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { FieldErrors, getErrors, hasErrors } from 'shared/utils';
@@ -123,7 +123,7 @@ export const FillContactDetails = ({
     fieldName: keyof PublicEnrollmentContactDetails
   ) => ({
     id: `public-enrollment__contact-details__${fieldName}-field`,
-    label: t(fieldName),
+    label: t(`${fieldName}.label`),
     onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
@@ -133,20 +133,22 @@ export const FillContactDetails = ({
   });
 
   return (
-    <div className="margin-top-xxl rows gapped">
+    <div className="margin-top-sm rows gapped public-enrollment__grid__contact-details">
       <PersonDetails />
       <div className="margin-top-lg rows gapped">
         <H2>{t('title')}</H2>
         <Text>{translateCommon('requiredFieldsInfo')}</Text>
         <div className="grid-2-columns gapped">
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('email')}
+            placeholder={t('email.placeholder')}
             type={TextFieldTypes.Email}
             value={enrollment.email}
             autoComplete={InputAutoComplete.Email}
           />
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('emailConfirmation')}
+            placeholder={t('emailConfirmation.placeholder')}
             type={TextFieldTypes.Email}
             value={enrollment.emailConfirmation}
             onPaste={(e) => {
@@ -157,7 +159,7 @@ export const FillContactDetails = ({
           />
         </div>
       </div>
-      <CustomTextField
+      <LabeledTextField
         {...getCustomTextFieldAttributes('phoneNumber')}
         className="phone-number"
         value={enrollment.phoneNumber}

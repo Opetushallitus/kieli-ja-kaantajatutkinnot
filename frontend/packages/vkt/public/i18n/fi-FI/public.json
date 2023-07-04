@@ -97,10 +97,18 @@
             "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
           },
           "fillContactDetails": {
-            "email": "Sähköpostiosoite",
-            "emailConfirmation": "Vahvista sähköpostiosoite",
+            "email": {
+              "label": "Sähköposti *",
+              "placeholder": "Esim. testi@testi.fi"
+            },
+            "emailConfirmation": {
+              "label": "Vahvista sähköposti *",
+              "placeholder": "Kirjoita sähköpostisi uudelleen"
+            },
             "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
-            "phoneNumber": "Puhelinnumero",
+            "phoneNumber": {
+              "label": "Puhelinnumero *"
+            },
             "title": "Yhteystietosi"
           },
           "partialExamsSelection": {

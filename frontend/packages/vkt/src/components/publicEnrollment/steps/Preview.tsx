@@ -199,11 +199,13 @@ export const Preview = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
-      <PersonDetails />
-      <ContactDetails
-        email={enrollment.email}
-        phoneNumber={enrollment.phoneNumber}
-      />
+      <div className="rows gapped-xxl public-enrollment__grid__contact-details">
+        <PersonDetails />
+        <ContactDetails
+          email={enrollment.email}
+          phoneNumber={enrollment.phoneNumber}
+        />
+      </div>
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />
       <div className="rows gapped">
