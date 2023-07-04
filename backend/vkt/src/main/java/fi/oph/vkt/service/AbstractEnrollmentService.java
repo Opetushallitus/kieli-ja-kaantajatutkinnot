@@ -35,6 +35,14 @@ public abstract class AbstractEnrollmentService {
     return enrollmentRepository.findByExamEventAndPerson(examEvent, person);
   }
 
+  protected boolean hasPersonUnfinishedPayment(
+    final ExamEvent examEvent,
+    final Person person,
+    final EnrollmentRepository enrollmentRepository
+  ) {
+    return findEnrollment(examEvent, person, enrollmentRepository).map(Enrollment::isUnfinishedPayment).orElse(false);
+  }
+
   protected boolean isPersonEnrolled(
     final ExamEvent examEvent,
     final Person person,

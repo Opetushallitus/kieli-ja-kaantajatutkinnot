@@ -157,8 +157,9 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
   public PublicEnrollmentInitialisationDTO initialiseEnrollmentToQueue(final long examEventId, final Person person) {
     final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
 
-    // Should be done before computing the amount of openings
-    cancelPotentialUnfinishedEnrollment(examEvent, person);
+    if (hasPersonUnfinishedPayment(examEvent, person, enrollmentRepository)) {
+      return initialiseEnrollment(examEventId, person);
+    }
 
     final long openings = ExamEventUtil.getOpenings(examEvent);
     if (openings > 0) {
