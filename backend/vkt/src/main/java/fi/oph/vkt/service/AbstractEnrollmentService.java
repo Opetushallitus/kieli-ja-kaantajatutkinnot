@@ -40,7 +40,7 @@ public abstract class AbstractEnrollmentService {
     final Person person,
     final EnrollmentRepository enrollmentRepository
   ) {
-    return findEnrollment(examEvent, person, enrollmentRepository).map(Enrollment::isUnfinishedPayment).orElse(false);
+    return findEnrollment(examEvent, person, enrollmentRepository).map(Enrollment::isExpectingPayment).orElse(false);
   }
 
   protected boolean isPersonEnrolled(
