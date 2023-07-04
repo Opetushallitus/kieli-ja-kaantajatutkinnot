@@ -97,16 +97,13 @@ const publicEnrollmentSlice = createSlice({
       state.reservation = action.payload;
     },
     cancelPublicEnrollment(state) {
-      state.cancelStatus = APIResponseStatus.InProgress;
+      state.cancelStatus = APIResponseStatus.Success;
     },
     cancelPublicEnrollmentAndRemoveReservation(
       state,
       _action: PayloadAction<number>
     ) {
       state.cancelStatus = APIResponseStatus.InProgress;
-    },
-    storePublicEnrollmentCancellation(state) {
-      state.cancelStatus = APIResponseStatus.Success;
     },
     resetPublicEnrollment() {
       return initialState;
@@ -159,7 +156,6 @@ export const {
   storeReservationRenew,
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
-  storePublicEnrollmentCancellation,
   resetPublicEnrollment,
   updatePublicEnrollment,
   loadPublicEnrollmentSave,

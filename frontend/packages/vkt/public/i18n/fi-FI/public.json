@@ -90,8 +90,7 @@
         },
         "steps": {
           "authenticate": {
-            "buttonText": "TUNNISTAUDU SUOMI.FI:N KAUTTA",
-            "title": "Tunnistaudu ilmoittautumista varten"
+            "auth": "Tunnistaudu suomi.fi:n kautta"
           },
           "done": {
             "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
