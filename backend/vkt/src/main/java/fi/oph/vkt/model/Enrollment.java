@@ -103,7 +103,7 @@ public class Enrollment extends BaseEntity {
   }
 
   public boolean isUnfinishedPayment() {
-    return (this.status == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    return this.status == EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT;
   }
 
   public boolean isUnfinished() {

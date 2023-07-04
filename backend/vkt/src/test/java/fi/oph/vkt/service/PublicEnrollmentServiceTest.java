@@ -154,6 +154,22 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
+  public void testInitialiseEnrollmentToQueueWithUnfinishedPayment() {
+    final ExamEvent examEvent = createExamEvent(1);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    final Person person = enrollment.getPerson();
+
+    final PublicEnrollmentInitialisationDTO dto = publicEnrollmentService.initialiseEnrollmentToQueue(
+      examEvent.getId(),
+      person
+    );
+    assertInitialisedEnrollmentDTO(examEvent, person, 1, true, dto);
+
+    assertTrue(reservationRepository.findById(dto.reservation().id()).isPresent());
+    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+  }
+
+  @Test
   public void testInitialiseEnrollmentFailsToFullExamEvent() {
     final ExamEvent examEvent = createExamEvent(2);
     createEnrollment(examEvent, EnrollmentStatus.PAID);
@@ -310,23 +326,6 @@ public class PublicEnrollmentServiceTest {
     );
     assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM, ex.getExceptionType());
   }
-
-  /* TODO: create test for this case
-  @Test
-  public void testInitialiseEnrollmentToQueueFailsDueToRoomWithUnfinishedPayment() {
-    final ExamEvent examEvent = createExamEvent(1);
-    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
-    final Person person = enrollment.getPerson();
-
-    final APIException ex = assertThrows(
-      APIException.class,
-      () -> publicEnrollmentService.initialiseEnrollmentToQueue(examEvent.getId(), person)
-    );
-    assertEquals(APIExceptionType.INITIALISE_ENROLLMENT_TO_QUEUE_HAS_ROOM, ex.getExceptionType());
-
-    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
-  }
-  */
 
   @Test
   public void testInitialiseEnrollmentQueueFailsToDuplicatePerson() {
