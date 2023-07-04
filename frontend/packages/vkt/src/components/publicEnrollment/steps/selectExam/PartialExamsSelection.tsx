@@ -158,12 +158,13 @@ export const PartialExamsSelection = ({
     !EnrollmentUtils.isValidOralSkillAndPartialExams(enrollment);
 
   return (
-    <div className="rows gapped">
+    <div className="rows">
       <FormControl component="fieldset">
         <FormLabel component="legend" className="heading-label">
           {t('doFullExam')}
         </FormLabel>
         <RadioGroup
+          className="rows gapped-xxs"
           name="full-exam-group"
           value={enrollment.hasPreviousEnrollment ? YesNo.Yes : YesNo.No}
           onChange={handleFullExamChange}
@@ -187,9 +188,7 @@ export const PartialExamsSelection = ({
               !allPartialExamsChecked &&
               (dirtyFullExam || somePartialExamsChecked)
             }
-            className={`margin-top-sm margin-left-sm ${
-              hasFullExamError && 'checkbox-error'
-            }`}
+            className={`margin-left-sm ${hasFullExamError && 'checkbox-error'}`}
           />
         </RadioGroup>
         {hasFullExamError && (
@@ -202,7 +201,7 @@ export const PartialExamsSelection = ({
         orientation="vertical"
         in={!allPartialExamsChecked && (dirtyFullExam || isSkillsSelected)}
       >
-        <div className="rows gapped-xxs">
+        <div className="margin-top-lg rows gapped-xxs">
           <H3>{t('skillsTitle')}</H3>
           <div className="rows margin-left-lg">
             <CheckboxField
@@ -233,7 +232,7 @@ export const PartialExamsSelection = ({
         orientation="vertical"
         in={!allPartialExamsChecked && isSkillsSelected}
       >
-        <H3>{t('partialExamsTitle')}</H3>
+        <H3 className="margin-top-lg">{t('partialExamsTitle')}</H3>
       </Collapse>
       <div>
         <Collapse
@@ -241,7 +240,7 @@ export const PartialExamsSelection = ({
           in={!allPartialExamsChecked && enrollment.textualSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows gapped-xxs">
+          <div className="margin-top-lg rows gapped-xxs">
             <H3>{t('textualSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
@@ -271,7 +270,7 @@ export const PartialExamsSelection = ({
           in={!allPartialExamsChecked && enrollment.oralSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows gapped-xxs">
+          <div className="margin-top-lg rows gapped-xxs">
             <H3>{t('oralSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}

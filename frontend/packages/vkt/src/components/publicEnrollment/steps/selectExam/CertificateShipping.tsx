@@ -1,11 +1,11 @@
 import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CustomTextField, H3 } from 'shared/components';
+import { H2, H3, LabeledTextField } from 'shared/components';
 import { Color, InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
 
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { CertificateShippingTextFields } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
@@ -44,6 +44,9 @@ export const CertificateShipping = ({
   setValid: (isValid: boolean) => void;
   showValidation: boolean;
 }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicEnrollment.steps.certificateShipping',
+  });
   const translateCommon = useCommonTranslation();
   const digitalConsentEnabled = false;
 
@@ -104,7 +107,7 @@ export const CertificateShipping = ({
   ) => ({
     id: `public-enrollment__certificate-shipping__${fieldName}-field`,
     type: TextFieldTypes.Text,
-    label: translateCommon(`enrollment.textFields.${fieldName}`),
+    label: `${translateCommon(`enrollment.textFields.${fieldName}`)} *`,
     onBlur: handleBlur(fieldName),
     onChange: handleChange(fieldName),
     error: showCustomTextFieldError(fieldName),
@@ -123,6 +126,7 @@ export const CertificateShipping = ({
 
   return (
     <div className="rows gapped">
+      <H2>{t('title')}</H2>
       {digitalConsentEnabled && (
         <FormControlLabel
           className="public-enrollment__grid__certificate-shipping__consent"
@@ -145,22 +149,22 @@ export const CertificateShipping = ({
           {translateCommon('enrollment.certificateShipping.addressTitle')}
         </H3>
         <div className="margin-top-lg grid-columns gapped">
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('street')}
             value={enrollment.street}
             autoComplete={InputAutoComplete.Street}
           />
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('postalCode')}
             value={enrollment.postalCode}
             autoComplete={InputAutoComplete.PostalCode}
           />
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('town')}
             value={enrollment.town}
             autoComplete={InputAutoComplete.Town}
           />
-          <CustomTextField
+          <LabeledTextField
             {...getCustomTextFieldAttributes('country')}
             value={enrollment.country}
             autoComplete={InputAutoComplete.Country}
