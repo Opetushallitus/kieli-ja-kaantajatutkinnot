@@ -1,5 +1,4 @@
 import { Grid, Paper } from '@mui/material';
-import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   H1,
@@ -14,11 +13,10 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useAppSelector } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
-import { initRegistration } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
@@ -30,32 +28,45 @@ const RegistrationForm = () => {
   const { examSession } = useAppSelector(examSessionSelector);
   const translateCommon = useCommonTranslation();
 
-  switch (initRegistrationStatus) {
-    case APIResponseStatus.Cancelled:
-    case APIResponseStatus.Error:
-      return (
-        <div className="public-registration__grid__form-container">
-          <H2>
-            {error
-              ? translateCommon(`errors.registration.${error}`)
-              : translateCommon('error')}
-          </H2>
-        </div>
-      );
-    case APIResponseStatus.NotStarted:
-    case APIResponseStatus.InProgress:
-      return null;
-    case APIResponseStatus.Success:
-      return (
-        <div className="public-registration__grid__form-container">
-          <PublicRegistrationExamSessionDetails
-            examSession={examSession}
-            showOpenings={submitFormStatus !== APIResponseStatus.Success}
-          />
-          <PublicRegistrationStepContents />
-          <PublicRegistrationControlButtons />
-        </div>
-      );
+  if (submitFormStatus === APIResponseStatus.Success) {
+    return (
+      <div className="public-registration__grid__form-container">
+        <PublicRegistrationExamSessionDetails
+          examSession={examSession}
+          showOpenings={false}
+        />
+        <PublicRegistrationStepContents />
+        <PublicRegistrationControlButtons />
+      </div>
+    );
+  } else {
+    switch (initRegistrationStatus) {
+      case APIResponseStatus.Cancelled:
+      case APIResponseStatus.Error:
+        return (
+          <div className="public-registration__grid__form-container">
+            <H2>
+              {error
+                ? translateCommon(`errors.registration.${error}`)
+                : translateCommon('error')}
+            </H2>
+          </div>
+        );
+      case APIResponseStatus.NotStarted:
+      case APIResponseStatus.InProgress:
+        return null;
+      case APIResponseStatus.Success:
+        return (
+          <div className="public-registration__grid__form-container">
+            <PublicRegistrationExamSessionDetails
+              examSession={examSession}
+              showOpenings={true}
+            />
+            <PublicRegistrationStepContents />
+            <PublicRegistrationControlButtons />
+          </div>
+        );
+    }
   }
 };
 
@@ -134,26 +145,8 @@ const Heading = () => {
 };
 
 export const PublicRegistrationGrid = () => {
-  const { status: examSessionStatus, examSession } =
-    useAppSelector(examSessionSelector);
-
-  const initRegistrationStatus =
-    useAppSelector(registrationSelector).initRegistration.status;
-  const { activeStep } = useAppSelector(registrationSelector);
-
-  const dispatch = useAppDispatch();
-
+  const { status: examSessionStatus } = useAppSelector(examSessionSelector);
   const stepHeading = <Heading />;
-
-  useEffect(() => {
-    if (
-      activeStep === PublicRegistrationFormStep.Register &&
-      examSession &&
-      initRegistrationStatus === APIResponseStatus.NotStarted
-    ) {
-      dispatch(initRegistration(examSession.id));
-    }
-  }, [activeStep, dispatch, examSession, initRegistrationStatus]);
 
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
 
