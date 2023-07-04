@@ -121,6 +121,7 @@
         "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
         "paymentSuccess": "Ilmoittautuminen - maksu valmis",
         "done": "Ilmoittautuminen - valmis",
+        "accessibilityStatement": "Saavutettavuusseloste",
         "privacyPolicy": "Tietosuojaseloste",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
