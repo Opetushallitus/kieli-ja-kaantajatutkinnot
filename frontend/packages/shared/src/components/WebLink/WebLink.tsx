@@ -29,9 +29,9 @@ export const WebLink: FC<WebLinkProps> = ({
 
   return (
     <span className="weblink">
-      <span className="icon">{startIcon && startIcon}</span>
+      {startIcon && <span className="icon start-icon">{startIcon}</span>}
       {link}
-      <span className="icon end-icon">{endIcon && endIcon}</span>
+      {endIcon && <span className="icon end-icon">{endIcon}</span>}
     </span>
   );
 };
