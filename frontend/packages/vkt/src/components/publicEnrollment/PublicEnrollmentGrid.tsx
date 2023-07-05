@@ -122,6 +122,8 @@ export const PublicEnrollmentGrid = ({
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
 
+  const isExamEventDetailsAvailable =
+    activeStep !== PublicEnrollmentFormStep.FillContactDetails;
   const isPaymentSumAvailable =
     isPreviewStepActive && (!!reservation || isShiftedFromQueue);
 
@@ -136,6 +138,7 @@ export const PublicEnrollmentGrid = ({
         <PublicEnrollmentPhoneGrid
           isStepValid={isStepValid}
           isShiftedFromQueue={isShiftedFromQueue}
+          isExamEventDetailsAvailable={isExamEventDetailsAvailable}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}
@@ -150,6 +153,7 @@ export const PublicEnrollmentGrid = ({
         <PublicEnrollmentDesktopGrid
           isStepValid={isStepValid}
           isShiftedFromQueue={isShiftedFromQueue}
+          isExamEventDetailsAvailable={isExamEventDetailsAvailable}
           isPaymentSumAvailable={isPaymentSumAvailable}
           isPreviewStepActive={isPreviewStepActive}
           isPreviewPassed={isPreviewPassed}

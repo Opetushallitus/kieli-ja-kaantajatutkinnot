@@ -8,7 +8,6 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding-left: 1.3rem;
 
     @include mixins.phone {
       @include mixins.phone-divider-border-bottom;

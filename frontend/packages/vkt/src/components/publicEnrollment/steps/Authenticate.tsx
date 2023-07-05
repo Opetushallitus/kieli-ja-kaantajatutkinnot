@@ -1,21 +1,25 @@
 import { useState } from 'react';
-import { CustomButton, H3, LoadingProgressIndicator } from 'shared/components';
+import { CustomButton, LoadingProgressIndicator } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
+import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isAuthRedirecting, setIsAuthRedirecting] = useState(false);
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicEnrollment.steps.authenticate',
   });
   const translateCommon = useCommonTranslation();
 
-  const onClick = () => {
-    setIsRedirecting(true);
+  const dispatch = useAppDispatch();
+
+  const onAuthenticate = () => {
+    setIsAuthRedirecting(true);
 
     window.location.href = APIEndpoints.PublicAuthLogin.replace(
       ':examEventId',
@@ -26,26 +30,36 @@ export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
     );
   };
 
+  const onCancel = () => {
+    dispatch(cancelPublicEnrollment());
+  };
+
   return (
-    <div className="margin-top-xxl gapped rows">
-      <H3>{t('title')}</H3>
-      <div className="columns">
-        <LoadingProgressIndicator
-          translateCommon={translateCommon}
-          isLoading={isRedirecting}
+    <div className="margin-top-xxl rows gapped">
+      <LoadingProgressIndicator
+        translateCommon={translateCommon}
+        isLoading={isAuthRedirecting}
+      >
+        <CustomButton
+          data-testid="public-enrollment__authenticate-button"
+          className="public-enrollment__grid__form-container__auth-button"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          onClick={onAuthenticate}
+          disabled={isAuthRedirecting}
         >
-          <CustomButton
-            className="public-enrollment__grid__form-container__auth-button"
-            variant={Variant.Contained}
-            onClick={onClick}
-            color={Color.Secondary}
-            data-testid="public-enrollment__authenticate-button"
-            disabled={isRedirecting}
-          >
-            {t('buttonText')}
-          </CustomButton>
-        </LoadingProgressIndicator>
-      </div>
+          {t('auth')}
+        </CustomButton>
+      </LoadingProgressIndicator>
+      <CustomButton
+        className="public-enrollment__grid__form-container__auth-button"
+        variant={Variant.Text}
+        color={Color.Secondary}
+        onClick={onCancel}
+        disabled={isAuthRedirecting}
+      >
+        {translateCommon('cancel')}
+      </CustomButton>
     </div>
   );
 };

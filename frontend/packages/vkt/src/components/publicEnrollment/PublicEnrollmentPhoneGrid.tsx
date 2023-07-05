@@ -27,6 +27,7 @@ export const PublicEnrollmentPhoneGrid = ({
   activeStep,
   isStepValid,
   isShiftedFromQueue,
+  isExamEventDetailsAvailable,
   isPaymentSumAvailable,
   isPreviewStepActive,
   isPreviewPassed,
@@ -38,6 +39,7 @@ export const PublicEnrollmentPhoneGrid = ({
 }: {
   activeStep: PublicEnrollmentFormStep;
   isStepValid: boolean;
+  isExamEventDetailsAvailable: boolean;
   isPaymentSumAvailable: boolean;
   isPreviewStepActive: boolean;
   isShiftedFromQueue: boolean;
@@ -166,13 +168,15 @@ export const PublicEnrollmentPhoneGrid = ({
                   </div>
                 </div>
               )}
-              <div className="margin-top-lg">
-                <PublicEnrollmentExamEventDetails
-                  examEvent={examEvent}
-                  showOpenings={!isPreviewPassed && !isShiftedFromQueue}
-                  isEnrollmentToQueue={isEnrollmentToQueue}
-                />
-              </div>
+              {isExamEventDetailsAvailable && (
+                <div className="margin-top-lg">
+                  <PublicEnrollmentExamEventDetails
+                    examEvent={examEvent}
+                    showOpenings={!isPreviewPassed && !isShiftedFromQueue}
+                    isEnrollmentToQueue={isEnrollmentToQueue}
+                  />
+                </div>
+              )}
               <PublicEnrollmentStepContents
                 examEvent={examEvent}
                 activeStep={activeStep}

@@ -5,6 +5,7 @@
 @import 'base/base';
 
 // Common
+@import 'components/common/heading-label';
 @import 'components/common/mobile-app-bar';
 
 // Components
@@ -16,7 +17,6 @@
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
 @import 'components/publicEnrollment/public-enrollment';
-@import 'components/publicExamEvent/public-exam-event-listing';
 
 // Pages
 @import 'pages/accessibility-statement-page';

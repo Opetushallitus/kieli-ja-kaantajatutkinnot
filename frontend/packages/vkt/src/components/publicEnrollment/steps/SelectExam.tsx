@@ -51,13 +51,12 @@ export const SelectExam = ({
   ]);
 
   return (
-    <div className="margin-top-xxl rows gapped-xl">
-      <div className="rows gapped">
-        <H2>{t('chooseExam')}</H2>
-        <div className="rows">
-          <Text>{translateCommon('examinationPayment.part1')}</Text>
-          <Text>{translateCommon('examinationPayment.part2')}</Text>
-        </div>
+    <div className="margin-top-xxl rows gapped">
+      <Text>{t('description')}</Text>
+      <H2>{t('title')}</H2>
+      <div className="rows">
+        <Text>{translateCommon('examinationPayment.part1')}</Text>
+        <Text>{translateCommon('examinationPayment.part2')}</Text>
       </div>
       <PartialExamsSelection
         enrollment={enrollment}
@@ -65,14 +64,12 @@ export const SelectExam = ({
         setValid={setPartialExamsSelection}
         showValidation={showValidation}
       />
-      <H2>{t('previousEnrollment')}</H2>
       <PreviousEnrollment
         enrollment={enrollment}
         editingDisabled={isLoading}
         setValid={setPreviousEnrollment}
         showValidation={showValidation}
       />
-      <H2>{t('certificateShipping')}</H2>
       <CertificateShipping
         enrollment={enrollment}
         editingDisabled={isLoading}
