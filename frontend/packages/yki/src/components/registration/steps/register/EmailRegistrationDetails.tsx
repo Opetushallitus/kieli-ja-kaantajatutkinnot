@@ -165,11 +165,6 @@ export const EmailRegistrationDetails = () => {
                 : ''
             }
           />
-          <LabeledTextField
-            {...getLabeledTextFieldAttributes('dateOfBirth')}
-            type={TextFieldTypes.Text}
-            value={registration.dateOfBirth}
-          />
         </div>
         <LabeledComboBox
           id="public-registration__contact-gender-field"
@@ -214,13 +209,22 @@ export const EmailRegistrationDetails = () => {
               sx={ErrorLabelStyles}
             />
           </RadioGroup>
-          {registration.hasSSN && (
+          {registration.hasSSN === true && (
             <LabeledTextField
               sx={{ width: 'calc(360px - 1rem)' }}
               {...getLabeledTextFieldAttributes('ssn')}
               placeholder={undefined}
               value={registration.ssn}
               type={TextFieldTypes.PersonalIdentityCode}
+            />
+          )}
+          {registration.hasSSN === false && (
+            <LabeledTextField
+              sx={{ width: 'calc(360px - 1rem)' }}
+              {...getLabeledTextFieldAttributes('dateOfBirth')}
+              placeholder={undefined}
+              value={registration.dateOfBirth}
+              type={TextFieldTypes.Date}
             />
           )}
         </FormControl>
