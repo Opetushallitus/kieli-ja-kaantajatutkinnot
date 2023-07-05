@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   H1,
@@ -14,7 +15,7 @@ import { PublicRegistrationStepContents } from 'components/registration/PublicRe
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { PaymentStatus } from 'enums/api';
+import { APIEndpoints, PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -27,6 +28,17 @@ const RegistrationForm = () => {
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const translateCommon = useCommonTranslation();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (
+      submitFormStatus === APIResponseStatus.Success &&
+      !searchParams.get('submitted')
+    ) {
+      const redirectTo = `${window.location.href}?submitted=true`;
+      window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
+    }
+  });
 
   if (submitFormStatus === APIResponseStatus.Success) {
     return (
