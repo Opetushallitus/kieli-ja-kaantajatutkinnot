@@ -16,7 +16,6 @@ import {
   TextFieldTypes,
   TextFieldVariant,
 } from 'shared/enums';
-import { ComboBoxOption } from 'shared/interfaces';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
 import {
@@ -26,35 +25,19 @@ import {
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { GenderEnum, RadioButtonValue } from 'enums/app';
+import { useNationalityOptions } from 'hooks/useNationalityOptions';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { Nationality } from 'interfaces/nationality';
 import { PublicEmailRegistration } from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { nationalityToComboBoxOption } from 'utils/autocomplete';
 
 const ErrorLabelStyles = {
   '&.Mui-error .MuiFormControlLabel-label': {
     color: 'error.main',
   },
-};
-
-const nationalityToComboBoxOption = (
-  nationality: Nationality
-): ComboBoxOption => {
-  return { label: nationality.name, value: nationality.code };
-};
-
-const useNationalityOptions = () => {
-  const lang = getCurrentLang();
-  const { nationalities } = useAppSelector(nationalitiesSelector);
-
-  const options = [...nationalities]
-    .filter((v) => v.language === lang)
-    .map(nationalityToComboBoxOption);
-  options.sort((a, b) => (a.label < b.label ? -1 : 1));
-
-  return options;
 };
 
 export const EmailRegistrationDetails = () => {

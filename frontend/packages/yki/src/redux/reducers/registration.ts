@@ -24,6 +24,7 @@ export interface RegistrationState {
     error?: PublicRegistrationFormSubmitError;
   };
   isEmailRegistration?: boolean;
+  hasSuomiFiNationalityData: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
   activeStep: PublicRegistrationFormStep;
   showErrors: boolean;
@@ -34,6 +35,7 @@ const initialState: RegistrationState = {
   initRegistration: {
     status: APIResponseStatus.NotStarted,
   },
+  hasSuomiFiNationalityData: false,
   submitRegistration: { status: APIResponseStatus.NotStarted },
   registration: {
     privacyStatementConfirmation: false,
@@ -75,8 +77,10 @@ const registrationSlice = createSlice({
     ) {
       state.initRegistration = { status: APIResponseStatus.Success };
       const { registration_id, is_strongly_identified, user } = action.payload;
+      const nationality = user.nationalities && user.nationalities[0];
       if (is_strongly_identified) {
         state.isEmailRegistration = false;
+        state.hasSuomiFiNationalityData = !!nationality;
         state.registration = {
           ...state.registration,
           id: registration_id,
@@ -84,7 +88,7 @@ const registrationSlice = createSlice({
           lastName: user.last_name,
           hasSSN: !!user.ssn,
           ssn: user.ssn,
-          nationality: user.nationalities && user.nationalities[0],
+          nationality,
           address: user.street_address,
           postNumber: user.zip,
           postOffice: user.post_office,
