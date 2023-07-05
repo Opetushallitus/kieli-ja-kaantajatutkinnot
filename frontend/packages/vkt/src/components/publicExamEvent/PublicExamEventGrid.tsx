@@ -1,5 +1,5 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 
@@ -12,13 +12,11 @@ import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
 const BulletList = ({ points }: { points: Array<string> }) => {
   return (
-    <ul>
-      <Text>
-        {points.map((point, i) => (
-          <li key={i}>{point}</li>
-        ))}
-      </Text>
-    </ul>
+    <Typography className="margin-top-sm" variant="body1" component="ul">
+      {points.map((point, i) => (
+        <li key={i}>{point}</li>
+      ))}
+    </Typography>
   );
 };
 
@@ -65,7 +63,7 @@ export const PublicExamEventGrid = () => {
                 translateCommon('examinationPayment.part2'),
               ]}
             />
-            <Text>
+            <Text className="margin-top-lg">
               {t('extraInformation.description')}{' '}
               <WebLink
                 href={t('extraInformation.link.url')}
