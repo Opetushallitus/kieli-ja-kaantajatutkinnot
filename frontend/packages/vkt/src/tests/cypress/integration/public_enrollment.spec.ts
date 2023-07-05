@@ -32,7 +32,7 @@ describe('Public enrollment', () => {
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022Paikkoja vapaana: 6'
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa'
@@ -69,7 +69,7 @@ describe('Public enrollment', () => {
       );
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.03.2022Ilmoittautuminen sulkeutuu: 15.03.2022Paikkoja vapaana: 6'
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022Paikkoja vapaana: 6'
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa'
