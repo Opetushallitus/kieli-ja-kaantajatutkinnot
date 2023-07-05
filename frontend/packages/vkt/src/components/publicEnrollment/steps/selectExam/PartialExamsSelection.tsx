@@ -75,7 +75,7 @@ export const PartialExamsSelection = ({
   });
 
   const dispatch = useAppDispatch();
-  const [dirtyFullExam, setDirtyFullExam] = useState(false);
+  const [dirtyFullExam, setDirtyFullExam] = useState(!!enrollment.id);
 
   const isSkillsSelected = enrollment.textualSkill || enrollment.oralSkill;
 
