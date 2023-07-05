@@ -20,6 +20,7 @@ export const PublicEnrollmentDesktopGrid = ({
   activeStep,
   isStepValid,
   isShiftedFromQueue,
+  isExamEventDetailsAvailable,
   isPaymentSumAvailable,
   isPreviewStepActive,
   isPreviewPassed,
@@ -31,6 +32,7 @@ export const PublicEnrollmentDesktopGrid = ({
 }: {
   activeStep: PublicEnrollmentFormStep;
   isStepValid: boolean;
+  isExamEventDetailsAvailable: boolean;
   isPaymentSumAvailable: boolean;
   isPreviewStepActive: boolean;
   isShiftedFromQueue: boolean;
@@ -91,11 +93,13 @@ export const PublicEnrollmentDesktopGrid = ({
                 activeStep={activeStep}
                 isEnrollmentToQueue={isEnrollmentToQueue}
               />
-              <PublicEnrollmentExamEventDetails
-                examEvent={examEvent}
-                showOpenings={!isPreviewPassed && !isShiftedFromQueue}
-                isEnrollmentToQueue={isEnrollmentToQueue}
-              />
+              {isExamEventDetailsAvailable && (
+                <PublicEnrollmentExamEventDetails
+                  examEvent={examEvent}
+                  showOpenings={!isPreviewPassed && !isShiftedFromQueue}
+                  isEnrollmentToQueue={isEnrollmentToQueue}
+                />
+              )}
               <PublicEnrollmentStepContents
                 examEvent={examEvent}
                 activeStep={activeStep}

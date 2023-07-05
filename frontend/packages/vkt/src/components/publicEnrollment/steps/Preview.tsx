@@ -121,7 +121,7 @@ const CertificateShippingDetails = ({
   const digitalConsentEnabled = false;
 
   return (
-    <div className="rows gapped">
+    <div className="rows gapped-sm">
       <H2>{t('title')}</H2>
       {digitalConsentEnabled && (
         <div className="rows gapped-xxs">
@@ -199,14 +199,16 @@ export const Preview = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xxl">
-      <PersonDetails />
-      <ContactDetails
-        email={enrollment.email}
-        phoneNumber={enrollment.phoneNumber}
-      />
+      <div className="rows gapped-xxl public-enrollment__grid__contact-details">
+        <PersonDetails />
+        <ContactDetails
+          email={enrollment.email}
+          phoneNumber={enrollment.phoneNumber}
+        />
+      </div>
       <ExamEventDetails enrollment={enrollment} />
       <CertificateShippingDetails enrollment={enrollment} />
-      <div className="rows gapped">
+      <div className="rows gapped-sm">
         <H2>{translateCommon('acceptTerms')}</H2>
         <div>
           <FormControlLabel

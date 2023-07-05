@@ -23,7 +23,6 @@ import {
   rejectReservationRenew,
   renewReservation,
   storeEnrollmentInitialisation,
-  storePublicEnrollmentCancellation,
   storePublicEnrollmentSave,
   storePublicExamEvent,
   storeReservationRenew,
@@ -44,11 +43,13 @@ function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
     yield put(
       storeEnrollmentInitialisation({
         person,
-        enrollment,
         examEvent: SerializationUtils.deserializePublicExamEvent(examEvent),
         reservation:
           reservation &&
           SerializationUtils.deserializePublicReservation(reservation),
+        enrollment:
+          enrollment &&
+          SerializationUtils.deserializePublicEnrollment(enrollment),
       })
     );
   } catch (error) {
@@ -101,10 +102,6 @@ function* renewReservationSaga(action: PayloadAction<number>) {
   }
 }
 
-function* cancelPublicEnrollmentSaga() {
-  yield put(storePublicEnrollmentCancellation());
-}
-
 function* cancelPublicEnrollmentAndRemoveReservationSaga(
   action: PayloadAction<number>
 ) {
@@ -116,7 +113,7 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
   } catch (error) {
     // If deletion of reservation fails, it will expire in 30 mins
   } finally {
-    yield put(storePublicEnrollmentCancellation());
+    yield put(cancelPublicEnrollment());
   }
 }
 
@@ -131,8 +128,11 @@ function* loadPublicEnrollmentSaveSaga(
 
   try {
     const {
-      emailConfirmation: _unusedField1,
-      privacyStatementConfirmation: _unusedField2,
+      emailConfirmation: _unused1,
+      id: _unused2,
+      hasPreviousEnrollment: _unused3,
+      privacyStatementConfirmation: _unused4,
+      status: _unused5,
       ...body
     } = enrollment;
 
@@ -160,7 +160,6 @@ export function* watchPublicEnrollments() {
   );
   yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
   yield takeLatest(renewReservation, renewReservationSaga);
-  yield takeLatest(cancelPublicEnrollment, cancelPublicEnrollmentSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,
     cancelPublicEnrollmentAndRemoveReservationSaga

@@ -16,6 +16,8 @@ import {
   ClerkListExamEventResponse,
 } from 'interfaces/clerkListExamEvent';
 import {
+  PublicEnrollment,
+  PublicEnrollmentResponse,
   PublicReservation,
   PublicReservationResponse,
 } from 'interfaces/publicEnrollment';
@@ -32,6 +34,17 @@ export class SerializationUtils {
       ...publicExamEvent,
       date: dayjs(publicExamEvent.date),
       registrationCloses: dayjs(publicExamEvent.registrationCloses),
+    };
+  }
+
+  static deserializePublicEnrollment(
+    enrollment: PublicEnrollmentResponse
+  ): PublicEnrollment {
+    return {
+      ...enrollment,
+      emailConfirmation: '',
+      hasPreviousEnrollment: !!enrollment.previousEnrollment,
+      privacyStatementConfirmation: false,
     };
   }
 
