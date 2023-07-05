@@ -1,12 +1,151 @@
 {
   "vkt": {
     "common": {
+      "acceptTerms": "Acceptera villkoren",
+      "appNameAbbreviation": "VKT",
+      "appTitle": "Språkexamina för statsförvaltningen - Utbildningsstyrelsen",
+      "back": "Tillbaka",
+      "backToHomePage": "Tillbaka till framsidan",
+      "cancel": "Avbryt",
+      "cancelUpdateDialog": {
+        "description": "Du förlorar ändringar du gjort",
+        "header": "Vill du lämna redigeringsvyn?"
+      },
+      "choose": "Välj",
+      "clerk": "Administratör",
+      "close": "Stäng",
+      "contactEmail": "kielitutkinnot@oph.fi",
+      "delete": "Ta bort",
+      "edit": "Ändra",
+      "enrollment": {
+        "certificateShipping": {
+          "consent": null,
+          "description": null
+        },
+        "partialExamsAndSkills": {
+          "oralSkill": "Förmåga att använda språket i tal",
+          "readingComprehensionPartialExam": "Textförståelse",
+          "speakingPartialExam": "Muntlig färdighet",
+          "speechComprehensionPartialExam": "Hörförståelse",
+          "textualSkill": "Förmåga att använda språket i skrift",
+          "understandingSkill": "Förmåga att förstå språket",
+          "writingPartialExam": "Skriftlig färdighet"
+        },
+        "textFields": {
+          "country": "Land",
+          "email": "E-postadress",
+          "firstName": "Förnamn",
+          "lastName": "Efternamn",
+          "phoneNumber": "Telefonnummer",
+          "postalCode": "Postnummer",
+          "previousEnrollment": "Datum eller fritext",
+          "street": "Gatuadress",
+          "town": "Postanstalt"
+        }
+      },
+      "errors": {
+        "api": {
+          "enrollmentAlreadyPaid": "Betalningen misslyckades eftersom examensavgiften är redan betald",
+          "enrollmentMoveExamEventLanguageMismatch": null,
+          "enrollmentMovePersonAlreadyEnrolled": null,
+          "examEventDuplicate": null,
+          "generic": "Funktionen misslyckades, försök på nytt senare",
+          "initialiseEnrollmentDuplicatePerson": "Du har redan anmält dig till det här examenstillfället. Du kan inte anmäla dig på nytt.",
+          "initialiseEnrollmentHasCongestion": null,
+          "initialiseEnrollmentIsFull": "Det finns inga lediga platser till examenstillfället",
+          "initialiseEnrollmentRegistrationClosed": "Anmälan till examenstillfället är stängd",
+          "initialiseEnrollmentToQueueHasRoom": null,
+          "invalidTicket": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
+          "invalidVersion": "Funktionen misslyckades eftersom du försökte ändra föråldrad data. Uppdatera sidan och försök vid behov på nytt.",
+          "renewReservationNotAllowed": null,
+          "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
+          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
+          "paymentAlreadyPaid": null,
+          "paymentAmountMismatch": null,
+          "paymentLinkHasExpired": "Betalningslänken är föråldrad. Be vid behov om en ny betalningslänk.",
+          "paymentLinkInvalidEnrollmentStatus": null,
+          "paymentPersonSessionMismatch": null,
+          "paymentReferenceMismatch": null,
+          "paymentValidationFail": null
+        },
+        "customTextField": {
+          "emailFormat": "E-postadressen är felaktig",
+          "maxLength": "Texten är för lång",
+          "minLength": "Texten är för kort",
+          "numberFormat": "Värdet är felaktigt",
+          "personalIdentityCodeFormat": "Personbeteckningens form kunde inte identifieras",
+          "required": "Uppgiften är obligatorisk",
+          "telFormat": "Telefonnumret är felaktigt"
+        },
+        "loadingFailed": "Det gick inte att ladda uppgifterna, försök på nytt senare."
+      },
+      "examLanguage": {
+        "FI": "Finska",
+        "SV": "Svenska"
+      },
+      "examLevel": {
+        "EXCELLENT": "Utmärkta språkkunskaper"
+      },
+      "examinationPayment": {
+        "part1": "Examensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt.",
+        "part2": "Examensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)."
+      },
       "header": {
+        "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
+          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+        },
         "lang": {
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
-      }
+      },
+      "info": {
+        "previousEnrollment": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "selectExam": "När du har blivit godkänt i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket. Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen."
+      },
+      "languageFilter": {
+        "label": null,
+        "options": {
+          "ALL": "Alla språk",
+          "FI": "Finska",
+          "SV": "Svenska"
+        }
+      },
+      "loadingContent": "Innehållet laddas ner",
+      "loadingDone": "Nedladdningen är klar",
+      "navigationProtection": {
+        "description": "Du kommer att förlora dina ändringar.",
+        "header": "Är du säker på att du vill lämna den här sidan?"
+      },
+      "next": "Följande",
+      "no": "Nej",
+      "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen –",
+      "pageTitle": {
+        "frontPage": "Framsida",
+        "authenticate": "Anmälan - identifiera dig",
+        "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
+        "selectExam": "Anmälan - välj examen",
+        "preview": "Anmälan - förhandsgranska",
+        "paymentFail": "Anmälan - avgiften har inte betalats",
+        "paymentSuccess": "Anmälan - betalningen är slutförd",
+        "done": "Anmälan - färdig",
+        "accessibilityStatement": "Tillgänglighetsdirektiv",
+        "privacyPolicy": "Dataskyddsbeskrivning",
+        "clerkEnrollmentOverview": null,
+        "clerkExamEventCreate": null,
+        "clerkExamOverview": null,
+        "clerkHomepage": "Administratör"
+      },
+      "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
+      "rowsPerPageLabel": "Resultat per sida",
+      "save": "Spara",
+      "vktHomepage": {
+        "ariaLabel": "Språkexamina för statsförvaltningen (oph.fi), öppnas i en ny flik",
+        "link": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
+      },
+      "yes": "Ja"
     }
   }
 }

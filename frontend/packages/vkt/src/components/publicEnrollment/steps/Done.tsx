@@ -25,8 +25,7 @@ export const Done = ({ enrollment }: { enrollment: PublicEnrollment }) => {
 
   return (
     <div className="margin-top-lg rows gapped">
-      <Text>{`${t('description1')}: ${enrollment.email}`}</Text>
-      <Text>{t('description2')}</Text>
+      <Text>{`${t('description')}: ${enrollment.email}`}</Text>
       <CustomButton
         className="align-self-start margin-top-lg"
         color="secondary"

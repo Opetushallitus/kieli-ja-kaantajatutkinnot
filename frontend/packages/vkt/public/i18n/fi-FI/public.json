@@ -22,15 +22,15 @@
             "text": "Tietosuojaseloste"
           },
           "vktHomepage": {
-            "text": "Valtiohallinnon kielitutkinto (oph.fi)"
+            "text": "Valtiohallinnon kielitutkinnot (oph.fi)"
           }
         }
       },
       "publicEnrollment": {
         "controlButtons": {
           "cancelDialog": {
-            "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
-            "title": "Peruuta ilmoittautuminen"
+            "description": "Haluatko perua ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peru ilmoittautuminen"
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan"
@@ -96,8 +96,7 @@
             "title": "Tutkintotodistuksen toimitus"
           },
           "done": {
-            "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
-            "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
+            "description": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
           },
           "fillContactDetails": {
             "email": {
@@ -118,10 +117,9 @@
             "partialExamsTitle": "Valitse osakokeet",
             "oralSkill": "Suullinen taito *",
             "textualSkill": "Kirjallinen taito *",
-            "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
-            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
-            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
-            "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
+            "doFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *",
+            "skillsTitle": "Valitse tutkinto *",
+            "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
           },
           "selectExam": {
             "description": "Tähdellä (*) merkityt osiot ovat pakollisia.",
@@ -164,7 +162,6 @@
             }
           },
           "previousEnrollment": {
-            "description": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osatutkinnon suorituspäivästä alkaen.",
             "radioButtons": {
               "label": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *"
             },
@@ -184,8 +181,7 @@
             "point3": "ymmärtämisen taidon tutkinto (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
           },
           "line1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito.",
-          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat",
-          "line3": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen."
+          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat"
         },
         "enrollment": {
           "description": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta. Ilmoittautumisen yhteydessä maksetaan myös tutkintomaksu.",
@@ -214,7 +210,7 @@
             "part2": "Yritä hetken kuluttua uudelleen."
           },
           "none": {
-            "part1": "Tutkinto täynnä.",
+            "part1": "Tutkintotilaisuus on täynnä.",
             "part2": "Voit ilmoittautua jonoon."
           }
         },

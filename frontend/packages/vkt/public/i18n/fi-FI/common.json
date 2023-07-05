@@ -19,8 +19,8 @@
       "edit": "Muokkaa",
       "enrollment": {
         "certificateShipping": {
-          "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
-          "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti"
+          "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti",
+          "description": "Todistus toimitetaan postitse. Ilmoita osoitteesi todistuksen toimitusta varten."
         },
         "partialExamsAndSkills": {
           "oralSkill": "Suullinen taito",
@@ -45,7 +45,7 @@
       },
       "errors": {
         "api": {
-          "enrollmentAlreadyPaid": "Ilmoittautumisen maksu epäonnistui, koska ilmoittautuminen on jo maksettu",
+          "enrollmentAlreadyPaid": "Maksu epäonnistui, koska tutkintomaksu on jo maksettu",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto epäonnistui, koska valitun tilaisuuden kieli ei ole sama",
           "enrollmentMovePersonAlreadyEnrolled": "Ilmoittautumisen siirto epäonnistui, koska ko. henkilö on jo ilmoittautunut valittuun tilaisuuteen",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
@@ -63,7 +63,7 @@
           "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
           "paymentAmountMismatch": "Maksun käsittely epäonnistui",
           "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
-          "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Ilmoittautuminen on mahdollisesti jo maksettu.",
+          "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Tutkintomaksu on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
           "paymentReferenceMismatch": "Maksun käsittely epäonnistui",
           "paymentValidationFail": "Maksun käsittely epäonnistui"
@@ -99,6 +99,10 @@
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
+      },
+      "info": {
+        "previousEnrollment": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorituspäivästä alkaen.",
+        "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana."
       },
       "languageFilter": {
         "label": "Näytä seuraavien kielten tutkinnot",
@@ -139,7 +143,7 @@
       "save": "Tallenna",
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
-        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
       },
       "yes": "Kyllä"
     }

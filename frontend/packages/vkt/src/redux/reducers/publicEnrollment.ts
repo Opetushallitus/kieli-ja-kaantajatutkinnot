@@ -127,7 +127,7 @@ const publicEnrollmentSlice = createSlice({
         ...newEnrollment,
         ...{
           understandingSkill:
-            newEnrollment.speechComprehensionPartialExam ||
+            newEnrollment.speechComprehensionPartialExam &&
             newEnrollment.readingComprehensionPartialExam,
         },
       };

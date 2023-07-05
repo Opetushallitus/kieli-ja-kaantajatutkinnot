@@ -175,7 +175,7 @@ export const PartialExamsSelection = ({
             value={YesNo.Yes}
             data-testid="enrollment-checkbox-full-exam"
             control={<Radio aria-describedby="full-exam-error" />}
-            label={t('yesFullExam')}
+            label={translateCommon('yes')}
             checked={allPartialExamsChecked}
             className={`margin-top-sm margin-left-sm ${
               hasFullExamError && 'checkbox-error'
