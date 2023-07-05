@@ -129,7 +129,7 @@ export const PreviousEnrollment = ({
     <>
       <div className="margin-top-sm rows gapped">
         <H2>{t('title')}</H2>
-        <Text>{t('description')}</Text>
+        <Text>{translateCommon('info.previousEnrollment')}</Text>
       </div>
       <div className="public-enrollment__grid__previous-enrollment rows gapped">
         <FormControl component="fieldset">
@@ -177,18 +177,20 @@ export const PreviousEnrollment = ({
           )}
         </FormControl>
         <Collapse orientation="vertical" in={enrollment.hasPreviousEnrollment}>
-          <LabeledTextField
-            className="margin-top-sm public-enrollment__grid__previous-enrollment__textField"
-            id="public-enrollment__previous-enrollment__textField"
-            label={t('textField.label')}
-            placeholder={t('textField.placeholder')}
-            value={enrollment.previousEnrollment}
-            onBlur={handleTextFieldBlur}
-            onChange={handleTextFieldChange}
-            error={showCustomTextFieldError('previousEnrollment')}
-            helperText={errors['previousEnrollment']}
-            disabled={editingDisabled}
-          />
+          <div className="margin-top-sm">
+            <LabeledTextField
+              className="public-enrollment__grid__previous-enrollment__textField"
+              id="public-enrollment__previous-enrollment__textField"
+              label={t('textField.label')}
+              placeholder={t('textField.placeholder')}
+              value={enrollment.previousEnrollment}
+              onBlur={handleTextFieldBlur}
+              onChange={handleTextFieldChange}
+              error={showCustomTextFieldError('previousEnrollment')}
+              helperText={errors['previousEnrollment']}
+              disabled={editingDisabled}
+            />
+          </div>
         </Collapse>
       </div>
     </>

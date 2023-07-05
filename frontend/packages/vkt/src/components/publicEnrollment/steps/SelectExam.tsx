@@ -58,6 +58,7 @@ export const SelectExam = ({
         <Text>{translateCommon('examinationPayment.part1')}</Text>
         <Text>{translateCommon('examinationPayment.part2')}</Text>
       </div>
+      <Text>{translateCommon('info.selectExam')}</Text>
       <PartialExamsSelection
         enrollment={enrollment}
         editingDisabled={isLoading}

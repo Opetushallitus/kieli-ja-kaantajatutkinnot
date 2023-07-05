@@ -96,8 +96,7 @@
             "title": "Tutkintotodistuksen toimitus"
           },
           "done": {
-            "description1": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen",
-            "description2": "TODO: Tähän tieto, mitä tapahtuu. Ehkä voisi kertoa myös hinnan, jos se tulee automaattisesti tuolta aiemmista valinnoista, jotta käyttäjä osaa varautua siihenkin."
+            "description": "Ilmoittautuminen tutkinnon jonotuspaikalle onnistui! Sinulle lähetetään vahvistus osoitteeseen"
           },
           "fillContactDetails": {
             "email": {
@@ -119,7 +118,7 @@
             "oralSkill": "Suullinen taito *",
             "textualSkill": "Kirjallinen taito *",
             "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
-            "skillsTitle": "Valitse tutkinto (Tutkinnot voidaan suorittaa yhdessä tai erikseen) *",
+            "skillsTitle": "Valitse tutkinto *",
             "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
             "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
           },
@@ -164,7 +163,6 @@
             }
           },
           "previousEnrollment": {
-            "description": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osatutkinnon suorituspäivästä alkaen.",
             "radioButtons": {
               "label": "Oletko osallistunut aiemmin valtionhallinnon kielitutkintoon? *"
             },
@@ -184,8 +182,7 @@
             "point3": "ymmärtämisen taidon tutkinto (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
           },
           "line1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito.",
-          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat",
-          "line3": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen."
+          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat"
         },
         "enrollment": {
           "description": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta. Ilmoittautumisen yhteydessä maksetaan myös tutkintomaksu.",

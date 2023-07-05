@@ -51,7 +51,8 @@ export const PublicExamEventGrid = () => {
               ]}
             />
           </div>
-          <Text>{t('description.line3')}</Text>
+          <Text>{translateCommon('info.selectExam')}</Text>
+          <Text>{translateCommon('info.previousEnrollment')}</Text>
         </div>
         <div className="margin-top-xxl rows gapped">
           <H2>{t('enrollment.title')}</H2>

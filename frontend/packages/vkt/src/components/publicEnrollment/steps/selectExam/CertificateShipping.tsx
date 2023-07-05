@@ -1,6 +1,6 @@
 import { Checkbox, Collapse, FormControlLabel } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { H2, H3, LabeledTextField } from 'shared/components';
+import { H2, LabeledTextField, Text } from 'shared/components';
 import { Color, InputAutoComplete, TextFieldTypes } from 'shared/enums';
 import { TextField } from 'shared/interfaces';
 import { getErrors, hasErrors } from 'shared/utils';
@@ -145,9 +145,9 @@ export const CertificateShipping = ({
         orientation="vertical"
         in={!enrollment.digitalCertificateConsent}
       >
-        <H3>
-          {translateCommon('enrollment.certificateShipping.addressTitle')}
-        </H3>
+        <Text>
+          {translateCommon('enrollment.certificateShipping.description')}
+        </Text>
         <div className="margin-top-lg grid-columns gapped">
           <LabeledTextField
             {...getCustomTextFieldAttributes('street')}

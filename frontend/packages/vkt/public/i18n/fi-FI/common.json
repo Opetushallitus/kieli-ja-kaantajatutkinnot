@@ -19,8 +19,8 @@
       "edit": "Muokkaa",
       "enrollment": {
         "certificateShipping": {
-          "addressTitle": "Osoite paperisen todistuksen toimitusta varten",
-          "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti"
+          "consent": "Annan suostumuksen siihen, että todistus toimitetaan minulle sähköisesti",
+          "description": "Todistus toimitetaan postitse. Ilmoita osoitteesi todistuksen toimitusta varten."
         },
         "partialExamsAndSkills": {
           "oralSkill": "Suullinen taito",
@@ -99,6 +99,10 @@
           "fi": "Suomeksi",
           "sv": "På svenska"
         }
+      },
+      "info": {
+        "previousEnrollment": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorituspäivästä alkaen.",
+        "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana."
       },
       "languageFilter": {
         "label": "Näytä seuraavien kielten tutkinnot",
