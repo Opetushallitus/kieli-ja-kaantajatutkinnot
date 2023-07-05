@@ -88,9 +88,9 @@ public class PublicAuthServiceTest {
 
   @Test
   public void testCreateCasLoginUrl() {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION);
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION, "fi");
     assertEquals(
-      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation",
+      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation&locale=fi",
       casLoginUrl
     );
   }

@@ -22,13 +22,13 @@ public class PublicAuthService {
   private final PersonRepository personRepository;
   private final Environment environment;
 
-  public String createCasLoginUrl(final long examEventId, final EnrollmentType type) {
+  public String createCasLoginUrl(final long examEventId, final EnrollmentType type, final String locale) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
       String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
       StandardCharsets.UTF_8
     );
-    return casLoginUrl + "?service=" + casServiceUrl;
+    return casLoginUrl + "?service=" + casServiceUrl + "&locale=" + locale;
   }
 
   @Transactional

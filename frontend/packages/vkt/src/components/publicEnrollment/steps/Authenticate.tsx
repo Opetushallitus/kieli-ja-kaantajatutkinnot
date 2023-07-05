@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { CustomButton, LoadingProgressIndicator } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { AppLanguage, Color, Variant } from 'shared/enums';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
@@ -24,10 +28,15 @@ export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
     window.location.href = APIEndpoints.PublicAuthLogin.replace(
       ':examEventId',
       examEvent.id.toString()
-    ).replace(
-      ':type',
-      ExamEventUtils.hasOpenings(examEvent) ? 'reservation' : 'queue'
-    );
+    )
+      .replace(
+        ':type',
+        ExamEventUtils.hasOpenings(examEvent) ? 'reservation' : 'queue'
+      )
+      .replace(
+        ':locale',
+        getCurrentLang() === AppLanguage.Swedish ? 'sv' : 'fi'
+      );
   };
 
   const onCancel = () => {

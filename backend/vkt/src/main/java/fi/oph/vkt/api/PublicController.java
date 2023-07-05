@@ -157,9 +157,14 @@ public class PublicController {
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
     @PathVariable final String type,
+    @RequestParam final String locale,
     final HttpSession session
   ) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, EnrollmentType.fromString(type));
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(
+      examEventId,
+      EnrollmentType.fromString(type),
+      locale
+    );
 
     if (session != null) {
       session.invalidate();
