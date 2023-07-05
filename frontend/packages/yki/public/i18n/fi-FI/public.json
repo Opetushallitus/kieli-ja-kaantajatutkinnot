@@ -190,7 +190,8 @@
             "nationality": "Kansalaisuus",
             "phoneNumber": "Puhelinnumero",
             "postNumber": "Postinumero",
-            "postOffice": "Postitoimipaikka"
+            "postOffice": "Postitoimipaikka",
+            "ssn": "Henkilötunnus"
           },
           "placeholders": {
             "address": "",

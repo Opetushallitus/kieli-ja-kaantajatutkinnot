@@ -3,10 +3,11 @@ import {
   AutocompleteValue,
   LabeledComboBox,
   LabeledTextField,
+  Text,
 } from 'shared/components';
 import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 
-import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
+import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -16,7 +17,10 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { useNationalityOptions } from 'hooks/useNationalityOptions';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
 import { Nationality } from 'interfaces/nationality';
-import { PublicSuomiFiRegistration } from 'interfaces/publicRegistration';
+import {
+  PublicEmailRegistration,
+  PublicSuomiFiRegistration,
+} from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -30,8 +34,9 @@ export const SuomiFiRegistrationDetails = () => {
   const appLanguage = getCurrentLang();
 
   const dispatch = useAppDispatch();
-  const registration: Partial<PublicSuomiFiRegistration> =
-    useAppSelector(registrationSelector).registration;
+  const registration: Partial<
+    PublicSuomiFiRegistration & PublicEmailRegistration
+  > = useAppSelector(registrationSelector).registration;
   const { showErrors, hasSuomiFiNationalityData } =
     useAppSelector(registrationSelector);
   const nationalities = useAppSelector(nationalitiesSelector).nationalities;
@@ -63,13 +68,32 @@ export const SuomiFiRegistrationDetails = () => {
         ? translateCommon(registrationErrors[fieldName] as string)
         : '',
       required: true,
-      disabled: ['firstNames', 'lastName'].includes(fieldName),
+      disabled: false,
     };
   };
 
   return (
     <div className="registration-details rows gapped margin-top-sm">
-      <PersonDetails
+      <div className="columns gapped">
+        <Text>
+          <b>{t('labels.firstNames')}</b>
+          <br />
+          {registration.firstNames}
+        </Text>
+        <Text>
+          <b>{t('labels.lastName')}</b>
+          <br />
+          {registration.lastName}
+        </Text>
+      </div>
+      <div className="columns gapped">
+        <Text>
+          <b>{t('labels.ssn')}</b>
+          <br />
+          {registration.ssn}
+        </Text>
+      </div>
+      <AddressDetails
         getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
       />
       <div className="grid-columns gapped">

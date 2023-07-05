@@ -17,7 +17,7 @@ import {
   TextFieldVariant,
 } from 'shared/enums';
 
-import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
+import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import {
   getCurrentLang,
   useCommonTranslation,
@@ -104,7 +104,28 @@ export const EmailRegistrationDetails = () => {
   return (
     <>
       <div className="registration-details rows gapped margin-top-sm">
-        <PersonDetails
+        <div className="columns gapped">
+          <Text>
+            <b>{t('labels.email')}</b>
+            <br />
+            {registration.email}
+          </Text>
+        </div>
+        <div className="grid-columns gapped">
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('firstNames')}
+            value={registration.firstNames}
+            type={TextFieldTypes.Text}
+            autoComplete={InputAutoComplete.FirstName}
+          />
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('lastName')}
+            value={registration.lastName}
+            type={TextFieldTypes.Text}
+            autoComplete={InputAutoComplete.LastName}
+          />
+        </div>
+        <AddressDetails
           getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
         />
         <div className="grid-columns gapped">
@@ -113,13 +134,6 @@ export const EmailRegistrationDetails = () => {
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
             autoComplete={InputAutoComplete.PhoneNumber}
-          />
-          <LabeledTextField
-            {...getLabeledTextFieldAttributes('email')}
-            type={TextFieldTypes.Email}
-            value={registration.email}
-            disabled={true}
-            autoComplete={InputAutoComplete.Email}
           />
         </div>
         <div className="grid-columns gapped">
@@ -204,6 +218,7 @@ export const EmailRegistrationDetails = () => {
             <LabeledTextField
               sx={{ width: 'calc(360px - 1rem)' }}
               {...getLabeledTextFieldAttributes('ssn')}
+              placeholder={undefined}
               value={registration.ssn}
               type={TextFieldTypes.PersonalIdentityCode}
             />
