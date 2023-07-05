@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.15] - 2023-07-05
+
+### Added
+
+- Removed obsolete padding-left css from `table__head-box`
+
 ## [1.9.14] - 2023-07-03
 
 ### Added

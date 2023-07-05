@@ -101,9 +101,12 @@
         }
       },
       "languageFilter": {
-        "ALL": "Kaikki kielet",
-        "FI": "Suomi",
-        "SV": "Ruotsi"
+        "label": "Näytä seuraavien kielten tutkinnot",
+        "options": {
+          "ALL": "Kaikki kielet",
+          "FI": "Suomi",
+          "SV": "Ruotsi"
+        }
       },
       "loadingContent": "Sisältöä ladataan",
       "loadingDone": "Lataus valmis",
