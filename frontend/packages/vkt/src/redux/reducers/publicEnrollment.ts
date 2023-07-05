@@ -42,8 +42,11 @@ const initialState: PublicEnrollmentState = {
     postalCode: '',
     town: '',
     country: '',
+    id: undefined,
+    hasPreviousEnrollment: undefined,
     previousEnrollment: '',
     privacyStatementConfirmation: false,
+    status: undefined,
   },
   examEvent: undefined,
   person: undefined,
@@ -74,17 +77,17 @@ const publicEnrollmentSlice = createSlice({
     storeEnrollmentInitialisation(
       state,
       action: PayloadAction<{
-        enrollment?: PublicEnrollment;
         examEvent: PublicExamEvent;
         person: PublicPerson;
         reservation?: PublicReservation;
+        enrollment?: PublicEnrollment;
       }>
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
-      state.enrollment = action.payload.enrollment ?? state.enrollment;
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;
+      state.enrollment = action.payload.enrollment ?? state.enrollment;
     },
     renewReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;

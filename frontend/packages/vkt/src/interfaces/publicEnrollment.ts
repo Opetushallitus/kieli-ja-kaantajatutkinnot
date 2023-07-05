@@ -24,10 +24,10 @@ export interface PublicReservationResponse
 }
 
 export interface PublicReservationDetailsResponse {
-  person: PublicPerson;
-  enrollment?: PublicEnrollment;
   examEvent: PublicExamEventResponse;
+  person: PublicPerson;
   reservation?: PublicReservationResponse;
+  enrollment?: PublicEnrollmentResponse;
 }
 
 export interface PublicEnrollmentContactDetails {
@@ -41,8 +41,21 @@ export interface PublicEnrollment
     PartialExamsAndSkills,
     CertificateShippingData {
   id?: number;
-  previousEnrollment?: string;
   hasPreviousEnrollment?: boolean;
+  previousEnrollment?: string;
   privacyStatementConfirmation: boolean;
   status?: EnrollmentStatus;
+}
+
+export interface PublicEnrollmentResponse
+  extends Omit<
+      PublicEnrollment,
+      | 'emailConfirmation'
+      | 'id'
+      | 'hasPreviousEnrollment'
+      | 'privacyStatementConfirmation'
+      | 'status'
+    >,
+    WithId {
+  status: EnrollmentStatus;
 }

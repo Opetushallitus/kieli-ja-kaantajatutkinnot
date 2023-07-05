@@ -43,11 +43,13 @@ function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
     yield put(
       storeEnrollmentInitialisation({
         person,
-        enrollment,
         examEvent: SerializationUtils.deserializePublicExamEvent(examEvent),
         reservation:
           reservation &&
           SerializationUtils.deserializePublicReservation(reservation),
+        enrollment:
+          enrollment &&
+          SerializationUtils.deserializePublicEnrollment(enrollment),
       })
     );
   } catch (error) {
@@ -126,8 +128,11 @@ function* loadPublicEnrollmentSaveSaga(
 
   try {
     const {
-      emailConfirmation: _unusedField1,
-      privacyStatementConfirmation: _unusedField2,
+      emailConfirmation: _unused1,
+      id: _unused2,
+      hasPreviousEnrollment: _unused3,
+      privacyStatementConfirmation: _unused4,
+      status: _unused5,
       ...body
     } = enrollment;
 
