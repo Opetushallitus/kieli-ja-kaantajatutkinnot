@@ -1,86 +1,81 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Alert, Grid, Paper } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useEffect } from 'react';
-import { Trans } from 'react-i18next';
-import { ExtLink, H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { H1, H2, HeaderSeparator, Text, WebLink } from 'shared/components';
 
 import { PublicExamEventListing } from 'components/publicExamEvent/listing/PublicExamEventListing';
-import { PublicExamEventGridSkeleton } from 'components/skeletons/PublicExamEventGridSkeleton';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { resetPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { loadPublicExamEvents } from 'redux/reducers/publicExamEvent';
 import { publicExamEventsSelector } from 'redux/selectors/publicExamEvent';
 
+const BulletList = ({ points }: { points: Array<string> }) => {
+  return (
+    <Typography className="margin-top-sm" variant="body1" component="ul">
+      {points.map((point, i) => (
+        <li key={i}>{point}</li>
+      ))}
+    </Typography>
+  );
+};
+
 export const PublicExamEventGrid = () => {
-  // I18
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.publicExamEventGrid',
   });
   const translateCommon = useCommonTranslation();
 
-  // Redux
-  const { status, examEvents } = useAppSelector(publicExamEventsSelector);
-
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector(publicExamEventsSelector);
 
   useEffect(() => {
     dispatch(resetPublicEnrollment());
     dispatch(loadPublicExamEvents());
   }, [dispatch]);
 
-  // State
-  const isLoading = status === APIResponseStatus.InProgress;
-  const hasResults = examEvents.length > 0;
-
   return (
     <>
       <Grid item className="public-homepage__grid-container__item-header">
         <H1 data-testid="public-homepage__title-heading">{t('title')}</H1>
         <HeaderSeparator />
-        <Text>
-          {t('description.text')}
-          <ExtLink
-            text={t('description.linkName')}
-            href={translateCommon('vktHomepage.link')}
-            endIcon={<OpenInNewIcon />}
-            aria-label={translateCommon('vktHomepage.ariaLabel')}
-          />
-        </Text>
-      </Grid>
-      <Grid item className="public-homepage__grid-container__item-exam-events">
-        <Paper elevation={3} className="public-homepage__exam-events">
-          {isLoading ? (
-            <PublicExamEventGridSkeleton />
-          ) : (
-            <>
-              <Alert
-                className="public-homepage__exam-events__heading-description"
-                severity={Severity.Info}
-              >
-                {t('note')}
-              </Alert>
-              <H2 className="public-homepage__exam-events__heading-title">
-                {t('examinationDates.title')}
-              </H2>
-              <Text>
-                <Trans
-                  t={translateCommon}
-                  i18nKey="examinationPaymentsDescription"
-                ></Trans>
-              </Text>
-            </>
-          )}
-        </Paper>
+        <div className="rows gapped">
+          <Text>{t('description.line1')}</Text>
+          <div className="rows">
+            <Text>{t('description.line2')}</Text>
+            <BulletList
+              points={[
+                t('description.bulletPoints.point1'),
+                t('description.bulletPoints.point2'),
+                t('description.bulletPoints.point3'),
+              ]}
+            />
+          </div>
+          <Text>{t('description.line3')}</Text>
+        </div>
+        <div className="margin-top-xxl rows gapped">
+          <H2>{t('enrollment.title')}</H2>
+          <div className="rows">
+            <Text>{t('enrollment.description')}</Text>
+            <BulletList
+              points={[
+                translateCommon('examinationPayment.part1'),
+                translateCommon('examinationPayment.part2'),
+              ]}
+            />
+            <Text className="margin-top-lg">
+              {t('extraInformation.description')}{' '}
+              <WebLink
+                href={t('extraInformation.link.url')}
+                label={t('extraInformation.link.label')}
+                endIcon={<OpenInNewIcon />}
+              />
+            </Text>
+          </div>
+        </div>
       </Grid>
       <Grid item className="public-homepage__grid-container__result-box">
-        {hasResults && <PublicExamEventListing status={status} />}
-        {!hasResults && !isLoading && (
-          <H2 className="public-homepage__grid-container__result-box__no-results">
-            {t('noSearchResults')}
-          </H2>
-        )}
+        <PublicExamEventListing status={status} />
       </Grid>
     </>
   );

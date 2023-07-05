@@ -86,7 +86,10 @@
       "examLevel": {
         "EXCELLENT": "Erinomainen taito"
       },
-      "examinationPaymentsDescription": "Tutkintomaksu on <strong>454 euroa</strong>, jos suullisen ja kirjallisen taidon tutkinnot suoritetaan samalla kerralla. (Tutkinnot osoittavat myös vastaavan tasoista ymmärtämisen taitoa.) Jos tutkinnot suoritetaan yksittäin, kukin tutkinto, suullisen, kirjallisen tai ymmärtämisen taidon tutkinto, maksaa <strong>227 euroa</strong>.",
+      "examinationPayment": {
+        "part1": "Tutkintomaksu on 454 euroa, jos suoritat suullisen ja kirjallisen taidon tutkinnot samalla kerralla.",
+        "part2": "Tutkintomaksu on 227 euroa, jos suoritat joko suullisen taidon tutkinnon, kirjallisen taidon tutkinnon tai yksittäisen osakokeen."
+      },
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",

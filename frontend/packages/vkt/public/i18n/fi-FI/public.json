@@ -150,7 +150,6 @@
               "title": "Tutkinnon tiedot"
             },
             "privacyStatement": {
-              "ariaLabel": "Tietosuojaseloste",
               "label": "Olen lukenut tämän palvelun <0></0> ja hyväksyn sen (pakollinen).",
               "linkLabel": "tietosuojaselosteen"
             }
@@ -164,14 +163,26 @@
       },
       "publicExamEventGrid": {
         "description": {
-          "linkName": "Opetushallituksen verkkopalvelusta",
-          "text": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito. Lisätietoa tutkinnosta"
+          "bulletPoints": {
+            "point1": "suullisen taidon tutkinto (= puhumisen ja puheen ymmärtämisen osakokeet)",
+            "point2": "kirjallisen taidon tutkinto (= kirjoittamisen ja tekstin ymmärtämisen osakokeet)",
+            "point3": "ymmärtämisen taidon tutkinto (= tekstin ymmärtämisen ja puheen ymmärtämisen osakokeet)"
+          },
+          "line1": "Valtionhallinnon kielitutkinnot (VKT) on tarkoitettu julkishallinnon henkilöstön toisen kotimaisen kielen hallinnan osoittamiseen. Tutkinnoilla osoitetaan suomen tai ruotsin kielen suullinen, kirjallinen ja ymmärtämisen taito.",
+          "line2": "Valtionhallinnon erinomaisen taidon kielitutkintoja ovat",
+          "line3": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen."
         },
-        "examinationDates": {
-          "title": "Tutkintomaksut"
+        "enrollment": {
+          "description": "Ilmoittautumista varten sinun täytyy tunnistautua suomi.fi-palvelun kautta. Ilmoittautumisen yhteydessä maksetaan myös tutkintomaksu.",
+          "title": "Ilmoittautuminen ja tutkintomaksut"
         },
-        "noSearchResults": "Ei hakutuloksia",
-        "note": "Tietoa peruutuspaikoista Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+        "extraInformation": {
+          "description": "Lisätietoa tutkinnosta",
+          "link": {
+            "label": "Opetushallituksen verkkopalvelusta",
+            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
+          }
+        },
         "title": "Valtionhallinnon kielitutkinnot (VKT) – ilmoittautuminen erinomaisen taidon tutkintoihin"
       },
       "publicExamEventListing": {
@@ -187,7 +198,10 @@
             "part1": "Ilmoittautumisjärjestelmässä on juuri nyt ruuhkaa.",
             "part2": "Yritä hetken kuluttua uudelleen."
           },
-          "none": "Tutkinto täynnä. Voit ilmoittautua jonoon."
+          "none": {
+            "part1": "Tutkinto täynnä.",
+            "part2": "Voit ilmoittautua jonoon."
+          }
         },
         "row": {
           "enroll": "Ilmoittaudu",
