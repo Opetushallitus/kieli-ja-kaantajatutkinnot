@@ -45,7 +45,7 @@
       },
       "errors": {
         "api": {
-          "enrollmentAlreadyPaid": "Ilmoittautumisen maksu epäonnistui, koska ilmoittautuminen on jo maksettu",
+          "enrollmentAlreadyPaid": "Maksu epäonnistui, koska tutkintomaksu on jo maksettu",
           "enrollmentMoveExamEventLanguageMismatch": "Ilmoittautumisen siirto epäonnistui, koska valitun tilaisuuden kieli ei ole sama",
           "enrollmentMovePersonAlreadyEnrolled": "Ilmoittautumisen siirto epäonnistui, koska ko. henkilö on jo ilmoittautunut valittuun tilaisuuteen",
           "examEventDuplicate": "Tutkintotilaisuus on jo olemassa jolla sama kieli, taso ja päivä",
@@ -63,7 +63,7 @@
           "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
           "paymentAmountMismatch": "Maksun käsittely epäonnistui",
           "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
-          "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Ilmoittautuminen on mahdollisesti jo maksettu.",
+          "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Tutkintomaksu on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
           "paymentReferenceMismatch": "Maksun käsittely epäonnistui",
           "paymentValidationFail": "Maksun käsittely epäonnistui"
@@ -143,7 +143,7 @@
       "save": "Tallenna",
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
-        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot"
+        "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
       },
       "yes": "Kyllä"
     }
