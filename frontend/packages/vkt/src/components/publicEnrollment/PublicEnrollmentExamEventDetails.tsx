@@ -42,12 +42,12 @@ export const PublicEnrollmentExamEventDetails = ({
       <Text>
         {t('examDate')}
         {': '}
-        <b>{DateUtils.formatOptionalDate(examEvent.date)}</b>
+        <b>{DateUtils.formatOptionalDate(examEvent.date, 'l')}</b>
       </Text>
       <Text>
         {t('registrationCloses')}
         {': '}
-        <b>{DateUtils.formatOptionalDate(examEvent.registrationCloses)}</b>
+        <b>{DateUtils.formatOptionalDate(examEvent.registrationCloses, 'l')}</b>
       </Text>
       {showOpenings && (
         <Text>

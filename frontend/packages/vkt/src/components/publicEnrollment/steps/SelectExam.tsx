@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Trans } from 'react-i18next';
 import { H2, Text } from 'shared/components';
 
 import { CertificateShipping } from 'components/publicEnrollment/steps/selectExam/CertificateShipping';
@@ -53,13 +52,13 @@ export const SelectExam = ({
 
   return (
     <div className="margin-top-xxl rows gapped-xl">
-      <H2>{t('chooseExam')}</H2>
-      <Text>
-        <Trans
-          t={translateCommon}
-          i18nKey="examinationPaymentsDescription"
-        ></Trans>
-      </Text>
+      <div className="rows gapped">
+        <H2>{t('chooseExam')}</H2>
+        <div className="rows">
+          <Text>{translateCommon('examinationPayment.part1')}</Text>
+          <Text>{translateCommon('examinationPayment.part2')}</Text>
+        </div>
+      </div>
       <PartialExamsSelection
         enrollment={enrollment}
         editingDisabled={isLoading}

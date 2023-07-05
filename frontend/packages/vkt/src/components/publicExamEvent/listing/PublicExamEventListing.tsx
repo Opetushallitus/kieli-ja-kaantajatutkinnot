@@ -27,7 +27,9 @@ export const PublicExamEventListing = ({
 }: {
   status: APIResponseStatus;
 }) => {
-  const { t } = usePublicTranslation({ keyPrefix: 'vkt' });
+  const { t } = usePublicTranslation({
+    keyPrefix: 'vkt.component.publicExamEventListing',
+  });
   const translateCommon = useCommonTranslation();
 
   const dispatch = useAppDispatch();
@@ -76,7 +78,7 @@ export const PublicExamEventListing = ({
             ref={listingHeaderRef}
           >
             <div className="grow">
-              <H2>{t('component.publicExamEventListing.title')}</H2>
+              <H2>{t('title')}</H2>
             </div>
           </div>
           <PaginatedTable

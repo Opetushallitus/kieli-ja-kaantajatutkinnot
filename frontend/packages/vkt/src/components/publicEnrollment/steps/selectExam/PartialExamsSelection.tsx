@@ -204,7 +204,7 @@ export const PartialExamsSelection = ({
         orientation="vertical"
         in={!allPartialExamsChecked && (dirtyFullExam || isSkillsSelected)}
       >
-        <div className="rows gapped-sm">
+        <div className="rows gapped-xxs">
           <H3>{t('skillsTitle')}</H3>
           <div className="rows margin-left-lg">
             <CheckboxField
@@ -243,7 +243,7 @@ export const PartialExamsSelection = ({
           in={!allPartialExamsChecked && enrollment.textualSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows margin-top-sm gapped-sm">
+          <div className="rows gapped-xxs">
             <H3>{t('textualSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}
@@ -273,7 +273,7 @@ export const PartialExamsSelection = ({
           in={!allPartialExamsChecked && enrollment.oralSkill}
           className="public-enrollment__grid__partial-exam-selection"
         >
-          <div className="rows margin-top-sm gapped-sm">
+          <div className="rows gapped-xxs">
             <H3>{t('oralSkill')}</H3>
             <CheckboxField
               enrollment={enrollment}

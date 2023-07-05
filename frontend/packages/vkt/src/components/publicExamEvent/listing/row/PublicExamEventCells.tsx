@@ -28,7 +28,12 @@ const getOpeningsText = (
       </>
     );
   } else if (examEvent.openings <= 0) {
-    return <Text>{t('openings.none')}</Text>;
+    return (
+      <>
+        <Text>{t('openings.none.part1')}</Text>
+        <Text>{t('openings.none.part2')}</Text>
+      </>
+    );
   }
 
   return <Text>{`${examEvent.openings}`}</Text>;
@@ -108,11 +113,11 @@ export const PublicExamEventPhoneCells = ({
           </div>
           <div className="rows">
             <b>{t('header.examDate')}</b>
-            <Text>{DateUtils.formatOptionalDate(date)}</Text>
+            <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
           </div>
           <div className="rows">
             <b>{t('header.registrationCloses')}</b>
-            <Text>{DateUtils.formatOptionalDate(registrationCloses)}</Text>
+            <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
           </div>
           <div className="rows">
             <b>{t('header.openings')}</b>
@@ -172,10 +177,10 @@ export const PublicExamEventDesktopCells = ({
         </Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(date)}</Text>
+        <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
       </TableCell>
       <TableCell>
-        <Text>{DateUtils.formatOptionalDate(registrationCloses)}</Text>
+        <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
       </TableCell>
       <TableCell>{getOpeningsText(examEvent, t)}</TableCell>
       <TableCell>
