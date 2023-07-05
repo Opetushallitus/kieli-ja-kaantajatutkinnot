@@ -173,7 +173,7 @@ export const PartialExamsSelection = ({
             disabled={editingDisabled}
             value={YesNo.Yes}
             control={<Radio aria-describedby="full-exam-error" />}
-            label={t('yesFullExam')}
+            label={translateCommon('yes')}
             checked={allPartialExamsChecked}
             className={`margin-top-sm margin-left-sm ${
               hasFullExamError && 'checkbox-error'

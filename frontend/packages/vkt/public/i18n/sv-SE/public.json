@@ -1,1 +1,226 @@
-{}
+{
+  "vkt": {
+    "component": {
+      "footer": {
+        "address": {
+          "name": "Utbildningsstyrelsen",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telefon"
+          },
+          "street": "Hagnäskajen 6",
+          "zipCity": "PB 380, 00531 Helsingfors"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Tillgänglighetsdirektiv (på finska)"
+          },
+          "contact": {
+            "title": "Respons och utvecklingsidéer"
+          },
+          "privacy": {
+            "text": "Dataskyddsbeskrivning (på finska)"
+          },
+          "vktHomepage": {
+            "text": "Språkexamina för statsförvaltningen (oph.fi)"
+          }
+        }
+      },
+      "publicEnrollment": {
+        "controlButtons": {
+          "cancelDialog": {
+            "description": "Vill du annullera anmälan? Du förlorar uppgifterna som du gett.",
+            "title": "Annullera anmälan"
+          },
+          "enrollToQueue": "Ställ dig i kön",
+          "pay": "Betala"
+        },
+        "examEventDetails": {
+          "enrollmentToQueue": "Ställ dig i kön",
+          "examDate": "Examensdag",
+          "examEvent": "Examen",
+          "openings": "Lediga platser",
+          "registrationCloses": "Anmälan stängs"
+        },
+        "expirationTimer": {
+          "cancelEnrollment": "Annullera anmälan",
+          "continueEnrollment": "Fortsätt anmälan",
+          "reservationExpired": null,
+          "reservationExpiredContinue": "Fortsätt till framsidan",
+          "reservationExpiredText": null,
+          "reservationExpiresIn": null,
+          "reservationExpiresInTitle": null,
+          "reservationInfoText": "Om din anmälan inte är slutförd, välj \"Fortsätt anmälan\""
+        },
+        "paymentSum": {
+          "title": "Examensavgift"
+        },
+        "stepHeading": {
+          "common": {
+            "Authenticate": "Identifiera dig",
+            "Done": "Färdigt - du har en plats i kön",
+            "FillContactDetails": "Fyll i dina kontaktuppgifter",
+            "Payment": "Avgiften har inte betalats",
+            "PaymentSuccess": "Färdigt - anmälan lyckades",
+            "Preview": "Förhandsgranska",
+            "SelectExam": "Välj examen"
+          },
+          "toExam": {
+            "Authenticate": "Identifiera dig för anmälan"
+          },
+          "toQueue": {
+            "Authenticate": "Identifiera dig för att anmäla dig till kön"
+          }
+        },
+        "stepper": {
+          "active": "Aktiv",
+          "completed": "Utfört",
+          "phase": "Fas",
+          "phaseNumber": "{{current}} av {{total}}",
+          "phases": null,
+          "step": {
+            "Authenticate": "Identifiera dig",
+            "Done": "Färdigt",
+            "FillContactDetails": "Fyll i dina kontaktuppgifter",
+            "Payment": "Betalning",
+            "PaymentSuccess": "Färdig",
+            "Preview": "Förhandsgranska",
+            "SelectExam": "Välj examen"
+          }
+        },
+        "steps": {
+          "authenticate": {
+            "auth": "Identifiera dig via suomi.fi -tjänsten"
+          },
+          "certificateShipping": {
+            "title": null
+          },
+          "done": {
+            "description": "Du har en plats i kön för examen! Du får en bekräftelse till adressen"
+          },
+          "fillContactDetails": {
+            "email": {
+              "label": "E-post *",
+              "placeholder": null
+            },
+            "emailConfirmation": {
+              "label": "Bekräfta din e-post *",
+              "placeholder": null
+            },
+            "mismatchingEmailsError": null,
+            "phoneNumber": {
+              "label": "Telefonnummer *"
+            },
+            "title": "Dina kontaktuppgifter"
+          },
+          "partialExamsSelection": {
+            "partialExamsTitle": "Välj delproven",
+            "oralSkill": "Muntlig färdighet *",
+            "textualSkill": "Skriftlig färdighet *",
+            "doFullExam": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *",
+            "skillsTitle": "Välj examen *",
+            "noFullExam": "Nej, jag vill avlägga någondera av examina eller ett delprov"
+          },
+          "selectExam": {
+            "description": null,
+            "title": "Val av examen"
+          },
+          "paymentFail": {
+            "cancel": null,
+            "description": null,
+            "toast": null,
+            "tryAgain": "Försök på nytt"
+          },
+          "paymentSuccess": {
+            "description1": "Betalningen lyckades! Välkommen till examen!",
+            "description2": "Du får en bekräftelse till adressen"
+          },
+          "personDetails": {
+            "firstName": "Förnamn",
+            "lastName": "Efternamn",
+            "title": "Dina personuppgifter"
+          },
+          "preview": {
+            "certificateShippingDetails": {
+              "addressLabel": null,
+              "title": null
+            },
+            "contactDetails": {
+              "email": "E-postadress",
+              "phoneNumber": "Telefonnummer",
+              "title": "Dina kontaktuppgifter"
+            },
+            "examEventDetails": {
+              "previousEnrollmentLabel": "Jag har deltagit språkexamina för statsförvaltingen tidigare",
+              "selectedSkillsLabel": "Valda examina",
+              "selectedPartialExamsLabel": "Valda delprov",
+              "title": "Uppgifter om examen"
+            },
+            "privacyStatement": {
+              "label": "Jag har läst <0></0> av den här tjänsten och accepterar den (obligatoriskt).",
+              "linkLabel": "dataskyddsbeskrivningen (på finska)"
+            }
+          },
+          "previousEnrollment": {
+            "radioButtons": {
+              "label": "Har du deltagit språkexamina för statsförvaltningen tidigare? *"
+            },
+            "textField": {
+              "label": "När har du deltagit senast? *",
+              "placeholder": "Skriv datum eller fritext"
+            },
+            "title": "Deltagandet i tidigare examina"
+          }
+        }
+      },
+      "publicExamEventGrid": {
+        "description": {
+          "bulletPoints": {
+            "point1": "examen som gäller förmåga att använda finska eller svenska i tal (med delproven hörförståelse och muntlig färdighet)",
+            "point2": "examen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)",
+            "point3": "examen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse)"
+          },
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket.",
+          "line2": "Examina som gäller utmärkta språkkunskaper är"
+        },
+        "enrollment": {
+          "description": "Du ska identifiera dig via suomi.fi -tjänsten. I samband med anmälan betalas även examensavgiften.",
+          "title": "Anmälan och examensavgiften"
+        },
+        "extraInformation": {
+          "description": "Mera information om examina",
+          "link": {
+            "label": "Utbildningstyrelsens webbplats",
+            "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
+          }
+        },
+        "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
+      },
+      "publicExamEventListing": {
+        "header": {
+          "actions": "Funktioner",
+          "examDate": "Examensdag",
+          "language": "Språk och nivå",
+          "openings": "Lediga platser",
+          "registrationCloses": "Anmälan stängs"
+        },
+        "openings": {
+          "congestion": {
+            "part1": null,
+            "part2": "Försök på nytt om en stund"
+          },
+          "none": {
+            "part1": "Examenstillfället är fullbokat.",
+            "part2": "Du kan ställa dig i kön."
+          }
+        },
+        "row": {
+          "enroll": "Anmäl dig",
+          "enrollLater": "Anmäl dig senare",
+          "enrollToQueue": "Ställ dig i kön"
+        },
+        "title": "Kommande examenstillfällen"
+      }
+    }
+  }
+}

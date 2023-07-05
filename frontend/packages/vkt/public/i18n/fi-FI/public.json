@@ -22,15 +22,15 @@
             "text": "Tietosuojaseloste"
           },
           "vktHomepage": {
-            "text": "Valtiohallinnon kielitutkinto (oph.fi)"
+            "text": "Valtiohallinnon kielitutkinnot (oph.fi)"
           }
         }
       },
       "publicEnrollment": {
         "controlButtons": {
           "cancelDialog": {
-            "description": "Haluatko peruuttaa ilmoittautumisen? Menetät täyttämäsi tiedot.",
-            "title": "Peruuta ilmoittautuminen"
+            "description": "Haluatko perua ilmoittautumisen? Menetät täyttämäsi tiedot.",
+            "title": "Peru ilmoittautuminen"
           },
           "enrollToQueue": "Ilmoittaudu jonoon",
           "pay": "Siirry maksamaan"
@@ -117,10 +117,9 @@
             "partialExamsTitle": "Valitse osakokeet",
             "oralSkill": "Suullinen taito *",
             "textualSkill": "Kirjallinen taito *",
-            "doFullExam": "Haluatko suorittaa koko tutkinnon? *",
+            "doFullExam": "Haluatko suorittaa sekä suullisen että kirjallisen taidon tutkinnon? *",
             "skillsTitle": "Valitse tutkinto *",
-            "yesFullExam": "Kyllä (sis. suullinen taito, kirjallinen taito ja ymmärtämisen taito)",
-            "noFullExam": "En, haluan suorittaa vain jonkin osatutkinnon"
+            "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
           },
           "selectExam": {
             "description": "Tähdellä (*) merkityt osiot ovat pakollisia.",
@@ -211,7 +210,7 @@
             "part2": "Yritä hetken kuluttua uudelleen."
           },
           "none": {
-            "part1": "Tutkinto täynnä.",
+            "part1": "Tutkintotilaisuus on täynnä.",
             "part2": "Voit ilmoittautua jonoon."
           }
         },
