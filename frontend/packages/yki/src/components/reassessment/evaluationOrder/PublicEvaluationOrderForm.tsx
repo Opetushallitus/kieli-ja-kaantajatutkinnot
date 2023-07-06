@@ -211,9 +211,6 @@ const FillParticipantDetails = () => {
 
 const AcceptConditions = () => {
   const translateCommon = useCommonTranslation();
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.evaluationOrderForm.acceptConditions',
-  });
   const { acceptConditions, showErrors } = useAppSelector(
     evaluationOrderSelector
   );
@@ -221,7 +218,7 @@ const AcceptConditions = () => {
 
   return (
     <>
-      <H2>{t('heading')}</H2>
+      <H2>{translateCommon('privacyStatement.title')}</H2>
       <div>
         <Text>
           {translateCommon('privacyStatement.description')}

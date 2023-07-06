@@ -2,9 +2,6 @@
   "yki": {
     "component": {
       "evaluationOrderForm": {
-        "acceptConditions": {
-          "heading": "Henkilötietojen käsittelyn ehdot"
-        },
         "actionButtons": {
           "cancel": "Peruuta",
           "pay": "Siirry maksamaan"
