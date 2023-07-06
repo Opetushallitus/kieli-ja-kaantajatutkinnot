@@ -143,14 +143,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error message: {}", e.getMessage());
+      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
-      LOG.error(
-        "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-        e.getMessage(),
-        e
-      );
+      LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -199,14 +195,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error message: {}", e.getMessage());
+      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
-      LOG.error(
-        "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-        e.getMessage(),
-        e
-      );
+      LOG.error("Encountered unknown error, redirecting to front page. Error message:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -228,14 +220,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
-      LOG.warn("Encountered known error, redirecting to front page. Error message: {}", e.getMessage());
+      LOG.warn("Encountered known error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
-      LOG.error(
-        "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-        e.getMessage(),
-        e
-      );
+      LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -292,18 +280,14 @@ public class PublicController {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
-        LOG.warn("Encountered known error, redirecting to front page. Error message: {}", e.getMessage());
+        LOG.warn("Encountered known error, redirecting to front page. Error:", e);
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
       }
     } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {
-        LOG.error(
-          "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-          e.getMessage(),
-          e
-        );
+        LOG.error("Encountered unknown error, redirecting to front page. Error:", e);
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
       }
     }
