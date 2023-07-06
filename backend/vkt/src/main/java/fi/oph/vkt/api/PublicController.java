@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +47,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PublicController {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PublicController.class);
 
   @Resource
   private PublicPersonService publicPersonService;
@@ -139,8 +144,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentPreviewUrl(examEventId));
     } catch (final APIException e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -189,8 +196,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(uiRouteUtil.getEnrollmentContactDetailsUrl(examEventId));
     } catch (final APIException e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -212,8 +221,10 @@ public class PublicController {
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
+      LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
   }
@@ -270,12 +281,14 @@ public class PublicController {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       } else {
+        LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
       }
     } catch (final Exception e) {
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {
+        LOG.error("Encountered error, redirecting to front page. Error message: {}", e.getMessage());
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
       }
     }
