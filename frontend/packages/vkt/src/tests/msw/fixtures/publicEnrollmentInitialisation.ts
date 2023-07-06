@@ -6,10 +6,10 @@ export const publicEnrollmentInitialisation = {
     date: '2022-03-22',
     registrationCloses: '2022-03-15',
     isHidden: false,
+    hasCongestion: false,
   },
   person: {
     id: 23,
-    identityNumber: '010280-952L',
     lastName: 'Testilä',
     firstName: 'Tessa',
   },
