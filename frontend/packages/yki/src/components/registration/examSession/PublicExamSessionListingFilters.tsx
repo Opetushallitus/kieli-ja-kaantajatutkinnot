@@ -74,7 +74,7 @@ export const PublicExamSessionFilters = ({
   };
 
   const handleSubmitBtnClick = () => {
-    if (!filters.language || !filters.language) {
+    if (!filters.language || !filters.level) {
       showDialog({
         severity: Severity.Error,
         title: t('filters.errorDialog.title'),
