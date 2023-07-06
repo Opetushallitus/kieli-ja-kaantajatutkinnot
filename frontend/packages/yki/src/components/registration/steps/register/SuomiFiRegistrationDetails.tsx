@@ -75,12 +75,12 @@ export const SuomiFiRegistrationDetails = () => {
   return (
     <div className="registration-details rows gapped margin-top-sm">
       <div className="columns gapped">
-        <Text>
+        <Text className="half-width-on-desktop flex-grow-1">
           <b>{t('labels.firstNames')}</b>
           <br />
           {registration.firstNames}
         </Text>
-        <Text>
+        <Text className="half-width-on-desktop flex-grow-1">
           <b>{t('labels.lastName')}</b>
           <br />
           {registration.lastName}
@@ -113,49 +113,42 @@ export const SuomiFiRegistrationDetails = () => {
           }}
         />
       </div>
-      {hasSuomiFiNationalityData ? (
-        <LabeledTextField
+      <LabeledTextField
+        className="half-width-on-desktop"
+        {...getLabeledTextFieldAttributes('phoneNumber')}
+        value={registration.phoneNumber || ''}
+        type={TextFieldTypes.PhoneNumber}
+      />
+      {!hasSuomiFiNationalityData && (
+        <LabeledComboBox
+          id="public-registration__contact-details__nationality-field"
           className="half-width-on-desktop"
-          {...getLabeledTextFieldAttributes('phoneNumber')}
-          value={registration.phoneNumber || ''}
-          type={TextFieldTypes.PhoneNumber}
+          label={`${t('labels.nationality')} *`}
+          aria-label={`${t('labels.nationality')} *`}
+          placeholder={t('placeholders.nationality')}
+          variant={TextFieldVariant.Outlined}
+          values={nationalityOptions}
+          value={
+            registration.nationality
+              ? nationalityToComboBoxOption(
+                  nationalities.find(
+                    ({ code, language }) =>
+                      code === registration.nationality &&
+                      language === appLanguage
+                  ) as Nationality
+                )
+              : null
+          }
+          onChange={(_, v: AutocompleteValue) => {
+            dispatch(updatePublicRegistration({ nationality: v?.value }));
+          }}
+          showError={showErrors && !!registrationErrors['nationality']}
+          helperText={
+            registrationErrors['nationality']
+              ? translateCommon(registrationErrors['nationality'])
+              : ''
+          }
         />
-      ) : (
-        <div className="grid-columns gapped">
-          <LabeledTextField
-            {...getLabeledTextFieldAttributes('phoneNumber')}
-            value={registration.phoneNumber || ''}
-            type={TextFieldTypes.PhoneNumber}
-          />
-          <LabeledComboBox
-            id="public-registration__contact-details__nationality-field"
-            label={`${t('labels.nationality')} *`}
-            aria-label={`${t('labels.nationality')} *`}
-            placeholder={t('placeholders.nationality')}
-            variant={TextFieldVariant.Outlined}
-            values={nationalityOptions}
-            value={
-              registration.nationality
-                ? nationalityToComboBoxOption(
-                    nationalities.find(
-                      ({ code, language }) =>
-                        code === registration.nationality &&
-                        language === appLanguage
-                    ) as Nationality
-                  )
-                : null
-            }
-            onChange={(_, v: AutocompleteValue) => {
-              dispatch(updatePublicRegistration({ nationality: v?.value }));
-            }}
-            showError={showErrors && !!registrationErrors['nationality']}
-            helperText={
-              registrationErrors['nationality']
-                ? translateCommon(registrationErrors['nationality'])
-                : ''
-            }
-          />
-        </div>
       )}
     </div>
   );

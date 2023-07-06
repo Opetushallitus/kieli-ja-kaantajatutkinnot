@@ -45,6 +45,10 @@ const getErrors = (
     value: registration.phoneNumber,
   });
 
+  if (!registration.nationality) {
+    errors['nationality'] = CustomTextFieldErrors.Required;
+  }
+
   if (isEmailRegistration) {
     errors['firstNames'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Text,
@@ -58,9 +62,6 @@ const getErrors = (
     });
     if (!registration.gender) {
       errors['gender'] = CustomTextFieldErrors.Required;
-    }
-    if (!registration.nationality) {
-      errors['nationality'] = CustomTextFieldErrors.Required;
     }
     if (registration.hasSSN === undefined) {
       errors['hasSSN'] = CustomTextFieldErrors.Required;
