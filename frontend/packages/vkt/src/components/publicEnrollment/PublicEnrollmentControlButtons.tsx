@@ -10,7 +10,6 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -98,7 +97,9 @@ export const PublicEnrollmentControlButtons = ({
       if (reservation) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
-          window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+          window.location.href = RouteUtils.getPaymentCreateApiRoute(
+            enrollment.id
+          );
         }, 200);
       } else {
         navigate(
@@ -137,7 +138,9 @@ export const PublicEnrollmentControlButtons = ({
       if (isPaymentLinkPreviewView) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
-          window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+          window.location.href = RouteUtils.getPaymentCreateApiRoute(
+            enrollment.id
+          );
         }, 200);
       } else {
         dispatch(
