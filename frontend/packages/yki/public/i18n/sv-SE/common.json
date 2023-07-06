@@ -24,12 +24,15 @@
           "sv": "På svenska"
         }
       },
+      "language": "Språk",
       "languageLevel": {
+        "ALL": "alla nivåer",
         "KESKI": "mellannivå",
         "PERUS": "grundnivå",
         "YLIN": "högsta nivå"
       },
       "languages": {
+        "all": "alla språk",
         "deu": "tyska",
         "eng": "engelska",
         "fin": "finska",

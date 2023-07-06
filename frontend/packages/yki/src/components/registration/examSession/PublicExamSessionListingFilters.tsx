@@ -98,6 +98,7 @@ export const PublicExamSessionFilters = ({
           </Typography>
           <LanguageSelect
             id="public-exam-session-filters__language-filter"
+            primaryLanguages={[ExamLanguage.ALL]}
             languages={languages}
             translateLanguage={translateLanguage}
             variant={TextFieldVariant.Outlined}

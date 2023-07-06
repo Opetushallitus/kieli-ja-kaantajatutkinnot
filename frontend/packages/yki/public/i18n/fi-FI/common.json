@@ -80,11 +80,13 @@
       "institution": "Testipaikka",
       "language": "Kieli",
       "languageLevel": {
+        "ALL": "kaikki tasot",
         "KESKI": "keskitaso",
         "PERUS": "perustaso",
         "YLIN": "ylin taso"
       },
       "languages": {
+        "all": "kaikki kielet",
         "deu": "saksa",
         "eng": "englanti",
         "fin": "suomi",

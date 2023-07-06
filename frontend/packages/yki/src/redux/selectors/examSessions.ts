@@ -2,6 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
+import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionFilters } from 'interfaces/examSessions';
 
 export const examSessionsSelector = (state: RootState) => state.examSessions;
@@ -19,13 +20,13 @@ const filterExamSessions = (
 ) => {
   let filteredData = examSessions;
   // Filter data only if the criteria are defined
-  if (filters.language) {
+  if (filters.language && filters.language !== ExamLanguage.ALL) {
     filteredData = filteredData.filter(
       (es) => es.language_code === filters.language
     );
   }
 
-  if (filters.level) {
+  if (filters.level && filters.level !== ExamLevel.ALL) {
     filteredData = filteredData.filter((es) => es.level_code === filters.level);
   }
 

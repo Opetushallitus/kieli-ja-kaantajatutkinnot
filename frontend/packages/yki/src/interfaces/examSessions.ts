@@ -13,7 +13,6 @@ export interface ExamSessionFilters {
   level?: ExamLevel;
   municipality?: string;
   excludeFullSessions: boolean;
-  // TODO Naming?
   excludeNonOpenSessions: boolean;
 }
 
