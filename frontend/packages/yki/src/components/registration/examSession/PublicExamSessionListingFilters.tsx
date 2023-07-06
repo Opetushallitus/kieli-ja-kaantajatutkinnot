@@ -14,7 +14,8 @@ import {
   CustomButton,
   LanguageSelect,
 } from 'shared/components';
-import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -42,6 +43,7 @@ export const PublicExamSessionFilters = ({
     keyPrefix: 'yki.pages.registrationPage',
   });
 
+  const { showDialog } = useDialog();
   const filtersGridRef = useRef<HTMLInputElement>(null);
   const scrollToSearch = () => {
     filtersGridRef.current?.scrollIntoView({
@@ -69,6 +71,24 @@ export const PublicExamSessionFilters = ({
     dispatch(resetPublicExamSessionFilters());
     onEmptyFilters();
     scrollToSearch();
+  };
+
+  const handleSubmitBtnClick = () => {
+    if (!filters.language || !filters.language) {
+      showDialog({
+        severity: Severity.Error,
+        title: t('filters.errorDialog.title'),
+        description: t('filters.errorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Contained,
+          },
+        ],
+      });
+    } else {
+      onApplyFilters();
+    }
   };
 
   const languages = Object.values(ExamLanguage);
@@ -205,7 +225,7 @@ export const PublicExamSessionFilters = ({
           data-testid="public-exam-session-filters__filter__search-btn"
           color={Color.Secondary}
           variant={Variant.Contained}
-          onClick={onApplyFilters}
+          onClick={handleSubmitBtnClick}
           startIcon={<SearchIcon />}
         >
           {`${translateCommon('buttons.showResults', {

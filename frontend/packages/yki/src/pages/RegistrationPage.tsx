@@ -23,12 +23,15 @@ export const RegistrationPage: FC = () => {
   const dispatch = useAppDispatch();
   const { status, exam_sessions } = useAppSelector(examSessionsSelector);
   const [results, setResults] = useState<Array<ExamSession>>([]);
+  const [showResults, setShowResults] = useState(false);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const onApplyFilters = () => {
     setResults(filteredExamSessions);
+    setShowResults(true);
   };
   const onEmptyFilters = () => {
     setResults(exam_sessions);
+    setShowResults(false);
   };
 
   useEffect(() => {
@@ -95,9 +98,11 @@ export const RegistrationPage: FC = () => {
             />
           </Paper>
         </Grid>
-        <Grid item className="public-homepage__grid-container__result-box">
-          <PublicExamSessionListing examSessions={results} />
-        </Grid>
+        {showResults && (
+          <Grid item className="public-homepage__grid-container__result-box">
+            <PublicExamSessionListing examSessions={results} />
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

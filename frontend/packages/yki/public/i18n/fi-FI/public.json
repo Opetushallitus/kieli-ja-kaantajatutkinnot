@@ -405,6 +405,10 @@
           }
         },
         "filters": {
+          "errorDialog": {
+            "description": "Nähdäksesi tulokset, valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
+            "title": "Valitse tutkinnon kieli ja taitotaso"
+          },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
           "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta."
         },
