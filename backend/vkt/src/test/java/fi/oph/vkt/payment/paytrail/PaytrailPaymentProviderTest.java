@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.util.UUIDSource;
 import java.io.IOException;
 import java.util.Arrays;
@@ -71,7 +72,7 @@ public class PaytrailPaymentProviderTest {
     final Item item2 = getItem("bar");
     final List<Item> itemList = Arrays.asList(item1, item2);
     final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
-    assertNotNull(paymentProvider.createPayment(itemList, 1L, customer, 100));
+    assertNotNull(paymentProvider.createPayment(itemList, 1L, customer, 100, AppLocale.FI));
 
     final RecordedRequest request = mockWebServer.takeRequest();
 
@@ -120,7 +121,7 @@ public class PaytrailPaymentProviderTest {
     final PaytrailPaymentProvider paymentProvider = new PaytrailPaymentProvider(webClient, paytrailConfig, uuidSource);
     final RuntimeException ex = assertThrows(
       RuntimeException.class,
-      () -> paymentProvider.createPayment(itemList, 1L, customer, 100)
+      () -> paymentProvider.createPayment(itemList, 1L, customer, 100, AppLocale.FI)
     );
 
     assertInstanceOf(WebClientResponseException.class, ex.getCause());

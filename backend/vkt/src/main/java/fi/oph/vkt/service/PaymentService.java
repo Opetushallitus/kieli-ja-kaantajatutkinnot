@@ -4,6 +4,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
@@ -151,7 +152,7 @@ public class PaymentService {
   }
 
   @Transactional
-  public String createPaymentForEnrollment(final Long enrollmentId, final Person person) {
+  public String createPaymentForEnrollment(final Long enrollmentId, final Person person, final AppLocale appLocale) {
     final Enrollment enrollment = enrollmentRepository
       .findById(enrollmentId)
       .orElseThrow(() -> new NotFoundException("Enrollment not found"));
@@ -180,7 +181,13 @@ public class PaymentService {
     payment.setAmount(amount);
     paymentRepository.saveAndFlush(payment);
 
-    final PaytrailResponseDTO response = paymentProvider.createPayment(itemList, payment.getId(), customer, amount);
+    final PaytrailResponseDTO response = paymentProvider.createPayment(
+      itemList,
+      payment.getId(),
+      customer,
+      amount,
+      appLocale
+    );
 
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());

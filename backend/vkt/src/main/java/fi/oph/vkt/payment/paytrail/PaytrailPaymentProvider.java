@@ -4,6 +4,7 @@ import static fi.oph.vkt.payment.Crypto.calculateHmac;
 import static fi.oph.vkt.payment.Crypto.collectHeaders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.payment.PaymentProvider;
 import fi.oph.vkt.util.UUIDSource;
 import java.util.LinkedHashMap;
@@ -44,7 +45,13 @@ public class PaytrailPaymentProvider implements PaymentProvider {
     return headers;
   }
 
-  private Body getBody(final List<Item> itemList, final Long paymentId, final Customer customer, final int amount) {
+  private Body getBody(
+    final List<Item> itemList,
+    final Long paymentId,
+    final Customer customer,
+    final int amount,
+    final AppLocale appLocale
+  ) {
     final String stamp = paymentId.toString() + "-" + uuidSource.getRandomNonce();
 
     final RedirectUrls redirectUrls = RedirectUrls
@@ -65,7 +72,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
       .reference(paymentId.toString())
       .amount(amount)
       .currency(PaytrailConfig.CURRENCY)
-      .language("FI") // TODO: käyttäjän kielestä?
+      .language(appLocale.name())
       .customer(customer)
       .redirectUrls(redirectUrls);
 
@@ -82,7 +89,8 @@ public class PaytrailPaymentProvider implements PaymentProvider {
     @NonNull final List<Item> itemList,
     final Long paymentId,
     final Customer customer,
-    final int amount
+    final int amount,
+    final AppLocale appLocale
   ) {
     if (itemList.isEmpty()) {
       throw new RuntimeException("itemList is required");
@@ -90,7 +98,7 @@ public class PaytrailPaymentProvider implements PaymentProvider {
 
     final ObjectMapper objectMapper = new ObjectMapper();
     final Map<String, String> headers = getHeaders();
-    final Body body = getBody(itemList, paymentId, customer, amount);
+    final Body body = getBody(itemList, paymentId, customer, amount, appLocale);
     final String secret = paytrailConfig.getSecret();
 
     String bodyJson = null;

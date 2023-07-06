@@ -20,6 +20,7 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentSkill;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
@@ -86,7 +87,8 @@ public class PaymentServiceTest {
 
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+      .thenReturn(response);
 
     final PaymentService paymentService = new PaymentService(
       paymentProvider,
@@ -95,7 +97,7 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
+    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
     final List<Item> items = List.of(
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
@@ -116,7 +118,8 @@ public class PaymentServiceTest {
       .build();
 
     assertEquals(url, redirectUrl);
-    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), eq(customer), eq(45400));
+    verify(paymentProvider, times(1))
+      .createPayment(eq(items), any(Long.class), eq(customer), eq(45400), eq(AppLocale.FI));
 
     final List<Payment> payments = paymentRepository.findAll();
     assertEquals(1, payments.size());
@@ -150,7 +153,8 @@ public class PaymentServiceTest {
 
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(response);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+      .thenReturn(response);
 
     final PaymentService paymentService = new PaymentService(
       paymentProvider,
@@ -159,7 +163,7 @@ public class PaymentServiceTest {
       environment,
       publicEnrollmentEmailService
     );
-    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
+    final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
 
     final List<Item> items = List.of(
       Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
@@ -173,7 +177,8 @@ public class PaymentServiceTest {
     );
 
     assertEquals(url, redirectUrl);
-    verify(paymentProvider, times(1)).createPayment(eq(items), any(Long.class), any(Customer.class), eq(22700));
+    verify(paymentProvider, times(1))
+      .createPayment(eq(items), any(Long.class), any(Customer.class), eq(22700), eq(AppLocale.FI));
   }
 
   @Test
@@ -210,10 +215,10 @@ public class PaymentServiceTest {
       .lastName("a" + "b".repeat(48) + "c")
       .build();
 
-    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt()))
+    when(paymentProvider.createPayment(anyList(), anyLong(), eq(expectedCustomerData), anyInt(), any()))
       .thenReturn(PaytrailResponseDTO.builder().transactionId("12345").reference("RF123").href("http").build());
 
-    final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person);
+    final String paymentUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
 
     assertEquals("http", paymentUrl);
   }
@@ -225,7 +230,8 @@ public class PaymentServiceTest {
     final Enrollment enrollment = createEnrollment(person1);
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
-    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt())).thenReturn(null);
+    when(paymentProvider.createPayment(anyList(), any(Long.class), any(Customer.class), anyInt(), any()))
+      .thenReturn(null);
 
     final PaymentService paymentService = new PaymentService(
       paymentProvider,
@@ -237,7 +243,7 @@ public class PaymentServiceTest {
 
     final APIException ex = assertThrows(
       APIException.class,
-      () -> paymentService.createPaymentForEnrollment(enrollment.getId(), person2)
+      () -> paymentService.createPaymentForEnrollment(enrollment.getId(), person2, AppLocale.FI)
     );
     assertEquals(APIExceptionType.PAYMENT_PERSON_SESSION_MISMATCH, ex.getExceptionType());
     verifyNoInteractions(paymentProvider);
@@ -259,7 +265,7 @@ public class PaymentServiceTest {
 
     final NotFoundException ex = assertThrows(
       NotFoundException.class,
-      () -> paymentService.createPaymentForEnrollment(-1L, person)
+      () -> paymentService.createPaymentForEnrollment(-1L, person, AppLocale.FI)
     );
     assertEquals("Enrollment not found", ex.getMessage());
   }
