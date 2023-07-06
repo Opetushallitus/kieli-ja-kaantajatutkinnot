@@ -9,8 +9,10 @@
       },
       "error": "An unexpected error has occurred.",
       "gender": {
-        "female": "female",
-        "male": "male"
+        "female": "Female",
+        "male": "Male",
+        "other": "Other",
+        "preferNotToDisclose": "Prefer not to disclose"
       },
       "header": {
         "accessibility": {

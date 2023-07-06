@@ -61,8 +61,10 @@
       "examination": "Tutkinto",
       "full": "Täynnä",
       "gender": {
-        "female": "nainen",
-        "male": "mies"
+        "female": "Nainen",
+        "male": "Mies",
+        "other": "Muu",
+        "preferNotToDisclose": "En halua määritellä"
       },
       "header": {
         "accessibility": {

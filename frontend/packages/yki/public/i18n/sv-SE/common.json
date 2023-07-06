@@ -9,8 +9,10 @@
       },
       "error": "Ett oväntat fel uppstod.",
       "gender": {
-        "female": "kvinna",
-        "male": "man"
+        "female": "Kvinna",
+        "male": "Man",
+        "other": "Annan",
+        "preferNotToDisclose": "Vill inte avslöja"
       },
       "header": {
         "accessibility": {
