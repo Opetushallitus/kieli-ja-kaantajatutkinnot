@@ -14,6 +14,7 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
@@ -27,6 +28,12 @@ export const AppRouter: FC = () => {
   const createTitle = (title: string) =>
     translateCommon('pageTitle.' + title) + ' - ' + appTitle;
 
+  const FrontPage = (
+    <TitlePage title={createTitle('frontPage')}>
+      <PublicHomePage />
+    </TitlePage>
+  );
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -36,14 +43,8 @@ export const AppRouter: FC = () => {
         <main className="content" id="main-content">
           <div className="content__container">
             <Routes>
-              <Route
-                path={AppRoutes.PublicHomePage}
-                element={
-                  <TitlePage title={createTitle('frontPage')}>
-                    <PublicHomePage />
-                  </TitlePage>
-                }
-              />
+              <Route path={AppRoutes.PublicRoot} element={FrontPage} />
+              <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
               <Route path={AppRoutes.PublicEnrollment}>
                 <Route
                   path={AppRoutes.PublicAuth}
@@ -161,6 +162,14 @@ export const AppRouter: FC = () => {
                 element={
                   <TitlePage title={createTitle('clerkEnrollmentOverview')}>
                     <ClerkEnrollmentOverviewPage />
+                  </TitlePage>
+                }
+              />
+              <Route
+                path={AppRoutes.NotFoundPage}
+                element={
+                  <TitlePage title={createTitle('notFound')}>
+                    <NotFoundPage />
                   </TitlePage>
                 }
               />
