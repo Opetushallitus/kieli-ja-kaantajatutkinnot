@@ -1,0 +1,15 @@
+.not-found-page {
+  margin-top: 7rem;
+
+  @include phone {
+    margin: 4rem 2rem;
+  }
+
+  & &__btn {
+    margin-top: 5rem;
+
+    @include phone {
+      margin: 3rem 0 20rem;
+    }
+  }
+}

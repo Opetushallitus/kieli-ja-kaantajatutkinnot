@@ -120,11 +120,15 @@
       },
       "next": "Seuraava",
       "no": "Ei",
+      "notFoundPage": {
+        "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista.",
+        "title": "Valitettavasti etsimääsi sivua ei löytynyt"
+      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "frontPage": "Etusivu",
-        "notFound": "Valitettavasti etsimääsi sivua ei löytynyt",
+        "notFound": "Etsimääsi sivua ei löytynyt",
         "authenticate": "Ilmoittautuminen - tunnistaudu",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "selectExam": "Ilmoittautuminen - valitse tutkinto",
@@ -145,9 +149,6 @@
       "vktHomepage": {
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
-      },
-      "notFoundPage": {
-        "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista."
       },
       "yes": "Kyllä"
     }

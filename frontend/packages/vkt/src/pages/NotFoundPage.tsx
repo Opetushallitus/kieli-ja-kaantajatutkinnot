@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { CustomButton, H1, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
@@ -9,15 +10,15 @@ export const NotFoundPage: FC = () => {
 
   return (
     <div className="not-found-page">
-      <H1>{translateCommon('pageTitle.notFound')}</H1>
+      <H1>{translateCommon('notFoundPage.title')}</H1>
       <Text>{translateCommon('notFoundPage.description')}</Text>
       <CustomButton
-        className="margin-top-lg not-found-page__btn"
-        color="secondary"
-        variant="contained"
+        className="not-found-page__btn"
+        color={Color.Secondary}
+        variant={Variant.Contained}
         href={AppRoutes.PublicHomePage}
       >
-        {translateCommon('pageTitle.frontPage')}
+        {translateCommon('backToHomePage')}
       </CustomButton>
     </div>
   );
