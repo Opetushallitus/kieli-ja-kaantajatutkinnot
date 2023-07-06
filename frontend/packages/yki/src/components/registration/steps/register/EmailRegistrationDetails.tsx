@@ -199,7 +199,18 @@ export const EmailRegistrationDetails = () => {
           <b>{t('finnishSSN')}</b>
         </Text>
         <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
-          <RadioGroup row onChange={handleChange('hasSSN')}>
+          <RadioGroup
+            row
+            onChange={(e) => {
+              dispatch(
+                updatePublicRegistration({
+                  hasSSN: getEventTargetValue(e.target.value) as boolean,
+                  dateOfBirth: undefined,
+                  ssn: undefined,
+                })
+              );
+            }}
+          >
             <FormControlLabel
               className="radio-group-label"
               value={RadioButtonValue.YES}
