@@ -91,6 +91,9 @@ export class EnrollmentUtils {
       readingComprehensionPartialExam: hasLocalValues
         ? localEnrollment.readingComprehensionPartialExam
         : serverEnrollment.readingComprehensionPartialExam,
+      hasPreviousEnrollment: hasLocalValues
+        ? localEnrollment.hasPreviousEnrollment
+        : !!serverEnrollment.previousEnrollment,
       previousEnrollment: hasLocalValues
         ? localEnrollment.previousEnrollment
         : serverEnrollment.previousEnrollment,
