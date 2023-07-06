@@ -147,9 +147,9 @@ public class PublicController {
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error(
-              "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-              e.getMessage(),
-              e
+        "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
+        e.getMessage(),
+        e
       );
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
@@ -232,9 +232,9 @@ public class PublicController {
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithError(e.getExceptionType()));
     } catch (final Exception e) {
       LOG.error(
-              "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-              e.getMessage(),
-              e
+        "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
+        e.getMessage(),
+        e
       );
       httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
     }
@@ -300,9 +300,9 @@ public class PublicController {
         httpResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
       } else {
         LOG.error(
-                "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
-                e.getMessage(),
-                e
+          "Encountered unknown error, redirecting to front page. Error message: {}, stack trace:",
+          e.getMessage(),
+          e
         );
         httpResponse.sendRedirect(uiRouteUtil.getPublicFrontPageUrlWithGenericError());
       }
