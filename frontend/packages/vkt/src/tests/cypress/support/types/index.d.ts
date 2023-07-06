@@ -6,7 +6,12 @@ declare global {
   namespace Cypress {
     interface Chainable {
       openPublicHomePage(): void;
+      openPublicEnrollmentPage(
+        examEventId: number,
+        persistedState?: string
+      ): void;
       openClerkHomePage(): void;
+      openClerkExamEventPage(examEventId: number): void;
       openClerkCreateExamEventPage(): void;
       usePhoneViewport(): void;
       goBack(): void;

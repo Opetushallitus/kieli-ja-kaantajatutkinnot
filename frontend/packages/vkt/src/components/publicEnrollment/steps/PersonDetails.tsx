@@ -29,7 +29,10 @@ export const PersonDetails = () => {
   return (
     <div className="rows gapped">
       <H2>{t('title')}</H2>
-      <div className="grid-2-columns gapped">
+      <div
+        className="grid-2-columns gapped"
+        data-testid="enrollment-person-details"
+      >
         {displayField('lastName')}
         {displayField('firstName')}
       </div>

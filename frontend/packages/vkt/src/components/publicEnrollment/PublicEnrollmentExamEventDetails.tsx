@@ -27,7 +27,7 @@ export const PublicEnrollmentExamEventDetails = ({
   };
 
   return (
-    <div className="rows-gapped-xxs">
+    <div className="rows-gapped-xxs" data-testid="enrollment-details">
       <Text>
         {t('examEvent')}
         {': '}

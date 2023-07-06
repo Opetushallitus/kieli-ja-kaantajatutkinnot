@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { PersistGate } from 'reduxjs-toolkit-persist/integration/react';
 import { Notifier, ScrollToTop } from 'shared/components';
 import { TitlePage } from 'shared/utils';
 
@@ -18,6 +19,7 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
 import { PublicHomePage } from 'pages/PublicHomePage';
+import { persistor } from 'redux/store';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -40,6 +42,7 @@ export const AppRouter: FC = () => {
         <Header />
         <Notifier />
         <ScrollToTop />
+        <PersistGate persistor={persistor} />
         <main className="content" id="main-content">
           <div className="content__container">
             <Routes>

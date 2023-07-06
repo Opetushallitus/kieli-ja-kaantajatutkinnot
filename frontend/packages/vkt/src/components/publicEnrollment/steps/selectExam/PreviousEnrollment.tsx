@@ -147,6 +147,7 @@ export const PreviousEnrollment = ({
           >
             <FormControlLabel
               disabled={editingDisabled}
+              data-testid="enrollment-checkbox-previously-enrolled-yes"
               value={PreviouslyEnrolled.Yes}
               control={
                 <Radio aria-describedby="has-previous-enrollment-error" />
@@ -159,6 +160,7 @@ export const PreviousEnrollment = ({
             />
             <FormControlLabel
               disabled={editingDisabled}
+              data-testid="enrollment-checkbox-previously-enrolled-no"
               value={PreviouslyEnrolled.No}
               control={
                 <Radio aria-describedby="has-previous-enrollment-error" />
