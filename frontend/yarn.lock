@@ -2770,7 +2770,6 @@ __metadata:
     react-router-dom: 6.3.0
     react-test-renderer: ^18.2.0
     redux-saga: ^1.2.1
-    reduxjs-toolkit-persist: ^7.2.1
     sass: ^1.56.1
     sass-loader: ^13.2.0
     style-loader: ^3.3.1
@@ -2797,6 +2796,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
+    reduxjs-toolkit-persist: ^7.2.1
     shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.15"
   languageName: unknown
   linkType: soft

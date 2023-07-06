@@ -7,7 +7,7 @@ import {
 
 type OutboundState = PublicEnrollmentState;
 
-export const DateTransform = createTransform(
+export const EnrollmentTransform = createTransform(
   // transform state on its way to being serialized and persisted.
   (inboundState: PublicEnrollmentState) => {
     return {

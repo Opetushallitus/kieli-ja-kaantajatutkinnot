@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'reduxjs-toolkit-persist';
 import storageSession from 'reduxjs-toolkit-persist/lib/storage/session';
 
-import { DateTransform } from 'redux/persist/transforms/DateTransform';
+import { EnrollmentTransform } from 'redux/persist/transforms/EnrollmentTransform';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { clerkEnrollmentDetailsReducer } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkExamEventOverviewReducer } from 'redux/reducers/clerkExamEventOverview';
@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'root',
   storage: storageSession,
   whitelist: ['publicEnrollment'],
-  transforms: [DateTransform],
+  transforms: [EnrollmentTransform],
 };
 
 const reducer = combineReducers({

@@ -2,8 +2,6 @@ class PublicEnrollmentPage {
   elements = {
     enrollmentDetails: () => cy.findByTestId('enrollment-details'),
     enrollmentPersonDetails: () => cy.findByTestId('enrollment-person-details'),
-    enrollmentContactDetails: () =>
-      cy.findByTestId('enrollment-person-details'),
     enrollmentPreviewDetails: (field: string) =>
       cy.findByTestId(`enrollment-preview-${field}`),
     enrollmentPreviewBulletList: () =>

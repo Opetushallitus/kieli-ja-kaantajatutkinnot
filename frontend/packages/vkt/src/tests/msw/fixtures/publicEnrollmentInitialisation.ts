@@ -1,4 +1,4 @@
-export const publicEnrollment = {
+export const publicEnrollmentInitialisation = {
   examEvent: {
     openings: 6,
     id: 2,

@@ -283,7 +283,6 @@ export const PartialExamsSelection = ({
               describedBy="oral-skill-selection-error"
             />
             <CheckboxField
-              data-testid="enrollment-checkbox-speech-comprehension-partial-exam"
               enrollment={enrollment}
               fieldName={'speechComprehensionPartialExam'}
               onClick={toggleField}
