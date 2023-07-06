@@ -45,6 +45,7 @@ const FillRegistrationDetails = () => {
         <br />
         {t('description2')}
       </Text>
+      <Text>{t('requiredFields')}</Text>
       {isEmailRegistration ? (
         <EmailRegistrationDetails />
       ) : (

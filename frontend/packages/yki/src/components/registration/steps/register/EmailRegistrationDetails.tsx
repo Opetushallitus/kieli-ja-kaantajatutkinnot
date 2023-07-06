@@ -129,18 +129,36 @@ export const EmailRegistrationDetails = () => {
           getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
         />
         <div className="grid-columns gapped">
-          <LabeledTextField
-            {...getLabeledTextFieldAttributes('phoneNumber')}
-            value={registration.phoneNumber}
-            type={TextFieldTypes.PhoneNumber}
-            autoComplete={InputAutoComplete.PhoneNumber}
+          <LabeledComboBox
+            id="public-registration__contact-gender-field"
+            label={t('labels.gender') + ' *'}
+            aria-label={t('labels.gender') + ' *'}
+            placeholder={t('placeholders.gender')}
+            variant={TextFieldVariant.Outlined}
+            values={[
+              ...Object.values(GenderEnum).map(genderToComboBoxOption),
+            ].sort((a, b) => a.label.localeCompare(b.label))}
+            value={
+              registration.gender
+                ? genderToComboBoxOption(registration.gender)
+                : null
+            }
+            onChange={(_, v: AutocompleteValue) => {
+              dispatch(
+                updatePublicRegistration({ gender: v?.value as GenderEnum })
+              );
+            }}
+            showError={showErrors && !!registrationErrors['gender']}
+            helperText={
+              registrationErrors['gender']
+                ? translateCommon(registrationErrors['gender'])
+                : ''
+            }
           />
-        </div>
-        <div className="grid-columns gapped">
           <LabeledComboBox
             id="public-registration__contact-details__nationality-field"
-            label={`${t('labels.nationality')} *`}
-            aria-label={`${t('labels.nationality')} *`}
+            label={t('labels.nationality') + ' *'}
+            aria-label={t('labels.nationality') + ' *'}
             placeholder={t('placeholders.nationality')}
             variant={TextFieldVariant.Outlined}
             values={nationalityOptions}
@@ -166,27 +184,15 @@ export const EmailRegistrationDetails = () => {
             }
           />
         </div>
-        <LabeledComboBox
-          id="public-registration__contact-gender-field"
-          label={t('labels.gender')}
-          aria-label={t('labels.gender')}
-          placeholder={t('placeholders.gender')}
-          className="half-width-on-desktop"
-          variant={TextFieldVariant.Outlined}
-          values={[
-            ...Object.values(GenderEnum).map(genderToComboBoxOption),
-          ].sort((a, b) => a.label.localeCompare(b.label))}
-          value={
-            registration.gender
-              ? genderToComboBoxOption(registration.gender)
-              : null
-          }
-          onChange={(_, v: AutocompleteValue) => {
-            dispatch(
-              updatePublicRegistration({ gender: v?.value as GenderEnum })
-            );
-          }}
-        />
+        <div className="grid-columns gapped">
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('phoneNumber')}
+            className="half-width-on-desktop"
+            value={registration.phoneNumber}
+            type={TextFieldTypes.PhoneNumber}
+            autoComplete={InputAutoComplete.PhoneNumber}
+          />
+        </div>
       </div>
       <div>
         <Text>
@@ -224,7 +230,7 @@ export const EmailRegistrationDetails = () => {
               {...getLabeledTextFieldAttributes('dateOfBirth')}
               placeholder={undefined}
               value={registration.dateOfBirth}
-              type={TextFieldTypes.Date}
+              type={TextFieldTypes.Text}
             />
           )}
         </FormControl>

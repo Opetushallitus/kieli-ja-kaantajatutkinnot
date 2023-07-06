@@ -154,8 +154,8 @@
         },
         "registrationDetails": {
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
-          "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot. Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
-          "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
+          "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",
+          "description2": "Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "emailConfirmation": "Vahvista sähköpostiosoite",
           "errors": {
             "fields": {
@@ -165,6 +165,7 @@
               "email": "Sähköpostiosoite",
               "emailConfirmation": "Sähköpostiosoitteen vahvistus",
               "firstNames": "Etunimet",
+              "gender": "Sukupuoli",
               "hasSSN": "Onko sinulla suomalainen henkilötunnus?",
               "instructionLanguage": "Valitse tehtävien kieli",
               "lastName": "Sukunimi",
@@ -208,6 +209,7 @@
           },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
           "instructionLanguage": "Millä kielellä haluat tehdä tehtävät? *",
+          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
