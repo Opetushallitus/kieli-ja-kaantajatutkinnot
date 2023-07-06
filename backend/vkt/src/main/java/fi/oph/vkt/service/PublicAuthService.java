@@ -4,6 +4,8 @@ import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -46,7 +48,7 @@ public class PublicAuthService {
 
     if ((oid == null || oid.isEmpty()) && (otherIdentifier == null || otherIdentifier.isEmpty())) {
       LOG.error("Person OID and otherIdentifier are empty. Person details: {}", personDetails);
-      throw new RuntimeException("Person OID and otherIdentifier are empty");
+      throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
     }
 
     final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
