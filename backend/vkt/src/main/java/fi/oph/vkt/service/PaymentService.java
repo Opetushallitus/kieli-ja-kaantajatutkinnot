@@ -89,7 +89,7 @@ public class PaymentService {
   public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
     throws IOException, InterruptedException {
     final Payment payment = paymentRepository
-      .findById(paymentId)
+      .findWithLockingById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
     final PaymentStatus currentStatus = payment.getPaymentStatus();
     final PaymentStatus newStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
