@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { APIResponseStatus, Severity } from 'shared/enums';
 import { useToast } from 'shared/hooks';
 
@@ -9,7 +9,12 @@ import { PublicExamDetailsPageSkeleton } from 'components/skeletons/PublicExamDe
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { initRegistration, setActiveStep } from 'redux/reducers/registration';
+import { loadExamSession } from 'redux/reducers/examSession';
+import {
+  acceptPublicRegistrationSubmission,
+  initRegistration,
+  setActiveStep,
+} from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const ExamDetailsPage = () => {
@@ -25,6 +30,7 @@ export const ExamDetailsPage = () => {
   const { status, examSession } = useAppSelector(examSessionSelector);
   // React Router
   const params = useParams();
+  const [searchParams] = useSearchParams();
 
   const isLoading = status === APIResponseStatus.InProgress;
 
@@ -38,8 +44,15 @@ export const ExamDetailsPage = () => {
       !examSession?.id &&
       params.examSessionId
     ) {
-      // Fetch exam details
-      dispatch(initRegistration(+params.examSessionId));
+      if (searchParams.get('submitted')) {
+        // If form is already submitted, just reload exam session details
+        // and manually set registration status to submitted.
+        dispatch(loadExamSession(+params.examSessionId));
+        dispatch(acceptPublicRegistrationSubmission());
+      } else {
+        // Else attempt to initiate registration.
+        dispatch(initRegistration(+params.examSessionId));
+      }
     } else if (
       status === APIResponseStatus.Error ||
       isNaN(Number(params.examSessionId))
@@ -50,7 +63,15 @@ export const ExamDetailsPage = () => {
         description: t('toasts.notFound'),
       });
     }
-  }, [status, dispatch, params.examSessionId, showToast, examSession?.id, t]);
+  }, [
+    status,
+    dispatch,
+    params.examSessionId,
+    showToast,
+    examSession?.id,
+    t,
+    searchParams,
+  ]);
 
   return (
     <Box className="public-exam-details-page">
