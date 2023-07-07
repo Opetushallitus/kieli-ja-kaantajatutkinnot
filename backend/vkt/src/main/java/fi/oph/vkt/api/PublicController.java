@@ -276,11 +276,11 @@ public class PublicController {
     final Map<String, String> paymentParams,
     final Optional<Boolean> callback,
     final HttpServletResponse httpResponse,
-    final Function<Payment, String> getRedirectUrlFunction
+    final Function<Long, String> getRedirectUrlFunction
   ) throws IOException {
     try {
-      final Payment payment = paymentService.finalizePayment(paymentId, paymentParams);
-      final String redirectUrl = getRedirectUrlFunction.apply(payment);
+      paymentService.finalizePayment(paymentId, paymentParams);
+      final String redirectUrl = getRedirectUrlFunction.apply(paymentId);
 
       if (callback.isPresent() && callback.get()) {
         httpResponse.setStatus(HttpStatus.OK.value());

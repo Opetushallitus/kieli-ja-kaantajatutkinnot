@@ -134,16 +134,21 @@ public class PaymentService {
     return payment;
   }
 
-  public String getFinalizePaymentSuccessRedirectUrl(final Payment payment) {
-    return getFinalizePaymentRedirectUrl(payment, "valmis");
+  @Transactional(readOnly = true)
+  public String getFinalizePaymentSuccessRedirectUrl(final Long paymentId) {
+    return getFinalizePaymentRedirectUrl(paymentId, "valmis");
   }
 
-  public String getFinalizePaymentCancelRedirectUrl(final Payment payment) {
-    return getFinalizePaymentRedirectUrl(payment, "peruutettu");
+  @Transactional(readOnly = true)
+  public String getFinalizePaymentCancelRedirectUrl(final Long paymentId) {
+    return getFinalizePaymentRedirectUrl(paymentId, "peruutettu");
   }
 
-  private String getFinalizePaymentRedirectUrl(final Payment payment, final String state) {
+  private String getFinalizePaymentRedirectUrl(final Long paymentId, final String state) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+    final Payment payment = paymentRepository
+      .findById(paymentId)
+      .orElseThrow(() -> new NotFoundException("Payment not found"));
     final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
 
     return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
