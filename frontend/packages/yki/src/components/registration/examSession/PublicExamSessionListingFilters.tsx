@@ -7,7 +7,7 @@ import {
   FormGroup,
   Typography,
 } from '@mui/material';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
@@ -67,6 +67,8 @@ export const PublicExamSessionFilters = ({
     dispatch(setPublicExamSessionFilters(filter));
   };
 
+  const [showError, setShowError] = useState(false);
+
   const handleEmptyBtnClick = () => {
     dispatch(resetPublicExamSessionFilters());
     onEmptyFilters();
@@ -75,6 +77,7 @@ export const PublicExamSessionFilters = ({
 
   const handleSubmitBtnClick = () => {
     if (!filters.language || !filters.level) {
+      setShowError(true);
       showDialog({
         severity: Severity.Error,
         title: t('filters.errorDialog.title'),
@@ -87,6 +90,7 @@ export const PublicExamSessionFilters = ({
         ],
       });
     } else {
+      setShowError(false);
       onApplyFilters();
     }
   };
@@ -105,14 +109,20 @@ export const PublicExamSessionFilters = ({
     label: m,
   });
 
+  const errorStyles = { color: 'error.main' };
+
   return (
     <div className="public-exam-session-filters" ref={filtersGridRef}>
       <div className="public-exam-session-filters__dropdown-filters-box">
-        <div className="public-exam-session-filters__filter">
+        <FormControl
+          className="public-exam-session-filters__filter"
+          error={showError && !language}
+        >
           <Typography
             variant="h3"
             component="label"
             htmlFor="public-exam-session-filters__language-filter"
+            sx={showError && !language ? { color: 'error.main' } : {}}
           >
             {translateCommon('language')}
           </Typography>
@@ -133,13 +143,21 @@ export const PublicExamSessionFilters = ({
             }}
             label={t('labels.selectLanguage')}
             aria-label={t('labels.selectLanguage')}
+            showError={showError && !language}
+            helperText={
+              showError && !language ? t('filters.errors.required') : ''
+            }
           />
-        </div>
-        <div className="public-exam-session-filters__filter">
+        </FormControl>
+        <FormControl
+          className="public-exam-session-filters__filter"
+          error={showError && !level}
+        >
           <Typography
             variant="h3"
             component="label"
             htmlFor="public-exam-session-filters__level-filter"
+            sx={showError && !level ? errorStyles : {}}
           >
             {translateCommon('level')}
           </Typography>
@@ -154,8 +172,10 @@ export const PublicExamSessionFilters = ({
             }}
             label={t('labels.selectLevel')}
             aria-label={t('labels.selectLevel')}
+            showError={showError && !level}
+            helperText={showError && !level ? t('filters.errors.required') : ''}
           />
-        </div>
+        </FormControl>
         <div className="public-exam-session-filters__filter">
           <Typography
             variant="h3"
