@@ -2,6 +2,7 @@ export enum APIEndpoints {
   CountryCodes = '/yki/api/code/maatjavaltiot2',
   ExamSessions = '/yki/api/exam-session',
   ExamSession = '/yki/api/exam-session/:examSessionId',
+  ExamSessionQueue = '/yki/api/exam-session/:examSessionId/queue',
   Evaluations = '/yki/api/evaluation',
   Evaluation = '/yki/api/evaluation/:evaluationId',
   EvaluationOrder = '/yki/api/evaluation/:evaluationId/order',

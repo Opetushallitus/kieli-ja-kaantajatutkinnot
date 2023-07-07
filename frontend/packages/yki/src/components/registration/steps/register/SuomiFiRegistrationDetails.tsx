@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { CustomTextField } from 'shared/components';
+import { LabeledTextField } from 'shared/components';
 import { TextFieldTypes } from 'shared/enums';
 
 import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
@@ -34,12 +34,13 @@ export const SuomiFiRegistrationDetails = () => {
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
 
-  const getCustomTextFieldAttributes = (
+  const getLabeledTextFieldAttributes = (
     fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>
   ) => {
     return {
       id: `public-registration__contact-details__${fieldName}-field`,
-      label: t(fieldName),
+      label: t('labels.' + fieldName),
+      placeholder: t('placeholders.' + fieldName),
       onChange: handleChange(fieldName),
       error: showErrors && !!registrationErrors[fieldName],
       helperText: registrationErrors[fieldName]
@@ -53,16 +54,16 @@ export const SuomiFiRegistrationDetails = () => {
   return (
     <div className="registration-details rows gapped margin-top-sm">
       <PersonDetails
-        getCustomTextFieldAttributes={getCustomTextFieldAttributes}
+        getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
       />
       <div className="grid-columns gapped">
-        <CustomTextField
-          {...getCustomTextFieldAttributes('email')}
+        <LabeledTextField
+          {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
           value={registration.email || ''}
         />
-        <CustomTextField
-          {...getCustomTextFieldAttributes('emailConfirmation')}
+        <LabeledTextField
+          {...getLabeledTextFieldAttributes('emailConfirmation')}
           type={TextFieldTypes.Email}
           value={registration.emailConfirmation || ''}
           onPaste={(e) => {
@@ -72,9 +73,9 @@ export const SuomiFiRegistrationDetails = () => {
           }}
         />
       </div>
-      <CustomTextField
+      <LabeledTextField
         className="half-width-on-desktop"
-        {...getCustomTextFieldAttributes('phoneNumber')}
+        {...getLabeledTextFieldAttributes('phoneNumber')}
         value={registration.phoneNumber || ''}
         type={TextFieldTypes.PhoneNumber}
       />

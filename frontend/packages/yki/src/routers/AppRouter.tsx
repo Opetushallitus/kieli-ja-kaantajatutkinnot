@@ -10,7 +10,7 @@ import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
-import { IdentifyPage } from 'pages/IdentifyPage';
+import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
@@ -36,7 +36,10 @@ export const AppRouter: FC = () => {
                 path={AppRoutes.Registration}
                 element={<RegistrationPage />}
               />
-              <Route path={AppRoutes.ExamSession} element={<IdentifyPage />} />
+              <Route
+                path={AppRoutes.ExamSession}
+                element={<InitRegistrationPage />}
+              />
               <Route
                 path={AppRoutes.ExamSessionRegistration}
                 element={<ExamDetailsPage />}

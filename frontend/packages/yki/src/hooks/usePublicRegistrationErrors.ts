@@ -2,6 +2,7 @@ import { CustomTextFieldErrors, TextFieldTypes } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import { useAppSelector } from 'configs/redux';
+import { YkiValidationErrors } from 'enums/app';
 import {
   PublicEmailRegistration,
   PublicSuomiFiRegistration,
@@ -94,7 +95,7 @@ const getErrors = (
     });
     errors['emailConfirmation'] =
       registration.email !== registration.emailConfirmation
-        ? 'errors.mismatchingEmailsError'
+        ? YkiValidationErrors.MismatchingEmails
         : '';
   }
 

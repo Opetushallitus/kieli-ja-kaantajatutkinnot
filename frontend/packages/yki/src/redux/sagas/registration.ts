@@ -80,7 +80,7 @@ function* submitRegistrationFormSaga() {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
     if (axios.isAxiosError(error) && error.response) {
-      if (error.response.data && error.response.data.errpr) {
+      if (error.response.data && error.response.data.error) {
         const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
           error.response;
         yield put(rejectPublicRegistrationSubmission(response.data));

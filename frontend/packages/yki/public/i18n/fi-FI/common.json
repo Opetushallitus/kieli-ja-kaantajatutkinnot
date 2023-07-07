@@ -41,7 +41,7 @@
           "telFormat": "Puhelinnumero on virheellinen"
         },
         "loadingFailed": "Tietojen lataaminen epäonnistui.",
-        "mismatchingEmailsError": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
+        "mismatchingEmails": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
         "registration": {
           "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
           "examSessionFull": "Tutkintotilaisuus on täynnä.",
@@ -59,6 +59,7 @@
       },
       "examSession": "Tutkinto",
       "examination": "Tutkinto",
+      "full": "Täynnä",
       "gender": {
         "female": "nainen",
         "male": "mies"
@@ -105,6 +106,7 @@
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Yleisten kielitutkintojen ilmoittautumissivulle.",
       "placesAvailable": "Paikkoja vapaana",
+      "postAdmission": "Jälki-ilmoittautuminen",
       "price": "Hinta",
       "privacyStatement": {
         "description": "Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.",

@@ -26,11 +26,17 @@
             "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
           },
           "heading": "Osallistujan tiedot",
-          "placeholders": {
-            "birthdate": "Syntymäaika (pp.kk.vvvv) *",
+          "labels": {
+            "birthdate": "Syntymäaika *",
             "email": "Sähköpostiosoite *",
             "firstNames": "Etunimet *",
             "lastName": "Sukunimi *"
+          },
+          "placeholders": {
+            "birthdate": "Syötä muodossa pp.kk.vvvv",
+            "email": "Esim. nimi@sahkoposti.fi",
+            "firstNames": "",
+            "lastName": ""
           }
         },
         "info": {
@@ -87,6 +93,44 @@
           "abortRegistration": "Keskeytä ilmoittautuminen",
           "confirm": "Lähetä"
         },
+        "enrollToQueue": {
+          "dialog": {
+            "emailAlreadyQueued": {
+              "description": "Olet jo aiemmin tilannut ilmoituksen peruutuspaikoista sähköpostiisi.",
+              "title": "Ilmoituksen tilaaminen ei onnistu"
+            },
+            "genericError": {
+              "description": "Tapahtui odottamaton virhe. Voit yrittää uudelleen.",
+              "title": "Ilmoituksen tilaaminen ei onnistunut"
+            },
+            "inputError": {
+              "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
+              "title": "Virheitä lomakkeella"
+            }
+          },
+          "header": "Tilaa ilmoitus peruutuspaikoista",
+          "info": {
+            "part1": "Tässä testissä ei ole juuri nyt vapaita paikkoja. Voit tilata ilmoituksen peruutuspaikoista.",
+            "part2": "Anna sähköpostiosoitteesi, niin saat ilmoituksen, jos paikkoja vapautuu."
+          },
+          "inputs": {
+            "confirmEmail": {
+              "description": "Kirjoita sähköpostiosoitteesi uudelleen",
+              "heading": "Vahvista sähköpostiosoitteesi"
+            },
+            "email": {
+              "description": "Esim. nimi@sahkoposti.fi",
+              "heading": "Syötä sähköpostiosoitteesi"
+            },
+            "submit": {
+              "label": "Tilaa ilmoitus"
+            }
+          },
+          "success": {
+            "heading": "Ilmoituksen tilaaminen onnistui!",
+            "info": "Jos paikkoja tutkintoon vapautuu, saat ilmoituksen antamaasi sähköpostiosoitteeseen"
+          }
+        },
         "examSessionDetails": {
           "exam": "Tutkinto",
           "examFee": "Tutkintomaksu",
@@ -99,16 +143,19 @@
         },
         "registrationButtonLabels": {
           "full": "Täynnä",
+          "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
           "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
           "register": "Ilmoittaudu"
         },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
+          "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
+          "examSessionIsFull": "Tilaisuus on täynnä"
+        },
         "registrationDetails": {
-          "address": "Katuosoite",
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
-          "dateOfBirth": "Syntymäaika (pp.kk.vvvv)",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot. Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
           "description2": "Tähdellä (*) merkityt osiot ovat pakollisia.",
-          "email": "Sähköpostiosoite",
           "emailConfirmation": "Vahvista sähköpostiosoite",
           "errors": {
             "fields": {
@@ -132,15 +179,34 @@
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
             "title": "Virheitä lomakkeella"
           },
+          "labels": {
+            "address": "Katuosoite",
+            "dateOfBirth": "Syntymäaika",
+            "email": "Sähköpostiosoite",
+            "emailConfirmation": "Vahvista sähköpostiosoite",
+            "firstNames": "Etunimet",
+            "gender": "Sukupuoli",
+            "lastName": "Sukunimi",
+            "nationality": "Kansalaisuus",
+            "phoneNumber": "Puhelinnumero",
+            "postNumber": "Postinumero",
+            "postOffice": "Postitoimipaikka"
+          },
+          "placeholders": {
+            "address": "",
+            "dateOfBirth": "Syötä muodossa pp.kk.vvvv",
+            "email": "Esim. nimi@sahkoposti.fi",
+            "emailConfirmation": "Kirjoita sähköpostiosoite uudelleen",
+            "firstNames": "",
+            "gender": "Valitse",
+            "lastName": "",
+            "nationality": "Valitse",
+            "phoneNumber": "Syötä muodossa +358 50 123 4567",
+            "postNumber": "",
+            "postOffice": ""
+          },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
-          "firstNames": "Etunimet",
-          "gender": "Sukupuoli",
           "instructionLanguage": "Millä kielellä haluat tehdä tehtävät? *",
-          "lastName": "Sukunimi",
-          "nationality": "Kansalaisuus",
-          "phoneNumber": "Puhelinnumero",
-          "postNumber": "Postinumero",
-          "postOffice": "Postitoimipaikka",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
             "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
@@ -185,6 +251,10 @@
             "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
+            "emailInput": {
+              "label": "Syötä sähköpostiosoitteesi",
+              "placeholder": "Esim. nimi@sahkoposti.fi"
+            },
             "emailLink": {
               "error": "Kirjautumislinkin tilaaminen epäonnistui. Voit yrittää uudestaan.",
               "incorrectEmailDialog": {
@@ -193,7 +263,6 @@
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
-            "emailPlaceholder": "Syötä sähköpostiosoitteesi",
             "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -239,6 +308,20 @@
               "heading": "Ilmoittautumislomake on lähetetty"
             }
           }
+        },
+        "unavailable": {
+          "full": {
+            "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tilaisuuteen ei ole vapaita paikkoja.",
+            "title": "Tilaisuus on täynnä"
+          },
+          "past": {
+            "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
+            "title": "Ilmoittautumisaika päättynyt"
+          },
+          "upcoming": {
+            "description": "Tilaisuuteen ilmoittautunen ei ole mahdollista. Ilmoittautumisaika ei ole vielä alkanut.",
+            "title": "Ilmoittautumisaika ei ole alkanut"
+          }
         }
       }
     },
@@ -265,6 +348,11 @@
         }
       },
       "examDetailsPage": {
+        "toasts": {
+          "notFound": "Kielitutkintoa ei löytynyt"
+        }
+      },
+      "initRegistrationPage": {
         "toasts": {
           "notFound": "Kielitutkintoa ei löytynyt"
         }

@@ -55,7 +55,7 @@ export const RegistrationPage: FC = () => {
             {t('title')}
           </H1>
           <HeaderSeparator />
-          <p>
+          <div>
             <Text>{t('description.part1.text')}</Text>
             <div className="columns gapped-xxs">
               <Link href={t('description.part1.link.url')} target="_blank">
@@ -63,8 +63,9 @@ export const RegistrationPage: FC = () => {
               </Link>
               <OpenInNewIcon />
             </div>
-          </p>
-          <p>
+          </div>
+          <p />
+          <div>
             <Text>{t('description.part2.text')}</Text>
             <div className="columns gapped-xxs">
               <Link href={t('description.part2.link.url')} target="_blank">
@@ -72,7 +73,7 @@ export const RegistrationPage: FC = () => {
               </Link>
               <OpenInNewIcon />
             </div>
-          </p>
+          </div>
         </Grid>
         <Grid
           item

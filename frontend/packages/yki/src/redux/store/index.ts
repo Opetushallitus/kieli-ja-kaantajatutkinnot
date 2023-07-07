@@ -9,6 +9,7 @@ import { examSessionsReducer } from 'redux/reducers/examSessions';
 import { nationalitiesReducer } from 'redux/reducers/nationalities';
 import { publicIdentificationReducer } from 'redux/reducers/publicIdentification';
 import { registrationReducer } from 'redux/reducers/registration';
+import { reservationReducer } from 'redux/reducers/reservation';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -23,6 +24,7 @@ const store = configureStore({
     nationalities: nationalitiesReducer,
     publicIdentification: publicIdentificationReducer,
     registration: registrationReducer,
+    reservation: reservationReducer,
   },
   middleware: [saga],
 });

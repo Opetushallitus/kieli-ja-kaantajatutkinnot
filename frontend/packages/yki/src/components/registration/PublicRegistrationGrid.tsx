@@ -23,14 +23,14 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
-  const { status, error } =
+  const { status: initRegistrationStatus, error } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession } = useAppSelector(examSessionSelector);
   const translateCommon = useCommonTranslation();
 
-  switch (status) {
+  switch (initRegistrationStatus) {
     case APIResponseStatus.Cancelled:
     case APIResponseStatus.Error:
       return (

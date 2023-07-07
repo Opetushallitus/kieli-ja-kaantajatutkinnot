@@ -13,6 +13,118 @@
       ],
       "office_oid": "1.2.246.562.10.29461948951",
       "published_at": "2019-01-15T11:16:37.959Z",
+      "session_date": "2035-01-01",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 999,
+      "registration_start_date": "2023-01-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Jälkiedu",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Jälkiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Jälkiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2023-01-03",
+      "open": true,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission_quota": 10,
+      "post_admission_start_date": "2023-06-01",
+      "post_admission_end_date": "2023-08-01",
+      "post_admission_active": true
+    },
+    {
+      "level_code": "YLIN",
+      "max_participants": 15,
+      "language_code": "fin",
+      "participants": 15,
+      "pa_participants": 4,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:16:37.959Z",
+      "session_date": "2035-01-01",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 888,
+      "registration_start_date": "2023-01-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorio A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": null,
+          "name": "Amiedu",
+          "other_location_info": "auditorium A2",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "100.00",
+      "registration_end_date": "2023-01-03",
+      "open": true,
+      "queue_full": false,
+      "queue": 0,
+      "post_admission_quota": 10,
+      "post_admission_start_date": "2023-08-01",
+      "post_admission_end_date": "2023-09-01",
+      "post_admission_active": true
+    },
+    {
+      "level_code": "YLIN",
+      "max_participants": 15,
+      "language_code": "fin",
+      "participants": 15,
+      "pa_participants": 4,
+      "contact": [
+        {
+          "email": "contact.person@testi.invalid"
+        }
+      ],
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:16:37.959Z",
       "session_date": "2039-12-29",
       "organizer_oid": "1.2.246.562.10.28646781493",
       "id": 25,

@@ -1,7 +1,13 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { CustomButton, CustomTextField, Text } from 'shared/components';
-import { Color, Severity, TextFieldTypes, Variant } from 'shared/enums';
+import { CustomButton, LabeledTextField, Text } from 'shared/components';
+import {
+  Color,
+  InputAutoComplete,
+  Severity,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
 import { useDebounce, useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
@@ -73,26 +79,31 @@ export const EmailIdentification = () => {
       <Text>
         <Trans t={t} i18nKey={'withoutFinnishSSN'} />
       </Text>
-      <div className="columns gapped align-items-start">
-        <CustomTextField
+      <div className="columns gapped align-items-end">
+        <LabeledTextField
+          id="email-identification__email-input"
+          label={t('emailInput.label')}
+          placeholder={t('emailInput.placeholder')}
           className="public-registration__grid__form-container__registration-text-field"
           error={showError && !!error}
-          placeholder={t('emailPlaceholder')}
           variant={Variant.Outlined}
           type={TextFieldTypes.Email}
           value={email}
           onChange={handleEmailChange}
           helperText={error}
-        ></CustomTextField>
-        <CustomButton
-          size="large"
-          className="public-registration__grid__form-container__registration-button"
-          variant={Variant.Contained}
-          color={Color.Secondary}
-          onClick={onSubmit}
-        >
-          {t('emailButtonText')}
-        </CustomButton>
+          autoComplete={InputAutoComplete.Email}
+        />
+        <div className="rows">
+          <CustomButton
+            className="public-registration__grid__form-container__registration-button"
+            variant={Variant.Contained}
+            color={Color.Secondary}
+            onClick={onSubmit}
+          >
+            {t('emailButtonText')}
+          </CustomButton>
+          {showError && <Text>&nbsp;</Text>}
+        </div>
       </div>
     </>
   );

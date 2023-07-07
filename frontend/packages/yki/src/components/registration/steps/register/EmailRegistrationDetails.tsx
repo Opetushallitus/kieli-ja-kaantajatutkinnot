@@ -7,8 +7,8 @@ import {
 import { ChangeEvent, useCallback } from 'react';
 import {
   AutocompleteValue,
-  ComboBox,
-  CustomTextField,
+  LabeledComboBox,
+  LabeledTextField,
   Text,
 } from 'shared/components';
 import {
@@ -104,11 +104,12 @@ export const EmailRegistrationDetails = () => {
       );
     };
 
-  const getCustomTextFieldAttributes = (
+  const getLabeledTextFieldAttributes = (
     fieldName: keyof Omit<PublicEmailRegistration, 'id'>
   ) => ({
     id: `public-registration__contact-details__${fieldName}-field`,
-    label: t(fieldName),
+    label: t('labels.' + fieldName) + ' *',
+    placeholder: t('placeholders.' + fieldName),
     onChange: handleChange(fieldName),
     error: showErrors && !!registrationErrors[fieldName],
     helperText: registrationErrors[fieldName]
@@ -121,17 +122,17 @@ export const EmailRegistrationDetails = () => {
     <>
       <div className="registration-details rows gapped margin-top-sm">
         <PersonDetails
-          getCustomTextFieldAttributes={getCustomTextFieldAttributes}
+          getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
         />
         <div className="grid-columns gapped">
-          <CustomTextField
-            {...getCustomTextFieldAttributes('phoneNumber')}
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('phoneNumber')}
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
             autoComplete={InputAutoComplete.PhoneNumber}
           />
-          <CustomTextField
-            {...getCustomTextFieldAttributes('email')}
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('email')}
             type={TextFieldTypes.Email}
             value={registration.email}
             disabled={true}
@@ -139,7 +140,11 @@ export const EmailRegistrationDetails = () => {
           />
         </div>
         <div className="grid-columns gapped">
-          <ComboBox
+          <LabeledComboBox
+            id="public-registration__contact-details__nationality-field"
+            label={`${t('labels.nationality')} *`}
+            aria-label={`${t('labels.nationality')} *`}
+            placeholder={t('placeholders.nationality')}
             variant={TextFieldVariant.Outlined}
             values={nationalityOptions}
             value={
@@ -156,8 +161,6 @@ export const EmailRegistrationDetails = () => {
             onChange={(_, v: AutocompleteValue) => {
               dispatch(updatePublicRegistration({ nationality: v?.value }));
             }}
-            label={`${t('nationality')} *`}
-            aria-label={`${t('nationality')} *`}
             showError={showErrors && !!registrationErrors['nationality']}
             helperText={
               registrationErrors['nationality']
@@ -165,13 +168,17 @@ export const EmailRegistrationDetails = () => {
                 : ''
             }
           />
-          <CustomTextField
-            {...getCustomTextFieldAttributes('dateOfBirth')}
+          <LabeledTextField
+            {...getLabeledTextFieldAttributes('dateOfBirth')}
             type={TextFieldTypes.Text}
             value={registration.dateOfBirth}
           />
         </div>
-        <ComboBox
+        <LabeledComboBox
+          id="public-registration__contact-gender-field"
+          label={t('labels.gender')}
+          aria-label={t('labels.gender')}
+          placeholder={t('placeholders.gender')}
           className="half-width-on-desktop"
           variant={TextFieldVariant.Outlined}
           values={[
@@ -187,8 +194,6 @@ export const EmailRegistrationDetails = () => {
               updatePublicRegistration({ gender: v?.value as GenderEnum })
             );
           }}
-          label={`${t('gender')}`}
-          aria-label={`${t('gender')}`}
         />
       </div>
       <div>
@@ -213,9 +218,9 @@ export const EmailRegistrationDetails = () => {
             />
           </RadioGroup>
           {registration.hasSSN && (
-            <CustomTextField
+            <LabeledTextField
               sx={{ width: 'calc(360px - 1rem)' }}
-              {...getCustomTextFieldAttributes('ssn')}
+              {...getLabeledTextFieldAttributes('ssn')}
               value={registration.ssn}
               type={TextFieldTypes.PersonalIdentityCode}
             />

@@ -69,6 +69,6 @@ export interface ExamSession extends WithId {
   post_admission_active: boolean;
   post_admission_start_date?: Dayjs;
   post_admission_end_date?: Dayjs;
-  registration_start_date?: Dayjs;
-  registration_end_date?: Dayjs;
+  registration_start_date: Dayjs;
+  registration_end_date: Dayjs;
 }

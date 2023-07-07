@@ -56,3 +56,12 @@ export enum GenderEnum {
   Male = 'male',
   Female = 'female',
 }
+
+export enum RegistrationKind {
+  Admission,
+  PostAdmission,
+}
+
+export enum YkiValidationErrors {
+  MismatchingEmails = 'errors.mismatchingEmails',
+}
