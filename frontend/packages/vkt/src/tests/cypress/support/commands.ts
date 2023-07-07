@@ -15,7 +15,7 @@ Cypress.Commands.add(
       win.sessionStorage.setItem('persist:root', persistedState);
     });
     cy.visit(
-      RouteUtils.replaceParameters(
+      RouteUtils.replaceExamEventId(
         AppRoutes.PublicEnrollmentContactDetails,
         examEventId
       )
@@ -31,7 +31,7 @@ Cypress.Commands.add('openClerkHomePage', () => {
 Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {
   cy.window().then((win) => win.sessionStorage.setItem('persist:root', '{}'));
   cy.visit(
-    RouteUtils.replaceParameters(
+    RouteUtils.replaceExamEventId(
       AppRoutes.ClerkExamEventOverviewPage,
       examEventId
     )
