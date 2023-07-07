@@ -24,19 +24,6 @@ const getErrors = (
     return {};
   }
   const errors: PublicRegistrationErrors = {};
-  if (!registration.certificateLanguage) {
-    errors['certificateLanguage'] = CustomTextFieldErrors.Required;
-  }
-  if (!registration.instructionLanguage) {
-    errors['instructionLanguage'] = CustomTextFieldErrors.Required;
-  }
-  if (!registration.termsAndConditionsAgreed) {
-    errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
-  }
-  if (!registration.privacyStatementConfirmation) {
-    errors['privacyStatementConfirmation'] = CustomTextFieldErrors.Required;
-  }
-
   errors['address'] = InputFieldUtils.validateCustomTextFieldErrors({
     type: TextFieldTypes.Text,
     required: true,
@@ -58,6 +45,10 @@ const getErrors = (
     value: registration.phoneNumber,
   });
 
+  if (!registration.nationality) {
+    errors['nationality'] = CustomTextFieldErrors.Required;
+  }
+
   if (isEmailRegistration) {
     errors['firstNames'] = InputFieldUtils.validateCustomTextFieldErrors({
       type: TextFieldTypes.Text,
@@ -69,11 +60,9 @@ const getErrors = (
       required: true,
       value: registration.lastName,
     });
-    errors['dateOfBirth'] = InputFieldUtils.validateCustomTextFieldErrors({
-      type: TextFieldTypes.Date,
-      required: true,
-      value: registration.dateOfBirth,
-    });
+    if (!registration.gender) {
+      errors['gender'] = CustomTextFieldErrors.Required;
+    }
     if (registration.hasSSN === undefined) {
       errors['hasSSN'] = CustomTextFieldErrors.Required;
     }
@@ -83,9 +72,12 @@ const getErrors = (
         required: true,
         value: registration.ssn,
       });
-    }
-    if (!registration.nationality) {
-      errors['nationality'] = CustomTextFieldErrors.Required;
+    } else {
+      errors['dateOfBirth'] = InputFieldUtils.validateCustomTextFieldErrors({
+        type: TextFieldTypes.Date,
+        required: true,
+        value: registration.dateOfBirth,
+      });
     }
   } else {
     errors['email'] = InputFieldUtils.validateCustomTextFieldErrors({
@@ -97,6 +89,19 @@ const getErrors = (
       registration.email !== registration.emailConfirmation
         ? YkiValidationErrors.MismatchingEmails
         : '';
+  }
+
+  if (!registration.instructionLanguage) {
+    errors['instructionLanguage'] = CustomTextFieldErrors.Required;
+  }
+  if (!registration.certificateLanguage) {
+    errors['certificateLanguage'] = CustomTextFieldErrors.Required;
+  }
+  if (!registration.termsAndConditionsAgreed) {
+    errors['termsAndConditionsAgreed'] = CustomTextFieldErrors.Required;
+  }
+  if (!registration.privacyStatementConfirmation) {
+    errors['privacyStatementConfirmation'] = CustomTextFieldErrors.Required;
   }
 
   return errors;

@@ -155,6 +155,7 @@ export const CommonRegistrationDetails = () => {
           sx={ErrorLabelStyles}
         />
       </FormControl>
+      <H2>{translateCommon('privacyStatement.title')}</H2>
       <div>
         <Text>
           {translateCommon('privacyStatement.description')}

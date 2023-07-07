@@ -52,9 +52,7 @@
     "street_address": "Ateläniitynpolku 29 G",
     "first_name": "Carl-Erik",
     "zip": "00100",
-    "nationalities": [
-      "246"
-    ],
+    "nationalities": ["246"],
     "email": null
   },
   "registration_id": 1,

@@ -1,25 +1,46 @@
 import { ChangeEvent } from 'react';
-import { LabeledTextField } from 'shared/components';
-import { TextFieldTypes } from 'shared/enums';
+import {
+  AutocompleteValue,
+  LabeledComboBox,
+  LabeledTextField,
+  Text,
+} from 'shared/components';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 
-import { PersonDetails } from 'components/registration/steps/register/PersonDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
+import {
+  getCurrentLang,
+  useCommonTranslation,
+  usePublicTranslation,
+} from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { useNationalityOptions } from 'hooks/useNationalityOptions';
 import { usePublicRegistrationErrors } from 'hooks/usePublicRegistrationErrors';
-import { PublicSuomiFiRegistration } from 'interfaces/publicRegistration';
+import { Nationality } from 'interfaces/nationality';
+import {
+  PublicEmailRegistration,
+  PublicSuomiFiRegistration,
+} from 'interfaces/publicRegistration';
 import { updatePublicRegistration } from 'redux/reducers/registration';
+import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
+import { nationalityToComboBoxOption } from 'utils/autocomplete';
 
 export const SuomiFiRegistrationDetails = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
+  const appLanguage = getCurrentLang();
 
   const dispatch = useAppDispatch();
-  const registration: Partial<PublicSuomiFiRegistration> =
-    useAppSelector(registrationSelector).registration;
-  const { showErrors } = useAppSelector(registrationSelector);
+  const registration: Partial<
+    PublicSuomiFiRegistration & PublicEmailRegistration
+  > = useAppSelector(registrationSelector).registration;
+  const { showErrors, hasSuomiFiNationalityData } =
+    useAppSelector(registrationSelector);
+  const nationalities = useAppSelector(nationalitiesSelector).nationalities;
+  const nationalityOptions = useNationalityOptions();
 
   const handleChange =
     (fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>) =>
@@ -39,7 +60,7 @@ export const SuomiFiRegistrationDetails = () => {
   ) => {
     return {
       id: `public-registration__contact-details__${fieldName}-field`,
-      label: t('labels.' + fieldName),
+      label: t('labels.' + fieldName) + ' *',
       placeholder: t('placeholders.' + fieldName),
       onChange: handleChange(fieldName),
       error: showErrors && !!registrationErrors[fieldName],
@@ -47,13 +68,32 @@ export const SuomiFiRegistrationDetails = () => {
         ? translateCommon(registrationErrors[fieldName] as string)
         : '',
       required: true,
-      disabled: ['firstNames', 'lastName'].includes(fieldName),
+      disabled: false,
     };
   };
 
   return (
     <div className="registration-details rows gapped margin-top-sm">
-      <PersonDetails
+      <div className="columns gapped">
+        <Text className="half-width-on-desktop flex-grow-1">
+          <b>{t('labels.firstNames')}</b>
+          <br />
+          {registration.firstNames}
+        </Text>
+        <Text className="half-width-on-desktop flex-grow-1">
+          <b>{t('labels.lastName')}</b>
+          <br />
+          {registration.lastName}
+        </Text>
+      </div>
+      <div className="columns gapped">
+        <Text>
+          <b>{t('labels.ssn')}</b>
+          <br />
+          {registration.ssn}
+        </Text>
+      </div>
+      <AddressDetails
         getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
       />
       <div className="grid-columns gapped">
@@ -79,6 +119,37 @@ export const SuomiFiRegistrationDetails = () => {
         value={registration.phoneNumber || ''}
         type={TextFieldTypes.PhoneNumber}
       />
+      {!hasSuomiFiNationalityData && (
+        <LabeledComboBox
+          id="public-registration__contact-details__nationality-field"
+          className="half-width-on-desktop"
+          label={`${t('labels.nationality')} *`}
+          aria-label={`${t('labels.nationality')} *`}
+          placeholder={t('placeholders.nationality')}
+          variant={TextFieldVariant.Outlined}
+          values={nationalityOptions}
+          value={
+            registration.nationality
+              ? nationalityToComboBoxOption(
+                  nationalities.find(
+                    ({ code, language }) =>
+                      code === registration.nationality &&
+                      language === appLanguage
+                  ) as Nationality
+                )
+              : null
+          }
+          onChange={(_, v: AutocompleteValue) => {
+            dispatch(updatePublicRegistration({ nationality: v?.value }));
+          }}
+          showError={showErrors && !!registrationErrors['nationality']}
+          helperText={
+            registrationErrors['nationality']
+              ? translateCommon(registrationErrors['nationality'])
+              : ''
+          }
+        />
+      )}
     </div>
   );
 };

@@ -16,6 +16,7 @@ export interface PersonFillOutDetails {
   phoneNumber: string;
   certificateLanguage: CertificateLanguage | '';
   instructionLanguage: InstructionLanguage | '';
+  nationality: string;
 }
 
 export interface RegistrationCheckboxDetails {
@@ -33,7 +34,6 @@ export interface PublicSuomiFiRegistration
 
 export interface PublicEmailRegistration
   extends Omit<PublicSuomiFiRegistration, 'emailConfirmation'> {
-  nationality: string;
   dateOfBirth?: string;
   gender?: GenderEnum;
   hasSSN?: boolean;
