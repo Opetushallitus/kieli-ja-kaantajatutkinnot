@@ -9,10 +9,10 @@ import { useDialog, useToast } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
+import { RouteUtils } from 'utils/routes';
 
 export const PaymentFail = ({
   enrollment,
@@ -37,7 +37,7 @@ export const PaymentFail = ({
 
     // Safari needs time to re-render loading indicator
     setTimeout(() => {
-      window.location.href = `${APIEndpoints.Payment}/create/${enrollment.id}/redirect`;
+      window.location.href = RouteUtils.getPaymentCreateApiRoute(enrollment.id);
     }, 200);
   };
 

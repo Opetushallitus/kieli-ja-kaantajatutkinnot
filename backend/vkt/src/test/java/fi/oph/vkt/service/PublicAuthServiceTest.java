@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
@@ -88,9 +89,9 @@ public class PublicAuthServiceTest {
 
   @Test
   public void testCreateCasLoginUrl() {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION);
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION, AppLocale.FI);
     assertEquals(
-      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation",
+      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation&locale=fi",
       casLoginUrl
     );
   }

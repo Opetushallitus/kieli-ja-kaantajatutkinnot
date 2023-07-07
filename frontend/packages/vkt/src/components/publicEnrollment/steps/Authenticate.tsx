@@ -4,10 +4,10 @@ import { Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
-import { APIEndpoints } from 'enums/api';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { cancelPublicEnrollment } from 'redux/reducers/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
+import { RouteUtils } from 'utils/routes';
 
 export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
   const [isAuthRedirecting, setIsAuthRedirecting] = useState(false);
@@ -21,13 +21,11 @@ export const Authenticate = ({ examEvent }: { examEvent: PublicExamEvent }) => {
   const onAuthenticate = () => {
     setIsAuthRedirecting(true);
 
-    window.location.href = APIEndpoints.PublicAuthLogin.replace(
-      ':examEventId',
-      examEvent.id.toString()
-    ).replace(
-      ':type',
-      ExamEventUtils.hasOpenings(examEvent) ? 'reservation' : 'queue'
-    );
+    const type = ExamEventUtils.hasOpenings(examEvent)
+      ? 'reservation'
+      : 'queue';
+
+    window.location.href = RouteUtils.getAuthLoginApiRoute(examEvent.id, type);
   };
 
   const onCancel = () => {

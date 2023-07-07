@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
@@ -28,13 +29,13 @@ public class PublicAuthService {
   private final PersonRepository personRepository;
   private final Environment environment;
 
-  public String createCasLoginUrl(final long examEventId, final EnrollmentType type) {
+  public String createCasLoginUrl(final long examEventId, final EnrollmentType type, final AppLocale appLocale) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
     final String casServiceUrl = URLEncoder.encode(
       String.format(environment.getRequiredProperty("app.cas-oppija.service-url"), examEventId, type),
       StandardCharsets.UTF_8
     );
-    return casLoginUrl + "?service=" + casServiceUrl;
+    return casLoginUrl + "?service=" + casServiceUrl + "&locale=" + appLocale.name().toLowerCase();
   }
 
   @Transactional

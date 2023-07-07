@@ -1,51 +1,80 @@
+import { AppLanguage } from 'shared/enums';
+
+import { getCurrentLang } from 'configs/i18n';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
 export class RouteUtils {
+  static getAuthLoginApiRoute(examEventId: number, type: string) {
+    return APIEndpoints.PublicAuthLogin.replace(
+      ':examEventId',
+      `${examEventId}`
+    )
+      .replace(':type', type)
+      .replace(':locale', RouteUtils.getApiRouteLocale());
+  }
+
+  static getPaymentCreateApiRoute(enrollmentId?: number) {
+    return APIEndpoints.PaymentCreate.replace(
+      ':enrollmentId',
+      `${enrollmentId}`
+    ).replace(':locale', RouteUtils.getApiRouteLocale());
+  }
+
+  private static getApiRouteLocale() {
+    switch (getCurrentLang()) {
+      case AppLanguage.Swedish:
+        return 'sv';
+      default:
+        return 'fi';
+    }
+  }
+
   static stepToRoute(step: PublicEnrollmentFormStep, examEventId: number) {
     switch (step) {
       case PublicEnrollmentFormStep.Authenticate:
-        return RouteUtils.replaceParameters(AppRoutes.PublicAuth, examEventId);
+        return RouteUtils.replaceExamEventId(AppRoutes.PublicAuth, examEventId);
 
       case PublicEnrollmentFormStep.FillContactDetails:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentContactDetails,
           examEventId
         );
 
       case PublicEnrollmentFormStep.SelectExam:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentSelectExam,
           examEventId
         );
 
       case PublicEnrollmentFormStep.Preview:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPreview,
           examEventId
         );
 
       case PublicEnrollmentFormStep.Payment:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPaymentFail,
           examEventId
         );
 
       case PublicEnrollmentFormStep.PaymentSuccess:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPaymentSuccess,
           examEventId
         );
 
       case PublicEnrollmentFormStep.Done:
-        return RouteUtils.replaceParameters(
+        return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentDone,
           examEventId
         );
     }
   }
 
-  static replaceParameters(route: string, examEventId: number) {
+  static replaceExamEventId(route: string, examEventId: number) {
     return route.replace(':examEventId', examEventId.toString());
   }
 }

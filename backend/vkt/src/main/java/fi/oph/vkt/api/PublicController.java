@@ -7,6 +7,7 @@ import fi.oph.vkt.api.dto.PublicExamEventDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Person;
+import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.service.PaymentService;
@@ -162,9 +163,14 @@ public class PublicController {
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
     @PathVariable final String type,
+    @RequestParam final Optional<String> locale,
     final HttpSession session
   ) throws IOException {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(examEventId, EnrollmentType.fromString(type));
+    final String casLoginUrl = publicAuthService.createCasLoginUrl(
+      examEventId,
+      EnrollmentType.fromString(type),
+      locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
+    );
 
     if (session != null) {
       session.invalidate();
@@ -210,12 +216,17 @@ public class PublicController {
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long enrollmentId,
+    @RequestParam final Optional<String> locale,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
     try {
       final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
-      final String redirectUrl = paymentService.createPaymentForEnrollment(enrollmentId, person);
+      final String redirectUrl = paymentService.createPaymentForEnrollment(
+        enrollmentId,
+        person,
+        locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
+      );
 
       httpResponse.sendRedirect(redirectUrl);
     } catch (final APIException e) {
