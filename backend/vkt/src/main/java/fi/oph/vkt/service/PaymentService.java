@@ -67,7 +67,7 @@ public class PaymentService {
     return itemList;
   }
 
-  private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
+  private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> {
         if (enrollment.isCancelled()) {
@@ -82,15 +82,13 @@ public class PaymentService {
       }
       case PENDING, DELAYED -> {}
     }
-
-    enrollmentRepository.saveAndFlush(enrollment);
   }
 
   @Transactional
   public Payment finalizePayment(final Long paymentId, final Map<String, String> paymentParams)
     throws IOException, InterruptedException {
     final Payment payment = paymentRepository
-      .findById(paymentId)
+      .findWithLockingById(paymentId)
       .orElseThrow(() -> new NotFoundException("Payment not found"));
     final PaymentStatus currentStatus = payment.getPaymentStatus();
     final PaymentStatus newStatus = PaymentStatus.fromString(paymentParams.get("checkout-status"));
@@ -123,7 +121,7 @@ public class PaymentService {
     }
 
     final Enrollment enrollment = payment.getEnrollment();
-    updateEnrollmentStatus(enrollment, newStatus);
+    setEnrollmentStatus(enrollment, newStatus);
 
     payment.setPaymentStatus(newStatus);
     paymentRepository.saveAndFlush(payment);
@@ -135,16 +133,21 @@ public class PaymentService {
     return payment;
   }
 
-  public String getFinalizePaymentSuccessRedirectUrl(final Payment payment) {
-    return getFinalizePaymentRedirectUrl(payment, "valmis");
+  @Transactional(readOnly = true)
+  public String getFinalizePaymentSuccessRedirectUrl(final Long paymentId) {
+    return getFinalizePaymentRedirectUrl(paymentId, "valmis");
   }
 
-  public String getFinalizePaymentCancelRedirectUrl(final Payment payment) {
-    return getFinalizePaymentRedirectUrl(payment, "peruutettu");
+  @Transactional(readOnly = true)
+  public String getFinalizePaymentCancelRedirectUrl(final Long paymentId) {
+    return getFinalizePaymentRedirectUrl(paymentId, "peruutettu");
   }
 
-  private String getFinalizePaymentRedirectUrl(final Payment payment, final String state) {
+  private String getFinalizePaymentRedirectUrl(final Long paymentId, final String state) {
     final String baseUrl = environment.getRequiredProperty("app.base-url.public");
+    final Payment payment = paymentRepository
+      .findById(paymentId)
+      .orElseThrow(() -> new NotFoundException("Payment not found"));
     final ExamEvent examEvent = payment.getEnrollment().getExamEvent();
 
     return String.format("%s/ilmoittaudu/%d/maksu/%s", baseUrl, examEvent.getId(), state);
@@ -182,15 +185,15 @@ public class PaymentService {
 
     final PaytrailResponseDTO response = paymentProvider.createPayment(itemList, payment.getId(), customer, amount);
 
+    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
+    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
+    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
+
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
-
-    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
-    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
-    updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     return payment.getPaymentUrl();
   }
