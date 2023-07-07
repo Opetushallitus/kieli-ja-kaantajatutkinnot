@@ -67,7 +67,7 @@ public class PaymentService {
     return itemList;
   }
 
-  private void updateEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
+  private void setEnrollmentStatus(final Enrollment enrollment, final PaymentStatus paymentStatus) {
     switch (paymentStatus) {
       case NEW -> {
         if (enrollment.isCancelled()) {
@@ -82,8 +82,6 @@ public class PaymentService {
       }
       case PENDING, DELAYED -> {}
     }
-
-    enrollmentRepository.saveAndFlush(enrollment);
   }
 
   @Transactional
@@ -123,7 +121,7 @@ public class PaymentService {
     }
 
     final Enrollment enrollment = payment.getEnrollment();
-    updateEnrollmentStatus(enrollment, newStatus);
+    setEnrollmentStatus(enrollment, newStatus);
 
     payment.setPaymentStatus(newStatus);
     paymentRepository.saveAndFlush(payment);
@@ -182,15 +180,15 @@ public class PaymentService {
 
     final PaytrailResponseDTO response = paymentProvider.createPayment(itemList, payment.getId(), customer, amount);
 
+    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
+    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
+    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
+
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
     payment.setPaymentUrl(response.getHref());
     payment.setPaymentStatus(PaymentStatus.NEW);
     paymentRepository.saveAndFlush(payment);
-
-    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
-    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
-    updateEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
     return payment.getPaymentUrl();
   }
