@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
@@ -7,8 +7,9 @@ import {
 } from 'interfaces/publicEnrollment';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 import { PublicPerson } from 'interfaces/publicPerson';
+import { EnrollmentUtils } from 'utils/enrollment';
 
-interface PublicEnrollmentState {
+export interface PublicEnrollmentState {
   loadExamEventStatus: APIResponseStatus;
   enrollmentInitialisationStatus: APIResponseStatus;
   renewReservationStatus: APIResponseStatus;
@@ -20,7 +21,7 @@ interface PublicEnrollmentState {
   reservation?: PublicReservation; // undefined if enrolling to queue
 }
 
-const initialState: PublicEnrollmentState = {
+export const initialState: PublicEnrollmentState = {
   loadExamEventStatus: APIResponseStatus.NotStarted,
   enrollmentInitialisationStatus: APIResponseStatus.NotStarted,
   renewReservationStatus: APIResponseStatus.NotStarted,
@@ -84,10 +85,15 @@ const publicEnrollmentSlice = createSlice({
       }>
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
+      state.enrollment = action.payload.enrollment
+        ? EnrollmentUtils.mergeEnrollment(
+            current(state.enrollment),
+            action.payload.enrollment
+          )
+        : state.enrollment;
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;
-      state.enrollment = action.payload.enrollment ?? state.enrollment;
     },
     renewReservation(state, _action: PayloadAction<number>) {
       state.renewReservationStatus = APIResponseStatus.InProgress;

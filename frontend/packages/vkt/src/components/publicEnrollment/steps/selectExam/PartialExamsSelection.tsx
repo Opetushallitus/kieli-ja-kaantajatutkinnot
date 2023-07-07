@@ -45,6 +45,7 @@ const CheckboxField = ({
     <FormControlLabel
       control={
         <Checkbox
+          data-testid={`enrollment-checkbox-${fieldName}`}
           onClick={() => onClick(fieldName)}
           color={Color.Secondary}
           checked={enrollment[fieldName]}
@@ -172,6 +173,7 @@ export const PartialExamsSelection = ({
           <FormControlLabel
             disabled={editingDisabled}
             value={YesNo.Yes}
+            data-testid="enrollment-checkbox-full-exam"
             control={<Radio aria-describedby="full-exam-error" />}
             label={translateCommon('yes')}
             checked={allPartialExamsChecked}

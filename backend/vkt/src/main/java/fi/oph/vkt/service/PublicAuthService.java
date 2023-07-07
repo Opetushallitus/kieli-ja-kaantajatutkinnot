@@ -5,12 +5,16 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.exception.APIException;
+import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PublicAuthService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(PublicAuthService.class);
 
   private final CasTicketValidationService casTicketValidationService;
   private final PersonRepository personRepository;
@@ -40,6 +46,11 @@ public class PublicAuthService {
     final String firstName = personDetails.get("firstName");
     final String oid = personDetails.get("oid");
     final String otherIdentifier = personDetails.get("otherIdentifier");
+
+    if ((oid == null || oid.isEmpty()) && (otherIdentifier == null || otherIdentifier.isEmpty())) {
+      LOG.error("Person OID and otherIdentifier are empty. Person details: {}", personDetails);
+      throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
+    }
 
     final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
       ? personRepository.findByOid(oid)

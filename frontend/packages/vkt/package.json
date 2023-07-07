@@ -25,6 +25,7 @@
     "vkt:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {
+    "reduxjs-toolkit-persist": "^7.2.1",
     "shared": "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.15"
   }
 }

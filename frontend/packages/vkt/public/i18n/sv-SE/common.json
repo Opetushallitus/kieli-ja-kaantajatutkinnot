@@ -120,10 +120,15 @@
       },
       "next": "Följande",
       "no": "Nej",
+      "notFoundPage": {
+        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan.",
+        "title": "Tyvärr kan sidan du sökte efter inte hittas"
+      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen –",
       "pageTitle": {
         "frontPage": "Framsida",
+        "notFound": "Sidan du sökte efter kan inte hittas",
         "authenticate": "Anmälan - identifiera dig",
         "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
         "selectExam": "Anmälan - välj examen",

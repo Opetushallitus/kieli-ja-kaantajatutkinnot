@@ -91,7 +91,11 @@ export const PublicEnrollmentStepper = ({
       aria-label={t('phases')}
     >
       {steps.map((step, index) => (
-        <Step key={step} completed={isStepCompleted(step)}>
+        <Step
+          data-testid={`enrollment-step-${index}`}
+          key={step}
+          completed={isStepCompleted(step)}
+        >
           {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
             error={hasError(step)}

@@ -120,10 +120,15 @@
       },
       "next": "Seuraava",
       "no": "Ei",
+      "notFoundPage": {
+        "description": "Osoite saattaa olla väärä tai vanhentunut. Voit palata etusivulle alla olevasta napista.",
+        "title": "Valitettavasti etsimääsi sivua ei löytynyt"
+      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Valtionhallinnon kielitutkintojen ilmoittautumisjärjestelmän etusivulle.",
       "pageTitle": {
         "frontPage": "Etusivu",
+        "notFound": "Etsimääsi sivua ei löytynyt",
         "authenticate": "Ilmoittautuminen - tunnistaudu",
         "contactDetails": "Ilmoittautuminen - täytä yhteystietosi",
         "selectExam": "Ilmoittautuminen - valitse tutkinto",

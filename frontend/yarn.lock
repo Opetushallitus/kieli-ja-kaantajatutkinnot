@@ -2796,6 +2796,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
+    reduxjs-toolkit-persist: ^7.2.1
     shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.15"
   languageName: unknown
   linkType: soft
@@ -11193,6 +11194,15 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.9.2
   checksum: 75f3955c89b3f18edf5411e5fb482aa2e4f41a416183e8802a6bf6472c4fc3d47675b8b321d147f8af8e0f616436ac507bf5a25f1c4d6180e797b549c7db2c1d
+  languageName: node
+  linkType: hard
+
+"reduxjs-toolkit-persist@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "reduxjs-toolkit-persist@npm:7.2.1"
+  peerDependencies:
+    "@reduxjs/toolkit": ^1.6.1
+  checksum: c3603672d41bc7cc87e99cc33616929e67a2c0af5970a7994ac87fb31dc5bb90b01cc1e39c478f063f13b6dbf32bbb0d902e1f2e38d99c324c0d142b146f51e5
   languageName: node
   linkType: hard
 

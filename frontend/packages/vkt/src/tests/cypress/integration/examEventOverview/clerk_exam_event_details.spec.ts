@@ -6,7 +6,7 @@ import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 
 describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
   beforeEach(() => {
-    onClerkExamEventOverviewPage.navigateById(clerkExamEvent.id);
+    cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
   it('should open edit mode when the edit button is clicked', () => {
