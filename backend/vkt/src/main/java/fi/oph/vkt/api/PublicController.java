@@ -163,13 +163,13 @@ public class PublicController {
     final HttpServletResponse httpResponse,
     @PathVariable final long examEventId,
     @PathVariable final String type,
-    @RequestParam final String locale,
+    @RequestParam final Optional<String> locale,
     final HttpSession session
   ) throws IOException {
     final String casLoginUrl = publicAuthService.createCasLoginUrl(
       examEventId,
       EnrollmentType.fromString(type),
-      AppLocale.fromString(locale)
+      locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
     );
 
     if (session != null) {
@@ -216,7 +216,7 @@ public class PublicController {
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long enrollmentId,
-    @RequestParam final String locale,
+    @RequestParam final Optional<String> locale,
     final HttpSession session,
     final HttpServletResponse httpResponse
   ) throws IOException {
@@ -225,7 +225,7 @@ public class PublicController {
       final String redirectUrl = paymentService.createPaymentForEnrollment(
         enrollmentId,
         person,
-        AppLocale.fromString(locale)
+        locale.isPresent() ? AppLocale.fromString(locale.get()) : AppLocale.FI
       );
 
       httpResponse.sendRedirect(redirectUrl);
