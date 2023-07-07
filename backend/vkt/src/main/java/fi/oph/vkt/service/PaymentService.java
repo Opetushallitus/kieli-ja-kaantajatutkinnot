@@ -196,6 +196,10 @@ public class PaymentService {
     // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
     setEnrollmentStatus(enrollment, PaymentStatus.NEW);
 
+    // Ensures the enrollment is in EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT state after payment creation.
+    // Necessary for the case when a person enrolls again to the same exam event with an existing cancelled enrollment.
+    setEnrollmentStatus(enrollment, PaymentStatus.NEW);
+
     payment.setTransactionId(response.getTransactionId());
     payment.setReference(response.getReference());
     payment.setPaymentUrl(response.getHref());
