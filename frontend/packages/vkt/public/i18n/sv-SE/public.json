@@ -101,13 +101,13 @@
           "fillContactDetails": {
             "email": {
               "label": "E-post *",
-              "placeholder": null
+              "placeholder": "testi@testi.fi"
             },
             "emailConfirmation": {
               "label": "Bekräfta din e-post *",
-              "placeholder": null
+              "placeholder": "Skriv din e-post igen"
             },
-            "mismatchingEmailsError": null,
+            "mismatchingEmailsError": "Innehållet i e-postadressfälten stämmer inte överens",
             "phoneNumber": {
               "label": "Telefonnummer *"
             },
