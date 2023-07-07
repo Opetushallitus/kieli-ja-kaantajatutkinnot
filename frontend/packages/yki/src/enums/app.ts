@@ -19,6 +19,7 @@ export enum HeaderTabNav {
 }
 
 export enum ExamLanguage {
+  ALL = 'all',
   DEU = 'deu',
   ENG = 'eng',
   FIN = 'fin',
@@ -31,9 +32,10 @@ export enum ExamLanguage {
 }
 
 export enum ExamLevel {
-  YLIN = 'YLIN',
-  KESKI = 'KESKI',
+  ALL = 'ALL',
   PERUS = 'PERUS',
+  KESKI = 'KESKI',
+  YLIN = 'YLIN',
 }
 
 export enum CertificateLanguage {

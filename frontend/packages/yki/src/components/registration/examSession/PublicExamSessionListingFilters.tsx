@@ -7,14 +7,15 @@ import {
   FormGroup,
   Typography,
 } from '@mui/material';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomButton,
   LanguageSelect,
 } from 'shared/components';
-import { Color, TextFieldVariant, Variant } from 'shared/enums';
+import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -42,6 +43,7 @@ export const PublicExamSessionFilters = ({
     keyPrefix: 'yki.pages.registrationPage',
   });
 
+  const { showDialog } = useDialog();
   const filtersGridRef = useRef<HTMLInputElement>(null);
   const scrollToSearch = () => {
     filtersGridRef.current?.scrollIntoView({
@@ -65,10 +67,32 @@ export const PublicExamSessionFilters = ({
     dispatch(setPublicExamSessionFilters(filter));
   };
 
+  const [showError, setShowError] = useState(false);
+
   const handleEmptyBtnClick = () => {
     dispatch(resetPublicExamSessionFilters());
     onEmptyFilters();
     scrollToSearch();
+  };
+
+  const handleSubmitBtnClick = () => {
+    if (!filters.language || !filters.level) {
+      setShowError(true);
+      showDialog({
+        severity: Severity.Error,
+        title: t('filters.errorDialog.title'),
+        description: t('filters.errorDialog.description'),
+        actions: [
+          {
+            title: translateCommon('back'),
+            variant: Variant.Contained,
+          },
+        ],
+      });
+    } else {
+      setShowError(false);
+      onApplyFilters();
+    }
   };
 
   const languages = Object.values(ExamLanguage);
@@ -85,19 +109,26 @@ export const PublicExamSessionFilters = ({
     label: m,
   });
 
+  const errorStyles = { color: 'error.main' };
+
   return (
     <div className="public-exam-session-filters" ref={filtersGridRef}>
       <div className="public-exam-session-filters__dropdown-filters-box">
-        <div className="public-exam-session-filters__filter">
+        <FormControl
+          className="public-exam-session-filters__filter"
+          error={showError && !language}
+        >
           <Typography
             variant="h3"
             component="label"
             htmlFor="public-exam-session-filters__language-filter"
+            sx={showError && !language ? { color: 'error.main' } : {}}
           >
             {translateCommon('language')}
           </Typography>
           <LanguageSelect
             id="public-exam-session-filters__language-filter"
+            primaryLanguages={[ExamLanguage.ALL]}
             languages={languages}
             translateLanguage={translateLanguage}
             variant={TextFieldVariant.Outlined}
@@ -112,13 +143,21 @@ export const PublicExamSessionFilters = ({
             }}
             label={t('labels.selectLanguage')}
             aria-label={t('labels.selectLanguage')}
+            showError={showError && !language}
+            helperText={
+              showError && !language ? t('filters.errors.required') : ''
+            }
           />
-        </div>
-        <div className="public-exam-session-filters__filter">
+        </FormControl>
+        <FormControl
+          className="public-exam-session-filters__filter"
+          error={showError && !level}
+        >
           <Typography
             variant="h3"
             component="label"
             htmlFor="public-exam-session-filters__level-filter"
+            sx={showError && !level ? errorStyles : {}}
           >
             {translateCommon('level')}
           </Typography>
@@ -133,8 +172,10 @@ export const PublicExamSessionFilters = ({
             }}
             label={t('labels.selectLevel')}
             aria-label={t('labels.selectLevel')}
+            showError={showError && !level}
+            helperText={showError && !level ? t('filters.errors.required') : ''}
           />
-        </div>
+        </FormControl>
         <div className="public-exam-session-filters__filter">
           <Typography
             variant="h3"
@@ -204,7 +245,7 @@ export const PublicExamSessionFilters = ({
           data-testid="public-exam-session-filters__filter__search-btn"
           color={Color.Secondary}
           variant={Variant.Contained}
-          onClick={onApplyFilters}
+          onClick={handleSubmitBtnClick}
           startIcon={<SearchIcon />}
         >
           {`${translateCommon('buttons.showResults', {
