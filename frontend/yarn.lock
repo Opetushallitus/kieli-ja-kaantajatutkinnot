@@ -2750,7 +2750,7 @@ __metadata:
     eslint-plugin-react: ^7.31.11
     eslint-plugin-react-hooks: ^4.6.0
     eslint-webpack-plugin: ^3.2.0
-    finnish-personal-identity-code-validator: ^2.1.0
+    finnish-personal-identity-code-validator: "kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters"
     git-revision-webpack-plugin: ^5.0.0
     history: ^5.3.0
     html-webpack-plugin: ^5.5.0
@@ -6983,10 +6983,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"finnish-personal-identity-code-validator@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "finnish-personal-identity-code-validator@npm:2.1.0"
-  checksum: 1bd0b67e33fbe7e13491d54b606fb8856c303a33652e7ce58fc8d654a3e285d61ad32f10e096e88fba35760667983446298a4c5d5c46404dc4ba9a5a3bebb62a
+"finnish-personal-identity-code-validator@kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters":
+  version: 2.2.0
+  resolution: "finnish-personal-identity-code-validator@https://github.com/kimmotaskinen/finnish-personal-identity-code-validator.git#commit=82f423edf3c57cc1fd23d114cc475dc00250e45f"
+  checksum: 9d5a832d314b8b7fede9a3cbf0a8bf5c9344b97670c68ffb28e2f9175447838228623832e1536aa701dfbd9c58b5c19fa1da66a3a2c4bde762ab71fdd41b3aa0
   languageName: node
   linkType: hard
 
