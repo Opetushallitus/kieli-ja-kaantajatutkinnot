@@ -16,6 +16,7 @@ import {
   loadEnrollmentInitialisation,
   loadPublicExamEvent,
   resetPublicEnrollment,
+  setPublicEnrollmentExamEventIdIfNotSet,
 } from 'redux/reducers/publicEnrollment';
 import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 import { ExamEventUtils } from 'utils/examEvent';
@@ -48,6 +49,12 @@ export const PublicEnrollmentGrid = ({
   const isAuthenticatePassed =
     activeStep > PublicEnrollmentFormStep.Authenticate;
   const isAuthenticateActive = !isAuthenticatePassed;
+
+  useEffect(() => {
+    if (params.examEventId) {
+      dispatch(setPublicEnrollmentExamEventIdIfNotSet(+params.examEventId));
+    }
+  }, [dispatch, params.examEventId]);
 
   useEffect(() => {
     if (

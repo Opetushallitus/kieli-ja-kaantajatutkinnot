@@ -133,6 +133,7 @@ function* loadPublicEnrollmentSaveSaga(
       hasPreviousEnrollment: _unused3,
       privacyStatementConfirmation: _unused4,
       status: _unused5,
+      examEventId: _unused6,
       ...body
     } = enrollment;
 
