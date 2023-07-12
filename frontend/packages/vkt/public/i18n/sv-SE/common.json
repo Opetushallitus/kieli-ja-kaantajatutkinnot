@@ -19,6 +19,7 @@
       "edit": "Ändra",
       "enrollment": {
         "certificateShipping": {
+          "addressTitle": "Adress för leverans av intyget i pappersformat",
           "consent": "Jag ger mitt samtycke till att intyget skickas elektroniskt"
         },
         "partialExamsAndSkills": {
