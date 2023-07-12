@@ -19,7 +19,6 @@
       "edit": "Ändra",
       "enrollment": {
         "certificateShipping": {
-          "addressTitle": "Adress för leverans av intyget i pappersformat",
           "consent": "Jag ger mitt samtycke till att intyget skickas elektroniskt"
         },
         "partialExamsAndSkills": {
@@ -86,7 +85,10 @@
       "examLevel": {
         "EXCELLENT": "Utmärkta språkkunskaper"
       },
-      "examinationPaymentsDescription": "Examensavgiften är <strong>454 euro</strong> om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt. Examensavgiften är <strong>227 euro</strong> om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven.",
+      "examinationPayment": {
+        "part1": "Examensavgiften är 454 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt.",
+        "part2": "Examensavgiften är 227 euro om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
+      },
       "header": {
         "accessibility": {
           "continueToMain": "Fortsätt till innehållet",
@@ -97,10 +99,17 @@
           "sv": "På svenska"
         }
       },
+      "info": {
+        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "selectExam": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket."
+      },
       "languageFilter": {
-        "ALL": "Båda språken",
-        "FI": "Finska",
-        "SV": "Svenska"
+        "label": "Visa examina i följande språk",
+        "options": {
+          "ALL": "Båda språken",
+          "FI": "Finska",
+          "SV": "Svenska"
+        }
       },
       "loadingContent": "Innehållet laddas ner",
       "loadingDone": "Nedladdningen är klar",

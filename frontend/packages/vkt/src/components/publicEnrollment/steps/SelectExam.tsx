@@ -52,7 +52,7 @@ export const SelectExam = ({
 
   return (
     <div className="margin-top-xxl rows gapped">
-      <Text>{t('description')}</Text>
+      <Text>{translateCommon('requiredFieldsInfo')}</Text>
       <H2>{t('title')}</H2>
       <div className="rows">
         <Text>{translateCommon('examinationPayment.part1')}</Text>

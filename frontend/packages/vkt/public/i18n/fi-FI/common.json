@@ -101,13 +101,13 @@
         }
       },
       "info": {
-        "previousEnrollment": "Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorituspäivästä alkaen.",
-        "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta. Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana."
+        "previousEnrollment": "Voit suorittaa suullisen ja kirjallisen taidon tutkinnot joko samalla kertaa tai osissa eri suorituskertojen aikana. Jos suoritat tutkinnon osissa, sinulla on kolme vuotta aikaa suorittaa koko tutkinto loppuun. Aika lasketaan ensimmäisen osan suorittamispäivästä alkaen.",
+        "selectExam": "Kun olet suorittanut hyväksytysti suullisen ja kirjallisen taidon tutkinnot, saat todistukseen merkinnän myös ymmärtämisen taidon tutkinnon suorittamisesta."
       },
       "languageFilter": {
         "label": "Näytä seuraavien kielten tutkinnot",
         "options": {
-          "ALL": "Kaikki kielet",
+          "ALL": "Molemmat kielet",
           "FI": "Suomi",
           "SV": "Ruotsi"
         }

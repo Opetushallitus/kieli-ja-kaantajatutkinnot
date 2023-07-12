@@ -90,17 +90,25 @@
         },
         "steps": {
           "authenticate": {
-            "buttonText": "Indetifiera dig via suomi.fi -tjänsten",
-            "title": "Identifiera dig för anmälan"
+            "auth": "Identifiera dig via suomi.fi -tjänsten"
           },
+          "certificateShipping": { "title": "Leverans av examensintyget" },
           "done": {
             "description": "Du har en plats i kön för examen! Du får en bekräftelse till adressen"
           },
           "fillContactDetails": {
-            "email": "E-postadress",
-            "emailConfirmation": "Bekräfta din e-postadress",
+            "email": {
+              "label": "E-postadress *",
+              "placeholder": "T.ex. test@test.fi"
+            },
+            "emailConfirmation": {
+              "label": "Bekräfta din e-postadress *",
+              "placeholder": "Skriv din e-postadress på nytt"
+            },
             "mismatchingEmailsError": "Innehållet i fälten för e-postadress motsvarar inte varandra",
-            "phoneNumber": "Telefonnummer",
+            "phoneNumber": {
+              "label": "Telefonnummer"
+            },
             "title": "Dina kontaktuppgifter"
           },
           "partialExamsSelection": {
@@ -113,9 +121,7 @@
             "noFullExam": "Nej, jag vill endast avlägga någondera av examina eller ett delprov"
           },
           "selectExam": {
-            "chooseExam": "Val av examen",
-            "previousEnrollment": "Deltagande i tidigare examina",
-            "certificateShipping": "Leverans av examensintyget"
+            "title": "Val av examen"
           },
           "paymentFail": {
             "cancel": "Annullera anmälan",
@@ -157,22 +163,43 @@
             }
           },
           "previousEnrollment": {
-            "description": "Har du deltagit språkexamina för statsförvaltningen tidigare?",
-            "label": "Datum eller fritext",
-            "whenPrevious": "När har du deltagit senast?"
+            "radioButtons": {
+              "label": "Har du deltagit språkexamina för statsförvaltningen tidigare? *"
+            },
+            "textField": {
+              "label": "När har du deltagit senast? *",
+              "placeholder": "Datum eller fritext"
+            },
+            "title": "Deltagande i tidigare examina"
           }
         }
       },
       "publicExamEventGrid": {
         "description": {
-          "linkName": "Utbildningstyrelsens webbplats",
-          "text": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket. Mera information om examina."
+          "bulletPoints": {
+            "point1": "examen som gäller förmåga att använda finska eller svenska i tal (med delproven hörförståelse och muntlig färdighet)",
+            "point2": "examen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)",
+            "point3": "examen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse)"
+          },
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket",
+          "line2": "Examina som gäller utmärkta språkkunskaper är"
+        },
+        "enrollment": {
+          "description": "Du ska identifiera dig via suomi.fi -tjänsten. I samband med anmälan betalas även examensavgiften.",
+          "title": "Anmälan och examensavgiften"
+        },
+        "extraInformation": {
+          "description": "Mera information om examina på",
+          "link": {
+            "label": "Utbildningstyrelsens webbplats",
+            "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
+          }
         },
         "examinationDates": {
           "title": "Examensavgifter"
         },
         "noSearchResults": "Inga sökresultat",
-        "note": "Examina som gäller utmärkta språkkunskaper är:\n•\texamen som gäller förmåga att använda finska eller svenska i tal (med delproven hörförståelse och muntlig färdighet)\n•\texamen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)\n•\texamen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse).\nNär du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket. \nDu kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.\nAnmälan och examensavgiften\nDu ska identifiera dig via suomi.fi -tjänsten.\nI samband med anmälan betalas även examensavgiften.\n•\tExamensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt \n•\tExamensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)",
+        "note": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.\nAnmälan och examensavgiften\nDu ska identifiera dig via suomi.fi -tjänsten.\nI samband med anmälan betalas även examensavgiften.\n•\tExamensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt \n•\tExamensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)",
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
       "publicExamEventListing": {
@@ -188,7 +215,10 @@
             "part1": "Anmälningssystemet är överbelastat just nu.",
             "part2": "Försök på nytt om en stund"
           },
-          "none": "Examenstillfället är fullbokat. Du kan ställa dig i kön."
+          "none": {
+            "part1": "Examenstillfället är fullbokat.",
+            "part2": "Du kan ställa dig i kön."
+          }
         },
         "row": {
           "enroll": "Anmäl dig",
