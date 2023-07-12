@@ -45,6 +45,7 @@ const resources = {
 const detectionOptions = {
   order: ['localStorage', 'htmlTag'],
   caches: ['localStorage'],
+  lookupLocalStorage: 'i18NextLng_vkt',
 };
 
 // TypeScript definitions for react-i18next. IDE might show this to be unused, but ts does some type checking with it.
