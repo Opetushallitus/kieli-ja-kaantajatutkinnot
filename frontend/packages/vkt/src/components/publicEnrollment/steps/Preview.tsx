@@ -1,3 +1,4 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
@@ -164,7 +165,11 @@ const PrivacyStatementCheckboxLabel = () => {
 
   return (
     <Trans t={t} i18nKey="label">
-      <WebLink href={AppRoutes.PrivacyPolicyPage} label={t('linkLabel')} />
+      <WebLink
+        href={AppRoutes.PrivacyPolicyPage}
+        label={t('linkLabel')}
+        endIcon={<OpenInNewIcon />}
+      />
     </Trans>
   );
 };
