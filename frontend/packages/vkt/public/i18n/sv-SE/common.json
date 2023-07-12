@@ -19,7 +19,9 @@
       "edit": "Ändra",
       "enrollment": {
         "certificateShipping": {
-          "consent": "Jag ger mitt samtycke till att intyget skickas elektroniskt"
+          "addressTitle": "Adress för leverans av intyget i pappersformat",
+          "consent": "Jag ger mitt samtycke till att intyget skickas elektroniskt",
+          "description": "Intyget skickas per post. Ange din adress för leverans av intyget."
         },
         "partialExamsAndSkills": {
           "oralSkill": "Förmåga att använda språket i tal",

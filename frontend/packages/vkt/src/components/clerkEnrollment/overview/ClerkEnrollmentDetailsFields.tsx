@@ -275,6 +275,9 @@ export const ClerkEnrollmentDetailsFields = ({
 
   const displayPaymentHistory = enrollment.payments.length > 1;
 
+  // TODO Remove this flag once digital certificates are available
+  const isDigitalCertificateAvailable = false;
+
   return (
     <div className="clerk-enrollment-details-fields">
       <div className="columns margin-top-lg space-between">
@@ -430,27 +433,30 @@ export const ClerkEnrollmentDetailsFields = ({
             )}
           </div>
         )}
-        <div className="rows gapped-sm margin-top-lg">
-          <H3>{t('header.digitalCertificateConsent')}</H3>
-          <FormControlLabel
-            className="clerk-enrollment-details-fields__certificate-shipping__consent"
-            control={
-              <Checkbox
-                data-testid="clerk-enrollment__details-fields__digitalCertificateConsent"
-                onClick={() =>
-                  onCheckboxFieldChange(
-                    'digitalCertificateConsent',
-                    !enrollment.digitalCertificateConsent
-                  )
-                }
-                color={Color.Secondary}
-                checked={enrollment.digitalCertificateConsent}
-                disabled={editDisabled}
-              />
-            }
-            label={translateCommon('enrollment.certificateShipping.consent')}
-          />
-        </div>
+        {isDigitalCertificateAvailable && (
+          <div className="rows gapped-sm margin-top-lg">
+            <H3>{t('header.digitalCertificateConsent')}</H3>
+            <FormControlLabel
+              className="clerk-enrollment-details-fields__certificate-shipping__consent"
+              control={
+                <Checkbox
+                  data-testid="clerk-enrollment__details-fields__digitalCertificateConsent"
+                  onClick={() =>
+                    onCheckboxFieldChange(
+                      'digitalCertificateConsent',
+                      !enrollment.digitalCertificateConsent
+                    )
+                  }
+                  color={Color.Secondary}
+                  checked={enrollment.digitalCertificateConsent}
+                  disabled={editDisabled}
+                />
+              }
+              label={translateCommon('enrollment.certificateShipping.consent')}
+            />
+          </div>
+        )}
+
         {!enrollment.digitalCertificateConsent && (
           <div className="rows gapped margin-top-sm">
             <H3>
