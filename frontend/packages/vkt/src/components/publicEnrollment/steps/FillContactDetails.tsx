@@ -111,6 +111,13 @@ export const FillContactDetails = ({
       if (!dirtyFields.includes(fieldName)) {
         setDirtyFields([...dirtyFields, fieldName]);
       }
+      if (fieldName === 'phoneNumber') {
+        dispatch(
+          updatePublicEnrollment({
+            phoneNumber: enrollment.phoneNumber.replace(/\s/g, ''),
+          })
+        );
+      }
     };
 
   const showCustomTextFieldError = (
