@@ -50,7 +50,10 @@ public class PublicAuthService {
 
     if ((oid == null || oid.isEmpty()) && (otherIdentifier == null || otherIdentifier.isEmpty())) {
       if (nationalIdentificationNumber == null || nationalIdentificationNumber.isEmpty()) {
-        LOG.error("Person OID, otherIdentifier and nationalIdentificationNumber are empty. Person details: {}", personDetails);
+        LOG.error(
+          "Person OID, otherIdentifier and nationalIdentificationNumber are empty. Person details: {}",
+          personDetails
+        );
         throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
       } else {
         otherIdentifier = nationalIdentificationNumber;
