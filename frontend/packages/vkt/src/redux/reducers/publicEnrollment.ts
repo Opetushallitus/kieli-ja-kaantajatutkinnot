@@ -48,6 +48,7 @@ export const initialState: PublicEnrollmentState = {
     previousEnrollment: '',
     privacyStatementConfirmation: false,
     status: undefined,
+    examEventId: undefined,
   },
   examEvent: undefined,
   person: undefined,
@@ -85,12 +86,27 @@ const publicEnrollmentSlice = createSlice({
       }>
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
-      state.enrollment = action.payload.enrollment
-        ? EnrollmentUtils.mergeEnrollment(
-            current(state.enrollment),
-            action.payload.enrollment
-          )
-        : state.enrollment;
+      const persistedSessionEnrollmentDetails = current(state.enrollment);
+      const examEventId = action.payload.examEvent.id;
+      if (persistedSessionEnrollmentDetails.examEventId === examEventId) {
+        state.enrollment = action.payload.enrollment
+          ? EnrollmentUtils.mergeEnrollment(persistedSessionEnrollmentDetails, {
+              ...action.payload.enrollment,
+              examEventId,
+            })
+          : state.enrollment;
+      } else {
+        // Enrollment details persisted in session storage are for different exam event.
+        // Reject persisted details.
+        state.enrollment = action.payload.enrollment
+          ? {
+              ...initialState.enrollment,
+              ...action.payload.enrollment,
+              examEventId,
+            }
+          : { ...initialState.enrollment, examEventId };
+      }
+
       state.examEvent = action.payload.examEvent;
       state.person = action.payload.person;
       state.reservation = action.payload.reservation;
@@ -149,6 +165,14 @@ const publicEnrollmentSlice = createSlice({
       state.enrollmentSubmitStatus = APIResponseStatus.Success;
       state.enrollment = { ...state.enrollment, ...action.payload };
     },
+    setPublicEnrollmentExamEventIdIfNotSet(
+      state,
+      action: PayloadAction<number>
+    ) {
+      if (!state.enrollment.examEventId) {
+        state.enrollment.examEventId = action.payload;
+      }
+    },
   },
 });
 
@@ -170,4 +194,5 @@ export const {
   loadPublicEnrollmentSave,
   rejectPublicEnrollmentSave,
   storePublicEnrollmentSave,
+  setPublicEnrollmentExamEventIdIfNotSet,
 } = publicEnrollmentSlice.actions;

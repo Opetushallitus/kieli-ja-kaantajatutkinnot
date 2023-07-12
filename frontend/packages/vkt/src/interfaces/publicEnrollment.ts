@@ -45,6 +45,7 @@ export interface PublicEnrollment
   previousEnrollment?: string;
   privacyStatementConfirmation: boolean;
   status?: EnrollmentStatus;
+  examEventId?: number;
 }
 
 export interface PublicEnrollmentResponse
