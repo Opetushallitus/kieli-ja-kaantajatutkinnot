@@ -29,7 +29,7 @@
       "publicEnrollment": {
         "controlButtons": {
           "cancelDialog": {
-            "description": "Vill du annullera anmälan? Du förlorar uppgifterna som du gett.",
+            "description": "Vill du annullera anmälan? Du förlorar uppgifterna som du uppgett.",
             "title": "Annullera anmälan"
           },
           "enrollToQueue": "Ställ dig i kön",
@@ -45,11 +45,11 @@
         "expirationTimer": {
           "cancelEnrollment": "Annullera anmälan",
           "continueEnrollment": "Fortsätt anmälan",
-          "reservationExpired": null,
+          "reservationExpired": "Platsreserveringen till examen är inte längre i kraft",
           "reservationExpiredContinue": "Fortsätt till framsidan",
-          "reservationExpiredText": null,
-          "reservationExpiresIn": null,
-          "reservationExpiresInTitle": null,
+          "reservationExpiredText": "Din platsreservering till examen är inte längre i kraft. Fortsätt till framsidan för att förnya din anmälan.",
+          "reservationExpiresIn": "Din platsreservering till examen upphör att gälla: {{minutes}}:{{seconds}}",
+          "reservationExpiresInTitle": "Din platsreservering till den examen du valt upphör att gälla: {{minutes}}:{{seconds}}",
           "reservationInfoText": "Om din anmälan inte är slutförd, välj \"Fortsätt anmälan\""
         },
         "paymentSum": {
@@ -77,7 +77,7 @@
           "completed": "Utfört",
           "phase": "Fas",
           "phaseNumber": "{{current}} av {{total}}",
-          "phases": null,
+          "phases": "Anmälningens faser",
           "step": {
             "Authenticate": "Identifiera dig",
             "Done": "Färdigt",
@@ -92,43 +92,41 @@
           "authenticate": {
             "auth": "Identifiera dig via suomi.fi -tjänsten"
           },
-          "certificateShipping": {
-            "title": null
-          },
+          "certificateShipping": { "title": "Leverans av examensintyget" },
           "done": {
             "description": "Du har en plats i kön för examen! Du får en bekräftelse till adressen"
           },
           "fillContactDetails": {
             "email": {
-              "label": "E-post *",
-              "placeholder": "testi@testi.fi"
+              "label": "E-postadress *",
+              "placeholder": "T.ex. test@test.fi"
             },
             "emailConfirmation": {
-              "label": "Bekräfta din e-post *",
-              "placeholder": "Skriv din e-post igen"
+              "label": "Bekräfta din e-postadress *",
+              "placeholder": "Skriv din e-postadress på nytt"
             },
-            "mismatchingEmailsError": "Innehållet i e-postadressfälten stämmer inte överens",
+            "mismatchingEmailsError": "Innehållet i fälten för e-postadress motsvarar inte varandra",
             "phoneNumber": {
-              "label": "Telefonnummer *"
+              "label": "Telefonnummer"
             },
             "title": "Dina kontaktuppgifter"
           },
           "partialExamsSelection": {
             "partialExamsTitle": "Välj delproven",
-            "oralSkill": "Muntlig färdighet *",
-            "textualSkill": "Skriftlig färdighet *",
+            "oralSkill": "Muntlig färdighet",
+            "textualSkill": "Skriftlig färdighet",
             "doFullExam": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *",
             "skillsTitle": "Välj examen *",
-            "noFullExam": "Nej, jag vill avlägga någondera av examina eller ett delprov"
+            "yesFullExam": "Ja",
+            "noFullExam": "Nej, jag vill endast avlägga någondera av examina eller ett delprov"
           },
           "selectExam": {
-            "description": null,
             "title": "Val av examen"
           },
           "paymentFail": {
-            "cancel": null,
-            "description": null,
-            "toast": null,
+            "cancel": "Annullera anmälan",
+            "description": "Betalningen misslyckades eller annullerades. Du kan försöka betala på nytt eller annullera anmälan. Klicka på försök på nytt för att öppna betalningstjänsten.",
+            "toast": "Betalningen genomfördes inte.",
             "tryAgain": "Försök på nytt"
           },
           "paymentSuccess": {
@@ -137,13 +135,15 @@
           },
           "personDetails": {
             "firstName": "Förnamn",
+            "identityNumber": "Personbeteckning",
+            "dateOfBirth": "Födelsedatum",
             "lastName": "Efternamn",
             "title": "Dina personuppgifter"
           },
           "preview": {
             "certificateShippingDetails": {
-              "addressLabel": null,
-              "title": null
+              "addressLabel": "Leveransadress",
+              "title": "Leverans av examensintyget"
             },
             "contactDetails": {
               "email": "E-postadress",
@@ -157,8 +157,9 @@
               "title": "Uppgifter om examen"
             },
             "privacyStatement": {
-              "label": "Jag har läst <0></0> av den här tjänsten och accepterar den (obligatoriskt).",
-              "linkLabel": "dataskyddsbeskrivningen (på finska)"
+              "ariaLabel": "Dataskyddsbeskrivning",
+              "label": "Jag har läst <0></0> för den här tjänsten och accepterar den (obligatoriskt).",
+              "linkLabel": "dataskyddsbeskrivningen"
             }
           },
           "previousEnrollment": {
@@ -167,9 +168,9 @@
             },
             "textField": {
               "label": "När har du deltagit senast? *",
-              "placeholder": "Skriv datum eller fritext"
+              "placeholder": "Datum eller fritext"
             },
-            "title": "Deltagandet i tidigare examina"
+            "title": "Deltagande i tidigare examina"
           }
         }
       },
@@ -180,7 +181,7 @@
             "point2": "examen som gäller förmåga att använda finska eller svenska i skrift (med delproven läsförståelse och skriftlig färdighet)",
             "point3": "examen som gäller förmåga att förstå finska eller svenska (med delproven hörförståelse och läsförståelse)"
           },
-          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket.",
+          "line1": "Språkexamina för statsförvaltningen är avsedda för att visa sådana språkkunskaper i det andra inhemska språket som krävs av offentligt anställda. Med examensintygen kan man visa förmåga att använda finska eller svenska i tal och i skrift samt förmåga att förstå språket",
           "line2": "Examina som gäller utmärkta språkkunskaper är"
         },
         "enrollment": {
@@ -188,12 +189,17 @@
           "title": "Anmälan och examensavgiften"
         },
         "extraInformation": {
-          "description": "Mera information om examina",
+          "description": "Mera information om examina på",
           "link": {
             "label": "Utbildningstyrelsens webbplats",
             "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
           }
         },
+        "examinationDates": {
+          "title": "Examensavgifter"
+        },
+        "noSearchResults": "Inga sökresultat",
+        "note": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.\nAnmälan och examensavgiften\nDu ska identifiera dig via suomi.fi -tjänsten.\nI samband med anmälan betalas även examensavgiften.\n•\tExamensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt \n•\tExamensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)",
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
       "publicExamEventListing": {
@@ -206,7 +212,7 @@
         },
         "openings": {
           "congestion": {
-            "part1": null,
+            "part1": "Anmälningssystemet är överbelastat just nu.",
             "part2": "Försök på nytt om en stund"
           },
           "none": {

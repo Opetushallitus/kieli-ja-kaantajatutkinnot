@@ -122,7 +122,6 @@
             "noFullExam": "En, haluan suorittaa vain jommankumman tutkinnon tai yksittäisen osakokeen"
           },
           "selectExam": {
-            "description": "Tähdellä (*) merkityt osiot ovat pakollisia.",
             "title": "Tutkinnon valinta"
           },
           "paymentFail": {

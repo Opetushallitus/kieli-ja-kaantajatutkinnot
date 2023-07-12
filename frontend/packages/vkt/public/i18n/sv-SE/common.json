@@ -19,8 +19,7 @@
       "edit": "Ändra",
       "enrollment": {
         "certificateShipping": {
-          "consent": null,
-          "description": null
+          "consent": "Jag ger mitt samtycke till att intyget skickas elektroniskt"
         },
         "partialExamsAndSkills": {
           "oralSkill": "Förmåga att använda språket i tal",
@@ -45,28 +44,28 @@
       },
       "errors": {
         "api": {
-          "enrollmentAlreadyPaid": "Betalningen misslyckades eftersom examensavgiften är redan betald",
-          "enrollmentMoveExamEventLanguageMismatch": null,
-          "enrollmentMovePersonAlreadyEnrolled": null,
-          "examEventDuplicate": null,
+          "enrollmentAlreadyPaid": "Betalningen misslyckades eftersom examensavgiften redan är betald.",
+          "enrollmentMoveExamEventLanguageMismatch": "Ändringen av anmälningen misslyckades eftersom språket inte är det samma vid det valda tillfället",
+          "enrollmentMovePersonAlreadyEnrolled": "Ändringen av anmälningen misslyckades eftersom personen i fråga redan har anmält sig till det valda tillfället",
+          "examEventDuplicate": "Det finns redan ett examenstillfälle med samma språk, nivå och dag",
           "generic": "Funktionen misslyckades, försök på nytt senare",
           "initialiseEnrollmentDuplicatePerson": "Du har redan anmält dig till det här examenstillfället. Du kan inte anmäla dig på nytt.",
-          "initialiseEnrollmentHasCongestion": null,
+          "initialiseEnrollmentHasCongestion": "Examenstillfället är fullbokat",
           "initialiseEnrollmentIsFull": "Det finns inga lediga platser till examenstillfället",
           "initialiseEnrollmentRegistrationClosed": "Anmälan till examenstillfället är stängd",
-          "initialiseEnrollmentToQueueHasRoom": null,
+          "initialiseEnrollmentToQueueHasRoom": "Lediga platser har blivit tillgängliga för examenstillfället. Uppdatera sidan och försök på nytt vid behov.",
           "invalidTicket": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
           "invalidVersion": "Funktionen misslyckades eftersom du försökte ändra föråldrad data. Uppdatera sidan och försök vid behov på nytt.",
-          "renewReservationNotAllowed": null,
+          "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
           "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
           "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
-          "paymentAlreadyPaid": null,
-          "paymentAmountMismatch": null,
-          "paymentLinkHasExpired": "Betalningslänken är föråldrad. Be vid behov om en ny betalningslänk.",
-          "paymentLinkInvalidEnrollmentStatus": null,
-          "paymentPersonSessionMismatch": null,
-          "paymentReferenceMismatch": null,
-          "paymentValidationFail": null
+          "paymentAlreadyPaid": "Betalningen kunde inte behandlas",
+          "paymentAmountMismatch": "Betalningen kunde inte behandlas",
+          "paymentLinkHasExpired": "Betalningslänken är föråldrad. Be vid behov om en ny betalningslänk per e-post.",
+          "paymentLinkInvalidEnrollmentStatus": "Status för din anmälan har ändrat. Examensavgiften har eventuellt redan betalats.",
+          "paymentPersonSessionMismatch": "Betalningen kunde inte behandlas",
+          "paymentReferenceMismatch": "Betalningen kunde inte behandlas",
+          "paymentValidationFail": "Betalningen kunde inte behandlas"
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",
@@ -87,8 +86,8 @@
         "EXCELLENT": "Utmärkta språkkunskaper"
       },
       "examinationPayment": {
-        "part1": "Examensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt.",
-        "part2": "Examensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)."
+        "part1": "Examensavgiften är 454 euro om du avlägger examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift samtidigt.",
+        "part2": "Examensavgiften är 227 euro om du avlägger antigen examen som gäller förmåga att använda språket i tal eller examen som gäller förmåga att använda språket i skrift eller ett av delproven."
       },
       "header": {
         "accessibility": {
@@ -101,13 +100,13 @@
         }
       },
       "info": {
-        "previousEnrollment": "Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
-        "selectExam": "När du har blivit godkänt i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket. Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen."
+        "previousEnrollment": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.",
+        "selectExam": "När du har blivit godkänd i examina som gäller förmåga att använda språket i tal och i skrift får du ett intyg även för förmågan att förstå språket."
       },
       "languageFilter": {
-        "label": null,
+        "label": "Visa examina i följande språk",
         "options": {
-          "ALL": "Alla språk",
+          "ALL": "Båda språken",
           "FI": "Finska",
           "SV": "Svenska"
         }
@@ -120,15 +119,10 @@
       },
       "next": "Följande",
       "no": "Nej",
-      "notFoundPage": {
-        "description": "Adressen kan vara fel eller föråldrad. Gå tillbaka till framsidan med knappen nedan.",
-        "title": "Tyvärr kan sidan du sökte efter inte hittas"
-      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
-      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen –",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Till framsidan för anmälningssystemet för språkexamina för statsförvaltningen",
       "pageTitle": {
         "frontPage": "Framsida",
-        "notFound": "Sidan du sökte efter kan inte hittas",
         "authenticate": "Anmälan - identifiera dig",
         "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
         "selectExam": "Anmälan - välj examen",
@@ -136,11 +130,10 @@
         "paymentFail": "Anmälan - avgiften har inte betalats",
         "paymentSuccess": "Anmälan - betalningen är slutförd",
         "done": "Anmälan - färdig",
-        "accessibilityStatement": "Tillgänglighetsdirektiv",
         "privacyPolicy": "Dataskyddsbeskrivning",
-        "clerkEnrollmentOverview": null,
-        "clerkExamEventCreate": null,
-        "clerkExamOverview": null,
+        "clerkEnrollmentOverview": "Administratör anmälning",
+        "clerkExamEventCreate": "Administratör lägg till examensdag",
+        "clerkExamOverview": "Administratör examenssida",
         "clerkHomepage": "Administratör"
       },
       "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
