@@ -16,4 +16,5 @@ public class CasAttributes {
   private String sn;
   private String personOid;
   private String personIdentifier;
+  private String nationalIdentificationNumber;
 }

@@ -70,6 +70,7 @@ public class CasTicketValidator implements TicketValidator {
       personDetails.put("firstName", casAttributes.getFirstName());
       personDetails.put("oid", casAttributes.getPersonOid());
       personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
+      personDetails.put("nationalIdentificationNumber", casAttributes.getNationalIdentificationNumber());
 
       return personDetails;
     } catch (final WebClientResponseException e) {

@@ -45,11 +45,19 @@ public class PublicAuthService {
     final String lastName = personDetails.get("lastName");
     final String firstName = personDetails.get("firstName");
     final String oid = personDetails.get("oid");
-    final String otherIdentifier = personDetails.get("otherIdentifier");
+    String otherIdentifier = personDetails.get("otherIdentifier");
+    final String nationalIdentificationNumber = personDetails.get("nationalIdentificationNumber");
 
     if ((oid == null || oid.isEmpty()) && (otherIdentifier == null || otherIdentifier.isEmpty())) {
-      LOG.error("Person OID and otherIdentifier are empty. Person details: {}", personDetails);
-      throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
+      if (nationalIdentificationNumber == null || nationalIdentificationNumber.isEmpty()) {
+        LOG.error(
+          "Person OID, otherIdentifier and nationalIdentificationNumber are empty. Person details: {}",
+          personDetails
+        );
+        throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
+      } else {
+        otherIdentifier = nationalIdentificationNumber;
+      }
     }
 
     final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
