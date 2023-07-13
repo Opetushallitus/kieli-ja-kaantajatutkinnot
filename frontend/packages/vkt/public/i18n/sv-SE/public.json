@@ -107,12 +107,12 @@
             },
             "mismatchingEmailsError": "Innehållet i fälten för e-postadress motsvarar inte varandra",
             "phoneNumber": {
-              "label": "Telefonnummer"
+              "label": "Telefonnummer *"
             },
             "title": "Dina kontaktuppgifter"
           },
           "partialExamsSelection": {
-            "partialExamsTitle": "Välj delproven",
+            "partialExamsTitle": "Välj delproven *",
             "oralSkill": "Muntlig färdighet",
             "textualSkill": "Skriftlig färdighet",
             "doFullExam": "Vill du avlägga både examen som gäller förmåga att använda språket i tal och examen som gäller förmåga att använda språket i skrift? *",
