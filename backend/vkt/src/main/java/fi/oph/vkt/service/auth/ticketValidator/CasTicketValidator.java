@@ -29,14 +29,43 @@ public class CasTicketValidator implements TicketValidator {
     .xmlOutputFactory(new WstxOutputFactory())
     .build();
   private static final XmlMapper XML_MAPPER = new XmlMapper(XF);
+  private static final int REQUEST_ATTEMPTS = 3;
 
   private final Environment environment;
   private final WebClient webClient;
 
   @Override
   public Map<String, String> validateTicket(final String ticket, final long examEventId, final EnrollmentType type) {
+    final String response = requestWithRetries(ticket, examEventId, type, REQUEST_ATTEMPTS);
+
+    final CasResponse casResponse = parseCasResponse(response);
+
+    if (casResponse.getAuthenticationSuccess().getUser().isEmpty()) {
+      throw new APIException(APIExceptionType.INVALID_TICKET);
+    }
+
+    final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
+
+    final Map<String, String> personDetails = new HashMap<>();
+    final String sn = casAttributes.getSn();
+
+    personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : sn);
+    personDetails.put("firstName", casAttributes.getFirstName());
+    personDetails.put("oid", casAttributes.getPersonOid());
+    personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
+    personDetails.put("nationalIdentificationNumber", casAttributes.getNationalIdentificationNumber());
+
+    return personDetails;
+  }
+
+  private String requestWithRetries(
+    final String ticket,
+    final long examEventId,
+    final EnrollmentType type,
+    final int attemptsRemaining
+  ) {
     try {
-      final String response = webClient
+      return webClient
         .get()
         .uri(uriBuilder ->
           uriBuilder
@@ -54,25 +83,6 @@ public class CasTicketValidator implements TicketValidator {
           return clientResponse.bodyToMono(String.class);
         })
         .block();
-
-      final CasResponse casResponse = parseCasResponse(response);
-
-      if (casResponse.getAuthenticationSuccess().getUser().isEmpty()) {
-        throw new APIException(APIExceptionType.INVALID_TICKET);
-      }
-
-      final CasAttributes casAttributes = casResponse.getAuthenticationSuccess().getAttributes();
-
-      final Map<String, String> personDetails = new HashMap<>();
-      final String sn = casAttributes.getSn();
-
-      personDetails.put("lastName", sn == null || sn.isEmpty() ? casAttributes.getFamilyName() : sn);
-      personDetails.put("firstName", casAttributes.getFirstName());
-      personDetails.put("oid", casAttributes.getPersonOid());
-      personDetails.put("otherIdentifier", casAttributes.getPersonIdentifier());
-      personDetails.put("nationalIdentificationNumber", casAttributes.getNationalIdentificationNumber());
-
-      return personDetails;
     } catch (final WebClientResponseException e) {
       LOG.error(
         "CAS returned error status {}\n response body: {}\n request url: {}\n",
@@ -81,6 +91,14 @@ public class CasTicketValidator implements TicketValidator {
         e.getRequest() != null ? e.getRequest().getURI() : ""
       );
       throw new APIException(APIExceptionType.TICKET_VALIDATION_ERROR);
+    } catch (final Exception e) {
+      final int retries = attemptsRemaining - 1;
+      LOG.error("CAS request failed! Retries remaining: {}", retries, e);
+      if (retries > 0) {
+        return requestWithRetries(ticket, examEventId, type, retries);
+      } else {
+        throw e;
+      }
     }
   }
 
