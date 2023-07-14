@@ -36,7 +36,7 @@ export { CustomTable } from './Table/CustomTable';
 export { PaginatedTable } from './Table/PaginatedTable';
 export { ManagedPaginatedTable } from './Table/ManagedPaginatedTable';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
-export { LangSelector } from './LangSelector/LangSelector';
+export { LangSelector, NewLangSelector } from './LangSelector/LangSelector';
 export { InfoText } from './InfoText/InfoText';
 export { OPHClerkLogo } from './OPHClerkLogo/OPHClerkLogo';
 export { Notifier } from './Notifier/Notifier';

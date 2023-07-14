@@ -1,7 +1,7 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
-  LangSelector,
+  NewLangSelector,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
@@ -64,7 +64,7 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}
-            <LangSelector
+            <NewLangSelector
               changeLang={changeLang}
               getCurrentLang={getCurrentLang}
               langDict={langDict}
