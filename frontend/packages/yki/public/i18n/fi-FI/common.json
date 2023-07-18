@@ -69,7 +69,7 @@
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
-          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+          "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "lang": {
           "en": "In English",

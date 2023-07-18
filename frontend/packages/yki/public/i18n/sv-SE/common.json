@@ -16,7 +16,7 @@
       },
       "header": {
         "accessibility": {
-          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+          "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "lang": {
           "en": "In English",
