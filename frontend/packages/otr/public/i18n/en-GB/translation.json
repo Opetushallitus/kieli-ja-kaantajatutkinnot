@@ -156,7 +156,7 @@
       "header": {
         "accessibility": {
           "continueToMain": "Continue to content",
-          "langSelectorAriaLabel": "Change the language of the user interface"
+          "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "clerk": {
           "backToOph": "Back to Studyinfo",
