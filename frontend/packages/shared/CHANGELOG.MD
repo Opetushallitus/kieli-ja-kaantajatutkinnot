@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.16] - 2023-07-18
+
+### Changed
+
+- Replaced `LangSelector` with a more accessible implementation
+
+### Added
+
+- New SCSS mixin `not-phone` to improve styling for phone vs. non-phone layouts
+
 ## [1.9.15] - 2023-07-05
 
 ### Added

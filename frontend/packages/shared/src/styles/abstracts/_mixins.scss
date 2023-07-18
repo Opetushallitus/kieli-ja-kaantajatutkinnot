@@ -46,6 +46,12 @@
   }
 }
 
+@mixin not-phone {
+  @media not screen and (max-width: map-get(maps.$breakpoints, 'phone')) {
+    @content;
+  }
+}
+
 @mixin tablet {
   @media (max-width: map-get(maps.$breakpoints, 'tablet')) {
     @content;

@@ -4,23 +4,27 @@
 .lang-selector {
   align-items: center;
   display: flex;
-  margin-left: 1.5rem;
+
+  hr {
+    border-color: colors.$color-background;
+  }
+
+  @include mixins.not-phone {
+    margin-left: 1.5rem;
+  }
+
+  @include mixins.phone {
+    background-color: colors.$color-secondary-dark;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 0.5rem 0;
+
+    p, svg {
+      color: colors.$color-primary;
+    }
+  }
 
   &__icon {
     margin-right: 2px;
-  }
-
-  & &__select {
-    margin-top: 2px;
-
-    @include mixins.phone {
-      font-size: 1.3rem;
-    }
-
-    &,
-    &__icon,
-    & > svg {
-      color: colors.$color-secondary-dark;
-    }
   }
 }
