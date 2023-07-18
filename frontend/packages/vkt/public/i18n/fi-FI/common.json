@@ -94,7 +94,7 @@
       "header": {
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
-          "langSelectorAriaLabel": "Vaihda käyttöliittymän kieltä"
+          "langSelectorAriaLabel": "Kieli / Språk"
         },
         "lang": {
           "fi": "Suomeksi",

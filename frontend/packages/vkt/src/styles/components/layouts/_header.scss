@@ -2,7 +2,11 @@
   &__toolbar {
     display: flex;
     flex-wrap: wrap;
-    padding: 0;
+
+    div &__mobile-lang-select {
+      min-height: fit-content;
+      padding: 0;
+    }
   }
 
   & button {
