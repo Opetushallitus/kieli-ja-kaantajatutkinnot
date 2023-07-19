@@ -1,17 +1,78 @@
-import { TableCell, TableRow } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { CustomButton } from 'shared/components';
+import { CustomButton, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 import { storeEvaluationPeriod } from 'redux/reducers/evaluationOrder';
 import { ExamUtils } from 'utils/exam';
 
-export const PublicEvaluationPeriodListingRow = ({
+const PublicEvaluationPeriodListingCellsForPhone = ({
+  evaluationPeriod,
+}: {
+  evaluationPeriod: EvaluationPeriod;
+}) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.publicEvaluationPeriodListing',
+  });
+  const translateCommon = useCommonTranslation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  // TODO Heading for the language and level text? According to design in Figma,
+  // there should be a heading read out to screen reader users.
+  // As the mobile table is actually a single-column table without headers,
+  // this doesn't probably work ideally right now for screen reader users.
+
+  return (
+    <TableCell>
+      <div className="rows grow gapped-xs">
+        <Typography variant="h2" component="p">
+          {ExamUtils.languageAndLevelText(evaluationPeriod)}
+        </Typography>
+        <Text>
+          <b>{translateCommon('examDate')}</b>
+          <br />
+          {DateUtils.formatOptionalDate(evaluationPeriod.exam_date, 'l')}
+        </Text>
+        <Text>
+          <b>{t('header.evaluationPeriod')}</b>
+          <br />
+          {DateUtils.formatOptionalDate(
+            evaluationPeriod.evaluation_start_date
+          )}{' '}
+          &ndash;{' '}
+          {DateUtils.formatOptionalDate(evaluationPeriod.evaluation_end_date)}
+        </Text>
+        <CustomButton
+          color={Color.Secondary}
+          variant={Variant.Outlined}
+          disabled={!evaluationPeriod.open}
+          onClick={() => {
+            dispatch(storeEvaluationPeriod(evaluationPeriod));
+            navigate(
+              AppRoutes.ReassessmentOrder.replace(
+                /:evaluationId/,
+                `${evaluationPeriod.id}`
+              )
+            );
+          }}
+        >
+          {evaluationPeriod.open
+            ? t('requestReassessment')
+            : t('evaluationPeriodNotYetOpen')}
+        </CustomButton>
+      </div>
+    </TableCell>
+  );
+};
+
+const PublicEvaluationPeriodListingCellsForDesktop = ({
   evaluationPeriod,
 }: {
   evaluationPeriod: EvaluationPeriod;
@@ -23,9 +84,7 @@ export const PublicEvaluationPeriodListingRow = ({
   const navigate = useNavigate();
 
   return (
-    <TableRow
-      data-testid={`public-evaluation-period__id-${evaluationPeriod.id}-row`}
-    >
+    <>
       <TableCell>{ExamUtils.languageAndLevelText(evaluationPeriod)}</TableCell>
       <TableCell>
         {DateUtils.formatOptionalDate(evaluationPeriod.exam_date, 'l')}
@@ -55,6 +114,30 @@ export const PublicEvaluationPeriodListingRow = ({
             : t('evaluationPeriodNotYetOpen')}
         </CustomButton>
       </TableCell>
+    </>
+  );
+};
+
+export const PublicEvaluationPeriodListingRow = ({
+  evaluationPeriod,
+}: {
+  evaluationPeriod: EvaluationPeriod;
+}) => {
+  const { isPhone } = useWindowProperties();
+
+  return (
+    <TableRow
+      data-testid={`public-evaluation-period__id-${evaluationPeriod.id}-row`}
+    >
+      {isPhone ? (
+        <PublicEvaluationPeriodListingCellsForPhone
+          evaluationPeriod={evaluationPeriod}
+        />
+      ) : (
+        <PublicEvaluationPeriodListingCellsForDesktop
+          evaluationPeriod={evaluationPeriod}
+        />
+      )}
     </TableRow>
   );
 };

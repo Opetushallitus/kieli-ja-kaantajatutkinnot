@@ -90,9 +90,22 @@ export const ReassessmentPage: FC = () => {
               <Text>{t('info.pricing.body3')}</Text>
               <Text>{t('info.pricing.body4')}</Text>
             </div>
+            <div className="public-reassessment-page__info__section">
+              <H2 className="public-reassessment-page__info__section__heading-title">
+                {t('info.schedule.heading')}
+              </H2>
+              <Text>{t('info.schedule.body1')}</Text>
+              <Text>{t('info.schedule.body2')}</Text>
+              <br />
+              <Text>{t('info.schedule.body3')}</Text>
+              <Text>{t('info.schedule.body4')}</Text>
+            </div>
           </Paper>
         </Grid>
-        <Grid item className="public-homepage__grid-container__result-box">
+        <Grid
+          item
+          className="public-reassessment-page__grid-container__result-box"
+        >
           {status === APIResponseStatus.InProgress ? (
             <PublicEvaluationPeriodListingSkeleton />
           ) : (

@@ -371,6 +371,13 @@
             "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
             "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
             "heading": "Hinnasto"
+          },
+          "schedule": {
+            "body1": "Voit pyytää suorituksesi tarkistusarviointia 14 päivän kuluessa siitä ajankohdasta, kun sinulla on ollut tilaisuus saada arvioinnin tulos.",
+            "body2": "Tarkasta aika, milloin voit pyytää tutkintosuorituksesi tarkistusarviointia, alla olevasta Tutkinnot-taulukosta.",
+            "body3": "Käsittelyaika on keskimäärin kolme kuukautta.",
+            "body4": "Päätös lähetetään sähköpostitse.",
+            "heading": "Aikataulu"
           }
         },
         "introduction": {
