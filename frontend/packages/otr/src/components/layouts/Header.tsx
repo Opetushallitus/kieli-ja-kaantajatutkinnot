@@ -7,6 +7,7 @@ import {
   SkipLink,
 } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
@@ -33,6 +34,7 @@ export const Header = (): JSX.Element => {
     [t('lang.en'), english],
   ]);
 
+  const { isPhone } = useWindowProperties();
   const { isAuthenticated, isClerkUI } = useAuthentication();
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
@@ -42,6 +44,18 @@ export const Header = (): JSX.Element => {
     <>
       <SkipLink href="#main-content" text={t('accessibility.continueToMain')} />
       <AppBar className="header" position="static">
+        {isPhone && (
+          <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
+            <LangSelector
+              changeLang={changeLang}
+              getCurrentLang={getCurrentLang}
+              langDict={langDict}
+              langSelectorAriaLabel={translateCommon(
+                'header.accessibility.langSelectorAriaLabel'
+              )}
+            />
+          </Toolbar>
+        )}
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
@@ -66,12 +80,14 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}
-            <LangSelector
-              changeLang={changeLang}
-              getCurrentLang={getCurrentLang}
-              langDict={langDict}
-              langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
-            />
+            {!isPhone && (
+              <LangSelector
+                changeLang={changeLang}
+                getCurrentLang={getCurrentLang}
+                langDict={langDict}
+                langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
+              />
+            )}
           </div>
         </Toolbar>
       </AppBar>

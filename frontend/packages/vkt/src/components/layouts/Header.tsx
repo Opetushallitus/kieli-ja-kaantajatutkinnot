@@ -7,6 +7,7 @@ import {
   SkipLink,
 } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
@@ -32,6 +33,7 @@ export const Header = (): JSX.Element => {
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
+  const { isPhone } = useWindowProperties();
 
   return (
     <>
@@ -40,6 +42,18 @@ export const Header = (): JSX.Element => {
         text={translateCommon('header.accessibility.continueToMain')}
       />
       <AppBar className="header" position="static">
+        {isPhone && (
+          <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
+            <LangSelector
+              changeLang={changeLang}
+              getCurrentLang={getCurrentLang}
+              langDict={langDict}
+              langSelectorAriaLabel={translateCommon(
+                'header.accessibility.langSelectorAriaLabel'
+              )}
+            />
+          </Toolbar>
+        )}
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
@@ -64,14 +78,16 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}
-            <LangSelector
-              changeLang={changeLang}
-              getCurrentLang={getCurrentLang}
-              langDict={langDict}
-              langSelectorAriaLabel={translateCommon(
-                'header.accessibility.langSelectorAriaLabel'
-              )}
-            />
+            {!isPhone && (
+              <LangSelector
+                changeLang={changeLang}
+                getCurrentLang={getCurrentLang}
+                langDict={langDict}
+                langSelectorAriaLabel={translateCommon(
+                  'header.accessibility.langSelectorAriaLabel'
+                )}
+              />
+            )}
           </div>
         </Toolbar>
       </AppBar>

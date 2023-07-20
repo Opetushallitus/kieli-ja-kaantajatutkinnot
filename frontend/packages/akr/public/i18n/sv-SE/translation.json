@@ -233,7 +233,7 @@
       "header": {
         "accessibility": {
           "continueToMain": "Fortsätt till innehållet",
-          "langSelectorAriaLabel": "Ändra språk i användargränssnittet"
+          "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "clerk": {
           "backToOph": "Tillbaka till Studieinfo",

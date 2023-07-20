@@ -1,20 +1,12 @@
 .header {
-  &_smt {
-    margin-right: 1rem;
-    position: absolute;
-    transform: translateX(-200%);
-    transition: transform 0.3s;
-
-    &:focus {
-      position: static;
-      transform: translateX(0);
-    }
-  }
-
   &__toolbar {
     display: flex;
     flex-wrap: wrap;
-    padding: 0;
+
+    div &__mobile-lang-select {
+      min-height: fit-content;
+      padding: 0;
+    }
   }
 
   & button {

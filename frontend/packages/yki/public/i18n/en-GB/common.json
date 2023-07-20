@@ -16,7 +16,7 @@
       },
       "header": {
         "accessibility": {
-          "langSelectorAriaLabel": "Change the language of the user interface"
+          "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "lang": {
           "en": "In English",

@@ -2,6 +2,7 @@ import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicNavTabs } from 'components/layouts/publicHeader/PublicNavTabs';
 import {
@@ -23,6 +24,7 @@ export const Header = (): JSX.Element => {
   ]);
 
   const logoRedirectURL = AppRoutes.Registration;
+  const { isPhone } = useWindowProperties();
 
   return (
     <>
@@ -31,6 +33,18 @@ export const Header = (): JSX.Element => {
         text={translateCommon('header.accessibility.continueToMain')}
       />
       <AppBar className="header" position="static">
+        {isPhone && (
+          <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
+            <LangSelector
+              changeLang={changeLang}
+              getCurrentLang={getCurrentLang}
+              langDict={langDict}
+              langSelectorAriaLabel={translateCommon(
+                'header.accessibility.langSelectorAriaLabel'
+              )}
+            />
+          </Toolbar>
+        )}
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
@@ -46,14 +60,16 @@ export const Header = (): JSX.Element => {
             <PublicNavTabs />
           </div>
           <div className="header__right">
-            <LangSelector
-              changeLang={changeLang}
-              getCurrentLang={getCurrentLang}
-              langDict={langDict}
-              langSelectorAriaLabel={translateCommon(
-                'header.accessibility.langSelectorAriaLabel'
-              )}
-            />
+            {!isPhone && (
+              <LangSelector
+                changeLang={changeLang}
+                getCurrentLang={getCurrentLang}
+                langDict={langDict}
+                langSelectorAriaLabel={translateCommon(
+                  'header.accessibility.langSelectorAriaLabel'
+                )}
+              />
+            )}
           </div>
         </Toolbar>
       </AppBar>

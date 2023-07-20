@@ -1,19 +1,11 @@
 class LangSelector {
   elements = {
-    langSelector: () => cy.findByTestId('lang-selector'),
-    option: (name: string) => {
-      const regExp = new RegExp(name, 'i');
-
-      return cy.findByRole('option', { name: regExp });
-    },
+    langSelector: () =>
+      cy.findByRole('navigation', { name: 'Kieli / Språk / Language' }),
   };
 
-  clickLangSelector() {
-    this.elements.langSelector().click();
-  }
-
-  selectLangOption(name: string) {
-    this.elements.option(name).click();
+  languageOption(label: string) {
+    return this.elements.langSelector().findByRole('button', { name: label });
   }
 }
 
