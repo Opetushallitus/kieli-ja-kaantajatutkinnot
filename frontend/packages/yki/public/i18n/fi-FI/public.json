@@ -22,6 +22,7 @@
           "errors": {
             "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
           },
+          "instructions": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
           "heading": "Osallistujan tiedot",
           "labels": {
             "birthdate": "Syntymäaika *",
@@ -38,7 +39,6 @@
         },
         "info": {
           "refundIfChangeInEvaluation": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
-          "requestSummaryByEmail": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "renderEvaluationDetails": {
