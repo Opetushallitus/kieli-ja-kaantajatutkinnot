@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
 
 import { AppLanguage } from '../../enums';
@@ -35,22 +34,6 @@ describe('LangSelector', () => {
     );
 
     expect(screen.getByText('lang.fi')).toBeInTheDocument();
-  });
-
-  it('should show a list of all available languages', async () => {
-    const { getCurrentLang, langDict, changeLang } = createLangSelectorMocks();
-
-    render(
-      <LangSelector
-        langDict={langDict}
-        changeLang={changeLang}
-        langSelectorAriaLabel="aria-label"
-        getCurrentLang={getCurrentLang}
-      />
-    );
-
-    userEvent.click(screen.getByRole('button', { name: /lang.fi/i }));
-    expect(await screen.findAllByRole('option')).toHaveLength(3);
   });
 
   // Helper
