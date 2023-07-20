@@ -5,7 +5,11 @@ import {
   LabeledTextField,
   Text,
 } from 'shared/components';
-import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
+import {
+  InputAutoComplete,
+  TextFieldTypes,
+  TextFieldVariant,
+} from 'shared/enums';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import {
@@ -51,6 +55,14 @@ export const SuomiFiRegistrationDetails = () => {
         })
       );
     };
+
+  const handlePhoneNumberBlur = () => {
+    dispatch(
+      updatePublicRegistration({
+        phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
+      })
+    );
+  };
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
@@ -101,11 +113,13 @@ export const SuomiFiRegistrationDetails = () => {
           {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
           value={registration.email || ''}
+          autoComplete={InputAutoComplete.Email}
         />
         <LabeledTextField
           {...getLabeledTextFieldAttributes('emailConfirmation')}
           type={TextFieldTypes.Email}
           value={registration.emailConfirmation || ''}
+          autoComplete={InputAutoComplete.Email}
           onPaste={(e) => {
             e.preventDefault();
 
@@ -118,6 +132,8 @@ export const SuomiFiRegistrationDetails = () => {
         {...getLabeledTextFieldAttributes('phoneNumber')}
         value={registration.phoneNumber || ''}
         type={TextFieldTypes.PhoneNumber}
+        autoComplete={InputAutoComplete.PhoneNumber}
+        onBlur={handlePhoneNumberBlur}
       />
       {!hasSuomiFiNationalityData && (
         <LabeledComboBox

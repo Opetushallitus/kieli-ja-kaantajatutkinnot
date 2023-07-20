@@ -87,6 +87,14 @@ export const EmailRegistrationDetails = () => {
       );
     };
 
+  const handlePhoneNumberBlur = () => {
+    dispatch(
+      updatePublicRegistration({
+        phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
+      })
+    );
+  };
+
   const getLabeledTextFieldAttributes = (
     fieldName: keyof Omit<PublicEmailRegistration, 'id'>
   ) => ({
@@ -191,6 +199,7 @@ export const EmailRegistrationDetails = () => {
             value={registration.phoneNumber}
             type={TextFieldTypes.PhoneNumber}
             autoComplete={InputAutoComplete.PhoneNumber}
+            onBlur={handlePhoneNumberBlur}
           />
         </div>
       </div>
