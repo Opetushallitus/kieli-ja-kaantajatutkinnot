@@ -335,16 +335,17 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "title": "Maksutapahtuma keskeytyi!",
+          "heading": "Maksutapahtuma keskeytyi!",
           "info": "Voit yrittää uudelleen."
         },
         "error": {
-          "title": "Tapahtui virhe!",
+          "heading": "Tapahtui virhe!",
           "info": "Voit yrittää uudelleen."
         },
         "success": {
-          "title": "Olet lähettänyt tarkistusarviointipyynnön!",
-          "info": "Olet lähettänyt tarkistusarviointipyynnön. Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
+          "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
+          "body1": "Olet lähettänyt tarkistusarviointipyynnön.",
+          "body2": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         }
       },
       "examDetailsPage": {

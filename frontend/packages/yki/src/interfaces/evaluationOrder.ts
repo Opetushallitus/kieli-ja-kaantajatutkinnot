@@ -1,3 +1,8 @@
+import { Dayjs } from 'dayjs';
+import { WithId } from 'shared/interfaces';
+
+import { ExamLanguage, ExamLevel } from 'enums/app';
+
 export interface ExaminationParts {
   readingComprehension: boolean;
   speechComprehension: boolean;
@@ -24,4 +29,16 @@ export interface EvaluationOrderRequest {
 
 export interface EvaluationOrderResponse {
   redirect: string;
+}
+
+export interface EvaluationOrderDetails extends WithId {
+  exam_date: Dayjs;
+  language_code: ExamLanguage;
+  level_code: ExamLevel;
+  subtests: Array<Subtest>;
+}
+
+export interface EvaluationOrderDetailsResponse
+  extends Omit<EvaluationOrderDetails, 'exam_date'> {
+  exam_date: string;
 }

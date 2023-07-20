@@ -1,8 +1,67 @@
-import { Box } from '@mui/material';
-import { H1, H2 } from 'shared/components';
+import { Box, Paper } from '@mui/material';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { H1, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
+import { DateUtils } from 'shared/utils';
 
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { EvaluationOrderDetails } from 'interfaces/evaluationOrder';
+import {
+  loadEvaluationOrderDetails,
+  resetEvaluationOrderState,
+} from 'redux/reducers/evaluationOrder';
+import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
+import { ExamUtils } from 'utils/exam';
+
+const EvaluationDetails = ({
+  evaluationDetails,
+}: {
+  evaluationDetails: EvaluationOrderDetails;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <div>
+      <Text>
+        {translateCommon('examination')}:{' '}
+        <b>{ExamUtils.languageAndLevelText(evaluationDetails)}</b>
+      </Text>
+      <Text>
+        {translateCommon('examDate')}:{' '}
+        <b>{DateUtils.formatOptionalDate(evaluationDetails.exam_date)}</b>
+      </Text>
+    </div>
+  );
+};
+
+const EvaluationOrderStatusContents = ({
+  heading,
+  contents,
+}: {
+  heading: string;
+  contents: JSX.Element;
+}) => {
+  const { evaluationOrderDetails } = useAppSelector(evaluationOrderSelector);
+
+  return (
+    <>
+      <H1>{heading}</H1>
+      <HeaderSeparator />
+      <Paper
+        elevation={3}
+        className="public-evaluation-order-status-page__paper rows gapped"
+      >
+        {evaluationOrderDetails && (
+          <EvaluationDetails evaluationDetails={evaluationOrderDetails} />
+        )}
+        {contents}
+      </Paper>
+    </>
+  );
+};
 
 const Success = () => {
   const { t } = usePublicTranslation({
@@ -10,10 +69,15 @@ const Success = () => {
   });
 
   return (
-    <>
-      <H1>{t('title')}</H1>
-      <H2>{t('info')}</H2>
-    </>
+    <EvaluationOrderStatusContents
+      heading={t('heading')}
+      contents={
+        <>
+          <Text>{t('body1')}</Text>
+          <Text>{t('body2')}</Text>
+        </>
+      }
+    />
   );
 };
 
@@ -23,10 +87,10 @@ const Cancel = () => {
   });
 
   return (
-    <>
-      <H1>{t('title')}</H1>
-      <H2>{t('info')}</H2>
-    </>
+    <EvaluationOrderStatusContents
+      heading={t('heading')}
+      contents={<Text>{t('info')}</Text>}
+    />
   );
 };
 
@@ -36,16 +100,44 @@ const Error = () => {
   });
 
   return (
-    <>
-      <H1>{t('title')}</H1>
-      <H2>{t('info')}</H2>
-    </>
+    <EvaluationOrderStatusContents
+      heading={t('heading')}
+      contents={<Text>{t('info')}</Text>}
+    />
   );
 };
 
 export const EvaluationOrderStatusPage = () => {
+  const [params] = useSearchParams();
+  const evaluationOrderId = params.get('id');
+  const { loadEvaluationOrderDetailsState } = useAppSelector(
+    evaluationOrderSelector
+  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (
+      loadEvaluationOrderDetailsState === APIResponseStatus.NotStarted &&
+      evaluationOrderId &&
+      !isNaN(+evaluationOrderId)
+    ) {
+      dispatch(loadEvaluationOrderDetails(+evaluationOrderId));
+    }
+  }, [dispatch, evaluationOrderId, loadEvaluationOrderDetailsState]);
+
+  // Cleanup
+  useEffect(() => {
+    const onUnmount = () => {
+      dispatch(resetEvaluationOrderState());
+    };
+
+    return onUnmount;
+  }, [dispatch]);
+
+  // TODO: Mobile styling
+
   return (
-    <Box>
+    <Box className="public-evaluation-order-status-page">
       <OrderStatus onSuccess={Success} onCancel={Cancel} onDefault={Error} />
     </Box>
   );
