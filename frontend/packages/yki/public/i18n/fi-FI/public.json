@@ -409,7 +409,8 @@
               "label": "Yleiset kielitutkinnot (YKI)",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
             },
-            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan. Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
+            "general": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan.",
+            "languages": "Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
           }
         },
         "filters": {
@@ -421,7 +422,11 @@
             "required": "Valinta on pakollinen"
           },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
-          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta."
+          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta.",
+          "selectExamDetails": {
+            "prompt": "Valitse tutkinto",
+            "required": "(pakollinen)"
+          }
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",

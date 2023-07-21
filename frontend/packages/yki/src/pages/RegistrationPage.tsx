@@ -58,23 +58,25 @@ export const RegistrationPage: FC = () => {
             {t('title')}
           </H1>
           <HeaderSeparator />
-          <div>
-            <Text>{t('description.part1.text')}</Text>
-            <div className="columns gapped-xxs">
-              <Link href={t('description.part1.link.url')} target="_blank">
-                <Text>{t('description.part1.link.label')}</Text>
-              </Link>
-              <OpenInNewIcon />
+          <div className="rows gapped">
+            <div>
+              <Text>{t('description.part1.text')}</Text>
+              <div className="columns gapped-xxs">
+                <Link href={t('description.part1.link.url')} target="_blank">
+                  <Text>{t('description.part1.link.label')}</Text>
+                </Link>
+                <OpenInNewIcon />
+              </div>
             </div>
-          </div>
-          <p />
-          <div>
-            <Text>{t('description.part2.text')}</Text>
-            <div className="columns gapped-xxs">
-              <Link href={t('description.part2.link.url')} target="_blank">
-                <Text>{t('description.part2.link.label')}</Text>
-              </Link>
-              <OpenInNewIcon />
+            <Text>{t('description.part2.general')}</Text>
+            <div>
+              <Text>{t('description.part2.languages')}</Text>
+              <div className="columns gapped-xxs">
+                <Link href={t('description.part2.link.url')} target="_blank">
+                  <Text>{t('description.part2.link.label')}</Text>
+                </Link>
+                <OpenInNewIcon />
+              </div>
             </div>
           </div>
         </Grid>
@@ -99,7 +101,10 @@ export const RegistrationPage: FC = () => {
           </Paper>
         </Grid>
         {showResults && (
-          <Grid item className="public-homepage__grid-container__result-box">
+          <Grid
+            item
+            className="public-registration-page__grid-container__result-box"
+          >
             <PublicExamSessionListing examSessions={results} />
           </Grid>
         )}

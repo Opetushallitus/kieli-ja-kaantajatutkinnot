@@ -13,6 +13,7 @@ import {
   ComboBox,
   CustomButton,
   LanguageSelect,
+  Text,
 } from 'shared/components';
 import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
@@ -113,6 +114,10 @@ export const PublicExamSessionFilters = ({
 
   return (
     <div className="public-exam-session-filters" ref={filtersGridRef}>
+      <Text>
+        <b>{t('filters.selectExamDetails.prompt')}</b>{' '}
+        {t('filters.selectExamDetails.required')}
+      </Text>
       <div className="public-exam-session-filters__dropdown-filters-box">
         <FormControl
           className="public-exam-session-filters__filter"
