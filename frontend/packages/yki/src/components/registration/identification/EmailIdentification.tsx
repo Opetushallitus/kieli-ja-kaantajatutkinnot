@@ -77,7 +77,9 @@ export const EmailIdentification = () => {
   return (
     <>
       <Text>
-        <Trans t={t} i18nKey={'withoutFinnishSSN'} />
+        <Trans t={t} i18nKey={'withoutFinnishSSN.description'} />
+        <br />
+        {t('withoutFinnishSSN.info')}
       </Text>
       <div className="columns gapped align-items-end">
         <LabeledTextField

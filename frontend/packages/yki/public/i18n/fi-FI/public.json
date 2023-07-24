@@ -264,10 +264,17 @@
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
             "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
+            "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
-            "withFinnishSSN": "Tunnistaudu Suomi.fi:n kautta. Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
-            "withoutFinnishSSN": "Jos et voi käyttää Suomi.fi-tunnistautumista, tunnistaudu sähköpostillasi. Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+            "withFinnishSSN": {
+              "description": "<strong>Tunnistaudu Suomi.fi:n kautta.</strong>",
+              "info": "Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle."
+            },
+            "withoutFinnishSSN": {
+              "description": "<strong>Jos et voi käyttää Suomi.fi-tunnistautumista</strong>, tunnistaudu sähköpostillasi.",
+              "info": "Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+            }
           },
           "payment": {
             "cancel": {

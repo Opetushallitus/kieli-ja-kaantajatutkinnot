@@ -11,7 +11,7 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 
 export const PublicIdentificationGrid = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration',
+    keyPrefix: 'yki.component.registration.steps.identify',
   });
 
   const { examSession } = useAppSelector(examSessionSelector);
@@ -27,7 +27,7 @@ export const PublicIdentificationGrid = () => {
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />
             <div className="rows">
-              <H1>{t('header')}</H1>
+              <H1>{t('title')}</H1>
               <HeaderSeparator />
             </div>
           </div>
@@ -38,7 +38,7 @@ export const PublicIdentificationGrid = () => {
                   examSession={examSession}
                   showOpenings={true}
                 />
-                <Text>{t('steps.identify.registrationIsBindingAdvisory')}</Text>
+                <Text>{t('registrationIsBindingAdvisory')}</Text>
                 <div className="gapped rows">
                   <SelectIdentificationMethod />
                   <PublicRegistrationControlButtons />
