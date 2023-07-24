@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { H1, HeaderSeparator, Text } from 'shared/components';
+import { useWindowProperties } from 'shared/hooks';
 
 import { SelectIdentificationMethod } from 'components/registration/identification/SelectIdentificationMethod';
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
@@ -13,6 +14,7 @@ export const PublicIdentificationGrid = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.steps.identify',
   });
+  const { isPhone } = useWindowProperties();
 
   const { examSession } = useAppSelector(examSessionSelector);
 
@@ -20,35 +22,20 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
-  const renderDesktopView = () => (
-    <>
-      <Grid className="public-registration" item>
-        <div className="public-registration__grid">
-          <div className="rows gapped-xxl">
-            <PublicRegistrationStepper />
-            <div className="rows">
-              <H1>{t('title')}</H1>
-              <HeaderSeparator />
-            </div>
-          </div>
-          <Paper elevation={3}>
-            <div className="public-registration__grid__form-container">
-              <div className="rows gapped">
-                <PublicRegistrationExamSessionDetails
-                  examSession={examSession}
-                  showOpenings={true}
-                />
-                <Text>{t('registrationIsBindingAdvisory')}</Text>
-                <div className="gapped rows">
-                  <SelectIdentificationMethod />
-                  <PublicRegistrationControlButtons />
-                </div>
-              </div>
-            </div>
-          </Paper>
+  const renderFormContents = () => (
+    <div className="public-registration__grid__form-container">
+      <div className="rows gapped">
+        <PublicRegistrationExamSessionDetails
+          examSession={examSession}
+          showOpenings={true}
+        />
+        <Text>{t('registrationIsBindingAdvisory')}</Text>
+        <div className="gapped rows">
+          <SelectIdentificationMethod />
+          <PublicRegistrationControlButtons />
         </div>
-      </Grid>
-    </>
+      </div>
+    </div>
   );
 
   return (
@@ -58,7 +45,22 @@ export const PublicIdentificationGrid = () => {
       direction="column"
       className="public-registration"
     >
-      {renderDesktopView()}
+      <Grid className="public-registration" item>
+        <div className="public-registration__grid">
+          <div className="rows gapped-xxl">
+            <PublicRegistrationStepper />
+            <div className="rows">
+              <H1>{t('title')}</H1>
+              <HeaderSeparator />
+            </div>
+          </div>
+          {isPhone ? (
+            renderFormContents()
+          ) : (
+            <Paper elevation={3}>{renderFormContents()}</Paper>
+          )}
+        </div>
+      </Grid>{' '}
     </Grid>
   );
 };

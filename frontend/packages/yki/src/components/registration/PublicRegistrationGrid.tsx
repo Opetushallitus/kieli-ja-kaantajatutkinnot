@@ -8,6 +8,7 @@ import {
   LoadingProgressIndicator,
 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
@@ -162,6 +163,8 @@ export const PublicRegistrationGrid = () => {
 
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
 
+  const { isPhone } = useWindowProperties();
+
   const renderDesktopView = () => (
     <>
       <Grid className="public-registration" item>
@@ -183,6 +186,25 @@ export const PublicRegistrationGrid = () => {
     </>
   );
 
+  const renderMobileView = () => (
+    <>
+      <Grid className="public-registration" item>
+        <div className="public-registration__grid">
+          <div className="rows gapped-xxl">
+            <PublicRegistrationStepper />
+            <div className="rows">
+              <H1>{stepHeading}</H1>
+              <HeaderSeparator />
+            </div>
+          </div>
+          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+            <PaperContents />
+          </LoadingProgressIndicator>
+        </div>
+      </Grid>
+    </>
+  );
+
   return (
     <Grid
       container
@@ -190,7 +212,7 @@ export const PublicRegistrationGrid = () => {
       direction="column"
       className="public-registration"
     >
-      {renderDesktopView()}
+      {isPhone ? renderMobileView() : renderDesktopView()}
     </Grid>
   );
 };

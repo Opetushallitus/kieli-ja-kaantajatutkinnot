@@ -1,5 +1,9 @@
 .public-registration {
   & &__grid {
+    @include phone {
+      padding: 2rem;
+    }
+
     &__form-container {
       padding: 3rem 3rem 5rem;
 

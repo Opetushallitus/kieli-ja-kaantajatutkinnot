@@ -19,7 +19,7 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -346,6 +346,7 @@ const ActionButtons = () => {
 
   const navigate = useNavigate();
   const handleSubmitAction = useHandleSubmitAction();
+  const { isPhone } = useWindowProperties();
 
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
@@ -353,6 +354,7 @@ const ActionButtons = () => {
         variant={Variant.Contained}
         color={Color.Secondary}
         onClick={handleSubmitAction}
+        fullWidth={isPhone}
       >
         {t('pay')}
       </CustomButton>
@@ -360,6 +362,7 @@ const ActionButtons = () => {
         variant={Variant.Text}
         color={Color.Secondary}
         onClick={() => navigate(AppRoutes.Reassessment)}
+        fullWidth={isPhone}
       >
         {t('cancel')}
       </CustomButton>

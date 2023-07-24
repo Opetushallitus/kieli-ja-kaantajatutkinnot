@@ -1,4 +1,7 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
+import { CircularStepper, H2, Text } from 'shared/components';
+import { Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
@@ -10,6 +13,7 @@ export const PublicRegistrationStepper = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
+  const { isPhone } = useWindowProperties();
 
   const doneStepNumber = PublicRegistrationFormStep.Payment;
 
@@ -38,25 +42,55 @@ export const PublicRegistrationStepper = () => {
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  return (
-    <Stepper
-      className="public-registration__grid__stepper"
-      activeStep={activeStep - 1}
-    >
-      {stepNumbers.map((i) => (
-        <Step key={i}>
-          <StepLabel
-            aria-label={getStepAriaLabel(i)}
-            className={
-              activeStep < i
-                ? 'public-registration__grid__stepper__step-disabled'
-                : undefined
-            }
-          >
-            {getDescription(i)}
-          </StepLabel>
-        </Step>
-      ))}
-    </Stepper>
-  );
+  const stepValue = Math.min(activeStep, doneStepNumber);
+
+  const mobileStepValue = stepValue * (100 / doneStepNumber);
+  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
+  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
+    activeStep
+  )}`;
+
+  if (isPhone) {
+    return (
+      <div className="columns gapped-xxl">
+        <CircularStepper
+          value={mobileStepValue}
+          ariaLabel={mobileAriaLabel}
+          phaseText={mobilePhaseText}
+          color={
+            activeStep === PublicRegistrationFormStep.Payment
+              ? Color.Error
+              : Color.Secondary
+          }
+          size={90}
+        />
+        <div className="rows">
+          <H2>Tunnistaudu</H2>
+          <Text>Seuraava: ilmoittaudu</Text>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <Stepper
+        className="public-registration__grid__stepper"
+        activeStep={activeStep - 1}
+      >
+        {stepNumbers.map((i) => (
+          <Step key={i}>
+            <StepLabel
+              aria-label={getStepAriaLabel(i)}
+              className={
+                activeStep < i
+                  ? 'public-registration__grid__stepper__step-disabled'
+                  : undefined
+              }
+            >
+              {getDescription(i)}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    );
+  }
 };

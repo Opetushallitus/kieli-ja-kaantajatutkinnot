@@ -26,6 +26,7 @@ const RegisterToExamButton = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
+  const { isPhone } = useWindowProperties();
 
   const { participants, quota, open, kind } =
     ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
@@ -35,7 +36,6 @@ const RegisterToExamButton = ({
 
   return (
     <CustomButtonLink
-      className="public-exam-session-listing__register-to-exam-button"
       color={Color.Secondary}
       variant={Variant.Outlined}
       onClick={() => {
@@ -43,6 +43,7 @@ const RegisterToExamButton = ({
         dispatch(resetPublicRegistration());
       }}
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
+      fullWidth={isPhone}
     >
       {placesAvailable
         ? t('register')
