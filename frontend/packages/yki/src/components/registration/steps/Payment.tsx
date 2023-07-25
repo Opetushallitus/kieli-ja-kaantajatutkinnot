@@ -20,26 +20,24 @@ const PaymentSuccess = () => {
         <br />
         {t('part3')}
       </Text>
-      <Text>
-        {t('beforeYkiTest.description')}
-        <br />
+      <div>
+        <Text>{t('beforeYkiTest.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('beforeYkiTest.url')} target="_blank">
-            {t('beforeYkiTest.label')}
+            <Text className="bold">{t('beforeYkiTest.label')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
-      </Text>
-      <Text>
-        {t('specialArrangements.description')}
-        <br />
+      </div>
+      <div>
+        <Text>{t('specialArrangements.description')}</Text>
         <div className="columns gapped-xxs">
           <Link href={t('specialArrangements.url')} target="_blank">
-            {t('specialArrangements.label')}
+            <Text className="bold">{t('specialArrangements.label')}</Text>
           </Link>
           <OpenInNewIcon />
         </div>
-      </Text>
+      </div>
     </>
   );
 };
