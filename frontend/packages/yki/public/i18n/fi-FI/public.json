@@ -241,8 +241,9 @@
           "completed": "Suoritettu",
           "phase": "Vaihe",
           "step": {
+            "Done": "Valmis",
             "Identify": "Tunnistaudu",
-            "Payment": "Maksu",
+            "Payment": "Maksaminen",
             "Register": "Ilmoittaudu"
           }
         },

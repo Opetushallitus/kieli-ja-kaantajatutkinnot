@@ -49,7 +49,7 @@ export const PublicIdentificationGrid = () => {
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />
-            <div className="rows">
+            <div className="rows public-registration__grid__heading">
               <H1>{t('title')}</H1>
               <HeaderSeparator />
             </div>
