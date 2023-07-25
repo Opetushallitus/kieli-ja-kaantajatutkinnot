@@ -37,6 +37,13 @@
         }
       }
 
+      &__terms-and-conditions {
+        @include phone-divider-border-top;
+        @include phone {
+          padding-top: 3rem;
+        }
+      }
+
       .registration-details {
         max-width: 720px;
 

@@ -115,7 +115,7 @@ const ShowPaymentStatus = () => {
   }
 };
 
-const PaperContents = () => {
+const StepContentSelector = () => {
   const { activeStep } = useAppSelector(registrationSelector);
 
   switch (activeStep) {
@@ -178,7 +178,7 @@ export const PublicRegistrationGrid = () => {
           </div>
           <Paper elevation={3}>
             <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-              <PaperContents />
+              <StepContentSelector />
             </LoadingProgressIndicator>
           </Paper>
         </div>
@@ -192,13 +192,13 @@ export const PublicRegistrationGrid = () => {
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
             <PublicRegistrationStepper />
-            <div className="rows">
+            <div className="rows public-registration__grid__heading">
               <H1>{stepHeading}</H1>
               <HeaderSeparator />
             </div>
           </div>
           <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            <PaperContents />
+            <StepContentSelector />
           </LoadingProgressIndicator>
         </div>
       </Grid>
