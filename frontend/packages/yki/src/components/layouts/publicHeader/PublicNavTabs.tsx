@@ -9,12 +9,14 @@ const getTabForPath = (path: string) => {
   if (
     path === AppRoutes.Registration ||
     matchPath(AppRoutes.ExamSession, path) ||
-    matchPath(AppRoutes.ExamSessionRegistration, path)
+    matchPath(AppRoutes.ExamSessionRegistration, path) ||
+    matchPath(AppRoutes.RegistrationPaymentStatus, path)
   ) {
     return HeaderTabNav.Registration;
   } else if (
     path === AppRoutes.Reassessment ||
-    matchPath(AppRoutes.ReassessmentOrder, path)
+    matchPath(AppRoutes.ReassessmentOrder, path) ||
+    matchPath(AppRoutes.ReassessmentOrderStatus, path)
   ) {
     return HeaderTabNav.Reassessment;
   } else {
