@@ -1,5 +1,11 @@
 .public-registration {
   & &__grid {
+    &__no-stepper {
+      @include phone {
+        padding-top: 3rem;
+      }
+    }
+
     &__circular-stepper-container {
       @include phone-divider-border-bottom;
       padding: 2rem;
@@ -13,7 +19,7 @@
 
     &__form-container {
       @include phone {
-        padding: 0 2rem;
+        padding: 0 2rem 2rem;
       }
 
       @include not-phone {
