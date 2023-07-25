@@ -1,6 +1,13 @@
 .public-evaluation-order-status-page {
   width: 100%;
 
+  &__heading {
+    @include phone {
+      padding-left: 2rem;
+      padding-top: 3rem;
+    }
+  }
+
   &__paper {
     padding: 2rem;
   }

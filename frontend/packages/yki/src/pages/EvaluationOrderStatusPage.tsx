@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
@@ -45,13 +46,16 @@ const EvaluationOrderStatusContents = ({
   contents: JSX.Element;
 }) => {
   const { evaluationOrderDetails } = useAppSelector(evaluationOrderSelector);
+  const { isPhone } = useWindowProperties();
 
   return (
     <>
-      <H1>{heading}</H1>
-      <HeaderSeparator />
+      <div className="public-evaluation-order-status-page__heading">
+        <H1>{heading}</H1>
+        <HeaderSeparator />
+      </div>
       <Paper
-        elevation={3}
+        elevation={isPhone ? 0 : 3}
         className="public-evaluation-order-status-page__paper rows gapped"
       >
         {evaluationOrderDetails && (
