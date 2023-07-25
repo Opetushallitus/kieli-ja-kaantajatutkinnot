@@ -121,7 +121,7 @@ const StepContentSelector = () => {
   switch (activeStep) {
     case PublicRegistrationFormStep.Register:
       return <RegistrationForm />;
-    case PublicRegistrationFormStep.Payment:
+    case PublicRegistrationFormStep.Done:
       return <ShowPaymentStatus />;
     default:
       return null;

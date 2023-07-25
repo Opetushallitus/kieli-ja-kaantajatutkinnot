@@ -1,10 +1,12 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
 import { CircularStepper, H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
@@ -15,6 +17,13 @@ export const PublicRegistrationStepper = () => {
   });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
+
+  const [params] = useSearchParams();
+  const paymentStatus = params.get('status');
+
+  const isError =
+    activeStep === PublicRegistrationFormStep.Done &&
+    paymentStatus !== PaymentStatus.Success;
 
   const doneStepNumber = PublicRegistrationFormStep.Done;
 
@@ -32,7 +41,21 @@ export const PublicRegistrationStepper = () => {
   };
 
   const getDescription = (stepNumber: number) => {
-    return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    if (isError) {
+      return t('paymentAborted');
+    } else {
+      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    }
+  };
+
+  const getNextInformation = (stepNumber: number) => {
+    if (stepNumber < doneStepNumber) {
+      return `${translateCommon('next')}: ${getDescription(activeStep + 1)}`;
+    } else if (isError) {
+      return '';
+    } else {
+      return t('welcomeToExam');
+    }
   };
 
   const getStepAriaLabel = (stepNumber: number) => {
@@ -50,7 +73,6 @@ export const PublicRegistrationStepper = () => {
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
     activeStep
   )}`;
-  // TODO Milloin virhevärit CircularStepperille?
 
   if (isPhone) {
     return (
@@ -59,20 +81,12 @@ export const PublicRegistrationStepper = () => {
           value={mobileStepValue}
           ariaLabel={mobileAriaLabel}
           phaseText={mobilePhaseText}
-          color={
-            activeStep === PublicRegistrationFormStep.Payment
-              ? Color.Error
-              : Color.Secondary
-          }
+          color={isError ? Color.Error : Color.Secondary}
           size={90}
         />
         <div className="rows">
           <H2>{getDescription(activeStep)}</H2>
-          {activeStep < doneStepNumber && (
-            <Text>
-              {translateCommon('next')}: {getDescription(activeStep + 1)}
-            </Text>
-          )}
+          <Text>{getNextInformation(activeStep)}</Text>
         </div>
       </div>
     );

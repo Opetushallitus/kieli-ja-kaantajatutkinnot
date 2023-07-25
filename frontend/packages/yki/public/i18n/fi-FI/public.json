@@ -239,13 +239,15 @@
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
+          "paymentAborted": "Maksu keskeytyi",
           "phase": "Vaihe",
           "step": {
             "Done": "Valmis",
             "Identify": "Tunnistaudu",
             "Payment": "Maksaminen",
             "Register": "Ilmoittaudu"
-          }
+          },
+          "welcomeToExam": "Tervetuloa tutkintoon!"
         },
         "steps": {
           "identify": {
