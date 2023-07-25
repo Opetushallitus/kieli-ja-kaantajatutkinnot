@@ -16,6 +16,7 @@ import {
   TextFieldTypes,
   TextFieldVariant,
 } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import {
@@ -45,6 +46,7 @@ export const EmailRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
 
   const dispatch = useAppDispatch();
   const registration: Partial<PublicEmailRegistration> =
@@ -122,13 +124,13 @@ export const EmailRegistrationDetails = () => {
         <div className="grid-columns gapped">
           <LabeledTextField
             {...getLabeledTextFieldAttributes('firstNames')}
-            value={registration.firstNames}
+            value={registration.firstNames || ''}
             type={TextFieldTypes.Text}
             autoComplete={InputAutoComplete.FirstName}
           />
           <LabeledTextField
             {...getLabeledTextFieldAttributes('lastName')}
-            value={registration.lastName}
+            value={registration.lastName || ''}
             type={TextFieldTypes.Text}
             autoComplete={InputAutoComplete.LastName}
           />
@@ -196,7 +198,7 @@ export const EmailRegistrationDetails = () => {
           <LabeledTextField
             {...getLabeledTextFieldAttributes('phoneNumber')}
             className="half-width-on-desktop"
-            value={registration.phoneNumber}
+            value={registration.phoneNumber || ''}
             type={TextFieldTypes.PhoneNumber}
             autoComplete={InputAutoComplete.PhoneNumber}
             onBlur={handlePhoneNumberBlur}
@@ -209,7 +211,7 @@ export const EmailRegistrationDetails = () => {
         </Text>
         <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
           <RadioGroup
-            row
+            row={!isPhone}
             onChange={(e) => {
               dispatch(
                 updatePublicRegistration({
@@ -240,7 +242,7 @@ export const EmailRegistrationDetails = () => {
               sx={{ width: 'calc(360px - 1rem)' }}
               {...getLabeledTextFieldAttributes('ssn')}
               placeholder={undefined}
-              value={registration.ssn}
+              value={registration.ssn || ''}
               type={TextFieldTypes.PersonalIdentityCode}
             />
           )}
@@ -249,7 +251,7 @@ export const EmailRegistrationDetails = () => {
               sx={{ width: 'calc(360px - 1rem)' }}
               {...getLabeledTextFieldAttributes('dateOfBirth')}
               placeholder={undefined}
-              value={registration.dateOfBirth}
+              value={registration.dateOfBirth || ''}
               type={TextFieldTypes.Text}
             />
           )}
