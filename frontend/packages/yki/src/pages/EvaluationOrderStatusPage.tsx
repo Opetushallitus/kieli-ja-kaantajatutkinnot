@@ -138,8 +138,6 @@ export const EvaluationOrderStatusPage = () => {
     return onUnmount;
   }, [dispatch]);
 
-  // TODO: Mobile styling
-
   return (
     <Box className="public-evaluation-order-status-page">
       <OrderStatus onSuccess={Success} onCancel={Cancel} onDefault={Error} />

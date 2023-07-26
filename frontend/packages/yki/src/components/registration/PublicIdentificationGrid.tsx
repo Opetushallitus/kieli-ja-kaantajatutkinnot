@@ -22,22 +22,6 @@ export const PublicIdentificationGrid = () => {
     return null;
   }
 
-  const renderFormContents = () => (
-    <div className="public-registration__grid__form-container">
-      <div className="rows gapped">
-        <PublicRegistrationExamSessionDetails
-          examSession={examSession}
-          showOpenings={true}
-        />
-        <Text>{t('registrationIsBindingAdvisory')}</Text>
-        <div className="gapped rows">
-          <SelectIdentificationMethod />
-          <PublicRegistrationControlButtons />
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <Grid
       container
@@ -54,11 +38,21 @@ export const PublicIdentificationGrid = () => {
               <HeaderSeparator />
             </div>
           </div>
-          {isPhone ? (
-            renderFormContents()
-          ) : (
-            <Paper elevation={3}>{renderFormContents()}</Paper>
-          )}
+          <Paper elevation={isPhone ? 0 : 3}>
+            <div className="public-registration__grid__form-container">
+              <div className="rows gapped">
+                <PublicRegistrationExamSessionDetails
+                  examSession={examSession}
+                  showOpenings={true}
+                />
+                <Text>{t('registrationIsBindingAdvisory')}</Text>
+                <div className="gapped rows">
+                  <SelectIdentificationMethod />
+                  <PublicRegistrationControlButtons />
+                </div>
+              </div>
+            </div>
+          </Paper>
         </div>
       </Grid>{' '}
     </Grid>

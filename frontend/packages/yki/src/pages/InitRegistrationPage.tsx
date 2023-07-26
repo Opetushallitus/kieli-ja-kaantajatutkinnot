@@ -77,22 +77,6 @@ const RegistrationNotAvailable = () => {
   const queueAvailable =
     open && kind === RegistrationKind.Admission && !examSession.queue_full;
 
-  const getContents = () => (
-    <div className="public-registration__grid__form-container">
-      <div className="rows gapped">
-        <PublicRegistrationExamSessionDetails
-          examSession={examSession}
-          showOpenings={true}
-        />
-        {queueAvailable ? (
-          <EnrollToQueue />
-        ) : (
-          <DescribeUnavailability now={now} open={open} start={start} />
-        )}
-      </div>
-    </div>
-  );
-
   return (
     <Grid className="public-registration" item>
       <div className="public-registration__grid">
@@ -100,7 +84,21 @@ const RegistrationNotAvailable = () => {
           <H1>{queueAvailable ? t('enrollToQueue.header') : t('header')}</H1>
           <HeaderSeparator />
         </div>
-        {isPhone ? getContents() : <Paper elevation={3}>{getContents()}</Paper>}
+        <Paper elevation={isPhone ? 0 : 3}>
+          <div className="public-registration__grid__form-container">
+            <div className="rows gapped">
+              <PublicRegistrationExamSessionDetails
+                examSession={examSession}
+                showOpenings={true}
+              />
+              {queueAvailable ? (
+                <EnrollToQueue />
+              ) : (
+                <DescribeUnavailability now={now} open={open} start={start} />
+              )}
+            </div>
+          </div>
+        </Paper>
       </div>
     </Grid>
   );

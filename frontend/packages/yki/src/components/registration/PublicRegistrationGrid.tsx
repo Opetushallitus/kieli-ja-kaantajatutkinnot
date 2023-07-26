@@ -165,29 +165,13 @@ export const PublicRegistrationGrid = () => {
 
   const { isPhone } = useWindowProperties();
 
-  const renderDesktopView = () => (
-    <>
-      <Grid className="public-registration" item>
-        <div className="public-registration__grid">
-          <div className="rows gapped-xxl">
-            <PublicRegistrationStepper />
-            <div className="rows">
-              <H1>{stepHeading}</H1>
-              <HeaderSeparator />
-            </div>
-          </div>
-          <Paper elevation={3}>
-            <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-              <StepContentSelector />
-            </LoadingProgressIndicator>
-          </Paper>
-        </div>
-      </Grid>
-    </>
-  );
-
-  const renderMobileView = () => (
-    <>
+  return (
+    <Grid
+      container
+      rowSpacing={4}
+      direction="column"
+      className="public-registration"
+    >
       <Grid className="public-registration" item>
         <div className="public-registration__grid">
           <div className="rows gapped-xxl">
@@ -197,22 +181,13 @@ export const PublicRegistrationGrid = () => {
               <HeaderSeparator />
             </div>
           </div>
-          <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-            <StepContentSelector />
-          </LoadingProgressIndicator>
+          <Paper elevation={isPhone ? 0 : 3}>
+            <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+              <StepContentSelector />
+            </LoadingProgressIndicator>
+          </Paper>
         </div>
       </Grid>
-    </>
-  );
-
-  return (
-    <Grid
-      container
-      rowSpacing={4}
-      direction="column"
-      className="public-registration"
-    >
-      {isPhone ? renderMobileView() : renderDesktopView()}
     </Grid>
   );
 };
