@@ -2,6 +2,7 @@ export enum PublicRegistrationFormStep {
   Identify = 1,
   Register,
   Payment,
+  Done,
 }
 
 export enum PublicRegistrationInitError {

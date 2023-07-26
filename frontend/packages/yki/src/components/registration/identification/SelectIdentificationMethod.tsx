@@ -41,7 +41,7 @@ export const SelectIdentificationMethod = () => {
   } else {
     return (
       <>
-        <H2>{t('title')}</H2>
+        <H2>{t('selectIdentificationMethod')}</H2>
         <Text>{t('caption')}</Text>
         <SuomiFiIdentification />
         <EmailIdentification />

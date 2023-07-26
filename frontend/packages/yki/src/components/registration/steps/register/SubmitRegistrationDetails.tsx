@@ -42,8 +42,12 @@ const FillRegistrationDetails = () => {
       <H2>{t('title')}</H2>
       <Text>
         {t('description1')}
-        <br />
-        {t('description2')}
+        {isEmailRegistration && (
+          <>
+            <br />
+            {t('description2')}
+          </>
+        )}
       </Text>
       <Text>{t('requiredFields')}</Text>
       {isEmailRegistration ? (

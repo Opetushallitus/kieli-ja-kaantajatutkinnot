@@ -34,8 +34,15 @@
     &__participant-details-grid {
       display: grid;
       gap: 2rem;
-      grid-template-columns: 1fr 1fr;
-      max-width: max(700px, 50%);
+
+      @include not-phone {
+        grid-template-columns: 1fr 1fr;
+        max-width: max(700px, 50%);
+      }
+
+      @include phone {
+        grid-template-columns: 1fr;
+      }
     }
 
     &__action-buttons {

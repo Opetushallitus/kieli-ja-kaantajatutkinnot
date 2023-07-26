@@ -10,13 +10,7 @@ import {
 } from '@mui/material';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  CustomButton,
-  H2,
-  H3,
-  LabeledTextField,
-  Text,
-} from 'shared/components';
+import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
   Color,
@@ -25,7 +19,7 @@ import {
   TextFieldVariant,
   Variant,
 } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -56,8 +50,7 @@ const RenderEvaluationDetails = () => {
 
   return (
     <>
-      <H2>{t('heading')}</H2>
-      <H3>{t('info')}</H3>
+      <Text>{t('info')}</Text>
       <Text>
         {translateCommon('examination')}:{' '}
         <b>{ExamUtils.languageAndLevelText(evaluationPeriod)}</b>
@@ -181,7 +174,7 @@ const ParticipantDetailsTextField = ({
       id={'public-evaluation-order-form__field__' + field}
       label={t('labels.' + field)}
       placeholder={t('placeholders.' + field)}
-      value={value}
+      value={value || ''}
       onChange={(event) =>
         dispatch(setParticipantDetails({ [field]: event.target.value }))
       }
@@ -199,6 +192,7 @@ const FillParticipantDetails = () => {
   return (
     <>
       <H2>{t('heading')}</H2>
+      <Text>{t('instructions')}</Text>
       <div className="public-evaluation-order-page__order-form__participant-details-grid">
         <ParticipantDetailsTextField field="firstNames" />
         <ParticipantDetailsTextField field="lastName" />
@@ -352,6 +346,7 @@ const ActionButtons = () => {
 
   const navigate = useNavigate();
   const handleSubmitAction = useHandleSubmitAction();
+  const { isPhone } = useWindowProperties();
 
   return (
     <div className="public-evaluation-order-page__order-form__action-buttons gapped-xs">
@@ -359,6 +354,7 @@ const ActionButtons = () => {
         variant={Variant.Contained}
         color={Color.Secondary}
         onClick={handleSubmitAction}
+        fullWidth={isPhone}
       >
         {t('pay')}
       </CustomButton>
@@ -366,6 +362,7 @@ const ActionButtons = () => {
         variant={Variant.Text}
         color={Color.Secondary}
         onClick={() => navigate(AppRoutes.Reassessment)}
+        fullWidth={isPhone}
       >
         {t('cancel')}
       </CustomButton>
@@ -383,11 +380,7 @@ export const PublicEvaluationOrderForm = () => {
       <RenderEvaluationDetails />
       <Text>{t('info.requiredFields')}</Text>
       <SelectExaminationParts />
-      <Text>
-        {t('info.refundIfChangeInEvaluation')}
-        <br />
-        {t('info.requestSummaryByEmail')}
-      </Text>
+      <Text>{t('info.refundIfChangeInEvaluation')}</Text>
       <FillParticipantDetails />
       <AcceptConditions />
       <ActionButtons />

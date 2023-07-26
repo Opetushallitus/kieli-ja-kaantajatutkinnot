@@ -11,7 +11,7 @@ export const PublicRegistrationStepContents = () => {
       return <></>;
     case PublicRegistrationFormStep.Register:
       return <SubmitRegistrationDetails />;
-    case PublicRegistrationFormStep.Payment:
+    case PublicRegistrationFormStep.Done:
       return <Payment />;
     default:
       return <> </>;

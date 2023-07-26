@@ -8,6 +8,7 @@ import {
   LoadingProgressIndicator,
 } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
@@ -114,13 +115,13 @@ const ShowPaymentStatus = () => {
   }
 };
 
-const PaperContents = () => {
+const StepContentSelector = () => {
   const { activeStep } = useAppSelector(registrationSelector);
 
   switch (activeStep) {
     case PublicRegistrationFormStep.Register:
       return <RegistrationForm />;
-    case PublicRegistrationFormStep.Payment:
+    case PublicRegistrationFormStep.Done:
       return <ShowPaymentStatus />;
     default:
       return null;
@@ -162,26 +163,7 @@ export const PublicRegistrationGrid = () => {
 
   const isLoading = examSessionStatus === APIResponseStatus.InProgress;
 
-  const renderDesktopView = () => (
-    <>
-      <Grid className="public-registration" item>
-        <div className="public-registration__grid">
-          <div className="rows gapped-xxl">
-            <PublicRegistrationStepper />
-            <div className="rows">
-              <H1>{stepHeading}</H1>
-              <HeaderSeparator />
-            </div>
-          </div>
-          <Paper elevation={3}>
-            <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
-              <PaperContents />
-            </LoadingProgressIndicator>
-          </Paper>
-        </div>
-      </Grid>
-    </>
-  );
+  const { isPhone } = useWindowProperties();
 
   return (
     <Grid
@@ -190,7 +172,22 @@ export const PublicRegistrationGrid = () => {
       direction="column"
       className="public-registration"
     >
-      {renderDesktopView()}
+      <Grid className="public-registration" item>
+        <div className="public-registration__grid">
+          <div className="rows gapped-xxl">
+            <PublicRegistrationStepper />
+            <div className="rows public-registration__grid__heading">
+              <H1>{stepHeading}</H1>
+              <HeaderSeparator />
+            </div>
+          </div>
+          <Paper elevation={isPhone ? 0 : 3}>
+            <LoadingProgressIndicator isLoading={isLoading} displayBlock={true}>
+              <StepContentSelector />
+            </LoadingProgressIndicator>
+          </Paper>
+        </div>
+      </Grid>
     </Grid>
   );
 };

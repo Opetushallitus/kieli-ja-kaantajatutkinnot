@@ -10,6 +10,7 @@ import {
 import { ChangeEvent, useEffect } from 'react';
 import { H2, Text } from 'shared/components';
 import { Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -40,6 +41,7 @@ export const CommonRegistrationDetails = () => {
     keyPrefix: 'yki.component.registration.registrationDetails',
   });
   const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
 
   const { registration, showErrors } = useAppSelector(registrationSelector);
   const { language_code, level_code } = useAppSelector(examSessionSelector)
@@ -85,7 +87,10 @@ export const CommonRegistrationDetails = () => {
           <b>{t('certificateLanguage')}</b>
         </Text>
         <FormControl error={!!registrationErrors['certificateLanguage']}>
-          <RadioGroup row onChange={handleChange('certificateLanguage')}>
+          <RadioGroup
+            row={!isPhone}
+            onChange={handleChange('certificateLanguage')}
+          >
             <FormControlLabel
               className="radio-group-label"
               value={CertificateLanguage.FI}
@@ -116,7 +121,10 @@ export const CommonRegistrationDetails = () => {
             <b>{t('instructionLanguage')}</b>
           </Text>
           <FormControl error={!!registrationErrors['instructionLanguage']}>
-            <RadioGroup row onChange={handleChange('instructionLanguage')}>
+            <RadioGroup
+              row={!isPhone}
+              onChange={handleChange('instructionLanguage')}
+            >
               <FormControlLabel
                 className="radio-group-label"
                 value={InstructionLanguage.FI}
@@ -135,26 +143,27 @@ export const CommonRegistrationDetails = () => {
           </FormControl>
         </div>
       )}
-      <H2>{t('termsAndConditions.title')}</H2>
-      <Text>
-        <b>{t('termsAndConditions.description1')}</b>
-        <br />
-        <b>{t('termsAndConditions.description2')}</b>
-      </Text>
-      <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              onClick={() => handleCheckboxClick('termsAndConditionsAgreed')}
-              color={Color.Secondary}
-              checked={registration.termsAndConditionsAgreed}
-            />
-          }
-          label={t('termsAndConditions.label')}
-          className="public-registration__grid__preview__privacy-statement-checkbox-label"
-          sx={ErrorLabelStyles}
-        />
-      </FormControl>
+      <div className="public-registration__grid__form-container__terms-and-conditions">
+        <H2>{t('termsAndConditions.title')}</H2>
+        <Text>
+          <b>{t('termsAndConditions.description1')}</b>
+          <br />
+          <b>{t('termsAndConditions.description2')}</b>
+        </Text>
+        <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onClick={() => handleCheckboxClick('termsAndConditionsAgreed')}
+                color={Color.Secondary}
+                checked={registration.termsAndConditionsAgreed}
+              />
+            }
+            label={t('termsAndConditions.label')}
+            sx={ErrorLabelStyles}
+          />
+        </FormControl>
+      </div>
       <H2>{translateCommon('privacyStatement.title')}</H2>
       <div>
         <Text>
@@ -184,7 +193,6 @@ export const CommonRegistrationDetails = () => {
             />
           }
           label={translateCommon('privacyStatement.grantApproval')}
-          className="public-registration__grid__preview__privacy-statement-checkbox-label"
           sx={ErrorLabelStyles}
         />
       </FormControl>

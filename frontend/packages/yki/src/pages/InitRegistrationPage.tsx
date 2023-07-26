@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { APIResponseStatus, Severity } from 'shared/enums';
-import { useToast } from 'shared/hooks';
+import { useToast, useWindowProperties } from 'shared/hooks';
 
 import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicIdentificationGrid } from 'components/registration/PublicIdentificationGrid';
@@ -69,6 +69,7 @@ const RegistrationNotAvailable = () => {
   });
   const examSession = useAppSelector(examSessionSelector)
     .examSession as ExamSession;
+  const { isPhone } = useWindowProperties();
 
   const { kind, open, start } =
     ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
@@ -79,11 +80,11 @@ const RegistrationNotAvailable = () => {
   return (
     <Grid className="public-registration" item>
       <div className="public-registration__grid">
-        <div className="rows">
+        <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
           <H1>{queueAvailable ? t('enrollToQueue.header') : t('header')}</H1>
           <HeaderSeparator />
         </div>
-        <Paper elevation={3}>
+        <Paper elevation={isPhone ? 0 : 3}>
           <div className="public-registration__grid__form-container">
             <div className="rows gapped">
               <PublicRegistrationExamSessionDetails

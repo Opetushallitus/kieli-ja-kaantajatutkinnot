@@ -31,7 +31,7 @@ export const RegistrationPaymentStatusPage = () => {
   const isLoading = status === APIResponseStatus.InProgress;
 
   useEffect(() => {
-    dispatch(setActiveStep(PublicRegistrationFormStep.Payment));
+    dispatch(setActiveStep(PublicRegistrationFormStep.Done));
   }, [dispatch]);
 
   useEffect(() => {

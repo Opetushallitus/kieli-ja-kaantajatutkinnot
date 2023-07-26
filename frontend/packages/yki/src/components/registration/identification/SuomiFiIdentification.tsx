@@ -19,7 +19,9 @@ export const SuomiFiIdentification = () => {
   return (
     <>
       <Text>
-        <Trans t={t} i18nKey={'withFinnishSSN'} />
+        <Trans t={t} i18nKey={'withFinnishSSN.description'} />
+        <br />
+        {t('withFinnishSSN.info')}
       </Text>
       <CustomButton
         className="public-registration__grid__form-container__registration-button"

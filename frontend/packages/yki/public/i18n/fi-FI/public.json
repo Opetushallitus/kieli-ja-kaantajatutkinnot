@@ -22,6 +22,7 @@
           "errors": {
             "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
           },
+          "instructions": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
           "heading": "Osallistujan tiedot",
           "labels": {
             "birthdate": "Syntymäaika *",
@@ -38,7 +39,6 @@
         },
         "info": {
           "refundIfChangeInEvaluation": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
-          "requestSummaryByEmail": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "renderEvaluationDetails": {
@@ -239,12 +239,15 @@
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
+          "paymentAborted": "Maksu keskeytyi",
           "phase": "Vaihe",
           "step": {
+            "Done": "Valmis",
             "Identify": "Tunnistaudu",
-            "Payment": "Maksu",
+            "Payment": "Maksaminen",
             "Register": "Ilmoittaudu"
-          }
+          },
+          "welcomeToExam": "Tervetuloa tutkintoon!"
         },
         "steps": {
           "identify": {
@@ -264,10 +267,17 @@
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
             "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
+            "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
-            "withFinnishSSN": "Tunnistaudu Suomi.fi:n kautta. Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle.",
-            "withoutFinnishSSN": "Jos et voi käyttää Suomi.fi-tunnistautumista, tunnistaudu sähköpostillasi. Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+            "withFinnishSSN": {
+              "description": "<strong>Tunnistaudu Suomi.fi:n kautta.</strong>",
+              "info": "Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle."
+            },
+            "withoutFinnishSSN": {
+              "description": "<strong>Jos et voi käyttää Suomi.fi-tunnistautumista</strong>, tunnistaudu sähköpostillasi.",
+              "info": "Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+            }
           },
           "payment": {
             "cancel": {
@@ -335,16 +345,17 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "title": "Maksutapahtuma keskeytyi!",
+          "heading": "Maksutapahtuma keskeytyi!",
           "info": "Voit yrittää uudelleen."
         },
         "error": {
-          "title": "Tapahtui virhe!",
+          "heading": "Tapahtui virhe!",
           "info": "Voit yrittää uudelleen."
         },
         "success": {
-          "title": "Olet lähettänyt tarkistusarviointipyynnön!",
-          "info": "Olet lähettänyt tarkistusarviointipyynnön. Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
+          "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
+          "body1": "Olet lähettänyt tarkistusarviointipyynnön.",
+          "body2": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         }
       },
       "examDetailsPage": {
@@ -371,6 +382,13 @@
             "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
             "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
             "heading": "Hinnasto"
+          },
+          "schedule": {
+            "body1": "Voit pyytää suorituksesi tarkistusarviointia 14 päivän kuluessa siitä ajankohdasta, kun sinulla on ollut tilaisuus saada arvioinnin tulos.",
+            "body2": "Tarkasta aika, milloin voit pyytää tutkintosuorituksesi tarkistusarviointia, alla olevasta Tutkinnot-taulukosta.",
+            "body3": "Käsittelyaika on keskimäärin kolme kuukautta.",
+            "body4": "Päätös lähetetään sähköpostitse.",
+            "heading": "Aikataulu"
           }
         },
         "introduction": {
@@ -401,7 +419,8 @@
               "label": "Yleiset kielitutkinnot (YKI)",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
             },
-            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan. Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
+            "general": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan.",
+            "languages": "Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
           }
         },
         "filters": {
@@ -413,7 +432,11 @@
             "required": "Valinta on pakollinen"
           },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
-          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta."
+          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta.",
+          "selectExamDetails": {
+            "prompt": "Valitse tutkinto",
+            "required": "(pakollinen)"
+          }
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",

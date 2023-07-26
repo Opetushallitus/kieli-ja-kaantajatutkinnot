@@ -5,7 +5,12 @@ import {
   LabeledTextField,
   Text,
 } from 'shared/components';
-import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
+import {
+  InputAutoComplete,
+  TextFieldTypes,
+  TextFieldVariant,
+} from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
 import { AddressDetails } from 'components/registration/steps/register/AddressDetails';
 import {
@@ -25,6 +30,62 @@ import { updatePublicRegistration } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { nationalityToComboBoxOption } from 'utils/autocomplete';
+
+const PersonIdentityDetails = () => {
+  const registration: Partial<
+    PublicSuomiFiRegistration & PublicEmailRegistration
+  > = useAppSelector(registrationSelector).registration;
+  const { isPhone } = useWindowProperties();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.registration.registrationDetails',
+  });
+
+  if (isPhone) {
+    return (
+      <>
+        <Text className="half-width-on-desktop flex-grow-1">
+          <b>{t('labels.firstNames')}</b>
+          <br />
+          {registration.firstNames}
+        </Text>
+        <Text className="half-width-on-desktop flex-grow-1">
+          <b>{t('labels.lastName')}</b>
+          <br />
+          {registration.lastName}
+        </Text>
+        <Text>
+          <b>{t('labels.ssn')}</b>
+          <br />
+          {registration.ssn}
+        </Text>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className="columns gapped">
+          <Text className="half-width-on-desktop flex-grow-1">
+            <b>{t('labels.firstNames')}</b>
+            <br />
+            {registration.firstNames}
+          </Text>
+          <Text className="half-width-on-desktop flex-grow-1">
+            <b>{t('labels.lastName')}</b>
+            <br />
+            {registration.lastName}
+          </Text>
+        </div>
+        <div className="columns gapped">
+          <Text>
+            <b>{t('labels.ssn')}</b>
+            <br />
+            {registration.ssn}
+          </Text>
+        </div>
+      </>
+    );
+  }
+};
 
 export const SuomiFiRegistrationDetails = () => {
   const { t } = usePublicTranslation({
@@ -52,6 +113,14 @@ export const SuomiFiRegistrationDetails = () => {
       );
     };
 
+  const handlePhoneNumberBlur = () => {
+    dispatch(
+      updatePublicRegistration({
+        phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
+      })
+    );
+  };
+
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
   const registrationErrors = getRegistrationErrors();
 
@@ -74,25 +143,7 @@ export const SuomiFiRegistrationDetails = () => {
 
   return (
     <div className="registration-details rows gapped margin-top-sm">
-      <div className="columns gapped">
-        <Text className="half-width-on-desktop flex-grow-1">
-          <b>{t('labels.firstNames')}</b>
-          <br />
-          {registration.firstNames}
-        </Text>
-        <Text className="half-width-on-desktop flex-grow-1">
-          <b>{t('labels.lastName')}</b>
-          <br />
-          {registration.lastName}
-        </Text>
-      </div>
-      <div className="columns gapped">
-        <Text>
-          <b>{t('labels.ssn')}</b>
-          <br />
-          {registration.ssn}
-        </Text>
-      </div>
+      <PersonIdentityDetails />
       <AddressDetails
         getLabeledTextFieldAttributes={getLabeledTextFieldAttributes}
       />
@@ -101,11 +152,13 @@ export const SuomiFiRegistrationDetails = () => {
           {...getLabeledTextFieldAttributes('email')}
           type={TextFieldTypes.Email}
           value={registration.email || ''}
+          autoComplete={InputAutoComplete.Email}
         />
         <LabeledTextField
           {...getLabeledTextFieldAttributes('emailConfirmation')}
           type={TextFieldTypes.Email}
           value={registration.emailConfirmation || ''}
+          autoComplete={InputAutoComplete.Email}
           onPaste={(e) => {
             e.preventDefault();
 
@@ -118,6 +171,8 @@ export const SuomiFiRegistrationDetails = () => {
         {...getLabeledTextFieldAttributes('phoneNumber')}
         value={registration.phoneNumber || ''}
         type={TextFieldTypes.PhoneNumber}
+        autoComplete={InputAutoComplete.PhoneNumber}
+        onBlur={handlePhoneNumberBlur}
       />
       {!hasSuomiFiNationalityData && (
         <LabeledComboBox

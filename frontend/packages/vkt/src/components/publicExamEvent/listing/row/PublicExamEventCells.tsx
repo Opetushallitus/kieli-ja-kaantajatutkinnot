@@ -98,42 +98,40 @@ export const PublicExamEventPhoneCells = ({
   };
 
   return (
-    <>
-      <TableCell>
-        <div className="rows grow gapped-xs">
-          <div className="rows">
-            <b>{t('header.language')}</b>
-            <Text>
-              {ExamEventUtils.languageAndLevelText(
-                language,
-                ExamLevel.EXCELLENT,
-                translateCommon
-              )}
-            </Text>
-          </div>
-          <div className="rows">
-            <b>{t('header.examDate')}</b>
-            <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
-          </div>
-          <div className="rows">
-            <b>{t('header.registrationCloses')}</b>
-            <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
-          </div>
-          <div className="rows">
-            <b>{t('header.openings')}</b>
-            {getOpeningsText(examEvent, t)}
-          </div>
-          {renderEnrollmentButton(
-            examEvent,
-            examEvent === selectedExamEvent,
-            examEvent.hasCongestion || isInitialisationInProgress,
-            handleOnClick,
-            t,
-            translateCommon
-          )}
+    <TableCell>
+      <div className="rows grow gapped-xs">
+        <div className="rows">
+          <b>{t('header.language')}</b>
+          <Text>
+            {ExamEventUtils.languageAndLevelText(
+              language,
+              ExamLevel.EXCELLENT,
+              translateCommon
+            )}
+          </Text>
         </div>
-      </TableCell>
-    </>
+        <div className="rows">
+          <b>{t('header.examDate')}</b>
+          <Text>{DateUtils.formatOptionalDate(date, 'l')}</Text>
+        </div>
+        <div className="rows">
+          <b>{t('header.registrationCloses')}</b>
+          <Text>{DateUtils.formatOptionalDate(registrationCloses, 'l')}</Text>
+        </div>
+        <div className="rows">
+          <b>{t('header.openings')}</b>
+          {getOpeningsText(examEvent, t)}
+        </div>
+        {renderEnrollmentButton(
+          examEvent,
+          examEvent === selectedExamEvent,
+          examEvent.hasCongestion || isInitialisationInProgress,
+          handleOnClick,
+          t,
+          translateCommon
+        )}
+      </div>
+    </TableCell>
   );
 };
 

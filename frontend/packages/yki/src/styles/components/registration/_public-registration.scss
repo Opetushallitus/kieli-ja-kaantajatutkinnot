@@ -1,7 +1,30 @@
 .public-registration {
   & &__grid {
+    &__no-stepper {
+      @include phone {
+        padding-top: 3rem;
+      }
+    }
+
+    &__circular-stepper-container {
+      @include phone-divider-border-bottom;
+      padding: 2rem;
+    }
+
+    &__heading {
+      @include phone {
+        padding-left: 2rem;
+      }
+    }
+
     &__form-container {
-      padding: 3rem 3rem 5rem;
+      @include phone {
+        padding: 0 2rem 2rem;
+      }
+
+      @include not-phone {
+        padding: 3rem 3rem 5rem;
+      }
 
       &__registration {
         &-button {
@@ -11,6 +34,13 @@
 
         &-text-field {
           width: 30rem;
+        }
+      }
+
+      &__terms-and-conditions {
+        @include phone-divider-border-top;
+        @include phone {
+          padding-top: 3rem;
         }
       }
 

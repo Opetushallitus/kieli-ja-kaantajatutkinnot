@@ -4,6 +4,8 @@ import { DateUtils } from 'shared/utils';
 
 import { GenderEnum } from 'enums/app';
 import {
+  EvaluationOrderDetails,
+  EvaluationOrderDetailsResponse,
   EvaluationOrderRequest,
   ExaminationParts,
   Subtest,
@@ -117,6 +119,12 @@ export class SerializationUtils {
       subtests:
         SerializationUtils.serializeEvaluationSubtests(examinationParts),
     };
+  }
+
+  static deserializeEvaluationOrderDetailsResponse(
+    response: EvaluationOrderDetailsResponse
+  ): EvaluationOrderDetails {
+    return { ...response, exam_date: dayjs(response.exam_date) };
   }
 
   static serializeAppLanguage(appLanguage: AppLanguage) {

@@ -1,7 +1,12 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
+import { CircularStepper, H2, Text } from 'shared/components';
+import { Color } from 'shared/enums';
+import { useWindowProperties } from 'shared/hooks';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
+import { PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { registrationSelector } from 'redux/selectors/registration';
 
@@ -10,8 +15,17 @@ export const PublicRegistrationStepper = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
 
-  const doneStepNumber = PublicRegistrationFormStep.Payment;
+  const [params] = useSearchParams();
+  const paymentStatus = params.get('status');
+
+  const isError =
+    activeStep === PublicRegistrationFormStep.Done &&
+    paymentStatus !== PaymentStatus.Success;
+
+  const doneStepNumber = PublicRegistrationFormStep.Done;
 
   const stepNumbers = Object.values(PublicRegistrationFormStep)
     .filter((i) => !isNaN(Number(i)))
@@ -27,7 +41,21 @@ export const PublicRegistrationStepper = () => {
   };
 
   const getDescription = (stepNumber: number) => {
-    return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    if (isError) {
+      return t('paymentAborted');
+    } else {
+      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
+    }
+  };
+
+  const getNextInformation = (stepNumber: number) => {
+    if (stepNumber < doneStepNumber) {
+      return `${translateCommon('next')}: ${getDescription(activeStep + 1)}`;
+    } else if (isError) {
+      return '';
+    } else {
+      return t('welcomeToExam');
+    }
   };
 
   const getStepAriaLabel = (stepNumber: number) => {
@@ -38,25 +66,51 @@ export const PublicRegistrationStepper = () => {
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  return (
-    <Stepper
-      className="public-registration__grid__stepper"
-      activeStep={activeStep - 1}
-    >
-      {stepNumbers.map((i) => (
-        <Step key={i}>
-          <StepLabel
-            aria-label={getStepAriaLabel(i)}
-            className={
-              activeStep < i
-                ? 'public-registration__grid__stepper__step-disabled'
-                : undefined
-            }
-          >
-            {getDescription(i)}
-          </StepLabel>
-        </Step>
-      ))}
-    </Stepper>
-  );
+  const stepValue = Math.min(activeStep, doneStepNumber);
+
+  const mobileStepValue = stepValue * (100 / doneStepNumber);
+  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
+  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
+    activeStep
+  )}`;
+
+  if (isPhone) {
+    return (
+      <div className="columns gapped-xxl public-registration__grid__circular-stepper-container">
+        <CircularStepper
+          value={mobileStepValue}
+          ariaLabel={mobileAriaLabel}
+          phaseText={mobilePhaseText}
+          color={isError ? Color.Error : Color.Secondary}
+          size={90}
+        />
+        <div className="rows">
+          <H2>{getDescription(activeStep)}</H2>
+          <Text>{getNextInformation(activeStep)}</Text>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <Stepper
+        className="public-registration__grid__stepper"
+        activeStep={activeStep - 1}
+      >
+        {stepNumbers.map((i) => (
+          <Step key={i}>
+            <StepLabel
+              aria-label={getStepAriaLabel(i)}
+              className={
+                activeStep < i
+                  ? 'public-registration__grid__stepper__step-disabled'
+                  : undefined
+              }
+            >
+              {getDescription(i)}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    );
+  }
 };

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
+  EvaluationOrderDetails,
   ExaminationParts,
   ParticipantDetails,
 } from 'interfaces/evaluationOrder';
@@ -10,7 +11,9 @@ import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 export interface EvaluationOrderState {
   submitOrderState: APIResponseStatus;
   loadPeriodState: APIResponseStatus;
+  loadEvaluationOrderDetailsState: APIResponseStatus;
   evaluationPeriod?: EvaluationPeriod;
+  evaluationOrderDetails?: EvaluationOrderDetails;
   examinationParts: ExaminationParts;
   acceptConditions: boolean;
   participantDetails: ParticipantDetails;
@@ -21,6 +24,7 @@ export interface EvaluationOrderState {
 export const initialState: EvaluationOrderState = {
   submitOrderState: APIResponseStatus.NotStarted,
   loadPeriodState: APIResponseStatus.NotStarted,
+  loadEvaluationOrderDetailsState: APIResponseStatus.NotStarted,
   examinationParts: {
     readingComprehension: false,
     speechComprehension: false,
@@ -80,6 +84,19 @@ const evaluationOrderSlice = createSlice({
     resetEvaluationOrderState(_state) {
       return initialState;
     },
+    acceptEvaluationOrderDetails(
+      state,
+      action: PayloadAction<EvaluationOrderDetails>
+    ) {
+      state.loadEvaluationOrderDetailsState = APIResponseStatus.Success;
+      state.evaluationOrderDetails = action.payload;
+    },
+    loadEvaluationOrderDetails(state, _action: PayloadAction<number>) {
+      state.loadEvaluationOrderDetailsState = APIResponseStatus.InProgress;
+    },
+    rejectEvaluationOrderDetails(state) {
+      state.loadEvaluationOrderDetailsState = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -96,4 +113,7 @@ export const {
   submitEvaluationOrder,
   resetEvaluationOrderState,
   acceptEvaluationOrder,
+  acceptEvaluationOrderDetails,
+  loadEvaluationOrderDetails,
+  rejectEvaluationOrderDetails,
 } = evaluationOrderSlice.actions;

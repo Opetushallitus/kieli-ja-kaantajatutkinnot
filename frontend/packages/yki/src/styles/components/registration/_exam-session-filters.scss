@@ -12,6 +12,7 @@
     display: grid;
     gap: 4rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+    padding: 0 1rem;
 
     @include phone {
       gap: 2rem;
