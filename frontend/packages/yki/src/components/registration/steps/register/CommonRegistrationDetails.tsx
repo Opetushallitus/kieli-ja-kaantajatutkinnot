@@ -143,12 +143,14 @@ export const CommonRegistrationDetails = () => {
           </FormControl>
         </div>
       )}
-      <div className="public-registration__grid__form-container__terms-and-conditions">
-        <H2>{t('termsAndConditions.title')}</H2>
+      <H2 className="public-registration__grid__form-container__terms-and-conditions">
+        {t('termsAndConditions.title')}
+      </H2>
+      <div>
         <Text>
-          <b>{t('termsAndConditions.description1')}</b>
+          {t('termsAndConditions.description1')}
           <br />
-          <b>{t('termsAndConditions.description2')}</b>
+          {t('termsAndConditions.description2')}
         </Text>
         <FormControl error={!!registrationErrors['termsAndConditionsAgreed']}>
           <FormControlLabel
