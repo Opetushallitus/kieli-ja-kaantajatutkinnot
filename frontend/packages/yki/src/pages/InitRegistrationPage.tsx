@@ -20,7 +20,7 @@ import { resetPublicIdentificationState } from 'redux/reducers/publicIdentificat
 import { setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const ContentSelector = () => {
   const examSession = useAppSelector(examSessionSelector).examSession;
@@ -28,7 +28,7 @@ const ContentSelector = () => {
     return null;
   }
   const { open, participants, quota } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
   if (!open || participants >= quota) {
     return <RegistrationNotAvailable />;
   } else {
@@ -72,7 +72,7 @@ const RegistrationNotAvailable = () => {
   const { isPhone } = useWindowProperties();
 
   const { kind, open, start } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
   const now = dayjs();
   const queueAvailable =
     open && kind === RegistrationKind.Admission && !examSession.queue_full;
