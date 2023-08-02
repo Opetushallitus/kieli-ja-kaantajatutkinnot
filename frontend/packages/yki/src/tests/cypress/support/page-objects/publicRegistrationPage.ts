@@ -8,8 +8,12 @@ class PublicRegistrationPage {
     filterByLevel: () =>
       cy.findByRole('combobox', { name: /Valitse taitotaso/ }),
     resultList: () => cy.findByRole(''),
-    showOnlyIfAvailablePlaces: () => cy.findByLabelText('Näytä vain kielitutkinnot, joissa on tilaa'),
-    showOnlyIfOngoingAdmission: () => cy.findByLabelText('Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt'),
+    showOnlyIfAvailablePlaces: () =>
+      cy.findByLabelText('Näytä vain kielitutkinnot, joissa on tilaa'),
+    showOnlyIfOngoingAdmission: () =>
+      cy.findByLabelText(
+        'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt'
+      ),
     showResultsButton: () => cy.contains('Näytä tulokset'),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
