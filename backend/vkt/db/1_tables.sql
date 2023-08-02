@@ -139,7 +139,8 @@ CREATE TABLE public.enrollment (
     town text,
     country text,
     payment_link_hash character varying(255),
-    payment_link_expires_at timestamp with time zone
+    payment_link_expires_at timestamp with time zone,
+    is_anonymized boolean NOT NULL
 );
 
 
