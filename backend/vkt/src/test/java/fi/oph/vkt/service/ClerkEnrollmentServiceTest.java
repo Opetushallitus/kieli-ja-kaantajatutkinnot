@@ -303,20 +303,21 @@ class ClerkEnrollmentServiceTest {
     final Enrollment enrollment22 = createEnrollment(person2, examEvent2, sixMonthsAgo.plusMinutes(5), false);
     final Enrollment enrollment31 = createEnrollment(person3, examEvent1, sixMonthsAgo.plusDays(1), false);
 
-    final int originalVersion = person1.getVersion();
-
     clerkEnrollmentService.anonymizeEnrollments();
     clerkEnrollmentService.anonymizeEnrollments(); // ensure second run doesn't cause side effects
 
-    assertAnonymizedEnrollment(enrollment11, originalVersion + 1, true);
-    assertAnonymizedPerson(person1, originalVersion + 1);
+    final int personVersion = 0;
+    final int enrollmentVersion = 1;
 
-    assertAnonymizedEnrollment(enrollment21, originalVersion + 1, false);
-    assertNotAnonymizedEnrollment(enrollment22, originalVersion);
-    assertNotAnonymizedPerson(person2, originalVersion);
+    assertAnonymizedEnrollment(enrollment11, enrollmentVersion + 1, true);
+    assertAnonymizedPerson(person1, personVersion + 1);
 
-    assertNotAnonymizedEnrollment(enrollment31, originalVersion);
-    assertNotAnonymizedPerson(person3, originalVersion);
+    assertAnonymizedEnrollment(enrollment21, enrollmentVersion + 1, false);
+    assertNotAnonymizedEnrollment(enrollment22, enrollmentVersion);
+    assertNotAnonymizedPerson(person2, personVersion);
+
+    assertNotAnonymizedEnrollment(enrollment31, enrollmentVersion);
+    assertNotAnonymizedPerson(person3, personVersion);
   }
 
   private Enrollment createEnrollment(
@@ -345,7 +346,7 @@ class ClerkEnrollmentServiceTest {
     final int expectedVersion,
     final boolean expectAddressToExist
   ) {
-    // assertEquals(expectedVersion, enrollment.getVersion());
+    assertEquals(expectedVersion, enrollment.getVersion());
     assertTrue(enrollment.isAnonymized());
 
     assertEquals("anonymisoitu.ilmoittautuja@vkt.vkt", enrollment.getEmail());
@@ -365,7 +366,11 @@ class ClerkEnrollmentServiceTest {
   }
 
   private void assertNotAnonymizedEnrollment(final Enrollment enrollment, final int expectedVersion) {
-    // assertEquals(expectedVersion, enrollment.getVersion());
+    final Enrollment defaultEnrollment = Factory.enrollment(Factory.examEvent(), Factory.person());
+
+    assertEquals(expectedVersion, enrollment.getVersion());
+    assertEquals(defaultEnrollment.getEmail(), enrollment.getEmail());
+    assertEquals(defaultEnrollment.getPhoneNumber(), enrollment.getPhoneNumber());
     assertFalse(enrollment.isAnonymized());
   }
 
@@ -376,6 +381,10 @@ class ClerkEnrollmentServiceTest {
   }
 
   private void assertNotAnonymizedPerson(final Person person, final int expectedVersion) {
+    final Person defaultPerson = Factory.person();
+
     assertEquals(expectedVersion, person.getVersion());
+    assertEquals(defaultPerson.getLastName(), person.getLastName());
+    assertEquals(defaultPerson.getFirstName(), person.getFirstName());
   }
 }
