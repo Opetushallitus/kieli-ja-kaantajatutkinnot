@@ -1,6 +1,8 @@
 package fi.oph.vkt.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -278,5 +280,102 @@ class ClerkEnrollmentServiceTest {
     assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
     assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());
     assertTrue(enrollment.getPaymentLinkExpiresAt().isAfter(LocalDateTime.now()));
+  }
+
+  @Test
+  public void testAnonymizeEnrollments() {
+    final ExamEvent examEvent1 = Factory.examEvent(ExamLanguage.FI);
+    final ExamEvent examEvent2 = Factory.examEvent(ExamLanguage.SV);
+    entityManager.persist(examEvent1);
+    entityManager.persist(examEvent2);
+
+    final Person person1 = Factory.person();
+    final Person person2 = Factory.person();
+    final Person person3 = Factory.person();
+    entityManager.persist(person1);
+    entityManager.persist(person2);
+    entityManager.persist(person3);
+
+    final LocalDateTime sixMonthsAgo = LocalDateTime.now().minusDays(180);
+
+    final Enrollment enrollment11 = createEnrollment(person1, examEvent1, sixMonthsAgo.minusDays(1), true);
+    final Enrollment enrollment21 = createEnrollment(person2, examEvent1, sixMonthsAgo.minusMinutes(5), false);
+    final Enrollment enrollment22 = createEnrollment(person2, examEvent2, sixMonthsAgo.plusMinutes(5), false);
+    final Enrollment enrollment31 = createEnrollment(person3, examEvent1, sixMonthsAgo.plusDays(1), false);
+
+    final int originalVersion = person1.getVersion();
+
+    clerkEnrollmentService.anonymizeEnrollments();
+    clerkEnrollmentService.anonymizeEnrollments(); // ensure second run doesn't cause side effects
+
+    assertAnonymizedEnrollment(enrollment11, originalVersion + 1, true);
+    assertAnonymizedPerson(person1, originalVersion + 1);
+
+    assertAnonymizedEnrollment(enrollment21, originalVersion + 1, false);
+    assertNotAnonymizedEnrollment(enrollment22, originalVersion);
+    assertNotAnonymizedPerson(person2, originalVersion);
+
+    assertNotAnonymizedEnrollment(enrollment31, originalVersion);
+    assertNotAnonymizedPerson(person3, originalVersion);
+  }
+
+  private Enrollment createEnrollment(
+    final Person person,
+    final ExamEvent examEvent,
+    final LocalDateTime createdAt,
+    final boolean includeAddress
+  ) {
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    if (includeAddress) {
+      enrollment.setStreet("5300 NEVELS AVE");
+      enrollment.setPostalCode("35022-6186");
+      enrollment.setTown("BESSEMER AL");
+      enrollment.setCountry("USA");
+    }
+    entityManager.persist(enrollment);
+    enrollment.setCreatedAt(createdAt);
+    entityManager.merge(enrollment);
+
+    return enrollment;
+  }
+
+  private void assertAnonymizedEnrollment(
+    final Enrollment enrollment,
+    final int expectedVersion,
+    final boolean expectAddressToExist
+  ) {
+    // assertEquals(expectedVersion, enrollment.getVersion());
+    assertTrue(enrollment.isAnonymized());
+
+    assertEquals("anonymisoitu.ilmoittautuja@vkt.vkt", enrollment.getEmail());
+    assertEquals("+0000000", enrollment.getPhoneNumber());
+
+    if (expectAddressToExist) {
+      assertEquals("Testitie 1", enrollment.getStreet());
+      assertEquals("00000", enrollment.getPostalCode());
+      assertEquals("Kaupunki", enrollment.getTown());
+      assertEquals("Maa", enrollment.getCountry());
+    } else {
+      assertNull(enrollment.getStreet());
+      assertNull(enrollment.getPostalCode());
+      assertNull(enrollment.getTown());
+      assertNull(enrollment.getCountry());
+    }
+  }
+
+  private void assertNotAnonymizedEnrollment(final Enrollment enrollment, final int expectedVersion) {
+    // assertEquals(expectedVersion, enrollment.getVersion());
+    assertFalse(enrollment.isAnonymized());
+  }
+
+  private void assertAnonymizedPerson(final Person person, final int expectedVersion) {
+    assertEquals(expectedVersion, person.getVersion());
+    assertEquals("Ilmoittautuja", person.getLastName());
+    assertEquals("Anonymisoitu", person.getFirstName());
+  }
+
+  private void assertNotAnonymizedPerson(final Person person, final int expectedVersion) {
+    assertEquals(expectedVersion, person.getVersion());
   }
 }

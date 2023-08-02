@@ -149,7 +149,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void anonymizeEnrollments() {
-    final Duration ttl = Duration.of(6, ChronoUnit.MONTHS);
+    final Duration ttl = Duration.of(180, ChronoUnit.DAYS);
 
     enrollmentRepository
       .findAllToAnonymize(LocalDateTime.now().minus(ttl))
@@ -165,7 +165,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private void anonymizeEnrollment(final Enrollment enrollment) {
     enrollment.setEmail("anonymisoitu.ilmoittautuja@vkt.vkt");
-    enrollment.setPhoneNumber("+000000");
+    enrollment.setPhoneNumber("+0000000");
 
     if (enrollment.getStreet() != null) {
       enrollment.setStreet("Testitie 1");
