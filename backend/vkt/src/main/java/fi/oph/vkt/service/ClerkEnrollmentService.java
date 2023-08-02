@@ -10,11 +10,13 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
@@ -40,6 +42,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PaymentRepository paymentRepository;
+  private final PersonRepository personRepository;
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
@@ -142,5 +145,49 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
           enrollmentRepository.deleteById(enrollment.getId());
         }
       });
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void anonymizeEnrollments() {
+    final Duration ttl = Duration.of(6, ChronoUnit.MONTHS);
+
+    enrollmentRepository
+      .findAllToAnonymize(LocalDateTime.now().minus(ttl))
+      .forEach(enrollment -> {
+        anonymizeEnrollment(enrollment);
+
+        final Person person = enrollment.getPerson();
+        if (person.getEnrollments().stream().allMatch(Enrollment::isAnonymized)) {
+          anonymizePerson(person);
+        }
+      });
+  }
+
+  private void anonymizeEnrollment(final Enrollment enrollment) {
+    enrollment.setEmail("anonymisoitu.ilmoittautuja@vkt.vkt");
+    enrollment.setPhoneNumber("+000000");
+
+    if (enrollment.getStreet() != null) {
+      enrollment.setStreet("Testitie 1");
+    }
+    if (enrollment.getPostalCode() != null) {
+      enrollment.setPostalCode("00000");
+    }
+    if (enrollment.getTown() != null) {
+      enrollment.setTown("Kaupunki");
+    }
+    if (enrollment.getCountry() != null) {
+      enrollment.setCountry("Maa");
+    }
+
+    enrollment.setAnonymized(true);
+    enrollmentRepository.saveAndFlush(enrollment);
+  }
+
+  private void anonymizePerson(final Person person) {
+    person.setLastName("Ilmoittautuja");
+    person.setFirstName("Anonymisoitu");
+
+    personRepository.saveAndFlush(person);
   }
 }

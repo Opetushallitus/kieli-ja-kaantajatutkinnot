@@ -628,4 +628,14 @@
         <dropColumn tableName="person" columnName="date_of_birth" />
     </changeSet>
 
+    <changeSet id="2023-08-02-enrollment-is-anonymized" author="mikhuttu">
+        <addColumn tableName="enrollment">
+            <column name="is_anonymized" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <dropDefaultValue tableName="enrollment" columnName="is_anonymized" />
+    </changeSet>
+
 </databaseChangeLog>

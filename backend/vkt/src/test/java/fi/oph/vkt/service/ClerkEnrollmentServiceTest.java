@@ -25,6 +25,7 @@ import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -52,6 +53,9 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private PaymentRepository paymentRepository;
 
+  @Resource
+  private PersonRepository personRepository;
+
   @MockBean
   private AuditService auditService;
 
@@ -73,6 +77,7 @@ class ClerkEnrollmentServiceTest {
         enrollmentRepository,
         examEventRepository,
         paymentRepository,
+        personRepository,
         auditService,
         environment,
         uuidSource
