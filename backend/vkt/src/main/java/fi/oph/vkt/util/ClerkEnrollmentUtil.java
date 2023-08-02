@@ -48,7 +48,7 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
-  private static ClerkPaymentDTO createClerkPaymentDTO(final Payment payment) {
+  public static ClerkPaymentDTO createClerkPaymentDTO(final Payment payment) {
     return ClerkPaymentDTO
       .builder()
       .id(payment.getId())
@@ -57,6 +57,7 @@ public class ClerkEnrollmentUtil {
       .amount(payment.getAmount())
       .status(payment.getPaymentStatus())
       .modifiedAt(payment.getModifiedAt())
+      .refundedAt(payment.getRefundedAt())
       .build();
   }
 

@@ -23,7 +23,10 @@ import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { createClerkEnrollmentPaymentLink } from 'redux/reducers/clerkEnrollmentDetails';
+import {
+  createClerkEnrollmentPaymentLink,
+  setClerkPaymentRefunded,
+} from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
 
 const CheckboxField = ({
@@ -59,6 +62,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const dispatch = useAppDispatch();
 
   const formatAmount = (amount: number) => {
     return (amount / 100).toFixed(2);
@@ -81,6 +85,17 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         {t('payment.details.amount')}:{' '}
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
+      <div className="margin-top-sm flex-start">
+        <CustomButton
+          variant={Variant.Outlined}
+          color={Color.Secondary}
+          onClick={() => {
+            dispatch(setClerkPaymentRefunded(payment.id));
+          }}
+        >
+          Merkitse maksu palautetuksi
+        </CustomButton>
+      </div>
     </div>
   );
 };

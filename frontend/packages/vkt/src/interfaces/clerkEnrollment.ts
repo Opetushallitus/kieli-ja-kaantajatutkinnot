@@ -27,10 +27,13 @@ export interface ClerkPayment extends WithId, WithVersion {
   amount: number;
   status: PaymentStatus;
   modifiedAt: Dayjs;
+  refundedAt?: Dayjs;
 }
 
-export interface ClerkPaymentResponse extends Omit<ClerkPayment, 'modifiedAt'> {
+export interface ClerkPaymentResponse
+  extends Omit<ClerkPayment, 'modifiedAt' | 'refundedAt'> {
   modifiedAt: string;
+  refundedAt?: string;
 }
 
 export interface ClerkEnrollment
