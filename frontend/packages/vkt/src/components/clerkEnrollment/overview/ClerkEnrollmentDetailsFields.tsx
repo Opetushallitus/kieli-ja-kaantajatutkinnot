@@ -9,7 +9,12 @@ import {
   InfoText,
   Text,
 } from 'shared/components';
-import { Color, TextFieldTypes, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
 import { DateUtils, InputFieldUtils } from 'shared/utils';
 
 import {
@@ -63,6 +68,9 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
   const dispatch = useAppDispatch();
+  const refundLoadingStatus = useAppSelector(
+    clerkEnrollmentDetailsSelector
+  ).paymentRefundStatus;
 
   const formatAmount = (amount: number) => {
     return (amount / 100).toFixed(2);
@@ -73,6 +81,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       <Text>
         {t('payment.details.status')}:{' '}
         <b>{t(`paymentStatus.${payment.status}`)}</b>
+        {payment.refundedAt && ' (merkitty palautetuksi)'}
       </Text>
       <Text>
         {t('payment.details.reference')}: <b>{payment.transactionId}</b>
@@ -85,17 +94,25 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         {t('payment.details.amount')}:{' '}
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
-      <div className="margin-top-sm flex-start">
-        <CustomButton
-          variant={Variant.Outlined}
-          color={Color.Secondary}
-          onClick={() => {
-            dispatch(setClerkPaymentRefunded(payment.id));
-          }}
-        >
-          Merkitse maksu palautetuksi
-        </CustomButton>
-      </div>
+      {payment.refundedAt ? (
+        <Text>
+          Merkitty palautetuksi:{' '}
+          <b>{DateUtils.formatOptionalDateTime(payment.refundedAt)}</b>
+        </Text>
+      ) : (
+        <div className="margin-top-sm flex-start">
+          <CustomButton
+            variant={Variant.Outlined}
+            color={Color.Secondary}
+            onClick={() => {
+              dispatch(setClerkPaymentRefunded(payment.id));
+            }}
+            disabled={refundLoadingStatus === APIResponseStatus.InProgress}
+          >
+            Merkitse maksu palautetuksi
+          </CustomButton>
+        </div>
+      )}
     </div>
   );
 };
@@ -473,7 +490,7 @@ export const ClerkEnrollmentDetailsFields = ({
         )}
 
         {!enrollment.digitalCertificateConsent && (
-          <div className="rows gapped margin-top-sm">
+          <div className="rows gapped margin-top-lg">
             <H3>
               {translateCommon('enrollment.certificateShipping.addressTitle')}
             </H3>

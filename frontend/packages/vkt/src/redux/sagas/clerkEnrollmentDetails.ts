@@ -105,7 +105,7 @@ function* moveEnrollmentSaga(action: PayloadAction<ClerkEnrollmentMove>) {
 function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkPaymentResponse> = yield call(
-      axiosInstance.post,
+      axiosInstance.put,
       `${APIEndpoints.ClerkEnrollment}/payment/${action.payload}/refunded`,
       {}
     );

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
@@ -83,8 +83,21 @@ const clerkEnrollmentDetailsSlice = createSlice({
     setClerkPaymentRefunded(state, _action: PayloadAction<number>) {
       state.paymentRefundStatus = APIResponseStatus.InProgress;
     },
-    storeClerkPaymentRefunded(state, _action: PayloadAction<ClerkPayment>) {
+    storeClerkPaymentRefunded(state, action: PayloadAction<ClerkPayment>) {
+      const enrollment = current(state.enrollment);
       state.paymentRefundStatus = APIResponseStatus.Success;
+
+      if (enrollment && enrollment.payments) {
+        state.enrollment = {
+          ...enrollment,
+          ...{
+            phoneNumber: 'prkl',
+            payments: enrollment.payments.map((payment: ClerkPayment) =>
+              payment.id === action.payload.id ? action.payload : payment
+            ),
+          },
+        };
+      }
     },
     rejectClerkPaymentRefunded(state) {
       state.paymentRefundStatus = APIResponseStatus.Error;
