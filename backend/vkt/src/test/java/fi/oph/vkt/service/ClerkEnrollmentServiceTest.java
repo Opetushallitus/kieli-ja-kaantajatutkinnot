@@ -32,6 +32,7 @@ import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
@@ -284,48 +285,45 @@ class ClerkEnrollmentServiceTest {
 
   @Test
   public void testAnonymizeEnrollments() {
-    final ExamEvent examEvent1 = Factory.examEvent(ExamLanguage.FI);
-    final ExamEvent examEvent2 = Factory.examEvent(ExamLanguage.SV);
+    final ExamEvent examEvent1 = Factory.examEvent();
+    examEvent1.setRegistrationCloses(LocalDate.now().minusDays(191));
+    examEvent1.setDate(LocalDate.now().minusDays(181));
     entityManager.persist(examEvent1);
+
+    final ExamEvent examEvent2 = Factory.examEvent();
+    examEvent2.setRegistrationCloses(LocalDate.now().minusDays(190));
+    examEvent2.setDate(LocalDate.now().minusDays(180));
     entityManager.persist(examEvent2);
 
     final Person person1 = Factory.person();
-    final Person person2 = Factory.person();
-    final Person person3 = Factory.person();
     entityManager.persist(person1);
+    final Person person2 = Factory.person();
     entityManager.persist(person2);
+    final Person person3 = Factory.person();
     entityManager.persist(person3);
 
-    final LocalDateTime sixMonthsAgo = LocalDateTime.now().minusDays(180);
-
-    final Enrollment enrollment11 = createEnrollment(person1, examEvent1, sixMonthsAgo.minusDays(1), true);
-    final Enrollment enrollment21 = createEnrollment(person2, examEvent1, sixMonthsAgo.minusMinutes(5), false);
-    final Enrollment enrollment22 = createEnrollment(person2, examEvent2, sixMonthsAgo.plusMinutes(5), false);
-    final Enrollment enrollment31 = createEnrollment(person3, examEvent1, sixMonthsAgo.plusDays(1), false);
+    final Enrollment enrollment11 = createEnrollment(person1, examEvent1, true);
+    final Enrollment enrollment21 = createEnrollment(person2, examEvent1, false);
+    final Enrollment enrollment22 = createEnrollment(person2, examEvent2, false);
+    final Enrollment enrollment31 = createEnrollment(person3, examEvent2, false);
 
     clerkEnrollmentService.anonymizeEnrollments();
     clerkEnrollmentService.anonymizeEnrollments(); // ensure second run doesn't cause side effects
 
-    final int personVersion = 0;
-    final int enrollmentVersion = 1;
+    final int originalVersion = 0;
 
-    assertAnonymizedEnrollment(enrollment11, enrollmentVersion + 1, true);
-    assertAnonymizedPerson(person1, personVersion + 1);
+    assertAnonymizedEnrollment(enrollment11, originalVersion + 1, true);
+    assertAnonymizedPerson(person1, originalVersion + 1);
 
-    assertAnonymizedEnrollment(enrollment21, enrollmentVersion + 1, false);
-    assertNotAnonymizedEnrollment(enrollment22, enrollmentVersion);
-    assertNotAnonymizedPerson(person2, personVersion);
+    assertAnonymizedEnrollment(enrollment21, originalVersion + 1, false);
+    assertNotAnonymizedEnrollment(enrollment22, originalVersion);
+    assertNotAnonymizedPerson(person2, originalVersion);
 
-    assertNotAnonymizedEnrollment(enrollment31, enrollmentVersion);
-    assertNotAnonymizedPerson(person3, personVersion);
+    assertNotAnonymizedEnrollment(enrollment31, originalVersion);
+    assertNotAnonymizedPerson(person3, originalVersion);
   }
 
-  private Enrollment createEnrollment(
-    final Person person,
-    final ExamEvent examEvent,
-    final LocalDateTime createdAt,
-    final boolean includeAddress
-  ) {
+  private Enrollment createEnrollment(final Person person, final ExamEvent examEvent, final boolean includeAddress) {
     final Enrollment enrollment = Factory.enrollment(examEvent, person);
 
     if (includeAddress) {
@@ -334,10 +332,8 @@ class ClerkEnrollmentServiceTest {
       enrollment.setTown("BESSEMER AL");
       enrollment.setCountry("USA");
     }
-    entityManager.persist(enrollment);
-    enrollment.setCreatedAt(createdAt);
-    entityManager.merge(enrollment);
 
+    entityManager.persist(enrollment);
     return enrollment;
   }
 
