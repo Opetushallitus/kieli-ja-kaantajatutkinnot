@@ -156,13 +156,13 @@ export class ExamSessionUtils {
     // wrt. Finnish times, but user can be on a different timezone.
     const registrationClosesAt = registration_end_date.hour(16);
 
-    return registrationClosesAt.isAfter(now);
+    return registrationClosesAt.isBefore(now);
   }
 
   static isRegistrationOpen(examSession: ExamSession, now: Dayjs) {
     return (
       ExamSessionUtils.hasRegistrationStarted(examSession, now) &&
-      ExamSessionUtils.hasRegistrationEnded(examSession, now)
+      !ExamSessionUtils.hasRegistrationEnded(examSession, now)
     );
   }
 
