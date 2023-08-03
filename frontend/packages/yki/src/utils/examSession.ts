@@ -61,6 +61,13 @@ export class ExamSessionUtils {
       return 1;
     }
 
+    return 0;
+  }
+
+  private static compareExamSessionsByQueueFullness(
+    es1: ExamSession,
+    es2: ExamSession
+  ) {
     if (!es1.queue_full && es2.queue_full) {
       return -1;
     } else if (es1.queue_full && !es2.queue_full) {
@@ -102,6 +109,7 @@ export class ExamSessionUtils {
     const comparatorFns = [
       ExamSessionUtils.compareExamSessionsByLang,
       ExamSessionUtils.compareExamSessionsByRoom,
+      ExamSessionUtils.compareExamSessionsByQueueFullness,
       ExamSessionUtils.compareExamSessionsByDate,
       ExamSessionUtils.compareExamSessionsByRegistrationEnding,
     ];

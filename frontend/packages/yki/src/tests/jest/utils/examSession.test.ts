@@ -151,7 +151,7 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should prioritise comparators', () => {
-      // language code > fullness
+      // language code > room
       expect(
         ExamSessionUtils.compareExamSessions(
           {
@@ -163,12 +163,26 @@ describe('ExamSessionUtils', () => {
         )
       ).toEqual(-1);
 
-      // fullness > earlier session date
+      // room > queue fullness
       expect(
         ExamSessionUtils.compareExamSessions(
           {
             ...baseExamSession,
             participants: baseExamSession.max_participants,
+          },
+          {
+            ...baseExamSession,
+            queue_full: true,
+          }
+        )
+      ).toEqual(1);
+
+      // queue fullness > earlier session date
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          {
+            ...baseExamSession,
+            queue_full: true,
             session_date: dayjs('2098-12-31'),
           },
           baseExamSession
