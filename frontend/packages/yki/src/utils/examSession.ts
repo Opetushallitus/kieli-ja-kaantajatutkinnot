@@ -12,15 +12,18 @@ export class ExamSessionUtils {
 
   private static isPostAdmissionAvailable(examSession: ExamSession) {
     return (
-      examSession.post_admission_end_date &&
-      examSession.post_admission_start_date &&
       examSession.post_admission_active &&
+      examSession.post_admission_start_date &&
+      examSession.post_admission_end_date &&
       examSession.post_admission_quota
     );
   }
 
   private static getPostAdmissionAvailablePlaces(examSession: ExamSession) {
-    if (ExamSessionUtils.isPostAdmissionAvailable(examSession)) {
+    if (
+      ExamSessionUtils.isPostAdmissionAvailable(examSession) &&
+      !ExamSessionUtils.hasPostAdmissionEnded(examSession, dayjs())
+    ) {
       return examSession.post_admission_quota - examSession.pa_participants;
     }
 
@@ -166,27 +169,34 @@ export class ExamSessionUtils {
     );
   }
 
-  static isPostAdmissionOpen(examSession: ExamSession, now: Dayjs) {
-    const {
-      post_admission_active,
-      post_admission_start_date,
-      post_admission_end_date,
-    } = examSession;
+  static hasPostAdmissionStarted(examSession: ExamSession, now: Dayjs) {
+    if (examSession.post_admission_start_date) {
+      const postAdmissionOpensAt =
+        examSession.post_admission_start_date.hour(10);
 
-    if (
-      post_admission_active &&
-      post_admission_start_date &&
-      post_admission_end_date
-    ) {
-      const postAdmissionOpensAt = post_admission_start_date.hour(10);
-      const postAdmissionClosesAt = post_admission_end_date.hour(16);
-
-      return (
-        postAdmissionOpensAt.isBefore(now) && postAdmissionClosesAt.isAfter(now)
-      );
+      return postAdmissionOpensAt.isBefore(now);
     }
 
     return false;
+  }
+
+  static hasPostAdmissionEnded(examSession: ExamSession, now: Dayjs) {
+    if (examSession.post_admission_end_date) {
+      const postAdmissionClosesAt =
+        examSession.post_admission_end_date.hour(16);
+
+      return postAdmissionClosesAt.isBefore(now);
+    }
+
+    return false;
+  }
+
+  static isPostAdmissionOpen(examSession: ExamSession, now: Dayjs) {
+    return (
+      ExamSessionUtils.isPostAdmissionAvailable(examSession) &&
+      ExamSessionUtils.hasPostAdmissionStarted(examSession, now) &&
+      !ExamSessionUtils.hasPostAdmissionEnded(examSession, now)
+    );
   }
 
   static getCurrentOrFutureAdmissionPeriod(examSession: ExamSession) {
@@ -195,7 +205,7 @@ export class ExamSessionUtils {
     const registrationClosesAt = examSession.registration_end_date?.hour(16);
 
     if (
-      now.isBefore(registrationClosesAt) ||
+      !ExamSessionUtils.hasRegistrationEnded(examSession, now) ||
       !ExamSessionUtils.isPostAdmissionAvailable(examSession)
     ) {
       return {
