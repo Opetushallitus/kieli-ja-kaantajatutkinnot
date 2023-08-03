@@ -27,7 +27,6 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.expectResultsCount(10);
       onPublicRegistrationPage.showResults();
-      // TODO Verify returned rows?
     });
 
     it('can filter by current availability', () => {
@@ -38,6 +37,19 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.expectResultsCount(7);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.expectResultsCount(2);
+    });
+
+    it('can filter by exam language and level', () => {
+      onPublicRegistrationPage.clearAll();
+      onPublicRegistrationPage.selectExamLanguage('suomi');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.expectResultsCount(9);
+
+      onPublicRegistrationPage.selectExamLevel('ylin taso');
+      onPublicRegistrationPage.expectResultsCount(3);
+
+      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.expectResultRowsCount(3);
     });
   });
 });

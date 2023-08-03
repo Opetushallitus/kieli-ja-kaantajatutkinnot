@@ -7,7 +7,8 @@ class PublicRegistrationPage {
       cy.findByRole('combobox', { name: /Valitse kieli/ }),
     filterByLevel: () =>
       cy.findByRole('combobox', { name: /Valitse taitotaso/ }),
-    resultList: () => cy.findByRole(''),
+    resultBox: () =>
+      cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>
       cy.findByLabelText('Näytä vain kielitutkinnot, joissa on tilaa'),
     showOnlyIfOngoingAdmission: () =>
@@ -30,6 +31,14 @@ class PublicRegistrationPage {
     this.elements
       .showResultsButton()
       .should('have.text', `Näytä tulokset (${count})`);
+  }
+
+  expectResultRowsCount(count: number) {
+    return this.elements
+      .resultBox()
+      .find('tbody')
+      .findAllByRole('row')
+      .should('have.length', count);
   }
 
   isVisible() {
