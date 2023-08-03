@@ -118,7 +118,7 @@ const PublicExamSessionListingCellsForDesktop = ({
   examSession: ExamSession;
   locationInfo: ExamSessionLocation;
   availablePlacesText: string;
-  registerActionAvailable?: boolean;
+  registerActionAvailable: boolean;
 }) => {
   return (
     <>
@@ -158,7 +158,7 @@ const PublicExamSessionListingCellsForPhone = ({
   examSession: ExamSession;
   locationInfo: ExamSessionLocation;
   availablePlacesText: string;
-  registerActionAvailable?: boolean;
+  registerActionAvailable: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -267,7 +267,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={registerActionAvailable}
+          registerActionAvailable={!!registerActionAvailable}
           locationInfo={locationInfo}
         />
       </TableRow>
@@ -278,7 +278,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={registerActionAvailable}
+          registerActionAvailable={!!registerActionAvailable}
           locationInfo={locationInfo}
         />
       </TableRow>
