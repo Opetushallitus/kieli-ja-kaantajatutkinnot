@@ -91,7 +91,6 @@ const clerkEnrollmentDetailsSlice = createSlice({
         state.enrollment = {
           ...enrollment,
           ...{
-            phoneNumber: 'prkl',
             payments: enrollment.payments.map((payment: ClerkPayment) =>
               payment.id === action.payload.id ? action.payload : payment
             ),
