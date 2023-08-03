@@ -14,8 +14,7 @@ export class ExamSessionUtils {
     return (
       examSession.post_admission_active &&
       examSession.post_admission_start_date &&
-      examSession.post_admission_end_date &&
-      examSession.post_admission_quota
+      examSession.post_admission_end_date
     );
   }
 
@@ -92,8 +91,16 @@ export class ExamSessionUtils {
     es2: ExamSession
   ) {
     const now = dayjs();
-    const registrationEnded1 = ExamSessionUtils.hasRegistrationEnded(es1, now);
-    const registrationEnded2 = ExamSessionUtils.hasRegistrationEnded(es2, now);
+
+    const registrationEnded1 =
+      ExamSessionUtils.hasRegistrationEnded(es1, now) &&
+      (!ExamSessionUtils.isPostAdmissionAvailable(es1) ||
+        ExamSessionUtils.hasPostAdmissionEnded(es1, now));
+
+    const registrationEnded2 =
+      ExamSessionUtils.hasRegistrationEnded(es2, now) &&
+      (!ExamSessionUtils.isPostAdmissionAvailable(es2) ||
+        ExamSessionUtils.hasPostAdmissionEnded(es2, now));
 
     if (!registrationEnded1 && registrationEnded2) {
       return -1;

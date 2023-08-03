@@ -5,26 +5,24 @@ import { ExamSessionLocation } from 'interfaces/examSessions';
 import { ExamSessionUtils } from 'utils/examSession';
 
 describe('ExamSessionUtils', () => {
-  const baseLocation = [
-    {
-      name: 'Jälkiedu',
-      post_office: 'Tampere',
-      zip: '00100',
-      street_address: 'Jokukatu 4',
-      other_location_info: 'auditorio A2',
-      extra_information: '',
-      lang: 'fi',
-    },
-  ];
-
   const baseExamSession = {
-    id: 0,
+    id: 1,
     session_date: dayjs('2099-31-12'),
     language_code: ExamLanguage.ENG,
     level_code: ExamLevel.KESKI,
     max_participants: 13,
     published_at: '',
-    location: baseLocation as Array<ExamSessionLocation>,
+    location: [
+      {
+        name: 'Jälkiedu',
+        post_office: 'Tampere',
+        zip: '00100',
+        street_address: 'Jokukatu 4',
+        other_location_info: 'auditorio A2',
+        extra_information: '',
+        lang: 'fi',
+      },
+    ] as Array<ExamSessionLocation>,
     exam_fee: 100.0,
     open: true,
     queue: 0,
@@ -208,5 +206,42 @@ describe('ExamSessionUtils', () => {
     ).toEqual(-1);
   });
 
-  // TODO: add some post admission related tests
+  it('should treat exam sessions with post admission similarly to ones without', () => {
+    const postAdmissionSession = {
+      ...baseExamSession,
+      registration_end_date: dayjs('2021-01-01'),
+      post_admission_active: true,
+      post_admission_start_date: dayjs('2021-02-02'),
+      post_admission_end_date: dayjs('2090-03-03'),
+      post_admission_quota: 5,
+      pa_participants: 3,
+    };
+
+    expect(
+      ExamSessionUtils.compareExamSessions(
+        postAdmissionSession,
+        baseExamSession
+      )
+    ).toEqual(0);
+
+    expect(
+      ExamSessionUtils.compareExamSessions(
+        {
+          ...postAdmissionSession,
+          pa_participants: postAdmissionSession.post_admission_quota,
+        },
+        baseExamSession
+      )
+    ).toEqual(1);
+
+    expect(
+      ExamSessionUtils.compareExamSessions(
+        {
+          ...postAdmissionSession,
+          post_admission_end_date: dayjs('2021-03-03'),
+        },
+        baseExamSession
+      )
+    ).toEqual(1);
+  });
 });
