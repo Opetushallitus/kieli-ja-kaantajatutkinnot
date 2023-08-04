@@ -193,7 +193,7 @@ exports[`Footer should render Footer correctly 1`] = `
       className="footer__logo-row"
     >
       <div
-        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren footer__logo-row__divider css-1ws8119-MuiDivider-root"
+        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren footer__logo-row__divider css-1puturl-MuiDivider-root"
         role="separator"
       >
         <span

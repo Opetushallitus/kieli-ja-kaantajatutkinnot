@@ -3,7 +3,7 @@
 exports[`Header should render Header correctly 1`] = `
 Array [
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1kt0v4n-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-tvmhkj-MuiTypography-root-MuiLink-root"
     href="#main-content"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -42,7 +42,6 @@ Array [
         >
           <div
             className="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
-            onScroll={[Function]}
             style={
               Object {
                 "marginBottom": -0,
