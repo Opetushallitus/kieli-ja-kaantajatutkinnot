@@ -4,5 +4,6 @@
   "test3": "mui",
   "test4": "axios",
   "test5": "dayjs",
-  "test6": "js-cookie"
+  "test6": "js-cookie",
+  "test7": "react-redux"
 }
