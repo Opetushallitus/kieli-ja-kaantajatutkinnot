@@ -47,7 +47,7 @@
     "react-i18next": "^11.18.6",
     "react-redux": "^8.1.2",
     "react-router-dom": "6.3.0",
-    "redux-saga": "^1.2.1"
+    "redux-saga": "^1.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -109,11 +109,12 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
   },
-  "@availableMajorUpdates": [
+  "@availableBiggerUpdates": [
     "loader-utils",
     "@mui/x-date-pickers",
     "axios",
     "i18next",
-    "i18next-browser-languagedetector"
+    "i18next-browser-languagedetector",
+    "react-router-dom"
   ]
 }
