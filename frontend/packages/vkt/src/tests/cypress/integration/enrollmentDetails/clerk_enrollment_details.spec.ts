@@ -8,6 +8,7 @@ import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   const nameFields = ['firstName', 'lastName'];
   const contactDetailsFields = ['email', 'phoneNumber'];
+  const contactDetailsValues = ['test@test.invalid', '358401234567'];
   const addressFields = ['street', 'postalCode', 'town', 'country'];
   const partialsExamsAndSkillsFields = [
     'oralSkill',
@@ -28,7 +29,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   });
 
   it('should show disabled enrollment details', () => {
-    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
+    onClerkExamEventOverviewPage.clickEnrollmentRow(2);
 
     const displayedTextFields = [
       ...nameFields,
@@ -39,19 +40,20 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     displayedTextFields.forEach((f) =>
       onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
     );
+
     addressFields.forEach((f) =>
       onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f)
     );
 
-    onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Ella');
-    onClerkEnrollmentOverviewPage.expectTextFieldValue('lastName', 'Alanen');
+    onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Hanna');
+    onClerkEnrollmentOverviewPage.expectTextFieldValue('lastName', 'Eskola');
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'email',
-      'person1@example.invalid'
+      'person2@example.invalid'
     );
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'phoneNumber',
-      '+358401000001'
+      '+358401000002'
     );
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'previousEnrollment',
@@ -59,11 +61,14 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     );
 
     const checkedCheckBoxFields = [
+      'oralSkill',
       'textualSkill',
       'understandingSkill',
       'writingPartialExam',
+      'speakingPartialExam',
+      'speechComprehensionPartialExam',
       'readingComprehensionPartialExam',
-      //'digitalCertificateConsent',
+      //'digitalCertificateConsent', TODO: when available
     ];
 
     checkboxFields.forEach((f) => {
@@ -75,22 +80,20 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     });
   });
 
-  // TODO Skipping to get a version deployed, fix me!
-  it.skip('should allow modifying enrollment details', () => {
+  it('should allow modifying enrollment details', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickEditButton();
 
     nameFields.forEach((f) =>
       onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
     );
-    contactDetailsFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
+    contactDetailsFields.forEach((f, idx) =>
+      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx])
     );
     onClerkEnrollmentOverviewPage.editTextField(
       'previousEnrollment',
       'tammikuussa 2023'
     );
-    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
 
     // Remove skill and partial exam selections
     onClerkEnrollmentOverviewPage.clickCheckBox('textualSkill');
@@ -104,7 +107,6 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.clickCheckBox(
       'readingComprehensionPartialExam'
     );
-    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
 
     //onClerkEnrollmentOverviewPage.clickCheckBox('digitalCertificateConsent');
     onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
@@ -136,5 +138,10 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   it('should show disabled cancel enrollment button on already cancelled enrollment', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(9);
     onClerkEnrollmentOverviewPage.expectDisabledCancelEnrollmentButton();
+  });
+  it('should refund payment', () => {
+    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
+    onClerkEnrollmentOverviewPage.clickSetRefundedPaymentButton();
+    onClerkEnrollmentOverviewPage.expectRefundedAtDate('Merkitty palautetuksi: 04.08.2023 12:56')
   });
 });

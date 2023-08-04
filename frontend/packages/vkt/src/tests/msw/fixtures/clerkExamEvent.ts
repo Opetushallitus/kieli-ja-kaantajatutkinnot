@@ -27,10 +27,20 @@ export const clerkExamEvent = {
       writingPartialExam: true,
       readingComprehensionPartialExam: true,
       status: 'PAID',
-      digitalCertificateConsent: true,
+      digitalCertificateConsent: false,
       email: 'person1@example.invalid',
       phoneNumber: '+358401000001',
-      payments: [],
+      payments: [
+        {
+          id: 1,
+          version: 16,
+          transactionId: '365e6362-3120-11ee-9837-9f5cc3c0a60f',
+          amount: 45400,
+          status: 'OK',
+          modifiedAt: '2023-08-03T12:49:13.444657',
+          refundedAt: null,
+        },
+      ],
     },
     {
       id: 2,

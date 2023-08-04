@@ -8,6 +8,7 @@ import {
 import { fixedDateForTests } from 'tests/cypress/support/utils/date';
 import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 import { clerkExamEvents9 } from 'tests/msw/fixtures/clerkExamEvents9';
+import { clerkPaymentRefunded } from 'tests/msw/fixtures/clerkPaymentRefunded';
 import { person } from 'tests/msw/fixtures/person';
 import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollmentInitialisation';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
@@ -106,4 +107,10 @@ export const handlers = [
   rest.get(`${APIEndpoints.PublicExamEvent}/2/enrollment`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(publicEnrollmentInitialisation));
   }),
+  rest.put(
+    `${APIEndpoints.ClerkEnrollment}/payment/1/refunded`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(clerkPaymentRefunded));
+    }
+  ),
 ];

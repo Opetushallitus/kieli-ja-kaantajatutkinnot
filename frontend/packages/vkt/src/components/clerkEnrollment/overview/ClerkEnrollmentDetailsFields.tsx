@@ -81,7 +81,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       <Text>
         {t('payment.details.status')}:{' '}
         <b>{t(`paymentStatus.${payment.status}`)}</b>
-        {payment.refundedAt && ' (merkitty palautetuksi)'}
+        {payment.refundedAt && ` (${t('payment.details.refunded')})`}
       </Text>
       <Text>
         {t('payment.details.reference')}: <b>{payment.transactionId}</b>
@@ -95,13 +95,14 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
       {payment.refundedAt ? (
-        <Text>
-          Merkitty palautetuksi:{' '}
+        <Text data-testid={'clerk-enrollment__details-fields__refunded-date'}>
+          {t('payment.details.refunded')}:{' '}
           <b>{DateUtils.formatOptionalDateTime(payment.refundedAt)}</b>
         </Text>
       ) : (
         <div className="margin-top-sm flex-start">
           <CustomButton
+            data-testid={'clerk-enrollment__details-fields__set-refunded'}
             variant={Variant.Outlined}
             color={Color.Secondary}
             onClick={() => {
@@ -109,7 +110,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
             }}
             disabled={refundLoadingStatus === APIResponseStatus.InProgress}
           >
-            Merkitse maksu palautetuksi
+            {t('payment.details.setRefunded')}
           </CustomButton>
         </div>
       )}

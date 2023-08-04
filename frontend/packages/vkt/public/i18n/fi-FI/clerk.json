@@ -39,7 +39,9 @@
             "amount": "Summa",
             "date": "Aikaleima",
             "reference": "Maksutunniste",
-            "status": "Tila"
+            "status": "Tila",
+            "refunded": "Merkitty palautetuksi",
+            "setRefunded": "Merkitse maksu palautetuksi"
           },
           "modal": {
             "expires": "Voimassaolo päättyy",
