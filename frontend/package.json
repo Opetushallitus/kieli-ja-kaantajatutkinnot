@@ -7,9 +7,9 @@
   "private": true,
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "resolutions": {
-    "@xmldom/xmldom": "^0.8.4",
+    "@xmldom/xmldom": "^0.8.10",
     "loader-utils": "^2.0.4",
-    "terser": "^5.14.2"
+    "terser": "^5.19.2"
   },
   "scripts": {
     "g:cypress": "cd $INIT_CWD && cypress",
