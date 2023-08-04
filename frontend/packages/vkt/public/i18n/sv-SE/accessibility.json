@@ -3,5 +3,6 @@
   "test2": "roboto",
   "test3": "mui",
   "test4": "axios",
-  "test5": "dayjs"
+  "test5": "dayjs",
+  "test6": "js-cookie"
 }
