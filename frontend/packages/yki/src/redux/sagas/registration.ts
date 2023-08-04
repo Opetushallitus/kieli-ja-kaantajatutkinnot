@@ -40,8 +40,8 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      const response: AxiosResponse<PublicRegistrationInitErrorResponse> =
-        error.response;
+      const response =
+        error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
       yield put(rejectPublicRegistrationInit(response.data));
     } else {
       yield put(rejectPublicRegistrationInit({ error: {} }));
@@ -80,9 +80,10 @@ function* submitRegistrationFormSaga() {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
     if (axios.isAxiosError(error) && error.response) {
-      if (error.response.data && error.response.data.error) {
-        const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
-          error.response;
+      const response =
+        error.response as AxiosResponse<PublicRegistrationFormSubmitErrorResponse>;
+
+      if (response.data && response.data.error) {
         yield put(rejectPublicRegistrationSubmission(response.data));
       } else {
         yield put(rejectPublicRegistrationSubmission({ error: {} }));
