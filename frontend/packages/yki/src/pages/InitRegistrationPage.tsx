@@ -29,7 +29,7 @@ const ContentSelector = () => {
   }
   const { open, participants, quota } =
     ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  if (!open || participants >= quota) {
+  if (!open || (quota && participants >= quota)) {
     return <RegistrationNotAvailable />;
   } else {
     return <PublicIdentificationGrid />;

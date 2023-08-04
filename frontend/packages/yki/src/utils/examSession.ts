@@ -21,7 +21,8 @@ export class ExamSessionUtils {
   private static getPostAdmissionAvailablePlaces(examSession: ExamSession) {
     if (
       ExamSessionUtils.isPostAdmissionAvailable(examSession) &&
-      !ExamSessionUtils.hasPostAdmissionEnded(examSession, dayjs())
+      !ExamSessionUtils.hasPostAdmissionEnded(examSession, dayjs()) &&
+      examSession.post_admission_quota
     ) {
       return examSession.post_admission_quota - examSession.pa_participants;
     }

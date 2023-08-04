@@ -20,7 +20,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Jälkiedu',
           other_location_info: 'auditorio A2',
           street_address: 'Jokukatu 4',
@@ -29,7 +29,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Jälkiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -38,7 +38,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Jälkiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -76,7 +76,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorio A2',
           street_address: 'Jokukatu 4',
@@ -85,7 +85,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -94,7 +94,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -132,7 +132,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorio A2',
           street_address: 'Jokukatu 4',
@@ -141,7 +141,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -150,7 +150,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -188,7 +188,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorio A2',
           street_address: 'Jokukatu 4',
@@ -197,7 +197,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -206,7 +206,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Amiedu',
           other_location_info: 'auditorium A2',
           street_address: 'Jokukatu 4',
@@ -305,7 +305,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Jyväskylän kansalaisopisto',
           other_location_info: 'Hall Kekkonen',
           street_address: 'Mikälietie 4',
@@ -314,7 +314,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Maunula Secondary School and Helsinki School of Mathematics',
           other_location_info: 'Hall Kekkonen',
           street_address: 'Mikälietie 4',
@@ -358,7 +358,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Jyväskylän kansalaisopisto',
           other_location_info: 'Hall Mannerheim',
           street_address: 'Mikälietie 4',
@@ -367,7 +367,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Jyväskylän kansalaisopisto',
           other_location_info: 'Hall Mannerheim',
           street_address: 'Mikälietie 4',
@@ -453,7 +453,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Sali Koivisto',
           street_address: 'Töölöntullinkatu 8',
@@ -462,7 +462,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Hall Koivisto',
           street_address: 'Töölöntullinkatu 8',
@@ -471,7 +471,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Hall Koivisto',
           street_address: 'Töölöntullinkatu 8',
@@ -507,7 +507,7 @@ export const examSessions = {
       location: [
         {
           lang: 'fi',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Sali Koivisto',
           street_address: 'Töölöntullinkatu 8',
@@ -516,7 +516,7 @@ export const examSessions = {
         },
         {
           lang: 'sv',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Hall Koivisto',
           street_address: 'Töölöntullinkatu 8',
@@ -525,7 +525,7 @@ export const examSessions = {
         },
         {
           lang: 'en',
-          extra_information: null,
+          extra_information: '',
           name: 'Helsingin aikuisopisto',
           other_location_info: 'Hall Koivisto',
           street_address: 'Töölöntullinkatu 8',

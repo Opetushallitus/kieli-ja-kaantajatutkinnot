@@ -31,7 +31,7 @@ const RegisterToExamButton = ({
 
   const { participants, quota, open, kind } =
     ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const placesAvailable = participants < quota;
+  const placesAvailable = quota && participants < quota;
   const queueAvailable =
     open && kind === RegistrationKind.Admission && !examSession.queue_full;
 
@@ -242,6 +242,7 @@ export const PublicExamSessionListingRow = ({
       }`;
     } else if (
       relevantPeriod.kind === RegistrationKind.PostAdmission &&
+      examSession.post_admission_quota &&
       examSession.pa_participants < examSession.post_admission_quota
     ) {
       return `${
@@ -259,6 +260,8 @@ export const PublicExamSessionListingRow = ({
       examSession.participants < examSession.max_participants) ||
       (registrationPeriodOpen && !examSession.queue_full) ||
       (postAdmissionOpen &&
+        examSession.post_admission_quota !== undefined &&
+        examSession.post_admission_quota > 0 &&
         examSession.pa_participants < examSession.post_admission_quota));
 
   if (isPhone) {

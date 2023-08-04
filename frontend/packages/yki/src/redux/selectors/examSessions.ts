@@ -42,6 +42,7 @@ const filterExamSessions = (
       (es) =>
         es.participants < es.max_participants ||
         (es.post_admission_active &&
+          es.post_admission_quota &&
           es.pa_participants < es.post_admission_quota)
     );
   }
