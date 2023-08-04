@@ -6,5 +6,6 @@
   "test5": "dayjs",
   "test6": "js-cookie",
   "test7": "react-redux",
-  "test8": "redux-saga"
+  "test8": "redux-saga",
+  "dev-test1": "@testing-library/dom"
 }
