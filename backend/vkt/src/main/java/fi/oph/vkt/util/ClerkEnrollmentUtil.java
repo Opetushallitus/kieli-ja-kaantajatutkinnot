@@ -1,6 +1,7 @@
 package fi.oph.vkt.util;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -44,6 +45,8 @@ public class ClerkEnrollmentUtil {
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
+      .paymentLinkHash(enrollment.getPaymentLinkHash())
+      .paymentLinkExpiresAt(enrollment.getPaymentLinkExpiresAt())
       .payments(paymentDTOs)
       .build();
   }

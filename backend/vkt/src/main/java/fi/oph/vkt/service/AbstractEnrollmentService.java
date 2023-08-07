@@ -1,6 +1,8 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
+import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;

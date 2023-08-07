@@ -48,32 +48,46 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
+    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
     enrollment.assertVersion(dto.version());
 
     copyDtoFieldsToEnrollment(enrollment, dto);
     enrollmentRepository.flush();
 
-    auditService.logById(VktOperation.UPDATE_ENROLLMENT, enrollment.getId());
+    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId())
+    );
+    auditService.logUpdate(VktOperation.UPDATE_ENROLLMENT, enrollment.getId(), oldEnrollmentDto, newEnrollmentDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    return newEnrollmentDto;
   }
 
   @Transactional
   public ClerkEnrollmentDTO changeStatus(final ClerkEnrollmentStatusChangeDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
+    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
     enrollment.assertVersion(dto.version());
 
     enrollment.setStatus(dto.newStatus());
     enrollmentRepository.flush();
 
-    auditService.logById(VktOperation.UPDATE_ENROLLMENT_STATUS, enrollment.getId());
+    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId())
+    );
+    auditService.logUpdate(
+      VktOperation.UPDATE_ENROLLMENT_STATUS,
+      enrollment.getId(),
+      oldEnrollmentDto,
+      newEnrollmentDto
+    );
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    return newEnrollmentDto;
   }
 
   @Transactional
   public ClerkEnrollmentDTO move(final ClerkEnrollmentMoveDTO dto) {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(dto.id());
+    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
     enrollment.assertVersion(dto.version());
 
     final ExamEvent toExamEvent = examEventRepository.getReferenceById(dto.toExamEventId());
@@ -87,9 +101,12 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     enrollment.setExamEvent(toExamEvent);
     enrollmentRepository.flush();
 
-    auditService.logById(VktOperation.MOVE_ENROLLMENT, enrollment.getId());
+    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(
+      enrollmentRepository.getReferenceById(enrollment.getId())
+    );
+    auditService.logUpdate(VktOperation.MOVE_ENROLLMENT, enrollment.getId(), oldEnrollmentDto, newEnrollmentDto);
 
-    return ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollmentRepository.getReferenceById(enrollment.getId()));
+    return newEnrollmentDto;
   }
 
   @Transactional
@@ -97,12 +114,16 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
     final Enrollment enrollment = enrollmentRepository.getReferenceById(enrollmentId);
     final ExamEvent examEvent = enrollment.getExamEvent();
     final String baseUrl = environment.getRequiredProperty("app.base-url.api");
+    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
 
     if (enrollment.getPaymentLinkHash() == null) {
       enrollment.setPaymentLinkHash(uuidSource.getRandomNonce());
     }
     enrollment.setPaymentLinkExpiresAt(LocalDateTime.now().plusDays(1));
     enrollmentRepository.saveAndFlush(enrollment);
+
+    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    auditService.logUpdate(VktOperation.UPDATE_PAYMENT_LINK, enrollment.getId(), oldEnrollmentDto, newEnrollmentDto);
 
     return ClerkPaymentLinkDTO
       .builder()
@@ -148,10 +169,15 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   @Transactional
   public ClerkPaymentDTO setRefunded(final long paymentId) {
     final Payment payment = paymentRepository.getReferenceById(paymentId);
+    final ClerkPaymentDTO oldPaymentDto = ClerkEnrollmentUtil.createClerkPaymentDTO(payment);
 
     payment.setRefundedAt(LocalDateTime.now());
     paymentRepository.saveAndFlush(payment);
 
-    return ClerkEnrollmentUtil.createClerkPaymentDTO(payment);
+    final ClerkPaymentDTO newPaymentDto = ClerkEnrollmentUtil.createClerkPaymentDTO(payment);
+
+    auditService.logUpdate(VktOperation.UPDATE_PAYMENT, payment.getId(), oldPaymentDto, newPaymentDto);
+
+    return newPaymentDto;
   }
 }
