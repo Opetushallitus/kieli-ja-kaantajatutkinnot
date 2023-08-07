@@ -14,7 +14,7 @@ import { loadNationalities } from 'redux/reducers/nationalities';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const FillRegistrationDetails = () => {
   const dispatch = useAppDispatch();
@@ -89,7 +89,7 @@ const Success = () => {
       <H2>{t('title')}</H2>
       <Text>
         {t('confirmation')}:{' '}
-        {ExamUtils.languageAndLevelText(examSession as ExamSession)}
+        {ExamSessionUtils.languageAndLevelText(examSession as ExamSession)}
       </Text>
       <Text>
         {t('paymentLinkEmail.text1')}

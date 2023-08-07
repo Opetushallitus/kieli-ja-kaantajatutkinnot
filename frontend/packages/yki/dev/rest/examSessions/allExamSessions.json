@@ -277,6 +277,61 @@
       "post_admission": null
     },
     {
+      "level_code": "PERUS",
+      "max_participants": 20,
+      "language_code": "swe",
+      "participants": 20,
+      "contact": [
+        {
+          "name": "Contact Person",
+          "email": "contact.person@testi.invalid",
+          "phone_number": "+3584678124"
+        }
+      ],
+      "pa_participants": 0,
+      "office_oid": "1.2.246.562.10.29461948951",
+      "published_at": "2019-01-15T11:20:41.776Z",
+      "session_date": "2019-04-06",
+      "organizer_oid": "1.2.246.562.10.28646781493",
+      "id": 111,
+      "registration_start_date": "2019-02-01",
+      "location": [
+        {
+          "lang": "fi",
+          "extra_information": "uusia lisätietoja",
+          "name": "Amiedu",
+          "other_location_info": "auditorio A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        },
+        {
+          "lang": "sv",
+          "extra_information": "ny extra info",
+          "name": "Omenia",
+          "other_location_info": "auditorium A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tammerfors",
+          "zip": "00100"
+        },
+        {
+          "lang": "en",
+          "extra_information": "new additional info",
+          "name": "Omenia",
+          "other_location_info": "auditorium A3",
+          "street_address": "Jokukatu 4",
+          "post_office": "Tampere",
+          "zip": "00100"
+        }
+      ],
+      "exam_fee": "123.00",
+      "registration_end_date": "2039-02-28",
+      "open": true,
+      "queue_full": true,
+      "queue": 50,
+      "post_admission": null
+    },
+    {
       "level_code": "KESKI",
       "max_participants": 25,
       "language_code": "fin",

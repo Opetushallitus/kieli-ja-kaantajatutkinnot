@@ -38,7 +38,7 @@ import {
   submitEvaluationOrder,
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const RenderEvaluationDetails = () => {
   const translateCommon = useCommonTranslation();
@@ -53,7 +53,7 @@ const RenderEvaluationDetails = () => {
       <Text>{t('info')}</Text>
       <Text>
         {translateCommon('examination')}:{' '}
-        <b>{ExamUtils.languageAndLevelText(evaluationPeriod)}</b>
+        <b>{ExamSessionUtils.languageAndLevelText(evaluationPeriod)}</b>
         <br />
         {translateCommon('examDate')}:{' '}
         <b>{DateUtils.formatOptionalDate(evaluationPeriod.exam_date)}</b>

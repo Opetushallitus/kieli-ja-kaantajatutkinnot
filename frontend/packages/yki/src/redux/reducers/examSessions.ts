@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ExamSessionFilters, ExamSessions } from 'interfaces/examSessions';
+import { ExamSessionUtils } from 'utils/examSession';
 
 interface ExamSessionsState extends ExamSessions {
   status: APIResponseStatus;
@@ -33,11 +34,15 @@ const examSessionsSlice = createSlice({
       state.status = APIResponseStatus.Error;
     },
     storeExamSessions(state, action: PayloadAction<ExamSessions>) {
-      state.status = APIResponseStatus.Success;
-      state.exam_sessions = action.payload.exam_sessions;
-      const uniqueMunicipalities = new Set(
-        action.payload.exam_sessions.map((es) => es.location[0].post_office)
+      const examSessions = action.payload.exam_sessions.sort((es1, es2) =>
+        ExamSessionUtils.compareExamSessions(es1, es2)
       );
+      const uniqueMunicipalities = new Set(
+        examSessions.map((es) => es.location[0].post_office)
+      );
+
+      state.status = APIResponseStatus.Success;
+      state.exam_sessions = examSessions;
       state.municipalities = Array.from(uniqueMunicipalities);
     },
     setPublicExamSessionFilters(
