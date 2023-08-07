@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
-import { AppLanguage } from '../../enums';
 import { LangSelector } from './LangSelector';
+import { AppLanguage } from '../../enums';
 
 describe('LangSelector', () => {
   it('should render LangSelector correctly', () => {
