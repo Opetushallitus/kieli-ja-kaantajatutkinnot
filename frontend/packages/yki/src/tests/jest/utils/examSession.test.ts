@@ -206,7 +206,7 @@ describe('ExamSessionUtils', () => {
     ).toEqual(-1);
   });
 
-  it('should treat exam sessions with post admission similarly to ones without', () => {
+  it('should value availability of regular and post admission equally', () => {
     const postAdmissionSession = {
       ...baseExamSession,
       registration_end_date: dayjs('2021-01-01'),
