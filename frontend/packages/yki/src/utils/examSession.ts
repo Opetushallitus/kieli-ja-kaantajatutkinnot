@@ -247,7 +247,7 @@ export class ExamSessionUtils {
         start: postAdmissionOpensAt,
         end: postAdmissionClosesAt,
         participants: examSession.pa_participants,
-        quota: examSession.post_admission_quota,
+        quota: examSession.post_admission_quota || 0,
         open:
           postAdmissionOpensAt.isBefore(now) &&
           postAdmissionClosesAt.isAfter(now),
