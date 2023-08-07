@@ -9,5 +9,6 @@
   "test8": "redux-saga",
   "dev-test1": "@testing-library/dom",
   "dev-test2": "@types/react-test-renderer",
-  "dev-test3": "babel-loader"
+  "dev-test3": "babel-loader",
+  "dev-test4": "css-loader"
 }
