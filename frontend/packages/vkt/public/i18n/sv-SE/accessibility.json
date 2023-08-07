@@ -12,5 +12,6 @@
   "dev-test3": "babel-loader",
   "dev-test4": "css-loader",
   "dev-test5": "eslint-config-prettier",
-  "dev-test6": "eslint-plugin-jsx-a11y"
+  "dev-test6": "eslint-plugin-jsx-a11y",
+  "dev-test7": "eslint-plugin-react"
 }

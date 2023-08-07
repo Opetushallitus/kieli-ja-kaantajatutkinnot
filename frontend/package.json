@@ -84,7 +84,7 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-webpack-plugin": "^3.2.0",
     "git-revision-webpack-plugin": "^5.0.0",
@@ -116,6 +116,7 @@
     "i18next",
     "i18next-browser-languagedetector",
     "react-router-dom",
-    "cypress + @testing-library/cypress"
+    "cypress + @testing-library/cypress",
+    "eslint-plugin-prettier"
   ]
 }
