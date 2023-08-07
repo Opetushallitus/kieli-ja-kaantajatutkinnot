@@ -13,7 +13,7 @@ export enum PublicRegistrationInitError {
 
 export enum PublicRegistrationFormSubmitError {
   FormExpired = 'formExpired',
-  PaymentCreationFailed = 'generic',
-  PersonCreationFailed = 'generic',
+  PaymentCreationFailed = 'paymentCreationFailed',
+  PersonCreationFailed = 'personCreationFailed',
   RegistrationPeriodClosed = 'registrationPeriodClosed',
 }
