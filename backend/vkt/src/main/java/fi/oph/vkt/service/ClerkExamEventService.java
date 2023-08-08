@@ -1,6 +1,7 @@
 package fi.oph.vkt.service;
 
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
+import fi.oph.vkt.api.dto.clerk.ClerkExamEventAuditDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventCreateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventDTOCommonFields;
@@ -13,6 +14,7 @@ import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
@@ -114,6 +116,7 @@ public class ClerkExamEventService {
   public ClerkExamEventDTO updateExamEvent(final ClerkExamEventUpdateDTO dto) {
     final Long id = dto.id();
     final ExamEvent examEvent = examEventRepository.getReferenceById(id);
+    final ClerkExamEventAuditDTO oldExamEventDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
 
     examEvent.assertVersion(dto.version());
 
@@ -127,7 +130,9 @@ public class ClerkExamEventService {
       throw ex;
     }
 
-    auditService.logById(VktOperation.UPDATE_EXAM_EVENT, id);
+    final ClerkExamEventAuditDTO newExamEventDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
+    auditService.logUpdate(VktOperation.UPDATE_EXAM_EVENT, id, oldExamEventDto, newExamEventDto);
+
     return getExamEventWithoutAudit(id);
   }
 
