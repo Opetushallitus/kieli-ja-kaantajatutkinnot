@@ -92,8 +92,8 @@
     "jest": "^27.5.1",
     "mini-css-extract-plugin": "^2.7.6",
     "msw": "^1.2.3",
-    "postcss": "^8.4.19",
-    "prettier": "^2.8.0",
+    "postcss": "^8.4.27",
+    "prettier": "^2.8.8",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
@@ -118,6 +118,7 @@
     "react-router-dom",
     "cypress + @testing-library/cypress",
     "eslint-plugin-prettier",
-    "jest"
+    "jest",
+    "prettier"
   ]
 }
