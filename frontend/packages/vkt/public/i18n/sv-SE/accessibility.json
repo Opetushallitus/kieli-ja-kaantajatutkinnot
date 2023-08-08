@@ -15,5 +15,6 @@
   "dev-test6": "eslint-plugin-jsx-a11y",
   "dev-test7": "eslint-plugin-react",
   "dev-test8": "eslint-webpack-plugin",
-  "dev-test9": "msw"
+  "dev-test9": "msw",
+  "dev-test10": "msw 1.2.3 (no major changes since 0.49.3)"
 }
