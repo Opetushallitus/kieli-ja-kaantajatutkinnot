@@ -20,5 +20,6 @@
   "dev-test11": "prettier 2.8.8",
   "dev-test12": "sass-loader",
   "dev-test13": "stylelint and configs minor updates",
-  "dev-test14": "ts-unused-exports"
+  "dev-test14": "ts-unused-exports",
+  "dev-test15": "typescript minor 4.9.5"
 }
