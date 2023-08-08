@@ -117,8 +117,7 @@
     "i18next-browser-languagedetector",
     "react-router-dom",
     "cypress + @testing-library/cypress",
-    "eslint-plugin-prettier",
     "jest",
-    "prettier"
+    "prettier + eslint-plugin-prettier"
   ]
 }
