@@ -22,5 +22,6 @@
   "dev-test13": "stylelint and configs minor updates",
   "dev-test14": "ts-unused-exports",
   "dev-test15": "typescript minor 4.9.5",
-  "dev-test16": "webpack updated"
+  "dev-test16": "webpack updated",
+  "deploy-test": "deploy"
 }
