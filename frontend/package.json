@@ -98,10 +98,10 @@
     "sass": "^1.64.2",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
-    "stylelint": "^14.15.0",
-    "stylelint-config-prettier": "^9.0.4",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-sass-guidelines": "^9.0.1",
-    "stylelint-prettier": "^2.0.0",
+    "stylelint-prettier": "^3.0.0",
     "stylelint-webpack-plugin": "^3.3.0",
     "ts-unused-exports": "^8.0.0",
     "typescript": "^4.9.3",
@@ -118,6 +118,7 @@
     "react-router-dom",
     "cypress + @testing-library/cypress",
     "jest",
-    "prettier + eslint-plugin-prettier"
+    "prettier + eslint-plugin-prettier",
+    "stylelint + configs"
   ]
 }
