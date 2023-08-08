@@ -1,8 +1,4 @@
 export class StringUtils {
-  static runtests() {
-    return '';
-  }
-
   /**
    * Value is a blank string  if its trimmed length is zero.
    */
