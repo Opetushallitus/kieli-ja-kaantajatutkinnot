@@ -1,7 +1,7 @@
 package fi.oph.vkt.util;
 
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
@@ -71,6 +71,34 @@ public class ClerkEnrollmentUtil {
       .version(person.getVersion())
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
+      .build();
+  }
+
+  public static ClerkEnrollmentAuditDTO createClerkEnrollmentAuditDTO(final Enrollment enrollment) {
+    return ClerkEnrollmentAuditDTO
+      .builder()
+      .id(enrollment.getId())
+      .version(enrollment.getVersion())
+      .enrollmentTime(DateUtil.formatOptionalDatetime(enrollment.getCreatedAt()))
+      .person(enrollment.getPerson().getId())
+      .oralSkill(enrollment.isOralSkill())
+      .textualSkill(enrollment.isTextualSkill())
+      .understandingSkill(enrollment.isUnderstandingSkill())
+      .speakingPartialExam(enrollment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+      .status(enrollment.getStatus())
+      .previousEnrollment(enrollment.getPreviousEnrollment())
+      .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
+      .email(enrollment.getEmail())
+      .phoneNumber(enrollment.getPhoneNumber())
+      .street(enrollment.getStreet())
+      .postalCode(enrollment.getPostalCode())
+      .town(enrollment.getTown())
+      .country(enrollment.getCountry())
+      .paymentLinkHash(enrollment.getPaymentLinkHash())
+      .paymentLinkExpiresAt(DateUtil.formatOptionalDatetime(enrollment.getPaymentLinkExpiresAt()))
       .build();
   }
 }

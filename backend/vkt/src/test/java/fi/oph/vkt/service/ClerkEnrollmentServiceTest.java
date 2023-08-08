@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
+import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -92,10 +93,10 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     final ClerkEnrollmentUpdateDTO dto = createUpdateDTOAddingOne(enrollment);
     final ClerkEnrollmentDTO responseDTO = clerkEnrollmentService.update(dto);
-    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
 
     assertEquals(responseDTO.id(), dto.id());
     assertEquals(responseDTO.version(), dto.version() + 1);
@@ -172,8 +173,8 @@ class ClerkEnrollmentServiceTest {
       .logUpdate(
         eq(VktOperation.UPDATE_ENROLLMENT_STATUS),
         eq(enrollment.getId()),
-        any(ClerkEnrollmentDTO.class),
-        any(ClerkEnrollmentDTO.class)
+        any(ClerkEnrollmentAuditDTO.class),
+        any(ClerkEnrollmentAuditDTO.class)
       );
   }
 
@@ -202,12 +203,12 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     final int originalEnrollmentVersion = enrollment.getVersion();
 
     final ClerkEnrollmentMoveDTO moveDTO = createMoveDTO(enrollment, examEvent2);
     final ClerkEnrollmentDTO responseDTO = clerkEnrollmentService.move(moveDTO);
-    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
 
     assertEquals(originalEnrollmentVersion + 1, responseDTO.version());
     assertEquals(examEvent2.getId(), enrollmentRepository.getReferenceById(enrollment.getId()).getExamEvent().getId());
@@ -279,13 +280,13 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(person);
     entityManager.persist(enrollment);
 
-    final ClerkEnrollmentDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO oldEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
     final ClerkPaymentLinkDTO clerkPaymentLinkDTO = clerkEnrollmentService.createPaymentLink(enrollment.getId());
     final String expectedUrl = String.format(
       "http://localhost/examEvent/%d/redirect/269a2da4-58bb-45eb-b125-522b77e9167c",
       examEvent.getId()
     );
-    final ClerkEnrollmentDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentDTO(enrollment);
+    final ClerkEnrollmentAuditDTO newEnrollmentDto = ClerkEnrollmentUtil.createClerkEnrollmentAuditDTO(enrollment);
 
     assertEquals(expectedUrl, clerkPaymentLinkDTO.url());
     assertEquals("269a2da4-58bb-45eb-b125-522b77e9167c", enrollment.getPaymentLinkHash());

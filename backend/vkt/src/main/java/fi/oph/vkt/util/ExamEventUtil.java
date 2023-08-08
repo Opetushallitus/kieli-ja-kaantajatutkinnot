@@ -5,6 +5,8 @@ import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Reservation;
 import fi.oph.vkt.model.type.EnrollmentStatus;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class ExamEventUtil {
@@ -43,8 +45,8 @@ public class ExamEventUtil {
       .version(examEvent.getVersion())
       .language(examEvent.getLanguage())
       .level(examEvent.getLevel())
-      .date(examEvent.getDate())
-      .registrationCloses(examEvent.getRegistrationCloses())
+      .date(DateUtil.formatOptionalDate(examEvent.getDate()))
+      .registrationCloses(DateUtil.formatOptionalDate(examEvent.getRegistrationCloses()))
       .isHidden(examEvent.isHidden())
       .maxParticipants(examEvent.getMaxParticipants())
       .build();
