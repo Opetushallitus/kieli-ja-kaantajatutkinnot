@@ -90,8 +90,8 @@
     "git-revision-webpack-plugin": "^5.0.0",
     "html-webpack-plugin": "^5.5.3",
     "jest": "^27.5.1",
-    "mini-css-extract-plugin": "^2.7.0",
-    "msw": "^0.49.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "msw": "^0.49.3",
     "postcss": "^8.4.19",
     "prettier": "^2.8.0",
     "react-test-renderer": "^18.2.0",
@@ -118,6 +118,7 @@
     "react-router-dom",
     "cypress + @testing-library/cypress",
     "eslint-plugin-prettier",
-    "jest"
+    "jest",
+    "msw"
   ]
 }

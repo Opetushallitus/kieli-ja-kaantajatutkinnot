@@ -14,5 +14,6 @@
   "dev-test5": "eslint-config-prettier",
   "dev-test6": "eslint-plugin-jsx-a11y",
   "dev-test7": "eslint-plugin-react",
-  "dev-test8": "eslint-webpack-plugin"
+  "dev-test8": "eslint-webpack-plugin",
+  "dev-test9": "msw"
 }
