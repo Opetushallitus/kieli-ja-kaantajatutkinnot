@@ -5,7 +5,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +18,7 @@ public class ClerkEnrollmentUtil {
     final List<ClerkPaymentDTO> paymentDTOs = enrollment
       .getPayments()
       .stream()
-      .map(ClerkEnrollmentUtil::createClerkPaymentDTO)
+      .map(ClerkPaymentUtil::createClerkPaymentDTO)
       .sorted(Comparator.comparing(ClerkPaymentDTO::modifiedAt).reversed())
       .collect(Collectors.toList());
 
@@ -45,22 +44,7 @@ public class ClerkEnrollmentUtil {
       .postalCode(enrollment.getPostalCode())
       .town(enrollment.getTown())
       .country(enrollment.getCountry())
-      .paymentLinkHash(enrollment.getPaymentLinkHash())
-      .paymentLinkExpiresAt(enrollment.getPaymentLinkExpiresAt())
       .payments(paymentDTOs)
-      .build();
-  }
-
-  public static ClerkPaymentDTO createClerkPaymentDTO(final Payment payment) {
-    return ClerkPaymentDTO
-      .builder()
-      .id(payment.getId())
-      .version(payment.getVersion())
-      .transactionId(payment.getTransactionId())
-      .amount(payment.getAmount())
-      .status(payment.getPaymentStatus())
-      .modifiedAt(payment.getModifiedAt())
-      .refundedAt(payment.getRefundedAt())
       .build();
   }
 

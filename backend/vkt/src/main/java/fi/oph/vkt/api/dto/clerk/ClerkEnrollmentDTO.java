@@ -31,8 +31,6 @@ public record ClerkEnrollmentDTO(
   String postalCode,
   String town,
   String country,
-  String paymentLinkHash,
-  LocalDateTime paymentLinkExpiresAt,
   @NonNull @NotNull List<ClerkPaymentDTO> payments
 )
   implements EnrollmentDTOCommonFields {}

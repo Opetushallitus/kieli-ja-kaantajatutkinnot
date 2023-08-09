@@ -11,6 +11,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.service.ClerkEnrollmentService;
+import fi.oph.vkt.service.ClerkPaymentService;
 import fi.oph.vkt.service.receipt.ReceiptData;
 import fi.oph.vkt.service.receipt.ReceiptRenderer;
 import fi.oph.vkt.util.LocalisationUtil;
@@ -45,6 +46,9 @@ public class ClerkEnrollmentController {
   private ClerkEnrollmentService clerkEnrollmentService;
 
   @Resource
+  private ClerkPaymentService clerkPaymentService;
+
+  @Resource
   private ReceiptRenderer receiptRenderer;
 
   @PutMapping
@@ -74,7 +78,7 @@ public class ClerkEnrollmentController {
   @PutMapping("/payment/{paymentId:\\d+}/refunded")
   @Operation(tags = TAG_ENROLLMENT, summary = "Mark payment as refunded")
   public ClerkPaymentDTO setRefunded(@PathVariable final long paymentId) {
-    return clerkEnrollmentService.setRefunded(paymentId);
+    return clerkPaymentService.setRefunded(paymentId);
   }
 
   // TODO: this is currently an unused endpoint

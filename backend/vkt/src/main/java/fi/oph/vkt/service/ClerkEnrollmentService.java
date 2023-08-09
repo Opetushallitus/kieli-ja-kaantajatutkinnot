@@ -5,7 +5,6 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
-import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
@@ -159,20 +158,5 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
           enrollmentRepository.deleteById(enrollment.getId());
         }
       });
-  }
-
-  @Transactional
-  public ClerkPaymentDTO setRefunded(final long paymentId) {
-    final Payment payment = paymentRepository.getReferenceById(paymentId);
-    final ClerkPaymentDTO oldPaymentDto = ClerkEnrollmentUtil.createClerkPaymentDTO(payment);
-
-    payment.setRefundedAt(LocalDateTime.now());
-    paymentRepository.saveAndFlush(payment);
-
-    final ClerkPaymentDTO newPaymentDto = ClerkEnrollmentUtil.createClerkPaymentDTO(payment);
-
-    auditService.logUpdate(VktOperation.UPDATE_PAYMENT, payment.getId(), oldPaymentDto, newPaymentDto);
-
-    return newPaymentDto;
   }
 }

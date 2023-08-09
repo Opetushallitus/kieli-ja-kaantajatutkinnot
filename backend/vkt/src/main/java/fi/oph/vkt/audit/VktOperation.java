@@ -13,4 +13,5 @@ public enum VktOperation implements Operation {
   MOVE_ENROLLMENT,
   UPDATE_PAYMENT,
   UPDATE_PAYMENT_LINK,
+  REFUND_PAYMENT,
 }
