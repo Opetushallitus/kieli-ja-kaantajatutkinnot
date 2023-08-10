@@ -1,9 +1,9 @@
-import dayjs, { Dayjs } from 'dayjs';
 import { createSelector } from 'reselect';
 
 import { RootState } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSession, ExamSessionFilters } from 'interfaces/examSessions';
+import { ExamSessionUtils } from 'utils/examSession';
 
 export const examSessionsSelector = (state: RootState) => state.examSessions;
 
@@ -37,40 +37,19 @@ const filterExamSessions = (
     );
   }
 
-  if (filters.excludeFullSessions) {
-    filteredData = filteredData.filter(
-      (es) =>
-        es.participants < es.max_participants ||
-        (es.post_admission_active &&
-          es.post_admission_quota &&
-          es.pa_participants < es.post_admission_quota)
-    );
-  }
-
-  if (filters.excludeNonOpenSessions) {
-    const now = dayjs();
-    filteredData = filteredData.filter(
-      (es) => isRegistrationOpen(es, now) || isPostAdmissionOpen(es, now)
-    );
+  if (filters.excludeFullSessions || filters.excludeNonOpenSessions) {
+    filteredData = filteredData.filter((es) => {
+      const { open, availablePlaces } =
+        ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(es);
+      if (filters.excludeFullSessions && !availablePlaces) {
+        return false;
+      } else if (filters.excludeNonOpenSessions && !open) {
+        return false;
+      } else {
+        return true;
+      }
+    });
   }
 
   return filteredData;
-};
-
-const isRegistrationOpen = (es: ExamSession, now: Dayjs) => {
-  const start = es.registration_start_date as Dayjs;
-  const end = es.registration_end_date as Dayjs;
-
-  return now.isAfter(start.hour(10)) && now.isBefore(end.hour(16));
-};
-
-const isPostAdmissionOpen = (es: ExamSession, now: Dayjs) => {
-  if (!es.post_admission_active) {
-    return false;
-  }
-
-  const start = es.post_admission_start_date as Dayjs;
-  const end = es.post_admission_end_date as Dayjs;
-
-  return now.isAfter(start.hour(10)) && now.isBefore(end.hour(16));
 };

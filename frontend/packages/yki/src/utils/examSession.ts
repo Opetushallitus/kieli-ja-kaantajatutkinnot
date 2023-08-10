@@ -230,6 +230,11 @@ export class ExamSessionUtils {
         end: registrationClosesAt,
         participants: examSession.participants,
         quota: examSession.max_participants,
+        availablePlaces: Math.max(
+          examSession.max_participants - examSession.participants,
+          0
+        ),
+        availableQueue: !examSession.queue_full,
         open:
           registrationOpensAt.isBefore(now) &&
           registrationClosesAt.isAfter(now),
@@ -241,13 +246,16 @@ export class ExamSessionUtils {
       const postAdmissionClosesAt = examSession.post_admission_end_date?.hour(
         16
       ) as Dayjs;
+      const quota = examSession.post_admission_quota || 0;
 
       return {
         kind: RegistrationKind.PostAdmission,
         start: postAdmissionOpensAt,
         end: postAdmissionClosesAt,
         participants: examSession.pa_participants,
-        quota: examSession.post_admission_quota || 0,
+        quota,
+        availablePlaces: Math.max(quota - examSession.pa_participants, 0),
+        availableQueue: false,
         open:
           postAdmissionOpensAt.isBefore(now) &&
           postAdmissionClosesAt.isAfter(now),

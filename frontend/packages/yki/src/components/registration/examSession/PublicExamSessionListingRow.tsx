@@ -29,11 +29,8 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { participants, quota, open, kind } =
+  const { availablePlaces, availableQueue } =
     ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const placesAvailable = quota && participants < quota;
-  const queueAvailable =
-    open && kind === RegistrationKind.Admission && !examSession.queue_full;
 
   return (
     <CustomButtonLink
@@ -46,9 +43,9 @@ const RegisterToExamButton = ({
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
     >
-      {placesAvailable
+      {availablePlaces
         ? t('register')
-        : queueAvailable
+        : availableQueue
         ? t('orderCancellationNotification')
         : t('full')}
     </CustomButtonLink>
@@ -215,54 +212,21 @@ export const PublicExamSessionListingRow = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
-  const now = dayjs();
   const { isPhone } = useWindowProperties();
 
   const locationInfo = ExamSessionUtils.getLocationInfo(
     examSession,
     getCurrentLang()
   );
-  const registrationPeriodOpen = ExamSessionUtils.isRegistrationOpen(
-    examSession,
-    now
-  );
-  const postAdmissionOpen = ExamSessionUtils.isPostAdmissionOpen(
-    examSession,
-    now
-  );
-  const relevantPeriod =
+
+  const { open, availablePlaces, availableQueue, participants, quota } =
     ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const getAvailablePlacesText = () => {
-    if (
-      relevantPeriod.kind === RegistrationKind.Admission &&
-      examSession.participants < examSession.max_participants
-    ) {
-      return `${
-        examSession.max_participants - (examSession.participants ?? 0)
-      }`;
-    } else if (
-      relevantPeriod.kind === RegistrationKind.PostAdmission &&
-      examSession.post_admission_quota &&
-      examSession.pa_participants < examSession.post_admission_quota
-    ) {
-      return `${
-        examSession.post_admission_quota - (examSession.pa_participants ?? 0)
-      }`;
-    }
+  const remainingPlaces = Math.max(quota - participants, 0);
+  const availablePlacesText =
+    remainingPlaces > 0 ? '' + remainingPlaces : t('full');
 
-    return '' + t('full');
-  };
-
-  const availablePlacesText = getAvailablePlacesText();
   const registerActionAvailable =
-    examSession.open &&
-    ((registrationPeriodOpen &&
-      examSession.participants < examSession.max_participants) ||
-      (registrationPeriodOpen && !examSession.queue_full) ||
-      (postAdmissionOpen &&
-        examSession.post_admission_quota !== undefined &&
-        examSession.post_admission_quota > 0 &&
-        examSession.pa_participants < examSession.post_admission_quota));
+    examSession.open && open && (availablePlaces || availableQueue);
 
   if (isPhone) {
     return (
