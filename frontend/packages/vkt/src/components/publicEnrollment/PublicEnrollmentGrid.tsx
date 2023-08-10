@@ -124,7 +124,8 @@ export const PublicEnrollmentGrid = ({
     (isAuthenticatePassed && !reservation);
 
   const isShiftedFromQueue =
-    enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE;
+    enrollment.status === EnrollmentStatus.SHIFTED_FROM_QUEUE ||
+    enrollment.hasPaymentLink;
 
   const isPreviewStepActive = activeStep === PublicEnrollmentFormStep.Preview;
   const isPreviewPassed = activeStep > PublicEnrollmentFormStep.Preview;
