@@ -23,10 +23,6 @@ class PublicRegistrationPage {
     this.elements.clearAllButton().click();
   }
 
-  displaysErrorDialog(errorText: string) {
-    cy.findByRole('dialog').contains(errorText).should('be.visible');
-  }
-
   expectResultsCount(count: number) {
     this.elements
       .showResultsButton()

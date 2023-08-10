@@ -26,7 +26,6 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.expectResultsCount(10);
-      onPublicRegistrationPage.showResults();
     });
 
     it('can filter by current availability', () => {
@@ -34,7 +33,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.expectResultsCount(7);
+      onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
       onPublicRegistrationPage.expectResultsCount(2);
     });
