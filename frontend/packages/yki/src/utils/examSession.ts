@@ -248,15 +248,15 @@ export class ExamSessionUtils {
 
       return {
         kind: RegistrationKind.PostAdmission,
-        start: postAdmissionOpensAt,
-        end: postAdmissionClosesAt,
+        start: postAdmissionOpensAt as Dayjs,
+        end: postAdmissionClosesAt as Dayjs,
         participants: examSession.pa_participants,
         quota,
         availablePlaces: Math.max(quota - examSession.pa_participants, 0),
         availableQueue: false,
         open:
-          postAdmissionOpensAt &&
-          postAdmissionClosesAt &&
+          !!postAdmissionOpensAt &&
+          !!postAdmissionClosesAt &&
           postAdmissionOpensAt.isBefore(now) &&
           postAdmissionClosesAt.isAfter(now),
       };
