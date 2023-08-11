@@ -40,7 +40,7 @@ const filterExamSessions = (
   if (filters.excludeFullSessions || filters.excludeNonOpenSessions) {
     filteredData = filteredData.filter((es) => {
       const { open, availablePlaces } =
-        ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(es);
+        ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
       if (filters.excludeFullSessions && !availablePlaces) {
         return false;
       } else if (filters.excludeNonOpenSessions && !open) {

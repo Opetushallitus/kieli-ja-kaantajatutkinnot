@@ -215,7 +215,7 @@ export class ExamSessionUtils {
     );
   }
 
-  static getCurrentOrFutureAdmissionPeriod(examSession: ExamSession) {
+  static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
     const now = dayjs();
     const registrationOpensAt = examSession.registration_start_date?.hour(10);
     const registrationClosesAt = examSession.registration_end_date?.hour(16);
@@ -240,12 +240,10 @@ export class ExamSessionUtils {
           registrationClosesAt.isAfter(now),
       };
     } else {
-      const postAdmissionOpensAt = examSession.post_admission_start_date?.hour(
-        10
-      ) as Dayjs;
-      const postAdmissionClosesAt = examSession.post_admission_end_date?.hour(
-        16
-      ) as Dayjs;
+      const postAdmissionOpensAt =
+        examSession.post_admission_start_date?.hour(10);
+      const postAdmissionClosesAt =
+        examSession.post_admission_end_date?.hour(16);
       const quota = examSession.post_admission_quota || 0;
 
       return {
@@ -257,6 +255,8 @@ export class ExamSessionUtils {
         availablePlaces: Math.max(quota - examSession.pa_participants, 0),
         availableQueue: false,
         open:
+          postAdmissionOpensAt &&
+          postAdmissionClosesAt &&
           postAdmissionOpensAt.isBefore(now) &&
           postAdmissionClosesAt.isAfter(now),
       };

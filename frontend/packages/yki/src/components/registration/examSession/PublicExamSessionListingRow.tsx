@@ -30,7 +30,7 @@ const RegisterToExamButton = ({
   const { isPhone } = useWindowProperties();
 
   const { availablePlaces, availableQueue } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
   return (
     <CustomButtonLink
@@ -62,7 +62,7 @@ const RegistrationUnavailableText = ({
   });
   const now = dayjs();
   const { start, end } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   if (now.isBefore(start)) {
     return (
       <>
@@ -93,7 +93,7 @@ const renderAdmissionPeriod = ({
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
   const translateCommon = useCommonTranslation();
   const relevantPeriod =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   if (relevantPeriod.kind === RegistrationKind.Admission) {
     return <>{renderAdmissionPeriod(relevantPeriod)}</>;
   } else {
@@ -220,7 +220,7 @@ export const PublicExamSessionListingRow = ({
   );
 
   const { open, availablePlaces, availableQueue, participants, quota } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const remainingPlaces = Math.max(quota - participants, 0);
   const availablePlacesText =
     remainingPlaces > 0 ? '' + remainingPlaces : t('full');

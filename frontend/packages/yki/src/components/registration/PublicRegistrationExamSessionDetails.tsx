@@ -26,7 +26,7 @@ export const PublicRegistrationExamSessionDetails = ({
   }
 
   const { availablePlaces, start, end } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(

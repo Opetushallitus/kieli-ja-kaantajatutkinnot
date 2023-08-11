@@ -1,8 +1,22 @@
 import dayjs from 'dayjs';
 
-import { ExamLanguage, ExamLevel } from 'enums/app';
-import { ExamSessionLocation } from 'interfaces/examSessions';
+import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
+import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 import { ExamSessionUtils } from 'utils/examSession';
+
+const expectEffectiveRegistrationDetails = (
+  es: ExamSession,
+  expected: Partial<
+    ReturnType<typeof ExamSessionUtils.getEffectiveRegistrationPeriodDetails>
+  >
+) => {
+  const actual = ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+  const expectedKeys = Object.keys(expected);
+  const actualSubset = Object.fromEntries(
+    expectedKeys.map((k) => [k, actual[k as keyof typeof expected]])
+  );
+  expect(expected).toEqual(actualSubset);
+};
 
 describe('ExamSessionUtils', () => {
   const baseExamSession = {
@@ -243,5 +257,47 @@ describe('ExamSessionUtils', () => {
         baseExamSession
       )
     ).toEqual(1);
+  });
+
+  describe('getEffectiveRegistrationPeriodDetails', () => {
+    const testDay = dayjs('2023-08-11');
+    jest.useFakeTimers({ now: testDay.toDate() });
+    it('should return correct data when regular admission is ongoing', () => {
+      expectEffectiveRegistrationDetails(baseExamSession, {
+        kind: RegistrationKind.Admission,
+        open: true,
+        availablePlaces: 6,
+        availableQueue: true,
+      });
+    });
+    it('should return regular admission after registration_end_date if post admission is not active', () => {
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          registration_end_date: testDay.subtract(1, 'day'),
+        },
+        {
+          kind: RegistrationKind.Admission,
+          open: false,
+        }
+      );
+    });
+    it('should return post admission after registration_end_date if post admission is active', () => {
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          registration_end_date: testDay.subtract(1, 'day'),
+          post_admission_active: true,
+          post_admission_start_date: testDay.add(1, 'day'),
+          post_admission_end_date: testDay.add(2, 'day'),
+        },
+        {
+          kind: RegistrationKind.PostAdmission,
+          open: false,
+          availableQueue: false,
+        }
+      );
+    });
+    jest.useRealTimers();
   });
 });

@@ -28,7 +28,7 @@ const ContentSelector = () => {
     return null;
   }
   const { open, availablePlaces } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   if (!open || !availablePlaces) {
     return <RegistrationNotAvailable />;
   } else {
@@ -72,7 +72,7 @@ const RegistrationNotAvailable = () => {
   const { isPhone } = useWindowProperties();
 
   const { open, availableQueue, start } =
-    ExamSessionUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const now = dayjs();
 
   return (
