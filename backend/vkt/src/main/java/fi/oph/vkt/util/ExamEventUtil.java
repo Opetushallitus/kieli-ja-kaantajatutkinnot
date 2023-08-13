@@ -1,6 +1,6 @@
 package fi.oph.vkt.util;
 
-import fi.oph.vkt.api.dto.clerk.ClerkExamEventAuditDTO;
+import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Reservation;
@@ -41,6 +41,7 @@ public class ExamEventUtil {
       .builder()
       .id(examEvent.getId())
       .version(examEvent.getVersion())
+      .modifiedAt(DateUtil.formatOptionalDatetime(examEvent.getModifiedAt()))
       .language(examEvent.getLanguage())
       .level(examEvent.getLevel())
       .date(DateUtil.formatOptionalDate(examEvent.getDate()))

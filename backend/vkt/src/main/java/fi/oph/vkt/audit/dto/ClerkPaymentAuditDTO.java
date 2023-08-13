@@ -1,4 +1,4 @@
-package fi.oph.vkt.api.dto.clerk;
+package fi.oph.vkt.audit.dto;
 
 import fi.oph.vkt.model.type.PaymentStatus;
 import jakarta.validation.constraints.NotBlank;
@@ -10,9 +10,12 @@ import lombok.NonNull;
 public record ClerkPaymentAuditDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
+  @NonNull @NotNull String modifiedAt,
   @NonNull @NotBlank String transactionId,
   @NonNull @NotNull Integer amount,
+  @NonNull @NotNull String reference,
+  @NonNull @NotNull String paymentUrl,
   @NonNull @NotNull PaymentStatus status,
-  @NonNull @NotNull String modifiedAt,
   String refundedAt
-) {}
+)
+  implements AuditEntityDTO {}

@@ -1,9 +1,9 @@
 package fi.oph.vkt.util;
 
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
+import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
@@ -63,7 +63,8 @@ public class ClerkEnrollmentUtil {
       .builder()
       .id(enrollment.getId())
       .version(enrollment.getVersion())
-      .enrollmentTime(DateUtil.formatOptionalDatetime(enrollment.getCreatedAt()))
+      .modifiedAt(DateUtil.formatOptionalDatetime(enrollment.getModifiedAt()))
+      .examEventId(enrollment.getExamEvent().getId())
       .person(enrollment.getPerson().getId())
       .oralSkill(enrollment.isOralSkill())
       .textualSkill(enrollment.isTextualSkill())

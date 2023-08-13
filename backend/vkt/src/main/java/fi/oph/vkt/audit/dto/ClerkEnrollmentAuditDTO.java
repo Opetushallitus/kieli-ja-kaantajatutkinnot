@@ -1,6 +1,5 @@
-package fi.oph.vkt.api.dto.clerk;
+package fi.oph.vkt.audit.dto;
 
-import fi.oph.vkt.api.dto.EnrollmentDTOCommonFields;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +10,8 @@ import lombok.NonNull;
 public record ClerkEnrollmentAuditDTO(
   @NonNull @NotNull Long id,
   @NonNull @NotNull Integer version,
-  @NonNull @NotNull String enrollmentTime,
+  @NonNull @NotNull String modifiedAt,
+  @NonNull @NotNull Long examEventId,
   @NonNull @NotNull Long person,
   @NonNull @NotNull Boolean oralSkill,
   @NonNull @NotNull Boolean textualSkill,
@@ -32,4 +32,4 @@ public record ClerkEnrollmentAuditDTO(
   String paymentLinkHash,
   String paymentLinkExpiresAt
 )
-  implements EnrollmentDTOCommonFields {}
+  implements AuditEntityDTO {}

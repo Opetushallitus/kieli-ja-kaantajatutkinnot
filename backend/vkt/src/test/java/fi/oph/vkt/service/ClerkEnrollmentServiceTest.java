@@ -12,7 +12,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
-import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentMoveDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentStatusChangeDTO;
@@ -20,6 +19,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentLinkDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
+import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
@@ -293,6 +293,6 @@ class ClerkEnrollmentServiceTest {
     assertTrue(enrollment.getPaymentLinkExpiresAt().isAfter(LocalDateTime.now()));
 
     verify(auditService)
-      .logUpdate(VktOperation.UPDATE_PAYMENT_LINK, enrollment.getId(), oldEnrollmentDto, newEnrollmentDto);
+      .logUpdate(VktOperation.UPDATE_ENROLLMENT_PAYMENT_LINK, enrollment.getId(), oldEnrollmentDto, newEnrollmentDto);
   }
 }

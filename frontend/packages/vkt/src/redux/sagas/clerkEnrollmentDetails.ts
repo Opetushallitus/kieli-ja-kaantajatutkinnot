@@ -106,7 +106,7 @@ function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkPaymentResponse> = yield call(
       axiosInstance.put,
-      `${APIEndpoints.ClerkEnrollment}/payment/${action.payload}/refunded`,
+      `${APIEndpoints.ClerkPayment}/${action.payload}/refunded`,
       {}
     );
     const payment = SerializationUtils.deserializeClerkPayment(
