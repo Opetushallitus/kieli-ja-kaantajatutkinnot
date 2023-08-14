@@ -30,6 +30,6 @@ public class ClerkPaymentService {
     final ClerkPaymentAuditDTO newAuditDto = ClerkPaymentUtil.createClerkPaymentAuditDTO(payment);
     auditService.logUpdate(VktOperation.REFUND_PAYMENT, payment.getId(), oldAuditDto, newAuditDto);
 
-    return ClerkPaymentUtil.createClerkPaymentDTO(payment);
+    return ClerkPaymentUtil.createClerkPaymentDTO(paymentRepository.getReferenceById(payment.getId()));
   }
 }
