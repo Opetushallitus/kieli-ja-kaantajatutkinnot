@@ -200,68 +200,69 @@ describe('ExamSessionUtils', () => {
           baseExamSession
         )
       ).toEqual(1);
+
+      // earlier session date > ended registration
+      // participants set as max_participants for both to avoid es1 to be considered full and es2 not
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          {
+            ...baseExamSession,
+            participants: baseExamSession.max_participants,
+            session_date: dayjs('2098-12-31'),
+            registration_end_date: dayjs('2021-01-01'),
+          },
+          {
+            ...baseExamSession,
+            participants: baseExamSession.max_participants,
+          }
+        )
+      ).toEqual(-1);
     });
 
-    // earlier session date > ended registration
-    // participants set as max_participants for both to avoid es1 to be considered full and es2 not
-    expect(
-      ExamSessionUtils.compareExamSessions(
-        {
-          ...baseExamSession,
-          participants: baseExamSession.max_participants,
-          session_date: dayjs('2098-12-31'),
-          registration_end_date: dayjs('2021-01-01'),
-        },
-        {
-          ...baseExamSession,
-          participants: baseExamSession.max_participants,
-        }
-      )
-    ).toEqual(-1);
-  });
+    it('should value availability of regular and post admission equally', () => {
+      const postAdmissionSession = {
+        ...baseExamSession,
+        registration_end_date: dayjs('2021-01-01'),
+        post_admission_active: true,
+        post_admission_start_date: dayjs('2021-02-02'),
+        post_admission_end_date: dayjs('2090-03-03'),
+        post_admission_quota: 5,
+        pa_participants: 3,
+      };
 
-  it('should value availability of regular and post admission equally', () => {
-    const postAdmissionSession = {
-      ...baseExamSession,
-      registration_end_date: dayjs('2021-01-01'),
-      post_admission_active: true,
-      post_admission_start_date: dayjs('2021-02-02'),
-      post_admission_end_date: dayjs('2090-03-03'),
-      post_admission_quota: 5,
-      pa_participants: 3,
-    };
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          postAdmissionSession,
+          baseExamSession
+        )
+      ).toEqual(0);
 
-    expect(
-      ExamSessionUtils.compareExamSessions(
-        postAdmissionSession,
-        baseExamSession
-      )
-    ).toEqual(0);
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          {
+            ...postAdmissionSession,
+            pa_participants: postAdmissionSession.post_admission_quota,
+          },
+          baseExamSession
+        )
+      ).toEqual(1);
 
-    expect(
-      ExamSessionUtils.compareExamSessions(
-        {
-          ...postAdmissionSession,
-          pa_participants: postAdmissionSession.post_admission_quota,
-        },
-        baseExamSession
-      )
-    ).toEqual(1);
-
-    expect(
-      ExamSessionUtils.compareExamSessions(
-        {
-          ...postAdmissionSession,
-          post_admission_end_date: dayjs('2021-03-03'),
-        },
-        baseExamSession
-      )
-    ).toEqual(1);
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          {
+            ...postAdmissionSession,
+            post_admission_end_date: dayjs('2021-03-03'),
+          },
+          baseExamSession
+        )
+      ).toEqual(1);
+    });
   });
 
   describe('getEffectiveRegistrationPeriodDetails', () => {
     const testDay = dayjs('2023-08-11');
     jest.useFakeTimers({ now: testDay.toDate() });
+
     it('should return correct data when regular admission is ongoing', () => {
       expectEffectiveRegistrationDetails(baseExamSession, {
         kind: RegistrationKind.Admission,
@@ -270,6 +271,7 @@ describe('ExamSessionUtils', () => {
         availableQueue: true,
       });
     });
+
     it('should return regular admission after registration_end_date if post admission is not active', () => {
       expectEffectiveRegistrationDetails(
         {
@@ -282,6 +284,7 @@ describe('ExamSessionUtils', () => {
         }
       );
     });
+
     it('should return post admission after registration_end_date if post admission is active', () => {
       expectEffectiveRegistrationDetails(
         {
@@ -298,6 +301,7 @@ describe('ExamSessionUtils', () => {
         }
       );
     });
+
     jest.useRealTimers();
   });
 });
