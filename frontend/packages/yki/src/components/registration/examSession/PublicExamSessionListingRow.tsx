@@ -219,14 +219,12 @@ export const PublicExamSessionListingRow = ({
     getCurrentLang()
   );
 
-  const { open, availablePlaces, availableQueue, participants, quota } =
+  const { open, availablePlaces, availableQueue } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const remainingPlaces = Math.max(quota - participants, 0);
   const availablePlacesText =
-    remainingPlaces > 0 ? '' + remainingPlaces : t('full');
+    availablePlaces > 0 ? '' + availablePlaces : t('full');
 
-  const registerActionAvailable =
-    examSession.open && open && (availablePlaces || availableQueue);
+  const registerActionAvailable = open && (availablePlaces || availableQueue);
 
   if (isPhone) {
     return (

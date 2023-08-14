@@ -178,13 +178,6 @@ export class ExamSessionUtils {
     return registrationClosesAt.isBefore(now);
   }
 
-  static isRegistrationOpen(examSession: ExamSession, now: Dayjs) {
-    return (
-      ExamSessionUtils.hasRegistrationStarted(examSession, now) &&
-      !ExamSessionUtils.hasRegistrationEnded(examSession, now)
-    );
-  }
-
   static hasPostAdmissionStarted(examSession: ExamSession, now: Dayjs) {
     if (examSession.post_admission_start_date) {
       const postAdmissionOpensAt =
@@ -205,14 +198,6 @@ export class ExamSessionUtils {
     }
 
     return false;
-  }
-
-  static isPostAdmissionOpen(examSession: ExamSession, now: Dayjs) {
-    return (
-      ExamSessionUtils.isPostAdmissionAvailable(examSession) &&
-      ExamSessionUtils.hasPostAdmissionStarted(examSession, now) &&
-      !ExamSessionUtils.hasPostAdmissionEnded(examSession, now)
-    );
   }
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
