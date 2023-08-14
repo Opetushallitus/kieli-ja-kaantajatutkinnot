@@ -108,7 +108,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(publicEnrollmentInitialisation));
   }),
   rest.put(
-    `${APIEndpoints.ClerkEnrollment}/payment/1/refunded`,
+    `${APIEndpoints.ClerkPayment}/1/refunded`,
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(clerkPaymentRefunded));
     }
