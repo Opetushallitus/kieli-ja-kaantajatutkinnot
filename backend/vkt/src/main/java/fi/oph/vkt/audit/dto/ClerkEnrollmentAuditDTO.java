@@ -12,7 +12,7 @@ public record ClerkEnrollmentAuditDTO(
   @NonNull @NotNull Integer version,
   @NonNull @NotNull String modifiedAt,
   @NonNull @NotNull Long examEventId,
-  @NonNull @NotNull Long person,
+  @NonNull @NotNull Long personId,
   @NonNull @NotNull Boolean oralSkill,
   @NonNull @NotNull Boolean textualSkill,
   @NonNull @NotNull Boolean understandingSkill,

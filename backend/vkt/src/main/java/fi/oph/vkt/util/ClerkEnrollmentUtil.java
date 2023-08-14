@@ -65,7 +65,7 @@ public class ClerkEnrollmentUtil {
       .version(enrollment.getVersion())
       .modifiedAt(DateUtil.formatOptionalDatetime(enrollment.getModifiedAt()))
       .examEventId(enrollment.getExamEvent().getId())
-      .person(enrollment.getPerson().getId())
+      .personId(enrollment.getPerson().getId())
       .oralSkill(enrollment.isOralSkill())
       .textualSkill(enrollment.isTextualSkill())
       .understandingSkill(enrollment.isUnderstandingSkill())

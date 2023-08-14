@@ -3,9 +3,7 @@ package fi.oph.vkt.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import fi.oph.vkt.Factory;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
@@ -18,14 +16,12 @@ import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.util.ClerkPaymentUtil;
-import fi.oph.vkt.util.UUIDSource;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.env.Environment;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -45,12 +41,6 @@ public class ClerkPaymentServiceTest {
 
   @BeforeEach
   public void setup() {
-    final Environment environment = mock(Environment.class);
-    when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
-
-    final UUIDSource uuidSource = mock(UUIDSource.class);
-    when(uuidSource.getRandomNonce()).thenReturn("269a2da4-58bb-45eb-b125-522b77e9167c");
-
     clerkPaymentService = new ClerkPaymentService(paymentRepository, auditService);
   }
 

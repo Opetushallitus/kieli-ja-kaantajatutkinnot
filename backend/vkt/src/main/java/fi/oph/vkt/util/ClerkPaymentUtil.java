@@ -11,12 +11,12 @@ public class ClerkPaymentUtil {
       .builder()
       .id(payment.getId())
       .version(payment.getVersion())
+      .modifiedAt(DateUtil.formatOptionalDatetime(payment.getModifiedAt()))
       .transactionId(payment.getTransactionId())
       .amount(payment.getAmount())
       .status(payment.getPaymentStatus())
       .reference(payment.getReference())
       .paymentUrl(payment.getPaymentUrl())
-      .modifiedAt(DateUtil.formatOptionalDatetime(payment.getModifiedAt()))
       .refundedAt(DateUtil.formatOptionalDatetime(payment.getRefundedAt()))
       .build();
   }
