@@ -32,12 +32,7 @@ function* sendReservationRequestSaga(
     yield put(acceptReservationRequest());
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      const response = error.response;
-      if (response.data && response.data.exists) {
-        yield put(rejectReservationRequest(true));
-      } else {
-        yield put(rejectReservationRequest(false));
-      }
+      yield put(rejectReservationRequest(!!error.response.data));
     } else {
       yield put(rejectReservationRequest(false));
     }

@@ -15,7 +15,7 @@ import {
   resetEvaluationOrderState,
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const EvaluationDetails = ({
   evaluationDetails,
@@ -28,7 +28,7 @@ const EvaluationDetails = ({
     <div>
       <Text>
         {translateCommon('examination')}:{' '}
-        <b>{ExamUtils.languageAndLevelText(evaluationDetails)}</b>
+        <b>{ExamSessionUtils.languageAndLevelText(evaluationDetails)}</b>
       </Text>
       <Text>
         {translateCommon('examDate')}:{' '}

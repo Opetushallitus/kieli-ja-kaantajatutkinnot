@@ -41,6 +41,7 @@ exports[`CustomSwitch should render correctly with an error label 1`] = `
             className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
             disabled={true}
             onChange={[Function]}
+            required={false}
             type="checkbox"
           />
           <span
@@ -104,6 +105,7 @@ exports[`CustomSwitch should render correctly with just the minimal props 1`] = 
           <input
             className="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
             onChange={[Function]}
+            required={false}
             type="checkbox"
           />
           <span

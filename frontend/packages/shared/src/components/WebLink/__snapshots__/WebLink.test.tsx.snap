@@ -20,7 +20,7 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
     </svg>
   </span>
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-co79bh-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ma5zbp-MuiTypography-root-MuiLink-root"
     href="http://localhost:4000"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -48,7 +48,7 @@ exports[`WebLink should render correctly with start and end icons 1`] = `
 
 exports[`WebLink should render correctly without icons 1`] = `
 <a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-co79bh-MuiTypography-root-MuiLink-root"
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ma5zbp-MuiTypography-root-MuiLink-root"
   href="http://localhost:4000"
   onBlur={[Function]}
   onFocus={[Function]}

@@ -1,7 +1,7 @@
 import renderer from 'react-test-renderer';
 
-import { TextFieldVariant } from '../../enums/common';
 import { ComboBox } from './ComboBox';
+import { TextFieldVariant } from '../../enums';
 
 describe('ComboBox', () => {
   it('should render ComboBox correctly', () => {

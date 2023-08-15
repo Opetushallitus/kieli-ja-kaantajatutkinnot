@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.9.17] - 2023-08-09
+## [1.9.21] - 2023-08-15
 
 ### Changed
 
 - Removed seconds from `formatOptionalDateTime` default format
+
+## [1.9.20] - 2023-08-15
+
+### Changed
+
+- Minor code changes required by dependency updates
 
 ## [1.9.16] - 2023-07-18
 

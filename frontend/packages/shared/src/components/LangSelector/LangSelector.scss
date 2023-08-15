@@ -5,10 +5,6 @@
   align-items: center;
   display: flex;
 
-  hr {
-    border-color: colors.$color-background;
-  }
-
   @include mixins.not-phone {
     margin-left: 1.5rem;
   }
@@ -23,6 +19,10 @@
     svg {
       color: colors.$color-primary;
     }
+  }
+
+  hr {
+    border-color: colors.$color-background;
   }
 
   &__icon {

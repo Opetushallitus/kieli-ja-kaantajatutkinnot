@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 import { ChangeEvent, Fragment, useState } from 'react';
 
-import { WithId } from '../../interfaces/with';
 import { CustomTableProps } from './CustomTable';
+import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
 export const defaultDisplayedRowsLabel = ({

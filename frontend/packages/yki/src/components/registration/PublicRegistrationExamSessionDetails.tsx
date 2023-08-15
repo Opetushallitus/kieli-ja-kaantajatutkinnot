@@ -7,7 +7,7 @@ import {
   usePublicTranslation,
 } from 'configs/i18n';
 import { ExamSession } from 'interfaces/examSessions';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 export const PublicRegistrationExamSessionDetails = ({
   examSession,
@@ -25,12 +25,14 @@ export const PublicRegistrationExamSessionDetails = ({
     return null;
   }
 
-  const { start, end, participants, quota } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const openings = Math.max(quota - participants, 0);
+  const { availablePlaces, start, end } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
-  const header = ExamUtils.languageAndLevelText(examSession);
-  const location = ExamUtils.getLocationInfo(examSession, getCurrentLang());
+  const header = ExamSessionUtils.languageAndLevelText(examSession);
+  const location = ExamSessionUtils.getLocationInfo(
+    examSession,
+    getCurrentLang()
+  );
 
   return (
     <div className="rows">
@@ -61,7 +63,7 @@ export const PublicRegistrationExamSessionDetails = ({
         {showOpenings && (
           <Text>
             {`${t('openings')}: `}
-            <b>{openings > 0 ? openings : translateCommon('full')}</b>
+            <b>{availablePlaces ? availablePlaces : translateCommon('full')}</b>
           </Text>
         )}
       </div>
