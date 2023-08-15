@@ -104,6 +104,7 @@ export const RegistrationPage: FC = () => {
           <Grid
             item
             className="public-registration-page__grid-container__result-box"
+            data-testid="public-registration-page__grid-container__result-box"
           >
             <PublicExamSessionListing examSessions={results} />
           </Grid>
