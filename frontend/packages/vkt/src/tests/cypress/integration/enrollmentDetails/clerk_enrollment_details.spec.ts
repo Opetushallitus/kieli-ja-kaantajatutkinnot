@@ -143,7 +143,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickSetRefundedPaymentButton();
     onClerkEnrollmentOverviewPage.expectRefundedAtDate(
-      'Merkitty palautetuksi: 04.08.2023 12:56'
+      'Merkitty palautetuksi: 4.8.2023 klo 12.56'
     );
   });
 });
