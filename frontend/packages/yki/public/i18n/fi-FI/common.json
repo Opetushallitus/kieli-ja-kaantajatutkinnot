@@ -46,7 +46,8 @@
           "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
           "examSessionFull": "Tutkintotilaisuus on täynnä.",
           "formExpired": "Lomakkeen täyttöaika on umpeutunut.",
-          "generic": "Lomakkeen lähetys epäonnistui.",
+          "paymentCreationFailed": "Lomakkeen lähetys epäonnistui.",
+          "personCreationFailed": "Lomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         }
       },
