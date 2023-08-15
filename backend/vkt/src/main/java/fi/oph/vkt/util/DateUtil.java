@@ -10,10 +10,10 @@ public class DateUtil {
   private static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   public static String formatOptionalDate(final LocalDate date) {
-    return date == null ? "" : date.format(DATE_FORMAT);
+    return date == null ? null : date.format(DATE_FORMAT);
   }
 
   public static String formatOptionalDatetime(final LocalDateTime datetime) {
-    return datetime == null ? "" : datetime.format(DATETIME_FORMAT);
+    return datetime == null ? null : datetime.format(DATETIME_FORMAT);
   }
 }

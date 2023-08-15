@@ -44,6 +44,9 @@
           "town": "Postitoimipaikka"
         }
       },
+      "dates": {
+        "dateTimeFormat": "l [klo] HH.mm"
+      },
       "errors": {
         "api": {
           "enrollmentAlreadyPaid": "Maksu epäonnistui, koska tutkintomaksu on jo maksettu",

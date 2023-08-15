@@ -15,7 +15,7 @@ import {
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
-import { DateUtils, InputFieldUtils } from 'shared/utils';
+import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
@@ -33,6 +33,7 @@ import {
   setClerkPaymentRefunded,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
+import { DateTimeUtils } from 'utils/dateTime';
 
 const CheckboxField = ({
   enrollment,
@@ -88,7 +89,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       </Text>
       <Text>
         {t('payment.details.date')}:{' '}
-        <b>{DateUtils.formatOptionalDateTime(payment.modifiedAt)}</b>
+        <b>{DateTimeUtils.renderDateTime(payment.modifiedAt)}</b>
       </Text>
       <Text>
         {t('payment.details.amount')}:{' '}
@@ -97,7 +98,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       {payment.refundedAt ? (
         <Text data-testid={'clerk-enrollment__details-fields__refunded-date'}>
           {t('payment.details.refunded')}:{' '}
-          <b>{DateUtils.formatOptionalDateTime(payment.refundedAt)}</b>
+          <b>{DateTimeUtils.renderDateTime(payment.refundedAt)}</b>
         </Text>
       ) : (
         <div className="margin-top-sm flex-start">
@@ -539,7 +540,7 @@ export const ClerkEnrollmentDetailsFields = ({
               <div className="rows gapped-xs">
                 <H3>{t('payment.modal.expires')}</H3>
                 <Text>
-                  {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
+                  {DateTimeUtils.renderDateTime(paymentLink.expiresAt)}
                 </Text>
               </div>
             </div>

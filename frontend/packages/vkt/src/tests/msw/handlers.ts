@@ -107,10 +107,7 @@ export const handlers = [
   rest.get(`${APIEndpoints.PublicExamEvent}/2/enrollment`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(publicEnrollmentInitialisation));
   }),
-  rest.put(
-    `${APIEndpoints.ClerkPayment}/1/refunded`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(clerkPaymentRefunded));
-    }
-  ),
+  rest.put(`${APIEndpoints.ClerkPayment}/1/refunded`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(clerkPaymentRefunded));
+  }),
 ];
