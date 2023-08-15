@@ -89,7 +89,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       </Text>
       <Text>
         {t('payment.details.date')}:{' '}
-        <b>{DateTimeUtils.renderDateTime(payment.modifiedAt)}</b>
+        <b>{DateTimeUtils.renderDateTime(payment.createdAt)}</b>
       </Text>
       <Text>
         {t('payment.details.amount')}:{' '}

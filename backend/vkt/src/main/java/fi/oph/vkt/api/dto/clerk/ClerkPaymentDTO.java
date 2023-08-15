@@ -15,5 +15,6 @@ public record ClerkPaymentDTO(
   @NonNull @NotNull Integer amount,
   @NonNull @NotNull PaymentStatus status,
   @NonNull @NotNull LocalDateTime modifiedAt,
+  @NonNull @NotNull LocalDateTime createdAt,
   LocalDateTime refundedAt
 ) {}

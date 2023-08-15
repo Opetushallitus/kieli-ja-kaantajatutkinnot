@@ -90,6 +90,7 @@ export class SerializationUtils {
     return {
       ...payment,
       modifiedAt: dayjs(payment.modifiedAt),
+      createdAt: dayjs(payment.createdAt),
       refundedAt: DateUtils.optionalStringToDate(payment.refundedAt),
     };
   }

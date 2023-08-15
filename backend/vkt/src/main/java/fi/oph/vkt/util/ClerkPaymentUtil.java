@@ -30,6 +30,7 @@ public class ClerkPaymentUtil {
       .amount(payment.getAmount())
       .status(payment.getPaymentStatus())
       .modifiedAt(payment.getModifiedAt())
+      .createdAt(payment.getCreatedAt())
       .refundedAt(payment.getRefundedAt())
       .build();
   }
