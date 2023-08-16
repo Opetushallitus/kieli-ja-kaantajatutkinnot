@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
-## [1.9.22] - 2023-08-15
+## [1.9.22] - 2023-08-16
 
 ### Changed
 
@@ -20,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Ignore LangSelector dividers with screen reader
->>>>>>> dev
 
 ## [1.9.20] - 2023-08-15
 
