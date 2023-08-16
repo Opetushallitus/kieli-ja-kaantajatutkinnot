@@ -4,10 +4,6 @@
       "actions": "Toiminnot",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
-      "buttons": {
-        "empty": "Tyhjennä kaikki",
-        "showResults": "Näytä tulokset ({{count}})"
-      },
       "cancel": "Peruuta",
       "component": {
         "table": {

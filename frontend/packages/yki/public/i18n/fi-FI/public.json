@@ -424,6 +424,10 @@
           }
         },
         "filters": {
+          "buttons": {
+            "empty": "Tyhjennä kaikki",
+            "showResults": "Näytä tulokset ({{count}})"
+          },
           "errorDialog": {
             "description": "Nähdäksesi tulokset, valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
             "title": "Valitse tutkinnon kieli ja taitotaso"

@@ -243,7 +243,7 @@ export const PublicExamSessionFilters = ({
           variant={Variant.Outlined}
           onClick={handleEmptyBtnClick}
         >
-          {translateCommon('buttons.empty')}
+          {t('filters.buttons.empty')}
         </CustomButton>
         <CustomButton
           disabled={false}
@@ -253,7 +253,7 @@ export const PublicExamSessionFilters = ({
           onClick={handleSubmitBtnClick}
           startIcon={<SearchIcon />}
         >
-          {`${translateCommon('buttons.showResults', {
+          {`${t('filters.buttons.showResults', {
             count: filteredExamSessions.length,
           })}`}
         </CustomButton>
