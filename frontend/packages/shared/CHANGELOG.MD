@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.21] - 2023-08-16
+
+### Fixed
+
+- Ignore LangSelector dividers with screen reader
+
 ## [1.9.20] - 2023-08-15
 
 ### Changed
