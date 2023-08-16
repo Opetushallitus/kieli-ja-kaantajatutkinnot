@@ -45,7 +45,12 @@ export const LangSelector: FC<LangSelectorProps> = ({
               </Text>
             </CustomButton>
             {addDivider && (
-              <Divider orientation="vertical" variant="middle" flexItem />
+              <Divider
+                aria-hidden="true"
+                orientation="vertical"
+                variant="middle"
+                flexItem
+              />
             )}
           </Fragment>
         );

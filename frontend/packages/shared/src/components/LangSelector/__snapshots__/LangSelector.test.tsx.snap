@@ -46,6 +46,7 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
     </p>
   </button>
   <hr
+    aria-hidden="true"
     className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
   />
   <button
@@ -76,6 +77,7 @@ exports[`LangSelector should render LangSelector correctly 1`] = `
     </p>
   </button>
   <hr
+    aria-hidden="true"
     className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
   />
   <button
