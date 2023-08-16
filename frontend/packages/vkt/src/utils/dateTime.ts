@@ -12,4 +12,13 @@ export class DateTimeUtils {
       t('vkt.common.dates.dateTimeFormat')
     );
   }
+
+  static renderDate(dateTime?: Dayjs) {
+    const t = translateOutsideComponent();
+
+    return DateUtils.formatOptionalDateTime(
+      dateTime,
+      t('vkt.common.dates.dateFormat')
+    );
+  }
 }

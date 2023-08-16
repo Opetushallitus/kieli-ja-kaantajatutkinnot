@@ -7,6 +7,10 @@
           "description": "Tätä toimintoa ei voi peruuttaa!",
           "header": "Haluatko varmasti peruuttaa ilmoittautumisen?"
         },
+        "refundPaymentDialog": {
+          "description": "Tämä toiminto ei palauta maksua. Maksu ainoastaan merkitään palautetuksi.",
+          "header": "Haluatko varmasti merkitä maksun palautetuksi?"
+        },
         "controlButtons": {
           "move": "Siirrä"
         },

@@ -45,7 +45,8 @@
         }
       },
       "dates": {
-        "dateTimeFormat": "l [kl.] HH.mm"
+        "dateTimeFormat": "l [kl.] HH.mm",
+        "dateFormat": "l"
       },
       "errors": {
         "api": {

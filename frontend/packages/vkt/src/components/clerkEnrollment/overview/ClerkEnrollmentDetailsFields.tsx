@@ -12,9 +12,11 @@ import {
 import {
   APIResponseStatus,
   Color,
+  Severity,
   TextFieldTypes,
   Variant,
 } from 'shared/enums';
+import { useDialog } from 'shared/hooks';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
@@ -65,9 +67,11 @@ const CheckboxField = ({
 };
 
 const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
+  const { showDialog } = useDialog();
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
   const refundLoadingStatus = useAppSelector(
     clerkEnrollmentDetailsSelector
@@ -75,6 +79,25 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
 
   const formatAmount = (amount: number) => {
     return (amount / 100).toFixed(2);
+  };
+
+  const handleSetRefundedButtonClick = (paymentId: number) => {
+    showDialog({
+      title: t('refundPaymentDialog.header'),
+      severity: Severity.Info,
+      description: t('refundPaymentDialog.description'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => dispatch(setClerkPaymentRefunded(paymentId)),
+        },
+      ],
+    });
   };
 
   return (
@@ -98,7 +121,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       {payment.refundedAt ? (
         <Text data-testid={'clerk-enrollment__details-fields__refunded-date'}>
           {t('payment.details.refunded')}:{' '}
-          <b>{DateTimeUtils.renderDateTime(payment.refundedAt)}</b>
+          <b>{DateTimeUtils.renderDate(payment.refundedAt)}</b>
         </Text>
       ) : (
         <div className="margin-top-sm flex-start">
@@ -106,9 +129,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
             data-testid={'clerk-enrollment__details-fields__set-refunded'}
             variant={Variant.Outlined}
             color={Color.Secondary}
-            onClick={() => {
-              dispatch(setClerkPaymentRefunded(payment.id));
-            }}
+            onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
             disabled={refundLoadingStatus === APIResponseStatus.InProgress}
           >
             {t('payment.details.setRefunded')}
