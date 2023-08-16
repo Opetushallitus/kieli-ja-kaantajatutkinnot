@@ -29,7 +29,6 @@ public class ClerkPaymentUtil {
       .transactionId(payment.getTransactionId())
       .amount(payment.getAmount())
       .status(payment.getPaymentStatus())
-      .modifiedAt(payment.getModifiedAt())
       .createdAt(payment.getCreatedAt())
       .refundedAt(payment.getRefundedAt())
       .build();

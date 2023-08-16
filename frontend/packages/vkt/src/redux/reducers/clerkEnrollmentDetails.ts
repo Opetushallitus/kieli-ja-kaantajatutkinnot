@@ -35,6 +35,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
     },
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;
+      state.paymentRefundStatus = initialState.paymentRefundStatus;
     },
     updateClerkEnrollmentDetails(
       state,

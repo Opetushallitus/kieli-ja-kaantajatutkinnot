@@ -19,7 +19,7 @@ public class ClerkEnrollmentUtil {
       .getPayments()
       .stream()
       .map(ClerkPaymentUtil::createClerkPaymentDTO)
-      .sorted(Comparator.comparing(ClerkPaymentDTO::modifiedAt).reversed())
+      .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .collect(Collectors.toList());
 
     return ClerkEnrollmentDTO

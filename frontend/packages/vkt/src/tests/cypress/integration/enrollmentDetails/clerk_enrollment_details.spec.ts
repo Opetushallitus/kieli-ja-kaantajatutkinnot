@@ -139,11 +139,14 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(9);
     onClerkEnrollmentOverviewPage.expectDisabledCancelEnrollmentButton();
   });
+
   it('should refund payment', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickSetRefundedPaymentButton();
+    onDialog.expectText('Haluatko varmasti merkitä maksun palautetuksi?');
+    onDialog.clickButtonByText('Kyllä');
     onClerkEnrollmentOverviewPage.expectRefundedAtDate(
-      'Merkitty palautetuksi: 4.8.2023 klo 12.56'
+      'Merkitty palautetuksi: 4.8.2023'
     );
   });
 });
