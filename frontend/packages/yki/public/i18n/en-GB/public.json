@@ -87,8 +87,8 @@
       },
       "registration": {
         "controlButtons": {
-          "abortRegistration": "Keskeytä ilmoittautuminen",
-          "confirm": "Lähetä"
+          "abortRegistration": "Abort registration",
+          "confirm": "Submit"
         },
         "enrollToQueue": {
           "dialog": {
@@ -129,25 +129,25 @@
           }
         },
         "examSessionDetails": {
-          "exam": "Tutkinto",
-          "examFee": "Tutkintomaksu",
-          "openings": "Paikkoja vapaana",
-          "registrationTime": "Ilmoittautumisaika"
+          "exam": "Test",
+          "examFee": "Test fee",
+          "openings": "Available places",
+          "registrationTime": "Registration period"
         },
-        "header": "Ilmoittaudu yleiseen kielitutkintoon (YKI)",
+        "header": "Register for a National Certificates of Language Proficiency (YKI) test",
         "paymentSum": {
           "title": "Tutkintomaksu"
         },
         "registrationButtonLabels": {
-          "full": "Täynnä",
-          "orderCancellationNotification": "Tilaa ilmoitus peruutuspaikoista",
-          "periodNotOpen": "Ilmoittautuminen ei ole alkanut",
-          "register": "Ilmoittaudu"
+          "full": "Full",
+          "orderCancellationNotification": "Order a notification of cancellations",
+          "periodNotOpen": "Registration has not started",
+          "register": "Register"
         },
         "registrationUnavailable": {
-          "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
-          "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
-          "examSessionIsFull": "Tilaisuus on täynnä"
+          "admissionOpensOn": "Registration begins {{- startDate}}",
+          "admissionPeriodIsClosed": "Registration has ended",
+          "examSessionIsFull": "Test is full"
         },
         "registrationDetails": {
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
@@ -237,46 +237,46 @@
           }
         },
         "stepper": {
-          "active": "Aktiivinen",
-          "completed": "Suoritettu",
-          "paymentAborted": "Maksu keskeytyi",
-          "phase": "Vaihe",
+          "active": "Active",
+          "completed": "Completed",
+          "paymentAborted": "Payment was aborted",
+          "phase": "Phase",
           "step": {
-            "Done": "Valmis",
-            "Identify": "Tunnistaudu",
-            "Payment": "Maksaminen",
-            "Register": "Ilmoittaudu"
+            "Done": "Done",
+            "Identify": "Identify",
+            "Payment": "Payment",
+            "Register": "Register"
           },
-          "welcomeToExam": "Tervetuloa tutkintoon!"
+          "welcomeToExam": "Welcome to the test!"
         },
         "steps": {
           "identify": {
-            "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
-            "emailButtonText": "tunnistaudu sähköpostilla",
-            "emailError": "Virheellinen sähköpostiosoite",
+            "caption": "You must identify yourself to register for a YKI test. Use the personal information of the person taking the YKI test for the identification. ",
+            "emailButtonText": "identify with email",
+            "emailError": "Invalid email address",
             "emailInput": {
-              "label": "Syötä sähköpostiosoitteesi",
-              "placeholder": "Esim. nimi@sahkoposti.fi"
+              "label": "Fill in your email address",
+              "placeholder": "E.g. nimi@sahkoposti.fi"
             },
             "emailLink": {
-              "error": "Kirjautumislinkin tilaaminen epäonnistui. Voit yrittää uudestaan.",
+              "error": "Requesting a login link failed. You may try again.",
               "incorrectEmailDialog": {
-                "title": "Pyyntö epäonnistui",
-                "description": "Tarkista sähköpostiosoite."
+                "title": "Request failed",
+                "description": "Check your email address."
               },
-              "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
+              "success": "Registration link has been sent to:"
             },
-            "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
-            "selectIdentificationMethod": "Valitse tunnistautumistapasi",
-            "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
-            "title": "Tunnistaudu ilmoittautumista varten",
+            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and proficiency level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "selectIdentificationMethod": "Select your identification method",
+            "suomiFiButtonText": "Identify via Suomi.fi",
+            "title": "Identify yourself for registration",
             "withFinnishSSN": {
-              "description": "<strong>Tunnistaudu Suomi.fi:n kautta.</strong>",
-              "info": "Tunnistautumisen jälkeen sinut ohjataan automaattisesti ilmoittautumislomakkeelle."
+              "description": "<strong>Identify yourself through Suomi.fi e-identification.</strong>",
+              "info": "After the identification you will be directed automatically to the registration form."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>Jos et voi käyttää Suomi.fi-tunnistautumista</strong>, tunnistaudu sähköpostillasi.",
-              "info": "Saat tunnistautumisen jälkeen sähköpostiisi linkin, jonka kautta pääset jatkamaan ilmoittautumista."
+              "description": "<strong>If you cannot use Suomi.fi e-identification</strong>, identify yourself with your email.",
+              "info": "You will receive an email with a link to the registration form."
             }
           },
           "payment": {
@@ -400,11 +400,11 @@
       "registrationPage": {
         "abortDialog": {
           "actions": {
-            "cancel": "En halua keskeyttää",
-            "confirm": "Kyllä, keskeytän ilmoittautumisen"
+            "cancel": "I don't want to abort",
+            "confirm": "Yes, I want to abort the registration"
           },
-          "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
-          "title": "Keskeytä ilmoittautuminen"
+          "description": "Do you want to abort the registration? Any information filled will be lost.",
+          "title": "Abort registration"
         },
         "description": {
           "part1": {
@@ -425,30 +425,30 @@
         },
         "filters": {
           "buttons": {
-            "empty": "Tyhjennä kaikki",
+            "empty": "Empty selection",
             "showResults": "Show results ({{count}})"
           },
           "errorDialog": {
-            "description": "Nähdäksesi tulokset, valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
-            "title": "Valitse tutkinnon kieli ja taitotaso"
+            "description": "To view results, select the desired language and proficiency level. Then press again the SHOW RESULTS button.",
+            "title": "Select exam language and proficiency level"
           },
           "errors": {
-            "required": "Valinta on pakollinen"
+            "required": "Selection is required"
           },
           "heading": "Search for tests",
           "information": "Search for YKI-tests by choosing the language and proficiency level. Press the SHOW RESULTS button to see the results.",
           "selectExamDetails": {
-            "prompt": "Valitse tutkinto",
-            "required": "(pakollinen)"
+            "prompt": "Choose test",
+            "required": "(required)"
           }
         },
         "labels": {
           "excludeFullSessions": "Only show tests that have free places",
           "excludeNonOpenSessions": "Only show tests that are open for registration now",
           "filterExamSessions": "Filter test sessions",
-          "selectLanguage": "Valitse kieli",
+          "selectLanguage": "Choose language",
           "selectLevel": "Choose proficiency level",
-          "selectMunicipality": "Valitse paikkakunta"
+          "selectMunicipality": "Choose municipality"
         },
         "register": "Register",
         "title": "National Certificates of Language Proficiency (YKI) - Registration"

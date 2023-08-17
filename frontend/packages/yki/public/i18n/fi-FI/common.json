@@ -31,7 +31,6 @@
           "dateFormat": "Syötä päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
-          "numberFormat": "Arvo on virheellinen",
           "required": "Tieto on pakollinen",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "telFormat": "Puhelinnumero on virheellinen"
