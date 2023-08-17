@@ -62,16 +62,17 @@
           "initialiseEnrollmentToQueueHasRoom": "Tutkintotilaisuuteen on vapautunut suoria paikkoja. Päivitä sivu ja yritä tarvittaessa uudelleen.",
           "invalidTicket": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "invalidVersion": "Toiminto epäonnistui, koska yritit muuttaa vanhentunutta dataa. Päivitä sivu ja yritä tarvittaessa uudelleen.",
-          "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
-          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
-          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen",
           "paymentAlreadyPaid": "Maksun käsittely epäonnistui",
           "paymentAmountMismatch": "Maksun käsittely epäonnistui",
           "paymentLinkHasExpired": "Maksulinkki on vanhentunut. Kysy tarvittaessa sähköpostitse uutta maksulinkkiä.",
           "paymentLinkInvalidEnrollmentStatus": "Ilmoittautumisesi tila on muuttunut. Tutkintomaksu on mahdollisesti jo maksettu.",
           "paymentPersonSessionMismatch": "Maksun käsittely epäonnistui",
           "paymentReferenceMismatch": "Maksun käsittely epäonnistui",
-          "paymentValidationFail": "Maksun käsittely epäonnistui"
+          "paymentValidationFail": "Maksun käsittely epäonnistui",
+          "renewReservationNotAllowed": "Paikkavarauksen uusiminen epäonnistui",
+          "reservationPersonSessionMismatch": "Toiminto epäonnistui, yritä myöhemmin uudelleen",
+          "sessionMissingPersonId": "Et ole tunnistautunut, ole hyvä ja tunnistaudu uudelleen",
+          "ticketValidationError": "Tunnistautuminen epäonnistui, ole hyvä ja tunnistaudu uudelleen"
         },
         "customTextField": {
           "emailFormat": "Sähköpostiosoite on virheellinen",

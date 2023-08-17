@@ -26,9 +26,6 @@ export enum APIError {
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
   InvalidVersion = 'invalidVersion',
   InvalidTicket = 'invalidTicket',
-  RenewReservationNotAllowed = 'renewReservationNotAllowed',
-  ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
-  TicketValidationError = 'ticketValidationError',
   PaymentAlreadyPaid = 'paymentAlreadyPaid',
   PaymentAmountMismatch = 'paymentAmountMismatch',
   PaymentLinkHasExpired = 'paymentLinkHasExpired',
@@ -36,4 +33,8 @@ export enum APIError {
   PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
   PaymentReferenceMismatch = 'paymentReferenceMismatch',
   PaymentValidationFail = 'paymentValidationFail',
+  RenewReservationNotAllowed = 'renewReservationNotAllowed',
+  ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
+  SessionMissingPersonId = 'sessionMissingPersonId',
+  TicketValidationError = 'ticketValidationError',
 }
