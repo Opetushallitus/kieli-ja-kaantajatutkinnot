@@ -25,7 +25,7 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentStatus } from 'enums/app';
+import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
@@ -83,9 +83,9 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
 
   const handleSetRefundedButtonClick = (paymentId: number) => {
     showDialog({
-      title: t('refundPaymentDialog.header'),
+      title: t('payment.refundDialog.header'),
       severity: Severity.Info,
-      description: t('refundPaymentDialog.description'),
+      description: t('payment.refundDialog.description'),
       actions: [
         {
           title: translateCommon('back'),
@@ -124,17 +124,19 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
           <b>{DateTimeUtils.renderDate(payment.refundedAt)}</b>
         </Text>
       ) : (
-        <div className="margin-top-sm flex-start">
-          <CustomButton
-            data-testid={'clerk-enrollment__details-fields__set-refunded'}
-            variant={Variant.Outlined}
-            color={Color.Secondary}
-            onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
-            disabled={refundLoadingStatus === APIResponseStatus.InProgress}
-          >
-            {t('payment.details.setRefunded')}
-          </CustomButton>
-        </div>
+        payment.status === PaymentStatus.OK && (
+          <div className="margin-top-sm flex-start">
+            <CustomButton
+              data-testid={'clerk-enrollment__details-fields__set-refunded'}
+              variant={Variant.Outlined}
+              color={Color.Secondary}
+              onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
+              disabled={refundLoadingStatus === APIResponseStatus.InProgress}
+            >
+              {t('payment.details.setRefunded')}
+            </CustomButton>
+          </div>
+        )
       )}
     </div>
   );

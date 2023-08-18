@@ -126,10 +126,10 @@ export function* watchClerkEnrollmentDetails() {
     createClerkEnrollmentPaymentLink,
     createClerkEnrollmentPaymentLinkSaga
   );
-  yield takeLatest(setClerkPaymentRefunded, setClerkPaymentRefundedSaga);
   yield takeLatest(
     updateClerkEnrollmentDetails.type,
     updateClerkEnrollmentDetailsSaga
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
+  yield takeLatest(setClerkPaymentRefunded, setClerkPaymentRefundedSaga);
 }
