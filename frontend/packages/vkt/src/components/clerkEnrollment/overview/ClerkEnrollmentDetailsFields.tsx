@@ -67,11 +67,12 @@ const CheckboxField = ({
 };
 
 const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
-  const { showDialog } = useDialog();
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
   const translateCommon = useCommonTranslation();
+
+  const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
   const refundLoadingStatus = useAppSelector(
     clerkEnrollmentDetailsSelector
@@ -119,7 +120,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
       {payment.refundedAt ? (
-        <Text data-testid={'clerk-enrollment__details-fields__refunded-date'}>
+        <Text data-testid={`clerk-payment-${payment.id}__refunded-at`}>
           {t('payment.details.refunded')}:{' '}
           <b>{DateTimeUtils.renderDate(payment.refundedAt)}</b>
         </Text>
@@ -127,7 +128,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
         payment.status === PaymentStatus.OK && (
           <div className="margin-top-sm flex-start">
             <CustomButton
-              data-testid={'clerk-enrollment__details-fields__set-refunded'}
+              data-testid={`clerk-payment-${payment.id}__set-refunded`}
               variant={Variant.Outlined}
               color={Color.Secondary}
               onClick={handleSetRefundedButtonClick.bind(this, payment.id)}

@@ -10,10 +10,10 @@ class ClerkEnrollmentOverviewPage {
     editButton: () => cy.findByTestId('clerk-enrollment-details__edit-button'),
     saveButton: () => cy.findByTestId('clerk-enrollment-details__save-button'),
     moveButton: () => cy.findByTestId('clerk-enrollment-details__move-button'),
-    refundButton: () =>
-      cy.findByTestId('clerk-enrollment__details-fields__set-refunded'),
-    refundedAt: () =>
-      cy.findByTestId('clerk-enrollment__details-fields__refunded-date'),
+    refundButton: (paymentId: number) =>
+      cy.findByTestId(`clerk-payment-${paymentId}__set-refunded`),
+    refundedAt: (paymentId: number) =>
+      cy.findByTestId(`clerk-payment-${paymentId}__refunded-at`),
     textField: (fieldName: string) =>
       cy
         .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)
@@ -79,12 +79,15 @@ class ClerkEnrollmentOverviewPage {
     this.elements.cancelEnrollmentButton().should('be.disabled');
   }
 
-  clickSetRefundedPaymentButton() {
-    this.elements.refundButton().should('be.visible').click();
+  clickSetRefundedButton(paymentId: number) {
+    this.elements.refundButton(paymentId).should('be.visible').click();
   }
 
-  expectRefundedAtDate(date: string) {
-    this.elements.refundedAt().should('be.visible').should('have.text', date);
+  expectRefundedAtDate(paymentId: number, date: string) {
+    this.elements
+      .refundedAt(paymentId)
+      .should('be.visible')
+      .should('have.text', date);
   }
 }
 

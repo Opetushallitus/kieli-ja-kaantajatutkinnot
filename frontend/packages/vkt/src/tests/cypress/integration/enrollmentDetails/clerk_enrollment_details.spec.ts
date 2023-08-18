@@ -142,10 +142,11 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
 
   it('should refund payment', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
-    onClerkEnrollmentOverviewPage.clickSetRefundedPaymentButton();
+    onClerkEnrollmentOverviewPage.clickSetRefundedButton(1);
     onDialog.expectText('Haluatko varmasti merkitä maksun palautetuksi?');
     onDialog.clickButtonByText('Kyllä');
     onClerkEnrollmentOverviewPage.expectRefundedAtDate(
+      1,
       'Merkitty palautetuksi: 4.8.2023'
     );
   });
