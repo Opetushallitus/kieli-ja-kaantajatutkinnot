@@ -113,7 +113,11 @@ const PublicEvaluationPeriodListingCellsForDesktop = ({
         >
           {evaluationPeriod.open
             ? t('requestReassessment')
-            : t('evaluationPeriodNotYetOpen')}
+            : t('evaluationPeriodNotYetOpen', {
+                startDate: DateUtils.formatOptionalDate(
+                  evaluationPeriod.evaluation_start_date
+                ),
+              })}
         </CustomButton>
       </TableCell>
     </>

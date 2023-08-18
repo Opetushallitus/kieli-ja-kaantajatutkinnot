@@ -47,6 +47,12 @@
         }
       },
       "examDate": "Test day",
+      "examParts": {
+        "readingComprehension": "Reading comprehension",
+        "speaking": "Speaking",
+        "speechComprehension": "Listening comprehension",
+        "writing": "Writing"
+      },
       "examSession": "Test",
       "examination": "Test",
       "full": "Full",
@@ -94,6 +100,16 @@
       "placesAvailable": "Available places",
       "postAdmission": "Post-registration",
       "price": "Price",
+      "privacyStatement": {
+        "description": "We follow EU's General Data Protection Regulation in processing of personal information.",
+        "grantApproval": "I accept the terms and conditions for processing personal data *",
+        "link": {
+          "label": "Information on the processing of personal data (oph.fi)",
+          "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-information-on-the-processing-of-personal-data"
+        },
+        "readConditions": "Read the terms and conditions of processing personal information on the website of the Finnish National Agency for Education:",
+        "title": "Terms and conditions for processing personal data"
+      },
       "reassessment": "Reassessment",
       "registration": "Registration",
       "registrationPeriod": "Registration period",

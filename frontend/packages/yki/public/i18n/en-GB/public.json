@@ -3,92 +3,92 @@
     "component": {
       "evaluationOrderForm": {
         "actionButtons": {
-          "cancel": "Peruuta",
-          "pay": "Siirry maksamaan"
+          "cancel": "Cancel",
+          "pay": "Continue to payment"
         },
         "errorDialog": {
           "errors": {
-            "acceptConditions": "Hyväksy henkilötietojen käsittelyn ehdot",
-            "birthdate": "Syntymäaika",
-            "email": "Sähköpostiosoite",
-            "firstNames": "Etunimet",
-            "lastName": "Sukunimi",
-            "noExaminationPartsSelected": "Valitse ainakin yksi tarkistettava osakoe"
+            "acceptConditions": "Accept the terms and conditions for processing personal data",
+            "birthdate": "Date of birth",
+            "email": "Email address",
+            "firstNames": "First names",
+            "lastName": "Last name",
+            "noExaminationPartsSelected": "Select at least one subtest"
           },
-          "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
-          "title": "Virheitä lomakkeella!"
+          "fixErrors": "Check and correct the following information:",
+          "title": "Errors on the form!"
         },
         "fillParticipantDetails": {
           "errors": {
-            "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
+            "invalidBirthdate": "Invalid date of birth. Fill in as dd.mm.yyyy."
           },
-          "instructions": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
-          "heading": "Osallistujan tiedot",
+          "instructions": "Fill in the information below for the participant who requests reassessment. You will receive a summary of the request for reassessment to your email.",
+          "heading": "Participant information",
           "labels": {
-            "birthdate": "Syntymäaika *",
-            "email": "Sähköpostiosoite *",
-            "firstNames": "Etunimet *",
-            "lastName": "Sukunimi *"
+            "birthdate": "Date of birth *",
+            "email": "Email address *",
+            "firstNames": "First names *",
+            "lastName": "Last name *"
           },
           "placeholders": {
-            "birthdate": "Syötä muodossa pp.kk.vvvv",
-            "email": "Esim. nimi@sahkoposti.fi",
+            "birthdate": "Fill in as dd.mm.yyyy",
+            "email": "E.g. nimi@sahkoposti.fi",
             "firstNames": "",
             "lastName": ""
           }
         },
         "info": {
-          "refundIfChangeInEvaluation": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
-          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
+          "refundIfChangeInEvaluation": "The reassessment fee will be refunded if the reassessment changes the original grading of the subtest.",
+          "requiredFields": "Sections marked with a star (*) are mandatory."
         },
         "renderEvaluationDetails": {
-          "heading": "Tutkinnon tiedot",
-          "info": "Olet pyytämässä tarkistusarviointia seuraavasta tutkinnosta:"
+          "heading": "Test details",
+          "info": "You are requesting a reassessment for the following YKI test:"
         },
         "selectExaminationParts": {
-          "heading": "Osakokeiden valinta",
-          "selectAtLeastOne": "Valitse vähintään yksi osakoe",
-          "selectParts": "Valitse ne osakokeet, joista haluat pyytää tarkistusarviointia *",
-          "sumTotal": "Tarkistusarvioinnin hinta yhteensä"
+          "heading": "Select subtests",
+          "selectAtLeastOne": "Select at least one subtest",
+          "selectParts": "Select the subtests you wish to have reassessed *",
+          "sumTotal": "Reassessment fee in total"
         }
       },
       "footer": {
         "address": {
-          "name": "Opetushallitus",
+          "name": "Finnish National Agency for Education",
           "phone": {
             "number": "+358 29 533 1000",
-            "title": "Puhelin"
+            "title": "Telephone"
           },
           "street": "Hakaniemenranta 6",
-          "zipCity": "PL 380, 00531 Helsinki"
+          "zipCity": "P.O. Box 380, 00531 Helsinki"
         },
         "links": {
           "accessibility": {
-            "text": "Saavutettavuusseloste"
+            "text": "Accessibility statement (in Finnish)"
           },
           "contact": {
-            "title": "Palaute ja kehitysideat"
+            "title": "Feedback and development suggestions"
           },
           "privacy": {
-            "text": "Tietosuojaseloste"
+            "text": "Privacy policy statement (in Finnish)"
           },
           "ykiHomepage": {
-            "text": "Yleisten kielitutkintojen verkkosivu (oph.fi)"
+            "text": "Website of the National Certificates of Language Proficiency (YKI) (oph.fi)"
           }
         }
       },
       "publicEvaluationPeriodListing": {
-        "evaluationPeriodNotYetOpen": "Pyyntöaika ei ole alkanut",
+        "evaluationPeriodNotYetOpen": "Request a reassessment starting from {{- startDate}}",
         "header": {
-          "evaluationPeriod": "Tarkistusarvioinnin pyyntöaika"
+          "evaluationPeriod": "Deadline for the request"
         },
         "heading": "Tutkinnot",
-        "requestReassessment": "Pyydä tarkistusarviointia"
+        "requestReassessment": "Request a reassessment"
       },
       "registration": {
         "controlButtons": {
           "abortRegistration": "Abort registration",
-          "confirm": "Submit"
+          "confirm": "Send"
         },
         "enrollToQueue": {
           "dialog": {
@@ -150,90 +150,88 @@
           "examSessionIsFull": "Test is full"
         },
         "registrationDetails": {
-          "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
-          "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",
-          "description2": "Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
-          "emailConfirmation": "Vahvista sähköpostiosoite",
+          "certificateLanguage": "In which language do you wish to receive the degree certificate? *",
+          "description1": "Fill in the YKI registration form using the participant’s own personal information.",
+          "description2": "Write the first and last name exactly as they appear on the official identity card.",
           "errors": {
             "fields": {
-              "address": "Katuosoite",
-              "certificateLanguage": "Valitse todistuksen kieli",
-              "dateOfBirth": "Syntymäaika",
-              "email": "Sähköpostiosoite",
-              "emailConfirmation": "Sähköpostiosoitteen vahvistus",
-              "firstNames": "Etunimet",
-              "gender": "Sukupuoli",
-              "hasSSN": "Onko sinulla suomalainen henkilötunnus?",
-              "instructionLanguage": "Valitse tehtävien kieli",
-              "lastName": "Sukunimi",
-              "nationality": "Kansalaisuus",
-              "phoneNumber": "Puhelinnumero",
-              "postNumber": "Postinumero",
-              "postOffice": "Postitoimipaikka",
-              "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
-              "ssn": "Henkilötunnus",
-              "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
+              "address": "Street address",
+              "certificateLanguage": "Select language of the certificate",
+              "dateOfBirth": "Date of birth",
+              "email": "Email address",
+              "emailConfirmation": "Confirm email address",
+              "firstNames": "First names",
+              "gender": "Gender",
+              "hasSSN": "Do you have a Finnish personal identity code?",
+              "instructionLanguage": "Select language of the exercises",
+              "lastName": "Last name",
+              "nationality": "Nationality",
+              "phoneNumber": "Telephone number",
+              "postNumber": "Postal code",
+              "postOffice": "Post office",
+              "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
+              "ssn": "Personal identity code",
+              "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
             },
-            "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
-            "title": "Virheitä lomakkeella"
+            "fixErrors": "Check and correct the following information:",
+            "title": "Errors on the form"
           },
           "labels": {
-            "address": "Katuosoite",
-            "dateOfBirth": "Syntymäaika",
-            "email": "Sähköpostiosoite",
-            "emailConfirmation": "Vahvista sähköpostiosoite",
-            "firstNames": "Etunimet",
-            "gender": "Sukupuoli",
-            "lastName": "Sukunimi",
-            "nationality": "Kansalaisuus",
-            "phoneNumber": "Puhelinnumero",
-            "postNumber": "Postinumero",
-            "postOffice": "Postitoimipaikka",
-            "ssn": "Henkilötunnus"
+            "address": "Street address",
+            "dateOfBirth": "Date of birth",
+            "email": "Email address",
+            "emailConfirmation": "Confirm email address",
+            "firstNames": "First names",
+            "gender": "Gender",
+            "lastName": "Last name",
+            "nationality": "Nationality",
+            "phoneNumber": "Phone number",
+            "postNumber": "Postal code",
+            "postOffice": "Post office",
+            "ssn": "Personal identity code"
           },
           "placeholders": {
             "address": "",
-            "dateOfBirth": "Syötä muodossa pp.kk.vvvv",
-            "email": "Esim. nimi@sahkoposti.fi",
-            "emailConfirmation": "Kirjoita sähköpostiosoite uudelleen",
+            "dateOfBirth": "Fill in as dd.mm.yyyy",
+            "email": "E.g. nimi@sahkoposti.fi",
+            "emailConfirmation": "Type in your email address again",
             "firstNames": "",
-            "gender": "Valitse",
+            "gender": "Select gender",
             "lastName": "",
-            "nationality": "Valitse",
-            "phoneNumber": "Syötä muodossa +358 50 123 4567",
+            "nationality": "Select nationality",
+            "phoneNumber": "Input in the format +358 50 123 4567",
             "postNumber": "",
             "postOffice": ""
           },
-          "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
-          "instructionLanguage": "Millä kielellä haluat tehdä tehtävät? *",
-          "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia.",
-          "ssn": "Henkilötunnus",
+          "finnishSSN": "Do you have a Finnish personal identity code? *",
+          "instructionLanguage": "In which language do you wish to complete the exercises? *",
+          "requiredFields": "Sections marked with a star (*) are mandatory. ",
+          "ssn": "Personal identity code",
           "termsAndConditions": {
-            "description1": "Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
-            "description2": "Tarkista, että olet ilmoittautumassa oikean kielen ja tason testiin.",
-            "label": "Hyväksyn ilmoittautumisen ehdot *",
-            "title": "Ilmoittautumisen ehdot"
+            "description1": "The registration for an YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "description2": "Check that you are registering for a test of the correct language and level. ",
+            "label": "I accept the terms and conditions for registration *",
+            "title": "Terms and conditions for registration"
           },
-          "termsAndConditionsAgreed": "Hyväksy yleiset ehdot",
-          "title": "Syötä tietosi",
+          "title": "Fill in your details",
           "whatsNext": {
-            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun. ",
-            "title": "Mitä tapahtuu seuraavaksi?"
+            "description": "After you have sent the registration form, you will receive a payment link by email to pay your test fee. The registration will be confirmed after you have paid the test fee.",
+            "title": "What happens next?"
           }
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "Olet lähettänyt ilmoittautumislomakkeen tutkintotilaisuuteen",
+            "confirmation": "You have sent the registration form for the YKI test",
             "dueDateReminder": {
-              "text1": "<strong>Tärkeää!</strong> Viestissä on myös tutkintomaksun viimeinen maksupäivä.",
-              "text2": "Maksa maksu ajoissa, jotta voit osallistua YKI-testiin."
+              "text1": "<strong>Important!</strong> The email will also contain the deadline for paying the test fee.",
+              "text2": "To participate in the YKI test, you must pay the fee on time."
             },
             "paymentLinkEmail": {
-              "text1": "Saat sähköpostiisi viestin, jossa on linkki tutkintomaksun maksamista varten.",
-              "text2": "Viesti tulee osoitteesta noreply@opintopolku.fi.",
-              "text3": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun."
+              "text1": "Next, you will receive an email with a payment link.",
+              "text2": "The email is sent from the address noreply@opintopolku.fi.",
+              "text3": "Your registration will be confirmed after you have paid the test fee."
             },
-            "title": "Vahvista ilmoittautuminen maksamalla tutkintomaksu"
+            "title": "Confirm the registration by paying the test fee"
           }
         },
         "stepper": {
@@ -281,41 +279,41 @@
           },
           "payment": {
             "cancel": {
-              "description": "Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
-              "heading": "Maksutapahtuma keskeytyi",
-              "title": "Keskeytit maksutapahtuman"
+              "description": "The registration is only confirmed after paying the test fee.",
+              "heading": "Payment canceled",
+              "title": "You canceled the payment"
             },
             "error": {
-              "description": "Voit yrittää maksamista uudestaan. Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
-              "heading": "Virhe maksutapahtumassa",
-              "title": "Maksutapahtuman käsittelyssä tapahtui virhe"
+              "description": "You can try to pay again. The registration is only confirmed after successfully paying the test fee.",
+              "heading": "Payment error",
+              "title": "An error occurred when paying."
             },
             "success": {
               "whatsNext": {
                 "beforeYkiTest": {
-                  "description": "Valmistaudu YKI-testiin lukemalla Opetushallituksen ohjeet:",
-                  "label": "Ennen YKI-testia (oph.fi)",
-                  "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
+                  "description": "To prepare for the YKI test, you can read the instructions provided by the Finnish National Agency for Education on their website:",
+                  "label": "Before the YKI test (oph.fi)",
+                  "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
                 },
-                "part1": "Ilmoittautuminen onnistui! Saat vahvistuksen ilmoittautumisestasi sähköpostilla.",
-                "part2": "Testipaikkasi lähettää lähempänä testipäivää sähköpostiisi tarkemmat ohjeet testiin saapumista varten.",
-                "part3": "Ohjeissa kerrotaan muun muassa testipaikan tarkka sijainti ja kellonaika, jolloin testi alkaa.",
+                "part1": "Your registration has been confirmed! You will receive a confirmation email shortly.",
+                "part2": "Your test centre will send you an email closer to the test date with detailed instructions on how to get there, including the exact location and start time.",
+                "part3": "",
                 "specialArrangements": {
-                  "description": "Jos tarvitset erityisjärjestelyjä, lähetä hakemus mahdollisimman pian Opetushallituksen ohjeiden mukaan:",
-                  "label": "Tarvitsetko erityisjärjestelyjä? (oph.fi)",
-                  "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
+                  "description": "If you require special arrangements, send your application as soon as possible according to the instructions provided by the Finnish National Agency for Education. The instructions can be found on their website:",
+                  "label": "Do you need special arrangements? (oph.fi)",
+                  "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-do-you-need-special-arrangements"
                 },
-                "title": "Tervetuloa YKI-testiin!"
+                "title": "Welcome to the YKI test!"
               },
-              "heading": "Ilmoittautuminen onnistui!"
+              "heading": "Registration confirmed!"
             }
           },
           "register": {
             "inProgress": {
-              "heading": "Ilmoittaudu tutkintotilaisuuteen"
+              "heading": "Register to test"
             },
             "success": {
-              "heading": "Ilmoittautumislomake on lähetetty"
+              "heading": "Registration form sent"
             }
           }
         },
@@ -345,17 +343,17 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": "Maksutapahtuma keskeytyi!",
-          "info": "Voit yrittää uudelleen."
+          "heading": "Payment aborted",
+          "info": "You aborted the payment. The reassessment request will only be taken into account after you have payed the reassessment fee."
         },
         "error": {
-          "heading": "Tapahtui virhe!",
-          "info": "Voit yrittää uudelleen."
+          "heading": "Payment error",
+          "info": "The payment did not go through. You may try again."
         },
         "success": {
-          "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
-          "body1": "Olet lähettänyt tarkistusarviointipyynnön.",
-          "body2": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
+          "heading": "Request for reassessment sent!",
+          "body1": "You have sent a request for reassessment.",
+          "body2": "The email also contains a receipt for the reassessment fee. If you have not received the email, please check your spam folder."
         }
       },
       "examDetailsPage": {
