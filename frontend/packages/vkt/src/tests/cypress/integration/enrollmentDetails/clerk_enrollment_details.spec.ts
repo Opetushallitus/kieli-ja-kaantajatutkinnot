@@ -8,7 +8,6 @@ import { clerkExamEvent } from 'tests/msw/fixtures/clerkExamEvent';
 describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   const nameFields = ['firstName', 'lastName'];
   const contactDetailsFields = ['email', 'phoneNumber'];
-  const contactDetailsValues = ['test@test.invalid', '358401234567'];
   const addressFields = ['street', 'postalCode', 'town', 'country'];
   const partialsExamsAndSkillsFields = [
     'oralSkill',
@@ -26,6 +25,44 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
 
   beforeEach(() => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
+  });
+
+  it('should allow modifying enrollment details', () => {
+    const contactDetailsValues = ['test@test.invalid', '358401234567'];
+
+    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
+    onClerkEnrollmentOverviewPage.clickEditButton();
+
+    nameFields.forEach((f) =>
+      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
+    );
+    contactDetailsFields.forEach((f, idx) =>
+      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx])
+    );
+    onClerkEnrollmentOverviewPage.editTextField(
+      'previousEnrollment',
+      'tammikuussa 2023'
+    );
+
+    // Remove skill and partial exam selections
+    onClerkEnrollmentOverviewPage.clickCheckBox('textualSkill');
+    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
+    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
+
+    // Select some skills and partial exams
+    onClerkEnrollmentOverviewPage.clickCheckBox('oralSkill');
+    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
+    onClerkEnrollmentOverviewPage.clickCheckBox('speakingPartialExam');
+    onClerkEnrollmentOverviewPage.clickCheckBox(
+      'readingComprehensionPartialExam'
+    );
+
+    //onClerkEnrollmentOverviewPage.clickCheckBox('digitalCertificateConsent');
+    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
+    addressFields.forEach((f) =>
+      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
+    );
+    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
   });
 
   it('should show disabled enrollment details', () => {
@@ -63,9 +100,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     const checkedCheckBoxFields = [
       'oralSkill',
       'textualSkill',
-      'understandingSkill',
       'writingPartialExam',
-      'speakingPartialExam',
       'speechComprehensionPartialExam',
       'readingComprehensionPartialExam',
       //'digitalCertificateConsent', TODO: when available
@@ -78,42 +113,6 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
         ? onClerkEnrollmentOverviewPage.expectCheckboxFieldChecked(f)
         : onClerkEnrollmentOverviewPage.expectCheckboxFieldNotChecked(f);
     });
-  });
-
-  it('should allow modifying enrollment details', () => {
-    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
-    onClerkEnrollmentOverviewPage.clickEditButton();
-
-    nameFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
-    );
-    contactDetailsFields.forEach((f, idx) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx])
-    );
-    onClerkEnrollmentOverviewPage.editTextField(
-      'previousEnrollment',
-      'tammikuussa 2023'
-    );
-
-    // Remove skill and partial exam selections
-    onClerkEnrollmentOverviewPage.clickCheckBox('textualSkill');
-    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
-    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
-
-    // Select some skills and partial exams
-    onClerkEnrollmentOverviewPage.clickCheckBox('oralSkill');
-    onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
-    onClerkEnrollmentOverviewPage.clickCheckBox('speakingPartialExam');
-    onClerkEnrollmentOverviewPage.clickCheckBox(
-      'readingComprehensionPartialExam'
-    );
-
-    //onClerkEnrollmentOverviewPage.clickCheckBox('digitalCertificateConsent');
-    onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
-    addressFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
-    );
-    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
   });
 
   it('should allow canceling enrollment', () => {
