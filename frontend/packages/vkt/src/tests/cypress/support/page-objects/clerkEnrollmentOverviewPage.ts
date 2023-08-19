@@ -10,6 +10,10 @@ class ClerkEnrollmentOverviewPage {
     editButton: () => cy.findByTestId('clerk-enrollment-details__edit-button'),
     saveButton: () => cy.findByTestId('clerk-enrollment-details__save-button'),
     moveButton: () => cy.findByTestId('clerk-enrollment-details__move-button'),
+    refundButton: (paymentId: number) =>
+      cy.findByTestId(`clerk-payment-${paymentId}__set-refunded`),
+    refundedAt: (paymentId: number) =>
+      cy.findByTestId(`clerk-payment-${paymentId}__refunded-at`),
     textField: (fieldName: string) =>
       cy
         .findByTestId(`clerk-enrollment__details-fields__${fieldName}`)
@@ -73,6 +77,17 @@ class ClerkEnrollmentOverviewPage {
 
   expectDisabledCancelEnrollmentButton() {
     this.elements.cancelEnrollmentButton().should('be.disabled');
+  }
+
+  clickSetRefundedButton(paymentId: number) {
+    this.elements.refundButton(paymentId).should('be.visible').click();
+  }
+
+  expectRefundedAtDate(paymentId: number, date: string) {
+    this.elements
+      .refundedAt(paymentId)
+      .should('be.visible')
+      .should('have.text', date);
   }
 }
 

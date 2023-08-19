@@ -86,10 +86,11 @@ export class SerializationUtils {
     };
   }
 
-  private static deserializeClerkPayment(payment: ClerkPaymentResponse) {
+  static deserializeClerkPayment(payment: ClerkPaymentResponse) {
     return {
       ...payment,
-      modifiedAt: dayjs(payment.modifiedAt),
+      createdAt: dayjs(payment.createdAt),
+      refundedAt: DateUtils.optionalStringToDate(payment.refundedAt),
     };
   }
 

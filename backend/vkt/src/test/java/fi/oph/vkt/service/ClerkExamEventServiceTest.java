@@ -17,6 +17,7 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
+import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Person;
@@ -24,6 +25,7 @@ import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.ExamLanguage;
 import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ExamEventRepository;
+import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -332,6 +334,7 @@ public class ClerkExamEventServiceTest {
 
     // fetch dto for enrollment comparison and reset auditService
     final ClerkExamEventDTO originalResponse = clerkExamEventService.getExamEvent(examEvent.getId());
+    final ClerkExamEventAuditDTO oldExamEventDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
     reset(auditService);
 
     final ClerkExamEventUpdateDTO updateDTO = createUpdateDTOAddingOne(examEvent).build();
@@ -348,7 +351,8 @@ public class ClerkExamEventServiceTest {
 
     assertEquals(originalResponse.enrollments(), response.enrollments());
 
-    verify(auditService).logById(VktOperation.UPDATE_EXAM_EVENT, examEvent.getId());
+    final ClerkExamEventAuditDTO newExamEventDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
+    verify(auditService).logUpdate(VktOperation.UPDATE_EXAM_EVENT, examEvent.getId(), oldExamEventDto, newExamEventDto);
     verifyNoMoreInteractions(auditService);
   }
 

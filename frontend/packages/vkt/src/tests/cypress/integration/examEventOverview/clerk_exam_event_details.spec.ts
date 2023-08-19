@@ -27,7 +27,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
   it('should show full exam when all partial exams are selected', () => {
     onClerkExamEventOverviewPage.expectEnrollmentRowToHaveText(
-      2,
+      3,
       'Koko tutkinto'
     );
   });

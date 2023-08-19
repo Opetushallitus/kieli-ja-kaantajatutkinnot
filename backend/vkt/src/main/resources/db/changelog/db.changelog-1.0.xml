@@ -628,4 +628,10 @@
         <dropColumn tableName="person" columnName="date_of_birth" />
     </changeSet>
 
+    <changeSet id="2023-08-03-payment-add-refunded" author="jrkkp">
+        <addColumn tableName="payment">
+            <column name="refunded_at" type="TIMESTAMP WITH TIME ZONE" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

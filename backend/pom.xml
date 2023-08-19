@@ -193,7 +193,7 @@
     <dependency>
       <groupId>fi.vm.sade</groupId>
       <artifactId>auditlogger</artifactId>
-      <version>9.2.0-SNAPSHOT</version>
+      <version>9.2.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>

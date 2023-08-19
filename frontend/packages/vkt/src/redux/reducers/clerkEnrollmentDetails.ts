@@ -1,9 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
   ClerkEnrollment,
   ClerkEnrollmentMove,
+  ClerkPayment,
   ClerkPaymentLink,
 } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
@@ -14,12 +15,14 @@ interface ClerkEnrollmentDetailsState {
   moveStatus: APIResponseStatus;
   paymentLinkStatus: APIResponseStatus;
   paymentLink?: ClerkPaymentLink;
+  paymentRefundStatus: APIResponseStatus;
 }
 
 const initialState: ClerkEnrollmentDetailsState = {
   status: APIResponseStatus.NotStarted,
   moveStatus: APIResponseStatus.NotStarted,
   paymentLinkStatus: APIResponseStatus.NotStarted,
+  paymentRefundStatus: APIResponseStatus.NotStarted,
 };
 
 const clerkEnrollmentDetailsSlice = createSlice({
@@ -32,6 +35,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
     },
     resetClerkEnrollmentDetailsUpdate(state) {
       state.status = initialState.status;
+      state.paymentRefundStatus = initialState.paymentRefundStatus;
     },
     updateClerkEnrollmentDetails(
       state,
@@ -77,6 +81,27 @@ const clerkEnrollmentDetailsSlice = createSlice({
     resetMoveEnrollment(state) {
       state.moveStatus = initialState.moveStatus;
     },
+    setClerkPaymentRefunded(state, _action: PayloadAction<number>) {
+      state.paymentRefundStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkPaymentRefunded(state, action: PayloadAction<ClerkPayment>) {
+      const enrollment = current(state.enrollment);
+      state.paymentRefundStatus = APIResponseStatus.Success;
+
+      if (enrollment && enrollment.payments) {
+        state.enrollment = {
+          ...enrollment,
+          ...{
+            payments: enrollment.payments.map((payment: ClerkPayment) =>
+              payment.id === action.payload.id ? action.payload : payment
+            ),
+          },
+        };
+      }
+    },
+    rejectClerkPaymentRefunded(state) {
+      state.paymentRefundStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -95,4 +120,7 @@ export const {
   moveEnrollmentSucceeded,
   rejectMoveEnrollment,
   resetMoveEnrollment,
+  setClerkPaymentRefunded,
+  storeClerkPaymentRefunded,
+  rejectClerkPaymentRefunded,
 } = clerkEnrollmentDetailsSlice.actions;

@@ -9,6 +9,7 @@ import {
   ClerkEnrollmentMove,
   ClerkEnrollmentResponse,
   ClerkPaymentLinkResponse,
+  ClerkPaymentResponse,
 } from 'interfaces/clerkEnrollment';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { setAPIError } from 'redux/reducers/APIError';
@@ -18,9 +19,12 @@ import {
   moveEnrollmentSucceeded,
   rejectClerkEnrollmentDetailsUpdate,
   rejectClerkEnrollmentPaymentLink,
+  rejectClerkPaymentRefunded,
   rejectMoveEnrollment,
+  setClerkPaymentRefunded,
   storeClerkEnrollmentDetailsUpdate,
   storeClerkEnrollmentPaymentLink,
+  storeClerkPaymentRefunded,
   updateClerkEnrollmentDetails,
 } from 'redux/reducers/clerkEnrollmentDetails';
 import { storeClerkExamEventOverview } from 'redux/reducers/clerkExamEventOverview';
@@ -98,6 +102,25 @@ function* moveEnrollmentSaga(action: PayloadAction<ClerkEnrollmentMove>) {
   }
 }
 
+function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
+  try {
+    const apiResponse: AxiosResponse<ClerkPaymentResponse> = yield call(
+      axiosInstance.put,
+      `${APIEndpoints.ClerkPayment}/${action.payload}/refunded`,
+      {}
+    );
+    const payment = SerializationUtils.deserializeClerkPayment(
+      apiResponse.data
+    );
+
+    yield put(storeClerkPaymentRefunded(payment));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectClerkPaymentRefunded());
+  }
+}
+
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
     createClerkEnrollmentPaymentLink,
@@ -108,4 +131,5 @@ export function* watchClerkEnrollmentDetails() {
     updateClerkEnrollmentDetailsSaga
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
+  yield takeLatest(setClerkPaymentRefunded, setClerkPaymentRefundedSaga);
 }

@@ -44,6 +44,10 @@
           "town": "Postanstalt"
         }
       },
+      "dates": {
+        "dateTimeFormat": "l [kl.] HH.mm",
+        "dateFormat": "l"
+      },
       "errors": {
         "api": {
           "enrollmentAlreadyPaid": "Betalningen misslyckades eftersom examensavgiften redan är betald.",
