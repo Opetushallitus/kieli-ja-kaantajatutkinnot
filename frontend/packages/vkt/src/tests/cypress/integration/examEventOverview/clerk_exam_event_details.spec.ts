@@ -27,8 +27,8 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
   it('should show full exam when all partial exams are selected', () => {
     onClerkExamEventOverviewPage.expectEnrollmentRowToHaveText(
-      2,
-      'EskolaHannaKI, TY, PY10.10.2022 klo 05.00'
+      3,
+      'Koko tutkinto'
     );
   });
 

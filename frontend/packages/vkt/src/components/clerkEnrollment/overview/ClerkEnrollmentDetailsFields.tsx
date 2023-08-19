@@ -134,7 +134,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
               onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
               disabled={refundLoadingStatus === APIResponseStatus.InProgress}
             >
-              {t('payment.details.setRefunded')}
+              {t('payment.setRefunded')}
             </CustomButton>
           </div>
         )
