@@ -199,11 +199,15 @@ exports[`Footer should render Footer correctly 1`] = `
         <span
           className="MuiDivider-wrapper css-qywfm8-MuiDivider-wrapper"
         >
-          <img
-            alt="ophLogoAlt"
-            className="footer__container__logo__oph"
-            src="test"
-          />
+          <div
+            className="oph-logo columns"
+          >
+            <img
+              alt="ophLogoAlt"
+              className="footer__container__logo__oph"
+              src="test"
+            />
+          </div>
         </span>
       </div>
     </div>
