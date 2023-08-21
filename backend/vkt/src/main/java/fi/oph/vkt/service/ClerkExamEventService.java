@@ -11,6 +11,7 @@ import fi.oph.vkt.audit.VktOperation;
 import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
@@ -23,6 +24,7 @@ import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
 import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -39,11 +41,15 @@ public class ClerkExamEventService {
   @Transactional(readOnly = true)
   public List<ClerkExamEventListDTO> list() {
     final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections();
+    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClertExamEventIdsWithQueue();
 
     final List<ClerkExamEventListDTO> examEventListDTOs = examEventProjections
       .stream()
-      .map(e ->
-        ClerkExamEventListDTO
+      .map(e -> {
+        final boolean isFreeSeats = e.maxParticipants() - e.participants() > 0;
+        final boolean isUnusedSeats = examEventIdsHavingQueue.contains(e.id()) && isFreeSeats ? true : false;
+
+        return ClerkExamEventListDTO
           .builder()
           .id(e.id())
           .language(e.language())
@@ -52,9 +58,10 @@ public class ClerkExamEventService {
           .registrationCloses(e.registrationCloses())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
+          .isUnusedSeats(isUnusedSeats)
           .isHidden(e.isHidden())
-          .build()
-      )
+          .build();
+      })
       .sorted(Comparator.comparing(ClerkExamEventListDTO::date).thenComparing(ClerkExamEventListDTO::language))
       .toList();
 

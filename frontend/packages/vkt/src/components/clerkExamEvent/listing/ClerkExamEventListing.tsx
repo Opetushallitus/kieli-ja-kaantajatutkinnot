@@ -1,7 +1,7 @@
 import { Add as AddIcon } from '@mui/icons-material';
-import { Divider, SelectChangeEvent } from '@mui/material';
+import { Alert, Divider, SelectChangeEvent } from '@mui/material';
 import { CustomButtonLink, H2, PaginatedTable } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { Color, Severity, Variant } from 'shared/enums';
 
 import { ClerkExamEventListingHeader } from 'components/clerkExamEvent/listing/ClerkExamEventListingHeader';
 import { ClerkExamEventListingRow } from 'components/clerkExamEvent/listing/ClerkExamEventListingRow';
@@ -35,6 +35,10 @@ export const ClerkExamEventListing = ({
     dispatch(setExamEventLanguageFilter(event.target.value as ExamLanguage));
   };
 
+  const isExamEventWithUnusedSeats = !!examEvents.find(
+    (ee) => ee.isUnusedSeats
+  );
+
   return (
     <>
       <div className="columns">
@@ -55,6 +59,15 @@ export const ClerkExamEventListing = ({
       </div>
       <Divider />
       <ClerkExamEventToggleFilters />
+      {isExamEventWithUnusedSeats && (
+        <Alert
+          className="clerk-homepage__notification"
+          data-testid="clerk-homepage__notification___seats-available"
+          severity={Severity.Info}
+        >
+          {translateCommon('notification.seatsUnused')}
+        </Alert>
+      )}
       <PaginatedTable
         headerContent={
           <LanguageFilter

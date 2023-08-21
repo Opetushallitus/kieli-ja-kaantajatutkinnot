@@ -85,6 +85,7 @@ public class ClerkExamEventServiceTest {
     final ExamEvent futureEvent = Factory.examEvent(ExamLanguage.FI);
     futureEvent.setDate(now.plusWeeks(3));
     futureEvent.setRegistrationCloses(now.plusWeeks(2));
+    futureEvent.setMaxParticipants(3);
 
     entityManager.persist(pastEvent);
     entityManager.persist(eventToday);
@@ -121,6 +122,7 @@ public class ClerkExamEventServiceTest {
 
         assertExamEventListDTODetails(expected, dto);
         assertEquals(expected == futureEvent ? 2 : 0, dto.participants());
+        assertEquals(expected == futureEvent ? true : false, dto.isUnusedSeats());
         assertEquals(expected == hiddenEvent, dto.isHidden());
       });
 

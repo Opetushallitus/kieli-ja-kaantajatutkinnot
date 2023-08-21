@@ -25,6 +25,8 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.expectFilteredExamEventsCount(
       examEventCounts[ExamEventToggleFilter.Upcoming]
     );
+
+    onClerkHomePage.expectUnusedSeatsNotification();
   });
 
   it('should allow filtering exam events by language', () => {

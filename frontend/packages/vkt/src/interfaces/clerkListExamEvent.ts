@@ -10,6 +10,7 @@ export interface ClerkListExamEvent extends WithId {
   registrationCloses: Dayjs;
   participants: number;
   maxParticipants: number;
+  isUnusedSeats: boolean;
   isHidden: boolean;
 }
 

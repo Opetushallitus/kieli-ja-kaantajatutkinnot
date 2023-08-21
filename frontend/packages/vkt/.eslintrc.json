@@ -49,7 +49,7 @@
       "warn",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
     ],
-    "no-console": "warn",
+    "no-console": "off",
     "no-restricted-imports": [
       "error",
       {
