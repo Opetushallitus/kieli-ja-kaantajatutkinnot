@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Funktioner",
+      "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {

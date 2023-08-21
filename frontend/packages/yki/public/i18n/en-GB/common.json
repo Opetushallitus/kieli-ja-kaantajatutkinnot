@@ -2,6 +2,7 @@
   "yki": {
     "common": {
       "actions": "Actions",
+      "appNameAbbreviation": "YKI",
       "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {

@@ -53,6 +53,7 @@ export const Header = (): JSX.Element => {
                 direction={Direction.Horizontal}
                 alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
+                title={translateCommon('appNameAbbreviation')}
               />
             </Link>
           </div>

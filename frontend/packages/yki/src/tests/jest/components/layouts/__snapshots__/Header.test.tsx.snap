@@ -27,11 +27,20 @@ Array [
           href="/yki/ilmoittautuminen"
           onClick={[Function]}
         >
-          <img
-            alt="ophLogoToFrontPageAlt"
-            className="header__left__logo"
-            src="test"
-          />
+          <div
+            className="oph-logo columns"
+          >
+            <img
+              alt="ophLogoToFrontPageAlt"
+              className="header__left__logo"
+              src="test"
+            />
+            <p
+              className="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-ahj2mt-MuiTypography-root"
+            >
+              appNameAbbreviation
+            </p>
+          </div>
         </a>
       </div>
       <div
