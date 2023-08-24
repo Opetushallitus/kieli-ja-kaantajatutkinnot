@@ -8,9 +8,38 @@
   flex-direction: column;
   gap: 2rem;
 
+  &__fieldset {
+    border-style: none;
+    padding: 0;
+
+    @include not-phone {
+      grid-column: span 2;
+    }
+
+    legend {
+      padding-bottom: 1em;
+    }
+  }
+
+  &__hint {
+    font-weight: normal;
+  }
+
+  &__dropdown-filters-container {
+    align-items: baseline;
+    display: grid;
+    gap: 7rem;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
+    padding: 0 1rem;
+
+    @include phone {
+      gap: 2rem;
+    }
+  }
+
   &__dropdown-filters-box {
     display: grid;
-    gap: 4rem;
+    gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, auto));
     padding: 0 1rem;
 
