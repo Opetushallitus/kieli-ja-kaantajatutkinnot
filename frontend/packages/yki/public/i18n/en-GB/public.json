@@ -1,15 +1,455 @@
 {
   "yki": {
-    "pages": {
-      "registrationPage": {
-        "labels": {
-          "filterExamSessions": "Filter test sessions",
-          "excludeFullSessions": "Only show tests that have free places",
-          "excludeNonOpenSessions": "Only show tests that are open for registration now"
+    "component": {
+      "evaluationOrderForm": {
+        "actionButtons": {
+          "cancel": "Cancel",
+          "pay": "Continue to payment"
         },
-        "title": "Yleiset kielitutkinnot (YKI) - Registration",
+        "errorDialog": {
+          "errors": {
+            "acceptConditions": "Accept the terms and conditions for processing personal data",
+            "birthdate": "Date of birth",
+            "email": "Email address",
+            "firstNames": "First names",
+            "lastName": "Last name",
+            "noExaminationPartsSelected": "Select at least one subtest"
+          },
+          "fixErrors": "Check and correct the following information:",
+          "title": "Errors on the form!"
+        },
+        "fillParticipantDetails": {
+          "errors": {
+            "invalidBirthdate": "Invalid date of birth. Fill in as dd.mm.yyyy."
+          },
+          "instructions": "Fill in the information below for the participant who requests reassessment. You will receive a summary of the request for reassessment to your email.",
+          "heading": "Participant information",
+          "labels": {
+            "birthdate": "Date of birth *",
+            "email": "Email address *",
+            "firstNames": "First names *",
+            "lastName": "Last name *"
+          },
+          "placeholders": {
+            "birthdate": "Fill in as dd.mm.yyyy",
+            "email": "E.g. nimi@sahkoposti.fi",
+            "firstNames": "",
+            "lastName": ""
+          }
+        },
+        "info": {
+          "refundIfChangeInEvaluation": "The reassessment fee will be refunded if the reassessment changes the original grading of the subtest.",
+          "requiredFields": "Sections marked with a star (*) are mandatory."
+        },
+        "renderEvaluationDetails": {
+          "heading": "Test details",
+          "info": "You are requesting a reassessment for the following YKI test:"
+        },
+        "selectExaminationParts": {
+          "heading": "Select subtests",
+          "selectAtLeastOne": "Select at least one subtest",
+          "selectParts": "Select the subtests you wish to have reassessed *",
+          "sumTotal": "Reassessment fee in total"
+        }
+      },
+      "footer": {
+        "address": {
+          "name": "Finnish National Agency for Education",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telephone"
+          },
+          "street": "Hakaniemenranta 6",
+          "zipCity": "P.O. Box 380, 00531 Helsinki"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Accessibility statement (in Finnish)"
+          },
+          "contact": {
+            "title": "Feedback and development suggestions"
+          },
+          "privacy": {
+            "text": "Privacy policy statement (in Finnish)"
+          },
+          "ykiHomepage": {
+            "text": "Website of the National Certificates of Language Proficiency (YKI) (oph.fi)"
+          }
+        }
+      },
+      "publicEvaluationPeriodListing": {
+        "evaluationPeriodNotYetOpen": "Request a reassessment starting from {{- startDate}}",
+        "header": {
+          "evaluationPeriod": "Deadline for the request"
+        },
+        "heading": "Tutkinnot",
+        "requestReassessment": "Request a reassessment"
+      },
+      "registration": {
+        "controlButtons": {
+          "abortRegistration": "Abort registration",
+          "confirm": "Send"
+        },
+        "enrollToQueue": {
+          "dialog": {
+            "emailAlreadyQueued": {
+              "description": "Olet jo aiemmin tilannut ilmoituksen peruutuspaikoista sähköpostiisi.",
+              "title": "Ilmoituksen tilaaminen ei onnistu"
+            },
+            "genericError": {
+              "description": "Tapahtui odottamaton virhe. Voit yrittää uudelleen.",
+              "title": "Ilmoituksen tilaaminen ei onnistunut"
+            },
+            "inputError": {
+              "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
+              "title": "Virheitä lomakkeella"
+            }
+          },
+          "header": "Tilaa ilmoitus peruutuspaikoista",
+          "info": {
+            "part1": "Tässä testissä ei ole juuri nyt vapaita paikkoja. Voit tilata ilmoituksen peruutuspaikoista.",
+            "part2": "Anna sähköpostiosoitteesi, niin saat ilmoituksen, jos paikkoja vapautuu."
+          },
+          "inputs": {
+            "confirmEmail": {
+              "description": "Kirjoita sähköpostiosoitteesi uudelleen",
+              "heading": "Vahvista sähköpostiosoitteesi"
+            },
+            "email": {
+              "description": "Esim. nimi@sahkoposti.fi",
+              "heading": "Syötä sähköpostiosoitteesi"
+            },
+            "submit": {
+              "label": "Tilaa ilmoitus"
+            }
+          },
+          "success": {
+            "heading": "Ilmoituksen tilaaminen onnistui!",
+            "info": "Jos paikkoja tutkintoon vapautuu, saat ilmoituksen antamaasi sähköpostiosoitteeseen"
+          }
+        },
+        "examSessionDetails": {
+          "exam": "Test",
+          "examFee": "Test fee",
+          "openings": "Available places",
+          "registrationTime": "Registration period"
+        },
+        "header": "Register for a National Certificates of Language Proficiency (YKI) test",
+        "paymentSum": {
+          "title": "Tutkintomaksu"
+        },
+        "registrationButtonLabels": {
+          "full": "Full",
+          "orderCancellationNotification": "Order a notification of cancellations",
+          "periodNotOpen": "Registration has not started",
+          "register": "Register"
+        },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Registration begins {{- startDate}}",
+          "admissionPeriodIsClosed": "Registration has ended",
+          "examSessionIsFull": "Test is full"
+        },
+        "registrationDetails": {
+          "certificateLanguage": "In which language do you wish to receive the degree certificate? *",
+          "description1": "Fill in the YKI registration form using the participant’s own personal information.",
+          "description2": "Write the first and last name exactly as they appear on the official identity card.",
+          "errors": {
+            "fields": {
+              "address": "Street address",
+              "certificateLanguage": "Select language of the certificate",
+              "dateOfBirth": "Date of birth",
+              "email": "Email address",
+              "emailConfirmation": "Confirm email address",
+              "firstNames": "First names",
+              "gender": "Gender",
+              "hasSSN": "Do you have a Finnish personal identity code?",
+              "instructionLanguage": "Select language of the exercises",
+              "lastName": "Last name",
+              "nationality": "Nationality",
+              "phoneNumber": "Telephone number",
+              "postNumber": "Postal code",
+              "postOffice": "Post office",
+              "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
+              "ssn": "Personal identity code",
+              "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
+            },
+            "fixErrors": "Check and correct the following information:",
+            "title": "Errors on the form"
+          },
+          "labels": {
+            "address": "Street address",
+            "dateOfBirth": "Date of birth",
+            "email": "Email address",
+            "emailConfirmation": "Confirm email address",
+            "firstNames": "First names",
+            "gender": "Gender",
+            "lastName": "Last name",
+            "nationality": "Nationality",
+            "phoneNumber": "Phone number",
+            "postNumber": "Postal code",
+            "postOffice": "Post office",
+            "ssn": "Personal identity code"
+          },
+          "placeholders": {
+            "address": "",
+            "dateOfBirth": "Fill in as dd.mm.yyyy",
+            "email": "E.g. nimi@sahkoposti.fi",
+            "emailConfirmation": "Type in your email address again",
+            "firstNames": "",
+            "gender": "Select gender",
+            "lastName": "",
+            "nationality": "Select nationality",
+            "phoneNumber": "Input in the format +358 50 123 4567",
+            "postNumber": "",
+            "postOffice": ""
+          },
+          "finnishSSN": "Do you have a Finnish personal identity code? *",
+          "instructionLanguage": "In which language do you wish to complete the exercises? *",
+          "requiredFields": "Sections marked with a star (*) are mandatory. ",
+          "ssn": "Personal identity code",
+          "termsAndConditions": {
+            "description1": "The registration for an YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "description2": "Check that you are registering for a test of the correct language and level. ",
+            "label": "I accept the terms and conditions for registration *",
+            "title": "Terms and conditions for registration"
+          },
+          "title": "Fill in your details",
+          "whatsNext": {
+            "description": "After you have sent the registration form, you will receive a payment link by email to pay your test fee. The registration will be confirmed after you have paid the test fee.",
+            "title": "What happens next?"
+          }
+        },
+        "registrationFormSubmitted": {
+          "proceedToPayment": {
+            "confirmation": "You have sent the registration form for the YKI test",
+            "dueDateReminder": {
+              "text1": "<strong>Important!</strong> The email will also contain the deadline for paying the test fee.",
+              "text2": "To participate in the YKI test, you must pay the fee on time."
+            },
+            "paymentLinkEmail": {
+              "text1": "Next, you will receive an email with a payment link.",
+              "text2": "The email is sent from the address noreply@opintopolku.fi.",
+              "text3": "Your registration will be confirmed after you have paid the test fee."
+            },
+            "title": "Confirm the registration by paying the test fee"
+          }
+        },
+        "stepper": {
+          "active": "Active",
+          "completed": "Completed",
+          "paymentAborted": "Payment was aborted",
+          "phase": "Phase",
+          "step": {
+            "Done": "Done",
+            "Identify": "Identify",
+            "Payment": "Payment",
+            "Register": "Register"
+          },
+          "welcomeToExam": "Welcome to the test!"
+        },
+        "steps": {
+          "identify": {
+            "caption": "You must identify yourself to register for a YKI test. Use the personal information of the person taking the YKI test for the identification. ",
+            "emailButtonText": "identify with email",
+            "emailError": "Invalid email address",
+            "emailInput": {
+              "label": "Fill in your email address",
+              "placeholder": "E.g. nimi@sahkoposti.fi"
+            },
+            "emailLink": {
+              "error": "Requesting a login link failed. You may try again.",
+              "incorrectEmailDialog": {
+                "title": "Request failed",
+                "description": "Check your email address."
+              },
+              "success": "Registration link has been sent to:"
+            },
+            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and proficiency level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "selectIdentificationMethod": "Select your identification method",
+            "suomiFiButtonText": "Identify via Suomi.fi",
+            "title": "Identify yourself for registration",
+            "withFinnishSSN": {
+              "description": "<strong>Identify yourself through Suomi.fi e-identification.</strong>",
+              "info": "After the identification you will be directed automatically to the registration form."
+            },
+            "withoutFinnishSSN": {
+              "description": "<strong>If you cannot use Suomi.fi e-identification</strong>, identify yourself with your email.",
+              "info": "You will receive an email with a link to the registration form."
+            }
+          },
+          "payment": {
+            "cancel": {
+              "description": "The registration is only confirmed after paying the test fee.",
+              "heading": "Payment canceled",
+              "title": "You canceled the payment"
+            },
+            "error": {
+              "description": "You can try to pay again. The registration is only confirmed after successfully paying the test fee.",
+              "heading": "Payment error",
+              "title": "An error occurred when paying."
+            },
+            "success": {
+              "whatsNext": {
+                "beforeYkiTest": {
+                  "description": "To prepare for the YKI test, you can read the instructions provided by the Finnish National Agency for Education on their website:",
+                  "label": "Before the YKI test (oph.fi)",
+                  "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ennen-testia"
+                },
+                "part1": "Your registration has been confirmed! You will receive a confirmation email shortly.",
+                "part2": "Your test centre will send you an email closer to the test date with detailed instructions on how to get there, including the exact location and start time.",
+                "part3": "",
+                "specialArrangements": {
+                  "description": "If you require special arrangements, send your application as soon as possible according to the instructions provided by the Finnish National Agency for Education. The instructions can be found on their website:",
+                  "label": "Do you need special arrangements? (oph.fi)",
+                  "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-do-you-need-special-arrangements"
+                },
+                "title": "Welcome to the YKI test!"
+              },
+              "heading": "Registration confirmed!"
+            }
+          },
+          "register": {
+            "inProgress": {
+              "heading": "Register to test"
+            },
+            "success": {
+              "heading": "Registration form sent"
+            }
+          }
+        },
+        "unavailable": {
+          "full": {
+            "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tilaisuuteen ei ole vapaita paikkoja.",
+            "title": "Tilaisuus on täynnä"
+          },
+          "past": {
+            "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
+            "title": "Ilmoittautumisaika päättynyt"
+          },
+          "upcoming": {
+            "description": "Tilaisuuteen ilmoittautunen ei ole mahdollista. Ilmoittautumisaika ei ole vielä alkanut.",
+            "title": "Ilmoittautumisaika ei ole alkanut"
+          }
+        }
+      }
+    },
+    "pages": {
+      "evaluationOrderPage": {
+        "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
+        "title": "Pyydä tarkistusarviointia",
+        "toasts": {
+          "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"
+        }
+      },
+      "evaluationOrderStatusPage": {
+        "cancel": {
+          "heading": "Payment aborted",
+          "info": "You aborted the payment. The reassessment request will only be taken into account after you have payed the reassessment fee."
+        },
+        "error": {
+          "heading": "Payment error",
+          "info": "The payment did not go through. You may try again."
+        },
+        "success": {
+          "heading": "Request for reassessment sent!",
+          "body1": "You have sent a request for reassessment.",
+          "body2": "The email also contains a receipt for the reassessment fee. If you have not received the email, please check your spam folder."
+        }
+      },
+      "examDetailsPage": {
+        "toasts": {
+          "notFound": "Kielitutkintoa ei löytynyt"
+        }
+      },
+      "initRegistrationPage": {
+        "toasts": {
+          "notFound": "Kielitutkintoa ei löytynyt"
+        }
+      },
+      "reassessmentPage": {
+        "info": {
+          "general": {
+            "body1": "Tarkistusarviointi on Yleisiä kielitutkintoja koskevan lain (964/2004, 13 §) tarjoama mahdollisuus pyytää suorituksesi uudelleen arviointia siinä tapauksessa, että et ole tyytyväinen siihen, miten tekemäsi tutkintosuoritus on arvioitu.",
+            "body2": "Tarkistusarviointi on ainoa toimenpide, jolla voit ehkä saada muutettua suorituksesi tulosta.",
+            "body3": "Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet suorituksesi ensimmäisellä kerralla. Tarkistusarvioinnissa arvioidaan vain suoritusta, eikä muita seikkoja oteta huomioon. Tarkistusarviointia koskevaan päätökseen ei saa hakea muutosta valittamalla.",
+            "heading": "Tarkistusarvioinnista"
+          },
+          "pricing": {
+            "body1": "Tarkistusarviointia voi pyytää joko yhdestä tai useammasta osakokeesta.",
+            "body2": "Jokaisen osakokeen tarkistusarviointi maksaa 50 euroa:",
+            "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
+            "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
+            "heading": "Hinnasto"
+          },
+          "schedule": {
+            "body1": "Voit pyytää suorituksesi tarkistusarviointia 14 päivän kuluessa siitä ajankohdasta, kun sinulla on ollut tilaisuus saada arvioinnin tulos.",
+            "body2": "Tarkasta aika, milloin voit pyytää tutkintosuorituksesi tarkistusarviointia, alla olevasta Tutkinnot-taulukosta.",
+            "body3": "Käsittelyaika on keskimäärin kolme kuukautta.",
+            "body4": "Päätös lähetetään sähköpostitse.",
+            "heading": "Aikataulu"
+          }
+        },
+        "introduction": {
+          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen.",
+          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta."
+        },
+        "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
+      },
+      "registrationPage": {
+        "abortDialog": {
+          "actions": {
+            "cancel": "I don't want to abort",
+            "confirm": "Yes, I want to abort the registration"
+          },
+          "description": "Do you want to abort the registration? Any information filled will be lost.",
+          "title": "Abort registration"
+        },
+        "description": {
+          "part1": {
+            "link": {
+              "label": "Selecting the right YKI test and the test days",
+              "url": "https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days"
+            },
+            "text": "National Certificates of Language Proficiency (YKI) tests are language tests for adults. You can officially prove your language skills in different languages with a National Certificate of Language Proficiency. Before registering for the test, find out when and at what proficiency level you need the certificate. Read more about selecting the right YKI test on the website of the Finnish National Agency for Education:"
+          },
+          "part2": {
+            "link": {
+              "label": "National Certificates of Language Proficiency (YKI)",
+              "url": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
+            },
+            "general": "The National Certificates of Language Proficiency (YKI) test measures functional language proficiency in everyday situations at the basic, intermediate, or advanced levels. All YKI tests consist of four subtests: speaking, listening comprehension, writing, and reading comprehension. You will get a separate grade for each subtest.",
+            "languages": "You can take the test in the following languages: English, Finnish, French, German, Italian, Northern Sámi, Russian, Spanish, and Swedish. For more information on YKI tests, please see the website of the Finnish National Agency for Education:"
+          }
+        },
+        "filters": {
+          "buttons": {
+            "empty": "Empty selection",
+            "showResults": "Show results ({{count}})"
+          },
+          "errorDialog": {
+            "description": "To view results, select the desired language and proficiency level. Then press again the SHOW RESULTS button.",
+            "title": "Select exam language and proficiency level"
+          },
+          "errors": {
+            "required": "Selection is required"
+          },
+          "heading": "Search for tests",
+          "information": "Search for YKI-tests by choosing the language and proficiency level. Press the SHOW RESULTS button to see the results.",
+          "selectExamDetails": {
+            "prompt": "Choose test",
+            "required": "(required)"
+          }
+        },
+        "labels": {
+          "excludeFullSessions": "Only show tests that have free places",
+          "excludeNonOpenSessions": "Only show tests that are open for registration now",
+          "filterExamSessions": "Filter test sessions",
+          "selectLanguage": "Choose language",
+          "selectLevel": "Choose proficiency level",
+          "selectMunicipality": "Choose municipality"
+        },
         "register": "Register",
-        "searchResults": "Search results"
+        "title": "National Certificates of Language Proficiency (YKI) - Registration"
       }
     }
   }

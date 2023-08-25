@@ -78,7 +78,7 @@
         }
       },
       "publicEvaluationPeriodListing": {
-        "evaluationPeriodNotYetOpen": "Pyyntöaika ei ole alkanut",
+        "evaluationPeriodNotYetOpen": "Pyydä tarkistusarviointia {{- startDate}} alkaen",
         "header": {
           "evaluationPeriod": "Tarkistusarvioinnin pyyntöaika"
         },
@@ -153,7 +153,6 @@
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
           "description1": "Täytä YKI-testin ilmoittautumislomakkeelle testiin osallistujan tiedot.",
           "description2": "Kirjoita etu- ja sukunimi ilmoittautumislomakkeelle samalla tavalla kuin ne on kirjoitettu viralliseen henkilöllisyystodistukseen.",
-          "emailConfirmation": "Vahvista sähköpostiosoite",
           "errors": {
             "fields": {
               "address": "Katuosoite",
@@ -172,7 +171,7 @@
               "postOffice": "Postitoimipaikka",
               "privacyStatementConfirmation": "Hyväksy henkilötietojen käsittelyn ehdot",
               "ssn": "Henkilötunnus",
-              "termsAndConditionsAgreed": "Hyväksy yleiset ehdot"
+              "termsAndConditionsAgreed": "Hyväksy ilmoittautumisen ehdot"
             },
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
             "title": "Virheitä lomakkeella"
@@ -197,9 +196,9 @@
             "email": "Esim. nimi@sahkoposti.fi",
             "emailConfirmation": "Kirjoita sähköpostiosoite uudelleen",
             "firstNames": "",
-            "gender": "Valitse",
+            "gender": "Valitse sukupuoli",
             "lastName": "",
-            "nationality": "Valitse",
+            "nationality": "Valitse kansalaisuus",
             "phoneNumber": "Syötä muodossa +358 50 123 4567",
             "postNumber": "",
             "postOffice": ""
@@ -214,10 +213,9 @@
             "label": "Hyväksyn ilmoittautumisen ehdot *",
             "title": "Ilmoittautumisen ehdot"
           },
-          "termsAndConditionsAgreed": "Hyväksy yleiset ehdot",
           "title": "Syötä tietosi",
           "whatsNext": {
-            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun. ",
+            "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "title": "Mitä tapahtuu seuraavaksi?"
           }
         },
@@ -424,6 +422,10 @@
           }
         },
         "filters": {
+          "buttons": {
+            "empty": "Tyhjennä kaikki",
+            "showResults": "Näytä tulokset ({{count}})"
+          },
           "errorDialog": {
             "description": "Nähdäksesi tulokset, valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
             "title": "Valitse tutkinnon kieli ja taitotaso"
