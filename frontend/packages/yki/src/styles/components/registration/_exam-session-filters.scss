@@ -18,6 +18,16 @@
 
     legend {
       padding-bottom: 1em;
+
+      p {
+        line-height: 3rem;
+      }
+    }
+  }
+
+  &__municipality {
+    @include not-phone {
+      margin-top: 4rem;
     }
   }
 
@@ -26,7 +36,6 @@
   }
 
   &__dropdown-filters-container {
-    align-items: baseline;
     display: grid;
     gap: 7rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, auto));

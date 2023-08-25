@@ -188,7 +188,7 @@ export const PublicExamSessionFilters = ({
             </FormControl>
           </div>
         </fieldset>
-        <div className="public-exam-session-filters__filter">
+        <div className="public-exam-session-filters__filter public-exam-session-filters__municipality">
           <Typography
             variant="h3"
             component="label"
