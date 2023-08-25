@@ -88,7 +88,7 @@ export const initI18n = () => {
     debug: !REACT_ENV_PRODUCTION,
   });
   const currentLanguage = getCurrentLang() as AppLanguage;
-  DateUtils.setDayjsLocale(currentLanguage);
+  changeLang(currentLanguage);
 
   return i18n;
 };
@@ -159,6 +159,7 @@ export const getSupportedLangs = (): Array<AppLanguage> => {
 
 export const changeLang = (language: AppLanguage) => {
   DateUtils.setDayjsLocale(language);
+  document.documentElement.setAttribute('lang', language);
 
   return changeLanguage(language);
 };
