@@ -8,6 +8,7 @@ import {
 } from 'enums/app';
 import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
+import { ExamEventUtils } from 'utils/examEvent';
 
 interface ClerkListExamEventState {
   status: APIResponseStatus;
@@ -53,6 +54,9 @@ const clerkListExamEventSlice = createSlice({
       state.toggleFilter = action.payload;
     },
     upsertExamEvents(state, action: PayloadAction<ClerkExamEvent>) {
+      const isUnusedSeats = ExamEventUtils.getIsExamEventWithUnusedSeats(
+        action.payload
+      );
       const participants = action.payload.enrollments.filter((enrollment) =>
         [
           EnrollmentStatus.PAID,
@@ -65,6 +69,7 @@ const clerkListExamEventSlice = createSlice({
       const examEvent = {
         ...rest,
         participants,
+        isUnusedSeats,
       };
 
       const examEvents = [...state.examEvents];

@@ -1,5 +1,6 @@
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DownloadIcon from '@mui/icons-material/DownloadOutlined';
+import { Alert } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 import {
@@ -32,6 +33,7 @@ import {
 } from 'redux/reducers/clerkExamEventOverview';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 import { ExamCreateEventUtils } from 'utils/examCreateEvent';
+import { ExamEventUtils } from 'utils/examEvent';
 
 interface EnrollmentListProps {
   enrollments: Array<ClerkEnrollment>;
@@ -273,8 +275,22 @@ export const ClerkExamEventDetails = () => {
     window.location.host
   }${AppRoutes.PublicAuth.replace(/:examEventId/, `${examEvent?.id}`)}`;
 
+  const isExamEventWithUnusedSeats =
+    ExamEventUtils.getIsExamEventWithUnusedSeats(examEventDetails);
+
   return (
     <>
+      <div>
+        {isExamEventWithUnusedSeats && (
+          <Alert
+            className="clerk-homepage__notification margin-top-sm"
+            data-testid="clerk-homepage__notification___seats-available"
+            severity={Severity.Info}
+          >
+            {translateCommon('notification.seatsUnused')}
+          </Alert>
+        )}
+      </div>
       <div className="columns margin-top-lg flex-end">
         <ControlButtons
           onCancel={onCancel}

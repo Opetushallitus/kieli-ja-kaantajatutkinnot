@@ -1,6 +1,8 @@
+import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Text } from 'shared/components';
+import { Color } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
@@ -46,8 +48,13 @@ export const ClerkExamEventListingRow = ({
         <TableCell>
           <Text>{DateTimeUtils.renderDate(examEvent.registrationCloses)}</Text>
         </TableCell>
-        <TableCell>
+        <TableCell className="clerk-exam-event-listing-seats-cell">
           <Text>{`${examEvent.participants} / ${examEvent.maxParticipants}`}</Text>
+          {examEvent.isUnusedSeats && (
+            <div>
+              <InfoIcon color={Color.Secondary} />
+            </div>
+          )}
         </TableCell>
         <TableCell>
           <Text>

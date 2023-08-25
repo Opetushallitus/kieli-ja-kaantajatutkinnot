@@ -15,4 +15,23 @@
     gap: 2rem;
     padding: 2.5rem;
   }
+
+  & &__notification {
+    background-color: $color-blue-200;
+    color: $color-text-primary;
+    position: relative;
+
+    &::after {
+      border-right: 3rem solid transparent;
+      border-top: 1.5rem solid $color-blue-200;
+      bottom: -1.5rem;
+      content: ' ';
+      left: 3rem;
+      position: absolute;
+    }
+
+    & svg {
+      color: $color-secondary;
+    }
+  }
 }

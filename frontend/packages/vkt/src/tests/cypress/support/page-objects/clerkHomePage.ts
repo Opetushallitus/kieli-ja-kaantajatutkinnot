@@ -9,6 +9,8 @@ class ClerkHomePage {
     pagination: () => cy.get('.table__head-box__pagination'),
     toggleFilter: (toggleFilter: ExamEventToggleFilter) =>
       cy.findByTestId(`clerk-exam-event-toggle-filters__${toggleFilter}-btn`),
+    unusedSeatsNotification: () =>
+      cy.findByTestId('clerk-homepage__notification___seats-available'),
   };
 
   clickExamEventRow(id: number) {
@@ -35,6 +37,10 @@ class ClerkHomePage {
     this.elements
       .pagination()
       .should('contain.text', `1 - ${count} / ${count}`);
+  }
+
+  expectUnusedSeatsNotification() {
+    this.elements.unusedSeatsNotification().should('be.visible');
   }
 }
 
