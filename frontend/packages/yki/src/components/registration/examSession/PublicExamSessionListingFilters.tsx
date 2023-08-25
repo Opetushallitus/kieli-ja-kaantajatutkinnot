@@ -218,7 +218,10 @@ export const PublicExamSessionFilters = ({
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
           <Typography variant="h3" component="legend">
-            {t('labels.filterExamSessions')}
+            {t('labels.filterExamSessions')}{' '}
+            <span className="public-exam-session-filters__hint">
+              {t('filters.selectExamDetails.optional')}
+            </span>
           </Typography>
           <FormGroup>
             <FormControlLabel
