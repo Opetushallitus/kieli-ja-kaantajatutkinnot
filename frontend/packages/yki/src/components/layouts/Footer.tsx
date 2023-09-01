@@ -29,17 +29,16 @@ export const Footer = () => {
         <div className="footer__info-row">
           <div className="footer__container footer__container__links">
             <CustomButtonLink
-              to={AppRoutes.NotFoundPage}
+              to={AppRoutes.AccessibilityStatementPage}
               variant={Variant.Text}
             >
               {t('links.accessibility.text')}
             </CustomButtonLink>
-            <CustomButtonLink
-              to={AppRoutes.NotFoundPage}
-              variant={Variant.Text}
-            >
-              {t('links.privacy.text')}
-            </CustomButtonLink>
+            <ExtLink
+              text={t('links.privacy.text')}
+              href={t('links.privacy.url')}
+              endIcon={<OpenInNewIcon />}
+            />
             <ExtLink
               text={t('links.ykiHomepage.text')}
               href={translateCommon('ykiHomepage.link')}

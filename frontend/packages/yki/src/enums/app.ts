@@ -3,6 +3,7 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
+  AccessibilityStatementPage = '/yki/saavutettavuus',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
