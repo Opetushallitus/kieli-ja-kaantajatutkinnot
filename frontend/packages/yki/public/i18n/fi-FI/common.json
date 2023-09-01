@@ -5,6 +5,7 @@
       "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
+      "backToHomePage": "Takaisin etusivulle",
       "cancel": "Peruuta",
       "component": {
         "table": {

@@ -4,6 +4,7 @@
       "actions": "Funktioner",
       "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
+      "backToHomePage": "Tillbaka till framsidan",
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
         "dateTimeFormat": "l [kl.] HH:mm"
