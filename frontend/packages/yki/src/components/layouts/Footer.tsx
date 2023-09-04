@@ -1,14 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
-import {
-  CustomButtonLink,
-  ExtLink,
-  H3,
-  OPHLogoViewer,
-  Svg,
-  Text,
-} from 'shared/components';
-import { Direction, Variant } from 'shared/enums';
+import { Link } from 'react-router-dom';
+import { ExtLink, H3, OPHLogoViewer, Svg, Text } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
 import {
@@ -28,12 +22,9 @@ export const Footer = () => {
       <Paper className="footer" elevation={3}>
         <div className="footer__info-row">
           <div className="footer__container footer__container__links">
-            <CustomButtonLink
-              to={AppRoutes.AccessibilityStatementPage}
-              variant={Variant.Text}
-            >
-              {t('links.accessibility.text')}
-            </CustomButtonLink>
+            <Link to={AppRoutes.AccessibilityStatementPage} target="_blank">
+              <Text>{t('links.accessibility.text')}</Text>
+            </Link>
             <ExtLink
               text={t('links.privacy.text')}
               href={t('links.privacy.url')}
