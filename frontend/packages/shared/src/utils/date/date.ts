@@ -51,6 +51,11 @@ export class DateUtils {
     }
   }
 
+  static isDatePartBeforeOrToday(before: Dayjs, after: Dayjs) {
+    return DateUtils.isDatePartBefore(before, after)
+      || DateUtils.isDatePartEqual(before, after);
+  }
+
   static isDatePartBefore(before: Dayjs, after: Dayjs) {
     return before.isBefore(after, 'day');
   }

@@ -38,7 +38,7 @@ const filterMeetingDateByStatus = (
   status: MeetingDateStatus,
   currentDate: Dayjs
 ) => {
-  const isBefore = DateUtils.isDatePartBefore(date, currentDate);
+  const isBefore = DateUtils.isDatePartBeforeOrToday(date, currentDate);
 
   return status === MeetingDateStatus.Upcoming ? !isBefore : isBefore;
 };
