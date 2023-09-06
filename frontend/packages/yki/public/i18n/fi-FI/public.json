@@ -62,6 +62,11 @@
           "street": "Hakaniemenranta 6",
           "zipCity": "PL 380, 00531 Helsinki"
         },
+        "headings": {
+          "statements": "Selosteet",
+          "info": "Lisätietoa YKIstä",
+          "contacts": "Yhteystiedot"
+        },
         "links": {
           "accessibility": {
             "text": "Saavutettavuusseloste"

@@ -42,6 +42,7 @@
     padding: 1.5rem;
 
     &__links,
+    &__info,
     &__contact-details {
       margin-top: 3rem;
 
@@ -70,6 +71,10 @@
       }
     }
 
+    & h2 {
+      font-size: 2rem;
+    }
+
     & a,
     & > a > button {
       color: $color-secondary-dark;
@@ -84,12 +89,6 @@
 
       @include phone {
         font-size: 1.5rem;
-      }
-    }
-
-    &:last-of-type {
-      @include phone {
-        order: -1;
       }
     }
   }

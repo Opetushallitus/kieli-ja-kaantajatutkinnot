@@ -22,7 +22,8 @@ export const Footer = () => {
       <Paper className="footer" elevation={3}>
         <div className="footer__info-row">
           <div className="footer__container footer__container__links">
-            <Link to={AppRoutes.AccessibilityStatementPage} target="_blank">
+            <h2>{t('headings.statements')}</h2>
+            <Link to={AppRoutes.AccessibilityStatementPage}>
               <Text>{t('links.accessibility.text')}</Text>
             </Link>
             <ExtLink
@@ -30,6 +31,9 @@ export const Footer = () => {
               href={t('links.privacy.url')}
               endIcon={<OpenInNewIcon />}
             />
+          </div>
+          <div className="footer__container footer__container__info">
+            <h2>{t('headings.info')}</h2>
             <ExtLink
               text={t('links.ykiHomepage.text')}
               href={translateCommon('ykiHomepage.link')}
@@ -38,6 +42,7 @@ export const Footer = () => {
             />
           </div>
           <div className="footer__container footer__container__contact-details">
+            <h2>{t('headings.contacts')}</h2>
             <H3>{t('address.name')}</H3>
             <br />
             <Text>{t('address.street')}</Text>
