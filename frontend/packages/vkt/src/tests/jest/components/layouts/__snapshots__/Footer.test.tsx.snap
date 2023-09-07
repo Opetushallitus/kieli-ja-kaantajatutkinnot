@@ -193,17 +193,21 @@ exports[`Footer should render Footer correctly 1`] = `
       className="footer__logo-row"
     >
       <div
-        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren footer__logo-row__divider css-1ws8119-MuiDivider-root"
+        className="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren footer__logo-row__divider css-1puturl-MuiDivider-root"
         role="separator"
       >
         <span
           className="MuiDivider-wrapper css-qywfm8-MuiDivider-wrapper"
         >
-          <img
-            alt="ophLogoAlt"
-            className="footer__container__logo__oph"
-            src="test"
-          />
+          <div
+            className="oph-logo columns"
+          >
+            <img
+              alt="ophLogoAlt"
+              className="footer__container__logo__oph"
+              src="test"
+            />
+          </div>
         </span>
       </div>
     </div>

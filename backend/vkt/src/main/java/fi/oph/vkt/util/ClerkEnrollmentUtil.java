@@ -3,8 +3,8 @@ package fi.oph.vkt.util;
 import fi.oph.vkt.api.dto.clerk.ClerkEnrollmentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPaymentDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkPersonDTO;
+import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
-import fi.oph.vkt.model.Payment;
 import fi.oph.vkt.model.Person;
 import java.util.Comparator;
 import java.util.List;
@@ -18,8 +18,8 @@ public class ClerkEnrollmentUtil {
     final List<ClerkPaymentDTO> paymentDTOs = enrollment
       .getPayments()
       .stream()
-      .map(ClerkEnrollmentUtil::createClerkPaymentDTO)
-      .sorted(Comparator.comparing(ClerkPaymentDTO::modifiedAt).reversed())
+      .map(ClerkPaymentUtil::createClerkPaymentDTO)
+      .sorted(Comparator.comparing(ClerkPaymentDTO::createdAt).reversed())
       .collect(Collectors.toList());
 
     return ClerkEnrollmentDTO
@@ -48,18 +48,6 @@ public class ClerkEnrollmentUtil {
       .build();
   }
 
-  private static ClerkPaymentDTO createClerkPaymentDTO(final Payment payment) {
-    return ClerkPaymentDTO
-      .builder()
-      .id(payment.getId())
-      .version(payment.getVersion())
-      .transactionId(payment.getTransactionId())
-      .amount(payment.getAmount())
-      .status(payment.getPaymentStatus())
-      .modifiedAt(payment.getModifiedAt())
-      .build();
-  }
-
   private static ClerkPersonDTO createClerkPersonDTO(final Person person) {
     return ClerkPersonDTO
       .builder()
@@ -67,6 +55,35 @@ public class ClerkEnrollmentUtil {
       .version(person.getVersion())
       .lastName(person.getLastName())
       .firstName(person.getFirstName())
+      .build();
+  }
+
+  public static ClerkEnrollmentAuditDTO createClerkEnrollmentAuditDTO(final Enrollment enrollment) {
+    return ClerkEnrollmentAuditDTO
+      .builder()
+      .id(enrollment.getId())
+      .version(enrollment.getVersion())
+      .modifiedAt(DateUtil.formatOptionalDatetime(enrollment.getModifiedAt()))
+      .examEventId(enrollment.getExamEvent().getId())
+      .personId(enrollment.getPerson().getId())
+      .oralSkill(enrollment.isOralSkill())
+      .textualSkill(enrollment.isTextualSkill())
+      .understandingSkill(enrollment.isUnderstandingSkill())
+      .speakingPartialExam(enrollment.isSpeakingPartialExam())
+      .speechComprehensionPartialExam(enrollment.isSpeechComprehensionPartialExam())
+      .writingPartialExam(enrollment.isWritingPartialExam())
+      .readingComprehensionPartialExam(enrollment.isReadingComprehensionPartialExam())
+      .status(enrollment.getStatus())
+      .previousEnrollment(enrollment.getPreviousEnrollment())
+      .digitalCertificateConsent(enrollment.isDigitalCertificateConsent())
+      .email(enrollment.getEmail())
+      .phoneNumber(enrollment.getPhoneNumber())
+      .street(enrollment.getStreet())
+      .postalCode(enrollment.getPostalCode())
+      .town(enrollment.getTown())
+      .country(enrollment.getCountry())
+      .paymentLinkHash(enrollment.getPaymentLinkHash())
+      .paymentLinkExpiresAt(DateUtil.formatOptionalDatetime(enrollment.getPaymentLinkExpiresAt()))
       .build();
   }
 }

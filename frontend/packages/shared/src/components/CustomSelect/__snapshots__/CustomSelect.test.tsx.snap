@@ -27,6 +27,7 @@ exports[`CustomSelect should render correctly 1`] = `
     </div>
     <input
       aria-hidden={true}
+      aria-invalid={false}
       className="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
       disabled={false}
       onAnimationStart={[Function]}

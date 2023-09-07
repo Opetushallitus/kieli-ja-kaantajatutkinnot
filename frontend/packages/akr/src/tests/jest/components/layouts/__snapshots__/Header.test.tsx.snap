@@ -3,7 +3,7 @@
 exports[`Header should render Header correctly 1`] = `
 Array [
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1kt0v4n-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-tvmhkj-MuiTypography-root-MuiLink-root"
     href="#main-content"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -27,11 +27,20 @@ Array [
           href="/akr/etusivu"
           onClick={[Function]}
         >
-          <img
-            alt="ophLogoToFrontPageAlt"
-            className="header__left__logo"
-            src="test"
-          />
+          <div
+            className="oph-logo columns"
+          >
+            <img
+              alt="ophLogoToFrontPageAlt"
+              className="header__left__logo"
+              src="test"
+            />
+            <p
+              className="MuiTypography-root MuiTypography-body1 oph-logo__label--bold css-ahj2mt-MuiTypography-root"
+            >
+              appNameAbbreviation
+            </p>
+          </div>
         </a>
       </div>
       <div
@@ -85,6 +94,7 @@ Array [
             </p>
           </button>
           <hr
+            aria-hidden="true"
             className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
           />
           <button
@@ -115,6 +125,7 @@ Array [
             </p>
           </button>
           <hr
+            aria-hidden="true"
             className="MuiDivider-root MuiDivider-middle MuiDivider-vertical MuiDivider-flexItem css-16bghm4-MuiDivider-root"
           />
           <button

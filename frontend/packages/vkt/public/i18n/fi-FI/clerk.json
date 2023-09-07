@@ -35,16 +35,22 @@
         },
         "payment": {
           "create": "Luo maksulinkki",
+          "setRefunded": "Merkitse maksu palautetuksi",
           "details": {
             "amount": "Summa",
             "date": "Aikaleima",
             "reference": "Maksutunniste",
-            "status": "Tila"
+            "status": "Tila",
+            "refunded": "Merkitty palautetuksi"
           },
           "modal": {
             "expires": "Voimassaolo päättyy",
             "link": "Linkki",
             "title": "Maksulinkki"
+          },
+          "refundDialog": {
+            "description": "Tämä toiminto ei palauta maksua. Maksu ainoastaan merkitään palautetuksi.",
+            "header": "Haluatko varmasti merkitä maksun palautetuksi?"
           },
           "historyTitle": "Maksuhistoria",
           "recentTitle": "Maksun tila"

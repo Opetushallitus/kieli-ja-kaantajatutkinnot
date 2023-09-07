@@ -27,70 +27,22 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     cy.openClerkExamEventPage(clerkExamEvent.id);
   });
 
-  it('should show disabled enrollment details', () => {
-    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
+  it('should allow modifying enrollment details', () => {
+    const contactDetailsValues = ['test@test.invalid', '358401234567'];
 
-    const displayedTextFields = [
-      ...nameFields,
-      ...contactDetailsFields,
-      'previousEnrollment',
-    ];
-
-    displayedTextFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
-    );
-    addressFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f)
-    );
-
-    onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Ella');
-    onClerkEnrollmentOverviewPage.expectTextFieldValue('lastName', 'Alanen');
-    onClerkEnrollmentOverviewPage.expectTextFieldValue(
-      'email',
-      'person1@example.invalid'
-    );
-    onClerkEnrollmentOverviewPage.expectTextFieldValue(
-      'phoneNumber',
-      '+358401000001'
-    );
-    onClerkEnrollmentOverviewPage.expectTextFieldValue(
-      'previousEnrollment',
-      ''
-    );
-
-    const checkedCheckBoxFields = [
-      'textualSkill',
-      'understandingSkill',
-      'writingPartialExam',
-      'readingComprehensionPartialExam',
-      //'digitalCertificateConsent',
-    ];
-
-    checkboxFields.forEach((f) => {
-      onClerkEnrollmentOverviewPage.expectCheckboxFieldDisabled(f);
-
-      checkedCheckBoxFields.includes(f)
-        ? onClerkEnrollmentOverviewPage.expectCheckboxFieldChecked(f)
-        : onClerkEnrollmentOverviewPage.expectCheckboxFieldNotChecked(f);
-    });
-  });
-
-  // TODO Skipping to get a version deployed, fix me!
-  it.skip('should allow modifying enrollment details', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickEditButton();
 
     nameFields.forEach((f) =>
       onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
     );
-    contactDetailsFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
+    contactDetailsFields.forEach((f, idx) =>
+      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx])
     );
     onClerkEnrollmentOverviewPage.editTextField(
       'previousEnrollment',
       'tammikuussa 2023'
     );
-    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
 
     // Remove skill and partial exam selections
     onClerkEnrollmentOverviewPage.clickCheckBox('textualSkill');
@@ -104,7 +56,6 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.clickCheckBox(
       'readingComprehensionPartialExam'
     );
-    onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
 
     //onClerkEnrollmentOverviewPage.clickCheckBox('digitalCertificateConsent');
     onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
@@ -112,6 +63,56 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
       onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
     );
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
+  });
+
+  it('should show disabled enrollment details', () => {
+    onClerkExamEventOverviewPage.clickEnrollmentRow(2);
+
+    const displayedTextFields = [
+      ...nameFields,
+      ...contactDetailsFields,
+      'previousEnrollment',
+    ];
+
+    displayedTextFields.forEach((f) =>
+      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
+    );
+
+    addressFields.forEach((f) =>
+      onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f)
+    );
+
+    onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Hanna');
+    onClerkEnrollmentOverviewPage.expectTextFieldValue('lastName', 'Eskola');
+    onClerkEnrollmentOverviewPage.expectTextFieldValue(
+      'email',
+      'person2@example.invalid'
+    );
+    onClerkEnrollmentOverviewPage.expectTextFieldValue(
+      'phoneNumber',
+      '+358401000002'
+    );
+    onClerkEnrollmentOverviewPage.expectTextFieldValue(
+      'previousEnrollment',
+      ''
+    );
+
+    const checkedCheckBoxFields = [
+      'oralSkill',
+      'textualSkill',
+      'writingPartialExam',
+      'speechComprehensionPartialExam',
+      'readingComprehensionPartialExam',
+      //'digitalCertificateConsent', TODO: when available
+    ];
+
+    checkboxFields.forEach((f) => {
+      onClerkEnrollmentOverviewPage.expectCheckboxFieldDisabled(f);
+
+      checkedCheckBoxFields.includes(f)
+        ? onClerkEnrollmentOverviewPage.expectCheckboxFieldChecked(f)
+        : onClerkEnrollmentOverviewPage.expectCheckboxFieldNotChecked(f);
+    });
   });
 
   it('should allow canceling enrollment', () => {
@@ -136,5 +137,16 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   it('should show disabled cancel enrollment button on already cancelled enrollment', () => {
     onClerkExamEventOverviewPage.clickEnrollmentRow(9);
     onClerkEnrollmentOverviewPage.expectDisabledCancelEnrollmentButton();
+  });
+
+  it('should refund payment', () => {
+    onClerkExamEventOverviewPage.clickEnrollmentRow(1);
+    onClerkEnrollmentOverviewPage.clickSetRefundedButton(1);
+    onDialog.expectText('Haluatko varmasti merkitä maksun palautetuksi?');
+    onDialog.clickButtonByText('Kyllä');
+    onClerkEnrollmentOverviewPage.expectRefundedAtDate(
+      1,
+      'Merkitty palautetuksi: 4.8.2023'
+    );
   });
 });

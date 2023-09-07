@@ -2,12 +2,9 @@
   "yki": {
     "common": {
       "actions": "Toiminnot",
+      "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
-      "buttons": {
-        "empty": "Tyhjennä kaikki",
-        "showResults": "Näytä tulokset ({{count}})"
-      },
       "cancel": "Peruuta",
       "component": {
         "table": {
@@ -35,7 +32,6 @@
           "dateFormat": "Syötä päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
-          "numberFormat": "Arvo on virheellinen",
           "required": "Tieto on pakollinen",
           "personalIdentityCodeFormat": "Henkilötunnuksen muotoa ei tunnistettu",
           "telFormat": "Puhelinnumero on virheellinen"
@@ -46,7 +42,8 @@
           "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
           "examSessionFull": "Tutkintotilaisuus on täynnä.",
           "formExpired": "Lomakkeen täyttöaika on umpeutunut.",
-          "generic": "Lomakkeen lähetys epäonnistui.",
+          "paymentCreationFailed": "Lomakkeen lähetys epäonnistui.",
+          "personCreationFailed": "Lomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         }
       },

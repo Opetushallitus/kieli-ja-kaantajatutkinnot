@@ -8,11 +8,14 @@ import fi.oph.vkt.api.dto.clerk.ClerkExamEventListDTO;
 import fi.oph.vkt.api.dto.clerk.ClerkExamEventUpdateDTO;
 import fi.oph.vkt.audit.AuditService;
 import fi.oph.vkt.audit.VktOperation;
+import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
+import fi.oph.vkt.model.type.ExamLevel;
 import fi.oph.vkt.repository.ClerkExamEventProjection;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.DataIntegrityViolationExceptionUtil;
@@ -21,6 +24,7 @@ import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
 import fi.oph.vkt.view.ExamEventXlsxView;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -37,11 +41,15 @@ public class ClerkExamEventService {
   @Transactional(readOnly = true)
   public List<ClerkExamEventListDTO> list() {
     final List<ClerkExamEventProjection> examEventProjections = examEventRepository.listClerkExamEventProjections();
+    final Set<Long> examEventIdsHavingQueue = examEventRepository.listClertExamEventIdsWithQueue();
 
     final List<ClerkExamEventListDTO> examEventListDTOs = examEventProjections
       .stream()
-      .map(e ->
-        ClerkExamEventListDTO
+      .map(e -> {
+        final boolean isFreeSeats = e.maxParticipants() - e.participants() > 0;
+        final boolean isUnusedSeats = examEventIdsHavingQueue.contains(e.id()) && isFreeSeats ? true : false;
+
+        return ClerkExamEventListDTO
           .builder()
           .id(e.id())
           .language(e.language())
@@ -50,9 +58,10 @@ public class ClerkExamEventService {
           .registrationCloses(e.registrationCloses())
           .participants(e.participants())
           .maxParticipants(e.maxParticipants())
+          .isUnusedSeats(isUnusedSeats)
           .isHidden(e.isHidden())
-          .build()
-      )
+          .build();
+      })
       .sorted(Comparator.comparing(ClerkExamEventListDTO::date).thenComparing(ClerkExamEventListDTO::language))
       .toList();
 
@@ -114,6 +123,7 @@ public class ClerkExamEventService {
   public ClerkExamEventDTO updateExamEvent(final ClerkExamEventUpdateDTO dto) {
     final Long id = dto.id();
     final ExamEvent examEvent = examEventRepository.getReferenceById(id);
+    final ClerkExamEventAuditDTO oldAuditDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
 
     examEvent.assertVersion(dto.version());
 
@@ -127,7 +137,9 @@ public class ClerkExamEventService {
       throw ex;
     }
 
-    auditService.logById(VktOperation.UPDATE_EXAM_EVENT, id);
+    final ClerkExamEventAuditDTO newAuditDto = ExamEventUtil.createExamEventAuditDTO(examEvent);
+    auditService.logUpdate(VktOperation.UPDATE_EXAM_EVENT, id, oldAuditDto, newAuditDto);
+
     return getExamEventWithoutAudit(id);
   }
 

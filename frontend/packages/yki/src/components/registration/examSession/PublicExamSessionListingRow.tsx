@@ -15,7 +15,8 @@ import { AppRoutes, RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 import { storeExamSession } from 'redux/reducers/examSession';
 import { resetPublicRegistration } from 'redux/reducers/registration';
-import { ExamUtils } from 'utils/exam';
+import { DateTimeUtils } from 'utils/dateTime';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const RegisterToExamButton = ({
   examSession,
@@ -28,11 +29,8 @@ const RegisterToExamButton = ({
   });
   const { isPhone } = useWindowProperties();
 
-  const { participants, quota, open, kind } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const placesAvailable = participants < quota;
-  const queueAvailable =
-    open && kind === RegistrationKind.Admission && !examSession.queue_full;
+  const { availablePlaces, availableQueue } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
 
   return (
     <CustomButtonLink
@@ -45,9 +43,9 @@ const RegisterToExamButton = ({
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
     >
-      {placesAvailable
+      {availablePlaces
         ? t('register')
-        : queueAvailable
+        : availableQueue
         ? t('orderCancellationNotification')
         : t('full')}
     </CustomButtonLink>
@@ -64,7 +62,7 @@ const RegistrationUnavailableText = ({
   });
   const now = dayjs();
   const { start, end } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   if (now.isBefore(start)) {
     return (
       <>
@@ -87,15 +85,15 @@ const renderAdmissionPeriod = ({
   start: Dayjs;
   end: Dayjs;
 }) => {
-  return `${ExamUtils.renderDateTime(start)} — ${ExamUtils.renderDateTime(
-    end
-  )}`;
+  return `${DateTimeUtils.renderDateTime(
+    start
+  )} — ${DateTimeUtils.renderDateTime(end)}`;
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
   const translateCommon = useCommonTranslation();
   const relevantPeriod =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   if (relevantPeriod.kind === RegistrationKind.Admission) {
     return <>{renderAdmissionPeriod(relevantPeriod)}</>;
   } else {
@@ -117,11 +115,13 @@ const PublicExamSessionListingCellsForDesktop = ({
   examSession: ExamSession;
   locationInfo: ExamSessionLocation;
   availablePlacesText: string;
-  registerActionAvailable?: boolean;
+  registerActionAvailable: boolean;
 }) => {
   return (
     <>
-      <TableCell>{ExamUtils.languageAndLevelText(examSession)}</TableCell>
+      <TableCell>
+        {ExamSessionUtils.languageAndLevelText(examSession)}
+      </TableCell>
       <TableCell>
         {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>
@@ -155,7 +155,7 @@ const PublicExamSessionListingCellsForPhone = ({
   examSession: ExamSession;
   locationInfo: ExamSessionLocation;
   availablePlacesText: string;
-  registerActionAvailable?: boolean;
+  registerActionAvailable: boolean;
 }) => {
   const translateCommon = useCommonTranslation();
 
@@ -163,7 +163,7 @@ const PublicExamSessionListingCellsForPhone = ({
     <TableCell>
       <div className="rows grow gapped-xs">
         <Typography variant="h2" component="p">
-          {ExamUtils.languageAndLevelText(examSession)}
+          {ExamSessionUtils.languageAndLevelText(examSession)}
         </Typography>
         <Text>
           <b>{translateCommon('examDate')}</b>
@@ -212,42 +212,19 @@ export const PublicExamSessionListingRow = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationButtonLabels',
   });
-  const now = dayjs();
   const { isPhone } = useWindowProperties();
 
-  const locationInfo = ExamUtils.getLocationInfo(examSession, getCurrentLang());
-  const registrationPeriodOpen = ExamUtils.isRegistrationOpen(examSession, now);
-  const postAdmissionOpen = ExamUtils.isPostAdmissionOpen(examSession, now);
-  const relevantPeriod =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  const getAvailablePlacesText = () => {
-    if (
-      relevantPeriod.kind === RegistrationKind.Admission &&
-      examSession.participants < examSession.max_participants
-    ) {
-      return `${
-        examSession.max_participants - (examSession.participants ?? 0)
-      }`;
-    } else if (
-      relevantPeriod.kind === RegistrationKind.PostAdmission &&
-      examSession.pa_participants < examSession.post_admission_quota
-    ) {
-      return `${
-        examSession.post_admission_quota - (examSession.pa_participants ?? 0)
-      }`;
-    }
+  const locationInfo = ExamSessionUtils.getLocationInfo(
+    examSession,
+    getCurrentLang()
+  );
 
-    return '' + t('full');
-  };
+  const { open, availablePlaces, availableQueue } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+  const availablePlacesText =
+    availablePlaces > 0 ? '' + availablePlaces : t('full');
 
-  const availablePlacesText = getAvailablePlacesText();
-  const registerActionAvailable =
-    examSession.open &&
-    ((registrationPeriodOpen &&
-      examSession.participants < examSession.max_participants) ||
-      (registrationPeriodOpen && !examSession.queue_full) ||
-      (postAdmissionOpen &&
-        examSession.pa_participants < examSession.post_admission_quota));
+  const registerActionAvailable = open && (availablePlaces || availableQueue);
 
   if (isPhone) {
     return (
@@ -255,7 +232,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={registerActionAvailable}
+          registerActionAvailable={!!registerActionAvailable}
           locationInfo={locationInfo}
         />
       </TableRow>
@@ -266,7 +243,7 @@ export const PublicExamSessionListingRow = ({
         <PublicExamSessionListingCellsForDesktop
           examSession={examSession}
           availablePlacesText={availablePlacesText}
-          registerActionAvailable={registerActionAvailable}
+          registerActionAvailable={!!registerActionAvailable}
           locationInfo={locationInfo}
         />
       </TableRow>

@@ -44,7 +44,7 @@ export interface ExamSessionLocation {
   zip: string;
   street_address: string;
   other_location_info: string;
-  extra_information: string;
+  extra_information?: string;
   lang: 'fi' | 'sv' | 'en';
 }
 
@@ -64,7 +64,7 @@ export interface ExamSession extends WithId {
   queue_full?: boolean;
   participants: number;
   pa_participants: number;
-  post_admission_quota: number;
+  post_admission_quota?: number;
   post_admission_active: boolean;
   post_admission_start_date?: Dayjs;
   post_admission_end_date?: Dayjs;

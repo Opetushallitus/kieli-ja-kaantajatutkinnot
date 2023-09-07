@@ -33,6 +33,41 @@ const getDisplayedRowsLabel = (
   });
 };
 
+export const PublicExamSessionsTable = ({
+  examSessions,
+}: {
+  examSessions: Array<ExamSession>;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  return (
+    <ManagedPaginatedTable
+      className="public-exam-session-listing table-layout-auto"
+      data={examSessions}
+      header={<PublicExamSessionListingHeader />}
+      getRowDetails={getRowDetails}
+      rowsPerPageOptions={[10, 20, 50]}
+      page={page}
+      onPageChange={setPage}
+      rowsPerPage={rowsPerPage}
+      onRowsPerPageChange={setRowsPerPage}
+      rowsPerPageLabel={translateCommon(
+        'component.table.pagination.rowsPerPage'
+      )}
+      labelDisplayedRows={(args) =>
+        getDisplayedRowsLabel(translateCommon, args)
+      }
+      backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
+      nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
+      stickyHeader
+    />
+  );
+};
+
 export const PublicExamSessionListing = ({
   examSessions,
 }: {
@@ -41,10 +76,6 @@ export const PublicExamSessionListing = ({
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
-
-  // Pagination
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -89,26 +120,7 @@ export const PublicExamSessionListing = ({
               })}
             </H3>
           </div>
-          <ManagedPaginatedTable
-            className="public-exam-session-listing table-layout-auto"
-            data={examSessions}
-            header={<PublicExamSessionListingHeader />}
-            getRowDetails={getRowDetails}
-            rowsPerPageOptions={[10, 20, 50]}
-            page={page}
-            onPageChange={setPage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={setRowsPerPage}
-            rowsPerPageLabel={translateCommon(
-              'component.table.pagination.rowsPerPage'
-            )}
-            labelDisplayedRows={(args) =>
-              getDisplayedRowsLabel(translateCommon, args)
-            }
-            backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
-            nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
-            stickyHeader
-          />
+          <PublicExamSessionsTable examSessions={examSessions} />
         </>
       );
   }

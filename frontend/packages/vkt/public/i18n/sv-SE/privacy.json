@@ -1,1 +1,120 @@
-{}
+{
+  "vkt": {
+    "privacy": {
+      "automatedDecisions": {
+        "description": "Registrets uppgifter används inte för profilering och uppgifterna omfattas inte av automatiskt beslutsfattande.",
+        "heading": "Information om automatiskt beslutsfattande, inkl. förekomsten av profilering, och åtminstone i dessa fall betydelsefulla uppgifter om hanteringens logik, samt den aktuella behandlingens betydelse och eventuella konsekvenser för den registrerade"
+      },
+      "common": {
+        "email": "E-post",
+        "group": "Grupp",
+        "phoneSwitch": "Telefon: 029 533 1000 (växel)"
+      },
+      "complaints": {
+        "description": "Den registrerade har rätt att lämna in ett klagomål till tillsynsmyndigheten, särskilt i den medlemsstat där hen är stadigvarande bosatt eller har sin arbetsplats, eller där den påstådda överträdelsen av dataskyddsförordningen har skett.",
+        "heading": "Rätt att lämna in klagomål till tillsynsmyndigheten"
+      },
+      "dataContents": {
+        "group1": {
+          "dataProcessing": {
+            "description1": "Den registrerades uppgifter tas ur användning utan oskäligt dröjsmål och senast 3 år efter det examensdatum som den registrerade har anmält sig till.",
+            "description2": "Behandlingen av den registrerades personuppgifter är nödvändig och proportionerlig för att utföra en uppgift av allmänt intresse som en del av den personuppgiftsansvariges myndighetsutövning.",
+            "description3": "Särskilda personuppgifter behandlas inte. Sekretessbelagda personuppgifter behandlas inte."
+          },
+          "givenDetails": {
+            "description": "Personens nuvarande namn, e-postadress, postadress och telefonnummer.",
+            "heading": "Personuppgifter för personen som anmält sig till examen"
+          },
+          "otherDetails": {
+            "heading": "Andra uppgifter som ska anges",
+            "ul1": "examensdag",
+            "ul2": "examensspråk",
+            "ul3": "examina och delprov",
+            "ul4": "examensavgiftens referensnummer, belopp och betalningsdag",
+            "ul5": "om personen tidigare har deltagit i språkexamen för statsförvaltningen"
+          }
+        },
+        "heading": "Registrets datainnehåll / kategorier av personuppgifter som behandlas"
+      },
+      "dataSources": {
+        "description": "Uppgifterna samlas in direkt av personerna som anmäler sig till examen.",
+        "heading": "Information om varifrån personuppgifterna kommer och i förekommande fall huruvida de har sitt ursprung i allmänt tillgängliga källor"
+      },
+      "dataTransfers": {
+        "description": "Uppgifter överförs inte till länder utanför EU eller EES.",
+        "heading": "Information om överföring av uppgifter till tredje land och de skyddsåtgärder som vidtas (inkl. information om huruvida kommissionens beslut om adekvat dataskydd existerar eller saknas) och metoder för att få en kopia eller information om vad de innehåller"
+      },
+      "description": "EU:s dataskyddsförordning 2016/679 (GDPR).",
+      "handlingPurpose": {
+        "description": "Utbildningsstyrelsen ansvarar för verkställandet av språkexamina för statsförvaltningen. För detta har Utbildningsstyrelsen ett register, som innehåller kontaktuppgifter för personer som anmält sig till språkexamina för statsförvaltningen som gäller utmärkta kunskaper. Kontaktuppgifterna samlas in i registret för anmälan, avläggande av examen och betalning.",
+        "heading": "Syftet med behandlingen av personuppgifter samt den rättsliga grunden för behandlingen",
+        "law": {
+          "heading": "Laggrunder",
+          "part1": {
+            "content": "481/2003",
+            "description": "Statsrådets förordning om bedömning av kunskaper i finska och svenska inom statsförvaltningen (<0></0>).",
+            "link": "https://www.finlex.fi/sv/laki/alkup/2003/20030481"
+          },
+          "part2": {
+            "description": "Artikel 6.1 c i EU:s allmänna dataskyddsförordning."
+          }
+        }
+      },
+      "heading": "Dataskyddsbeskrivning / Meddelande",
+      "holdingPeriod": {
+        "description1": "Den registrerades uppgifter tas ur användning utan oskäligt dröjsmål och senast 3 år efter det examensdatum som den registrerade har anmält sig till.",
+        "description2": "Personuppgifternas förvaringstid i tjänsten överensstämmer med förvaringstiderna som fastställs i arkivbildningsplanen och planen för styrning av information. Handlingar vilkas förvaringstid har upphört stryks ur registret årligen.",
+        "heading": "Personuppgifternas förvaringstid"
+      },
+      "receivers": {
+        "description1": "Enligt lagen om offentlighet i myndigheternas verksamhet (21.5.1999/621) ska Utbildningsstyrelsen ge uppgifter från en offentlig handling enligt begäran, även om handlingen innehåller personuppgifter. Utlämnande eller överlåtande av sekretessbelagda uppgifter förutsätter särskilda grunder: partsställning eller lagstadgad rätt att få uppgifter eller samtycke av den som sekretessen gäller.",
+        "description2": "Personuppgifter kan lämnas ut för vetenskaplig eller historisk forskning eller för statistikföring under de förutsättningar som anges i 4 § i dataskyddslagen (1050/2018).",
+        "description3": "Informationssystemets tjänsteleverantörer (personuppgiftsbiträden) kan granska personuppgifterna i registret i den omfattning som Utbildningsstyrelsen bestämmer.",
+        "description4": "Uppgifterna lämnas inte ut för direktmarknadsföring.",
+        "heading": "Personuppgifternas mottagare eller mottagargrupper"
+      },
+      "registeredRights": {
+        "description1": "Den registrerade har rätt att av den personuppgiftsansvarige få bekräftelse på att personuppgifter som gäller hen behandlas eller inte behandlas. Den personuppgiftsansvarige skall på begäran sända en kopia av de personuppgifter som behandlas.",
+        "description2": "Den registrerade har rätt att kräva att den personuppgiftsansvarige utan obefogat dröjsmål rättar inexakta och felaktiga personuppgifter om den registrerade. Den registrerade ska specificera och motivera vilken information hen kräver att ska korrigeras, vilken information hen anser vara korrekt och hur man vill att korrigeringen ska göras.",
+        "description3": "Om behandlingen grundar sig på artikel 6 punkt 1a eller artikel 9 punkt 2a i dataskyddsförordningen, dvs. den registrerades samtycke, har den registrerade rätt att radera uppgifterna.",
+        "description4": "Den registrerade har rätt att begränsa behandlingen av uppgifter i vissa situationer.",
+        "description5": "Den registrerade har rätt att bli informerad om dennes personuppgifter har rättats eller raderats, eller om att behandlingen begränsats till den till vilken uppgifterna har vidareutlämnats, om uppgifterna lämnas vidare.",
+        "description6": "Den registrerade har rätt att få uppgifterna överförda från ett system till ett annat om handläggningen sker automatiskt.",
+        "description7": "Begäran om utövande av rättigheter ska riktas till registrets kontaktperson: Utbildningsstyrelsen, PB 380, 00531 Helsingfors. Till begäran om insyn ska den registrerade bifoga de uppgifter som behövs för att söka uppgifterna (namn och personbeteckning).",
+        "description8": "Om det har gått mindre än ett år sedan den registrerade använde sin rätt till insyn i personuppgifter, kan den registernsvarige ta ut en avgift som grundar sig på de administrativa kostnaderna för att lämna ut uppgifterna (artikel 12 [5]).",
+        "heading": "Den registrerades rättigheter",
+        "rights": {
+          "right1": "Rätten att få tillgång till personuppgifter",
+          "right2": "Rätten att rätta uppgifter",
+          "right3": "Rätten att radera uppgifter",
+          "right4": "Rätten att begränsa behandlingen av uppgifter",
+          "right5": "Rätten att göra invändningar",
+          "right6": "Rätten att överföra uppgifter från ett system till ett annat"
+        }
+      },
+      "registerName": {
+        "description": "Anmälan till språkexamina för statsförvaltningen som gäller utmärkta kunskaper och betalning av examensavgiften.",
+        "heading": "Registrets namn"
+      },
+      "registrar": {
+        "contact": {
+          "address": "PB 380, 00531 Helsingfors (besöksadress Hagnäskajen 6, 00530 Helsingfors).",
+          "name": "Utbildningsstyrelsen",
+          "otherDetails": "Övriga kontaktuppgifter",
+          "phoneSwitch": "Telefonväxel: 029 533 1000"
+        },
+        "heading": "Personuppgiftsansvarig"
+      },
+      "registrarContactPerson": {
+        "heading": "Företrädare för personuppgiftsansvarig (kontaktperson)",
+        "liable": {
+          "description": "Dataskyddsombudets kontaktuppgifter",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Niina Juuti"
+        }
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ export enum APIEndpoints {
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
+  ClerkPayment = '/vkt/api/v1/clerk/payment',
 }
 
 /**
@@ -25,9 +26,6 @@ export enum APIError {
   InitialiseEnrollmentToQueueHasRoom = 'initialiseEnrollmentToQueueHasRoom',
   InvalidVersion = 'invalidVersion',
   InvalidTicket = 'invalidTicket',
-  RenewReservationNotAllowed = 'renewReservationNotAllowed',
-  ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
-  TicketValidationError = 'ticketValidationError',
   PaymentAlreadyPaid = 'paymentAlreadyPaid',
   PaymentAmountMismatch = 'paymentAmountMismatch',
   PaymentLinkHasExpired = 'paymentLinkHasExpired',
@@ -35,4 +33,8 @@ export enum APIError {
   PaymentPersonSessionMismatch = 'paymentPersonSessionMismatch',
   PaymentReferenceMismatch = 'paymentReferenceMismatch',
   PaymentValidationFail = 'paymentValidationFail',
+  RenewReservationNotAllowed = 'renewReservationNotAllowed',
+  ReservationPersonSessionMismatch = 'reservationPersonSessionMismatch',
+  SessionMissingPersonId = 'sessionMissingPersonId',
+  TicketValidationError = 'ticketValidationError',
 }

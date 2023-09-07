@@ -1,5 +1,6 @@
 package fi.oph.vkt.util;
 
+import fi.oph.vkt.audit.dto.ClerkExamEventAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Reservation;
@@ -33,5 +34,20 @@ public class ExamEventUtil {
 
   public static boolean isCongested(final long openings, final long reservations) {
     return openings > 0 && openings <= reservations;
+  }
+
+  public static ClerkExamEventAuditDTO createExamEventAuditDTO(final ExamEvent examEvent) {
+    return ClerkExamEventAuditDTO
+      .builder()
+      .id(examEvent.getId())
+      .version(examEvent.getVersion())
+      .modifiedAt(DateUtil.formatOptionalDatetime(examEvent.getModifiedAt()))
+      .language(examEvent.getLanguage())
+      .level(examEvent.getLevel())
+      .date(DateUtil.formatOptionalDate(examEvent.getDate()))
+      .registrationCloses(DateUtil.formatOptionalDate(examEvent.getRegistrationCloses()))
+      .isHidden(examEvent.isHidden())
+      .maxParticipants(examEvent.getMaxParticipants())
+      .build();
   }
 }

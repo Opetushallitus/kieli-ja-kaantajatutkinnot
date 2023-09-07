@@ -12,7 +12,7 @@ import { PublicRegistrationExamSessionDetails } from 'components/registration/Pu
 import { PublicIdentificationPageSkeleton } from 'components/skeletons/PublicIdentificationPageSkeleton';
 import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes, RegistrationKind } from 'enums/app';
+import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
@@ -20,16 +20,16 @@ import { resetPublicIdentificationState } from 'redux/reducers/publicIdentificat
 import { setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const ContentSelector = () => {
   const examSession = useAppSelector(examSessionSelector).examSession;
   if (!examSession) {
     return null;
   }
-  const { open, participants, quota } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
-  if (!open || participants >= quota) {
+  const { open, availablePlaces } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+  if (!open || !availablePlaces) {
     return <RegistrationNotAvailable />;
   } else {
     return <PublicIdentificationGrid />;
@@ -71,17 +71,15 @@ const RegistrationNotAvailable = () => {
     .examSession as ExamSession;
   const { isPhone } = useWindowProperties();
 
-  const { kind, open, start } =
-    ExamUtils.getCurrentOrFutureAdmissionPeriod(examSession);
+  const { open, availableQueue, start } =
+    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const now = dayjs();
-  const queueAvailable =
-    open && kind === RegistrationKind.Admission && !examSession.queue_full;
 
   return (
     <Grid className="public-registration" item>
       <div className="public-registration__grid">
         <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
-          <H1>{queueAvailable ? t('enrollToQueue.header') : t('header')}</H1>
+          <H1>{availableQueue ? t('enrollToQueue.header') : t('header')}</H1>
           <HeaderSeparator />
         </div>
         <Paper elevation={isPhone ? 0 : 3}>
@@ -91,7 +89,7 @@ const RegistrationNotAvailable = () => {
                 examSession={examSession}
                 showOpenings={true}
               />
-              {queueAvailable ? (
+              {availableQueue ? (
                 <EnrollToQueue />
               ) : (
                 <DescribeUnavailability now={now} open={open} start={start} />

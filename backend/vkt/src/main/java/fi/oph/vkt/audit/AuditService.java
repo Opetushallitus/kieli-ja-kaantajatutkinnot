@@ -31,6 +31,14 @@ public class AuditService {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.EMPTY);
   }
 
+  public <T> void logUpdate(final VktOperation operation, final long id, final T dtoBefore, final T dtoAfter) {
+    log(
+      operation,
+      new Target.Builder().setField("id", Long.toString(id)).build(),
+      Changes.updatedDto(dtoAfter, dtoBefore)
+    );
+  }
+
   private void log(final VktOperation operation, final Target target, final Changes changes) {
     final User user = getUser();
     audit.log(user, operation, target, changes);

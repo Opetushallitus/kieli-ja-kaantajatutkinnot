@@ -1,7 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { Text } from 'shared/components';
-import { DateUtils } from 'shared/utils';
 
 import { ChangeEnrollmentStatusButton } from 'components/clerkEnrollment/listing/ChangeEnrollmentStatusButton';
 import { useClerkTranslation } from 'configs/i18n';
@@ -9,6 +8,7 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes, EnrollmentStatus } from 'enums/app';
 import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
 import { storeClerkEnrollmentDetails } from 'redux/reducers/clerkEnrollmentDetails';
+import { DateTimeUtils } from 'utils/dateTime';
 
 const examCodes = {
   writingPartialExam: 'KI',
@@ -86,9 +86,7 @@ export const ClerkEnrollmentListingRow = ({
           <Text>{getSelectedPartialExamsText()}</Text>
         </TableCell>
         <TableCell>
-          <Text>
-            {DateUtils.formatOptionalDateTime(enrollment.enrollmentTime)}
-          </Text>
+          <Text>{DateTimeUtils.renderDateTime(enrollment.enrollmentTime)}</Text>
         </TableCell>
         <TableCell sx={{ width: '20%' }} align="right">
           {[

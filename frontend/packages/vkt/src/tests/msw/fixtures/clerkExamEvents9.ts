@@ -7,6 +7,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-10-15',
     participants: 8,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -17,6 +18,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-03-15',
     participants: 4,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -27,6 +29,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-19',
     participants: 9,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -37,6 +40,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-19',
     participants: 2,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -47,6 +51,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-20',
     participants: 7,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -57,6 +62,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-09-27',
     participants: 6,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -67,6 +73,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-12-25',
     participants: 3,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -77,6 +84,7 @@ export const clerkExamEvents9 = [
     registrationCloses: '2022-12-25',
     participants: 0,
     maxParticipants: 10,
+    isUnusedSeats: false,
     isHidden: false,
   },
   {
@@ -85,8 +93,9 @@ export const clerkExamEvents9 = [
     level: 'EXCELLENT',
     date: '2023-02-20',
     registrationCloses: '2022-12-31',
-    participants: 1,
+    participants: 9,
     maxParticipants: 10,
+    isUnusedSeats: true,
     isHidden: true,
   },
 ];

@@ -10,7 +10,7 @@ import { useAppDispatch } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 import { storeEvaluationPeriod } from 'redux/reducers/evaluationOrder';
-import { ExamUtils } from 'utils/exam';
+import { ExamSessionUtils } from 'utils/examSession';
 
 const PublicEvaluationPeriodListingCellsForPhone = ({
   evaluationPeriod,
@@ -33,7 +33,7 @@ const PublicEvaluationPeriodListingCellsForPhone = ({
     <TableCell>
       <div className="rows grow gapped-xs">
         <Typography variant="h2" component="p">
-          {ExamUtils.languageAndLevelText(evaluationPeriod)}
+          {ExamSessionUtils.languageAndLevelText(evaluationPeriod)}
         </Typography>
         <Text>
           <b>{translateCommon('examDate')}</b>
@@ -85,7 +85,9 @@ const PublicEvaluationPeriodListingCellsForDesktop = ({
 
   return (
     <>
-      <TableCell>{ExamUtils.languageAndLevelText(evaluationPeriod)}</TableCell>
+      <TableCell>
+        {ExamSessionUtils.languageAndLevelText(evaluationPeriod)}
+      </TableCell>
       <TableCell>
         {DateUtils.formatOptionalDate(evaluationPeriod.exam_date, 'l')}
       </TableCell>
@@ -111,7 +113,11 @@ const PublicEvaluationPeriodListingCellsForDesktop = ({
         >
           {evaluationPeriod.open
             ? t('requestReassessment')
-            : t('evaluationPeriodNotYetOpen')}
+            : t('evaluationPeriodNotYetOpen', {
+                startDate: DateUtils.formatOptionalDate(
+                  evaluationPeriod.evaluation_start_date
+                ),
+              })}
         </CustomButton>
       </TableCell>
     </>

@@ -8,15 +8,15 @@ export class NotifierUtils {
     const t = translateOutsideComponent();
     const apiError = NotifierUtils.getAPIError(error);
 
-    const message = apiError
+    return apiError
       ? t(`akr.errors.api.${apiError}`)
       : t('akr.errors.api.generic');
-
-    return message;
   }
 
   private static getAPIError(error: AxiosError) {
-    const errorCode = error.response?.data.errorCode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = error.response?.data as any;
+    const errorCode = data.errorCode;
 
     if (errorCode && Object.values(APIError).includes(errorCode)) {
       return errorCode;

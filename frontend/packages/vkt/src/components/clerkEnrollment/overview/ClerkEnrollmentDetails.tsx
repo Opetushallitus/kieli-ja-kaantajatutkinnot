@@ -29,7 +29,9 @@ import { EnrollmentUtils } from 'utils/enrollment';
 export const ClerkEnrollmentDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
-  const { status, enrollment } = useAppSelector(clerkEnrollmentDetailsSelector);
+  const { status, enrollment, paymentRefundStatus } = useAppSelector(
+    clerkEnrollmentDetailsSelector
+  );
   const { examEvent, clerkEnrollmentChangeStatus } = useAppSelector(
     clerkExamEventOverviewSelector
   );
@@ -72,7 +74,8 @@ export const ClerkEnrollmentDetails = () => {
   useEffect(() => {
     if (
       (status === APIResponseStatus.Success && currentUIMode === UIMode.Edit) ||
-      clerkEnrollmentChangeStatus === APIResponseStatus.Success
+      clerkEnrollmentChangeStatus === APIResponseStatus.Success ||
+      paymentRefundStatus === APIResponseStatus.Success
     ) {
       const description =
         clerkEnrollmentChangeStatus === APIResponseStatus.Success
@@ -92,6 +95,7 @@ export const ClerkEnrollmentDetails = () => {
     t,
     status,
     clerkEnrollmentChangeStatus,
+    paymentRefundStatus,
   ]);
 
   if (!enrollmentDetails || !examEvent) {
