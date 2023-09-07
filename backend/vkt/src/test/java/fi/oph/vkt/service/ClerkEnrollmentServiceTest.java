@@ -32,6 +32,7 @@ import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PaymentRepository;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.StringUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -71,6 +72,8 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  private final String salt = "foobar";
+
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
@@ -87,7 +90,8 @@ class ClerkEnrollmentServiceTest {
         personRepository,
         auditService,
         environment,
-        uuidSource
+        uuidSource,
+        salt
       );
   }
 
@@ -315,10 +319,13 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(examEvent2);
 
     final Person person1 = Factory.person();
+    person1.setOtherIdentifier("bar");
     entityManager.persist(person1);
     final Person person2 = Factory.person();
+    person2.setOtherIdentifier("foo");
     entityManager.persist(person2);
     final Person person3 = Factory.person();
+    person3.setOtherIdentifier("foobar");
     entityManager.persist(person3);
 
     final Enrollment enrollment11 = createEnrollment(person1, examEvent1, true);
@@ -332,14 +339,14 @@ class ClerkEnrollmentServiceTest {
     final int originalVersion = 0;
 
     assertAnonymizedEnrollment(enrollment11, originalVersion + 1, true);
-    assertAnonymizedPerson(person1, originalVersion + 1);
+    assertAnonymizedPerson(person1, originalVersion + 1, "bar");
 
     assertAnonymizedEnrollment(enrollment21, originalVersion + 1, false);
     assertNotAnonymizedEnrollment(enrollment22, originalVersion);
-    assertNotAnonymizedPerson(person2, originalVersion);
+    assertNotAnonymizedPerson(person2, originalVersion, "foo");
 
     assertNotAnonymizedEnrollment(enrollment31, originalVersion);
-    assertNotAnonymizedPerson(person3, originalVersion);
+    assertNotAnonymizedPerson(person3, originalVersion, "foobar");
   }
 
   private Enrollment createEnrollment(final Person person, final ExamEvent examEvent, final boolean includeAddress) {
@@ -389,17 +396,23 @@ class ClerkEnrollmentServiceTest {
     assertFalse(enrollment.isAnonymized());
   }
 
-  private void assertAnonymizedPerson(final Person person, final int expectedVersion) {
+  private void assertAnonymizedPerson(final Person person, final int expectedVersion, final String expectedIdentifier) {
     assertEquals(expectedVersion, person.getVersion());
     assertEquals("Ilmoittautuja", person.getLastName());
     assertEquals("Anonymisoitu", person.getFirstName());
+    assertEquals(StringUtil.getHash(expectedIdentifier, salt), person.getOtherIdentifier());
   }
 
-  private void assertNotAnonymizedPerson(final Person person, final int expectedVersion) {
+  private void assertNotAnonymizedPerson(
+    final Person person,
+    final int expectedVersion,
+    final String expectedIdentifier
+  ) {
     final Person defaultPerson = Factory.person();
 
     assertEquals(expectedVersion, person.getVersion());
     assertEquals(defaultPerson.getLastName(), person.getLastName());
     assertEquals(defaultPerson.getFirstName(), person.getFirstName());
+    assertEquals(expectedIdentifier, person.getOtherIdentifier());
   }
 }

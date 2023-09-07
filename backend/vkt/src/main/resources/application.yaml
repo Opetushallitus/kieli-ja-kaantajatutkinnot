@@ -66,6 +66,7 @@ cas:
   url: ${virkailija.cas.url:http://localhost:${server.port}/vkt}
   login-url: ${virkailija.cas.login-url:http://localhost:${server.port}/login}
 app:
+  salt: ${salt:null}
   base-url:
     public: ${public-base-url:http://localhost:4002}/vkt
     api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
