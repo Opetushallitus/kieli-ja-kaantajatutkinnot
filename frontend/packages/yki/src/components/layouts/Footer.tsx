@@ -1,7 +1,7 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ExtLink, H3, OPHLogoViewer, Svg, Text } from 'shared/components';
+import { H3, OPHLogoViewer, Svg, Text } from 'shared/components';
 import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
@@ -26,20 +26,27 @@ export const Footer = () => {
             <Link to={AppRoutes.AccessibilityStatementPage}>
               <Text>{t('links.accessibility.text')}</Text>
             </Link>
-            <ExtLink
-              text={t('links.privacy.text')}
+            <a
               href={t('links.privacy.url')}
-              endIcon={<OpenInNewIcon />}
-            />
+              className="columns gapped-xxs"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('links.privacy.text')} <OpenInNewIcon />
+            </a>
           </div>
           <div className="footer__container footer__container__info">
             <h2>{t('headings.info')}</h2>
-            <ExtLink
-              text={t('links.ykiHomepage.text')}
+            <a
               href={translateCommon('ykiHomepage.link')}
-              endIcon={<OpenInNewIcon />}
               aria-label={translateCommon('ykiHomepage.ariaLabel')}
-            />
+              className="columns gapped-xxs"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('links.ykiHomepage.text')}
+              <OpenInNewIcon />
+            </a>
           </div>
           <div className="footer__container footer__container__contact-details">
             <h2>{t('headings.contacts')}</h2>
@@ -50,19 +57,25 @@ export const Footer = () => {
             <br />
             <div className="columns gapped-xxs">
               <Text className="inline-text">{t('address.phone.title')}</Text>
-              <ExtLink
+              <a
                 className="inline-text"
-                text={t('address.phone.number')}
                 href={`tel:${t('address.phone.number')}`}
-              />
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t('address.phone.number')}
+              </a>
             </div>
             <div className="footer__container__links__contact">
               <H3>{t('links.contact.title')}:</H3>
-              <ExtLink
+              <a
                 className="footer__container__links__contact__email"
                 href={`mailto:${translateCommon('contactEmail')}`}
-                text={translateCommon('contactEmail')}
-              ></ExtLink>
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translateCommon('contactEmail')}
+              </a>
             </div>
           </div>
         </div>
