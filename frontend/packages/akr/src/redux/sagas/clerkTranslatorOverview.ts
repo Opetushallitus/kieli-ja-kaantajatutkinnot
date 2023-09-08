@@ -53,7 +53,6 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
       apiResponse.data
     );
 
-    console.log(translator);
     yield put(upsertClerkTranslator(translator));
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
