@@ -21,7 +21,7 @@ export const Footer = () => {
       <Svg className="footer__wave" src={FooterWave} alt="" />
       <Paper className="footer" elevation={3}>
         <div className="footer__info-row">
-          <div className="footer__container footer__container__links">
+          <div className="footer__container footer__container__links rows gapped-xs">
             <h2>{t('headings.statements')}</h2>
             <Link to={AppRoutes.AccessibilityStatementPage}>
               <Text>{t('links.accessibility.text')}</Text>
@@ -35,7 +35,7 @@ export const Footer = () => {
               {t('links.privacy.text')} <OpenInNewIcon />
             </a>
           </div>
-          <div className="footer__container footer__container__info">
+          <div className="footer__container footer__container__info rows gapped-xs">
             <h2>{t('headings.info')}</h2>
             <a
               href={translateCommon('ykiHomepage.link')}
@@ -48,13 +48,11 @@ export const Footer = () => {
               <OpenInNewIcon />
             </a>
           </div>
-          <div className="footer__container footer__container__contact-details">
+          <div className="footer__container footer__container__contact-details rows gapped-xs">
             <h2>{t('headings.contacts')}</h2>
             <H3>{t('address.name')}</H3>
-            <br />
             <Text>{t('address.street')}</Text>
             <Text>{t('address.zipCity')}</Text>
-            <br />
             <div className="columns gapped-xxs">
               <Text className="inline-text">{t('address.phone.title')}</Text>
               <a
@@ -66,7 +64,7 @@ export const Footer = () => {
                 {t('address.phone.number')}
               </a>
             </div>
-            <div className="footer__container__links__contact">
+            <div className="footer__container__links__contact rows gapped-xs">
               <H3>{t('links.contact.title')}:</H3>
               <a
                 className="footer__container__links__contact__email"
