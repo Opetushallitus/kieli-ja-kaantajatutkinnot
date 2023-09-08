@@ -804,4 +804,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="2023-08-28-change-translator-columns" author="msevalnev">
+        <addColumn tableName="translator">
+            <column name="onr_id" type="VARCHAR(255)">
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

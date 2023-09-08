@@ -6,6 +6,8 @@ import fi.oph.akr.model.ContactRequestTranslator;
 import fi.oph.akr.model.Email;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.ContactRequestRepository;
 import fi.oph.akr.repository.ContactRequestTranslatorRepository;
@@ -13,10 +15,10 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.email.EmailData;
 import fi.oph.akr.service.email.EmailService;
-import fi.oph.akr.service.koodisto.LanguageService;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,7 @@ public class ContactRequestService {
   private final TemplateRenderer templateRenderer;
   private final TranslatorRepository translatorRepository;
   private final Environment environment;
+  private final OnrService onrService;
 
   @Transactional
   public ContactRequest createContactRequest(final ContactRequestDTO contactRequestDTO) {
@@ -52,10 +55,15 @@ public class ContactRequestService {
     validateContactRequestDTO(contactRequestDTO, translatorIds);
 
     final List<Translator> translators = translatorRepository.findAllById(translatorIds);
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+    final List<PersonalData> translatorsPersonalDatas = translators
+      .stream()
+      .map(t -> personalDatas.get(t.getOnrId()))
+      .collect(Collectors.toCollection(ArrayList::new));
 
     final ContactRequest contactRequest = saveContactRequest(contactRequestDTO);
     saveContactRequestTranslators(translators, contactRequest);
-    saveContactRequestEmails(contactRequestDTO, translators);
+    saveContactRequestEmails(contactRequestDTO, translatorsPersonalDatas, translators);
 
     return contactRequest;
   }
@@ -103,23 +111,33 @@ public class ContactRequestService {
     contactRequestTranslatorRepository.saveAll(contactRequestTranslators);
   }
 
-  private void saveContactRequestEmails(final ContactRequestDTO contactRequestDTO, final List<Translator> translators) {
-    final Map<Boolean, List<Translator>> translatorsByExistingEmail = translators
+  private void saveContactRequestEmails(
+    final ContactRequestDTO contactRequestDTO,
+    final List<PersonalData> translatorsPersonalDatas,
+    final List<Translator> translators
+  ) {
+    final List<PersonalData> translatorsPersonalDatasWithEmail = translatorsPersonalDatas
       .stream()
-      .collect(Collectors.partitioningBy(Translator::hasEmail));
+      .filter(t -> t.getEmail() != null)
+      .collect(Collectors.toCollection(ArrayList::new));
 
-    final List<Translator> translatorsWithEmail = translatorsByExistingEmail.get(true);
-    final List<Translator> translatorsWithoutEmail = translatorsByExistingEmail.get(false);
+    final List<PersonalData> translatorsPersonalDatasWithoutEmail = translatorsPersonalDatas
+      .stream()
+      .filter(t -> t.getEmail() == null)
+      .collect(Collectors.toCollection(ArrayList::new));
 
-    sendTranslatorEmails(translatorsWithEmail, contactRequestDTO);
-    sendRequesterEmail(translators, contactRequestDTO);
+    sendTranslatorEmails(translatorsPersonalDatasWithEmail, contactRequestDTO);
+    sendRequesterEmail(translatorsPersonalDatas, contactRequestDTO);
 
-    if (!translatorsWithoutEmail.isEmpty()) {
-      sendClerkEmail(translatorsWithoutEmail, contactRequestDTO);
+    if (!translatorsPersonalDatasWithoutEmail.isEmpty()) {
+      sendClerkEmail(translators, contactRequestDTO);
     }
   }
 
-  private void sendTranslatorEmails(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
+  private void sendTranslatorEmails(
+    final List<PersonalData> translatorsPersonalDatas,
+    final ContactRequestDTO contactRequestDTO
+  ) {
     final Map<String, Object> templateParams = Map.of(
       "langPairFI",
       getLangPair(contactRequestDTO, Language.FI),
@@ -139,21 +157,24 @@ public class ContactRequestService {
       "Yhteydenotto auktorisoitujen kääntäjien rekisteristä | Kontaktförfrågan från registret över auktoriserade translatorer";
     final String body = templateRenderer.renderContactRequestTranslatorEmailBody(templateParams);
 
-    translators.forEach(translator -> {
-      final String recipientName = translator.getFullName();
+    translatorsPersonalDatas.forEach(translator -> {
+      final String recipientName = translator.getFirstName() + " " + translator.getLastName();
       final String recipientAddress = translator.getEmail();
 
       createEmail(recipientName, recipientAddress, subject, body, EmailType.CONTACT_REQUEST_TRANSLATOR);
     });
   }
 
-  private void sendRequesterEmail(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
+  private void sendRequesterEmail(
+    final List<PersonalData> translatorsPersonalDatas,
+    final ContactRequestDTO contactRequestDTO
+  ) {
     final String requesterName = getRequesterName(contactRequestDTO);
     final String requesterEmail = getRequesterEmail(contactRequestDTO);
 
     final Map<String, Object> templateParams = Map.of(
       "translators",
-      translators.stream().map(Translator::getFullName).sorted().toList(),
+      translatorsPersonalDatas.stream().map(t -> t.getFirstName() + " " + t.getLastName()).sorted().toList(),
       "langPairFI",
       getLangPair(contactRequestDTO, Language.FI),
       "langPairSV",
@@ -177,9 +198,14 @@ public class ContactRequestService {
   }
 
   private void sendClerkEmail(final List<Translator> translators, ContactRequestDTO contactRequestDTO) {
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     final List<Map<String, String>> translatorParams = translators
       .stream()
-      .map(t -> Map.of("id", "" + t.getId(), "name", t.getFullName()))
+      .map(t -> {
+        final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final String fullName = personalData.getFirstName() + " " + personalData.getLastName();
+        return Map.of("id", "" + t.getId(), "name", fullName);
+      })
       .toList();
 
     final String requesterPhone = getRequesterPhone(contactRequestDTO);

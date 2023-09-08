@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "authorisation")
 public class Authorisation extends BaseEntity {

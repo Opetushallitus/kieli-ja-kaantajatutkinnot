@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { AutocompleteValue } from 'shared/components';
+//import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
@@ -86,11 +86,11 @@ export const ClerkTranslatorDetails = () => {
       handleFieldChange(field, event.target.value);
     };
 
-  const handleComboBoxChange =
-    (field: keyof ClerkTranslatorBasicInformation) =>
-    ({}, autocompleteValue?: AutocompleteValue) => {
-      handleFieldChange(field, autocompleteValue?.value);
-    };
+  // const handleComboBoxChange =
+  //   (field: keyof ClerkTranslatorBasicInformation) =>
+  //   ({}, autocompleteValue?: AutocompleteValue) => {
+  //     handleFieldChange(field, autocompleteValue?.value);
+  //   };
 
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>
@@ -142,7 +142,8 @@ export const ClerkTranslatorDetails = () => {
 
   const hasRequiredDetails =
     StringUtils.isNonBlankString(translatorDetails?.lastName) &&
-    StringUtils.isNonBlankString(translatorDetails?.firstName);
+    StringUtils.isNonBlankString(translatorDetails?.firstName) &&
+    StringUtils.isNonBlankString(translatorDetails?.nickName);
 
   const onCancel = () => {
     if (!hasLocalChanges) {
@@ -156,12 +157,14 @@ export const ClerkTranslatorDetails = () => {
   return (
     <ClerkTranslatorDetailsFields
       translator={translatorDetails}
+      isPersonalInformationIndividualised={translator?.isIndividualised}
+      isAddressIndividualised={translator?.hasIndividualisedAddress}
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }
-      onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
-        handleComboBoxChange(field)
-      }
+      // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
+      //   handleComboBoxChange(field)
+      // }
       onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
         handleCheckBoxChange(field)
       }

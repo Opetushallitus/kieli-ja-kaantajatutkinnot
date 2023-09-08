@@ -22,28 +22,28 @@ import fi.oph.akr.model.AuthorisationTermReminder;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationProjection;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
-import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.util.AuthorisationUtil;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
-import fi.oph.akr.util.exception.DataIntegrityViolationExceptionUtil;
 import fi.oph.akr.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,8 +58,8 @@ public class ClerkTranslatorService {
   private final MeetingDateRepository meetingDateRepository;
   private final MeetingDateService meetingDateService;
   private final TranslatorRepository translatorRepository;
-  private final CountryService countryService;
   private final AuditService auditService;
+  private final OnrService onrService;
 
   @Transactional(readOnly = true)
   public ClerkTranslatorResponseDTO listTranslators() {
@@ -69,11 +69,13 @@ public class ClerkTranslatorService {
   }
 
   private ClerkTranslatorResponseDTO listTranslatorsWithoutAudit() {
-    final List<Translator> translators = translatorRepository.findAllByOrderByLastNameAscFirstNameAsc();
+    final List<Translator> translators = translatorRepository.findExistingTranslators();
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     final Map<Long, List<AuthorisationProjection>> authorisationProjections = getAuthorisationProjections();
 
     final List<ClerkTranslatorDTO> clerkTranslatorDTOS = createClerkTranslatorDTOs(
       translators,
+      personalDatas,
       authorisationProjections
     );
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
@@ -98,6 +100,7 @@ public class ClerkTranslatorService {
 
   private List<ClerkTranslatorDTO> createClerkTranslatorDTOs(
     final List<Translator> translators,
+    final Map<String, PersonalData> personalDatas,
     final Map<Long, List<AuthorisationProjection>> authorisationProjectionsByTranslator
   ) {
     return translators
@@ -107,20 +110,23 @@ public class ClerkTranslatorService {
           authorisationProjectionsByTranslator.get(translator.getId())
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
-
+        final PersonalData personalData = personalDatas.get(translator.getOnrId());
         return ClerkTranslatorDTO
           .builder()
           .id(translator.getId())
           .version(translator.getVersion())
-          .firstName(translator.getFirstName())
-          .lastName(translator.getLastName())
-          .identityNumber(translator.getIdentityNumber())
-          .email(translator.getEmail())
-          .phoneNumber(translator.getPhone())
-          .street(translator.getStreet())
-          .postalCode(translator.getPostalCode())
-          .town(translator.getTown())
-          .country(translator.getCountry())
+          .isIndividualised(personalData.getIndividualised())
+          .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
+          .firstName(personalData.getFirstName())
+          .lastName(personalData.getLastName())
+          .nickName(personalData.getNickName())
+          .identityNumber(personalData.getIdentityNumber())
+          .email(personalData.getEmail())
+          .phoneNumber(personalData.getPhoneNumber())
+          .street(personalData.getStreet())
+          .postalCode(personalData.getPostalCode())
+          .town(personalData.getTown())
+          .country(personalData.getCountry())
           .extraInformation(translator.getExtraInformation())
           .isAssuranceGiven(translator.isAssuranceGiven())
           .authorisations(translatorAuthorisationsDTO)
@@ -199,20 +205,19 @@ public class ClerkTranslatorService {
   public ClerkTranslatorDTO createTranslator(final TranslatorCreateDTO dto) {
     final Translator translator = new Translator();
 
-    assertCountryCode(dto.country(), APIExceptionType.TRANSLATOR_CREATE_UNKNOWN_COUNTRY);
+    final PersonalData personalData = createPersonalData(dto.onrId(), dto);
+    validatePersonalData(personalData);
+
+    if (personalData.getOnrId() == null) {
+      final String onrId = onrService.insertPersonalData(personalData);
+      translator.setOnrId(onrId);
+    } else {
+      onrService.updatePersonalData(personalData);
+      translator.setOnrId(personalData.getOnrId());
+    }
 
     copyDtoFieldsToTranslator(dto, translator);
-    try {
-      translatorRepository.saveAndFlush(translator);
-    } catch (DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isTranslatorEmailUniquenessException(ex)) {
-        throw new APIException(APIExceptionType.TRANSLATOR_CREATE_DUPLICATE_EMAIL);
-      }
-      if (DataIntegrityViolationExceptionUtil.isTranslatorIdentityNumberUniquenessException(ex)) {
-        throw new APIException(APIExceptionType.TRANSLATOR_CREATE_DUPLICATE_IDENTITY_NUMBER);
-      }
-      throw ex;
-    }
+    translatorRepository.saveAndFlush(translator);
 
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
     final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
@@ -245,48 +250,153 @@ public class ClerkTranslatorService {
   @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
-
     translator.assertVersion(dto.version());
-    assertCountryCode(dto.country(), APIExceptionType.TRANSLATOR_UPDATE_UNKNOWN_COUNTRY);
+
+    final PersonalData personalData = createPersonalData(translator.getOnrId(), dto);
+    validatePersonalData(personalData);
+    onrService.updatePersonalData(personalData);
 
     copyDtoFieldsToTranslator(dto, translator);
 
-    try {
-      translatorRepository.flush();
-    } catch (DataIntegrityViolationException ex) {
-      if (DataIntegrityViolationExceptionUtil.isTranslatorEmailUniquenessException(ex)) {
-        throw new APIException(APIExceptionType.TRANSLATOR_UPDATE_DUPLICATE_EMAIL);
-      }
-      if (DataIntegrityViolationExceptionUtil.isTranslatorIdentityNumberUniquenessException(ex)) {
-        throw new APIException(APIExceptionType.TRANSLATOR_UPDATE_DUPLICATE_IDENTITY_NUMBER);
-      }
-      throw ex;
-    }
+    translatorRepository.flush();
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
     auditService.logById(AkrOperation.UPDATE_TRANSLATOR, translator.getId());
     return result;
   }
 
+  // TODO: M.S. after data migration is done remove the below functions
+  @Transactional
+  public void migrateAllTranslators() {
+    final List<Translator> translators = translatorRepository.findExistingTranslators();
+    for (Translator translator : translators) {
+      migrateTranslator(translator.getId());
+    }
+  }
+
+  @Transactional
+  public void migrateTranslator(final long translatorId) {
+    final Translator translator = translatorRepository.getReferenceById(translatorId);
+    if (translator == null || translator.getOnrId() != null || translator.getIdentityNumber() == null) {
+      // wrong translator_id or translator is already connected with ONR or HETU is missing
+      return;
+    }
+
+    final String identityNumber = translator.getIdentityNumber();
+    try {
+      Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
+      if (optPersonalData.isPresent()) {
+        // the translator exists in ONR => 1) add his address to ONR 2) add his onr_id to AKR
+        final PersonalData personalDataFromOnr = optPersonalData.get();
+        final String onrId = personalDataFromOnr.getOnrId();
+
+        final PersonalData personalDataWithAkrData = PersonalData
+          .builder()
+          // Data from ONR
+          .onrId(onrId)
+          .individualised(personalDataFromOnr.getIndividualised())
+          .hasIndividualisedAddress(personalDataFromOnr.getHasIndividualisedAddress())
+          .lastName(personalDataFromOnr.getLastName())
+          .firstName(personalDataFromOnr.getFirstName())
+          .nickName(personalDataFromOnr.getNickName())
+          .identityNumber(personalDataFromOnr.getIdentityNumber())
+          // Data from AKR
+          .email(translator.getEmail())
+          .phoneNumber(translator.getPhone())
+          .street(translator.getStreet())
+          .postalCode(translator.getPostalCode())
+          .town(translator.getTown())
+          .country(translator.getCountry())
+          .build();
+        onrService.updatePersonalData(personalDataWithAkrData);
+
+        translator.setOnrId(onrId);
+        translatorRepository.flush();
+      } else {
+        // Translator is not in ONR => create a new record
+        final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
+        final String onrId = onrService.insertPersonalData(personalDataWithAkrData);
+        translator.setOnrId(onrId);
+        translatorRepository.flush();
+      }
+    } catch (Exception e) {
+      // Translator is not in ONR => create a new record
+      final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
+      final String onrId = onrService.insertPersonalData(personalDataWithAkrData);
+      translator.setOnrId(onrId);
+      translatorRepository.flush();
+    }
+  }
+
+  private PersonalData createMigrationPersonalData(final Translator translator) {
+    return PersonalData
+      .builder()
+      .onrId(null)
+      .individualised(null)
+      .hasIndividualisedAddress(null)
+      .lastName(translator.getLastName())
+      .firstName(translator.getFirstName())
+      .nickName(translator.getFirstName()) // put first names as nick names
+      .identityNumber(translator.getIdentityNumber())
+      .email(translator.getEmail())
+      .phoneNumber(translator.getPhone())
+      .street(translator.getStreet())
+      .postalCode(translator.getPostalCode())
+      .town(translator.getTown())
+      .country(translator.getCountry())
+      .build();
+  }
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  private void validatePersonalData(final PersonalData personalData) {
+    if (!personalData.isOnrIdAndIndividualisedInformationConsistent()) {
+      throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
+    }
+  }
+
+  private PersonalData createPersonalData(final String onrId, final TranslatorDTOCommonFields dto) {
+    return PersonalData
+      .builder()
+      .onrId(onrId)
+      .individualised(dto.isIndividualised())
+      .hasIndividualisedAddress(dto.hasIndividualisedAddress())
+      .lastName(dto.lastName())
+      .firstName(dto.firstName())
+      .nickName(dto.nickName())
+      .identityNumber(dto.identityNumber())
+      .email(dto.email())
+      .phoneNumber(dto.phoneNumber())
+      .street(dto.street())
+      .postalCode(dto.postalCode())
+      .town(dto.town())
+      .country(dto.country())
+      .build();
+  }
+
   private void copyDtoFieldsToTranslator(final TranslatorDTOCommonFields dto, final Translator translator) {
+    // TODO: M.S. after data migration is done remove the below code
+    // currently it is needed because these columns cannot be non-null nor non-unique
     translator.setIdentityNumber(dto.identityNumber());
     translator.setFirstName(dto.firstName());
     translator.setLastName(dto.lastName());
     translator.setEmail(dto.email());
-    translator.setPhone(dto.phoneNumber());
-    translator.setStreet(dto.street());
-    translator.setTown(dto.town());
-    translator.setPostalCode(dto.postalCode());
-    translator.setCountry(dto.country());
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    // translator.setPhone(dto.phoneNumber());
+    // translator.setStreet(dto.street());
+    // translator.setTown(dto.town());
+    // translator.setPostalCode(dto.postalCode());
+    // translator.setCountry(dto.country());
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
   }
 
-  private void assertCountryCode(final String countryCode, final APIExceptionType exceptionType) {
-    if (countryCode != null && !countryService.containsKoodistoCode(countryCode)) {
-      throw new APIException(exceptionType);
-    }
-  }
+  // private void assertCountryCode(final String countryCode, final APIExceptionType exceptionType) {
+  //   if (countryCode != null && !countryService.containsKoodistoCode(countryCode)) {
+  //     throw new APIException(exceptionType);
+  //   }
+  // }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional

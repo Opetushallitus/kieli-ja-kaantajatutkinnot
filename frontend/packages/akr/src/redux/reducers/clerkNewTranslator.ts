@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
+import { ClerkPerson } from 'interfaces/clerkPerson';
 import { WithId } from 'interfaces/with';
 
 interface ClerkNewTranslatorState extends Partial<WithId> {
@@ -11,8 +12,12 @@ interface ClerkNewTranslatorState extends Partial<WithId> {
 
 const initialState: ClerkNewTranslatorState = {
   translator: {
+    onrId: undefined,
+    isIndividualised: undefined,
+    hasIndividualisedAddress: undefined,
     lastName: '',
     firstName: '',
+    nickName: '',
     identityNumber: '',
     street: '',
     postalCode: '',
@@ -32,6 +37,31 @@ const clerkNewTranslatorSlice = createSlice({
   name: 'clerkNewTranslator',
   initialState,
   reducers: {
+    initialiseClerkNewTranslatorByIdentityNumber(
+      state,
+      action: PayloadAction<string>
+    ) {
+      state.translator.identityNumber = action.payload;
+    },
+    initialiseClerkNewTranslatorByPerson(
+      state,
+      action: PayloadAction<ClerkPerson>
+    ) {
+      const person = action.payload;
+
+      state.translator.onrId = person.onrId;
+      state.translator.isIndividualised = person.isIndividualised;
+      state.translator.hasIndividualisedAddress =
+        person.hasIndividualisedAddress;
+      state.translator.identityNumber = person.identityNumber;
+      state.translator.lastName = person.lastName;
+      state.translator.firstName = person.firstName;
+      state.translator.nickName = person.nickName;
+      state.translator.street = person.street;
+      state.translator.postalCode = person.postalCode;
+      state.translator.town = person.town;
+      state.translator.country = person.country;
+    },
     rejectClerkNewTranslator(state) {
       state.status = APIResponseStatus.Error;
     },
@@ -55,6 +85,8 @@ const clerkNewTranslatorSlice = createSlice({
 
 export const clerkNewTranslatorReducer = clerkNewTranslatorSlice.reducer;
 export const {
+  initialiseClerkNewTranslatorByIdentityNumber,
+  initialiseClerkNewTranslatorByPerson,
   rejectClerkNewTranslator,
   resetClerkNewTranslator,
   saveClerkNewTranslator,

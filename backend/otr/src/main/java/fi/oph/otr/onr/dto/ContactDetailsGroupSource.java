@@ -23,4 +23,7 @@ public enum ContactDetailsGroupSource {
 
   @JsonProperty("alkupera7")
   OTR,
+
+  @JsonProperty("alkupera8")
+  AKR,
 }

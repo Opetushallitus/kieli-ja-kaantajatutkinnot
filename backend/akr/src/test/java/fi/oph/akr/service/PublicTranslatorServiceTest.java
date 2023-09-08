@@ -3,6 +3,7 @@ package fi.oph.akr.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.LanguagePairDTO;
@@ -14,17 +15,24 @@ import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.koodisto.PostalCodeService;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,6 +40,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
@@ -49,13 +58,16 @@ class PublicTranslatorServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private OnrService onrService;
+
   @BeforeEach
   public void setup() {
     final PostalCodeService postalCodeService = new PostalCodeService();
     postalCodeService.init();
 
     publicTranslatorService =
-      new PublicTranslatorService(authorisationRepository, translatorRepository, postalCodeService);
+      new PublicTranslatorService(authorisationRepository, translatorRepository, postalCodeService, onrService);
   }
 
   @Test
@@ -131,9 +143,11 @@ class PublicTranslatorServiceTest {
   }
 
   private void assertThoseHavingEmailAreFirstInTheList(final List<PublicTranslatorDTO> translators) {
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     Boolean previousHadEmail = null;
     for (PublicTranslatorDTO t : translators) {
-      final boolean hasEmail = translatorRepository.getReferenceById(t.id()).hasEmail();
+      final Translator translator = translatorRepository.getReferenceById(t.id());
+      final boolean hasEmail = personalDatas.get(translator.getOnrId()).getEmail() != null;
       if (previousHadEmail != null && (!previousHadEmail && hasEmail)) {
         fail("Those with email should be first in the list, then those without email.");
       }
@@ -148,6 +162,14 @@ class PublicTranslatorServiceTest {
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          translator.getOnrId(),
+          PersonalData.builder().lastName("Suku").firstName("Etu").nickName("Etu").identityNumber("112233").build()
+        )
+      );
 
     createAuthorisation(translator, meetingDate, LocalDate.now().minusDays(3), LocalDate.now().plusDays(1), true, "EN");
     createAuthorisation(translator, meetingDate, LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), true, "EN");
@@ -200,21 +222,36 @@ class PublicTranslatorServiceTest {
       Pair.of("Kaupunki1", null)
     );
 
+    final Map<String, PersonalData> personalDatasTest = new HashMap<String, PersonalData>();
     IntStream
       .range(0, townsAndCountries.size())
       .forEach(i -> {
         final Translator translator = Factory.translator();
         // Translators should be in random order, sorting makes assertions easier to write. Set last name which is
         // easy to sort.
-        translator.setLastName(translator.getLastName() + StringUtils.leftPad(String.valueOf(i), 2, '0'));
+        //translator.setLastName(translator.getLastName() + StringUtils.leftPad(String.valueOf(i), 2, '0'));
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-        translator.setTown(townsAndCountries.get(i).getLeft());
-        translator.setCountry(townsAndCountries.get(i).getRight());
+        //translator.setTown(townsAndCountries.get(i).getLeft());
+        //translator.setCountry(townsAndCountries.get(i).getRight());
+
+        personalDatasTest.put(
+          translator.getOnrId(),
+          PersonalData
+            .builder()
+            .firstName("Foo")
+            .nickName("Baz")
+            .lastName("Bar" + StringUtils.leftPad(String.valueOf(i), 2, '0'))
+            .identityNumber("112233")
+            .town(townsAndCountries.get(i).getLeft())
+            .country(townsAndCountries.get(i).getRight())
+            .build()
+        );
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
       });
+    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatasTest);
 
     final PublicTranslatorResponseDTO responseDTO = publicTranslatorService.listTranslators();
 
@@ -272,35 +309,46 @@ class PublicTranslatorServiceTest {
 
   private void createVariousTranslators(final MeetingDate meetingDate) {
     int i = 0;
+    ArrayList<Translator> translators = new ArrayList<Translator>();
     // Term active
-    createTranslator(meetingDate, LocalDate.now(), LocalDate.now().plusDays(1), true, true, i++);
+    translators.add(createTranslator(meetingDate, LocalDate.now(), LocalDate.now().plusDays(1), true, true, i++));
 
     // Term active
-    createTranslator(meetingDate, LocalDate.now().minusDays(1), LocalDate.now(), true, true, i++);
+    translators.add(createTranslator(meetingDate, LocalDate.now().minusDays(1), LocalDate.now(), true, true, i++));
 
     // Term active (no end date)
-    createTranslator(meetingDate, LocalDate.now(), null, true, true, i++);
+    translators.add(createTranslator(meetingDate, LocalDate.now(), null, true, true, i++));
 
     // Term active but no permission given
-    createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), false, true, i++);
+    translators.add(
+      createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), false, true, i++)
+    );
 
     // Term active, but not assured
-    createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), true, false, i++);
+    translators.add(
+      createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().plusDays(10), true, false, i++)
+    );
 
     // Term ended
-    createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().minusDays(1), true, true, i++);
+    translators.add(
+      createTranslator(meetingDate, LocalDate.now().minusDays(10), LocalDate.now().minusDays(1), true, true, i++)
+    );
 
     // Term in future
-    createTranslator(meetingDate, LocalDate.now().plusDays(1), LocalDate.now().plusDays(10), true, true, i++);
+    translators.add(
+      createTranslator(meetingDate, LocalDate.now().plusDays(1), LocalDate.now().plusDays(10), true, true, i++)
+    );
 
     // Term in future (no end date)
-    createTranslator(meetingDate, LocalDate.now().plusDays(1), null, true, true, i++);
+    translators.add(createTranslator(meetingDate, LocalDate.now().plusDays(1), null, true, true, i++));
 
     // No term, VIR 2008
-    createTranslator(meetingDate, null, null, true, true, i);
+    translators.add(createTranslator(meetingDate, null, null, true, true, i));
+
+    createOnrServiceResponse(translators);
   }
 
-  private void createTranslator(
+  private Translator createTranslator(
     final MeetingDate meetingDate,
     final LocalDate termBeginDate,
     final LocalDate termEndDate,
@@ -309,14 +357,16 @@ class PublicTranslatorServiceTest {
     final int i
   ) {
     final Translator translator = Factory.translator();
-    translator.setFirstName("Etu" + i);
-    translator.setLastName("Suku" + i);
-    translator.setTown("Kaupunki" + i);
-    translator.setCountry(i == 0 ? "FIN" : "Maa" + i);
+    translator.setOnrId("" + i);
+    // translator.setFirstName("Etu" + i);
+    // translator.setLastName("Suku" + i);
+    // translator.setTown("Kaupunki" + i);
+    // translator.setCountry(i == 0 ? "FIN" : "Maa" + i);
+    // translator.setEmail(i % 2 == 0 ? null : "foo" + i + "@foo.invalid");
     translator.setAssuranceGiven(isAssuranceGiven);
-    translator.setEmail(i % 2 == 0 ? null : "foo" + i + "@foo.invalid");
 
     entityManager.persist(translator);
+
     createAuthorisation(translator, meetingDate, termBeginDate, termEndDate, permissionToPublish, "EN");
     // this authorisation is always expired
     createAuthorisation(
@@ -327,6 +377,32 @@ class PublicTranslatorServiceTest {
       permissionToPublish,
       "SV"
     );
+    return translator;
+  }
+
+  private void createOnrServiceResponse(List<Translator> translators) {
+    Map<String, PersonalData> personalDatas = translators
+      .stream()
+      .collect(
+        Collectors.toMap(
+          Translator::getOnrId,
+          t -> {
+            int i = Integer.parseInt(t.getOnrId());
+            return PersonalData
+              .builder()
+              .firstName("Etu" + i)
+              .nickName("Etu" + i)
+              .lastName("Suku" + i)
+              .identityNumber("112233")
+              .town("Kaupunki" + i)
+              .country(i == 0 ? "FIN" : "Maa" + i)
+              .email(i % 2 == 0 ? null : "foo" + i + "@foo.invalid")
+              .build();
+          }
+        )
+      );
+
+    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatas);
   }
 
   private void createAuthorisation(

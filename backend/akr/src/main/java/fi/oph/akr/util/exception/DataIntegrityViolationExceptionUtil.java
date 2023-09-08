@@ -4,12 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 public class DataIntegrityViolationExceptionUtil {
 
-  public static boolean isTranslatorEmailUniquenessException(final DataIntegrityViolationException ex) {
-    return matchesConstraint(ex, "uk_translator_email");
-  }
-
-  public static boolean isTranslatorIdentityNumberUniquenessException(final DataIntegrityViolationException ex) {
-    return matchesConstraint(ex, "uk_translator_identity_number");
+  public static boolean isTranslatorOnrNumberUniquenessException(final DataIntegrityViolationException ex) {
+    return matchesConstraint(ex, "uk_translator_onr_id");
   }
 
   private static boolean matchesConstraint(final DataIntegrityViolationException ex, final String constraint) {

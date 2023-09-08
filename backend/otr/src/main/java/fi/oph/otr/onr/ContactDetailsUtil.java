@@ -3,6 +3,7 @@ package fi.oph.otr.onr;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.KOTIMAINEN_POSTIOSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.KOTIOSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.OTR_OSOITE;
+import static fi.oph.otr.onr.dto.ContactDetailsGroupType.AKR_OSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.SAHKOINEN_OSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.TILAPAINEN_KOTIMAAN_OSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.TILAPAINEN_ULKOMAAN_OSOITE;
@@ -98,7 +99,7 @@ public class ContactDetailsUtil {
     return contactDetailsGroups
       .stream()
       .sorted(comparing(ContactDetailsGroupDTO::getType, nullsLast(comparator.thenComparing(naturalOrder()))))
-      .filter(group -> !group.getType().equals(KOTIOSOITE))
+      .filter(group -> !group.getType().equals(KOTIOSOITE) && !group.getType().equals(AKR_OSOITE))
       .flatMap(group -> group.getContactDetailsSet().stream())
       .filter(details -> details.getType().equals(contactDetailsType))
       .filter(details -> details.getValue() != null && !details.getValue().isBlank())

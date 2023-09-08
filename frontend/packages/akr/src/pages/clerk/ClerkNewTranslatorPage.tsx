@@ -11,13 +11,15 @@ import { AuthorisationFields } from 'components/clerkTranslator/authorisation/Au
 import { BottomControls } from 'components/clerkTranslator/new/BottomControls';
 import { NewTranslatorBasicInformation } from 'components/clerkTranslator/new/NewTranslatorBasicInformation';
 import { AuthorisationListing } from 'components/clerkTranslator/overview/AuthorisationListing';
-import { TopControls } from 'components/clerkTranslator/overview/TopControls';
+import { BackButton } from 'components/common/BackButton';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import { Authorisation } from 'interfaces/authorisation';
 import {
+  initialiseClerkNewTranslatorByIdentityNumber,
+  initialiseClerkNewTranslatorByPerson,
   resetClerkNewTranslator,
   saveClerkNewTranslator,
   updateClerkNewTranslator,
@@ -25,6 +27,7 @@ import {
 import { loadExaminationDates } from 'redux/reducers/examinationDate';
 import { loadMeetingDates } from 'redux/reducers/meetingDate';
 import { clerkNewTranslatorSelector } from 'redux/selectors/clerkNewTranslator';
+import { clerkPersonSearchSelector } from 'redux/selectors/clerkPersonSearch';
 import {
   examinationDatesSelector,
   selectExaminationDatesByStatus,
@@ -45,6 +48,7 @@ export const ClerkNewTranslatorPage = () => {
     setOpen(false);
     setAuthorisation(AuthorisationUtils.newAuthorisation);
   };
+  const [hasLocalChanges, setHasLocalChanges] = useState(false);
 
   const { showToast } = useToast();
   const { showDialog } = useDialog();
@@ -57,6 +61,7 @@ export const ClerkNewTranslatorPage = () => {
 
   // Redux
   const { translator, status, id } = useAppSelector(clerkNewTranslatorSelector);
+  const { identityNumber, person } = useAppSelector(clerkPersonSearchSelector);
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
   const passedMeetingDates = useAppSelector(
     selectMeetingDatesByMeetingStatus
@@ -68,7 +73,69 @@ export const ClerkNewTranslatorPage = () => {
     selectExaminationDatesByStatus
   ).passed;
 
+  useNavigationProtection(
+    hasLocalChanges && status !== APIResponseStatus.Success
+  );
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  // Initialise translator by clerkPersonSearch
+  useEffect(() => {
+    if (person) {
+      dispatch(initialiseClerkNewTranslatorByPerson(person));
+    } else if (identityNumber) {
+      dispatch(initialiseClerkNewTranslatorByIdentityNumber(identityNumber));
+    } else {
+      navigate(AppRoutes.ClerkHomePage);
+    }
+  }, [dispatch, person, identityNumber, navigate]);
+
+  useEffect(() => {
+    if (
+      !meetingDatesState.meetingDates.length &&
+      meetingDatesState.status === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadMeetingDates());
+    }
+  }, [dispatch, meetingDatesState]);
+
+  useEffect(() => {
+    if (
+      !examinationDates.dates.length &&
+      examinationDates.status === APIResponseStatus.NotStarted
+    ) {
+      dispatch(loadExaminationDates());
+    }
+  }, [dispatch, examinationDates]);
+
+  useEffect(() => {
+    if (status === APIResponseStatus.Success) {
+      showToast({
+        severity: Severity.Success,
+        description: t('toasts.success'),
+      });
+      navigate(
+        AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
+      );
+    }
+  }, [id, dispatch, navigate, status, showToast, t]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetClerkNewTranslator());
+    };
+  }, [dispatch]);
+
+  const isLoading = status == APIResponseStatus.InProgress;
+  const isSaveButtonDisabled =
+    isLoading ||
+    StringUtils.isBlankString(translator.lastName) ||
+    StringUtils.isBlankString(translator.firstName) ||
+    StringUtils.isBlankString(translator.nickName) ||
+    translator.authorisations.length < 1;
+
+  const onSave = () => dispatch(saveClerkNewTranslator(translator));
 
   const handleSaveAuthorisation = () => {
     dispatch(
@@ -110,59 +177,6 @@ export const ClerkNewTranslatorPage = () => {
     });
   };
 
-  // Navigation
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (
-      !meetingDatesState.meetingDates.length &&
-      meetingDatesState.status === APIResponseStatus.NotStarted
-    ) {
-      dispatch(loadMeetingDates());
-    }
-  }, [dispatch, meetingDatesState]);
-
-  useEffect(() => {
-    if (
-      !examinationDates.dates.length &&
-      examinationDates.status === APIResponseStatus.NotStarted
-    ) {
-      dispatch(loadExaminationDates());
-    }
-  }, [dispatch, examinationDates]);
-
-  useEffect(() => {
-    if (status === APIResponseStatus.Success) {
-      showToast({
-        severity: Severity.Success,
-        description: t('toasts.success'),
-      });
-      navigate(
-        AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
-      );
-    }
-  }, [id, dispatch, navigate, status, showToast, t]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetClerkNewTranslator());
-    };
-  }, [dispatch]);
-
-  const [hasLocalChanges, setHasLocalChanges] = useState(false);
-  useNavigationProtection(
-    hasLocalChanges && status !== APIResponseStatus.Success
-  );
-
-  const isLoading = status == APIResponseStatus.InProgress;
-  const isSaveButtonDisabled =
-    isLoading ||
-    StringUtils.isBlankString(translator.lastName) ||
-    StringUtils.isBlankString(translator.firstName) ||
-    translator.authorisations.length < 1;
-
-  const onSave = () => dispatch(saveClerkNewTranslator(translator));
-
   return (
     <Box className="clerk-new-translator-page">
       <H1>{t('title')}</H1>
@@ -171,7 +185,7 @@ export const ClerkNewTranslatorPage = () => {
         className="clerk-new-translator-page__content-container rows"
       >
         <div className="rows gapped">
-          <TopControls />
+          <BackButton to={AppRoutes.ClerkPersonSearchPage} />
           <NewTranslatorBasicInformation
             onDetailsChange={() => setHasLocalChanges(true)}
           />

@@ -65,5 +65,5 @@ app:
     enabled: ${onr.enabled:false}
     service-url: ${onr.service-url:https://virkailija.untuvaopintopolku.fi/oppijanumerorekisteri-service}
     cas:
-      username: ${onr.cas.username:username}
-      password: ${onr.cas.password:password}
+      username: ${onr.cas.username:oikeustulkkirekisteri}
+      password: ${onr.cas.password:hu12!p9NoUYzB}
