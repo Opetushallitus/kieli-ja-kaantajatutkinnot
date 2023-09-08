@@ -28,7 +28,6 @@ const clerkPersonSearchSlice = createSlice({
       state.person = initialState.person;
     },
     searchClerkPerson(state, action: PayloadAction<string>) {
-      console.log('========> searchClerkPerson()');
       state.status = APIResponseStatus.InProgress;
       state.identityNumber = action.payload;
     },

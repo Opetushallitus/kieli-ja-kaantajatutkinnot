@@ -14,7 +14,6 @@ import {
 import { NotifierUtils } from 'utils/notifier';
 
 function* searchClerkPersonSaga(action: PayloadAction<string>) {
-  console.log('========> searchClerkPersonSaga()');
   try {
     const response: AxiosResponse<ClerkPerson> = yield call(
       axiosInstance.get,

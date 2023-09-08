@@ -320,7 +320,6 @@ ALTER TABLE public.shedlock OWNER TO postgres;
 
 CREATE TABLE public.translator (
     translator_id bigint NOT NULL,
-    --- onr_id character varying(255) NOT NULL
     version integer DEFAULT 0 NOT NULL,
     created_by text,
     modified_by text,

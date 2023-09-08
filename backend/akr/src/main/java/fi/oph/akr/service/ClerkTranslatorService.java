@@ -383,11 +383,6 @@ public class ClerkTranslatorService {
     translator.setEmail(dto.email());
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    // translator.setPhone(dto.phoneNumber());
-    // translator.setStreet(dto.street());
-    // translator.setTown(dto.town());
-    // translator.setPostalCode(dto.postalCode());
-    // translator.setCountry(dto.country());
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
   }

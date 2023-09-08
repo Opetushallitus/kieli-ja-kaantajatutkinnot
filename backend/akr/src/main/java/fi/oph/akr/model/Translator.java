@@ -85,8 +85,4 @@ public class Translator extends BaseEntity {
   // public boolean hasEmail() {
   //   return email != null;
   // }
-
-  // public String toString() {
-  //   return "id: " + id + ", " + onrId;
-  // }
 }

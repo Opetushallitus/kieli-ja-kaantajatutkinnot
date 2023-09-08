@@ -64,7 +64,6 @@ export const ClerkPersonSearchPage = () => {
   };
 
   const handleSearch = () => {
-    console.log('========> handleSearch()');
     dispatch(searchClerkPerson(identityNumber));
   };
 
