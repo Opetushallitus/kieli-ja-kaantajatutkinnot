@@ -14,7 +14,6 @@ public class OnrOperationApiMock implements OnrOperationApi {
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) {
     final PersonalDataFactory personalDataFactory = new PersonalDataFactory();
-    System.out.println(onrIds);
     return onrIds.stream().collect(Collectors.toMap(Function.identity(), personalDataFactory::create));
   }
 

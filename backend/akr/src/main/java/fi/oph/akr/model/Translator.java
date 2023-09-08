@@ -78,7 +78,6 @@ public class Translator extends BaseEntity {
 
   @Column(name = "is_assurance_given", nullable = false)
   private boolean isAssuranceGiven;
-
   // public String getFullName() {
   //   return firstName + " " + lastName;
   // }
@@ -87,7 +86,7 @@ public class Translator extends BaseEntity {
   //   return email != null;
   // }
 
-  public String toString() {
-    return "id: " + id + ", " + onrId;
-  }
+  // public String toString() {
+  //   return "id: " + id + ", " + onrId;
+  // }
 }

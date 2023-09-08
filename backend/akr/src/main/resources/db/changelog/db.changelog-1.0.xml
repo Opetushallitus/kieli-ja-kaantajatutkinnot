@@ -804,7 +804,12 @@
         </sql>
     </changeSet>
 
-    <changeSet id="2023-08-28-change-translator-columns" author="msevalnev">
+    <changeSet id="2023-09-08-add-translator-onrid-column-if-does-not-exist" author="msevalnev">
+       <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="translator" columnName="onr_id" />
+            </not>
+        </preConditions>
         <addColumn tableName="translator">
             <column name="onr_id" type="VARCHAR(255)">
             </column>
