@@ -7,6 +7,7 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
+import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
@@ -59,6 +60,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ReassessmentOrderStatus}
                 element={<EvaluationOrderStatusPage />}
+              />
+              <Route
+                path={AppRoutes.AccessibilityStatementPage}
+                element={<AccessibilityStatementPage />}
               />
             </Routes>
           </div>

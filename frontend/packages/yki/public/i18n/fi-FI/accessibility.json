@@ -1,0 +1,52 @@
+{
+  "yki": {
+    "accessibility": {
+      "content": {
+        "administrativeAgency": {
+          "description": "Saavutettavuuden valvonnan yksikkö",
+          "email": "saavutettavuus@avi.fi",
+          "link": {
+            "label": "Saavutettavuusvaatimukset.fi",
+            "url": "https://saavutettavuusvaatimukset.fi"
+          },
+          "phone": "0295 016 000",
+          "switchboard": "Vaihde",
+          "title": "Valvontaviranomaisen yhteystiedot"
+        },
+        "caveats": [
+        ],
+        "composition": {
+          "description": "",
+          "title": "Tämän saavutettavuusselosteen laatiminen"
+        },
+        "enforcement": {
+          "description": "",
+          "title": "Täytäntöönpanomenettely"
+        },
+        "feedback": {
+          "description1": "",
+          "description2": "",
+          "title": "Palaute ja yhteystiedot"
+        },
+        "furtherImprove": {
+          "description1": "",
+          "description2": "",
+          "title": "Teemme jatkuvasti työtä saavutettavuuden parantamiseksi"
+        },
+        "nonAccessible": {
+          "description1": "",
+          "description2": "",
+          "title": "Ei-saavutettava sisältö"
+        },
+        "status": {
+          "description": "",
+          "title": "Saavutettavuuden tila"
+        }
+      },
+      "heading": {
+        "description": "",
+        "title": "Saavutettavuusseloste"
+      }
+    }
+  }
+}
