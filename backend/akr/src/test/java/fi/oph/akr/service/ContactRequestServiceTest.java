@@ -349,9 +349,6 @@ class ContactRequestServiceTest {
       .forEach(i -> {
         final Translator translator = Factory.translator();
         translator.setOnrId(UUID.randomUUID().toString());
-        // translator.setFirstName("Etu" + i);
-        // translator.setLastName("Suku" + i);
-        // translator.setEmail("etu.suku" + i + "@invalid");
 
         personalDatas.put(
           translator.getOnrId(),

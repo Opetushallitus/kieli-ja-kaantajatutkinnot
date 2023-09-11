@@ -109,9 +109,6 @@ public class ClerkEmailServiceTest {
       .forEach(i -> {
         final Translator translator = Factory.translator();
         translator.setOnrId(UUID.randomUUID().toString());
-        // translator.setFirstName("Etu" + i);
-        // translator.setLastName("Suku" + i);
-        // translator.setEmail("etu.suku" + i + "@invalid");
 
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
@@ -252,9 +249,6 @@ public class ClerkEmailServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
 
-    // translator.setFirstName("Etu");
-    // translator.setLastName("Suku");
-    // translator.setEmail("etu.suku@invalid");
     translator.setOnrId("123");
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
@@ -319,9 +313,6 @@ public class ClerkEmailServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-    // translator.setFirstName("Etu");
-    // translator.setLastName("Suku");
-    // translator.setEmail("etu.suku@invalid");
     translator.setOnrId("123");
     when(onrService.getCachedPersonalDatas())
       .thenReturn(

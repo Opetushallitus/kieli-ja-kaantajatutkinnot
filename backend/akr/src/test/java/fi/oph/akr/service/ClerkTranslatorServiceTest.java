@@ -41,7 +41,6 @@ import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
-//import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
@@ -109,9 +108,6 @@ class ClerkTranslatorServiceTest {
       auditService
     );
     final MeetingDateService meetingDateService = new MeetingDateService(meetingDateRepository, auditService);
-
-    //final CountryService countryService = new CountryService();
-    //countryService.init();
 
     clerkTranslatorService =
       new ClerkTranslatorService(

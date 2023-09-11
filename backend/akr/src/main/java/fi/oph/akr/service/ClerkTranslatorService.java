@@ -387,12 +387,6 @@ public class ClerkTranslatorService {
     translator.setAssuranceGiven(dto.isAssuranceGiven());
   }
 
-  // private void assertCountryCode(final String countryCode, final APIExceptionType exceptionType) {
-  //   if (countryCode != null && !countryService.containsKoodistoCode(countryCode)) {
-  //     throw new APIException(exceptionType);
-  //   }
-  // }
-
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
   @Transactional
   public void deleteTranslator(final long translatorId) {

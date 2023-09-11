@@ -117,18 +117,6 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     assertEquals(expectedAuthIds, authIds);
   }
 
-  // @Test
-  // public void testCheckExpiringAuthorisationsWithTranslatorWithoutEmailAddress() {
-  //   final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusYears(1));
-  //   entityManager.persist(meetingDate);
-
-  //   createAuthorisation(meetingDate, LocalDate.now().plusDays(10), null);
-
-  //   emailCreator.checkExpiringAuthorisations();
-
-  //   verifyNoInteractions(clerkEmailService);
-  // }
-
   private Authorisation createAuthorisation(
     final MeetingDate meetingDate,
     final LocalDate termEndDate,
@@ -170,7 +158,6 @@ public class ExpiringAuthorisationsEmailCreatorTest {
 
   private Translator createTranslator(final String translatorEmail) {
     final Translator translator = Factory.translator();
-    //translator.setEmail(translatorEmail);
     when(onrService.getCachedPersonalDatas())
       .thenReturn(
         Map.of(

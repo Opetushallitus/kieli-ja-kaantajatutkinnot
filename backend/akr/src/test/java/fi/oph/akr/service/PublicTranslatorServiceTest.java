@@ -232,9 +232,6 @@ class PublicTranslatorServiceTest {
         //translator.setLastName(translator.getLastName() + StringUtils.leftPad(String.valueOf(i), 2, '0'));
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-        //translator.setTown(townsAndCountries.get(i).getLeft());
-        //translator.setCountry(townsAndCountries.get(i).getRight());
-
         personalDatasTest.put(
           translator.getOnrId(),
           PersonalData
@@ -358,11 +355,6 @@ class PublicTranslatorServiceTest {
   ) {
     final Translator translator = Factory.translator();
     translator.setOnrId("" + i);
-    // translator.setFirstName("Etu" + i);
-    // translator.setLastName("Suku" + i);
-    // translator.setTown("Kaupunki" + i);
-    // translator.setCountry(i == 0 ? "FIN" : "Maa" + i);
-    // translator.setEmail(i % 2 == 0 ? null : "foo" + i + "@foo.invalid");
     translator.setAssuranceGiven(isAssuranceGiven);
 
     entityManager.persist(translator);

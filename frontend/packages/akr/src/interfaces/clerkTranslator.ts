@@ -26,8 +26,6 @@ export interface ClerkTranslatorTextFields {
 
 export interface ClerkTranslatorBasicInformation
   extends ClerkTranslatorTextFields {
-  //isIndividualised: boolean;
-  //hasIndividualisedAddress: boolean;
   isAssuranceGiven: boolean;
 }
 
@@ -43,6 +41,8 @@ export interface ClerkTranslatorResponse
   extends ClerkTranslatorBasicInformation,
     WithId,
     WithVersion {
+  isIndividualised: boolean;
+  hasIndividualisedAddress: boolean;
   authorisations: ClerkTranslatorAuthorisationsResponse;
 }
 
