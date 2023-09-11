@@ -73,12 +73,12 @@ public class PublicAuthService {
       }
     }
 
-    final String hashedOtherIdentifier = otherIdentifier;
+    final String hashedOtherIdentifier = StringUtil.getHash(otherIdentifier, salt);
     final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
       ? personRepository.findByOid(oid)
       : personRepository
         .findByOtherIdentifier(otherIdentifier)
-        .or(() -> personRepository.findByOtherIdentifier(StringUtil.getHash(hashedOtherIdentifier, salt)));
+        .or(() -> personRepository.findByOtherIdentifier(hashedOtherIdentifier));
 
     final Person person = optionalExistingPerson.orElse(new Person());
     person.setLastName(lastName);

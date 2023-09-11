@@ -28,7 +28,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
 @DataJpaTest
-public class PublicAuthServiceTest {
+public class PublicAuthServicePseudonymTest {
 
   @Resource
   private PersonRepository personRepository;
@@ -37,6 +37,9 @@ public class PublicAuthServiceTest {
   private TicketValidator ticketValidatorMock;
 
   private PublicAuthService publicAuthService;
+
+  @Resource
+  private TestEntityManager entityManager;
 
   @BeforeEach
   public void setup() {
@@ -51,7 +54,6 @@ public class PublicAuthServiceTest {
     final Map<String, String> personDetails = Map.ofEntries(
       Map.entry("firstName", "Tessa"),
       Map.entry("lastName", "Testilä"),
-      Map.entry("oid", "999"),
       Map.entry("otherIdentifier", "10000")
     );
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
@@ -61,22 +63,18 @@ public class PublicAuthServiceTest {
   }
 
   @Test
-  public void testCreatePersonFromTicket() {
-    final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
-
-    assertPersonDetails(person);
-    assertTrue(personRepository.findByOid("999").isPresent());
-  }
-
-  @Test
-  public void testCreatePersonFromTicketForExistingPerson() {
+  public void testCreatePersonFromTicketForPseudonymPerson() {
     final Person person = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
     final int originalVersion = person.getVersion();
+
+    person.setOtherIdentifier(StringUtil.getHash(person.getOtherIdentifier(), "foobar"));
+    entityManager.persist(person);
+
     final LocalDateTime originalLatestIdentifiedAt = person.getLatestIdentifiedAt();
     final Person updatedPerson = publicAuthService.createPersonFromTicket("ticket-123", 1L, EnrollmentType.RESERVATION);
 
     assertEquals(person.getId(), updatedPerson.getId());
-    assertEquals(originalVersion + 1, updatedPerson.getVersion());
+    assertEquals(originalVersion + 2, updatedPerson.getVersion());
     assertTrue(originalLatestIdentifiedAt.isBefore(updatedPerson.getLatestIdentifiedAt()));
     assertPersonDetails(updatedPerson);
     assertEquals(1, personRepository.count());
@@ -85,7 +83,6 @@ public class PublicAuthServiceTest {
   private void assertPersonDetails(final Person person) {
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
-    assertEquals("999", person.getOid());
     assertEquals("10000", person.getOtherIdentifier());
   }
 
