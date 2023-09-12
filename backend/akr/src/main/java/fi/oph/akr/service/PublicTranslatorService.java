@@ -13,6 +13,7 @@ import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.koodisto.PostalCodeService;
+import fi.oph.akr.util.MigrationUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,12 +53,22 @@ public class PublicTranslatorService {
 
     final List<Translator> translatorsWithEmail = translators
       .stream()
-      .filter(t -> personalDatas.get(t.getOnrId()).getEmail() != null)
+      .filter(t -> {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
+        return personalData.getEmail() != null;
+      })
       .collect(Collectors.toCollection(ArrayList::new));
 
     final List<Translator> translatorsWithoutEmail = translators
       .stream()
-      .filter(t -> personalDatas.get(t.getOnrId()).getEmail() == null)
+      .filter(t -> {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
+        return personalData.getEmail() == null;
+      })
       .collect(Collectors.toCollection(ArrayList::new));
 
     Collections.shuffle(translatorsWithEmail);
@@ -67,7 +78,10 @@ public class PublicTranslatorService {
       .concat(translatorsWithEmail.stream(), translatorsWithoutEmail.stream())
       .map(translator -> {
         final List<LanguagePairDTO> languagePairDTOs = getLanguagePairDTOs(translatorLanguagePairs, translator);
-        final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+
         return createPublicTranslatorDTO(translator, personalData, languagePairDTOs);
       })
       .toList();
@@ -126,7 +140,9 @@ public class PublicTranslatorService {
     return translators
       .stream()
       .map(translator -> {
-        final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
 
         if (!StringUtils.hasText(personalData.getTown())) {
           return null;

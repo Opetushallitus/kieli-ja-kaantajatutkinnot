@@ -31,6 +31,7 @@ import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.util.AuthorisationUtil;
+import fi.oph.akr.util.MigrationUtil;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import fi.oph.akr.util.exception.NotFoundException;
@@ -110,7 +111,9 @@ public class ClerkTranslatorService {
           authorisationProjectionsByTranslator.get(translator.getId())
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
-        final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        // TODO: M.S. after migration is done use:
+        // final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
         return ClerkTranslatorDTO
           .builder()
           .id(translator.getId())

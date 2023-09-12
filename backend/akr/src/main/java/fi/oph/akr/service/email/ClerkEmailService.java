@@ -15,6 +15,7 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.LanguagePairService;
+import fi.oph.akr.util.MigrationUtil;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDate;
@@ -56,7 +57,9 @@ public class ClerkEmailService {
     }
 
     translators.forEach(translator -> {
-      final PersonalData personalData = personalDatas.get(translator.getOnrId());
+      // TODO: M.S. after migration is done use:
+      //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+      final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
 
       if (personalData != null) {
         final String recipientName = personalData.getFirstName() + " " + personalData.getLastName();
@@ -107,7 +110,11 @@ public class ClerkEmailService {
 
   private void createAuthorisationExpiryData(final Authorisation authorisation) {
     final Translator translator = authorisation.getTranslator();
-    final PersonalData personalData = onrService.getCachedPersonalDatas().get(translator.getOnrId());
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+
+    // TODO: M.S. after migration is done use:
+    //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+    final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
 
     if (personalData != null) {
       final String recipientName = personalData.getFirstName() + " " + personalData.getLastName();

@@ -15,6 +15,7 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.email.EmailData;
 import fi.oph.akr.service.email.EmailService;
+import fi.oph.akr.util.MigrationUtil;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDateTime;
@@ -58,7 +59,12 @@ public class ContactRequestService {
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     final List<PersonalData> translatorsPersonalDatas = translators
       .stream()
-      .map(t -> personalDatas.get(t.getOnrId()))
+      .map(t -> {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
+        return personalData;
+      })
       .collect(Collectors.toCollection(ArrayList::new));
 
     final ContactRequest contactRequest = saveContactRequest(contactRequestDTO);
@@ -202,7 +208,9 @@ public class ContactRequestService {
     final List<Map<String, String>> translatorParams = translators
       .stream()
       .map(t -> {
-        final PersonalData personalData = personalDatas.get(t.getOnrId());
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
         final String fullName = personalData.getFirstName() + " " + personalData.getLastName();
         return Map.of("id", "" + t.getId(), "name", fullName);
       })
