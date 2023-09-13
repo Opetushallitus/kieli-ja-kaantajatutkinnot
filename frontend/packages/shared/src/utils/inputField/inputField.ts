@@ -134,7 +134,7 @@ export class InputFieldUtils {
 
     switch (type) {
       case TextFieldTypes.Email:
-        if (!InputFieldUtils.EMAIL_REG_EXR.test(trimmedValue)) {
+        if (!InputFieldUtils.isValidEmail(trimmedValue)) {
           return CustomTextFieldErrors.EmailFormat;
         }
         break;
@@ -157,6 +157,40 @@ export class InputFieldUtils {
     return '';
   }
 
-  private static EMAIL_REG_EXR = /^.+@.+\..+$/;
+  static isValidEmail(email: string) {
+    const emailParts = email.split('@');
+    if (emailParts.length != 2) {
+      return false;
+    }
+
+    const [localPart, domainPart] = emailParts;
+    if (!InputFieldUtils.EMAIL_LOCAL_PART_REGEX.test(localPart)) {
+      return false;
+    }
+    if (localPart.indexOf('..') > -1) {
+      return false;
+    }
+    if (localPart.startsWith('.')) {
+      return false;
+    }
+    if (localPart.endsWith('.')) {
+      return false;
+    }
+
+    if (!InputFieldUtils.EMAIL_DOMAIN_PART_REGEX.test(domainPart)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private static EMAIL_LOCAL_PART_REGEX = new RegExp(
+    /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`\.\{|\}~]{1,64}$/,
+    'u'
+  );
+  private static EMAIL_DOMAIN_PART_REGEX = new RegExp(
+    /^[\p{Letter}0-9\-\.]{1,255}$/,
+    'u'
+  );
   private static TEL_REG_EXR = /\d{7,14}$/;
 }
