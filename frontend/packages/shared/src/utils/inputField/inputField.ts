@@ -177,8 +177,17 @@ export class InputFieldUtils {
       return false;
     }
 
-    if (!InputFieldUtils.EMAIL_DOMAIN_PART_REGEX.test(domainPart)) {
+    if (domainPart.length > 255) {
       return false;
+    }
+    const domainParts = domainPart.split('.');
+    if (domainParts.length < 2) {
+      return false;
+    }
+    for (const subdomain of domainParts) {
+      if (!InputFieldUtils.EMAIL_SUBDOMAIN_REGEX.test(subdomain)) {
+        return false;
+      }
     }
 
     return true;
@@ -188,8 +197,8 @@ export class InputFieldUtils {
     /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`\.\{|\}~]{1,64}$/,
     'u'
   );
-  private static EMAIL_DOMAIN_PART_REGEX = new RegExp(
-    /^[\p{Letter}0-9\-\.]{1,255}$/,
+  private static EMAIL_SUBDOMAIN_REGEX = new RegExp(
+    /^[\p{Letter}0-9\-]{1,63}$/,
     'u'
   );
   private static TEL_REG_EXR = /\d{7,14}$/;
