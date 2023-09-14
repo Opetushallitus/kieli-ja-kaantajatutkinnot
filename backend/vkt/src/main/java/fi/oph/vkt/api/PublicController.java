@@ -213,6 +213,15 @@ public class PublicController {
     return publicPersonService.getPerson(SessionUtil.getPersonId(session));
   }
 
+  @GetMapping(path = "/auth/logout")
+  public void logout(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
+    if (session != null) {
+      session.invalidate();
+    }
+
+    httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
+  }
+
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long enrollmentId,
