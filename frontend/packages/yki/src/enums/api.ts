@@ -12,6 +12,7 @@ export enum APIEndpoints {
   Logout = '/yki/auth/logout',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   SuomiFiAuthRedirect = '/yki/auth/',
+  User = '/yki/auth/user',
 }
 
 export enum PaymentStatus {
