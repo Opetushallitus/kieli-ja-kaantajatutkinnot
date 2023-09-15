@@ -1,4 +1,9 @@
-import { CustomButton, CustomButtonLink, Text } from 'shared/components';
+import {
+  CustomButton,
+  CustomButtonLink,
+  LoadingProgressIndicator,
+  Text,
+} from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
@@ -39,11 +44,16 @@ const SubmitButton = () => {
     keyPrefix: 'yki.component.registration',
   });
   const translateCommon = useCommonTranslation();
-  const { activeStep } = useAppSelector(registrationSelector);
+  const {
+    activeStep,
+    submitRegistration: { status: submitRegistrationStatus },
+  } = useAppSelector(registrationSelector);
   const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
   const getRegistrationErrors = usePublicRegistrationErrors(true);
 
+  const isSubmitInProgress =
+    submitRegistrationStatus === APIResponseStatus.InProgress;
   const handleSubmitBtnClick = () => {
     if (activeStep === PublicRegistrationFormStep.Register) {
       dispatch(setShowErrors(true));
@@ -82,17 +92,23 @@ const SubmitButton = () => {
   };
 
   return (
-    <CustomButton
-      className="margin-top-lg"
-      size="large"
-      sx={{ width: '30rem', padding: '15px 22px' }}
-      variant={Variant.Contained}
-      color={Color.Secondary}
-      onClick={handleSubmitBtnClick}
-      data-testid="public-registration__controlButtons__submit"
+    <LoadingProgressIndicator
+      translateCommon={translateCommon}
+      isLoading={isSubmitInProgress}
     >
-      {t('controlButtons.confirm')}
-    </CustomButton>
+      <CustomButton
+        className="margin-top-lg"
+        disabled={isSubmitInProgress}
+        size="large"
+        sx={{ width: '30rem', padding: '15px 22px' }}
+        variant={Variant.Contained}
+        color={Color.Secondary}
+        onClick={handleSubmitBtnClick}
+        data-testid="public-registration__controlButtons__submit"
+      >
+        {t('controlButtons.confirm')}
+      </CustomButton>
+    </LoadingProgressIndicator>
   );
 };
 
