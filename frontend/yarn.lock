@@ -2890,7 +2890,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.23"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.24"
   languageName: unknown
   linkType: soft
 
@@ -2898,7 +2898,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.23"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.24"
   languageName: unknown
   linkType: soft
 
@@ -2990,7 +2990,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.23":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.24":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -3001,7 +3001,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
     reduxjs-toolkit-persist: ^7.2.1
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.23"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.24"
   languageName: unknown
   linkType: soft
 
@@ -3010,7 +3010,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
   dependencies:
     multer: ^1.4.5-lts.1
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.23"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.24"
   languageName: unknown
   linkType: soft
 
