@@ -39,12 +39,12 @@ public class PublicAuthService {
   }
 
   public String createCasLogoutUrl() {
-    final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.logout-url");
+    final String casLogoutUrl = environment.getRequiredProperty("app.cas-oppija.logout-url");
     final String casServiceUrl = URLEncoder.encode(
       environment.getRequiredProperty("app.cas-oppija.service-url"),
       StandardCharsets.UTF_8
     );
-    return casLoginUrl + "?service=" + casServiceUrl;
+    return casLogoutUrl + "?service=" + casServiceUrl;
   }
 
   @Transactional
