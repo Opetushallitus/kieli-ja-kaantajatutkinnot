@@ -350,7 +350,8 @@ public class ClerkTranslatorService {
       .build();
   }
 
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  //
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   private void validatePersonalData(final PersonalData personalData) {
     if (!personalData.isOnrIdAndIndividualisedInformationConsistent()) {
