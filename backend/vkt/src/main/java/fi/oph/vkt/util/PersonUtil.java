@@ -6,7 +6,7 @@ import fi.oph.vkt.model.Person;
 public class PersonUtil {
 
   public static PublicPersonDTO createPublicPersonDTO(final Person person) {
-     return PublicPersonDTO
+    return PublicPersonDTO
       .builder()
       .id(person.getId())
       .lastName(person.getLastName())
