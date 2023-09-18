@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Person;
@@ -209,8 +210,8 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/info")
-  public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson(SessionUtil.getPersonId(session));
+  public PublicPersonDTO authInfo(final HttpSession session) {
+    return publicPersonService.getPersonDTO(SessionUtil.getPersonId(session));
   }
 
   @GetMapping(path = "/auth/logout")
