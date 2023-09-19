@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -145,7 +144,7 @@ class PublicTranslatorServiceTest {
   private void assertThoseHavingEmailAreFirstInTheList(final List<PublicTranslatorDTO> translators) {
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     Boolean previousHadEmail = null;
-    for (PublicTranslatorDTO t : translators) {
+    for (final PublicTranslatorDTO t : translators) {
       final Translator translator = translatorRepository.getReferenceById(t.id());
       final boolean hasEmail = personalDatas.get(translator.getOnrId()).getEmail() != null;
       if (previousHadEmail != null && (!previousHadEmail && hasEmail)) {
@@ -306,7 +305,7 @@ class PublicTranslatorServiceTest {
 
   private void createVariousTranslators(final MeetingDate meetingDate) {
     int i = 0;
-    ArrayList<Translator> translators = new ArrayList<Translator>();
+    final ArrayList<Translator> translators = new ArrayList<Translator>();
     // Term active
     translators.add(createTranslator(meetingDate, LocalDate.now(), LocalDate.now().plusDays(1), true, true, i++));
 
@@ -372,14 +371,14 @@ class PublicTranslatorServiceTest {
     return translator;
   }
 
-  private void createOnrServiceResponse(List<Translator> translators) {
-    Map<String, PersonalData> personalDatas = translators
+  private void createOnrServiceResponse(final List<Translator> translators) {
+    final Map<String, PersonalData> personalDatas = translators
       .stream()
       .collect(
         Collectors.toMap(
           Translator::getOnrId,
           t -> {
-            int i = Integer.parseInt(t.getOnrId());
+            final int i = Integer.parseInt(t.getOnrId());
             return PersonalData
               .builder()
               .firstName("Etu" + i)

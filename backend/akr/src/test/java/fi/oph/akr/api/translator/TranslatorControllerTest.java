@@ -186,7 +186,7 @@ class TranslatorControllerTest {
     return data;
   }
 
-  private ResultActions postContactRequest(JSONObject data) throws Exception {
+  private ResultActions postContactRequest(final JSONObject data) throws Exception {
     return mockMvc.perform(
       post("/api/v1/translator/contact-request")
         .contentType(MediaType.APPLICATION_JSON)

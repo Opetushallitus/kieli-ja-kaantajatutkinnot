@@ -241,7 +241,7 @@ public class ClerkTranslatorService {
 
   public ClerkTranslatorDTO getTranslatorWithoutAudit(final long translatorId) {
     // This could be optimized, by fetching only one translator and it's data, but is it worth of the programming work?
-    for (ClerkTranslatorDTO t : listTranslatorsWithoutAudit().translators()) {
+    for (final ClerkTranslatorDTO t : listTranslatorsWithoutAudit().translators()) {
       if (t.id() == translatorId) {
         return t;
       }
@@ -272,7 +272,7 @@ public class ClerkTranslatorService {
   @Transactional
   public void migrateAllTranslators() {
     final List<Translator> translators = translatorRepository.findExistingTranslators();
-    for (Translator translator : translators) {
+    for (final Translator translator : translators) {
       migrateTranslator(translator.getId());
     }
   }
@@ -280,14 +280,14 @@ public class ClerkTranslatorService {
   @Transactional
   public void migrateTranslator(final long translatorId) {
     final Translator translator = translatorRepository.getReferenceById(translatorId);
-    if (translator == null || translator.getOnrId() != null || translator.getIdentityNumber() == null) {
+    if (translator.getOnrId() != null || translator.getIdentityNumber() == null) {
       // wrong translator_id or translator is already connected with ONR or HETU is missing
       return;
     }
 
     final String identityNumber = translator.getIdentityNumber();
     try {
-      Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
+      final Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
       if (optPersonalData.isPresent()) {
         // the translator exists in ONR => 1) add his address to ONR 2) add his onr_id to AKR
         final PersonalData personalDataFromOnr = optPersonalData.get();
@@ -322,7 +322,7 @@ public class ClerkTranslatorService {
         translator.setOnrId(onrId);
         translatorRepository.flush();
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       // Translator is not in ONR => create a new record
       final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
       final String onrId = onrService.insertPersonalData(personalDataWithAkrData);

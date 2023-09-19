@@ -62,8 +62,7 @@ public class ContactRequestService {
       .map(t -> {
         // TODO: M.S. after migration is done use:
         //final PersonalData personalData = personalDatas.get(t.getOnrId());
-        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
-        return personalData;
+        return MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
       })
       .collect(Collectors.toCollection(ArrayList::new));
 
@@ -203,7 +202,7 @@ public class ContactRequestService {
     createEmail(requesterName, requesterEmail, subject, body, EmailType.CONTACT_REQUEST_REQUESTER);
   }
 
-  private void sendClerkEmail(final List<Translator> translators, ContactRequestDTO contactRequestDTO) {
+  private void sendClerkEmail(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     final List<Map<String, String>> translatorParams = translators
       .stream()

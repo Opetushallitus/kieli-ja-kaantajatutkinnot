@@ -9,7 +9,7 @@ public class CyclicIterable<T> implements Iterable<T> {
 
   private int index = 0;
 
-  public CyclicIterable(List<T> coll) {
+  public CyclicIterable(final List<T> coll) {
     this.coll = coll;
   }
 

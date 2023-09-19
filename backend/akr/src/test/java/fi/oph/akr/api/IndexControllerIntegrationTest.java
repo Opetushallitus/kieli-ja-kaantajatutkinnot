@@ -90,7 +90,7 @@ class IndexControllerIntegrationTest {
       .map(url -> {
         try {
           return readNonceFromCSPHeader(mockMvc.perform(get(url)).andReturn());
-        } catch (Exception e) {
+        } catch (final Exception e) {
           throw new RuntimeException(e);
         }
       })
@@ -125,7 +125,8 @@ class IndexControllerIntegrationTest {
     expectedIndexHtml = templateEngine.process(expectedIndexHtmlTemplate, ctx);
   }
 
-  private void assertGetContent(String url, String expectedContentType, String expectedContent) throws Exception {
+  private void assertGetContent(final String url, final String expectedContentType, final String expectedContent)
+    throws Exception {
     mockMvc
       .perform(get(url))
       .andExpect(status().isOk())

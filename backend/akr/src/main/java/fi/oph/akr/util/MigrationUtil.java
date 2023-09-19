@@ -6,7 +6,7 @@ import fi.oph.akr.onr.model.PersonalData;
 // Temporary code until the AKR dabase is not fully migrated into the new one
 public class MigrationUtil {
 
-  public static PersonalData get(PersonalData personalData, Translator translator) {
+  public static PersonalData get(final PersonalData personalData, final Translator translator) {
     if (personalData != null) {
       return personalData;
     }

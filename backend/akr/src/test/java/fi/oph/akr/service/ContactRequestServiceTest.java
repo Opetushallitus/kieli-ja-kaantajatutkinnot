@@ -126,8 +126,8 @@ class ContactRequestServiceTest {
 
     final ContactRequestDTO contactRequestDTO = createContactRequestDTO(translatorIds, FROM_LANG, TO_LANG);
 
-    ContactRequest contactRequest = contactRequestService.createContactRequest(contactRequestDTO);
-    List<ContactRequestTranslator> contactRequestTranslators = contactRequestTranslatorRepository.findAll();
+    final ContactRequest contactRequest = contactRequestService.createContactRequest(contactRequestDTO);
+    final List<ContactRequestTranslator> contactRequestTranslators = contactRequestTranslatorRepository.findAll();
 
     assertEquals(contactRequestDTO.firstName(), contactRequest.getFirstName());
     assertEquals(contactRequestDTO.lastName(), contactRequest.getLastName());
@@ -341,7 +341,7 @@ class ContactRequestServiceTest {
   }
 
   private List<Long> initTranslators(final MeetingDate meetingDate, final int size) {
-    List<Long> translatorIds = new ArrayList<>();
+    final List<Long> translatorIds = new ArrayList<>();
 
     final Map<String, PersonalData> personalDatas = new HashMap<String, PersonalData>();
     IntStream
