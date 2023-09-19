@@ -1,4 +1,5 @@
 export enum APIEndpoints {
+  CancelRegistration = '/yki/api/registration/:registrationId/cancel',
   CountryCodes = '/yki/api/code/maatjavaltiot2',
   ExamSessions = '/yki/api/exam-session',
   ExamSession = '/yki/api/exam-session/:examSessionId',

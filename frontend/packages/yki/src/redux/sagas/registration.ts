@@ -12,12 +12,16 @@ import {
 } from 'interfaces/publicRegistration';
 import { storeExamSession } from 'redux/reducers/examSession';
 import {
+  acceptCancelRegistration,
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
+  cancelRegistration,
   initRegistration,
   RegistrationState,
+  rejectCancelRegistration,
   rejectPublicRegistrationInit,
   rejectPublicRegistrationSubmission,
+  resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
@@ -94,7 +98,27 @@ function* submitRegistrationFormSaga() {
   }
 }
 
+function* cancelRegistrationSaga() {
+  try {
+    const { registration }: RegistrationState = yield select(
+      registrationSelector
+    );
+    yield call(
+      axiosInstance.post,
+      APIEndpoints.CancelRegistration.replace(
+        /:registrationId/,
+        `${registration.id}`
+      )
+    );
+    yield put(acceptCancelRegistration());
+    yield put(resetPublicRegistration());
+  } catch (error) {
+    yield put(rejectCancelRegistration());
+  }
+}
+
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
   yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
+  yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }
