@@ -281,6 +281,7 @@ const adminUser = {
     ],
     lang: 'fi',
   },
+  'auth-method': 'CAS'
 };
 
 /*
@@ -296,6 +297,7 @@ const organizerUser = {
     ],
     lang: 'fi',
   },
+  'auth-method': 'CAS'
 };
 */
 
