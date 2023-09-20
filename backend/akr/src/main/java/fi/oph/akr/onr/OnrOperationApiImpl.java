@@ -6,6 +6,7 @@ import fi.oph.akr.config.Constants;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.PersonalDataDTO;
 import fi.oph.akr.onr.model.PersonalData;
+import fi.oph.akr.util.MigrationUtil;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,15 @@ import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 @RequiredArgsConstructor
 public class OnrOperationApiImpl implements OnrOperationApi {
+
+  private static final Logger LOG = LoggerFactory.getLogger(OnrOperationApiImpl.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -128,6 +133,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     if (response.getStatusCode() == HttpStatus.CREATED.value()) {
       return response.getResponseBody();
     } else {
+      // TODO: M.S. after migration is done delete below lines:
+      LOG.info("Error code {} from ONR", response.getStatusCode());
+      LOG.info("Error  from ONR with body: {}", response.getResponseBody());
+      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
   }
@@ -145,6 +154,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     final Response response = onrClient.executeBlocking(request);
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
+      // TODO: M.S. after migration is done delete below lines:
+      LOG.info("Error code {} from ONR", response.getStatusCode());
+      LOG.info("Error  from ONR with body: {}", response.getResponseBody());
+      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
   }
@@ -161,7 +174,12 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     personalDataDTO.setLastName(personalData.getLastName());
     personalDataDTO.setFirstName(personalData.getFirstName());
     personalDataDTO.setNickName(personalData.getNickName());
-    personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
+    // TODO: M.S. after migration is done return to simple setIdentityNumber without if-clause:
+    if (personalData.getIdentityNumber() != MigrationUtil.NO_VALID_IDENTITY_NUMBER_MARK) {
+      personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
+    }
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    //personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
     personalDataDTO.setIndividualised(personalData.getIndividualised());
     personalDataDTO.setContactDetailsGroups(contactDetailsGroups);
     return personalDataDTO;

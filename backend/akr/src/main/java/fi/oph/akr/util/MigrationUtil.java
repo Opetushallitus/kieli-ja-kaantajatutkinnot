@@ -6,6 +6,15 @@ import fi.oph.akr.onr.model.PersonalData;
 // Temporary code until the AKR dabase is not fully migrated into the new one
 public class MigrationUtil {
 
+  public static final String NO_VALID_IDENTITY_NUMBER_MARK = "ei oikeata hetua";
+
+  public static String getMockedIdentiyNumberIfNotCorrect(final String identityNumber) {
+    if (identityNumber.length() < 11) { // either new form 130711A933Y or old form 301171-960H
+      return NO_VALID_IDENTITY_NUMBER_MARK;
+    }
+    return identityNumber;
+  }
+
   public static PersonalData get(final PersonalData personalData, final Translator translator) {
     if (personalData != null) {
       return personalData;

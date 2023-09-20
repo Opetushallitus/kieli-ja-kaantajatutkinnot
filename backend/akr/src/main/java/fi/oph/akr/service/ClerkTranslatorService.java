@@ -302,7 +302,7 @@ public class ClerkTranslatorService {
           .lastName(personalDataFromOnr.getLastName())
           .firstName(personalDataFromOnr.getFirstName())
           .nickName(personalDataFromOnr.getNickName())
-          .identityNumber(personalDataFromOnr.getIdentityNumber())
+          .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(personalDataFromOnr.getIdentityNumber()))
           // Data from AKR
           .email(translator.getEmail())
           .phoneNumber(translator.getPhone())
@@ -340,7 +340,7 @@ public class ClerkTranslatorService {
       .lastName(translator.getLastName())
       .firstName(translator.getFirstName())
       .nickName(translator.getFirstName()) // put first names as nick names
-      .identityNumber(translator.getIdentityNumber())
+      .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(translator.getIdentityNumber()))
       .email(translator.getEmail())
       .phoneNumber(translator.getPhone())
       .street(translator.getStreet())
@@ -350,7 +350,6 @@ public class ClerkTranslatorService {
       .build();
   }
 
-  //
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   private void validatePersonalData(final PersonalData personalData) {
