@@ -104,11 +104,8 @@ function* cancelRegistrationSaga() {
       registrationSelector
     );
     yield call(
-      axiosInstance.post,
-      APIEndpoints.CancelRegistration.replace(
-        /:registrationId/,
-        `${registration.id}`
-      )
+      axiosInstance.delete,
+      APIEndpoints.Registration.replace(/:registrationId/, `${registration.id}`)
     );
     yield put(acceptCancelRegistration());
     yield put(resetPublicRegistration());

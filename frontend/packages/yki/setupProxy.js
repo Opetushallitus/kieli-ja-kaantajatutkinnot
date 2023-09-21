@@ -1357,7 +1357,7 @@ module.exports = function (app) {
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
   });
 
-  app.post('/yki/api/registration/:id/cancel', (req, res) => {
+  app.delete('/yki/api/registration/:id', (req, res) => {
     const mockCall = () => {
       try {
         res.send({ success: true });
