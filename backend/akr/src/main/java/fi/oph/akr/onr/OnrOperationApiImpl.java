@@ -6,7 +6,7 @@ import fi.oph.akr.config.Constants;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.PersonalDataDTO;
 import fi.oph.akr.onr.model.PersonalData;
-import fi.oph.akr.util.MigrationUtil;
+import fi.oph.akr.util.HetuUtils;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.util.HashMap;
 import java.util.List;
@@ -134,8 +134,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       return response.getResponseBody();
     } else {
       // TODO: M.S. after migration is done delete below lines:
-      LOG.info("Error code {} from ONR", response.getStatusCode());
-      LOG.info("Error  from ONR with body: {}", response.getResponseBody());
+      LOG.error("Error code {} from ONR", response.getStatusCode());
+      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
@@ -155,8 +155,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       // TODO: M.S. after migration is done delete below lines:
-      LOG.info("Error code {} from ONR", response.getStatusCode());
-      LOG.info("Error  from ONR with body: {}", response.getResponseBody());
+      LOG.error("Error code {} from ONR", response.getStatusCode());
+      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
@@ -174,12 +174,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     personalDataDTO.setLastName(personalData.getLastName());
     personalDataDTO.setFirstName(personalData.getFirstName());
     personalDataDTO.setNickName(personalData.getNickName());
-    // TODO: M.S. after migration is done return to simple setIdentityNumber without if-clause:
-    if (personalData.getIdentityNumber() != MigrationUtil.NO_VALID_IDENTITY_NUMBER_MARK) {
+    if (HetuUtils.hetuIsValid(personalData.getIdentityNumber())) {
       personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
     }
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    //personalDataDTO.setIdentityNumber(personalData.getIdentityNumber());
     personalDataDTO.setIndividualised(personalData.getIndividualised());
     personalDataDTO.setContactDetailsGroups(contactDetailsGroups);
     return personalDataDTO;

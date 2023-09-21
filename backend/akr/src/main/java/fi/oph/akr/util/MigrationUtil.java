@@ -6,10 +6,10 @@ import fi.oph.akr.onr.model.PersonalData;
 // Temporary code until the AKR dabase is not fully migrated into the new one
 public class MigrationUtil {
 
-  public static final String NO_VALID_IDENTITY_NUMBER_MARK = "ei oikeata hetua";
+  public static final String NO_VALID_IDENTITY_NUMBER_MARK = "ei hetua";
 
   public static String getMockedIdentiyNumberIfNotCorrect(final String identityNumber) {
-    if (identityNumber.length() < 11) { // either new form 130711A933Y or old form 301171-960H
+    if (!HetuUtils.hetuIsValid(identityNumber)) {
       return NO_VALID_IDENTITY_NUMBER_MARK;
     }
     return identityNumber;
@@ -27,7 +27,9 @@ public class MigrationUtil {
       .firstName(translator.getFirstName())
       .lastName(translator.getLastName())
       .nickName(translator.getFirstName())
-      .identityNumber(translator.getIdentityNumber() == null ? "ei tiedossa" : translator.getIdentityNumber())
+      .identityNumber(
+        translator.getIdentityNumber() == null ? NO_VALID_IDENTITY_NUMBER_MARK : translator.getIdentityNumber()
+      )
       .email(translator.getEmail())
       .phoneNumber(translator.getPhone())
       .street(translator.getStreet())

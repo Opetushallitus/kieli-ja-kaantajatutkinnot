@@ -44,6 +44,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkTranslatorService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkTranslatorService.class);
 
   private final AuthorisationRepository authorisationRepository;
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
@@ -270,59 +274,58 @@ public class ClerkTranslatorService {
 
   // TODO: M.S. after data migration is done remove the below functions
   @Transactional
-  public void migrateAllTranslators() {
+  public String migrateAllTranslators() {
     final List<Translator> translators = translatorRepository.findExistingTranslators();
+    long migrations = 0;
     for (final Translator translator : translators) {
-      migrateTranslator(translator.getId());
+      try {
+        migrateTranslator(translator.getId());
+        migrations++;
+      } catch (Exception e) {
+        LOG.error("Translator with id {} was not successfully migrated", translator.getId());
+      }
     }
+    return migrations + " traslators data were migrated";
   }
 
   @Transactional
-  public void migrateTranslator(final long translatorId) {
+  public void migrateTranslator(final long translatorId) throws Exception {
     final Translator translator = translatorRepository.getReferenceById(translatorId);
-    if (translator.getOnrId() != null || translator.getIdentityNumber() == null) {
-      // wrong translator_id or translator is already connected with ONR or HETU is missing
+    if (translator.getOnrId() != null) {
+      // wrong translator_id or translator is already connected with ONR
       return;
     }
 
     final String identityNumber = translator.getIdentityNumber();
-    try {
-      final Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
-      if (optPersonalData.isPresent()) {
-        // the translator exists in ONR => 1) add his address to ONR 2) add his onr_id to AKR
-        final PersonalData personalDataFromOnr = optPersonalData.get();
-        final String onrId = personalDataFromOnr.getOnrId();
+    final Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
+    if (optPersonalData.isPresent()) {
+      // the translator exists in ONR => 1) add his address to ONR 2) add his onr_id to AKR
+      final PersonalData personalDataFromOnr = optPersonalData.get();
+      final String onrId = personalDataFromOnr.getOnrId();
 
-        final PersonalData personalDataWithAkrData = PersonalData
-          .builder()
-          // Data from ONR
-          .onrId(onrId)
-          .individualised(personalDataFromOnr.getIndividualised())
-          .hasIndividualisedAddress(personalDataFromOnr.getHasIndividualisedAddress())
-          .lastName(personalDataFromOnr.getLastName())
-          .firstName(personalDataFromOnr.getFirstName())
-          .nickName(personalDataFromOnr.getNickName())
-          .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(personalDataFromOnr.getIdentityNumber()))
-          // Data from AKR
-          .email(translator.getEmail())
-          .phoneNumber(translator.getPhone())
-          .street(translator.getStreet())
-          .postalCode(translator.getPostalCode())
-          .town(translator.getTown())
-          .country(translator.getCountry())
-          .build();
-        onrService.updatePersonalData(personalDataWithAkrData);
+      final PersonalData personalDataWithAkrData = PersonalData
+        .builder()
+        // Data from ONR
+        .onrId(onrId)
+        .individualised(personalDataFromOnr.getIndividualised())
+        .hasIndividualisedAddress(personalDataFromOnr.getHasIndividualisedAddress())
+        .lastName(personalDataFromOnr.getLastName())
+        .firstName(personalDataFromOnr.getFirstName())
+        .nickName(personalDataFromOnr.getNickName())
+        .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(personalDataFromOnr.getIdentityNumber()))
+        // Data from AKR
+        .email(translator.getEmail())
+        .phoneNumber(translator.getPhone())
+        .street(translator.getStreet())
+        .postalCode(translator.getPostalCode())
+        .town(translator.getTown())
+        .country(translator.getCountry())
+        .build();
+      onrService.updatePersonalData(personalDataWithAkrData);
 
-        translator.setOnrId(onrId);
-        translatorRepository.flush();
-      } else {
-        // Translator is not in ONR => create a new record
-        final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
-        final String onrId = onrService.insertPersonalData(personalDataWithAkrData);
-        translator.setOnrId(onrId);
-        translatorRepository.flush();
-      }
-    } catch (final Exception e) {
+      translator.setOnrId(onrId);
+      translatorRepository.flush();
+    } else {
       // Translator is not in ONR => create a new record
       final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
       final String onrId = onrService.insertPersonalData(personalDataWithAkrData);
@@ -380,10 +383,8 @@ public class ClerkTranslatorService {
   private void copyDtoFieldsToTranslator(final TranslatorDTOCommonFields dto, final Translator translator) {
     // TODO: M.S. after data migration is done remove the below code
     // currently it is needed because these columns cannot be non-null nor non-unique
-    translator.setIdentityNumber(dto.identityNumber());
     translator.setFirstName(dto.firstName());
     translator.setLastName(dto.lastName());
-    translator.setEmail(dto.email());
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     translator.setExtraInformation(dto.extraInformation());

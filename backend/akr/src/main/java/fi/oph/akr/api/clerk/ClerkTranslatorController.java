@@ -100,12 +100,12 @@ public class ClerkTranslatorController {
 
   // TODO: M.S. after data migration is done remove the below function
   @GetMapping(path = "/migrate")
-  public void migrateAllTranslatorDatas() {
-    clerkTranslatorService.migrateAllTranslators();
+  public String migrateAllTranslatorDatas() {
+    return clerkTranslatorService.migrateAllTranslators();
   }
 
   @GetMapping(path = "/migrate/{translatorId:\\d+}")
-  public void migrateTranslatorData(@PathVariable final long translatorId) {
+  public void migrateTranslatorData(@PathVariable final long translatorId) throws Exception {
     clerkTranslatorService.migrateTranslator(translatorId);
   }
   //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
