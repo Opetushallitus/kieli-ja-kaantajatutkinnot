@@ -325,11 +325,11 @@
         "unavailable": {
           "full": {
             "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tutkinnossa ei ole vapaita paikkoja.",
-            "title": "Tutkinto on täynnä"
+            "title": "YKI-testi on täynnä"
           },
           "past": {
-            "description": "Ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
-            "title": "Ilmoittautumisaika päättynyt"
+            "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
+            "title": "Ilmoittautumisaika on päättynyt"
           },
           "upcoming": {
             "description": "Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.",

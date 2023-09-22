@@ -1,16 +1,16 @@
 import { Box, Grid, Paper } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { H1, H2, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus, Severity } from 'shared/enums';
+import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useToast, useWindowProperties } from 'shared/hooks';
 
 import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicIdentificationGrid } from 'components/registration/PublicIdentificationGrid';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicIdentificationPageSkeleton } from 'components/skeletons/PublicIdentificationPageSkeleton';
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
@@ -37,29 +37,27 @@ const ContentSelector = () => {
 };
 
 const DescribeUnavailability = ({
-  now,
-  open,
-  start,
+  descriptionPrefix,
 }: {
-  now: Dayjs;
-  open: boolean;
-  start: Dayjs;
+  descriptionPrefix: string;
 }) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.unavailable',
   });
-
-  const reasonForUnavailability = !open
-    ? now.isBefore(start)
-      ? 'upcoming'
-      : 'past'
-    : 'full';
+  const translateCommon = useCommonTranslation();
 
   return (
-    <>
-      <H2>{t(reasonForUnavailability + '.title')}</H2>
-      <Text>{t(reasonForUnavailability + '.description')}</Text>
-    </>
+    <div className="rows gapped">
+      <Text>{t(descriptionPrefix + '.description')}</Text>
+      <CustomButton
+        className="fit-content-max-width"
+        color={Color.Secondary}
+        variant={Variant.Contained}
+        href={AppRoutes.Registration}
+      >
+        {translateCommon('backToHomePage')}
+      </CustomButton>
+    </div>
   );
 };
 
@@ -74,12 +72,21 @@ const RegistrationNotAvailable = () => {
   const { open, availableQueue, start } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
   const now = dayjs();
+  const reasonForUnavailability = !open
+    ? now.isBefore(start)
+      ? 'upcoming'
+      : 'past'
+    : 'full';
 
   return (
     <Grid className="public-registration" item>
       <div className="public-registration__grid">
         <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
-          <H1>{availableQueue ? t('enrollToQueue.header') : t('header')}</H1>
+          <H1>
+            {availableQueue
+              ? t('enrollToQueue.header')
+              : t(`unavailable.${reasonForUnavailability}.title`)}
+          </H1>
           <HeaderSeparator />
         </div>
         <Paper elevation={isPhone ? 0 : 3}>
@@ -92,7 +99,9 @@ const RegistrationNotAvailable = () => {
               {availableQueue ? (
                 <EnrollToQueue />
               ) : (
-                <DescribeUnavailability now={now} open={open} start={start} />
+                <DescribeUnavailability
+                  descriptionPrefix={reasonForUnavailability}
+                />
               )}
             </div>
           </div>
