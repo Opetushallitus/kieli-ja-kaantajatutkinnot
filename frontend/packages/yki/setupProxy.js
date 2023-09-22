@@ -1140,7 +1140,11 @@ module.exports = function (app) {
           (e) => e.id === Number(req.params.id)
         );
         res.set('Content-Type', 'application/json; charset=utf-8');
-        res.send(session);
+        if (session) {
+          res.send(session);
+        } else {
+          res.status(404).send("Exam session not found");
+        }
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);
