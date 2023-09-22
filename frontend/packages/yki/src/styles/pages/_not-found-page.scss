@@ -1,10 +1,6 @@
 .not-found-page {
   flex: 1;
 
-  &__btn {
-    max-width: fit-content;
-  }
-
   & &__info {
     display: flex;
     flex-direction: column;

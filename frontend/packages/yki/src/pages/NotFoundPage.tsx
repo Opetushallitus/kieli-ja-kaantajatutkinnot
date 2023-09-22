@@ -23,7 +23,7 @@ export const NotFoundPage: FC = () => {
       <Paper elevation={isPhone ? 0 : 3} className="not-found-page__info">
         <Text>{t('description')}</Text>
         <CustomButton
-          className="not-found-page__btn"
+          className="fit-content-max-width"
           color={Color.Secondary}
           variant={Variant.Contained}
           href={AppRoutes.Registration}
