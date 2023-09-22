@@ -46,10 +46,10 @@
           "info": null
         },
         "selectExaminationParts": {
-          "heading": null,
+          "heading": "Välj delprov ",
           "selectAtLeastOne": null,
-          "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras",
-          "sumTotal": null
+          "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras*",
+          "sumTotal": "Priset på kontrollbedömningen totalt"
         }
       },
       "footer": {
@@ -83,11 +83,11 @@
         }
       },
       "publicEvaluationPeriodListing": {
-        "evaluationPeriodNotYetOpen": null,
+        "evaluationPeriodNotYetOpen": "Begär om kontrollbedömning från och med {{- startDate}}",
         "header": {
-          "evaluationPeriod": null
+          "evaluationPeriod": "Möjligt att begära om kontrollbedömning"
         },
-        "heading": null,
+        "heading": "Välj testet som du vill begära om kontrollbedömning av",
         "requestReassessment": "Gör en begäran om kontrollbedömning"
       },
       "registration": {
@@ -374,31 +374,25 @@
       "reassessmentPage": {
         "info": {
           "general": {
-            "body1": null,
-            "body2": null,
-            "body3": null,
-            "heading": null
+            "body1": "Vid kontrollbedömning bedöms din examensprestation om. Kontrollbedömningen genomförs av andra bedömare än de som genomförde den första bedömningen.",
+            "body2": "Kontrollbedömningen ändrar sällan vitsordet för delprovet. Läs mer på Utbildningsstyrelsens webbsidor: ",
+            "body3": "I kontrollbedömningen bedöms endast prestationen, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
+            "heading": "Vad är en kontrollbedömning?",
+            "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning"
           },
           "pricing": {
-            "body1": null,
-            "body2": null,
-            "body3": null,
-            "body4": null,
-            "heading": null
-          },
-          "schedule": {
-            "body1": null,
-            "body2": null,
-            "body3": null,
-            "body4": null,
-            "heading": null
+            "body1": "Det är möjligt att begära om kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömningen är 50 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
+            "body2": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få bedömningsresultatet. I tabellen nedan kan du kontrollera när du kan begära om kontrollbedömning av din examensprestation. I slutet av sidan finns en lista på testdagar som du kan begära om kontrollbedömning för tillfället.",
+            "body3": "Behandlingstiden för ärendet är i genomsnitt tre månader. Beslutet skickas per e-post.",
+            "body4": "Avgiften återbetalas om bedömningen av delprovet ändrar i samband med kontrollbedömningen.",
+            "heading": "Att begära om och betala kontrollbedömning"
           }
         },
         "introduction": {
-          "fee": null,
-          "info": null
+          "info": "Kontrollbedömning ger dig möjligheten att begära om omprövning om du inte är nöjd med bedömningen av din examensprestation. Begäran om omprövning betyder kontrollbedömning av ditt YKI-test. Du kan skicka begäran om kontrollbedömning på den här sidan.",
+          "timeLimit": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få bedömningsresultatet."
         },
-        "title": null
+        "title": "Allmänna språkexamina (YKI) - Kontrollbedömning"
       },
       "registrationPage": {
         "abortDialog": {

@@ -10,6 +10,15 @@
         "dateTimeFormat": "l [kl.] HH:mm"
       },
       "error": "Ett oväntat fel uppstod.",
+      "examDate": "Testdag",
+      "examParts": {
+        "readingComprehension": "Textförståelse",
+        "speaking": "Tal",
+        "speechComprehension": "Talförståelse",
+        "writing": "Skrivning"
+      },
+      "examSession": "Test",
+      "examination": "Test",
       "gender": {
         "female": "Kvinna",
         "male": "Man",

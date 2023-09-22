@@ -374,29 +374,23 @@
       "reassessmentPage": {
         "info": {
           "general": {
-            "body1": "Tarkistusarviointi on Yleisiä kielitutkintoja koskevan lain (964/2004, 13 §) tarjoama mahdollisuus pyytää suorituksesi uudelleen arviointia siinä tapauksessa, että et ole tyytyväinen siihen, miten tekemäsi tutkintosuoritus on arvioitu.",
-            "body2": "Tarkistusarviointi on ainoa toimenpide, jolla voit ehkä saada muutettua suorituksesi tulosta.",
-            "body3": "Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet suorituksesi ensimmäisellä kerralla. Tarkistusarvioinnissa arvioidaan vain suoritusta, eikä muita seikkoja oteta huomioon. Tarkistusarviointia koskevaan päätökseen ei saa hakea muutosta valittamalla.",
-            "heading": "Tarkistusarvioinnista"
+            "body1": "Tarkistusarvioinnissa testivastauksesi arvioidaan uudelleen. Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet testisi ensimmäisellä kerralla.",
+            "body2": "Tarkistusarviointi muuttaa osakokeen taitotasoarviota vain harvoin. Katso tarkistusarviointitilastot Opetushallituksen verkkosivuilta: ",
+            "body3": "Tarkistusarvioinnissa arvioidaan vain testivastauksiasi. Siinä ei oteta huomioon mitään muita asioita, jotka ovat voineet vaikuttaa testin tulokseen. Et voi valittaa tarkistusarvioinnin päätöksestä.",
+            "heading": "Mitä tarkistusarvioinnissa tehdään?",
+            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-tarkistusarviointi"
           },
           "pricing": {
-            "body1": "Tarkistusarviointia voi pyytää joko yhdestä tai useammasta osakokeesta.",
-            "body2": "Jokaisen osakokeen tarkistusarviointi maksaa 50 euroa:",
-            "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
-            "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
-            "heading": "Hinnasto"
-          },
-          "schedule": {
-            "body1": "Voit pyytää suorituksesi tarkistusarviointia 14 päivän kuluessa siitä ajankohdasta, kun sinulla on ollut tilaisuus saada arvioinnin tulos.",
-            "body2": "Tarkasta aika, milloin voit pyytää tutkintosuorituksesi tarkistusarviointia, alla olevasta Tutkinnot-taulukosta.",
-            "body3": "Käsittelyaika on keskimäärin kolme kuukautta.",
-            "body4": "Päätös lähetetään sähköpostitse.",
-            "heading": "Aikataulu"
+            "body1": "Voit pyytää tarkistusarviointia yhdestä tai useammasta osakokeesta. Yhden osakokeen tarkistusarviointi maksaa 50 euroa. Sinun täytyy maksaa tarkistusarviointimaksu heti kun teet tarkistusarviointipyynnön. Käsittelemme vain maksetut pyynnöt.",
+            "body2": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos. Tämän sivun lopussa on lista testipäivistä, joista voit pyytää tarkistusarviointia tällä hetkellä.",
+            "body3": "Tarkistusarviointien käsittelyaika on noin kolme kuukautta. Lähetämme päätöksen tarkistusarvioinnista sähköpostitse.",
+            "body4": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
+            "heading": "Tarkistusarvioinnin pyytäminen ja maksaminen"
           }
         },
         "introduction": {
-          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen.",
-          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta.\nVoit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos."
+          "info": "Voit tehdä oikaisuvaatimuspyynnön, jos et ole tyytyväinen YKI-testisi arviointiin. Oikaisuvaatimuspyyntö tarkoittaa YKI-testisi tarkistusarviointia. Voit jättää tarkistusarviointipyynnön tällä sivulla.",
+          "timeLimit": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos."
         },
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },
