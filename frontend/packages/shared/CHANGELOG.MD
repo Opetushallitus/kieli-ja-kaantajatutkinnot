@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.25] - 2023-09-22
+
+### Added
+
+- New class `.fit-content-max-width`
+
 ## [1.9.24] - 2023-09-13
 
 ### Changed
