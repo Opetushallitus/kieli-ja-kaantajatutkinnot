@@ -375,6 +375,10 @@
         "heading": "Uloskirjautuminen onnnistui",
         "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
       },
+      "notFoundPage": {
+        "description": "Tarkista hakemasi osoite tai palaa aloitussivulle.",
+        "title": "Sivua ei löytynyt"
+      },
       "reassessmentPage": {
         "info": {
           "general": {

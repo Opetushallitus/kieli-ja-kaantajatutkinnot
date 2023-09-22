@@ -15,6 +15,7 @@ import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
 import { LogoutSuccess } from 'pages/LogoutSuccess';
+import { NotFoundPage } from 'pages/NotFoundPage';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
@@ -83,6 +84,7 @@ export const AppRouter: FC = () => {
                 path={AppRoutes.LogoutSuccess}
                 element={<LogoutSuccess />}
               />
+              <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
             </Routes>
           </div>
         </main>
