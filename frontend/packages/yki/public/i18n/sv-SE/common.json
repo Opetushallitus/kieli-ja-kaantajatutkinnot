@@ -49,6 +49,16 @@
       "level": "Nivå",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "price": "Pris",
+      "privacyStatement": {
+        "description": "Vi följer EUs allmänna dataskyddsförordningen i behandling av personuppgifter.",
+        "grantApproval": "Jag godkänner villkoren för anmälan. *",
+        "link": {
+          "label": "Information om behandlingen av personuppgifter (oph.fi)",
+          "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-information-om-behandlingen-av-personuppgifter"
+        },
+        "readConditions": "Läs villkoren för behandling av personuppgifter på Utbildningsstyrelsens webbsidor:",
+        "title": "Villkoren för behandling av personuppgifter"
+      },
       "reassessment": "Kontrollbedömning",
       "registration": "Anmälning"
     }
