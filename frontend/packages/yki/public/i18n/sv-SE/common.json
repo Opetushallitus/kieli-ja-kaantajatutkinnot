@@ -18,6 +18,7 @@
       },
       "header": {
         "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "lang": {

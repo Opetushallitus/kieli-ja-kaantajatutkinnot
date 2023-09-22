@@ -1,15 +1,460 @@
 {
   "yki": {
-    "pages": {
-      "registrationPage": {
-        "labels": {
-          "filterExamSessions": "Filtrera examenstillfällen",
-          "excludeFullSessions": "Visa endast examenstillfällen med ledigt utrymme",
-          "excludeNonOpenSessions": "Visa endast de examenstillfällen som nu är lediga"
+    "component": {
+      "evaluationOrderForm": {
+        "actionButtons": {
+          "cancel": "Annulera",
+          "pay": "Betala"
         },
-        "title": "Allmänna språkexamina (YKI) - Anmälning",
+        "errorDialog": {
+          "errors": {
+            "acceptConditions": "Godkänn villkoren för behandling av personuppgifter",
+            "birthdate": "Födelsedatum",
+            "email": "E-postadress",
+            "firstNames": "Förnamn",
+            "lastName": "Efternamn",
+            "noExaminationPartsSelected": "Välj minst ett delprov."
+          },
+          "fixErrors": "Fyll i uppgifter som saknas eller korrigera felaktiga uppgifter.",
+          "title": "Felaktiga uppgifter!"
+        },
+        "fillParticipantDetails": {
+          "errors": {
+            "invalidBirthdate": "Felaktig födelsedatum. Ange i formatet dd.mm.åååå."
+          },
+          "instructions": "Fyll i uppgifterna om deltagaren som begär om kontrollbedömning.",
+          "heading": "Deltagarens uppgifter",
+          "labels": {
+            "birthdate": "Födelsedatum",
+            "email": "E-postadress",
+            "firstNames": "Förnamn",
+            "lastName": "Efternamn"
+          },
+          "placeholders": {
+            "birthdate": "Skriv i formatet dd.mm.åååå.",
+            "email": "Till exempel nimi@sahkoposti.fi",
+            "firstNames": "",
+            "lastName": ""
+          }
+        },
+        "info": {
+          "refundIfChangeInEvaluation": "Avgiften återbetalas om bedömningen av delprovet ändrar i samband med kontrollbedömningen.",
+          "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska."
+        },
+        "renderEvaluationDetails": {
+          "heading": "Uppgifter om examen",
+          "info": null
+        },
+        "selectExaminationParts": {
+          "heading": null,
+          "selectAtLeastOne": null,
+          "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras",
+          "sumTotal": null
+        }
+      },
+      "footer": {
+        "address": {
+          "name": "Utbildningsstyrelsen",
+          "phone": {
+            "number": "+358 29 533 1000",
+            "title": "Telefon"
+          },
+          "street": "Hagnäskajen 6",
+          "zipCity": "PB 380, 00531 Helsingfors"
+        },
+        "headings": {
+          "contacts": "Kontaktuppgifter",
+          "info": "Mera information om Allmänna språkexamina (YKI)",
+          "statements": "Utlåtanden och direktiv"
+        },
+        "links": {
+          "accessibility": {
+            "text": "Tillgänglighetsdirektiv"
+          },
+          "contact": {
+            "title": ""
+          },
+          "privacy": {
+            "text": "Information om behandlingen av personuppgifter"
+          },
+          "ykiHomepage": {
+            "text": "Webbplatsen för allmänna språkexamina (YKI) (oph.fi)"
+          }
+        }
+      },
+      "publicEvaluationPeriodListing": {
+        "evaluationPeriodNotYetOpen": null,
+        "header": {
+          "evaluationPeriod": null
+        },
+        "heading": null,
+        "requestReassessment": "Gör en begäran om kontrollbedömning"
+      },
+      "registration": {
+        "controlButtons": {
+          "abortRegistration": "Avbryt anmälan",
+          "confirm": "Skicka"
+        },
+        "enrollToQueue": {
+          "dialog": {
+            "emailAlreadyQueued": {
+              "description": "Du har redan tidigare beställt en avisering om lediga platser i testet till din e-post.",
+              "title": "Beställning missllyckades"
+            },
+            "genericError": {
+              "description": "Ett oväntat fel har uppstått. Vänligen försök på nytt.",
+              "title": "Beställning missllyckades"
+            },
+            "inputError": {
+              "description": "Kontrollera din e-postadress",
+              "title": "Felaktiga uppgifter!"
+            }
+          },
+          "header": "Beställ en avisering om lediga platser",
+          "info": {
+            "part1": "Det finns inga lediga platser i det här testet just nu. Du kan beställa en avisering om lediga platser.",
+            "part2": "Ange din e-postadress om du vill beställa en avisering om lediga platser i testet."
+          },
+          "inputs": {
+            "confirmEmail": {
+              "description": "Skriv din e-postadress på nytt",
+              "heading": "Bekräfta din e-postadress"
+            },
+            "email": {
+              "description": "Till exempel nimi@sahkoposti.fi",
+              "heading": "Skriv din e-postadress"
+            },
+            "submit": {
+              "label": "Beställ en avisering"
+            }
+          },
+          "success": {
+            "heading": "Beställning lyckades!",
+            "info": "Du får en avisering till adressen [sähköpostiosoite] i fall det  blir lediga platser."
+          }
+        },
+        "examSessionDetails": {
+          "exam": "Test",
+          "examFee": "Examensavgift",
+          "openings": "Lediga platser",
+          "registrationTime": "Anmälningstiden"
+        },
+        "header": "Anmäl dig till en allmän språkexamen (YKI)",
+        "paymentSum": {
+          "title": "Examensavgift"
+        },
+        "registrationButtonLabels": {
+          "full": "Fullbokat",
+          "orderCancellationNotification": "Beställ en avisering om lediga platser",
+          "periodNotOpen": "Anmälan har inte börjat",
+          "register": "Anmäl dig"
+        },
+        "registrationUnavailable": {
+          "admissionOpensOn": "Anmälan börjar {{- startDate}}",
+          "admissionPeriodIsClosed": "Anmälan har slutat",
+          "examSessionIsFull": "Testet är fullbokat"
+        },
+        "registrationDetails": {
+          "certificateLanguage": "På vilket språk vill du ha intyget? *",
+          "description1": "Fyll i YKI- anmälningsblankketten med testdeltagarens uppgifter.",
+          "description2": "För- och efternamn måste stavas på samma sätt som på deltagarens officiella identitetsbevis.",
+          "errors": {
+            "fields": {
+              "address": "Gatuadress",
+              "certificateLanguage": "Välj språket på intyget",
+              "dateOfBirth": "Födelsedatum",
+              "email": "E-postadress",
+              "emailConfirmation": "Bekräfta din e-postadress",
+              "firstNames": "Förnamn",
+              "gender": "Kön",
+              "hasSSN": "Har du en finsk personbeteckning?",
+              "instructionLanguage": "Välj språket på uppgifter",
+              "lastName": "Efternamn",
+              "nationality": "Nationalitet",
+              "phoneNumber": "Telefonnummer",
+              "postNumber": "Postnummer",
+              "postOffice": "Postanstalt",
+              "privacyStatementConfirmation": "Godkänn villkoren för behandling av personuppgifter",
+              "ssn": "Personbeteckning",
+              "termsAndConditionsAgreed": "Godkänn villkoren för anmälan"
+            },
+            "fixErrors": "Fyll i uppgifter som saknas eller korrigera felaktiga uppgifter:",
+            "title": "Felaktiga uppgifter!"
+          },
+          "labels": {
+            "address": "Gatuadress",
+            "dateOfBirth": "Födelsedatum",
+            "email": "E-postadress",
+            "emailConfirmation": "Bekräfta din e-postadress",
+            "firstNames": "Förnamn",
+            "gender": "Kön",
+            "lastName": "Efternamn",
+            "nationality": "Nationalitet",
+            "phoneNumber": "Telefonnummer",
+            "postNumber": "Postnummer",
+            "postOffice": "Postanstalt",
+            "ssn": "Personbeteckning"
+          },
+          "placeholders": {
+            "address": "",
+            "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
+            "email": "Till exempel nimi@sahkoposti.fi",
+            "emailConfirmation": "Skriv din e-postadress på nytt",
+            "firstNames": "",
+            "gender": "Välj kön",
+            "lastName": "",
+            "nationality": "Välj nationalitet",
+            "phoneNumber": "Skriv i formatet +358 50 123 4567",
+            "postNumber": "",
+            "postOffice": ""
+          },
+          "finnishSSN": "Har du en finsk personbeteckning? *",
+          "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna?",
+          "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska.",
+          "ssn": "Personbeteckning",
+          "termsAndConditions": {
+            "description1": "Anmälan till YKI-testet är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
+            "description2": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå.",
+            "label": "Jag godkänner villkoren för anmälan *",
+            "title": "Villkoren för anmälan"
+          },
+          "title": "Skriv dina uppgifter",
+          "whatsNext": {
+            "description": "Efter att du skickat din anmälningsblankett får du ett e-postmeddelande med en länk till betalningen av examensavgift. Anmälning är bekräftat först då du har betalat examensavgiften.",
+            "title": "Vad händer sen?"
+          }
+        },
+        "registrationFormSubmitted": {
+          "proceedToPayment": {
+            "confirmation": "Du har skickat anmälningsblanketten för YKI test",
+            "dueDateReminder": {
+              "text1": "<strong>Important!</strong> E-postmeddelandet innehåller även den sista dagen du kan betala examensavgiften.",
+              "text2": "Betala i tid så du kan delta i YKI-testet."
+            },
+            "paymentLinkEmail": {
+              "text1": "Du får ett e-postmeddelande med en betalningslänk.",
+              "text2": "Meddelandet kommer från adressen noreply@opintopolku.fi.",
+              "text3": "Anmälan är bekräftad först då du har betalt examensavgiften."
+            },
+            "title": "Bekräfta anmälan genom att betala examensavgiften."
+          }
+        },
+        "stepper": {
+          "active": "Aktiv",
+          "completed": "Färdig",
+          "paymentAborted": "Betalningen kunde inte genomföras",
+          "phase": "Fas",
+          "step": {
+            "Done": "Färdig",
+            "Identify": "Identifiera dig",
+            "Payment": "Betalning",
+            "Register": "Anmäl dig"
+          },
+          "welcomeToExam": "Välkommen till YKI-test"
+        },
+        "steps": {
+          "identify": {
+            "caption": "Du ska identifiera dig för att anmäla dig till YKI-test. Använd den persons uppgifter som deltar i YKI-testet.",
+            "emailButtonText": "Identifiera dig med din e-post",
+            "emailError": "Felaktig e-postadress",
+            "emailInput": {
+              "label": "Skriv din e-postadress",
+              "placeholder": "Till exempel nimi@sahkoposti.fi"
+            },
+            "emailLink": {
+              "error": "Identifieringen misslyckades. Du kan försöka på nytt.",
+              "incorrectEmailDialog": {
+                "title": "Begäran misslyckades",
+                "description": "Kontrollera din e-postadress"
+              },
+              "success": "Anmälningslänken har skickats till:"
+            },
+            "registrationIsBindingAdvisory": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå. Anmälan till YKI-testet är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
+            "selectIdentificationMethod": "Välj din identifieringsmetod",
+            "suomiFiButtonText": "Identifiera dig via suomi.fi -tjänsten",
+            "title": "Identifiera dig för anmälan",
+            "withFinnishSSN": {
+              "description": "<strong>Identifiera dig via suomi.fi -tjänsten</strong>",
+              "info": "Efter indentifiering styrs du automatiskt till anmälningsblanketten"
+            },
+            "withoutFinnishSSN": {
+              "description": "<strong>Om du inte kan använda Suomi.fi-identifikationen</strong>, identiera dig med din e-post.",
+              "info": "Efter att du har identifierat dig får du en länk till anmälningsblanketten till din e-post"
+            }
+          },
+          "payment": {
+            "cancel": {
+              "description": "Anmälning är bekräftat först då du har betalat examensavgiften.",
+              "heading": "Betalningen kunde inte genomföras",
+              "title": "Du har avbrytit betalningen"
+            },
+            "error": {
+              "description": "Du kan försöka betala på nytt. Anmälning är bekräftat först då du har betalat examensavgiften.",
+              "heading": "Betalningsfel",
+              "title": "Det har uppstått ett fel i betalningen"
+            },
+            "success": {
+              "whatsNext": {
+                "beforeYkiTest": {
+                  "description": "Förbereda dig till YKI-testet genom att läsa deltagarens anvisningar på Utbildningsstyrelsens webbsidor:",
+                  "label": "Före YKI-testdagen (oph.fi)",
+                  "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
+                },
+                "part1": "Anmälan lyckades! Du får snart en bekräftelse om din anmälan per e-post.",
+                "part2": "Din testställe skickar senare per e-post närmare anvisningar om testdagen.",
+                "part3": "I anvisningarna får du veta bland annat testplatsens exakta läge och klockslaget då testet börjar.",
+                "specialArrangements": {
+                  "description": "Om du behöver specialarrangemang, skicka en ansökan enligt Utbildningsstyrelsens anvisningar så fort som möjligt.",
+                  "label": "Behöver du specialarrangemang? (oph.fi)",
+                  "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
+                },
+                "title": "Välkommen till YKI-test"
+              },
+              "heading": "Anmälan lyckades!"
+            }
+          },
+          "register": {
+            "inProgress": {
+              "heading": "Anmäl dig till ett test"
+            },
+            "success": {
+              "heading": "Anmälningsblanketten har skickats"
+            }
+          }
+        },
+        "unavailable": {
+          "full": {
+            "description": "Det är inte möjligt att anmäla sig just nu. Det finns inga lediga platser i testet.",
+            "title": "Testet är fullbokat"
+          },
+          "past": {
+            "description": "Det är inte längre möjligt att anmäla sig. Anmälningstiden har slutat.",
+            "title": "Anmälningstiden har slutat"
+          },
+          "upcoming": {
+            "description": "Det är inte ännu möjligt att anmäla sig. Anmälningstiden har inte börjat",
+            "title": "Anmälningstiden har inte börjat"
+          }
+        }
+      }
+    },
+    "pages": {
+      "evaluationOrderPage": {
+        "notFound": null,
+        "title": "Gör en begäran om kontrollbedömning",
+        "toasts": {
+          "loadingError": null
+        }
+      },
+      "evaluationOrderStatusPage": {
+        "cancel": {
+          "heading": null,
+          "info": null
+        },
+        "error": {
+          "heading": null,
+          "info": null
+        },
+        "success": {
+          "heading": null,
+          "body1": null,
+          "body2": null
+        }
+      },
+      "examDetailsPage": {
+        "toasts": {
+          "notFound": null
+        }
+      },
+      "initRegistrationPage": {
+        "toasts": {
+          "notFound": null
+        }
+      },
+      "reassessmentPage": {
+        "info": {
+          "general": {
+            "body1": null,
+            "body2": null,
+            "body3": null,
+            "heading": null
+          },
+          "pricing": {
+            "body1": null,
+            "body2": null,
+            "body3": null,
+            "body4": null,
+            "heading": null
+          },
+          "schedule": {
+            "body1": null,
+            "body2": null,
+            "body3": null,
+            "body4": null,
+            "heading": null
+          }
+        },
+        "introduction": {
+          "fee": null,
+          "info": null
+        },
+        "title": null
+      },
+      "registrationPage": {
+        "abortDialog": {
+          "actions": {
+            "cancel": "Jag vill inte avbryta",
+            "confirm": "Ja, jag vill avbryta min anmälan"
+          },
+          "description": "Vill du avbryta anmälan? Du förlorar uppgifterna som du har fyllt i.",
+          "title": "Avbryt anmälan"
+        },
+        "description": {
+          "part1": {
+            "link": {
+              "label": "Att välja ett lämpligt YKI-test och testdagarna",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/att-valja-ett-lampligt-yki-test-testdagarna"
+            },
+            "text": "Den allmänna språkexamen (YKI-examen) är en språkexamen som är avsedd för vuxna. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk. Före du anmäler dig till YKI-testet, ta reda på när och på vilket nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbsidor:"
+          },
+          "part2": {
+            "link": {
+              "label": "Behöver du specialarrangemang",
+              "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
+            },
+            "general": "I YKI-examen bedöms kunskaperna i standardspråket i praktiska situationer på grundnivå, mellannivå eller högsta nivå. Alla YKI-examina har fyra delprov: tal, talförståelse, skrivning och textförståelse. Varje delprov bedöms separat.",
+            "languages": "Om du behöver specialarrangemang i YKI-test, läs anvisningar på Utbildningsstyrelsens webbsidor:"
+          }
+        },
+        "filters": {
+          "buttons": {
+            "empty": "Radera allt",
+            "showResults": "Visa resultat ({{count}})"
+          },
+          "errorDialog": {
+            "description": "För att se resultat, välj först testets språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
+            "title": "Välj språk och färdighetsnivå"
+          },
+          "errors": {
+            "required": "Oblikatoriskt att välja"
+          },
+          "heading": "Sök almänna språkexamina (YKI)",
+          "information": "Sök här för ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
+          "selectExamDetails": {
+            "prompt": "Välj examen",
+            "required": "(oblikatorisk)"
+          }
+        },
+        "labels": {
+          "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
+          "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
+          "filterExamSessions": "Filtrera resultat",
+          "selectLanguage": "Välj språk",
+          "selectLevel": "Välj färdighetsnivå",
+          "selectMunicipality": "Välj ort"
+        },
         "register": "Anmäl dig",
-        "searchResults": "Sökresultat"
+        "title": "Allmänna språkexamina (YKI) - Anmälan"
       }
     }
   }
