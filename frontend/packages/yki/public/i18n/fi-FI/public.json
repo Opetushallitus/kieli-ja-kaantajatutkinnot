@@ -323,6 +323,10 @@
           }
         },
         "unavailable": {
+          "alreadyRegistered": {
+            "description": "TODO Tähän tekstit figmasta",
+            "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
+          },
           "full": {
             "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tutkinnossa ei ole vapaita paikkoja.",
             "title": "YKI-testi on täynnä"

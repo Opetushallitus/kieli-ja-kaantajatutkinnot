@@ -17,7 +17,10 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
-import { PublicRegistrationFormStep } from 'enums/publicRegistration';
+import {
+  PublicRegistrationFormStep,
+  PublicRegistrationInitError,
+} from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -130,29 +133,40 @@ const StepContentSelector = () => {
 
 const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { error: initRegistrationError } =
+    useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps',
+    keyPrefix: 'yki.component.registration',
   });
 
   if (activeStep === PublicRegistrationFormStep.Register) {
-    if (submitFormStatus === APIResponseStatus.Success) {
-      return t('register.success.heading');
+    if (initRegistrationError) {
+      switch (initRegistrationError) {
+        case PublicRegistrationInitError.AlreadyRegistered:
+          return t('unavailable.alreadyRegistered.title');
+        case PublicRegistrationInitError.ExamSessionFull:
+          return t('unavailable.full.title');
+        case PublicRegistrationInitError.RegistrationPeriodClosed:
+          return t('unavailable.past.title');
+      }
+    } else if (submitFormStatus === APIResponseStatus.Success) {
+      return t('steps.register.success.heading');
     } else {
-      return t('register.inProgress.heading');
+      return t('steps.register.inProgress.heading');
     }
   } else {
     switch (paymentStatus) {
       case PaymentStatus.Success:
-        return t('payment.success.heading');
+        return t('steps.payment.success.heading');
       case PaymentStatus.Cancel:
-        return t('payment.cancel.heading');
+        return t('steps.payment.cancel.heading');
       default:
-        return t('payment.error.heading');
+        return t('steps.payment.error.heading');
     }
   }
 };
