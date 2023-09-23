@@ -1,20 +1,16 @@
-import { Box, Grid, Paper } from '@mui/material';
-import dayjs from 'dayjs';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
-import { useToast, useWindowProperties } from 'shared/hooks';
+import { APIResponseStatus, Severity } from 'shared/enums';
+import { useToast } from 'shared/hooks';
 
-import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicIdentificationGrid } from 'components/registration/PublicIdentificationGrid';
-import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
+import { RegistrationNotAvailable } from 'components/registration/RegistrationNotAvailable';
 import { PublicIdentificationPageSkeleton } from 'components/skeletons/PublicIdentificationPageSkeleton';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
-import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { resetPublicIdentificationState } from 'redux/reducers/publicIdentification';
 import { setActiveStep } from 'redux/reducers/registration';
@@ -34,81 +30,6 @@ const ContentSelector = () => {
   } else {
     return <PublicIdentificationGrid />;
   }
-};
-
-const DescribeUnavailability = ({
-  descriptionPrefix,
-}: {
-  descriptionPrefix: string;
-}) => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.unavailable',
-  });
-  const translateCommon = useCommonTranslation();
-
-  return (
-    <div className="rows gapped">
-      <Text>{t(descriptionPrefix + '.description')}</Text>
-      <CustomButton
-        className="fit-content-max-width"
-        color={Color.Secondary}
-        variant={Variant.Contained}
-        href={AppRoutes.Registration}
-      >
-        {translateCommon('backToHomePage')}
-      </CustomButton>
-    </div>
-  );
-};
-
-const RegistrationNotAvailable = () => {
-  const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration',
-  });
-  const examSession = useAppSelector(examSessionSelector)
-    .examSession as ExamSession;
-  const { isPhone } = useWindowProperties();
-
-  const { open, availableQueue, start } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const now = dayjs();
-  const reasonForUnavailability = !open
-    ? now.isBefore(start)
-      ? 'upcoming'
-      : 'past'
-    : 'full';
-
-  return (
-    <Grid className="public-registration" item>
-      <div className="public-registration__grid">
-        <div className="rows public-registration__grid__heading public-registration__grid__no-stepper">
-          <H1>
-            {availableQueue
-              ? t('enrollToQueue.header')
-              : t(`unavailable.${reasonForUnavailability}.title`)}
-          </H1>
-          <HeaderSeparator />
-        </div>
-        <Paper elevation={isPhone ? 0 : 3}>
-          <div className="public-registration__grid__form-container">
-            <div className="rows gapped">
-              <PublicRegistrationExamSessionDetails
-                examSession={examSession}
-                showOpenings={true}
-              />
-              {availableQueue ? (
-                <EnrollToQueue />
-              ) : (
-                <DescribeUnavailability
-                  descriptionPrefix={reasonForUnavailability}
-                />
-              )}
-            </div>
-          </div>
-        </Paper>
-      </div>
-    </Grid>
-  );
 };
 
 export const InitRegistrationPage = () => {

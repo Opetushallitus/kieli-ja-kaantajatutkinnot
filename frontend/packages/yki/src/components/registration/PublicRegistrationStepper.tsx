@@ -1,7 +1,7 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { CircularStepper, H2, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -12,6 +12,8 @@ import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus } =
+    useAppSelector(registrationSelector).initRegistration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
@@ -22,8 +24,10 @@ export const PublicRegistrationStepper = () => {
   const paymentStatus = params.get('status');
 
   const isError =
-    activeStep === PublicRegistrationFormStep.Done &&
-    paymentStatus !== PaymentStatus.Success;
+    (activeStep === PublicRegistrationFormStep.Done &&
+      paymentStatus !== PaymentStatus.Success) ||
+    (activeStep === PublicRegistrationFormStep.Register &&
+      initRegistrationStatus === APIResponseStatus.Error);
 
   const doneStepNumber = PublicRegistrationFormStep.Done;
 
@@ -41,11 +45,7 @@ export const PublicRegistrationStepper = () => {
   };
 
   const getDescription = (stepNumber: number) => {
-    if (isError) {
-      return t('paymentAborted');
-    } else {
-      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
-    }
+    return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
   };
 
   const getNextInformation = (stepNumber: number) => {
@@ -100,8 +100,11 @@ export const PublicRegistrationStepper = () => {
           <Step key={i}>
             <StepLabel
               aria-label={getStepAriaLabel(i)}
+              error={isError && activeStep === i}
               className={
-                activeStep < i
+                activeStep === i && isError
+                  ? 'public-registration__grid__stepper__step-error'
+                  : activeStep < i
                   ? 'public-registration__grid__stepper__step-disabled'
                   : undefined
               }

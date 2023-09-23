@@ -66,6 +66,13 @@
           color: $color-grey-700;
         }
       }
+
+      &__step-error {
+        span,
+        svg {
+          color: $color-red-500;
+        }
+      }
     }
 
     .half-width-on-desktop {
