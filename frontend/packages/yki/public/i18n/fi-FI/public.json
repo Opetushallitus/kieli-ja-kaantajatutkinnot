@@ -324,7 +324,7 @@
         },
         "unavailable": {
           "alreadyRegistered": {
-            "description": "TODO Tähän tekstit figmasta",
+            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
           "full": {

@@ -10,28 +10,31 @@ import {
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { PublicRegistrationInitErrorView } from 'components/registration/errors/PublicRegistrationInitErrorView';
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
 import {
   PublicRegistrationFormStep,
   PublicRegistrationInitError,
 } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
-  const { status: initRegistrationStatus, error } =
+  const dispatch = useAppDispatch();
+  const { status: initRegistrationStatus, examSessionId } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
-  const { examSession } = useAppSelector(examSessionSelector);
-  const translateCommon = useCommonTranslation();
+  const { examSession, status: examSessionStatus } =
+    useAppSelector(examSessionSelector);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -43,6 +46,11 @@ const RegistrationForm = () => {
       window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
     }
   });
+  useEffect(() => {
+    if (!examSession && examSessionStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadExamSession(examSessionId as number));
+    }
+  }, [dispatch, examSession, examSessionId, examSessionStatus]);
 
   if (submitFormStatus === APIResponseStatus.Success) {
     return (
@@ -61,11 +69,11 @@ const RegistrationForm = () => {
       case APIResponseStatus.Error:
         return (
           <div className="public-registration__grid__form-container">
-            <H2>
-              {error
-                ? translateCommon(`errors.registration.${error}`)
-                : translateCommon('error')}
-            </H2>
+            <PublicRegistrationExamSessionDetails
+              examSession={examSession}
+              showOpenings={true}
+            />
+            <PublicRegistrationInitErrorView />
           </div>
         );
       case APIResponseStatus.NotStarted:
