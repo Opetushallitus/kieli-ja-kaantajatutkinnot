@@ -29,7 +29,7 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.sv'), swedish],
   ]);
 
-  const { isAuthenticated, isClerkUI } = useAuthentication();
+  const { isAuthenticated, isClerkUI, publicUser } = useAuthentication();
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
@@ -37,6 +37,11 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
+      {isAuthenticated && (
+        <div>
+          {publicUser.firstName} {publicUser.lastName}
+        </div>
+      )}
       <SkipLink
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}

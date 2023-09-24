@@ -210,8 +210,12 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/info")
-  public PublicPersonDTO authInfo(final HttpSession session) {
-    return publicPersonService.getPersonDTO(SessionUtil.getPersonId(session));
+  public Optional<PublicPersonDTO> authInfo(final HttpSession session) {
+    if (session == null || !SessionUtil.hasPersonId(session)) {
+      return Optional.empty();
+    }
+
+    return Optional.of(publicPersonService.getPersonDTO(SessionUtil.getPersonId(session)));
   }
 
   @GetMapping(path = "/auth/logout")
