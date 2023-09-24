@@ -51,7 +51,7 @@ const getReasonForUnavailability = (examSession: ExamSession) => {
   return reasonForUnavailability;
 };
 
-export const RegistrationUnavailableHeader = () => {
+const RegistrationUnavailableHeader = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration',
   });
