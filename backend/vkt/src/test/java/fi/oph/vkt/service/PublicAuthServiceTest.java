@@ -42,6 +42,7 @@ public class PublicAuthServiceTest {
   public void setup() {
     final Environment environment = mock(Environment.class);
 
+    when(environment.getRequiredProperty("salt")).thenReturn("foobar");
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
       .thenReturn("https://foo/vkt/api/v1/auth/validate/%s/%s");
@@ -57,7 +58,7 @@ public class PublicAuthServiceTest {
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
 
-    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment, "foobar");
+    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment);
   }
 
   @Test

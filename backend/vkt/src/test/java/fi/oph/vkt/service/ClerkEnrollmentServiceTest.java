@@ -77,6 +77,7 @@ class ClerkEnrollmentServiceTest {
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
+    when(environment.getRequiredProperty("salt")).thenReturn("foobar");
     when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
 
     final UUIDSource uuidSource = mock(UUIDSource.class);
@@ -90,8 +91,7 @@ class ClerkEnrollmentServiceTest {
         personRepository,
         auditService,
         environment,
-        uuidSource,
-        salt
+        uuidSource
       );
   }
 

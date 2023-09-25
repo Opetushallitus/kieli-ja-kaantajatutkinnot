@@ -45,6 +45,7 @@ public class PublicAuthServicePseudonymTest {
   public void setup() {
     final Environment environment = mock(Environment.class);
 
+    when(environment.getRequiredProperty("salt")).thenReturn("foobar");
     when(environment.getRequiredProperty("app.cas-oppija.login-url")).thenReturn("https://foo.bar");
     when(environment.getRequiredProperty("app.cas-oppija.service-url"))
       .thenReturn("https://foo/vkt/api/v1/auth/validate/%s/%s");
@@ -59,7 +60,7 @@ public class PublicAuthServicePseudonymTest {
     when(casTicketValidationService.validate(anyString(), anyLong(), eq(EnrollmentType.RESERVATION)))
       .thenReturn(personDetails);
 
-    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment, "foobar");
+    publicAuthService = new PublicAuthService(casTicketValidationService, personRepository, environment);
   }
 
   @Test
@@ -84,14 +85,5 @@ public class PublicAuthServicePseudonymTest {
     assertEquals("Testilä", person.getLastName());
     assertEquals("Tessa", person.getFirstName());
     assertEquals("10000", person.getOtherIdentifier());
-  }
-
-  @Test
-  public void testCreateCasLoginUrl() {
-    final String casLoginUrl = publicAuthService.createCasLoginUrl(1L, EnrollmentType.RESERVATION, AppLocale.FI);
-    assertEquals(
-      "https://foo.bar?service=https%3A%2F%2Ffoo%2Fvkt%2Fapi%2Fv1%2Fauth%2Fvalidate%2F1%2Freservation&locale=fi",
-      casLoginUrl
-    );
   }
 }

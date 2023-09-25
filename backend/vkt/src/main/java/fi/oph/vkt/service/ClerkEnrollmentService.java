@@ -28,15 +28,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClerkEnrollmentService.class);
@@ -48,28 +49,6 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
-  private final String salt;
-
-  // Lombok does not work with @Value annotation, manual constructor is required
-  public ClerkEnrollmentService(
-    final EnrollmentRepository enrollmentRepository,
-    final ExamEventRepository examEventRepository,
-    final PaymentRepository paymentRepository,
-    final PersonRepository personRepository,
-    final AuditService auditService,
-    final Environment environment,
-    final UUIDSource uuidSource,
-    @Value("${app.salt:null}") final String salt
-  ) {
-    this.enrollmentRepository = enrollmentRepository;
-    this.examEventRepository = examEventRepository;
-    this.paymentRepository = paymentRepository;
-    this.personRepository = personRepository;
-    this.auditService = auditService;
-    this.environment = environment;
-    this.uuidSource = uuidSource;
-    this.salt = salt;
-  }
 
   @Transactional
   public ClerkEnrollmentDTO update(final ClerkEnrollmentUpdateDTO dto) {
@@ -217,6 +196,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   }
 
   private void anonymizePerson(final Person person) {
+    final String salt = environment.getRequiredProperty("salt");
     person.setLastName("Ilmoittautuja");
     person.setFirstName("Anonymisoitu");
 
