@@ -1051,10 +1051,13 @@ module.exports = function (app) {
             res.status(409).send({ error: { full: true } });
           case 13:
             res.status(409).send({ error: { closed: true } });
+          // This error case shouldn't ordinarily happen
+          case 14:
+            res.status(409).send({ error: { full: false, registered: false } });
           default:
-          req.body.exam_session_id % 2 === 0
-            ? res.send(initRegistrationEmailAuth)
-            : res.send(initRegistration);
+            req.body.exam_session_id % 2 === 0
+              ? res.send(initRegistrationEmailAuth)
+              : res.send(initRegistration);
         }
       } catch (err) {
         res.status(404).send(err.message);

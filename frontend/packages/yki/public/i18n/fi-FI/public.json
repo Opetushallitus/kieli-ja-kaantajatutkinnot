@@ -284,14 +284,12 @@
           },
           "payment": {
             "cancel": {
-              "description": "Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
-              "heading": "Maksutapahtuma keskeytyi",
-              "title": "Keskeytit maksutapahtuman"
+              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "heading": "Maksu epäonnistui"
             },
             "error": {
-              "description": "Voit yrittää maksamista uudestaan. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
-              "heading": "Virhe maksutapahtumassa",
-              "title": "Maksutapahtuman käsittelyssä tapahtui virhe"
+              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "heading": "Maksu epäonnistui"
             },
             "success": {
               "whatsNext": {
@@ -327,6 +325,10 @@
             "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
+          "generic": {
+            "description": "Lomakkeen lähetyksessä tapahtui virhe. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
+            "title": "Ilmoittautumislomakkeen lähetys epäonnistui"
+          },
           "full": {
             "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tutkinnossa ei ole vapaita paikkoja.",
             "title": "YKI-testi on täynnä"
@@ -352,11 +354,11 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": "Maksutapahtuma keskeytyi!",
+          "heading": "Maksu epäonnistui",
           "info": "Voit yrittää uudelleen."
         },
         "error": {
-          "heading": "Tapahtui virhe!",
+          "heading": "Maksu epäonnistui",
           "info": "Voit yrittää uudelleen."
         },
         "success": {

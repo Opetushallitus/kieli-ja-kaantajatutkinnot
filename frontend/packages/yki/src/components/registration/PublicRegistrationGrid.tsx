@@ -18,10 +18,7 @@ import { PublicRegistrationStepper } from 'components/registration/PublicRegistr
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
-import {
-  PublicRegistrationFormStep,
-  PublicRegistrationInitError,
-} from 'enums/publicRegistration';
+import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
 import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
@@ -67,15 +64,7 @@ const RegistrationForm = () => {
     switch (initRegistrationStatus) {
       case APIResponseStatus.Cancelled:
       case APIResponseStatus.Error:
-        return (
-          <div className="public-registration__grid__form-container">
-            <PublicRegistrationExamSessionDetails
-              examSession={examSession}
-              showOpenings={true}
-            />
-            <PublicRegistrationInitErrorView />
-          </div>
-        );
+        return <PublicRegistrationInitErrorView />;
       case APIResponseStatus.NotStarted:
       case APIResponseStatus.InProgress:
         return null;
@@ -154,14 +143,7 @@ const Heading = () => {
 
   if (activeStep === PublicRegistrationFormStep.Register) {
     if (initRegistrationError) {
-      switch (initRegistrationError) {
-        case PublicRegistrationInitError.AlreadyRegistered:
-          return t('unavailable.alreadyRegistered.title');
-        case PublicRegistrationInitError.ExamSessionFull:
-          return t('unavailable.full.title');
-        case PublicRegistrationInitError.RegistrationPeriodClosed:
-          return t('unavailable.past.title');
-      }
+      return t(`unavailable.${initRegistrationError}.title`);
     } else if (submitFormStatus === APIResponseStatus.Success) {
       return t('steps.register.success.heading');
     } else {

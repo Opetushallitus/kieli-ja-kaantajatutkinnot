@@ -1,10 +1,12 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
-import { H2, Text } from 'shared/components';
+import { CustomButton, H2, Text } from 'shared/components';
+import { Color, Variant } from 'shared/enums';
 
-import { usePublicTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { PaymentStatus } from 'enums/api';
+import { AppRoutes } from 'enums/app';
 
 const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
@@ -47,12 +49,7 @@ const PaymentCancel = () => {
     keyPrefix: 'yki.component.registration.steps.payment.cancel',
   });
 
-  return (
-    <>
-      <H2>{t('title')}</H2>
-      <Text>{t('description')}</Text>
-    </>
-  );
+  return <Text>{t('description')}</Text>;
 };
 
 const PaymentError = () => {
@@ -60,17 +57,13 @@ const PaymentError = () => {
     keyPrefix: 'yki.component.registration.steps.payment.error',
   });
 
-  return (
-    <>
-      <H2>{t('title')}</H2>
-      <Text>{t('description')}</Text>
-    </>
-  );
+  return <Text>{t('description')}</Text>;
 };
 
 export const Payment = () => {
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
+  const translateCommon = useCommonTranslation();
 
   const renderPayment = () => {
     switch (paymentStatus) {
@@ -83,5 +76,17 @@ export const Payment = () => {
     }
   };
 
-  return <div className="margin-top-xxl rows gapped">{renderPayment()}</div>;
+  return (
+    <div className="margin-top-xxl rows gapped">
+      {renderPayment()}
+      <CustomButton
+        className="fit-content-max-width"
+        color={Color.Secondary}
+        variant={Variant.Contained}
+        href={AppRoutes.Registration}
+      >
+        {translateCommon('backToHomePage')}
+      </CustomButton>
+    </div>
+  );
 };

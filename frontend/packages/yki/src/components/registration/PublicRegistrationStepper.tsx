@@ -66,12 +66,15 @@ export const PublicRegistrationStepper = () => {
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  const stepValue = Math.min(activeStep, doneStepNumber);
+  const stepValue =
+    isError && activeStep === PublicRegistrationFormStep.Done
+      ? PublicRegistrationFormStep.Payment
+      : Math.min(activeStep, doneStepNumber);
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
-    activeStep
+    stepValue
   )}`;
 
   if (isPhone) {
@@ -85,8 +88,8 @@ export const PublicRegistrationStepper = () => {
           size={90}
         />
         <div className="rows">
-          <H2>{getDescription(activeStep)}</H2>
-          <Text>{getNextInformation(activeStep)}</Text>
+          <H2>{getDescription(stepValue)}</H2>
+          {!isError && <Text>{getNextInformation(stepValue)}</Text>}
         </div>
       </div>
     );
@@ -94,17 +97,17 @@ export const PublicRegistrationStepper = () => {
     return (
       <Stepper
         className="public-registration__grid__stepper"
-        activeStep={activeStep - 1}
+        activeStep={stepValue - 1}
       >
         {stepNumbers.map((i) => (
           <Step key={i}>
             <StepLabel
               aria-label={getStepAriaLabel(i)}
-              error={isError && activeStep === i}
+              error={isError && stepValue === i}
               className={
-                activeStep === i && isError
+                stepValue === i && isError
                   ? 'public-registration__grid__stepper__step-error'
-                  : activeStep < i
+                  : stepValue < i
                   ? 'public-registration__grid__stepper__step-disabled'
                   : undefined
               }

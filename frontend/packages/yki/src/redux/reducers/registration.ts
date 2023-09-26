@@ -66,14 +66,15 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.Error;
       const { closed, full, registered } = action.payload.error;
       if (closed) {
-        state.initRegistration.error =
-          PublicRegistrationInitError.RegistrationPeriodClosed;
+        state.initRegistration.error = PublicRegistrationInitError.Past;
       } else if (full) {
         state.initRegistration.error =
           PublicRegistrationInitError.ExamSessionFull;
       } else if (registered) {
         state.initRegistration.error =
           PublicRegistrationInitError.AlreadyRegistered;
+      } else {
+        state.initRegistration.error = PublicRegistrationInitError.Generic;
       }
     },
     resetPublicRegistration() {
