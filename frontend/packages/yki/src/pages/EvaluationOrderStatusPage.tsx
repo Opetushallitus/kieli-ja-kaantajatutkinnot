@@ -1,14 +1,15 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { H1, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus } from 'shared/enums';
+import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
+import { AppRoutes } from 'enums/app';
 import { EvaluationOrderDetails } from 'interfaces/evaluationOrder';
 import {
   loadEvaluationOrderDetails,
@@ -41,12 +42,15 @@ const EvaluationDetails = ({
 const EvaluationOrderStatusContents = ({
   heading,
   contents,
+  showEvaluationOrderDetails,
 }: {
   heading: string;
   contents: JSX.Element;
+  showEvaluationOrderDetails: boolean;
 }) => {
   const { evaluationOrderDetails } = useAppSelector(evaluationOrderSelector);
   const { isPhone } = useWindowProperties();
+  const translateCommon = useCommonTranslation();
 
   return (
     <>
@@ -58,10 +62,18 @@ const EvaluationOrderStatusContents = ({
         elevation={isPhone ? 0 : 3}
         className="public-evaluation-order-status-page__paper rows gapped"
       >
-        {evaluationOrderDetails && (
+        {evaluationOrderDetails && showEvaluationOrderDetails && (
           <EvaluationDetails evaluationDetails={evaluationOrderDetails} />
         )}
         {contents}
+        <CustomButton
+          className="fit-content-max-width"
+          color={Color.Secondary}
+          variant={Variant.Contained}
+          href={AppRoutes.Registration}
+        >
+          {translateCommon('backToHomePage')}
+        </CustomButton>
       </Paper>
     </>
   );
@@ -81,6 +93,7 @@ const Success = () => {
           <Text>{t('body2')}</Text>
         </>
       }
+      showEvaluationOrderDetails={true}
     />
   );
 };
@@ -94,6 +107,7 @@ const Cancel = () => {
     <EvaluationOrderStatusContents
       heading={t('heading')}
       contents={<Text>{t('info')}</Text>}
+      showEvaluationOrderDetails={false}
     />
   );
 };
@@ -107,6 +121,7 @@ const Error = () => {
     <EvaluationOrderStatusContents
       heading={t('heading')}
       contents={<Text>{t('info')}</Text>}
+      showEvaluationOrderDetails={false}
     />
   );
 };

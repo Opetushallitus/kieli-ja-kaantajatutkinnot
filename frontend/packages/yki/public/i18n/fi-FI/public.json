@@ -355,11 +355,11 @@
       "evaluationOrderStatusPage": {
         "cancel": {
           "heading": "Maksu epäonnistui",
-          "info": "Voit yrittää uudelleen."
+          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
         },
         "error": {
           "heading": "Maksu epäonnistui",
-          "info": "Voit yrittää uudelleen."
+          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
         },
         "success": {
           "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
