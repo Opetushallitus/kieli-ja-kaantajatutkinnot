@@ -1,3 +1,4 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Grid, Paper } from '@mui/material';
 import { Box } from '@mui/system';
 import { FC, useEffect } from 'react';
@@ -58,12 +59,20 @@ export const ReassessmentPage: FC = () => {
               <br />
               <Text>
                 {t('info.general.body2')}
-                <a href="{t('info.general.link')}">{t('info.general.link')}</a>
+                <a
+                  className="columns gapped-xxs"
+                  href={t('info.general.link')}
+                  rel="noreferrer"
+                  target="_black"
+                >
+                  {t('info.general.link')}
+                  <OpenInNewIcon />
+                </a>
               </Text>
               <br />
               <Text>{t('info.general.body3')}</Text>
             </div>
-            <div className="public-reassessment-page__priicng__section">
+            <div className="public-reassessment-page__pricing__section">
               <H2 className="public-reassessment-page__info__section__heading-title">
                 {t('info.pricing.heading')}
               </H2>
