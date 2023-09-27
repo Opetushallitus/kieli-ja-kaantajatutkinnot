@@ -1,12 +1,11 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
-import { CustomButton, H2, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { H2, Text } from 'shared/components';
 
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
+import { usePublicTranslation } from 'configs/i18n';
 import { PaymentStatus } from 'enums/api';
-import { AppRoutes } from 'enums/app';
 
 const PaymentSuccess = () => {
   const { t } = usePublicTranslation({
@@ -63,7 +62,6 @@ const PaymentError = () => {
 export const Payment = () => {
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
-  const translateCommon = useCommonTranslation();
 
   const renderPayment = () => {
     switch (paymentStatus) {
@@ -79,14 +77,7 @@ export const Payment = () => {
   return (
     <div className="margin-top-xxl rows gapped">
       {renderPayment()}
-      <CustomButton
-        className="fit-content-max-width"
-        color={Color.Secondary}
-        variant={Variant.Contained}
-        href={AppRoutes.Registration}
-      >
-        {translateCommon('backToHomePage')}
-      </CustomButton>
+      <BackToFrontPageButton />
     </div>
   );
 };

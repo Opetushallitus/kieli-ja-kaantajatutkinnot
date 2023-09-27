@@ -1,10 +1,9 @@
-import { CustomButton, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { Text } from 'shared/components';
 
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { PublicRegistrationInitError } from 'enums/publicRegistration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -31,7 +30,6 @@ const DescribeInitError = () => {
 };
 
 export const PublicRegistrationInitErrorView = () => {
-  const translateCommon = useCommonTranslation();
   const { examSession } = useAppSelector(examSessionSelector);
   const { error } = useAppSelector(registrationSelector).initRegistration;
   const showExamSessionDetails =
@@ -53,14 +51,7 @@ export const PublicRegistrationInitErrorView = () => {
         }
       >
         <DescribeInitError />
-        <CustomButton
-          className="fit-content-max-width"
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          href={AppRoutes.Registration}
-        >
-          {translateCommon('backToHomePage')}
-        </CustomButton>
+        <BackToFrontPageButton />
       </div>
     </div>
   );

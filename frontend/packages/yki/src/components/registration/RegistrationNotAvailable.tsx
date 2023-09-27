@@ -1,14 +1,13 @@
 import { Grid, Paper } from '@mui/material';
 import dayjs from 'dayjs';
-import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { EnrollToQueue } from 'components/registration/EnrollToQueue';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
-import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { ExamSessionUtils } from 'utils/examSession';
@@ -21,19 +20,11 @@ const DescribeUnavailability = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.unavailable',
   });
-  const translateCommon = useCommonTranslation();
 
   return (
     <div className="rows gapped">
       <Text>{t(descriptionPrefix + '.description')}</Text>
-      <CustomButton
-        className="fit-content-max-width"
-        color={Color.Secondary}
-        variant={Variant.Contained}
-        href={AppRoutes.Registration}
-      >
-        {translateCommon('backToHomePage')}
-      </CustomButton>
+      <BackToFrontPageButton />
     </div>
   );
 };

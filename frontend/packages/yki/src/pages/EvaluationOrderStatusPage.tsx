@@ -1,15 +1,15 @@
 import { Box, Paper } from '@mui/material';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { H1, HeaderSeparator, Text } from 'shared/components';
+import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { AppRoutes } from 'enums/app';
 import { EvaluationOrderDetails } from 'interfaces/evaluationOrder';
 import {
   loadEvaluationOrderDetails,
@@ -50,7 +50,6 @@ const EvaluationOrderStatusContents = ({
 }) => {
   const { evaluationOrderDetails } = useAppSelector(evaluationOrderSelector);
   const { isPhone } = useWindowProperties();
-  const translateCommon = useCommonTranslation();
 
   return (
     <>
@@ -66,14 +65,7 @@ const EvaluationOrderStatusContents = ({
           <EvaluationDetails evaluationDetails={evaluationOrderDetails} />
         )}
         {contents}
-        <CustomButton
-          className="fit-content-max-width"
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          href={AppRoutes.Registration}
-        >
-          {translateCommon('backToHomePage')}
-        </CustomButton>
+        <BackToFrontPageButton />
       </Paper>
     </>
   );
