@@ -1,12 +1,13 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
+  ExtLink,
   LangSelector,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
 } from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { AppLanguage, Color, Direction, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
@@ -17,6 +18,7 @@ import {
   getSupportedLangs,
   useCommonTranslation,
 } from 'configs/i18n';
+import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 
@@ -37,11 +39,6 @@ export const Header = (): JSX.Element => {
 
   return (
     <>
-      {isAuthenticated && (
-        <div>
-          {publicUser.firstName} {publicUser.lastName}
-        </div>
-      )}
       <SkipLink
         href="#main-content"
         text={translateCommon('header.accessibility.continueToMain')}
@@ -60,6 +57,18 @@ export const Header = (): JSX.Element => {
           </Toolbar>
         )}
         <Toolbar className="header__toolbar">
+          {publicUser?.isAuthenticated && (
+            <div>
+              {publicUser.firstName} {publicUser.lastName}
+              <ExtLink
+                href={APIEndpoints.PublicAuthLogout}
+                color={Color.Secondary}
+                variant={Variant.Outlined}
+                text="Kirjaudu ulos"
+                target="_self"
+              />
+            </div>
+          )}
           <div className="header__left">
             <Link to={logoRedirectURL}>
               {isClerkUI ? (

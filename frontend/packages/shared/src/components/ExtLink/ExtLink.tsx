@@ -7,6 +7,7 @@ import { CustomButton } from '../CustomButton/CustomButton';
 export interface ExtLinkProps {
   text: string;
   href: string;
+  target?: string;
 }
 
 // TODO: use accessible WebLink instead
@@ -22,9 +23,9 @@ export const ExtLink: FC<ButtonProps & ExtLinkProps> = ({
   return (
     <CustomButton
       className={className}
-      target="_blank"
+      target={rest.target ?? "_blank"}
       rel="noreferrer"
-      color={Color.Inherit}
+      color={rest.color ?? Color.Inherit}
       href={href}
       startIcon={startIcon}
       endIcon={endIcon}
