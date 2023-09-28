@@ -327,7 +327,7 @@
             "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
           },
           "generic": {
-            "description": "Lomakkeen lähetyksessä tapahtui virhe. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
+            "description": "Ilmoittautumislomakkeen lähetys epäonnistui. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
             "title": "Ilmoittautumislomakkeen lähetys epäonnistui"
           },
           "full": {
@@ -355,12 +355,12 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": "Maksu epäonnistui",
-          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
+          "heading": "Maksu keskeytyi",
+          "info": "Voit yrittää maksua uudestaan. Käsittelemme vain maksetut tarkistusarviointipyynnöt."
         },
         "error": {
           "heading": "Maksu epäonnistui",
-          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
+          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan."
         },
         "success": {
           "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
@@ -370,20 +370,20 @@
       },
       "examDetailsPage": {
         "toasts": {
-          "notFound": "Kielitutkintoa ei löytynyt"
+          "notFound": "YKI-testiä ei löytynyt"
         }
       },
       "initRegistrationPage": {
         "toasts": {
-          "notFound": "Kielitutkintoa ei löytynyt"
+          "notFound": "YKI-testiä ei löytynyt"
         }
       },
       "logoutSuccessPage": {
         "heading": "Uloskirjautuminen onnnistui",
-        "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
+        "info": "Olet kirjautunut ulos. Sulje kaikki selainikkunat."
       },
       "notFoundPage": {
-        "description": "Tarkista hakemasi osoite tai palaa aloitussivulle.",
+        "description": "Tarkista verkkosivun osoite tai palaa aloitussivulle.",
         "title": "Sivua ei löytynyt"
       },
       "reassessmentPage": {

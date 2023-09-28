@@ -174,7 +174,7 @@
               "nationality": "Nationality",
               "phoneNumber": "Telephone number",
               "postNumber": "Postal code",
-              "postOffice": "Town/city",
+              "postOffice": "Municipality",
               "privacyStatementConfirmation": "Accept the terms and conditions for processing personal data",
               "ssn": "Personal identity code",
               "termsAndConditionsAgreed": "Accept the terms and conditions for registration"
@@ -193,7 +193,7 @@
             "nationality": "Nationality",
             "phoneNumber": "Telephone number",
             "postNumber": "Postal code",
-            "postOffice": "Town/city",
+            "postOffice": "Municipality",
             "ssn": "Personal identity code"
           },
           "placeholders": {
@@ -324,9 +324,17 @@
           }
         },
         "unavailable": {
+          "alreadyRegistered": {
+            "description": "You can register for only one YKI test on the same test day.",
+            "title": "You have already registered for another YKI test on the same test day"
+          },
           "full": {
             "description": "Registration is not possible at the moment. There are no available seats for this test.",
-            "title": "The test is full."
+            "title": "The test is full"
+          },
+          "generic": {
+            "description": "Sending the registration form failed. You can return to the registration form and try again.",
+            "title": "Sending the registration form failed"
           },
           "past": {
             "description": "Registration is not possible at the moment. The registration period has ended.",
@@ -349,28 +357,36 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": "Payment aborted",
-          "info": "You aborted the payment. The reassessment request will only be taken into account after you have payed the reassessment fee."
+          "heading": "Payment was cancelled",
+          "info": "You may try to pay again. We will only process paid requests for reassessment."
         },
         "error": {
           "heading": "Payment error",
           "info": "The payment did not go through. You may try again."
         },
         "success": {
-          "heading": "Request for reassessment sent!",
+          "heading": "You have requested a reassessment!",
           "body1": "You have sent a request for reassessment.",
-          "body2": "The email also contains a receipt for the reassessment fee. If you have not received the email, please check your spam folder."
+          "body2": "You have received a confirmation of your request for reassessment by email. The email also contains information on the reassessment fee. If you have not received the email, please check your spam folder."
         }
       },
       "examDetailsPage": {
         "toasts": {
-          "notFound": "Kielitutkintoa ei löytynyt"
+          "notFound": "YKI test was not found"
         }
       },
       "initRegistrationPage": {
         "toasts": {
-          "notFound": "Kielitutkintoa ei löytynyt"
+          "notFound": "YKI test was not found"
         }
+      },
+      "logoutSuccessPage": {
+        "heading": "Log out complete",
+        "info": "You have logged out successfully. Close all browser windows."
+      },
+      "notFoundPage": {
+        "description": "Please, check the website address or return to the front page.",
+        "title": "Page not found"
       },
       "reassessmentPage": {
         "info": {
@@ -438,6 +454,7 @@
           "information": "Search for YKI-tests by choosing the language and proficiency level. Click the SHOW RESULTS button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
+            "optional": "(optional)",
             "required": "(required)"
           }
         },
