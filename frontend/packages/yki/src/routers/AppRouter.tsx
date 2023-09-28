@@ -14,6 +14,7 @@ import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
 import { ExamDetailsPage } from 'pages/ExamDetailsPage';
 import { InitRegistrationPage } from 'pages/InitRegistrationPage';
+import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { ReassessmentPage } from 'pages/ReassessmentPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
@@ -77,6 +78,10 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.AccessibilityStatementPage}
                 element={<AccessibilityStatementPage />}
+              />
+              <Route
+                path={AppRoutes.LogoutSuccess}
+                element={<LogoutSuccess />}
               />
             </Routes>
           </div>

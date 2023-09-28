@@ -69,6 +69,9 @@
           "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
+        "sessionState": {
+          "logOut": "Kirjaudu ulos"
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
