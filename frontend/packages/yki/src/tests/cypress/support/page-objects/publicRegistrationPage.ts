@@ -2,7 +2,7 @@ import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox
 
 class PublicRegistrationPage {
   elements = {
-    clearAllButton: () => cy.contains('Tyhjennä kaikki'),
+    clearAllButton: () => cy.contains('Tyhjennä valinnat'),
     filterByLanguage: () =>
       cy.findByRole('combobox', { name: /Valitse kieli/ }),
     filterByLevel: () =>
