@@ -30,6 +30,9 @@
           "continueToMain": "Fortsätt till innehållet",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
+        "sessionState": {
+          "logOut": "Logga ut"
+        },
         "lang": {
           "en": "In English",
           "fi": "Suomeksi",
