@@ -286,13 +286,11 @@
           "payment": {
             "cancel": {
               "description": "Anmälning är bekräftat först då du har betalat examensavgiften.",
-              "heading": "Betalningen kunde inte genomföras",
-              "title": "Du har avbrytit betalningen"
+              "heading": "Betalningen kunde inte genomföras"
             },
             "error": {
               "description": "Du kan försöka betala på nytt. Anmälning är bekräftat först då du har betalat examensavgiften.",
-              "heading": "Betalningsfel",
-              "title": "Det har uppstått ett fel i betalningen"
+              "heading": "Betalningsfel"
             },
             "success": {
               "whatsNext": {

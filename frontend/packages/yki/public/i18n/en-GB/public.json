@@ -286,13 +286,11 @@
           "payment": {
             "cancel": {
               "description": "Your registration will be confirmed after you have paid the test fee.",
-              "heading": "Payment was cancelled",
-              "title": "You cancelled the payment"
+              "heading": "Payment was cancelled"
             },
             "error": {
               "description": "You may try to pay again. Your registration will be confirmed after you have paid the test fee.",
-              "heading": "Payment error",
-              "title": "An error occurred when paying."
+              "heading": "Payment error"
             },
             "success": {
               "whatsNext": {
