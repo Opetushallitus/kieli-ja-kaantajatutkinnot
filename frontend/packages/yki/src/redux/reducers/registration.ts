@@ -23,6 +23,9 @@ export interface RegistrationState {
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
   };
+  cancelRegistration: {
+    status: APIResponseStatus;
+  };
   isEmailRegistration?: boolean;
   hasSuomiFiNationalityData: boolean;
   registration: Partial<PublicSuomiFiRegistration | PublicEmailRegistration>;
@@ -33,6 +36,9 @@ export interface RegistrationState {
 const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistration: {
+    status: APIResponseStatus.NotStarted,
+  },
+  cancelRegistration: {
     status: APIResponseStatus.NotStarted,
   },
   hasSuomiFiNationalityData: false,
@@ -146,6 +152,15 @@ const registrationSlice = createSlice({
     setActiveStep(state, action: PayloadAction<PublicRegistrationFormStep>) {
       state.activeStep = action.payload;
     },
+    cancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.InProgress;
+    },
+    acceptCancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.Success;
+    },
+    rejectCancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -162,4 +177,7 @@ export const {
   setShowErrors,
   submitPublicRegistration,
   updatePublicRegistration,
+  cancelRegistration,
+  acceptCancelRegistration,
+  rejectCancelRegistration,
 } = registrationSlice.actions;

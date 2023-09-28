@@ -10,6 +10,7 @@ export enum APIEndpoints {
   InitRegistration = '/yki/api/registration/init',
   LoginLink = '/yki/api/login-link',
   Logout = '/yki/auth/logout',
+  Registration = '/yki/api/registration/:registrationId',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   SuomiFiAuthRedirect = '/yki/auth/',
   User = '/yki/auth/user',
