@@ -18,10 +18,14 @@ export interface RegistrationState {
   initRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationInitError;
+    examSessionId?: number;
   };
   submitRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationFormSubmitError;
+  };
+  cancelRegistration: {
+    status: APIResponseStatus;
   };
   isEmailRegistration?: boolean;
   hasSuomiFiNationalityData: boolean;
@@ -33,6 +37,9 @@ export interface RegistrationState {
 const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistration: {
+    status: APIResponseStatus.NotStarted,
+  },
+  cancelRegistration: {
     status: APIResponseStatus.NotStarted,
   },
   hasSuomiFiNationalityData: false,
@@ -48,8 +55,9 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    initRegistration(state, _action: PayloadAction<number>) {
+    initRegistration(state, action: PayloadAction<number>) {
       state.initRegistration.status = APIResponseStatus.InProgress;
+      state.initRegistration.examSessionId = action.payload;
     },
     rejectPublicRegistrationInit(
       state,
@@ -58,14 +66,15 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.Error;
       const { closed, full, registered } = action.payload.error;
       if (closed) {
-        state.initRegistration.error =
-          PublicRegistrationInitError.RegistrationPeriodClosed;
+        state.initRegistration.error = PublicRegistrationInitError.Past;
       } else if (full) {
         state.initRegistration.error =
           PublicRegistrationInitError.ExamSessionFull;
       } else if (registered) {
         state.initRegistration.error =
           PublicRegistrationInitError.AlreadyRegistered;
+      } else {
+        state.initRegistration.error = PublicRegistrationInitError.Generic;
       }
     },
     resetPublicRegistration() {
@@ -75,7 +84,7 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.initRegistration = { status: APIResponseStatus.Success };
+      state.initRegistration.status = APIResponseStatus.Success;
       const { registration_id, is_strongly_identified, user } = action.payload;
       const nationality = user.nationalities && user.nationalities[0];
       if (is_strongly_identified) {
@@ -146,6 +155,15 @@ const registrationSlice = createSlice({
     setActiveStep(state, action: PayloadAction<PublicRegistrationFormStep>) {
       state.activeStep = action.payload;
     },
+    cancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.InProgress;
+    },
+    acceptCancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.Success;
+    },
+    rejectCancelRegistration(state) {
+      state.cancelRegistration.status = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -162,4 +180,7 @@ export const {
   setShowErrors,
   submitPublicRegistration,
   updatePublicRegistration,
+  cancelRegistration,
+  acceptCancelRegistration,
+  rejectCancelRegistration,
 } = registrationSlice.actions;

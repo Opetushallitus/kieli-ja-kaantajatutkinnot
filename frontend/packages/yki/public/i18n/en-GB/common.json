@@ -66,7 +66,11 @@
       },
       "header": {
         "accessibility": {
+          "continueToMain": "Skip to content",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
+        },
+        "sessionState": {
+          "logOut": "Log out"
         },
         "lang": {
           "en": "In English",
@@ -96,6 +100,10 @@
       },
       "level": "Level",
       "municipality": "Municipality",
+      "navigationProtection": {
+        "description": "You will lose any changes you have made.",
+        "header": "Are you sure you want to leave this page?"
+      },
       "next": "Next",
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",
@@ -107,7 +115,7 @@
         "grantApproval": "I accept the terms and conditions for processing personal data *",
         "link": {
           "label": "Information on the processing of personal data (oph.fi)",
-          "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-information-on-the-processing-of-personal-data"
+          "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-information-on-the-processing-of-personal-data"
         },
         "readConditions": "Read the terms and conditions of processing personal information on the website of the Finnish National Agency for Education:",
         "title": "Terms and conditions for processing personal data"

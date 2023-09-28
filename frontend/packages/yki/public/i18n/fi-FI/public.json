@@ -13,16 +13,16 @@
             "email": "Sähköpostiosoite",
             "firstNames": "Etunimet",
             "lastName": "Sukunimi",
-            "noExaminationPartsSelected": "Valitse ainakin yksi tarkistettava osakoe"
+            "noExaminationPartsSelected": "Valitse vähintään yksi osakoe"
           },
           "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
-          "title": "Virheitä lomakkeella!"
+          "title": "Tiedoissa on korjattavaa!"
         },
         "fillParticipantDetails": {
           "errors": {
-            "invalidBirthdate": "Virheellinen syntymäaika. Syötä muodossa pp.kk.vvvv."
+            "invalidBirthdate": "Virheellinen syntymäaika. Kirjoita muodossa pp.kk.vvvv."
           },
-          "instructions": "Täytä alle YKI-testin osallistujan tiedot. Saat tarkistusarviointipyynnöstä yhteenvedon sähköpostiisi.",
+          "instructions": "Täytä alle sen osallistujan tiedot, joka hakee tarkistusarviointia.",
           "heading": "Osallistujan tiedot",
           "labels": {
             "birthdate": "Syntymäaika *",
@@ -31,7 +31,7 @@
             "lastName": "Sukunimi *"
           },
           "placeholders": {
-            "birthdate": "Syötä muodossa pp.kk.vvvv",
+            "birthdate": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
             "firstNames": "",
             "lastName": ""
@@ -43,10 +43,10 @@
         },
         "renderEvaluationDetails": {
           "heading": "Tutkinnon tiedot",
-          "info": "Olet pyytämässä tarkistusarviointia seuraavasta tutkinnosta:"
+          "info": "Pyydä tarkistusarviointia seuraavasta tutkinnosta:"
         },
         "selectExaminationParts": {
-          "heading": "Osakokeiden valinta",
+          "heading": "Valitse osakokeet",
           "selectAtLeastOne": "Valitse vähintään yksi osakoe",
           "selectParts": "Valitse ne osakokeet, joista haluat pyytää tarkistusarviointia *",
           "sumTotal": "Tarkistusarvioinnin hinta yhteensä"
@@ -63,9 +63,9 @@
           "zipCity": "PL 380, 00531 Helsinki"
         },
         "headings": {
-          "statements": "Selosteet",
-          "info": "Lisätietoa YKIstä",
-          "contacts": "Yhteystiedot"
+          "contacts": "Yhteystiedot",
+          "info": "Lisätietoa yleisistä kielitutkinnoista (YKI)",
+          "statements": "Selosteet"
         },
         "links": {
           "accessibility": {
@@ -75,8 +75,7 @@
             "title": "Palaute ja kehitysideat"
           },
           "privacy": {
-            "text": "Tietosuojaseloste (oph.fi)",
-            "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
+            "text": "Tietosuojaseloste"
           },
           "ykiHomepage": {
             "text": "Yleisten kielitutkintojen verkkosivu (oph.fi)"
@@ -86,9 +85,9 @@
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Pyydä tarkistusarviointia {{- startDate}} alkaen",
         "header": {
-          "evaluationPeriod": "Tarkistusarvioinnin pyyntöaika"
+          "evaluationPeriod": "Aika, jolloin voit pyytää tarkistusarviointia:"
         },
-        "heading": "Tutkinnot",
+        "heading": "Valitse tutkinto, josta haluat pyytää tarkistusarviointia",
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
@@ -100,21 +99,21 @@
           "dialog": {
             "emailAlreadyQueued": {
               "description": "Olet jo aiemmin tilannut ilmoituksen peruutuspaikoista sähköpostiisi.",
-              "title": "Ilmoituksen tilaaminen ei onnistu"
+              "title": "Ilmoituksen tilaaminen ei onnistunut"
             },
             "genericError": {
               "description": "Tapahtui odottamaton virhe. Voit yrittää uudelleen.",
               "title": "Ilmoituksen tilaaminen ei onnistunut"
             },
             "inputError": {
-              "description": "Tarkista antamasi sähköpostiosoite ja sen vahvistus.",
-              "title": "Virheitä lomakkeella"
+              "description": "Tarkista antamasi sähköpostiosoite.",
+              "title": "Tiedoissa on korjattavaa!"
             }
           },
           "header": "Tilaa ilmoitus peruutuspaikoista",
           "info": {
             "part1": "Tässä testissä ei ole juuri nyt vapaita paikkoja. Voit tilata ilmoituksen peruutuspaikoista.",
-            "part2": "Anna sähköpostiosoitteesi, niin saat ilmoituksen, jos paikkoja vapautuu."
+            "part2": "Anna sähköpostiosoitteesi, niin saat ilmoituksen, jos paikkoja vapautuu ilmoittautumisaikana."
           },
           "inputs": {
             "confirmEmail": {
@@ -123,7 +122,7 @@
             },
             "email": {
               "description": "Esim. nimi@sahkoposti.fi",
-              "heading": "Syötä sähköpostiosoitteesi"
+              "heading": "Kirjoita sähköpostiosoitteesi"
             },
             "submit": {
               "label": "Tilaa ilmoitus"
@@ -180,7 +179,7 @@
               "termsAndConditionsAgreed": "Hyväksy ilmoittautumisen ehdot"
             },
             "fixErrors": "Korjaa puuttuvat tai virheelliset tiedot:",
-            "title": "Virheitä lomakkeella"
+            "title": "Tiedoissa on korjattavaa!"
           },
           "labels": {
             "address": "Katuosoite",
@@ -198,19 +197,19 @@
           },
           "placeholders": {
             "address": "",
-            "dateOfBirth": "Syötä muodossa pp.kk.vvvv",
+            "dateOfBirth": "Kirjoita muodossa pp.kk.vvvv",
             "email": "Esim. nimi@sahkoposti.fi",
             "emailConfirmation": "Kirjoita sähköpostiosoite uudelleen",
             "firstNames": "",
             "gender": "Valitse sukupuoli",
             "lastName": "",
             "nationality": "Valitse kansalaisuus",
-            "phoneNumber": "Syötä muodossa +358 50 123 4567",
+            "phoneNumber": "Kirjoita muodossa +358 50 123 4567",
             "postNumber": "",
             "postOffice": ""
           },
           "finnishSSN": "Onko sinulla suomalainen henkilötunnus? *",
-          "instructionLanguage": "Millä kielellä haluat tehdä tehtävät? *",
+          "instructionLanguage": "Millä kielellä haluat tehtävien ohjeet? *",
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia.",
           "ssn": "Henkilötunnus",
           "termsAndConditions": {
@@ -219,7 +218,7 @@
             "label": "Hyväksyn ilmoittautumisen ehdot *",
             "title": "Ilmoittautumisen ehdot"
           },
-          "title": "Syötä tietosi",
+          "title": "Täytä tietosi",
           "whatsNext": {
             "description": "Kun olet lähettänyt ilmoittautumislomakkeen, saat sähköpostiisi linkin tutkintomaksun maksamista varten. Ilmoittautuminen vahvistuu vasta, kun olet maksanut tutkintomaksun.",
             "title": "Mitä tapahtuu seuraavaksi?"
@@ -259,11 +258,11 @@
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
             "emailInput": {
-              "label": "Syötä sähköpostiosoitteesi",
+              "label": "Kirjoita sähköpostiosoitteesi",
               "placeholder": "Esim. nimi@sahkoposti.fi"
             },
             "emailLink": {
-              "error": "Kirjautumislinkin tilaaminen epäonnistui. Voit yrittää uudestaan.",
+              "error": "Tunnistautuminen epäonnistui. Voit yrittää uudestaan.",
               "incorrectEmailDialog": {
                 "title": "Pyyntö epäonnistui",
                 "description": "Tarkista sähköpostiosoite."
@@ -285,14 +284,12 @@
           },
           "payment": {
             "cancel": {
-              "description": "Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
-              "heading": "Maksutapahtuma keskeytyi",
-              "title": "Keskeytit maksutapahtuman"
+              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "heading": "Maksu epäonnistui"
             },
             "error": {
-              "description": "Voit yrittää maksamista uudestaan. Ilmoittautuminen astuu voimaan vasta kun maksat tutkintomaksun.",
-              "heading": "Virhe maksutapahtumassa",
-              "title": "Maksutapahtuman käsittelyssä tapahtui virhe"
+              "description": "Tutkintomaksun maksaminen ei onnistunut. Yritä maksua uudelleen.",
+              "heading": "Maksu epäonnistui"
             },
             "success": {
               "whatsNext": {
@@ -324,16 +321,24 @@
           }
         },
         "unavailable": {
+          "alreadyRegistered": {
+            "description": "Voit ilmoittautua vain yhteen YKI-testiin samana testipäivänä",
+            "title": "Olet jo ilmoittautunut toiseen YKI-testiin samana testipäivänä"
+          },
+          "generic": {
+            "description": "Lomakkeen lähetyksessä tapahtui virhe. Voit palata ilmoittautumislomakkeelle ja yrittää uudelleen.",
+            "title": "Ilmoittautumislomakkeen lähetys epäonnistui"
+          },
           "full": {
-            "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tilaisuuteen ei ole vapaita paikkoja.",
-            "title": "Tilaisuus on täynnä"
+            "description": "Ilmoittautuminen ei ole mahdollista juuri nyt. Tutkinnossa ei ole vapaita paikkoja.",
+            "title": "YKI-testi on täynnä"
           },
           "past": {
             "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
-            "title": "Ilmoittautumisaika päättynyt"
+            "title": "Ilmoittautumisaika on päättynyt"
           },
           "upcoming": {
-            "description": "Tilaisuuteen ilmoittautunen ei ole mahdollista. Ilmoittautumisaika ei ole vielä alkanut.",
+            "description": "Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.",
             "title": "Ilmoittautumisaika ei ole alkanut"
           }
         }
@@ -349,12 +354,12 @@
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": "Maksutapahtuma keskeytyi!",
-          "info": "Voit yrittää uudelleen."
+          "heading": "Maksu epäonnistui",
+          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
         },
         "error": {
-          "heading": "Tapahtui virhe!",
-          "info": "Voit yrittää uudelleen."
+          "heading": "Maksu epäonnistui",
+          "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudelleen."
         },
         "success": {
           "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
@@ -372,32 +377,35 @@
           "notFound": "Kielitutkintoa ei löytynyt"
         }
       },
+      "logoutSuccessPage": {
+        "heading": "Uloskirjautuminen onnnistui",
+        "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
+      },
+      "notFoundPage": {
+        "description": "Tarkista hakemasi osoite tai palaa aloitussivulle.",
+        "title": "Sivua ei löytynyt"
+      },
       "reassessmentPage": {
         "info": {
           "general": {
-            "body1": "Tarkistusarviointi on Yleisiä kielitutkintoja koskevan lain (964/2004, 13 §) tarjoama mahdollisuus pyytää suorituksesi uudelleen arviointia siinä tapauksessa, että et ole tyytyväinen siihen, miten tekemäsi tutkintosuoritus on arvioitu.",
-            "body2": "Tarkistusarviointi on ainoa toimenpide, jolla voit ehkä saada muutettua suorituksesi tulosta.",
-            "body3": "Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet suorituksesi ensimmäisellä kerralla. Tarkistusarvioinnissa arvioidaan vain suoritusta, eikä muita seikkoja oteta huomioon. Tarkistusarviointia koskevaan päätökseen ei saa hakea muutosta valittamalla.",
-            "heading": "Tarkistusarvioinnista"
+            "body1": "Tarkistusarvioinnissa testivastauksesi arvioidaan uudelleen. Tarkistusarvioinnin tekevät eri arvioijat kuin ne, jotka ovat arvioineet testisi ensimmäisellä kerralla.",
+            "body2": "Tarkistusarviointi muuttaa osakokeen taitotasoarviota vain harvoin. Katso tarkistusarviointitilastot Opetushallituksen verkkosivuilta: ",
+            "body3": "Tarkistusarvioinnissa arvioidaan vain testivastauksiasi. Siinä ei oteta huomioon mitään muita asioita, jotka ovat voineet vaikuttaa testin tulokseen. Et voi valittaa tarkistusarvioinnin päätöksestä.",
+            "heading": "Mitä tarkistusarvioinnissa tehdään?",
+            "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/yki-testin-jalkeen#anchor-tarkistusarviointi",
+            "linkText": "YKI-testin jälkeen: Tarkistusarviointi (oph.fi)"
           },
           "pricing": {
-            "body1": "Tarkistusarviointia voi pyytää joko yhdestä tai useammasta osakokeesta.",
-            "body2": "Jokaisen osakokeen tarkistusarviointi maksaa 50 euroa:",
-            "body3": "Maksu suoritetaan, kun tarkistusarviointipyyntö tehdään, ja vain maksetut pyynnöt käsitellään.",
-            "body4": "Maksu palautetaan, jos osakokeen arviointi muuttuu tarkistusarvioinnissa.",
-            "heading": "Hinnasto"
-          },
-          "schedule": {
-            "body1": "Voit pyytää suorituksesi tarkistusarviointia 14 päivän kuluessa siitä ajankohdasta, kun sinulla on ollut tilaisuus saada arvioinnin tulos.",
-            "body2": "Tarkasta aika, milloin voit pyytää tutkintosuorituksesi tarkistusarviointia, alla olevasta Tutkinnot-taulukosta.",
-            "body3": "Käsittelyaika on keskimäärin kolme kuukautta.",
-            "body4": "Päätös lähetetään sähköpostitse.",
-            "heading": "Aikataulu"
+            "body1": "Voit pyytää tarkistusarviointia yhdestä tai useammasta osakokeesta. Yhden osakokeen tarkistusarviointi maksaa 50 euroa. Sinun täytyy maksaa tarkistusarviointimaksu heti kun teet tarkistusarviointipyynnön. Käsittelemme vain maksetut pyynnöt.",
+            "body2": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos. Tämän sivun lopussa on lista testipäivistä, joista voit pyytää tarkistusarviointia tällä hetkellä.",
+            "body3": "Tarkistusarviointien käsittelyaika on noin kolme kuukautta. Lähetämme päätöksen tarkistusarvioinnista sähköpostitse.",
+            "body4": "Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.",
+            "heading": "Tarkistusarvioinnin pyytäminen ja maksaminen"
           }
         },
         "introduction": {
-          "fee": "Tarkistusarviointien käsittelystä on tullut maksullista keväästä 2021 alkaen.",
-          "info": "Tutkinnon suorittajalla on oikeus pyytää tarkistusarviointia, jos hän ei ole tyytyväinen saamaansa arviointiin. Tarkistusarviointia tulee hakea 14 vuorokauden kuluessa todistuksen saamisesta."
+          "info": "Voit tehdä oikaisuvaatimuspyynnön, jos et ole tyytyväinen YKI-testisi arviointiin. Oikaisuvaatimuspyyntö tarkoittaa YKI-testisi tarkistusarviointia. Voit jättää tarkistusarviointipyynnön tällä sivulla.",
+          "timeLimit": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos."
         },
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
       },
@@ -420,16 +428,16 @@
           },
           "part2": {
             "link": {
-              "label": "Yleiset kielitutkinnot (YKI)",
-              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+              "label": "Tarvitsetko erityisjärjestelyjä?",
+              "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
             },
-            "general": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-tutkinnoissa on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan.",
-            "languages": "Tutkinnon voit suorittaa seuraavissa kielissä: englanti, espanja, italia, pohjoissaame, ranska, ruotsi, saksa, suomi ja venäjä. Lue lisää yleisistä kielitutkinnoista Opetushallituksen verkkosivuilta:"
+            "general": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-testeissä on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan.",
+            "languages": "Jos tarvitset erityisjärjestelyjä YKI-testissä, lue ohjeet erityisjärjestelyjen hakemiseen Opetushallituksen verkkosivuilta:"
           }
         },
         "filters": {
           "buttons": {
-            "empty": "Tyhjennä kaikki",
+            "empty": "Tyhjennä valinnat",
             "showResults": "Näytä tulokset ({{count}})"
           },
           "errorDialog": {
@@ -443,14 +451,14 @@
           "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
-            "required": "(pakollinen)",
-            "optional": "(valinnainen)"
+            "optional": "(valinnainen)",
+            "required": "(pakollinen)"
           }
         },
         "labels": {
           "excludeFullSessions": "Näytä vain kielitutkinnot, joissa on tilaa",
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
-          "filterExamSessions": "Suodata tutkintotilaisuuksia",
+          "filterExamSessions": "Rajaa tuloksia",
           "selectLanguage": "Valitse kieli",
           "selectLevel": "Valitse taitotaso",
           "selectMunicipality": "Valitse paikkakunta"

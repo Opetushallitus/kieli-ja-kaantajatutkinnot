@@ -7,6 +7,7 @@
 // Components
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
+@import 'components/layouts/session-header';
 @import 'components/registration/exam-session-filters';
 @import 'components/registration/public-registration';
 
@@ -14,6 +15,8 @@
 @import 'pages/accessibility-statement-page';
 @import 'pages/evaluation-order-page';
 @import 'pages/evaluation-order-status-page';
+@import 'pages/logout-success-page';
+@import 'pages/not-found-page';
 @import 'pages/public-exam-details-page';
 @import 'pages/reassessment-page';
 @import 'pages/registration-page';

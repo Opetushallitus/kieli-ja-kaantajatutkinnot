@@ -11,6 +11,7 @@ export enum AppRoutes {
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
+  LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
   NotFoundPage = '*',
 }
 
