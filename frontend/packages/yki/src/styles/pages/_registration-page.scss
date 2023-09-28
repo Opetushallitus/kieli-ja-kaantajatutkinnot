@@ -67,4 +67,19 @@
       }
     }
   }
+
+  & &__link-to-old-ui {
+    background-color: $color-blue-200;
+    color: $color-text-primary;
+    margin: 2rem 0;
+    position: relative;
+
+    & a {
+      font-weight: normal;
+    }
+
+    & svg {
+      color: $color-secondary;
+    }
+  }
 }

@@ -463,6 +463,11 @@
           "selectLevel": "Valitse taitotaso",
           "selectMunicipality": "Valitse paikkakunta"
         },
+        "oldUILink": {
+          "text": "Tämä on uusi YKI-ilmoittautumissivu. Haluatko käyttää vanhaa YKI-ilmoittautumissivua?",
+          "link": "https://yki.opintopolku.fi/yki?lang=fi",
+          "linkText": "Siirry vanhalle YKI-ilmoittautumissivulle"
+        },
         "register": "Ilmoittaudu",
         "title": "Yleiset kielitutkinnot (YKI) - Ilmoittautuminen"
       }
