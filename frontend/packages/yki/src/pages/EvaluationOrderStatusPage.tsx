@@ -6,6 +6,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 import { DateUtils } from 'shared/utils';
 
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { OrderStatus } from 'components/orderStatus/OrderStatus';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -41,9 +42,11 @@ const EvaluationDetails = ({
 const EvaluationOrderStatusContents = ({
   heading,
   contents,
+  showEvaluationOrderDetails,
 }: {
   heading: string;
   contents: JSX.Element;
+  showEvaluationOrderDetails: boolean;
 }) => {
   const { evaluationOrderDetails } = useAppSelector(evaluationOrderSelector);
   const { isPhone } = useWindowProperties();
@@ -58,10 +61,11 @@ const EvaluationOrderStatusContents = ({
         elevation={isPhone ? 0 : 3}
         className="public-evaluation-order-status-page__paper rows gapped"
       >
-        {evaluationOrderDetails && (
+        {evaluationOrderDetails && showEvaluationOrderDetails && (
           <EvaluationDetails evaluationDetails={evaluationOrderDetails} />
         )}
         {contents}
+        <BackToFrontPageButton />
       </Paper>
     </>
   );
@@ -81,6 +85,7 @@ const Success = () => {
           <Text>{t('body2')}</Text>
         </>
       }
+      showEvaluationOrderDetails={true}
     />
   );
 };
@@ -94,6 +99,7 @@ const Cancel = () => {
     <EvaluationOrderStatusContents
       heading={t('heading')}
       contents={<Text>{t('info')}</Text>}
+      showEvaluationOrderDetails={false}
     />
   );
 };
@@ -107,6 +113,7 @@ const Error = () => {
     <EvaluationOrderStatusContents
       heading={t('heading')}
       contents={<Text>{t('info')}</Text>}
+      showEvaluationOrderDetails={false}
     />
   );
 };

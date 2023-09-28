@@ -18,6 +18,7 @@ export interface RegistrationState {
   initRegistration: {
     status: APIResponseStatus;
     error?: PublicRegistrationInitError;
+    examSessionId?: number;
   };
   submitRegistration: {
     status: APIResponseStatus;
@@ -54,8 +55,9 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    initRegistration(state, _action: PayloadAction<number>) {
+    initRegistration(state, action: PayloadAction<number>) {
       state.initRegistration.status = APIResponseStatus.InProgress;
+      state.initRegistration.examSessionId = action.payload;
     },
     rejectPublicRegistrationInit(
       state,
@@ -64,14 +66,15 @@ const registrationSlice = createSlice({
       state.initRegistration.status = APIResponseStatus.Error;
       const { closed, full, registered } = action.payload.error;
       if (closed) {
-        state.initRegistration.error =
-          PublicRegistrationInitError.RegistrationPeriodClosed;
+        state.initRegistration.error = PublicRegistrationInitError.Past;
       } else if (full) {
         state.initRegistration.error =
           PublicRegistrationInitError.ExamSessionFull;
       } else if (registered) {
         state.initRegistration.error =
           PublicRegistrationInitError.AlreadyRegistered;
+      } else {
+        state.initRegistration.error = PublicRegistrationInitError.Generic;
       }
     },
     resetPublicRegistration() {
@@ -81,7 +84,7 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<PublicRegistrationInitResponse>
     ) {
-      state.initRegistration = { status: APIResponseStatus.Success };
+      state.initRegistration.status = APIResponseStatus.Success;
       const { registration_id, is_strongly_identified, user } = action.payload;
       const nationality = user.nationalities && user.nationalities[0];
       if (is_strongly_identified) {

@@ -9,6 +9,10 @@
   max-width: 50%;
 }
 
+.fit-content-max-width {
+  max-width: fit-content;
+}
+
 /* Heights */
 .full-height {
   &#{&} {

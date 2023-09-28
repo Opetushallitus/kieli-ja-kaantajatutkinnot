@@ -3,6 +3,7 @@ import { Link } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { H2, Text } from 'shared/components';
 
+import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { usePublicTranslation } from 'configs/i18n';
 import { PaymentStatus } from 'enums/api';
 
@@ -47,12 +48,7 @@ const PaymentCancel = () => {
     keyPrefix: 'yki.component.registration.steps.payment.cancel',
   });
 
-  return (
-    <>
-      <H2>{t('title')}</H2>
-      <Text>{t('description')}</Text>
-    </>
-  );
+  return <Text>{t('description')}</Text>;
 };
 
 const PaymentError = () => {
@@ -60,12 +56,7 @@ const PaymentError = () => {
     keyPrefix: 'yki.component.registration.steps.payment.error',
   });
 
-  return (
-    <>
-      <H2>{t('title')}</H2>
-      <Text>{t('description')}</Text>
-    </>
-  );
+  return <Text>{t('description')}</Text>;
 };
 
 export const Payment = () => {
@@ -83,5 +74,10 @@ export const Payment = () => {
     }
   };
 
-  return <div className="margin-top-xxl rows gapped">{renderPayment()}</div>;
+  return (
+    <div className="margin-top-xxl rows gapped">
+      {renderPayment()}
+      <BackToFrontPageButton />
+    </div>
+  );
 };
