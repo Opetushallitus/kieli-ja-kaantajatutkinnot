@@ -97,6 +97,10 @@
       },
       "level": "Level",
       "municipality": "Municipality",
+      "navigationProtection": {
+        "description": "You will lose any changes you have made.",
+        "header": "Are you sure you want to leave this page?"
+      },
       "next": "Next",
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",

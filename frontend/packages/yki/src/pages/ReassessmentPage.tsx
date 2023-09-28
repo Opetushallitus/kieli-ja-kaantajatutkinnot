@@ -65,7 +65,7 @@ export const ReassessmentPage: FC = () => {
                   rel="noreferrer"
                   target="_black"
                 >
-                  {t('info.general.link')}
+                  {t('info.general.linkText')}
                   <OpenInNewIcon />
                 </a>
               </Text>

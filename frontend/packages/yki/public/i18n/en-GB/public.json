@@ -72,7 +72,7 @@
             "text": "Accessibility statement (in Finnish)"
           },
           "contact": {
-            "title": ""
+            "title": "Feedback and development suggestions"
           },
           "privacy": {
             "text": "Privacy policy statement"
@@ -378,7 +378,8 @@
             "body2": "The reassessment rarely changes the grade of a subtest. See previous statistics on the website of the Finnish National Agency for Education: ",
             "body3": "The reassessment only focuses on your YKI test performance, and no other considerations will be taken into account. The decision on a reassessment may not be appealed.",
             "heading": "What happens in the reassessment?",
-            "link": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-reassessment"
+            "link": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-reassessment",
+            "linkText": "After the YKI test: Reassessment (oph.fi)"
           },
           "pricing": {
             "body1": "You can request a reassessment of one or more subtests. A fee of EUR 50 will be charged for the reassessment of each subtest. The fee must be paid as the reassessment request is submitted. The request will only be processed if the fee has been paid.",

@@ -69,10 +69,10 @@
         },
         "links": {
           "accessibility": {
-            "text": "Tillgänglighetsdirektiv"
+            "text": "Tillgänglighetsdirektiv (på finska)"
           },
           "contact": {
-            "title": ""
+            "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
             "text": "Information om behandlingen av personuppgifter"
@@ -378,7 +378,8 @@
             "body2": "Kontrollbedömningen ändrar sällan vitsordet för delprovet. Läs mer på Utbildningsstyrelsens webbsidor: ",
             "body3": "I kontrollbedömningen bedöms endast prestationen, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
             "heading": "Vad är en kontrollbedömning?",
-            "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning"
+            "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning",
+            "linkText": "Efter YKI-testet: Kontrollbedömning (oph.fi)"
           },
           "pricing": {
             "body1": "Det är möjligt att begära om kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömningen är 50 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",

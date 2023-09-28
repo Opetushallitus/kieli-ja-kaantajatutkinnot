@@ -56,6 +56,10 @@
         "swe": "svenska"
       },
       "level": "Nivå",
+      "navigationProtection": {
+        "description": "Du förlorar ändringar du gjort.",
+        "header": "Är du säker på att du vill lämna den här sidan?"
+      },
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
       "price": "Pris",
       "privacyStatement": {
