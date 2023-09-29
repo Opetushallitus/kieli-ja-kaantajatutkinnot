@@ -126,9 +126,9 @@ const PublicExamSessionListingCellsForDesktop = ({
         {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>
       <TableCell>
-        {locationInfo?.name}
+        {locationInfo.name}
         <br />
-        {locationInfo?.post_office}
+        {ExamSessionUtils.getMunicipality(locationInfo)}
       </TableCell>
       <TableCell>
         <AdmissionPeriodText examSession={examSession} />
@@ -173,9 +173,9 @@ const PublicExamSessionListingCellsForPhone = ({
         <Text>
           <b>{translateCommon('institution')}</b>
           <br />
-          {locationInfo?.name}
+          {locationInfo.name}
           <br />
-          {locationInfo?.post_office}
+          {ExamSessionUtils.getMunicipality(locationInfo)}
         </Text>
         <Text>
           <b>{translateCommon('registrationPeriod')}</b>
