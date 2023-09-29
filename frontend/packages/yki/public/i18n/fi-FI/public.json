@@ -364,8 +364,7 @@
         },
         "success": {
           "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
-          "body1": "Olet lähettänyt tarkistusarviointipyynnön.",
-          "body2": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
+          "body": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         }
       },
       "examDetailsPage": {

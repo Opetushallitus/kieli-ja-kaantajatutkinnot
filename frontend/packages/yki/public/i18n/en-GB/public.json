@@ -347,10 +347,10 @@
     },
     "pages": {
       "evaluationOrderPage": {
-        "notFound": "Tarkistusarvioinnin tietoja ei löytynyt!",
+        "notFound": "Information about the reassessment was not found!",
         "title": "Request a reassessment",
         "toasts": {
-          "loadingError": "Tarkistusarvioinnin tietoja ei voitu ladata!"
+          "loadingError": "Information about the reassessment could not be loaded!"
         }
       },
       "evaluationOrderStatusPage": {
@@ -364,8 +364,7 @@
         },
         "success": {
           "heading": "You have requested a reassessment!",
-          "body1": "You have sent a request for reassessment.",
-          "body2": "You have received a confirmation of your request for reassessment by email. The email also contains information on the reassessment fee. If you have not received the email, please check your spam folder."
+          "body": "You have received a confirmation of your request for reassessment by email. The email also contains information on the reassessment fee. If you have not received the email, please check your spam folder."
         }
       },
       "examDetailsPage": {

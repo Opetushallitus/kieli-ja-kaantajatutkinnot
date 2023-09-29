@@ -79,12 +79,7 @@ const Success = () => {
   return (
     <EvaluationOrderStatusContents
       heading={t('heading')}
-      contents={
-        <>
-          <Text>{t('body1')}</Text>
-          <Text>{t('body2')}</Text>
-        </>
-      }
+      contents={<Text>{t('body')}</Text>}
       showEvaluationOrderDetails={true}
     />
   );

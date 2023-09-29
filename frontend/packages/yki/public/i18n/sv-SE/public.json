@@ -364,8 +364,7 @@
         },
         "success": {
           "heading": "Du har begärt om kontrollbedömning!",
-          "body1": "Du har begärt om kontrollbedömning.",
-          "body2": "Du har fått en bekräftelse om din begäran om kontrollbedömning per e-post. E-posten innehåller också information om din avgift för kontrollbedömning. Om du inte har fått meddelandet, kolla din skräppostmapp."
+          "body": "Du har fått en bekräftelse om din begäran om kontrollbedömning per e-post. E-posten innehåller också information om din avgift för kontrollbedömning. Om du inte har fått meddelandet, kolla din skräppostmapp."
         }
       },
       "examDetailsPage": {
