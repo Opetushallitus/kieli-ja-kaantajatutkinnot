@@ -82,7 +82,11 @@ export const AccessibilityStatementPage = () => {
       <Grid item className="accessibility-statement-page__heading">
         <H1>{translateAccessibility('heading.title')}</H1>
         <HeaderSeparator />
-        <Text>{translateAccessibility('heading.description')}</Text>
+        <Text>
+          {translateAccessibility('heading.body.part1')}{' '}
+          {translateAccessibility('heading.body.part2')}{' '}
+          {translateAccessibility('heading.body.part3')}
+        </Text>
       </Grid>
       <Grid item>
         <Paper className="accessibility-statement-page__content" elevation={3}>
@@ -94,12 +98,11 @@ export const AccessibilityStatementPage = () => {
               </Text>
             </div>
             <div className="rows gapped-xxs">
-              <H3>{translateAccessibility('content.nonAccessible.title')}</H3>
+              <H2>{translateAccessibility('content.nonAccessible.title')}</H2>
               <Text>
                 {translateAccessibility('content.nonAccessible.description1')}
                 {':'}
-              </Text>
-              <Text>
+                <br />
                 {translateAccessibility('content.nonAccessible.description2')}
               </Text>
               {caveats.map(({}, i) => (
@@ -137,7 +140,9 @@ export const AccessibilityStatementPage = () => {
               <div className="rows gapped-xxs">
                 <H3>{translateAccessibility('content.enforcement.title')}</H3>
                 <Text>
-                  {translateAccessibility('content.enforcement.description')}
+                  {translateAccessibility('content.enforcement.description1')}{' '}
+                  {translateAccessibility('content.enforcement.description2')}{' '}
+                  {translateAccessibility('content.enforcement.description3')}
                 </Text>
               </div>
               <div className="rows gapped-xxs">

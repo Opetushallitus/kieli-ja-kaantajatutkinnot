@@ -75,7 +75,8 @@
             "title": "Feedback and development suggestions"
           },
           "privacy": {
-            "text": "Privacy policy statement"
+            "text": "Privacy policy statement",
+            "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-information-on-the-processing-of-personal-data"
           },
           "ykiHomepage": {
             "text": "Website of the National Certificates of Language Proficiency (YKI) (oph.fi)"
