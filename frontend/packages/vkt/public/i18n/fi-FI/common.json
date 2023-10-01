@@ -101,6 +101,9 @@
           "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Kieli / Språk"
         },
+        "sessionState": {
+          "logOut": "Kirjaudu ulos"
+        },
         "lang": {
           "fi": "Suomeksi",
           "sv": "På svenska"
@@ -150,7 +153,8 @@
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
         "clerkExamEventCreate": "Virkailija lisää tutkintopäivä",
         "clerkExamOverview": "Virkailija tutkintosivu",
-        "clerkHomepage": "Virkailija"
+        "clerkHomepage": "Virkailija",
+        "logoutSuccess": "Uloskirjautuminen onnnistui"
       },
       "requiredFieldsInfo": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "rowsPerPageLabel": "Tulokset per sivu",

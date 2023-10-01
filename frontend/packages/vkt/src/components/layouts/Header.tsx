@@ -1,24 +1,23 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
-  ExtLink,
   LangSelector,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
 } from 'shared/components';
-import { AppLanguage, Color, Direction, Variant } from 'shared/enums';
+import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
+import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
   changeLang,
   getCurrentLang,
   getSupportedLangs,
   useCommonTranslation,
 } from 'configs/i18n';
-import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import { useAuthentication } from 'hooks/useAuthentication';
 
@@ -56,19 +55,14 @@ export const Header = (): JSX.Element => {
             />
           </Toolbar>
         )}
+        <SessionStateHeader firstName="testi" lastName="testaaja" />
+        {publicUser?.isAuthenticated && (
+          <SessionStateHeader
+            firstName={publicUser.firstName}
+            lastName={publicUser.lastName}
+          />
+        )}
         <Toolbar className="header__toolbar">
-          {publicUser?.isAuthenticated && (
-            <div>
-              {publicUser.firstName} {publicUser.lastName}
-              <ExtLink
-                href={APIEndpoints.PublicAuthLogout}
-                color={Color.Secondary}
-                variant={Variant.Outlined}
-                text="Kirjaudu ulos"
-                target="_self"
-              />
-            </div>
-          )}
           <div className="header__left">
             <Link to={logoRedirectURL}>
               {isClerkUI ? (

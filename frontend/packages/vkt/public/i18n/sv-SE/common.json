@@ -101,6 +101,9 @@
           "continueToMain": "Fortsätt till innehållet",
           "langSelectorAriaLabel": "Kieli / Språk"
         },
+        "sessionState": {
+          "logOut": "Logga ut"
+        },
         "lang": {
           "fi": "Suomeksi",
           "sv": "På svenska"
