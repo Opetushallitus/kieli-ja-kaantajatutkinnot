@@ -132,7 +132,10 @@ export const PublicExamSessionFilters = ({
                 htmlFor="public-exam-session-filters__language-filter"
                 sx={showError && !language ? { color: 'error.main' } : {}}
               >
-                {translateCommon('language')}
+                {translateCommon('language')}{' '}
+                <span className="public-exam-session-filters__hint">
+                  {t('filters.selectExamDetails.required')}
+                </span>
               </Typography>
               <LanguageSelect
                 id="public-exam-session-filters__language-filter"
@@ -167,7 +170,10 @@ export const PublicExamSessionFilters = ({
                 htmlFor="public-exam-session-filters__level-filter"
                 sx={showError && !level ? errorStyles : {}}
               >
-                {translateCommon('level')}
+                {translateCommon('level')}{' '}
+                <span className="public-exam-session-filters__hint">
+                  {t('filters.selectExamDetails.required')}
+                </span>
               </Typography>
               <ComboBox
                 id="public-exam-session-filters__level-filter"
@@ -194,10 +200,7 @@ export const PublicExamSessionFilters = ({
             component="label"
             htmlFor="public-exam-session-filters__municipality-filter"
           >
-            {t('labels.selectMunicipality')}{' '}
-            <span className="public-exam-session-filters__hint">
-              {t('filters.selectExamDetails.optional')}
-            </span>
+            {t('labels.selectMunicipality')}
           </Typography>
           <ComboBox
             id="public-exam-session-filters__municipality-filter"
@@ -218,10 +221,7 @@ export const PublicExamSessionFilters = ({
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
           <Typography variant="h3" component="legend">
-            {t('labels.filterExamSessions')}{' '}
-            <span className="public-exam-session-filters__hint">
-              {t('filters.selectExamDetails.optional')}
-            </span>
+            {t('labels.filterExamSessions')}
           </Typography>
           <FormGroup>
             <FormControlLabel

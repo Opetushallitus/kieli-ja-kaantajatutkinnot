@@ -451,7 +451,6 @@
           "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
-            "optional": "(valinnainen)",
             "required": "(pakollinen)"
           }
         },
