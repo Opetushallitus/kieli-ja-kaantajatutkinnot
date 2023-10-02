@@ -9,7 +9,7 @@ import { AppRoutes } from 'enums/app';
 export const LogoutSuccess: React.FC = () => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.pages.logoutSuccessPage',
+    keyPrefix: 'vkt.component.logoutSuccessPage',
   });
 
   return (
@@ -21,7 +21,7 @@ export const LogoutSuccess: React.FC = () => {
     >
       <Grid item className="logout-success-page__back-button">
         <CustomButtonLink
-          to={AppRoutes.Registration}
+          to={AppRoutes.PublicHomePage}
           variant={Variant.Text}
           startIcon={<ArrowBackIosOutlinedIcon />}
           className="color-secondary-dark"
@@ -40,7 +40,7 @@ export const LogoutSuccess: React.FC = () => {
         >
           <Text>{t('info')}</Text>
           <CustomButtonLink
-            to={AppRoutes.Registration}
+            to={AppRoutes.PublicHomePage}
             variant={Variant.Contained}
             color={Color.Secondary}
           >

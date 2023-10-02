@@ -55,7 +55,6 @@ export const Header = (): JSX.Element => {
             />
           </Toolbar>
         )}
-        <SessionStateHeader firstName="testi" lastName="testaaja" />
         {publicUser?.isAuthenticated && (
           <SessionStateHeader
             firstName={publicUser.firstName}
