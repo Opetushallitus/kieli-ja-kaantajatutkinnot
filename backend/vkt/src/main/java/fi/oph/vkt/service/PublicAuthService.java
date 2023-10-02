@@ -5,6 +5,7 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
+import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
@@ -41,7 +42,7 @@ public class PublicAuthService {
   public String createCasLogoutUrl() {
     final String casLogoutUrl = environment.getRequiredProperty("app.cas-oppija.logout-url");
     final String casServiceUrl = URLEncoder.encode(
-      environment.getRequiredProperty("app.cas-oppija.service-url"),
+      environment.getRequiredProperty("app.base-url.public"),
       StandardCharsets.UTF_8
     );
     return casLogoutUrl + "?service=" + casServiceUrl;
