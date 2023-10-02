@@ -85,9 +85,13 @@ const renderAdmissionPeriod = ({
   start: Dayjs;
   end: Dayjs;
 }) => {
-  return `${DateTimeUtils.renderDateTime(
-    start
-  )} — ${DateTimeUtils.renderDateTime(end)}`;
+  return (
+    <>
+      {DateTimeUtils.renderDateTime(start)} —
+      <br />
+      {DateTimeUtils.renderDateTime(end)}
+    </>
+  );
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
