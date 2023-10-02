@@ -22,10 +22,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSessionFilters } from 'interfaces/examSessions';
-import {
-  resetPublicExamSessionFilters,
-  setPublicExamSessionFilters,
-} from 'redux/reducers/examSessions';
+import { setPublicExamSessionFilters } from 'redux/reducers/examSessions';
 import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
@@ -33,7 +30,6 @@ import {
 
 export const PublicExamSessionFilters = ({
   onApplyFilters,
-  onEmptyFilters,
 }: {
   onApplyFilters: () => void;
   onEmptyFilters: () => void;
@@ -46,12 +42,6 @@ export const PublicExamSessionFilters = ({
 
   const { showDialog } = useDialog();
   const filtersGridRef = useRef<HTMLInputElement>(null);
-  const scrollToSearch = () => {
-    filtersGridRef.current?.scrollIntoView({
-      block: 'end',
-      inline: 'nearest',
-    });
-  };
 
   const { filters, municipalities } = useAppSelector(examSessionsSelector);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
@@ -69,12 +59,6 @@ export const PublicExamSessionFilters = ({
   };
 
   const [showError, setShowError] = useState(false);
-
-  const handleEmptyBtnClick = () => {
-    dispatch(resetPublicExamSessionFilters());
-    onEmptyFilters();
-    scrollToSearch();
-  };
 
   const handleSubmitBtnClick = () => {
     if (!filters.language || !filters.level) {
@@ -250,14 +234,6 @@ export const PublicExamSessionFilters = ({
         </FormControl>
       </Box>
       <div className="public-exam-session-filters__btn-box">
-        <CustomButton
-          data-testid="public-exam-session-filters__filter__empty-btn"
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          onClick={handleEmptyBtnClick}
-        >
-          {t('filters.buttons.empty')}
-        </CustomButton>
         <CustomButton
           disabled={false}
           data-testid="public-exam-session-filters__filter__search-btn"

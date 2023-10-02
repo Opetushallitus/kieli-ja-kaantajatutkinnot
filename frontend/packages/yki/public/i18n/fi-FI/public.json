@@ -437,7 +437,6 @@
         },
         "filters": {
           "buttons": {
-            "empty": "Tyhjennä valinnat",
             "showResults": "Näytä tulokset ({{count}})"
           },
           "errorDialog": {

@@ -437,7 +437,6 @@
         },
         "filters": {
           "buttons": {
-            "empty": "Radera allt",
             "showResults": "Visa resultat ({{count}})"
           },
           "errorDialog": {
