@@ -42,7 +42,7 @@ public class PublicAuthService {
   public String createCasLogoutUrl() {
     final String casLogoutUrl = environment.getRequiredProperty("app.cas-oppija.logout-url");
     final String casServiceUrl = URLEncoder.encode(
-      environment.getRequiredProperty("app.base-url.public"),
+      environment.getRequiredProperty("app.base-url.public") + "/uloskirjautuminen-onnistui",
       StandardCharsets.UTF_8
     );
     return casLogoutUrl + "?service=" + casServiceUrl;
