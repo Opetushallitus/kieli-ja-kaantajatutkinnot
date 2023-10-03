@@ -8,7 +8,7 @@ import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
 
 export class ExamSessionUtils {
   private static getRegistrationAvailablePlaces(examSession: ExamSession) {
-    return examSession.max_participants - examSession.participants;
+    return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
   private static isPostAdmissionAvailable(examSession: ExamSession) {
@@ -25,7 +25,10 @@ export class ExamSessionUtils {
       !ExamSessionUtils.hasPostAdmissionEnded(examSession, dayjs()) &&
       examSession.post_admission_quota
     ) {
-      return examSession.post_admission_quota - examSession.pa_participants;
+      return Math.max(
+        examSession.post_admission_quota - examSession.pa_participants,
+        0
+      );
     }
 
     return 0;
@@ -202,10 +205,7 @@ export class ExamSessionUtils {
         end: examSession.registration_end_date,
         participants: examSession.participants,
         quota: examSession.max_participants,
-        availablePlaces: Math.max(
-          examSession.max_participants - examSession.participants,
-          0
-        ),
+        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
         availableQueue: !examSession.queue_full,
         open:
           ExamSessionUtils.hasRegistrationStarted(examSession, now) &&
@@ -222,7 +222,7 @@ export class ExamSessionUtils {
         end,
         participants: examSession.pa_participants,
         quota,
-        availablePlaces: Math.max(quota - examSession.pa_participants, 0),
+        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
         availableQueue: false,
         open:
           ExamSessionUtils.hasPostAdmissionStarted(examSession, now) &&
