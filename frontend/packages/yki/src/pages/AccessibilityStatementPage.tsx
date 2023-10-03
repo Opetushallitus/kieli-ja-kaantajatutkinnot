@@ -44,10 +44,8 @@ const ItemBulletList = ({
   item: string;
   bulletPoints: Array<string>;
 }) => (
-  <>
-    <Typography variant="body1" component="li">
-      {item}
-    </Typography>
+  <Typography variant="body1" component="li">
+    {item}
     <ul>
       {bulletPoints.map((bulletPoint, i) => (
         <Typography key={`${bulletPoint}-${i}`} variant="body1" component="li">
@@ -55,7 +53,7 @@ const ItemBulletList = ({
         </Typography>
       ))}
     </ul>
-  </>
+  </Typography>
 );
 
 export const AccessibilityStatementPage = () => {
