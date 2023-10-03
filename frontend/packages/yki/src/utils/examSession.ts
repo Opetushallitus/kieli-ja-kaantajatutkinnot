@@ -44,8 +44,23 @@ export class ExamSessionUtils {
     return ExamSessionUtils.getAvailablePlaces(examSession) > 0;
   }
 
+  private static compareExamSessionsByAdmissionAvailability(
+    es1: ExamSession,
+    es2: ExamSession
+  ) {
+    if (es1.open && !es2.open) {
+      return -1;
+    } else if (!es1.open && es2.open) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   private static compareExamSessionsByLang(es1: ExamSession, es2: ExamSession) {
-    // TODO: write proper language comparator / re-order ExamLanguage enums
+    // Note: this is a silly comparison of language codes.
+    // Use when the actual order between exam languages is not a major concern,
+    // but exam sessions should just be grouped by language.
     if (es1.language_code < es2.language_code) {
       return -1;
     } else if (es1.language_code > es2.language_code) {
@@ -119,11 +134,12 @@ export class ExamSessionUtils {
   static compareExamSessions(es1: ExamSession, es2: ExamSession) {
     // Prioritised ordering of comparators
     const comparatorFns = [
-      ExamSessionUtils.compareExamSessionsByLang,
+      ExamSessionUtils.compareExamSessionsByAdmissionAvailability,
       ExamSessionUtils.compareExamSessionsByRoom,
       ExamSessionUtils.compareExamSessionsByQueueFullness,
-      ExamSessionUtils.compareExamSessionsByDate,
       ExamSessionUtils.compareExamSessionsByRegistrationEnding,
+      ExamSessionUtils.compareExamSessionsByDate,
+      ExamSessionUtils.compareExamSessionsByLang,
     ];
 
     for (let i = 0; i < comparatorFns.length; i++) {
