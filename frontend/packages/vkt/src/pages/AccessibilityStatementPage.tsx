@@ -44,14 +44,14 @@ const ItemBulletList = ({
   item: string;
   bulletPoints: Array<string>;
 }) => (
-  <Typography variant="body1" component="div">
-    <ul className="accessibility-statement-page__item-bullet-list">
-      <li>{item}</li>
-      <ul>
-        {bulletPoints.map((bulletPoint, i) => (
-          <li key={`${bulletPoint}-${i}`}>{bulletPoint}</li>
-        ))}
-      </ul>
+  <Typography variant="body1" component="li">
+    {item}
+    <ul>
+      {bulletPoints.map((bulletPoint, i) => (
+        <Typography key={`${bulletPoint}-${i}`} variant="body1" component="li">
+          {bulletPoint}
+        </Typography>
+      ))}
     </ul>
   </Typography>
 );
@@ -102,16 +102,18 @@ export const AccessibilityStatementPage = () => {
               <Text>
                 {translateAccessibility('content.nonAccessible.description2')}
               </Text>
-              {caveats.map(({}, i) => (
-                <ItemBulletList
-                  key={`items-${i}`}
-                  item={translateAccessibility(`content.caveats.${i}.name`)}
-                  bulletPoints={translateAccessibility(
-                    `content.caveats.${i}.points`,
-                    { returnObjects: true }
-                  )}
-                />
-              ))}
+              <ul className="accessibility-statement-page__item-bullet-list">
+                {caveats.map(({}, i) => (
+                  <ItemBulletList
+                    key={`items-${i}`}
+                    item={translateAccessibility(`content.caveats.${i}.name`)}
+                    bulletPoints={translateAccessibility(
+                      `content.caveats.${i}.points`,
+                      { returnObjects: true }
+                    )}
+                  />
+                ))}
+              </ul>
             </div>
             <div className="rows gapped-xxs">
               <H2>{translateAccessibility('content.composition.title')}</H2>
