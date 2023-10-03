@@ -3,7 +3,7 @@
     "common": {
       "actions": "Actions",
       "appNameAbbreviation": "YKI",
-      "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
+      "appTitle": "National Certificates of Language Proficiency (YKI) - Finnish National Agency for Education",
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Cancel",
@@ -131,6 +131,19 @@
       "ykiHomepage": {
         "ariaLabel": "Website of the National Certificates of Language Proficiency (oph.fi), open in new tab",
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
+      },
+      "pageTitle": {
+        "registration": "Registration",
+        "initRegistration": "Register for a test",
+        "examDetails": "Exam",
+        "registrationPaymentStatus": "Register for a test",
+        "reassessment": "Reassessment",
+        "evaluationOrder": "Request a reassessment",
+        "evaluationOrderStatus": "Request a reassessment",
+        "accessibilityStatement": "Accessibility statement",
+        "privacyPolicy": "Privacy policy statement",
+        "logoutSuccess": "Log out complete",
+        "notFound": "Page not found"
       }
     }
   }

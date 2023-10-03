@@ -131,6 +131,19 @@
       "ykiHomepage": {
         "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
+      },
+      "pageTitle": {
+        "registration": "Registration",
+        "initRegistration": "Register for a test",
+        "examDetails": "Exam",
+        "registrationPaymentStatus": "Register for a test",
+        "reassessment": "Reassessment",
+        "evaluationOrder": "Request a reassessment",
+        "evaluationOrderStatus": "Request a reassessment",
+        "accessibilityStatement": "Accessibility statement",
+        "privacyPolicy": "Privacy policy statement",
+        "logoutSuccess": "Log out complete",
+        "notFound": "Page not found"
       }
     }
   }
