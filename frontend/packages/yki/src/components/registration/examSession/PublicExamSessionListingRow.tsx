@@ -85,8 +85,10 @@ const renderAdmissionPeriod = ({
   start: Dayjs;
   end: Dayjs;
 }) => {
-  const startTimeStr = DateTimeUtils.renderDateTime(start);
-  const endTimeStr = DateTimeUtils.renderDateTime(end);
+  const startTimeStr = DateTimeUtils.renderDateTime(
+    start.tz('Europe/Helsinki')
+  );
+  const endTimeStr = DateTimeUtils.renderDateTime(end.tz('Europe/Helsinki'));
 
   return (
     <span aria-label={`${startTimeStr} — ${endTimeStr}`}>

@@ -162,29 +162,20 @@ export class ExamSessionUtils {
   static hasRegistrationStarted(examSession: ExamSession, now: Dayjs) {
     const { registration_start_date } = examSession;
 
-    // TODO Consider timezones! Registration opening / closing times are supposed to be
-    // wrt. Finnish times, but user can be on a different timezone.
-    const registrationOpensAt = registration_start_date.hour(10);
-
-    return registrationOpensAt.isBefore(now);
+    // Note: need to convert to utc because of poor support in Dayjs
+    // for comparing times across timezones
+    return registration_start_date.utc().isBefore(now.utc());
   }
 
   static hasRegistrationEnded(examSession: ExamSession, now: Dayjs) {
     const { registration_end_date } = examSession;
 
-    // TODO Consider timezones! Registration opening / closing times are supposed to be
-    // wrt. Finnish times, but user can be on a different timezone.
-    const registrationClosesAt = registration_end_date.hour(16);
-
-    return registrationClosesAt.isBefore(now);
+    return registration_end_date.utc().isBefore(now.utc());
   }
 
   static hasPostAdmissionStarted(examSession: ExamSession, now: Dayjs) {
     if (examSession.post_admission_start_date) {
-      const postAdmissionOpensAt =
-        examSession.post_admission_start_date.hour(10);
-
-      return postAdmissionOpensAt.isBefore(now);
+      return examSession.post_admission_start_date.utc().isBefore(now.utc());
     }
 
     return false;
@@ -192,10 +183,7 @@ export class ExamSessionUtils {
 
   static hasPostAdmissionEnded(examSession: ExamSession, now: Dayjs) {
     if (examSession.post_admission_end_date) {
-      const postAdmissionClosesAt =
-        examSession.post_admission_end_date.hour(16);
-
-      return postAdmissionClosesAt.isBefore(now);
+      return examSession.post_admission_end_date.utc().isBefore(now.utc());
     }
 
     return false;
@@ -203,8 +191,6 @@ export class ExamSessionUtils {
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
     const now = dayjs();
-    const registrationOpensAt = examSession.registration_start_date?.hour(10);
-    const registrationClosesAt = examSession.registration_end_date?.hour(16);
 
     if (
       !ExamSessionUtils.hasRegistrationEnded(examSession, now) ||
@@ -212,8 +198,8 @@ export class ExamSessionUtils {
     ) {
       return {
         kind: RegistrationKind.Admission,
-        start: registrationOpensAt,
-        end: registrationClosesAt,
+        start: examSession.registration_start_date,
+        end: examSession.registration_end_date,
         participants: examSession.participants,
         quota: examSession.max_participants,
         availablePlaces: Math.max(
@@ -222,29 +208,25 @@ export class ExamSessionUtils {
         ),
         availableQueue: !examSession.queue_full,
         open:
-          registrationOpensAt.isBefore(now) &&
-          registrationClosesAt.isAfter(now),
+          ExamSessionUtils.hasRegistrationStarted(examSession, now) &&
+          !ExamSessionUtils.hasRegistrationEnded(examSession, now),
       };
     } else {
-      const postAdmissionOpensAt =
-        examSession.post_admission_start_date?.hour(10);
-      const postAdmissionClosesAt =
-        examSession.post_admission_end_date?.hour(16);
       const quota = examSession.post_admission_quota || 0;
+      const start = examSession.post_admission_start_date as Dayjs;
+      const end = examSession.post_admission_end_date as Dayjs;
 
       return {
         kind: RegistrationKind.PostAdmission,
-        start: postAdmissionOpensAt as Dayjs,
-        end: postAdmissionClosesAt as Dayjs,
+        start,
+        end,
         participants: examSession.pa_participants,
         quota,
         availablePlaces: Math.max(quota - examSession.pa_participants, 0),
         availableQueue: false,
         open:
-          !!postAdmissionOpensAt &&
-          !!postAdmissionClosesAt &&
-          postAdmissionOpensAt.isBefore(now) &&
-          postAdmissionClosesAt.isAfter(now),
+          ExamSessionUtils.hasPostAdmissionStarted(examSession, now) &&
+          !ExamSessionUtils.hasPostAdmissionEnded(examSession, now),
       };
     }
   }
