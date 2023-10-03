@@ -45,7 +45,9 @@ const examSessionsSlice = createSlice({
 
       state.status = APIResponseStatus.Success;
       state.exam_sessions = examSessions;
-      state.municipalities = Array.from(uniqueMunicipalities).sort();
+      state.municipalities = Array.from(uniqueMunicipalities).sort(
+        new Intl.Collator('fi').compare
+      );
     },
     setPublicExamSessionFilters(
       state,
