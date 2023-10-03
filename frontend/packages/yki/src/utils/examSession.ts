@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { AppLanguage } from 'shared/enums';
+import { StringUtils } from 'shared/utils';
 
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
@@ -246,5 +247,11 @@ export class ExamSessionUtils {
           postAdmissionClosesAt.isAfter(now),
       };
     }
+  }
+
+  static getMunicipality(location: ExamSessionLocation) {
+    return StringUtils.capitalize(
+      StringUtils.trimAndLowerCase(location.post_office)
+    );
   }
 }
