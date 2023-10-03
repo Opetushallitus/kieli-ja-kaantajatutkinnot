@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.27] - 2023-10-03
+
+### Changed
+
+- Use the timezone plugin with Dayjs
+
 ## [1.9.26] - 2023-10-02
 
 ### Changed
