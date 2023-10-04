@@ -42,12 +42,12 @@ const filterExamSessions = (
     filteredData = filteredData.filter((es) => {
       const { open, availablePlaces } =
         ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
-      if (filters.excludeFullSessions && !availablePlaces) {
-        return false;
-      } else if (filters.excludeNonOpenSessions && !open) {
-        return false;
+      if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+        return availablePlaces > 0 && open;
+      } else if (filters.excludeFullSessions) {
+        return availablePlaces > 0;
       } else {
-        return true;
+        return open;
       }
     });
   }

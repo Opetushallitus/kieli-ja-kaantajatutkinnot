@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { BrowserRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 
@@ -7,6 +8,11 @@ import { examSessions } from 'tests/msw/fixtures/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
 describe('PublicExamSessionsTable', () => {
+  const testDay = dayjs('2023-08-11');
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(testDay.toDate());
+  });
+
   it('should render correctly', () => {
     const { exam_sessions } =
       SerializationUtils.deserializeExamSessionsResponse(
