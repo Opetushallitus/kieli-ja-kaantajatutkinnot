@@ -43,12 +43,12 @@
         },
         "renderEvaluationDetails": {
           "heading": "Uppgifter om examen",
-          "info": null
+          "info": "Du håller på att begära om kontrollbedömning om följande test:"
         },
         "selectExaminationParts": {
-          "heading": "Välj delprov ",
-          "selectAtLeastOne": null,
-          "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras*",
+          "heading": "Välj delprov",
+          "selectAtLeastOne": "Välj minst ett delprov",
+          "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras *",
           "sumTotal": "Priset på kontrollbedömningen totalt"
         }
       },
@@ -75,7 +75,8 @@
             "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
-            "text": "Information om behandlingen av personuppgifter"
+            "text": "Information om behandlingen av personuppgifter",
+            "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-information-om-behandlingen-av-personuppgifter"
           },
           "ykiHomepage": {
             "text": "Webbplatsen för allmänna språkexamina (YKI) (oph.fi)"
@@ -285,13 +286,11 @@
           "payment": {
             "cancel": {
               "description": "Anmälning är bekräftat först då du har betalat examensavgiften.",
-              "heading": "Betalningen kunde inte genomföras",
-              "title": "Du har avbrytit betalningen"
+              "heading": "Betalningen kunde inte genomföras"
             },
             "error": {
               "description": "Du kan försöka betala på nytt. Anmälning är bekräftat först då du har betalat examensavgiften.",
-              "heading": "Betalningsfel",
-              "title": "Det har uppstått ett fel i betalningen"
+              "heading": "Betalningsfel"
             },
             "success": {
               "whatsNext": {
@@ -323,9 +322,17 @@
           }
         },
         "unavailable": {
+          "alreadyRegistered": {
+            "description": "Du kan anmäla dig endast till ett YKI-test på samma testdag.",
+            "title": "Du har redan almält dig till ett annat YKI-test på samma testdag."
+          },
           "full": {
             "description": "Det är inte möjligt att anmäla sig just nu. Det finns inga lediga platser i testet.",
             "title": "Testet är fullbokat"
+          },
+          "generic": {
+            "description": "Det gick inte att skicka anmälningsblankett. Du kan gå tillbaka till anmälningsblanketten och försöka på nytt.",
+            "title": "Det gick inte att skicka anmälningsblankett"
           },
           "past": {
             "description": "Det är inte längre möjligt att anmäla sig. Anmälningstiden har slutat.",
@@ -340,36 +347,43 @@
     },
     "pages": {
       "evaluationOrderPage": {
-        "notFound": null,
-        "title": "Gör en begäran om kontrollbedömning",
+        "notFound": "Uppgifter om kontrollbedömning hittades inte!",
+        "title": "Begär kotrollbedömning",
         "toasts": {
-          "loadingError": null
+          "loadingError": "Det gick inte att ladda uppgifter om kontrollbedömning!"
         }
       },
       "evaluationOrderStatusPage": {
         "cancel": {
-          "heading": null,
-          "info": null
+          "heading": "Betalningen kunde inte genomföras",
+          "info": "Du kan försöka betala på nytt. Vi behandlar endast betalda begäranden om kontrollbedömning."
         },
         "error": {
-          "heading": null,
-          "info": null
+          "heading": "Betalningsfel",
+          "info": "Betalningen kunde inte genomföras. Du kan försöka betala på nytt. "
         },
         "success": {
-          "heading": null,
-          "body1": null,
-          "body2": null
+          "heading": "Du har begärt om kontrollbedömning!",
+          "body": "Du har fått en bekräftelse om din begäran om kontrollbedömning per e-post. E-posten innehåller också information om din avgift för kontrollbedömning. Om du inte har fått meddelandet, kolla din skräppostmapp."
         }
       },
       "examDetailsPage": {
         "toasts": {
-          "notFound": null
+          "notFound": "YKI-test hittades inte"
         }
       },
       "initRegistrationPage": {
         "toasts": {
-          "notFound": null
+          "notFound": "YKI-test hittades inte"
         }
+      },
+      "logoutSuccessPage": {
+        "heading": "Utloggning lyckades",
+        "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
+      },
+      "notFoundPage": {
+        "description": "Kontrollera webbadress eller gå tillbaka till framsidan",
+        "title": "Sidan hittades inte"
       },
       "reassessmentPage": {
         "info": {
@@ -437,6 +451,7 @@
           "information": "Sök här för ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
+            "optional": "(valfritt)",
             "required": "(oblikatorisk)"
           }
         },
@@ -447,6 +462,11 @@
           "selectLanguage": "Välj språk",
           "selectLevel": "Välj färdighetsnivå",
           "selectMunicipality": "Välj ort"
+        },
+        "oldUILink": {
+          "text": "Den här är den nya YKI-anmälningssidan. Vill du använda den gamla anmälningssidan?",
+          "link": "https://yki.opintopolku.fi/yki?lang=sv",
+          "linkText": "Till den gamla anmälningsidan"
         },
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
