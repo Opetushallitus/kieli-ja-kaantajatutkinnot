@@ -163,18 +163,6 @@ describe('ExamSessionUtils', () => {
     });
 
     it('should prioritise comparators', () => {
-      // language code > room
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            language_code: ExamLanguage.DEU,
-            participants: baseExamSession.max_participants,
-          },
-          baseExamSession
-        )
-      ).toEqual(-1);
-
       // room > queue fullness
       expect(
         ExamSessionUtils.compareExamSessions(
@@ -201,7 +189,7 @@ describe('ExamSessionUtils', () => {
         )
       ).toEqual(1);
 
-      // earlier session date > ended registration
+      // ongoing registration > earlier session date
       // participants set as max_participants for both to avoid es1 to be considered full and es2 not
       expect(
         ExamSessionUtils.compareExamSessions(
@@ -214,6 +202,20 @@ describe('ExamSessionUtils', () => {
           {
             ...baseExamSession,
             participants: baseExamSession.max_participants,
+          }
+        )
+      ).toEqual(1);
+
+      // exam date > language
+      expect(
+        ExamSessionUtils.compareExamSessions(
+          {
+            ...baseExamSession,
+            session_date: dayjs('2098-12-31'),
+          },
+          {
+            ...baseExamSession,
+            language_code: ExamLanguage.DEU,
           }
         )
       ).toEqual(-1);
@@ -300,6 +302,54 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.PostAdmission,
           open: false,
           availableQueue: false,
+        }
+      );
+
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          registration_end_date: testDay.subtract(2, 'day'),
+          post_admission_active: true,
+          post_admission_start_date: testDay.subtract(1, 'day'),
+          post_admission_end_date: testDay.add(2, 'day'),
+          pa_participants: 3,
+          post_admission_quota: 10,
+        },
+        {
+          kind: RegistrationKind.PostAdmission,
+          open: true,
+          availableQueue: false,
+          availablePlaces: 7,
+        }
+      );
+    });
+
+    it('should indicate session is full if registration period has ended', () => {
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          registration_end_date: testDay.subtract(1, 'day'),
+        },
+        {
+          kind: RegistrationKind.Admission,
+          open: false,
+          availablePlaces: 0,
+        }
+      );
+
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          registration_end_date: testDay.subtract(3, 'day'),
+          post_admission_active: true,
+          post_admission_start_date: testDay.subtract(2, 'day'),
+          post_admission_end_date: testDay.subtract(1, 'day'),
+          post_admission_quota: 9,
+        },
+        {
+          kind: RegistrationKind.PostAdmission,
+          open: false,
+          availablePlaces: 0,
         }
       );
     });
