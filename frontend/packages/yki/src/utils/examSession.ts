@@ -5,6 +5,7 @@ import { StringUtils } from 'shared/utils';
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import { DateTimeUtils } from 'utils/dateTime';
 
 export class ExamSessionUtils {
   private static getRegistrationAvailablePlaces(examSession: ExamSession) {
@@ -181,31 +182,31 @@ export class ExamSessionUtils {
   static hasRegistrationStarted(examSession: ExamSession, now: Dayjs) {
     const { registration_start_date } = examSession;
 
-    // Note: need to convert to utc because of poor support in Dayjs
-    // for comparing times across timezones
-    return registration_start_date.utc().isBefore(now.utc());
+    return DateTimeUtils.isBeforeOrEqual(registration_start_date, now);
   }
 
   static hasRegistrationEnded(examSession: ExamSession, now: Dayjs) {
     const { registration_end_date } = examSession;
 
-    return registration_end_date.utc().isBefore(now.utc());
+    return DateTimeUtils.isBeforeOrEqual(registration_end_date, now);
   }
 
   static hasPostAdmissionStarted(examSession: ExamSession, now: Dayjs) {
-    if (examSession.post_admission_start_date) {
-      return examSession.post_admission_start_date.utc().isBefore(now.utc());
-    }
+    const { post_admission_start_date } = examSession;
 
-    return false;
+    return (
+      post_admission_start_date &&
+      DateTimeUtils.isBeforeOrEqual(post_admission_start_date, now)
+    );
   }
 
   static hasPostAdmissionEnded(examSession: ExamSession, now: Dayjs) {
-    if (examSession.post_admission_end_date) {
-      return examSession.post_admission_end_date.utc().isBefore(now.utc());
-    }
+    const { post_admission_end_date } = examSession;
 
-    return false;
+    return (
+      post_admission_end_date &&
+      DateTimeUtils.isBeforeOrEqual(post_admission_end_date, now)
+    );
   }
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {

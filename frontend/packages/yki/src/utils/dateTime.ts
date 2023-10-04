@@ -12,4 +12,13 @@ export class DateTimeUtils {
       t('yki.common.dates.dateTimeFormat')
     );
   }
+
+  static isBeforeOrEqual(a: Dayjs, b: Dayjs) {
+    // Note: need to first convert to utc because of poor support in Dayjs
+    // for comparing times across timezones.
+    const d1 = a.utc();
+    const d2 = b.utc();
+
+    return d1.isBefore(d2) || d1.isSame(2);
+  }
 }
