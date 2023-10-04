@@ -6,7 +6,7 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
 >
   <div
     aria-owns={null}
-    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
+    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1h51icj-MuiAutocomplete-root"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseDown={[Function]}
@@ -27,7 +27,6 @@ exports[`ComboBox should render ComboBox correctly 1`] = `
           autoComplete="off"
           autoFocus={false}
           className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-          disabled={false}
           id=":r0:"
           onAnimationStart={[Function]}
           onBlur={[Function]}

@@ -1,7 +1,7 @@
 import { Step, StepLabel, Stepper } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { CircularStepper, H2, Text } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -12,6 +12,8 @@ import { registrationSelector } from 'redux/selectors/registration';
 
 export const PublicRegistrationStepper = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus } =
+    useAppSelector(registrationSelector).initRegistration;
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.stepper',
   });
@@ -22,8 +24,10 @@ export const PublicRegistrationStepper = () => {
   const paymentStatus = params.get('status');
 
   const isError =
-    activeStep === PublicRegistrationFormStep.Done &&
-    paymentStatus !== PaymentStatus.Success;
+    (activeStep === PublicRegistrationFormStep.Done &&
+      paymentStatus !== PaymentStatus.Success) ||
+    (activeStep === PublicRegistrationFormStep.Register &&
+      initRegistrationStatus === APIResponseStatus.Error);
 
   const doneStepNumber = PublicRegistrationFormStep.Done;
 
@@ -41,11 +45,7 @@ export const PublicRegistrationStepper = () => {
   };
 
   const getDescription = (stepNumber: number) => {
-    if (isError) {
-      return t('paymentAborted');
-    } else {
-      return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
-    }
+    return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
   };
 
   const getNextInformation = (stepNumber: number) => {
@@ -66,12 +66,15 @@ export const PublicRegistrationStepper = () => {
     return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
   };
 
-  const stepValue = Math.min(activeStep, doneStepNumber);
+  const stepValue =
+    isError && activeStep === PublicRegistrationFormStep.Done
+      ? PublicRegistrationFormStep.Payment
+      : Math.min(activeStep, doneStepNumber);
 
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
-    activeStep
+    stepValue
   )}`;
 
   if (isPhone) {
@@ -85,8 +88,8 @@ export const PublicRegistrationStepper = () => {
           size={90}
         />
         <div className="rows">
-          <H2>{getDescription(activeStep)}</H2>
-          <Text>{getNextInformation(activeStep)}</Text>
+          <H2>{getDescription(stepValue)}</H2>
+          {!isError && <Text>{getNextInformation(stepValue)}</Text>}
         </div>
       </div>
     );
@@ -94,14 +97,17 @@ export const PublicRegistrationStepper = () => {
     return (
       <Stepper
         className="public-registration__grid__stepper"
-        activeStep={activeStep - 1}
+        activeStep={stepValue - 1}
       >
         {stepNumbers.map((i) => (
           <Step key={i}>
             <StepLabel
               aria-label={getStepAriaLabel(i)}
+              error={isError && stepValue === i}
               className={
-                activeStep < i
+                stepValue === i && isError
+                  ? 'public-registration__grid__stepper__step-error'
+                  : stepValue < i
                   ? 'public-registration__grid__stepper__step-disabled'
                   : undefined
               }

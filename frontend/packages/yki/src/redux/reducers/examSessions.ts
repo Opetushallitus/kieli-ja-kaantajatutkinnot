@@ -38,12 +38,16 @@ const examSessionsSlice = createSlice({
         ExamSessionUtils.compareExamSessions(es1, es2)
       );
       const uniqueMunicipalities = new Set(
-        examSessions.map((es) => es.location[0].post_office)
+        examSessions.map((es) =>
+          ExamSessionUtils.getMunicipality(es.location[0])
+        )
       );
 
       state.status = APIResponseStatus.Success;
       state.exam_sessions = examSessions;
-      state.municipalities = Array.from(uniqueMunicipalities);
+      state.municipalities = Array.from(uniqueMunicipalities).sort(
+        new Intl.Collator('fi').compare
+      );
     },
     setPublicExamSessionFilters(
       state,

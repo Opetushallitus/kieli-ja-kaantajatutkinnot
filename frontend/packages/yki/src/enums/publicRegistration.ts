@@ -7,13 +7,15 @@ export enum PublicRegistrationFormStep {
 
 export enum PublicRegistrationInitError {
   AlreadyRegistered = 'alreadyRegistered',
-  ExamSessionFull = 'examSessionFull',
-  RegistrationPeriodClosed = 'registrationPeriodClosed',
+  ExamSessionFull = 'full',
+  Generic = 'generic',
+  Past = 'past',
+  Upcoming = 'upcoming',
 }
 
 export enum PublicRegistrationFormSubmitError {
   FormExpired = 'formExpired',
-  PaymentCreationFailed = 'generic',
-  PersonCreationFailed = 'generic',
+  PaymentCreationFailed = 'paymentCreationFailed',
+  PersonCreationFailed = 'personCreationFailed',
   RegistrationPeriodClosed = 'registrationPeriodClosed',
 }

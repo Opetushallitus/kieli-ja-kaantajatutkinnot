@@ -9,8 +9,15 @@ import {
   InfoText,
   Text,
 } from 'shared/components';
-import { Color, TextFieldTypes, Variant } from 'shared/enums';
-import { DateUtils, InputFieldUtils } from 'shared/utils';
+import {
+  APIResponseStatus,
+  Color,
+  Severity,
+  TextFieldTypes,
+  Variant,
+} from 'shared/enums';
+import { useDialog } from 'shared/hooks';
+import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
@@ -18,13 +25,17 @@ import {
   useCommonTranslation,
 } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
-import { EnrollmentStatus } from 'enums/app';
+import { EnrollmentStatus, PaymentStatus } from 'enums/app';
 import { ClerkEnrollmentTextFieldEnum } from 'enums/clerkEnrollment';
 import { ClerkEnrollment, ClerkPayment } from 'interfaces/clerkEnrollment';
 import { ClerkEnrollmentTextFieldProps } from 'interfaces/clerkEnrollmentTextField';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
-import { createClerkEnrollmentPaymentLink } from 'redux/reducers/clerkEnrollmentDetails';
+import {
+  createClerkEnrollmentPaymentLink,
+  setClerkPaymentRefunded,
+} from 'redux/reducers/clerkEnrollmentDetails';
 import { clerkEnrollmentDetailsSelector } from 'redux/selectors/clerkEnrollmentDetails';
+import { DateTimeUtils } from 'utils/dateTime';
 
 const CheckboxField = ({
   enrollment,
@@ -59,9 +70,35 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkEnrollmentDetails',
   });
+  const translateCommon = useCommonTranslation();
+
+  const { showDialog } = useDialog();
+  const dispatch = useAppDispatch();
+  const refundLoadingStatus = useAppSelector(
+    clerkEnrollmentDetailsSelector
+  ).paymentRefundStatus;
 
   const formatAmount = (amount: number) => {
     return (amount / 100).toFixed(2);
+  };
+
+  const handleSetRefundedButtonClick = (paymentId: number) => {
+    showDialog({
+      title: t('payment.refundDialog.header'),
+      severity: Severity.Info,
+      description: t('payment.refundDialog.description'),
+      actions: [
+        {
+          title: translateCommon('back'),
+          variant: Variant.Outlined,
+        },
+        {
+          title: translateCommon('yes'),
+          variant: Variant.Contained,
+          action: () => dispatch(setClerkPaymentRefunded(paymentId)),
+        },
+      ],
+    });
   };
 
   return (
@@ -69,18 +106,39 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
       <Text>
         {t('payment.details.status')}:{' '}
         <b>{t(`paymentStatus.${payment.status}`)}</b>
+        {payment.refundedAt && ` (${t('payment.details.refunded')})`}
       </Text>
       <Text>
         {t('payment.details.reference')}: <b>{payment.transactionId}</b>
       </Text>
       <Text>
         {t('payment.details.date')}:{' '}
-        <b>{DateUtils.formatOptionalDateTime(payment.modifiedAt)}</b>
+        <b>{DateTimeUtils.renderDateTime(payment.createdAt)}</b>
       </Text>
       <Text>
         {t('payment.details.amount')}:{' '}
         <b>{formatAmount(payment.amount)} &euro;</b>
       </Text>
+      {payment.refundedAt ? (
+        <Text data-testid={`clerk-payment-${payment.id}__refunded-at`}>
+          {t('payment.details.refunded')}:{' '}
+          <b>{DateTimeUtils.renderDate(payment.refundedAt)}</b>
+        </Text>
+      ) : (
+        payment.status === PaymentStatus.OK && (
+          <div className="margin-top-sm flex-start">
+            <CustomButton
+              data-testid={`clerk-payment-${payment.id}__set-refunded`}
+              variant={Variant.Outlined}
+              color={Color.Secondary}
+              onClick={handleSetRefundedButtonClick.bind(this, payment.id)}
+              disabled={refundLoadingStatus === APIResponseStatus.InProgress}
+            >
+              {t('payment.setRefunded')}
+            </CustomButton>
+          </div>
+        )
+      )}
     </div>
   );
 };
@@ -458,7 +516,7 @@ export const ClerkEnrollmentDetailsFields = ({
         )}
 
         {!enrollment.digitalCertificateConsent && (
-          <div className="rows gapped margin-top-sm">
+          <div className="rows gapped margin-top-lg">
             <H3>
               {translateCommon('enrollment.certificateShipping.addressTitle')}
             </H3>
@@ -506,7 +564,7 @@ export const ClerkEnrollmentDetailsFields = ({
               <div className="rows gapped-xs">
                 <H3>{t('payment.modal.expires')}</H3>
                 <Text>
-                  {DateUtils.formatOptionalDateTime(paymentLink.expiresAt)}
+                  {DateTimeUtils.renderDateTime(paymentLink.expiresAt)}
                 </Text>
               </div>
             </div>

@@ -9,6 +9,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.25] - 2023-09-22
+
+### Added
+
+- New class `.fit-content-max-width`
+
+## [1.9.24] - 2023-09-13
+
+### Changed
+
+- More stringent email validation. Uses same validation logic as YKI backend.
+
+## [1.9.23] - 203-08-25
+
+### Added
+
+- Optional `title` property for OPPHLogoViewer
+
+## [1.9.22] - 2023-08-16
+
+### Changed
+
+- Removed seconds from `formatOptionalDateTime` default format
+
+## [1.9.21] - 2023-08-16
+
+### Fixed
+
+- Ignore LangSelector dividers with screen reader
+
+## [1.9.20] - 2023-08-15
+
+### Changed
+
+- Minor code changes required by dependency updates
+
 ## [1.9.16] - 2023-07-18
 
 ### Changed

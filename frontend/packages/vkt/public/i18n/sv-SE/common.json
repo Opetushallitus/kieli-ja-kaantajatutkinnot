@@ -44,6 +44,10 @@
           "town": "Postanstalt"
         }
       },
+      "dates": {
+        "dateTimeFormat": "l [kl.] HH.mm",
+        "dateFormat": "l"
+      },
       "errors": {
         "api": {
           "enrollmentAlreadyPaid": "Betalningen misslyckades eftersom examensavgiften redan är betald.",
@@ -58,16 +62,17 @@
           "initialiseEnrollmentToQueueHasRoom": "Lediga platser har blivit tillgängliga för examenstillfället. Uppdatera sidan och försök på nytt vid behov.",
           "invalidTicket": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
           "invalidVersion": "Funktionen misslyckades eftersom du försökte ändra föråldrad data. Uppdatera sidan och försök vid behov på nytt.",
-          "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
-          "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
-          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt.",
           "paymentAlreadyPaid": "Betalningen kunde inte behandlas",
           "paymentAmountMismatch": "Betalningen kunde inte behandlas",
           "paymentLinkHasExpired": "Betalningslänken är föråldrad. Be vid behov om en ny betalningslänk per e-post.",
           "paymentLinkInvalidEnrollmentStatus": "Status för din anmälan har ändrat. Examensavgiften har eventuellt redan betalats.",
           "paymentPersonSessionMismatch": "Betalningen kunde inte behandlas",
           "paymentReferenceMismatch": "Betalningen kunde inte behandlas",
-          "paymentValidationFail": "Betalningen kunde inte behandlas"
+          "paymentValidationFail": "Betalningen kunde inte behandlas",
+          "renewReservationNotAllowed": "Platsreservationen kunde inte förnyas",
+          "reservationPersonSessionMismatch": "Funktionen misslyckades, försök på nytt senare",
+          "sessionMissingPersonId": "Du har inte identifierat dig. Vänligen identifiera dig på nytt.",
+          "ticketValidationError": "Identifieringen misslyckades. Vänligen identifiera dig på nytt."
         },
         "customTextField": {
           "emailFormat": "E-postadressen är felaktig",

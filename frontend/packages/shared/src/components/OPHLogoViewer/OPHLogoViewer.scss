@@ -1,0 +1,22 @@
+.oph-logo {
+  display: block;
+  margin: 0.5rem 1px;
+  text-decoration: none;
+
+  &__img {
+    margin-right: 2.5rem;
+  }
+
+  &__label {
+    &#{&} {
+      line-height: 1rem;
+    }
+
+    &--bold {
+      &#{&} {
+        margin-left: 2.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+}

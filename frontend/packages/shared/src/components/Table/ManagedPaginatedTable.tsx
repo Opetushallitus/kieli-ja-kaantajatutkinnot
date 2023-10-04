@@ -1,11 +1,11 @@
 import { Table, TableBody, TablePagination } from '@mui/material';
 import { ChangeEvent, Fragment } from 'react';
 
-import { WithId } from '../../interfaces/with';
 import {
   defaultDisplayedRowsLabel,
   PaginatedTableProps,
 } from './PaginatedTable';
+import { WithId } from '../../interfaces/with';
 import './Table.scss';
 
 interface ManagedPaginatedTableProps<T extends WithId>

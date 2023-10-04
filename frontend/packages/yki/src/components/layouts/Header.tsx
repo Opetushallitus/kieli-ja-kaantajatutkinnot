@@ -5,6 +5,7 @@ import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicNavTabs } from 'components/layouts/publicHeader/PublicNavTabs';
+import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
   changeLang,
   getCurrentLang,
@@ -45,6 +46,7 @@ export const Header = (): JSX.Element => {
             />
           </Toolbar>
         )}
+        <SessionStateHeader />
         <Toolbar className="header__toolbar">
           <div className="header__left">
             <Link to={logoRedirectURL}>
@@ -53,6 +55,7 @@ export const Header = (): JSX.Element => {
                 direction={Direction.Horizontal}
                 alt={translateCommon('ophLogoToFrontPageAlt')}
                 currentLang={getCurrentLang()}
+                title={translateCommon('appNameAbbreviation')}
               />
             </Link>
           </div>

@@ -1,11 +1,13 @@
+import { InfoOutlined as InfoIcon } from '@mui/icons-material';
 import { TableCell, TableRow } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Text } from 'shared/components';
-import { DateUtils } from 'shared/utils';
+import { Color } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
+import { DateTimeUtils } from 'utils/dateTime';
 import { ExamEventUtils } from 'utils/examEvent';
 
 export const ClerkExamEventListingRow = ({
@@ -41,15 +43,18 @@ export const ClerkExamEventListingRow = ({
           </Link>
         </TableCell>
         <TableCell>
-          <Text>{DateUtils.formatOptionalDate(examEvent.date)}</Text>
+          <Text>{DateTimeUtils.renderDate(examEvent.date)}</Text>
         </TableCell>
         <TableCell>
-          <Text>
-            {DateUtils.formatOptionalDate(examEvent.registrationCloses)}
-          </Text>
+          <Text>{DateTimeUtils.renderDate(examEvent.registrationCloses)}</Text>
         </TableCell>
-        <TableCell>
+        <TableCell className="clerk-exam-event-listing-seats-cell">
           <Text>{`${examEvent.participants} / ${examEvent.maxParticipants}`}</Text>
+          {examEvent.isUnusedSeats && (
+            <div>
+              <InfoIcon color={Color.Secondary} />
+            </div>
+          )}
         </TableCell>
         <TableCell>
           <Text>

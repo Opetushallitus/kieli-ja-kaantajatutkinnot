@@ -82,7 +82,10 @@ export const PublicEnrollmentGrid = ({
   ]);
 
   useEffect(() => {
-    if (cancelStatus === APIResponseStatus.Success) {
+    if (
+      cancelStatus === APIResponseStatus.Success ||
+      enrollmentInitialisationStatus === APIResponseStatus.Error
+    ) {
       navigate(AppRoutes.PublicHomePage);
     }
 
@@ -91,7 +94,7 @@ export const PublicEnrollmentGrid = ({
         dispatch(resetPublicEnrollment());
       }
     };
-  }, [cancelStatus, navigate, dispatch]);
+  }, [cancelStatus, enrollmentInitialisationStatus, navigate, dispatch]);
 
   useNavigationProtection(
     isAuthenticatePassed &&

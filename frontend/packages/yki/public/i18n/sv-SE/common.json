@@ -2,21 +2,75 @@
   "yki": {
     "common": {
       "actions": "Funktioner",
+      "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
+      "back": "Tillbaka",
+      "backToHomePage": "Tillbaka till framsidan",
+      "cancel": "Avbryt",
+      "component": {
+        "table": {
+          "header": {
+            "searchResults": "Resultat ({{count}})",
+            "searchResultsAriaLabel_one": "Resultat (1 resultat)",
+            "searchResultsAriaLabel_other": "Resultat ({{count}} resultat)",
+            "searchResultsAriaLabel_zero": "Resultat (inga resultat)"
+          },
+          "pagination": {
+            "backButtonLabel": "Tidigare sökresultat",
+            "displayedRowsLabel": "Visas {{from}}-{{to}} / {{count}} resultat",
+            "nextButtonLabel": "Följande sökresultat",
+            "rowsPerPage": "Resultat per sida"
+          }
+        }
+      },
       "contactEmail": "kielitutkinnot@oph.fi",
       "dates": {
         "dateTimeFormat": "l [kl.] HH:mm"
       },
       "error": "Ett oväntat fel uppstod.",
+      "errors": {
+        "customTextField": {
+          "dateFormat": "Ange datum i formatet dd.mm.åååå",
+          "emailFormat": "E-postadressen är felaktig",
+          "maxLength": "Texten är för lång",
+          "required": "Uppgiften är oblikatorisk",
+          "personalIdentityCodeFormat": "Personbeteckningensform kunde inte identifieras",
+          "telFormat": "Telefonummret är felaktigt"
+        },
+        "loadingFailed": "Det gick inte att ladda uppgifterna.",
+        "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
+        "registration": {
+          "alreadyRegistered": "Du kan anmäla dig endast till ett YKI-test.",
+          "examSessionFull": "Testet är fullbokat.",
+          "formExpired": "Tidsfrist för änmälningsblanketten har gått ut.",
+          "paymentCreationFailed": "Det gick inte att skicka anmälningsblankett.",
+          "personCreationFailed": "Det gick inte att skicka anmälningsblankett.",
+          "registrationPeriodClosed": "Anmälningstiden har slutat."
+        }
+      },
+      "examDate": "Testdag",
+      "examParts": {
+        "readingComprehension": "Textförståelse",
+        "speaking": "Tal",
+        "speechComprehension": "Talförståelse",
+        "writing": "Skrivning"
+      },
+      "examSession": "Test",
+      "examination": "Test",
+      "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",
         "male": "Man",
         "other": "Annan",
-        "preferNotToDisclose": "Vill inte avslöja"
+        "preferNotToDisclose": "Vill ej svara"
       },
       "header": {
         "accessibility": {
+          "continueToMain": "Fortsätt till innehållet",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
+        },
+        "sessionState": {
+          "logOut": "Logga ut"
         },
         "lang": {
           "en": "In English",
@@ -24,6 +78,7 @@
           "sv": "På svenska"
         }
       },
+      "institution": "Testställe",
       "language": "Språk",
       "languageLevel": {
         "ALL": "alla nivåer",
@@ -44,10 +99,39 @@
         "swe": "svenska"
       },
       "level": "Nivå",
+      "loadingContent": "Sidan laddas om",
+      "loadingDone": "Sidan omladdad",
+      "municipality": "Ort",
+      "navigationProtection": {
+        "description": "Du kommer att förlora dina ändringar.",
+        "header": "Är du säker på att du vill lämna den här sidan?"
+      },
+      "next": "Följande",
+      "no": "Nej",
       "ophLogoAlt": "Logo: Opetushallitus/Utbildningsstyrelsen.",
+      "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen - Till anmälningssidan för YKI-testet",
+      "placesAvailable": "Lediga platser",
+      "postAdmission": "Efterhandsanmälan",
       "price": "Pris",
+      "privacyStatement": {
+        "description": "Vi följer EUs allmänna dataskyddsförordningen i behandling av personuppgifter.",
+        "grantApproval": "Jag godkänner villkoren för anmälan. *",
+        "link": {
+          "label": "Information om behandlingen av personuppgifter (oph.fi)",
+          "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-information-om-behandlingen-av-personuppgifter"
+        },
+        "readConditions": "Läs villkoren för behandling av personuppgifter på Utbildningsstyrelsens webbsidor:",
+        "title": "Villkoren för behandling av personuppgifter"
+      },
       "reassessment": "Kontrollbedömning",
-      "registration": "Anmälning"
+      "registration": "Anmälning",
+      "registrationPeriod": "Anmälningstid",
+      "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
+      "yes": "Ja",
+      "ykiHomepage": {
+        "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
+        "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
+      }
     }
   }
 }

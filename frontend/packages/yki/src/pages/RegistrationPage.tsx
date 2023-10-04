@@ -54,6 +54,13 @@ export const RegistrationPage: FC = () => {
           item
           className="public-registration-page__grid-container__item-header"
         >
+          <Alert
+            className="public-registration-page__link-to-old-ui"
+            severity={Severity.Info}
+          >
+            {t('oldUILink.text')}{' '}
+            <Link href={t('oldUILink.link')}>{t('oldUILink.linkText')}</Link>
+          </Alert>
           <H1 data-testid="public-registration-page__title-heading">
             {t('title')}
           </H1>
@@ -104,6 +111,7 @@ export const RegistrationPage: FC = () => {
           <Grid
             item
             className="public-registration-page__grid-container__result-box"
+            data-testid="public-registration-page__grid-container__result-box"
           >
             <PublicExamSessionListing examSessions={results} />
           </Grid>

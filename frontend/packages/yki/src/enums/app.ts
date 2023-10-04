@@ -3,6 +3,7 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
+  AccessibilityStatementPage = '/yki/saavutettavuus',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',
   ExamSessionRegistration = '/yki/ilmoittautuminen/tutkintotilaisuus/:examSessionId',
@@ -10,6 +11,7 @@ export enum AppRoutes {
   ReassessmentOrder = '/yki/tarkistusarviointi/:evaluationId',
   ReassessmentOrderStatus = '/yki/tarkistusarviointi/maksu/tila',
   ExamSession = '/yki/tutkintotilaisuus/:examSessionId',
+  LogoutSuccess = '/yki/uloskirjautuminen-onnistui',
   NotFoundPage = '*',
 }
 

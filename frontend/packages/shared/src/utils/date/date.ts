@@ -35,7 +35,7 @@ export class DateUtils {
     return date.locale(dayjs.locale()).format(format);
   }
 
-  static formatOptionalDateTime(date?: Dayjs, format = 'L HH:mm:ss') {
+  static formatOptionalDateTime(date?: Dayjs, format = 'L HH:mm') {
     if (!date) {
       return '-';
     }

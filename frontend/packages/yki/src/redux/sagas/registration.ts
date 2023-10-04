@@ -12,12 +12,16 @@ import {
 } from 'interfaces/publicRegistration';
 import { storeExamSession } from 'redux/reducers/examSession';
 import {
+  acceptCancelRegistration,
   acceptPublicRegistrationInit,
   acceptPublicRegistrationSubmission,
+  cancelRegistration,
   initRegistration,
   RegistrationState,
+  rejectCancelRegistration,
   rejectPublicRegistrationInit,
   rejectPublicRegistrationSubmission,
+  resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
@@ -40,8 +44,8 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      const response: AxiosResponse<PublicRegistrationInitErrorResponse> =
-        error.response;
+      const response =
+        error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
       yield put(rejectPublicRegistrationInit(response.data));
     } else {
       yield put(rejectPublicRegistrationInit({ error: {} }));
@@ -80,9 +84,10 @@ function* submitRegistrationFormSaga() {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
     if (axios.isAxiosError(error) && error.response) {
-      if (error.response.data && error.response.data.error) {
-        const response: AxiosResponse<PublicRegistrationFormSubmitErrorResponse> =
-          error.response;
+      const response =
+        error.response as AxiosResponse<PublicRegistrationFormSubmitErrorResponse>;
+
+      if (response.data && response.data.error) {
         yield put(rejectPublicRegistrationSubmission(response.data));
       } else {
         yield put(rejectPublicRegistrationSubmission({ error: {} }));
@@ -93,7 +98,24 @@ function* submitRegistrationFormSaga() {
   }
 }
 
+function* cancelRegistrationSaga() {
+  try {
+    const { registration }: RegistrationState = yield select(
+      registrationSelector
+    );
+    yield call(
+      axiosInstance.delete,
+      APIEndpoints.Registration.replace(/:registrationId/, `${registration.id}`)
+    );
+    yield put(acceptCancelRegistration());
+    yield put(resetPublicRegistration());
+  } catch (error) {
+    yield put(rejectCancelRegistration());
+  }
+}
+
 export function* watchRegistration() {
   yield takeLatest(initRegistration.type, initRegistrationSaga);
   yield takeLatest(submitPublicRegistration.type, submitRegistrationFormSaga);
+  yield takeLatest(cancelRegistration.type, cancelRegistrationSaga);
 }

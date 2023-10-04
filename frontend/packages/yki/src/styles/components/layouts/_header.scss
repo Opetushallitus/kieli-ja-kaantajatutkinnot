@@ -9,7 +9,9 @@
     }
   }
 
-  & button {
+  &__left button,
+  &__center button,
+  &__right button {
     @include header-text;
   }
 

@@ -1,11 +1,34 @@
 import dayjs from 'dayjs';
 import { DateUtils } from 'shared/utils';
 
-import { ExamLanguage, ExamLevel } from 'enums/app';
+import { EnrollmentStatus, ExamLanguage, ExamLevel } from 'enums/app';
+import { ClerkEnrollment } from 'interfaces/clerkEnrollment';
+import { ClerkExamEvent } from 'interfaces/clerkExamEvent';
 import { ClerkListExamEvent } from 'interfaces/clerkListExamEvent';
 import { PublicExamEvent } from 'interfaces/publicExamEvent';
 
 export class ExamEventUtils {
+  static getIsExamEventWithUnusedSeats(examEventDetails: ClerkExamEvent) {
+    const participationStatuses = [
+      EnrollmentStatus.PAID,
+      EnrollmentStatus.SHIFTED_FROM_QUEUE,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
+    ];
+    const { enrollments } = examEventDetails;
+    const participantsNumber = enrollments
+      .map((e: ClerkEnrollment) => e.status)
+      .filter((s: EnrollmentStatus) =>
+        participationStatuses.includes(s)
+      ).length;
+    const isSeatsAvailable =
+      examEventDetails.maxParticipants > participantsNumber;
+    const isQueue = !!enrollments.find(
+      (e: ClerkEnrollment) => e.status === EnrollmentStatus.QUEUED
+    );
+
+    return isSeatsAvailable && isQueue;
+  }
+
   static getUpcomingExamEvents(examEvents: Array<ClerkListExamEvent>) {
     return examEvents.filter(
       (e) => !DateUtils.isDatePartBefore(e.date, dayjs())

@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,4 +46,7 @@ public class Payment extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "payment_status")
   private PaymentStatus paymentStatus;
+
+  @Column(name = "refunded_at")
+  private LocalDateTime refundedAt;
 }
