@@ -287,7 +287,7 @@ Array [
           postAdmission
           :
           <br />
-          yki.co00on.2amte0.2amteTi0eFor0amt — yki.co00on.5pmte0.5pmteTi0eFor0pmt
+          yki.co00on.2amte0.2amteTi0eFor0amt — yki.co00on.0pmte0.0pmteTi0eFor0pmt
         </td>
         <td
           aria-sort={null}
@@ -614,7 +614,7 @@ Array [
         >
           Jyväskylän kansalaisopisto
           <br />
-          JYVÄSKYLÄ
+          Jyväskylä
         </td>
         <td
           aria-sort={null}
@@ -768,7 +768,7 @@ Array [
         >
           Helsingin aikuisopisto
           <br />
-          HELSINKI
+          Helsinki
         </td>
         <td
           aria-sort={null}
@@ -819,7 +819,7 @@ Array [
         >
           Helsingin aikuisopisto
           <br />
-          HELSINKI
+          Helsinki
         </td>
         <td
           aria-sort={null}

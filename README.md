@@ -181,6 +181,8 @@ For example:
 AKR(Frontend): Added new translations
 ```
 
+Consider writing a detailed commit body when the change is extensive or the reasons behind it are intricate.
+
 ### Branching naming conventions
 
 Jira ticket numbers are used as branch names with possible suffix indicating what the branch is for.
@@ -191,6 +193,15 @@ Used prefixes are `feature`, and `hotfix`. Below are some examples.
 feature/<ticket-number>         ---->   feature/OPHAKRKEH-250
 hotfix/<service-name>           ---->   hotfix/akr
 ```
+
+### GitHub conventions
+
+Ensure the ticket number is included in the pull request title. This enables the association of a commit with its corresponding Jira ticket.
+
+Merging pull requests:
+
+- "Create a merge commit" and "Squash and merge": These options preserve a reference to the pull request and its associated branch.
+- "Rebase and Merge": If you choose this option, make sure that commit messages explicitly mention the relevant ticket number.
 
 ### Releases
 

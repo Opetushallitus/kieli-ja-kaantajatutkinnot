@@ -47,7 +47,9 @@ export const PublicRegistrationExamSessionDetails = ({
         </Text>
         <Text>
           {`${translateCommon('institution')}: `}
-          <b>{`${location.name}, ${location.street_address}, ${location.post_office}`}</b>
+          <b>{`${location.name}, ${
+            location.street_address
+          }, ${ExamSessionUtils.getMunicipality(location)}`}</b>
         </Text>
         <Text>
           {`${t('registrationTime')}: `}

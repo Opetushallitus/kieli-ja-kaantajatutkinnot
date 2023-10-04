@@ -10,25 +10,28 @@ import {
 import { APIResponseStatus } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { PublicRegistrationInitErrorView } from 'components/registration/errors/PublicRegistrationInitErrorView';
 import { PublicRegistrationControlButtons } from 'components/registration/PublicRegistrationControlButtons';
 import { PublicRegistrationExamSessionDetails } from 'components/registration/PublicRegistrationExamSessionDetails';
 import { PublicRegistrationStepContents } from 'components/registration/PublicRegistrationStepContents';
 import { PublicRegistrationStepper } from 'components/registration/PublicRegistrationStepper';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints, PaymentStatus } from 'enums/api';
 import { PublicRegistrationFormStep } from 'enums/publicRegistration';
 import { ExamSession } from 'interfaces/examSessions';
+import { loadExamSession } from 'redux/reducers/examSession';
 import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
-  const { status: initRegistrationStatus, error } =
+  const dispatch = useAppDispatch();
+  const { status: initRegistrationStatus, examSessionId } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
-  const { examSession } = useAppSelector(examSessionSelector);
-  const translateCommon = useCommonTranslation();
+  const { examSession, status: examSessionStatus } =
+    useAppSelector(examSessionSelector);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -40,6 +43,11 @@ const RegistrationForm = () => {
       window.location.href = `${APIEndpoints.Logout}?redirect=${redirectTo}`;
     }
   });
+  useEffect(() => {
+    if (!examSession && examSessionStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadExamSession(examSessionId as number));
+    }
+  }, [dispatch, examSession, examSessionId, examSessionStatus]);
 
   if (submitFormStatus === APIResponseStatus.Success) {
     return (
@@ -56,15 +64,7 @@ const RegistrationForm = () => {
     switch (initRegistrationStatus) {
       case APIResponseStatus.Cancelled:
       case APIResponseStatus.Error:
-        return (
-          <div className="public-registration__grid__form-container">
-            <H2>
-              {error
-                ? translateCommon(`errors.registration.${error}`)
-                : translateCommon('error')}
-            </H2>
-          </div>
-        );
+        return <PublicRegistrationInitErrorView />;
       case APIResponseStatus.NotStarted:
       case APIResponseStatus.InProgress:
         return null;
@@ -130,29 +130,33 @@ const StepContentSelector = () => {
 
 const Heading = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { error: initRegistrationError } =
+    useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
   const [params] = useSearchParams();
   const paymentStatus = params.get('status') as PaymentStatus;
 
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps',
+    keyPrefix: 'yki.component.registration',
   });
 
   if (activeStep === PublicRegistrationFormStep.Register) {
-    if (submitFormStatus === APIResponseStatus.Success) {
-      return t('register.success.heading');
+    if (initRegistrationError) {
+      return t(`unavailable.${initRegistrationError}.title`);
+    } else if (submitFormStatus === APIResponseStatus.Success) {
+      return t('steps.register.success.heading');
     } else {
-      return t('register.inProgress.heading');
+      return t('steps.register.inProgress.heading');
     }
   } else {
     switch (paymentStatus) {
       case PaymentStatus.Success:
-        return t('payment.success.heading');
+        return t('steps.payment.success.heading');
       case PaymentStatus.Cancel:
-        return t('payment.cancel.heading');
+        return t('steps.payment.cancel.heading');
       default:
-        return t('payment.error.heading');
+        return t('steps.payment.error.heading');
     }
   }
 };

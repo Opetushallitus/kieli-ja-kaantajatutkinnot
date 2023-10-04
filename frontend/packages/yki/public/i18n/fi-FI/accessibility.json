@@ -1,0 +1,108 @@
+{
+  "yki": {
+    "accessibility": {
+      "content": {
+        "administrativeAgency": {
+          "description": "Saavutettavuuden valvonnan yksikkö",
+          "email": "saavutettavuus@avi.fi",
+          "link": {
+            "label": "Saavutettavuusvaatimukset.fi",
+            "url": "https://saavutettavuusvaatimukset.fi"
+          },
+          "phone": "0295 016 000",
+          "switchboard": "Vaihde",
+          "title": "Valvontaviranomaisen yhteystiedot"
+        },
+        "caveats": [
+          {
+            "name": "Käytetty kieli",
+            "points": [
+              "Kaikkia elementtejä tai aria-labeleita ei ole käännetty sivun kohdekielelle. Esim. pudotusvalikoissa löytyy joka sivulla englanniksi nimettyjä elementtejä. (WCAG 2.5.3)"
+            ]
+          },
+          {
+            "name": "Kontrastit",
+            "points": [
+              "Syötekenttien kontrastit eivät täytä saavutettavuusvaatimuksia. (WCAG 1.4.11)",
+              "Ajoittain myöskään näppäimistön kohdistusindikaattori ei täytä kontrastivaatimuksia (WCAG 1.4.11)"
+            ]
+          },
+          {
+            "name": "Sivujen nimet",
+            "points": [
+              "Kaikilla sivuilla ei ole uniikkeja nimiä (title), jotka luettaisiin ruudunlukijalla ja jotka näkyisivät sivuhistoriassa (WCAG 2.4.2)"
+            ]
+          },
+          {
+            "name": "Modaali",
+            "points": [
+              "Modaalin sisältöihin pääseminen ei toimi kaikilla ruudunlukijoilla yleisten konventioiden mukaisesti eikä sen kaikkea sisältöä välttämättä lueta (WCAG 1.3.1, 4.1.2)"
+            ]
+          },
+          {
+            "name": "Ohjelmallisen ja visuaalisen käyttöliittymän vastaavuus",
+            "points": [
+              "Tutkinnon valitsemiseen liittyvä nostolaatikko on ohjelmallisesti ennen siihen liittyvää otsikkoa eikä siitä käy ohjelmallisesti ilmi, että se on nosto eikä tavallista leipätekstiä (WCAG 1.3.1)"
+            ]
+          },
+          { 
+            "name": "Pudotusvalikot/comboboxit",
+            "points": [
+              "Palvelussa on käytetty hakuelementissä sekä ilmoittautumislomakkeella ns. comboboxeja, joiden ymmärrettävyys kaikilla ruudunlukijoilla on tällä hetkellä haasteellista mm. teknisen toteutuksen sekä epäselvän nimeämisen takia. Myös näppäimistökäytössä on haasteita. (WCAG 1.3.1, 2.4.6, 3.3.2, 4.1.2)"
+            ]
+          },
+          {
+            "name": "Vaihepolku (stepper)",
+            "points": [
+              "Vaihepolun nimi luetaan, mutta sen sisältämiä tietoja ei pääse katsomaan (WCAG 1.3.1, 4.1.2)",
+              "Mobiilitoteutuksessa vaihepolkua ei ole nimetty riittävän ymmärrettävällä tasolla (WCAG 1.3.1)"
+            ]
+          },
+          {
+            "name": "Virheilmoitukset",
+            "points": [
+              "Käyttäjälle ei aina tarjota selkeitä ohjelmallisia tai visuaalisia virheilmoituksia, esim. pakollisten valintapainikeryhmien tai valintaruutujen yhteydessä (WCAG 1.3.1, 3.3.1)"
+            ]
+          }
+        ],
+        "composition": {
+          "description": "Tämä seloste perustuu ulkopuolisen asiantuntijaorganisaation (Knowit Solutions Oy) toteuttamaan arviointiin siitä, täyttääkö verkkosivusto Lain digitaalisten palvelujen tarjoamisesta 306/209 vaatimukset.",
+          "title": "Tämän saavutettavuusselosteen laatiminen"
+        },
+        "enforcement": {
+          "description1": "Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta meille, eli sivuston ylläpitäjälle.",
+          "description2": "Vastauksessa voi mennä 14 päivää.",
+          "description3": "Jos et ole tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon aikana, voit antaa palautteen Etelä-Suomen aluehallintovirastoon.",
+          "title": "Täytäntöönpanomenettely"
+        },
+        "feedback": {
+          "description1": "Huomasitko saavutettavuuspuutteen digipalvelussamme? Kerro se meille ja teemme parhaamme puutteen korjaamiseksi. ",
+          "description2": "Sähköpostilla",
+          "title": "Palaute ja yhteystiedot"
+        },
+        "furtherImprove": {
+          "description1": "Tarjoamme tukea käyttäjille, joille digipalvelut eivät ole saavutettavissa.",
+          "description2": "Olemme sitoutuneet digipalveluiden saavutettavuuden parantamiseen.",
+          "title": "Teemme jatkuvasti työtä saavutettavuuden parantamiseksi"
+        },
+        "nonAccessible": {
+          "description1": "Jäljempänä mainittu sisältö ei ole saavutettavissa seuraavista syistä",
+          "description2": "Lain digitaalisten palvelujen tarjoamisesta 306/2019 noudattamatta jättäminen",
+          "title": "Ei-saavutettava sisältö"
+        },
+        "status": {
+          "description": "Tämä verkkosivusto täyttää Verkkosisällön saavutettavuusohjeiden (WCAG) 2.1-tason AA-vaatimukset osittain.",
+          "title": "Saavutettavuuden tila"
+        }
+      },
+      "heading": {
+        "body": {
+          "part1": "Tämä saavutettavuusseloste koskee palvelua yki.opintopolku.fi ja se on laadittu 22.9.2023.",
+          "part2": "Palvelua koskee Laki digitaalisten palvelujen tarjoamisesta, jossa edellytetään, että julkisten verkkopalvelujen on oltava saavutettavia.",
+          "part3": "Palvelun saavutettavuuden on arvioinut ulkopuolinen asiantuntijaorganisaatio."
+        },
+        "title": "Saavutettavuusseloste"
+      }
+    }
+  }
+}

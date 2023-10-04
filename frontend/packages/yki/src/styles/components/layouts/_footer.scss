@@ -42,6 +42,7 @@
     padding: 1.5rem;
 
     &__links,
+    &__info,
     &__contact-details {
       margin-top: 3rem;
 
@@ -70,26 +71,23 @@
       }
     }
 
+    & h2 {
+      font-size: 2rem;
+    }
+
     & a,
     & > a > button {
       color: $color-secondary-dark;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: normal;
       letter-spacing: 0;
       line-height: 1.9rem;
       margin: 0;
-      padding: 6px 0;
-      text-decoration: none;
+      text-decoration: underline;
       text-transform: initial;
 
       @include phone {
         font-size: 1.5rem;
-      }
-    }
-
-    &:last-of-type {
-      @include phone {
-        order: -1;
       }
     }
   }

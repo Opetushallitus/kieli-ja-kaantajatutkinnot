@@ -5,6 +5,7 @@
       "appNameAbbreviation": "YKI",
       "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
       "back": "Takaisin",
+      "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Peruuta",
       "component": {
         "table": {
@@ -29,7 +30,7 @@
       "error": "Tapahtui odottamaton virhe.",
       "errors": {
         "customTextField": {
-          "dateFormat": "Syötä päivämäärä muodossa pp.kk.vvvv",
+          "dateFormat": "Kirjoita päivämäärä muodossa pp.kk.vvvv",
           "emailFormat": "Sähköpostiosoite on virheellinen",
           "maxLength": "Teksti on liian pitkä",
           "required": "Tieto on pakollinen",
@@ -39,11 +40,11 @@
         "loadingFailed": "Tietojen lataaminen epäonnistui.",
         "mismatchingEmails": "Sähköpostiosoitekenttien sisällöt eivät vastaa toisiaan",
         "registration": {
-          "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
-          "examSessionFull": "Tutkintotilaisuus on täynnä.",
-          "formExpired": "Lomakkeen täyttöaika on umpeutunut.",
-          "paymentCreationFailed": "Lomakkeen lähetys epäonnistui.",
-          "personCreationFailed": "Lomakkeen lähetys epäonnistui.",
+          "alreadyRegistered": "Voit ilmoittautua vain yhteen YKI-testiin.",
+          "examSessionFull": "Tutkinto on täynnä",
+          "formExpired": "Ilmoittautumislomakkeen täyttöaika on umpeutunut.",
+          "paymentCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
+          "personCreationFailed": "Ilmoittautumislomakkeen lähetys epäonnistui.",
           "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
         }
       },
@@ -67,6 +68,9 @@
         "accessibility": {
           "continueToMain": "Jatka sisältöön",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
+        },
+        "sessionState": {
+          "logOut": "Kirjaudu ulos"
         },
         "lang": {
           "en": "In English",

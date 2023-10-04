@@ -281,26 +281,58 @@ const adminUser = {
     ],
     lang: 'fi',
   },
+  'auth-method': 'CAS',
 };
 
-// const organizerUser = {
-//   identity: {
-//     username: 'ykijarjestaja',
-//     oid: '1.2.246.562.24.62800798482',
-//     organizations: [
-//       {
-//         oid: '1.2.246.562.10.28646781493',
-//         permissions: [{ palvelu: 'YKI', oikeus: 'JARJESTAJA' }],
-//       },
-//     ],
-//     lang: 'fi',
-//   },
-// };
+/*
+const organizerUser = {
+  identity: {
+    username: 'ykijarjestaja',
+    oid: '1.2.246.562.24.62800798482',
+    organizations: [
+      {
+        oid: '1.2.246.562.10.28646781493',
+        permissions: [{ palvelu: 'YKI', oikeus: 'JARJESTAJA' }],
+      },
+    ],
+    lang: 'fi',
+  },
+  'auth-method': 'CAS'
+};
+*/
 
-// const unauthenticatedUser = {
-//   identity: null,
-// };
+/*
+const loginLinkAuthenticatedUser = {
+  identity: {
+    'external-user-id': 'testikaeyttaejae@test.invalid',
+  },
+  'auth-method': 'EMAIL',
+};
+*/
 
+/*
+const suomiFiAuthenticatedUser = {
+  identity: {
+    first_name: 'Susanna',
+    nick_name: 'Susanna',
+    ssn: '020502E902X',
+    nationalities: ['784'],
+    'external-user-id': '1.2.246.562.24.00123456789',
+    oid: '1.2.246.562.24.00123456789',
+    zip: null,
+    last_name: 'Uusivälimerkki',
+    street_address: null,
+    post_office: null,
+  },
+  'auth-method': 'SUOMIFI',
+};
+*/
+
+/*
+const unauthenticatedUser = {
+  identity: null,
+};
+*/
 const getNumberBetween = (min, max) =>
   Math.trunc(Math.random() * (max - min) + min);
 
@@ -1012,25 +1044,21 @@ module.exports = function (app) {
   app.post('/yki/api/registration/init', (req, res) => {
     const mockCall = () => {
       try {
-        /*
-        // Uncomment to test out different error messages.
         switch (req.body.exam_session_id) {
           case 11:
             res.status(409).send({ error: { registered: true } });
-          case 13:
-            res.status(409).send({ error: { closed: true } });
           case 12:
             res.status(409).send({ error: { full: true } });
+          case 13:
+            res.status(409).send({ error: { closed: true } });
+          // This error case shouldn't ordinarily happen
+          case 14:
+            res.status(409).send({ error: { full: false, registered: false } });
           default:
             req.body.exam_session_id % 2 === 0
               ? res.send(initRegistrationEmailAuth)
               : res.send(initRegistration);
         }
-        */
-
-        req.body.exam_session_id % 2 === 0
-          ? res.send(initRegistrationEmailAuth)
-          : res.send(initRegistration);
       } catch (err) {
         res.status(404).send(err.message);
       }
@@ -1108,7 +1136,11 @@ module.exports = function (app) {
           (e) => e.id === Number(req.params.id)
         );
         res.set('Content-Type', 'application/json; charset=utf-8');
-        res.send(session);
+        if (session) {
+          res.send(session);
+        } else {
+          res.status(404).send('Exam session not found');
+        }
       } catch (err) {
         printError(req, err);
         res.status(404).send(err.message);
@@ -1202,7 +1234,9 @@ module.exports = function (app) {
   app.get('/yki/api/evaluation/:id', (req, res) => {
     const mockCall = () => {
       try {
-        evaluationPeriod = evaluationPeriods.evaluation_periods.find(ep => ep.id === req.params.id);
+        evaluationPeriod = evaluationPeriods.evaluation_periods.find(
+          (ep) => ep.id === req.params.id
+        );
         if (evaluationPeriod) {
           res.send(evaluationPeriod);
         } else {
@@ -1321,5 +1355,17 @@ module.exports = function (app) {
       }
     };
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  });
+
+  app.delete('/yki/api/registration/:id', (req, res) => {
+    const mockCall = () => {
+      try {
+        res.send({ success: true });
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyPostCall(req, res) : mockCall();
   });
 };
