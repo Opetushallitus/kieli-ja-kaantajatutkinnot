@@ -261,7 +261,9 @@ describe('ExamSessionUtils', () => {
 
   describe('getEffectiveRegistrationPeriodDetails', () => {
     const testDay = dayjs('2023-08-11');
-    jest.useFakeTimers({ now: testDay.toDate() });
+    beforeAll(() => {
+      jest.useFakeTimers().setSystemTime(testDay.toDate());
+    });
 
     it('should return correct data when regular admission is ongoing', () => {
       expectEffectiveRegistrationDetails(baseExamSession, {
@@ -302,6 +304,8 @@ describe('ExamSessionUtils', () => {
       );
     });
 
-    jest.useRealTimers();
+    afterAll(() => {
+      jest.useRealTimers();
+    });
   });
 });
