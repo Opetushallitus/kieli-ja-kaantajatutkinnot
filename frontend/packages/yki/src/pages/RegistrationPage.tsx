@@ -29,10 +29,6 @@ export const RegistrationPage: FC = () => {
     setResults(filteredExamSessions);
     setShowResults(true);
   };
-  const onEmptyFilters = () => {
-    setResults(exam_sessions);
-    setShowResults(false);
-  };
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -101,10 +97,7 @@ export const RegistrationPage: FC = () => {
             >
               {t('filters.information')}
             </Alert>
-            <PublicExamSessionFilters
-              onApplyFilters={onApplyFilters}
-              onEmptyFilters={onEmptyFilters}
-            />
+            <PublicExamSessionFilters onApplyFilters={onApplyFilters} />
           </Paper>
         </Grid>
         {showResults && (

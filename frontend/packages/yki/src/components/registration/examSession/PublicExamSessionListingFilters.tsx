@@ -7,7 +7,7 @@ import {
   FormGroup,
   Typography,
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
@@ -32,7 +32,6 @@ export const PublicExamSessionFilters = ({
   onApplyFilters,
 }: {
   onApplyFilters: () => void;
-  onEmptyFilters: () => void;
 }) => {
   // I18
   const translateCommon = useCommonTranslation();
@@ -41,7 +40,6 @@ export const PublicExamSessionFilters = ({
   });
 
   const { showDialog } = useDialog();
-  const filtersGridRef = useRef<HTMLInputElement>(null);
 
   const { filters, municipalities } = useAppSelector(examSessionsSelector);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
@@ -97,7 +95,7 @@ export const PublicExamSessionFilters = ({
   const errorStyles = { color: 'error.main' };
 
   return (
-    <div className="public-exam-session-filters" ref={filtersGridRef}>
+    <div className="public-exam-session-filters">
       <div className="public-exam-session-filters__dropdown-filters-container">
         <fieldset className="public-exam-session-filters__fieldset">
           <legend>
