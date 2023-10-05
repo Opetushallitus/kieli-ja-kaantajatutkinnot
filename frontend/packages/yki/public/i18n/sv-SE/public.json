@@ -437,7 +437,6 @@
         },
         "filters": {
           "buttons": {
-            "empty": "Radera allt",
             "showResults": "Visa resultat ({{count}})"
           },
           "errorDialog": {
@@ -451,7 +450,6 @@
           "information": "Sök här för ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
-            "optional": "(valfritt)",
             "required": "(oblikatorisk)"
           }
         },

@@ -5,6 +5,10 @@
   align-items: center;
   display: flex;
 
+  p {
+    text-transform: none;
+  }
+
   @include mixins.not-phone {
     margin-left: 1.5rem;
   }

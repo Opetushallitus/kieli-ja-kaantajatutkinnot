@@ -7,7 +7,7 @@ import {
   FormGroup,
   Typography,
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
@@ -22,10 +22,7 @@ import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSessionFilters } from 'interfaces/examSessions';
-import {
-  resetPublicExamSessionFilters,
-  setPublicExamSessionFilters,
-} from 'redux/reducers/examSessions';
+import { setPublicExamSessionFilters } from 'redux/reducers/examSessions';
 import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
@@ -33,10 +30,8 @@ import {
 
 export const PublicExamSessionFilters = ({
   onApplyFilters,
-  onEmptyFilters,
 }: {
   onApplyFilters: () => void;
-  onEmptyFilters: () => void;
 }) => {
   // I18
   const translateCommon = useCommonTranslation();
@@ -45,13 +40,6 @@ export const PublicExamSessionFilters = ({
   });
 
   const { showDialog } = useDialog();
-  const filtersGridRef = useRef<HTMLInputElement>(null);
-  const scrollToSearch = () => {
-    filtersGridRef.current?.scrollIntoView({
-      block: 'end',
-      inline: 'nearest',
-    });
-  };
 
   const { filters, municipalities } = useAppSelector(examSessionsSelector);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
@@ -69,12 +57,6 @@ export const PublicExamSessionFilters = ({
   };
 
   const [showError, setShowError] = useState(false);
-
-  const handleEmptyBtnClick = () => {
-    dispatch(resetPublicExamSessionFilters());
-    onEmptyFilters();
-    scrollToSearch();
-  };
 
   const handleSubmitBtnClick = () => {
     if (!filters.language || !filters.level) {
@@ -113,7 +95,7 @@ export const PublicExamSessionFilters = ({
   const errorStyles = { color: 'error.main' };
 
   return (
-    <div className="public-exam-session-filters" ref={filtersGridRef}>
+    <div className="public-exam-session-filters">
       <div className="public-exam-session-filters__dropdown-filters-container">
         <fieldset className="public-exam-session-filters__fieldset">
           <legend>
@@ -132,7 +114,10 @@ export const PublicExamSessionFilters = ({
                 htmlFor="public-exam-session-filters__language-filter"
                 sx={showError && !language ? { color: 'error.main' } : {}}
               >
-                {translateCommon('language')}
+                {translateCommon('language')}{' '}
+                <span className="public-exam-session-filters__hint">
+                  {t('filters.selectExamDetails.required')}
+                </span>
               </Typography>
               <LanguageSelect
                 id="public-exam-session-filters__language-filter"
@@ -167,7 +152,10 @@ export const PublicExamSessionFilters = ({
                 htmlFor="public-exam-session-filters__level-filter"
                 sx={showError && !level ? errorStyles : {}}
               >
-                {translateCommon('level')}
+                {translateCommon('level')}{' '}
+                <span className="public-exam-session-filters__hint">
+                  {t('filters.selectExamDetails.required')}
+                </span>
               </Typography>
               <ComboBox
                 id="public-exam-session-filters__level-filter"
@@ -194,10 +182,7 @@ export const PublicExamSessionFilters = ({
             component="label"
             htmlFor="public-exam-session-filters__municipality-filter"
           >
-            {t('labels.selectMunicipality')}{' '}
-            <span className="public-exam-session-filters__hint">
-              {t('filters.selectExamDetails.optional')}
-            </span>
+            {t('labels.selectMunicipality')}
           </Typography>
           <ComboBox
             id="public-exam-session-filters__municipality-filter"
@@ -218,10 +203,7 @@ export const PublicExamSessionFilters = ({
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
           <Typography variant="h3" component="legend">
-            {t('labels.filterExamSessions')}{' '}
-            <span className="public-exam-session-filters__hint">
-              {t('filters.selectExamDetails.optional')}
-            </span>
+            {t('labels.filterExamSessions')}
           </Typography>
           <FormGroup>
             <FormControlLabel
@@ -250,14 +232,6 @@ export const PublicExamSessionFilters = ({
         </FormControl>
       </Box>
       <div className="public-exam-session-filters__btn-box">
-        <CustomButton
-          data-testid="public-exam-session-filters__filter__empty-btn"
-          color={Color.Secondary}
-          variant={Variant.Outlined}
-          onClick={handleEmptyBtnClick}
-        >
-          {t('filters.buttons.empty')}
-        </CustomButton>
         <CustomButton
           disabled={false}
           data-testid="public-exam-session-filters__filter__search-btn"

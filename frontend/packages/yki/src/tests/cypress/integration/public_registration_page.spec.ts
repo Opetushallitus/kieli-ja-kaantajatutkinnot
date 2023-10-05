@@ -29,7 +29,6 @@ describe('PublicRegistrationPage', () => {
     });
 
     it('can filter by current availability', () => {
-      onPublicRegistrationPage.clearAll();
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
@@ -39,7 +38,6 @@ describe('PublicRegistrationPage', () => {
     });
 
     it('can filter by exam language and level', () => {
-      onPublicRegistrationPage.clearAll();
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.expectResultsCount(9);
