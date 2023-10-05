@@ -72,12 +72,12 @@ class ClerkEnrollmentServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  private final String salt = "foobar";
+  private final String salt = "saltysalt";
 
   @BeforeEach
   public void setup() {
     final Environment environment = mock(Environment.class);
-    when(environment.getRequiredProperty("salt")).thenReturn("foobar");
+    when(environment.getRequiredProperty("salt")).thenReturn(salt);
     when(environment.getRequiredProperty("app.base-url.api")).thenReturn("http://localhost");
 
     final UUIDSource uuidSource = mock(UUIDSource.class);
