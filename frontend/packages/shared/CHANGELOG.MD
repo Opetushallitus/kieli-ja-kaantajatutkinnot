@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.28] - 2023-10-05
+
+### Changed
+
+- Make PaginatedTable and ManagedPaginatedTable scroll up if page (or rows per page) is changed
+
 ## [1.9.27] - 2023-10-03
 
 ### Changed
