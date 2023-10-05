@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.9 (Debian 12.9-1.pgdg110+1)
--- Dumped by pg_dump version 14.7 (Homebrew)
+-- Dumped by pg_dump version 12.9 (Debian 12.9-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -251,7 +251,8 @@ CREATE TABLE public.payment (
     transaction_id text,
     reference text,
     payment_url text,
-    payment_status text
+    payment_status text,
+    refunded_at timestamp with time zone
 );
 
 
