@@ -148,6 +148,7 @@
         "paymentFail": "Ilmoittautuminen - maksua ei suoritettu",
         "paymentSuccess": "Ilmoittautuminen - maksu valmis",
         "done": "Ilmoittautuminen - valmis",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
         "accessibilityStatement": "Saavutettavuusseloste",
         "privacyPolicy": "Tietosuojaseloste",
         "clerkEnrollmentOverview": "Virkailija ilmoittautuminen",
