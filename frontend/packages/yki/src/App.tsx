@@ -4,7 +4,7 @@ import { NotifierContextProvider, StyleCacheProvider } from 'shared/components';
 import { theme } from 'shared/configs';
 
 import { initI18n } from 'configs/i18n';
-import store from 'redux/store';
+import { setupStore } from 'redux/store';
 import { AppRouter } from 'routers/AppRouter';
 
 import 'styles/styles.scss';
@@ -13,7 +13,7 @@ import 'styles/styles.scss';
 initI18n();
 
 export const App = () => (
-  <Provider store={store}>
+  <Provider store={setupStore()}>
     <StyleCacheProvider appName="yki">
       <ThemeProvider theme={theme}>
         <NotifierContextProvider>

@@ -1,6 +1,11 @@
 import createSagaMiddleware from '@redux-saga/core';
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  PreloadedState,
+} from '@reduxjs/toolkit';
 
+import { RootState } from 'configs/redux';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { evaluationOrderReducer } from 'redux/reducers/evaluationOrder';
 import { evaluationPeriodsReducer } from 'redux/reducers/evaluationPeriods';
@@ -15,22 +20,26 @@ import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
 
-const store = configureStore({
-  reducer: {
-    APIError: APIErrorReducer,
-    evaluationOrder: evaluationOrderReducer,
-    evaluationPeriods: evaluationPeriodsReducer,
-    examSessions: examSessionsReducer,
-    examSession: examSessionReducer,
-    nationalities: nationalitiesReducer,
-    publicIdentification: publicIdentificationReducer,
-    registration: registrationReducer,
-    reservation: reservationReducer,
-    session: sessionReducer,
-  },
-  middleware: [saga],
+export const rootReducer = combineReducers({
+  APIError: APIErrorReducer,
+  evaluationOrder: evaluationOrderReducer,
+  evaluationPeriods: evaluationPeriodsReducer,
+  examSessions: examSessionsReducer,
+  examSession: examSessionReducer,
+  nationalities: nationalitiesReducer,
+  publicIdentification: publicIdentificationReducer,
+  registration: registrationReducer,
+  reservation: reservationReducer,
+  session: sessionReducer,
 });
 
-saga.run(rootSaga);
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware: [saga],
+    preloadedState,
+  });
+  saga.run(rootSaga);
 
-export default store;
+  return store;
+};
