@@ -28,7 +28,13 @@ export const RegistrationPage: FC = () => {
   const onApplyFilters = () => {
     setResults(filteredExamSessions);
     setShowResults(true);
+    setPage(0);
   };
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const rowsPerPageOptions = [10, 20, 50];
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -106,7 +112,14 @@ export const RegistrationPage: FC = () => {
             className="public-registration-page__grid-container__result-box"
             data-testid="public-registration-page__grid-container__result-box"
           >
-            <PublicExamSessionListing examSessions={results} />
+            <PublicExamSessionListing
+              examSessions={results}
+              onPageChange={setPage}
+              onRowsPerPageChange={setRowsPerPage}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
           </Grid>
         )}
       </Grid>

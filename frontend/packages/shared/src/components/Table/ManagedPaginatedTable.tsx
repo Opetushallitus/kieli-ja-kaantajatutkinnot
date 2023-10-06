@@ -1,5 +1,5 @@
 import { Table, TableBody, TablePagination } from '@mui/material';
-import { ChangeEvent, Fragment } from 'react';
+import { ChangeEvent, Fragment, useRef } from 'react';
 
 import {
   defaultDisplayedRowsLabel,
@@ -39,40 +39,41 @@ export function ManagedPaginatedTable<T extends WithId>({
   backIconButtonProps,
   nextIconButtonProps,
 }: ManagedPaginatedTableProps<T>): JSX.Element {
+  const headerRef = useRef<HTMLDivElement>(null);
+  const handlePageChange = (page: number) => {
+    onPageChange(page);
+    headerRef.current?.scrollIntoView();
+  };
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onPageChange(0);
+    handlePageChange(0);
     onRowsPerPageChange(+event.target.value);
   };
 
   const count = data.length;
 
-  const Pagination = ({
-    showHeaderContent,
-  }: {
-    showHeaderContent: boolean;
-  }) => (
-    <div className="table__head-box">
-      {showHeaderContent && headerContent}
-      <TablePagination
-        className="table__head-box__pagination"
-        count={count}
-        component="div"
-        onPageChange={(_event, newPage) => onPageChange(newPage)}
-        page={page}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={rowsPerPageOptions}
-        labelRowsPerPage={rowsPerPageLabel}
-        labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
-        backIconButtonProps={backIconButtonProps}
-        nextIconButtonProps={nextIconButtonProps}
-      />
-    </div>
+  const Pagination = () => (
+    <TablePagination
+      className="table__head-box__pagination"
+      count={count}
+      component="div"
+      onPageChange={(_event, newPage) => handlePageChange(newPage)}
+      page={page}
+      onRowsPerPageChange={handleRowsPerPageChange}
+      rowsPerPage={rowsPerPage}
+      rowsPerPageOptions={rowsPerPageOptions}
+      labelRowsPerPage={rowsPerPageLabel}
+      labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
+      backIconButtonProps={backIconButtonProps}
+      nextIconButtonProps={nextIconButtonProps}
+    />
   );
 
   return (
     <>
-      <Pagination showHeaderContent={!!headerContent} />
+      <div ref={headerRef} className="table__head-box">
+        {headerContent}
+        <Pagination />
+      </div>
       <Table
         className={`${className} table`}
         stickyHeader={stickyHeader}
@@ -87,7 +88,11 @@ export function ManagedPaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && <Pagination showHeaderContent={false} />}
+      {showBottomPagination && (
+        <div className="table__head-box">
+          <Pagination />
+        </div>
+      )}
     </>
   );
 }
