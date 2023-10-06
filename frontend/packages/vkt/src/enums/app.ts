@@ -20,6 +20,7 @@ export enum AppRoutes {
   ClerkLocalLogoutPage = '/vkt/cas/localLogout',
   AccessibilityStatementPage = '/vkt/saavutettavuusseloste',
   PrivacyPolicyPage = '/vkt/tietosuojaseloste',
+  LogoutSuccess = '/vkt/uloskirjautuminen-onnistui',
   NotFoundPage = '*',
 }
 

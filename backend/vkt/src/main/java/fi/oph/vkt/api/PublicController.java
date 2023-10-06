@@ -4,6 +4,7 @@ import fi.oph.vkt.api.dto.PublicEnrollmentCreateDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentDTO;
 import fi.oph.vkt.api.dto.PublicEnrollmentInitialisationDTO;
 import fi.oph.vkt.api.dto.PublicExamEventDTO;
+import fi.oph.vkt.api.dto.PublicPersonDTO;
 import fi.oph.vkt.api.dto.PublicReservationDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.Person;
@@ -209,8 +210,21 @@ public class PublicController {
   }
 
   @GetMapping(path = "/auth/info")
-  public Person authInfo(final HttpSession session) {
-    return publicPersonService.getPerson(SessionUtil.getPersonId(session));
+  public Optional<PublicPersonDTO> authInfo(final HttpSession session) {
+    if (session == null || !SessionUtil.hasPersonId(session)) {
+      return Optional.empty();
+    }
+
+    return Optional.of(publicPersonService.getPersonDTO(SessionUtil.getPersonId(session)));
+  }
+
+  @GetMapping(path = "/auth/logout")
+  public void logout(final HttpSession session, final HttpServletResponse httpResponse) throws IOException {
+    if (session != null) {
+      session.invalidate();
+    }
+
+    httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
