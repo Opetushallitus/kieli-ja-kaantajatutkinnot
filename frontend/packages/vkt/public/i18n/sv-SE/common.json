@@ -130,6 +130,7 @@
       "ophLogoToFrontPageAlt": "Opetushallitus/Utbildningsstyrelsen – Till framsidan för anmälningssystemet för språkexamina för statsförvaltningen",
       "pageTitle": {
         "frontPage": "Framsida",
+        "notFound": "Sidan hittades inte"
         "authenticate": "Anmälan - identifiera dig",
         "contactDetails": "Anmälan - fyll i dina kontaktuppgifter",
         "selectExam": "Anmälan - välj examen",
@@ -137,6 +138,7 @@
         "paymentFail": "Anmälan - avgiften har inte betalats",
         "paymentSuccess": "Anmälan - betalningen är slutförd",
         "done": "Anmälan - färdig",
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
         "privacyPolicy": "Dataskyddsbeskrivning",
         "clerkEnrollmentOverview": "Administratör anmälning",
         "clerkExamEventCreate": "Administratör lägg till examensdag",

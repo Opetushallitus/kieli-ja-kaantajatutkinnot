@@ -133,17 +133,16 @@
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
       },
       "pageTitle": {
-        "registration": "Registration",
-        "initRegistration": "Register for a test",
-        "examDetails": "Exam",
-        "registrationPaymentStatus": "Register for a test",
-        "reassessment": "Reassessment",
-        "evaluationOrder": "Request a reassessment",
-        "evaluationOrderStatus": "Request a reassessment",
-        "accessibilityStatement": "Accessibility statement",
-        "privacyPolicy": "Privacy policy statement",
-        "logoutSuccess": "Log out complete",
-        "notFound": "Page not found"
+        "registration": "Anmälning",
+        "initRegistration": "Anmäl dig till ett test",
+        "examDetails": "Tets",
+        "registrationPaymentStatus": "Anmäl dig till ett test",
+        "reassessment": "Kontrollbedömning",
+        "evaluationOrder": "Begär kotrollbedömning",
+        "evaluationOrderStatus": "Gör en begäran om kontrollbedömning",
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "logoutSuccess": "Utloggning lyckades",
+        "notFound": "Sidan hittades inte"
       }
     }
   }

@@ -141,7 +141,6 @@
         "evaluationOrder": "Pyydä tarkistusarviointia",
         "evaluationOrderStatus": "Pyydä tarkistusarviointia",
         "accessibilityStatement": "Saavutettavuusseloste",
-        "privacyPolicy": "Tietosuojaseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "notFound": "Etsimääsi sivua ei löytynyt"
       }
