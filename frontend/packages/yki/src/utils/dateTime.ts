@@ -19,6 +19,6 @@ export class DateTimeUtils {
     const d1 = a.utc();
     const d2 = b.utc();
 
-    return d1.isBefore(d2) || d1.isSame(2);
+    return d1.isBefore(d2) || d1.isSame(d2);
   }
 }
