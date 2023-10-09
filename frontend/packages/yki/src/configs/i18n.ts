@@ -72,6 +72,17 @@ export const initI18n = () => {
   return i18n;
 };
 
+export const initI18nForTests = () => {
+  const i18n = use(initReactI18next).init({
+    defaultNS: 'common',
+    resources,
+    fallbackLng: langFI,
+    load: 'currentOnly',
+  });
+
+  return i18n;
+};
+
 const useAppTranslation = (
   options: UseTranslationOptions<string>,
   ns: I18nNamespace

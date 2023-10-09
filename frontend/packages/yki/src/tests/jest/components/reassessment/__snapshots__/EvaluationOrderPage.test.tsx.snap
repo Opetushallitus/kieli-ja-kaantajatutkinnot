@@ -13,7 +13,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <h1
         className="MuiTypography-root MuiTypography-h1 public-evaluation-order-page__title-heading css-o2w69a-MuiTypography-root"
       >
-        title
+        Pyydä tarkistusarviointia
       </h1>
       <div
         className="header-separator MuiBox-root css-0"
@@ -25,19 +25,19 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        info
+        Pyydä tarkistusarviointia seuraavasta tutkinnosta:
       </p>
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        examination
+        Tutkinto
         :
          
         <b>
-          yki.common.languages.fin, yki.common.languageLevel.KESKI
+          suomi, keskitaso
         </b>
         <br />
-        examDate
+        Testipäivä
         :
          
         <b>
@@ -47,12 +47,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        info.requiredFields
+        Tähdellä (*) merkityt osiot ovat pakollisia.
       </p>
       <h2
         className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
       >
-        heading
+        Valitse osakokeet
       </h2>
       <fieldset
         className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
@@ -60,12 +60,12 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
         <legend
           className="MuiTypography-root MuiTypography-h3 css-gepadz-MuiTypography-root"
         >
-          selectParts
+          Valitse ne osakokeet, joista haluat pyytää tarkistusarviointia *
         </legend>
         <p
           className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
         >
-          selectAtLeastOne
+          Valitse vähintään yksi osakoe
         </p>
         <div
           className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
@@ -113,7 +113,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             <span
               className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
             >
-              examParts.readingComprehension 50 €
+              Tekstin ymmärtäminen 50 €
             </span>
           </label>
           <label
@@ -159,7 +159,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             <span
               className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
             >
-              examParts.speechComprehension 50 €
+              Puheen ymmärtäminen 50 €
             </span>
           </label>
           <label
@@ -205,7 +205,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             <span
               className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
             >
-              examParts.writing 50 €
+              Kirjoittaminen 50 €
             </span>
           </label>
           <label
@@ -251,7 +251,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             <span
               className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
             >
-              examParts.speaking 50 €
+              Puhuminen 50 €
             </span>
           </label>
         </div>
@@ -259,7 +259,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        sumTotal
+        Tarkistusarvioinnin hinta yhteensä
         : 
         <b>
           0
@@ -269,17 +269,17 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        info.refundIfChangeInEvaluation
+        Jos osakokeen arviointi muuttuu tarkistusarvioinnissa, palautamme tarkistusarviointimaksun.
       </p>
       <h2
         className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
       >
-        heading
+        Osallistujan tiedot
       </h2>
       <p
         className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        instructions
+        Täytä alle sen osallistujan tiedot, joka hakee tarkistusarviointia.
       </p>
       <div
         className="public-evaluation-order-page__order-form__participant-details-grid"
@@ -294,15 +294,10 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <b>
-                labels.firstNames
+                Etunimet *
               </b>
             </p>
           </label>
-          <p
-            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            placeholders.firstNames
-          </p>
           <div
             className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
           >
@@ -351,15 +346,10 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <b>
-                labels.lastName
+                Sukunimi *
               </b>
             </p>
           </label>
-          <p
-            className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            placeholders.lastName
-          </p>
           <div
             className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
           >
@@ -408,14 +398,14 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <b>
-                labels.birthdate
+                Syntymäaika *
               </b>
             </p>
           </label>
           <p
             className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
           >
-            placeholders.birthdate
+            Kirjoita muodossa pp.kk.vvvv
           </p>
           <div
             className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -465,14 +455,14 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
               className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <b>
-                labels.email
+                Sähköpostiosoite *
               </b>
             </p>
           </label>
           <p
             className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
           >
-            placeholders.email
+            Esim. nimi@sahkoposti.fi
           </p>
           <div
             className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -516,22 +506,22 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
       <h2
         className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
       >
-        privacyStatement.title
+        Henkilötietojen käsittelyn ehdot
       </h2>
       <div>
         <p
           className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
         >
-          privacyStatement.description
+          Noudatamme henkilötietojen käsittelyssä EU:n yleistä tietosuoja-asetusta.
           <br />
-          privacyStatement.readConditions
+          Lue henkilötietojen käsittelyn ehdot Opetushallituksen verkkosivuilta:
         </p>
         <div
           className="columns gapped-xxs"
         >
           <a
             className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
-            href="privacyStatement.link.url"
+            href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
             onBlur={[Function]}
             onFocus={[Function]}
             target="_blank"
@@ -539,7 +529,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             <p
               className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
-              privacyStatement.link.label
+              Tietoa henkilötietojen käsittelystä (oph.fi)
             </p>
           </a>
           <svg
@@ -601,7 +591,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           <span
             className="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
           >
-            privacyStatement.grantApproval
+            Hyväksyn henkilötietojeni käsittelyn *
           </span>
         </label>
       </div>
@@ -627,7 +617,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           tabIndex={0}
           type="button"
         >
-          pay
+          Siirry maksamaan
         </button>
         <button
           className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeMedium MuiButton-textSizeMedium css-1d3f8j8-MuiButtonBase-root-MuiButton-root"
@@ -648,7 +638,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           tabIndex={0}
           type="button"
         >
-          cancel
+          Peruuta
         </button>
       </div>
     </div>
