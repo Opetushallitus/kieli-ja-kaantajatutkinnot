@@ -1,1 +1,83 @@
-{}
+{
+  "akr": {
+    "accessibility": {
+      "content": {
+        "administrativeAgency": {
+          "description": "If you notice any accessibility issues on the website, please first send feedback to us, i.e. the site administrator. It may take us up to 14 days to reply. If you are not satisfied with the reply or you do not receive a reply at all within two weeks,",
+          "extraDescription": "You can find information about how to submit a notification and how the matter will be handled from the website of the Regional State Administrative Agency for Southern Finland.",
+          "links": {
+            "link": "https://www.saavutettavuusvaatimukset.fi/kayttajan-oikeudet/",
+            "title": "you can submit a report to the Regional State Administrative Agency for Southern Finland (opens in a new window)"
+          },
+          "title": "Regulatory authority"
+        },
+        "caveats": {
+          "description": "Non-accessible content and its limitations",
+          "extraDescription": "Accessibility requirements, which are not fulfilled",
+          "items": [
+            {
+              "description": "The progression of heading ranks is not in order on every page.",
+              "claim": "1.3.1 Info and Relationships",
+              "title": "Perceivable: Progression of heading ranks"
+            },
+            {
+              "description": "The header of the first table column is empty",
+              "claim": "1.3.1 Info and Relationships",
+              "title": "Perceivable: Missing table header"
+            },
+            {
+              "description": "The language selector component has no traditional label. There is, however, an aria-label.",
+              "claim": "2.4.6 Headings and Labels",
+              "title": "Operable: Label is missing from the language selector component"
+            },
+            {
+              "description": "The ‘Display on page’ component of the table has no traditional label. There is, however, an aria-label.",
+              "claim": "2.4.6 Headings and Labels",
+              "title": "Operable: Label is missing from a table’s ‘Display on page’ component"
+            }
+          ]
+        },
+        "contactAdministrativeAgency": {
+          "links": {
+            "email": {
+              "link": "saavutettavuus@avi.fi",
+              "title": "saavutettavuus@avi.fi"
+            },
+            "website": {
+              "ariaLabel": "Saavutettavuusvaatimukset-verkkosivusto, avaa uudessa välilehdessä",
+              "link": "https://saavutettavuusvaatimukset.fi",
+              "title": "Saavutettavuusvaatimukset-verkkosivusto"
+            }
+          },
+          "name": "Regional State Administrative Agency for Southern Finland",
+          "phone": "telephone switchboard 0295 016 000",
+          "title": "Contact details of the regulatory authority",
+          "unit": "Accessibility control unit"
+        },
+        "feedback": {
+          "description": "By email",
+          "subtitle": "Did you notice an accessibility issue in our digital service? Let us know and we will do the best we can to fix it.",
+          "title": "Feedback and contact details"
+        },
+        "furtherImprove": {
+          "description": "We are committed to improving the accessibility of digital services.",
+          "extraDescription": "Did you notice an accessibility issue? Let us know and we will do the best we can to fix it.",
+          "subtitle": "We offer support to users for whom digital services are not accessible",
+          "title": "We are continuously working to improve accessibility"
+        },
+        "nonAccessible": {
+          "description": "The website is not yet fully compliant",
+          "title": "Non-accessible content"
+        },
+        "status": {
+          "description": "Partly compliant with accessibility requirements",
+          "title": "The state of accessibility of the digital service"
+        }
+      },
+      "heading": {
+        "description": "This accessibility statement applies to the service akr.opintopolku.fi and has been created / updated on 4 October 2023. The service is subject to the Act on the Provision of Digital Services, which requires public sector to comply with accessibility requirements in their digital services. The accessibility of the service has been evaluated by an external expert organisation.",
+        "title": "Accessibility statement for the Register of Authorised Translators"
+      }
+    }
+  }
+}
