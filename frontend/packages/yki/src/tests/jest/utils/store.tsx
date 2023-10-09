@@ -12,8 +12,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: AppStore;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function renderWithProviders(
+export function renderWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
