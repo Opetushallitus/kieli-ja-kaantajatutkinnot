@@ -20,8 +20,10 @@ import { ExamSessionUtils } from 'utils/examSession';
 
 const RegisterToExamButton = ({
   examSession,
+  ariaLabel,
 }: {
   examSession: ExamSession;
+  ariaLabel?: string;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
@@ -42,6 +44,7 @@ const RegisterToExamButton = ({
       }}
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
+      aria-label={ariaLabel}
     >
       {availablePlaces
         ? t('register')
@@ -202,9 +205,15 @@ const PublicExamSessionListingCellsForPhone = ({
           {availablePlacesText}
         </Text>
         {registerActionAvailable ? (
-          <RegisterToExamButton examSession={examSession} />
+          <RegisterToExamButton
+            examSession={examSession}
+            ariaLabel={translateCommon('actions')}
+          />
         ) : (
-          <Text>
+          <Text
+            className="centered uppercase"
+            aria-label={translateCommon('actions')}
+          >
             <RegistrationUnavailableText examSession={examSession} />
           </Text>
         )}
