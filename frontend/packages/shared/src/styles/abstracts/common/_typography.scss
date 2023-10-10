@@ -48,6 +48,12 @@ thead.heading-text th {
   }
 }
 
+.uppercase {
+  &#{&} {
+    text-transform: uppercase;
+  }
+}
+
 .text-transform-none {
   &#{&} {
     text-transform: none;
