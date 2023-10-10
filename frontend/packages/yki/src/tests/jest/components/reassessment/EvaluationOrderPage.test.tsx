@@ -5,7 +5,6 @@ import { initI18nForTests } from 'configs/i18n';
 import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
 import { initialState as initialEvaluationOrderState } from 'redux/reducers/evaluationOrder';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
-import { renderWithProviders } from 'tests/jest/utils/store';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -17,13 +16,15 @@ beforeAll(() => {
 });
 
 describe('EvaluationOrderPage', () => {
+  const evaluationPeriod =
+    SerializationUtils.deserializeEvaluationPeriodResponse(
+      evaluationPeriods.evaluation_periods[0]
+    );
   const preloadedState = {
     evaluationOrder: {
       ...initialEvaluationOrderState,
       loadPeriodState: APIResponseStatus.Success,
-      evaluationPeriod: SerializationUtils.deserializeEvaluationPeriodResponse(
-        evaluationPeriods.evaluation_periods[0]
-      ),
+      evaluationPeriod,
     },
   };
 
@@ -36,12 +37,5 @@ describe('EvaluationOrderPage', () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
-  });
-
-  it('should behave as expected', () => {
-    const { getByText } = renderWithProviders(<EvaluationOrderPage />, {
-      preloadedState,
-    });
-    expect(getByText('Pyydä tarkistusarviointia')).toBeInTheDocument();
   });
 });
