@@ -116,6 +116,28 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
   <div
     className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 public-evaluation-order-status-page__paper rows gapped css-3su884-MuiPaper-root"
   >
+    <div>
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        Tutkinto
+        :
+         
+        <b>
+          suomi, keskitaso
+        </b>
+      </p>
+      <p
+        className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      >
+        Testipäivä
+        :
+         
+        <b>
+          10/11/2023
+        </b>
+      </p>
+    </div>
     <p
       className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
     >

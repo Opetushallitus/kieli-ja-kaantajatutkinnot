@@ -1,19 +1,19 @@
+import { PreloadedState } from '@reduxjs/toolkit';
 import * as reactRouterDom from 'react-router-dom';
 import renderer from 'react-test-renderer';
+import { APIResponseStatus } from 'shared/enums';
 
 import { initI18nForTests } from 'configs/i18n';
+import { RootState } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
 import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
+import { initialState as initialEvaluationOrderState } from 'redux/reducers/evaluationOrder';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
+import { evaluationOrderDetailsResponse } from 'tests/msw/fixtures/evaluationOrder';
+import { SerializationUtils } from 'utils/serialization';
 
 jest.unmock('configs/i18n');
 jest.requireActual('configs/i18n');
-
-/*
-jest.mock('react-router-dom', () => ({
-  useSearchParams: jest.fn(),
-}));
-*/
 
 beforeAll(() => {
   initI18nForTests();
@@ -25,6 +25,17 @@ const mockUseSearchParams = (params: URLSearchParams) => {
     .mockReturnValue([params, jest.fn()]);
 };
 
+const preloadedState: PreloadedState<RootState> = {
+  evaluationOrder: {
+    ...initialEvaluationOrderState,
+    loadEvaluationOrderDetailsState: APIResponseStatus.Success,
+    evaluationOrderDetails:
+      SerializationUtils.deserializeEvaluationOrderDetailsResponse(
+        evaluationOrderDetailsResponse
+      ),
+  },
+};
+
 describe('EvaluationOrderStatusPage', () => {
   it('should render view correctly on successful payment', () => {
     mockUseSearchParams(
@@ -32,7 +43,7 @@ describe('EvaluationOrderStatusPage', () => {
     );
     const tree = renderer
       .create(
-        <DefaultProviders>
+        <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
         </DefaultProviders>
       )
@@ -45,7 +56,7 @@ describe('EvaluationOrderStatusPage', () => {
     );
     const tree = renderer
       .create(
-        <DefaultProviders>
+        <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
         </DefaultProviders>
       )
@@ -58,7 +69,7 @@ describe('EvaluationOrderStatusPage', () => {
     );
     const tree = renderer
       .create(
-        <DefaultProviders>
+        <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
         </DefaultProviders>
       )

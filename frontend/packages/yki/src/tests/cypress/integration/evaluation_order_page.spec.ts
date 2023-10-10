@@ -1,7 +1,7 @@
 import { EvaluationPeriod } from 'interfaces/evaluationPeriod';
 import { onEvaluationOrderPage } from 'tests/cypress/support/page-objects/evaluationOrderPage';
 import { findDialogByText } from 'tests/cypress/support/utils/dialog';
-import { evaluationOrderResponse } from 'tests/msw/fixtures/evaluationOrder';
+import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -54,6 +54,6 @@ describe('EvaluationOrderPage', () => {
     onEvaluationOrderPage.acceptTermsOfProcessingOfPersonalData();
 
     onEvaluationOrderPage.submitOrder();
-    cy.isOnPage(evaluationOrderResponse.redirect);
+    cy.isOnPage(evaluationOrderPostResponse.redirect);
   });
 });
