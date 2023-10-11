@@ -1,1 +1,169 @@
-{}
+{
+  "otr": {
+    "privacy": {
+      "automatedDecisions": {
+        "description": "De uppgifter som registret innehåller används inte för profilering eller automatiskt beslutsfattande.",
+        "heading": "Förekomsten av automatiserat beslutsfattande, inbegripet profilering, varvid det åtminstone i dessa fall ska lämnas meningsfull information om logiken bakom samt betydelsen och de förutsedda följderna av sådan behandling för den registrerade"
+      },
+      "common": {
+        "email": "E-post",
+        "group": "Grupp",
+        "phoneSwitch": "Telefon: 029 533 1000 (växel)"
+      },
+      "complaints": {
+        "description": "Den registrerade har rätt att lämna in ett klagomål till en tillsynsmyndighet, särskilt i den medlemsstat där han eller hon har sin hemvist eller sin arbetsplats eller där den påstådda överträdelsen av dataskyddsförordningen har inträffat.",
+        "heading": "Rätt att lämna in klagomål till en tillsynsmyndighet"
+      },
+      "dataContents": {
+        "group1": {
+          "civilRegistry": {
+            "description": "Registret verifierar i befolkningsdatasystemet adress- och personuppgifterna för den som ska registreras."
+          },
+          "contactChanges": {
+            "description": "Den registrerade ska underrätta Utbildningsstyrelsen om förändringar som skett i kontaktuppgifterna per e-post"
+          },
+          "dataDeletion": {
+            "description1": "Uppgifterna om den registrerade raderas utan ogrundat dröjsmål och senast 2 månader efter det att registreringen har upphört eller återkallats.",
+            "description2": "Behandlingen av personuppgifter som rör den registrerade behövs och är proportionell i en myndighets verksamhet för utförande av en uppgift av allmänt intresse."
+          },
+          "dataProcessing": {
+            "description": "Inga särskilda kategorier av personuppgifter behandlas. Inga sekretessbelagda personuppgifter behandlas."
+          },
+          "givenDetails": {
+            "description": "Personuppgifter: namn, personbeteckning, adress, e-postadress, telefonnummer och boningsort.",
+            "heading": "Uppgifter som den som ska registreras lämnat"
+          },
+          "prerequisites": {
+            "heading": "När det gäller anteckning av studier som uppfyller kraven för anteckning i registret över rättstolkar anges vilka tolken har avlagt",
+            "ul1": "specialyrkesexamen för rättstolk/i rättstolkning eller",
+            "ul2": "högskoleexamen som lämpar sig för tolkuppdrag och studier i rättstolkning som omfattar eller motsvarar minst 35 studiepoäng"
+          },
+          "publishPermission": {
+            "description": "I sökmotorn anges utifrån publiceringstillståndet rättstolkens namn, verksamhetsområde, kontaktuppgifter samt språkpar (ett eller flera), i vilket (vilka) tolken antecknats i registret. En tolk som antecknats i registret har rätt att förbjuda publicering av uppgifter som rör honom eller henne."
+          },
+          "name": "Rättstolkar som antecknats i registret",
+          "otherDetails": {
+            "heading": "Övriga uppgifter som antecknas",
+            "ul1": "språkpar (i båda riktningarna)",
+            "ul2": "avgivande av rättstolkens försäkran",
+            "ul3": "anteckningens giltighet",
+            "ul4": "tillstånd för publicering gällande följande uppgifter"
+          },
+          "validity": {
+            "description1": "Registeranteckningen gäller i fem år.",
+            "description2": "Utbildningsstyrelsen skickar en automatisk påminnelse ur registret 3 månader innan anteckningen går ut. Förnyelse av anteckning kan sökas tidigast 6 månader före utgångsdagen. Om anteckningen går ut, raderas uppgifterna om tolken från den offentliga sökmotorn. Förnyelse kan ansökas även efter detta."
+          }
+        },
+        "group2": {
+          "civilRegistry": {
+            "description": "Registret verifierar i befolkningsdatasystemet adress- och personuppgifterna för användande tjänstemän."
+          },
+          "givenDetails": {
+            "description": "Personuppgifter: namn, personbeteckning, adress, e-postadress, telefonnummer och boningsort."
+          },
+          "name": "Tjänstemän som sköter administrering av registret"
+        },
+        "heading": "Registrets datainnehåll / kategorier av personuppgifter som behandlas"
+      },
+      "dataSources": {
+        "description": "Uppgifterna inhämtas hos rättstolkarna själva grupp 1 samt från befolkningsdatasystemet.",
+        "heading": "Varifrån personuppgifterna kommer och i förekommande fall huruvida de har sitt ursprung i allmänt tillgängliga källor"
+      },
+      "dataTransfers": {
+        "description": "Uppgifter lämnas inte ut regelmässigt och överförs inte från registret till länder utanför EU eller EES.",
+        "heading": "Information om överföring av uppgifter till tredjeländer och om vilka skyddsåtgärder som används (inkl. information om huruvida ett beslut av kommissionen om adekvat skyddsnivå föreligger eller saknas) och hur en kopia av dem kan erhållas eller information om innehållet i dem."
+      },
+      "description": "EU:s dataskyddsförordning 2016/679 (GDPR).",
+      "handlingPurpose": {
+        "description1": "I registret över rättstolkar finns uppgifter om rättstolkar som Nämnden för registret över rättstolkar efter ansökan har godkänt för att införas i registret över rättstolkar.",
+        "description2": "I registrets offentliga sökmotor kan rättstolkar sökas för tolkningsuppdrag. Tolkarna kan kontaktas direkt via de offentliga kontaktuppgifter som de angett.",
+        "description3": "I registret lagras och behandlas personuppgifter som behövs för att administrera anteckningen i registret och för att publicera ovan nämnda kontaktuppgifter.",
+        "description4": "När samtycke till publicering av uppgifter om rättstolken efterfrågas, bes den registrerade om tillstånd på förhand och i samband med detta ges en redogörelse för hur uppgifterna behandlas på detta formulär.",
+        "heading": "Syftet med behandling av personuppgifter samt rättslig grund för behandlingen",
+        "law": {
+          "conclusion": {
+            "description": "Bestämmelser om offentligheten för och behandling av uppgifter som antecknats i registret över rättstolkar finns i lagen om offentlighet i myndigheternas verksamhet (<0></0>) och i dataskyddslagen (<1></1>).",
+            "law1": {
+              "content": "621/1999",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/1999/19990621"
+            },
+            "law2": {
+              "content": "1050/2018",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/2018/20181050"
+            }
+          },
+          "heading": "Rättslig grund",
+          "part1": {
+            "description": "Lag om registret över rättstolkar",
+            "link": "https://www.finlex.fi/fi/laki/ajantasa/2015/20151590"
+          },
+          "part2": {
+            "description": "Statsrådets förordning om registret över rättstolkar",
+            "link": "https://www.finlex.fi/fi/laki/alkup/2016/20160177"
+          }
+        }
+      },
+      "heading": "Dataskyddsbeskrivning / Tillkännagivande",
+      "holdingPeriod": {
+        "description1": "Uppgifterna om de rättstolkar som antecknats i registret raderas från registret utan ogrundat dröjsmål och senast 2 månader efter det att registreringen har upphört eller återkallats.",
+        "description2": "Lagringstiderna för personuppgifter i tjänsten är förenliga med de lagringstider som bestäms i arkivbildningsplanen och informationsstyrningsplanen.",
+        "description3": "Handlingar vars lagringstid gått ut förstörs årligen i systemet.",
+        "heading": "Lagringstid för personuppgifter"
+      },
+      "receivers": {
+        "description1": "Utbildningsstyrelsen ska enligt lagen om offentlighet i myndigheternas verksamhet (21.5.1999/621) lämna ut uppgifter ur offentliga handlingar till den som begär det, även om handlingen innehåller personuppgifter. Givande eller utlämnande av sekretessbelagda uppgifter kräver en särskild grund: partsställning eller en lagstadgad rätt att få information, eller samtycke av den person som bestämmelserna om sekretess är avsedda att skydda.",
+        "description2": "Personuppgifter får lämnas ut för vetenskaplig eller historisk forskning eller för statistikföring under de förutsättningar som anges i 4 § i dataskyddslagen (1050/2018).",
+        "description3": "Informationssystemets tjänsteleverantörer (personuppgiftsbiträden) kan granska personuppgifter som ingår i registret i den omfattning som Utbildningsstyrelsen fastställt.",
+        "description4": "Uppgifter lämnas inte ut för direktmarknadsföring.",
+        "heading": "Mottagare eller grupper av mottagare av personuppgifter"
+      },
+      "registeredRights": {
+        "description1": "Den registrerade har rätt att av den personuppgiftsansvarige få bekräftelse på huruvida personuppgifter som rör honom eller henne håller på att behandlas. Den personuppgiftsansvarige ska på begäran lämna en kopia på personuppgifter som behandlas.",
+        "description2": "Den registrerade ska ha rätt att av den personuppgiftsansvarige utan onödigt dröjsmål få felaktiga personuppgifter som rör honom eller henne rättade. Den registrerade ska specificera och motivera vilka uppgifter som ska rättas, vad som han eller hon anser är de rätta uppgifterna och hur han eller hon vill att rättelsen ska göras.",
+        "description3": "Om behandlingen grundar sig på artikel 6.1a eller 9.2a i dataskyddsförordningen, dvs. den registrerades samtycke, har den registrerade rätt till radering.",
+        "description4": "Den registrerade har rätt att begränsa behandlingen i vissa situationer.",
+        "description5": "Den registrerade har rätt till att den personuppgiftsansvarige meddelar om rättelse eller radering av personuppgifterna eller om begränsning av behandlingen till den som uppgifterna lämnats ut till, om uppgifter lämnas ut.",
+        "description6": "Den registrerade har rätt till dataportabilitet, om behandlingen utförs automatiskt.",
+        "description7": "Begäranden som gäller utövandet av rättigheter ska skickas till registrets kontaktperson: Utbildningsstyrelsen, PB 380, 00531 Helsingfors. Den registrerade ska till granskningsbegäran bifoga de uppgifter som behövs för att söka uppgifterna (namn och personbeteckning).",
+        "description8": "Om det har gått mindre än ett år sedan den registrerade utövade sin rätt att granska personuppgifter, kan den personuppgiftsansvarige ta ut en avgift för de administrativa kostnader som överlämningen av uppgifter orsakar (artikel 12 [5]).",
+        "heading": "Den registrerades rättigheter",
+        "rights": {
+          "right1": "Rätt till åtkomst",
+          "right2": "Rätt till rättelse",
+          "right3": "Rätt till radering",
+          "right4": "Rätt till begränsning av behandling",
+          "right5": "Rätt att göra invändningar",
+          "right6": "Rätt till dataportabilitet"
+        }
+      },
+      "registerName": {
+        "contents": {
+          "description": "Registret består av följande",
+          "item1": "rättstolkar som antecknats i registret",
+          "item2": "offentlig sökmotor"
+        },
+        "description": "Registret över rättstolkar.",
+        "heading": "Registrets namn"
+      },
+      "registrar": {
+        "contact": {
+          "address": "PB 380, 00531 Helsingfors (besöksadress Hagnäskajen 6, 00530 Helsingfors).",
+          "name": "Utbildningsstyrelsen",
+          "otherDetails": "Övriga kontaktuppgifter",
+          "phoneSwitch": "Växel: 029 533 1000"
+        },
+        "heading": "Personuppgiftsansvarig"
+      },
+      "registrarContactPerson": {
+        "heading": "Den personuppgiftsansvariges representant (kontaktperson)",
+        "liable": {
+          "description": "Dataskyddsombudets kontaktuppgifter",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Saara Kalajoki"
+        }
+      }
+    }
+  }
+}

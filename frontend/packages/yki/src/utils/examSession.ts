@@ -5,10 +5,11 @@ import { StringUtils } from 'shared/utils';
 import { translateOutsideComponent } from 'configs/i18n';
 import { ExamLanguage, ExamLevel, RegistrationKind } from 'enums/app';
 import { ExamSession, ExamSessionLocation } from 'interfaces/examSessions';
+import { DateTimeUtils } from 'utils/dateTime';
 
 export class ExamSessionUtils {
   private static getRegistrationAvailablePlaces(examSession: ExamSession) {
-    return examSession.max_participants - examSession.participants;
+    return Math.max(examSession.max_participants - examSession.participants, 0);
   }
 
   private static isPostAdmissionAvailable(examSession: ExamSession) {
@@ -25,7 +26,10 @@ export class ExamSessionUtils {
       !ExamSessionUtils.hasPostAdmissionEnded(examSession, dayjs()) &&
       examSession.post_admission_quota
     ) {
-      return examSession.post_admission_quota - examSession.pa_participants;
+      return Math.max(
+        examSession.post_admission_quota - examSession.pa_participants,
+        0
+      );
     }
 
     return 0;
@@ -41,8 +45,23 @@ export class ExamSessionUtils {
     return ExamSessionUtils.getAvailablePlaces(examSession) > 0;
   }
 
+  private static compareExamSessionsByAdmissionAvailability(
+    es1: ExamSession,
+    es2: ExamSession
+  ) {
+    if (es1.open && !es2.open) {
+      return -1;
+    } else if (!es1.open && es2.open) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   private static compareExamSessionsByLang(es1: ExamSession, es2: ExamSession) {
-    // TODO: write proper language comparator / re-order ExamLanguage enums
+    // Note: this is a silly comparison of language codes.
+    // Use when the actual order between exam languages is not a major concern,
+    // but exam sessions should just be grouped by language.
     if (es1.language_code < es2.language_code) {
       return -1;
     } else if (es1.language_code > es2.language_code) {
@@ -116,11 +135,12 @@ export class ExamSessionUtils {
   static compareExamSessions(es1: ExamSession, es2: ExamSession) {
     // Prioritised ordering of comparators
     const comparatorFns = [
-      ExamSessionUtils.compareExamSessionsByLang,
+      ExamSessionUtils.compareExamSessionsByAdmissionAvailability,
       ExamSessionUtils.compareExamSessionsByRoom,
       ExamSessionUtils.compareExamSessionsByQueueFullness,
-      ExamSessionUtils.compareExamSessionsByDate,
       ExamSessionUtils.compareExamSessionsByRegistrationEnding,
+      ExamSessionUtils.compareExamSessionsByDate,
+      ExamSessionUtils.compareExamSessionsByLang,
     ];
 
     for (let i = 0; i < comparatorFns.length; i++) {
@@ -162,49 +182,35 @@ export class ExamSessionUtils {
   static hasRegistrationStarted(examSession: ExamSession, now: Dayjs) {
     const { registration_start_date } = examSession;
 
-    // TODO Consider timezones! Registration opening / closing times are supposed to be
-    // wrt. Finnish times, but user can be on a different timezone.
-    const registrationOpensAt = registration_start_date.hour(10);
-
-    return registrationOpensAt.isBefore(now);
+    return DateTimeUtils.isBeforeOrEqual(registration_start_date, now);
   }
 
   static hasRegistrationEnded(examSession: ExamSession, now: Dayjs) {
     const { registration_end_date } = examSession;
 
-    // TODO Consider timezones! Registration opening / closing times are supposed to be
-    // wrt. Finnish times, but user can be on a different timezone.
-    const registrationClosesAt = registration_end_date.hour(16);
-
-    return registrationClosesAt.isBefore(now);
+    return DateTimeUtils.isBeforeOrEqual(registration_end_date, now);
   }
 
   static hasPostAdmissionStarted(examSession: ExamSession, now: Dayjs) {
-    if (examSession.post_admission_start_date) {
-      const postAdmissionOpensAt =
-        examSession.post_admission_start_date.hour(10);
+    const { post_admission_start_date } = examSession;
 
-      return postAdmissionOpensAt.isBefore(now);
-    }
-
-    return false;
+    return (
+      post_admission_start_date &&
+      DateTimeUtils.isBeforeOrEqual(post_admission_start_date, now)
+    );
   }
 
   static hasPostAdmissionEnded(examSession: ExamSession, now: Dayjs) {
-    if (examSession.post_admission_end_date) {
-      const postAdmissionClosesAt =
-        examSession.post_admission_end_date.hour(16);
+    const { post_admission_end_date } = examSession;
 
-      return postAdmissionClosesAt.isBefore(now);
-    }
-
-    return false;
+    return (
+      post_admission_end_date &&
+      DateTimeUtils.isBeforeOrEqual(post_admission_end_date, now)
+    );
   }
 
   static getEffectiveRegistrationPeriodDetails(examSession: ExamSession) {
     const now = dayjs();
-    const registrationOpensAt = examSession.registration_start_date?.hour(10);
-    const registrationClosesAt = examSession.registration_end_date?.hour(16);
 
     if (
       !ExamSessionUtils.hasRegistrationEnded(examSession, now) ||
@@ -212,39 +218,32 @@ export class ExamSessionUtils {
     ) {
       return {
         kind: RegistrationKind.Admission,
-        start: registrationOpensAt,
-        end: registrationClosesAt,
+        start: examSession.registration_start_date,
+        end: examSession.registration_end_date,
         participants: examSession.participants,
         quota: examSession.max_participants,
-        availablePlaces: Math.max(
-          examSession.max_participants - examSession.participants,
-          0
-        ),
+        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
         availableQueue: !examSession.queue_full,
         open:
-          registrationOpensAt.isBefore(now) &&
-          registrationClosesAt.isAfter(now),
+          ExamSessionUtils.hasRegistrationStarted(examSession, now) &&
+          !ExamSessionUtils.hasRegistrationEnded(examSession, now),
       };
     } else {
-      const postAdmissionOpensAt =
-        examSession.post_admission_start_date?.hour(10);
-      const postAdmissionClosesAt =
-        examSession.post_admission_end_date?.hour(16);
       const quota = examSession.post_admission_quota || 0;
+      const start = examSession.post_admission_start_date as Dayjs;
+      const end = examSession.post_admission_end_date as Dayjs;
 
       return {
         kind: RegistrationKind.PostAdmission,
-        start: postAdmissionOpensAt as Dayjs,
-        end: postAdmissionClosesAt as Dayjs,
+        start,
+        end,
         participants: examSession.pa_participants,
         quota,
-        availablePlaces: Math.max(quota - examSession.pa_participants, 0),
+        availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
         availableQueue: false,
         open:
-          !!postAdmissionOpensAt &&
-          !!postAdmissionClosesAt &&
-          postAdmissionOpensAt.isBefore(now) &&
-          postAdmissionClosesAt.isAfter(now),
+          ExamSessionUtils.hasPostAdmissionStarted(examSession, now) &&
+          !ExamSessionUtils.hasPostAdmissionEnded(examSession, now),
       };
     }
   }

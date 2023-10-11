@@ -55,9 +55,6 @@ const examSessionsSlice = createSlice({
     ) {
       state.filters = { ...state.filters, ...action.payload };
     },
-    resetPublicExamSessionFilters(state) {
-      state.filters = initialState.filters;
-    },
   },
 });
 
@@ -67,5 +64,4 @@ export const {
   rejectExamSessions,
   storeExamSessions,
   setPublicExamSessionFilters,
-  resetPublicExamSessionFilters,
 } = examSessionsSlice.actions;

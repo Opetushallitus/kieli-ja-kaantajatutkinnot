@@ -85,9 +85,18 @@ const renderAdmissionPeriod = ({
   start: Dayjs;
   end: Dayjs;
 }) => {
-  return `${DateTimeUtils.renderDateTime(
-    start
-  )} — ${DateTimeUtils.renderDateTime(end)}`;
+  const startTimeStr = DateTimeUtils.renderDateTime(
+    start.tz('Europe/Helsinki')
+  );
+  const endTimeStr = DateTimeUtils.renderDateTime(end.tz('Europe/Helsinki'));
+
+  return (
+    <span aria-label={`${startTimeStr} — ${endTimeStr}`}>
+      {startTimeStr} —
+      <br />
+      {endTimeStr}
+    </span>
+  );
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {

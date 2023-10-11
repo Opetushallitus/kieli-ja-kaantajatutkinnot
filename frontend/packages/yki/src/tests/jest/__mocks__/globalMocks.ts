@@ -6,7 +6,13 @@ jest.mock('configs/i18n', () => ({
   changeLang: (language: string) => language,
   usePublicTranslation: () => ({ t: (str: string) => str }),
   useCommonTranslation: () => (str: string) => str,
-  translateOutsideComponent: () => (str: string) => str,
+  translateOutsideComponent: () => (str: string) => {
+    if (str === 'yki.common.dates.dateTimeFormat') {
+      return 'l [klo] HH.mm';
+    } else {
+      return str;
+    }
+  },
 }));
 
 const mockAppSelector = jest.fn(() => ({}));

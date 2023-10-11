@@ -1,7 +1,7 @@
 import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
 import { TFunction } from 'i18next';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
   H3,
@@ -35,14 +35,20 @@ const getDisplayedRowsLabel = (
 
 export const PublicExamSessionsTable = ({
   examSessions,
+  onPageChange,
+  onRowsPerPageChange,
+  page,
+  rowsPerPage,
+  rowsPerPageOptions,
 }: {
   examSessions: Array<ExamSession>;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
+  page: number;
+  rowsPerPage: number;
+  rowsPerPageOptions: Array<number>;
 }) => {
   const translateCommon = useCommonTranslation();
-
-  // Pagination
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   return (
     <ManagedPaginatedTable
@@ -50,11 +56,11 @@ export const PublicExamSessionsTable = ({
       data={examSessions}
       header={<PublicExamSessionListingHeader />}
       getRowDetails={getRowDetails}
-      rowsPerPageOptions={[10, 20, 50]}
+      rowsPerPageOptions={rowsPerPageOptions}
       page={page}
-      onPageChange={setPage}
+      onPageChange={onPageChange}
       rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={setRowsPerPage}
+      onRowsPerPageChange={onRowsPerPageChange}
       rowsPerPageLabel={translateCommon(
         'component.table.pagination.rowsPerPage'
       )}
@@ -70,8 +76,18 @@ export const PublicExamSessionsTable = ({
 
 export const PublicExamSessionListing = ({
   examSessions,
+  onPageChange,
+  onRowsPerPageChange,
+  page,
+  rowsPerPage,
+  rowsPerPageOptions,
 }: {
   examSessions: Array<ExamSession>;
+  onPageChange: (page: number) => void;
+  onRowsPerPageChange: (rowsPerPage: number) => void;
+  page: number;
+  rowsPerPage: number;
+  rowsPerPageOptions: Array<number>;
 }) => {
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
@@ -120,7 +136,14 @@ export const PublicExamSessionListing = ({
               })}
             </H3>
           </div>
-          <PublicExamSessionsTable examSessions={examSessions} />
+          <PublicExamSessionsTable
+            examSessions={examSessions}
+            onPageChange={onPageChange}
+            onRowsPerPageChange={onRowsPerPageChange}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+          />
         </>
       );
   }
