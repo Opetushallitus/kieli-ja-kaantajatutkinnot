@@ -17,7 +17,7 @@ public record TranslatorUpdateDTO(
   @Size(max = 255) @NonNull @NotBlank String lastName,
   @Size(max = 255) @NonNull @NotBlank String nickName,
   @Size(max = 255) @NonNull @NotBlank String identityNumber,
-  @Size(max = 255) @NonNull @NotBlank String email,
+  @Size(max = 255) String email,
   @Size(max = 255) String phoneNumber,
   @Size(max = 255) String street,
   @Size(max = 255) String postalCode,
