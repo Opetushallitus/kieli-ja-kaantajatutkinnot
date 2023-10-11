@@ -138,7 +138,7 @@
         },
         "links": {
           "accessibility": {
-            "text": "Tillgänglighetsdirektiv (på finska)"
+            "text": "Tillgänglighetsdirektiv"
           },
           "contact": {
             "title": "Respons och utvecklingsidéer"
@@ -149,7 +149,7 @@
             "text": "Information om Registret över rättstolkar (oph.fi)"
           },
           "privacy": {
-            "text": "Dataskyddsbeskrivning (på finska)"
+            "text": "Dataskyddsbeskrivning"
           }
         }
       },

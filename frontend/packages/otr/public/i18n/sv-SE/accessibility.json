@@ -1,1 +1,78 @@
-{}
+{
+  "otr": {
+    "accessibility": {
+      "content": {
+        "administrativeAgency": {
+          "description": "Om du upptäcker tillgänglighetsproblem på webbplatsen, påtala det först för oss, dvs. webbplatsens administratörer. Det kan ta 14 dagar innan du får ett svar. Om du inte är nöjd med det svar du har fått eller inte får något svar alls inom två veckor, ",
+          "extraDescription": "På regionförvaltningsverkets webbplats finns det noggrant beskrivet hur du kan lämna in en anmälan och hur ärendet behandlas.",
+          "links": {
+            "link": "https://www.tillganglighetskrav.fi/dina-rattigheter/",
+            "title": "kan du göra en anmälan till Regionförvaltningsverket i Södra Finland (öppnas i ett nytt fönster)."
+          },
+          "title": "Tillsynsmyndighet"
+        },
+        "caveats": {
+          "description": "Icke tillgängligt innehåll och dess brister",
+          "extraDescription": "Tillgänglighetskrav som inte uppfylls",
+          "items": [
+            {
+              "description": "Objektet för OPH-logotypen på sidan framgår inte med skärmläsare.",
+              "claim": "2.4.4 - Syftet med en länk (i sammanhanget)",
+              "title": "Hanterbar: Bildlänkens objekt oklart"
+            },
+            {
+              "description": "Rullgardinsmenyerna meddelar inte om inmatningsfel.",
+              "claim": "3.3.1 Identifiering av fel",
+              "title": "Begriplig: Inmatningsfel meddelas inte"
+            },
+            {
+              "description": "Systemet erbjuder inte förslag för att rätta felet.",
+              "claim": "3.3.3 Förslag vid felhantering",
+              "title": "Begriplig: Förslag till rättelse av fel saknas"
+            }
+          ]
+        },
+        "contactAdministrativeAgency": {
+          "links": {
+            "email": {
+              "link": "webbtillganglighet@rfv.fi",
+              "title": "webbtillganglighet@rfv.fi"
+            },
+            "website": {
+              "ariaLabel": "Enheten för tillgänglighetstillsyn webbplats, öppnas i ett nytt fönster",
+              "link": "https://www.tillganglighetskrav.fi/",
+              "title": "Enheten för tillgänglighetstillsyn webbplats"
+            }
+          },
+          "name": "Regionförvaltningsverket i Södra Finland",
+          "phone": "telefonnummer växel 0295 016 000",
+          "title": "Tillsynsmyndighetens kontaktuppgifter",
+          "unit": "Enheten för tillgänglighetstillsyn"
+        },
+        "feedback": {
+          "description": "Per e-post",
+          "subtitle": "Märkte du ett fel i våra digitala tjänster? Berätta om det för oss och vi gör vårt bästa för att åtgärda bristen.",
+          "title": "Respons och kontaktuppgifter"
+        },
+        "furtherImprove": {
+          "description": "Vi har förbundit oss till att förbättra tillgängligheten i digitala tjänster.",
+          "extraDescription": "Märkte du en brist i tillgängligheten? Berätta om det för oss och vi gör vårt bästa för att åtgärda bristen.",
+          "subtitle": "Vi erbjuder stöd åt de användare för vilka digitala tjänster inte är tillgängliga",
+          "title": "Vi arbetar ständigt för att förbättra tillgängligheten"
+        },
+        "nonAccessible": {
+          "description": "Webbplatsen är ännu inte till alla delar förenlig med kraven",
+          "title": "Icke tillgängligt innehåll"
+        },
+        "status": {
+          "description": "Uppfyller tillgänglighetskraven delvis",
+          "title": "Status för tillgänglighet i den digitala tjänsten"
+        }
+      },
+      "heading": {
+        "description": "Detta tillgänglighetsutlåtande gäller tjänsten otr.opintopolku.fi och har utarbetats / uppdaterats 04.10.2023. Tjänsten omfattas av lagen om tillhandahållande av digitala tjänster, där det förutsätts att offentliga nättjänster ska vara tillgängliga. Tjänstens tillgänglighet har bedömts av en utomstående expertorganisation.",
+        "title": "Tillgänglighetsutlåtande för registret över rättstolkar"
+      }
+    }
+  }
+}
