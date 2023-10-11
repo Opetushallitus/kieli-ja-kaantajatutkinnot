@@ -12,6 +12,7 @@ import { clerkNewExamDateReducer } from 'redux/reducers/clerkNewExamDate';
 import { clerkUserReducer } from 'redux/reducers/clerkUser';
 import { publicEnrollmentReducer } from 'redux/reducers/publicEnrollment';
 import { publicExamEventReducer } from 'redux/reducers/publicExamEvent';
+import { publicUserReducer } from 'redux/reducers/publicUser';
 import rootSaga from 'redux/sagas/index';
 
 const persistConfig = {
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   APIError: APIErrorReducer,
   clerkListExamEvent: clerkListExamEventReducer,
   clerkUser: clerkUserReducer,
+  publicUser: publicUserReducer,
   publicEnrollment: publicEnrollmentReducer,
   clerkNewExamDate: clerkNewExamDateReducer,
   publicExamEvent: publicExamEventReducer,

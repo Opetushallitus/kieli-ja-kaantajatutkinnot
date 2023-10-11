@@ -15,6 +15,7 @@ import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.ReservationRepository;
 import fi.oph.vkt.util.ExamEventUtil;
+import fi.oph.vkt.util.PersonUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import fi.oph.vkt.util.exception.NotFoundException;
@@ -137,12 +138,7 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
       .hasCongestion(false)
       .build();
 
-    final PublicPersonDTO personDTO = PublicPersonDTO
-      .builder()
-      .id(person.getId())
-      .lastName(person.getLastName())
-      .firstName(person.getFirstName())
-      .build();
+    final PublicPersonDTO personDTO = PersonUtil.createPublicPersonDTO(person);
 
     return PublicEnrollmentInitialisationDTO
       .builder()

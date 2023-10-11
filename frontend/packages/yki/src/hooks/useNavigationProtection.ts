@@ -6,12 +6,15 @@ import {
 } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
+import { useAppDispatch } from 'configs/redux';
+import { cancelRegistration } from 'redux/reducers/registration';
 
 export const useRegistrationNavigationProtection = (when: boolean) => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage.abortDialog',
   });
   const { showDialog } = useDialog();
+  const dispatch = useAppDispatch();
 
   const showConfirmationDialog = useCallback(
     (confirmNavigation: () => void, cancelNavigation: () => void) => {
@@ -23,7 +26,10 @@ export const useRegistrationNavigationProtection = (when: boolean) => {
           {
             title: t('actions.confirm'),
             variant: Variant.Outlined,
-            action: confirmNavigation,
+            action: () => {
+              dispatch(cancelRegistration());
+              confirmNavigation();
+            },
           },
           {
             title: t('actions.cancel'),
@@ -34,7 +40,7 @@ export const useRegistrationNavigationProtection = (when: boolean) => {
         onClose: cancelNavigation,
       });
     },
-    [showDialog, t]
+    [dispatch, showDialog, t]
   );
 
   useCommonNavigationProtection(when, showConfirmationDialog);

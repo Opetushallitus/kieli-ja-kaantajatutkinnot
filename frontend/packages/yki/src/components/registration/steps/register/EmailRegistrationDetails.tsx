@@ -250,7 +250,6 @@ export const EmailRegistrationDetails = () => {
             <LabeledTextField
               sx={{ width: 'calc(360px - 1rem)' }}
               {...getLabeledTextFieldAttributes('dateOfBirth')}
-              placeholder={undefined}
               value={registration.dateOfBirth || ''}
               type={TextFieldTypes.Text}
             />

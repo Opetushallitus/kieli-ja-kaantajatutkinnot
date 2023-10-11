@@ -1,14 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper } from '@mui/material';
-import {
-  CustomButtonLink,
-  ExtLink,
-  H3,
-  OPHLogoViewer,
-  Svg,
-  Text,
-} from 'shared/components';
-import { Direction, Variant } from 'shared/enums';
+import { Link } from 'react-router-dom';
+import { H3, OPHLogoViewer, Svg, Text } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
 import {
@@ -27,47 +21,59 @@ export const Footer = () => {
       <Svg className="footer__wave" src={FooterWave} alt="" />
       <Paper className="footer" elevation={3}>
         <div className="footer__info-row">
-          <div className="footer__container footer__container__links">
-            <CustomButtonLink
-              to={AppRoutes.NotFoundPage}
-              variant={Variant.Text}
+          <div className="footer__container footer__container__links rows gapped-xs">
+            <h2>{t('headings.statements')}</h2>
+            <Link to={AppRoutes.AccessibilityStatementPage}>
+              <Text>{t('links.accessibility.text')}</Text>
+            </Link>
+            <a
+              href={t('links.privacy.url')}
+              className="columns gapped-xxs"
+              target="_blank"
+              rel="noreferrer"
             >
-              {t('links.accessibility.text')}
-            </CustomButtonLink>
-            <CustomButtonLink
-              to={AppRoutes.NotFoundPage}
-              variant={Variant.Text}
-            >
-              {t('links.privacy.text')}
-            </CustomButtonLink>
-            <ExtLink
-              text={t('links.ykiHomepage.text')}
-              href={translateCommon('ykiHomepage.link')}
-              endIcon={<OpenInNewIcon />}
-              aria-label={translateCommon('ykiHomepage.ariaLabel')}
-            />
+              {t('links.privacy.text')} <OpenInNewIcon />
+            </a>
           </div>
-          <div className="footer__container footer__container__contact-details">
+          <div className="footer__container footer__container__info rows gapped-xs">
+            <h2>{t('headings.info')}</h2>
+            <a
+              href={translateCommon('ykiHomepage.link')}
+              aria-label={translateCommon('ykiHomepage.ariaLabel')}
+              className="columns gapped-xxs"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('links.ykiHomepage.text')}
+              <OpenInNewIcon />
+            </a>
+          </div>
+          <div className="footer__container footer__container__contact-details rows gapped-xs">
+            <h2>{t('headings.contacts')}</h2>
             <H3>{t('address.name')}</H3>
-            <br />
             <Text>{t('address.street')}</Text>
             <Text>{t('address.zipCity')}</Text>
-            <br />
             <div className="columns gapped-xxs">
               <Text className="inline-text">{t('address.phone.title')}</Text>
-              <ExtLink
+              <a
                 className="inline-text"
-                text={t('address.phone.number')}
                 href={`tel:${t('address.phone.number')}`}
-              />
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t('address.phone.number')}
+              </a>
             </div>
-            <div className="footer__container__links__contact">
+            <div className="footer__container__links__contact rows gapped-xs">
               <H3>{t('links.contact.title')}:</H3>
-              <ExtLink
+              <a
                 className="footer__container__links__contact__email"
                 href={`mailto:${translateCommon('contactEmail')}`}
-                text={translateCommon('contactEmail')}
-              ></ExtLink>
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translateCommon('contactEmail')}
+              </a>
             </div>
           </div>
         </div>

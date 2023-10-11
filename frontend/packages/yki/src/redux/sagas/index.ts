@@ -7,6 +7,7 @@ import { watchNationalities } from 'redux/sagas/nationalities';
 import { watchPublicIdentification } from 'redux/sagas/publicIdentification';
 import { watchRegistration } from 'redux/sagas/registration';
 import { watchReservationRequest } from 'redux/sagas/reservation';
+import { watchSession } from 'redux/sagas/session';
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     watchPublicIdentification(),
     watchRegistration(),
     watchReservationRequest(),
+    watchSession(),
   ]);
 }

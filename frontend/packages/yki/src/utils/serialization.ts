@@ -30,22 +30,40 @@ import {
 import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 
 export class SerializationUtils {
+  static deserializeStartTime(date?: string) {
+    if (date) {
+      return dayjs(date, 'YYYY-MM-DD')
+        .tz('Europe/Helsinki')
+        .hour(10)
+        .tz(dayjs.tz.guess());
+    }
+  }
+
+  static deserializeEndTime(date?: string) {
+    if (date) {
+      return dayjs(date, 'YYYY-MM-DD')
+        .tz('Europe/Helsinki')
+        .hour(16)
+        .tz(dayjs.tz.guess());
+    }
+  }
+
   static deserializeExamSessionResponse(
     examSessionResponse: ExamSessionResponse
   ): ExamSession {
     return {
       ...examSessionResponse,
       session_date: dayjs(examSessionResponse.session_date),
-      post_admission_start_date: DateUtils.optionalStringToDate(
+      post_admission_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.post_admission_start_date
       ),
-      post_admission_end_date: DateUtils.optionalStringToDate(
+      post_admission_end_date: SerializationUtils.deserializeEndTime(
         examSessionResponse.post_admission_end_date
       ),
-      registration_start_date: DateUtils.optionalStringToDate(
+      registration_start_date: SerializationUtils.deserializeStartTime(
         examSessionResponse.registration_start_date
       ) as Dayjs,
-      registration_end_date: DateUtils.optionalStringToDate(
+      registration_end_date: SerializationUtils.deserializeEndTime(
         examSessionResponse.registration_end_date
       ) as Dayjs,
       exam_fee: parseInt(examSessionResponse.exam_fee as string),

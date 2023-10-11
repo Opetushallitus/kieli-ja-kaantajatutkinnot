@@ -5,6 +5,7 @@
       "appNameAbbreviation": "YKI",
       "appTitle": "National Certificates of Language Proficiency (YKI) | Finnish National Agency for Education",
       "back": "Back",
+      "backToHomePage": "Back to front page",
       "cancel": "Cancel",
       "component": {
         "table": {
@@ -29,7 +30,7 @@
       "error": "An unexpected error has occurred.",
       "errors": {
         "customTextField": {
-          "dateFormat": "Input date in the format dd.mm.yyyy.",
+          "dateFormat": "Fill in as dd.mm.yyyy.",
           "emailFormat": "The email address is incorrect",
           "maxLength": "The text is too long",
           "required": "The information is mandatory",
@@ -39,12 +40,12 @@
         "loadingFailed": "Failed to download the information.",
         "mismatchingEmails": "The contents of the email address fields are different.",
         "registration": {
-          "alreadyRegistered": "Voit ilmoittautua vain yhteen tutkintotilaisuuteen.",
-          "examSessionFull": "Tutkintotilaisuus on täynnä.",
-          "formExpired": "Lomakkeen täyttöaika on umpeutunut.",
-          "paymentCreationFailed": "Lomakkeen lähetys epäonnistui.",
-          "personCreationFailed": "Lomakkeen lähetys epäonnistui.",
-          "registrationPeriodClosed": "Ilmoittautumisaika on päättynyt."
+          "alreadyRegistered": "You can register for only one YKI test.",
+          "examSessionFull": "The test is full.",
+          "formExpired": "Your registration form has expired.",
+          "paymentCreationFailed": "Sending the registration form failed.",
+          "personCreationFailed": "Sending the registration form failed.",
+          "registrationPeriodClosed": "The registration period has ended."
         }
       },
       "examDate": "Test day",
@@ -61,11 +62,15 @@
         "female": "Female",
         "male": "Male",
         "other": "Other",
-        "preferNotToDisclose": "Prefer not to disclose"
+        "preferNotToDisclose": "Prefer not to respond"
       },
       "header": {
         "accessibility": {
+          "continueToMain": "Skip to content",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
+        },
+        "sessionState": {
+          "logOut": "Log out"
         },
         "lang": {
           "en": "In English",
@@ -94,11 +99,18 @@
         "swe": "Swedish"
       },
       "level": "Level",
+      "loadingContent": "Loading content",
+      "loadingDone": "Loading complete",
       "municipality": "Municipality",
+      "navigationProtection": {
+        "description": "All changes will be lost.",
+        "header": "Are you sure you want to leave this page?"
+      },
       "next": "Next",
       "no": "No",
       "ophLogoAlt": "Logo: Finnish National Agency for Education.",
-      "placesAvailable": "Available places",
+      "ophLogoToFrontPageAlt": "The Finnish National Agency for Education - To the YKI registration page",
+      "placesAvailable": "Available seats",
       "postAdmission": "Post-registration",
       "price": "Price",
       "privacyStatement": {
@@ -106,7 +118,7 @@
         "grantApproval": "I accept the terms and conditions for processing personal data *",
         "link": {
           "label": "Information on the processing of personal data (oph.fi)",
-          "url": "https://www.oph.fi/en/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-information-on-the-processing-of-personal-data"
+          "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-information-on-the-processing-of-personal-data"
         },
         "readConditions": "Read the terms and conditions of processing personal information on the website of the Finnish National Agency for Education:",
         "title": "Terms and conditions for processing personal data"
@@ -114,7 +126,12 @@
       "reassessment": "Reassessment",
       "registration": "Registration",
       "registrationPeriod": "Registration period",
-      "yes": "Yes"
+      "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
+      "yes": "Yes",
+      "ykiHomepage": {
+        "ariaLabel": "Website of the National Certificates of Language Proficiency (oph.fi), open in new tab",
+        "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
+      }
     }
   }
 }

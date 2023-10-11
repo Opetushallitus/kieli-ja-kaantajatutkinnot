@@ -109,7 +109,7 @@ export const examSessions = {
       queue: 0,
       post_admission_quota: 10,
       post_admission_start_date: '2023-08-01',
-      post_admission_end_date: '2023-09-01',
+      post_admission_end_date: '2024-09-01',
       post_admission_active: true,
     },
     {

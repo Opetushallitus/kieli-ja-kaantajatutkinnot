@@ -8,6 +8,10 @@ public class SessionUtil {
 
   private static final String PERSON_ID_SESSION_KEY = "person_id";
 
+  public static boolean hasPersonId(final HttpSession session) {
+    return session.getAttribute(PERSON_ID_SESSION_KEY) != null;
+  }
+
   public static Long getPersonId(final HttpSession session) {
     final Long personId = (Long) session.getAttribute(PERSON_ID_SESSION_KEY);
 

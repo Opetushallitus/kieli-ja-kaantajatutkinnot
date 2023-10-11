@@ -219,6 +219,10 @@
           "enrollToQueue": "Ilmoittaudu jonoon"
         },
         "title": "Tulevat tutkintotilaisuudet"
+      },
+      "logoutSuccessPage": {
+        "heading": "Uloskirjautuminen onnnistui",
+        "info": "Olet kirjautunut ulos. Suljethan vielä kaikki selainikkunat."
       }
     }
   }

@@ -10,6 +10,7 @@ import { DateUtils } from 'shared/utils';
 
 import commonEN from 'public/i18n/en-GB/common.json';
 import publicEN from 'public/i18n/en-GB/public.json';
+import accessibilityFI from 'public/i18n/fi-FI/accessibility.json';
 import commonFI from 'public/i18n/fi-FI/common.json';
 import publicFI from 'public/i18n/fi-FI/public.json';
 import commonSV from 'public/i18n/sv-SE/common.json';
@@ -24,6 +25,7 @@ const supportedLangs = [langFI, langSV, langEN];
 
 const resources = {
   [langFI]: {
+    [I18nNamespace.Accessibility]: accessibilityFI,
     [I18nNamespace.Common]: commonFI,
     [I18nNamespace.Public]: publicFI,
   },
@@ -78,6 +80,16 @@ const useAppTranslation = (
   return useTranslation(ns, options);
 };
 
+export const useAccessibilityTranslation = () => {
+  const { t } = useAppTranslation(
+    {
+      keyPrefix: 'yki.accessibility',
+    },
+    I18nNamespace.Accessibility
+  );
+
+  return t;
+};
 export const usePublicTranslation = (
   options: UseTranslationOptions<string>
 ) => {

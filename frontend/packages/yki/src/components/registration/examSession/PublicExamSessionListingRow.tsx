@@ -85,9 +85,18 @@ const renderAdmissionPeriod = ({
   start: Dayjs;
   end: Dayjs;
 }) => {
-  return `${DateTimeUtils.renderDateTime(
-    start
-  )} — ${DateTimeUtils.renderDateTime(end)}`;
+  const startTimeStr = DateTimeUtils.renderDateTime(
+    start.tz('Europe/Helsinki')
+  );
+  const endTimeStr = DateTimeUtils.renderDateTime(end.tz('Europe/Helsinki'));
+
+  return (
+    <span aria-label={`${startTimeStr} — ${endTimeStr}`}>
+      {startTimeStr} —
+      <br />
+      {endTimeStr}
+    </span>
+  );
 };
 
 const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
@@ -126,9 +135,9 @@ const PublicExamSessionListingCellsForDesktop = ({
         {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
       </TableCell>
       <TableCell>
-        {locationInfo?.name}
+        {locationInfo.name}
         <br />
-        {locationInfo?.post_office}
+        {ExamSessionUtils.getMunicipality(locationInfo)}
       </TableCell>
       <TableCell>
         <AdmissionPeriodText examSession={examSession} />
@@ -173,9 +182,9 @@ const PublicExamSessionListingCellsForPhone = ({
         <Text>
           <b>{translateCommon('institution')}</b>
           <br />
-          {locationInfo?.name}
+          {locationInfo.name}
           <br />
-          {locationInfo?.post_office}
+          {ExamSessionUtils.getMunicipality(locationInfo)}
         </Text>
         <Text>
           <b>{translateCommon('registrationPeriod')}</b>

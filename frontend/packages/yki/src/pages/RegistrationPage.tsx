@@ -28,11 +28,13 @@ export const RegistrationPage: FC = () => {
   const onApplyFilters = () => {
     setResults(filteredExamSessions);
     setShowResults(true);
+    setPage(0);
   };
-  const onEmptyFilters = () => {
-    setResults(exam_sessions);
-    setShowResults(false);
-  };
+
+  // Pagination
+  const [page, setPage] = useState(0);
+  const rowsPerPageOptions = [10, 20, 50];
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
@@ -54,6 +56,13 @@ export const RegistrationPage: FC = () => {
           item
           className="public-registration-page__grid-container__item-header"
         >
+          <Alert
+            className="public-registration-page__link-to-old-ui"
+            severity={Severity.Info}
+          >
+            {t('oldUILink.text')}{' '}
+            <Link href={t('oldUILink.link')}>{t('oldUILink.linkText')}</Link>
+          </Alert>
           <H1 data-testid="public-registration-page__title-heading">
             {t('title')}
           </H1>
@@ -94,10 +103,7 @@ export const RegistrationPage: FC = () => {
             >
               {t('filters.information')}
             </Alert>
-            <PublicExamSessionFilters
-              onApplyFilters={onApplyFilters}
-              onEmptyFilters={onEmptyFilters}
-            />
+            <PublicExamSessionFilters onApplyFilters={onApplyFilters} />
           </Paper>
         </Grid>
         {showResults && (
@@ -106,7 +112,14 @@ export const RegistrationPage: FC = () => {
             className="public-registration-page__grid-container__result-box"
             data-testid="public-registration-page__grid-container__result-box"
           >
-            <PublicExamSessionListing examSessions={results} />
+            <PublicExamSessionListing
+              examSessions={results}
+              onPageChange={setPage}
+              onRowsPerPageChange={setRowsPerPage}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
           </Grid>
         )}
       </Grid>

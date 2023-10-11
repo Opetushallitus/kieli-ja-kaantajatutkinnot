@@ -1,6 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 import 'dayjs/locale/fi';
 import 'dayjs/locale/sv-fi';
@@ -9,6 +11,8 @@ import { AppLanguage } from '../../enums';
 
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export class DateUtils {
   static setDayjsLocale(locale: AppLanguage) {

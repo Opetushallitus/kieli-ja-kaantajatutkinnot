@@ -31,9 +31,10 @@ const filterExamSessions = (
   }
 
   if (filters.municipality) {
-    // TODO Does reaching to index 0 always work? The post_offices *should* be the same between different locations...
     filteredData = filteredData.filter(
-      (es) => es.location[0].post_office === filters.municipality
+      (es) =>
+        ExamSessionUtils.getMunicipality(es.location[0]) ===
+        filters.municipality
     );
   }
 
@@ -41,12 +42,12 @@ const filterExamSessions = (
     filteredData = filteredData.filter((es) => {
       const { open, availablePlaces } =
         ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
-      if (filters.excludeFullSessions && !availablePlaces) {
-        return false;
-      } else if (filters.excludeNonOpenSessions && !open) {
-        return false;
+      if (filters.excludeFullSessions && filters.excludeNonOpenSessions) {
+        return availablePlaces > 0 && open;
+      } else if (filters.excludeFullSessions) {
+        return availablePlaces > 0;
       } else {
-        return true;
+        return open;
       }
     });
   }
