@@ -20,10 +20,10 @@ import { ExamSessionUtils } from 'utils/examSession';
 
 const RegisterToExamButton = ({
   examSession,
-  ariaLabel,
+  ariaLabelPrefix,
 }: {
   examSession: ExamSession;
-  ariaLabel?: string;
+  ariaLabelPrefix?: string;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
@@ -33,6 +33,12 @@ const RegisterToExamButton = ({
 
   const { availablePlaces, availableQueue } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
+
+  const label = availablePlaces
+    ? t('register')
+    : availableQueue
+    ? t('orderCancellationNotification')
+    : t('full');
 
   return (
     <CustomButtonLink
@@ -44,13 +50,9 @@ const RegisterToExamButton = ({
       }}
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
-      aria-label={ariaLabel}
+      aria-label={ariaLabelPrefix ? `${ariaLabelPrefix}: ${label}` : undefined}
     >
-      {availablePlaces
-        ? t('register')
-        : availableQueue
-        ? t('orderCancellationNotification')
-        : t('full')}
+      {label}
     </CustomButtonLink>
   );
 };
@@ -207,7 +209,7 @@ const PublicExamSessionListingCellsForPhone = ({
         {registerActionAvailable ? (
           <RegisterToExamButton
             examSession={examSession}
-            ariaLabel={translateCommon('actions')}
+            ariaLabelPrefix={translateCommon('actions')}
           />
         ) : (
           <Text
