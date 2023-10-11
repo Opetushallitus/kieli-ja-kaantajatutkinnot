@@ -13,7 +13,7 @@ import { loadExamSession } from 'redux/reducers/examSession';
 import { setActiveStep } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
-export const RegistrationPaymentStatusPage = () => {
+const RegistrationPaymentStatusPage = () => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationStatusPage',
@@ -65,3 +65,5 @@ export const RegistrationPaymentStatusPage = () => {
     </Box>
   );
 };
+
+export default RegistrationPaymentStatusPage;

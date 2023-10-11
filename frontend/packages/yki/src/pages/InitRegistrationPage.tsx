@@ -32,7 +32,7 @@ const ContentSelector = () => {
   }
 };
 
-export const InitRegistrationPage = () => {
+const InitRegistrationPage = () => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.initRegistrationPage',
@@ -103,3 +103,5 @@ export const InitRegistrationPage = () => {
     </Box>
   );
 };
+
+export default InitRegistrationPage;

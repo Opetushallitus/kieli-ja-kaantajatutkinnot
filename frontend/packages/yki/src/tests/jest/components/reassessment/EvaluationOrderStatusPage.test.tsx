@@ -6,7 +6,7 @@ import { APIResponseStatus } from 'shared/enums';
 import { initI18nForTests } from 'configs/i18n';
 import { RootState } from 'configs/redux';
 import { PaymentStatus } from 'enums/api';
-import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
+import EvaluationOrderStatusPage from 'pages/EvaluationOrderStatusPage';
 import { initialState as initialEvaluationOrderState } from 'redux/reducers/evaluationOrder';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { evaluationOrderDetailsResponse } from 'tests/msw/fixtures/evaluationOrder';

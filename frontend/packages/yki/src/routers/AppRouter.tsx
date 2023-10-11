@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Notifier, ScrollToTop } from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
@@ -6,22 +6,30 @@ import { TitlePage } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
+import { LoadingFallback } from 'components/layouts/LoadingFallback';
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
-import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
-import { EvaluationOrderStatusPage } from 'pages/EvaluationOrderStatusPage';
-import { ExamDetailsPage } from 'pages/ExamDetailsPage';
-import { InitRegistrationPage } from 'pages/InitRegistrationPage';
-import { LogoutSuccess } from 'pages/LogoutSuccess';
-import { NotFoundPage } from 'pages/NotFoundPage';
-import { ReassessmentPage } from 'pages/ReassessmentPage';
-import { RegistrationPage } from 'pages/RegistrationPage';
-import { RegistrationPaymentStatusPage } from 'pages/RegistrationPaymentStatusPage';
 import { loadSession } from 'redux/reducers/session';
 import { sessionSelector } from 'redux/selectors/session';
+
+const AccessibilityStatementPage = lazy(
+  () => import('pages/AccessibilityStatementPage')
+);
+const ExamDetailsPage = lazy(() => import('pages/ExamDetailsPage'));
+const EvaluationOrderPage = lazy(() => import('pages/EvaluationOrderPage'));
+const EvaluationOrderStatusPage = lazy(
+  () => import('pages/EvaluationOrderStatusPage')
+);
+const InitRegistrationPage = lazy(() => import('pages/InitRegistrationPage'));
+const LogoutSuccess = lazy(() => import('pages/LogoutSuccess'));
+const NotFoundPage = lazy(() => import('pages/NotFoundPage'));
+const ReassessmentPage = lazy(() => import('pages/ReassessmentPage'));
+const RegistrationPage = lazy(() => import('pages/RegistrationPage'));
+const RegistrationPaymentStatusPage = lazy(
+  () => import('pages/RegistrationPaymentStatusPage')
+);
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -48,88 +56,90 @@ export const AppRouter: FC = () => {
         <ScrollToTop />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Routes>
-              <Route
-                path={AppRoutes.Registration}
-                element={
-                  <TitlePage title={createTitle('registration')}>
-                    <RegistrationPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ExamSession}
-                element={
-                  <TitlePage title={createTitle('initRegistration')}>
-                    <InitRegistrationPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ExamSessionRegistration}
-                element={
-                  <TitlePage title={createTitle('examDetails')}>
-                    <ExamDetailsPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.RegistrationPaymentStatus}
-                element={
-                  <TitlePage title={createTitle('registrationPaymentStatus')}>
-                    <RegistrationPaymentStatusPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.Reassessment}
-                element={
-                  <TitlePage title={createTitle('reassessment')}>
-                    <ReassessmentPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ReassessmentOrder}
-                element={
-                  <TitlePage title={createTitle('evaluationOrder')}>
-                    <EvaluationOrderPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ReassessmentOrderStatus}
-                element={
-                  <TitlePage title={createTitle('evaluationOrderStatus')}>
-                    <EvaluationOrderStatusPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.AccessibilityStatementPage}
-                element={
-                  <TitlePage title={createTitle('accessibilityStatement')}>
-                    <AccessibilityStatementPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.LogoutSuccess}
-                element={
-                  <TitlePage title={createTitle('logoutSuccess')}>
-                    <LogoutSuccess />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.NotFoundPage}
-                element={
-                  <TitlePage title={createTitle('notFound')}>
-                    <NotFoundPage />
-                  </TitlePage>
-                }
-              />
-            </Routes>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route
+                  path={AppRoutes.Registration}
+                  element={
+                    <TitlePage title={createTitle('registration')}>
+                      <RegistrationPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.ExamSession}
+                  element={
+                    <TitlePage title={createTitle('initRegistration')}>
+                      <InitRegistrationPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.ExamSessionRegistration}
+                  element={
+                    <TitlePage title={createTitle('examDetails')}>
+                      <ExamDetailsPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.RegistrationPaymentStatus}
+                  element={
+                    <TitlePage title={createTitle('registrationPaymentStatus')}>
+                      <RegistrationPaymentStatusPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.Reassessment}
+                  element={
+                    <TitlePage title={createTitle('reassessment')}>
+                      <ReassessmentPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.ReassessmentOrder}
+                  element={
+                    <TitlePage title={createTitle('evaluationOrder')}>
+                      <EvaluationOrderPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.ReassessmentOrderStatus}
+                  element={
+                    <TitlePage title={createTitle('evaluationOrderStatus')}>
+                      <EvaluationOrderStatusPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.AccessibilityStatementPage}
+                  element={
+                    <TitlePage title={createTitle('accessibilityStatement')}>
+                      <AccessibilityStatementPage />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.LogoutSuccess}
+                  element={
+                    <TitlePage title={createTitle('logoutSuccess')}>
+                      <LogoutSuccess />
+                    </TitlePage>
+                  }
+                />
+                <Route
+                  path={AppRoutes.NotFoundPage}
+                  element={
+                    <TitlePage title={createTitle('notFound')}>
+                      <NotFoundPage />
+                    </TitlePage>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </div>
         </main>
         <Footer />

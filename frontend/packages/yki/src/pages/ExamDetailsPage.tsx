@@ -17,7 +17,7 @@ import {
 } from 'redux/reducers/registration';
 import { examSessionSelector } from 'redux/selectors/examSession';
 
-export const ExamDetailsPage = () => {
+const ExamDetailsPage = () => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.examDetailsPage',
@@ -87,3 +87,5 @@ export const ExamDetailsPage = () => {
     </Box>
   );
 };
+
+export default ExamDetailsPage;

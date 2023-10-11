@@ -17,7 +17,7 @@ import {
 } from 'redux/reducers/evaluationOrder';
 import { evaluationOrderSelector } from 'redux/selectors/evaluationOrder';
 
-export const EvaluationOrderPage = () => {
+const EvaluationOrderPage = () => {
   // i18n
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.evaluationOrderPage',
@@ -135,3 +135,5 @@ export const EvaluationOrderPage = () => {
       );
   }
 };
+
+export default EvaluationOrderPage;
