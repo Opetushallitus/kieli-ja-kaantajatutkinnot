@@ -98,7 +98,7 @@ const renderAdmissionPeriod = ({
   return (
     <span aria-label={`${startTimeStr} — ${endTimeStr}`}>
       {startTimeStr} —
-      <br />
+      <br aria-hidden={true} />
       {endTimeStr}
     </span>
   );
