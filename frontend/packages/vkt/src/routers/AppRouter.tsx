@@ -15,6 +15,7 @@ import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
 import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
 import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
 import { ClerkHomePage } from 'pages/ClerkHomePage';
+import { LogoutSuccess } from 'pages/LogoutSuccess';
 import { NotFoundPage } from 'pages/NotFoundPage';
 import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
 import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
@@ -165,6 +166,14 @@ export const AppRouter: FC = () => {
                 element={
                   <TitlePage title={createTitle('clerkEnrollmentOverview')}>
                     <ClerkEnrollmentOverviewPage />
+                  </TitlePage>
+                }
+              />
+              <Route
+                path={AppRoutes.LogoutSuccess}
+                element={
+                  <TitlePage title={createTitle('logoutSuccess')}>
+                    <LogoutSuccess />
                   </TitlePage>
                 }
               />

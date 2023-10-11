@@ -1,11 +1,13 @@
 export enum APIEndpoints {
   PublicAuthLogin = '/vkt/api/v1/auth/login/:examEventId/:type?locale=:locale',
+  PublicAuthLogout = '/vkt/api/v1/auth/logout',
   PublicExamEvent = '/vkt/api/v1/examEvent',
   PublicEnrollment = '/vkt/api/v1/enrollment',
   PublicReservation = '/vkt/api/v1/reservation',
   PaymentCreate = '/vkt/api/v1/payment/create/:enrollmentId/redirect?locale=:locale',
   ClerkExamEvent = '/vkt/api/v1/clerk/examEvent',
   ClerkUser = '/vkt/api/v1/clerk/user',
+  PublicUser = '/vkt/api/v1/auth/info',
   ClerkEnrollment = '/vkt/api/v1/clerk/enrollment',
   ClerkPayment = '/vkt/api/v1/clerk/payment',
 }

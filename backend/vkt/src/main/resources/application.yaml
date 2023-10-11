@@ -72,7 +72,9 @@ app:
     api: ${public-base-url:http://localhost:${server.port}}/vkt/api/v1
   cas-oppija:
     login-url: ${cas-oppija.login-url:https://testiopintopolku.fi/cas-oppija/login}
+    logout-url: ${cas-oppija.logout-url:https://testiopintopolku.fi/cas-oppija/logout}
     service-url: ${cas-oppija.service-url:http://localhost:${server.port}/vkt/api/v1/auth/validate/%s/%s}
+    service-logout-url: ${public-base-url:http://localhost:4002}/vkt/uloskirjautuminen-onnistui
     validate-ticket-url: ${cas-oppija.validate-ticket-url:https://testiopintopolku.fi/cas-oppija/serviceValidate}
   reservation:
     duration: ${reservation.duration:PT30M}

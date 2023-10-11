@@ -39,6 +39,15 @@ public class PublicAuthService {
     return casLoginUrl + "?service=" + casServiceUrl + "&locale=" + appLocale.name().toLowerCase();
   }
 
+  public String createCasLogoutUrl() {
+    final String casLogoutUrl = environment.getRequiredProperty("app.cas-oppija.logout-url");
+    final String casServiceUrl = URLEncoder.encode(
+      environment.getRequiredProperty("app.cas-oppija.service-logout-url"),
+      StandardCharsets.UTF_8
+    );
+    return casLogoutUrl + "?service=" + casServiceUrl;
+  }
+
   @Transactional
   public Person createPersonFromTicket(final String ticket, final long examEventId, final EnrollmentType type) {
     final Map<String, String> personDetails = casTicketValidationService.validate(ticket, examEventId, type);
