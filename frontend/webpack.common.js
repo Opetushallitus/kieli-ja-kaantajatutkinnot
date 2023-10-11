@@ -156,7 +156,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
 
 // Helpers
 const getStylelintPlugin = (env) => {
-  if (!env.cypress) {
+  if (!env.prod && !env.cypress) {
     const StylelintPlugin = require("stylelint-webpack-plugin");
     return [new StylelintPlugin()];
   }
