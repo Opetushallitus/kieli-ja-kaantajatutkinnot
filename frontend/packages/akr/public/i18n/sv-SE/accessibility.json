@@ -40,8 +40,8 @@
         "contactAdministrativeAgency": {
           "links": {
             "email": {
-              "link": "saavutettavuus@avi.fi",
-              "title": "saavutettavuus@avi.fi"
+              "link": "webbtillganglighet@rfv.fi",
+              "title": "webbtillganglighet@rfv.fi"
             },
             "website": {
               "ariaLabel": "Enheten för tillgänglighetstillsyn webbplats, öppnas i ett nytt fönster",
@@ -75,7 +75,7 @@
         }
       },
       "heading": {
-        "description": "Detta tillgänglighetsutlåtande gäller tjänsten akr.opintopolku.fi och har utarbetats/uppdaterats 04.10.2023. Tjänsten omfattas av lagen om tillhandahållande av digitala tjänster, där det förutsätts att offentliga nättjänster ska vara tillgängliga. Tjänstens tillgänglighet har bedömts av en utomstående expertorganisation.",
+        "description": "Detta tillgänglighetsutlåtande gäller tjänsten akr.opintopolku.fi och har utarbetats / uppdaterats 04.10.2023. Tjänsten omfattas av lagen om tillhandahållande av digitala tjänster, där det förutsätts att offentliga nättjänster ska vara tillgängliga. Tjänstens tillgänglighet har bedömts av en utomstående expertorganisation.",
         "title": "Tillgänglighetsutlåtande för registret över auktoriserade translatorer"
       }
     }
