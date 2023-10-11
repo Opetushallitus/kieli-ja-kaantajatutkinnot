@@ -38,21 +38,22 @@ const examSessionsSlice = createSlice({
         ExamSessionUtils.compareExamSessions(es1, es2)
       );
       const uniqueMunicipalities = new Set(
-        examSessions.map((es) => es.location[0].post_office)
+        examSessions.map((es) =>
+          ExamSessionUtils.getMunicipality(es.location[0])
+        )
       );
 
       state.status = APIResponseStatus.Success;
       state.exam_sessions = examSessions;
-      state.municipalities = Array.from(uniqueMunicipalities);
+      state.municipalities = Array.from(uniqueMunicipalities).sort(
+        new Intl.Collator('fi').compare
+      );
     },
     setPublicExamSessionFilters(
       state,
       action: PayloadAction<Partial<ExamSessionFilters>>
     ) {
       state.filters = { ...state.filters, ...action.payload };
-    },
-    resetPublicExamSessionFilters(state) {
-      state.filters = initialState.filters;
     },
   },
 });
@@ -63,5 +64,4 @@ export const {
   rejectExamSessions,
   storeExamSessions,
   setPublicExamSessionFilters,
-  resetPublicExamSessionFilters,
 } = examSessionsSlice.actions;

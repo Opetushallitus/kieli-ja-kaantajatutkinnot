@@ -1,0 +1,36 @@
+.logout-success-page {
+  display: block;
+  flex: 1;
+
+  &__heading {
+    @include phone {
+      padding-left: 2rem;
+      padding-top: 3rem;
+    }
+  }
+
+  & &__back-button {
+    @include phone {
+      margin-top: 2rem;
+      padding: 2rem 2rem 0;
+    }
+  }
+
+  & &__heading {
+    @include phone {
+      padding: 2rem 2rem 0;
+    }
+  }
+
+  & &__content {
+    padding: 4rem 3rem;
+
+    @include phone {
+      @include phone-divider-border-top;
+      @include phone-divider-border-bottom;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+      padding: 1rem 2rem;
+    }
+  }
+}

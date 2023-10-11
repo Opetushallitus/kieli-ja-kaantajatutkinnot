@@ -1,1 +1,169 @@
-{}
+{
+  "otr": {
+    "privacy": {
+      "automatedDecisions": {
+        "description": "The data contained in the Register is not used for profiling of automated decision-making.",
+        "heading": "Information on the existence of automated decision-making, including profiling, and, at least in these cases, relevant information on the logic of the processing, as well as the significance and possible consequences of this processing for the data subject"
+      },
+      "common": {
+        "email": "E-mail",
+        "group": "Group",
+        "phoneSwitch": "Telephone: +358 (0)29 533 1000 (switchboard)"
+      },
+      "complaints": {
+        "description": "The data subject has the right to lodge a complaint with a supervisory authority, in particular in the Member State where they have their habitual residence or place of work, or where the alleged breach of the GDPR has taken place in.",
+        "heading": "The right to lodge a complaint with a supervisory authority"
+      },
+      "dataContents": {
+        "group1": {
+          "civilRegistry": {
+            "description": "The Register verifies the data subject’s address and personal data from the Population Information System."
+          },
+          "contactChanges": {
+            "description": "The data subject must notify the Finnish National Agency for Education by e-mail of any changes to their contact details"
+          },
+          "dataDeletion": {
+            "description1": "The information concerning the data subject will be deleted without undue delay and no later than 2 months after the registration has expired or been cancelled.",
+            "description2": "The processing of the data subject’s personal data is necessary and proportionate for the performance of a task carried out by the authority in the public interest."
+          },
+          "dataProcessing": {
+            "description": "No special categories of personal data are processed. No confidential personal data are processed."
+          },
+          "givenDetails": {
+            "description": "Personal data: name, personal identity code, address, e-mail address, telephone number, and place of residence.",
+            "heading": "Information provided by the data subject"
+          },
+          "prerequisites": {
+            "heading": "As to the studies which meet the requirements for registration in the Register of Legal Interpreters, an indication of which studies the interpreter has completed",
+            "ul1": "a specialist vocational qualification in legal interpreting or",
+            "ul2": "a higher education degree appropriate for the work of an interpreter and legal interpreting studies worth at least 35 credits or of a similar scope"
+          },
+          "publishPermission": {
+            "description": "Based on the permission to publish, the name, operating area, contact details, and language pair(s) in which the interpreter is registered are displayed in the search engine. The interpreter entered in the Register has the right to object to the publication of information concerning them."
+          },
+          "name": "Legal interpreters entered in the Register",
+          "otherDetails": {
+            "heading": "Other entered information",
+            "ul1": "language pair (two-way qualification)",
+            "ul2": "declaration of a legal interpreter",
+            "ul3": "validity of the record",
+            "ul4": "permissions to publish for the following information"
+          },
+          "validity": {
+            "description1": "The entry in the Register is valid for five years.",
+            "description2": "The Finnish National Agency for Education will send an automatic reminder 3 months before the expiry of the registration. Renewal can be applied for not earlier than 6 months before the expiry date. If the registration expires, the interpreter’s information will be removed from the public search engine. It is possible to apply for renewal even after this."
+          }
+        },
+        "group2": {
+          "civilRegistry": {
+            "description": "The Register verifies the official user’s address and personal data from the Population Information System."
+          },
+          "givenDetails": {
+            "description": "Personal data: name, personal identity code, address, e-mail address, telephone number, and place of residence."
+          },
+          "name": "Officials responsible for maintaining the Register"
+        },
+        "heading": "Data content of the Register / categories of personal data processed"
+      },
+      "dataSources": {
+        "description": "The data is collected in group 1 directly from the legal interpreters themselves and from the Population Information System.",
+        "heading": "Information on the origin of the personal data and, where applicable, whether the data have been obtained from publicly available sources"
+      },
+      "dataTransfers": {
+        "description": "According to rule, no data are disclosed or transferred from the Register outside the EU or the European Economic Area.",
+        "heading": "Information on the transfer of data to third countries and information on the safeguard measures used (including information on the existence or absence of a Commission decision on the adequacy of data protection) and the means of obtaining a copy of information about their content"
+      },
+      "description": "General Data Protection Regulation (EU) 2016/679 (GDPR).",
+      "handlingPurpose": {
+        "description1": "The Register of Legal Interpreters contains information on legal interpreters who have been approved by the Board for the Register of Legal Interpreters on application to be entered in the Register of Legal Interpreters.",
+        "description2": "The Register’s search engine enables a user to search for legal interpreters for an interpreting assignment. Interpreters can be contacted directly using the public contact details they have provided.",
+        "description3": "The Register stores and processes personal data necessary for managing the registration and the publication of the contact details mentioned above.",
+        "description4": "When consent is sought for the publication of the contact details of a legal interpreter, the data subject’s consent will be requested in advance while at the same time providing an explanation on this form of how the data will be processed.",
+        "heading": "Purpose and legal basis for the processing of personal data",
+        "law": {
+          "conclusion": {
+            "description": "The publicity and processing of information recorded in the Register of Legal Interpreters is governed by the Act on the Openness of Government Activities (<0></0>) and by the Data Protection Act (<1></1>).",
+            "law1": {
+              "content": "621/1999",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/1999/19990621"
+            },
+            "law2": {
+              "content": "1050/2018",
+              "link": "https://www.finlex.fi/fi/laki/ajantasa/2018/20181050"
+            }
+          },
+          "heading": "Legal grounds",
+          "part1": {
+            "description": "Act on the Register of Legal Interpreters",
+            "link": "https://www.finlex.fi/fi/laki/ajantasa/2015/20151590"
+          },
+          "part2": {
+            "description": "Government Decree on the Register of Legal Interpreters",
+            "link": "https://www.finlex.fi/fi/laki/alkup/2016/20160177"
+          }
+        }
+      },
+      "heading": "Privacy policy / Disclosure",
+      "holdingPeriod": {
+        "description1": "The information concerning the legal interpreters entered in the Register will be deleted from the Register without undue delay and no later than 2 months after the registration has expired or been cancelled.",
+        "description2": "The retention periods of personal data in the service are in accordance with retention periods specified in the archives formation plan and the records management plan.",
+        "description3": "Documents whose retention period has expired will be deleted from the system annually.",
+        "heading": "Retention period of personal data"
+      },
+      "receivers": {
+        "description1": "According to the Act on the Openness of Government Activities (21.5.1999/621), Finnish National Agency for Education must disclose information from a public document to a requester, even if the document contains personal data. The disclosure or delivery of confidential information requires special grounds: status as a party or statutory right to access the information or the consent of the person whose protection is provided for by the confidentiality provision.",
+        "description2": "Personal data may be disclosed for scientific or historical research or the compilation of statistics under the conditions set out in Section 4 of the Data Protection Act (1050/2018).",
+        "description3": "The service providers (personal data processors) of the information system have access to the personal data contained in the Register to the extent specified by the Finnish National Agency for Education.",
+        "description4": "The data will not be disclosed for direct marketing purposes.",
+        "heading": "Recipients or categories of recipients of personal data"
+      },
+      "registeredRights": {
+        "description1": "The data subject has the right to obtain confirmation from the controller that their personal data are or are not being processed. The controller must provide a copy of the processed personal data upon request.",
+        "description2": "The data subject has the right to obtain from the controller, without undue delay, the rectification of inaccurate or erroneous personal data relating to the data subject. The data subject must identify and justify what information they require to be rectified, what they consider to be the correct information, and how the correction is to be made.",
+        "description3": "If the processing is based on point (a) of Article 6(1) or on point (a) of Article 9(2) of the Data Protection Regulation, i.e. the data subject’s consent, the data subject has the right to erasure.",
+        "description4": "The data subject has the right to restrict processing in certain circumstances.",
+        "description5": "The data subject has the right that the controller informs the rectification or erasure or restriction of processing of the data subject’s personal data to the third party to whom the data have been disclosed in the event the data have been disclosed further.",
+        "description6": "The data subject has the right to data portability from one system to another if the processing is carried out automatically.",
+        "description7": "Requests related to the use of rights should be addressed to the contact person of the Register: Finnish National Agency for Education, P.O. Box 380, 00531 Helsinki, Finland. The data subject must include in the request for access the information necessary for the search (name and personal identity code).",
+        "description8": "If less than one year has elapsed since the data subject exercised their right of access, the controller may charge a fee based on the administrative costs of providing the information (Article 12(5)).",
+        "heading": "Rights of the data subject",
+        "rights": {
+          "right1": "Right of access to personal data",
+          "right2": "Right to rectification",
+          "right3": "Right to erasure",
+          "right4": "Right to restrict processing",
+          "right5": "Right to object",
+          "right6": "Right to data portability"
+        }
+      },
+      "registerName": {
+        "contents": {
+          "description": "The Register consists of the following",
+          "item1": "legal interpreters entered in the Register",
+          "item2": "public search engine"
+        },
+        "description": "Register of Legal Interpreters.",
+        "heading": "The name of the register"
+      },
+      "registrar": {
+        "contact": {
+          "address": "P.O. Box 380, 00531 Helsinki, Finland (street address Hakaniemenranta 6, 00530 Helsinki).",
+          "name": "Finnish National Agency for Education",
+          "otherDetails": "Other contact details",
+          "phoneSwitch": "Telephone switchboard: 029 533 1000"
+        },
+        "heading": "Controller"
+      },
+      "registrarContactPerson": {
+        "heading": "Representative of the controller (contact person)",
+        "liable": {
+          "description": "Contact details of the data protection officer",
+          "name": "Jyrki Tuohela"
+        },
+        "person": {
+          "name": "Saara Kalajoki"
+        }
+      }
+    }
+  }
+}

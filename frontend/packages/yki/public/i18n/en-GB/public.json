@@ -437,7 +437,6 @@
         },
         "filters": {
           "buttons": {
-            "empty": "Clear selection",
             "showResults": "Show results ({{count}})"
           },
           "errorDialog": {
@@ -451,7 +450,6 @@
           "information": "Search for YKI-tests by choosing the language and proficiency level. Click the SHOW RESULTS button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
-            "optional": "(optional)",
             "required": "(required)"
           }
         },

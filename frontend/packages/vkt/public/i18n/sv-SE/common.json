@@ -101,6 +101,9 @@
           "continueToMain": "Fortsätt till innehållet",
           "langSelectorAriaLabel": "Kieli / Språk"
         },
+        "sessionState": {
+          "logOut": "Logga ut"
+        },
         "lang": {
           "fi": "Suomeksi",
           "sv": "På svenska"
@@ -139,6 +142,7 @@
         "paymentSuccess": "Anmälan - betalningen är slutförd",
         "done": "Anmälan - färdig",
         "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "logoutSuccess": "Utloggning lyckades",
         "privacyPolicy": "Dataskyddsbeskrivning",
         "clerkEnrollmentOverview": "Administratör anmälning",
         "clerkExamEventCreate": "Administratör lägg till examensdag",

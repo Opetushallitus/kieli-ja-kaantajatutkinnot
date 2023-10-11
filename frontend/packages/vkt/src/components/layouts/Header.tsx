@@ -11,6 +11,7 @@ import { useWindowProperties } from 'shared/hooks';
 
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import { ClerkNavTabs } from 'components/layouts/clerkHeader/ClerkNavTabs';
+import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
 import {
   changeLang,
   getCurrentLang,
@@ -29,7 +30,7 @@ export const Header = (): JSX.Element => {
     [translateCommon('header.lang.sv'), swedish],
   ]);
 
-  const { isAuthenticated, isClerkUI } = useAuthentication();
+  const { isAuthenticated, isClerkUI, publicUser } = useAuthentication();
   const logoRedirectURL = isAuthenticated
     ? AppRoutes.ClerkHomePage
     : AppRoutes.PublicHomePage;
@@ -53,6 +54,12 @@ export const Header = (): JSX.Element => {
               )}
             />
           </Toolbar>
+        )}
+        {publicUser?.isAuthenticated && (
+          <SessionStateHeader
+            firstName={publicUser.firstName}
+            lastName={publicUser.lastName}
+          />
         )}
         <Toolbar className="header__toolbar">
           <div className="header__left">

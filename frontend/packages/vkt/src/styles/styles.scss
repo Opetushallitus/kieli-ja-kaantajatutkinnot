@@ -15,6 +15,7 @@
 @import 'components/clerkExamEvent/clerk-exam-event-listing';
 @import 'components/layouts/header';
 @import 'components/layouts/footer';
+@import 'components/layouts/session-header';
 @import 'components/publicEnrollment/public-enrollment';
 
 // Pages
@@ -22,6 +23,7 @@
 @import 'pages/clerk-enrollment-overview-page';
 @import 'pages/clerk-exam-event-overview-page';
 @import 'pages/clerk-homepage';
+@import 'pages/logout-success-page';
 @import 'pages/not-found-page';
 @import 'pages/privacy-policy-page';
 @import 'pages/public-homepage';

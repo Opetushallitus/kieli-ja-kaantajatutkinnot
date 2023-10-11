@@ -5,7 +5,7 @@ import {
   TableBody,
   TablePagination,
 } from '@mui/material';
-import { ChangeEvent, Fragment, useState } from 'react';
+import { ChangeEvent, Fragment, useRef, useState } from 'react';
 
 import { CustomTableProps } from './CustomTable';
 import { WithId } from '../../interfaces/with';
@@ -60,10 +60,15 @@ export function PaginatedTable<T extends WithId>({
   nextIconButtonProps,
   controlledPaging,
 }: PaginatedTableProps<T>): JSX.Element {
+  const headerRef = useRef<HTMLDivElement>(null);
   const [internalPage, setInternalPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
+  const handlePageChange = (page: number) => {
+    setPage(page);
+    headerRef.current?.scrollIntoView();
+  };
   const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
+    handlePageChange(0);
     setRowsPerPage(+event.target.value);
   };
 
@@ -71,35 +76,30 @@ export function PaginatedTable<T extends WithId>({
   const setPage = controlledPaging?.setPage ?? setInternalPage;
   const count = data.length;
 
-  const Pagination = ({
-    page,
-    showHeaderContent,
-  }: {
-    page: number;
-    showHeaderContent: boolean;
-  }) => (
-    <div className="table__head-box">
-      {showHeaderContent && headerContent}
-      <TablePagination
-        className="table__head-box__pagination"
-        count={count}
-        component="div"
-        onPageChange={(_event, newPage) => setPage(newPage)}
-        page={page}
-        onRowsPerPageChange={handleRowsPerPageChange}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={rowsPerPageOptions}
-        labelRowsPerPage={rowsPerPageLabel}
-        labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
-        backIconButtonProps={backIconButtonProps}
-        nextIconButtonProps={nextIconButtonProps}
-      />
-    </div>
+  const Pagination = ({ page }: { page: number }) => (
+    <TablePagination
+      className="table__head-box__pagination"
+      count={count}
+      component="div"
+      onPageChange={(_event, newPage) => handlePageChange(newPage)}
+      page={page}
+      onRowsPerPageChange={handleRowsPerPageChange}
+      rowsPerPage={rowsPerPage}
+      rowsPerPageOptions={rowsPerPageOptions}
+      labelRowsPerPage={rowsPerPageLabel}
+      labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
+      backIconButtonProps={backIconButtonProps}
+      nextIconButtonProps={nextIconButtonProps}
+    />
   );
 
   return (
     <>
-      <Pagination page={page} showHeaderContent={!!headerContent} />
+      <div ref={headerRef} className="table__head-box">
+        {headerContent}
+        <Pagination page={page} />
+      </div>
+
       <Table
         className={`${className} table`}
         stickyHeader={stickyHeader}
@@ -114,9 +114,7 @@ export function PaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && (
-        <Pagination page={page} showHeaderContent={false} />
-      )}
+      {showBottomPagination && <Pagination page={page} />}
     </>
   );
 }
