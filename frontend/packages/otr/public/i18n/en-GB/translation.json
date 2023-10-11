@@ -138,7 +138,7 @@
         },
         "links": {
           "accessibility": {
-            "text": "Accessibility statement (in Finnish)"
+            "text": "Accessibility statement"
           },
           "contact": {
             "title": "Feedback and development suggestions"
@@ -149,7 +149,7 @@
             "text": "Information on the Register of Legal Interpreters (oph.fi)"
           },
           "privacy": {
-            "text": "Privacy policy (in Finnish)"
+            "text": "Privacy policy"
           }
         }
       },
