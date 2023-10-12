@@ -9,7 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.11.0] - 2023-12-11
+
+### Changed
+
+- Explicitly declared side-effectful files to improve tree shaking
+
 ## [1.10.2] - 2023-11-24
+
 ### Changed
 
 - Change CookieBanner from modal dialog to a banner

@@ -1,6 +1,6 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.shared",
-  "version": "1.10.2",
+  "version": "1.11.0",
   "description": "Shared Frontend Package",
   "exports": {
     "./components": "./src/components/index.tsx",
@@ -12,6 +12,10 @@
     "./styles": "./src/styles/shared-styles.scss",
     "./utils": "./src/utils/index.ts"
   },
+  "sideEffects": [
+    "**/*.scss",
+    "./src/utils/date.ts"
+  ],
   "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
