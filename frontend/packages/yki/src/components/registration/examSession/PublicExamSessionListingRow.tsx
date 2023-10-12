@@ -20,10 +20,8 @@ import { ExamSessionUtils } from 'utils/examSession';
 
 const RegisterToExamButton = ({
   examSession,
-  ariaLabelPrefix,
 }: {
   examSession: ExamSession;
-  ariaLabelPrefix?: string;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = usePublicTranslation({
@@ -33,12 +31,6 @@ const RegisterToExamButton = ({
 
   const { availablePlaces, availableQueue } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-
-  const label = availablePlaces
-    ? t('register')
-    : availableQueue
-    ? t('orderCancellationNotification')
-    : t('full');
 
   return (
     <CustomButtonLink
@@ -50,9 +42,12 @@ const RegisterToExamButton = ({
       }}
       to={AppRoutes.ExamSession.replace(/:examSessionId$/, `${examSession.id}`)}
       fullWidth={isPhone}
-      aria-label={ariaLabelPrefix ? `${ariaLabelPrefix}: ${label}` : undefined}
     >
-      {label}
+      {availablePlaces
+        ? t('register')
+        : availableQueue
+        ? t('orderCancellationNotification')
+        : t('full')}
     </CustomButtonLink>
   );
 };
@@ -113,7 +108,7 @@ const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
   } else {
     return (
       <>
-        {translateCommon('postAdmission')}:<br />
+        {translateCommon('postAdmission')}:<br aria-hidden={true} />
         {renderAdmissionPeriod(relevantPeriod)}
       </>
     );
@@ -174,43 +169,52 @@ const PublicExamSessionListingCellsForPhone = ({
   const translateCommon = useCommonTranslation();
 
   return (
-    <TableCell>
-      <div className="rows grow gapped-xs">
+    <>
+      <TableCell>
         <Typography variant="h2" component="p">
           {ExamSessionUtils.languageAndLevelText(examSession)}
         </Typography>
+      </TableCell>
+      <TableCell>
         <Text>
-          <b>{translateCommon('examDate')}</b>
-          <br />
+          <b aria-hidden={true}>{translateCommon('examDate')}</b>
+          <br aria-hidden={true} />
           {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
         </Text>
+      </TableCell>
+      <TableCell>
         <Text>
-          <b>{translateCommon('institution')}</b>
-          <br />
+          <b aria-hidden={true}>{translateCommon('institution')}</b>
+          <br aria-hidden={true} />
           {locationInfo.name}
-          <br />
+          <br aria-hidden={true} />
           {ExamSessionUtils.getMunicipality(locationInfo)}
         </Text>
+      </TableCell>
+      <TableCell>
         <Text>
-          <b>{translateCommon('registrationPeriod')}</b>
-          <br />
+          <b aria-hidden={true}>{translateCommon('registrationPeriod')}</b>
+          <br aria-hidden={true} />
           <AdmissionPeriodText examSession={examSession} />
         </Text>
+      </TableCell>
+      <TableCell>
         <Text>
-          <b>{translateCommon('price')}</b>
-          <br />
+          <b aria-hidden={true}>{translateCommon('price')}</b>
+          <br aria-hidden={true} />
           {examSession.exam_fee} €
         </Text>
+      </TableCell>
+      <TableCell>
         <Text>
-          <b>{translateCommon('placesAvailable')}</b>
-          <br />
+          <b aria-hidden={true}>{translateCommon('placesAvailable')}</b>
+          <br aria-hidden={true} />
           {availablePlacesText}
         </Text>
+      </TableCell>
+      <TableCell>
         {registerActionAvailable ? (
-          <RegisterToExamButton
-            examSession={examSession}
-            ariaLabelPrefix={translateCommon('actions')}
-          />
+          <RegisterToExamButton examSession={examSession} />
         ) : (
           <Text
             className="centered uppercase"
@@ -219,8 +223,8 @@ const PublicExamSessionListingCellsForPhone = ({
             <RegistrationUnavailableText examSession={examSession} />
           </Text>
         )}
-      </div>
-    </TableCell>
+      </TableCell>
+    </>
   );
 };
 
@@ -248,7 +252,7 @@ export const PublicExamSessionListingRow = ({
 
   if (isPhone) {
     return (
-      <TableRow>
+      <TableRow className="rows gapped-xs">
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}

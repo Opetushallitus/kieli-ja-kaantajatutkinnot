@@ -139,7 +139,7 @@ Array [
     role={null}
   >
     <thead
-      className="MuiTableHead-root heading-text css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root heading-text public-exam-session-listing__header css-15wwp11-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -232,7 +232,9 @@ Array [
         >
           postAdmission
           :
-          <br />
+          <br
+            aria-hidden={true}
+          />
           <span
             aria-label="6/1/2023 klo 10.00 — 8/1/2023 klo 16.00"
           >
@@ -295,7 +297,9 @@ Array [
         >
           postAdmission
           :
-          <br />
+          <br
+            aria-hidden={true}
+          />
           <span
             aria-label="8/1/2023 klo 10.00 — 9/1/2024 klo 16.00"
           >

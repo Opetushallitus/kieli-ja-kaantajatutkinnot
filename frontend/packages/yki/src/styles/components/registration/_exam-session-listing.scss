@@ -1,0 +1,19 @@
+.public-exam-session-listing {
+  @include phone {
+    thead {
+      display: none;
+    }
+
+    tr {
+      border-bottom: 1px solid $color-divider;
+      display: flex;
+      padding: 1.6rem;
+    }
+
+    td {
+      border: 0;
+      display: block;
+      padding: 0;
+    }
+  }
+}
