@@ -1,5 +1,6 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
+import { ReactNode } from 'react';
 import { CustomButtonLink, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -108,7 +109,8 @@ const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
   } else {
     return (
       <>
-        {translateCommon('postAdmission')}:<br aria-hidden={true} />
+        {translateCommon('postAdmission')}:
+        <br aria-hidden={true} />
         {renderAdmissionPeriod(relevantPeriod)}
       </>
     );
@@ -155,6 +157,22 @@ const PublicExamSessionListingCellsForDesktop = ({
   );
 };
 
+const TableCellForPhone = ({
+  columnName,
+  children,
+}: {
+  columnName: string;
+  children: ReactNode;
+}) => (
+  <TableCell>
+    <Text>
+      <b aria-hidden={true}>{columnName}</b>
+      <br aria-hidden={true} />
+      {children}
+    </Text>
+  </TableCell>
+);
+
 const PublicExamSessionListingCellsForPhone = ({
   examSession,
   locationInfo,
@@ -175,51 +193,28 @@ const PublicExamSessionListingCellsForPhone = ({
           {ExamSessionUtils.languageAndLevelText(examSession)}
         </Typography>
       </TableCell>
-      <TableCell>
-        <Text>
-          <b aria-hidden={true}>{translateCommon('examDate')}</b>
-          <br aria-hidden={true} />
-          {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
-        </Text>
-      </TableCell>
-      <TableCell>
-        <Text>
-          <b aria-hidden={true}>{translateCommon('institution')}</b>
-          <br aria-hidden={true} />
-          {locationInfo.name}
-          <br aria-hidden={true} />
-          {ExamSessionUtils.getMunicipality(locationInfo)}
-        </Text>
-      </TableCell>
-      <TableCell>
-        <Text>
-          <b aria-hidden={true}>{translateCommon('registrationPeriod')}</b>
-          <br aria-hidden={true} />
-          <AdmissionPeriodText examSession={examSession} />
-        </Text>
-      </TableCell>
-      <TableCell>
-        <Text>
-          <b aria-hidden={true}>{translateCommon('price')}</b>
-          <br aria-hidden={true} />
-          {examSession.exam_fee} €
-        </Text>
-      </TableCell>
-      <TableCell>
-        <Text>
-          <b aria-hidden={true}>{translateCommon('placesAvailable')}</b>
-          <br aria-hidden={true} />
-          {availablePlacesText}
-        </Text>
-      </TableCell>
+      <TableCellForPhone columnName={translateCommon('examDate')}>
+        {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('institution')}>
+        {locationInfo.name}
+        <br aria-hidden={true} />
+        {ExamSessionUtils.getMunicipality(locationInfo)}
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('registrationPeriod')}>
+        <AdmissionPeriodText examSession={examSession} />
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('price')}>
+        {examSession.exam_fee} €
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('placesAvailable')}>
+        {availablePlacesText}
+      </TableCellForPhone>
       <TableCell>
         {registerActionAvailable ? (
           <RegisterToExamButton examSession={examSession} />
         ) : (
-          <Text
-            className="centered uppercase"
-            aria-label={translateCommon('actions')}
-          >
+          <Text className="centered uppercase">
             <RegistrationUnavailableText examSession={examSession} />
           </Text>
         )}
