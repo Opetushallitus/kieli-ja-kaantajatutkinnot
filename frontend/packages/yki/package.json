@@ -9,6 +9,7 @@
   "repository": "https://github.com/Opetushallitus/kieli-ja-kaantajatutkinnot",
   "scripts": {
     "yki:build": "yarn g:webpack --env prod",
+    "yki:build:analyze-bundle": "yarn g:webpack --env prod --env analyzeBundle",
     "yki:eslint": "yarn g:eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "yki:exportlint": "yarn g:exportlint",
     "yki:format": "yarn g:prettier --check \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
