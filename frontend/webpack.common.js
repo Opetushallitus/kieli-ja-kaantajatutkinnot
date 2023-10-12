@@ -53,6 +53,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
       ...getStylelintPlugin(env),
       ...getHtmlWebpackPlugin(env, CONTEXT_PATH, dirName),
       new CSPNoncePlaceholderInjectorPlugin(),
+      ...getBundleAnalyzerPlugin(env),
     ],
   });
 
@@ -200,6 +201,15 @@ const getHtmlWebpackPlugin = (env, appName, dirName) => {
   }
 
   return [new HtmlWebpackPlugin(configs)];
+};
+
+const getBundleAnalyzerPlugin = (env) => {
+  if (env.analyzeBundle) {
+    const BundleAnalyzerPlugin =
+      require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+    return [new BundleAnalyzerPlugin()];
+  }
+  return [];
 };
 
 const isGitAvailable = () => {
