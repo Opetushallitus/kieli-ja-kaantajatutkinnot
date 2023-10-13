@@ -24,6 +24,7 @@ public record PublicEnrollmentDTO(
   String street,
   String postalCode,
   String town,
-  String country
+  String country,
+  Boolean hasPaymentLink
 )
   implements EnrollmentDTOCommonFields {}

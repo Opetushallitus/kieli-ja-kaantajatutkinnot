@@ -157,17 +157,15 @@ export const PublicEnrollmentPhoneGrid = ({
                   : 'public-enrollment__grid__form-container'
               }
             >
-              {!isShiftedFromQueue && (
-                <div className="columns gapped-xxl">
-                  <PublicEnrollmentStepper
-                    activeStep={activeStep}
-                    includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
-                  />
-                  <div className="rows gapped-xs grow">
-                    {getMobileStepperHeading()}
-                  </div>
+              <div className="columns gapped-xxl">
+                <PublicEnrollmentStepper
+                  activeStep={activeStep}
+                  includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+                />
+                <div className="rows gapped-xs grow">
+                  {getMobileStepperHeading()}
                 </div>
-              )}
+              </div>
               {isExamEventDetailsAvailable && (
                 <div className="margin-top-lg">
                   <PublicEnrollmentExamEventDetails

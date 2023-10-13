@@ -46,6 +46,7 @@ export interface PublicEnrollment
   privacyStatementConfirmation: boolean;
   status?: EnrollmentStatus;
   examEventId?: number;
+  hasPaymentLink?: boolean;
 }
 
 export interface PublicEnrollmentResponse
