@@ -32,30 +32,12 @@ export const Footer = () => {
           <Paper className="footer" elevation={3}>
             <div className="footer__info-row">
               <div className="footer__container footer__container__links">
-                {/* <CustomButtonLink
-                  to={AppRoutes.AccessibilityStatementPage}
-                  variant={Variant.Text}
-                >
-                  {t('links.accessibility.text')}
-                </CustomButtonLink> */}
                 <Link to={AppRoutes.AccessibilityStatementPage}>
                   <Text>{t('links.accessibility.text')}</Text>
                 </Link>
-                {/* <CustomButtonLink
-                  to={AppRoutes.PrivacyPolicyPage}
-                  variant={Variant.Text}
-                >
-                  {t('links.privacy.text')}
-                </CustomButtonLink> */}
                 <Link to={AppRoutes.PrivacyPolicyPage}>
                   <Text>{t('links.privacy.text')}</Text>
                 </Link>
-                {/* <ExtLink
-                  text={t('links.akrHomepage.text')}
-                  href={t('links.akrHomepage.link')}
-                  endIcon={<OpenInNewIcon />}
-                  aria-label={t('links.akrHomepage.ariaLabel')}
-                /> */}
                 <a
                   href={t('links.akrHomepage.link')}
                   aria-label={t('links.akrHomepage.ariaLabel')}
@@ -70,11 +52,6 @@ export const Footer = () => {
                   <Typography component="h2" variant="h3">
                     {t('links.contact.title')}:
                   </Typography>
-                  {/* <ExtLink
-                    className="footer__container__links__contact__email"
-                    href={`mailto:${translateCommon('contactEmail')}`}
-                    text={translateCommon('contactEmail')}
-                  ></ExtLink> */}
                   <a
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
@@ -97,11 +74,6 @@ export const Footer = () => {
                   <Text className="inline-text">
                     {t('address.phone.title')}
                   </Text>
-                  {/* <ExtLink
-                    className="inline-text"
-                    text={t('address.phone.number')}
-                    href={`tel:${t('address.phone.number')}`}
-                  /> */}
                   <a
                     className="inline-text"
                     href={`tel:${t('address.phone.number')}`}
