@@ -2,9 +2,9 @@ import { OpenInNew as OpenInNewIcon } from '@mui/icons-material';
 import { FC, PropsWithChildren } from 'react';
 
 import { H2, H3, Text } from '../Text/Text';
+import { WebLink } from '../WebLink/WebLink';
 
 import './AccessibilityStatement.scss';
-import { WebLink } from 'components/WebLink/WebLink';
 
 type AccessibilityStatementContentProps = {
   caveats: string[];

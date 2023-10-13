@@ -3,7 +3,6 @@ import {
   OpenInNew as OpenInNewIcon,
 } from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
-import { WebLink } from 'components/WebLink/WebLink';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -13,6 +12,7 @@ import {
   H3,
   HeaderSeparator,
   Text,
+  WebLink,
 } from 'shared/components';
 import { Variant } from 'shared/enums';
 import { CommonUtils } from 'shared/utils';
