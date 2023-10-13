@@ -24,7 +24,6 @@ import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -162,13 +161,14 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
 
   @Transactional(isolation = Isolation.SERIALIZABLE)
   public void anonymizeEnrollments() {
+    final LocalDateTime expirationDate = LocalDateTime.now().minusDays(180);
     enrollmentRepository
-      .findAllToAnonymize(LocalDate.now().minusDays(180))
+      .findAllToAnonymize(expirationDate.toLocalDate())
       .forEach(enrollment -> {
         anonymizeEnrollment(enrollment);
 
         final Person person = enrollment.getPerson();
-        if (person.getEnrollments().stream().allMatch(Enrollment::isAnonymized)) {
+        if (person.getLatestIdentifiedAt().isBefore(expirationDate)) {
           anonymizePerson(person);
         }
       });

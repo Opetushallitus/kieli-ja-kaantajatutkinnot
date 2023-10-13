@@ -319,6 +319,7 @@ class ClerkEnrollmentServiceTest {
     entityManager.persist(examEvent2);
 
     final Person person1 = Factory.person();
+    person1.setLatestIdentifiedAt(LocalDateTime.now().minusDays(190));
     person1.setOtherIdentifier("bar");
     entityManager.persist(person1);
     final Person person2 = Factory.person();
