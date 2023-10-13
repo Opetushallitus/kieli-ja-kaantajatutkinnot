@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +38,8 @@ public class PublicInterpreterService {
 
   @Resource
   private final OnrService onrService;
+
+  private static final Logger LOG = LoggerFactory.getLogger(PublicInterpreterService.class);
 
   @Transactional(readOnly = true)
   public List<InterpreterDTO> list() {
@@ -65,18 +70,24 @@ public class PublicInterpreterService {
 
         return toDTO(interpreter, personalData, regionProjections, qualificationProjections);
       })
+      .filter(Optional::isPresent)
+      .map(Optional::get)
       .collect(Collectors.toCollection(ArrayList::new));
 
     Collections.shuffle(interpreterDTOS);
     return interpreterDTOS;
   }
 
-  private InterpreterDTO toDTO(
+  private Optional<InterpreterDTO> toDTO(
     final Interpreter interpreter,
     final PersonalData personalData,
     final List<InterpreterRegionProjection> regionProjections,
     final List<InterpreterQualificationProjection> qualificationProjections
   ) {
+    if (personalData == null) {
+      LOG.error("Personal data by onr id {} not found", interpreter.getOnrId());
+      return Optional.empty();
+    }
     final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
 
     final List<LanguagePairDTO> languagePairs = qualificationProjections
@@ -84,18 +95,20 @@ public class PublicInterpreterService {
       .map(qp -> LanguagePairDTO.builder().from(qp.fromLang()).to(qp.toLang()).build())
       .toList();
 
-    return InterpreterDTO
-      .builder()
-      .id(interpreter.getId())
-      .firstName(personalData.getNickName())
-      .lastName(personalData.getLastName())
-      .email(interpreter.isPermissionToPublishEmail() ? personalData.getEmail() : null)
-      .phoneNumber(interpreter.isPermissionToPublishPhone() ? personalData.getPhoneNumber() : null)
-      .otherContactInfo(
-        interpreter.isPermissionToPublishOtherContactInfo() ? interpreter.getOtherContactInformation() : null
-      )
-      .regions(regions)
-      .languages(languagePairs)
-      .build();
+    return Optional.of(
+      InterpreterDTO
+        .builder()
+        .id(interpreter.getId())
+        .firstName(personalData.getNickName())
+        .lastName(personalData.getLastName())
+        .email(interpreter.isPermissionToPublishEmail() ? personalData.getEmail() : null)
+        .phoneNumber(interpreter.isPermissionToPublishPhone() ? personalData.getPhoneNumber() : null)
+        .otherContactInfo(
+          interpreter.isPermissionToPublishOtherContactInfo() ? interpreter.getOtherContactInformation() : null
+        )
+        .regions(regions)
+        .languages(languagePairs)
+        .build()
+    );
   }
 }
