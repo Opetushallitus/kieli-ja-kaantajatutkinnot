@@ -1,10 +1,13 @@
-import { ArrowBackIosOutlined as ArrowBackIosOutlinedIcon } from '@mui/icons-material';
+import {
+  ArrowBackIosOutlined as ArrowBackIosOutlinedIcon,
+  OpenInNew as OpenInNewIcon,
+} from '@mui/icons-material';
 import { Grid, Paper } from '@mui/material';
+import { WebLink } from 'components/WebLink/WebLink';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   CustomButtonLink,
-  ExtLink,
   H1,
   H2,
   H3,
@@ -102,17 +105,12 @@ export const PrivacyPolicyPage = () => {
               {translatePrivacy('registrar.contact.otherDetails')}
               <br />
               {translatePrivacy('common.email')}:{' '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
+              <WebLink
                 href="mailto:opetushallitus@oph.fi"
-                text="opetushallitus@oph.fi"
+                label="opetushallitus@oph.fi"
               />
               {', '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
-                href="mailto:kirjaamo@oph.fi"
-                text="kirjaamo@oph.fi"
-              />
+              <WebLink href="mailto:kirjaamo@oph.fi" label="kirjaamo@oph.fi" />
               <br />
               {translatePrivacy('registrar.contact.phoneSwitch')}
             </Text>
@@ -123,11 +121,7 @@ export const PrivacyPolicyPage = () => {
               {translatePrivacy('registrarContactPerson.person.name')}
               <br />
               {translatePrivacy('common.email')}:{' '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
-                href="mailto:kirjaamo@oph.fi"
-                text="kirjaamo@oph.fi"
-              />
+              <WebLink href="mailto:kirjaamo@oph.fi" label="kirjaamo@oph.fi" />
               <br />
               {translatePrivacy('common.phoneSwitch')}
             </Text>
@@ -138,10 +132,9 @@ export const PrivacyPolicyPage = () => {
               {translatePrivacy('registrarContactPerson.liable.name')}
               <br />
               {translatePrivacy('common.email')}:{' '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
+              <WebLink
                 href="mailto:tietosuoja@oph.fi"
-                text="tietosuoja@oph.fi"
+                label="tietosuoja@oph.fi"
               />
               <br />
               {translatePrivacy('common.phoneSwitch')}
@@ -157,11 +150,11 @@ export const PrivacyPolicyPage = () => {
               <H3>{translatePrivacy('handlingPurpose.law.heading')}</H3>
               {translatePrivacy('handlingPurpose.law.description')}
               {': '}
-              <ExtLink
-                className="privacy-policy-page__content__link"
+              <WebLink
                 href={translatePrivacy('handlingPurpose.law.link')}
-                text={translatePrivacy('handlingPurpose.law.link')}
-              ></ExtLink>
+                label={translatePrivacy('handlingPurpose.law.link')}
+                endIcon={<OpenInNewIcon />}
+              />
               <br />
               {translatePrivacy('handlingPurpose.law.clause')}
             </Text>

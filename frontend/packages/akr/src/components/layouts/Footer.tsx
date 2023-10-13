@@ -1,13 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper, Typography } from '@mui/material';
-import {
-  CustomButtonLink,
-  ExtLink,
-  OPHLogoViewer,
-  Svg,
-  Text,
-} from 'shared/components';
-import { Direction, Variant } from 'shared/enums';
+import { Link } from 'react-router-dom';
+import { OPHLogoViewer, Svg, Text } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
 import {
@@ -37,33 +32,57 @@ export const Footer = () => {
           <Paper className="footer" elevation={3}>
             <div className="footer__info-row">
               <div className="footer__container footer__container__links">
-                <CustomButtonLink
+                {/* <CustomButtonLink
                   to={AppRoutes.AccessibilityStatementPage}
                   variant={Variant.Text}
                 >
                   {t('links.accessibility.text')}
-                </CustomButtonLink>
-                <CustomButtonLink
+                </CustomButtonLink> */}
+                <Link to={AppRoutes.AccessibilityStatementPage}>
+                  <Text>{t('links.accessibility.text')}</Text>
+                </Link>
+                {/* <CustomButtonLink
                   to={AppRoutes.PrivacyPolicyPage}
                   variant={Variant.Text}
                 >
                   {t('links.privacy.text')}
-                </CustomButtonLink>
-                <ExtLink
+                </CustomButtonLink> */}
+                <Link to={AppRoutes.PrivacyPolicyPage}>
+                  <Text>{t('links.privacy.text')}</Text>
+                </Link>
+                {/* <ExtLink
                   text={t('links.akrHomepage.text')}
                   href={t('links.akrHomepage.link')}
                   endIcon={<OpenInNewIcon />}
                   aria-label={t('links.akrHomepage.ariaLabel')}
-                />
+                /> */}
+                <a
+                  href={t('links.akrHomepage.link')}
+                  aria-label={t('links.akrHomepage.ariaLabel')}
+                  className="columns gapped-xxs"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t('links.akrHomepage.text')}
+                  <OpenInNewIcon />
+                </a>
                 <div className="footer__container__links__contact">
                   <Typography component="h2" variant="h3">
                     {t('links.contact.title')}:
                   </Typography>
-                  <ExtLink
+                  {/* <ExtLink
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
                     text={translateCommon('contactEmail')}
-                  ></ExtLink>
+                  ></ExtLink> */}
+                  <a
+                    className="footer__container__links__contact__email"
+                    href={`mailto:${translateCommon('contactEmail')}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {translateCommon('contactEmail')}
+                  </a>
                 </div>
               </div>
               <div className="footer__container footer__container__contact-details">
@@ -78,11 +97,19 @@ export const Footer = () => {
                   <Text className="inline-text">
                     {t('address.phone.title')}
                   </Text>
-                  <ExtLink
+                  {/* <ExtLink
                     className="inline-text"
                     text={t('address.phone.number')}
                     href={`tel:${t('address.phone.number')}`}
-                  />
+                  /> */}
+                  <a
+                    className="inline-text"
+                    href={`tel:${t('address.phone.number')}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t('address.phone.number')}
+                  </a>
                 </div>
               </div>
               <div className="footer__container">
