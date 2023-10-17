@@ -166,7 +166,7 @@ const TableCellForPhone = ({
 }) => (
   <TableCell>
     <Text>
-      <b aria-hidden={true}>{columnName}</b>
+      <b>{columnName}</b>
       <br aria-hidden={true} />
       {children}
     </Text>
