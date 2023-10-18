@@ -34,10 +34,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,11 +72,22 @@ public class ClerkInterpreterService {
   @Resource
   private final AuditService auditService;
 
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkInterpreterService.class);
+
   @Transactional(readOnly = true)
   public List<ClerkInterpreterDTO> list() {
     final List<ClerkInterpreterDTO> result = listWithoutAudit();
     auditService.logOperation(OtrOperation.LIST_INTERPRETERS);
     return result;
+  }
+
+  @Transactional(readOnly = true)
+  public List<String> listMissing() {
+    final List<Interpreter> interpreters = interpreterRepository.findExistingInterpreters();
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+    auditService.logOperation(OtrOperation.LIST_INTERPRETERS);
+
+    return interpreters.stream().map(Interpreter::getOnrId).filter(onrId -> personalDatas.get(onrId) == null).toList();
   }
 
   private List<ClerkInterpreterDTO> listWithoutAudit() {
@@ -105,16 +119,22 @@ public class ClerkInterpreterService {
 
         return createClerkInterpreterDTO(interpreter, personalData, qualifications, regionProjections);
       })
+      .filter(Optional::isPresent)
+      .map(Optional::get)
       .sorted(Comparator.comparing(ClerkInterpreterDTO::lastName).thenComparing(ClerkInterpreterDTO::nickName))
       .toList();
   }
 
-  private ClerkInterpreterDTO createClerkInterpreterDTO(
+  private Optional<ClerkInterpreterDTO> createClerkInterpreterDTO(
     final Interpreter interpreter,
     final PersonalData personalData,
     final List<Qualification> qualifications,
     final List<InterpreterRegionProjection> regionProjections
   ) {
+    if (personalData == null) {
+      LOG.error("Personal data by onr id {} not found", interpreter.getOnrId());
+      return Optional.empty();
+    }
     final List<String> regions = regionProjections.stream().map(InterpreterRegionProjection::code).toList();
 
     final List<ClerkQualificationDTO> qualificationDTOs = qualifications
@@ -127,30 +147,32 @@ public class ClerkInterpreterService {
       .toList();
     final ClerkInterpreterQualificationsDTO interpreterQualificationsDTO = splitQualificationDTOs(qualificationDTOs);
 
-    return ClerkInterpreterDTO
-      .builder()
-      .id(interpreter.getId())
-      .version(interpreter.getVersion())
-      .isIndividualised(personalData.getIndividualised())
-      .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
-      .identityNumber(personalData.getIdentityNumber())
-      .lastName(personalData.getLastName())
-      .firstName(personalData.getFirstName())
-      .nickName(personalData.getNickName())
-      .email(personalData.getEmail())
-      .permissionToPublishEmail(interpreter.isPermissionToPublishEmail())
-      .phoneNumber(personalData.getPhoneNumber())
-      .permissionToPublishPhone(interpreter.isPermissionToPublishPhone())
-      .otherContactInfo(interpreter.getOtherContactInformation())
-      .permissionToPublishOtherContactInfo(interpreter.isPermissionToPublishOtherContactInfo())
-      .street(personalData.getStreet())
-      .postalCode(personalData.getPostalCode())
-      .town(personalData.getTown())
-      .country(personalData.getCountry())
-      .extraInformation(interpreter.getExtraInformation())
-      .regions(regions)
-      .qualifications(interpreterQualificationsDTO)
-      .build();
+    return Optional.of(
+      ClerkInterpreterDTO
+        .builder()
+        .id(interpreter.getId())
+        .version(interpreter.getVersion())
+        .isIndividualised(personalData.getIndividualised())
+        .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
+        .identityNumber(personalData.getIdentityNumber())
+        .lastName(personalData.getLastName())
+        .firstName(personalData.getFirstName())
+        .nickName(personalData.getNickName())
+        .email(personalData.getEmail())
+        .permissionToPublishEmail(interpreter.isPermissionToPublishEmail())
+        .phoneNumber(personalData.getPhoneNumber())
+        .permissionToPublishPhone(interpreter.isPermissionToPublishPhone())
+        .otherContactInfo(interpreter.getOtherContactInformation())
+        .permissionToPublishOtherContactInfo(interpreter.isPermissionToPublishOtherContactInfo())
+        .street(personalData.getStreet())
+        .postalCode(personalData.getPostalCode())
+        .town(personalData.getTown())
+        .country(personalData.getCountry())
+        .extraInformation(interpreter.getExtraInformation())
+        .regions(regions)
+        .qualifications(interpreterQualificationsDTO)
+        .build()
+    );
   }
 
   private ClerkQualificationDTO createQualificationDTO(final Qualification qualification) {
@@ -341,7 +363,7 @@ public class ClerkInterpreterService {
 
   private ClerkInterpreterDTO getInterpreterWithoutAudit(final long interpreterId) {
     // This could be optimized, by fetching only one interpreter and it's data, but is it worth of the programming work?
-    for (ClerkInterpreterDTO i : listWithoutAudit()) {
+    for (final ClerkInterpreterDTO i : listWithoutAudit()) {
       if (i.id() == interpreterId) {
         return i;
       }

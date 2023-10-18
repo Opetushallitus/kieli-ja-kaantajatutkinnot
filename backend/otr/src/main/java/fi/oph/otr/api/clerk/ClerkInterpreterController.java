@@ -42,6 +42,12 @@ public class ClerkInterpreterController {
     return clerkInterpreterService.list();
   }
 
+  @GetMapping(path = "/missing")
+  @Operation(tags = TAG_INTERPRETER, summary = "List interpreters that are missing from ONR")
+  public List<String> listMissingInterpreters() {
+    return clerkInterpreterService.listMissing();
+  }
+
   @Operation(tags = TAG_INTERPRETER, summary = "Create new interpreter")
   @PostMapping(consumes = APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
