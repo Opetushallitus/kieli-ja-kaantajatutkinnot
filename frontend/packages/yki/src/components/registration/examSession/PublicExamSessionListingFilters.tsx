@@ -7,16 +7,17 @@ import {
   FormGroup,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   AutocompleteValue,
   ComboBox,
   CustomButton,
   LanguageSelect,
+  NativeSelect,
   Text,
 } from 'shared/components';
 import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
-import { useDialog } from 'shared/hooks';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -27,6 +28,200 @@ import {
   examSessionsSelector,
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
+
+const municipalityToComboBoxOption = (m: string) => ({
+  value: m,
+  label: m,
+});
+
+const SelectMunicipality = () => {
+  const municipalities = useAppSelector(examSessionsSelector).municipalities;
+  const { municipality } = useAppSelector(examSessionsSelector).filters;
+  const dispatch = useAppDispatch();
+  const onMunicipalityChange = useCallback(
+    (municipality?: string) => {
+      dispatch(setPublicExamSessionFilters({ municipality }));
+    },
+    [dispatch]
+  );
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
+  const { isPhone } = useWindowProperties();
+
+  return (
+    <div className="public-exam-session-filters__filter public-exam-session-filters__municipality">
+      <Typography
+        variant="h3"
+        component="label"
+        htmlFor="public-exam-session-filters__municipality-filter"
+      >
+        {t('labels.selectMunicipality')}
+      </Typography>
+      {isPhone ? (
+        <NativeSelect
+          id="public-exam-session-filters__municipality-filter"
+          onChange={(e) => {
+            onMunicipalityChange(e.target.value as string);
+          }}
+          placeholder={t('labels.selectMunicipality')}
+          value={
+            municipality ? municipalityToComboBoxOption(municipality) : null
+          }
+          values={municipalities.map(municipalityToComboBoxOption)}
+        />
+      ) : (
+        <ComboBox
+          id="public-exam-session-filters__municipality-filter"
+          variant={TextFieldVariant.Outlined}
+          values={municipalities.map(municipalityToComboBoxOption)}
+          value={
+            municipality ? municipalityToComboBoxOption(municipality) : null
+          }
+          onChange={(_, v: AutocompleteValue) => {
+            const municipality = v?.value;
+            onMunicipalityChange(municipality);
+          }}
+          label={t('labels.selectMunicipality')}
+          aria-label={t('labels.selectMunicipality')}
+        />
+      )}
+    </div>
+  );
+};
+
+const SelectExamLanguage = ({
+  showError,
+  onFilterChange,
+}: {
+  showError: boolean;
+  onFilterChange: (filter: Partial<ExamSessionFilters>) => void;
+}) => {
+  const { language } = useAppSelector(examSessionsSelector).filters;
+
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
+  const translateCommon = useCommonTranslation();
+  const translateLanguage = (language: string) =>
+    translateCommon('languages.' + language);
+  const languages = Object.values(ExamLanguage);
+
+  return (
+    <FormControl
+      className="public-exam-session-filters__filter"
+      error={showError && !language}
+    >
+      <Typography
+        variant="h3"
+        component="label"
+        htmlFor="public-exam-session-filters__language-filter"
+        sx={showError && !language ? { color: 'error.main' } : {}}
+      >
+        {translateCommon('language')}{' '}
+        <span className="public-exam-session-filters__hint">
+          {t('filters.selectExamDetails.required')}
+        </span>
+      </Typography>
+      <LanguageSelect
+        id="public-exam-session-filters__language-filter"
+        primaryLanguages={[
+          ExamLanguage.ALL,
+          ExamLanguage.FIN,
+          ExamLanguage.SWE,
+          ExamLanguage.ENG,
+        ]}
+        languages={languages}
+        translateLanguage={translateLanguage}
+        variant={TextFieldVariant.Outlined}
+        value={
+          language
+            ? { value: language, label: translateLanguage(language) }
+            : null
+        }
+        onLanguageChange={(v) => {
+          const language = v as ExamLanguage | undefined;
+          onFilterChange({ language });
+        }}
+        label={t('labels.selectLanguage')}
+        aria-label={t('labels.selectLanguage')}
+        showError={showError && !language}
+        helperText={showError && !language ? t('filters.errors.required') : ''}
+      />
+    </FormControl>
+  );
+};
+
+const SelectExamLevel = ({
+  showError,
+  onFilterChange,
+}: {
+  showError: boolean;
+  onFilterChange: (filter: Partial<ExamSessionFilters>) => void;
+}) => {
+  const { level } = useAppSelector(examSessionsSelector).filters;
+
+  const translateCommon = useCommonTranslation();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage',
+  });
+
+  const levelToComboBoxOption = (v: ExamLevel) => ({
+    value: v.toString(),
+    label: translateCommon('languageLevel.' + v.toString()),
+  });
+  const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
+
+  const errorStyles = { color: 'error.main' };
+  const { isPhone } = useWindowProperties();
+
+  return (
+    <FormControl
+      className="public-exam-session-filters__filter"
+      error={showError && !level}
+    >
+      <Typography
+        variant="h3"
+        component="label"
+        htmlFor="public-exam-session-filters__level-filter"
+        sx={showError && !level ? errorStyles : {}}
+      >
+        {translateCommon('level')}{' '}
+        <span className="public-exam-session-filters__hint">
+          {t('filters.selectExamDetails.required')}
+        </span>
+      </Typography>
+      {isPhone ? (
+        <NativeSelect
+          id="public-exam-session-filters__level-filter"
+          onChange={(e) => {
+            const level = e.target.value as ExamLevel | undefined;
+            onFilterChange({ level });
+          }}
+          placeholder={t('labels.selectLevel')}
+          value={level ? levelToComboBoxOption(level) : null}
+          values={levelValues}
+        />
+      ) : (
+        <ComboBox
+          id="public-exam-session-filters__level-filter"
+          variant={TextFieldVariant.Outlined}
+          values={levelValues}
+          value={level ? levelToComboBoxOption(level) : null}
+          onChange={(_, v: AutocompleteValue) => {
+            const level = v?.value as ExamLevel | undefined;
+            onFilterChange({ level });
+          }}
+          label={t('labels.selectLevel')}
+          aria-label={t('labels.selectLevel')}
+          showError={showError && !level}
+          helperText={showError && !level ? t('filters.errors.required') : ''}
+        />
+      )}
+    </FormControl>
+  );
+};
 
 export const PublicExamSessionFilters = ({
   onApplyFilters,
@@ -41,15 +236,9 @@ export const PublicExamSessionFilters = ({
 
   const { showDialog } = useDialog();
 
-  const { filters, municipalities } = useAppSelector(examSessionsSelector);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
-  const {
-    language,
-    level,
-    municipality,
-    excludeFullSessions,
-    excludeNonOpenSessions,
-  } = filters;
+  const { language, level, excludeFullSessions, excludeNonOpenSessions } =
+    useAppSelector(examSessionsSelector).filters;
 
   const dispatch = useAppDispatch();
   const onFilterChange = (filter: Partial<ExamSessionFilters>) => {
@@ -59,7 +248,7 @@ export const PublicExamSessionFilters = ({
   const [showError, setShowError] = useState(false);
 
   const handleSubmitBtnClick = () => {
-    if (!filters.language || !filters.level) {
+    if (!language || !level) {
       setShowError(true);
       showDialog({
         severity: Severity.Error,
@@ -78,22 +267,6 @@ export const PublicExamSessionFilters = ({
     }
   };
 
-  const languages = Object.values(ExamLanguage);
-  const translateLanguage = (language: string) =>
-    translateCommon('languages.' + language);
-
-  const levelToComboBoxOption = (v: ExamLevel) => ({
-    value: v.toString(),
-    label: translateCommon('languageLevel.' + v.toString()),
-  });
-  const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
-  const municipalityToComboBoxOption = (m: string) => ({
-    value: m,
-    label: m,
-  });
-
-  const errorStyles = { color: 'error.main' };
-
   return (
     <div className="public-exam-session-filters">
       <div className="public-exam-session-filters__dropdown-filters-container">
@@ -104,106 +277,17 @@ export const PublicExamSessionFilters = ({
             </Text>
           </legend>
           <div className="public-exam-session-filters__dropdown-filters-box">
-            <FormControl
-              className="public-exam-session-filters__filter"
-              error={showError && !language}
-            >
-              <Typography
-                variant="h3"
-                component="label"
-                htmlFor="public-exam-session-filters__language-filter"
-                sx={showError && !language ? { color: 'error.main' } : {}}
-              >
-                {translateCommon('language')}{' '}
-                <span className="public-exam-session-filters__hint">
-                  {t('filters.selectExamDetails.required')}
-                </span>
-              </Typography>
-              <LanguageSelect
-                id="public-exam-session-filters__language-filter"
-                primaryLanguages={[
-                  ExamLanguage.ALL,
-                  ExamLanguage.FIN,
-                  ExamLanguage.SWE,
-                  ExamLanguage.ENG,
-                ]}
-                languages={languages}
-                translateLanguage={translateLanguage}
-                variant={TextFieldVariant.Outlined}
-                value={
-                  language
-                    ? { value: language, label: translateLanguage(language) }
-                    : null
-                }
-                onChange={(_, v: AutocompleteValue) => {
-                  const language = v?.value as ExamLanguage | undefined;
-                  onFilterChange({ language });
-                }}
-                label={t('labels.selectLanguage')}
-                aria-label={t('labels.selectLanguage')}
-                showError={showError && !language}
-                helperText={
-                  showError && !language ? t('filters.errors.required') : ''
-                }
-              />
-            </FormControl>
-            <FormControl
-              className="public-exam-session-filters__filter"
-              error={showError && !level}
-            >
-              <Typography
-                variant="h3"
-                component="label"
-                htmlFor="public-exam-session-filters__level-filter"
-                sx={showError && !level ? errorStyles : {}}
-              >
-                {translateCommon('level')}{' '}
-                <span className="public-exam-session-filters__hint">
-                  {t('filters.selectExamDetails.required')}
-                </span>
-              </Typography>
-              <ComboBox
-                id="public-exam-session-filters__level-filter"
-                variant={TextFieldVariant.Outlined}
-                values={levelValues}
-                value={level ? levelToComboBoxOption(level) : null}
-                onChange={(_, v: AutocompleteValue) => {
-                  const level = v?.value as ExamLevel | undefined;
-                  onFilterChange({ level });
-                }}
-                label={t('labels.selectLevel')}
-                aria-label={t('labels.selectLevel')}
-                showError={showError && !level}
-                helperText={
-                  showError && !level ? t('filters.errors.required') : ''
-                }
-              />
-            </FormControl>
+            <SelectExamLanguage
+              showError={showError}
+              onFilterChange={onFilterChange}
+            />
+            <SelectExamLevel
+              showError={showError}
+              onFilterChange={onFilterChange}
+            />
           </div>
         </fieldset>
-        <div className="public-exam-session-filters__filter public-exam-session-filters__municipality">
-          <Typography
-            variant="h3"
-            component="label"
-            htmlFor="public-exam-session-filters__municipality-filter"
-          >
-            {t('labels.selectMunicipality')}
-          </Typography>
-          <ComboBox
-            id="public-exam-session-filters__municipality-filter"
-            variant={TextFieldVariant.Outlined}
-            values={municipalities.map(municipalityToComboBoxOption)}
-            value={
-              municipality ? municipalityToComboBoxOption(municipality) : null
-            }
-            onChange={(_, v: AutocompleteValue) => {
-              const municipality = v?.value;
-              onFilterChange({ municipality });
-            }}
-            label={t('labels.selectMunicipality')}
-            aria-label={t('labels.selectMunicipality')}
-          />
-        </div>
+        <SelectMunicipality />
       </div>
       <Box className="public-exam-session-filters__toggle-box">
         <FormControl component="fieldset" variant={TextFieldVariant.Standard}>
