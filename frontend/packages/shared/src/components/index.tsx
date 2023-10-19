@@ -46,3 +46,7 @@ export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 export { StackableMobileAppBar } from './StackableMobileAppBar/StackableMobileAppBar';
 export { WebLink } from './WebLink/WebLink';
+export {
+  NativeSelect,
+  NativeSelectWithLabel,
+} from './NativeSelect/NativeSelect';

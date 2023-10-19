@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.0] - 2023-10-24
+
+### Added
+
+- New `NativeSelect` and `NativeSelectWithLabel` components for mobile phone use
+
+### Changed
+
+- `LanguageSelect` to use `NativeSelect` when rendered on mobile phone
+- `LanguageSelect` now requires `onLanguageChange` prop
+
 ## [1.9.30] - 2023-10-24
 
 ### Added
