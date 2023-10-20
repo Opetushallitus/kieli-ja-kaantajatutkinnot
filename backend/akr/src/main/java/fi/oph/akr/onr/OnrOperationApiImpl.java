@@ -1,6 +1,7 @@
 package fi.oph.akr.onr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.akr.config.Constants;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONArray;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-@RequiredArgsConstructor
 public class OnrOperationApiImpl implements OnrOperationApi {
 
   private static final Logger LOG = LoggerFactory.getLogger(OnrOperationApiImpl.class);
@@ -34,6 +33,13 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   private final CasClient onrClient;
 
   private final String onrServiceUrl;
+
+  public OnrOperationApiImpl(final CasClient onrClient, final String onrServiceUrl) {
+    this.onrClient = onrClient;
+    this.onrServiceUrl = onrServiceUrl;
+
+    OBJECT_MAPPER.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+  }
 
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) throws Exception {
@@ -57,7 +63,10 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       personalDataDTOS.forEach(dto -> personalDatas.put(dto.getOnrId(), createPersonalData(dto)));
       return personalDatas;
     } else {
-      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+      throw new RuntimeException(
+        "ONR service called with POST /henkilo/henkilotByHenkiloOidList returned unexpected status code: " +
+        response.getStatusCode()
+      );
     }
   }
 
@@ -80,7 +89,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     } else if (response.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
       return Optional.empty();
     } else {
-      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+      throw new RuntimeException(
+        "ONR service called with GET /henkilo/hetu= returned unexpected status code: " + response.getStatusCode()
+      );
     }
   }
 
@@ -137,6 +148,27 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       LOG.error("Error code {} from ONR", response.getStatusCode());
       LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      throw new RuntimeException(
+        "ONR service called with POST /henkilo returned unexpected status code: " + response.getStatusCode()
+      );
+    }
+  }
+
+  private PersonalDataDTO getPersonalData(final String oidNumber) throws Exception {
+    final Request request = defaultRequestBuilder()
+      .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
+      .setMethod(Methods.GET)
+      .build();
+
+    final Response response = onrClient.executeBlocking(request);
+
+    if (response.getStatusCode() == HttpStatus.CREATED.value()) {
+      final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
+        response.getResponseBody(),
+        new TypeReference<>() {}
+      );
+      return personalDataDTO;
+    } else {
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
   }
@@ -145,10 +177,17 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   public void updatePersonalData(final PersonalData personalData) throws Exception {
     final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
 
+    final List<ContactDetailsGroupDTO> latestContactDetails = getPersonalData(personalData.getOnrId())
+      .getContactDetailsGroups();
+    final PersonalDataDTO combinedContactDetailsPersonalDataDTO = ContactDetailsUtil.combineContactDetails(
+      personalDataDTO,
+      latestContactDetails
+    );
+
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo")
       .setMethod(Methods.PUT)
-      .setBody(OBJECT_MAPPER.writeValueAsString(personalDataDTO))
+      .setBody(OBJECT_MAPPER.writeValueAsString(combinedContactDetailsPersonalDataDTO))
       .build();
 
     final Response response = onrClient.executeBlocking(request);
@@ -158,7 +197,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       LOG.error("Error code {} from ONR", response.getStatusCode());
       LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
+      throw new RuntimeException(
+        "ONR service called with PUT /henkilo returned unexpected status code: " + response.getStatusCode()
+      );
     }
   }
 

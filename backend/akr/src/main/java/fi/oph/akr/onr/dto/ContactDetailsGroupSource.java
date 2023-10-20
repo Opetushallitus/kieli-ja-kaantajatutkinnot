@@ -1,7 +1,9 @@
 package fi.oph.akr.onr.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum ContactDetailsGroupSource {
   @JsonProperty("alkupera1")
   VTJ,

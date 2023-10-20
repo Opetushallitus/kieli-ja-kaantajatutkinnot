@@ -1,7 +1,9 @@
 package fi.oph.otr.onr.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum ContactDetailsGroupType {
   @JsonProperty("yhteystietotyyppi1")
   KOTIOSOITE,

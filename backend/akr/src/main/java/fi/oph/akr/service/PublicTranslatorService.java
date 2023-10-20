@@ -57,7 +57,7 @@ public class PublicTranslatorService {
         // TODO: M.S. after migration is done use:
         //final PersonalData personalData = personalDatas.get(t.getOnrId());
         final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
-        return personalData.getEmail() != null;
+        return personalData != null && personalData.getEmail() != null;
       })
       .collect(Collectors.toCollection(ArrayList::new));
 
@@ -67,7 +67,7 @@ public class PublicTranslatorService {
         // TODO: M.S. after migration is done use:
         //final PersonalData personalData = personalDatas.get(t.getOnrId());
         final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
-        return personalData.getEmail() == null;
+        return personalData != null && personalData.getEmail() == null;
       })
       .collect(Collectors.toCollection(ArrayList::new));
 
@@ -82,7 +82,7 @@ public class PublicTranslatorService {
         //final PersonalData personalData = personalDatas.get(translator.getOnrId());
         final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
 
-        return createPublicTranslatorDTO(translator, personalData, languagePairDTOs);
+        return toDTO(translator, personalData, languagePairDTOs);
       })
       .toList();
 
@@ -108,7 +108,7 @@ public class PublicTranslatorService {
       .toList();
   }
 
-  private PublicTranslatorDTO createPublicTranslatorDTO(
+  private PublicTranslatorDTO toDTO(
     final Translator translator,
     final PersonalData personalData,
     final List<LanguagePairDTO> languagePairDTOS

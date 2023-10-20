@@ -19,8 +19,10 @@ import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.dto.ContactDetailsType;
+import fi.oph.akr.onr.dto.PersonalDataDTO;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.util.CustomOrderComparator;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -138,5 +140,27 @@ public class ContactDetailsUtil {
     contactDetailsDTO.setType(type);
     contactDetailsDTO.setValue(value);
     return contactDetailsDTO;
+  }
+
+  private static List<ContactDetailsGroupDTO> getNonAkrContactDetails(
+    final List<ContactDetailsGroupDTO> latestContactDetails
+  ) {
+    return latestContactDetails
+      .stream()
+      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR)
+      .collect(Collectors.toList());
+  }
+
+  static PersonalDataDTO combineContactDetails(
+    final PersonalDataDTO personalDataDTO,
+    final List<ContactDetailsGroupDTO> latestContactDetails
+  ) {
+    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonAkrContactDetails(latestContactDetails);
+    final List<ContactDetailsGroupDTO> combinedContactDetails = Stream
+      .of(latestNonOtrContactDetails, personalDataDTO.getContactDetailsGroups())
+      .flatMap(Collection::stream)
+      .collect(Collectors.toList());
+    personalDataDTO.setContactDetailsGroups(combinedContactDetails);
+    return personalDataDTO;
   }
 }
