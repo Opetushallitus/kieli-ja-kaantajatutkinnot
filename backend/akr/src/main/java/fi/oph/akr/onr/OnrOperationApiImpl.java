@@ -162,18 +162,17 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     final Response response = onrClient.executeBlocking(request);
 
-    if (response.getStatusCode() == HttpStatus.CREATED.value()) {
-      // TODO: M.S. after migration is done delete below lines:
-      LOG.error("Calling ONR url ", onrServiceUrl + "/henkilo/" + oidNumber);
-      LOG.error("Error code {} from ONR", response.getStatusCode());
-      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
-      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    if (response.getStatusCode() == HttpStatus.OK.value()) {
       final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
         response.getResponseBody(),
         new TypeReference<>() {}
       );
       return personalDataDTO;
     } else {
+      // TODO: M.S. after migration is done delete below lines:
+      LOG.error("Error code {} from ONR", response.getStatusCode());
+      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
+      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
   }
