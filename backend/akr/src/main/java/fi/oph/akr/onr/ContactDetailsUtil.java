@@ -142,12 +142,12 @@ public class ContactDetailsUtil {
     return contactDetailsDTO;
   }
 
-  private static List<ContactDetailsGroupDTO> getNonAkrContactDetails(
+  private static List<ContactDetailsGroupDTO> getNonAkrAndNonReadOnlyContactDetails(
     final List<ContactDetailsGroupDTO> latestContactDetails
   ) {
     return latestContactDetails
       .stream()
-      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR)
+      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR && cd.getIsReadOnly() != true)
       .collect(Collectors.toList());
   }
 
@@ -155,7 +155,7 @@ public class ContactDetailsUtil {
     final PersonalDataDTO personalDataDTO,
     final List<ContactDetailsGroupDTO> latestContactDetails
   ) {
-    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonAkrContactDetails(latestContactDetails);
+    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonAkrAndNonReadOnlyContactDetails(latestContactDetails);
     final List<ContactDetailsGroupDTO> combinedContactDetails = Stream
       .of(latestNonOtrContactDetails, personalDataDTO.getContactDetailsGroups())
       .flatMap(Collection::stream)
