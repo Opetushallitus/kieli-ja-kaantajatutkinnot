@@ -5,7 +5,10 @@ import {
   ComboBoxProps,
 } from '../../interfaces/comboBox';
 import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
-import { NativeSelect } from '../NativeSelect/NativeSelect';
+import {
+  CustomNativeSelectProps,
+  NativeSelect,
+} from '../NativeSelect/NativeSelect';
 
 export const languageToComboBoxOption = (
   translate: (l: string) => string,
@@ -72,26 +75,36 @@ export const LanguageSelect = ({
 
   const { isPhone } = useWindowProperties();
   if (isPhone) {
+    const nativeSelectProps: CustomNativeSelectProps = {
+      placeholder: rest.label || '',
+      values: sortedOptions,
+      value,
+      helperText,
+      showError,
+    };
+    for (const prop in rest) {
+      if (prop in nativeSelectProps) {
+        nativeSelectProps[prop as keyof CustomNativeSelectProps] =
+          rest[prop as keyof typeof rest];
+      }
+    }
+
     return (
       <NativeSelect
-        placeholder={rest.label || ''}
+        {...nativeSelectProps}
+        onChange={(e) => onLanguageChange(e.target.value as string)}
+      />
+    );
+  } else {
+    return (
+      <ComboBox
+        {...rest}
+        onChange={(_, v) => onLanguageChange(v?.value)}
         values={sortedOptions}
         value={value}
-        onChange={(e) => onLanguageChange(e.target.value as string)}
         helperText={helperText}
         showError={showError}
       />
     );
   }
-
-  return (
-    <ComboBox
-      {...rest}
-      onChange={(_, v) => onLanguageChange(v?.value)}
-      values={sortedOptions}
-      value={value}
-      helperText={helperText}
-      showError={showError}
-    />
-  );
 };
