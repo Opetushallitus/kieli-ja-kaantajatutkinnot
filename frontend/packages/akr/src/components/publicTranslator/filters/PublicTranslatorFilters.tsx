@@ -80,8 +80,8 @@ export const PublicTranslatorFilters = ({
   const [filters, setFilters] = useState(defaultFiltersState);
   const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const defaultValuesState: PublicTranslatorFilterValues = {
-    fromLang: null,
-    toLang: null,
+    fromLang: '',
+    toLang: '',
     name: '',
     town: null,
   };
@@ -187,6 +187,21 @@ export const PublicTranslatorFilters = ({
       setSearchButtonDisabled(false);
     };
 
+  const onLanguageChange =
+    (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
+    (language?: string) => {
+      setFilters((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      setValues((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      dispatch(removePublicTranslatorFilterError(languageField));
+      setSearchButtonDisabled(false);
+    };
+
   const handleTextFieldFilterChange =
     (filterName: SearchFilter) =>
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -207,7 +222,6 @@ export const PublicTranslatorFilters = ({
     value: values[fieldName] as AutocompleteValue,
     autoHighlight: true,
     variant: TextFieldVariant.Outlined,
-    onChange: handleComboboxFilterChange(fieldName),
   });
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -290,6 +304,7 @@ export const PublicTranslatorFilters = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.toLang}
               translateLanguage={translateLanguage}
+              onLanguageChange={onLanguageChange(SearchFilter.FromLang)}
             />
             <LanguageSelect
               data-testid="public-translator-filters__to-language-select"
@@ -308,6 +323,7 @@ export const PublicTranslatorFilters = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.fromLang}
               translateLanguage={translateLanguage}
+              onLanguageChange={onLanguageChange(SearchFilter.ToLang)}
             />
           </Box>
         </div>
@@ -333,6 +349,7 @@ export const PublicTranslatorFilters = ({
             id="filters-town"
             values={towns.map(townAsComboboxOption)}
             onKeyUp={handleKeyUp}
+            onChange={handleComboboxFilterChange(SearchFilter.Town)}
           />
         </div>
       </div>

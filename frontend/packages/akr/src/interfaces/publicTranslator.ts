@@ -21,8 +21,8 @@ export interface PublicTranslatorFilter {
 }
 
 export interface PublicTranslatorFilterValues {
-  fromLang: AutocompleteValue;
-  toLang: AutocompleteValue;
+  fromLang: string;
+  toLang: string;
   name: string;
   town: AutocompleteValue;
 }

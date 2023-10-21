@@ -80,13 +80,12 @@ export const AuthorisationFields = ({
   }, [setAuthorisation]);
 
   const handleLanguageSelectChange =
-    (fieldName: string) =>
-    ({}, value: AutocompleteValue) => {
+    (fieldName: string) => (language?: string) => {
       setAuthorisation({
         ...authorisation,
         languagePair: {
           ...authorisation.languagePair,
-          [fieldName]: value?.value,
+          [fieldName]: language,
         },
       });
       setIsAuthorisationDataChanged(true);
@@ -207,7 +206,7 @@ export const AuthorisationFields = ({
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(authorisation.languagePair.from)}
-              onChange={handleLanguageSelectChange('from')}
+              onLanguageChange={handleLanguageSelectChange('from')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
                 authorisation.languagePair.to
@@ -226,7 +225,7 @@ export const AuthorisationFields = ({
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(authorisation.languagePair.to)}
-              onChange={handleLanguageSelectChange('to')}
+              onLanguageChange={handleLanguageSelectChange('to')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
                 authorisation.languagePair.from
