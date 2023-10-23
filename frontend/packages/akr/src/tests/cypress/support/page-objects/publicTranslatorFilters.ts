@@ -7,18 +7,8 @@ class PublicTranslatorFilters {
   elements = {
     fromLangComboBox: () =>
       cy.findByTestId('public-translator-filters__from-language-select'),
-    fromLangNativeSelect: () =>
-      cy
-        .findByTestId('public-translator-filters__filter__language-pair')
-        .findAllByRole('combobox')
-        .first(),
     toLangComboBox: () =>
       cy.findByTestId('public-translator-filters__to-language-select'),
-    toLangNativeSelect: () =>
-      cy
-        .findByTestId('public-translator-filters__filter__language-pair')
-        .findAllByRole('combobox')
-        .last(),
     name: () => cy.findByTestId('public-translator-filters__name-field'),
     town: () => cy.findByTestId('public-translator-filters__town-combobox'),
     empty: () => cy.findByTestId('public-translator-filters__empty-btn'),
@@ -32,7 +22,7 @@ class PublicTranslatorFilters {
 
   selectFromLangByName(isPhone: boolean, from: string) {
     if (isPhone) {
-      this.elements.fromLangNativeSelect().select(from);
+      this.elements.fromLangComboBox().findByRole('combobox').select(from);
     } else {
       this.clickFromLang();
       this.selectOptionByName(from);
@@ -41,7 +31,7 @@ class PublicTranslatorFilters {
 
   selectToLangByName(isPhone: boolean, to: string) {
     if (isPhone) {
-      this.elements.toLangNativeSelect().select(to);
+      this.elements.toLangComboBox().findByRole('combobox').select(to);
     } else {
       this.clickToLang();
       this.selectOptionByName(to);

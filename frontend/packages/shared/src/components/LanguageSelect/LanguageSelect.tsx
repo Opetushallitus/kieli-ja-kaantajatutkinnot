@@ -81,6 +81,7 @@ export const LanguageSelect = ({
       value,
       helperText,
       showError,
+      'data-testid': rest['data-testid'],
     };
     for (const prop in rest) {
       if (prop in nativeSelectProps) {

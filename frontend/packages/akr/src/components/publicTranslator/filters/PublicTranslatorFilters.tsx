@@ -283,7 +283,6 @@ export const PublicTranslatorFilters = ({
             </Caption>
           </div>
           <Box
-            data-testid="public-translator-filters__filter__language-pair"
             className="public-translator-filters__filter__language-pair"
             onClick={showTranslatorsAlreadySelectedToast}
           >

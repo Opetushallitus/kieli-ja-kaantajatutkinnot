@@ -62,7 +62,7 @@ export const NativeSelectWithLabel: FC<
   const errorStyles = showError ? { color: 'error.main' } : {};
 
   return (
-    <FormControl fullWidth error={showError}>
+    <FormControl data-testid={rest['data-testid']} fullWidth error={showError}>
       <label htmlFor={id}>
         <Text sx={errorStyles}>
           <b>{label}</b>
