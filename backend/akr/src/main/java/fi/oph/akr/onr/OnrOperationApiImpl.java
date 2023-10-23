@@ -145,8 +145,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       return response.getResponseBody();
     } else {
       // TODO: M.S. after migration is done delete below lines:
-      LOG.error("Error code {} from ONR", response.getStatusCode());
-      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
+      // LOG.error("Error code {} from ONR", response.getStatusCode());
+      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException(
         "ONR service called with POST /henkilo returned unexpected status code: " + response.getStatusCode()
@@ -170,8 +170,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       return personalDataDTO;
     } else {
       // TODO: M.S. after migration is done delete below lines:
-      LOG.error("Error code {} from ONR", response.getStatusCode());
-      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
+      // LOG.error("Error code {} from ONR", response.getStatusCode());
+      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
@@ -198,8 +198,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
       // TODO: M.S. after migration is done delete below lines:
-      LOG.error("Error code {} from ONR", response.getStatusCode());
-      LOG.error("Error  from ONR with body: {}", response.getResponseBody());
+      // LOG.error("Error code {} from ONR", response.getStatusCode());
+      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
       //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException(
         "ONR service called with PUT /henkilo returned unexpected status code: " + response.getStatusCode()

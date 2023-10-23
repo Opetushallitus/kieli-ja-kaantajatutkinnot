@@ -11,6 +11,9 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactDetailsGroupDTO {
 
+  @JsonProperty("readOnly")
+  private Boolean isReadOnly;
+
   @JsonProperty("ryhmaKuvaus")
   private ContactDetailsGroupType type;
 

@@ -146,7 +146,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
 
     final Response response = onrClient.executeBlocking(request);
 
-    if (response.getStatusCode() == HttpStatus.CREATED.value()) {
+    if (response.getStatusCode() == HttpStatus.OK.value()) {
       final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
         response.getResponseBody(),
         new TypeReference<>() {}
