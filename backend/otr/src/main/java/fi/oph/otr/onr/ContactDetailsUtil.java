@@ -155,7 +155,9 @@ public class ContactDetailsUtil {
     final PersonalDataDTO personalDataDTO,
     final List<ContactDetailsGroupDTO> latestContactDetails
   ) {
-    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonOtrNonReadOnlyContactDetails(latestContactDetails);
+    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonOtrNonReadOnlyContactDetails(
+      latestContactDetails
+    );
     final List<ContactDetailsGroupDTO> combinedContactDetails = Stream
       .of(latestNonOtrContactDetails, personalDataDTO.getContactDetailsGroups())
       .flatMap(Collection::stream)
