@@ -6,10 +6,24 @@ import { APIEndpoints } from 'enums/api';
 import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 import {
   loadClerkInterpreters,
+  loadClerkMissingInterpreters,
   rejectClerkInterpreters,
   storeClerkInterpreters,
+  storeClerkMissingInterpreters,
 } from 'redux/reducers/clerkInterpreter';
 import { SerializationUtils } from 'utils/serialization';
+
+function* loadClerkMissingInterpretersSaga() {
+  try {
+    const response: AxiosResponse<Array<string>> = yield call(
+      axiosInstance.get,
+      APIEndpoints.ClerkMissingInterpreters
+    );
+    yield put(storeClerkMissingInterpreters(response.data));
+  } catch (error) {
+    yield put(rejectClerkInterpreters());
+  }
+}
 
 function* loadClerkInterpretersSaga() {
   try {
@@ -28,4 +42,8 @@ function* loadClerkInterpretersSaga() {
 
 export function* watchClerkInterpreters() {
   yield takeLatest(loadClerkInterpreters.type, loadClerkInterpretersSaga);
+  yield takeLatest(
+    loadClerkMissingInterpreters.type,
+    loadClerkMissingInterpretersSaga
+  );
 }
