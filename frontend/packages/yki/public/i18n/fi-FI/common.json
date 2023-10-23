@@ -134,12 +134,12 @@
       },
       "pageTitle": {
         "registration": "Ilmoittautuminen",
-        "initRegistration": "Ilmoittaudu yleiseen kielitutkintoon (YKI)",
+        "initRegistration": "Ilmoittautuminen",
         "examDetails": "Tutkinto",
-        "registrationPaymentStatus": "Ilmoittaudu yleiseen kielitutkintoon (YKI)",
+        "registrationPaymentStatus": "Ilmoittautuminen",
         "reassessment": "Tarkistusarviointi",
-        "evaluationOrder": "Pyydä tarkistusarviointia",
-        "evaluationOrderStatus": "Pyydä tarkistusarviointia",
+        "evaluationOrder": "Tarkistusarviointi",
+        "evaluationOrderStatus": "Tarkistusarviointi",
         "accessibilityStatement": "Saavutettavuusseloste",
         "logoutSuccess": "Uloskirjautuminen onnnistui",
         "notFound": "Etsimääsi sivua ei löytynyt"

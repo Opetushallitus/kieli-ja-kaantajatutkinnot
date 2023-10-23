@@ -134,12 +134,12 @@
       },
       "pageTitle": {
         "registration": "Registration",
-        "initRegistration": "Register for a test",
+        "initRegistration": "Registration",
         "examDetails": "Test",
-        "registrationPaymentStatus": "Register for a test",
+        "registrationPaymentStatus": "Registration",
         "reassessment": "Reassessment",
-        "evaluationOrder": "Request a reassessment",
-        "evaluationOrderStatus": "Request a reassessment",
+        "evaluationOrder": "Reassessment",
+        "evaluationOrderStatus": "Reassessment",
         "accessibilityStatement": "Accessibility statement",
         "logoutSuccess": "Log out complete",
         "notFound": "Page not found"
