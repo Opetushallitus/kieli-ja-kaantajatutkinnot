@@ -68,11 +68,8 @@ export const PublicInterpreterFilters = ({
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: languageToComboBoxOption(
-      translateLanguage,
-      QualificationUtils.defaultFromLang
-    ),
-    toLang: null,
+    fromLang: '',
+    toLang: '',
     name: '',
     region: null,
   };
@@ -161,6 +158,20 @@ export const PublicInterpreterFilters = ({
       setSearchButtonDisabled(false);
     };
 
+  const handleLanguageChange =
+    (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
+    (language?: string) => {
+      setFilters((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      setValues((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      setSearchButtonDisabled(false);
+    };
+
   const handleTextFieldFilterChange =
     (filterName: SearchFilter) =>
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -178,10 +189,8 @@ export const PublicInterpreterFilters = ({
   const getComboBoxAttributes = (fieldName: SearchFilter) => ({
     onInputChange: handleComboboxInputChange(fieldName),
     inputValue: inputValues[fieldName],
-    value: values[fieldName] as AutocompleteValue,
     autoHighlight: true,
     variant: TextFieldVariant.Outlined,
-    onChange: handleComboboxFilterChange(fieldName),
   });
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -223,6 +232,12 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
+              onLanguageChange={handleLanguageChange(SearchFilter.FromLang)}
+              value={
+                values.fromLang
+                  ? languageToComboBoxOption(translateLanguage, values.fromLang)
+                  : null
+              }
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
@@ -236,6 +251,12 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
+              value={
+                values.toLang
+                  ? languageToComboBoxOption(translateLanguage, values.toLang)
+                  : null
+              }
+              onLanguageChange={handleLanguageChange(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
               id="filters-to-lang"
@@ -264,6 +285,8 @@ export const PublicInterpreterFilters = ({
           <ComboBox
             data-testid="public-interpreter-filters__region-combobox"
             {...getComboBoxAttributes(SearchFilter.Region)}
+            value={values[SearchFilter.Region]}
+            onChange={handleComboboxFilterChange(SearchFilter.Region)}
             placeholder={t('region.placeholder')}
             label={t('region.placeholder')}
             id="filters-region"

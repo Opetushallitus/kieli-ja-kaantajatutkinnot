@@ -78,11 +78,10 @@ export const QualificationFields = ({
     : null;
 
   const handleLanguageSelectChange =
-    (fieldName: string) =>
-    ({}, value: AutocompleteValue) => {
+    (fieldName: 'fromLang' | 'toLang') => (language?: string) => {
       setQualification({
         ...qualification,
-        [fieldName]: value?.value ?? '',
+        [fieldName]: language,
       });
       setIsQualificationDataChanged(true);
     };
@@ -161,7 +160,7 @@ export const QualificationFields = ({
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(qualification.fromLang)}
-              onChange={handleLanguageSelectChange('fromLang')}
+              onLanguageChange={handleLanguageSelectChange('fromLang')}
               languages={QualificationUtils.selectableFromLangs}
               excludedLanguage={qualification.toLang}
               translateLanguage={translateLanguage}
@@ -176,7 +175,7 @@ export const QualificationFields = ({
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(qualification.toLang)}
-              onChange={handleLanguageSelectChange('toLang')}
+              onLanguageChange={handleLanguageSelectChange('toLang')}
               languages={QualificationUtils.getKoodistoLangKeys()}
               excludedLanguage={qualification.fromLang}
               translateLanguage={translateLanguage}

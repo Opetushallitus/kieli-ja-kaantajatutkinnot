@@ -65,10 +65,15 @@ export const ClerkInterpreterAutocompleteFilters = ({
   };
 
   const handleFilterChange =
-    (filter: keyof ClerkInterpreterFilters) =>
+    (filter: keyof Omit<ClerkInterpreterFilters, 'fromLang' | 'toLang'>) =>
     ({}, value: AutocompleteValue) => {
       setPage(0);
       dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
+    };
+  const handleLanguageFilterChange =
+    (filter: 'fromLang' | 'toLang') => (language?: string) => {
+      setPage(0);
+      dispatch(addClerkInterpreterFilter({ [filter]: language }));
     };
 
   const getPermissionToPublishSelectValues = () =>
@@ -97,7 +102,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
             value={getLanguageSelectValue(filters.fromLang)}
             disabled={true}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('fromLang')}
+            onLanguageChange={handleLanguageFilterChange('fromLang')}
             languages={QualificationUtils.selectableFromLangs}
             excludedLanguage={filters.toLang}
             translateLanguage={translateLanguage}
@@ -108,7 +113,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
             label={t('languagePair.toPlaceholder')}
             value={getLanguageSelectValue(filters.toLang)}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('toLang')}
+            onLanguageChange={handleLanguageFilterChange('toLang')}
             languages={distinctToLangs}
             excludedLanguage={filters.fromLang}
             translateLanguage={translateLanguage}

@@ -2898,7 +2898,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.29"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.0"
   languageName: unknown
   linkType: soft
 
