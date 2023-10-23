@@ -1,0 +1,136 @@
+{
+  "id": 68338658,
+  "etunimet": "NORDEA",
+  "syntymaaika": "1981-02-21",
+  "kuolinpaiva": null,
+  "hetu": "210281-9988",
+  "kaikkiHetut": [
+    "210281-9988"
+  ],
+  "kutsumanimi": "Nordea",
+  "oidHenkilo": "1.2.246.562.24.73833272757",
+  "oppijanumero": "1.2.246.562.24.73833272757",
+  "sukunimi": "DEMO",
+  "sukupuoli": "2",
+  "kotikunta": null,
+  "turvakielto": false,
+  "eiSuomalaistaHetua": false,
+  "passivoitu": false,
+  "yksiloity": false,
+  "yksiloityVTJ": true,
+  "yksilointiYritetty": true,
+  "duplicate": false,
+  "created": 1545035888736,
+  "modified": 1686756274731,
+  "vtjsynced": 1611668647507,
+  "kasittelijaOid": "1.2.246.562.24.29628449338",
+  "asiointiKieli": {
+    "id": 1,
+    "kieliKoodi": "fi",
+    "kieliTyyppi": "suomi"
+  },
+  "aidinkieli": {
+    "id": 1,
+    "kieliKoodi": "fi",
+    "kieliTyyppi": "suomi"
+  },
+  "kansalaisuus": [
+    {
+      "id": 1,
+      "kansalaisuusKoodi": "246"
+    }
+  ],
+  "yhteystiedotRyhma": [
+    {
+      "id": 81325525,
+      "ryhmaKuvaus": "yhteystietotyyppi12",
+      "ryhmaAlkuperaTieto": "alkupera17",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MATKAPUHELINNUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "test@test.fi"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": null
+        }
+      ]
+    },
+    {
+      "id": 81325532,
+      "ryhmaKuvaus": "yhteystietotyyppi2",
+      "ryhmaAlkuperaTieto": "alkupera6",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MATKAPUHELINNUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": null
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "lauratestaa@testi.fi"
+        }
+      ]
+    },
+    {
+      "id": 81325521,
+      "ryhmaKuvaus": "yhteystietotyyppi2",
+      "ryhmaAlkuperaTieto": "alkupera6",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "testi@laura.fi"
+        }
+      ]
+    },
+    {
+      "id": 81325523,
+      "ryhmaKuvaus": "yhteystietotyyppi2",
+      "ryhmaAlkuperaTieto": "alkupera6",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "heidi.bergstrom@oph.fi"
+        }
+      ]
+    }
+  ],
+  "passinumerot": [],
+  "kielisyys": [],
+  "henkiloTyyppi": "OPPIJA"
+}
