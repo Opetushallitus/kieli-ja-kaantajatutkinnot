@@ -219,7 +219,6 @@ export const PublicTranslatorFilters = ({
   const getComboBoxAttributes = (fieldName: SearchFilter) => ({
     onInputChange: handleComboboxInputChange(fieldName),
     inputValue: inputValues[fieldName],
-    value: values[fieldName] as AutocompleteValue,
     autoHighlight: true,
     variant: TextFieldVariant.Outlined,
   });
@@ -291,6 +290,14 @@ export const PublicTranslatorFilters = ({
             <LanguageSelect
               data-testid="public-translator-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
+              value={
+                values.fromLang
+                  ? {
+                      label: translateLanguage(values.fromLang),
+                      value: values.fromLang,
+                    }
+                  : null
+              }
               showError={hasError(SearchFilter.FromLang)}
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
@@ -310,6 +317,14 @@ export const PublicTranslatorFilters = ({
             <LanguageSelect
               data-testid="public-translator-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
+              value={
+                values.toLang
+                  ? {
+                      label: translateLanguage(values.toLang),
+                      value: values.toLang,
+                    }
+                  : null
+              }
               showError={hasError(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
@@ -345,6 +360,7 @@ export const PublicTranslatorFilters = ({
           <ComboBox
             data-testid="public-translator-filters__town-combobox"
             {...getComboBoxAttributes(SearchFilter.Town)}
+            value={values.town ?? null}
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
