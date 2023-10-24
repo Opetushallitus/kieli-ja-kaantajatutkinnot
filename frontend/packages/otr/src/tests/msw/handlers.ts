@@ -18,6 +18,9 @@ export const handlers = [
   rest.get(APIEndpoints.ClerkInterpreter, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(clerkInterpreters10));
   }),
+  rest.get(APIEndpoints.ClerkMissingInterpreters, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json([]));
+  }),
   rest.put(APIEndpoints.ClerkInterpreter, async (req, res, ctx) => {
     const interpreterDetails = await req.json();
 
