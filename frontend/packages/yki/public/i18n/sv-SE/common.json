@@ -3,7 +3,7 @@
     "common": {
       "actions": "Funktioner",
       "appNameAbbreviation": "YKI",
-      "appTitle": "Allmänna språkexamina | Utbildningsstyrelsen",
+      "appTitle": "Allmänna språkexamina - Utbildningsstyrelsen",
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till framsidan",
       "cancel": "Avbryt",
@@ -131,6 +131,18 @@
       "ykiHomepage": {
         "ariaLabel": "Webbplatsen för allmänna språkexamina (oph.fi), öppnas i en ny flik",
         "link": "https://www.oph.fi/sv/allmanna-sprakexamina-yki"
+      },
+      "pageTitle": {
+        "registration": "Anmälning",
+        "initRegistration": "Anmälning",
+        "examDetails": "Test",
+        "registrationPaymentStatus": "Anmälning",
+        "reassessment": "Kontrollbedömning",
+        "evaluationOrder": "Kontrollbedömning",
+        "evaluationOrderStatus": "Kontrollbedömning",
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "logoutSuccess": "Utloggning lyckades",
+        "notFound": "Sidan hittades inte"
       }
     }
   }
