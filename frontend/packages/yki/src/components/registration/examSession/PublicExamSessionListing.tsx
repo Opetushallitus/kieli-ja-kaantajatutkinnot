@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
 import { TFunction } from 'i18next';
@@ -123,7 +124,9 @@ export const PublicExamSessionListing = ({
       return (
         <>
           <div ref={listingHeaderRef}>
-            <H3
+            <Typography
+              variant="h2"
+              component="h3"
               aria-label={translateCommon(
                 'component.table.header.searchResultsAriaLabel',
                 {
@@ -134,7 +137,7 @@ export const PublicExamSessionListing = ({
               {translateCommon('component.table.header.searchResults', {
                 count: examSessions.length,
               })}
-            </H3>
+            </Typography>
           </div>
           <PublicExamSessionsTable
             examSessions={examSessions}

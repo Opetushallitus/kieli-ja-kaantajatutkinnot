@@ -165,11 +165,10 @@ const TableCellForPhone = ({
   children: ReactNode;
 }) => (
   <TableCell>
-    <Text>
-      <b>{columnName}</b>
-      <br aria-hidden={true} />
-      {children}
-    </Text>
+    <Typography variant="h3" component="h5">
+      {columnName}
+    </Typography>
+    <Text>{children}</Text>
   </TableCell>
 );
 
@@ -189,7 +188,7 @@ const PublicExamSessionListingCellsForPhone = ({
   return (
     <>
       <TableCell>
-        <Typography variant="h2" component="p">
+        <Typography variant="h2" component="h4">
           {ExamSessionUtils.languageAndLevelText(examSession)}
         </Typography>
       </TableCell>
@@ -214,9 +213,14 @@ const PublicExamSessionListingCellsForPhone = ({
         {registerActionAvailable ? (
           <RegisterToExamButton examSession={examSession} />
         ) : (
-          <Text className="centered uppercase">
-            <RegistrationUnavailableText examSession={examSession} />
-          </Text>
+          <>
+            <Typography variant="h3" component="h5" className="display-none">
+              {translateCommon('actions')}
+            </Typography>
+            <Text className="centered uppercase">
+              <RegistrationUnavailableText examSession={examSession} />
+            </Text>
+          </>
         )}
       </TableCell>
     </>
