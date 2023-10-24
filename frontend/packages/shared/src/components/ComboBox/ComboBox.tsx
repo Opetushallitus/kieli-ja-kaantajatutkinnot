@@ -1,6 +1,8 @@
 import {
   Autocomplete,
   AutocompleteProps,
+  createFilterOptions,
+  FilterOptionsState,
   FormControl,
   FormHelperText,
   TextField,
@@ -23,7 +25,11 @@ interface ComboBoxProps {
 
 type AutoCompleteComboBox = Omit<
   AutocompleteProps<AutocompleteValue, false, false, false>,
-  'options' | 'renderInput'
+  | 'options'
+  | 'renderInput'
+  | 'getOptionLabel'
+  | 'isOptionEqualToValue'
+  | 'filterOptions'
 >;
 
 const compareOptionLabels = (a: ComboBoxOption, b: ComboBoxOption) => {
@@ -46,6 +52,14 @@ const isOptionEqualToValue = (
     return option.value === value.value;
   }
 };
+
+const filterOptions: (
+  options: Array<AutocompleteValue>,
+  state: FilterOptionsState<AutocompleteValue>
+) => Array<AutocompleteValue> = createFilterOptions({
+  matchFrom: 'start',
+  trim: true,
+});
 
 export const valueAsOption = (value: string) => ({
   value: value,
@@ -74,6 +88,7 @@ export const ComboBox = ({
         getOptionLabel={getOptionLabel}
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
+        filterOptions={filterOptions}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -119,6 +134,7 @@ export const LabeledComboBox = ({
         getOptionLabel={getOptionLabel}
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
+        filterOptions={filterOptions}
         renderInput={(params) => (
           <TextField
             {...params}

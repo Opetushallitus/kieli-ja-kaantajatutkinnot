@@ -3,7 +3,7 @@
     "common": {
       "actions": "Toiminnot",
       "appNameAbbreviation": "YKI",
-      "appTitle": "Yleiset kielitutkinnot | Opetushallitus",
+      "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
       "cancel": "Peruuta",
@@ -131,6 +131,18 @@
       "ykiHomepage": {
         "ariaLabel": "Yleisten kielitutkintojen verkkosivu (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki"
+      },
+      "pageTitle": {
+        "registration": "Ilmoittautuminen",
+        "initRegistration": "Ilmoittautuminen",
+        "examDetails": "Tutkinto",
+        "registrationPaymentStatus": "Ilmoittautuminen",
+        "reassessment": "Tarkistusarviointi",
+        "evaluationOrder": "Tarkistusarviointi",
+        "evaluationOrderStatus": "Tarkistusarviointi",
+        "accessibilityStatement": "Saavutettavuusseloste",
+        "logoutSuccess": "Uloskirjautuminen onnnistui",
+        "notFound": "Etsimääsi sivua ei löytynyt"
       }
     }
   }

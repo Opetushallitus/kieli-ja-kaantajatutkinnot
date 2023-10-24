@@ -49,6 +49,7 @@ export const initialState: PublicEnrollmentState = {
     privacyStatementConfirmation: false,
     status: undefined,
     examEventId: undefined,
+    hasPaymentLink: undefined,
   },
   examEvent: undefined,
   person: undefined,

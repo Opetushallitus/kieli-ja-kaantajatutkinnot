@@ -77,12 +77,10 @@ export const PublicEnrollmentDesktopGrid = ({
                   : 'public-enrollment__grid__form-container'
               }
             >
-              {!isShiftedFromQueue && (
-                <PublicEnrollmentStepper
-                  activeStep={activeStep}
-                  includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
-                />
-              )}
+              <PublicEnrollmentStepper
+                activeStep={activeStep}
+                includePaymentStep={ExamEventUtils.hasOpenings(examEvent)}
+              />
               {reservation && !isPreviewPassed && (
                 <PublicEnrollmentTimer
                   reservation={reservation}
