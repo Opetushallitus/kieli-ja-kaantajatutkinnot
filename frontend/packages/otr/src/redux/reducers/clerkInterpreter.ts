@@ -91,6 +91,9 @@ const clerkInterpreterSlice = createSlice({
       state.missingStatus = APIResponseStatus.Success;
       state.missingInterpreters = action.payload;
     },
+    rejectClerkMissingInterpreters(state) {
+      state.missingStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -99,6 +102,7 @@ export const {
   addClerkInterpreterFilter,
   loadClerkInterpreters,
   rejectClerkInterpreters,
+  rejectClerkMissingInterpreters,
   resetClerkInterpreterFilters,
   storeClerkInterpreters,
   upsertClerkInterpreter,

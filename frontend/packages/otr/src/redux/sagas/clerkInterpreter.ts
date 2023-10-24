@@ -8,6 +8,7 @@ import {
   loadClerkInterpreters,
   loadClerkMissingInterpreters,
   rejectClerkInterpreters,
+  rejectClerkMissingInterpreters,
   storeClerkInterpreters,
   storeClerkMissingInterpreters,
 } from 'redux/reducers/clerkInterpreter';
@@ -21,7 +22,7 @@ function* loadClerkMissingInterpretersSaga() {
     );
     yield put(storeClerkMissingInterpreters(response.data));
   } catch (error) {
-    yield put(rejectClerkInterpreters());
+    yield put(rejectClerkMissingInterpreters());
   }
 }
 
