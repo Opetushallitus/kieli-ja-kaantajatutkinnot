@@ -5,7 +5,9 @@ export {};
 declare global {
   namespace Cypress {
     interface Chainable {
+      isOnPage(page: string): Chainable<Element>;
       openPublicRegistrationPage(): void;
+      openEvaluationOrderPage(id: number): void;
     }
   }
 }

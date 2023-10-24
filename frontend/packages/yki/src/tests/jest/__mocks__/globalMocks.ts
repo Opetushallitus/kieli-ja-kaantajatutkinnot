@@ -14,10 +14,3 @@ jest.mock('configs/i18n', () => ({
     }
   },
 }));
-
-const mockAppSelector = jest.fn(() => ({}));
-const mockDispatch = jest.fn();
-jest.mock('configs/redux', () => ({
-  useAppDispatch: mockDispatch,
-  useAppSelector: mockAppSelector,
-}));
