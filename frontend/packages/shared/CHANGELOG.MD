@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.29] - 2023-10-20
+
+### Changed
+
+- Changed behaviour of ComboBox autocomplete: spaces are trimmed from search input and matching is only performed against the start of option labels
+
 ## [1.9.28] - 2023-10-05
 
 ### Changed
