@@ -100,7 +100,7 @@ export const LanguageSelect = ({
     return (
       <ComboBox
         {...rest}
-        onChange={(_, v) => onLanguageChange(v?.value)}
+        onChange={onLanguageChange}
         values={sortedOptions}
         value={value}
         helperText={helperText}

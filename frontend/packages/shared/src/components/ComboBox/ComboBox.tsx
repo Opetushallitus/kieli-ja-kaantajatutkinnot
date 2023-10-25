@@ -8,11 +8,17 @@ import {
   TextField,
 } from '@mui/material';
 
+import { useWindowProperties } from '../../hooks';
+import {
+  CustomNativeSelectProps,
+  NativeSelect,
+} from '../NativeSelect/NativeSelect';
 import { Text } from '../Text/Text';
 
 type ComboBoxOption = { label: string; value: string };
 export type AutocompleteValue = ComboBoxOption | null;
 interface ComboBoxProps {
+  'data-testid'?: string;
   label?: string;
   showInputLabel?: boolean;
   helperText?: string;
@@ -21,6 +27,7 @@ interface ComboBoxProps {
   getOptionLabel?: (option: AutocompleteValue) => string;
   values: Array<ComboBoxOption>;
   value: AutocompleteValue;
+  onChange: (value?: string) => void;
 }
 
 type AutoCompleteComboBox = Omit<
@@ -30,6 +37,7 @@ type AutoCompleteComboBox = Omit<
   | 'getOptionLabel'
   | 'isOptionEqualToValue'
   | 'filterOptions'
+  | 'onChange'
 >;
 
 const compareOptionLabels = (a: ComboBoxOption, b: ComboBoxOption) => {
@@ -66,22 +74,42 @@ export const valueAsOption = (value: string) => ({
   label: value,
 });
 
-export const ComboBox = ({
+const NativeSelectOrComboBox = ({
   label,
   values,
   variant,
   helperText,
   showError,
+  onChange,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
+  const { isPhone } = useWindowProperties();
   const getOptionLabel = (option: AutocompleteValue): string => {
     const [activeOption] = values.filter((v) => v.value === option?.value);
 
     return activeOption ? activeOption.label : '';
   };
 
-  return (
-    <FormControl fullWidth error={showError}>
+  if (isPhone) {
+    const nativeSelectProps: CustomNativeSelectProps = {
+      placeholder: label || '',
+      values,
+      helperText,
+      showError,
+      value: rest.value,
+      id: rest.id,
+      disabled: rest.disabled,
+      'data-testid': rest['data-testid'],
+    };
+
+    return (
+      <NativeSelect
+        {...nativeSelectProps}
+        onChange={(e) => onChange(e.target.value as string)}
+      />
+    );
+  } else {
+    return (
       <Autocomplete
         disablePortal
         {...rest}
@@ -97,7 +125,22 @@ export const ComboBox = ({
             error={showError}
           />
         )}
+        onChange={(_, v: AutocompleteValue) => {
+          onChange(v?.value);
+        }}
       />
+    );
+  }
+};
+
+export const ComboBox = ({
+  helperText,
+  showError,
+  ...rest
+}: ComboBoxProps & AutoCompleteComboBox) => {
+  return (
+    <FormControl fullWidth error={showError}>
+      <NativeSelectOrComboBox {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
@@ -106,18 +149,10 @@ export const ComboBox = ({
 export const LabeledComboBox = ({
   id,
   label,
-  values,
-  variant,
   helperText,
   showError,
-  placeholder,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox & { id: string }) => {
-  const getOptionLabel = (option: AutocompleteValue): string => {
-    const [activeOption] = values.filter((v) => v.value === option?.value);
-
-    return activeOption ? activeOption.label : '';
-  };
   const errorStyles = showError ? { color: 'error.main' } : {};
 
   return (
@@ -127,23 +162,7 @@ export const LabeledComboBox = ({
           <b>{label}</b>
         </Text>
       </label>
-      <Autocomplete
-        disablePortal
-        id={id}
-        {...rest}
-        getOptionLabel={getOptionLabel}
-        isOptionEqualToValue={isOptionEqualToValue}
-        options={values}
-        filterOptions={filterOptions}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder={placeholder}
-            variant={variant}
-            error={showError}
-          />
-        )}
-      />
+      <NativeSelectOrComboBox id={id} {...rest} />
       {showError && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );

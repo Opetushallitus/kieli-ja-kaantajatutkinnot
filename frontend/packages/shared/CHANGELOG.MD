@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `LanguageSelect` to use `NativeSelect` when rendered on mobile phone
 - `LanguageSelect` now requires `onLanguageChange` prop
+- `ComboBox` to use fall back to `NativeSelect` when render on mobile phone
+- `ComboBox` onChange prop signature has changed to: `onChange: (value?: string) => void` 
 
 ## [1.9.30] - 2023-10-24
 
