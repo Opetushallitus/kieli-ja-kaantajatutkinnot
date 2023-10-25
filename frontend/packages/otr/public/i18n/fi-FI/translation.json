@@ -284,7 +284,8 @@
           "emptySelection": "Tyhjennä valinnat"
         },
         "register": "Rekisteri",
-        "title": "Oikeustulkkirekisteri"
+        "title": "Oikeustulkkirekisteri",
+        "missingInterpreters": "Tulkkien määrä ei täsmää OTR ja ONR välillä. Oppijanumerorekisteristä puuttuvat tulkit: {{interpreters}}"
       },
       "clerkInterpreterOverviewPage": {
         "title": "Oikeustulkin tiedot",

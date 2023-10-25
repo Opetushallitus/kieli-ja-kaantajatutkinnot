@@ -1,8 +1,8 @@
 import { Add as AddIcon } from '@mui/icons-material';
-import { Divider, Grid, Paper } from '@mui/material';
-import { FC, useState } from 'react';
+import { Alert, Divider, Grid, Paper } from '@mui/material';
+import { FC, useEffect, useState } from 'react';
 import { CustomButtonLink, H1, H2, Text } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 
 import { ClerkHomePageControlButtons } from 'components/clerkHomePage/ClerkHomePageControlButtons';
 import { ClerkInterpreterAutocompleteFilters } from 'components/clerkInterpreter/filters/ClerkInterpreterAutocompleteFilters';
@@ -10,14 +10,23 @@ import { ClerkInterpreterToggleFilters } from 'components/clerkInterpreter/filte
 import { ClerkInterpreterListing } from 'components/clerkInterpreter/listing/ClerkInterpreterListing';
 import { ClerkHomePageSkeleton } from 'components/skeletons/ClerkHomePageSkeleton';
 import { useAppTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
+import { loadClerkMissingInterpreters } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
 export const ClerkHomePage: FC = () => {
   const [page, setPage] = useState(0);
-  const { interpreters, status } = useAppSelector(clerkInterpretersSelector);
+  const { interpreters, missingInterpreters, status, missingStatus } =
+    useAppSelector(clerkInterpretersSelector);
   const isLoading = status === APIResponseStatus.InProgress;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (missingStatus === APIResponseStatus.NotStarted) {
+      dispatch(loadClerkMissingInterpreters());
+    }
+  }, [dispatch, missingStatus]);
 
   const { t } = useAppTranslation({ keyPrefix: 'otr.pages.clerkHomepage' });
 
@@ -66,6 +75,15 @@ export const ClerkHomePage: FC = () => {
       <Grid item>
         <Divider />
       </Grid>
+      {missingInterpreters?.length > 0 && (
+        <Grid item>
+          <Alert severity={Severity.Error}>
+            {t('missingInterpreters', {
+              interpreters: missingInterpreters.join(', '),
+            })}
+          </Alert>
+        </Grid>
+      )}
       <Grid item>
         <ClerkInterpreterListing page={page} setPage={setPage} />
       </Grid>

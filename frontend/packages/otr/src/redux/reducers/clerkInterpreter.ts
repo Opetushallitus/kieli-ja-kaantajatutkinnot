@@ -11,6 +11,8 @@ import { QualificationUtils } from 'utils/qualifications';
 interface ClerkInterpreterState {
   interpreters: Array<ClerkInterpreter>;
   status: APIResponseStatus;
+  missingStatus: APIResponseStatus;
+  missingInterpreters: Array<string>;
   filters: ClerkInterpreterFilters;
   distinctToLangs: Array<string>;
 }
@@ -18,6 +20,8 @@ interface ClerkInterpreterState {
 const initialState: ClerkInterpreterState = {
   interpreters: [],
   status: APIResponseStatus.NotStarted,
+  missingStatus: APIResponseStatus.NotStarted,
+  missingInterpreters: [],
   filters: {
     qualificationStatus: QualificationStatus.Effective,
     fromLang: QualificationUtils.defaultFromLang,
@@ -80,6 +84,16 @@ const clerkInterpreterSlice = createSlice({
       updatedInterpreters.splice(spliceIndex, 1, interpreter);
       state.interpreters = updatedInterpreters;
     },
+    loadClerkMissingInterpreters(state) {
+      state.missingStatus = APIResponseStatus.InProgress;
+    },
+    storeClerkMissingInterpreters(state, action: PayloadAction<Array<string>>) {
+      state.missingStatus = APIResponseStatus.Success;
+      state.missingInterpreters = action.payload;
+    },
+    rejectClerkMissingInterpreters(state) {
+      state.missingStatus = APIResponseStatus.Error;
+    },
   },
 });
 
@@ -88,7 +102,10 @@ export const {
   addClerkInterpreterFilter,
   loadClerkInterpreters,
   rejectClerkInterpreters,
+  rejectClerkMissingInterpreters,
   resetClerkInterpreterFilters,
   storeClerkInterpreters,
   upsertClerkInterpreter,
+  loadClerkMissingInterpreters,
+  storeClerkMissingInterpreters,
 } = clerkInterpreterSlice.actions;

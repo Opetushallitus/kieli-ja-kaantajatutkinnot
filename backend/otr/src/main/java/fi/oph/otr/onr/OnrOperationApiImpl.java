@@ -1,6 +1,7 @@
 package fi.oph.otr.onr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.otr.config.Constants;
 import fi.oph.otr.onr.dto.ContactDetailsGroupDTO;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONArray;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
@@ -21,7 +21,6 @@ import org.asynchttpclient.util.HttpConstants.Methods;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-@RequiredArgsConstructor
 public class OnrOperationApiImpl implements OnrOperationApi {
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -29,6 +28,13 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   private final CasClient onrClient;
 
   private final String onrServiceUrl;
+
+  public OnrOperationApiImpl(final CasClient onrClient, final String onrServiceUrl) {
+    this.onrClient = onrClient;
+    this.onrServiceUrl = onrServiceUrl;
+
+    OBJECT_MAPPER.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+  }
 
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) throws Exception {
