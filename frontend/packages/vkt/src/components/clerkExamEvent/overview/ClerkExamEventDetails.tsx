@@ -3,13 +3,7 @@ import DownloadIcon from '@mui/icons-material/DownloadOutlined';
 import { Alert } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import {
-  AutocompleteValue,
-  DropDownMenuButton,
-  ExtLink,
-  H2,
-  Text,
-} from 'shared/components';
+import { DropDownMenuButton, ExtLink, H2, Text } from 'shared/components';
 import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 
@@ -195,9 +189,8 @@ export const ClerkExamEventDetails = () => {
   ];
 
   const handleComboBoxChange =
-    (field: keyof ClerkExamEventBasicInformation) =>
-    ({}, autocompleteValue?: AutocompleteValue) => {
-      handleFieldChange(field, autocompleteValue?.value);
+    (field: keyof ClerkExamEventBasicInformation) => (value?: string) => {
+      handleFieldChange(field, value);
     };
 
   const handleCheckBoxChange =

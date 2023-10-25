@@ -3001,7 +3001,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
     reduxjs-toolkit-persist: ^7.2.1
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.29"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.0"
   languageName: unknown
   linkType: soft
 
@@ -12603,13 +12603,6 @@ __metadata:
   dependencies:
     kind-of: ^6.0.2
   checksum: 39b3dd9630a774aba288a680e7d2901f5c0eae7b8387fc5c8ea559918b29b3da144b7bdb990d7ccd9e11be05508ac9e459ce51d01fd65e583282f6ffafcba2e7
-  languageName: node
-  linkType: hard
-
-"shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.29":
-  version: 1.9.29
-  resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@npm:1.9.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40Opetushallitus%2Fkieli-ja-kaantajatutkinnot.shared%2F1.9.29%2Fbae7e4637da7470c2d65ef5969d5bdc015618fc6"
-  checksum: 78851915b3556ca5bc459ddf5ade477c5f62876e6a267f1bb174f4a5e0add4d957ae35882f358e748ef58bb2dea00db913aa8cf2937340199037b7ff23757a40
   languageName: node
   linkType: hard
 
