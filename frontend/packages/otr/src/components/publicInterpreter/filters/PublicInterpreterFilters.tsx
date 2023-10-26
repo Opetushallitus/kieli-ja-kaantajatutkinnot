@@ -10,7 +10,6 @@ import {
   useState,
 } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   H3,
@@ -71,7 +70,7 @@ export const PublicInterpreterFilters = ({
     fromLang: '',
     toLang: '',
     name: '',
-    region: null,
+    region: '',
   };
 
   // State
@@ -133,30 +132,17 @@ export const PublicInterpreterFilters = ({
       setSearchButtonDisabled(false);
     };
 
-  const handleComboboxFilterChange =
-    (filterName: SearchFilter) =>
-    (
-      {},
-      value: AutocompleteValue,
-      reason:
-        | 'selectOption'
-        | 'createOption'
-        | 'removeOption'
-        | 'blur'
-        | 'clear'
-    ) => {
-      if (reason === 'clear') {
-        setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
-        setValues((prevState) => ({ ...prevState, [filterName]: null }));
-      } else {
-        setFilters((prevState) => ({
-          ...prevState,
-          [filterName]: value?.value || '',
-        }));
-        setValues((prevState) => ({ ...prevState, [filterName]: value }));
-      }
-      setSearchButtonDisabled(false);
-    };
+  const handleRegionChange = (region?: string) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [SearchFilter.Region]: region || '',
+    }));
+    setValues((prevState) => ({
+      ...prevState,
+      [SearchFilter.Region]: region || '',
+    }));
+    setSearchButtonDisabled(false);
+  };
 
   const handleLanguageChange =
     (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
@@ -285,8 +271,17 @@ export const PublicInterpreterFilters = ({
           <ComboBox
             data-testid="public-interpreter-filters__region-combobox"
             {...getComboBoxAttributes(SearchFilter.Region)}
-            value={values[SearchFilter.Region]}
-            onChange={handleComboboxFilterChange(SearchFilter.Region)}
+            value={
+              values[SearchFilter.Region]
+                ? {
+                    label: RegionUtils.translateRegion(
+                      values[SearchFilter.Region]
+                    ),
+                    value: values[SearchFilter.Region],
+                  }
+                : null
+            }
+            onChange={handleRegionChange}
             placeholder={t('region.placeholder')}
             label={t('region.placeholder')}
             id="filters-region"

@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   CustomSwitch,
@@ -86,8 +85,8 @@ export const QualificationFields = ({
       setIsQualificationDataChanged(true);
     };
 
-  const handleExaminationTypeChange = ({}, value: AutocompleteValue) => {
-    const examinationType = value?.value as ExaminationType;
+  const handleExaminationTypeChange = (value?: string) => {
+    const examinationType = value as ExaminationType;
 
     setQualification({
       ...qualification,
@@ -96,9 +95,9 @@ export const QualificationFields = ({
     setIsQualificationDataChanged(true);
   };
 
-  const handleBeginDateChange = ({}, value: AutocompleteValue) => {
+  const handleBeginDateChange = (value?: string) => {
     const PERIOD_OF_VALIDITY = 5;
-    const beginDate = value ? dayjs(value?.value) : undefined;
+    const beginDate = value ? dayjs(value) : undefined;
     const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
 
     setQualification({

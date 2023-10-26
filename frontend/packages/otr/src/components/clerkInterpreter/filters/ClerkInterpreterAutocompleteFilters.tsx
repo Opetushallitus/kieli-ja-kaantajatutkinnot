@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomTextField,
   H3,
@@ -66,9 +65,9 @@ export const ClerkInterpreterAutocompleteFilters = ({
 
   const handleFilterChange =
     (filter: keyof Omit<ClerkInterpreterFilters, 'fromLang' | 'toLang'>) =>
-    ({}, value: AutocompleteValue) => {
+    (value?: string) => {
       setPage(0);
-      dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
+      dispatch(addClerkInterpreterFilter({ [filter]: value }));
     };
   const handleLanguageFilterChange =
     (filter: 'fromLang' | 'toLang') => (language?: string) => {
