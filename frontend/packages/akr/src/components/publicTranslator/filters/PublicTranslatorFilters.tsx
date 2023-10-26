@@ -5,12 +5,12 @@ import {
   KeyboardEvent,
   SetStateAction,
   SyntheticEvent,
+  useCallback,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import {
-  AutocompleteValue,
   Caption,
   ComboBox,
   CustomButton,
@@ -83,7 +83,7 @@ export const PublicTranslatorFilters = ({
     fromLang: '',
     toLang: '',
     name: '',
-    town: null,
+    town: '',
   };
   const debounce = useDebounce(300);
 
@@ -161,31 +161,18 @@ export const PublicTranslatorFilters = ({
       setSearchButtonDisabled(false);
     };
 
-  const handleComboboxFilterChange =
-    (filterName: SearchFilter) =>
-    (
-      {},
-      value: AutocompleteValue,
-      reason:
-        | 'selectOption'
-        | 'createOption'
-        | 'removeOption'
-        | 'blur'
-        | 'clear'
-    ) => {
-      if (reason === 'clear') {
-        setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
-        setValues((prevState) => ({ ...prevState, [filterName]: null }));
-      } else {
-        setFilters((prevState) => ({
-          ...prevState,
-          [filterName]: value?.value || '',
-        }));
-        setValues((prevState) => ({ ...prevState, [filterName]: value }));
-      }
-      dispatch(removePublicTranslatorFilterError(filterName));
-      setSearchButtonDisabled(false);
-    };
+  const handleTownChange = (value?: string) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [SearchFilter.Town]: value || '',
+    }));
+    setValues((prevState) => ({
+      ...prevState,
+      [SearchFilter.Town]: value || '',
+    }));
+    dispatch(removePublicTranslatorFilterError(SearchFilter.Town));
+    setSearchButtonDisabled(false);
+  };
 
   const onLanguageChange =
     (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
@@ -240,16 +227,24 @@ export const PublicTranslatorFilters = ({
     }
   };
 
-  const townAsComboboxOption = (publicTown: PublicTown) => {
-    const country = publicTown.country
-      ? translateCountry(publicTown.country)
-      : '';
-    const value = `${publicTown.name}::${publicTown.country ?? ''}`;
-    const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
-    const label = country ? `${townName} (${country})` : townName;
+  const townAsComboboxOption = useCallback(
+    (publicTown: PublicTown) => {
+      const country = publicTown.country
+        ? translateCountry(publicTown.country)
+        : '';
+      const value = `${publicTown.name}::${publicTown.country ?? ''}`;
+      const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
+      const label = country ? `${townName} (${country})` : townName;
 
-    return { value, label };
-  };
+      return { value, label };
+    },
+    [translateCountry]
+  );
+
+  const memoizedTownOptions = useMemo(
+    () => towns.map(townAsComboboxOption),
+    [townAsComboboxOption, towns]
+  );
 
   const renderPhoneBottomAppBar = () =>
     isPhone &&
@@ -359,13 +354,19 @@ export const PublicTranslatorFilters = ({
           <ComboBox
             data-testid="public-translator-filters__town-combobox"
             {...getComboBoxAttributes(SearchFilter.Town)}
-            value={values.town ?? null}
+            value={
+              values.town
+                ? memoizedTownOptions.filter(
+                    ({ value }) => values.town === value
+                  )[0]
+                : null
+            }
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={towns.map(townAsComboboxOption)}
+            values={memoizedTownOptions}
             onKeyUp={handleKeyUp}
-            onChange={handleComboboxFilterChange(SearchFilter.Town)}
+            onChange={handleTownChange}
           />
         </div>
       </div>

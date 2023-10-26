@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   CustomSwitch,
@@ -91,8 +90,8 @@ export const AuthorisationFields = ({
       setIsAuthorisationDataChanged(true);
     };
 
-  const handleBasisChange = ({}, value: AutocompleteValue) => {
-    const basis = value?.value as AuthorisationBasis;
+  const handleBasisChange = (value?: string) => {
+    const basis = value as AuthorisationBasis;
     const examinationDate =
       basis === AuthorisationBasisEnum.AUT
         ? authorisation.examinationDate
@@ -108,8 +107,8 @@ export const AuthorisationFields = ({
     setIsAuthorisationDataChanged(true);
   };
 
-  const handleTermBeginDateChange = ({}, value: AutocompleteValue) => {
-    const termBeginDate = value?.value ? dayjs(value?.value) : undefined;
+  const handleTermBeginDateChange = (value?: string) => {
+    const termBeginDate = value ? dayjs(value) : undefined;
     const termEndDate = getNewTermEndDate(authorisation.basis, termBeginDate);
 
     setAuthorisation({
@@ -131,10 +130,10 @@ export const AuthorisationFields = ({
       : undefined;
   };
 
-  const handleExaminationDateChange = ({}, value: AutocompleteValue) => {
+  const handleExaminationDateChange = (value?: string) => {
     setAuthorisation({
       ...authorisation,
-      examinationDate: value?.value ? dayjs(value?.value) : undefined,
+      examinationDate: value ? dayjs(value) : undefined,
     });
     setIsAuthorisationDataChanged(true);
   };

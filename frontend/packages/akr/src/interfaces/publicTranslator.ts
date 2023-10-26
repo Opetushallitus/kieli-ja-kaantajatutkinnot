@@ -1,5 +1,3 @@
-import { AutocompleteValue } from 'shared/components';
-
 import { SearchFilter } from 'enums/app';
 import { LanguagePair, LanguagePairsDict } from 'interfaces/languagePair';
 import { WithId } from 'interfaces/with';
@@ -24,7 +22,7 @@ export interface PublicTranslatorFilterValues {
   fromLang: string;
   toLang: string;
   name: string;
-  town: AutocompleteValue;
+  town: string;
 }
 
 export interface PublicTown {
