@@ -1,7 +1,5 @@
 import { Typography } from '@mui/material';
-import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
-import { TFunction } from 'i18next';
 import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
@@ -23,15 +21,35 @@ const getRowDetails = (examSession: ExamSession) => {
   return <PublicExamSessionListingRow examSession={examSession} />;
 };
 
-const getDisplayedRowsLabel = (
-  t: TFunction,
-  { from, to, count }: LabelDisplayedRowsArgs
-) => {
-  return t('component.table.pagination.displayedRowsLabel', {
-    from,
-    to,
-    count,
-  });
+const DisplayedRowsLabel = ({
+  from,
+  to,
+  count,
+}: {
+  from: number;
+  to: number;
+  count: number;
+}) => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <p
+      aria-label={translateCommon(
+        'component.table.pagination.displayedRowsAriaLabel',
+        {
+          from,
+          to,
+          count,
+        }
+      )}
+    >
+      {translateCommon('component.table.pagination.displayedRowsLabel', {
+        from,
+        to,
+        count,
+      })}
+    </p>
+  );
 };
 
 export const PublicExamSessionsTable = ({
@@ -65,9 +83,9 @@ export const PublicExamSessionsTable = ({
       rowsPerPageLabel={translateCommon(
         'component.table.pagination.rowsPerPage'
       )}
-      labelDisplayedRows={(args) =>
-        getDisplayedRowsLabel(translateCommon, args)
-      }
+      labelDisplayedRows={({ from, to, count }) => (
+        <DisplayedRowsLabel from={from} to={to} count={count} />
+      )}
       backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
       nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
       stickyHeader

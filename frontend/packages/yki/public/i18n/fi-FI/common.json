@@ -17,7 +17,8 @@
           },
           "pagination": {
             "backButtonLabel": "Edelliset hakutulokset",
-            "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
           }

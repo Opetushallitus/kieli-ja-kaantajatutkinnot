@@ -17,7 +17,8 @@
           },
           "pagination": {
             "backButtonLabel": "Tidigare sökresultat",
-            "displayedRowsLabel": "Visas {{from}}-{{to}} / {{count}} resultat",
+            "displayedRowsAriaLabel": "Visas {{from}}-{{to}} / {{count}} resultat",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
             "rowsPerPage": "Resultat per sida"
           }
