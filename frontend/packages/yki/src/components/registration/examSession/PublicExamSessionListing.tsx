@@ -31,25 +31,32 @@ const DisplayedRowsLabel = ({
   count: number;
 }) => {
   const translateCommon = useCommonTranslation();
-
-  return (
-    <p
-      aria-label={translateCommon(
-        'component.table.pagination.displayedRowsAriaLabel',
-        {
-          from,
-          to,
-          count,
-        }
-      )}
-    >
-      {translateCommon('component.table.pagination.displayedRowsLabel', {
-        from,
-        to,
-        count,
-      })}
-    </p>
+  const { isPhone } = useWindowProperties();
+  const fullLabelText = translateCommon(
+    'component.table.pagination.displayedRowsAriaLabel',
+    {
+      from,
+      to,
+      count,
+    }
   );
+
+  if (isPhone) {
+    return (
+      <>
+        <p className="display-none">{fullLabelText}</p>
+        <p aria-hidden="true">
+          {translateCommon('component.table.pagination.displayedRowsLabel', {
+            from,
+            to,
+            count,
+          })}
+        </p>
+      </>
+    );
+  } else {
+    return fullLabelText;
+  }
 };
 
 export const PublicExamSessionsTable = ({
