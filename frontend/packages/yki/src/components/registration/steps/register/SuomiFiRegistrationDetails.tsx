@@ -1,10 +1,5 @@
 import { ChangeEvent } from 'react';
-import {
-  AutocompleteValue,
-  LabeledComboBox,
-  LabeledTextField,
-  Text,
-} from 'shared/components';
+import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
   InputAutoComplete,
   TextFieldTypes,
@@ -194,8 +189,8 @@ export const SuomiFiRegistrationDetails = () => {
                 )
               : null
           }
-          onChange={(_, v: AutocompleteValue) => {
-            dispatch(updatePublicRegistration({ nationality: v?.value }));
+          onChange={(v?: string) => {
+            dispatch(updatePublicRegistration({ nationality: v }));
           }}
           showError={showErrors && !!registrationErrors['nationality']}
           helperText={

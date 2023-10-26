@@ -9,15 +9,13 @@ import {
 } from '@mui/material';
 import { useCallback, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   LanguageSelect,
-  NativeSelect,
   Text,
 } from 'shared/components';
 import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
-import { useDialog, useWindowProperties } from 'shared/hooks';
+import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -48,7 +46,6 @@ const SelectMunicipality = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
   });
-  const { isPhone } = useWindowProperties();
 
   return (
     <div className="public-exam-session-filters__filter public-exam-session-filters__municipality">
@@ -59,34 +56,18 @@ const SelectMunicipality = () => {
       >
         {t('labels.selectMunicipality')}
       </Typography>
-      {isPhone ? (
-        <NativeSelect
-          id="public-exam-session-filters__municipality-filter"
-          onChange={(e) => {
-            onMunicipalityChange(e.target.value as string);
-          }}
-          placeholder={t('labels.selectMunicipality')}
-          value={
-            municipality ? municipalityToComboBoxOption(municipality) : null
-          }
-          values={municipalities.map(municipalityToComboBoxOption)}
-        />
-      ) : (
-        <ComboBox
-          id="public-exam-session-filters__municipality-filter"
-          variant={TextFieldVariant.Outlined}
-          values={municipalities.map(municipalityToComboBoxOption)}
-          value={
-            municipality ? municipalityToComboBoxOption(municipality) : null
-          }
-          onChange={(_, v: AutocompleteValue) => {
-            const municipality = v?.value;
-            onMunicipalityChange(municipality);
-          }}
-          label={t('labels.selectMunicipality')}
-          aria-label={t('labels.selectMunicipality')}
-        />
-      )}
+      <ComboBox
+        id="public-exam-session-filters__municipality-filter"
+        variant={TextFieldVariant.Outlined}
+        values={municipalities.map(municipalityToComboBoxOption)}
+        value={municipality ? municipalityToComboBoxOption(municipality) : null}
+        onChange={(v?: string) => {
+          const municipality = v;
+          onMunicipalityChange(municipality);
+        }}
+        label={t('labels.selectMunicipality')}
+        aria-label={t('labels.selectMunicipality')}
+      />
     </div>
   );
 };
@@ -174,7 +155,6 @@ const SelectExamLevel = ({
   const levelValues = Object.values(ExamLevel).map(levelToComboBoxOption);
 
   const errorStyles = { color: 'error.main' };
-  const { isPhone } = useWindowProperties();
 
   return (
     <FormControl
@@ -192,33 +172,20 @@ const SelectExamLevel = ({
           {t('filters.selectExamDetails.required')}
         </span>
       </Typography>
-      {isPhone ? (
-        <NativeSelect
-          id="public-exam-session-filters__level-filter"
-          onChange={(e) => {
-            const level = e.target.value as ExamLevel | undefined;
-            onFilterChange({ level });
-          }}
-          placeholder={t('labels.selectLevel')}
-          value={level ? levelToComboBoxOption(level) : null}
-          values={levelValues}
-        />
-      ) : (
-        <ComboBox
-          id="public-exam-session-filters__level-filter"
-          variant={TextFieldVariant.Outlined}
-          values={levelValues}
-          value={level ? levelToComboBoxOption(level) : null}
-          onChange={(_, v: AutocompleteValue) => {
-            const level = v?.value as ExamLevel | undefined;
-            onFilterChange({ level });
-          }}
-          label={t('labels.selectLevel')}
-          aria-label={t('labels.selectLevel')}
-          showError={showError && !level}
-          helperText={showError && !level ? t('filters.errors.required') : ''}
-        />
-      )}
+      <ComboBox
+        id="public-exam-session-filters__level-filter"
+        variant={TextFieldVariant.Outlined}
+        values={levelValues}
+        value={level ? levelToComboBoxOption(level) : null}
+        onChange={(v?: string) => {
+          const level = v as ExamLevel | undefined;
+          onFilterChange({ level });
+        }}
+        label={t('labels.selectLevel')}
+        aria-label={t('labels.selectLevel')}
+        showError={showError && !level}
+        helperText={showError && !level ? t('filters.errors.required') : ''}
+      />
     </FormControl>
   );
 };
