@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.30] - 2023-10-24
+
+### Added
+
+- New utility classes `.uppercase` and `.display-none`
+
 ## [1.9.29] - 2023-10-20
 
 ### Changed

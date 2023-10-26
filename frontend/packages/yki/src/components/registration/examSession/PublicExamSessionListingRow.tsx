@@ -1,5 +1,6 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
+import { ReactNode } from 'react';
 import { CustomButtonLink, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -93,7 +94,7 @@ const renderAdmissionPeriod = ({
   return (
     <span aria-label={`${startTimeStr} — ${endTimeStr}`}>
       {startTimeStr} —
-      <br />
+      <br aria-hidden={true} />
       {endTimeStr}
     </span>
   );
@@ -108,7 +109,8 @@ const AdmissionPeriodText = ({ examSession }: { examSession: ExamSession }) => {
   } else {
     return (
       <>
-        {translateCommon('postAdmission')}:<br />
+        {translateCommon('postAdmission')}:
+        <br aria-hidden={true} />
         {renderAdmissionPeriod(relevantPeriod)}
       </>
     );
@@ -155,6 +157,21 @@ const PublicExamSessionListingCellsForDesktop = ({
   );
 };
 
+const TableCellForPhone = ({
+  columnName,
+  children,
+}: {
+  columnName: string;
+  children: ReactNode;
+}) => (
+  <TableCell>
+    <Typography variant="h3" component="h5">
+      {columnName}
+    </Typography>
+    <Text>{children}</Text>
+  </TableCell>
+);
+
 const PublicExamSessionListingCellsForPhone = ({
   examSession,
   locationInfo,
@@ -169,47 +186,44 @@ const PublicExamSessionListingCellsForPhone = ({
   const translateCommon = useCommonTranslation();
 
   return (
-    <TableCell>
-      <div className="rows grow gapped-xs">
-        <Typography variant="h2" component="p">
+    <>
+      <TableCell>
+        <Typography variant="h2" component="h4">
           {ExamSessionUtils.languageAndLevelText(examSession)}
         </Typography>
-        <Text>
-          <b>{translateCommon('examDate')}</b>
-          <br />
-          {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
-        </Text>
-        <Text>
-          <b>{translateCommon('institution')}</b>
-          <br />
-          {locationInfo.name}
-          <br />
-          {ExamSessionUtils.getMunicipality(locationInfo)}
-        </Text>
-        <Text>
-          <b>{translateCommon('registrationPeriod')}</b>
-          <br />
-          <AdmissionPeriodText examSession={examSession} />
-        </Text>
-        <Text>
-          <b>{translateCommon('price')}</b>
-          <br />
-          {examSession.exam_fee} €
-        </Text>
-        <Text>
-          <b>{translateCommon('placesAvailable')}</b>
-          <br />
-          {availablePlacesText}
-        </Text>
+      </TableCell>
+      <TableCellForPhone columnName={translateCommon('examDate')}>
+        {DateUtils.formatOptionalDate(examSession.session_date, 'l')}
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('institution')}>
+        {locationInfo.name}
+        <br aria-hidden={true} />
+        {ExamSessionUtils.getMunicipality(locationInfo)}
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('registrationPeriod')}>
+        <AdmissionPeriodText examSession={examSession} />
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('price')}>
+        {examSession.exam_fee} €
+      </TableCellForPhone>
+      <TableCellForPhone columnName={translateCommon('placesAvailable')}>
+        {availablePlacesText}
+      </TableCellForPhone>
+      <TableCell>
         {registerActionAvailable ? (
           <RegisterToExamButton examSession={examSession} />
         ) : (
-          <Text>
-            <RegistrationUnavailableText examSession={examSession} />
-          </Text>
+          <>
+            <Typography variant="h3" component="h5" className="display-none">
+              {translateCommon('actions')}
+            </Typography>
+            <Text className="centered uppercase">
+              <RegistrationUnavailableText examSession={examSession} />
+            </Text>
+          </>
         )}
-      </div>
-    </TableCell>
+      </TableCell>
+    </>
   );
 };
 
@@ -237,7 +251,7 @@ export const PublicExamSessionListingRow = ({
 
   if (isPhone) {
     return (
-      <TableRow>
+      <TableRow className="rows gapped-xs">
         <PublicExamSessionListingCellsForPhone
           examSession={examSession}
           availablePlacesText={availablePlacesText}
