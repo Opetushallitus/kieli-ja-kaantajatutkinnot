@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { UserOpenRegistrationsResponse } from 'interfaces/publicRegistration';
+import {
+  UserOpenRegistration,
+  UserOpenRegistrationsResponse,
+} from 'interfaces/publicRegistration';
 
 interface UserOpenRegistrationsState {
   status: APIResponseStatus;
-  openRegistrations?: UserOpenRegistrationsResponse;
+  openRegistrations?: Array<UserOpenRegistration>;
 }
 
 const initialState: UserOpenRegistrationsState = {
@@ -21,7 +24,7 @@ const userOpenRegistrationsSlice = createSlice({
       action: PayloadAction<UserOpenRegistrationsResponse>
     ) {
       state.status = APIResponseStatus.Success;
-      state.openRegistrations = action.payload;
+      state.openRegistrations = action.payload['open-registrations'];
     },
     loadUserOpenRegistrations(state) {
       state.status = APIResponseStatus.InProgress;

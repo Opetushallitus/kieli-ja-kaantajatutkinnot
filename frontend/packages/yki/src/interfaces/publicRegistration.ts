@@ -74,8 +74,9 @@ export interface PublicRegistrationFormSubmitErrorResponse {
   };
 }
 
-interface UserOpenRegistration {
+export interface UserOpenRegistration {
   exam_session_id: number;
+  expires_at: string;
 }
 
 export interface UserOpenRegistrationsResponse {

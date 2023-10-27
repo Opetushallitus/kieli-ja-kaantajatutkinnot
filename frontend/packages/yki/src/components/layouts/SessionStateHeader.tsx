@@ -68,8 +68,7 @@ export const SessionStateHeader: FC = () => {
     <div className="session-header columns gapped">
       {notOnRegistrationPage &&
         userOpenRegistrations.openRegistrations &&
-        userOpenRegistrations.openRegistrations['open-registrations'] &&
-        userOpenRegistrations.openRegistrations['open-registrations'][0] && (
+        userOpenRegistrations.openRegistrations[0] && (
           <div className="session-header__open-registrations columns gapped-xxs">
             <Text>
               {translateCommon('header.sessionState.activeRegistrations', {
@@ -79,9 +78,7 @@ export const SessionStateHeader: FC = () => {
             <Link
               to={generatePath(AppRoutes.ExamSessionRegistration, {
                 examSessionId:
-                  userOpenRegistrations.openRegistrations[
-                    'open-registrations'
-                  ][0].exam_session_id.toString(),
+                  userOpenRegistrations.openRegistrations[0].exam_session_id.toString(),
               })}
             >
               {translateCommon('header.sessionState.continueToRegistration')}

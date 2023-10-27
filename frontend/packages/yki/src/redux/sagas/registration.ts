@@ -111,6 +111,7 @@ function* cancelRegistrationSaga() {
     );
     yield put(acceptCancelRegistration());
     yield put(resetPublicRegistration());
+    yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
   }
