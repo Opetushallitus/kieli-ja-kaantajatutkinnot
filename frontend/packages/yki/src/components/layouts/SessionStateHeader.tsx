@@ -3,12 +3,13 @@ import {
   Person as PersonIcon,
 } from '@mui/icons-material';
 import Button from '@mui/material/Button';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { generatePath, Link, matchPath, useLocation } from 'react-router-dom';
 import { Text } from 'shared/components';
-import { Color, Variant } from 'shared/enums';
+import { APIResponseStatus, Color, Variant } from 'shared/enums';
 
 import { useCommonTranslation } from 'configs/i18n';
-import { useAppSelector } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { APIEndpoints } from 'enums/api';
 import { AppRoutes } from 'enums/app';
 import {
@@ -16,7 +17,9 @@ import {
   EmailAuthenticatedSession,
   SuomiFiAuthenticatedSession,
 } from 'interfaces/session';
+import { loadUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { sessionSelector } from 'redux/selectors/session';
+import { userOpenRegistrationsSelector } from 'redux/selectors/userOpenRegistrations';
 
 const getUserName = (
   user:
@@ -39,12 +42,52 @@ const generateLogoutURL = () => {
 };
 
 export const SessionStateHeader: FC = () => {
+  const location = useLocation();
   const translateCommon = useCommonTranslation();
+  const userOpenRegistrations = useAppSelector(userOpenRegistrationsSelector);
   const session = useAppSelector(sessionSelector).loggedInSession;
-  if (!session || session.identity === null) return <></>;
+  const dispatch = useAppDispatch();
+  const hasNullIdentity = !session || session.identity === null;
+  const notOnRegistrationPage =
+    matchPath(AppRoutes.ExamSessionRegistration, location.pathname) === null;
+
+  useEffect(() => {
+    const needsUserOpenRegistrations =
+      !hasNullIdentity &&
+      notOnRegistrationPage &&
+      userOpenRegistrations.status === APIResponseStatus.NotStarted;
+
+    if (needsUserOpenRegistrations) {
+      dispatch(loadUserOpenRegistrations());
+    }
+  }, [hasNullIdentity, notOnRegistrationPage, userOpenRegistrations, dispatch]);
+
+  if (hasNullIdentity) return <></>;
 
   return (
     <div className="session-header columns gapped">
+      {notOnRegistrationPage &&
+        userOpenRegistrations.openRegistrations &&
+        userOpenRegistrations.openRegistrations['open-registrations'] &&
+        userOpenRegistrations.openRegistrations['open-registrations'][0] && (
+          <div className="session-header__open-registrations columns gapped-xxs">
+            <Text>
+              {translateCommon('header.sessionState.activeRegistrations', {
+                count: userOpenRegistrations.openRegistrations.length,
+              })}
+            </Text>
+            <Link
+              to={generatePath(AppRoutes.ExamSessionRegistration, {
+                examSessionId:
+                  userOpenRegistrations.openRegistrations[
+                    'open-registrations'
+                  ][0].exam_session_id.toString(),
+              })}
+            >
+              {translateCommon('header.sessionState.continueToRegistration')}
+            </Link>
+          </div>
+        )}
       <Text className="columns gapped-xxs session-header__user-details">
         <PersonIcon className="session-header__user-icon" />
         {getUserName(session)}

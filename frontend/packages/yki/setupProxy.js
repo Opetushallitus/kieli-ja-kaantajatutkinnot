@@ -1019,10 +1019,20 @@ module.exports = function (app) {
     }
   );
 
-  app.get('/yki/auth/user', (req, res) => {
+  app.get('/yki/api/user/identity', (req, res) => {
     try {
       res.set('Content-Type', 'application/json; charset=utf-8');
       res.send(adminUser);
+    } catch (err) {
+      printError(req, err);
+      res.status(404).send(err.message);
+    }
+  });
+
+  app.get('/yki/api/user/open-registrations', (req, res) => {
+    try {
+      res.set('Content-Type', 'application/json; charset=utf-8');
+      res.send({ 'open-registrations': [ { exam_session_id: 25 }]});
     } catch (err) {
       printError(req, err);
       res.status(404).send(err.message);

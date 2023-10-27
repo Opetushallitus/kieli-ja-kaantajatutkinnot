@@ -24,6 +24,7 @@ import {
   resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
+import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
@@ -80,6 +81,7 @@ function* submitRegistrationFormSaga() {
       }
     );
     yield put(acceptPublicRegistrationSubmission());
+    yield put(resetUserOpenRegistrations());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);

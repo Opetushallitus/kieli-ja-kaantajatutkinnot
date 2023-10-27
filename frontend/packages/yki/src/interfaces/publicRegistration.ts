@@ -73,3 +73,11 @@ export interface PublicRegistrationFormSubmitErrorResponse {
     person_creation?: boolean;
   };
 }
+
+interface UserOpenRegistration {
+  exam_session_id: number;
+}
+
+export interface UserOpenRegistrationsResponse {
+  'open-registrations': Array<UserOpenRegistration>;
+}
