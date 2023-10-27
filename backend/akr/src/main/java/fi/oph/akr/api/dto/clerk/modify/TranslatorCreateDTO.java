@@ -11,9 +11,13 @@ import lombok.NonNull;
 
 @Builder
 public record TranslatorCreateDTO(
+  String onrId,
+  Boolean isIndividualised,
+  Boolean hasIndividualisedAddress,
   @Size(max = 255) @NonNull @NotBlank String firstName,
   @Size(max = 255) @NonNull @NotBlank String lastName,
-  @Size(max = 255) String identityNumber,
+  @Size(max = 255) @NonNull @NotBlank String nickName,
+  @Size(max = 255) @NonNull @NotBlank String identityNumber,
   @Size(max = 255) String email,
   @Size(max = 255) String phoneNumber,
   @Size(max = 255) String street,
@@ -26,9 +30,10 @@ public record TranslatorCreateDTO(
 )
   implements TranslatorDTOCommonFields {
   public TranslatorCreateDTO {
+    identityNumber = StringUtil.sanitize(identityNumber);
     firstName = StringUtil.sanitize(firstName);
     lastName = StringUtil.sanitize(lastName);
-    identityNumber = StringUtil.sanitize(identityNumber);
+    nickName = StringUtil.sanitize(nickName);
     email = StringUtil.sanitize(email);
     phoneNumber = StringUtil.sanitize(phoneNumber);
     street = StringUtil.sanitize(street);

@@ -97,4 +97,16 @@ public class ClerkTranslatorController {
   public ClerkTranslatorDTO deleteAuthorisation(@PathVariable final long authorisationId) {
     return clerkTranslatorService.deleteAuthorisation(authorisationId);
   }
+
+  // TODO: M.S. after data migration is done remove the below function
+  @GetMapping(path = "/migrate")
+  public String migrateAllTranslatorDatas() {
+    return clerkTranslatorService.migrateAllTranslators();
+  }
+
+  @GetMapping(path = "/migrate/{translatorId:\\d+}")
+  public void migrateTranslatorData(@PathVariable final long translatorId) throws Exception {
+    clerkTranslatorService.migrateTranslator(translatorId);
+  }
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 }

@@ -18,6 +18,8 @@ import fi.oph.akr.model.Email;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.ContactRequestRepository;
 import fi.oph.akr.repository.ContactRequestTranslatorRepository;
@@ -30,8 +32,11 @@ import fi.oph.akr.util.TemplateRenderer;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,6 +88,9 @@ class ContactRequestServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private OnrService onrService;
+
   @Captor
   private ArgumentCaptor<EmailData> emailDataCaptor;
 
@@ -106,7 +114,8 @@ class ContactRequestServiceTest {
         languagePairService,
         templateRenderer,
         translatorRepository,
-        environment
+        environment,
+        onrService
       );
   }
 
@@ -117,8 +126,8 @@ class ContactRequestServiceTest {
 
     final ContactRequestDTO contactRequestDTO = createContactRequestDTO(translatorIds, FROM_LANG, TO_LANG);
 
-    ContactRequest contactRequest = contactRequestService.createContactRequest(contactRequestDTO);
-    List<ContactRequestTranslator> contactRequestTranslators = contactRequestTranslatorRepository.findAll();
+    final ContactRequest contactRequest = contactRequestService.createContactRequest(contactRequestDTO);
+    final List<ContactRequestTranslator> contactRequestTranslators = contactRequestTranslatorRepository.findAll();
 
     assertEquals(contactRequestDTO.firstName(), contactRequest.getFirstName());
     assertEquals(contactRequestDTO.lastName(), contactRequest.getLastName());
@@ -155,17 +164,19 @@ class ContactRequestServiceTest {
 
     final List<Translator> translators = translatorRepository.findAllById(translatorIds);
     final List<EmailData> emailDatas = emailDataCaptor.getAllValues();
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     assertEquals(2, translators.size());
     assertEquals(3, emailDatas.size());
 
-    translators.forEach(t ->
+    translators.forEach(t -> {
+      final PersonalData personalData = personalDatas.get(t.getOnrId());
       assertEquals(
         1,
         emailDatas
           .stream()
-          .filter(e -> e.recipientName().equals(t.getFullName()))
-          .filter(e -> e.recipientAddress().equals(t.getEmail()))
+          .filter(e -> e.recipientName().equals(personalData.getFirstName() + " " + personalData.getLastName()))
+          .filter(e -> e.recipientAddress().equals(personalData.getEmail()))
           .filter(e ->
             e
               .subject()
@@ -175,8 +186,8 @@ class ContactRequestServiceTest {
           )
           .filter(e -> e.body().equals("<html>translator</html>"))
           .count()
-      )
-    );
+      );
+    });
 
     assertEquals(
       1,
@@ -201,6 +212,14 @@ class ContactRequestServiceTest {
 
     entityManager.persist(translator);
     entityManager.persist(authorisation);
+
+    when(onrService.getCachedPersonalDatas())
+      .thenReturn(
+        Map.of(
+          translator.getOnrId(),
+          PersonalData.builder().lastName("Suku").firstName("Etu").nickName("Etu").identityNumber("112233").build()
+        )
+      );
 
     final List<Long> translatorIds = List.of(translator.getId());
 
@@ -322,15 +341,26 @@ class ContactRequestServiceTest {
   }
 
   private List<Long> initTranslators(final MeetingDate meetingDate, final int size) {
-    List<Long> translatorIds = new ArrayList<>();
+    final List<Long> translatorIds = new ArrayList<>();
 
+    final Map<String, PersonalData> personalDatas = new HashMap<String, PersonalData>();
     IntStream
       .range(0, size)
       .forEach(i -> {
         final Translator translator = Factory.translator();
-        translator.setFirstName("Etu" + i);
-        translator.setLastName("Suku" + i);
-        translator.setEmail("etu.suku" + i + "@invalid");
+        translator.setOnrId(UUID.randomUUID().toString());
+
+        personalDatas.put(
+          translator.getOnrId(),
+          PersonalData
+            .builder()
+            .lastName("Suku" + i)
+            .firstName("Etu" + i)
+            .nickName("Etu" + i)
+            .identityNumber("112233")
+            .email("etu.suku" + i + "@invalid")
+            .build()
+        );
 
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
         authorisation.setFromLang(FROM_LANG);
@@ -341,6 +371,7 @@ class ContactRequestServiceTest {
 
         translatorIds.add(translator.getId());
       });
+    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatas);
 
     return translatorIds;
   }

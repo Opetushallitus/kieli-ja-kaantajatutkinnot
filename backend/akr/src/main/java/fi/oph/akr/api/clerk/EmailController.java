@@ -21,7 +21,7 @@ public class EmailController {
 
   @PostMapping("/informal")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createInformalEmails(@Valid @RequestBody InformalEmailRequestDTO emailRequestDTO) {
+  public void createInformalEmails(@Valid @RequestBody final InformalEmailRequestDTO emailRequestDTO) {
     clerkEmailService.createInformalEmails(emailRequestDTO);
   }
 }

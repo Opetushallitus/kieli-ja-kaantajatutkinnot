@@ -7,8 +7,11 @@ import lombok.NonNull;
 public record ClerkTranslatorDTO(
   @NonNull Long id,
   @NonNull Integer version,
+  @NonNull Boolean isIndividualised,
+  @NonNull Boolean hasIndividualisedAddress,
   @NonNull String firstName,
   @NonNull String lastName,
+  @NonNull String nickName,
   String identityNumber,
   String email,
   String phoneNumber,

@@ -24,15 +24,15 @@ public class OpintopolkuCasAuthenticationFilter extends CasAuthenticationFilter 
   public static final String CAS_SECURITY_TICKET = "CasSecurityTicket";
 
   @Autowired
-  public OpintopolkuCasAuthenticationFilter(ServiceProperties serviceProperties) {
+  public OpintopolkuCasAuthenticationFilter(final ServiceProperties serviceProperties) {
     setServiceProperties(serviceProperties);
     setAuthenticationDetailsSource(new OpintopolkuServiceAuthenticationDetailsSource(serviceProperties));
   }
 
   @Override
-  protected String obtainArtifact(HttpServletRequest request) {
+  protected String obtainArtifact(final HttpServletRequest request) {
     // ticket-parametrin lisäksi autentikoidaan myös CasSecurityTicket-headerissa oleva ticket
-    String casTicketHeader = request.getHeader(CAS_SECURITY_TICKET);
+    final String casTicketHeader = request.getHeader(CAS_SECURITY_TICKET);
     if (casTicketHeader != null) {
       // jos ko tiketillä ollaan jo autentikoiduttu sessio, ei tehdä sitä enää
       if (casTicketHeader.equals(getSessionTicket())) {
@@ -54,12 +54,12 @@ public class OpintopolkuCasAuthenticationFilter extends CasAuthenticationFilter 
   }
 
   @Override
-  protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+  protected boolean requiresAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
     // we want to re-login if ticket changed - this is mainly a precaution, if a client gets new ticket for new user in the middle of the session
-    Object sessionTicket = getSessionTicket(); // is null when user/session is not yet authenticated
+    final Object sessionTicket = getSessionTicket(); // is null when user/session is not yet authenticated
     if (sessionTicket != null) {
-      String requestTicket = obtainArtifact(request);
-      boolean ticketChanged = requestTicket != null && !requestTicket.equals(sessionTicket);
+      final String requestTicket = obtainArtifact(request);
+      final boolean ticketChanged = requestTicket != null && !requestTicket.equals(sessionTicket);
       if (ticketChanged) {
         logger.warn(
           "clear authentication because ticket changed, requestTicket: " +
@@ -75,7 +75,7 @@ public class OpintopolkuCasAuthenticationFilter extends CasAuthenticationFilter 
   }
 
   private Object getSessionTicket() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
       return auth.getCredentials(); // cas ticket is saved as authentication.credentials, if credentials is something else than ticketstring, it doesn't matter
     } else {
@@ -84,7 +84,7 @@ public class OpintopolkuCasAuthenticationFilter extends CasAuthenticationFilter 
   }
 
   @Override
-  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+  public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
     throws AuthenticationException, IOException {
     /*
 
@@ -116,13 +116,15 @@ public class OpintopolkuCasAuthenticationFilter extends CasAuthenticationFilter 
 
   }
 
-  private Authentication atttempAuthenticationInternal(HttpServletRequest request, HttpServletResponse response)
-    throws IOException {
+  private Authentication atttempAuthenticationInternal(
+    final HttpServletRequest request,
+    final HttpServletResponse response
+  ) throws IOException {
     try {
       return super.attemptAuthentication(request, response); //To change body of overridden methods use File | Settings | File Templates.
-    } catch (RuntimeException e) {
+    } catch (final RuntimeException e) {
       if (e.getCause() instanceof IOException) {
-        IOException cause = (IOException) e.getCause();
+        final IOException cause = (IOException) e.getCause();
         if (
           cause != null &&
           cause.getMessage() != null &&

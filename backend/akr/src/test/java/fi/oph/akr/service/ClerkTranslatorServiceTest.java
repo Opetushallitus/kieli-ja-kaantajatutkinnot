@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
@@ -31,20 +33,23 @@ import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
-import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -92,6 +97,9 @@ class ClerkTranslatorServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @MockBean
+  private OnrService onrService;
+
   @BeforeEach
   public void setup() {
     final ExaminationDateService examinationDateService = new ExaminationDateService(
@@ -99,9 +107,6 @@ class ClerkTranslatorServiceTest {
       auditService
     );
     final MeetingDateService meetingDateService = new MeetingDateService(meetingDateRepository, auditService);
-
-    final CountryService countryService = new CountryService();
-    countryService.init();
 
     clerkTranslatorService =
       new ClerkTranslatorService(
@@ -112,8 +117,9 @@ class ClerkTranslatorServiceTest {
         meetingDateRepository,
         meetingDateService,
         translatorRepository,
-        countryService,
-        auditService
+        //countryService,
+        auditService,
+        onrService
       );
   }
 
@@ -122,6 +128,7 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
 
+    final Map<String, PersonalData> personalDatasTest = new HashMap<String, PersonalData>();
     IntStream
       .range(0, 3)
       .forEach(i -> {
@@ -130,7 +137,11 @@ class ClerkTranslatorServiceTest {
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
+
+        final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+        personalDatasTest.put(translator.getOnrId(), personalData);
       });
+    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatasTest);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
     final List<ClerkTranslatorDTO> translators = responseDTO.translators();
@@ -147,6 +158,9 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.of(2020, 10, 6));
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
@@ -172,6 +186,9 @@ class ClerkTranslatorServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.autAuthorisation(translator, meetingDate, examinationDate1);
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(examinationDate1);
     entityManager.persist(examinationDate2);
     entityManager.persist(meetingDate);
@@ -193,6 +210,9 @@ class ClerkTranslatorServiceTest {
   public void listShouldReturnDistinctFromAndToLangs() {
     final MeetingDate meetingDate = Factory.meetingDate();
     final Translator translator = Factory.translator();
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     final Authorisation authorisation1 = Factory.kktAuthorisation(translator, meetingDate);
     authorisation1.setFromLang(SV);
@@ -224,8 +244,9 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
 
-    final List<String> identityNumbers = Arrays.asList(null, "123", "999888777666");
+    final List<String> identityNumbers = Arrays.asList("112233", "123", "999888777666");
     final List<String> firstNames = List.of("Etu0", "Etu1", "Etu2");
+    final List<String> nickNames = List.of("Etu0", "Etu1", "Etu2");
     final List<String> lastNames = List.of("Suku0", "Suku1", "Suku2");
     final List<String> emails = Arrays.asList("email0", "email1", null);
     final List<String> phoneNumbers = Arrays.asList("phone0", null, "phone2");
@@ -236,27 +257,39 @@ class ClerkTranslatorServiceTest {
     final List<String> extraInformations = Arrays.asList(null, "Nimi muutettu", "???");
     final List<Boolean> assurances = Arrays.asList(true, false, true);
 
+    final Map<String, PersonalData> personalDatas = new HashMap<String, PersonalData>();
     IntStream
       .range(0, 3)
       .forEach(i -> {
         final Translator translator = Factory.translator();
-        translator.setIdentityNumber(identityNumbers.get(i));
-        translator.setFirstName(firstNames.get(i));
-        translator.setLastName(lastNames.get(i));
-        translator.setEmail(emails.get(i));
-        translator.setPhone(phoneNumbers.get(i));
-        translator.setStreet(streets.get(i));
-        translator.setPostalCode(postalCodes.get(i));
-        translator.setTown(towns.get(i));
-        translator.setCountry(countries.get(i));
         translator.setExtraInformation(extraInformations.get(i));
         translator.setAssuranceGiven(assurances.get(i));
+
+        personalDatas.put(
+          translator.getOnrId(),
+          PersonalData
+            .builder()
+            .identityNumber(identityNumbers.get(i))
+            .firstName(firstNames.get(i))
+            .nickName(nickNames.get(i))
+            .lastName(lastNames.get(i))
+            .email(emails.get(i))
+            .phoneNumber(phoneNumbers.get(i))
+            .street(streets.get(i))
+            .postalCode(postalCodes.get(i))
+            .town(towns.get(i))
+            .country(countries.get(i))
+            .individualised(false)
+            .hasIndividualisedAddress(false)
+            .build()
+        );
 
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
       });
+    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatas);
 
     final ClerkTranslatorResponseDTO responseDTO = clerkTranslatorService.listTranslators();
     final List<ClerkTranslatorDTO> translators = responseDTO.translators();
@@ -264,6 +297,7 @@ class ClerkTranslatorServiceTest {
     assertEquals(3, translators.size());
 
     assertTranslatorTextField(firstNames, translators, ClerkTranslatorDTO::firstName);
+    assertTranslatorTextField(nickNames, translators, ClerkTranslatorDTO::nickName);
     assertTranslatorTextField(lastNames, translators, ClerkTranslatorDTO::lastName);
     assertTranslatorTextField(identityNumbers, translators, ClerkTranslatorDTO::identityNumber);
     assertTranslatorTextField(emails, translators, ClerkTranslatorDTO::email);
@@ -292,6 +326,9 @@ class ClerkTranslatorServiceTest {
     final ExaminationDate examinationDate = Factory.examinationDate();
     final Authorisation authorisation = Factory.autAuthorisation(translator, meetingDate, examinationDate);
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
     entityManager.persist(examinationDate);
@@ -313,6 +350,9 @@ class ClerkTranslatorServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
     entityManager.persist(authorisation);
@@ -333,6 +373,9 @@ class ClerkTranslatorServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.virAuthorisation(translator, meetingDate);
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
     entityManager.persist(authorisation);
@@ -351,6 +394,9 @@ class ClerkTranslatorServiceTest {
   public void listShouldReturnProperDataForTranslatorWithFormerVIRBasis() {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.formerVirAuthorisation(translator);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     entityManager.persist(translator);
     entityManager.persist(authorisation);
@@ -372,6 +418,9 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate3 = Factory.meetingDate();
     final Translator translator = Factory.translator();
     final ExaminationDate examinationDate = Factory.examinationDate();
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     final Authorisation expiredAuth = Factory.autAuthorisation(translator, meetingDate1, examinationDate);
     expiredAuth.setFromLang(RU);
@@ -433,6 +482,9 @@ class ClerkTranslatorServiceTest {
     final Authorisation authorisation1 = Factory.kktAuthorisation(translator, meetingDate1);
     final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(meetingDate1);
     entityManager.persist(meetingDate2);
     entityManager.persist(translator);
@@ -459,6 +511,11 @@ class ClerkTranslatorServiceTest {
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
     final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).build();
 
+    final PersonalData personalData = defaultPersonalData(createDTO);
+    final String onrId = personalData.getOnrId();
+    when(onrService.insertPersonalData(any(PersonalData.class))).thenReturn(onrId);
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(onrId, personalData));
+
     final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
 
     assertResponseMatchesGet(response);
@@ -481,6 +538,11 @@ class ClerkTranslatorServiceTest {
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
     final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).country("DEU").build();
 
+    final PersonalData personalData = defaultPersonalData(createDTO);
+    final String onrId = personalData.getOnrId();
+    when(onrService.insertPersonalData(any(PersonalData.class))).thenReturn(onrId);
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(onrId, personalData));
+
     final ClerkTranslatorDTO response = clerkTranslatorService.createTranslator(createDTO);
 
     assertResponseMatchesGet(response);
@@ -496,60 +558,19 @@ class ClerkTranslatorServiceTest {
   }
 
   @Test
-  public void testTranslatorCreateFailsOnDuplicateIdentityNumber() {
-    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
-    entityManager.persist(meetingDate);
-
-    final String identityNumber = "xxx";
-
-    final Translator existingTranslator = Factory.translator();
-    existingTranslator.setIdentityNumber(identityNumber);
-    entityManager.persist(existingTranslator);
-
-    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
-      .identityNumber(identityNumber)
-      .build();
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
-
-    assertEquals(APIExceptionType.TRANSLATOR_CREATE_DUPLICATE_IDENTITY_NUMBER, ex.getExceptionType());
-    verifyNoInteractions(auditService);
-  }
-
-  @Test
-  public void testTranslatorCreateFailsOnDuplicateEmail() {
-    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
-    entityManager.persist(meetingDate);
-
-    final String email = "xxx@xxx.xxx";
-
-    final Translator existingTranslator = Factory.translator();
-    existingTranslator.setEmail(email);
-    entityManager.persist(existingTranslator);
-
-    final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).email(email).build();
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
-
-    assertEquals(APIExceptionType.TRANSLATOR_CREATE_DUPLICATE_EMAIL, ex.getExceptionType());
-    verifyNoInteractions(auditService);
-  }
-
-  @Test
-  public void testTranslatorCreateFailsOnUnknownCountry() {
+  public void testTranslatorCreateFailsOnInconsistantOnrData() {
     final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusDays(10));
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
     final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
-      .country("non existing country code")
+      .onrId(UUID.randomUUID().toString())
+      .isIndividualised(null)
       .build();
 
     final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.createTranslator(createDTO));
 
-    assertEquals(APIExceptionType.TRANSLATOR_CREATE_UNKNOWN_COUNTRY, ex.getExceptionType());
+    assertEquals(APIExceptionType.TRANSLATOR_ONR_ID_AND_INDIVIDUALISED_MISMATCH, ex.getExceptionType());
     verifyNoInteractions(auditService);
   }
 
@@ -561,6 +582,9 @@ class ClerkTranslatorServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
     final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate2);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     authorisation.setTermEndDate(LocalDate.now().plusDays(10));
 
@@ -597,6 +621,9 @@ class ClerkTranslatorServiceTest {
 
     final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).build();
 
+    final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
 
     assertResponseMatchesGet(response);
@@ -621,6 +648,9 @@ class ClerkTranslatorServiceTest {
 
     final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).country("DEU").build();
 
+    final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
 
     assertResponseMatchesGet(response);
@@ -636,6 +666,7 @@ class ClerkTranslatorServiceTest {
   private void assertTranslatorCommonFields(final TranslatorDTOCommonFields expected, final ClerkTranslatorDTO dto) {
     assertEquals(expected.identityNumber(), dto.identityNumber());
     assertEquals(expected.firstName(), dto.firstName());
+    assertEquals(expected.nickName(), dto.nickName());
     assertEquals(expected.lastName(), dto.lastName());
     assertEquals(expected.email(), dto.email());
     assertEquals(expected.phoneNumber(), dto.phoneNumber());
@@ -645,76 +676,6 @@ class ClerkTranslatorServiceTest {
     assertEquals(expected.country(), dto.country());
     assertEquals(expected.extraInformation(), dto.extraInformation());
     assertEquals(expected.isAssuranceGiven(), dto.isAssuranceGiven());
-  }
-
-  @Test
-  public void testTranslatorUpdateFailsOnDuplicateIdentityNumber() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
-
-    final String identityNumber = "xxx";
-
-    final Translator otherTranslator = Factory.translator();
-    otherTranslator.setIdentityNumber(identityNumber);
-
-    entityManager.persist(meetingDate);
-    entityManager.persist(translator);
-    entityManager.persist(authorisation);
-    entityManager.persist(otherTranslator);
-
-    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator)
-      .identityNumber(identityNumber)
-      .build();
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
-
-    assertEquals(APIExceptionType.TRANSLATOR_UPDATE_DUPLICATE_IDENTITY_NUMBER, ex.getExceptionType());
-    verifyNoInteractions(auditService);
-  }
-
-  @Test
-  public void testTranslatorUpdateFailsOnDuplicateEmail() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
-
-    final String email = "xxx@xxx.xxx";
-
-    final Translator otherTranslator = Factory.translator();
-    otherTranslator.setEmail(email);
-
-    entityManager.persist(meetingDate);
-    entityManager.persist(translator);
-    entityManager.persist(authorisation);
-    entityManager.persist(otherTranslator);
-
-    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).email(email).build();
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
-
-    assertEquals(APIExceptionType.TRANSLATOR_UPDATE_DUPLICATE_EMAIL, ex.getExceptionType());
-    verifyNoInteractions(auditService);
-  }
-
-  @Test
-  public void testTranslatorUpdateFailsOnUnknownCountry() {
-    final MeetingDate meetingDate = Factory.meetingDate();
-    final Translator translator = Factory.translator();
-    final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
-
-    entityManager.persist(meetingDate);
-    entityManager.persist(translator);
-    entityManager.persist(authorisation);
-
-    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator)
-      .country("non existing country code")
-      .build();
-
-    final APIException ex = assertThrows(APIException.class, () -> clerkTranslatorService.updateTranslator(updateDTO));
-
-    assertEquals(APIExceptionType.TRANSLATOR_UPDATE_UNKNOWN_COUNTRY, ex.getExceptionType());
-    verifyNoInteractions(auditService);
   }
 
   @Test
@@ -755,6 +716,9 @@ class ClerkTranslatorServiceTest {
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
     final ExaminationDate examinationDate = Factory.examinationDate();
 
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
     entityManager.persist(authorisation);
@@ -790,6 +754,9 @@ class ClerkTranslatorServiceTest {
     final MeetingDate meetingDate2 = Factory.meetingDate(LocalDate.now().minusDays(1));
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     entityManager.persist(meetingDate);
     entityManager.persist(meetingDate2);
@@ -844,6 +811,9 @@ class ClerkTranslatorServiceTest {
     final Authorisation authorisation2 = Factory.kktAuthorisation(translator, meetingDate);
     final Email email = Factory.email(EmailType.AUTHORISATION_EXPIRY);
     final AuthorisationTermReminder authorisationTermReminder = Factory.authorisationTermReminder(authorisation, email);
+
+    final PersonalData personalData = defaultPersonalData(translator.getOnrId());
+    when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
@@ -1004,6 +974,42 @@ class ClerkTranslatorServiceTest {
       .diaryNumber("012345");
   }
 
+  private PersonalData defaultPersonalData(final String onrId) {
+    return PersonalData
+      .builder()
+      .onrId(onrId)
+      .lastName("Suku")
+      .firstName("Etu")
+      .nickName("Etu")
+      .identityNumber("112233")
+      .individualised(true)
+      .hasIndividualisedAddress(false)
+      .build();
+  }
+
+  private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO) {
+    return defaultPersonalData(translatorDTO, UUID.randomUUID().toString());
+  }
+
+  private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO, final String onrId) {
+    return PersonalData
+      .builder()
+      .onrId(onrId)
+      .individualised(true)
+      .hasIndividualisedAddress(true)
+      .identityNumber(translatorDTO.identityNumber())
+      .firstName(translatorDTO.firstName())
+      .nickName(translatorDTO.nickName())
+      .lastName(translatorDTO.lastName())
+      .email(translatorDTO.email())
+      .phoneNumber(translatorDTO.phoneNumber())
+      .street(translatorDTO.street())
+      .town(translatorDTO.town())
+      .postalCode(translatorDTO.postalCode())
+      .country(translatorDTO.country())
+      .build();
+  }
+
   private TranslatorCreateDTO.TranslatorCreateDTOBuilder defaultTranslatorCreateDTOBuilder(
     final AuthorisationCreateDTO authorisation
   ) {
@@ -1011,6 +1017,7 @@ class ClerkTranslatorServiceTest {
       .builder()
       .identityNumber("aard")
       .firstName("Anne")
+      .nickName("Anne")
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
@@ -1030,8 +1037,11 @@ class ClerkTranslatorServiceTest {
       .builder()
       .id(translator.getId())
       .version(translator.getVersion())
+      .isIndividualised(true)
+      .hasIndividualisedAddress(true)
       .identityNumber("aard")
       .firstName("Anne")
+      .nickName("Anne")
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")

@@ -140,12 +140,22 @@ export class SerializationUtils {
   }
 
   static serializeClerkNewTranslator(translator: ClerkNewTranslator) {
-    const { isAssuranceGiven, authorisations, ...rest } = translator;
+    const {
+      onrId,
+      isIndividualised,
+      hasIndividualisedAddress,
+      isAssuranceGiven,
+      authorisations,
+      ...rest
+    } = translator;
     const textFields =
       SerializationUtils.getNonBlankClerkTranslatorTextFields(rest);
 
     return {
       ...textFields,
+      onrId,
+      isIndividualised,
+      hasIndividualisedAddress,
       isAssuranceGiven,
       authorisations: authorisations.map(
         SerializationUtils.serializeAuthorisation
@@ -157,6 +167,8 @@ export class SerializationUtils {
     const {
       id,
       version,
+      isIndividualised,
+      hasIndividualisedAddress,
       isAssuranceGiven,
       authorisations: _ignored,
       ...rest
@@ -168,6 +180,8 @@ export class SerializationUtils {
       ...textFields,
       id,
       version,
+      isIndividualised,
+      hasIndividualisedAddress,
       isAssuranceGiven,
     };
   }

@@ -17,12 +17,8 @@ public enum APIExceptionType {
   MEETING_DATE_DELETE_HAS_AUTHORISATIONS,
   MEETING_DATE_UPDATE_DUPLICATE_DATE,
   MEETING_DATE_UPDATE_HAS_AUTHORISATIONS,
-  TRANSLATOR_CREATE_DUPLICATE_EMAIL,
-  TRANSLATOR_CREATE_DUPLICATE_IDENTITY_NUMBER,
-  TRANSLATOR_CREATE_UNKNOWN_COUNTRY,
-  TRANSLATOR_UPDATE_DUPLICATE_EMAIL,
-  TRANSLATOR_UPDATE_DUPLICATE_IDENTITY_NUMBER,
-  TRANSLATOR_UPDATE_UNKNOWN_COUNTRY;
+  ONR_SAVE_EXCEPTION,
+  TRANSLATOR_ONR_ID_AND_INDIVIDUALISED_MISMATCH;
 
   public String getCode() {
     final StringBuilder codeBuilder = new StringBuilder();
@@ -30,7 +26,7 @@ public enum APIExceptionType {
     boolean capitaliseNext = false;
 
     for (int i = 0; i < name.length(); i++) {
-      char c = name.charAt(i);
+      final char c = name.charAt(i);
 
       if (c == '_') {
         capitaliseNext = true;

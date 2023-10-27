@@ -32,6 +32,14 @@ public class AuditService {
     log(operation, new Target.Builder().setField("id", Long.toString(id)).build(), Changes.EMPTY);
   }
 
+  public void logPersonSearchByIdentityNumber(final String identityNumber) {
+    log(
+      AkrOperation.PERSON_SEARCH_BY_IDENTITY_NUMBER,
+      new Target.Builder().setField("identityNumber", identityNumber).build(),
+      Changes.EMPTY
+    );
+  }
+
   public void logAuthorisation(final AkrOperation operation, final Translator translator, final long authorisationId) {
     log(
       operation,

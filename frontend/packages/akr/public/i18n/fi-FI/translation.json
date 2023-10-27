@@ -127,6 +127,7 @@
             "firstName": "Etunimet",
             "identityNumber": "Henkilötunnus",
             "lastName": "Sukunimi",
+            "nickName": "Kutsumanimi",
             "phoneNumber": "Puhelinnumero",
             "postalCode": "Postinumero",
             "street": "Katuosoite",
@@ -138,7 +139,8 @@
             "extraInformation": "Lisätiedot",
             "isAssuranceGiven": "Vakuutus annettu",
             "personalInformation": "Henkilötiedot"
-          }
+          },
+          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä"
         }
       },
       "contactRequestForm": {
@@ -397,6 +399,22 @@
         "toasts": {
           "success": "Kääntäjän tiedot tallennettiin!"
         }
+      },
+      "clerkPersonSearchPage": {
+        "buttons": {
+          "proceed": "Syötä manuaalisesti",
+          "search": "Suorita haku"
+        },
+        "noResult": {
+          "description": "Tällä henkilötunnuksella ei löytynyt tietoja. Tarkista onko henkilötunnus kirjoitettu oikein tai syötä tiedot manuaalisesti.",
+          "label": "Tietoja ei löytynyt"
+        },
+        "placeholder": "Syötä henkilötunnus",
+        "search": {
+          "description": "Järjestelmä hakee henkilötiedot automaattisesti oppijanumerorekisteristä.",
+          "label": "Hae tiedot oppijanumerorekisteristä"
+        },
+        "title": "Lisää kääntäjä"
       },
       "clerkSendEmailPage": {
         "characters": "merkkiä",

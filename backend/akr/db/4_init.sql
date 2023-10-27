@@ -11,7 +11,7 @@ VALUES ('2020-12-30'), ('2021-03-09'), ('2021-06-10'), ('2021-08-15'), ('2021-11
        ('2022-09-25'), ('2022-12-03'), ('2023-02-28'), ('2023-04-11'), ('2023-09-09'), ('2023-11-29');
 
 INSERT INTO translator(identity_number, first_name, last_name, email, phone_number, street, town, postal_code, country,
-                       extra_information, is_assurance_given)
+                       extra_information, is_assurance_given, onr_id)
 SELECT 'id' || i::text,
        first_names[mod(i, array_length(first_names, 1)) + 1],
        last_names[mod(i, array_length(last_names, 1)) + 1],
@@ -28,7 +28,8 @@ SELECT 'id' || i::text,
            WHEN 0 THEN 'LVA'
            ELSE country[mod(i, array_length(country, 1)) + 1] END,
        extra_information[mod(i, array_length(extra_information, 1)) + 1],
-       mod(i, 19) <> 0
+       mod(i, 19) <> 0,
+       '1.2.246.562.24.3123450' || lpad(i::text, 4, '0')
 FROM generate_series(1, 4900) AS i,
      (SELECT ('{Antti, Eero, Ilkka, Jari, Juha, Matti, Pekka, Timo, Iiro, Jukka, Kalle, ' ||
               'Kari, Marko, Mikko, Tapani, Ville, Anneli, Ella, Hanna, Iiris, Liisa, ' ||

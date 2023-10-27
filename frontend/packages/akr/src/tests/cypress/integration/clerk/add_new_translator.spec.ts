@@ -5,6 +5,9 @@ import { onClerkNewTranslatorPage } from 'tests/cypress/support/page-objects/cle
 import { onToast } from 'tests/cypress/support/page-objects/toast';
 import { createAPIErrorResponse } from 'tests/cypress/support/utils/api';
 
+const NEW_PERSON_SSN_NOT_IN_ONR = '090687-913J';
+const NEW_PERSON_SSN_EXISTS_IN_ONR = '170688-935N';
+
 beforeEach(() => {
   cy.intercept(APIEndpoints.ClerkTranslator, {
     fixture: 'clerk_translators_10.json',
@@ -20,12 +23,25 @@ beforeEach(() => {
 describe('ClerkAddNewTranslator', () => {
   it('should add new translator with authorisation successfully', () => {
     cy.intercept(
+      'GET',
+      APIEndpoints.ClerkPersonSearch +
+        '?identityNumber=' +
+        NEW_PERSON_SSN_NOT_IN_ONR,
+      ''
+    ).as('searchByIdentityNumber');
+    cy.intercept(
       'POST',
       APIEndpoints.ClerkTranslator,
       newTranslatorResponse
     ).as('createTranslatorResponse');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
+    onClerkNewTranslatorPage.typeSocialSecurityNumber(
+      NEW_PERSON_SSN_NOT_IN_ONR
+    );
+    onClerkNewTranslatorPage.clickSearchButton();
+    cy.wait('@searchByIdentityNumber');
+    onClerkNewTranslatorPage.clickProceedButton();
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationFields();
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationExtraInformation(
       'Lisätiedot'
@@ -50,7 +66,20 @@ describe('ClerkAddNewTranslator', () => {
   });
 
   it('should allow removing added authorisations', () => {
+    cy.intercept(
+      'GET',
+      APIEndpoints.ClerkPersonSearch +
+        '?identityNumber=' +
+        NEW_PERSON_SSN_EXISTS_IN_ONR,
+      newTranslatorResponse
+    ).as('searchByIdentityNumber');
+
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
+    onClerkNewTranslatorPage.typeSocialSecurityNumber(
+      NEW_PERSON_SSN_EXISTS_IN_ONR
+    );
+    onClerkNewTranslatorPage.clickSearchButton();
+    cy.wait('@searchByIdentityNumber');
     onClerkNewTranslatorPage.clickAddAuthorisationButton();
     onClerkNewTranslatorPage.fillOutAuthorisationFields();
     onClerkNewTranslatorPage.clickAuthorisationSaveButton();
@@ -62,12 +91,25 @@ describe('ClerkAddNewTranslator', () => {
 
   it('should not add new translator with missing fields', () => {
     cy.intercept(
+      'GET',
+      APIEndpoints.ClerkPersonSearch +
+        '?identityNumber=' +
+        NEW_PERSON_SSN_NOT_IN_ONR,
+      ''
+    ).as('searchByIdentityNumber');
+    cy.intercept(
       'POST',
       APIEndpoints.ClerkTranslator,
       createAPIErrorResponse()
     ).as('createTranslatorResponse');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
+    onClerkNewTranslatorPage.typeSocialSecurityNumber(
+      NEW_PERSON_SSN_NOT_IN_ONR
+    );
+    onClerkNewTranslatorPage.clickSearchButton();
+    cy.wait('@searchByIdentityNumber');
+    onClerkNewTranslatorPage.clickProceedButton();
 
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationFields([
       {
@@ -86,6 +128,11 @@ describe('ClerkAddNewTranslator', () => {
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationFields([
       {
         fieldName: 'firstName',
+        fieldType: 'input',
+        value: 'John',
+      },
+      {
+        fieldName: 'nickName',
         fieldType: 'input',
         value: 'John',
       },

@@ -36,6 +36,7 @@ export const translatorResponse = {
   version: 0,
   firstName: 'Ilkka',
   lastName: 'Eskola',
+  nickName: 'Ilkka',
   identityNumber: 'id2',
   email: 'translator2@example.invalid',
   phoneNumber: '+358401000002',
@@ -45,6 +46,60 @@ export const translatorResponse = {
   country: 'FIN',
   extraInformation:
     'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999.',
+  isAssuranceGiven: true,
+  authorisations: {
+    effective: [
+      {
+        id: 10001,
+        version: 0,
+        languagePair: {
+          from: 'CS',
+          to: 'SEKO',
+        },
+        basis: AuthorisationBasisEnum.AUT,
+        permissionToPublish: true,
+        diaryNumber: '10001',
+        termBeginDate: '2022-01-01',
+        termEndDate: '2022-07-01',
+        examinationDate: '2022-03-03',
+      },
+    ],
+    expiring: [],
+    expired: expiredAuthorisations,
+    expiredDeduplicated: expiredAuthorisations,
+    formerVir: [
+      {
+        id: 10003,
+        version: 0,
+        languagePair: {
+          from: 'CS',
+          to: 'SEKO',
+        },
+        basis: AuthorisationBasisEnum.VIR,
+        permissionToPublish: true,
+        diaryNumber: '10003',
+      },
+    ],
+  },
+};
+
+export const translatorFromOnrResponse = {
+  id: 3,
+  version: 0,
+  isIndividualised: true,
+  hasIndividualisedAddress: true,
+  firstName: 'Antti Kalle',
+  lastName: 'Alanen',
+  nickName: 'Antti',
+  identityNumber: '260875-9507',
+  email: 'antti.alanen@example.invalid',
+  phoneNumber: '+358401000002',
+  street: 'Runebergintie 2',
+  postalCode: '01200',
+  town: 'Turku',
+  country: 'suomi',
+  extraInformation:
+    'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen',
   isAssuranceGiven: true,
   authorisations: {
     effective: [

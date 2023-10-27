@@ -7,10 +7,13 @@ import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
 import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.koodisto.PostalCodeService;
+import fi.oph.akr.util.MigrationUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,6 +38,7 @@ public class PublicTranslatorService {
   private final AuthorisationRepository authorisationRepository;
   private final TranslatorRepository translatorRepository;
   private final PostalCodeService postalCodeService;
+  private final OnrService onrService;
 
   @Cacheable(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS)
   @Transactional(readOnly = true)
@@ -45,15 +49,26 @@ public class PublicTranslatorService {
       .collect(Collectors.groupingBy(TranslatorLanguagePairProjection::translatorId));
 
     final List<Translator> translators = translatorRepository.findAllById(translatorLanguagePairs.keySet());
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     final List<Translator> translatorsWithEmail = translators
       .stream()
-      .filter(t -> t.hasEmail())
+      .filter(t -> {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
+        return personalData != null && personalData.getEmail() != null;
+      })
       .collect(Collectors.toCollection(ArrayList::new));
 
     final List<Translator> translatorsWithoutEmail = translators
       .stream()
-      .filter(t -> !t.hasEmail())
+      .filter(t -> {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(t.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
+        return personalData != null && personalData.getEmail() == null;
+      })
       .collect(Collectors.toCollection(ArrayList::new));
 
     Collections.shuffle(translatorsWithEmail);
@@ -63,12 +78,16 @@ public class PublicTranslatorService {
       .concat(translatorsWithEmail.stream(), translatorsWithoutEmail.stream())
       .map(translator -> {
         final List<LanguagePairDTO> languagePairDTOs = getLanguagePairDTOs(translatorLanguagePairs, translator);
-        return createPublicTranslatorDTO(translator, languagePairDTOs);
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+
+        return toDTO(translator, personalData, languagePairDTOs);
       })
       .toList();
 
     final LanguagePairsDictDTO languagePairsDictDTO = getLanguagePairsDictDTO();
-    final List<PublicTownDTO> towns = getDistinctTowns(translators);
+    final List<PublicTownDTO> towns = getDistinctTowns(translators, personalDatas);
 
     return PublicTranslatorResponseDTO
       .builder()
@@ -89,17 +108,18 @@ public class PublicTranslatorService {
       .toList();
   }
 
-  private PublicTranslatorDTO createPublicTranslatorDTO(
+  private PublicTranslatorDTO toDTO(
     final Translator translator,
+    final PersonalData personalData,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final String country = resolveCountry(translator);
-    final Pair<String, String> townTranslated = resolveTownTranslated(translator.getTown(), country);
+    final String country = resolveCountry(personalData);
+    final Pair<String, String> townTranslated = resolveTownTranslated(personalData.getTown(), country);
     return PublicTranslatorDTO
       .builder()
       .id(translator.getId())
-      .firstName(translator.getFirstName())
-      .lastName(translator.getLastName())
+      .firstName(personalData.getFirstName())
+      .lastName(personalData.getLastName())
       .town(townTranslated.getLeft())
       .country(country)
       .languagePairs(languagePairDTOS)
@@ -113,15 +133,22 @@ public class PublicTranslatorService {
     return LanguagePairsDictDTO.builder().from(fromLangs).to(toLangs).build();
   }
 
-  private List<PublicTownDTO> getDistinctTowns(final Collection<Translator> translators) {
+  private List<PublicTownDTO> getDistinctTowns(
+    final Collection<Translator> translators,
+    final Map<String, PersonalData> personalDatas
+  ) {
     return translators
       .stream()
       .map(translator -> {
-        if (!StringUtils.hasText(translator.getTown())) {
+        // TODO: M.S. after migration is done use:
+        //final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+
+        if (!StringUtils.hasText(personalData.getTown())) {
           return null;
         }
-        final String country = resolveCountry(translator);
-        final Pair<String, String> townTranslated = resolveTownTranslated(translator.getTown(), country);
+        final String country = resolveCountry(personalData);
+        final Pair<String, String> townTranslated = resolveTownTranslated(personalData.getTown(), country);
         return PublicTownDTO
           .builder()
           .name(townTranslated.getLeft())
@@ -142,8 +169,8 @@ public class PublicTranslatorService {
     return Pair.of(town, town);
   }
 
-  private static String resolveCountry(final Translator translator) {
-    return Optional.ofNullable(translator.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
+  private static String resolveCountry(final PersonalData personalData) {
+    return Optional.ofNullable(personalData.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
   }
 
   private Comparator<PublicTownDTO> publicTownDTOCompare() {
