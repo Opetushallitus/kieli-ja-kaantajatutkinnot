@@ -63,7 +63,7 @@ Array [
         <p
           className="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
         >
-          component.table.pagination.displayedRowsLabel
+          component.table.pagination.displayedRowsAriaLabel
         </p>
         <div
           className="MuiTablePagination-actions"
@@ -1004,7 +1004,7 @@ Array [
         <p
           className="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
         >
-          component.table.pagination.displayedRowsLabel
+          component.table.pagination.displayedRowsAriaLabel
         </p>
         <div
           className="MuiTablePagination-actions"
