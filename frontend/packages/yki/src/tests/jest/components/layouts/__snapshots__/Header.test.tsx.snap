@@ -18,6 +18,76 @@ Array [
     className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic header css-hip9hq-MuiPaper-root-MuiAppBar-root"
   >
     <div
+      className="session-header columns gapped"
+    >
+      <div
+        className="session-header__open-registrations columns gapped-xxs"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          header.sessionState.activeRegistrations
+        </p>
+        <a
+          href="/yki/ilmoittautuminen/tutkintotilaisuus/1"
+          onClick={[Function]}
+        >
+          header.sessionState.continueToRegistration
+        </a>
+      </div>
+      <p
+        className="MuiTypography-root MuiTypography-body1 columns gapped-xxs session-header__user-details css-ahj2mt-MuiTypography-root"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium session-header__user-icon css-i4bv87-MuiSvgIcon-root"
+          data-testid="PersonIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+          />
+        </svg>
+        Susanna Uusivälimerkki
+      </p>
+      <a
+        href="/yki/auth/logout?redirect=http://localhost/yki/uloskirjautuminen-onnistui"
+      >
+        <button
+          className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onContextMenu={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex={0}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="LogoutOutlinedIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4-4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5z"
+            />
+          </svg>
+          header.sessionState.logOut
+        </button>
+      </a>
+    </div>
+    <div
       className="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular header__toolbar css-hyum1k-MuiToolbar-root"
     >
       <div
