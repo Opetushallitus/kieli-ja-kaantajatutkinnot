@@ -20,6 +20,7 @@ import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
+  setLoadingPayment,
 } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
@@ -101,6 +102,7 @@ export const PublicEnrollmentControlButtons = ({
             enrollment.id
           );
         }, 200);
+        dispatch(setLoadingPayment());
       } else {
         navigate(
           RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId)

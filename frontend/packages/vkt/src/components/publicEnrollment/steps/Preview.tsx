@@ -3,15 +3,16 @@ import { Checkbox, FormControlLabel, FormHelperText } from '@mui/material';
 import { useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { H2, Text, WebLink } from 'shared/components';
-import { Color } from 'shared/enums';
+import { APIResponseStatus, Color } from 'shared/enums';
 
 import { PersonDetails } from 'components/publicEnrollment/steps/PersonDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
-import { useAppDispatch } from 'configs/redux';
+import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { AppRoutes } from 'enums/app';
 import { PartialExamsAndSkills } from 'interfaces/common/enrollment';
 import { PublicEnrollment } from 'interfaces/publicEnrollment';
 import { updatePublicEnrollment } from 'redux/reducers/publicEnrollment';
+import { publicEnrollmentSelector } from 'redux/selectors/publicEnrollment';
 
 const ContactDetails = ({
   email,
@@ -187,6 +188,8 @@ export const Preview = ({
 }) => {
   const translateCommon = useCommonTranslation();
 
+  const { paymentLoadingStatus } = useAppSelector(publicEnrollmentSelector);
+
   useEffect(() => {
     setIsStepValid(enrollment.privacyStatementConfirmation);
   }, [setIsStepValid, enrollment]);
@@ -224,7 +227,10 @@ export const Preview = ({
                 onClick={handleCheckboxClick}
                 color={Color.Secondary}
                 checked={enrollment.privacyStatementConfirmation}
-                disabled={isLoading}
+                disabled={
+                  isLoading ||
+                  paymentLoadingStatus === APIResponseStatus.InProgress
+                }
               />
             }
             label={<PrivacyStatementCheckboxLabel />}
