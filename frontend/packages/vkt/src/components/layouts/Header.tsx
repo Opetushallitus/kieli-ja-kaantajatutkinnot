@@ -46,6 +46,7 @@ export const Header = (): JSX.Element => {
         {isPhone && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
             <LangSelector
+              usage="header"
               changeLang={changeLang}
               getCurrentLang={getCurrentLang}
               langDict={langDict}
@@ -88,6 +89,7 @@ export const Header = (): JSX.Element => {
             {isAuthenticated && <ClerkHeaderButtons />}
             {!isPhone && (
               <LangSelector
+                usage="header"
                 changeLang={changeLang}
                 getCurrentLang={getCurrentLang}
                 langDict={langDict}

@@ -51,11 +51,11 @@ Array [
       >
         <nav
           aria-label="header.accessibility.langSelectorAriaLabel"
-          className="lang-selector"
+          className="lang-selector__header"
         >
           <svg
             aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-ptiqhd-MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__header__icon css-ptiqhd-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"
