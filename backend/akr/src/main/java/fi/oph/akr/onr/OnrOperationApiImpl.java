@@ -200,7 +200,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       // TODO: M.S. after migration is done delete below lines:
       // LOG.error("Error code {} from ONR", response.getStatusCode());
       // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
-      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException(
         "ONR service called with PUT /henkilo returned unexpected status code: " + response.getStatusCode()
       );
