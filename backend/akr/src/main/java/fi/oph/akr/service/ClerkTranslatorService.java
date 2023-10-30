@@ -376,7 +376,7 @@ public class ClerkTranslatorService {
       .firstName(dto.firstName())
       .nickName(dto.nickName())
       .identityNumber(dto.identityNumber())
-      .email(dto.email())
+      .email(dto.email() != null ? dto.email().trim() : dto.email())
       .phoneNumber(dto.phoneNumber())
       .street(dto.street())
       .postalCode(dto.postalCode())
@@ -390,7 +390,6 @@ public class ClerkTranslatorService {
     // currently it is needed because these columns cannot be non-null nor non-unique
     translator.setFirstName(dto.firstName());
     translator.setLastName(dto.lastName());
-    translator.setEmail(dto.email());
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     translator.setExtraInformation(dto.extraInformation());

@@ -816,8 +816,4 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="2023-10-30-translator-remove-email-uniqueness" author="msevalnev" dbms="postgresql">
-        <dropUniqueConstraint tableName="translator" constraintName="uk_translator_email" />
-    </changeSet>
-
 </databaseChangeLog>

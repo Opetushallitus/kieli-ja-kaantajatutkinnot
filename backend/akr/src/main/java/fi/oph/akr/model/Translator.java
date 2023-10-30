@@ -53,7 +53,7 @@ public class Translator extends BaseEntity {
   private String lastName;
 
   @Size(max = 255)
-  @Column(name = "email")
+  @Column(name = "email", unique = true)
   private String email;
 
   @Column(name = "phone_number")
