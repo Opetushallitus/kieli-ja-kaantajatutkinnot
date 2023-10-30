@@ -1,28 +1,17 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { OPHLogoViewer, SkipLink } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { YkiLangSelector } from 'components/elements/YkiLangSelector';
 import { PublicNavTabs } from 'components/layouts/publicHeader/PublicNavTabs';
 import { SessionStateHeader } from 'components/layouts/SessionStateHeader';
-import {
-  changeLang,
-  getCurrentLang,
-  getSupportedLangs,
-  useCommonTranslation,
-} from 'configs/i18n';
+import { getCurrentLang, useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
 export const Header = (): JSX.Element => {
   const translateCommon = useCommonTranslation();
-  const [finnish, swedish, english] = getSupportedLangs();
-
-  const langDict = new Map<string, AppLanguage>([
-    [translateCommon('header.lang.fi'), finnish],
-    [translateCommon('header.lang.sv'), swedish],
-    [translateCommon('header.lang.en'), english],
-  ]);
 
   const logoRedirectURL = AppRoutes.Registration;
   const { isPhone } = useWindowProperties();
@@ -36,14 +25,7 @@ export const Header = (): JSX.Element => {
       <AppBar className="header" position="static">
         {isPhone && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
-            <LangSelector
-              changeLang={changeLang}
-              getCurrentLang={getCurrentLang}
-              langDict={langDict}
-              langSelectorAriaLabel={translateCommon(
-                'header.accessibility.langSelectorAriaLabel'
-              )}
-            />
+            <YkiLangSelector usage="header" />
           </Toolbar>
         )}
         <SessionStateHeader />
@@ -63,16 +45,7 @@ export const Header = (): JSX.Element => {
             <PublicNavTabs />
           </div>
           <div className="header__right">
-            {!isPhone && (
-              <LangSelector
-                changeLang={changeLang}
-                getCurrentLang={getCurrentLang}
-                langDict={langDict}
-                langSelectorAriaLabel={translateCommon(
-                  'header.accessibility.langSelectorAriaLabel'
-                )}
-              />
-            )}
+            {!isPhone && <YkiLangSelector usage="header" />}
           </div>
         </Toolbar>
       </AppBar>

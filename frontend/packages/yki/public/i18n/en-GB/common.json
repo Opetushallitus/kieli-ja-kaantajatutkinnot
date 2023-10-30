@@ -24,6 +24,18 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "cookieBanner": {
+        "acceptButton": {
+          "ariaLabel": "Accept cookies",
+          "label": "Accept"
+        },
+        "description": "This web site uses mandatory cookies to be functional.",
+        "readMoreLink": {
+          "href": "https://TODO.FIXME",
+          "label": "Read more about cookies."
+        },
+        "title": "Accept cookies"
+      },
       "dates": {
         "dateTimeFormat": "l [at] HH:mm"
       },

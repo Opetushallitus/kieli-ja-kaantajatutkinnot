@@ -3,7 +3,7 @@
 exports[`Header should render Header correctly 1`] = `
 Array [
   <a
-    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-tvmhkj-MuiTypography-root-MuiLink-root"
+    className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1vrl3mg-MuiTypography-root-MuiLink-root"
     href="#main-content"
     onBlur={[Function]}
     onFocus={[Function]}
@@ -51,11 +51,11 @@ Array [
       >
         <nav
           aria-label="accessibility.langSelectorAriaLabel"
-          className="lang-selector"
+          className="lang-selector__header"
         >
           <svg
             aria-hidden={true}
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__icon css-ptiqhd-MuiSvgIcon-root"
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall lang-selector__header__icon css-ptiqhd-MuiSvgIcon-root"
             data-testid="LanguageOutlinedIcon"
             focusable="false"
             viewBox="0 0 24 24"

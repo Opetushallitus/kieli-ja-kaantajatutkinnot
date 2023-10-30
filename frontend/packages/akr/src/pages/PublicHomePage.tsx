@@ -2,6 +2,7 @@ import { Box, Grid } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { CookieBanner, Text } from 'shared/components';
 
+import { AkrLangSelector } from 'components/common/AkrLangSelector';
 import { PublicTranslatorGrid } from 'components/publicTranslator/PublicTranslatorGrid';
 import { useAppTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -30,6 +31,7 @@ export const PublicHomePage: FC = () => {
         cookieTag="cookie-consent-akr"
         buttonAriaLabel={t('buttonAriaLabel')}
         path="/akr"
+        languageSelector={<AkrLangSelector usage="dialog" />}
       >
         <Text data-testid="cookie-banner-description">{t('description')}</Text>
       </CookieBanner>

@@ -1,20 +1,14 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import {
-  LangSelector,
-  OPHClerkLogo,
-  OPHLogoViewer,
-  SkipLink,
-} from 'shared/components';
-import { AppLanguage, Direction } from 'shared/enums';
+import { OPHClerkLogo, OPHLogoViewer, SkipLink } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
+import { AkrLangSelector } from 'components/common/AkrLangSelector';
 import { ClerkNavTabs } from 'components/layouts//clerkHeader/ClerkNavTabs';
 import { ClerkHeaderButtons } from 'components/layouts/clerkHeader/ClerkHeaderButtons';
 import {
-  changeLang,
   getCurrentLang,
-  getSupportedLangs,
   useAppTranslation,
   useCommonTranslation,
 } from 'configs/i18n';
@@ -26,13 +20,6 @@ export const Header = (): JSX.Element => {
     keyPrefix: 'akr.component.header',
   });
   const translateCommon = useCommonTranslation();
-  const [finnish, swedish, english] = getSupportedLangs();
-
-  const langDict = new Map<string, AppLanguage>([
-    [t('lang.fi'), finnish],
-    [t('lang.sv'), swedish],
-    [t('lang.en'), english],
-  ]);
 
   const { isPhone } = useWindowProperties();
   const { isAuthenticated, isClerkUI } = useAuthentication();
@@ -46,12 +33,7 @@ export const Header = (): JSX.Element => {
       <AppBar className="header" position="static">
         {isPhone && (
           <Toolbar className="header__toolbar header__toolbar__mobile-lang-select">
-            <LangSelector
-              changeLang={changeLang}
-              getCurrentLang={getCurrentLang}
-              langDict={langDict}
-              langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
-            />
+            <AkrLangSelector usage="header" />
           </Toolbar>
         )}
         <Toolbar className="header__toolbar">
@@ -79,14 +61,7 @@ export const Header = (): JSX.Element => {
           </div>
           <div className="header__right">
             {isAuthenticated && <ClerkHeaderButtons />}
-            {!isPhone && (
-              <LangSelector
-                changeLang={changeLang}
-                getCurrentLang={getCurrentLang}
-                langDict={langDict}
-                langSelectorAriaLabel={t('accessibility.langSelectorAriaLabel')}
-              />
-            )}
+            {!isPhone && <AkrLangSelector usage="header" />}
           </div>
         </Toolbar>
       </AppBar>

@@ -24,6 +24,18 @@
         }
       },
       "contactEmail": "kielitutkinnot@oph.fi",
+      "cookieBanner": {
+        "acceptButton": {
+          "ariaLabel": "Hyväksy evästeet",
+          "label": "Hyväksy"
+        },
+        "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
+        "readMoreLink": {
+          "href": "https://TODO.FIXME",
+          "label": "Lue lisätietoa evästeistä."
+        },
+        "title": "Hyväksy evästeet"
+      },
       "dates": {
         "dateTimeFormat": "l [klo] HH.mm"
       },

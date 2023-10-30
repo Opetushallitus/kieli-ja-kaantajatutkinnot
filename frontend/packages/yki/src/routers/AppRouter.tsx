@@ -1,9 +1,17 @@
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { FC, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Notifier, ScrollToTop } from 'shared/components';
+import {
+  CookieBanner,
+  Notifier,
+  ScrollToTop,
+  Text,
+  WebLink,
+} from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { TitlePage } from 'shared/utils';
 
+import { YkiLangSelector } from 'components/elements/YkiLangSelector';
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
@@ -46,6 +54,26 @@ export const AppRouter: FC = () => {
         <Header />
         <Notifier />
         <ScrollToTop />
+        <CookieBanner
+          languageSelector={<YkiLangSelector usage="dialog" />}
+          title={translateCommon('cookieBanner.title')}
+          buttonText={translateCommon('cookieBanner.acceptButton.label')}
+          cookieTag={'cookie-consent-yki'}
+          buttonAriaLabel={translateCommon(
+            'cookieBanner.acceptButton.ariaLabel'
+          )}
+          path={'/yki'}
+        >
+          <Text>
+            {translateCommon('cookieBanner.description')}
+            <br aria-hidden={true} />
+            <WebLink
+              href={translateCommon('cookieBanner.readMoreLink.href')}
+              label={translateCommon('cookieBanner.readMoreLink.label')}
+              endIcon={<OpenInNewIcon />}
+            />
+          </Text>
+        </CookieBanner>
         <main className="content" id="main-content">
           <div className="content__container">
             <Routes>
