@@ -253,18 +253,23 @@ public class ClerkTranslatorService {
     throw new NotFoundException(String.format("Translator with id: %d not found", translatorId));
   }
 
+  // TODO: M.S. after data migration is done make this transactional again
+  //@Transactional
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
-  @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
     translator.assertVersion(dto.version());
+
+    // TODO: M.S. after data migration is done remove the below code
+    copyDtoFieldsToTranslator(dto, translator);
+    translatorRepository.flush();
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     final PersonalData personalData = createPersonalData(translator.getOnrId(), dto);
     validatePersonalData(personalData);
     onrService.updatePersonalData(personalData);
 
     copyDtoFieldsToTranslator(dto, translator);
-
     translatorRepository.flush();
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
@@ -385,6 +390,7 @@ public class ClerkTranslatorService {
     // currently it is needed because these columns cannot be non-null nor non-unique
     translator.setFirstName(dto.firstName());
     translator.setLastName(dto.lastName());
+    translator.setEmail(dto.email());
     //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     translator.setExtraInformation(dto.extraInformation());
