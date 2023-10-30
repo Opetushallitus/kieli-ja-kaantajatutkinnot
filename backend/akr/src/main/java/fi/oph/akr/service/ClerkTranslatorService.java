@@ -253,17 +253,11 @@ public class ClerkTranslatorService {
     throw new NotFoundException(String.format("Translator with id: %d not found", translatorId));
   }
 
-  // TODO: M.S. after data migration is done make this transactional again
-  //@Transactional
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
+  @Transactional
   public ClerkTranslatorDTO updateTranslator(final TranslatorUpdateDTO dto) {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
     translator.assertVersion(dto.version());
-
-    // TODO: M.S. after data migration is done remove the below code
-    copyDtoFieldsToTranslator(dto, translator);
-    translatorRepository.flush();
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     final PersonalData personalData = createPersonalData(translator.getOnrId(), dto);
     validatePersonalData(personalData);
