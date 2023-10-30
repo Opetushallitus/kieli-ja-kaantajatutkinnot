@@ -10,6 +10,7 @@ describe('LangSelector', () => {
     const tree = renderer
       .create(
         <LangSelector
+          usage="header"
           langDict={langDict}
           changeLang={changeLang}
           langSelectorAriaLabel="aria-label"
@@ -26,6 +27,7 @@ describe('LangSelector', () => {
 
     render(
       <LangSelector
+        usage="header"
         langDict={langDict}
         changeLang={changeLang}
         langSelectorAriaLabel="aria-label"

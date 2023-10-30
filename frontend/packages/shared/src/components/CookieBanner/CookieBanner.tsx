@@ -1,14 +1,14 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import Cookies from 'js-cookie';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 
 import { Color, Variant } from '../../enums/common';
-import { useWindowProperties } from '../../hooks';
 import { CustomButton } from '../CustomButton/CustomButton';
 
 import './CookieBanner.scss';
 
 type CookieBannerProps = {
+  languageSelector: ReactNode;
   title: string;
   buttonText: string;
   cookieTag: string;
@@ -17,6 +17,7 @@ type CookieBannerProps = {
 };
 
 export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
+  languageSelector,
   title,
   buttonText,
   cookieTag,
@@ -25,8 +26,6 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   path,
 }) => {
   const [open, setOpen] = useState(false);
-
-  const { isDesktop } = useWindowProperties();
 
   useEffect(() => {
     if (!Cookies.get(cookieTag)) {
@@ -43,41 +42,26 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      maxWidth={false}
-      fullWidth
-      sx={{
-        '& .MuiPaper-root': {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          maxWidth: '100%',
-          margin: 0,
-          borderRadius: 0,
-        },
-      }}
-    >
+    <Dialog open={open}>
       <div className="cookie-banner__content">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <div
-            className={`cookie-banner__content__dialog-content gapped space-between ${
-              isDesktop ? 'columns' : 'rows'
-            }`}
-          >
+        {languageSelector}
+        <DialogTitle className="cookie-banner__content__dialog-title">
+          {title}
+        </DialogTitle>
+        <DialogContent sx={{ padding: 0 }}>
+          <div className="cookie-banner__content__dialog-content gapped space-between rows">
             {children}
-            <CustomButton
-              aria-label={buttonAriaLabel}
-              className="cookie-banner__content__accept-button"
-              data-testid="cookie-banner-accept-button"
-              color={Color.Secondary}
-              variant={Variant.Contained}
-              onClick={handleAcceptCookies}
-            >
-              {buttonText}
-            </CustomButton>
           </div>
+          <CustomButton
+            aria-label={buttonAriaLabel}
+            className="cookie-banner__content__accept-button"
+            data-testid="cookie-banner-accept-button"
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            onClick={handleAcceptCookies}
+          >
+            {buttonText}
+          </CustomButton>
         </DialogContent>
       </div>
     </Dialog>

@@ -14,6 +14,7 @@ interface LangSelectorProps {
   getCurrentLang: () => AppLanguage;
   langDict: Map<string, AppLanguage>;
   langSelectorAriaLabel: string;
+  usage: 'header' | 'dialog';
 }
 
 export const LangSelector: FC<LangSelectorProps> = ({
@@ -21,13 +22,15 @@ export const LangSelector: FC<LangSelectorProps> = ({
   getCurrentLang,
   langDict,
   langSelectorAriaLabel,
+  usage,
 }) => {
   const currentLang = getCurrentLang();
   const languageEntries = Array.from(langDict.entries());
+  const cssClass = `lang-selector__${usage}`;
 
   return (
-    <nav className="lang-selector" aria-label={langSelectorAriaLabel}>
-      <LanguageOutlinedIcon className="lang-selector__icon" fontSize="small" />
+    <nav className={cssClass} aria-label={langSelectorAriaLabel}>
+      <LanguageOutlinedIcon className={cssClass + '__icon'} fontSize="small" />
       {languageEntries.map((entry, idx) => {
         const [languageName, appLanguage] = entry;
         const addDivider = idx < languageEntries.length - 1;

@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.2] - 2023-11-08
+
+### Changed
+
+- Redesigned cookie banner that also incorporates a language selector.
+- Redesigned LangSelector to support different styling depending on its usage context
+
 ## [1.10.1] - 2023-11-07
 
 ### Changed
