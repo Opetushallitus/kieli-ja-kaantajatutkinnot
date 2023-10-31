@@ -39,7 +39,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
   @Override
   public Map<String, PersonalData> fetchPersonalDatas(final List<String> onrIds) throws Exception {
     // /henkilo/masterHenkilosByOidList might be usable as an endpoint for fetching master person data for persons
-    // which have been marked  passive
+    // which have been  marked  passive
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/henkilotByHenkiloOidList")
       .setMethod(Methods.POST)
