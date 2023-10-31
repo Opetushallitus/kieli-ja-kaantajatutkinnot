@@ -10,7 +10,6 @@ import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
 import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
 import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
 import { ClerkNewTranslatorPage } from 'pages/clerk/ClerkNewTranslatorPage';
-import { ClerkPersonSearchPage } from 'pages/clerk/ClerkPersonSearchPage';
 import { ClerkSendEmailPage } from 'pages/clerk/ClerkSendEmailPage';
 import { ClerkTranslatorOverviewPage } from 'pages/clerk/ClerkTranslatorOverviewPage';
 import { ExaminationDatesPage } from 'pages/ExaminationDatesPage';
@@ -63,10 +62,6 @@ export const AppRouter: FC = () => {
               <Route
                 path={AppRoutes.ClerkTranslatorOverviewPage}
                 element={<ClerkTranslatorOverviewPage />}
-              />
-              <Route
-                path={AppRoutes.ClerkPersonSearchPage}
-                element={<ClerkPersonSearchPage />}
               />
               <Route
                 path={AppRoutes.ClerkNewTranslatorPage}

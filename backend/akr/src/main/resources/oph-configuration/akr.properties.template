@@ -14,8 +14,3 @@ virkailija.cas.login-url=${virkailija.cas.base-url}/cas/login
 
 email.sending-enabled=true
 email.service-url=${virkailija.host.alb}/ryhmasahkoposti-service/email/firewall
-
-onr.enabled=true
-onr.service-url=https://{{host_virkailija}}/oppijanumerorekisteri-service
-onr.cas.username={{akr_onr_cas_username}}
-onr.cas.password={{akr_onr_cas_password}}

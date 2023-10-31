@@ -1,6 +1,5 @@
 export enum APIEndpoints {
   PublicTranslator = '/akr/api/v1/translator',
-  ClerkPersonSearch = '/akr/api/v1/clerk/person',
   ClerkTranslator = '/akr/api/v1/clerk/translator',
   ContactRequest = '/akr/api/v1/translator/contact-request',
   Authorisation = '/akr/api/v1/clerk/translator/authorisation',

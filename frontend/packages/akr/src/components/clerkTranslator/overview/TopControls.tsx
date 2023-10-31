@@ -5,17 +5,13 @@ import { Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
-export const BackButton = ({
-  to = AppRoutes.ClerkHomePage,
-}: {
-  to?: AppRoutes;
-}) => {
+export const TopControls = () => {
   const translateCommon = useCommonTranslation();
 
   return (
     <div className="columns">
       <CustomButtonLink
-        to={to}
+        to={AppRoutes.ClerkHomePage}
         className="color-secondary-dark"
         variant={Variant.Text}
         startIcon={<ArrowBackIosOutlined />}

@@ -13,6 +13,16 @@ beforeEach(() => {
 });
 
 describe('ClerkTranslatorOverview:Page', () => {
+  it('should display correct translator details', () => {
+    onClerkTranslatorOverviewPage.expectedEnabledAddAuthorisationButton();
+    onClerkTranslatorOverviewPage.expectEnabledEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectTranslatorDetailsFields({
+      ...translatorResponse,
+      country: 'Suomi',
+    });
+  });
+
   it('should display a "not found" message if no translator exists with the id given as the route parameter', () => {
     onClerkTranslatorOverviewPage.navigateById(1234567890);
     onClerkTranslatorOverviewPage.expectTranslatorNotFoundText();

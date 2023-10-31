@@ -77,18 +77,6 @@ class ClerkTranslatorOverviewPage {
       .type(newValue);
   }
 
-  expectDisabledTranslatorField(fieldName: string, fieldType: string) {
-    this.elements
-      .translatorDetailsField(fieldName, fieldType)
-      .should('be.disabled');
-  }
-
-  expectEnabledTranslatorField(fieldName: string, fieldType: string) {
-    this.elements
-      .translatorDetailsField(fieldName, fieldType)
-      .should('be.enabled');
-  }
-
   toggleAssuranceSwitch() {
     this.elements.assuranceSwitch().should('be.visible').click();
   }

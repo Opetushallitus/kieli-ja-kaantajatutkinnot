@@ -3,12 +3,6 @@ import { newTranslatorBasicInformationFields } from 'tests/cypress/fixtures/util
 
 class ClerkNewTranslatorPage {
   elements = {
-    socialSecurityNumberField: () =>
-      cy.findByTestId('clerk-person-search-page__ssn__field'),
-    socialSecurityNumberSearchButton: () =>
-      cy.findByTestId('clerk-person-search-page__ssn__search-button'),
-    proceedButton: () =>
-      cy.findByTestId('clerk-person-search-page__proceed-button'),
     addNewTranslatorButton: () =>
       cy.findByTestId('clerk-translator-registry__add-new-translator'),
     newTranslatorBasicInformationField: (field: string, fieldType: string) =>
@@ -46,24 +40,6 @@ class ClerkNewTranslatorPage {
     authorisationsTable: () =>
       cy.findByTestId('clerk-translator-details__authorisations-table'),
   };
-
-  typeSocialSecurityNumber(socialSecurityNumber: string) {
-    this.elements
-      .socialSecurityNumberField()
-      .should('be.visible')
-      .type(socialSecurityNumber);
-  }
-
-  clickSearchButton() {
-    this.elements
-      .socialSecurityNumberSearchButton()
-      .should('be.visible')
-      .click();
-  }
-
-  clickProceedButton() {
-    this.elements.proceedButton().should('be.visible').click();
-  }
 
   clickAddNewTranslatorButton() {
     this.elements.addNewTranslatorButton().click();

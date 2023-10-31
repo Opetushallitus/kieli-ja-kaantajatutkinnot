@@ -4,7 +4,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { APIErrorReducer } from 'redux/reducers/APIError';
 import { authorisationReducer } from 'redux/reducers/authorisation';
 import { clerkNewTranslatorReducer } from 'redux/reducers/clerkNewTranslator';
-import { clerkPersonSearchReducer } from 'redux/reducers/clerkPersonSearch';
 import { clerkTranslatorReducer } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorEmailReducer } from 'redux/reducers/clerkTranslatorEmail';
 import { clerkTranslatorOverviewReducer } from 'redux/reducers/clerkTranslatorOverview';
@@ -24,7 +23,6 @@ const store = configureStore({
     clerkTranslatorEmail: clerkTranslatorEmailReducer,
     clerkTranslatorOverview: clerkTranslatorOverviewReducer,
     clerkNewTranslator: clerkNewTranslatorReducer,
-    clerkPersonSearch: clerkPersonSearchReducer,
     contactRequest: contactRequestReducer,
     publicUIView: publicUIViewReducer,
     clerkUser: clerkUserReducer,

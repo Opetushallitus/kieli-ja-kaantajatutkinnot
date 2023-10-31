@@ -1,14 +1,8 @@
 package fi.oph.akr.config;
 
-import fi.oph.akr.onr.OnrOperationApi;
-import fi.oph.akr.onr.OnrOperationApiImpl;
-import fi.oph.akr.onr.mock.OnrOperationApiMock;
 import fi.oph.akr.service.email.sender.EmailSender;
 import fi.oph.akr.service.email.sender.EmailSenderNoOp;
 import fi.oph.akr.service.email.sender.EmailSenderViestintapalvelu;
-import fi.vm.sade.javautils.nio.cas.CasClient;
-import fi.vm.sade.javautils.nio.cas.CasClientBuilder;
-import fi.vm.sade.javautils.nio.cas.CasConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,38 +28,10 @@ public class AppConfig {
 
   @Bean
   @ConditionalOnProperty(name = "app.email.sending-enabled", havingValue = "true")
-  public EmailSender emailSender(@Value("${app.email.service-url}") final String emailServiceUrl) {
+  public EmailSender emailSender(@Value("${app.email.service-url}") String emailServiceUrl) {
     LOG.info("emailServiceUrl: {}", emailServiceUrl);
     final WebClient webClient = webClientBuilderWithCallerId().baseUrl(emailServiceUrl).build();
     return new EmailSenderViestintapalvelu(webClient, Constants.SERVICENAME, Constants.EMAIL_SENDER_NAME);
-  }
-
-  @Bean
-  @ConditionalOnProperty(name = "app.onr.enabled", havingValue = "false")
-  public OnrOperationApi onrOperationApiMock() {
-    LOG.warn("OnrOperationApiMock in use");
-    return new OnrOperationApiMock();
-  }
-
-  @Bean
-  @ConditionalOnProperty(name = "app.onr.enabled", havingValue = "true")
-  public OnrOperationApi onrOperationApiImpl(
-    @Value("${app.onr.service-url}") final String onrServiceUrl,
-    @Value("${cas.url}") final String casUrl,
-    @Value("${app.onr.cas.username}") final String casUsername,
-    @Value("${app.onr.cas.password}") final String casPassword
-  ) {
-    LOG.info("onrServiceUrl: {}", onrServiceUrl);
-    final CasConfig casConfig = CasConfig.SpringSessionCasConfig(
-      casUsername,
-      casPassword,
-      casUrl,
-      onrServiceUrl,
-      Constants.CALLER_ID,
-      Constants.CALLER_ID
-    );
-    final CasClient casClient = CasClientBuilder.build(casConfig);
-    return new OnrOperationApiImpl(casClient, onrServiceUrl);
   }
 
   @Bean

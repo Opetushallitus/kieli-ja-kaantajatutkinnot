@@ -15,14 +15,12 @@ export enum AuthorisationBasisEnum {
 export enum ClerkTranslatorTextFieldEnum {
   FirstName = 'firstName',
   LastName = 'lastName',
-  NickName = 'nickName',
   IdentityNumber = 'identityNumber',
   Email = 'email',
   PhoneNumber = 'phoneNumber',
   Street = 'street',
   PostalCode = 'postalCode',
   Town = 'town',
-  Country = 'country',
   ExtraInformation = 'extraInformation',
 }
 

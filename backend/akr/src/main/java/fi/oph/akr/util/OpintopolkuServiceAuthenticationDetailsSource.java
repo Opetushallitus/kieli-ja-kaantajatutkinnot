@@ -10,13 +10,13 @@ public class OpintopolkuServiceAuthenticationDetailsSource extends ServiceAuthen
 
   private final ServiceProperties serviceProperties;
 
-  public OpintopolkuServiceAuthenticationDetailsSource(final ServiceProperties serviceProperties) {
+  public OpintopolkuServiceAuthenticationDetailsSource(ServiceProperties serviceProperties) {
     super(serviceProperties);
     this.serviceProperties = serviceProperties;
   }
 
   @Override
-  public ServiceAuthenticationDetails buildDetails(final HttpServletRequest request) {
+  public ServiceAuthenticationDetails buildDetails(HttpServletRequest request) {
     return new OpintopolkuAuthenticationDetails(request, serviceProperties.getService());
   }
 
@@ -26,7 +26,7 @@ public class OpintopolkuServiceAuthenticationDetailsSource extends ServiceAuthen
 
     private final String serviceUrl;
 
-    public OpintopolkuAuthenticationDetails(final HttpServletRequest request, final String serviceUrl) {
+    public OpintopolkuAuthenticationDetails(HttpServletRequest request, String serviceUrl) {
       super(request);
       this.serviceUrl = serviceUrl;
     }

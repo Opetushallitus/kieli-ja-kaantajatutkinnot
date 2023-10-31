@@ -33,7 +33,7 @@ public class ObsoleteContactRequestsDestroyer {
 
       try {
         contactRequestService.destroyObsoleteContactRequests(LocalDateTime.now().minusMonths(6));
-      } catch (final Exception e) {
+      } catch (Exception e) {
         LOG.error("Destroying obsolete contact requests failed", e);
       }
     });

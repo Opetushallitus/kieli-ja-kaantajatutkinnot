@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 public class NotFoundException extends RuntimeException {
 
-  public NotFoundException(@NonNull final String msg) {
+  public NotFoundException(@NonNull String msg) {
     super(msg);
   }
 }

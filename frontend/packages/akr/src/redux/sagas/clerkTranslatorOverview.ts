@@ -52,7 +52,6 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
     const translator = SerializationUtils.deserializeClerkTranslator(
       apiResponse.data
     );
-
     yield put(upsertClerkTranslator(translator));
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {

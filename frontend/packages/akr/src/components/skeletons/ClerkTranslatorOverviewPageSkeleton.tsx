@@ -3,13 +3,13 @@ import { SkeletonVariant } from 'shared/enums';
 
 import { AuthorisationDetails } from 'components/clerkTranslator/overview/AuthorisationDetails';
 import { ClerkTranslatorDetails } from 'components/clerkTranslator/overview/ClerkTranslatorDetails';
-import { BackButton } from 'components/common/BackButton';
+import { TopControls } from 'components/clerkTranslator/overview/TopControls';
 
 export const ClerkTranslatorOverviewPageSkeleton = () => {
   return (
     <>
       <Skeleton variant={SkeletonVariant.Rectangular}>
-        <BackButton />
+        <TopControls />
       </Skeleton>
       <Skeleton
         className="full-max-width half-height margin-top-lg"

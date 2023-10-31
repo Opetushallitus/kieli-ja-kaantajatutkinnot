@@ -43,7 +43,4 @@ public enum ContactDetailsGroupType {
 
   @JsonProperty("yhteystietotyyppi13")
   OTR_OSOITE,
-
-  @JsonProperty("yhteystietotyyppi14")
-  AKR_OSOITE,
 }

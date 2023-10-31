@@ -37,7 +37,7 @@ public class NoSystemOutOrErrTest {
           .filter(line -> line.contains("System.out") || line.contains("System.err"))
           .map(line -> file.getName())
           .forEach(foundFiles::add);
-      } catch (final IOException e) {
+      } catch (IOException e) {
         e.printStackTrace();
       }
     });

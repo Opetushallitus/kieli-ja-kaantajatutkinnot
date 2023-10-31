@@ -130,8 +130,7 @@
             "extraInformation": "Additional information",
             "isAssuranceGiven": "Declaration given",
             "personalInformation": "Personal details"
-          },
-          "individualisedInformation": null
+          }
         }
       },
       "contactRequestForm": {
@@ -389,22 +388,6 @@
         "toasts": {
           "success": "The translator's details were saved!"
         }
-      },
-      "clerkPersonSearchPage": {
-        "buttons": {
-          "proceed": null,
-          "search": null
-        },
-        "noResult": {
-          "description": null,
-          "label": null
-        },
-        "placeholder": null,
-        "search": {
-          "description": null,
-          "label": null
-        },
-        "title": null
       },
       "clerkSendEmailPage": {
         "characters": "characters",

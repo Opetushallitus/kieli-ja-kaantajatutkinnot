@@ -13,8 +13,6 @@ import fi.oph.akr.api.dto.clerk.InformalEmailRequestDTO;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
-import fi.oph.akr.onr.OnrService;
-import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.EmailRepository;
@@ -26,10 +24,8 @@ import fi.oph.akr.util.TemplateRenderer;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,9 +66,6 @@ public class ClerkEmailServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  @MockBean
-  private OnrService onrService;
-
   @Captor
   private ArgumentCaptor<EmailData> emailDataCaptor;
 
@@ -91,8 +84,7 @@ public class ClerkEmailServiceTest {
         languagePairService,
         meetingDateRepository,
         templateRenderer,
-        translatorRepository,
-        onrService
+        translatorRepository
       );
   }
 
@@ -103,33 +95,21 @@ public class ClerkEmailServiceTest {
 
     final List<Translator> translators = new ArrayList<>();
 
-    final Map<String, PersonalData> personalDatasTest = new HashMap<String, PersonalData>();
     IntStream
       .range(0, 3)
       .forEach(i -> {
         final Translator translator = Factory.translator();
-        translator.setOnrId(UUID.randomUUID().toString());
+        translator.setFirstName("Etu" + i);
+        translator.setLastName("Suku" + i);
+        translator.setEmail("etu.suku" + i + "@invalid");
 
         final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
         entityManager.persist(translator);
         entityManager.persist(authorisation);
 
-        personalDatasTest.put(
-          translator.getOnrId(),
-          PersonalData
-            .builder()
-            .lastName("Suku" + i)
-            .firstName("Etu" + i)
-            .nickName("Etu" + i)
-            .email("etu.suku" + i + "@invalid")
-            .identityNumber("112233")
-            .build()
-        );
-
         translators.add(translator);
       });
-    when(onrService.getCachedPersonalDatas()).thenReturn(personalDatasTest);
 
     final InformalEmailRequestDTO emailRequestDTO = InformalEmailRequestDTO
       .builder()
@@ -145,7 +125,6 @@ public class ClerkEmailServiceTest {
     verify(emailService, times(3)).saveEmail(any(), emailDataCaptor.capture());
 
     final List<EmailData> emailDatas = emailDataCaptor.getAllValues();
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     assertEquals(3, emailDatas.size());
 
@@ -153,14 +132,10 @@ public class ClerkEmailServiceTest {
       .range(0, 3)
       .forEach(i -> {
         final Translator translator = translators.get(i);
-        final PersonalData translatorPersonalData = personalDatas.get(translator.getOnrId());
         final EmailData emailData = emailDatas.get(i);
 
-        assertEquals(
-          translatorPersonalData.getFirstName() + " " + translatorPersonalData.getLastName(),
-          emailData.recipientName()
-        );
-        assertEquals(translatorPersonalData.getEmail(), emailData.recipientAddress());
+        assertEquals(translator.getFullName(), emailData.recipientName());
+        assertEquals(translator.getEmail(), emailData.recipientAddress());
         assertEquals("otsikko&lt;ääkköset&gt;", emailData.subject());
         assertEquals("<p>viesti</p>", emailData.body());
       });
@@ -172,22 +147,7 @@ public class ClerkEmailServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-    //translator.setEmail("foo.bar@invalid");
-    translator.setOnrId("123");
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          translator.getOnrId(),
-          PersonalData
-            .builder()
-            .lastName("Suku")
-            .firstName("Etu")
-            .nickName("Etu")
-            .identityNumber("112233")
-            .email("foo.bar@invalid")
-            .build()
-        )
-      );
+    translator.setEmail("foo.bar@invalid");
 
     entityManager.persist(meetingDate);
     entityManager.persist(translator);
@@ -249,21 +209,9 @@ public class ClerkEmailServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate1);
 
-    translator.setOnrId("123");
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          translator.getOnrId(),
-          PersonalData
-            .builder()
-            .firstName("Etu")
-            .nickName("Etu")
-            .lastName("Suku")
-            .email("etu.suku@invalid")
-            .identityNumber("112233")
-            .build()
-        )
-      );
+    translator.setFirstName("Etu");
+    translator.setLastName("Suku");
+    translator.setEmail("etu.suku@invalid");
 
     authorisation.setFromLang("SV");
     authorisation.setToLang("EN");
@@ -313,21 +261,9 @@ public class ClerkEmailServiceTest {
     final Translator translator = Factory.translator();
     final Authorisation authorisation = Factory.kktAuthorisation(translator, meetingDate);
 
-    translator.setOnrId("123");
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          translator.getOnrId(),
-          PersonalData
-            .builder()
-            .firstName("Etu")
-            .nickName("Etu")
-            .lastName("Suku")
-            .email("etu.suku@invalid")
-            .identityNumber("112233")
-            .build()
-        )
-      );
+    translator.setFirstName("Etu");
+    translator.setLastName("Suku");
+    translator.setEmail("etu.suku@invalid");
 
     authorisation.setFromLang("SV");
     authorisation.setToLang("EN");

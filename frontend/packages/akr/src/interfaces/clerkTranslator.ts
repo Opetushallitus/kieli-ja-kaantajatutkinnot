@@ -13,19 +13,18 @@ import { WithId, WithVersion } from 'interfaces/with';
 export interface ClerkTranslatorTextFields {
   firstName: string;
   lastName: string;
-  nickName: string;
   identityNumber?: string;
   email?: string;
   phoneNumber?: string;
   street?: string;
   postalCode?: string;
   town?: string;
-  country?: string;
   extraInformation?: string;
 }
 
 export interface ClerkTranslatorBasicInformation
   extends ClerkTranslatorTextFields {
+  country?: string;
   isAssuranceGiven: boolean;
 }
 
@@ -41,8 +40,6 @@ export interface ClerkTranslatorResponse
   extends ClerkTranslatorBasicInformation,
     WithId,
     WithVersion {
-  isIndividualised: boolean;
-  hasIndividualisedAddress: boolean;
   authorisations: ClerkTranslatorAuthorisationsResponse;
 }
 
@@ -56,8 +53,6 @@ export interface ClerkTranslatorAuthorisations {
 
 export interface ClerkTranslator
   extends Omit<ClerkTranslatorResponse, 'authorisations'> {
-  isIndividualised: boolean;
-  hasIndividualisedAddress: boolean;
   authorisations: ClerkTranslatorAuthorisations;
 }
 

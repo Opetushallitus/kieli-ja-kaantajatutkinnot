@@ -39,8 +39,8 @@ public class CustomOrderComparatorTest {
 
   @Test
   public void comparatorCanBeUsedForSortingListsInAnExpectedWay() {
-    final List<String> immutableList = List.of("1", "3", "4", "6", "2", "5");
-    final List<String> list = new ArrayList<>(immutableList);
+    List<String> immutableList = List.of("1", "3", "4", "6", "2", "5");
+    List<String> list = new ArrayList<>(immutableList);
 
     list.sort(comparator);
     assertEquals(List.of("3", "1", "4", "6", "2", "5"), list);

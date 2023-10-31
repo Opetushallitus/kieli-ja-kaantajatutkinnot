@@ -50,7 +50,7 @@ public class ExpiringAuthorisationsEmailCreator {
           }
           try {
             clerkEmailService.createAuthorisationExpiryEmail(authorisation.getId());
-          } catch (final Exception e) {
+          } catch (Exception e) {
             LOG.error("Creation of authorisation expiry email failed", e);
           }
         });

@@ -32,8 +32,10 @@ public interface AuthorisationRepository extends BaseRepository<Authorisation> {
   @Query(
     "SELECT a" +
     " FROM Authorisation a" +
+    " JOIN a.translator t" +
     " LEFT JOIN a.reminders atr" +
-    " WHERE a.termEndDate IS NOT NULL" +
+    " WHERE t.email IS NOT NULL" +
+    " AND a.termEndDate IS NOT NULL" +
     " AND a.termEndDate BETWEEN ?1 AND ?2" +
     " GROUP BY a.id, atr.id" +
     " HAVING COUNT(atr.id) = 0 OR MAX(atr.createdAt) < ?3"

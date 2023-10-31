@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-//import { AutocompleteValue } from 'shared/components';
+import { AutocompleteValue } from 'shared/components';
 
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -26,11 +26,11 @@ export const NewTranslatorBasicInformation = ({
       handleFieldChange(field, event.target.value);
     };
 
-  // const handleComboBoxChange =
-  //   (field: keyof ClerkTranslatorBasicInformation) =>
-  //   ({}, autocompleteValue?: AutocompleteValue) => {
-  //     handleFieldChange(field, autocompleteValue?.value);
-  //   };
+  const handleComboBoxChange =
+    (field: keyof ClerkTranslatorBasicInformation) =>
+    ({}, autocompleteValue?: AutocompleteValue) => {
+      handleFieldChange(field, autocompleteValue?.value);
+    };
 
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>
@@ -55,14 +55,12 @@ export const NewTranslatorBasicInformation = ({
   return (
     <ClerkTranslatorDetailsFields
       translator={translator}
-      isPersonalInformationIndividualised={translator.isIndividualised}
-      isAddressIndividualised={translator.hasIndividualisedAddress}
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }
-      // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
-      //   handleComboBoxChange(field)
-      // }
+      onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
+        handleComboBoxChange(field)
+      }
       onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
         handleCheckBoxChange(field)
       }

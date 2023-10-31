@@ -20,7 +20,7 @@ public class AuditUtil {
     final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
     if (requestAttributes instanceof ServletRequestAttributes) {
-      final HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+      HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
       return getUser(request);
     }
     return getUserOnlyWithIp();
@@ -44,7 +44,7 @@ public class AuditUtil {
     );
     try {
       return InetAddress.getByName(remoteAddress);
-    } catch (final UnknownHostException e) {
+    } catch (UnknownHostException e) {
       throw new RuntimeException(e);
     }
   }
@@ -57,7 +57,7 @@ public class AuditUtil {
       .map(oid -> {
         try {
           return new Oid(oid);
-        } catch (final GSSException e) {
+        } catch (GSSException e) {
           throw new RuntimeException(e);
         }
       });
@@ -70,7 +70,7 @@ public class AuditUtil {
   private static InetAddress getIp() {
     try {
       return InetAddress.getLocalHost();
-    } catch (final UnknownHostException e) {
+    } catch (UnknownHostException e) {
       return InetAddress.getLoopbackAddress();
     }
   }

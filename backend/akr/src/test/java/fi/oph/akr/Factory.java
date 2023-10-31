@@ -13,7 +13,6 @@ import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class Factory {
 
@@ -43,7 +42,6 @@ public class Factory {
     final Translator translator = new Translator();
     translator.setFirstName("Foo");
     translator.setLastName("Bar");
-    translator.setOnrId(UUID.randomUUID().toString());
     translator.setAssuranceGiven(true);
 
     return translator;

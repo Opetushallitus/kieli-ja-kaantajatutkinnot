@@ -6,8 +6,6 @@ import fi.oph.akr.model.ContactRequestTranslator;
 import fi.oph.akr.model.Email;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.Translator;
-import fi.oph.akr.onr.OnrService;
-import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.ContactRequestRepository;
 import fi.oph.akr.repository.ContactRequestTranslatorRepository;
@@ -15,11 +13,10 @@ import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.email.EmailData;
 import fi.oph.akr.service.email.EmailService;
-import fi.oph.akr.util.MigrationUtil;
+import fi.oph.akr.service.koodisto.LanguageService;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +44,6 @@ public class ContactRequestService {
   private final TemplateRenderer templateRenderer;
   private final TranslatorRepository translatorRepository;
   private final Environment environment;
-  private final OnrService onrService;
 
   @Transactional
   public ContactRequest createContactRequest(final ContactRequestDTO contactRequestDTO) {
@@ -56,19 +52,10 @@ public class ContactRequestService {
     validateContactRequestDTO(contactRequestDTO, translatorIds);
 
     final List<Translator> translators = translatorRepository.findAllById(translatorIds);
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
-    final List<PersonalData> translatorsPersonalDatas = translators
-      .stream()
-      .map(t -> {
-        // TODO: M.S. after migration is done use:
-        //final PersonalData personalData = personalDatas.get(t.getOnrId());
-        return MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
-      })
-      .collect(Collectors.toCollection(ArrayList::new));
 
     final ContactRequest contactRequest = saveContactRequest(contactRequestDTO);
     saveContactRequestTranslators(translators, contactRequest);
-    saveContactRequestEmails(contactRequestDTO, translatorsPersonalDatas, translators);
+    saveContactRequestEmails(contactRequestDTO, translators);
 
     return contactRequest;
   }
@@ -116,33 +103,23 @@ public class ContactRequestService {
     contactRequestTranslatorRepository.saveAll(contactRequestTranslators);
   }
 
-  private void saveContactRequestEmails(
-    final ContactRequestDTO contactRequestDTO,
-    final List<PersonalData> translatorsPersonalDatas,
-    final List<Translator> translators
-  ) {
-    final List<PersonalData> translatorsPersonalDatasWithEmail = translatorsPersonalDatas
+  private void saveContactRequestEmails(final ContactRequestDTO contactRequestDTO, final List<Translator> translators) {
+    final Map<Boolean, List<Translator>> translatorsByExistingEmail = translators
       .stream()
-      .filter(t -> t.getEmail() != null)
-      .collect(Collectors.toCollection(ArrayList::new));
+      .collect(Collectors.partitioningBy(Translator::hasEmail));
 
-    final List<PersonalData> translatorsPersonalDatasWithoutEmail = translatorsPersonalDatas
-      .stream()
-      .filter(t -> t.getEmail() == null)
-      .collect(Collectors.toCollection(ArrayList::new));
+    final List<Translator> translatorsWithEmail = translatorsByExistingEmail.get(true);
+    final List<Translator> translatorsWithoutEmail = translatorsByExistingEmail.get(false);
 
-    sendTranslatorEmails(translatorsPersonalDatasWithEmail, contactRequestDTO);
-    sendRequesterEmail(translatorsPersonalDatas, contactRequestDTO);
+    sendTranslatorEmails(translatorsWithEmail, contactRequestDTO);
+    sendRequesterEmail(translators, contactRequestDTO);
 
-    if (!translatorsPersonalDatasWithoutEmail.isEmpty()) {
-      sendClerkEmail(translators, contactRequestDTO);
+    if (!translatorsWithoutEmail.isEmpty()) {
+      sendClerkEmail(translatorsWithoutEmail, contactRequestDTO);
     }
   }
 
-  private void sendTranslatorEmails(
-    final List<PersonalData> translatorsPersonalDatas,
-    final ContactRequestDTO contactRequestDTO
-  ) {
+  private void sendTranslatorEmails(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
     final Map<String, Object> templateParams = Map.of(
       "langPairFI",
       getLangPair(contactRequestDTO, Language.FI),
@@ -162,24 +139,21 @@ public class ContactRequestService {
       "Yhteydenotto auktorisoitujen kääntäjien rekisteristä | Kontaktförfrågan från registret över auktoriserade translatorer";
     final String body = templateRenderer.renderContactRequestTranslatorEmailBody(templateParams);
 
-    translatorsPersonalDatas.forEach(translator -> {
-      final String recipientName = translator.getFirstName() + " " + translator.getLastName();
+    translators.forEach(translator -> {
+      final String recipientName = translator.getFullName();
       final String recipientAddress = translator.getEmail();
 
       createEmail(recipientName, recipientAddress, subject, body, EmailType.CONTACT_REQUEST_TRANSLATOR);
     });
   }
 
-  private void sendRequesterEmail(
-    final List<PersonalData> translatorsPersonalDatas,
-    final ContactRequestDTO contactRequestDTO
-  ) {
+  private void sendRequesterEmail(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
     final String requesterName = getRequesterName(contactRequestDTO);
     final String requesterEmail = getRequesterEmail(contactRequestDTO);
 
     final Map<String, Object> templateParams = Map.of(
       "translators",
-      translatorsPersonalDatas.stream().map(t -> t.getFirstName() + " " + t.getLastName()).sorted().toList(),
+      translators.stream().map(Translator::getFullName).sorted().toList(),
       "langPairFI",
       getLangPair(contactRequestDTO, Language.FI),
       "langPairSV",
@@ -202,17 +176,10 @@ public class ContactRequestService {
     createEmail(requesterName, requesterEmail, subject, body, EmailType.CONTACT_REQUEST_REQUESTER);
   }
 
-  private void sendClerkEmail(final List<Translator> translators, final ContactRequestDTO contactRequestDTO) {
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+  private void sendClerkEmail(final List<Translator> translators, ContactRequestDTO contactRequestDTO) {
     final List<Map<String, String>> translatorParams = translators
       .stream()
-      .map(t -> {
-        // TODO: M.S. after migration is done use:
-        //final PersonalData personalData = personalDatas.get(t.getOnrId());
-        final PersonalData personalData = MigrationUtil.get(personalDatas.get(t.getOnrId()), t);
-        final String fullName = personalData.getFirstName() + " " + personalData.getLastName();
-        return Map.of("id", "" + t.getId(), "name", fullName);
-      })
+      .map(t -> Map.of("id", "" + t.getId(), "name", t.getFullName()))
       .toList();
 
     final String requesterPhone = getRequesterPhone(contactRequestDTO);

@@ -130,8 +130,7 @@
             "extraInformation": "Ytterligare information",
             "isAssuranceGiven": "Försäkran har getts",
             "personalInformation": "Personuppgifter"
-          },
-          "individualisedInformation": null
+          }
         }
       },
       "contactRequestForm": {
@@ -389,22 +388,6 @@
         "toasts": {
           "success": "Translatorns uppgifter sparades!"
         }
-      },
-      "clerkPersonSearchPage": {
-        "buttons": {
-          "proceed": null,
-          "search": null
-        },
-        "noResult": {
-          "description": null,
-          "label": null
-        },
-        "placeholder": null,
-        "search": {
-          "description": null,
-          "label": null
-        },
-        "title": null
       },
       "clerkSendEmailPage": {
         "characters": "tecken",

@@ -47,7 +47,7 @@ export const ClerkHomePage: FC = () => {
               startIcon={<AddIcon />}
               color={Color.Secondary}
               variant={Variant.Contained}
-              to={AppRoutes.ClerkPersonSearchPage}
+              to={AppRoutes.ClerkNewTranslatorPage}
             >
               {t('buttons.newTranslator')}
             </CustomButtonLink>

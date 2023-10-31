@@ -131,65 +131,65 @@ public class WebSecurityConfigDev {
 
     public InMemoryUserDetailsManager() {}
 
-    public InMemoryUserDetailsManager(final Collection<UserDetails> users) {
-      for (final UserDetails user : users) {
+    public InMemoryUserDetailsManager(Collection<UserDetails> users) {
+      for (UserDetails user : users) {
         createUser(user);
       }
     }
 
-    public InMemoryUserDetailsManager(final UserDetails... users) {
-      for (final UserDetails user : users) {
+    public InMemoryUserDetailsManager(UserDetails... users) {
+      for (UserDetails user : users) {
         createUser(user);
       }
     }
 
-    public InMemoryUserDetailsManager(final Properties users) {
-      final Enumeration<?> names = users.propertyNames();
-      final UserAttributeEditor editor = new UserAttributeEditor();
+    public InMemoryUserDetailsManager(Properties users) {
+      Enumeration<?> names = users.propertyNames();
+      UserAttributeEditor editor = new UserAttributeEditor();
       while (names.hasMoreElements()) {
-        final String name = (String) names.nextElement();
+        String name = (String) names.nextElement();
         editor.setAsText(users.getProperty(name));
-        final UserAttribute attr = (UserAttribute) editor.getValue();
+        UserAttribute attr = (UserAttribute) editor.getValue();
         createUser(createUserDetails(name, attr));
       }
     }
 
-    private User createUserDetails(final String name, final UserAttribute attr) {
+    private User createUserDetails(String name, UserAttribute attr) {
       return new User(name, attr.getPassword(), attr.isEnabled(), true, true, true, attr.getAuthorities());
     }
 
     @Override
-    public void createUser(final UserDetails user) {
+    public void createUser(UserDetails user) {
       Assert.isTrue(!userExists(user.getUsername()), "user should not exist");
       this.users.put(user.getUsername().toLowerCase(), new MutableUser(user));
     }
 
     @Override
-    public void deleteUser(final String username) {
+    public void deleteUser(String username) {
       this.users.remove(username.toLowerCase());
     }
 
     @Override
-    public void updateUser(final UserDetails user) {
+    public void updateUser(UserDetails user) {
       Assert.isTrue(userExists(user.getUsername()), "user should exist");
       this.users.put(user.getUsername().toLowerCase(), new MutableUser(user));
     }
 
     @Override
-    public boolean userExists(final String username) {
+    public boolean userExists(String username) {
       return this.users.containsKey(username.toLowerCase());
     }
 
     @Override
-    public void changePassword(final String oldPassword, final String newPassword) {
-      final Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+    public void changePassword(String oldPassword, String newPassword) {
+      Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
       if (currentUser == null) {
         // This would indicate bad coding somewhere
         throw new AccessDeniedException(
           "Can't change password as no Authentication object found in context " + "for current user."
         );
       }
-      final String username = currentUser.getName();
+      String username = currentUser.getName();
       this.logger.debug(LogMessage.format("Changing password for user '%s'", username));
       // If an authentication manager has been set, re-authenticate the user with the
       // supplied password.
@@ -199,22 +199,22 @@ public class WebSecurityConfigDev {
       } else {
         this.logger.debug("No authentication manager set. Password won't be re-checked.");
       }
-      final MutableUserDetails user = this.users.get(username);
+      MutableUserDetails user = this.users.get(username);
       Assert.state(user != null, "Current user doesn't exist in database.");
       user.setPassword(newPassword);
     }
 
     @Override
-    public UserDetails updatePassword(final UserDetails user, final String newPassword) {
-      final String username = user.getUsername();
-      final MutableUserDetails mutableUser = this.users.get(username.toLowerCase());
+    public UserDetails updatePassword(UserDetails user, String newPassword) {
+      String username = user.getUsername();
+      MutableUserDetails mutableUser = this.users.get(username.toLowerCase());
       mutableUser.setPassword(newPassword);
       return mutableUser;
     }
 
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-      final UserDetails user = this.users.get(username.toLowerCase());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+      UserDetails user = this.users.get(username.toLowerCase());
       if (user == null) {
         throw new UsernameNotFoundException(username);
       }
@@ -229,7 +229,7 @@ public class WebSecurityConfigDev {
       );
     }
 
-    public void setAuthenticationManager(final AuthenticationManager authenticationManager) {
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
       this.authenticationManager = authenticationManager;
     }
   }
@@ -246,7 +246,7 @@ public class WebSecurityConfigDev {
 
     private final UserDetails delegate;
 
-    MutableUser(final UserDetails user) {
+    MutableUser(UserDetails user) {
       this.delegate = user;
       this.password = user.getPassword();
     }
@@ -257,7 +257,7 @@ public class WebSecurityConfigDev {
     }
 
     @Override
-    public void setPassword(final String password) {
+    public void setPassword(String password) {
       this.password = password;
     }
 

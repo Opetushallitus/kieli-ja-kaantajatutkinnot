@@ -7,32 +7,26 @@ import fi.oph.akr.model.Email;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
-import fi.oph.akr.onr.OnrService;
-import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
 import fi.oph.akr.repository.EmailRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.service.LanguagePairService;
-import fi.oph.akr.util.MigrationUtil;
 import fi.oph.akr.util.TemplateRenderer;
 import fi.oph.akr.util.localisation.Language;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ClerkEmailService {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ClerkEmailService.class);
 
   private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
@@ -44,39 +38,29 @@ public class ClerkEmailService {
   private final MeetingDateRepository meetingDateRepository;
   private final TemplateRenderer templateRenderer;
   private final TranslatorRepository translatorRepository;
-  private final OnrService onrService;
 
   @Transactional
   public void createInformalEmails(final InformalEmailRequestDTO emailRequestDTO) {
     final List<Long> distinctTranslatorIds = emailRequestDTO.translatorIds().stream().distinct().toList();
     final List<Translator> translators = translatorRepository.findAllById(distinctTranslatorIds);
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
     if (translators.size() != distinctTranslatorIds.size()) {
       throw new IllegalArgumentException("Each translator by provided translatorIds not found");
     }
 
-    translators.forEach(translator -> {
-      // TODO: M.S. after migration is done use:
-      //final PersonalData personalData = personalDatas.get(translator.getOnrId());
-      final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+    translators.forEach(translator ->
+      Optional
+        .of(translator)
+        .filter(Translator::hasEmail)
+        .map(Translator::getEmail)
+        .ifPresent(recipientAddress -> {
+          final String recipientName = translator.getFullName();
 
-      if (personalData != null) {
-        final String recipientName = personalData.getFirstName() + " " + personalData.getLastName();
-        final String recipientAddress = personalData.getEmail();
-        final String emailSubject = emailRequestDTO.subject();
-        final String emailBody = getInformalEmailBody(emailRequestDTO.body());
-
-        if (recipientAddress == null) {
-          LOG.info("Email for translator with onr id {} doesn't exist", translator.getOnrId());
-          return;
-        }
-
-        createEmail(recipientName, recipientAddress, emailSubject, emailBody, EmailType.INFORMAL);
-      } else {
-        LOG.warn("Personal data by onr id {} not found", translator.getOnrId());
-      }
-    });
+          final String emailSubject = emailRequestDTO.subject();
+          final String emailBody = getInformalEmailBody(emailRequestDTO.body());
+          createEmail(recipientName, recipientAddress, emailSubject, emailBody, EmailType.INFORMAL);
+        })
+    );
   }
 
   private String getInformalEmailBody(final String message) {
@@ -110,43 +94,35 @@ public class ClerkEmailService {
 
   private void createAuthorisationExpiryData(final Authorisation authorisation) {
     final Translator translator = authorisation.getTranslator();
-    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
 
-    // TODO: M.S. after migration is done use:
-    //final PersonalData personalData = personalDatas.get(translator.getOnrId());
-    final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+    Optional
+      .of(translator)
+      .filter(Translator::hasEmail)
+      .map(Translator::getEmail)
+      .ifPresent(recipientAddress -> {
+        final String recipientName = translator.getFullName();
 
-    if (personalData != null) {
-      final String recipientName = personalData.getFirstName() + " " + personalData.getLastName();
-      final String recipientAddress = personalData.getEmail();
-      final String emailSubject = "Auktorisointisi on päättymässä | Din auktorisering går mot sitt slut";
+        final String emailSubject = "Auktorisointisi on päättymässä | Din auktorisering går mot sitt slut";
 
-      if (recipientAddress == null) {
-        LOG.info("Email for translator with onr id {} doesn't exist", translator.getOnrId());
-        return;
-      }
+        final String emailBody = getAuthorisationExpiryEmailBody(
+          recipientName,
+          authorisation.getFromLang(),
+          authorisation.getToLang(),
+          authorisation.getTermEndDate()
+        );
 
-      final String emailBody = getAuthorisationExpiryEmailBody(
-        recipientName,
-        authorisation.getFromLang(),
-        authorisation.getToLang(),
-        authorisation.getTermEndDate()
-      );
+        final Long emailId = createEmail(
+          recipientName,
+          recipientAddress,
+          emailSubject,
+          emailBody,
+          EmailType.AUTHORISATION_EXPIRY
+        );
 
-      final Long emailId = createEmail(
-        recipientName,
-        recipientAddress,
-        emailSubject,
-        emailBody,
-        EmailType.AUTHORISATION_EXPIRY
-      );
+        final Email email = emailRepository.getReferenceById(emailId);
 
-      final Email email = emailRepository.getReferenceById(emailId);
-
-      createAuthorisationTermReminder(authorisation, email);
-    } else {
-      LOG.warn("Personal data by onr id {} not found", translator.getOnrId());
-    }
+        createAuthorisationTermReminder(authorisation, email);
+      });
   }
 
   private String getAuthorisationExpiryEmailBody(

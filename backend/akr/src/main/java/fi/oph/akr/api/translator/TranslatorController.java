@@ -34,7 +34,7 @@ public class TranslatorController {
 
   @PostMapping("/contact-request")
   @ResponseStatus(HttpStatus.CREATED)
-  public void sendContactRequest(@Valid @RequestBody final ContactRequestDTO contactRequestDTO) {
+  public void sendContactRequest(@Valid @RequestBody ContactRequestDTO contactRequestDTO) {
     contactRequestService.createContactRequest(contactRequestDTO);
   }
 }

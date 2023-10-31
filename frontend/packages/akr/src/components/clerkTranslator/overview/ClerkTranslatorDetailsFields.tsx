@@ -1,21 +1,21 @@
 import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
-  //AutocompleteValue,
-  //ComboBox,
+  AutocompleteValue,
+  ComboBox,
   CustomSwitch,
   CustomTextField,
   H3,
   InfoText,
 } from 'shared/components';
-import { TextFieldTypes /*TextFieldVariant*/ } from 'shared/enums';
+import { TextFieldTypes, TextFieldVariant } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
-  //useKoodistoCountriesTranslation,
+  useKoodistoCountriesTranslation,
 } from 'configs/i18n';
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import {
@@ -23,19 +23,17 @@ import {
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
-//import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
+import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
 
 const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
   [ClerkTranslatorTextFieldEnum.LastName]: 255,
   [ClerkTranslatorTextFieldEnum.FirstName]: 255,
-  [ClerkTranslatorTextFieldEnum.NickName]: 255,
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
   [ClerkTranslatorTextFieldEnum.Street]: 255,
   [ClerkTranslatorTextFieldEnum.PostalCode]: 255,
   [ClerkTranslatorTextFieldEnum.Town]: 255,
-  [ClerkTranslatorTextFieldEnum.Country]: 255,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
 };
 
@@ -94,8 +92,7 @@ const ClerkTranslatorDetailsTextField = ({
   });
   const required =
     field == ClerkTranslatorTextFieldEnum.FirstName ||
-    field == ClerkTranslatorTextFieldEnum.LastName ||
-    field == ClerkTranslatorTextFieldEnum.NickName;
+    field == ClerkTranslatorTextFieldEnum.LastName;
   const fieldError = getFieldError(translator, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
@@ -119,24 +116,20 @@ const ClerkTranslatorDetailsTextField = ({
 
 export const ClerkTranslatorDetailsFields = ({
   translator,
-  isPersonalInformationIndividualised,
-  isAddressIndividualised,
   onTextFieldChange,
-  //onComboBoxChange,
+  onComboBoxChange,
   onCheckBoxChange,
   editDisabled,
   topControlButtons,
   showFieldErrorBeforeChange,
 }: {
   translator?: ClerkTranslatorBasicInformation;
-  isPersonalInformationIndividualised?: boolean;
-  isAddressIndividualised?: boolean;
   onTextFieldChange: (
     field: keyof ClerkTranslatorTextFields
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  // onComboBoxChange: (
-  //   field: keyof ClerkTranslatorBasicInformation
-  // ) => ({}, autocompleteValue?: AutocompleteValue) => void;
+  onComboBoxChange: (
+    field: keyof ClerkTranslatorBasicInformation
+  ) => ({}, autocompleteValue?: AutocompleteValue) => void;
   onCheckBoxChange: (
     field: keyof ClerkTranslatorBasicInformation
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
@@ -149,8 +142,7 @@ export const ClerkTranslatorDetailsFields = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails',
   });
   const translateCommon = useCommonTranslation();
-  // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
-  //const translateCountry = useKoodistoCountriesTranslation();
+  const translateCountry = useKoodistoCountriesTranslation();
 
   const initialFieldErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
     (acc, val) => {
@@ -167,39 +159,11 @@ export const ClerkTranslatorDetailsFields = ({
     }));
   };
 
-  const isIndividualisedValue = (field: ClerkTranslatorTextFieldEnum) => {
-    const isIdentityNumberField =
-      field === ClerkTranslatorTextFieldEnum.IdentityNumber;
-
-    const isIndividualisedPersonalInformationField =
-      isPersonalInformationIndividualised &&
-      [
-        ClerkTranslatorTextFieldEnum.LastName,
-        ClerkTranslatorTextFieldEnum.FirstName,
-        ClerkTranslatorTextFieldEnum.NickName,
-      ].includes(field);
-
-    const isIndividualisedAddressField =
-      isAddressIndividualised &&
-      [
-        ClerkTranslatorTextFieldEnum.Street,
-        ClerkTranslatorTextFieldEnum.PostalCode,
-        ClerkTranslatorTextFieldEnum.Town,
-        ClerkTranslatorTextFieldEnum.Country,
-      ].includes(field);
-
-    return (
-      isIdentityNumberField ||
-      isIndividualisedPersonalInformationField ||
-      isIndividualisedAddressField
-    );
-  };
-
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
     return {
       field,
       translator,
-      disabled: editDisabled || isIndividualisedValue(field),
+      disabled: editDisabled,
       onChange: onTextFieldChange(field),
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
@@ -208,32 +172,27 @@ export const ClerkTranslatorDetailsFields = ({
     };
   };
 
-  // const countryCodeToLabel = (code: string) => {
-  //   const label = translateCountry(code);
+  const countryCodeToLabel = (code: string) => {
+    const label = translateCountry(code);
 
-  //   const labelKosovoFixedDuplicate =
-  //     code === 'XKK' || code === 'XKX' ? `${label} ${code}` : label;
+    const labelKosovoFixedDuplicate =
+      code === 'XKK' || code === 'XKX' ? `${label} ${code}` : label;
 
-  //   return {
-  //     label: labelKosovoFixedDuplicate,
-  //     value: code,
-  //   };
-  // };
+    return {
+      label: labelKosovoFixedDuplicate,
+      value: code,
+    };
+  };
 
-  // const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
-  //   koodistoCountriesFI?.akr?.koodisto?.countries
-  // ).map(countryCodeToLabel);
+  const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
+    koodistoCountriesFI?.akr?.koodisto?.countries
+  ).map(countryCodeToLabel);
 
   return (
     <>
       <div className="columns margin-top-lg">
         <div className="columns margin-top-lg grow">
-          <H3 className="margin-right-xs">{t('header.personalInformation')}</H3>
-          {isPersonalInformationIndividualised && (
-            <div className="individualised">
-              <InfoText>{t('individualisedInformation')}</InfoText>
-            </div>
-          )}
+          <H3>{t('header.personalInformation')}</H3>
         </div>
         {topControlButtons}
       </div>
@@ -245,20 +204,12 @@ export const ClerkTranslatorDetailsFields = ({
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.FirstName)}
         />
         <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.NickName)}
-        />
-        <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(
             ClerkTranslatorTextFieldEnum.IdentityNumber
           )}
         />
       </div>
       <H3>{t('header.address')}</H3>
-      {isAddressIndividualised && (
-        <div className="individualised">
-          <InfoText>{t('individualisedInformation')}</InfoText>
-        </div>
-      )}
       <div className="columns align-items-start gapped">
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Street)}
@@ -269,10 +220,7 @@ export const ClerkTranslatorDetailsFields = ({
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Town)}
         />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Country)}
-        />
-        {/* <ComboBox
+        <ComboBox
           data-testid="clerk-translator__basic-information__country"
           autoHighlight
           disabled={editDisabled}
@@ -283,7 +231,7 @@ export const ClerkTranslatorDetailsFields = ({
             translator?.country ? countryCodeToLabel(translator.country) : null
           }
           onChange={onComboBoxChange('country')}
-        /> */}
+        />
       </div>
       <H3>{t('header.contactInformation')}</H3>
       <div className="columns align-items-start gapped">

@@ -138,40 +138,14 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     }
   }
 
-  private PersonalDataDTO getPersonalData(final String oidNumber) throws Exception {
-    final Request request = defaultRequestBuilder()
-      .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
-      .setMethod(Methods.GET)
-      .build();
-
-    final Response response = onrClient.executeBlocking(request);
-
-    if (response.getStatusCode() == HttpStatus.OK.value()) {
-      final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
-        response.getResponseBody(),
-        new TypeReference<>() {}
-      );
-      return personalDataDTO;
-    } else {
-      throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
-    }
-  }
-
   @Override
   public void updatePersonalData(final PersonalData personalData) throws Exception {
     final PersonalDataDTO personalDataDTO = createPersonalDataDTO(personalData);
 
-    final List<ContactDetailsGroupDTO> latestContactDetails = getPersonalData(personalData.getOnrId())
-      .getContactDetailsGroups();
-    final PersonalDataDTO combinedContactDetailsPersonalDataDTO = ContactDetailsUtil.combineContactDetails(
-      personalDataDTO,
-      latestContactDetails
-    );
-
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo")
       .setMethod(Methods.PUT)
-      .setBody(OBJECT_MAPPER.writeValueAsString(combinedContactDetailsPersonalDataDTO))
+      .setBody(OBJECT_MAPPER.writeValueAsString(personalDataDTO))
       .build();
 
     final Response response = onrClient.executeBlocking(request);

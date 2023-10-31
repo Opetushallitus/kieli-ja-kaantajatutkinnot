@@ -2,7 +2,6 @@ import { APIEndpoints } from 'enums/api';
 import { AppRoutes, UIMode } from 'enums/app';
 import {
   newAuthorisation,
-  translatorFromOnrResponse,
   translatorResponse,
 } from 'tests/cypress/fixtures/ts/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
@@ -19,11 +18,6 @@ beforeEach(() => {
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
     translatorResponse
   ).as('getClerkTranslatorOverview');
-
-  cy.intercept(
-    `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponse.id}`,
-    translatorFromOnrResponse
-  ).as('getClerkTranslatorFromOnrOverview');
 
   const updatedExistingTranslator = {
     ...translatorResponse,
@@ -56,46 +50,12 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectMode(UIMode.View);
   });
 
-  it('should show details disabled if fetched from ONR as invidualised', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorFromOnrResponse.id);
-    cy.wait('@getClerkTranslatorFromOnrOverview');
-    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
-
-    [
-      'lastName',
-      'firstName',
-      'nickName',
-      'identityNumber',
-      'street',
-      'town',
-      'country',
-    ].forEach((fieldName) => {
-      onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
-        fieldName,
-        'input'
-      );
-    });
-
-    ['email', 'phoneNumber'].forEach((fieldName) => {
-      onClerkTranslatorOverviewPage.expectEnabledTranslatorField(
-        fieldName,
-        'input'
-      );
-    });
-
-    onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
-    cy.findAllByText('Tiedot haettu väestötietojärjestelmästä').should(
-      'have.length',
-      2
-    );
-  });
-
   it('should disable details save button when the required fields are not filled out', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
-    ['lastName', 'firstName', 'nickName'].forEach((fieldName) => {
+    ['lastName', 'firstName'].forEach((fieldName) => {
       onClerkTranslatorOverviewPage.editTranslatorField(
         fieldName,
         'input',
@@ -330,14 +290,14 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'input',
       ' '
     );
-    onClerkTranslatorOverviewPage.editTranslatorField('nickName', 'input', ' ');
     onClerkTranslatorOverviewPage.editTranslatorField('email', 'input', 'mail');
-    onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
+    onClerkTranslatorOverviewPage.editTranslatorField(
       'identityNumber',
-      'input'
+      'input',
+      'id'
     );
 
-    cy.findAllByText('Tieto on pakollinen').should('have.length', 3);
+    cy.findAllByText('Tieto on pakollinen').should('have.length', 2);
     onClerkTranslatorOverviewPage.expectText(
       'Henkilötunnuksen muotoa ei tunnistettu'
     );

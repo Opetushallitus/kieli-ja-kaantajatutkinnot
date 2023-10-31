@@ -33,7 +33,7 @@ public class ExaminationDateService {
 
     try {
       examinationDateRepository.saveAndFlush(examinationDate);
-    } catch (final DataIntegrityViolationException ex) {
+    } catch (DataIntegrityViolationException ex) {
       throw new APIException(APIExceptionType.EXAMINATION_DATE_CREATE_DUPLICATE_DATE);
     }
 

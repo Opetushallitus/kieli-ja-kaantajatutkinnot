@@ -3,7 +3,7 @@ package fi.oph.akr.scheduled;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.model.Authorisation;
@@ -12,13 +12,10 @@ import fi.oph.akr.model.Email;
 import fi.oph.akr.model.EmailType;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
-import fi.oph.akr.onr.OnrService;
-import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.service.email.ClerkEmailService;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,9 +45,6 @@ public class ExpiringAuthorisationsEmailCreatorTest {
 
   @Captor
   private ArgumentCaptor<Long> longCaptor;
-
-  @MockBean
-  private OnrService onrService;
 
   @BeforeEach
   public void setup() {
@@ -116,6 +110,18 @@ public class ExpiringAuthorisationsEmailCreatorTest {
     assertEquals(expectedAuthIds, authIds);
   }
 
+  @Test
+  public void testCheckExpiringAuthorisationsWithTranslatorWithoutEmailAddress() {
+    final MeetingDate meetingDate = Factory.meetingDate(LocalDate.now().minusYears(1));
+    entityManager.persist(meetingDate);
+
+    createAuthorisation(meetingDate, LocalDate.now().plusDays(10), null);
+
+    emailCreator.checkExpiringAuthorisations();
+
+    verifyNoInteractions(clerkEmailService);
+  }
+
   private Authorisation createAuthorisation(
     final MeetingDate meetingDate,
     final LocalDate termEndDate,
@@ -157,20 +163,7 @@ public class ExpiringAuthorisationsEmailCreatorTest {
 
   private Translator createTranslator(final String translatorEmail) {
     final Translator translator = Factory.translator();
-    when(onrService.getCachedPersonalDatas())
-      .thenReturn(
-        Map.of(
-          translator.getOnrId(),
-          PersonalData
-            .builder()
-            .lastName("Bar")
-            .firstName("Foo")
-            .nickName("Baz")
-            .identityNumber("112233")
-            .email(translatorEmail)
-            .build()
-        )
-      );
+    translator.setEmail(translatorEmail);
     entityManager.persist(translator);
     return translator;
   }

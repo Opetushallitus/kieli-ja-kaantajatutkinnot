@@ -34,7 +34,7 @@ public class MeetingDateService {
 
     try {
       meetingDateRepository.saveAndFlush(meetingDate);
-    } catch (final DataIntegrityViolationException ex) {
+    } catch (DataIntegrityViolationException ex) {
       throw new APIException(APIExceptionType.MEETING_DATE_CREATE_DUPLICATE_DATE);
     }
 
@@ -55,7 +55,7 @@ public class MeetingDateService {
 
     try {
       meetingDateRepository.flush();
-    } catch (final DataIntegrityViolationException ex) {
+    } catch (DataIntegrityViolationException ex) {
       throw new APIException(APIExceptionType.MEETING_DATE_UPDATE_DUPLICATE_DATE);
     }
 

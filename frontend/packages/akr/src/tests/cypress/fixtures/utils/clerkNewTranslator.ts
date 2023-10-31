@@ -10,9 +10,9 @@ export const newTranslatorBasicInformationFields = [
     value: 'John',
   },
   {
-    fieldName: 'nickName',
+    fieldName: 'identityNumber',
     fieldType: 'input',
-    value: 'John',
+    value: '010199-1337',
   },
   {
     fieldName: 'street',

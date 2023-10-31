@@ -1,6 +1,5 @@
 package fi.oph.otr.onr;
 
-import static fi.oph.otr.onr.dto.ContactDetailsGroupType.AKR_OSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.KOTIMAINEN_POSTIOSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.KOTIOSOITE;
 import static fi.oph.otr.onr.dto.ContactDetailsGroupType.OTR_OSOITE;
@@ -19,10 +18,8 @@ import fi.oph.otr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.otr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.otr.onr.dto.ContactDetailsGroupType;
 import fi.oph.otr.onr.dto.ContactDetailsType;
-import fi.oph.otr.onr.dto.PersonalDataDTO;
 import fi.oph.otr.onr.model.PersonalData;
 import fi.oph.otr.util.CustomOrderComparator;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -101,7 +98,7 @@ public class ContactDetailsUtil {
     return contactDetailsGroups
       .stream()
       .sorted(comparing(ContactDetailsGroupDTO::getType, nullsLast(comparator.thenComparing(naturalOrder()))))
-      .filter(group -> !group.getType().equals(KOTIOSOITE) && !group.getType().equals(AKR_OSOITE))
+      .filter(group -> !group.getType().equals(KOTIOSOITE))
       .flatMap(group -> group.getContactDetailsSet().stream())
       .filter(details -> details.getType().equals(contactDetailsType))
       .filter(details -> details.getValue() != null && !details.getValue().isBlank())
@@ -140,29 +137,5 @@ public class ContactDetailsUtil {
     contactDetailsDTO.setType(type);
     contactDetailsDTO.setValue(value);
     return contactDetailsDTO;
-  }
-
-  private static List<ContactDetailsGroupDTO> getNonOtrNonReadOnlyContactDetails(
-    final List<ContactDetailsGroupDTO> latestContactDetails
-  ) {
-    return latestContactDetails
-      .stream()
-      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.OTR && cd.getIsReadOnly() != true)
-      .collect(Collectors.toList());
-  }
-
-  static PersonalDataDTO combineContactDetails(
-    final PersonalDataDTO personalDataDTO,
-    final List<ContactDetailsGroupDTO> latestContactDetails
-  ) {
-    final List<ContactDetailsGroupDTO> latestNonOtrContactDetails = getNonOtrNonReadOnlyContactDetails(
-      latestContactDetails
-    );
-    final List<ContactDetailsGroupDTO> combinedContactDetails = Stream
-      .of(latestNonOtrContactDetails, personalDataDTO.getContactDetailsGroups())
-      .flatMap(Collection::stream)
-      .collect(Collectors.toList());
-    personalDataDTO.setContactDetailsGroups(combinedContactDetails);
-    return personalDataDTO;
   }
 }
