@@ -138,6 +138,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     }
   }
 
+  //
   private PersonalDataDTO getPersonalData(final String oidNumber) throws Exception {
     final Request request = defaultRequestBuilder()
       .setUrl(onrServiceUrl + "/henkilo/" + oidNumber)
