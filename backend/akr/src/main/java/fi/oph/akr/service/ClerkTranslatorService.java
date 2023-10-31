@@ -313,7 +313,7 @@ public class ClerkTranslatorService {
         .nickName(personalDataFromOnr.getNickName())
         .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(personalDataFromOnr.getIdentityNumber()))
         // Data from AKR
-        .email(translator.getEmail())
+        .email(translator.getEmail() != null ? translator.getEmail().trim() : translator.getEmail())
         .phoneNumber(translator.getPhone())
         .street(translator.getStreet())
         .postalCode(translator.getPostalCode())
@@ -343,7 +343,7 @@ public class ClerkTranslatorService {
       .firstName(translator.getFirstName())
       .nickName(translator.getFirstName()) // put first names as nick names
       .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(translator.getIdentityNumber()))
-      .email(translator.getEmail())
+      .email(translator.getEmail() != null ? translator.getEmail().trim() : translator.getEmail())
       .phoneNumber(translator.getPhone())
       .street(translator.getStreet())
       .postalCode(translator.getPostalCode())
@@ -370,7 +370,7 @@ public class ClerkTranslatorService {
       .firstName(dto.firstName())
       .nickName(dto.nickName())
       .identityNumber(dto.identityNumber())
-      .email(dto.email() != null ? dto.email().trim() : dto.email())
+      .email(dto.email())
       .phoneNumber(dto.phoneNumber())
       .street(dto.street())
       .postalCode(dto.postalCode())
