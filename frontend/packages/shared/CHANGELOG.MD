@@ -14,13 +14,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - New `NativeSelect` and `NativeSelectWithLabel` components for mobile phone use
+- Extracted `Pagination` component to ensure that pagination controls are consistent across usages
 
 ### Changed
 
 - `LanguageSelect` to use `NativeSelect` when rendered on mobile phone
 - `LanguageSelect` now requires `onLanguageChange` prop
-- `ComboBox` to use fall back to `NativeSelect` when render on mobile phone
+- `ComboBox` to fall back to `NativeSelect` when render on mobile phone
 - `ComboBox` onChange prop signature has changed to: `onChange: (value?: string) => void` 
+- `Pagination` rowsPerPage select to fall back to `NativeSelect` on mobile phone
 
 ## [1.9.30] - 2023-10-24
 
