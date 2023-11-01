@@ -61,10 +61,7 @@ const SelectMunicipality = () => {
         variant={TextFieldVariant.Outlined}
         values={municipalities.map(municipalityToComboBoxOption)}
         value={municipality ? municipalityToComboBoxOption(municipality) : null}
-        onChange={(v?: string) => {
-          const municipality = v;
-          onMunicipalityChange(municipality);
-        }}
+        onChange={onMunicipalityChange}
         label={t('labels.selectMunicipality')}
         aria-label={t('labels.selectMunicipality')}
       />
