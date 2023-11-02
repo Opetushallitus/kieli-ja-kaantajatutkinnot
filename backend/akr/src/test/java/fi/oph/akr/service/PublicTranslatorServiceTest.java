@@ -58,9 +58,6 @@ class PublicTranslatorServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
-  @Resource
-  private CountryService countryCodeService;
-
   @MockBean
   private OnrService onrService;
 
@@ -68,6 +65,9 @@ class PublicTranslatorServiceTest {
   public void setup() {
     final PostalCodeService postalCodeService = new PostalCodeService();
     postalCodeService.init();
+
+    final CountryService countryCodeService = new CountryService();
+    countryCodeService.init();
 
     publicTranslatorService =
       new PublicTranslatorService(

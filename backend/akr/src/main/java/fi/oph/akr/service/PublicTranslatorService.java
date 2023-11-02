@@ -150,7 +150,6 @@ public class PublicTranslatorService {
           return null;
         }
         final String country = getNonFinlandCountryCode(personalData);
-        //System.out.println(personalData.getCountry() + " -> " + country);
         final Pair<String, String> townTranslated = postalCodeService.translateTown(personalData.getTown());
         return PublicTownDTO
           .builder()
