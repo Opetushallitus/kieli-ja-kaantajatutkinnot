@@ -19,6 +19,7 @@ import fi.oph.akr.onr.OnrService;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorRepository;
+import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.service.koodisto.PostalCodeService;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
@@ -57,6 +58,9 @@ class PublicTranslatorServiceTest {
   @Resource
   private TestEntityManager entityManager;
 
+  @Resource
+  private CountryService countryCodeService;
+
   @MockBean
   private OnrService onrService;
 
@@ -66,7 +70,13 @@ class PublicTranslatorServiceTest {
     postalCodeService.init();
 
     publicTranslatorService =
-      new PublicTranslatorService(authorisationRepository, translatorRepository, postalCodeService, onrService);
+      new PublicTranslatorService(
+        authorisationRepository,
+        translatorRepository,
+        postalCodeService,
+        countryCodeService,
+        onrService
+      );
   }
 
   @Test
