@@ -20,7 +20,9 @@ public class CountryService extends AbstractKoodistoService {
     svToCode = new HashMap<>();
     enToCode = new HashMap<>();
     localisationByCode.forEach((key, value) -> {
-      final String fiOriginal = value.fi().orElseThrow(() -> new RuntimeException("Finnish translation expected for country code: " + key));
+      final String fiOriginal = value
+        .fi()
+        .orElseThrow(() -> new RuntimeException("Finnish translation expected for country code: " + key));
       final String fi = fiOriginal.toUpperCase();
       if (!fiToCode.containsKey(fi)) {
         fiToCode.put(fi, key);
@@ -40,11 +42,11 @@ public class CountryService extends AbstractKoodistoService {
     });
   }
 
-  public String getCountryCode(final String t) {
-    if (t == null || t.isBlank()) {
+  public String getCountryCode(final String countryOriginal) {
+    if (countryOriginal == null || countryOriginal.isBlank()) {
       return null;
     }
-    final String country = t.toUpperCase();
+    final String country = countryOriginal.toUpperCase();
     if (fiToCode.containsKey(country)) {
       return fiToCode.get(country);
     }
@@ -54,6 +56,6 @@ public class CountryService extends AbstractKoodistoService {
     if (enToCode.containsKey(country)) {
       return enToCode.get(country);
     }
-    return t;
+    return countryOriginal;
   }
 }
