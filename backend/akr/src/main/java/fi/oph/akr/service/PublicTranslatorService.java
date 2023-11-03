@@ -12,6 +12,7 @@ import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorLanguagePairProjection;
 import fi.oph.akr.repository.TranslatorRepository;
+import fi.oph.akr.service.koodisto.CountryService;
 import fi.oph.akr.service.koodisto.PostalCodeService;
 import fi.oph.akr.util.MigrationUtil;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class PublicTranslatorService {
   private final AuthorisationRepository authorisationRepository;
   private final TranslatorRepository translatorRepository;
   private final PostalCodeService postalCodeService;
+  private final CountryService countryCodeService;
   private final OnrService onrService;
 
   @Cacheable(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS)
@@ -113,8 +115,8 @@ public class PublicTranslatorService {
     final PersonalData personalData,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final String country = resolveCountry(personalData);
-    final Pair<String, String> townTranslated = resolveTownTranslated(personalData.getTown(), country);
+    final String country = getNonFinlandCountryCode(personalData);
+    final Pair<String, String> townTranslated = postalCodeService.translateTown(personalData.getTown());
     return PublicTranslatorDTO
       .builder()
       .id(translator.getId())
@@ -147,8 +149,8 @@ public class PublicTranslatorService {
         if (!StringUtils.hasText(personalData.getTown())) {
           return null;
         }
-        final String country = resolveCountry(personalData);
-        final Pair<String, String> townTranslated = resolveTownTranslated(personalData.getTown(), country);
+        final String country = getNonFinlandCountryCode(personalData);
+        final Pair<String, String> townTranslated = postalCodeService.translateTown(personalData.getTown());
         return PublicTownDTO
           .builder()
           .name(townTranslated.getLeft())
@@ -162,15 +164,12 @@ public class PublicTranslatorService {
       .toList();
   }
 
-  private Pair<String, String> resolveTownTranslated(final String town, final String country) {
-    if (country == null) {
-      return postalCodeService.translateTown(town);
+  private String getNonFinlandCountryCode(final PersonalData personalData) {
+    final String countryCode = countryCodeService.getCountryCode(personalData.getCountry());
+    if (countryCode == null || countryCode.equals("FIN")) {
+      return null;
     }
-    return Pair.of(town, town);
-  }
-
-  private static String resolveCountry(final PersonalData personalData) {
-    return Optional.ofNullable(personalData.getCountry()).filter(c -> !"FIN".equals(c)).orElse(null);
+    return countryCode;
   }
 
   private Comparator<PublicTownDTO> publicTownDTOCompare() {
