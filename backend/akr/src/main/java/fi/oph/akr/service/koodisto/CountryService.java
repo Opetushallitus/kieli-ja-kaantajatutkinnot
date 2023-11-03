@@ -20,7 +20,7 @@ public class CountryService extends AbstractKoodistoService {
     svToCode = new HashMap<>();
     enToCode = new HashMap<>();
     localisationByCode.forEach((key, value) -> {
-      final String fiOriginal = value.fi().orElseThrow(() -> new RuntimeException("Finnish translation expected"));
+      final String fiOriginal = value.fi().orElseThrow(() -> new RuntimeException("Finnish translation expected for country code: " + key));
       final String fi = fiOriginal.toUpperCase();
       if (!fiToCode.containsKey(fi)) {
         fiToCode.put(fi, key);
