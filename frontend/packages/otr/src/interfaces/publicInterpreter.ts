@@ -1,4 +1,3 @@
-import { AutocompleteValue } from 'shared/components';
 import { WithId } from 'shared/interfaces';
 
 import { LanguagePair } from 'interfaces/languagePair';
@@ -21,8 +20,8 @@ export interface PublicInterpreterFilter {
 }
 
 export interface PublicInterpreterFilterValues {
-  fromLang: AutocompleteValue;
-  toLang: AutocompleteValue;
+  fromLang: string;
+  toLang: string;
   name: string;
-  region: AutocompleteValue;
+  region: string;
 }

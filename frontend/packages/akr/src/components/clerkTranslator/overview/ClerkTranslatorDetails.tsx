@@ -1,5 +1,4 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-//import { AutocompleteValue } from 'shared/components';
 import { APIResponseStatus, Severity, Variant } from 'shared/enums';
 import { useDialog, useToast } from 'shared/hooks';
 import { StringUtils } from 'shared/utils';
@@ -86,11 +85,12 @@ export const ClerkTranslatorDetails = () => {
       handleFieldChange(field, event.target.value);
     };
 
-  // const handleComboBoxChange =
-  //   (field: keyof ClerkTranslatorBasicInformation) =>
-  //   ({}, autocompleteValue?: AutocompleteValue) => {
-  //     handleFieldChange(field, autocompleteValue?.value);
-  //   };
+  /*
+  const handleComboBoxChange =
+    (field: keyof ClerkTranslatorBasicInformation) => (value?: string) => {
+      handleFieldChange(field, value);
+    };
+  */
 
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>

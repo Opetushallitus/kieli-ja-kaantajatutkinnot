@@ -1,9 +1,14 @@
+import { useWindowProperties } from '../../hooks/useWindowProperties/useWindowProperties';
 import {
   AutoCompleteComboBox,
   ComboBoxOption,
   ComboBoxProps,
 } from '../../interfaces/comboBox';
 import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
+import {
+  CustomNativeSelectProps,
+  NativeSelect,
+} from '../NativeSelect/NativeSelect';
 
 export const languageToComboBoxOption = (
   translate: (l: string) => string,
@@ -18,6 +23,7 @@ interface LanguageSelectProps {
   primaryLanguages?: Array<string>;
   excludedLanguage?: string;
   translateLanguage: (l: string) => string;
+  onLanguageChange: (l?: string) => void;
 }
 
 /**
@@ -39,10 +45,14 @@ export const LanguageSelect = ({
   primaryLanguages,
   excludedLanguage,
   translateLanguage,
+  onLanguageChange,
+  helperText,
+  showError,
+  value,
   ...rest
 }: LanguageSelectProps &
   Omit<ComboBoxProps, 'values'> &
-  AutoCompleteComboBox) => {
+  Omit<AutoCompleteComboBox, 'onChange'>) => {
   const includedLanguages = excludedLanguage
     ? languages.filter((language) => language !== excludedLanguage)
     : languages;
@@ -63,5 +73,39 @@ export const LanguageSelect = ({
     ...sortOptionsByLabels(secondaryOptions),
   ];
 
-  return <ComboBox {...rest} values={sortedOptions} />;
+  const { isPhone } = useWindowProperties();
+  if (isPhone) {
+    const nativeSelectProps: CustomNativeSelectProps = {
+      placeholder: rest.label || '',
+      values: sortedOptions,
+      value,
+      helperText,
+      showError,
+      'data-testid': rest['data-testid'],
+    };
+    for (const prop in rest) {
+      if (prop in nativeSelectProps) {
+        nativeSelectProps[prop as keyof CustomNativeSelectProps] =
+          rest[prop as keyof typeof rest];
+      }
+    }
+
+    return (
+      <NativeSelect
+        {...nativeSelectProps}
+        onChange={(e) => onLanguageChange(e.target.value as string)}
+      />
+    );
+  } else {
+    return (
+      <ComboBox
+        {...rest}
+        onChange={onLanguageChange}
+        values={sortedOptions}
+        value={value}
+        helperText={helperText}
+        showError={showError}
+      />
+    );
+  }
 };

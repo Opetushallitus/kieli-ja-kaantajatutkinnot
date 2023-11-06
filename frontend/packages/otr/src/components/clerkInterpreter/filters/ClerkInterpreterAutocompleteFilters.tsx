@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomTextField,
   H3,
@@ -65,10 +64,15 @@ export const ClerkInterpreterAutocompleteFilters = ({
   };
 
   const handleFilterChange =
-    (filter: keyof ClerkInterpreterFilters) =>
-    ({}, value: AutocompleteValue) => {
+    (filter: keyof Omit<ClerkInterpreterFilters, 'fromLang' | 'toLang'>) =>
+    (value?: string) => {
       setPage(0);
-      dispatch(addClerkInterpreterFilter({ [filter]: value?.value }));
+      dispatch(addClerkInterpreterFilter({ [filter]: value }));
+    };
+  const handleLanguageFilterChange =
+    (filter: 'fromLang' | 'toLang') => (language?: string) => {
+      setPage(0);
+      dispatch(addClerkInterpreterFilter({ [filter]: language }));
     };
 
   const getPermissionToPublishSelectValues = () =>
@@ -97,7 +101,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
             value={getLanguageSelectValue(filters.fromLang)}
             disabled={true}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('fromLang')}
+            onLanguageChange={handleLanguageFilterChange('fromLang')}
             languages={QualificationUtils.selectableFromLangs}
             excludedLanguage={filters.toLang}
             translateLanguage={translateLanguage}
@@ -108,7 +112,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
             label={t('languagePair.toPlaceholder')}
             value={getLanguageSelectValue(filters.toLang)}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('toLang')}
+            onLanguageChange={handleLanguageFilterChange('toLang')}
             languages={distinctToLangs}
             excludedLanguage={filters.fromLang}
             translateLanguage={translateLanguage}

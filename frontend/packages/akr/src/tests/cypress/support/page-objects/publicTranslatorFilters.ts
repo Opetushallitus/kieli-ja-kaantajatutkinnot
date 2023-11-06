@@ -5,9 +5,9 @@ const expectOpenLangSelectValues = (values) => {
 
 class PublicTranslatorFilters {
   elements = {
-    fromLang: () =>
+    fromLangComboBox: () =>
       cy.findByTestId('public-translator-filters__from-language-select'),
-    toLang: () =>
+    toLangComboBox: () =>
       cy.findByTestId('public-translator-filters__to-language-select'),
     name: () => cy.findByTestId('public-translator-filters__name-field'),
     town: () => cy.findByTestId('public-translator-filters__town-combobox'),
@@ -20,19 +20,27 @@ class PublicTranslatorFilters {
     cy.findByRole('option', { name }).should('be.visible').click();
   }
 
-  selectFromLangByName(from: string) {
-    this.clickFromLang();
-    this.selectOptionByName(from);
+  selectFromLangByName(isPhone: boolean, from: string) {
+    if (isPhone) {
+      this.elements.fromLangComboBox().findByRole('combobox').select(from);
+    } else {
+      this.clickFromLang();
+      this.selectOptionByName(from);
+    }
   }
 
-  selectToLangByName(to: string) {
-    this.clickToLang();
-    this.selectOptionByName(to);
+  selectToLangByName(isPhone: boolean, to: string) {
+    if (isPhone) {
+      this.elements.toLangComboBox().findByRole('combobox').select(to);
+    } else {
+      this.clickToLang();
+      this.selectOptionByName(to);
+    }
   }
 
-  filterByLanguagePair(from: string, to: string) {
-    this.selectFromLangByName(from);
-    this.selectToLangByName(to);
+  filterByLanguagePair(isPhone: boolean, from: string, to: string) {
+    this.selectFromLangByName(isPhone, from);
+    this.selectToLangByName(isPhone, to);
     this.search();
   }
 
@@ -72,11 +80,11 @@ class PublicTranslatorFilters {
   }
 
   clickFromLang() {
-    this.elements.fromLang().should('be.visible').click();
+    this.elements.fromLangComboBox().should('be.visible').click();
   }
 
   clickToLang() {
-    this.elements.toLang().should('be.visible').click();
+    this.elements.toLangComboBox().should('be.visible').click();
   }
 
   expectSearchButtonTo(assert: string) {

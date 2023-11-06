@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   CustomSwitch,
@@ -78,17 +77,16 @@ export const QualificationFields = ({
     : null;
 
   const handleLanguageSelectChange =
-    (fieldName: string) =>
-    ({}, value: AutocompleteValue) => {
+    (fieldName: 'fromLang' | 'toLang') => (language?: string) => {
       setQualification({
         ...qualification,
-        [fieldName]: value?.value ?? '',
+        [fieldName]: language,
       });
       setIsQualificationDataChanged(true);
     };
 
-  const handleExaminationTypeChange = ({}, value: AutocompleteValue) => {
-    const examinationType = value?.value as ExaminationType;
+  const handleExaminationTypeChange = (value?: string) => {
+    const examinationType = value as ExaminationType;
 
     setQualification({
       ...qualification,
@@ -97,9 +95,9 @@ export const QualificationFields = ({
     setIsQualificationDataChanged(true);
   };
 
-  const handleBeginDateChange = ({}, value: AutocompleteValue) => {
+  const handleBeginDateChange = (value?: string) => {
     const PERIOD_OF_VALIDITY = 5;
-    const beginDate = value ? dayjs(value?.value) : undefined;
+    const beginDate = value ? dayjs(value) : undefined;
     const endDate = beginDate?.add(PERIOD_OF_VALIDITY, 'year');
 
     setQualification({
@@ -161,7 +159,7 @@ export const QualificationFields = ({
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(qualification.fromLang)}
-              onChange={handleLanguageSelectChange('fromLang')}
+              onLanguageChange={handleLanguageSelectChange('fromLang')}
               languages={QualificationUtils.selectableFromLangs}
               excludedLanguage={qualification.toLang}
               translateLanguage={translateLanguage}
@@ -176,7 +174,7 @@ export const QualificationFields = ({
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(qualification.toLang)}
-              onChange={handleLanguageSelectChange('toLang')}
+              onLanguageChange={handleLanguageSelectChange('toLang')}
               languages={QualificationUtils.getKoodistoLangKeys()}
               excludedLanguage={qualification.fromLang}
               translateLanguage={translateLanguage}
