@@ -6560,7 +6560,7 @@ __metadata:
 
 "finnish-personal-identity-code-validator@kimmotaskinen/finnish-personal-identity-code-validator#support-new-delimiters":
   version: 2.2.0
-  resolution: "finnish-personal-identity-code-validator@git+ssh://git@github.com/kimmotaskinen/finnish-personal-identity-code-validator.git#commit=82f423edf3c57cc1fd23d114cc475dc00250e45f"
+  resolution: "finnish-personal-identity-code-validator@https://github.com/kimmotaskinen/finnish-personal-identity-code-validator.git#commit=82f423edf3c57cc1fd23d114cc475dc00250e45f"
   checksum: 9d5a832d314b8b7fede9a3cbf0a8bf5c9344b97670c68ffb28e2f9175447838228623832e1536aa701dfbd9c58b5c19fa1da66a3a2c4bde762ab71fdd41b3aa0
   languageName: node
   linkType: hard
