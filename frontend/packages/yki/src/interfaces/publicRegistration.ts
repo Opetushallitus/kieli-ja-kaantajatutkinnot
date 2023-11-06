@@ -80,5 +80,5 @@ export interface UserOpenRegistration {
 }
 
 export interface UserOpenRegistrationsResponse {
-  'open-registrations': Array<UserOpenRegistration>;
+  open_registrations: Array<UserOpenRegistration>;
 }

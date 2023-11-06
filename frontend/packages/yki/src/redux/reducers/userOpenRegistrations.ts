@@ -24,7 +24,7 @@ const userOpenRegistrationsSlice = createSlice({
       action: PayloadAction<UserOpenRegistrationsResponse>
     ) {
       state.status = APIResponseStatus.Success;
-      state.openRegistrations = action.payload['open-registrations'];
+      state.openRegistrations = action.payload.open_registrations;
     },
     loadUserOpenRegistrations(state) {
       state.status = APIResponseStatus.InProgress;
@@ -34,7 +34,6 @@ const userOpenRegistrationsSlice = createSlice({
     },
     resetUserOpenRegistrations(state) {
       state.status = APIResponseStatus.NotStarted;
-      state.openRegistrations = undefined;
     },
   },
 });

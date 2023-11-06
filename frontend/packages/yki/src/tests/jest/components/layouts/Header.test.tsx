@@ -19,7 +19,7 @@ describe('Header', () => {
       'auth-method': 'SUOMIFI',
     };
     const openRegistrationsResponse = {
-      'open-registrations': [
+      open_registrations: [
         {
           exam_session_id: 1,
           expires_at: '2200-01-01',

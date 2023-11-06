@@ -1032,7 +1032,7 @@ module.exports = function (app) {
   app.get('/yki/api/user/open-registrations', (req, res) => {
     try {
       res.set('Content-Type', 'application/json; charset=utf-8');
-      res.send({ 'open-registrations': [ { exam_session_id: 25, expires_at: '2200-01-01' }]});
+      res.send({ open_registrations: [ { exam_session_id: 25, expires_at: '2200-01-01' }]});
     } catch (err) {
       printError(req, err);
       res.status(404).send(err.message);
