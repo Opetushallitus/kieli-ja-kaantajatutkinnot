@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
 import { PublicHomePage } from 'pages/PublicHomePage';
 import { render } from 'tests/jest/test-utils';

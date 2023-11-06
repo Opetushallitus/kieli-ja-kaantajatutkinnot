@@ -1,5 +1,4 @@
 import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-validator';
-import { TFunction } from 'i18next';
 
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 import { TextField } from '../../interfaces';
@@ -20,7 +19,8 @@ interface ValidateErrorsParams {
 interface GetErrorsParams<T> {
   fields: Array<TextField<T>>;
   values: T;
-  t: TFunction;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  t: any;
   dirtyFields?: Array<keyof T>;
   extraValidation?: ValidationFn<T>;
 }

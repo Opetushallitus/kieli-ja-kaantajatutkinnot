@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse, isAxiosError } from 'axios';
 
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
@@ -43,7 +43,7 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     );
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (isAxiosError(error) && error.response) {
       const response =
         error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
       yield put(rejectPublicRegistrationInit(response.data));
@@ -83,7 +83,7 @@ function* submitRegistrationFormSaga() {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
-    if (axios.isAxiosError(error) && error.response) {
+    if (isAxiosError(error) && error.response) {
       const response =
         error.response as AxiosResponse<PublicRegistrationFormSubmitErrorResponse>;
 

@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
@@ -31,7 +31,7 @@ function* sendReservationRequestSaga(
     );
     yield put(acceptReservationRequest());
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (isAxiosError(error) && error.response) {
       yield put(rejectReservationRequest(!!error.response.data));
     } else {
       yield put(rejectReservationRequest(false));

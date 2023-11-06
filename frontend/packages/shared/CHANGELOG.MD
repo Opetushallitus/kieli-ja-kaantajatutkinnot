@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.9.31] - 2023-11-05
+
+### Changed
+
+- i18next type fix
+
 ## [1.9.30] - 2023-10-24
 
 ### Added

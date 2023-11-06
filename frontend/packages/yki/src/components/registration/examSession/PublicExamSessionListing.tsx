@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
-import { TFunction } from 'i18next';
 import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
@@ -24,7 +23,8 @@ const getRowDetails = (examSession: ExamSession) => {
 };
 
 const getDisplayedRowsLabel = (
-  t: TFunction,
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  t: any,
   { from, to, count }: LabelDisplayedRowsArgs
 ) => {
   return t('component.table.pagination.displayedRowsLabel', {
