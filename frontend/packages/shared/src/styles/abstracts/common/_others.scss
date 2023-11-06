@@ -1,3 +1,5 @@
+@use '../colors';
+
 .border-radius-unset {
   &#{&} {
     border-radius: unset;
@@ -20,4 +22,8 @@
   & span {
     color: $color-red-500 !important;
   }
+}
+
+a:hover {
+  background-color: colors.$color-link-hover;
 }

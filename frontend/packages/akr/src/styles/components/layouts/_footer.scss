@@ -54,6 +54,7 @@
 
         &__email {
           &#{&} {
+            display: block;
             font-weight: normal;
             margin-top: 0.5rem;
           }
@@ -83,12 +84,12 @@
     & > a > button {
       color: $color-secondary-dark;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: normal;
       letter-spacing: 0;
       line-height: 1.9rem;
       margin: 0;
       padding: 6px 0;
-      text-decoration: none;
+      text-decoration: underline;
       text-transform: initial;
 
       @include phone {

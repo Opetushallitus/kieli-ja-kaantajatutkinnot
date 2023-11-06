@@ -1,13 +1,8 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Divider, Paper, Typography } from '@mui/material';
-import {
-  CustomButtonLink,
-  ExtLink,
-  OPHLogoViewer,
-  Svg,
-  Text,
-} from 'shared/components';
-import { Direction, Variant } from 'shared/enums';
+import { Link } from 'react-router-dom';
+import { ExtLink, OPHLogoViewer, Svg, Text } from 'shared/components';
+import { Direction } from 'shared/enums';
 import { FooterWave } from 'shared/statics';
 
 import {
@@ -32,33 +27,34 @@ export const Footer = () => {
           <Paper className="footer" elevation={3}>
             <div className="footer__info-row">
               <div className="footer__container footer__container__links">
-                <CustomButtonLink
-                  to={AppRoutes.AccessibilityStatementPage}
-                  variant={Variant.Text}
-                >
-                  {t('links.accessibility.text')}
-                </CustomButtonLink>
-                <CustomButtonLink
-                  to={AppRoutes.PrivacyPolicyPage}
-                  variant={Variant.Text}
-                >
-                  {t('links.privacy.text')}
-                </CustomButtonLink>
-                <ExtLink
-                  text={t('links.otrHomepage.text')}
+                <Link to={AppRoutes.AccessibilityStatementPage}>
+                  <Text>{t('links.accessibility.text')}</Text>
+                </Link>
+                <Link to={AppRoutes.PrivacyPolicyPage}>
+                  <Text>{t('links.privacy.text')}</Text>
+                </Link>
+                <a
                   href={t('links.otrHomepage.link')}
-                  endIcon={<OpenInNewIcon />}
                   aria-label={t('links.otrHomepage.ariaLabel')}
-                />
+                  className="columns gapped-xxs"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t('links.otrHomepage.text')}
+                  <OpenInNewIcon />
+                </a>
                 <div className="footer__container__links__contact">
                   <Typography component="h2" variant="h3">
                     {t('links.contact.title')}:
                   </Typography>
-                  <ExtLink
+                  <a
                     className="footer__container__links__contact__email"
                     href={`mailto:${translateCommon('contactEmail')}`}
-                    text={translateCommon('contactEmail')}
-                  ></ExtLink>
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {translateCommon('contactEmail')}
+                  </a>
                 </div>
               </div>
               <div className="footer__container footer__container__contact-details">
