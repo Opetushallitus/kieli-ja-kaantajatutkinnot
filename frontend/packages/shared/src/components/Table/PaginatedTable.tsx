@@ -96,7 +96,7 @@ export function PaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && { paginationControls }}
+      {showBottomPagination && paginationControls}
     </>
   );
 }
