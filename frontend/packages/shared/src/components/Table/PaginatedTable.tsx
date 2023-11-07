@@ -30,7 +30,7 @@ export interface PaginatedTableProps<T extends WithId>
 }
 
 /**
- * Use Paginated table when paging can reset between e.g. switching to different views or tabs
+ * Use Paginated table when paging can reset between e.g. switching to different views or  tabs
  *
  * If the underlaying data can change, .e.g via filtering results, provide controlledPaging prop
  * to reset paging on relevant handlers
