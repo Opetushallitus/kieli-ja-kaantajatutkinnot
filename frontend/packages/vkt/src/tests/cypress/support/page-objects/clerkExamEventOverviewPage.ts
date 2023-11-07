@@ -8,15 +8,15 @@ class ClerkExamEventOverviewPage {
       cy.findByTestId('clerk-exam-event-overview-page__back-button'),
     editDetailsButton: () =>
       cy.findByTestId(
-        'clerk-exam-event-overview__exam-event-details__edit-button'
+        'clerk-exam-event-overview__exam-event-details__edit-button',
       ),
     cancelExamEventDetailsButton: () =>
       cy.findByTestId(
-        'clerk-exam-event-overview__exam-event-details__cancel-button'
+        'clerk-exam-event-overview__exam-event-details__cancel-button',
       ),
     saveExamEventDetailsButton: () =>
       cy.findByTestId(
-        'clerk-exam-event-overview__exam-event-details__save-button'
+        'clerk-exam-event-overview__exam-event-details__save-button',
       ),
     enrollmentRow: (id: number) => cy.findByTestId(enrollmentRowTestId(id)),
     datePicker: (fieldName: string) =>
@@ -31,11 +31,11 @@ class ClerkExamEventOverviewPage {
     header: () => cy.findByTestId('clerk-exam-event-overview-page__header'),
     enrollmentListHeader: (status: EnrollmentStatus) =>
       cy.findByTestId(
-        `clerk-exam-event-overview-page__enrollment-list-${status}__header`
+        `clerk-exam-event-overview-page__enrollment-list-${status}__header`,
       ),
     changeEnrollmentStatusButton: (id: number) =>
       cy.findByTestId(
-        `clerk-exam-event-overview__enrollment-list-${id}__change-status-button`
+        `clerk-exam-event-overview__enrollment-list-${id}__change-status-button`,
       ),
     copyEmailsButton: () =>
       cy.findByTestId('clerk-exam-event-overview-page__copy-emails-button'),

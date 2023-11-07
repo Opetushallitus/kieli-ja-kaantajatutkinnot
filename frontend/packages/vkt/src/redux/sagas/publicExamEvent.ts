@@ -15,10 +15,10 @@ function* loadPublicExamEventsSaga() {
   try {
     const response: AxiosResponse<Array<PublicExamEventResponse>> = yield call(
       axiosInstance.get,
-      APIEndpoints.PublicExamEvent
+      APIEndpoints.PublicExamEvent,
     );
     const examEvents = response.data.map(
-      SerializationUtils.deserializePublicExamEvent
+      SerializationUtils.deserializePublicExamEvent,
     );
     yield put(storePublicExamEvents(examEvents));
   } catch (error) {

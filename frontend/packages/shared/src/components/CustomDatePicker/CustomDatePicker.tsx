@@ -7,12 +7,10 @@ import { CustomTextField, CustomTextFieldProps } from '../../components';
 interface DatePickerProps {
   value: Dayjs | null;
   setValue: (value: Dayjs | null) => void;
-  placeholder?: string;
   label?: string;
   disabled?: boolean;
   minDate?: Dayjs;
   maxDate?: Dayjs;
-  showToolbar?: boolean;
 }
 
 type CustomDatePickerProps = DatePickerProps & CustomTextFieldProps;
@@ -24,11 +22,9 @@ export const CustomDatePicker = ({
   disabled = false,
   minDate,
   maxDate,
-  showToolbar = true,
   error,
   helperText,
   showHelperText,
-  placeholder,
 }: CustomDatePickerProps): JSX.Element => {
   const MIN_DATE = '1980-01-01';
   const MAX_DATE = '2050-01-01';
@@ -44,23 +40,23 @@ export const CustomDatePicker = ({
     >
       <DesktopDatePicker
         className="custom-date-picker"
-        showToolbar={showToolbar}
         label={label}
         value={value}
         onChange={handleChange}
         disabled={disabled}
         minDate={minDate ?? dayjs(MIN_DATE)}
         maxDate={maxDate ?? dayjs(MAX_DATE)}
-        toolbarPlaceholder={placeholder}
-        renderInput={(params) => {
-          const textFieldParams = {
-            ...params,
-            error,
-            helperText,
-            showHelperText,
-          };
+        slots={{
+          textField: (params) => {
+            const textFieldParams = {
+              ...params,
+              error,
+              helperText,
+              showHelperText,
+            };
 
-          return <CustomTextField {...textFieldParams} />;
+            return <CustomTextField {...textFieldParams} />;
+          }
         }}
       />
     </LocalizationProvider>

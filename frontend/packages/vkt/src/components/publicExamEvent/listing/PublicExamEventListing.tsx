@@ -41,7 +41,7 @@ export const PublicExamEventListing = ({
 
   const handleLanguageFilterChange = (event: SelectChangeEvent) => {
     dispatch(
-      setPublicExamEventLanguageFilter(event.target.value as ExamLanguage)
+      setPublicExamEventLanguageFilter(event.target.value as ExamLanguage),
     );
   };
 

@@ -9,7 +9,7 @@ export class DateTimeUtils {
 
     return DateUtils.formatOptionalDateTime(
       dateTime,
-      t('vkt.common.dates.dateTimeFormat')
+      t('vkt.common.dates.dateTimeFormat'),
     );
   }
 
@@ -18,7 +18,7 @@ export class DateTimeUtils {
 
     return DateUtils.formatOptionalDateTime(
       dateTime,
-      t('vkt.common.dates.dateFormat')
+      t('vkt.common.dates.dateFormat'),
     );
   }
 }

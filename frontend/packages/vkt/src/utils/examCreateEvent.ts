@@ -9,7 +9,7 @@ import { ExamEventUtils } from 'utils/examEvent';
 export class ExamCreateEventUtils {
   static maxParticipantsHasError(
     isDirty: boolean,
-    value: number | undefined
+    value: number | undefined,
   ): boolean {
     return (
       isDirty &&
@@ -25,18 +25,18 @@ export class ExamCreateEventUtils {
       DateUtils.isValidDate(examEvent.registrationCloses) &&
       DateUtils.isDatePartBefore(
         examEvent.registrationCloses as Dayjs,
-        examEvent.date as Dayjs
+        examEvent.date as Dayjs,
       ) &&
       !ExamCreateEventUtils.maxParticipantsHasError(
         true,
-        examEvent.maxParticipants
+        examEvent.maxParticipants,
       )
     );
   }
 
   static getLangLevelComboOpt(
     examForm: DraftClerkExamEvent,
-    translateCommon: (t: string) => string
+    translateCommon: (t: string) => string,
   ): ComboBoxOption | null {
     if (!examForm || !examForm.language || !examForm.level) {
       return null;
@@ -46,14 +46,14 @@ export class ExamCreateEventUtils {
       label: ExamEventUtils.languageAndLevelText(
         examForm.language,
         examForm.level,
-        translateCommon
+        translateCommon,
       ),
       value: examForm.language + '-' + examForm.level,
     };
   }
 
   static langLevelOpts(
-    translateCommon: (t: string) => string
+    translateCommon: (t: string) => string,
   ): ComboBoxOption[] {
     const langs = Object.keys(ExamLanguage)
       .splice(1)
@@ -63,7 +63,7 @@ export class ExamCreateEventUtils {
             label: ExamEventUtils.languageAndLevelText(
               lang as ExamLanguage,
               level as ExamLevel,
-              translateCommon
+              translateCommon,
             ),
             value: lang + '-' + level,
           };

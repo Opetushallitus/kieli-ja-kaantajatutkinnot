@@ -30,10 +30,10 @@ export const ClerkEnrollmentDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { status, enrollment, paymentRefundStatus } = useAppSelector(
-    clerkEnrollmentDetailsSelector
+    clerkEnrollmentDetailsSelector,
   );
   const { examEvent, clerkEnrollmentChangeStatus } = useAppSelector(
-    clerkExamEventOverviewSelector
+    clerkExamEventOverviewSelector,
   );
 
   const { showToast } = useToast();
@@ -118,7 +118,7 @@ export const ClerkEnrollmentDetails = () => {
     field:
       | keyof PartialExamsAndSkills
       | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
-    fieldValue: boolean
+    fieldValue: boolean,
   ) => {
     handleFieldChange(field, fieldValue);
   };
@@ -128,7 +128,7 @@ export const ClerkEnrollmentDetails = () => {
       | ClerkEnrollmentTextFieldEnum
       | keyof PartialExamsAndSkills
       | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
-    fieldValue: string | boolean
+    fieldValue: string | boolean,
   ) => {
     setHasLocalChanges(true);
     setEnrollmentDetails((prevState) => {
@@ -164,7 +164,7 @@ export const ClerkEnrollmentDetails = () => {
       updateClerkEnrollmentDetails({
         enrollment: enrollmentDetails,
         examEvent,
-      })
+      }),
     );
   };
 

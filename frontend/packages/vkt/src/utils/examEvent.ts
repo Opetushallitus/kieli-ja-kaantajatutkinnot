@@ -18,12 +18,12 @@ export class ExamEventUtils {
     const participantsNumber = enrollments
       .map((e: ClerkEnrollment) => e.status)
       .filter((s: EnrollmentStatus) =>
-        participationStatuses.includes(s)
+        participationStatuses.includes(s),
       ).length;
     const isSeatsAvailable =
       examEventDetails.maxParticipants > participantsNumber;
     const isQueue = !!enrollments.find(
-      (e: ClerkEnrollment) => e.status === EnrollmentStatus.QUEUED
+      (e: ClerkEnrollment) => e.status === EnrollmentStatus.QUEUED,
     );
 
     return isSeatsAvailable && isQueue;
@@ -31,13 +31,13 @@ export class ExamEventUtils {
 
   static getUpcomingExamEvents(examEvents: Array<ClerkListExamEvent>) {
     return examEvents.filter(
-      (e) => !DateUtils.isDatePartBefore(e.date, dayjs())
+      (e) => !DateUtils.isDatePartBefore(e.date, dayjs()),
     );
   }
 
   static getPassedExamEvents(examEvents: Array<ClerkListExamEvent>) {
     return examEvents.filter((e) =>
-      DateUtils.isDatePartBefore(e.date, dayjs())
+      DateUtils.isDatePartBefore(e.date, dayjs()),
     );
   }
 
@@ -48,11 +48,11 @@ export class ExamEventUtils {
   static languageAndLevelText(
     language: ExamLanguage,
     level: ExamLevel,
-    translateCommon: (t: string) => string
+    translateCommon: (t: string) => string,
   ) {
     const langTranslation = translateCommon(`examLanguage.${language}`);
     const levelTranslation = translateCommon(
-      `examLevel.${level}`
+      `examLevel.${level}`,
     ).toLowerCase();
 
     return `${langTranslation}, ${levelTranslation}`;

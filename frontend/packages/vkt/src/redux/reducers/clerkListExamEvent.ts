@@ -49,20 +49,20 @@ const clerkListExamEventSlice = createSlice({
     },
     setExamEventToggleFilter(
       state,
-      action: PayloadAction<ExamEventToggleFilter>
+      action: PayloadAction<ExamEventToggleFilter>,
     ) {
       state.toggleFilter = action.payload;
     },
     upsertExamEvents(state, action: PayloadAction<ClerkExamEvent>) {
       const isUnusedSeats = ExamEventUtils.getIsExamEventWithUnusedSeats(
-        action.payload
+        action.payload,
       );
       const participants = action.payload.enrollments.filter((enrollment) =>
         [
           EnrollmentStatus.PAID,
           EnrollmentStatus.SHIFTED_FROM_QUEUE,
           EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT,
-        ].includes(enrollment.status)
+        ].includes(enrollment.status),
       ).length;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { version, enrollments, ...rest } = action.payload;
@@ -74,7 +74,7 @@ const clerkListExamEventSlice = createSlice({
 
       const examEvents = [...state.examEvents];
       const idx = examEvents.findIndex(
-        (e: ClerkListExamEvent) => e.id === examEvent.id
+        (e: ClerkListExamEvent) => e.id === examEvent.id,
       );
       const spliceIndex = idx >= 0 ? idx : examEvents.length;
 

@@ -64,8 +64,8 @@ export const ClerkEnrollmentListingRow = ({
     navigate(
       AppRoutes.ClerkEnrollmentOverviewPage.replace(
         /:examEventId/,
-        `${examEventId}`
-      )
+        `${examEventId}`,
+      ),
     );
   };
 

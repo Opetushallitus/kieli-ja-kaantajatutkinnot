@@ -58,7 +58,7 @@ export class EnrollmentUtils {
 
   static mergeEnrollment(
     localEnrollment: PublicEnrollment,
-    serverEnrollment: PublicEnrollment
+    serverEnrollment: PublicEnrollment,
   ): PublicEnrollment {
     // If email value has been given in local state,
     // then local values must be newer and thus overwrite

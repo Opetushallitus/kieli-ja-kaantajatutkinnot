@@ -16,7 +16,7 @@ class PublicEnrollmentPage {
       cy.get(`#public-enrollment__certificate-shipping__${field}-field`),
     enrollmentCertificateShippingDetailsError: (field: string) =>
       cy.get(
-        `#public-enrollment__certificate-shipping__${field}-field-helper-text`
+        `#public-enrollment__certificate-shipping__${field}-field-helper-text`,
       ),
     nextButton: () =>
       cy.findByTestId('public-enrollment__controlButtons__next'),

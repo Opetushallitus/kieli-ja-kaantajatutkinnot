@@ -8,7 +8,7 @@ declare global {
       openPublicHomePage(): void;
       openPublicEnrollmentPage(
         examEventId: number,
-        persistedState?: string
+        persistedState?: string,
       ): void;
       openClerkHomePage(): void;
       openClerkExamEventPage(examEventId: number): void;

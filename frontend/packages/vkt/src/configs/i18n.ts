@@ -76,9 +76,8 @@ export const initI18n = () => {
 
 const useAppTranslation = (
   options: UseTranslationOptions<string>,
-  ns: I18nNamespace
+  ns: I18nNamespace,
 ) => {
-  // @ts-expect-error ts import fail
   return useTranslation(ns, options);
 };
 
@@ -87,7 +86,7 @@ export const useAccessibilityTranslation = () => {
     {
       keyPrefix: 'vkt.accessibility',
     },
-    I18nNamespace.Accessibility
+    I18nNamespace.Accessibility,
   );
 
   return t;
@@ -102,7 +101,7 @@ export const useCommonTranslation = () => {
     {
       keyPrefix: 'vkt.common',
     },
-    I18nNamespace.Common
+    I18nNamespace.Common,
   );
 
   return t;
@@ -113,14 +112,14 @@ export const usePrivacyTranslation = () => {
     {
       keyPrefix: 'vkt.privacy',
     },
-    I18nNamespace.Privacy
+    I18nNamespace.Privacy,
   );
 
   return t;
 };
 
 export const usePublicTranslation = (
-  options: UseTranslationOptions<string>
+  options: UseTranslationOptions<string>,
 ) => {
   return useAppTranslation(options, I18nNamespace.Public);
 };

@@ -31,14 +31,14 @@ const publicExamEventSlice = createSlice({
     },
     storePublicExamEvents(
       state,
-      action: PayloadAction<Array<PublicExamEvent>>
+      action: PayloadAction<Array<PublicExamEvent>>,
     ) {
       state.status = APIResponseStatus.Success;
       state.examEvents = action.payload;
     },
     setPublicExamEventLanguageFilter(
       state,
-      action: PayloadAction<ExamLanguage>
+      action: PayloadAction<ExamLanguage>,
     ) {
       state.languageFilter = action.payload;
     },

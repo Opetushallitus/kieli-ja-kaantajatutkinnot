@@ -9,7 +9,7 @@ export class RouteUtils {
   static getAuthLoginApiRoute(examEventId: number, type: string) {
     return APIEndpoints.PublicAuthLogin.replace(
       ':examEventId',
-      `${examEventId}`
+      `${examEventId}`,
     )
       .replace(':type', type)
       .replace(':locale', RouteUtils.getApiRouteLocale());
@@ -18,7 +18,7 @@ export class RouteUtils {
   static getPaymentCreateApiRoute(enrollmentId?: number) {
     return APIEndpoints.PaymentCreate.replace(
       ':enrollmentId',
-      `${enrollmentId}`
+      `${enrollmentId}`,
     ).replace(':locale', RouteUtils.getApiRouteLocale());
   }
 
@@ -39,37 +39,37 @@ export class RouteUtils {
       case PublicEnrollmentFormStep.FillContactDetails:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentContactDetails,
-          examEventId
+          examEventId,
         );
 
       case PublicEnrollmentFormStep.SelectExam:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentSelectExam,
-          examEventId
+          examEventId,
         );
 
       case PublicEnrollmentFormStep.Preview:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPreview,
-          examEventId
+          examEventId,
         );
 
       case PublicEnrollmentFormStep.Payment:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPaymentFail,
-          examEventId
+          examEventId,
         );
 
       case PublicEnrollmentFormStep.PaymentSuccess:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentPaymentSuccess,
-          examEventId
+          examEventId,
         );
 
       case PublicEnrollmentFormStep.Done:
         return RouteUtils.replaceExamEventId(
           AppRoutes.PublicEnrollmentDone,
-          examEventId
+          examEventId,
         );
     }
   }

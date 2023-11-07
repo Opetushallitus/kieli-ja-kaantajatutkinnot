@@ -1,6 +1,7 @@
-import { rest } from 'msw';
+import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { ClerkEnrollmentStatusChange } from 'interfaces/clerkEnrollment';
 import {
   PublicReservationDetailsResponse,
   PublicReservationResponse,
@@ -14,10 +15,10 @@ import { publicEnrollmentInitialisation } from 'tests/msw/fixtures/publicEnrollm
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
 
 export const handlers = [
-  rest.get(APIEndpoints.PublicExamEvent, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(publicExamEvents11));
+  http.get(APIEndpoints.PublicExamEvent, () => {
+    return new Response(JSON.stringify(publicExamEvents11));
   }),
-  rest.put(`${APIEndpoints.PublicReservation}/1/renew`, (req, res, ctx) => {
+  http.put(`${APIEndpoints.PublicReservation}/1/renew`, () => {
     const response: PublicReservationResponse = {
       id: 1,
       expiresAt: fixedDateForTests.add(59, 'minute').format(),
@@ -26,88 +27,81 @@ export const handlers = [
       isRenewable: false,
     };
 
-    return res(ctx.status(201), ctx.json(response));
+    return new Response(JSON.stringify(response), { status: 201 });
   }),
-  rest.post(
-    `${APIEndpoints.PublicExamEvent}/2/reservation`,
-    (req, res, ctx) => {
-      const response: PublicReservationDetailsResponse = {
-        examEvent: publicExamEvents11[1],
-        reservation: {
-          id: 1,
-          expiresAt: fixedDateForTests.add(30, 'minute').format(),
-          createdAt: fixedDateForTests.format(),
-          isRenewable: true,
-        },
-        person,
-      };
+  http.post(`${APIEndpoints.PublicExamEvent}/2/reservation`, () => {
+    const response: PublicReservationDetailsResponse = {
+      examEvent: publicExamEvents11[1],
+      reservation: {
+        id: 1,
+        expiresAt: fixedDateForTests.add(30, 'minute').format(),
+        createdAt: fixedDateForTests.format(),
+        isRenewable: true,
+      },
+      person,
+    };
 
-      return res(ctx.status(201), ctx.json(response));
-    }
-  ),
-  rest.post(`${APIEndpoints.PublicExamEvent}/5/queue`, (req, res, ctx) => {
-    return res(
-      ctx.status(201),
-      ctx.json({
+    return new Response(JSON.stringify(response), { status: 201 });
+  }),
+  http.post(`${APIEndpoints.PublicExamEvent}/5/queue`, () => {
+    return new Response(
+      JSON.stringify({
         id: 2,
         expiresAt: Date.now() + 60 * 1000,
         examEvent: publicExamEvents11[4],
         person,
-      })
+      }),
+      { status: 201 },
     );
   }),
-  rest.post(
-    `${APIEndpoints.PublicExamEvent}/10/reservation`,
-    (req, res, ctx) => {
-      const errorCode = 'initialiseEnrollmentHasCongestion';
+  http.post(`${APIEndpoints.PublicExamEvent}/10/reservation`, () => {
+    const errorCode = 'initialiseEnrollmentHasCongestion';
 
-      return res(ctx.status(400), ctx.json({ errorCode }));
-    }
-  ),
-  rest.post(
-    `${APIEndpoints.PublicExamEvent}/11/reservation`,
-    (req, res, ctx) => {
-      const errorCode = 'initialiseEnrollmentRegistrationClosed';
+    return new Response(JSON.stringify({ errorCode }), { status: 400 });
+  }),
+  http.post(`${APIEndpoints.PublicExamEvent}/11/reservation`, () => {
+    const errorCode = 'initialiseEnrollmentRegistrationClosed';
 
-      return res(ctx.status(400), ctx.json({ errorCode }));
-    }
-  ),
-  rest.get(APIEndpoints.ClerkExamEvent, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkExamEvents9));
+    return new Response(JSON.stringify({ errorCode }), { status: 400 });
   }),
-  rest.get(`${APIEndpoints.ClerkExamEvent}/1`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkExamEvent));
+  http.get(APIEndpoints.ClerkExamEvent, () => {
+    return new Response(JSON.stringify(clerkExamEvents9), { status: 200 });
   }),
-  rest.put(APIEndpoints.ClerkExamEvent, (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
+  http.get(`${APIEndpoints.ClerkExamEvent}/1`, () => {
+    return new Response(JSON.stringify(clerkExamEvent), { status: 200 });
+  }),
+  http.put(APIEndpoints.ClerkExamEvent, () => {
+    return new Response(
+      JSON.stringify({
         ...clerkExamEvent,
         language: 'SV',
-      })
+      }),
+      { status: 200 },
     );
   }),
-  rest.put(`${APIEndpoints.ClerkEnrollment}/status`, async (req, res, ctx) => {
-    const statusChange = await req.json();
+  http.put(`${APIEndpoints.ClerkEnrollment}/status`, async ({ request }) => {
+    const statusChange = (await request.json()) as ClerkEnrollmentStatusChange;
     const enrollment =
       statusChange.id && clerkExamEvent.enrollments[statusChange.id - 1];
 
     if (enrollment) {
-      return res(
-        ctx.status(200),
-        ctx.json({
+      return new Response(
+        JSON.stringify({
           ...enrollment,
           status: statusChange.newStatus,
-        })
+        }),
+        { status: 200 },
       );
     }
 
-    return res(ctx.status(400));
+    return new Response(null, { status: 400 });
   }),
-  rest.get(`${APIEndpoints.PublicExamEvent}/2/enrollment`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(publicEnrollmentInitialisation));
+  http.get(`${APIEndpoints.PublicExamEvent}/2/enrollment`, () => {
+    return new Response(JSON.stringify(publicEnrollmentInitialisation), {
+      status: 200,
+    });
   }),
-  rest.put(`${APIEndpoints.ClerkPayment}/1/refunded`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkPaymentRefunded));
+  http.put(`${APIEndpoints.ClerkPayment}/1/refunded`, () => {
+    return new Response(JSON.stringify(clerkPaymentRefunded), { status: 200 });
   }),
 ];

@@ -74,7 +74,10 @@ const ExamEventDetails = ({ enrollment }: { enrollment: PublicEnrollment }) => {
     translateIfSelected('speechComprehensionPartialExam'),
   ].filter((s) => !!s);
 
-  const displayBulletList = (label: string, items: Array<string>) => (
+  const displayBulletList = (
+    label: string,
+    items: Array<string | undefined>,
+  ) => (
     <div className="rows gapped-xxs">
       <Text className="bold">
         {label}
@@ -197,7 +200,7 @@ export const Preview = ({
     dispatch(
       updatePublicEnrollment({
         privacyStatementConfirmation: !enrollment.privacyStatementConfirmation,
-      })
+      }),
     );
   };
 

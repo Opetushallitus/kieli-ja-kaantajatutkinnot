@@ -19,7 +19,7 @@ export const ChangeEnrollmentStatusButton = ({
       'vkt.component.clerkEnrollmentListing.row.changeEnrollmentStatus',
   });
   const { clerkEnrollmentChangeStatus, examEvent } = useAppSelector(
-    clerkExamEventOverviewSelector
+    clerkExamEventOverviewSelector,
   );
   const dispatch = useAppDispatch();
 
@@ -37,7 +37,7 @@ export const ChangeEnrollmentStatusButton = ({
 
   const changeStatus = (
     e: React.MouseEvent<HTMLButtonElement>,
-    newStatus: EnrollmentStatus
+    newStatus: EnrollmentStatus,
   ) => {
     e.stopPropagation();
 

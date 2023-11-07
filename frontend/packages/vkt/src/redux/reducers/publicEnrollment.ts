@@ -84,7 +84,7 @@ const publicEnrollmentSlice = createSlice({
         person: PublicPerson;
         reservation?: PublicReservation;
         enrollment?: PublicEnrollment;
-      }>
+      }>,
     ) {
       state.enrollmentInitialisationStatus = APIResponseStatus.Success;
       const persistedSessionEnrollmentDetails = current(state.enrollment);
@@ -127,7 +127,7 @@ const publicEnrollmentSlice = createSlice({
     },
     cancelPublicEnrollmentAndRemoveReservation(
       state,
-      _action: PayloadAction<number>
+      _action: PayloadAction<number>,
     ) {
       state.cancelStatus = APIResponseStatus.InProgress;
     },
@@ -136,7 +136,7 @@ const publicEnrollmentSlice = createSlice({
     },
     updatePublicEnrollment(
       state,
-      action: PayloadAction<Partial<PublicEnrollment>>
+      action: PayloadAction<Partial<PublicEnrollment>>,
     ) {
       const newEnrollment = { ...state.enrollment, ...action.payload };
 
@@ -155,7 +155,7 @@ const publicEnrollmentSlice = createSlice({
         enrollment: PublicEnrollment;
         examEventId: number;
         reservationId?: number;
-      }>
+      }>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },
@@ -168,7 +168,7 @@ const publicEnrollmentSlice = createSlice({
     },
     setPublicEnrollmentExamEventIdIfNotSet(
       state,
-      action: PayloadAction<number>
+      action: PayloadAction<number>,
     ) {
       if (!state.enrollment.examEventId) {
         state.enrollment.examEventId = action.payload;

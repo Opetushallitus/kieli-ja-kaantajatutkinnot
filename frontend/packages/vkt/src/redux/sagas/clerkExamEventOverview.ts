@@ -33,11 +33,11 @@ function* loadClerkExamEventOverviewSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkExamEventResponse> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkExamEvent}/${action.payload}`
+      `${APIEndpoints.ClerkExamEvent}/${action.payload}`,
     );
 
     const examEvent = SerializationUtils.deserializeClerkExamEvent(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(storeClerkExamEventOverview(examEvent));
   } catch (error) {
@@ -46,16 +46,16 @@ function* loadClerkExamEventOverviewSaga(action: PayloadAction<number>) {
 }
 
 function* updateClerkExamEventDetailsSaga(
-  action: PayloadAction<ClerkExamEvent>
+  action: PayloadAction<ClerkExamEvent>,
 ) {
   try {
     const apiResponse: AxiosResponse<ClerkExamEventResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.ClerkExamEvent,
-      SerializationUtils.serializeClerkExamEvent(action.payload)
+      SerializationUtils.serializeClerkExamEvent(action.payload),
     );
     const examEvent = SerializationUtils.deserializeClerkExamEvent(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertExamEvents(examEvent));
     yield put(updatingClerkExamEventDetailsSucceeded(examEvent));
@@ -70,23 +70,23 @@ function* changeClerkEnrollmentStatusSaga(
   action: PayloadAction<{
     statusChange: ClerkEnrollmentStatusChange;
     examEvent: ClerkExamEvent;
-  }>
+  }>,
 ) {
   const { statusChange, examEvent } = action.payload;
   try {
     const apiResponse: AxiosResponse<ClerkEnrollmentResponse> = yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkEnrollment}/status`,
-      statusChange
+      statusChange,
     );
 
     const updatedEnrollment = SerializationUtils.deserializeClerkEnrollment(
-      apiResponse.data
+      apiResponse.data,
     );
 
     const updatedEnrollments = [...examEvent.enrollments];
     const idx = updatedEnrollments.findIndex(
-      (e) => e.id === updatedEnrollment.id
+      (e) => e.id === updatedEnrollment.id,
     );
     updatedEnrollments[idx] = updatedEnrollment;
 
@@ -109,14 +109,14 @@ function* changeClerkEnrollmentStatusSaga(
 export function* watchClerkExamEventOverview() {
   yield takeLatest(
     loadClerkExamEventOverview.type,
-    loadClerkExamEventOverviewSaga
+    loadClerkExamEventOverviewSaga,
   );
   yield takeLatest(
     updateClerkExamEventDetails.type,
-    updateClerkExamEventDetailsSaga
+    updateClerkExamEventDetailsSaga,
   );
   yield takeLatest(
     changeClerkEnrollmentStatus.type,
-    changeClerkEnrollmentStatusSaga
+    changeClerkEnrollmentStatusSaga,
   );
 }

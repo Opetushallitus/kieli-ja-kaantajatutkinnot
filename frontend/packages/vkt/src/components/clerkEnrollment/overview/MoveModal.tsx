@@ -55,7 +55,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
 
   const { moveStatus } = useAppSelector(clerkEnrollmentDetailsSelector);
   const { status: examEventListStatus, examEvents } = useAppSelector(
-    clerkListExamEventsSelector
+    clerkListExamEventsSelector,
   );
   const { examEvent } = useAppSelector(clerkExamEventOverviewSelector);
 
@@ -88,7 +88,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
       label: `${ExamEventUtils.languageAndLevelText(
         e.language,
         e.level,
-        translateCommon
+        translateCommon,
       )} ${DateUtils.formatOptionalDate(e.date)} - ${t('fillings')} ${
         e.participants
       } / ${e.maxParticipants}`,
@@ -99,7 +99,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
   const selectableExamEventOptions = examEvents
     .filter(
       (e: ClerkListExamEvent) =>
-        e.language === examEvent.language && e.id !== examEvent.id
+        e.language === examEvent.language && e.id !== examEvent.id,
     )
     .reverse()
     .map(getComboBoxOption);
@@ -115,7 +115,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
           id: enrollment.id,
           version: enrollment.version,
           toExamEventId: Number(selectedExamEventOption.value),
-        })
+        }),
       );
     }
   };

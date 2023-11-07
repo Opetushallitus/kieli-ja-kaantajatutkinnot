@@ -15,7 +15,7 @@ export const TopControls: FC<TopControlsProps> = ({ examEventId }) => {
 
   const to = AppRoutes.ClerkExamEventOverviewPage.replace(
     /:examEventId$/,
-    `${examEventId}`
+    `${examEventId}`,
   );
 
   return (

@@ -68,7 +68,7 @@ export const CertificateShipping = ({
         fields,
         values: enrollment,
         t: translateCommon,
-      })
+      }),
     );
   }, [setValid, enrollment, translateCommon]);
 
@@ -86,7 +86,7 @@ export const CertificateShipping = ({
       dispatch(
         updatePublicEnrollment({
           [fieldName]: event.target.value,
-        })
+        }),
       );
     };
 
@@ -97,13 +97,13 @@ export const CertificateShipping = ({
   };
 
   const showCustomTextFieldError = (
-    fieldName: keyof CertificateShippingTextFields
+    fieldName: keyof CertificateShippingTextFields,
   ) => {
     return !!errors[fieldName];
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof CertificateShippingTextFields
+    fieldName: keyof CertificateShippingTextFields,
   ) => ({
     id: `public-enrollment__certificate-shipping__${fieldName}-field`,
     type: TextFieldTypes.Text,
@@ -120,7 +120,7 @@ export const CertificateShipping = ({
     dispatch(
       updatePublicEnrollment({
         digitalCertificateConsent: !enrollment.digitalCertificateConsent,
-      })
+      }),
     );
   };
 

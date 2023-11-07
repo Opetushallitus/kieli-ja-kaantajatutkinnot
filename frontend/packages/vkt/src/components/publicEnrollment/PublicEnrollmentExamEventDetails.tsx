@@ -35,7 +35,7 @@ export const PublicEnrollmentExamEventDetails = ({
           {ExamEventUtils.languageAndLevelText(
             examEvent.language,
             ExamLevel.EXCELLENT,
-            translateCommon
+            translateCommon,
           )}
         </b>
       </Text>

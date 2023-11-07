@@ -28,7 +28,7 @@ import {
 
 export class SerializationUtils {
   static deserializePublicExamEvent(
-    publicExamEvent: PublicExamEventResponse
+    publicExamEvent: PublicExamEventResponse,
   ): PublicExamEvent {
     return {
       ...publicExamEvent,
@@ -38,7 +38,7 @@ export class SerializationUtils {
   }
 
   static deserializePublicEnrollment(
-    enrollment: PublicEnrollmentResponse
+    enrollment: PublicEnrollmentResponse,
   ): PublicEnrollment {
     return {
       ...enrollment,
@@ -49,7 +49,7 @@ export class SerializationUtils {
   }
 
   static deserializePublicReservation(
-    reservation: PublicReservationResponse
+    reservation: PublicReservationResponse,
   ): PublicReservation {
     return {
       ...reservation,
@@ -60,7 +60,7 @@ export class SerializationUtils {
   }
 
   static deserializeClerkListExamEvent(
-    listExamEvent: ClerkListExamEventResponse
+    listExamEvent: ClerkListExamEventResponse,
   ): ClerkListExamEvent {
     return {
       ...listExamEvent,
@@ -81,7 +81,7 @@ export class SerializationUtils {
       ...enrollment,
       enrollmentTime: dayjs(enrollment.enrollmentTime),
       payments: enrollment.payments.map(
-        SerializationUtils.deserializeClerkPayment
+        SerializationUtils.deserializeClerkPayment,
       ),
     };
   }
@@ -102,14 +102,14 @@ export class SerializationUtils {
   }
 
   static deserializeClerkExamEvent(
-    examEvent: ClerkExamEventResponse
+    examEvent: ClerkExamEventResponse,
   ): ClerkExamEvent {
     return {
       ...examEvent,
       date: dayjs(examEvent.date),
       registrationCloses: dayjs(examEvent.registrationCloses),
       enrollments: examEvent.enrollments.map(
-        SerializationUtils.deserializeClerkEnrollment
+        SerializationUtils.deserializeClerkEnrollment,
       ),
     };
   }
@@ -128,7 +128,7 @@ export class SerializationUtils {
       date: DateUtils.serializeDate(examEvent.date),
       registrationCloses: DateUtils.serializeDate(examEvent.registrationCloses),
       enrollments: examEvent.enrollments.map(
-        SerializationUtils.serializeClerkEnrollment
+        SerializationUtils.serializeClerkEnrollment,
       ),
     };
   }

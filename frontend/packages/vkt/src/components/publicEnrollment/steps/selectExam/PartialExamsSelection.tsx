@@ -84,7 +84,7 @@ export const PartialExamsSelection = ({
     setValid(
       isSkillsSelected &&
         EnrollmentUtils.isValidTextualSkillAndPartialExams(enrollment) &&
-        EnrollmentUtils.isValidOralSkillAndPartialExams(enrollment)
+        EnrollmentUtils.isValidOralSkillAndPartialExams(enrollment),
     );
   }, [setValid, enrollment, isSkillsSelected]);
 
@@ -107,7 +107,7 @@ export const PartialExamsSelection = ({
     dispatch(
       updatePublicEnrollment({
         [fieldName]: !enrollment[fieldName],
-      })
+      }),
     );
   };
 
@@ -115,7 +115,7 @@ export const PartialExamsSelection = ({
     dispatch(
       updatePublicEnrollment({
         [fieldName]: false,
-      })
+      }),
     );
   };
 
@@ -132,7 +132,7 @@ export const PartialExamsSelection = ({
         speechComprehensionPartialExam: checked,
         writingPartialExam: checked,
         readingComprehensionPartialExam: checked,
-      })
+      }),
     );
   };
 

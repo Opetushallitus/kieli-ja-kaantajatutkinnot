@@ -50,7 +50,7 @@ function* loadEnrollmentInitialisationSaga(action: PayloadAction<number>) {
         enrollment:
           enrollment &&
           SerializationUtils.deserializePublicEnrollment(enrollment),
-      })
+      }),
     );
   } catch (error) {
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
@@ -66,11 +66,11 @@ function* loadPublicExamEventSaga(action: PayloadAction<number>) {
 
     const response: AxiosResponse<PublicExamEventResponse> = yield call(
       axiosInstance.get,
-      loadUrl
+      loadUrl,
     );
 
     const examEvent = SerializationUtils.deserializePublicExamEvent(
-      response.data
+      response.data,
     );
 
     yield put(storePublicExamEvent(examEvent));
@@ -87,11 +87,11 @@ function* renewReservationSaga(action: PayloadAction<number>) {
 
     const response: AxiosResponse<PublicReservationResponse> = yield call(
       axiosInstance.put,
-      renewUrl
+      renewUrl,
     );
 
     const reservation = SerializationUtils.deserializePublicReservation(
-      response.data
+      response.data,
     );
 
     yield put(storeReservationRenew(reservation));
@@ -103,12 +103,12 @@ function* renewReservationSaga(action: PayloadAction<number>) {
 }
 
 function* cancelPublicEnrollmentAndRemoveReservationSaga(
-  action: PayloadAction<number>
+  action: PayloadAction<number>,
 ) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.PublicReservation}/${action.payload}`
+      `${APIEndpoints.PublicReservation}/${action.payload}`,
     );
   } catch (error) {
     // If deletion of reservation fails, it will expire in 30 mins
@@ -122,7 +122,7 @@ function* loadPublicEnrollmentSaveSaga(
     enrollment: PublicEnrollment;
     examEventId: number;
     reservationId?: number;
-  }>
+  }>,
 ) {
   const { enrollment, examEventId, reservationId } = action.payload;
 
@@ -144,7 +144,7 @@ function* loadPublicEnrollmentSaveSaga(
     const response: AxiosResponse<PublicEnrollment> = yield call(
       axiosInstance.post,
       saveUrl,
-      body
+      body,
     );
     yield put(storePublicEnrollmentSave(response.data));
   } catch (error) {
@@ -157,13 +157,13 @@ function* loadPublicEnrollmentSaveSaga(
 export function* watchPublicEnrollments() {
   yield takeLatest(
     loadEnrollmentInitialisation,
-    loadEnrollmentInitialisationSaga
+    loadEnrollmentInitialisationSaga,
   );
   yield takeLatest(loadPublicExamEvent, loadPublicExamEventSaga);
   yield takeLatest(renewReservation, renewReservationSaga);
   yield takeLatest(
     cancelPublicEnrollmentAndRemoveReservation,
-    cancelPublicEnrollmentAndRemoveReservationSaga
+    cancelPublicEnrollmentAndRemoveReservationSaga,
   );
   yield takeLatest(loadPublicEnrollmentSave, loadPublicEnrollmentSaveSaga);
 }

@@ -98,12 +98,12 @@ export const PublicEnrollmentControlButtons = ({
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
-            enrollment.id
+            enrollment.id,
           );
         }, 200);
       } else {
         navigate(
-          RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId)
+          RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId),
         );
       }
     }
@@ -139,7 +139,7 @@ export const PublicEnrollmentControlButtons = ({
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
-            enrollment.id
+            enrollment.id,
           );
         }, 200);
       } else {
@@ -148,7 +148,7 @@ export const PublicEnrollmentControlButtons = ({
             enrollment,
             examEventId,
             reservationId,
-          })
+          }),
         );
       }
     } else {

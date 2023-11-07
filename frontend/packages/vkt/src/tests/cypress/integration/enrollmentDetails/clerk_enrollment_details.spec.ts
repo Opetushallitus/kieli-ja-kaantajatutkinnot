@@ -34,14 +34,14 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.clickEditButton();
 
     nameFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
+      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f),
     );
     contactDetailsFields.forEach((f, idx) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx])
+      onClerkEnrollmentOverviewPage.editTextField(f, contactDetailsValues[idx]),
     );
     onClerkEnrollmentOverviewPage.editTextField(
       'previousEnrollment',
-      'tammikuussa 2023'
+      'tammikuussa 2023',
     );
 
     // Remove skill and partial exam selections
@@ -54,13 +54,13 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onClerkEnrollmentOverviewPage.clickCheckBox('understandingSkill');
     onClerkEnrollmentOverviewPage.clickCheckBox('speakingPartialExam');
     onClerkEnrollmentOverviewPage.clickCheckBox(
-      'readingComprehensionPartialExam'
+      'readingComprehensionPartialExam',
     );
 
     //onClerkEnrollmentOverviewPage.clickCheckBox('digitalCertificateConsent');
     onClerkEnrollmentOverviewPage.expectDisabledSaveButton();
     addressFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`)
+      onClerkEnrollmentOverviewPage.editTextField(f, `test-${f}`),
     );
     onClerkEnrollmentOverviewPage.expectEnabledSaveButton();
   });
@@ -75,26 +75,26 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     ];
 
     displayedTextFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f)
+      onClerkEnrollmentOverviewPage.expectTextFieldDisabled(f),
     );
 
     addressFields.forEach((f) =>
-      onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f)
+      onClerkEnrollmentOverviewPage.expectTextFieldNotToExist(f),
     );
 
     onClerkEnrollmentOverviewPage.expectTextFieldValue('firstName', 'Hanna');
     onClerkEnrollmentOverviewPage.expectTextFieldValue('lastName', 'Eskola');
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'email',
-      'person2@example.invalid'
+      'person2@example.invalid',
     );
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'phoneNumber',
-      '+358401000002'
+      '+358401000002',
     );
     onClerkEnrollmentOverviewPage.expectTextFieldValue(
       'previousEnrollment',
-      ''
+      '',
     );
 
     const checkedCheckBoxFields = [
@@ -118,7 +118,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
   it('should allow canceling enrollment', () => {
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 1'
+      'Peruutetut: 1',
     );
     onClerkExamEventOverviewPage.clickEnrollmentRow(1);
     onClerkEnrollmentOverviewPage.clickCancelEnrollmentButton();
@@ -130,7 +130,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 2'
+      'Peruutetut: 2',
     );
   });
 
@@ -146,7 +146,7 @@ describe('ClerkEnrollmentOverview:ClerkEnrollmentDetails', () => {
     onDialog.clickButtonByText('Kyllä');
     onClerkEnrollmentOverviewPage.expectRefundedAtDate(
       1,
-      'Merkitty palautetuksi: 4.8.2023'
+      'Merkitty palautetuksi: 4.8.2023',
     );
   });
 });

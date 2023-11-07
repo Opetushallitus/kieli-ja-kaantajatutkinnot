@@ -69,7 +69,7 @@ export const PublicEnrollmentStepper = ({
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentFormStep[activeStep]}`
+    `step.${PublicEnrollmentFormStep[activeStep]}`,
   )}`;
 
   return isPhone ? (

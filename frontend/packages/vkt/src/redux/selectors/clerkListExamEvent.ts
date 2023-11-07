@@ -17,7 +17,7 @@ export const selectFilteredClerkExamEvents = createSelector(
 
     if (languageFilter !== ExamLanguage.ALL) {
       filteredExamEvents = filteredExamEvents.filter(
-        (e: ClerkListExamEvent) => e.language === languageFilter
+        (e: ClerkListExamEvent) => e.language === languageFilter,
       );
     }
 
@@ -26,5 +26,5 @@ export const selectFilteredClerkExamEvents = createSelector(
     } else {
       return ExamEventUtils.getPassedExamEvents(filteredExamEvents);
     }
-  }
+  },
 );

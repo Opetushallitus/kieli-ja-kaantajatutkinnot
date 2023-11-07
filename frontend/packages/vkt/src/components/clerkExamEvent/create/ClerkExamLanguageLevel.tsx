@@ -12,7 +12,7 @@ import { ExamCreateEventUtils } from 'utils/examCreateEvent';
 
 const hasError = (
   isDirty: boolean,
-  value: ExamLanguage | undefined
+  value: ExamLanguage | undefined,
 ): boolean => {
   return isDirty && !value;
 };
@@ -32,7 +32,7 @@ export const ClerkExamLanguageLevel = ({
   const onLangLevelChange = ({}, value: AutocompleteValue) => {
     const [language, level] = (value?.value.split('-') as [
       Exclude<ExamLanguage, ExamLanguage.ALL>,
-      ExamLevel
+      ExamLevel,
     ]) || [undefined, undefined];
 
     const examFormDetails: DraftClerkExamEvent = {
@@ -60,7 +60,7 @@ export const ClerkExamLanguageLevel = ({
         onChange={onLangLevelChange}
         value={ExamCreateEventUtils.getLangLevelComboOpt(
           examForm,
-          translateCommon
+          translateCommon,
         )}
       />
     </div>

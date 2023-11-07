@@ -82,7 +82,7 @@ export const theme = createTheme({
         },
       },
     },
-    MuiCalendarPicker: {
+    MuiDateCalendar: {
       styleOverrides: {
         root: {
           '& .MuiTypography-caption': {

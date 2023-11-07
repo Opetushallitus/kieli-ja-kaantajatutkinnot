@@ -38,7 +38,7 @@ const emailsMatch = (
   t: (key: string) => string,
   errors: FieldErrors<PublicEnrollmentContactDetails>,
   values: PublicEnrollmentContactDetails,
-  dirtyFields?: Array<keyof PublicEnrollmentContactDetails>
+  dirtyFields?: Array<keyof PublicEnrollmentContactDetails>,
 ) => {
   if (
     values.email !== values.emailConfirmation &&
@@ -92,7 +92,7 @@ export const FillContactDetails = ({
         values: enrollment,
         t: translateCommon,
         extraValidation: emailsMatch.bind(this, t),
-      })
+      }),
     );
   }, [setIsStepValid, enrollment, t, translateCommon]);
 
@@ -102,7 +102,7 @@ export const FillContactDetails = ({
       dispatch(
         updatePublicEnrollment({
           [fieldName]: event.target.value,
-        })
+        }),
       );
     };
 
@@ -115,19 +115,19 @@ export const FillContactDetails = ({
         dispatch(
           updatePublicEnrollment({
             phoneNumber: enrollment.phoneNumber.replace(/\s/g, ''),
-          })
+          }),
         );
       }
     };
 
   const showCustomTextFieldError = (
-    fieldName: keyof PublicEnrollmentContactDetails
+    fieldName: keyof PublicEnrollmentContactDetails,
   ) => {
     return !!errors[fieldName];
   };
 
   const getCustomTextFieldAttributes = (
-    fieldName: keyof PublicEnrollmentContactDetails
+    fieldName: keyof PublicEnrollmentContactDetails,
   ) => ({
     id: `public-enrollment__contact-details__${fieldName}-field`,
     label: t(`${fieldName}.label`),

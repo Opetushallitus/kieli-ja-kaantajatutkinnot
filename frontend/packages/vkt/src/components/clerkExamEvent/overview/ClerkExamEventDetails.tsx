@@ -43,7 +43,7 @@ interface EnrollmentListProps {
 
 const enrollmentFilter = (
   enrollments: Array<ClerkEnrollment>,
-  status: EnrollmentStatus
+  status: EnrollmentStatus,
 ): Array<ClerkEnrollment> =>
   enrollments.filter((e: ClerkEnrollment) => e.status === status);
 
@@ -88,7 +88,7 @@ export const ClerkExamEventDetails = () => {
 
   async function copyEmails(
     enrollments: Array<ClerkEnrollment>,
-    status?: EnrollmentStatus
+    status?: EnrollmentStatus,
   ) {
     const filteredEnrollments = status
       ? enrollmentFilter(enrollments, status)
@@ -211,21 +211,21 @@ export const ClerkExamEventDetails = () => {
       field: keyof Pick<
         ClerkExamEventBasicInformation,
         'date' | 'registrationCloses'
-      >
+      >,
     ) =>
     (date: Dayjs | null) => {
       handleFieldChange(field, date);
     };
 
   const handleMaxParticipantsChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     handleFieldChange('maxParticipants', event.target.value);
   };
 
   const handleFieldChange = (
     field: keyof ClerkExamEventBasicInformation,
-    fieldValue: string | number | boolean | undefined | Dayjs | null
+    fieldValue: string | number | boolean | undefined | Dayjs | null,
   ) => {
     const updatedExamEventDetails = {
       ...examEventDetails,

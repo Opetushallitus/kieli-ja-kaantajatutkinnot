@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .public-enrollment {
   & &__grid {
     &__form-container {
@@ -75,7 +77,7 @@
     }
 
     &__timer-progressbar {
-      background-color: adjust-color($color-secondary, $alpha: -0.7);
+      background-color: color.adjust($color-secondary, $alpha: -0.7);
 
       & span {
         background-color: $color-secondary;

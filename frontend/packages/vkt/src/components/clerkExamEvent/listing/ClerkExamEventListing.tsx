@@ -36,7 +36,7 @@ export const ClerkExamEventListing = ({
   };
 
   const isExamEventWithUnusedSeats = !!examEvents.find(
-    (ee) => ee.isUnusedSeats
+    (ee) => ee.isUnusedSeats,
   );
 
   return (

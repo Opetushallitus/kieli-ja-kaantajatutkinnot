@@ -168,7 +168,7 @@ export const PrivacyPolicyPage = () => {
               </Text>
               <Text>
                 {translatePrivacy(
-                  'dataContents.group1.givenDetails.description'
+                  'dataContents.group1.givenDetails.description',
                 )}
               </Text>
             </div>
@@ -186,17 +186,17 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description1'
+                'dataContents.group1.dataProcessing.description1',
               )}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description2'
+                'dataContents.group1.dataProcessing.description2',
               )}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description3'
+                'dataContents.group1.dataProcessing.description3',
               )}
             </Text>
           </div>
