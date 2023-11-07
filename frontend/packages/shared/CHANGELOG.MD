@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.1] - 2023-11-07
+
+### Changed
+
+- In `PaginatedTable` "fixed objects are not valid as a react child"-bug
+
 ## [1.10.0] - 2023-10-24
 
 ### Added
