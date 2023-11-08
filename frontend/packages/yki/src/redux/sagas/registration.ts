@@ -10,7 +10,7 @@ import {
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
-import { storeExamSession } from 'redux/reducers/examSession';
+import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptCancelRegistration,
   acceptPublicRegistrationInit,
@@ -111,6 +111,7 @@ function* cancelRegistrationSaga() {
     );
     yield put(acceptCancelRegistration());
     yield put(resetPublicRegistration());
+    yield put(resetExamSession());
     yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
