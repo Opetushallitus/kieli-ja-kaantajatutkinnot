@@ -54,7 +54,7 @@ const BulletList = ({
   );
 };
 
-export const PrivacyPolicyPage = () => {
+const PrivacyPolicyPage = () => {
   const translateCommon = useCommonTranslation();
   const translatePrivacy = usePrivacyTranslation();
   const { pathname } = useLocation();
@@ -339,3 +339,5 @@ export const PrivacyPolicyPage = () => {
     </Grid>
   );
 };
+
+export default PrivacyPolicyPage;

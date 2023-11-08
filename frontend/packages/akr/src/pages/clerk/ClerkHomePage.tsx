@@ -16,7 +16,7 @@ import { AppRoutes } from 'enums/app';
 import { loadClerkTranslators } from 'redux/reducers/clerkTranslator';
 import { clerkTranslatorsSelector } from 'redux/selectors/clerkTranslator';
 
-export const ClerkHomePage: FC = () => {
+const ClerkHomePage: FC = () => {
   const { translators, status } = useAppSelector(clerkTranslatorsSelector);
   const isLoading = status === APIResponseStatus.InProgress;
   const dispatch = useAppDispatch();
@@ -97,3 +97,5 @@ export const ClerkHomePage: FC = () => {
     </div>
   );
 };
+
+export default ClerkHomePage;

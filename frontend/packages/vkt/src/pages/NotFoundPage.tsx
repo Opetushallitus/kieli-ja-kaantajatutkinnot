@@ -5,7 +5,7 @@ import { Color, Variant } from 'shared/enums';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
-export const NotFoundPage: FC = () => {
+const NotFoundPage: FC = () => {
   const translateCommon = useCommonTranslation();
 
   return (
@@ -23,3 +23,5 @@ export const NotFoundPage: FC = () => {
     </div>
   );
 };
+
+export default NotFoundPage;

@@ -12,7 +12,7 @@ import { AppRoutes } from 'enums/app';
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 import { ExamEventUtils } from 'utils/examEvent';
 
-export const ClerkEnrollmentOverviewPage: FC = () => {
+const ClerkEnrollmentOverviewPage: FC = () => {
   const translateCommon = useCommonTranslation();
 
   // Redux
@@ -57,3 +57,5 @@ export const ClerkEnrollmentOverviewPage: FC = () => {
     </Box>
   );
 };
+
+export default ClerkEnrollmentOverviewPage;

@@ -126,7 +126,7 @@ const ControlButtons = ({
   );
 };
 
-export const ClerkSendEmailPage = () => {
+const ClerkSendEmailPage = () => {
   // i18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr',
@@ -267,3 +267,5 @@ export const ClerkSendEmailPage = () => {
     </Box>
   );
 };
+
+export default ClerkSendEmailPage;

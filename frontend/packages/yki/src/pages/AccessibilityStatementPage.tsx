@@ -56,7 +56,7 @@ const ItemBulletList = ({
   </Typography>
 );
 
-export const AccessibilityStatementPage = () => {
+const AccessibilityStatementPage = () => {
   const translateAccessibility = useAccessibilityTranslation();
   const translateCommon = useCommonTranslation();
   const { pathname } = useLocation();
@@ -201,3 +201,5 @@ export const AccessibilityStatementPage = () => {
     </Grid>
   );
 };
+
+export default AccessibilityStatementPage;

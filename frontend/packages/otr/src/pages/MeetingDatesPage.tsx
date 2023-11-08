@@ -18,7 +18,7 @@ import {
 } from 'redux/reducers/meetingDate';
 import { meetingDatesSelector } from 'redux/selectors/meetingDate';
 
-export const MeetingDatesPage: FC = () => {
+const MeetingDatesPage: FC = () => {
   const {
     meetingDates: { status, meetingDates },
     addMeetingDate,
@@ -118,3 +118,5 @@ export const MeetingDatesPage: FC = () => {
     </div>
   );
 };
+
+export default MeetingDatesPage;

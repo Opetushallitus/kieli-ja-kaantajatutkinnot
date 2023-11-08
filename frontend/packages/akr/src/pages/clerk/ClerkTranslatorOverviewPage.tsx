@@ -18,7 +18,7 @@ import {
 } from 'redux/reducers/clerkTranslatorOverview';
 import { clerkTranslatorOverviewSelector } from 'redux/selectors/clerkTranslatorOverview';
 
-export const ClerkTranslatorOverviewPage = () => {
+const ClerkTranslatorOverviewPage = () => {
   // i18n
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
 
@@ -93,3 +93,5 @@ export const ClerkTranslatorOverviewPage = () => {
     </Box>
   );
 };
+
+export default ClerkTranslatorOverviewPage;

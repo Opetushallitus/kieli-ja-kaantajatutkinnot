@@ -16,7 +16,7 @@ import { loadClerkExamEventOverview } from 'redux/reducers/clerkExamEventOvervie
 import { clerkExamEventOverviewSelector } from 'redux/selectors/clerkExamEventOverview';
 import { ExamEventUtils } from 'utils/examEvent';
 
-export const ClerkExamEventOverviewPage: FC = () => {
+const ClerkExamEventOverviewPage: FC = () => {
   // i18n
   const { t } = useClerkTranslation({
     keyPrefix: 'vkt.component.clerkExamEventOverview',
@@ -94,3 +94,5 @@ export const ClerkExamEventOverviewPage: FC = () => {
     </Box>
   );
 };
+
+export default ClerkExamEventOverviewPage;

@@ -18,7 +18,7 @@ import {
 } from 'redux/reducers/examinationDate';
 import { examinationDatesSelector } from 'redux/selectors/examinationDate';
 
-export const ExaminationDatesPage: FC = () => {
+const ExaminationDatesPage: FC = () => {
   const {
     examinationDates: { status, dates },
     addExaminationDate,
@@ -124,3 +124,5 @@ export const ExaminationDatesPage: FC = () => {
     </div>
   );
 };
+
+export default ExaminationDatesPage;

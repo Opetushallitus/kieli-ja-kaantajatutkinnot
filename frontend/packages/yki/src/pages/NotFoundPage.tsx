@@ -6,7 +6,7 @@ import { useWindowProperties } from 'shared/hooks';
 import { BackToFrontPageButton } from 'components/elements/BackToFrontPageButton';
 import { usePublicTranslation } from 'configs/i18n';
 
-export const NotFoundPage: FC = () => {
+const NotFoundPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.notFoundPage',
   });
@@ -25,3 +25,5 @@ export const NotFoundPage: FC = () => {
     </div>
   );
 };
+
+export default NotFoundPage;

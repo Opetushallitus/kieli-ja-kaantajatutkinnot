@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { PublicExamEventGrid } from 'components/publicExamEvent/PublicExamEventGrid';
 
-export const PublicHomePage: FC = () => {
+const PublicHomePage: FC = () => {
   return (
     <Box className="public-homepage">
       <Grid
@@ -17,3 +17,5 @@ export const PublicHomePage: FC = () => {
     </Box>
   );
 };
+
+export default PublicHomePage;

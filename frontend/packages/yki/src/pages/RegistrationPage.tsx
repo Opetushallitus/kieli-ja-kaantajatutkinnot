@@ -15,7 +15,7 @@ import {
   selectFilteredPublicExamSessions,
 } from 'redux/selectors/examSessions';
 
-export const RegistrationPage: FC = () => {
+const RegistrationPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.registrationPage',
   });
@@ -126,3 +126,5 @@ export const RegistrationPage: FC = () => {
     </Box>
   );
 };
+
+export default RegistrationPage;

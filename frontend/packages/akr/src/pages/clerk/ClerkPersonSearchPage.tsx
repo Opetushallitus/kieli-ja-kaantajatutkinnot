@@ -27,7 +27,7 @@ import {
 } from 'redux/reducers/clerkPersonSearch';
 import { clerkPersonSearchSelector } from 'redux/selectors/clerkPersonSearch';
 
-export const ClerkPersonSearchPage = () => {
+const ClerkPersonSearchPage = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const navigate = useNavigate();
 
@@ -155,3 +155,5 @@ export const ClerkPersonSearchPage = () => {
     </Box>
   );
 };
+
+export default ClerkPersonSearchPage;

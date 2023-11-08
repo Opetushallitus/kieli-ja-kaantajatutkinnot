@@ -38,7 +38,7 @@ import {
 } from 'redux/selectors/meetingDate';
 import { AuthorisationUtils } from 'utils/authorisation';
 
-export const ClerkNewTranslatorPage = () => {
+const ClerkNewTranslatorPage = () => {
   const [authorisation, setAuthorisation] = useState<Authorisation>(
     AuthorisationUtils.newAuthorisation
   );
@@ -234,3 +234,5 @@ export const ClerkNewTranslatorPage = () => {
     </Box>
   );
 };
+
+export default ClerkNewTranslatorPage;

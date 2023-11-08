@@ -6,7 +6,7 @@ import { Color, Variant } from 'shared/enums';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
-export const LogoutSuccess: React.FC = () => {
+const LogoutSuccess: React.FC = () => {
   const translateCommon = useCommonTranslation();
   const { t } = usePublicTranslation({
     keyPrefix: 'vkt.component.logoutSuccessPage',
@@ -51,3 +51,5 @@ export const LogoutSuccess: React.FC = () => {
     </Grid>
   );
 };
+
+export default LogoutSuccess;

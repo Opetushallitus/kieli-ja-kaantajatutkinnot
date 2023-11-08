@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { loadEvaluationPeriods } from 'redux/reducers/evaluationPeriods';
 import { evaluationPeriodsSelector } from 'redux/selectors/evaluationPeriods';
 
-export const ReassessmentPage: FC = () => {
+const ReassessmentPage: FC = () => {
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.pages.reassessmentPage',
   });
@@ -100,3 +100,5 @@ export const ReassessmentPage: FC = () => {
     </Box>
   );
 };
+
+export default ReassessmentPage;

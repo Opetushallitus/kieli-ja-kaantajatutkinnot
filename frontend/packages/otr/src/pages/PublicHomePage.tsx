@@ -5,7 +5,7 @@ import { PublicInterpreterGrid } from 'components/publicInterpreter/PublicInterp
 import { useAppDispatch } from 'configs/redux';
 import { loadPublicInterpreters } from 'redux/reducers/publicInterpreter';
 
-export const PublicHomePage: FC = () => {
+const PublicHomePage: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,3 +25,5 @@ export const PublicHomePage: FC = () => {
     </Box>
   );
 };
+
+export default PublicHomePage;

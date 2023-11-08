@@ -8,7 +8,7 @@ import { resetClerkExamEventOverview } from 'redux/reducers/clerkExamEventOvervi
 import { loadExamEvents } from 'redux/reducers/clerkListExamEvent';
 import { clerkListExamEventsSelector } from 'redux/selectors/clerkListExamEvent';
 
-export const ClerkHomePage: FC = () => {
+const ClerkHomePage: FC = () => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(clerkListExamEventsSelector);
 
@@ -35,3 +35,5 @@ export const ClerkHomePage: FC = () => {
     </Box>
   );
 };
+
+export default ClerkHomePage;

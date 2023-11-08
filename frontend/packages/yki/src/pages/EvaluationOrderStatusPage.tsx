@@ -113,7 +113,7 @@ const Error = () => {
   );
 };
 
-export const EvaluationOrderStatusPage = () => {
+const EvaluationOrderStatusPage = () => {
   const [params] = useSearchParams();
   const evaluationOrderId = params.get('id');
   const { loadEvaluationOrderDetailsState } = useAppSelector(
@@ -146,3 +146,5 @@ export const EvaluationOrderStatusPage = () => {
     </Box>
   );
 };
+
+export default EvaluationOrderStatusPage;

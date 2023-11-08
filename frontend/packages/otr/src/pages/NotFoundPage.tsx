@@ -4,7 +4,7 @@ import { CustomButton, H1, Text } from 'shared/components';
 import { useAppTranslation, useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
-export const NotFoundPage: FC = () => {
+const NotFoundPage: FC = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'otr.pages.notFoundPage',
   });
@@ -25,3 +25,5 @@ export const NotFoundPage: FC = () => {
     </div>
   );
 };
+
+export default NotFoundPage;

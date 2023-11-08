@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'reduxjs-toolkit-persist/integration/react';
 import { Notifier, ScrollToTop } from 'shared/components';
@@ -10,16 +10,24 @@ import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
-import { ClerkEnrollmentOverviewPage } from 'pages/ClerkEnrollmentOverviewPage';
-import { ClerkExamEventCreatePage } from 'pages/ClerkExamEventCreatePage';
-import { ClerkExamEventOverviewPage } from 'pages/ClerkExamEventOverviewPage';
-import { ClerkHomePage } from 'pages/ClerkHomePage';
-import { LogoutSuccess } from 'pages/LogoutSuccess';
-import { NotFoundPage } from 'pages/NotFoundPage';
-import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
-import { PublicEnrollmentPage } from 'pages/PublicEnrollmentPage';
-import { PublicHomePage } from 'pages/PublicHomePage';
+const AccessibilityStatementPage = lazy(
+  () => import('pages/AccessibilityStatementPage')
+);
+const ClerkEnrollmentOverviewPage = lazy(
+  () => import('pages/ClerkEnrollmentOverviewPage')
+);
+const ClerkExamEventCreatePage = lazy(
+  () => import('pages/ClerkExamEventCreatePage')
+);
+const ClerkExamEventOverviewPage = lazy(
+  () => import('pages/ClerkExamEventOverviewPage')
+);
+const ClerkHomePage = lazy(() => import('pages/ClerkHomePage'));
+const LogoutSuccess = lazy(() => import('pages/LogoutSuccess'));
+const NotFoundPage = lazy(() => import('pages/NotFoundPage'));
+const PrivacyPolicyPage = lazy(() => import('pages/PrivacyPolicyPage'));
+const PublicEnrollmentPage = lazy(() => import('pages/PublicEnrollmentPage'));
+const PublicHomePage = lazy(() => import('pages/PublicHomePage'));
 import { persistor } from 'redux/store';
 
 export const AppRouter: FC = () => {
@@ -46,146 +54,150 @@ export const AppRouter: FC = () => {
         <PersistGate persistor={persistor} />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Routes>
-              <Route path={AppRoutes.PublicRoot} element={FrontPage} />
-              <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
-              <Route path={AppRoutes.PublicEnrollment}>
+            <Suspense fallback={<div></div>}>
+              <Routes>
+                <Route path={AppRoutes.PublicRoot} element={FrontPage} />
+                <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
+                <Route path={AppRoutes.PublicEnrollment}>
+                  <Route
+                    path={AppRoutes.PublicAuth}
+                    element={
+                      <TitlePage title={createTitle('authenticate')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.Authenticate}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentContactDetails}
+                    element={
+                      <TitlePage title={createTitle('contactDetails')}>
+                        <PublicEnrollmentPage
+                          activeStep={
+                            PublicEnrollmentFormStep.FillContactDetails
+                          }
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentSelectExam}
+                    element={
+                      <TitlePage title={createTitle('selectExam')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.SelectExam}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentPreview}
+                    element={
+                      <TitlePage title={createTitle('preview')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.Preview}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentPaymentFail}
+                    element={
+                      <TitlePage title={createTitle('paymentFail')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.Payment}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentPaymentSuccess}
+                    element={
+                      <TitlePage title={createTitle('paymentSuccess')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.PaymentSuccess}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                  <Route
+                    path={AppRoutes.PublicEnrollmentDone}
+                    element={
+                      <TitlePage title={createTitle('done')}>
+                        <PublicEnrollmentPage
+                          activeStep={PublicEnrollmentFormStep.Done}
+                        />
+                      </TitlePage>
+                    }
+                  />
+                </Route>
                 <Route
-                  path={AppRoutes.PublicAuth}
+                  path={AppRoutes.AccessibilityStatementPage}
                   element={
-                    <TitlePage title={createTitle('authenticate')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.Authenticate}
-                      />
+                    <TitlePage title={createTitle('accessibilityStatement')}>
+                      <AccessibilityStatementPage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentContactDetails}
+                  path={AppRoutes.PrivacyPolicyPage}
                   element={
-                    <TitlePage title={createTitle('contactDetails')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.FillContactDetails}
-                      />
+                    <TitlePage title={createTitle('privacyPolicy')}>
+                      <PrivacyPolicyPage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentSelectExam}
+                  path={AppRoutes.ClerkHomePage}
                   element={
-                    <TitlePage title={createTitle('selectExam')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.SelectExam}
-                      />
+                    <TitlePage title={createTitle('clerkHomepage')}>
+                      <ClerkHomePage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentPreview}
+                  path={AppRoutes.ClerkExamEventOverviewPage}
                   element={
-                    <TitlePage title={createTitle('preview')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.Preview}
-                      />
+                    <TitlePage title={createTitle('clerkExamOverview')}>
+                      <ClerkExamEventOverviewPage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentPaymentFail}
+                  path={AppRoutes.ClerkExamEventCreatePage}
                   element={
-                    <TitlePage title={createTitle('paymentFail')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.Payment}
-                      />
+                    <TitlePage title={createTitle('clerkExamEventCreate')}>
+                      <ClerkExamEventCreatePage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentPaymentSuccess}
+                  path={AppRoutes.ClerkEnrollmentOverviewPage}
                   element={
-                    <TitlePage title={createTitle('paymentSuccess')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.PaymentSuccess}
-                      />
+                    <TitlePage title={createTitle('clerkEnrollmentOverview')}>
+                      <ClerkEnrollmentOverviewPage />
                     </TitlePage>
                   }
                 />
                 <Route
-                  path={AppRoutes.PublicEnrollmentDone}
+                  path={AppRoutes.LogoutSuccess}
                   element={
-                    <TitlePage title={createTitle('done')}>
-                      <PublicEnrollmentPage
-                        activeStep={PublicEnrollmentFormStep.Done}
-                      />
+                    <TitlePage title={createTitle('logoutSuccess')}>
+                      <LogoutSuccess />
                     </TitlePage>
                   }
                 />
-              </Route>
-              <Route
-                path={AppRoutes.AccessibilityStatementPage}
-                element={
-                  <TitlePage title={createTitle('accessibilityStatement')}>
-                    <AccessibilityStatementPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.PrivacyPolicyPage}
-                element={
-                  <TitlePage title={createTitle('privacyPolicy')}>
-                    <PrivacyPolicyPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ClerkHomePage}
-                element={
-                  <TitlePage title={createTitle('clerkHomepage')}>
-                    <ClerkHomePage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ClerkExamEventOverviewPage}
-                element={
-                  <TitlePage title={createTitle('clerkExamOverview')}>
-                    <ClerkExamEventOverviewPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ClerkExamEventCreatePage}
-                element={
-                  <TitlePage title={createTitle('clerkExamEventCreate')}>
-                    <ClerkExamEventCreatePage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ClerkEnrollmentOverviewPage}
-                element={
-                  <TitlePage title={createTitle('clerkEnrollmentOverview')}>
-                    <ClerkEnrollmentOverviewPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.LogoutSuccess}
-                element={
-                  <TitlePage title={createTitle('logoutSuccess')}>
-                    <LogoutSuccess />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.NotFoundPage}
-                element={
-                  <TitlePage title={createTitle('notFound')}>
-                    <NotFoundPage />
-                  </TitlePage>
-                }
-              />
-            </Routes>
+                <Route
+                  path={AppRoutes.NotFoundPage}
+                  element={
+                    <TitlePage title={createTitle('notFound')}>
+                      <NotFoundPage />
+                    </TitlePage>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </div>
         </main>
         <Footer />

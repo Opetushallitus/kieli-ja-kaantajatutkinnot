@@ -3,7 +3,7 @@ import { Box, Grid } from '@mui/material';
 import { PublicEnrollmentGrid } from 'components/publicEnrollment/PublicEnrollmentGrid';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 
-export const PublicEnrollmentPage = ({
+const PublicEnrollmentPage = ({
   activeStep,
 }: {
   activeStep: PublicEnrollmentFormStep;
@@ -21,3 +21,5 @@ export const PublicEnrollmentPage = ({
     </Box>
   );
 };
+
+export default PublicEnrollmentPage;

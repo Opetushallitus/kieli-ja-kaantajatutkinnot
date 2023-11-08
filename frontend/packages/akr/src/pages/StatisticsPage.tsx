@@ -6,7 +6,7 @@ import { ExtLink, H1, H2 } from 'shared/components';
 import { useAppTranslation } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
 
-export const StatisticsPage: FC = () => {
+const StatisticsPage: FC = () => {
   const { t } = useAppTranslation({
     keyPrefix: 'akr.pages',
   });
@@ -71,3 +71,5 @@ export const StatisticsPage: FC = () => {
     </div>
   );
 };
+
+export default StatisticsPage;

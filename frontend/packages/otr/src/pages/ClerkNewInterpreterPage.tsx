@@ -31,7 +31,7 @@ import {
 } from 'redux/selectors/meetingDate';
 import { QualificationUtils } from 'utils/qualifications';
 
-export const ClerkNewInterpreterPage = () => {
+const ClerkNewInterpreterPage = () => {
   const [qualification, setQualification] = useState<NewQualification>(
     QualificationUtils.newQualification
   );
@@ -207,3 +207,5 @@ export const ClerkNewInterpreterPage = () => {
     </Box>
   );
 };
+
+export default ClerkNewInterpreterPage;

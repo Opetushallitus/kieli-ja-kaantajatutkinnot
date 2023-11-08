@@ -10,7 +10,7 @@ import { ContactRequestPage } from 'pages/ContactRequestPage';
 import { loadPublicTranslators } from 'redux/reducers/publicTranslator';
 import { publicUIViewSelector } from 'redux/selectors/publicUIView';
 
-export const PublicHomePage: FC = () => {
+const PublicHomePage: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useAppTranslation({
     keyPrefix: 'akr.pages.homepage.cookieBanner',
@@ -48,3 +48,5 @@ export const PublicHomePage: FC = () => {
     </Box>
   );
 };
+
+export default PublicHomePage;

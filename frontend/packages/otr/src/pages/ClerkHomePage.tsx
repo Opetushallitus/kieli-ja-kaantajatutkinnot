@@ -15,7 +15,7 @@ import { AppRoutes } from 'enums/app';
 import { loadClerkMissingInterpreters } from 'redux/reducers/clerkInterpreter';
 import { clerkInterpretersSelector } from 'redux/selectors/clerkInterpreter';
 
-export const ClerkHomePage: FC = () => {
+const ClerkHomePage: FC = () => {
   const [page, setPage] = useState(0);
   const { interpreters, missingInterpreters, status, missingStatus } =
     useAppSelector(clerkInterpretersSelector);
@@ -105,3 +105,5 @@ export const ClerkHomePage: FC = () => {
     </div>
   );
 };
+
+export default ClerkHomePage;

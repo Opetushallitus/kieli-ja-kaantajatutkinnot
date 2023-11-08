@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Notifier } from 'shared/components';
 
@@ -7,18 +7,26 @@ import { Header } from 'components/layouts/Header';
 import { useCommonTranslation } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 import { useAPIErrorToast } from 'hooks/useAPIErrorToast';
-import { AccessibilityStatementPage } from 'pages/AccessibilityStatementPage';
-import { ClerkHomePage } from 'pages/clerk/ClerkHomePage';
-import { ClerkNewTranslatorPage } from 'pages/clerk/ClerkNewTranslatorPage';
-import { ClerkPersonSearchPage } from 'pages/clerk/ClerkPersonSearchPage';
-import { ClerkSendEmailPage } from 'pages/clerk/ClerkSendEmailPage';
-import { ClerkTranslatorOverviewPage } from 'pages/clerk/ClerkTranslatorOverviewPage';
-import { ExaminationDatesPage } from 'pages/ExaminationDatesPage';
-import { MeetingDatesPage } from 'pages/MeetingDatesPage';
-import { NotFoundPage } from 'pages/NotFoundPage';
-import { PrivacyPolicyPage } from 'pages/PrivacyPolicyPage';
-import { PublicHomePage } from 'pages/PublicHomePage';
-import { StatisticsPage } from 'pages/StatisticsPage';
+const AccessibilityStatementPage = lazy(
+  () => import('pages/AccessibilityStatementPage')
+);
+const ClerkHomePage = lazy(() => import('pages/clerk/ClerkHomePage'));
+const ClerkNewTranslatorPage = lazy(
+  () => import('pages/clerk/ClerkNewTranslatorPage')
+);
+const ClerkPersonSearchPage = lazy(
+  () => import('pages/clerk/ClerkPersonSearchPage')
+);
+const ClerkSendEmailPage = lazy(() => import('pages/clerk/ClerkSendEmailPage'));
+const ClerkTranslatorOverviewPage = lazy(
+  () => import('pages/clerk/ClerkTranslatorOverviewPage')
+);
+const ExaminationDatesPage = lazy(() => import('pages/ExaminationDatesPage'));
+const MeetingDatesPage = lazy(() => import('pages/MeetingDatesPage'));
+const NotFoundPage = lazy(() => import('pages/NotFoundPage'));
+const PrivacyPolicyPage = lazy(() => import('pages/PrivacyPolicyPage'));
+const PublicHomePage = lazy(() => import('pages/PublicHomePage'));
+const StatisticsPage = lazy(() => import('pages/StatisticsPage'));
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
@@ -35,53 +43,58 @@ export const AppRouter: FC = () => {
         <Notifier />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Routes>
-              <Route
-                path={AppRoutes.PublicHomePage}
-                element={<PublicHomePage />}
-              />
-              <Route
-                path={AppRoutes.ClerkHomePage}
-                element={<ClerkHomePage />}
-              />
-              <Route
-                path={AppRoutes.ExaminationDatesPage}
-                element={<ExaminationDatesPage />}
-              />
-              <Route
-                path={AppRoutes.MeetingDatesPage}
-                element={<MeetingDatesPage />}
-              />
-              <Route
-                path={AppRoutes.StatisticsPage}
-                element={<StatisticsPage />}
-              />
-              <Route
-                path={AppRoutes.ClerkSendEmailPage}
-                element={<ClerkSendEmailPage />}
-              />
-              <Route
-                path={AppRoutes.ClerkTranslatorOverviewPage}
-                element={<ClerkTranslatorOverviewPage />}
-              />
-              <Route
-                path={AppRoutes.ClerkPersonSearchPage}
-                element={<ClerkPersonSearchPage />}
-              />
-              <Route
-                path={AppRoutes.ClerkNewTranslatorPage}
-                element={<ClerkNewTranslatorPage />}
-              />
-              <Route
-                path={AppRoutes.AccessibilityStatementPage}
-                element={<AccessibilityStatementPage />}
-              />
-              <Route
-                path={AppRoutes.PrivacyPolicyPage}
-                element={<PrivacyPolicyPage />}
-              />
-              <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
-            </Routes>
+            <Suspense fallback={<div></div>}>
+              <Routes>
+                <Route
+                  path={AppRoutes.PublicHomePage}
+                  element={<PublicHomePage />}
+                />
+                <Route
+                  path={AppRoutes.ClerkHomePage}
+                  element={<ClerkHomePage />}
+                />
+                <Route
+                  path={AppRoutes.ExaminationDatesPage}
+                  element={<ExaminationDatesPage />}
+                />
+                <Route
+                  path={AppRoutes.MeetingDatesPage}
+                  element={<MeetingDatesPage />}
+                />
+                <Route
+                  path={AppRoutes.StatisticsPage}
+                  element={<StatisticsPage />}
+                />
+                <Route
+                  path={AppRoutes.ClerkSendEmailPage}
+                  element={<ClerkSendEmailPage />}
+                />
+                <Route
+                  path={AppRoutes.ClerkTranslatorOverviewPage}
+                  element={<ClerkTranslatorOverviewPage />}
+                />
+                <Route
+                  path={AppRoutes.ClerkPersonSearchPage}
+                  element={<ClerkPersonSearchPage />}
+                />
+                <Route
+                  path={AppRoutes.ClerkNewTranslatorPage}
+                  element={<ClerkNewTranslatorPage />}
+                />
+                <Route
+                  path={AppRoutes.AccessibilityStatementPage}
+                  element={<AccessibilityStatementPage />}
+                />
+                <Route
+                  path={AppRoutes.PrivacyPolicyPage}
+                  element={<PrivacyPolicyPage />}
+                />
+                <Route
+                  path={AppRoutes.NotFoundPage}
+                  element={<NotFoundPage />}
+                />
+              </Routes>
+            </Suspense>
           </div>
         </main>
         <Footer />
