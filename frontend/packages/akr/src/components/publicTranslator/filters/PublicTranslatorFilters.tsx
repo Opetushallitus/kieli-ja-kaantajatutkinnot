@@ -171,7 +171,7 @@ export const PublicTranslatorFilters = ({
         | 'createOption'
         | 'removeOption'
         | 'blur'
-        | 'clear'
+        | 'clear',
     ) => {
       if (reason === 'clear') {
         setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
@@ -285,7 +285,7 @@ export const PublicTranslatorFilters = ({
               onKeyUp={handleKeyUp}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 langs.from,
-                filters.toLang
+                filters.toLang,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.toLang}
@@ -303,7 +303,7 @@ export const PublicTranslatorFilters = ({
               onKeyUp={handleKeyUp}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 langs.to,
-                filters.fromLang
+                filters.fromLang,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.fromLang}

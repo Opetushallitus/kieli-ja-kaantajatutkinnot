@@ -64,7 +64,7 @@ export const PublicTranslatorListingRow = ({
       showToast({
         severity: Severity.Error,
         description: t(
-          'component.publicTranslatorFilters.toasts.contactRequestNeedsLanguagePairs'
+          'component.publicTranslatorFilters.toasts.contactRequestNeedsLanguagePairs',
         ),
       });
     } else {

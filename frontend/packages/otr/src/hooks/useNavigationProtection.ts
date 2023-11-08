@@ -32,7 +32,7 @@ export const useNavigationProtection = (when: boolean) => {
         onClose: cancelNavigation,
       });
     },
-    [showDialog, translateCommon]
+    [showDialog, translateCommon],
   );
 
   useCommonNavigationProtection(when, showConfirmationDialog);

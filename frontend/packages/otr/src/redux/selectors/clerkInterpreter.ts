@@ -23,39 +23,39 @@ export const selectFilteredClerkInterpreters = createSelector(
 
     if (StringUtils.isNonBlankString(filters.name)) {
       filteredInterpreters = filteredInterpreters.filter((interpreter) =>
-        interpreterNameMatchesName(interpreter, filters.name as string)
+        interpreterNameMatchesName(interpreter, filters.name as string),
       );
     }
 
     return filteredInterpreters.filter((interpreter) =>
-      hasQualificationsMatchingFilters(interpreter, filters)
+      hasQualificationsMatchingFilters(interpreter, filters),
     );
-  }
+  },
 );
 
 // Interpreter level predicates
 
 const interpreterNameMatchesName = (
   { lastName, nickName }: ClerkInterpreter,
-  name: string
+  name: string,
 ) => {
   const nameCombs = [`${nickName} ${lastName}`, `${lastName} ${nickName}`];
 
   return nameCombs.some((comb) =>
-    comb.toLowerCase().includes(name.toLowerCase().trim())
+    comb.toLowerCase().includes(name.toLowerCase().trim()),
   );
 };
 
 const hasQualificationsMatchingFilters = (
   { qualifications }: ClerkInterpreter,
-  filters: ClerkInterpreterFilters
+  filters: ClerkInterpreterFilters,
 ) => {
   const matchesFilters = (qualifications: Array<Qualification>) => {
     return qualifications.filter(
       (q) =>
         matchesLangFilters(filters, q) &&
         matchesExaminationType(filters, q) &&
-        matchesPermissionToPublish(filters, q)
+        matchesPermissionToPublish(filters, q),
     );
   };
 
@@ -75,7 +75,7 @@ const hasQualificationsMatchingFilters = (
 
 const matchesLangFilters = (
   { fromLang, toLang }: QualificationFilter,
-  qualification: Qualification
+  qualification: Qualification,
 ) =>
   QualificationUtils.languagePairMatchesLangFilters(
     {
@@ -83,18 +83,18 @@ const matchesLangFilters = (
       to: qualification.toLang,
     },
     fromLang,
-    toLang
+    toLang,
   );
 
 const matchesExaminationType = (
   { examinationType }: QualificationFilter,
-  qualification: Qualification
+  qualification: Qualification,
 ) =>
   examinationType ? examinationType == qualification.examinationType : true;
 
 const matchesPermissionToPublish = (
   { permissionToPublish }: QualificationFilter,
-  qualification: Qualification
+  qualification: Qualification,
 ) => {
   if (!permissionToPublish) {
     return true;

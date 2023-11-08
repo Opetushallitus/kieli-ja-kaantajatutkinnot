@@ -14,7 +14,7 @@ function* loadPublicTranslatorsSaga() {
   try {
     const apiResponse: AxiosResponse<PublicTranslatorResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.PublicTranslator
+      APIEndpoints.PublicTranslator,
     );
 
     yield put(storePublicTranslators(apiResponse.data));

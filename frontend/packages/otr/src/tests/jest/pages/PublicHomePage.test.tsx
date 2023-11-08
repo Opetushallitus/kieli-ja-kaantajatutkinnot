@@ -25,7 +25,7 @@ describe('PublicHomePage', () => {
 
     // Check initial number of interpreters
     expect(
-      await screen.findByTestId('public-interpreter-filters__search-btn')
+      await screen.findByTestId('public-interpreter-filters__search-btn'),
     ).toHaveTextContent('10');
 
     // Select to field
@@ -33,14 +33,14 @@ describe('PublicHomePage', () => {
       await userEvent.click(
         await screen.findByRole('combobox', {
           name: 'languagePair.toPlaceholder',
-        })
+        }),
       );
     });
     await act(async () => {
       await userEvent.click(screen.getByRole('option', { name: /DA/ }));
     });
     expect(
-      await screen.findByTestId('public-interpreter-filters__search-btn')
+      await screen.findByTestId('public-interpreter-filters__search-btn'),
     ).toHaveTextContent('4');
 
     // Select the region
@@ -48,14 +48,14 @@ describe('PublicHomePage', () => {
       await userEvent.click(
         screen.getByRole('combobox', {
           name: 'region.placeholder',
-        })
+        }),
       );
     });
     await act(async () => {
       await userEvent.click(screen.getByRole('option', { name: /05/ }));
     });
     expect(
-      await screen.findByTestId('public-interpreter-filters__search-btn')
+      await screen.findByTestId('public-interpreter-filters__search-btn'),
     ).toHaveTextContent('3');
 
     // Type the name
@@ -63,11 +63,11 @@ describe('PublicHomePage', () => {
       await userEvent.type(
         screen.getByLabelText('name.placeholder', { selector: 'input' }),
         'ville',
-        { delay: 300 }
+        { delay: 300 },
       );
     });
     expect(
-      await screen.findByTestId('public-interpreter-filters__search-btn')
+      await screen.findByTestId('public-interpreter-filters__search-btn'),
     ).toHaveTextContent('2');
   });
 });

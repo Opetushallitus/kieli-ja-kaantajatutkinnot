@@ -41,10 +41,10 @@ export const AuthorisationDetails = () => {
 
   // State
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
-    AuthorisationStatus.Effective
+    AuthorisationStatus.Effective,
   );
   const [authorisation, setAuthorisation] = useState<Authorisation>(
-    AuthorisationUtils.newAuthorisation
+    AuthorisationUtils.newAuthorisation,
   );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -60,11 +60,11 @@ export const AuthorisationDetails = () => {
 
   // Redux
   const { addStatus, removeStatus, updateStatus } = useAppSelector(
-    authorisationSelector
+    authorisationSelector,
   );
   const { translator } = useAppSelector(clerkTranslatorOverviewSelector);
   const passedMeetingDates = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   ).passed;
   const examinationDates = useAppSelector(selectExaminationDatesByStatus);
   const passedExaminationDates = examinationDates.passed;

@@ -39,13 +39,13 @@ const clerkNewTranslatorSlice = createSlice({
   reducers: {
     initialiseClerkNewTranslatorByIdentityNumber(
       state,
-      action: PayloadAction<string>
+      action: PayloadAction<string>,
     ) {
       state.translator.identityNumber = action.payload;
     },
     initialiseClerkNewTranslatorByPerson(
       state,
-      action: PayloadAction<ClerkPerson>
+      action: PayloadAction<ClerkPerson>,
     ) {
       const person = action.payload;
 

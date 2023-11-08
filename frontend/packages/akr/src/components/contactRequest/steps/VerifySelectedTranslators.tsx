@@ -60,7 +60,7 @@ export const VerifySelectedTranslators = ({
 
   useEffect(
     () => disableNext(translators.length == 0),
-    [disableNext, translators]
+    [disableNext, translators],
   );
 
   return (

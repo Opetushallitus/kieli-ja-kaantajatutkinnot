@@ -16,7 +16,7 @@ describe('ClerkPersonSearchPage', () => {
     onClerkPersonSearchPage.typeSocialSecurityNumber('090687-913Jaaa');
     onClerkPersonSearchPage.blurFieldByLabel('Syötä henkilötunnus');
     onClerkPersonSearchPage.expectSocialSecurityNumberFieldError(
-      'Henkilötunnuksen muotoa ei tunnistettu'
+      'Henkilötunnuksen muotoa ei tunnistettu',
     );
     onClerkPersonSearchPage.expectSocialSecurityNumberSearchButtonDisabled();
   });
@@ -24,11 +24,11 @@ describe('ClerkPersonSearchPage', () => {
   it('should show error with empty SSN', () => {
     onClerkPersonSearchPage.expectSocialSecurityNumberSearchButtonDisabled();
     onClerkPersonSearchPage.typeSocialSecurityNumber(
-      '123 {selectall}{backspace}'
+      '123 {selectall}{backspace}',
     );
     onClerkPersonSearchPage.blurFieldByLabel('Syötä henkilötunnus');
     onClerkPersonSearchPage.expectSocialSecurityNumberFieldError(
-      'Tieto on pakollinen'
+      'Tieto on pakollinen',
     );
     onClerkPersonSearchPage.expectSocialSecurityNumberSearchButtonDisabled();
   });

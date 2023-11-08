@@ -25,7 +25,7 @@ export const ClerkInterpreterDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { interpreter, interpreterDetailsStatus } = useAppSelector(
-    clerkInterpreterOverviewSelector
+    clerkInterpreterOverviewSelector,
   );
 
   // Local State
@@ -33,7 +33,7 @@ export const ClerkInterpreterDetails = () => {
   const [hasLocalChanges, setHasLocalChanges] = useState(false);
   const [currentUIMode, setCurrentUIMode] = useState(UIMode.View);
   const [areaOfOperation, setAreaOfOperation] = useState(
-    RegionUtils.getAreaOfOperation(interpreter?.regions)
+    RegionUtils.getAreaOfOperation(interpreter?.regions),
   );
   const isViewMode = currentUIMode !== UIMode.EditInterpreterDetails;
   const resetLocalInterpreterDetails = useCallback(() => {
@@ -113,7 +113,7 @@ export const ClerkInterpreterDetails = () => {
     (
       eventOrValue:
         | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        | ComboBoxOption[]
+        | ComboBoxOption[],
     ) => {
       let fieldValue;
       let updatedInterpreterDetails;
@@ -147,7 +147,7 @@ export const ClerkInterpreterDetails = () => {
 
   const onSave = () => {
     dispatch(
-      updateClerkInterpreterDetails(interpreterDetails as ClerkInterpreter)
+      updateClerkInterpreterDetails(interpreterDetails as ClerkInterpreter),
     );
   };
 

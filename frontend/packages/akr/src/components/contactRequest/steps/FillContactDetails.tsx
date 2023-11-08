@@ -49,7 +49,7 @@ export const FillContactDetails = ({
       fieldErrors.phoneNumber
     );
     const hasBlankRequiredFields = requiredFieldValues.some((v) =>
-      StringUtils.isBlankString(v)
+      StringUtils.isBlankString(v),
     );
 
     disableNext(hasFieldErrors || hasBlankRequiredFields);
@@ -66,7 +66,7 @@ export const FillContactDetails = ({
       dispatch(
         updateContactRequest({
           [fieldName]: event.target.value,
-        })
+        }),
       );
     };
 
@@ -78,7 +78,7 @@ export const FillContactDetails = ({
         type as TextFieldTypes,
         value,
         required,
-        255
+        255,
       );
 
       const errorMessage = error ? t(error) : '';

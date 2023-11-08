@@ -19,20 +19,20 @@ export const ClerkInterpreterToggleFilters = ({
   const dispatch = useAppDispatch();
 
   const filterByQualificationStatus = (
-    qualificationStatus: QualificationStatus
+    qualificationStatus: QualificationStatus,
   ) => {
     setPage(0);
     dispatch(addClerkInterpreterFilter({ qualificationStatus }));
   };
 
   const effectiveCount = interpreters.filter(
-    (i) => i.qualifications.effective.length > 0
+    (i) => i.qualifications.effective.length > 0,
   ).length;
   const expiringCount = interpreters.filter(
-    (i) => i.qualifications.expiring.length > 0
+    (i) => i.qualifications.expiring.length > 0,
   ).length;
   const expiredDeduplicatedCount = interpreters.filter(
-    (i) => i.qualifications.expiredDeduplicated.length > 0
+    (i) => i.qualifications.expiredDeduplicated.length > 0,
   ).length;
 
   const filterData = [

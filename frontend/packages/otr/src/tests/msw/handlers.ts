@@ -1,6 +1,8 @@
-import { rest } from 'msw';
+import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
+import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
+import { MeetingDateResponse } from 'interfaces/meetingDate';
 import { clerkInterpreter } from 'tests/msw/fixtures/clerkInterpreter';
 import { clerkInterpreterIndividualised } from 'tests/msw/fixtures/clerkInterpreterIndividualised';
 import { clerkInterpreters10 } from 'tests/msw/fixtures/clerkInterpreters10';
@@ -12,104 +14,110 @@ import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 import { qualificationRemoveResponse } from 'tests/msw/utils/clerkInterpreterOverview';
 
 export const handlers = [
-  rest.get(APIEndpoints.PublicInterpreter, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(publicInterpreters10));
-  }),
-  rest.get(APIEndpoints.ClerkInterpreter, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(clerkInterpreters10));
-  }),
-  rest.get(APIEndpoints.ClerkMissingInterpreters, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json([]));
-  }),
-  rest.put(APIEndpoints.ClerkInterpreter, async (req, res, ctx) => {
-    const interpreterDetails = await req.json();
+  http.get(
+    APIEndpoints.PublicInterpreter,
+    () => new Response(JSON.stringify(publicInterpreters10), { status: 200 }),
+  ),
+  http.get(
+    APIEndpoints.ClerkInterpreter,
+    () => new Response(JSON.stringify(clerkInterpreters10), { status: 200 }),
+  ),
+  http.get(
+    APIEndpoints.ClerkMissingInterpreters,
+    () => new Response(JSON.stringify([]), { status: 200 }),
+  ),
+  http.put(APIEndpoints.ClerkInterpreter, async ({ request }) => {
+    const interpreterDetails =
+      (await request.json()) as ClerkInterpreterResponse;
 
-    return res(
-      ctx.status(200),
-      ctx.json({
+    return new Response(
+      JSON.stringify({
         ...interpreterDetails,
         qualifications: clerkInterpreter.qualifications,
-      })
+      }),
+      { status: 200 },
     );
   }),
-  rest.get(
+  http.get(
     `${APIEndpoints.ClerkInterpreter}/${clerkInterpreterIndividualised.id}`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(clerkInterpreterIndividualised));
-    }
+    () =>
+      new Response(JSON.stringify(clerkInterpreterIndividualised), {
+        status: 200,
+      }),
   ),
-  rest.get(
+  http.get(
     `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}`,
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(clerkInterpreter));
-    }
+    () => new Response(JSON.stringify(clerkInterpreter), { status: 200 }),
   ),
-  rest.post(
+  http.post(
     `${APIEndpoints.ClerkInterpreter}/${clerkInterpreter.id}/qualification`,
-    (req, res, ctx) => {
+    () => {
       const effective = [
         ...clerkInterpreter.qualifications.effective,
         newQualification,
       ];
 
-      return res(
-        ctx.status(201),
-        ctx.json({
+      return new Response(
+        JSON.stringify({
           ...clerkInterpreter,
           qualifications: {
             ...clerkInterpreter.qualifications,
             effective,
           },
-        })
+        }),
+        { status: 201 },
       );
-    }
+    },
   ),
-  rest.delete(`${APIEndpoints.Qualification}/:id`, async (req, res, ctx) => {
-    const { id } = req.params;
+  http.delete(`${APIEndpoints.Qualification}/:id`, async ({ params }) => {
+    const { id } = params;
 
-    return res(
-      ctx.status(200),
-      ctx.json(
-        qualificationRemoveResponse(clerkInterpreter, parseInt(id as string))
-      )
+    return new Response(
+      JSON.stringify(
+        qualificationRemoveResponse(clerkInterpreter, parseInt(id as string)),
+      ),
+      { status: 200 },
     );
   }),
-  rest.get(APIEndpoints.ClerkPersonSearch, (req, res, ctx) => {
-    const identityNumber = req.url.searchParams.get('identityNumber');
+  http.get(APIEndpoints.ClerkPersonSearch, ({ request }) => {
+    const url = new URL(request.url);
+    const identityNumber = url.searchParams.get('identityNumber');
 
     if (identityNumber === person1.identityNumber) {
-      return res(ctx.status(200), ctx.json(person1));
+      return new Response(JSON.stringify(person1), { status: 200 });
     } else if (identityNumber === person2.identityNumber) {
-      return res(ctx.status(200), ctx.json(person2));
+      return new Response(JSON.stringify(person2), { status: 200 });
     } else {
-      return res(ctx.status(200));
+      return new Response(null, { status: 200 });
     }
   }),
-  rest.post(APIEndpoints.ClerkInterpreter, (req, res, ctx) => {
-    return res(ctx.status(201), ctx.json(clerkInterpreter));
-  }),
-  rest.get(APIEndpoints.MeetingDate, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(meetingDates10));
-  }),
-  rest.post(APIEndpoints.MeetingDate, async (req, res, ctx) => {
-    const { date } = await req.json();
+  http.post(
+    APIEndpoints.ClerkInterpreter,
+    () => new Response(JSON.stringify(clerkInterpreter), { status: 200 }),
+  ),
+  http.get(
+    APIEndpoints.MeetingDate,
+    () => new Response(JSON.stringify(meetingDates10), { status: 200 }),
+  ),
+  http.post(APIEndpoints.MeetingDate, async ({ request }) => {
+    const { date } = (await request.json()) as MeetingDateResponse;
 
     if (date === newMeetingDate.date) {
-      return res(ctx.status(201), ctx.json(newMeetingDate));
+      return new Response(JSON.stringify(newMeetingDate), { status: 201 });
     } else {
-      return res(ctx.status(500));
+      return new Response(null, { status: 500 });
     }
   }),
-  rest.delete(`${APIEndpoints.MeetingDate}/:id`, (req, res, ctx) => {
-    const { id } = req.params;
+  http.delete(`${APIEndpoints.MeetingDate}/:id`, ({ params }) => {
+    const { id } = params;
     const deletableMeetingDateId = meetingDates10.find(
-      (m) => m.date === '2022-01-01'
+      (m) => m.date === '2022-01-01',
     )?.id;
 
     if (parseInt(id as string) === deletableMeetingDateId) {
-      return res(ctx.status(200));
+      return new Response(null, { status: 200 });
     } else {
-      return res(ctx.status(500));
+      return new Response(null, { status: 500 });
     }
   }),
 ];

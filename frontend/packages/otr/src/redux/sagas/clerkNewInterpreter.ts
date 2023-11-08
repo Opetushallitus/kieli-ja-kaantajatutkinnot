@@ -18,16 +18,16 @@ import { NotifierUtils } from 'utils/notifier';
 import { SerializationUtils } from 'utils/serialization';
 
 function* saveClerkNewInterpreterSaga(
-  action: PayloadAction<ClerkNewInterpreter>
+  action: PayloadAction<ClerkNewInterpreter>,
 ) {
   try {
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.ClerkInterpreter,
-      SerializationUtils.serializeClerkNewInterpreter(action.payload)
+      SerializationUtils.serializeClerkNewInterpreter(action.payload),
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkInterpreter(interpreter));
     yield put(storeClerkNewInterpreter(interpreter.id));

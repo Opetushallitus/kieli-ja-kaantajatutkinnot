@@ -42,7 +42,7 @@ const clerkTranslatorSlice = createSlice({
   reducers: {
     addClerkTranslatorFilter(
       state,
-      action: PayloadAction<Partial<ClerkTranslatorFilter>>
+      action: PayloadAction<Partial<ClerkTranslatorFilter>>,
     ) {
       state.filters = { ...state.filters, ...action.payload };
     },
@@ -51,7 +51,7 @@ const clerkTranslatorSlice = createSlice({
     },
     deselectClerkTranslator(state, action: PayloadAction<number>) {
       state.selectedTranslators = state.selectedTranslators.filter(
-        (id) => id !== action.payload
+        (id) => id !== action.payload,
       );
     },
     loadClerkTranslators(state) {
@@ -66,7 +66,7 @@ const clerkTranslatorSlice = createSlice({
     },
     selectAllFilteredClerkTranslators(
       state,
-      action: PayloadAction<Array<ClerkTranslator>>
+      action: PayloadAction<Array<ClerkTranslator>>,
     ) {
       state.selectedTranslators = action.payload.map(({ id }) => id);
     },
@@ -82,7 +82,7 @@ const clerkTranslatorSlice = createSlice({
       const updatedTranslators = [...state.translators];
       const translator = action.payload;
       const idx = updatedTranslators.findIndex(
-        (t: ClerkTranslator) => t.id === translator.id
+        (t: ClerkTranslator) => t.id === translator.id,
       );
       const spliceIndex = idx >= 0 ? idx : updatedTranslators.length;
 

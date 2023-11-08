@@ -95,9 +95,8 @@ export const initI18n = () => {
 
 export const useAppTranslation = (
   options: UseTranslationOptions<string>,
-  ns: I18nNamespace = I18nNamespace.Translation
+  ns: I18nNamespace = I18nNamespace.Translation,
 ) => {
-  // @ts-expect-error ts import fail
   return useTranslation(ns, options);
 };
 
@@ -106,7 +105,7 @@ export const useAccessibilityTranslation = () => {
     {
       keyPrefix: 'otr.accessibility',
     },
-    I18nNamespace.Accessibility
+    I18nNamespace.Accessibility,
   );
 
   return t;
@@ -117,7 +116,7 @@ export const useCommonTranslation = () => {
     {
       keyPrefix: 'otr.common',
     },
-    I18nNamespace.Common
+    I18nNamespace.Common,
   );
 
   return t;
@@ -128,7 +127,7 @@ export const useKoodistoLanguagesTranslation = () => {
     {
       keyPrefix: 'otr.koodisto.languages',
     },
-    I18nNamespace.KoodistoLanguages
+    I18nNamespace.KoodistoLanguages,
   );
 
   return t;
@@ -139,7 +138,7 @@ export const usePrivacyTranslation = () => {
     {
       keyPrefix: 'otr.privacy',
     },
-    I18nNamespace.Privacy
+    I18nNamespace.Privacy,
   );
 
   return t;

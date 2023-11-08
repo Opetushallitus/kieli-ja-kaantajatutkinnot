@@ -43,7 +43,7 @@ function* sendContactRequestSaga(action: PayloadAction<ContactRequest>) {
         message: message.trim(),
         fromLang: languagePair.from,
         toLang: languagePair.to,
-      })
+      }),
     );
     yield put(sendingContactRequestSucceeded());
     yield put(increaseContactRequestStep());

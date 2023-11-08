@@ -6,7 +6,7 @@ import { onClerkTranslatorOverviewPage } from 'tests/cypress/support/page-object
 beforeEach(() => {
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
-    translatorResponse
+    translatorResponse,
   ).as('getClerkTranslatorOverview');
   onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
   cy.wait('@getClerkTranslatorOverview');

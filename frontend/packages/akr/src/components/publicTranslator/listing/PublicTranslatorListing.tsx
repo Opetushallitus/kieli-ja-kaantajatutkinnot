@@ -27,7 +27,7 @@ export const PublicTranslatorListing = ({
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { isPhone } = useWindowProperties();
   const { selectedTranslators, towns, pagination } = useAppSelector(
-    publicTranslatorsSelector
+    publicTranslatorsSelector,
   );
   const dispatch = useAppDispatch();
 

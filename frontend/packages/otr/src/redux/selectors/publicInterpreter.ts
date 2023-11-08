@@ -16,13 +16,13 @@ export const selectFilteredPublicInterpreters = createSelector(
   (state: RootState) => state.publicInterpreter.filters,
   (interpreters, filters) => {
     return filterPublicInterpreters(interpreters, filters);
-  }
+  },
 );
 
 // Helpers
 export const filterPublicInterpreters = (
   interpreters: Array<PublicInterpreter>,
-  filters: PublicInterpreterFilter
+  filters: PublicInterpreterFilter,
 ) => {
   const isNotBlank = (v: string) => !StringUtils.isBlankString(v);
   let filteredData = interpreters;
@@ -42,31 +42,31 @@ export const filterPublicInterpreters = (
 
 const filterByLanguagePair = (
   publicInterpreter: PublicInterpreter,
-  filters: PublicInterpreterFilter
+  filters: PublicInterpreterFilter,
 ) => {
   return publicInterpreter.languages.find((languagePair) =>
     QualificationUtils.languagePairMatchesLangFilters(
       languagePair,
       filters.fromLang,
-      filters.toLang
-    )
+      filters.toLang,
+    ),
   );
 };
 
 const filterByName = (
   { firstName, lastName }: PublicInterpreter,
-  filters: PublicInterpreterFilter
+  filters: PublicInterpreterFilter,
 ) => {
   const nameCombs = [`${firstName} ${lastName}`, `${lastName} ${firstName}`];
 
   return nameCombs.some((comb) =>
-    comb.toLowerCase().includes(filters.name.toLowerCase().trim())
+    comb.toLowerCase().includes(filters.name.toLowerCase().trim()),
   );
 };
 
 const filterByRegion = (
   publicInterpreter: PublicInterpreter,
-  filters: PublicInterpreterFilter
+  filters: PublicInterpreterFilter,
 ) => {
   if (publicInterpreter.regions.length) {
     return publicInterpreter.regions.includes(filters.region);

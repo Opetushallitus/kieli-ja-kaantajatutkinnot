@@ -26,7 +26,7 @@ export const ClerkTranslatorOverviewPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, translator } = useAppSelector(
-    clerkTranslatorOverviewSelector
+    clerkTranslatorOverviewSelector,
   );
   const translatorId = translator?.id;
   // React Router

@@ -23,11 +23,11 @@ class ClerkNewTranslatorPage {
     authorisationField: (
       field: string,
       fieldType: string,
-      isDatePicker = false
+      isDatePicker = false,
     ) =>
       cy
         .findByTestId(
-          `authorisation-field-${field}${isDatePicker ? '__date-picker' : ''}`
+          `authorisation-field-${field}${isDatePicker ? '__date-picker' : ''}`,
         )
         .find(`div>${fieldType}`),
     addAuthorisationButton: () =>
@@ -37,7 +37,7 @@ class ClerkNewTranslatorPage {
       cy.findByTestId(`authorisations-table__id-${id}-row__delete-btn`),
     deleteAuthorisationDialogConfirmButton: () =>
       cy.findByTestId(
-        'clerk-new-translator-page__dialog-confirm-remove-button'
+        'clerk-new-translator-page__dialog-confirm-remove-button',
       ),
     saveNewClerkButton: () =>
       cy.findByTestId('clerk-new-translator-page__save-button'),
@@ -72,7 +72,7 @@ class ClerkNewTranslatorPage {
   fillOutNewTranslatorBasicInformationField(
     fieldName: string,
     fieldType: string,
-    value: string
+    value: string,
   ) {
     this.elements
       .newTranslatorBasicInformationField(fieldName, fieldType)
@@ -90,7 +90,7 @@ class ClerkNewTranslatorPage {
   fillOutAddAuthorisationField(
     fieldName: string,
     fieldType: string,
-    value: string
+    value: string,
   ) {
     this.elements
       .authorisationField(fieldName, fieldType)
@@ -142,13 +142,13 @@ class ClerkNewTranslatorPage {
   }
 
   fillOutNewTranslatorBasicInformationFields(
-    fields = newTranslatorBasicInformationFields
+    fields = newTranslatorBasicInformationFields,
   ) {
     fields.forEach(({ fieldName, fieldType, value }) => {
       onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationField(
         fieldName,
         fieldType,
-        value
+        value,
       );
     });
   }
@@ -158,7 +158,7 @@ class ClerkNewTranslatorPage {
       onClerkNewTranslatorPage.fillOutAddAuthorisationField(
         fieldName,
         fieldType,
-        value
+        value,
       );
     });
   }

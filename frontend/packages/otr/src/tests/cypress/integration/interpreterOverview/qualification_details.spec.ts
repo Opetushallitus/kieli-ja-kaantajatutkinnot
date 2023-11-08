@@ -22,12 +22,12 @@ describe('ClerkInterpreterOverview:QualificationDetails', () => {
 
   it('should display correct details for qualifications', () => {
     onQualificationDetails.expectVisibleQualifications(
-      qualificationsByStatus[QualificationStatus.Effective]
+      qualificationsByStatus[QualificationStatus.Effective],
     );
 
     onQualificationDetails.clickExpiredToggleBtn();
     onQualificationDetails.expectVisibleQualifications(
-      qualificationsByStatus[QualificationStatus.Expired]
+      qualificationsByStatus[QualificationStatus.Expired],
     );
   });
 

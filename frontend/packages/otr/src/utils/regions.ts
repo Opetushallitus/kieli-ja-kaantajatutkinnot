@@ -32,7 +32,7 @@ export class RegionUtils {
         ({
           value: r,
           label: RegionUtils.translateRegion(r),
-        } as ComboBoxOption)
+        }) as ComboBoxOption,
     );
 
     return regionValues.sort(RegionUtils.compareOptionsByLabel);

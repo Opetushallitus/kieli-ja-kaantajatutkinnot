@@ -8,7 +8,7 @@ beforeEach(() => {
   runWithIntercept(
     APIEndpoints.PublicTranslator,
     { fixture: 'public_translators_50.json' },
-    () => cy.openPublicHomePage()
+    () => cy.openPublicHomePage(),
   );
 });
 

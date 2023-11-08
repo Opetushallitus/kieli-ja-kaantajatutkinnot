@@ -18,7 +18,7 @@ beforeEach(() => {
   runWithIntercept(
     APIEndpoints.PublicTranslator,
     { fixture: 'public_translators_50.json' },
-    () => cy.openPublicHomePage()
+    () => cy.openPublicHomePage(),
   );
   onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
   onPublicTranslatorsListing.selectTranslatorRows(TEST_TRANSLATOR_IDS);
@@ -29,7 +29,7 @@ describe('ContactRequestPage', () => {
   it('should not allow proceeding if all translators are deselected', () => {
     onContactRequestPage.isNextEnabled();
     TEST_TRANSLATOR_IDS.forEach((id) =>
-      onContactRequestPage.deselectTranslator(id)
+      onContactRequestPage.deselectTranslator(id),
     );
     onContactRequestPage.isNextDisabled();
   });
@@ -64,7 +64,7 @@ describe('ContactRequestPage', () => {
     previewAndSendStep();
 
     runWithIntercept(APIEndpoints.ContactRequest, { statusCode: 400 }, () =>
-      onContactRequestPage.submit()
+      onContactRequestPage.submit(),
     );
 
     onDialog.expectText('Virhe lähetettäessä yhteydenottopyyntöä');
@@ -73,7 +73,7 @@ describe('ContactRequestPage', () => {
     // Verify last step is shown after dialog is closed
     expectTextForId(
       'contact-request-page__step-heading-PreviewAndSend',
-      'Esikatsele ja lähetä'
+      'Esikatsele ja lähetä',
     );
   });
 
@@ -84,7 +84,7 @@ describe('ContactRequestPage', () => {
     previewAndSendStep();
 
     runWithIntercept(APIEndpoints.ContactRequest, { statusCode: 200 }, () =>
-      onContactRequestPage.submit()
+      onContactRequestPage.submit(),
     );
 
     onContactRequestPage.expectRequestToBeSent();
@@ -113,7 +113,7 @@ describe('ContactRequestPage', () => {
 
     onContactRequestPage.fillFieldByLabel(
       /puhelinnumero/i,
-      'wrong.phone.number'
+      'wrong.phone.number',
     );
     onContactRequestPage.blurFieldByLabel(/puhelinnumero/i);
     onContactRequestPage.isNextDisabled();

@@ -22,7 +22,7 @@ class ClerkExamEventOverviewPage {
     datePicker: (fieldName: string) =>
       cy
         .findByTestId(`clerk-exam-event__basic-information__${fieldName}`)
-        .find('.custom-date-picker'),
+        .find('.custom-date-picker input'),
     examEventDetailsField: (field: string, fieldType: string) =>
       cy
         .findByTestId(`clerk-exam-event__basic-information__${field}`)
@@ -79,7 +79,9 @@ class ClerkExamEventOverviewPage {
     this.elements
       .datePicker(fieldName)
       .should('be.visible')
-      .clear()
+      .clear();
+    this.elements
+      .datePicker(fieldName)
       .type(`${newValue}{enter}`);
   }
 

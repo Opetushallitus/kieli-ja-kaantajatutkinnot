@@ -29,14 +29,14 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
       onClerkInterpreterOverviewPage.editInterpreterField(
         fieldName,
         'input',
-        ' '
+        ' ',
       );
       onClerkInterpreterOverviewPage.expectDisabledSaveInterpreterDetailsButton();
 
       onClerkInterpreterOverviewPage.editInterpreterField(
         fieldName,
         'input',
-        'test'
+        'test',
       );
       onClerkInterpreterOverviewPage.expectEnabledSaveInterpreterDetailsButton();
     });
@@ -47,7 +47,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkInterpreterOverviewPage.clickCancelInterpreterDetailsButton();
 
@@ -62,7 +62,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkInterpreterOverviewPage.clickCancelInterpreterDetailsButton();
 
@@ -81,10 +81,10 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       fieldName,
       fieldType,
-      newLastName
+      newLastName,
     );
     onClerkInterpreterOverviewPage.expectTitle(
-      `${clerkInterpreter.lastName} ${clerkInterpreter.firstName}`
+      `${clerkInterpreter.lastName} ${clerkInterpreter.firstName}`,
     );
 
     onClerkInterpreterOverviewPage.clickSaveInterpreterDetailsButton();
@@ -93,10 +93,10 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.expectInterpreterFieldValue(
       fieldName,
       fieldType,
-      newLastName
+      newLastName,
     );
     onClerkInterpreterOverviewPage.expectTitle(
-      `${newLastName} ${clerkInterpreter.firstName}`
+      `${newLastName} ${clerkInterpreter.firstName}`,
     );
     onToast.expectText('Tiedot tallennettiin');
 
@@ -121,7 +121,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.clickAddQualificationButton();
     onClerkInterpreterOverviewPage.expectDisabledAddQualificationField(
       'endDate',
-      'input'
+      'input',
     );
   });
 
@@ -130,7 +130,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkInterpreterOverviewPage.clickBackButton();
 
@@ -145,12 +145,12 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',
       'input',
-      ' '
+      ' ',
     );
     onClerkInterpreterOverviewPage.editInterpreterField(
       'firstName',
       'input',
-      ' '
+      ' ',
     );
     onClerkInterpreterOverviewPage.editInterpreterField('email', 'input', ' ');
     cy.findAllByText('Tieto on pakollinen').should('have.length', 3);
@@ -158,16 +158,16 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     onClerkInterpreterOverviewPage.editInterpreterField(
       'email',
       'input',
-      'mail'
+      'mail',
     );
     onClerkInterpreterOverviewPage.expectText(
-      'Sähköpostiosoite on virheellinen'
+      'Sähköpostiosoite on virheellinen',
     );
 
     onClerkInterpreterOverviewPage.editInterpreterField(
       'phoneNumber',
       'input',
-      'xyz'
+      'xyz',
     );
     onClerkInterpreterOverviewPage.expectText('Puhelinnumero on virheellinen');
   });
@@ -178,25 +178,25 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     ['lastName', 'firstName', 'nickName'].forEach((field) => {
       onClerkInterpreterOverviewPage.expectEnabledInterpreterField(
         field,
-        'input'
+        'input',
       );
     });
     onClerkInterpreterOverviewPage.expectDisabledInterpreterField(
       'identityNumber',
-      'input'
+      'input',
     );
   });
 
   it('should show each personal information field as disabled for an individualised interpreter', () => {
     onClerkInterpreterOverviewPage.navigateById(
-      clerkInterpreterIndividualised.id
+      clerkInterpreterIndividualised.id,
     );
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
 
     ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach((field) => {
       onClerkInterpreterOverviewPage.expectDisabledInterpreterField(
         field,
-        'input'
+        'input',
       );
     });
   });

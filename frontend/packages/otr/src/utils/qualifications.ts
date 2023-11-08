@@ -20,7 +20,7 @@ export class QualificationUtils {
 
   static isEffective(
     { id }: Qualification,
-    { effective }: ClerkInterpreterQualifications
+    { effective }: ClerkInterpreterQualifications,
   ) {
     return effective.map((a) => a.id).includes(id);
   }
@@ -28,7 +28,7 @@ export class QualificationUtils {
   static languagePairMatchesLangFilters(
     { from, to }: LanguagePair,
     fromFilter?: string,
-    toFilter?: string
+    toFilter?: string,
   ) {
     const matchingFromLang = from === fromFilter || from === toFilter;
     const matchingToLang = to === fromFilter || to === toFilter;
@@ -46,13 +46,13 @@ export class QualificationUtils {
 
   static getLanguagePairLocalisation(
     { from, to }: LanguagePair,
-    translateLanguage: (l: string) => string
+    translateLanguage: (l: string) => string,
   ) {
     return `${translateLanguage(from)} - ${translateLanguage(to)}`;
   }
 
   static getQualificationsVisibleInClerkHomePage(
-    qualifications: ClerkInterpreterQualifications
+    qualifications: ClerkInterpreterQualifications,
   ) {
     return [...qualifications.effective, ...qualifications.expiredDeduplicated];
   }

@@ -25,10 +25,10 @@ function* loadClerkInterpreterOverviewSaga(action: PayloadAction<number>) {
   try {
     const response: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkInterpreter}/${action.payload}`
+      `${APIEndpoints.ClerkInterpreter}/${action.payload}`,
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      response.data
+      response.data,
     );
     yield put(storeClerkInterpreterOverview(interpreter));
   } catch (error) {
@@ -37,17 +37,17 @@ function* loadClerkInterpreterOverviewSaga(action: PayloadAction<number>) {
 }
 
 function* updateClerkInterpreterDetailsSaga(
-  action: PayloadAction<ClerkInterpreter>
+  action: PayloadAction<ClerkInterpreter>,
 ) {
   try {
     const response: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkInterpreter}`,
-      SerializationUtils.serializeClerkInterpreter(action.payload)
+      SerializationUtils.serializeClerkInterpreter(action.payload),
     );
 
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      response.data
+      response.data,
     );
     yield upsertClerkInterpreter(interpreter);
     yield put(updatingClerkInterpreterDetailsSucceeded(interpreter));
@@ -61,10 +61,10 @@ function* updateClerkInterpreterDetailsSaga(
 export function* watchClerkInterpreterOverview() {
   yield takeLatest(
     loadClerkInterpreterOverview.type,
-    loadClerkInterpreterOverviewSaga
+    loadClerkInterpreterOverviewSaga,
   );
   yield takeLatest(
     updateClerkInterpreterDetails.type,
-    updateClerkInterpreterDetailsSaga
+    updateClerkInterpreterDetailsSaga,
   );
 }

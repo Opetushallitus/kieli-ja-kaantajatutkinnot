@@ -183,21 +183,21 @@ export const ClerkSendEmailPage = () => {
         field == 'subject' ? TextFieldTypes.Text : TextFieldTypes.Textarea,
         value,
         required,
-        maxTextAreaLength
+        maxTextAreaLength,
       );
       const errorMessage = error ? t(error) : '';
       setFieldErrors({ ...fieldErrors, [field]: errorMessage });
     };
 
   const handleSubjectChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setEmailSubject(event.target.value);
     handleFieldError('subject')(event);
   };
 
   const handleMessageChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setEmailBody(event.target.value);
     handleFieldError('message')(event);
@@ -210,10 +210,10 @@ export const ClerkSendEmailPage = () => {
         fieldErrors.message.length > 0 ? `${fieldErrors.message}.` : '';
 
       return `${errorToShow} ${value?.length} / ${maxTextAreaLength} ${t(
-        'pages.clerkSendEmailPage.characters'
+        'pages.clerkSendEmailPage.characters',
       )}`;
     },
-    [t]
+    [t],
   );
 
   useNavigationProtection(isLoading);

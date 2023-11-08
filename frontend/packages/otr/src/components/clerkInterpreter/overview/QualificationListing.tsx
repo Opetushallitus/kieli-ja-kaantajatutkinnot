@@ -80,7 +80,7 @@ export const QualificationListing = ({
                 <Text>
                   {QualificationUtils.getLanguagePairLocalisation(
                     { from: q.fromLang, to: q.toLang },
-                    translateLanguage
+                    translateLanguage,
                   )}
                 </Text>
               </TableCell>

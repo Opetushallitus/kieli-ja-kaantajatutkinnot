@@ -32,7 +32,7 @@ export const ContactRequestPage = () => {
   const { activeStep } = useAppSelector(contactRequestSelector);
   const nextStep = (activeStep + 1) as ContactRequestFormStep;
   const { filters, selectedTranslators } = useAppSelector(
-    publicTranslatorsSelector
+    publicTranslatorsSelector,
   );
   const { fromLang: from, toLang: to } = filters;
 
@@ -41,7 +41,7 @@ export const ContactRequestPage = () => {
       updateContactRequest({
         languagePair: { from, to },
         translatorIds: selectedTranslators,
-      })
+      }),
     );
   }, [dispatch, from, to, selectedTranslators]);
 

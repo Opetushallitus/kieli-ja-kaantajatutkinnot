@@ -84,7 +84,7 @@ export const AuthorisationListing = ({
                 <Text>
                   {AuthorisationUtils.getLanguagePairLocalisation(
                     a.languagePair,
-                    translateLanguage
+                    translateLanguage,
                   )}
                 </Text>
               </TableCell>
@@ -94,7 +94,7 @@ export const AuthorisationListing = ({
                   {a.basis === AuthorisationBasisEnum.AUT && (
                     <Tooltip
                       title={`${t(
-                        'fields.examinationDate'
+                        'fields.examinationDate',
                       )}: ${DateUtils.formatOptionalDate(a.examinationDate)}`}
                       arrow
                       placement="bottom"

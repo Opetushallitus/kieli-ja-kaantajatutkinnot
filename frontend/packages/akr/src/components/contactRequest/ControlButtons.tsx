@@ -36,7 +36,7 @@ export const ControlButtons = ({
   // Redux
   const dispatch = useAppDispatch();
   const { request, activeStep, status } = useAppSelector(
-    contactRequestSelector
+    contactRequestSelector,
   ) as {
     request: ContactRequest;
     activeStep: ContactRequestFormStep;

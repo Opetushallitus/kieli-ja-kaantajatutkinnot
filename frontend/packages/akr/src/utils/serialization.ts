@@ -15,7 +15,7 @@ import { MeetingDateResponse } from 'interfaces/meetingDate';
 
 export class SerializationUtils {
   static deserializeAuthorisation(
-    authorisation: AuthorisationResponse
+    authorisation: AuthorisationResponse,
   ): Authorisation {
     const stringToDate = DateUtils.optionalStringToDate;
 
@@ -65,7 +65,7 @@ export class SerializationUtils {
 
   static deserializeMeetingDates(response: Array<MeetingDateResponse>) {
     const meetingDates = response.map(
-      SerializationUtils.deserializeMeetingDate
+      SerializationUtils.deserializeMeetingDate,
     );
 
     return { meetingDates };
@@ -94,37 +94,37 @@ export class SerializationUtils {
   static deserializeClerkTranslators(response: ClerkStateResponse) {
     const { langs } = response;
     const translators = response.translators.map(
-      SerializationUtils.deserializeClerkTranslator
+      SerializationUtils.deserializeClerkTranslator,
     );
     const meetingDates = response.meetingDates.map(
-      SerializationUtils.deserializeMeetingDate
+      SerializationUtils.deserializeMeetingDate,
     );
     const examinationDates = response.examinationDates.map(
-      SerializationUtils.deserializeExaminationDate
+      SerializationUtils.deserializeExaminationDate,
     );
 
     return { translators, langs, meetingDates, examinationDates };
   }
 
   static deserializeClerkTranslator(
-    translator: ClerkTranslatorResponse
+    translator: ClerkTranslatorResponse,
   ): ClerkTranslator {
     const { authorisations } = translator;
 
     const effective = authorisations.effective.map(
-      SerializationUtils.deserializeAuthorisation
+      SerializationUtils.deserializeAuthorisation,
     );
     const expiring = authorisations.expiring.map(
-      SerializationUtils.deserializeAuthorisation
+      SerializationUtils.deserializeAuthorisation,
     );
     const expired = authorisations.expired.map(
-      SerializationUtils.deserializeAuthorisation
+      SerializationUtils.deserializeAuthorisation,
     );
     const expiredDeduplicated = authorisations.expiredDeduplicated.map(
-      SerializationUtils.deserializeAuthorisation
+      SerializationUtils.deserializeAuthorisation,
     );
     const formerVir = authorisations.formerVir.map(
-      SerializationUtils.deserializeAuthorisation
+      SerializationUtils.deserializeAuthorisation,
     );
 
     return {
@@ -158,7 +158,7 @@ export class SerializationUtils {
       hasIndividualisedAddress,
       isAssuranceGiven,
       authorisations: authorisations.map(
-        SerializationUtils.serializeAuthorisation
+        SerializationUtils.serializeAuthorisation,
       ),
     };
   }
@@ -187,7 +187,7 @@ export class SerializationUtils {
   }
 
   private static getNonBlankClerkTranslatorTextFields(
-    textFields: ClerkTranslatorTextFields
+    textFields: ClerkTranslatorTextFields,
   ) {
     Object.keys(textFields).forEach((key) => {
       const field = key as keyof ClerkTranslatorTextFields;

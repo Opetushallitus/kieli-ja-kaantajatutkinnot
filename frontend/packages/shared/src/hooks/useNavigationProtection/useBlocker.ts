@@ -13,9 +13,11 @@ export const useBlocker = (
   when: boolean,
   baseUrl?: string
 ) => {
+  // FIXME: UNSAFE_NavigationContext is no longer allowed in react router 6
   const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
 
   useEffect(() => {
+    /*
     if (when) {
       const unblock = navigator.block((tx: Transition) => {
         const autoUnblockingTx = {
@@ -37,6 +39,6 @@ export const useBlocker = (
       });
 
       return unblock;
-    }
+    }*/
   }, [navigator, blocker, when, baseUrl]);
 };

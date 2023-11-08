@@ -22,7 +22,7 @@ function* sendClerkTranslatorEmailSaga() {
         subject: email.subject.trim(),
         body: email.body.trim(),
         translatorIds: recipients,
-      })
+      }),
     );
     yield put(sendingClerkTranslatorEmailSucceeded());
   } catch (error) {

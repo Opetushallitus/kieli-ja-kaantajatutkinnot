@@ -20,26 +20,26 @@ describe('ClerkHomePage', () => {
 
   it('should allow filtering interpreters by qualification status', () => {
     onClerkHomePage.expectFilteredInterpretersCount(
-      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective]
+      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective],
     );
 
     onClerkHomePage.filterByQualificationStatus(QualificationStatus.Expiring);
     onClerkHomePage.expectFilteredInterpretersCount(
-      interpreterCountsByAuthorisationStatuses[QualificationStatus.Expiring]
+      interpreterCountsByAuthorisationStatuses[QualificationStatus.Expiring],
     );
 
     onClerkHomePage.filterByQualificationStatus(
-      QualificationStatus.ExpiredDeduplicated
+      QualificationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.expectFilteredInterpretersCount(
       interpreterCountsByAuthorisationStatuses[
         QualificationStatus.ExpiredDeduplicated
-      ]
+      ],
     );
 
     onClerkHomePage.filterByQualificationStatus(QualificationStatus.Effective);
     onClerkHomePage.expectFilteredInterpretersCount(
-      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective]
+      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective],
     );
   });
 
@@ -65,7 +65,7 @@ describe('ClerkHomePage', () => {
 
   it('should combine multiple filters', () => {
     onClerkHomePage.filterByQualificationStatus(
-      QualificationStatus.ExpiredDeduplicated
+      QualificationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.filterByToLang('englanti');
     onClerkHomePage.expectFilteredInterpretersCount(2);
@@ -79,7 +79,7 @@ describe('ClerkHomePage', () => {
 
   it('should reset all filters when empty selections is clicked ', () => {
     onClerkHomePage.filterByQualificationStatus(
-      QualificationStatus.ExpiredDeduplicated
+      QualificationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.filterByToLang('englanti');
     onClerkHomePage.filterByName('Juha Kallio');
@@ -88,7 +88,7 @@ describe('ClerkHomePage', () => {
     onClerkHomePage.resetFilters();
 
     onClerkHomePage.expectFilteredInterpretersCount(
-      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective]
+      interpreterCountsByAuthorisationStatuses[QualificationStatus.Effective],
     );
     onClerkHomePage.expectEmptyFilters();
   });

@@ -31,11 +31,11 @@ beforeEach(() => {
   runWithIntercept(
     APIEndpoints.ClerkTranslator,
     { fixture: 'clerk_translators_10.json' },
-    () => cy.openClerkHomePage()
+    () => cy.openClerkHomePage(),
   );
   expectRegistryIsVisible();
   selectedTranslatorIds.forEach((id) =>
-    onClerkHomePage.selectTranslatorById(id)
+    onClerkHomePage.selectTranslatorById(id),
   );
   onClerkHomePage.sendEmail();
 });
@@ -54,7 +54,7 @@ describe('ClerkSendEmailPage', () => {
     runWithIntercept(
       APIEndpoints.InformalClerkTranslatorEmail,
       { statusCode: 201 },
-      confirmSend
+      confirmSend,
     );
 
     expectRegistryIsVisible();
@@ -67,7 +67,7 @@ describe('ClerkSendEmailPage', () => {
     runWithIntercept(
       APIEndpoints.InformalClerkTranslatorEmail,
       { statusCode: 400 },
-      confirmSend
+      confirmSend,
     );
 
     onToast.expectText('Sähköpostin lähetys ei onnistunut');

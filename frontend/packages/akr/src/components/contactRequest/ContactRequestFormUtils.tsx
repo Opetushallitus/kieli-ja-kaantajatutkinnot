@@ -39,7 +39,7 @@ export const ChosenTranslatorsHeading = () => {
         <span className="contact-request-page__lang-pair">
           {AuthorisationUtils.getLanguagePairLocalisation(
             { from: fromLang, to: toLang },
-            translateLanguage
+            translateLanguage,
           )}
         </span>
       </H3>
@@ -50,7 +50,7 @@ export const ChosenTranslatorsHeading = () => {
 export const ChosenTranslators = () => {
   const translators = useAppSelector(selectedPublicTranslatorsForLanguagePair);
   const translatorNames = translators.map(
-    ({ firstName, lastName }) => firstName + ' ' + lastName
+    ({ firstName, lastName }) => firstName + ' ' + lastName,
   );
 
   return (
@@ -111,10 +111,10 @@ export const StepHeading = ({ step }: { step: ContactRequestFormStep }) => {
   const [ref, setFocus] = useFocus<HTMLSpanElement>();
   const { isPhone } = useWindowProperties();
   const numberOfSteps = Object.values(ContactRequestFormStep).filter(
-    (v) => !isNaN(Number(v))
+    (v) => !isNaN(Number(v)),
   ).length;
   const headingAriaLabel = `${translateCommon(
-    'phase'
+    'phase',
   )} ${step}/${numberOfSteps}: ${t(ContactRequestFormStep[step])}`;
 
   useEffect(() => {

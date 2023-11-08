@@ -33,7 +33,7 @@ import { QualificationUtils } from 'utils/qualifications';
 
 export const ClerkNewInterpreterPage = () => {
   const [qualification, setQualification] = useState<NewQualification>(
-    QualificationUtils.newQualification
+    QualificationUtils.newQualification,
   );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -54,16 +54,16 @@ export const ClerkNewInterpreterPage = () => {
 
   // Redux
   const { interpreter, status, id } = useAppSelector(
-    clerkNewInterpreterSelector
+    clerkNewInterpreterSelector,
   );
   const { identityNumber, person } = useAppSelector(clerkPersonSearchSelector);
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
   const passedMeetingDates = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   ).passed;
 
   useNavigationProtection(
-    hasLocalChanges && status !== APIResponseStatus.Success
+    hasLocalChanges && status !== APIResponseStatus.Success,
   );
 
   const dispatch = useAppDispatch();
@@ -98,8 +98,8 @@ export const ClerkNewInterpreterPage = () => {
       navigate(
         AppRoutes.ClerkInterpreterOverviewPage.replace(
           /:interpreterId$/,
-          `${id}`
-        )
+          `${id}`,
+        ),
       );
     }
   }, [id, navigate, status, showToast, t]);
@@ -118,7 +118,7 @@ export const ClerkNewInterpreterPage = () => {
           ...interpreter.qualifications,
           qualification as Qualification,
         ],
-      })
+      }),
     );
 
     handleCloseModal();
@@ -147,7 +147,7 @@ export const ClerkNewInterpreterPage = () => {
                 qualifications: interpreter.qualifications.filter((q) => {
                   return q.tempId !== qualification.tempId;
                 }),
-              })
+              }),
             ),
         },
       ],

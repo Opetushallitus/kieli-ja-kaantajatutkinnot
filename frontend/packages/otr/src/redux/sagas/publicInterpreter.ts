@@ -14,7 +14,7 @@ function* loadPublicInterpretersSaga() {
   try {
     const response: AxiosResponse<Array<PublicInterpreter>> = yield call(
       axiosInstance.get,
-      APIEndpoints.PublicInterpreter
+      APIEndpoints.PublicInterpreter,
     );
     yield put(storePublicInterpreters(response.data));
   } catch (error) {

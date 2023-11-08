@@ -40,7 +40,7 @@ import { AuthorisationUtils } from 'utils/authorisation';
 
 export const ClerkNewTranslatorPage = () => {
   const [authorisation, setAuthorisation] = useState<Authorisation>(
-    AuthorisationUtils.newAuthorisation
+    AuthorisationUtils.newAuthorisation,
   );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -64,17 +64,17 @@ export const ClerkNewTranslatorPage = () => {
   const { identityNumber, person } = useAppSelector(clerkPersonSearchSelector);
   const meetingDatesState = useAppSelector(meetingDatesSelector).meetingDates;
   const passedMeetingDates = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   ).passed;
   const examinationDates = useAppSelector(
-    examinationDatesSelector
+    examinationDatesSelector,
   ).examinationDates;
   const passedExaminationDates = useAppSelector(
-    selectExaminationDatesByStatus
+    selectExaminationDatesByStatus,
   ).passed;
 
   useNavigationProtection(
-    hasLocalChanges && status !== APIResponseStatus.Success
+    hasLocalChanges && status !== APIResponseStatus.Success,
   );
 
   const dispatch = useAppDispatch();
@@ -116,7 +116,10 @@ export const ClerkNewTranslatorPage = () => {
         description: t('toasts.success'),
       });
       navigate(
-        AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
+        AppRoutes.ClerkTranslatorOverviewPage.replace(
+          /:translatorId$/,
+          `${id}`,
+        ),
       );
     }
   }, [id, dispatch, navigate, status, showToast, t]);
@@ -142,7 +145,7 @@ export const ClerkNewTranslatorPage = () => {
       updateClerkNewTranslator({
         ...translator,
         authorisations: [...translator.authorisations, authorisation],
-      })
+      }),
     );
 
     handleCloseModal();
@@ -170,7 +173,7 @@ export const ClerkNewTranslatorPage = () => {
                 authorisations: translator.authorisations.filter((a) => {
                   return a.tempId !== authorisation.tempId;
                 }),
-              })
+              }),
             ),
         },
       ],

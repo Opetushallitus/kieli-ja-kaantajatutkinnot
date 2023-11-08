@@ -27,16 +27,16 @@ function* addQualificationSaga(
   action: PayloadAction<{
     qualification: Qualification;
     interpreterId: number;
-  }>
+  }>,
 ) {
   try {
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.post,
       `${APIEndpoints.ClerkInterpreter}/${action.payload.interpreterId}/qualification`,
-      SerializationUtils.serializeQualification(action.payload.qualification)
+      SerializationUtils.serializeQualification(action.payload.qualification),
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));
@@ -52,10 +52,10 @@ function* removeQualificationSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.delete,
-      `${APIEndpoints.Qualification}/${action.payload}`
+      `${APIEndpoints.Qualification}/${action.payload}`,
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));
@@ -72,10 +72,10 @@ function* updateQualificationSaga(action: PayloadAction<Qualification>) {
     const apiResponse: AxiosResponse<ClerkInterpreterResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.Qualification,
-      SerializationUtils.serializeQualification(action.payload)
+      SerializationUtils.serializeQualification(action.payload),
     );
     const interpreter = SerializationUtils.deserializeClerkInterpreter(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkInterpreter(interpreter));
     yield put(setClerkInterpreterOverview(interpreter));

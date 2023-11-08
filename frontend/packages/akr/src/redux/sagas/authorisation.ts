@@ -27,16 +27,16 @@ function* addAuthorisationSaga(
   action: PayloadAction<{
     authorisation: Authorisation;
     translatorId: number;
-  }>
+  }>,
 ) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.post,
       `${APIEndpoints.ClerkTranslator}/${action.payload.translatorId}/authorisation`,
-      SerializationUtils.serializeAuthorisation(action.payload.authorisation)
+      SerializationUtils.serializeAuthorisation(action.payload.authorisation),
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkTranslator(translator));
     yield put(setClerkTranslatorOverviewTranslator(translator));
@@ -53,10 +53,10 @@ function* updateAuthorisationSaga(action: PayloadAction<Authorisation>) {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.Authorisation,
-      SerializationUtils.serializeAuthorisation(action.payload)
+      SerializationUtils.serializeAuthorisation(action.payload),
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkTranslator(translator));
     yield put(setClerkTranslatorOverviewTranslator(translator));
@@ -72,10 +72,10 @@ function* removeAuthorisationSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.delete,
-      `${APIEndpoints.Authorisation}/${action.payload}`
+      `${APIEndpoints.Authorisation}/${action.payload}`,
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(upsertClerkTranslator(translator));
     yield put(setClerkTranslatorOverviewTranslator(translator));

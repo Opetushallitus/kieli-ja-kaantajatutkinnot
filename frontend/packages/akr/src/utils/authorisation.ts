@@ -18,7 +18,7 @@ export class AuthorisationUtils {
 
   static selectableLanguagesForLanguageFilter(
     languages: Array<string>,
-    otherLanguage?: string
+    otherLanguage?: string,
   ) {
     if (!otherLanguage || this.primaryLangs.includes(otherLanguage)) {
       return languages;
@@ -29,14 +29,14 @@ export class AuthorisationUtils {
 
   static isEffective(
     { id }: Authorisation,
-    { effective }: ClerkTranslatorAuthorisations
+    { effective }: ClerkTranslatorAuthorisations,
   ) {
     return effective.map((a) => a.id).includes(id);
   }
 
   static getLanguagePairLocalisation(
     { from, to }: LanguagePair,
-    translateLanguage: (l: string) => string
+    translateLanguage: (l: string) => string,
   ) {
     return `${translateLanguage(from)} - ${translateLanguage(to)}`;
   }

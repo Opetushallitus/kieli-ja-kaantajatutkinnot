@@ -39,13 +39,13 @@ const publicInterpreterSlice = createSlice({
     },
     setPublicInterpreterFilters(
       state,
-      action: PayloadAction<PublicInterpreterFilter>
+      action: PayloadAction<PublicInterpreterFilter>,
     ) {
       state.filters = action.payload;
     },
     storePublicInterpreters(
       state,
-      action: PayloadAction<Array<PublicInterpreter>>
+      action: PayloadAction<Array<PublicInterpreter>>,
     ) {
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;

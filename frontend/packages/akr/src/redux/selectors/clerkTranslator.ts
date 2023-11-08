@@ -25,13 +25,13 @@ export const selectFilteredClerkTranslators = createSelector(
     if (filters.name) {
       const nameFilter = filters.name;
       filteredTranslators = filteredTranslators.filter((t) =>
-        translatorNameMatchesName(t, nameFilter)
+        translatorNameMatchesName(t, nameFilter),
       );
     }
 
     if (filters.emailStatus === TranslatorEmailStatus.Exists) {
       filteredTranslators = filteredTranslators.filter((t) =>
-        t.email ? true : false
+        t.email ? true : false,
       );
     }
     if (filters.emailStatus === TranslatorEmailStatus.Missing) {
@@ -39,9 +39,9 @@ export const selectFilteredClerkTranslators = createSelector(
     }
 
     return filteredTranslators.filter((t) =>
-      hasAuthorisationsMatchingFilters(t, filters)
+      hasAuthorisationsMatchingFilters(t, filters),
     );
-  }
+  },
 );
 
 export const selectFilteredSelectedIds = createSelector(
@@ -51,7 +51,7 @@ export const selectFilteredSelectedIds = createSelector(
     const filteredIds = new Set(filteredTranslators.map((t) => t.id));
 
     return selectedTranslators.filter((id) => filteredIds.has(id));
-  }
+  },
 );
 
 export const selectFilteredSelectedTranslators = createSelector(
@@ -61,25 +61,25 @@ export const selectFilteredSelectedTranslators = createSelector(
     const ids = new Set(selectedIds);
 
     return filtered.filter(({ id }) => ids.has(id));
-  }
+  },
 );
 
 // Translator level predicates
 
 const translatorNameMatchesName = (
   { firstName, lastName }: ClerkTranslator,
-  name: string
+  name: string,
 ) => {
   const nameCombs = [`${firstName} ${lastName}`, `${lastName} ${firstName}`];
 
   return nameCombs.some((comb) =>
-    comb.toLowerCase().includes(name.toLowerCase().trim())
+    comb.toLowerCase().includes(name.toLowerCase().trim()),
   );
 };
 
 const hasAuthorisationsMatchingFilters = (
   { authorisations }: ClerkTranslator,
-  filters: ClerkTranslatorFilter
+  filters: ClerkTranslatorFilter,
 ) => {
   const matchesFilters = (authorisations: Array<Authorisation>) => {
     return authorisations.filter(
@@ -87,7 +87,7 @@ const hasAuthorisationsMatchingFilters = (
         matchesFromLang(filters, a) &&
         matchesToLang(filters, a) &&
         matchesAuthorisationBasis(filters, a) &&
-        matchesPermissionToPublish(filters, a)
+        matchesPermissionToPublish(filters, a),
     );
   };
 
@@ -109,22 +109,22 @@ const hasAuthorisationsMatchingFilters = (
 
 const matchesFromLang = (
   { fromLang }: AuthorisationFilter,
-  authorisation: Authorisation
+  authorisation: Authorisation,
 ) => (fromLang ? fromLang == authorisation.languagePair.from : true);
 
 const matchesToLang = (
   { toLang }: AuthorisationFilter,
-  authorisation: Authorisation
+  authorisation: Authorisation,
 ) => (toLang ? toLang == authorisation.languagePair.to : true);
 
 const matchesAuthorisationBasis = (
   { authorisationBasis }: AuthorisationFilter,
-  authorisation: Authorisation
+  authorisation: Authorisation,
 ) => (authorisationBasis ? authorisationBasis == authorisation.basis : true);
 
 const matchesPermissionToPublish = (
   { permissionToPublish }: AuthorisationFilter,
-  authorisation: Authorisation
+  authorisation: Authorisation,
 ) => {
   if (permissionToPublish) {
     const permission =

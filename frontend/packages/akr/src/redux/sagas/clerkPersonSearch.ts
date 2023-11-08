@@ -22,7 +22,7 @@ function* searchClerkPersonSaga(action: PayloadAction<string>) {
         params: {
           identityNumber: action.payload,
         },
-      }
+      },
     );
     const clerkPerson = response.data ? response.data : undefined;
 

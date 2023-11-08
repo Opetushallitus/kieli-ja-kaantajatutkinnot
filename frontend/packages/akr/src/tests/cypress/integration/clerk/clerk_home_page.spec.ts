@@ -7,7 +7,7 @@ beforeEach(() => {
   runWithIntercept(
     APIEndpoints.ClerkTranslator,
     { fixture: 'clerk_translators_10.json' },
-    () => cy.openClerkHomePage()
+    () => cy.openClerkHomePage(),
   );
 });
 
@@ -26,50 +26,50 @@ describe('ClerkHomePage', () => {
 
   it('should filter translators by authorisation status', () => {
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
     );
 
     onClerkHomePage.filterByAuthorisationStatus(AuthorisationStatus.Expiring);
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Expiring]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Expiring],
     );
 
     onClerkHomePage.filterByAuthorisationStatus(
-      AuthorisationStatus.ExpiredDeduplicated
+      AuthorisationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.expectSelectedTranslatorsCount(
       translatorCountsByAuthorisationStatuses[
         AuthorisationStatus.ExpiredDeduplicated
-      ]
+      ],
     );
 
     onClerkHomePage.filterByAuthorisationStatus(AuthorisationStatus.FormerVir);
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.FormerVir]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.FormerVir],
     );
 
     onClerkHomePage.filterByAuthorisationStatus(AuthorisationStatus.Effective);
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
     );
   });
 
   it('should show selected translators count per authorisation status', () => {
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
     );
     onClerkHomePage.selectTranslatorById('1140');
     onClerkHomePage.selectTranslatorById('3496');
 
     onClerkHomePage.expectSelectedTranslatorsCount(
       translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
-      2
+      2,
     );
   });
 
   it('should reset selected translators when authorisation status changes', () => {
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
     );
     onClerkHomePage.selectTranslatorById('1140');
     onClerkHomePage.selectTranslatorById('3496');
@@ -77,7 +77,7 @@ describe('ClerkHomePage', () => {
 
     onClerkHomePage.expectSelectedTranslatorsCount(
       translatorCountsByAuthorisationStatuses[AuthorisationStatus.Expiring],
-      0
+      0,
     );
   });
 
@@ -112,7 +112,7 @@ describe('ClerkHomePage', () => {
 
   it('should combine multiple filters', () => {
     onClerkHomePage.filterByAuthorisationStatus(
-      AuthorisationStatus.ExpiredDeduplicated
+      AuthorisationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.filterByFromLang('suomi');
     onClerkHomePage.expectSelectedTranslatorsCount(4);
@@ -129,7 +129,7 @@ describe('ClerkHomePage', () => {
 
   it('should reset all filters when empty selections is clicked ', () => {
     onClerkHomePage.filterByAuthorisationStatus(
-      AuthorisationStatus.ExpiredDeduplicated
+      AuthorisationStatus.ExpiredDeduplicated,
     );
     onClerkHomePage.filterByFromLang('suomi');
     onClerkHomePage.filterByToLang('ruotsi');
@@ -142,7 +142,7 @@ describe('ClerkHomePage', () => {
 
     onClerkHomePage.resetFilters();
     onClerkHomePage.expectSelectedTranslatorsCount(
-      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective]
+      translatorCountsByAuthorisationStatuses[AuthorisationStatus.Effective],
     );
     onClerkHomePage.expectEmptyFilters();
   });

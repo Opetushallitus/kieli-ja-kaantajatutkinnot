@@ -33,7 +33,7 @@ const clerkPersonSearchSlice = createSlice({
     },
     storeClerkPersonSearch(
       state,
-      action: PayloadAction<ClerkPerson | undefined>
+      action: PayloadAction<ClerkPerson | undefined>,
     ) {
       state.status = APIResponseStatus.Success;
       state.person = action.payload;

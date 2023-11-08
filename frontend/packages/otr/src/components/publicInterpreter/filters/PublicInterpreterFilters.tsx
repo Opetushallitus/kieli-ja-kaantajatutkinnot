@@ -56,7 +56,7 @@ export const PublicInterpreterFilters = ({
 
   const memoizedKoodistoRegions = useMemo(
     () => Object.keys(koodistoRegionsFI.otr.koodisto.regions),
-    []
+    [],
   );
 
   // Defaults
@@ -70,7 +70,7 @@ export const PublicInterpreterFilters = ({
   const defaultValuesState: PublicInterpreterFilterValues = {
     fromLang: languageToComboBoxOption(
       translateLanguage,
-      QualificationUtils.defaultFromLang
+      QualificationUtils.defaultFromLang,
     ),
     toLang: null,
     name: '',
@@ -93,9 +93,9 @@ export const PublicInterpreterFilters = ({
   const toLangs = Array.from(
     new Set(
       interpreters.flatMap(({ languages }) =>
-        (languages ?? []).map((language) => language.to)
-      )
-    )
+        (languages ?? []).map((language) => language.to),
+      ),
+    ),
   );
 
   const filteredInterpreterCount = useMemo(() => {
@@ -146,7 +146,7 @@ export const PublicInterpreterFilters = ({
         | 'createOption'
         | 'removeOption'
         | 'blur'
-        | 'clear'
+        | 'clear',
     ) => {
       if (reason === 'clear') {
         setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
@@ -268,7 +268,7 @@ export const PublicInterpreterFilters = ({
             label={t('region.placeholder')}
             id="filters-region"
             values={RegionUtils.getRegionAutocompleteValues(
-              memoizedKoodistoRegions
+              memoizedKoodistoRegions,
             )}
             onKeyUp={handleKeyUp}
           />

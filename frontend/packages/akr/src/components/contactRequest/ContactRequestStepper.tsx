@@ -25,11 +25,11 @@ export const ContactRequestStepper = () => {
     const phaseNumberPart = `${step}/${maxStep}`;
     if (step < activeStep) {
       return `${phasePrefix} ${phaseNumberPart}, ${t(
-        'completed'
+        'completed',
       )}: ${phaseDescription}`;
     } else if (step == activeStep) {
       return `${phasePrefix} ${phaseNumberPart}, ${t(
-        'active'
+        'active',
       )}: ${phaseDescription}`;
     } else {
       return `${phasePrefix} ${phaseNumberPart}: ${phaseDescription}`;
@@ -38,7 +38,7 @@ export const ContactRequestStepper = () => {
   const text = `${activeStep}/${maxStep}`;
 
   const ariaLabel = `${translateCommon('phase')} ${text}: ${t(
-    ContactRequestFormStep[activeStep]
+    ContactRequestFormStep[activeStep],
   )}`;
 
   return isPhone ? (

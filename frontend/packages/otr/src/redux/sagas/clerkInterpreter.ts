@@ -18,7 +18,7 @@ function* loadClerkMissingInterpretersSaga() {
   try {
     const response: AxiosResponse<Array<string>> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkMissingInterpreters
+      APIEndpoints.ClerkMissingInterpreters,
     );
     yield put(storeClerkMissingInterpreters(response.data));
   } catch (error) {
@@ -30,10 +30,10 @@ function* loadClerkInterpretersSaga() {
   try {
     const response: AxiosResponse<Array<ClerkInterpreterResponse>> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkInterpreter
+      APIEndpoints.ClerkInterpreter,
     );
     const interpreters = response.data.map(
-      SerializationUtils.deserializeClerkInterpreter
+      SerializationUtils.deserializeClerkInterpreter,
     );
     yield put(storeClerkInterpreters(interpreters));
   } catch (error) {
@@ -45,6 +45,6 @@ export function* watchClerkInterpreters() {
   yield takeLatest(loadClerkInterpreters.type, loadClerkInterpretersSaga);
   yield takeLatest(
     loadClerkMissingInterpreters.type,
-    loadClerkMissingInterpretersSaga
+    loadClerkMissingInterpretersSaga,
   );
 }

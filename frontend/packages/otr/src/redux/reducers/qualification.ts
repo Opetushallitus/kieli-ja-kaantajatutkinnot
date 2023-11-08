@@ -24,7 +24,7 @@ const qualificationSlice = createSlice({
       _action: PayloadAction<{
         qualification: Qualification;
         interpreterId: number;
-      }>
+      }>,
     ) {
       state.addStatus = APIResponseStatus.InProgress;
     },

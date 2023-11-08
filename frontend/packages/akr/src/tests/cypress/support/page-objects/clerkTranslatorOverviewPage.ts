@@ -7,21 +7,21 @@ class ClerkTranslatorOverviewPage {
   elements = {
     addAuthorisationBtn: () =>
       cy.findByTestId(
-        'clerk-translator-overview__authorisation-details__add-btn'
+        'clerk-translator-overview__authorisation-details__add-btn',
       ),
     backToRegisterBtn: () =>
       cy.findByTestId('clerk-translator-overview-page__back-btn'),
     editTranslatorDetailsButton: () =>
       cy.findByTestId(
-        'clerk-translator-overview__translator-details__edit-btn'
+        'clerk-translator-overview__translator-details__edit-btn',
       ),
     cancelTranslatorDetailsButton: () =>
       cy.findByTestId(
-        'clerk-translator-overview__translator-details__cancel-btn'
+        'clerk-translator-overview__translator-details__cancel-btn',
       ),
     saveTranslatorDetailsButton: () =>
       cy.findByTestId(
-        'clerk-translator-overview__translator-details__save-btn'
+        'clerk-translator-overview__translator-details__save-btn',
       ),
     translatorDetailsField: (field: string, fieldType: string) =>
       cy
@@ -39,13 +39,13 @@ class ClerkTranslatorOverviewPage {
       cy.findByTestId('clerk-translator__basic-information__assurance-switch'),
     assuranceSwitchErrorLabel: () =>
       cy.findByTestId(
-        'clerk-translator__basic-information__assurance-switch__error-label'
+        'clerk-translator__basic-information__assurance-switch__error-label',
       ),
   };
 
   navigateById(id: number) {
     cy.visit(
-      AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`)
+      AppRoutes.ClerkTranslatorOverviewPage.replace(/:translatorId$/, `${id}`),
     );
   }
 
@@ -100,7 +100,7 @@ class ClerkTranslatorOverviewPage {
   fillOutAuthorisationField(
     fieldName: string,
     fieldType: string,
-    newValue: string
+    newValue: string,
   ) {
     this.elements
       .authorisationField(fieldName, fieldType)
@@ -113,7 +113,7 @@ class ClerkTranslatorOverviewPage {
       onClerkTranslatorOverviewPage.fillOutAuthorisationField(
         fieldName,
         fieldType,
-        value
+        value,
       );
     });
   }
@@ -151,7 +151,7 @@ class ClerkTranslatorOverviewPage {
   expectTranslatorDetailsFieldValue(
     field: string,
     fieldType: string,
-    value: string
+    value: string,
   ) {
     this.elements
       .translatorDetailsField(field, fieldType)
@@ -223,11 +223,11 @@ class ClerkTranslatorOverviewPage {
       onClerkTranslatorOverviewPage.expectTranslatorDetailsFieldValue(
         field,
         fieldType,
-        expectedValue
+        expectedValue,
       );
       onClerkTranslatorOverviewPage.expectDisabledTranslatorDetailsField(
         field,
-        fieldType
+        fieldType,
       );
     });
   }

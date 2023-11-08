@@ -181,19 +181,19 @@ export const PrivacyPolicyPage = () => {
                 <ExtLink
                   className="privacy-policy-page__content__link"
                   text={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law1.content'
+                    'handlingPurpose.law.conclusion.law1.content',
                   )}
                   href={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law1.link'
+                    'handlingPurpose.law.conclusion.law1.link',
                   )}
                 />
                 <ExtLink
                   className="privacy-policy-page__content__link"
                   text={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law2.content'
+                    'handlingPurpose.law.conclusion.law2.content',
                   )}
                   href={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law2.link'
+                    'handlingPurpose.law.conclusion.law2.link',
                   )}
                 />
               </Trans>
@@ -213,13 +213,13 @@ export const PrivacyPolicyPage = () => {
               </Text>
               <Text>
                 {translatePrivacy(
-                  'dataContents.group1.givenDetails.description'
+                  'dataContents.group1.givenDetails.description',
                 )}
               </Text>
             </div>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.civilRegistry.description'
+                'dataContents.group1.civilRegistry.description',
               )}
             </Text>
             <Text>
@@ -242,7 +242,7 @@ export const PrivacyPolicyPage = () => {
                 ]}
               />
               {translatePrivacy(
-                'dataContents.group1.publishPermission.description'
+                'dataContents.group1.publishPermission.description',
               )}
             </Text>
             <Text>
@@ -252,7 +252,7 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.contactChanges.description'
+                'dataContents.group1.contactChanges.description',
               )}
               {': '}
               <ExtLink
@@ -263,16 +263,16 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataDeletion.description1'
+                'dataContents.group1.dataDeletion.description1',
               )}
               <br />
               {translatePrivacy(
-                'dataContents.group1.dataDeletion.description2'
+                'dataContents.group1.dataDeletion.description2',
               )}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description'
+                'dataContents.group1.dataProcessing.description',
               )}
             </Text>
             <Text>
@@ -286,7 +286,7 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group2.civilRegistry.description'
+                'dataContents.group2.civilRegistry.description',
               )}
             </Text>
           </div>

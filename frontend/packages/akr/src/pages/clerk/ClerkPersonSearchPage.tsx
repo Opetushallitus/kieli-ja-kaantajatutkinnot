@@ -59,7 +59,7 @@ export const ClerkPersonSearchPage = () => {
   const getIdentityCodeError = (value: string) => {
     return InputFieldUtils.inspectCustomTextFieldErrors(
       TextFieldTypes.PersonalIdentityCode,
-      value
+      value,
     );
   };
 
