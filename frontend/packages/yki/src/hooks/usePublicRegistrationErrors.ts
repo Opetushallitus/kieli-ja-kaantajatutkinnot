@@ -18,7 +18,7 @@ type PublicRegistrationErrors = {
 const getErrors = (
   showErrors: boolean,
   isEmailRegistration: boolean,
-  registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>
+  registration: Partial<PublicEmailRegistration & PublicSuomiFiRegistration>,
 ) => {
   if (!showErrors) {
     return {};

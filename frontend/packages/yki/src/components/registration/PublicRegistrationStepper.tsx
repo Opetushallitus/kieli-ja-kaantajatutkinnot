@@ -74,7 +74,7 @@ export const PublicRegistrationStepper = () => {
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
   const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
-    stepValue
+    stepValue,
   )}`;
 
   if (isPhone) {

@@ -103,7 +103,7 @@ export const EmailIdentification = () => {
 
       return error;
     },
-    [setError, translateCommon]
+    [setError, translateCommon],
   );
 
   const onSubmit = useCallback(() => {

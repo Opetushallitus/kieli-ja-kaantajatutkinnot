@@ -40,7 +40,7 @@ export const useRegistrationNavigationProtection = (when: boolean) => {
         onClose: cancelNavigation,
       });
     },
-    [dispatch, showDialog, t]
+    [dispatch, showDialog, t],
   );
 
   useCommonNavigationProtection(when, showConfirmationDialog);
@@ -71,7 +71,7 @@ export const useNavigationProtection = (when: boolean) => {
         onClose: cancelNavigation,
       });
     },
-    [showDialog, translateCommon]
+    [showDialog, translateCommon],
   );
 
   useCommonNavigationProtection(when, showConfirmationDialog);

@@ -28,7 +28,7 @@ export class ExamSessionUtils {
     ) {
       return Math.max(
         examSession.post_admission_quota - examSession.pa_participants,
-        0
+        0,
       );
     }
 
@@ -47,7 +47,7 @@ export class ExamSessionUtils {
 
   private static compareExamSessionsByAdmissionAvailability(
     es1: ExamSession,
-    es2: ExamSession
+    es2: ExamSession,
   ) {
     if (es1.open && !es2.open) {
       return -1;
@@ -86,7 +86,7 @@ export class ExamSessionUtils {
 
   private static compareExamSessionsByQueueFullness(
     es1: ExamSession,
-    es2: ExamSession
+    es2: ExamSession,
   ) {
     if (!es1.queue_full && es2.queue_full) {
       return -1;
@@ -109,7 +109,7 @@ export class ExamSessionUtils {
 
   private static compareExamSessionsByRegistrationEnding(
     es1: ExamSession,
-    es2: ExamSession
+    es2: ExamSession,
   ) {
     const now = dayjs();
 
@@ -164,7 +164,7 @@ export class ExamSessionUtils {
     const t = translateOutsideComponent();
 
     return `${t('yki.common.languages.' + language_code)}, ${t(
-      'yki.common.languageLevel.' + level_code
+      'yki.common.languageLevel.' + level_code,
     )}`;
   }
 
@@ -173,7 +173,7 @@ export class ExamSessionUtils {
       (esl) =>
         (lang === AppLanguage.Finnish && esl.lang === 'fi') ||
         (lang === AppLanguage.Swedish && esl.lang === 'sv') ||
-        (lang === AppLanguage.English && esl.lang === 'en')
+        (lang === AppLanguage.English && esl.lang === 'en'),
     );
 
     return locationData as ExamSessionLocation;
@@ -250,7 +250,7 @@ export class ExamSessionUtils {
 
   static getMunicipality(location: ExamSessionLocation) {
     return StringUtils.capitalize(
-      StringUtils.trimAndLowerCase(location.post_office)
+      StringUtils.trimAndLowerCase(location.post_office),
     );
   }
 }

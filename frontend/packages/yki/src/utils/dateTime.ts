@@ -9,7 +9,7 @@ export class DateTimeUtils {
 
     return DateUtils.formatOptionalDateTime(
       dateTime,
-      t('yki.common.dates.dateTimeFormat')
+      t('yki.common.dates.dateTimeFormat'),
     );
   }
 

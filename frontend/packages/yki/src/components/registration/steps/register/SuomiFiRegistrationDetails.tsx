@@ -109,7 +109,7 @@ export const SuomiFiRegistrationDetails = () => {
       dispatch(
         updatePublicRegistration({
           [fieldName]: event.target.value,
-        })
+        }),
       );
     };
 
@@ -117,7 +117,7 @@ export const SuomiFiRegistrationDetails = () => {
     dispatch(
       updatePublicRegistration({
         phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
-      })
+      }),
     );
   };
 
@@ -125,7 +125,7 @@ export const SuomiFiRegistrationDetails = () => {
   const registrationErrors = getRegistrationErrors();
 
   const getLabeledTextFieldAttributes = (
-    fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>
+    fieldName: keyof Omit<PublicSuomiFiRegistration, 'id'>,
   ) => {
     return {
       id: `public-registration__contact-details__${fieldName}-field`,
@@ -189,8 +189,8 @@ export const SuomiFiRegistrationDetails = () => {
                   nationalities.find(
                     ({ code, language }) =>
                       code === registration.nationality &&
-                      language === appLanguage
-                  ) as Nationality
+                      language === appLanguage,
+                  ) as Nationality,
                 )
               : null
           }

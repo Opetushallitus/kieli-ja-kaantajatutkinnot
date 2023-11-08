@@ -25,7 +25,7 @@ const getRowDetails = (examSession: ExamSession) => {
 const getDisplayedRowsLabel = (
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   t: any,
-  { from, to, count }: LabelDisplayedRowsArgs
+  { from, to, count }: LabelDisplayedRowsArgs,
 ) => {
   return t('component.table.pagination.displayedRowsLabel', {
     from,
@@ -63,7 +63,7 @@ export const PublicExamSessionsTable = ({
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={onRowsPerPageChange}
       rowsPerPageLabel={translateCommon(
-        'component.table.pagination.rowsPerPage'
+        'component.table.pagination.rowsPerPage',
       )}
       labelDisplayedRows={(args) =>
         getDisplayedRowsLabel(translateCommon, args)
@@ -131,7 +131,7 @@ export const PublicExamSessionListing = ({
                 'component.table.header.searchResultsAriaLabel',
                 {
                   count: examSessions.length,
-                }
+                },
               )}
             >
               {translateCommon('component.table.header.searchResults', {

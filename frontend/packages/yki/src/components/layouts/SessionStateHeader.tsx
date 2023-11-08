@@ -22,7 +22,7 @@ const getUserName = (
   user:
     | EmailAuthenticatedSession
     | SuomiFiAuthenticatedSession
-    | CasAuthenticatedClerkSession
+    | CasAuthenticatedClerkSession,
 ): string => {
   switch (user['auth-method']) {
     case 'SUOMIFI':

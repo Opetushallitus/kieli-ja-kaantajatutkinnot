@@ -62,7 +62,7 @@ export const AccessibilityStatementPage = () => {
   const { pathname } = useLocation();
 
   const caveats = Object.keys(
-    accessibilityFI.yki.accessibility.content.caveats
+    accessibilityFI.yki.accessibility.content.caveats,
   );
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export const AccessibilityStatementPage = () => {
                     item={translateAccessibility(`content.caveats.${i}.name`)}
                     bulletPoints={translateAccessibility(
                       `content.caveats.${i}.points`,
-                      { returnObjects: true }
+                      { returnObjects: true },
                     )}
                   />
                 ))}
@@ -153,16 +153,16 @@ export const AccessibilityStatementPage = () => {
                 </H3>
                 <Text>
                   {translateAccessibility(
-                    'content.administrativeAgency.description'
+                    'content.administrativeAgency.description',
                   )}
                 </Text>
                 <Text>
                   <WebLink
                     href={translateAccessibility(
-                      'content.administrativeAgency.link.url'
+                      'content.administrativeAgency.link.url',
                     )}
                     label={translateAccessibility(
-                      'content.administrativeAgency.link.label'
+                      'content.administrativeAgency.link.label',
                     )}
                     endIcon={<OpenInNewIcon />}
                   />
@@ -170,16 +170,16 @@ export const AccessibilityStatementPage = () => {
                 <Text>
                   <WebLink
                     href={`mailto:${translateAccessibility(
-                      'content.administrativeAgency.email'
+                      'content.administrativeAgency.email',
                     )}`}
                     label={translateAccessibility(
-                      'content.administrativeAgency.email'
+                      'content.administrativeAgency.email',
                     )}
                   />
                 </Text>
                 <Text>
                   {translateAccessibility(
-                    'content.administrativeAgency.switchboard'
+                    'content.administrativeAgency.switchboard',
                   )}
                   {': '}
                   {translateAccessibility('content.administrativeAgency.phone')}

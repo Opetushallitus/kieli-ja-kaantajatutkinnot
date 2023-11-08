@@ -8,12 +8,12 @@ const expectEffectiveRegistrationDetails = (
   es: ExamSession,
   expected: Partial<
     ReturnType<typeof ExamSessionUtils.getEffectiveRegistrationPeriodDetails>
-  >
+  >,
 ) => {
   const actual = ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
   const expectedKeys = Object.keys(expected);
   const actualSubset = Object.fromEntries(
-    expectedKeys.map((k) => [k, actual[k as keyof typeof expected]])
+    expectedKeys.map((k) => [k, actual[k as keyof typeof expected]]),
   );
   expect(expected).toEqual(actualSubset);
 };
@@ -52,21 +52,21 @@ describe('ExamSessionUtils', () => {
   describe('compareExamSessions', () => {
     it('should ignore irrelevant changes between exam sessions', () => {
       expect(
-        ExamSessionUtils.compareExamSessions(baseExamSession, baseExamSession)
+        ExamSessionUtils.compareExamSessions(baseExamSession, baseExamSession),
       ).toEqual(0);
 
       expect(
         ExamSessionUtils.compareExamSessions(
           { ...baseExamSession, registration_start_date: dayjs('2021-01-01') },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(0);
 
       expect(
         ExamSessionUtils.compareExamSessions(
           { ...baseExamSession, registration_end_date: dayjs('2089-06-15') },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(0);
     });
 
@@ -74,15 +74,15 @@ describe('ExamSessionUtils', () => {
       expect(
         ExamSessionUtils.compareExamSessions(
           { ...baseExamSession, language_code: ExamLanguage.DEU },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(-1);
 
       expect(
         ExamSessionUtils.compareExamSessions(
           { ...baseExamSession, language_code: ExamLanguage.FIN },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
     });
 
@@ -91,7 +91,7 @@ describe('ExamSessionUtils', () => {
         ExamSessionUtils.compareExamSessions(baseExamSession, {
           ...baseExamSession,
           participants: baseExamSession.max_participants,
-        })
+        }),
       ).toEqual(-1);
 
       expect(
@@ -100,8 +100,8 @@ describe('ExamSessionUtils', () => {
             ...baseExamSession,
             participants: baseExamSession.max_participants,
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
     });
 
@@ -110,7 +110,7 @@ describe('ExamSessionUtils', () => {
         ExamSessionUtils.compareExamSessions(baseExamSession, {
           ...baseExamSession,
           queue_full: true,
-        })
+        }),
       ).toEqual(-1);
 
       expect(
@@ -119,8 +119,8 @@ describe('ExamSessionUtils', () => {
             ...baseExamSession,
             queue_full: true,
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
     });
 
@@ -131,15 +131,15 @@ describe('ExamSessionUtils', () => {
             ...baseExamSession,
             session_date: dayjs('2098-12-31'),
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(-1);
 
       expect(
         ExamSessionUtils.compareExamSessions(baseExamSession, {
           ...baseExamSession,
           session_date: dayjs('2098-12-31'),
-        })
+        }),
       ).toEqual(1);
     });
 
@@ -148,7 +148,7 @@ describe('ExamSessionUtils', () => {
         ExamSessionUtils.compareExamSessions(baseExamSession, {
           ...baseExamSession,
           registration_end_date: dayjs('2021-01-01'),
-        })
+        }),
       ).toEqual(-1);
 
       expect(
@@ -157,8 +157,8 @@ describe('ExamSessionUtils', () => {
             ...baseExamSession,
             registration_end_date: dayjs('2021-01-01'),
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
     });
 
@@ -173,8 +173,8 @@ describe('ExamSessionUtils', () => {
           {
             ...baseExamSession,
             queue_full: true,
-          }
-        )
+          },
+        ),
       ).toEqual(1);
 
       // queue fullness > earlier session date
@@ -185,8 +185,8 @@ describe('ExamSessionUtils', () => {
             queue_full: true,
             session_date: dayjs('2098-12-31'),
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
 
       // ongoing registration > earlier session date
@@ -202,8 +202,8 @@ describe('ExamSessionUtils', () => {
           {
             ...baseExamSession,
             participants: baseExamSession.max_participants,
-          }
-        )
+          },
+        ),
       ).toEqual(1);
 
       // exam date > language
@@ -216,8 +216,8 @@ describe('ExamSessionUtils', () => {
           {
             ...baseExamSession,
             language_code: ExamLanguage.DEU,
-          }
-        )
+          },
+        ),
       ).toEqual(-1);
     });
 
@@ -235,8 +235,8 @@ describe('ExamSessionUtils', () => {
       expect(
         ExamSessionUtils.compareExamSessions(
           postAdmissionSession,
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(0);
 
       expect(
@@ -245,8 +245,8 @@ describe('ExamSessionUtils', () => {
             ...postAdmissionSession,
             pa_participants: postAdmissionSession.post_admission_quota,
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
 
       expect(
@@ -255,8 +255,8 @@ describe('ExamSessionUtils', () => {
             ...postAdmissionSession,
             post_admission_end_date: dayjs('2021-03-03'),
           },
-          baseExamSession
-        )
+          baseExamSession,
+        ),
       ).toEqual(1);
     });
   });
@@ -285,7 +285,7 @@ describe('ExamSessionUtils', () => {
         {
           kind: RegistrationKind.Admission,
           open: false,
-        }
+        },
       );
     });
 
@@ -302,7 +302,7 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.PostAdmission,
           open: false,
           availableQueue: false,
-        }
+        },
       );
 
       expectEffectiveRegistrationDetails(
@@ -320,7 +320,7 @@ describe('ExamSessionUtils', () => {
           open: true,
           availableQueue: false,
           availablePlaces: 7,
-        }
+        },
       );
     });
 
@@ -334,7 +334,7 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.Admission,
           open: false,
           availablePlaces: 0,
-        }
+        },
       );
 
       expectEffectiveRegistrationDetails(
@@ -350,7 +350,7 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.PostAdmission,
           open: false,
           availablePlaces: 0,
-        }
+        },
       );
     });
 

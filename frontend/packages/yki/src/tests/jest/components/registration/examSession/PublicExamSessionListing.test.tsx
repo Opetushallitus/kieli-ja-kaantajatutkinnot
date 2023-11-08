@@ -18,7 +18,7 @@ describe('PublicExamSessionsTable', () => {
   it('should render correctly', () => {
     const { exam_sessions } =
       SerializationUtils.deserializeExamSessionsResponse(
-        examSessions as ExamSessionsResponse
+        examSessions as ExamSessionsResponse,
       );
     const tree = renderer
       .create(
@@ -33,7 +33,7 @@ describe('PublicExamSessionsTable', () => {
               rowsPerPageOptions={[10, 20, 50]}
             />
           </BrowserRouter>
-        </Provider>
+        </Provider>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

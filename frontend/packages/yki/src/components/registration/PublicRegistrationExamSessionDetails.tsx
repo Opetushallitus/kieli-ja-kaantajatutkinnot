@@ -31,7 +31,7 @@ export const PublicRegistrationExamSessionDetails = ({
   const header = ExamSessionUtils.languageAndLevelText(examSession);
   const location = ExamSessionUtils.getLocationInfo(
     examSession,
-    getCurrentLang()
+    getCurrentLang(),
   );
 
   return (
@@ -54,7 +54,7 @@ export const PublicRegistrationExamSessionDetails = ({
         <Text>
           {`${t('registrationTime')}: `}
           <b>{`${DateUtils.formatOptionalDate(
-            start
+            start,
           )} - ${DateUtils.formatOptionalDate(end)}`}</b>
         </Text>
         <Text>

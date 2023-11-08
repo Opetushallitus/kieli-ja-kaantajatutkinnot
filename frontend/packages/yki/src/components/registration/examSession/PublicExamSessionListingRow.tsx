@@ -87,7 +87,7 @@ const renderAdmissionPeriod = ({
   end: Dayjs;
 }) => {
   const startTimeStr = DateTimeUtils.renderDateTime(
-    start.tz('Europe/Helsinki')
+    start.tz('Europe/Helsinki'),
   );
   const endTimeStr = DateTimeUtils.renderDateTime(end.tz('Europe/Helsinki'));
 
@@ -239,7 +239,7 @@ export const PublicExamSessionListingRow = ({
 
   const locationInfo = ExamSessionUtils.getLocationInfo(
     examSession,
-    getCurrentLang()
+    getCurrentLang(),
   );
 
   const { open, availablePlaces, availableQueue } =

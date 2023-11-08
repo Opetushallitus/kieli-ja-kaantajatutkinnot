@@ -14,7 +14,7 @@ import {
 import { SerializationUtils } from 'utils/serialization';
 
 function* sendReservationRequestSaga(
-  action: PayloadAction<ReservationRequest>
+  action: PayloadAction<ReservationRequest>,
 ) {
   try {
     const { email, examSessionId } = action.payload;
@@ -24,10 +24,10 @@ function* sendReservationRequestSaga(
       axiosInstance.post,
       APIEndpoints.ExamSessionQueue.replace(
         /:examSessionId/,
-        `${examSessionId}`
+        `${examSessionId}`,
       ),
       JSON.stringify({ email }),
-      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } }
+      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } },
     );
     yield put(acceptReservationRequest());
   } catch (error) {

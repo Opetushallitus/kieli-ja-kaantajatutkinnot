@@ -31,7 +31,7 @@ const preloadedState: PreloadedState<RootState> = {
     loadEvaluationOrderDetailsState: APIResponseStatus.Success,
     evaluationOrderDetails:
       SerializationUtils.deserializeEvaluationOrderDetailsResponse(
-        evaluationOrderDetailsResponse
+        evaluationOrderDetailsResponse,
       ),
   },
 };
@@ -39,39 +39,39 @@ const preloadedState: PreloadedState<RootState> = {
 describe('EvaluationOrderStatusPage', () => {
   it('should render view correctly on successful payment', () => {
     mockUseSearchParams(
-      new URLSearchParams({ id: '1', status: PaymentStatus.Success })
+      new URLSearchParams({ id: '1', status: PaymentStatus.Success }),
     );
     const tree = renderer
       .create(
         <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
-        </DefaultProviders>
+        </DefaultProviders>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
   it('should render view correctly on cancelled payment', () => {
     mockUseSearchParams(
-      new URLSearchParams({ id: '1', status: PaymentStatus.Cancel })
+      new URLSearchParams({ id: '1', status: PaymentStatus.Cancel }),
     );
     const tree = renderer
       .create(
         <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
-        </DefaultProviders>
+        </DefaultProviders>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
   it('should render view correctly on payment error', () => {
     mockUseSearchParams(
-      new URLSearchParams({ id: '1', status: PaymentStatus.Error })
+      new URLSearchParams({ id: '1', status: PaymentStatus.Error }),
     );
     const tree = renderer
       .create(
         <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderStatusPage />
-        </DefaultProviders>
+        </DefaultProviders>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

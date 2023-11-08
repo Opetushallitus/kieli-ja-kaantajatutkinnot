@@ -35,23 +35,23 @@ const examSessionsSlice = createSlice({
     },
     storeExamSessions(state, action: PayloadAction<ExamSessions>) {
       const examSessions = action.payload.exam_sessions.sort((es1, es2) =>
-        ExamSessionUtils.compareExamSessions(es1, es2)
+        ExamSessionUtils.compareExamSessions(es1, es2),
       );
       const uniqueMunicipalities = new Set(
         examSessions.map((es) =>
-          ExamSessionUtils.getMunicipality(es.location[0])
-        )
+          ExamSessionUtils.getMunicipality(es.location[0]),
+        ),
       );
 
       state.status = APIResponseStatus.Success;
       state.exam_sessions = examSessions;
       state.municipalities = Array.from(uniqueMunicipalities).sort(
-        new Intl.Collator('fi').compare
+        new Intl.Collator('fi').compare,
       );
     },
     setPublicExamSessionFilters(
       state,
-      action: PayloadAction<Partial<ExamSessionFilters>>
+      action: PayloadAction<Partial<ExamSessionFilters>>,
     ) {
       state.filters = { ...state.filters, ...action.payload };
     },

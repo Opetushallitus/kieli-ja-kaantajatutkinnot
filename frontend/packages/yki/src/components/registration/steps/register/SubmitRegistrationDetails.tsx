@@ -34,7 +34,7 @@ const FillRegistrationDetails = () => {
 
   useRegistrationNavigationProtection(
     submitRegistrationStatus === APIResponseStatus.NotStarted ||
-      submitRegistrationStatus === APIResponseStatus.InProgress
+      submitRegistrationStatus === APIResponseStatus.InProgress,
   );
 
   return (

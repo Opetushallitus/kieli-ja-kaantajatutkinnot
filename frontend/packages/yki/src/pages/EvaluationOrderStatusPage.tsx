@@ -117,7 +117,7 @@ export const EvaluationOrderStatusPage = () => {
   const [params] = useSearchParams();
   const evaluationOrderId = params.get('id');
   const { loadEvaluationOrderDetailsState } = useAppSelector(
-    evaluationOrderSelector
+    evaluationOrderSelector,
   );
   const dispatch = useAppDispatch();
 

@@ -18,7 +18,7 @@ beforeAll(() => {
 describe('EvaluationOrderPage', () => {
   const evaluationPeriod =
     SerializationUtils.deserializeEvaluationPeriodResponse(
-      evaluationPeriods.evaluation_periods[0]
+      evaluationPeriods.evaluation_periods[0],
     );
   const preloadedState = {
     evaluationOrder: {
@@ -33,7 +33,7 @@ describe('EvaluationOrderPage', () => {
       .create(
         <DefaultProviders preloadedState={preloadedState}>
           <EvaluationOrderPage />
-        </DefaultProviders>
+        </DefaultProviders>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

@@ -44,7 +44,7 @@ const PublicEvaluationPeriodListingCellsForPhone = ({
           <b>{t('header.evaluationPeriod')}</b>
           <br />
           {DateUtils.formatOptionalDate(
-            evaluationPeriod.evaluation_start_date
+            evaluationPeriod.evaluation_start_date,
           )}{' '}
           &ndash;{' '}
           {DateUtils.formatOptionalDate(evaluationPeriod.evaluation_end_date)}
@@ -58,8 +58,8 @@ const PublicEvaluationPeriodListingCellsForPhone = ({
             navigate(
               AppRoutes.ReassessmentOrder.replace(
                 /:evaluationId/,
-                `${evaluationPeriod.id}`
-              )
+                `${evaluationPeriod.id}`,
+              ),
             );
           }}
         >
@@ -106,8 +106,8 @@ const PublicEvaluationPeriodListingCellsForDesktop = ({
             navigate(
               AppRoutes.ReassessmentOrder.replace(
                 /:evaluationId/,
-                `${evaluationPeriod.id}`
-              )
+                `${evaluationPeriod.id}`,
+              ),
             );
           }}
         >
@@ -115,7 +115,7 @@ const PublicEvaluationPeriodListingCellsForDesktop = ({
             ? t('requestReassessment')
             : t('evaluationPeriodNotYetOpen', {
                 startDate: DateUtils.formatOptionalDate(
-                  evaluationPeriod.evaluation_start_date
+                  evaluationPeriod.evaluation_start_date,
                 ),
               })}
         </CustomButton>

@@ -85,9 +85,8 @@ export const initI18nForTests = () => {
 
 const useAppTranslation = (
   options: UseTranslationOptions<string>,
-  ns: I18nNamespace
+  ns: I18nNamespace,
 ) => {
-  // @ts-expect-error ts import fail
   return useTranslation(ns, options);
 };
 
@@ -96,13 +95,13 @@ export const useAccessibilityTranslation = () => {
     {
       keyPrefix: 'yki.accessibility',
     },
-    I18nNamespace.Accessibility
+    I18nNamespace.Accessibility,
   );
 
   return t;
 };
 export const usePublicTranslation = (
-  options: UseTranslationOptions<string>
+  options: UseTranslationOptions<string>,
 ) => {
   return useAppTranslation(options, I18nNamespace.Public);
 };
@@ -112,7 +111,7 @@ export const useCommonTranslation = () => {
     {
       keyPrefix: 'yki.common',
     },
-    I18nNamespace.Common
+    I18nNamespace.Common,
   );
 
   return t;

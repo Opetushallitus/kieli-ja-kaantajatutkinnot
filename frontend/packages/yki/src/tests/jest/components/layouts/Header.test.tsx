@@ -13,7 +13,7 @@ describe('Header', () => {
           <BrowserRouter>
             <Header />
           </BrowserRouter>
-        </Provider>
+        </Provider>,
       )
       .toJSON();
 

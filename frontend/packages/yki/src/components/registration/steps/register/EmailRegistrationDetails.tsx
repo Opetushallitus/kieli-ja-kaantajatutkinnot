@@ -61,7 +61,7 @@ export const EmailRegistrationDetails = () => {
       label: translateCommon(`gender.${gender}`) as string,
       value: gender,
     }),
-    [translateCommon]
+    [translateCommon],
   );
 
   const getRegistrationErrors = usePublicRegistrationErrors(showErrors);
@@ -85,7 +85,7 @@ export const EmailRegistrationDetails = () => {
       dispatch(
         updatePublicRegistration({
           [fieldName]: value,
-        })
+        }),
       );
     };
 
@@ -93,12 +93,12 @@ export const EmailRegistrationDetails = () => {
     dispatch(
       updatePublicRegistration({
         phoneNumber: registration.phoneNumber?.replace(/\s/g, ''),
-      })
+      }),
     );
   };
 
   const getLabeledTextFieldAttributes = (
-    fieldName: keyof Omit<PublicEmailRegistration, 'id'>
+    fieldName: keyof Omit<PublicEmailRegistration, 'id'>,
   ) => ({
     id: `public-registration__contact-details__${fieldName}-field`,
     label: t('labels.' + fieldName) + ' *',
@@ -155,7 +155,7 @@ export const EmailRegistrationDetails = () => {
             }
             onChange={(_, v: AutocompleteValue) => {
               dispatch(
-                updatePublicRegistration({ gender: v?.value as GenderEnum })
+                updatePublicRegistration({ gender: v?.value as GenderEnum }),
               );
             }}
             showError={showErrors && !!registrationErrors['gender']}
@@ -178,8 +178,8 @@ export const EmailRegistrationDetails = () => {
                     nationalities.find(
                       ({ code, language }) =>
                         code === registration.nationality &&
-                        language === appLanguage
-                    ) as Nationality
+                        language === appLanguage,
+                    ) as Nationality,
                   )
                 : null
             }
@@ -218,7 +218,7 @@ export const EmailRegistrationDetails = () => {
                   hasSSN: getEventTargetValue(e.target.value) as boolean,
                   dateOfBirth: undefined,
                   ssn: undefined,
-                })
+                }),
               );
             }}
           >

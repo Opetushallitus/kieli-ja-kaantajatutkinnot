@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import { http } from 'msw';
 
 import { APIEndpoints } from 'enums/api';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
@@ -6,24 +6,30 @@ import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
 export const handlers = [
-  rest.get(APIEndpoints.Evaluations, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(evaluationPeriods));
-  }),
-  rest.get(APIEndpoints.Evaluation, (req, res, ctx) => {
-    const { evaluationId } = req.params;
+  http.get(
+    APIEndpoints.Evaluations,
+    () => new Response(JSON.stringify(evaluationPeriods), { status: 200 }),
+  ),
+  http.get(APIEndpoints.Evaluation, ({ params }) => {
+    const { evaluationId } = params;
     const evaluationPeriod = evaluationPeriods.evaluation_periods.filter(
-      (ep) => ep.id === Number(evaluationId)
+      (ep) => ep.id === Number(evaluationId),
     )[0];
     if (evaluationPeriod) {
-      return res(ctx.status(200), ctx.json(evaluationPeriod));
+      return new Response(JSON.stringify(evaluationPeriod), { status: 200 });
     } else {
-      return res(ctx.status(404));
+      return new Response(null, { status: 404 });
     }
   }),
-  rest.get(APIEndpoints.ExamSessions, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(examSessions));
-  }),
-  rest.post(APIEndpoints.EvaluationOrder, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(evaluationOrderPostResponse));
-  }),
+  http.get(
+    APIEndpoints.ExamSessions,
+    () => new Response(JSON.stringify(examSessions), { status: 200 }),
+  ),
+  http.post(
+    APIEndpoints.EvaluationOrder,
+    () =>
+      new Response(JSON.stringify(evaluationOrderPostResponse), {
+        status: 200,
+      }),
+  ),
 ];

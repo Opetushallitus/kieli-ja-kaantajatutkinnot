@@ -21,7 +21,7 @@ const nationalitiesSlice = createSlice({
     acceptNationalities(state, action: PayloadAction<NationalitiesResponse>) {
       state.status = APIResponseStatus.Success;
       state.nationalities = SerializationUtils.deserializeNationalitiesResponse(
-        action.payload
+        action.payload,
       );
     },
     loadNationalities(state) {

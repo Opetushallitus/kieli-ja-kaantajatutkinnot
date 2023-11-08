@@ -10,7 +10,7 @@ export const AddressDetails = ({
   getLabeledTextFieldAttributes,
 }: {
   getLabeledTextFieldAttributes: (
-    fieldName: keyof PersonFillOutDetails
+    fieldName: keyof PersonFillOutDetails,
   ) => LabeledTextFieldProps;
 }) => {
   const { registration } = useAppSelector(registrationSelector);

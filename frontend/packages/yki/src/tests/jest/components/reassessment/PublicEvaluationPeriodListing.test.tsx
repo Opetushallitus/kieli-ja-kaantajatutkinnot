@@ -19,7 +19,7 @@ describe('PublicEvaluationPeriodListing', () => {
       status: APIResponseStatus.Success,
       evaluation_periods:
         SerializationUtils.deserializeEvaluationPeriodsResponse(
-          evaluationPeriods as EvaluationPeriodsResponse
+          evaluationPeriods as EvaluationPeriodsResponse,
         ).evaluation_periods,
     },
   };
@@ -29,7 +29,7 @@ describe('PublicEvaluationPeriodListing', () => {
       .create(
         <DefaultProviders preloadedState={preloadedState}>
           <PublicEvaluationPeriodListing />
-        </DefaultProviders>
+        </DefaultProviders>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

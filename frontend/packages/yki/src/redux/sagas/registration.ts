@@ -33,13 +33,13 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     const response: AxiosResponse<PublicRegistrationInitResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.InitRegistration,
-      JSON.stringify({ exam_session_id: action.payload })
+      JSON.stringify({ exam_session_id: action.payload }),
     );
     const { data } = response;
     yield put(
       storeExamSession(
-        SerializationUtils.deserializeExamSessionResponse(data.exam_session)
-      )
+        SerializationUtils.deserializeExamSessionResponse(data.exam_session),
+      ),
     );
     yield put(acceptPublicRegistrationInit(data));
   } catch (error) {
@@ -56,28 +56,27 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
 function* submitRegistrationFormSaga() {
   try {
     const lang = getCurrentLang();
-    const registrationState: RegistrationState = yield select(
-      registrationSelector
-    );
+    const registrationState: RegistrationState =
+      yield select(registrationSelector);
     const { nationalities } = yield select(nationalitiesSelector);
     yield call(
       axiosInstance.post,
       APIEndpoints.SubmitRegistration.replace(
         /:registrationId/,
-        `${registrationState.registration.id}`
+        `${registrationState.registration.id}`,
       ),
       JSON.stringify(
         SerializationUtils.serializeRegistrationForm(
           registrationState.registration,
-          nationalities
-        )
+          nationalities,
+        ),
       ),
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
           'use-yki-ui': true,
         },
-      }
+      },
     );
     yield put(acceptPublicRegistrationSubmission());
   } catch (error) {
@@ -100,12 +99,14 @@ function* submitRegistrationFormSaga() {
 
 function* cancelRegistrationSaga() {
   try {
-    const { registration }: RegistrationState = yield select(
-      registrationSelector
-    );
+    const { registration }: RegistrationState =
+      yield select(registrationSelector);
     yield call(
       axiosInstance.delete,
-      APIEndpoints.Registration.replace(/:registrationId/, `${registration.id}`)
+      APIEndpoints.Registration.replace(
+        /:registrationId/,
+        `${registration.id}`,
+      ),
     );
     yield put(acceptCancelRegistration());
     yield put(resetPublicRegistration());

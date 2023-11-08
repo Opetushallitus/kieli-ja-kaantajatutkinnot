@@ -26,7 +26,7 @@ function* sendEmailLinkOrderSaga(action: PayloadAction<EmailLinkOrder>) {
           lang: SerializationUtils.serializeAppLanguage(lang),
           'use-yki-ui': true,
         },
-      }
+      },
     );
     yield put(acceptEmailLinkOrder());
   } catch (error) {
