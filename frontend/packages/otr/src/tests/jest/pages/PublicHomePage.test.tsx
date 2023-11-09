@@ -2,7 +2,7 @@ import { screen } from '@testing-library/dom';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { PublicHomePage } from 'pages/PublicHomePage';
+import PublicHomePage from 'pages/PublicHomePage';
 import { render } from 'tests/jest/test-utils';
 import { publicInterpreters10 } from 'tests/msw/fixtures/publicInterpreters10';
 

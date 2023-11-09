@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer';
 import { APIResponseStatus } from 'shared/enums';
 
 import { initI18nForTests } from 'configs/i18n';
-import { EvaluationOrderPage } from 'pages/EvaluationOrderPage';
+import EvaluationOrderPage from 'pages/EvaluationOrderPage';
 import { initialState as initialEvaluationOrderState } from 'redux/reducers/evaluationOrder';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
