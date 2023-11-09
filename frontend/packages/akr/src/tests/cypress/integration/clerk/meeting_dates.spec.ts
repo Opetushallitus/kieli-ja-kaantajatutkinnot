@@ -106,7 +106,7 @@ describe('MeetingDatesPage', () => {
       (m) => m.id !== meetingDateToBeDeleted
     );
 
-    cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
+    cy.intercept('GET', APIEndpoints.MeetingDate, [...meetingDates]);
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
     onMeetingDatesPage.clickDeleteRowIcon(1);
 
@@ -115,8 +115,10 @@ describe('MeetingDatesPage', () => {
       `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
       {}
     ).as('delete');
+    cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
 
     onDialog.clickButtonByText('Kyllä');
+    cy.wait('@delete');
 
     onMeetingDatesPage.expectRowToContain(0, '01.01.2022');
     onMeetingDatesPage.expectRowToContain(1, '15.08.2021');

@@ -107,7 +107,7 @@ describe('ExaminationDatesPage', () => {
       (m) => m.id !== examinationDateToDelete
     );
 
-    cy.intercept('GET', APIEndpoints.ExaminationDate, [...newExaminationDates]);
+    cy.intercept('GET', APIEndpoints.ExaminationDate, [...examinationDates]);
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
     onExaminationDatesPage.clickDeleteRowIcon(1);
 
@@ -116,6 +116,7 @@ describe('ExaminationDatesPage', () => {
       `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
       {}
     ).as('delete');
+    cy.intercept('GET', APIEndpoints.ExaminationDate, [...newExaminationDates]);
 
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@delete');
