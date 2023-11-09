@@ -14,10 +14,13 @@
   "setupFilesAfterEnv": [
     "./jest-setup.ts"
   ],
-  "testEnvironment": "jsdom",
+  "testEnvironment": "./jest-environment-patched-jsdom.js",
   "testPathIgnorePatterns": [
     "./src/tests/cypress"
   ],
+  "testEnvironmentOptions": {
+    "customExportConditions": [""]
+  },
   "transform": {
     "^.+\\.(ts|tsx)$": "babel-jest"
   },

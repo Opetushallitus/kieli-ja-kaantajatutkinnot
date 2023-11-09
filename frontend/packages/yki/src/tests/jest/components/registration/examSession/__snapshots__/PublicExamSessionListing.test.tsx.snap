@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PublicExamSessionsTable should render correctly 1`] = `
-Array [
+[
   <div
     className="table__head-box"
   >
@@ -21,10 +21,11 @@ Array [
           component.table.pagination.rowsPerPage
         </p>
         <div
-          className="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
           onClick={[Function]}
         >
           <div
+            aria-controls=":r2:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1: :r0:"
@@ -34,7 +35,7 @@ Array [
             onFocus={[Function]}
             onKeyDown={[Function]}
             onMouseDown={[Function]}
-            role="button"
+            role="combobox"
             tabIndex={0}
           >
             20
@@ -957,25 +958,26 @@ Array [
         />
         <p
           className="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r3:"
+          id=":r4:"
         >
           component.table.pagination.rowsPerPage
         </p>
         <div
-          className="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          className="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
           onClick={[Function]}
         >
           <div
+            aria-controls=":r5:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r3: :r2:"
+            aria-labelledby=":r4: :r3:"
             className="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r2:"
+            id=":r3:"
             onBlur={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
             onMouseDown={[Function]}
-            role="button"
+            role="combobox"
             tabIndex={0}
           >
             20

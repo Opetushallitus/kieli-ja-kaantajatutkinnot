@@ -74,7 +74,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-wksu0u-MuiFormControlLabel-root"
           >
             <span
-              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -120,7 +120,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-wksu0u-MuiFormControlLabel-root"
           >
             <span
-              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -166,7 +166,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-wksu0u-MuiFormControlLabel-root"
           >
             <span
-              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -212,7 +212,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
             className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-wksu0u-MuiFormControlLabel-root"
           >
             <span
-              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
               onBlur={[Function]}
               onContextMenu={[Function]}
               onDragLeave={[Function]}
@@ -520,7 +520,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           className="columns gapped-xxs"
         >
           <a
-            className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+            className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
             href="https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
             onBlur={[Function]}
             onFocus={[Function]}
@@ -552,7 +552,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           className="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-wksu0u-MuiFormControlLabel-root"
         >
           <span
-            className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            className="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
             onBlur={[Function]}
             onContextMenu={[Function]}
             onDragLeave={[Function]}
