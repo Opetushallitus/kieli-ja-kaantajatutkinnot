@@ -1,4 +1,4 @@
-import { CustomTable, H2 } from 'shared/components';
+import { CustomTable, H2, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicEvaluationPeriodListingHeader } from 'components/reassessment/PublicEvaluationPeriodListingHeader';
@@ -16,22 +16,33 @@ const getRowDetails = (evaluationPeriod: EvaluationPeriod) => {
 
 export const PublicEvaluationPeriodListing = () => {
   const { evaluation_periods } = useAppSelector(evaluationPeriodsSelector);
-
+  const evaluationPeriodsFooBar = evaluation_periods.filter(
+    ({ id }) => id === 10101010
+  );
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.publicEvaluationPeriodListing',
   });
   const { isPhone } = useWindowProperties();
 
-  return (
-    <>
-      <H2>{t('heading')}</H2>
-      <CustomTable
-        className=""
-        header={isPhone ? undefined : <PublicEvaluationPeriodListingHeader />}
-        data={evaluation_periods}
-        getRowDetails={getRowDetails}
-        stickyHeader
-      />
-    </>
-  );
+  if (evaluationPeriodsFooBar.length > 0) {
+    return (
+      <>
+        <H2>{t('heading')}</H2>
+        <CustomTable
+          className=""
+          header={isPhone ? undefined : <PublicEvaluationPeriodListingHeader />}
+          data={evaluationPeriodsFooBar}
+          getRowDetails={getRowDetails}
+          stickyHeader
+        />
+      </>
+    );
+  } else {
+    return (
+      <div className="rows gapped">
+        <H2>{t('noResults.heading')}</H2>
+        <Text>{t('noResults.description')}</Text>
+      </div>
+    );
+  }
 };

@@ -5,13 +5,14 @@ import {
   CustomCircularProgress,
   H3,
   ManagedPaginatedTable,
+  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
@@ -115,6 +116,9 @@ export const PublicExamSessionListing = ({
   rowsPerPage: number;
   rowsPerPageOptions: Array<number>;
 }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage.examSessionListing',
+  });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
@@ -164,14 +168,18 @@ export const PublicExamSessionListing = ({
               })}
             </Typography>
           </div>
-          <PublicExamSessionsTable
-            examSessions={examSessions}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-          />
+          {examSessions.length > 0 ? (
+            <PublicExamSessionsTable
+              examSessions={examSessions}
+              onPageChange={onPageChange}
+              onRowsPerPageChange={onRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
+          ) : (
+            <Text className="margin-top-lg">{t('noResults')}</Text>
+          )}
         </>
       );
   }

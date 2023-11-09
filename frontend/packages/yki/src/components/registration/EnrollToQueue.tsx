@@ -213,9 +213,7 @@ export const EnrollToQueue = () => {
       return (
         <>
           <H2>{t('success.heading')}</H2>
-          <Text>
-            {t('success.info')}: <b>{email}</b>
-          </Text>
+          <Text>{t('success.info', { email })}</Text>
         </>
       );
   }
