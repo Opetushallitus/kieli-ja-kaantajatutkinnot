@@ -3,53 +3,52 @@
     "component": {
       "evaluationOrderForm": {
         "actionButtons": {
-          "cancel": "Annulera",
+          "cancel": "Avbryt",
           "pay": "Betala"
         },
         "errorDialog": {
           "errors": {
-            "acceptConditions": "Godkänn villkoren för behandling av personuppgifter",
+            "acceptConditions": "Godkänn villkoren för behandlingen av personuppgifter",
             "birthdate": "Födelsedatum",
             "email": "E-postadress",
             "firstNames": "Förnamn",
             "lastName": "Efternamn",
-            "noExaminationPartsSelected": "Välj minst ett delprov."
+            "noExaminationPartsSelected": "Välj minst ett delprov"
           },
-          "fixErrors": "Fyll i uppgifter som saknas eller korrigera felaktiga uppgifter.",
+          "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
           "title": "Felaktiga uppgifter!"
         },
         "fillParticipantDetails": {
           "errors": {
-            "invalidBirthdate": "Felaktig födelsedatum. Ange i formatet dd.mm.åååå."
+            "invalidBirthdate": "Felaktigt födelsedatum. Ange i formatet dd.mm.åååå."
           },
-          "instructions": "Fyll i uppgifterna om deltagaren som begär om kontrollbedömning.",
+          "instructions": "Fyll i uppgifterna om deltagaren som begär kontrollbedömning.",
           "heading": "Deltagarens uppgifter",
           "labels": {
-            "birthdate": "Födelsedatum",
-            "email": "E-postadress",
-            "firstNames": "Förnamn",
-            "lastName": "Efternamn"
+            "birthdate": "Födelsedatum *",
+            "email": "E-postadress *",
+            "firstNames": "Förnamn *",
+            "lastName": "Efternamn *"
           },
           "placeholders": {
             "birthdate": "Skriv i formatet dd.mm.åååå.",
-            "email": "Till exempel nimi@sahkoposti.fi",
+            "email": "Till exempel namn@e-post.fi",
             "firstNames": "",
             "lastName": ""
           }
         },
         "info": {
-          "refundIfChangeInEvaluation": "Avgiften återbetalas om bedömningen av delprovet ändrar i samband med kontrollbedömningen.",
+          "refundIfChangeInEvaluation": "Avgiften för kontrollbedömningen återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska."
         },
         "renderEvaluationDetails": {
-          "heading": "Uppgifter om examen",
-          "info": "Du håller på att begära om kontrollbedömning om följande test:"
+          "info": "Begär kontrollbedömning av följande YKI-test:"
         },
         "selectExaminationParts": {
           "heading": "Välj delprov",
           "selectAtLeastOne": "Välj minst ett delprov",
           "selectParts": "Välj de delprov för vilka du vill att bedömningen kontrolleras *",
-          "sumTotal": "Priset på kontrollbedömningen totalt"
+          "sumTotal": "Priset för kontrollbedömningen totalt"
         }
       },
       "footer": {
@@ -64,15 +63,12 @@
         },
         "headings": {
           "contacts": "Kontaktuppgifter",
-          "info": "Mera information om Allmänna språkexamina (YKI)",
-          "statements": "Utlåtanden och direktiv"
+          "info": "Mer information om allmänna språkexamina (YKI)",
+          "statements": "Dokument"
         },
         "links": {
           "accessibility": {
             "text": "Tillgänglighetsdirektiv (på finska)"
-          },
-          "contact": {
-            "title": "Respons och utvecklingsidéer"
           },
           "privacy": {
             "text": "Information om behandlingen av personuppgifter",
@@ -84,11 +80,15 @@
         }
       },
       "publicEvaluationPeriodListing": {
-        "evaluationPeriodNotYetOpen": "Begär om kontrollbedömning från och med {{- startDate}}",
+        "evaluationPeriodNotYetOpen": "Begär kontrollbedömning från och med {{- startDate}}",
         "header": {
-          "evaluationPeriod": "Möjligt att begära om kontrollbedömning"
+          "evaluationPeriod": "Möjligt att begära kontrollbedömning"
         },
-        "heading": "Välj testet som du vill begära om kontrollbedömning av",
+        "heading": "Välj den examen som du vill begära kontrollbedömning av",
+        "noResults": {
+          "description": "Du kan begära kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet.",
+          "heading": "Du kan inte göra en begäran om kontrollbedömning just nu."
+        },
         "requestReassessment": "Gör en begäran om kontrollbedömning"
       },
       "registration": {
@@ -99,22 +99,22 @@
         "enrollToQueue": {
           "dialog": {
             "emailAlreadyQueued": {
-              "description": "Du har redan tidigare beställt en avisering om lediga platser i testet till din e-post.",
-              "title": "Beställning missllyckades"
+              "description": "Du har redan tidigare beställt en notifiering om lediga platser vid examenstillfället till din e-post.",
+              "title": "Beställningen misslyckades"
             },
             "genericError": {
               "description": "Ett oväntat fel har uppstått. Vänligen försök på nytt.",
-              "title": "Beställning missllyckades"
+              "title": "Beställningen misslyckades"
             },
             "inputError": {
               "description": "Kontrollera din e-postadress",
               "title": "Felaktiga uppgifter!"
             }
           },
-          "header": "Beställ en avisering om lediga platser",
+          "header": "Beställ en notifiering om lediga platser",
           "info": {
-            "part1": "Det finns inga lediga platser i det här testet just nu. Du kan beställa en avisering om lediga platser.",
-            "part2": "Ange din e-postadress om du vill beställa en avisering om lediga platser i testet."
+            "part1": "Det finns inga lediga platser vid det här examenstillfället just nu. Du kan beställa en notifiering om lediga platser.",
+            "part2": "Ange din e-postadress om du vill beställa en notifiering om lediga platser vid examenstillfället under anmälningstiden."
           },
           "inputs": {
             "confirmEmail": {
@@ -122,42 +122,42 @@
               "heading": "Bekräfta din e-postadress"
             },
             "email": {
-              "description": "Till exempel nimi@sahkoposti.fi",
+              "description": "Till exempel namn@e-post.fi",
               "heading": "Skriv din e-postadress"
             },
             "submit": {
-              "label": "Beställ en avisering"
+              "label": "Beställ en notifiering"
             }
           },
           "success": {
-            "heading": "Beställning lyckades!",
-            "info": "Du får en avisering till adressen [sähköpostiosoite] i fall det  blir lediga platser."
+            "heading": "Beställningen lyckades!",
+            "info": "Du får en notifikation per e-post i fall platser blir lediga under anmälningstiden."
           }
         },
         "examSessionDetails": {
-          "exam": "Test",
+          "exam": "Examen",
           "examFee": "Examensavgift",
           "openings": "Lediga platser",
-          "registrationTime": "Anmälningstiden"
+          "registrationTime": "Anmälningstid"
         },
         "paymentSum": {
           "title": "Examensavgift"
         },
         "registrationButtonLabels": {
           "full": "Fullbokat",
-          "orderCancellationNotification": "Beställ en avisering om lediga platser",
-          "periodNotOpen": "Anmälan har inte börjat",
+          "orderCancellationNotification": "Beställ en notifiering om lediga platser",
+          "periodNotOpen": "Anmälningstiden har inte börjat",
           "register": "Anmäl dig"
         },
         "registrationUnavailable": {
-          "admissionOpensOn": "Anmälan börjar {{- startDate}}",
-          "admissionPeriodIsClosed": "Anmälan har slutat",
-          "examSessionIsFull": "Testet är fullbokat"
+          "admissionOpensOn": "Anmälningstiden börjar {{- startDate}}",
+          "admissionPeriodIsClosed": "Anmälningstiden har upphört",
+          "examSessionIsFull": "Examenstillfället är fullbokat"
         },
         "registrationDetails": {
           "certificateLanguage": "På vilket språk vill du ha intyget? *",
-          "description1": "Fyll i YKI- anmälningsblankketten med testdeltagarens uppgifter.",
-          "description2": "För- och efternamn måste stavas på samma sätt som på deltagarens officiella identitetsbevis.",
+          "description1": "Fyll i YKI-anmälningsblanketten med examensdeltagarens uppgifter.",
+          "description2": "För- och efternamnet måste stavas på samma sätt som på deltagarens officiella identitetsbevis.",
           "errors": {
             "fields": {
               "address": "Gatuadress",
@@ -168,17 +168,17 @@
               "firstNames": "Förnamn",
               "gender": "Kön",
               "hasSSN": "Har du en finsk personbeteckning?",
-              "instructionLanguage": "Välj språket på uppgifter",
+              "instructionLanguage": "Välj språket för uppgifterna",
               "lastName": "Efternamn",
               "nationality": "Nationalitet",
               "phoneNumber": "Telefonnummer",
               "postNumber": "Postnummer",
               "postOffice": "Postanstalt",
-              "privacyStatementConfirmation": "Godkänn villkoren för behandling av personuppgifter",
+              "privacyStatementConfirmation": "Godkänn villkoren för behandlingen av personuppgifter",
               "ssn": "Personbeteckning",
               "termsAndConditionsAgreed": "Godkänn villkoren för anmälan"
             },
-            "fixErrors": "Fyll i uppgifter som saknas eller korrigera felaktiga uppgifter:",
+            "fixErrors": "Fyll i uppgifterna som saknas eller korrigera felaktiga uppgifter:",
             "title": "Felaktiga uppgifter!"
           },
           "labels": {
@@ -198,7 +198,7 @@
           "placeholders": {
             "address": "",
             "dateOfBirth": "Skriv i formatet dd.mm.åååå.",
-            "email": "Till exempel nimi@sahkoposti.fi",
+            "email": "Till exempel namn@e-post.fi",
             "emailConfirmation": "Skriv din e-postadress på nytt",
             "firstNames": "",
             "gender": "Välj kön",
@@ -209,7 +209,7 @@
             "postOffice": ""
           },
           "finnishSSN": "Har du en finsk personbeteckning? *",
-          "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna?",
+          "instructionLanguage": "På vilket språk vill du ha anvisningarna för uppgifterna? *",
           "requiredFields": "Fält markerade med en asterisk (*) är obligatoriska.",
           "ssn": "Personbeteckning",
           "termsAndConditions": {
@@ -218,102 +218,102 @@
             "label": "Jag godkänner villkoren för anmälan *",
             "title": "Villkoren för anmälan"
           },
-          "title": "Skriv dina uppgifter",
+          "title": "Fyll i dina uppgifter",
           "whatsNext": {
-            "description": "Efter att du skickat din anmälningsblankett får du ett e-postmeddelande med en länk till betalningen av examensavgift. Anmälning är bekräftat först då du har betalat examensavgiften.",
+            "description": "Efter att du skickat din anmälningsblankett får du ett e-postmeddelande med en länk till betalningen av examensavgiften. Anmälning är bekräftad först när du har betalat examensavgiften.",
             "title": "Vad händer sen?"
           }
         },
         "registrationFormSubmitted": {
           "proceedToPayment": {
-            "confirmation": "Du har skickat anmälningsblanketten för YKI test",
+            "confirmation": "Du har skickat anmälningsblanketten för allmän språkexamen (YKI)",
             "dueDateReminder": {
-              "text1": "<strong>Important!</strong> E-postmeddelandet innehåller även den sista dagen du kan betala examensavgiften.",
+              "text1": "<strong>Viktig!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
               "text2": "Betala i tid så du kan delta i YKI-testet."
             },
             "paymentLinkEmail": {
               "text1": "Du får ett e-postmeddelande med en betalningslänk.",
               "text2": "Meddelandet kommer från adressen noreply@opintopolku.fi.",
-              "text3": "Anmälan är bekräftad först då du har betalt examensavgiften."
+              "text3": "Anmälan är bekräftad först när du har betalat examensavgiften."
             },
-            "title": "Bekräfta anmälan genom att betala examensavgiften."
+            "title": "Bekräfta anmälan genom att betala examensavgiften"
           }
         },
         "stepper": {
           "active": "Aktiv",
-          "completed": "Färdig",
+          "completed": "Genomförd",
           "paymentAborted": "Betalningen kunde inte genomföras",
-          "phase": "Fas",
+          "phase": "Skede",
           "step": {
             "Done": "Färdig",
             "Identify": "Identifiera dig",
             "Payment": "Betalning",
             "Register": "Anmäl dig"
           },
-          "welcomeToExam": "Välkommen till YKI-test"
+          "welcomeToExam": "Välkommen till allmän språkexamen (YKI)!"
         },
         "steps": {
           "identify": {
-            "caption": "Du ska identifiera dig för att anmäla dig till YKI-test. Använd den persons uppgifter som deltar i YKI-testet.",
-            "emailButtonText": "Identifiera dig med din e-post",
+            "caption": "Du ska identifiera dig för att anmäla dig till allmän språkexamen (YKI). Använd testdeltagarens personuppgifter vid anmälan.",
+            "emailButtonText": "Identifiera dig med din e-postadress",
             "emailError": "Felaktig e-postadress",
             "emailInput": {
               "label": "Skriv din e-postadress",
-              "placeholder": "Till exempel nimi@sahkoposti.fi"
+              "placeholder": "Till exempel namn@e-post.fi"
             },
             "emailLink": {
               "error": "Identifieringen misslyckades. Du kan försöka på nytt.",
               "incorrectEmailDialog": {
                 "title": "Begäran misslyckades",
-                "description": "Kontrollera din e-postadress"
+                "description": "Kontrollera e-postadressen."
               },
-              "success": "Anmälningslänken har skickats till:"
+              "success": "Anmälningslänken har skickats till adressen:"
             },
-            "registrationIsBindingAdvisory": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå. Anmälan till YKI-testet är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
+            "registrationIsBindingAdvisory": "Kontrollera att du anmäler dig till ett YKI-test på rätt språk och nivå. Anmälan till allmän språkexamen är bindande. Du kan inte ändra din anmälan efter att du har bekräftat den.",
             "selectIdentificationMethod": "Välj din identifieringsmetod",
-            "suomiFiButtonText": "Identifiera dig via suomi.fi -tjänsten",
+            "suomiFiButtonText": "Identifiera dig via Suomi.fi-tjänsten",
             "title": "Identifiera dig för anmälan",
             "withFinnishSSN": {
-              "description": "<strong>Identifiera dig via suomi.fi -tjänsten</strong>",
-              "info": "Efter indentifiering styrs du automatiskt till anmälningsblanketten"
+              "description": "<strong>Identifiera dig via Suomi.fi-tjänsten</strong>",
+              "info": "Efter identifieringen tas du automatiskt vidare till anmälningsblanketten."
             },
             "withoutFinnishSSN": {
-              "description": "<strong>Om du inte kan använda Suomi.fi-identifikationen</strong>, identiera dig med din e-post.",
-              "info": "Efter att du har identifierat dig får du en länk till anmälningsblanketten till din e-post"
+              "description": "<strong>Om du inte kan använda Suomi.fi-identifikation</strong>, identifiera dig med din e-postadress.",
+              "info": "Efter att du har identifierat dig får du en länk per e-post för att fortsätta till anmälan."
             }
           },
           "payment": {
             "cancel": {
-              "description": "Anmälning är bekräftat först då du har betalat examensavgiften.",
+              "description": "Anmälning är bekräftad först när du har betalat examensavgiften.",
               "heading": "Betalningen kunde inte genomföras"
             },
             "error": {
-              "description": "Du kan försöka betala på nytt. Anmälning är bekräftat först då du har betalat examensavgiften.",
-              "heading": "Betalningsfel"
+              "description": "Du kan försöka betala på nytt. Anmälning är bekräftad först när du har betalat examensavgiften.",
+              "heading": "Fel vid betalningen"
             },
             "success": {
               "whatsNext": {
                 "beforeYkiTest": {
-                  "description": "Förbereda dig till YKI-testet genom att läsa deltagarens anvisningar på Utbildningsstyrelsens webbsidor:",
+                  "description": "Förbered dig inför examenstillfället genom att läsa anvisningarna för deltagare på Utbildningsstyrelsens webbplats:",
                   "label": "Före YKI-testdagen (oph.fi)",
                   "url": "https://www.oph.fi/sv/utbildning-och-examina/fore-yki-testdagen"
                 },
-                "part1": "Anmälan lyckades! Du får snart en bekräftelse om din anmälan per e-post.",
-                "part2": "Din testställe skickar senare per e-post närmare anvisningar om testdagen.",
-                "part3": "I anvisningarna får du veta bland annat testplatsens exakta läge och klockslaget då testet börjar.",
+                "part1": "Anmälan lyckades! Du får en bekräftelse på din anmälan per e-post.",
+                "part2": "Din testplats skickar senare per e-post närmare anvisningar för testdagen.",
+                "part3": "I anvisningarna ingår bland annat testplatsens exakta läge och klockslaget då testet börjar.",
                 "specialArrangements": {
-                  "description": "Om du behöver specialarrangemang, skicka en ansökan enligt Utbildningsstyrelsens anvisningar så fort som möjligt.",
+                  "description": "Om du behöver specialarrangemang, skicka en ansökan enligt Utbildningsstyrelsens anvisningar så fort som möjligt:",
                   "label": "Behöver du specialarrangemang? (oph.fi)",
                   "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
                 },
-                "title": "Välkommen till YKI-test"
+                "title": "Välkommen till allmän språkexamen (YKI)!"
               },
               "heading": "Anmälan lyckades!"
             }
           },
           "register": {
             "inProgress": {
-              "heading": "Anmäl dig till ett test"
+              "heading": "Anmäl dig till allmän språkexamen (YKI)"
             },
             "success": {
               "heading": "Anmälningsblanketten har skickats"
@@ -322,23 +322,23 @@
         },
         "unavailable": {
           "alreadyRegistered": {
-            "description": "Du kan anmäla dig endast till ett YKI-test på samma testdag.",
-            "title": "Du har redan almält dig till ett annat YKI-test på samma testdag."
+            "description": "Du kan endast anmäla dig till ett YKI-test per testdag",
+            "title": "Du har redan anmält dig till ett annat YKI-test på samma testdag"
           },
           "full": {
-            "description": "Det är inte möjligt att anmäla sig just nu. Det finns inga lediga platser i testet.",
+            "description": "Det är inte möjligt att anmäla sig just nu. Det finns inga lediga platser.",
             "title": "Testet är fullbokat"
           },
           "generic": {
-            "description": "Det gick inte att skicka anmälningsblankett. Du kan gå tillbaka till anmälningsblanketten och försöka på nytt.",
-            "title": "Det gick inte att skicka anmälningsblankett"
+            "description": "Det gick inte att skicka anmälningsblanketten. Du kan gå tillbaka till anmälningsblanketten och försöka på nytt.",
+            "title": "Det gick inte att skicka anmälningsblanketten"
           },
           "past": {
-            "description": "Det är inte längre möjligt att anmäla sig. Anmälningstiden har slutat.",
-            "title": "Anmälningstiden har slutat"
+            "description": "Det är inte längre möjligt att anmäla sig. Anmälningstiden har upphört.",
+            "title": "Anmälningstiden har upphört"
           },
           "upcoming": {
-            "description": "Det är inte ännu möjligt att anmäla sig. Anmälningstiden har inte börjat",
+            "description": "Det är inte ännu möjligt att anmäla sig. Anmälningstiden har inte börjat.",
             "title": "Anmälningstiden har inte börjat"
           }
         }
@@ -346,10 +346,10 @@
     },
     "pages": {
       "evaluationOrderPage": {
-        "notFound": "Uppgifter om kontrollbedömning hittades inte!",
-        "title": "Begär kotrollbedömning",
+        "notFound": "Uppgifterna om kontrollbedömning hittades inte!",
+        "title": "Begär kontrollbedömning",
         "toasts": {
-          "loadingError": "Det gick inte att ladda uppgifter om kontrollbedömning!"
+          "loadingError": "Det gick inte att ladda uppgifterna om kontrollbedömning!"
         }
       },
       "evaluationOrderStatusPage": {
@@ -358,53 +358,53 @@
           "info": "Du kan försöka betala på nytt. Vi behandlar endast betalda begäranden om kontrollbedömning."
         },
         "error": {
-          "heading": "Betalningsfel",
-          "info": "Betalningen kunde inte genomföras. Du kan försöka betala på nytt. "
+          "heading": "Fel vid betalningen",
+          "info": "Betalningen av kontrollbedömningsavgiften kunde inte genomföras. Försök betala på nytt."
         },
         "success": {
-          "heading": "Du har begärt om kontrollbedömning!",
-          "body": "Du har fått en bekräftelse om din begäran om kontrollbedömning per e-post. E-posten innehåller också information om din avgift för kontrollbedömning. Om du inte har fått meddelandet, kolla din skräppostmapp."
+          "heading": "Du har begärt kontrollbedömning!",
+          "body": "Du har fått en bekräftelse på din begäran om kontrollbedömning per e-post. E-postmeddelandet innehåller även information om kontrollbedömningsavgiften. Om du inte har fått meddelandet, kolla din skräppostmapp."
         }
       },
       "examDetailsPage": {
         "toasts": {
-          "notFound": "YKI-test hittades inte"
+          "notFound": "YKI-testet hittades inte"
         }
       },
       "initRegistrationPage": {
         "toasts": {
-          "notFound": "YKI-test hittades inte"
+          "notFound": "YKI-testet hittades inte"
         }
       },
       "logoutSuccessPage": {
-        "heading": "Utloggning lyckades",
+        "heading": "Utloggningen lyckades",
         "info": "Du har loggat ut. Stäng alla fönster i webbläsaren."
       },
       "notFoundPage": {
-        "description": "Kontrollera webbadress eller gå tillbaka till framsidan",
+        "description": "Kontrollera webbadressen eller gå tillbaka till startsidan.",
         "title": "Sidan hittades inte"
       },
       "reassessmentPage": {
         "info": {
           "general": {
-            "body1": "Vid kontrollbedömning bedöms din examensprestation om. Kontrollbedömningen genomförs av andra bedömare än de som genomförde den första bedömningen.",
-            "body2": "Kontrollbedömningen ändrar sällan vitsordet för delprovet. Läs mer på Utbildningsstyrelsens webbsidor: ",
-            "body3": "I kontrollbedömningen bedöms endast prestationen, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
-            "heading": "Vad är en kontrollbedömning?",
+            "body1": "Vid kontrollbedömning bedöms din examensprestation på nytt. Kontrollbedömningen utförs av andra bedömare än de som utförde den första bedömningen.",
+            "body2": "Kontrollbedömningen förändrar sällan vitsordet för delprovet. Läs mer på Utbildningsstyrelsens webbplats: ",
+            "body3": "Vid kontrollbedömningen bedöms endast din prestation i testet, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
+            "heading": "Vad innebär kontrollbedömning?",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning",
             "linkText": "Efter YKI-testet: Kontrollbedömning (oph.fi)"
           },
           "pricing": {
-            "body1": "Det är möjligt att begära om kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömningen är 50 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
-            "body2": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få bedömningsresultatet. I tabellen nedan kan du kontrollera när du kan begära om kontrollbedömning av din examensprestation. I slutet av sidan finns en lista på testdagar som du kan begära om kontrollbedömning för tillfället.",
-            "body3": "Behandlingstiden för ärendet är i genomsnitt tre månader. Beslutet skickas per e-post.",
-            "body4": "Avgiften återbetalas om bedömningen av delprovet ändrar i samband med kontrollbedömningen.",
-            "heading": "Att begära om och betala kontrollbedömning"
+            "body1": "Det är möjligt att begära kontrollbedömning av ett eller flera delprov. Avgiften för kontrollbedömning är 50 euro per delprov. Avgiften ska betalas i samband med att begäran om kontrollbedömning görs. Endast betalda begäranden om kontrollbedömning behandlas.",
+            "body2": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet. I tabellen nedan kan du kontrollera när du kan begära kontrollbedömning av din examensprestation. I slutet av sidan finns en lista på testdagar som du för tillfället kan begära kontrollbedömning för.",
+            "body3": "Behandlingstiden för ärendet är i ungefär tre månader. Beslutet skickas per e-post.",
+            "body4": "Avgiften återbetalas om bedömningen av delprovet förändras i samband med kontrollbedömningen.",
+            "heading": "Att begära och betala kontrollbedömning"
           }
         },
         "introduction": {
-          "info": "Kontrollbedömning ger dig möjligheten att begära om omprövning om du inte är nöjd med bedömningen av din examensprestation. Begäran om omprövning betyder kontrollbedömning av ditt YKI-test. Du kan skicka begäran om kontrollbedömning på den här sidan.",
-          "timeLimit": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få bedömningsresultatet."
+          "info": "Kontrollbedömning ger dig möjligheten att begära om omprövning om du inte är nöjd med bedömningen av din examensprestation. Begäran om omprövning innebär kontrollbedömning av ditt YKI-test. Du kan skicka begäran om kontrollbedömning på den här sidan.",
+          "timeLimit": "Du kan ansöka om kontrollbedömning inom 14 dagar från den tidpunkt då du har haft möjlighet att få resultatet av YKI-testet."
         },
         "title": "Allmänna språkexamina (YKI) - Kontrollbedömning"
       },
@@ -419,43 +419,48 @@
         },
         "description": {
           "part1": {
+            "text": "I den allmänna språkexamen (YKI) bedöms kunskaperna i standardspråket i praktiska situationer. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk."
+          },
+          "part2": {
             "link": {
               "label": "Att välja ett lämpligt YKI-test och testdagarna",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/att-valja-ett-lampligt-yki-test-testdagarna"
             },
-            "text": "Den allmänna språkexamen (YKI-examen) är en språkexamen som är avsedd för vuxna. Med examensintyg kan du officiellt visa dina språkkunskaper i olika språk. Före du anmäler dig till YKI-testet, ta reda på när och på vilket nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbsidor:"
+            "text": "Du kan avlägga YKI-examen på grundnivå, mellannivå eller högsta nivå. Före du anmäler dig till YKI-testet ska du ta reda på när och på vilken nivå du behöver ett examensintyg. Läs mer om att välja ett lämpligt YKI-test på Utbildningsstyrelsens webbplats:"
           },
-          "part2": {
+          "part3": {
             "link": {
-              "label": "Behöver du specialarrangemang",
+              "label": "Behöver du specialarrangemang?",
               "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang"
             },
-            "general": "I YKI-examen bedöms kunskaperna i standardspråket i praktiska situationer på grundnivå, mellannivå eller högsta nivå. Alla YKI-examina har fyra delprov: tal, talförståelse, skrivning och textförståelse. Varje delprov bedöms separat.",
-            "languages": "Om du behöver specialarrangemang i YKI-test, läs anvisningar på Utbildningsstyrelsens webbsidor:"
+            "text": "Om du behöver specialarrangemang för YKI-testet, läs anvisningarna på Utbildningsstyrelsens webbplats:"
           }
+        },
+        "examSessionListing": {
+          "noResults": "Inga YKI-test hittades. Du kan försöka på nytt."
         },
         "filters": {
           "buttons": {
             "showResults": "Visa resultat ({{count}})"
           },
           "errorDialog": {
-            "description": "För att se resultat, välj först testets språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
+            "description": "Välj först testets språk och färdighetsnivå. Tryck på VISA RESULTAT-knappen.",
             "title": "Välj språk och färdighetsnivå"
           },
           "errors": {
-            "required": "Oblikatoriskt att välja"
+            "required": "Obligatoriskt att välja"
           },
-          "heading": "Sök almänna språkexamina (YKI)",
-          "information": "Sök här för ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT -knappen.",
+          "heading": "Sök allmänna språkexamina (YKI)",
+          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
-            "required": "(oblikatorisk)"
+            "required": "(obligatorisk)"
           }
         },
         "labels": {
           "excludeFullSessions": "Visa endast examenstillfällen med lediga platser",
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
-          "filterExamSessions": "Filtrera resultat",
+          "filterExamSessions": "Filtrera resultaten",
           "selectLanguage": "Välj språk",
           "selectLevel": "Välj färdighetsnivå",
           "selectMunicipality": "Välj ort"

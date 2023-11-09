@@ -3,7 +3,7 @@
     "component": {
       "evaluationOrderForm": {
         "actionButtons": {
-          "cancel": "Peruuta",
+          "cancel": "Keskeytä",
           "pay": "Siirry maksamaan"
         },
         "errorDialog": {
@@ -42,7 +42,6 @@
           "requiredFields": "Tähdellä (*) merkityt osiot ovat pakollisia."
         },
         "renderEvaluationDetails": {
-          "heading": "Tutkinnon tiedot",
           "info": "Pyydä tarkistusarviointia seuraavasta tutkinnosta:"
         },
         "selectExaminationParts": {
@@ -71,9 +70,6 @@
           "accessibility": {
             "text": "Saavutettavuusseloste"
           },
-          "contact": {
-            "title": "Palaute ja kehitysideat"
-          },
           "privacy": {
             "text": "Tietosuojaseloste",
             "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/yleiset-kielitutkinnot-yki/ilmoittautuminen-yki-testiin#anchor-tietoa-henkilotietojen-kasittelysta"
@@ -86,9 +82,13 @@
       "publicEvaluationPeriodListing": {
         "evaluationPeriodNotYetOpen": "Pyydä tarkistusarviointia {{- startDate}} alkaen",
         "header": {
-          "evaluationPeriod": "Aika, jolloin voit pyytää tarkistusarviointia:"
+          "evaluationPeriod": "Aika, jolloin voit pyytää tarkistusarviointia"
         },
         "heading": "Valitse tutkinto, josta haluat pyytää tarkistusarviointia",
+        "noResults": {
+          "description": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos.",
+          "heading": "Et voi pyytää tarkistusarviointia juuri nyt"
+        },
         "requestReassessment": "Pyydä tarkistusarviointia"
       },
       "registration": {
@@ -131,7 +131,7 @@
           },
           "success": {
             "heading": "Ilmoituksen tilaaminen onnistui!",
-            "info": "Jos paikkoja tutkintoon vapautuu, saat ilmoituksen antamaasi sähköpostiosoitteeseen"
+            "info": "Jos paikkoja tutkintoon vapautuu ilmoittautumisaikana, saat ilmoituksen antamaasi sähköpostiosoitteeseen: {{email}}"
           }
         },
         "examSessionDetails": {
@@ -152,7 +152,7 @@
         "registrationUnavailable": {
           "admissionOpensOn": "Ilmoittaudu {{startDate}} alkaen",
           "admissionPeriodIsClosed": "Ilmoittautuminen on päättynyt",
-          "examSessionIsFull": "Tilaisuus on täynnä"
+          "examSessionIsFull": "Tutkinto on täynnä"
         },
         "registrationDetails": {
           "certificateLanguage": "Millä kielellä haluat todistuksesi? *",
@@ -313,7 +313,7 @@
           },
           "register": {
             "inProgress": {
-              "heading": "Ilmoittaudu tutkintotilaisuuteen"
+              "heading": "Ilmoittaudu yleiseen kielitutkintoon (YKI)"
             },
             "success": {
               "heading": "Ilmoittautumislomake on lähetetty"
@@ -362,7 +362,7 @@
           "info": "Tarkistusarviointimaksun maksaminen ei onnistunut. Yritä maksua uudestaan."
         },
         "success": {
-          "heading": "Olet lähettänyt tarkistusarviointipyynnön!",
+          "heading": "Olet pyytänyt tarkistusarviointia!",
           "body": "Sinulle on lähetetty vahvistus tarkistusarviointipyynnöstäsi sähköpostilla. Sähköpostissa on myös kuitti tarkistusarviointimaksustasi. Jos et ole saanut viestiä, tarkista roskapostikansiosi."
         }
       },
@@ -403,7 +403,7 @@
           }
         },
         "introduction": {
-          "info": "Voit tehdä oikaisuvaatimuspyynnön, jos et ole tyytyväinen YKI-testisi arviointiin. Oikaisuvaatimuspyyntö tarkoittaa YKI-testisi tarkistusarviointia. Voit jättää tarkistusarviointipyynnön tällä sivulla.",
+          "info": "Voit tehdä oikaisuvaatimuspyynnön, jos et ole tyytyväinen YKI-testisi arviointiin. Oikaisuvaatimuspyyntö tarkoittaa YKI-testisi tarkistusarviointia. Voit pyytää tarkistusarviointia tällä sivulla.",
           "timeLimit": "Voit pyytää tarkistusarviointia 14 vuorokauden sisällä siitä, kun sinulla on ollut tilaisuus saada YKI-testisi tulos."
         },
         "title": "Yleiset kielitutkinnot (YKI) - Tarkistusarviointi"
@@ -419,27 +419,32 @@
         },
         "description": {
           "part1": {
+            "text": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa. Saat suoritetusta tutkinnosta todistuksen, jolla voit osoittaa virallisesti kielitaitosi eri kielissä."
+          },
+          "part2": {
             "link": {
               "label": "Sopivan YKI-testin valinta ja testipäivät",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/sopivan-yki-testin-valinta-ja-testipaivat"
             },
-            "text": "Yleiset kielitutkinnot ovat aikuisille tarkoitettuja kielitutkintoja. Saat suoritetusta tutkinnosta todistuksen, jolla voit osoittaa virallisesti kielitaitosi eri kielissä. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
+            "text": "Voit tehdä YKI-testin perustasolla, keskitasolla tai ylimmällä tasolla. Selvitä ennen testiin ilmoittautumista, milloin ja miltä tasolta tarvitset todistuksen. Lue lisää sopivan YKI-testin valinnasta Opetushallituksen verkkosivuilta:"
           },
-          "part2": {
+          "part3": {
             "link": {
               "label": "Tarvitsetko erityisjärjestelyjä?",
               "url": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/ilmoittautuminen-yki-testiin#anchor-tarvitsetko-erityisjarjestelyja"
             },
-            "general": "Yleisissä kielitutkinnoissa (YKI) arvioidaan yleiskielen osaamista käytännön tilanteissa perustasolla, keskitasolla tai ylimmällä tasolla. Kaikissa YKI-testeissä on neljä osakoetta: puhuminen, puheen ymmärtäminen, kirjoittaminen ja tekstin ymmärtäminen. Saat jokaisesta osakokeesta oman arvosanan.",
-            "languages": "Jos tarvitset erityisjärjestelyjä YKI-testissä, lue ohjeet erityisjärjestelyjen hakemiseen Opetushallituksen verkkosivuilta:"
+            "text": "Jos tarvitset erityisjärjestelyjä YKI-testissä, lue ohjeet erityisjärjestelyjen hakemiseen Opetushallituksen verkkosivuilta:"
           }
+        },
+        "examSessionListing": {
+          "noResults": "YKI-testejä ei löytynyt. Voit yrittää hakua uudelleen."
         },
         "filters": {
           "buttons": {
             "showResults": "Näytä tulokset ({{count}})"
           },
           "errorDialog": {
-            "description": "Nähdäksesi tulokset, valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
+            "description": "Valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
             "title": "Valitse tutkinnon kieli ja taitotaso"
           },
           "errors": {
