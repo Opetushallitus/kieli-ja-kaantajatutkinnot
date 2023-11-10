@@ -56,8 +56,8 @@
         "speechComprehension": "Talförståelse",
         "writing": "Skrivning"
       },
-      "examSession": "Test",
-      "examination": "Test",
+      "examSession": "Examen",
+      "examination": "Examen",
       "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",

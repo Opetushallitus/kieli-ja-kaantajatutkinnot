@@ -56,8 +56,8 @@
         "speechComprehension": "Listening comprehension",
         "writing": "Writing"
       },
-      "examSession": "Examen",
-      "examination": "Examen",
+      "examSession": "Test",
+      "examination": "Test",
       "full": "Full",
       "gender": {
         "female": "Female",
