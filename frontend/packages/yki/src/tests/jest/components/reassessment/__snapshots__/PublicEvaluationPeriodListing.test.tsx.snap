@@ -1,168 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PublicEvaluationPeriodListing should render correctly 1`] = `
-Array [
+<div
+  className="rows gapped"
+>
   <h2
     className="MuiTypography-root MuiTypography-h2 css-1sra7t5-MuiTypography-root"
   >
-    heading
-  </h2>,
-  <table
-    className="MuiTable-root MuiTable-stickyHeader  table css-xn82ks-MuiTable-root"
-    role={null}
+    noResults.heading
+  </h2>
+  <p
+    className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
   >
-    <thead
-      className="MuiTableHead-root heading-text css-15wwp11-MuiTableHead-root"
-      role={null}
-    >
-      <tr
-        className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-        role={null}
-      >
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-y8ay40-MuiTableCell-root"
-          scope="col"
-        >
-          examination
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-y8ay40-MuiTableCell-root"
-          scope="col"
-        >
-          examDate
-           
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-y8ay40-MuiTableCell-root"
-          scope="col"
-        >
-          evaluationPeriod
-        </th>
-        <th
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-sizeMedium css-y8ay40-MuiTableCell-root"
-          scope="col"
-        />
-      </tr>
-    </thead>
-    <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
-      role={null}
-    >
-      <tr
-        className="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-        data-testid="public-evaluation-period__id-1-row"
-        role={null}
-      >
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          yki.common.languages.fin, yki.common.languageLevel.KESKI
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          5/10/2023
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          04/01/2023
-           
-          –
-           
-          12/30/2024
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          <button
-            aria-disabled={false}
-            className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
-            disabled={false}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            requestReassessment
-          </button>
-        </td>
-      </tr>
-      <tr
-        className="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-        data-testid="public-evaluation-period__id-2-row"
-        role={null}
-      >
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          yki.common.languages.fin, yki.common.languageLevel.PERUS
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          12/24/2025
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          04/21/2060
-           
-          –
-           
-          05/30/2060
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-        >
-          <button
-            aria-disabled={true}
-            className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
-            disabled={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onContextMenu={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={-1}
-            type="button"
-          >
-            evaluationPeriodNotYetOpen
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>,
-]
+    noResults.description
+  </p>
+</div>
 `;

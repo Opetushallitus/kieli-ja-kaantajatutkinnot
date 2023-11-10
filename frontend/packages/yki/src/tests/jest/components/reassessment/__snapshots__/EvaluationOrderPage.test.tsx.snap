@@ -638,7 +638,7 @@ exports[`EvaluationOrderPage should look as expected 1`] = `
           tabIndex={0}
           type="button"
         >
-          Peruuta
+          Keskeytä
         </button>
       </div>
     </div>
