@@ -6,7 +6,7 @@
       "appTitle": "National Certificates of Language Proficiency (YKI) - Finnish National Agency for Education",
       "back": "Back",
       "backToHomePage": "Back to front page",
-      "cancel": "Cancel",
+      "cancel": "Quit",
       "component": {
         "table": {
           "header": {
@@ -38,14 +38,14 @@
           "personalIdentityCodeFormat": "The form of the personal identity code was not recognised",
           "telFormat": "The telephone number is incorrect"
         },
-        "loadingFailed": "Failed to download the information.",
+        "loadingFailed": "Downloading the information failed.",
         "mismatchingEmails": "The contents of the email address fields are different.",
         "registration": {
           "alreadyRegistered": "You can register for only one YKI test.",
           "examSessionFull": "The test is full.",
           "formExpired": "Your registration form has expired.",
-          "paymentCreationFailed": "Sending the registration form failed.",
-          "personCreationFailed": "Sending the registration form failed.",
+          "paymentCreationFailed": "Submitting the registration form failed.",
+          "personCreationFailed": "Submitting the registration form failed.",
           "registrationPeriodClosed": "The registration period has ended."
         }
       },
@@ -56,8 +56,8 @@
         "speechComprehension": "Listening comprehension",
         "writing": "Writing"
       },
-      "examSession": "Test",
-      "examination": "Test",
+      "examSession": "Examen",
+      "examination": "Examen",
       "full": "Full",
       "gender": {
         "female": "Female",
@@ -67,7 +67,7 @@
       },
       "header": {
         "accessibility": {
-          "continueToMain": "Skip to content",
+          "continueToMain": "Continue to content",
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
@@ -115,14 +115,14 @@
       "postAdmission": "Post-registration",
       "price": "Price",
       "privacyStatement": {
-        "description": "We follow EU's General Data Protection Regulation in processing of personal information.",
+        "description": "We follow EU's General Data Protection Regulation on processing personal data.",
         "grantApproval": "I accept the terms and conditions for processing personal data *",
         "link": {
           "label": "Information on the processing of personal data (oph.fi)",
           "url": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-information-on-the-processing-of-personal-data"
         },
-        "readConditions": "Read the terms and conditions of processing personal information on the website of the Finnish National Agency for Education:",
-        "title": "Terms and conditions for processing personal data"
+        "readConditions": "Read the terms and conditions of processing personal data on the website of the Finnish National Agency for Education:",
+        "title": "Terms and conditions of processing personal data"
       },
       "reassessment": "Reassessment",
       "registration": "Registration",
@@ -130,7 +130,7 @@
       "specialArrangementsLink": "https://www.oph.fi/en/education-and-qualifications/registering-yki-test#anchor-do-you-need-special-arrangements",
       "yes": "Yes",
       "ykiHomepage": {
-        "ariaLabel": "Website of the National Certificates of Language Proficiency (oph.fi), open in new tab",
+        "ariaLabel": "Website of the National Certificates of Language Proficiency (oph.fi), open in a new tab",
         "link": "https://www.oph.fi/en/national-certificates-language-proficiency-yki"
       },
       "pageTitle": {
