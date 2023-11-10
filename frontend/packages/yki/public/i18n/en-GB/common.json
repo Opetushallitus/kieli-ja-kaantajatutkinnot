@@ -17,7 +17,8 @@
           },
           "pagination": {
             "backButtonLabel": "Previous search results",
-            "displayedRowsLabel": "Showing {{from}}-{{to}} / {{count}} results",
+            "displayedRowsAriaLabel": "Showing {{from}}-{{to}} / {{count}} results",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Next search results",
             "rowsPerPage": "Results per page"
           }
