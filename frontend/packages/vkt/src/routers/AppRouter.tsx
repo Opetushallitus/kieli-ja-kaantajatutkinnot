@@ -54,7 +54,7 @@ export const AppRouter: FC = () => {
         <PersistGate persistor={persistor} />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Suspense fallback={<div></div>}>
+            <Suspense fallback={<h2>{translateCommon('loadingContent')}</h2>}>
               <Routes>
                 <Route path={AppRoutes.PublicRoot} element={FrontPage} />
                 <Route path={AppRoutes.PublicHomePage} element={FrontPage} />

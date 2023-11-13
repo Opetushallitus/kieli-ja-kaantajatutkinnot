@@ -54,7 +54,7 @@ export const AppRouter: FC = () => {
         <ScrollToTop />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Suspense fallback={<div></div>}>
+            <Suspense fallback={<h2>{translateCommon('loadingContent')}</h2>}>
               <Routes>
                 <Route
                   path={AppRoutes.Registration}
