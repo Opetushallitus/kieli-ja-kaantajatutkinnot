@@ -47,22 +47,22 @@ export const SessionStateHeader: FC = () => {
   const userOpenRegistrations = useAppSelector(userOpenRegistrationsSelector);
   const session = useAppSelector(sessionSelector).loggedInSession;
   const dispatch = useAppDispatch();
-  const hasNullIdentity = !session || session.identity === null;
+  const isAuthenticated = session && session.identity !== null;
   const notOnRegistrationPage =
     matchPath(AppRoutes.ExamSessionRegistration, location.pathname) === null;
 
   useEffect(() => {
     const needsUserOpenRegistrations =
-      !hasNullIdentity &&
+      isAuthenticated &&
       notOnRegistrationPage &&
       userOpenRegistrations.status === APIResponseStatus.NotStarted;
 
     if (needsUserOpenRegistrations) {
       dispatch(loadUserOpenRegistrations());
     }
-  }, [hasNullIdentity, notOnRegistrationPage, userOpenRegistrations, dispatch]);
+  }, [isAuthenticated, notOnRegistrationPage, userOpenRegistrations, dispatch]);
 
-  if (hasNullIdentity) return <></>;
+  if (!isAuthenticated) return <></>;
 
   return (
     <div className="session-header columns gapped">
