@@ -13,7 +13,8 @@ export enum APIEndpoints {
   Registration = '/yki/api/registration/:registrationId',
   SubmitRegistration = '/yki/api/registration/:registrationId/submit',
   SuomiFiAuthRedirect = '/yki/auth/',
-  User = '/yki/auth/user',
+  User = '/yki/api/user/identity',
+  OpenRegistrations = '/yki/api/user/open-registrations',
 }
 
 export enum PaymentStatus {

@@ -71,6 +71,9 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
+          "activeRegistrations_one": "Sinulla on 1 käynnissä oleva ilmoittautuminen.",
+          "activeRegistrations_other": "Sinulla on {{count}} käynnissä olevaa ilmoittautumista.",
+          "continueToRegistration": "Siirry ilmoittautumissivulle.",
           "logOut": "Kirjaudu ulos"
         },
         "lang": {

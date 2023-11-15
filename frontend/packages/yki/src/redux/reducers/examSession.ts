@@ -22,6 +22,9 @@ const examSessionSlice = createSlice({
     rejectExamSession(state) {
       state.status = APIResponseStatus.Error;
     },
+    resetExamSession() {
+      return initialState;
+    },
     storeExamSession(state, action: PayloadAction<ExamSession>) {
       state.status = APIResponseStatus.Success;
       state.examSession = action.payload;
@@ -30,5 +33,9 @@ const examSessionSlice = createSlice({
 });
 
 export const examSessionReducer = examSessionSlice.reducer;
-export const { loadExamSession, rejectExamSession, storeExamSession } =
-  examSessionSlice.actions;
+export const {
+  loadExamSession,
+  rejectExamSession,
+  resetExamSession,
+  storeExamSession,
+} = examSessionSlice.actions;
