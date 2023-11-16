@@ -62,7 +62,8 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservation?.id;
   const examEventId = examEvent.id;
-  const isEnrollmentToQueue = !reservation && !isPaymentLinkPreviewView;
+  const isEnrollmentToQueue =
+    !reservation && !isPaymentLinkPreviewView && !enrollment.id;
 
   const handleCancelBtnClick = () => {
     if (isPaymentLinkPreviewView) {
@@ -137,7 +138,7 @@ export const PublicEnrollmentControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      if (isPaymentLinkPreviewView) {
+      if (isPaymentLinkPreviewView || enrollment.id) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
