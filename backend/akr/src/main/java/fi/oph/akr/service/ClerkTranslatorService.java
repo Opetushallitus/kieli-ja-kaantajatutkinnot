@@ -31,7 +31,6 @@ import fi.oph.akr.repository.ExaminationDateRepository;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.repository.TranslatorRepository;
 import fi.oph.akr.util.AuthorisationUtil;
-import fi.oph.akr.util.MigrationUtil;
 import fi.oph.akr.util.exception.APIException;
 import fi.oph.akr.util.exception.APIExceptionType;
 import fi.oph.akr.util.exception.NotFoundException;
@@ -40,12 +39,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,8 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkTranslatorService {
-
-  private static final Logger LOG = LoggerFactory.getLogger(ClerkTranslatorService.class);
 
   private final AuthorisationRepository authorisationRepository;
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
@@ -115,9 +109,7 @@ public class ClerkTranslatorService {
           authorisationProjectionsByTranslator.get(translator.getId())
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
-        // TODO: M.S. after migration is done use:
-        // final PersonalData personalData = personalDatas.get(translator.getOnrId());
-        final PersonalData personalData = MigrationUtil.get(personalDatas.get(translator.getOnrId()), translator);
+        final PersonalData personalData = personalDatas.get(translator.getOnrId());
         return ClerkTranslatorDTO
           .builder()
           .id(translator.getId())
@@ -272,89 +264,6 @@ public class ClerkTranslatorService {
     return result;
   }
 
-  // TODO: M.S. after data migration is done remove the below functions
-  @Transactional
-  public String migrateAllTranslators() {
-    final List<Translator> translators = translatorRepository.findExistingTranslators();
-    long migrations = 0;
-    for (final Translator translator : translators) {
-      try {
-        migrateTranslator(translator.getId());
-        migrations++;
-      } catch (Exception e) {
-        LOG.error("Translator with id {} was not successfully migrated", translator.getId());
-      }
-    }
-    return migrations + " traslators data were migrated";
-  }
-
-  @Transactional
-  public void migrateTranslator(final long translatorId) throws Exception {
-    final Translator translator = translatorRepository.getReferenceById(translatorId);
-    if (translator.getOnrId() != null) {
-      // wrong translator_id or translator is already connected with ONR
-      return;
-    }
-
-    final String identityNumber = translator.getIdentityNumber();
-    final Optional<PersonalData> optPersonalData = onrService.findPersonalDataByIdentityNumber(identityNumber);
-    if (optPersonalData.isPresent()) {
-      // the translator exists in ONR => 1) add his address to ONR 2) add his onr_id to AKR
-      final PersonalData personalDataFromOnr = optPersonalData.get();
-      final String onrId = personalDataFromOnr.getOnrId();
-
-      final PersonalData personalDataWithAkrData = PersonalData
-        .builder()
-        // Data from ONR
-        .onrId(onrId)
-        .individualised(personalDataFromOnr.getIndividualised())
-        .hasIndividualisedAddress(personalDataFromOnr.getHasIndividualisedAddress())
-        .lastName(personalDataFromOnr.getLastName())
-        .firstName(personalDataFromOnr.getFirstName())
-        .nickName(personalDataFromOnr.getNickName())
-        .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(personalDataFromOnr.getIdentityNumber()))
-        // Data from AKR
-        .email(translator.getEmail())
-        .phoneNumber(translator.getPhone())
-        .street(translator.getStreet())
-        .postalCode(translator.getPostalCode())
-        .town(translator.getTown())
-        .country(translator.getCountry())
-        .build();
-      onrService.updatePersonalData(personalDataWithAkrData);
-
-      translator.setOnrId(onrId);
-      translatorRepository.flush();
-    } else {
-      // Translator is not in ONR => create a new record
-      final PersonalData personalDataWithAkrData = createMigrationPersonalData(translator);
-      final String onrId = onrService.insertPersonalData(personalDataWithAkrData);
-      translator.setOnrId(onrId);
-      translatorRepository.flush();
-    }
-  }
-
-  private PersonalData createMigrationPersonalData(final Translator translator) {
-    return PersonalData
-      .builder()
-      .onrId(null)
-      .individualised(null)
-      .hasIndividualisedAddress(null)
-      .lastName(translator.getLastName())
-      .firstName(translator.getFirstName())
-      .nickName(translator.getFirstName()) // put first names as nick names
-      .identityNumber(MigrationUtil.getMockedIdentiyNumberIfNotCorrect(translator.getIdentityNumber()))
-      .email(translator.getEmail())
-      .phoneNumber(translator.getPhone())
-      .street(translator.getStreet())
-      .postalCode(translator.getPostalCode())
-      .town(translator.getTown())
-      .country(translator.getCountry())
-      .build();
-  }
-
-  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
   private void validatePersonalData(final PersonalData personalData) {
     if (!personalData.isOnrIdAndIndividualisedInformationConsistent()) {
       throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_AND_INDIVIDUALISED_MISMATCH);
@@ -381,12 +290,6 @@ public class ClerkTranslatorService {
   }
 
   private void copyDtoFieldsToTranslator(final TranslatorDTOCommonFields dto, final Translator translator) {
-    // TODO: M.S. after data migration is done remove the below code
-    // currently it is needed because these columns cannot be non-null nor non-unique
-    translator.setFirstName(dto.firstName());
-    translator.setLastName(dto.lastName());
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
   }

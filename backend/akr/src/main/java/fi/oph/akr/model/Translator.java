@@ -24,11 +24,7 @@ public class Translator extends BaseEntity {
   @Column(name = "translator_id", nullable = false)
   private long id;
 
-  // TODO: M.S. after data migration is done make onr_id unique and non-nullable
-  // for each existing translator a onr_id must be fetched from ONR
-  // either by looking up by identity number or by creating a new record
-  //@Column(name = "onr_id", nullable = false, unique = true)
-  @Column(name = "onr_id", unique = true)
+  @Column(name = "onr_id", nullable = false, unique = true)
   @Size(max = 255)
   private String onrId;
 
@@ -38,22 +34,21 @@ public class Translator extends BaseEntity {
   @OneToMany(mappedBy = "translator")
   private Collection<ContactRequestTranslator> contactRequestTranslators = new ArrayList<>();
 
-  // TODO: M.S. after data migration is done drop the below columns
-  // until that the data will be saved into both AKR-database and ONR
+  // TODO: after old AKR data deletion is done remove the below code
   @Size(max = 255)
-  @Column(name = "identity_number", unique = true)
+  @Column(name = "identity_number")
   private String identityNumber;
 
   @Size(max = 255)
-  @Column(name = "first_name", nullable = false)
+  @Column(name = "first_name")
   private String firstName;
 
   @Size(max = 255)
-  @Column(name = "last_name", nullable = false)
+  @Column(name = "last_name")
   private String lastName;
 
   @Size(max = 255)
-  @Column(name = "email", unique = true)
+  @Column(name = "email")
   private String email;
 
   @Column(name = "phone_number")
@@ -78,11 +73,4 @@ public class Translator extends BaseEntity {
 
   @Column(name = "is_assurance_given", nullable = false)
   private boolean isAssuranceGiven;
-  // public String getFullName() {
-  //   return firstName + " " + lastName;
-  // }
-
-  // public boolean hasEmail() {
-  //   return email != null;
-  // }
 }
