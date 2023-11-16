@@ -135,7 +135,7 @@ public class PublicTranslatorService {
       .map(translator -> {
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
 
-        if (personalData != null && !StringUtils.hasText(personalData.getTown())) {
+        if (personalData == null || !StringUtils.hasText(personalData.getTown())) {
           return null;
         }
         final String country = getNonFinlandCountryCode(personalData);
