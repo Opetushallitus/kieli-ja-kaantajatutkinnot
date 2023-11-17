@@ -42,6 +42,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +52,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ClerkTranslatorService {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ClerkTranslatorService.class);
 
   private final AuthorisationRepository authorisationRepository;
   private final AuthorisationTermReminderRepository authorisationTermReminderRepository;
@@ -110,6 +115,12 @@ public class ClerkTranslatorService {
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
+
+        if (personalData == null) {
+          LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
+          throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_NOT_FOUND);
+        }
+
         return ClerkTranslatorDTO
           .builder()
           .id(translator.getId())
