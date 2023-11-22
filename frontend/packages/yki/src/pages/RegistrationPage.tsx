@@ -68,21 +68,21 @@ export const RegistrationPage: FC = () => {
           </H1>
           <HeaderSeparator />
           <div className="rows gapped">
+            <Text>{t('description.part1.text')}</Text>
             <div>
-              <Text>{t('description.part1.text')}</Text>
+              <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part1.link.url')} target="_blank">
-                  <Text>{t('description.part1.link.label')}</Text>
+                <Link href={t('description.part2.link.url')} target="_blank">
+                  <Text>{t('description.part2.link.label')}</Text>
                 </Link>
                 <OpenInNewIcon />
               </div>
             </div>
-            <Text>{t('description.part2.general')}</Text>
             <div>
-              <Text>{t('description.part2.languages')}</Text>
+              <Text>{t('description.part3.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part2.link.url')} target="_blank">
-                  <Text>{t('description.part2.link.label')}</Text>
+                <Link href={t('description.part3.link.url')} target="_blank">
+                  <Text>{t('description.part3.link.label')}</Text>
                 </Link>
                 <OpenInNewIcon />
               </div>

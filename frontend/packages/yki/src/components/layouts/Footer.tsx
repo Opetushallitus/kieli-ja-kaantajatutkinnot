@@ -47,6 +47,14 @@ export const Footer = () => {
               {t('links.ykiHomepage.text')}
               <OpenInNewIcon />
             </a>
+            <a
+              className="footer__container__links__contact__email"
+              href={`mailto:${translateCommon('contactEmail')}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {translateCommon('contactEmail')}
+            </a>
           </div>
           <div className="footer__container footer__container__contact-details rows gapped-xs">
             <h2>{t('headings.contacts')}</h2>
@@ -62,17 +70,6 @@ export const Footer = () => {
                 rel="noreferrer"
               >
                 {t('address.phone.number')}
-              </a>
-            </div>
-            <div className="footer__container__links__contact rows gapped-xs">
-              <H3>{t('links.contact.title')}:</H3>
-              <a
-                className="footer__container__links__contact__email"
-                href={`mailto:${translateCommon('contactEmail')}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {translateCommon('contactEmail')}
               </a>
             </div>
           </div>
