@@ -131,7 +131,7 @@
           },
           "success": {
             "heading": "Ilmoituksen tilaaminen onnistui!",
-            "info": "Jos paikkoja tutkintoon vapautuu ilmoittautumisaikana, saat ilmoituksen antamaasi sähköpostiosoitteeseen: {{email}}"
+            "info": "Jos paikkoja tutkintoon vapautuu ilmoittautumisaikana, saat ilmoituksen antamaasi sähköpostiosoitteeseen <strong>{{email}}</strong>."
           }
         },
         "examSessionDetails": {

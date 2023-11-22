@@ -131,7 +131,7 @@
           },
           "success": {
             "heading": "Subscription confirmed!",
-            "info": "You will receive a notification at the address {{email}} if any seats become available for the test."
+            "info": "If any seats become available for the YKI test during the registration period, you will receive a notification at <strong>{{email}}</strong>."
           }
         },
         "examSessionDetails": {

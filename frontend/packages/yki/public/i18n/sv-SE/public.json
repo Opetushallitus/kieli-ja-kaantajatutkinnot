@@ -131,7 +131,7 @@
           },
           "success": {
             "heading": "Beställningen lyckades!",
-            "info": "Du får en notifikation per e-post i fall platser blir lediga under anmälningstiden."
+            "info": "I fall det blir lediga platser vid examenstillfället under anmälningstiden, får du en notifikation till adressen <strong>{{email}}</strong>."
           }
         },
         "examSessionDetails": {
@@ -228,7 +228,7 @@
           "proceedToPayment": {
             "confirmation": "Du har skickat anmälningsblanketten för allmän språkexamen (YKI)",
             "dueDateReminder": {
-              "text1": "<strong>Viktig!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
+              "text1": "<strong>Viktigt!</strong> E-postmeddelandet innehåller även den sista dagen som du kan betala examensavgiften.",
               "text2": "Betala i tid så du kan delta i YKI-testet."
             },
             "paymentLinkEmail": {
