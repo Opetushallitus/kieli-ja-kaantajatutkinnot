@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Paper } from '@mui/material';
 import Cookies from 'js-cookie';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
@@ -42,25 +42,29 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
     setOpen(false);
   };
 
+  if (!open) return null;
+
   return (
-    <Dialog
-      open={open}
-      maxWidth={false}
-      fullWidth
+    <Paper
+      square
+      elevation={3}
       sx={{
-        '& .MuiPaper-root': {
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          maxWidth: '100%',
-          margin: 0,
-          borderRadius: 0,
-        },
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        maxWidth: '100%',
+        margin: 0,
+        borderRadius: 0,
+        zIndex: 2,
       }}
     >
-      <div className="cookie-banner__content">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
+      <section
+        className="cookie-banner__content"
+        aria-labelledby="cookie-banner__title"
+      >
+        <h2 id="cookie-banner__title">{title}</h2>
+        <div className="cookie-banner__content__dialog-container">
           <div
             className={`cookie-banner__content__dialog-content gapped space-between ${
               isDesktop ? 'columns' : 'rows'
@@ -78,8 +82,8 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
               {buttonText}
             </CustomButton>
           </div>
-        </DialogContent>
-      </div>
-    </Dialog>
+        </div>
+      </section>
+    </Paper>
   );
 };
