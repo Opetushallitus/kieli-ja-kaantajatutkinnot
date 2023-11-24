@@ -471,11 +471,6 @@
           "selectLevel": "Choose proficiency level",
           "selectMunicipality": "Choose municipality"
         },
-        "oldUILink": {
-          "text": "This is the new YKI registration page. Do you want to use the old registration page?",
-          "link": "https://yki.opintopolku.fi/yki?lang=en",
-          "linkText": "Go to the old YKI registration page"
-        },
         "register": "Register",
         "title": "National Certificates of Language Proficiency (YKI) - Registration"
       }
