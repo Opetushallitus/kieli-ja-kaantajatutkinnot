@@ -1,10 +1,12 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
+  CookieBanner,
   LangSelector,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
+  Text,
 } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -24,6 +26,9 @@ import { useAuthentication } from 'hooks/useAuthentication';
 export const Header = (): JSX.Element => {
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.header',
+  });
+  const { t: cookieTranslation } = useAppTranslation({
+    keyPrefix: 'akr.pages.homepage.cookieBanner',
   });
   const translateCommon = useCommonTranslation();
   const [finnish, swedish, english] = getSupportedLangs();
@@ -90,6 +95,19 @@ export const Header = (): JSX.Element => {
           </div>
         </Toolbar>
       </AppBar>
+      {!isClerkUI && (
+        <CookieBanner
+          title={cookieTranslation('title')}
+          buttonText={cookieTranslation('buttonText')}
+          cookieTag="cookie-consent-akr"
+          buttonAriaLabel={cookieTranslation('buttonAriaLabel')}
+          path="/akr"
+        >
+          <Text data-testid="cookie-banner-description">
+            {cookieTranslation('description')}
+          </Text>
+        </CookieBanner>
+      )}
     </>
   );
 };

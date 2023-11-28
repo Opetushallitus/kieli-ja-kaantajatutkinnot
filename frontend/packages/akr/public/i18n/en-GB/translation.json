@@ -447,10 +447,10 @@
       },
       "homepage": {
         "cookieBanner": {
-          "buttonAriaLabel": "Accept cookies",
-          "buttonText": "Accept",
+          "buttonAriaLabel": "Close the notification about cookies",
+          "buttonText": "Close",
           "description": "This web site uses mandatory cookies to be functional.",
-          "title": "Accept cookies"
+          "title": "Information about cookies"
         },
         "description": "The Finnish National Agency for Education maintains a register of authorised translators. You can use the search engine to find an authorised translator or several either by language pair, name, or municipality of residence. You can use the search form to leave a contact request to the translators you have selected. If there is a malfunction in the register, contact us by email: auktoris.lautakunta@oph.fi",
         "filters": {

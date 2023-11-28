@@ -1,6 +1,12 @@
 {
   "yki": {
     "component": {
+      "cookieBanner": {
+        "buttonAriaLabel": "Close the notification about cookies",
+        "buttonText": "Close",
+        "description": "This web site uses mandatory cookies to be functional.",
+        "title": "Information about cookies"
+      },
       "evaluationOrderForm": {
         "actionButtons": {
           "cancel": "Quit",

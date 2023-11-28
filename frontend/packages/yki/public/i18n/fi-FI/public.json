@@ -1,6 +1,12 @@
 {
   "yki": {
     "component": {
+      "cookieBanner": {
+        "buttonAriaLabel": "Sulje evästetiedot",
+        "buttonText": "Sulje",
+        "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
+        "title": "Tietoa sivuston evästeistä"
+      },
       "evaluationOrderForm": {
         "actionButtons": {
           "cancel": "Keskeytä",
