@@ -9,6 +9,7 @@ exports[`CustomSelect should render correctly 1`] = `
     onClick={[Function]}
   >
     <div
+      aria-controls=":r0:"
       aria-expanded="false"
       aria-haspopup="listbox"
       className="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
@@ -16,7 +17,7 @@ exports[`CustomSelect should render correctly 1`] = `
       onFocus={[Function]}
       onKeyDown={[Function]}
       onMouseDown={[Function]}
-      role="button"
+      role="combobox"
       tabIndex={0}
     >
       <span
