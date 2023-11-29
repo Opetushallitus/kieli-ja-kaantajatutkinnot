@@ -19,14 +19,10 @@ import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants.Methods;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 public class OnrOperationApiImpl implements OnrOperationApi {
-
-  private static final Logger LOG = LoggerFactory.getLogger(OnrOperationApiImpl.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -144,10 +140,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     if (response.getStatusCode() == HttpStatus.CREATED.value()) {
       return response.getResponseBody();
     } else {
-      // TODO: M.S. after migration is done delete below lines:
-      // LOG.error("Error code {} from ONR", response.getStatusCode());
-      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
-      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException(
         "ONR service called with POST /henkilo returned unexpected status code: " + response.getStatusCode()
       );
@@ -169,10 +161,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       );
       return personalDataDTO;
     } else {
-      // TODO: M.S. after migration is done delete below lines:
-      // LOG.error("Error code {} from ONR", response.getStatusCode());
-      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
-      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }
   }
@@ -197,10 +185,6 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     final Response response = onrClient.executeBlocking(request);
 
     if (response.getStatusCode() != HttpStatus.OK.value()) {
-      // TODO: M.S. after migration is done delete below lines:
-      // LOG.error("Error code {} from ONR", response.getStatusCode());
-      // LOG.error("Error  from ONR with body: {}", response.getResponseBody());
-      //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       throw new RuntimeException(
         "ONR service called with PUT /henkilo returned unexpected status code: " + response.getStatusCode()
       );
