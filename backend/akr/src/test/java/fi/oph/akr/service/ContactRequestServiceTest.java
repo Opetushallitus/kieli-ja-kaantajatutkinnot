@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +33,8 @@ import fi.oph.akr.util.TemplateRenderer;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +46,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -102,7 +107,14 @@ class ContactRequestServiceTest {
 
     when(templateRenderer.renderContactRequestTranslatorEmailBody(any())).thenReturn("<html>translator</html>");
     when(templateRenderer.renderContactRequestRequesterEmailBody(any())).thenReturn("<html>requester</html>");
-    when(templateRenderer.renderContactRequestClerkEmailBody(any())).thenReturn("<html>clerk</html>");
+    when(templateRenderer.renderContactRequestClerkEmailBody(anyMap()))
+      .thenAnswer(
+        new Answer() {
+          public Object answer(InvocationOnMock invocation) {
+            return Arrays.toString(invocation.getArguments());
+          }
+        }
+      );
 
     contactRequestService =
       new ContactRequestService(
@@ -202,6 +214,52 @@ class ContactRequestServiceTest {
   }
 
   @Test
+  public void createContactRequestShouldSendNotificationWithEmailsMissingTranslators() {
+    final MeetingDate meetingDate = createMeetingDate();
+    final List<Long> translatorIds = initTranslatorsWithMissingEmails(meetingDate, 2, Arrays.asList(true, false));
+
+    final ContactRequestDTO contactRequestDTO = createContactRequestDTO(translatorIds, FROM_LANG, TO_LANG);
+
+    contactRequestService.createContactRequest(contactRequestDTO);
+
+    verify(emailService, times(3)).saveEmail(any(), emailDataCaptor.capture());
+
+    final List<Translator> translators = translatorRepository.findAllById(translatorIds);
+    final List<EmailData> emailDatas = emailDataCaptor.getAllValues();
+
+    assertEquals(2, translators.size());
+    assertEquals(3, emailDatas.size());
+
+    translators.forEach(t -> {
+      assertEquals(
+        1,
+        emailDatas
+          .stream()
+          .filter(e ->
+            e
+              .subject()
+              .equals(
+                "Yhteydenotto auktorisoitujen kääntäjien rekisteristä | Kontaktförfrågan från registret över auktoriserade translatorer"
+              )
+          )
+          .filter(e -> e.body().equals("<html>translator</html>"))
+          .count()
+      );
+    });
+
+    assertEquals(
+      1,
+      emailDatas
+        .stream()
+        .filter(e -> e.recipientName().equals("Auktorisoitujen kääntäjien tutkintolautakunta"))
+        .filter(e -> e.recipientAddress().equals("auktoris.lautakunta@oph.fi"))
+        .filter(e -> e.subject().equals("Yhteydenotto kääntäjään jonka sähköposti ei tiedossa"))
+        .filter(e -> e.body().contains("name=Etu1 Suku1") && !e.body().contains("name=Etu0 Suku0"))
+        .count()
+    );
+  }
+
+  @Test
   public void createContactRequestShouldSaveClerkEmailIfContactedTranslatorDoesntHaveEmailAddress() {
     final MeetingDate meetingDate = createMeetingDate();
     final Translator translator = Factory.translator();
@@ -251,7 +309,6 @@ class ContactRequestServiceTest {
         .filter(e -> e.recipientName().equals("Auktorisoitujen kääntäjien tutkintolautakunta"))
         .filter(e -> e.recipientAddress().equals("auktoris.lautakunta@oph.fi"))
         .filter(e -> e.subject().equals("Yhteydenotto kääntäjään jonka sähköposti ei tiedossa"))
-        .filter(e -> e.body().equals("<html>clerk</html>"))
         .count()
     );
   }
@@ -340,7 +397,19 @@ class ContactRequestServiceTest {
     return meetingDate;
   }
 
+  private List<Long> initTranslatorsWithMissingEmails(
+    final MeetingDate meetingDate,
+    final int size,
+    final List<Boolean> isEmailMask
+  ) {
+    return initTranslators(meetingDate, size, isEmailMask);
+  }
+
   private List<Long> initTranslators(final MeetingDate meetingDate, final int size) {
+    return initTranslators(meetingDate, size, Collections.nCopies(size, true));
+  }
+
+  private List<Long> initTranslators(final MeetingDate meetingDate, final int size, final List<Boolean> isEmailMask) {
     final List<Long> translatorIds = new ArrayList<>();
 
     final Map<String, PersonalData> personalDatas = new HashMap<String, PersonalData>();
@@ -358,7 +427,7 @@ class ContactRequestServiceTest {
             .firstName("Etu" + i)
             .nickName("Etu" + i)
             .identityNumber("112233")
-            .email("etu.suku" + i + "@invalid")
+            .email(isEmailMask.get(i) ? "etu.suku" + i + "@invalid" : null)
             .build()
         );
 
