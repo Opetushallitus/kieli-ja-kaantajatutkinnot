@@ -61,7 +61,6 @@ public class ContactRequestService {
       .stream()
       .map(t -> {
         PersonalData personalData = personalDatas.get(t.getOnrId());
-        assert personalData != null; // Translators returned to public view are existing in ONR
         return TranslatorPersonalDataDTO
           .builder()
           .translatorId(t.getId())
