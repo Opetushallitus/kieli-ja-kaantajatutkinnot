@@ -2,7 +2,7 @@
 
 exports[`SkipLink should render correctly 1`] = `
 <a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-tvmhkj-MuiTypography-root-MuiLink-root"
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways skip-link css-1vrl3mg-MuiTypography-root-MuiLink-root"
   href="http://example.invalid"
   onBlur={[Function]}
   onFocus={[Function]}

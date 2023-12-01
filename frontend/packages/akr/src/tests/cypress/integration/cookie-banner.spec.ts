@@ -15,6 +15,6 @@ describe('Cookie Banner', () => {
       'Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.'
     );
     onCookieBanner.clickAcceptCookies();
-    onCookieBanner.expectCookieBannerNotVisible();
+    onCookieBanner.expectCookieBannerShouldNotExist();
   });
 });

@@ -1,6 +1,12 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { LangSelector, OPHLogoViewer, SkipLink } from 'shared/components';
+import {
+  CookieBanner,
+  LangSelector,
+  OPHLogoViewer,
+  SkipLink,
+  Text,
+} from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -11,12 +17,16 @@ import {
   getCurrentLang,
   getSupportedLangs,
   useCommonTranslation,
+  usePublicTranslation,
 } from 'configs/i18n';
 import { AppRoutes } from 'enums/app';
 
 export const Header = (): JSX.Element => {
   const translateCommon = useCommonTranslation();
   const [finnish, swedish, english] = getSupportedLangs();
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.component.cookieBanner',
+  });
 
   const langDict = new Map<string, AppLanguage>([
     [translateCommon('header.lang.fi'), finnish],
@@ -76,6 +86,15 @@ export const Header = (): JSX.Element => {
           </div>
         </Toolbar>
       </AppBar>
+      <CookieBanner
+        title={t('title')}
+        buttonText={t('buttonText')}
+        cookieTag="cookie-consent-yki"
+        buttonAriaLabel={t('buttonAriaLabel')}
+        path="/yki"
+      >
+        <Text data-testid="cookie-banner-description">{t('description')}</Text>
+      </CookieBanner>
     </>
   );
 };

@@ -10,10 +10,6 @@ class CookieBanner {
     this.elements.cookieBannerContent().should('be.visible');
   }
 
-  expectCookieBannerNotVisible() {
-    this.elements.cookieBannerContent().should('not.be.visible');
-  }
-
   expectCookieBannerShouldNotExist() {
     this.elements.cookieBannerContent().should('not.exist');
   }
