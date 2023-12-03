@@ -31,7 +31,7 @@
     <plugin.prettier.goal>write</plugin.prettier.goal>
 
     <!-- openai v2 https://springdoc.org/#migrating-from-springdoc-v1 -->
-    <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
+    <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
     <!-- latest version for Java 17 https://github.com/lukas-krecan/ShedLock#versions -->
     <shedlock.version>4.44.0</shedlock.version>
     <poi.version>5.2.4</poi.version>
