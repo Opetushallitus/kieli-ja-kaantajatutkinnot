@@ -471,11 +471,6 @@
           "selectLevel": "Välj färdighetsnivå",
           "selectMunicipality": "Välj ort"
         },
-        "oldUILink": {
-          "text": "Den här är den nya YKI-anmälningssidan. Vill du använda den gamla anmälningssidan?",
-          "link": "https://yki.opintopolku.fi/yki?lang=sv",
-          "linkText": "Till den gamla anmälningsidan"
-        },
         "register": "Anmäl dig",
         "title": "Allmänna språkexamina (YKI) - Anmälan"
       }

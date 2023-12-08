@@ -76,7 +76,6 @@ function* submitRegistrationFormSaga() {
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
-          'use-yki-ui': true,
         },
       }
     );

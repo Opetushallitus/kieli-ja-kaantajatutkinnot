@@ -24,7 +24,6 @@ function* sendEmailLinkOrderSaga(action: PayloadAction<EmailLinkOrder>) {
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
-          'use-yki-ui': true,
         },
       }
     );
