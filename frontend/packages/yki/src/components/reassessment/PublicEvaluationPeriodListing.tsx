@@ -16,22 +16,19 @@ const getRowDetails = (evaluationPeriod: EvaluationPeriod) => {
 
 export const PublicEvaluationPeriodListing = () => {
   const { evaluation_periods } = useAppSelector(evaluationPeriodsSelector);
-  const evaluationPeriodsFooBar = evaluation_periods.filter(
-    ({ id }) => id === 10101010
-  );
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.publicEvaluationPeriodListing',
   });
   const { isPhone } = useWindowProperties();
 
-  if (evaluationPeriodsFooBar.length > 0) {
+  if (evaluation_periods.length > 0) {
     return (
       <>
         <H2>{t('heading')}</H2>
         <CustomTable
           className=""
           header={isPhone ? undefined : <PublicEvaluationPeriodListingHeader />}
-          data={evaluationPeriodsFooBar}
+          data={evaluation_periods}
           getRowDetails={getRowDetails}
           stickyHeader
         />
