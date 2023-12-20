@@ -71,6 +71,9 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
+          "activeRegistrations_one": "You have already started 1 registration.",
+          "activeRegistrations_other": "You have already started {{count}} registrations.",
+          "continueToRegistration": "Return to the registration form.",
           "logOut": "Log out"
         },
         "lang": {
