@@ -71,6 +71,9 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
+          "activeRegistrations_one": "Du har redan påbörjat 1 anmälan.",
+          "activeRegistrations_other": "Du har redan påbörjat {{count}} anmälningar.",
+          "continueToRegistration": "Gå tillbaka till anmälningsblanketten.",
           "logOut": "Logga ut"
         },
         "lang": {
