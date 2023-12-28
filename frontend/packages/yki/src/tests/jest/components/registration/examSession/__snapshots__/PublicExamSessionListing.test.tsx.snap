@@ -251,7 +251,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          200
            €
         </td>
         <td
@@ -316,7 +316,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          200
            €
         </td>
         <td
@@ -402,7 +402,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          200
            €
         </td>
         <td
@@ -462,7 +462,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          153
            €
         </td>
         <td
@@ -522,7 +522,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          123
+          176
            €
         </td>
         <td
@@ -608,7 +608,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          176
            €
         </td>
         <td
@@ -694,7 +694,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          160
+          200
            €
         </td>
         <td
@@ -780,7 +780,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          153
            €
         </td>
         <td
@@ -866,7 +866,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          100
+          153
            €
         </td>
         <td
@@ -926,7 +926,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          123
+          176
            €
         </td>
         <td
