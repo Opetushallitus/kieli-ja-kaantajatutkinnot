@@ -206,7 +206,7 @@ export class SerializationUtils {
       ),
       ssn: registration.ssn,
       zip: registration.postNumber,
-      post_office: registration.postNumber,
+      post_office: registration.postOffice,
       street_address: registration.address,
       phone_number: registration.phoneNumber,
       email: registration.email,
