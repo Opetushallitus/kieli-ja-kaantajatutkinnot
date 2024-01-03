@@ -5,7 +5,7 @@ import fi.oph.vkt.model.type.ExamLevel;
 
 public class EnrollmentUtil {
 
-  private static final int SKILL_FEE = 22700;
+  private static final int SKILL_FEE = 25700;
 
   public static int getTotalFee(final Enrollment enrollment) {
     return getTextualSkillFee(enrollment) + getOralSkillFee(enrollment) + getUnderstandingSkillFee(enrollment);

@@ -20,7 +20,7 @@ public class EnrollmentUtilTest {
     assertEquals(0, EnrollmentUtil.getTextualSkillFee(enrollment));
 
     enrollment.setTextualSkill(true);
-    assertEquals(22700, EnrollmentUtil.getTextualSkillFee(enrollment));
+    assertEquals(25700, EnrollmentUtil.getTextualSkillFee(enrollment));
   }
 
   @Test
@@ -33,7 +33,7 @@ public class EnrollmentUtilTest {
     assertEquals(0, EnrollmentUtil.getOralSkillFee(enrollment));
 
     enrollment.setOralSkill(true);
-    assertEquals(22700, EnrollmentUtil.getOralSkillFee(enrollment));
+    assertEquals(25700, EnrollmentUtil.getOralSkillFee(enrollment));
   }
 
   @Test
