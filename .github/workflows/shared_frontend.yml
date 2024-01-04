@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.16.0]
+        node-version: [20.9.0]
     steps:
       - uses: actions/checkout@v3
       - uses: szenius/set-timezone@v1.1
