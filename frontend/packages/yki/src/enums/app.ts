@@ -3,6 +3,7 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
+  PublicRoot = '/yki',
   AccessibilityStatementPage = '/yki/saavutettavuus',
   Registration = '/yki/ilmoittautuminen',
   RegistrationPaymentStatus = '/yki/ilmoittautuminen/maksu/tila',

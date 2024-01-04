@@ -3,6 +3,7 @@ export enum AppConstants {
 }
 
 export enum AppRoutes {
+  PublicRoot = '/otr',
   PublicHomePage = '/otr/etusivu',
   ClerkHomePage = '/otr/virkailija',
   MeetingDatesPage = '/otr/virkailija/kokouspaivat',
