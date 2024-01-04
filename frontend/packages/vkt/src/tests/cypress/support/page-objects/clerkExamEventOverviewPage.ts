@@ -76,13 +76,8 @@ class ClerkExamEventOverviewPage {
   }
 
   editExamEventDateField(fieldName: string, newValue: string) {
-    this.elements
-      .datePicker(fieldName)
-      .should('be.visible')
-      .clear();
-    this.elements
-      .datePicker(fieldName)
-      .type(`${newValue}{enter}`);
+    this.elements.datePicker(fieldName).should('be.visible').clear();
+    this.elements.datePicker(fieldName).type(`${newValue}{enter}`);
   }
 
   clearExamEventField(fieldName: string, fieldType: string) {

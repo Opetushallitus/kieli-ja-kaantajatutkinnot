@@ -1,20 +1,12 @@
-import { History } from 'history';
-import { useContext, useLayoutEffect } from 'react';
-import { UNSAFE_NavigationContext } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const ScrollToTop = () => {
-  // FIXME: UNSAFE_NavigationContext is no longer allowed in react router 6
-  /*
-  const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
-  useLayoutEffect(() => {
-    const unlisten = navigator.listen(({ action }) => {
-      if (action !== 'POP') {
-        window.scrollTo({ left: 0, top: 0 });
-      }
-    });
+  const location = useLocation();
 
-    return unlisten;
-  }, [navigator]);
-  */
+  useLayoutEffect(() => {
+    window.scrollTo({ left: 0, top: 0 });
+  }, [location]);
+
   return null;
 };

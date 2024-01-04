@@ -2518,7 +2518,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.31"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
   languageName: unknown
   linkType: soft
 
@@ -2526,7 +2526,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.31"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
   languageName: unknown
   linkType: soft
 
@@ -2600,7 +2600,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-i18next: "npm:^13.3.1"
     react-redux: "npm:^8.1.3"
-    react-router-dom: "npm:6.18.0"
+    react-router-dom: "npm:6.13.0"
     react-test-renderer: "npm:^18.2.0"
     redux-saga: "npm:^1.2.3"
     sass: "npm:^1.69.5"
@@ -2619,7 +2619,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.31":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -2630,7 +2630,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
     reduxjs-toolkit-persist: "npm:^7.2.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.31"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
   languageName: unknown
   linkType: soft
 
@@ -2639,7 +2639,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
   dependencies:
     multer: "npm:^1.4.5-lts.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.31"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
   languageName: unknown
   linkType: soft
 
@@ -2747,10 +2747,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.11.0":
-  version: 1.11.0
-  resolution: "@remix-run/router@npm:1.11.0"
-  checksum: 629ec578b9dfd3c5cb5de64a0798dd7846ec5ba0351aa66f42b1c65efb43da8f30366be59b825303648965b0df55b638c110949b24ef94fd62e98117fdfb0c0f
+"@remix-run/router@npm:1.6.3":
+  version: 1.6.3
+  resolution: "@remix-run/router@npm:1.6.3"
+  checksum: 85bf3944fa50b8980a039aab951baa1150ebd48336505b0bc3b5a2f48b8ab1a3a1f1e857c2f2a102abf6286af655e3f765f775240f28f8a4561f9efb698694b2
   languageName: node
   linkType: hard
 
@@ -10888,27 +10888,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:6.18.0":
-  version: 6.18.0
-  resolution: "react-router-dom@npm:6.18.0"
+"react-router-dom@npm:6.13.0":
+  version: 6.13.0
+  resolution: "react-router-dom@npm:6.13.0"
   dependencies:
-    "@remix-run/router": "npm:1.11.0"
-    react-router: "npm:6.18.0"
+    "@remix-run/router": "npm:1.6.3"
+    react-router: "npm:6.13.0"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: b0e72603d73172b6c6662afe2faed326753d5bbd9905aa560e3dade7996fc13d19e34e3ed668d2849efd685e2db2f711129c84b1439870e92c9cc91ddc343cf5
+  checksum: 3f6a368ca91c59633176f080be9caa53d5a3e9d51e04703062a68e96607a2e4667b30f408b02be7ce7bde1b954d37c59bc3084271602eefafa15f1175ad81942
   languageName: node
   linkType: hard
 
-"react-router@npm:6.18.0":
-  version: 6.18.0
-  resolution: "react-router@npm:6.18.0"
+"react-router@npm:6.13.0":
+  version: 6.13.0
+  resolution: "react-router@npm:6.13.0"
   dependencies:
-    "@remix-run/router": "npm:1.11.0"
+    "@remix-run/router": "npm:1.6.3"
   peerDependencies:
     react: ">=16.8"
-  checksum: a00c8f347b7ffee575f4a7731782e688e3fca458ca5bd970fb41cef66a6851853caa24464155ab438d5879f367b1223a539642a405a865913ffe7e63e53b1245
+  checksum: 8c2882013cbaef440407736d99361290de57b0645b8626f4dabadc08ed3cee4615c481c48d6c1f54180b2871ab2d92ea4b666f917689a66fa429365ccd969f6e
   languageName: node
   linkType: hard
 

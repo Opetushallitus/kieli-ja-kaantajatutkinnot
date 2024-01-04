@@ -1,10 +1,8 @@
-import { Blocker, Transition } from 'history';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-
-import { useBlocker } from './useBlocker';
 
 export const useCallbackPrompt = (when: boolean, baseUrl?: string) => {
+
+  /*
   const navigate = useNavigate();
   const location = useLocation();
   const [showPrompt, setShowPrompt] = useState(false);
@@ -65,6 +63,6 @@ export const useCallbackPrompt = (when: boolean, baseUrl?: string) => {
   }, [isNavigationConfirmed, blockedTransition, navigate, isWithinBaseUrl]);
 
   useBlocker(handleBlockedNavigation, when, baseUrl);
-
+  */
   return { showPrompt, confirmNavigation, cancelNavigation };
 };
