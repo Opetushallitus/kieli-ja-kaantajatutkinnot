@@ -38,6 +38,6 @@ export class PublicEnrollmentUtils {
       enrollment.understandingSkill,
     ].filter((s) => s).length;
 
-    return 227 * Math.min(selectedSkillsCount, 2);
+    return 257 * Math.min(selectedSkillsCount, 2);
   }
 }
