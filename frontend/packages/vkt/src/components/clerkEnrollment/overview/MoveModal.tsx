@@ -107,7 +107,7 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
   const handleExamEventOptionChange = (value?: string) => {
     if (value) {
       const selected = selectableExamEventOptions.filter(
-        (v: ComboBoxOption) => v.value === value
+        (v: ComboBoxOption) => v.value === value,
       );
       setSelectedExamEventOption(selected);
     } else {

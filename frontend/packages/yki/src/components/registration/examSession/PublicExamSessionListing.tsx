@@ -39,7 +39,7 @@ const DisplayedRowsLabel = ({
       from,
       to,
       count,
-    }
+    },
   );
 
   if (isPhone) {

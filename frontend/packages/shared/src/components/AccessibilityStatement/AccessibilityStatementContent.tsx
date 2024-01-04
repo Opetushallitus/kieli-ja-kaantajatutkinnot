@@ -84,10 +84,10 @@ export const AccessibilityStatementContent: FC<
             <Text>
               <WebLink
                 href={translateAccessibility(
-                  'content.administrativeAgency.links.link'
+                  'content.administrativeAgency.links.link',
                 )}
                 label={translateAccessibility(
-                  'content.administrativeAgency.links.title'
+                  'content.administrativeAgency.links.title',
                 )}
                 endIcon={<OpenInNewIcon />}
               />
@@ -115,13 +115,13 @@ export const AccessibilityStatementContent: FC<
           <Text>
             <WebLink
               href={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.link'
+                'content.contactAdministrativeAgency.links.website.link',
               )}
               label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.title'
+                'content.contactAdministrativeAgency.links.website.title',
               )}
               aria-label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.ariaLabel'
+                'content.contactAdministrativeAgency.links.website.ariaLabel',
               )}
               endIcon={<OpenInNewIcon />}
             />
@@ -129,10 +129,10 @@ export const AccessibilityStatementContent: FC<
           <Text>
             <WebLink
               href={`mailto:${translateAccessibility(
-                'content.contactAdministrativeAgency.links.email.link'
+                'content.contactAdministrativeAgency.links.email.link',
               )}`}
               label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.email.title'
+                'content.contactAdministrativeAgency.links.email.title',
               )}
             />
           </Text>

@@ -176,7 +176,7 @@ export const PrivacyPolicyPage = () => {
                     'handlingPurpose.law.conclusion.law1.link',
                   )}
                   label={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law1.content'
+                    'handlingPurpose.law.conclusion.law1.content',
                   )}
                   endIcon={<OpenInNewIcon />}
                 />
@@ -185,7 +185,7 @@ export const PrivacyPolicyPage = () => {
                     'handlingPurpose.law.conclusion.law2.link',
                   )}
                   label={translatePrivacy(
-                    'handlingPurpose.law.conclusion.law2.content'
+                    'handlingPurpose.law.conclusion.law2.content',
                   )}
                   endIcon={<OpenInNewIcon />}
                 />

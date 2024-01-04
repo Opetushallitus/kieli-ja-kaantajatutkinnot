@@ -147,7 +147,7 @@ export const PrivacyPolicyPage = () => {
                   <WebLink
                     href={translatePrivacy('handlingPurpose.law.part1.link')}
                     label={translatePrivacy(
-                      'handlingPurpose.law.part1.content'
+                      'handlingPurpose.law.part1.content',
                     )}
                     endIcon={<OpenInNewIcon />}
                   />

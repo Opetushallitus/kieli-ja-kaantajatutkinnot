@@ -238,12 +238,12 @@ export const PublicTranslatorFilters = ({
 
       return { value, label };
     },
-    [translateCountry]
+    [translateCountry],
   );
 
   const memoizedTownOptions = useMemo(
     () => towns.map(townAsComboboxOption),
-    [townAsComboboxOption, towns]
+    [townAsComboboxOption, towns],
   );
 
   const renderPhoneBottomAppBar = () =>
@@ -357,7 +357,7 @@ export const PublicTranslatorFilters = ({
             value={
               values.town
                 ? memoizedTownOptions.filter(
-                    ({ value }) => values.town === value
+                    ({ value }) => values.town === value,
                   )[0]
                 : null
             }

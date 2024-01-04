@@ -275,7 +275,7 @@ export const PublicInterpreterFilters = ({
               values[SearchFilter.Region]
                 ? {
                     label: RegionUtils.translateRegion(
-                      values[SearchFilter.Region]
+                      values[SearchFilter.Region],
                     ),
                     value: values[SearchFilter.Region],
                   }

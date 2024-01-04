@@ -28,7 +28,7 @@ export const ClerkExamEventDetailsFields = ({
   examEvent: ClerkExamEvent;
   editDisabled: boolean;
   onComboBoxChange: (
-    field: keyof ClerkExamEventBasicInformation
+    field: keyof ClerkExamEventBasicInformation,
   ) => (value?: string) => void;
   onDateChange: (
     field: keyof Pick<
