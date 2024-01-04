@@ -14,7 +14,7 @@ import {
   Variant,
 } from 'shared/enums';
 import { useToast } from 'shared/hooks';
-import { AutocompleteValue, ComboBoxOption } from 'shared/interfaces';
+import { ComboBoxOption } from 'shared/interfaces';
 import { DateUtils } from 'shared/utils';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
@@ -104,8 +104,15 @@ export const MoveModal: FC<MoveModalProps> = ({ enrollment, onCancel }) => {
     .reverse()
     .map(getComboBoxOption);
 
-  const handleExamEventOptionChange = ({}, value: AutocompleteValue) => {
-    setSelectedExamEventOption(value as ComboBoxOption);
+  const handleExamEventOptionChange = (value?: string) => {
+    if (value) {
+      const selected = selectableExamEventOptions.filter(
+        (v: ComboBoxOption) => v.value === value
+      );
+      setSelectedExamEventOption(selected);
+    } else {
+      setSelectedExamEventOption(null);
+    }
   };
 
   const handleMoveButtonClick = () => {

@@ -23,6 +23,9 @@
   ],
   "ignorePatterns": ["webpack.config.js"],
   "rules": {
+    "jsx-a11y/label-has-associated-control": [ 2, {
+      "depth": 3
+    }],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/label-has-associated-control": [2, {

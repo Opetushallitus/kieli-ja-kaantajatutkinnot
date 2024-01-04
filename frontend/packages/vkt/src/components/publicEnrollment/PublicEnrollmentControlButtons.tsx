@@ -20,6 +20,7 @@ import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
+  setLoadingPayment,
 } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
 
@@ -61,7 +62,8 @@ export const PublicEnrollmentControlButtons = ({
   const { showDialog } = useDialog();
   const reservationId = reservation?.id;
   const examEventId = examEvent.id;
-  const isEnrollmentToQueue = !reservation && !isPaymentLinkPreviewView;
+  const isEnrollmentToQueue =
+    !reservation && !isPaymentLinkPreviewView && !enrollment.id;
 
   const handleCancelBtnClick = () => {
     if (isPaymentLinkPreviewView) {
@@ -101,6 +103,7 @@ export const PublicEnrollmentControlButtons = ({
             enrollment.id,
           );
         }, 200);
+        dispatch(setLoadingPayment());
       } else {
         navigate(
           RouteUtils.stepToRoute(PublicEnrollmentFormStep.Done, examEventId),
@@ -135,7 +138,7 @@ export const PublicEnrollmentControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      if (isPaymentLinkPreviewView) {
+      if (isPaymentLinkPreviewView || enrollment.id) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(

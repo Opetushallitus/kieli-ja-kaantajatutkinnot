@@ -2518,7 +2518,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.akr@workspace:packages/akr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.3"
   languageName: unknown
   linkType: soft
 
@@ -2526,7 +2526,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.otr@workspace:packages/otr"
   dependencies:
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.3"
   languageName: unknown
   linkType: soft
 
@@ -2619,7 +2619,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32":
+"@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared, shared@npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.3":
   version: 0.0.0-use.local
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.shared@workspace:packages/shared"
   languageName: unknown
@@ -2630,7 +2630,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.vkt@workspace:packages/vkt"
   dependencies:
     reduxjs-toolkit-persist: "npm:^7.2.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.3"
   languageName: unknown
   linkType: soft
 
@@ -2639,7 +2639,7 @@ __metadata:
   resolution: "@opetushallitus/kieli-ja-kaantajatutkinnot.yki@workspace:packages/yki"
   dependencies:
     multer: "npm:^1.4.5-lts.1"
-    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.9.32"
+    shared: "npm:@opetushallitus/kieli-ja-kaantajatutkinnot.shared@1.10.3"
   languageName: unknown
   linkType: soft
 
@@ -3210,7 +3210,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.14":
+"@types/react-dom@npm:^18.0.0":
+  version: 18.2.15
+  resolution: "@types/react-dom@npm:18.2.15"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 57ea7e9e210d95fa18fde82fc585cb6252c9118c8793a38b37b07ccbba05d09d14f88cf76af46eecda41c430b4400f789a4bbc505eec459a15cbaf13f56f887a
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.2.14":
   version: 18.2.14
   resolution: "@types/react-dom@npm:18.2.14"
   dependencies:
@@ -3250,13 +3259,13 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*":
-  version: 18.2.33
-  resolution: "@types/react@npm:18.2.33"
+  version: 18.2.37
+  resolution: "@types/react@npm:18.2.37"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 7f84dcf70eed3644973c7a47a63669d9e9ecc8d15b331fb272940a5c7cc322df11995eeeae1edfab5c278083cc3527477aa682c79f26667cfe8cd74481621884
+  checksum: fab3a5960e710aad6c16ffe57f48a470c6bbbe9e6363f70accf114191ea3192a204e33b5657324f14e64b2095986327db6b728fc15156e05f7d30b6dca0d66a3
   languageName: node
   linkType: hard
 
@@ -6645,10 +6654,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extsprintf@npm:1.3.0, extsprintf@npm:^1.2.0":
+"extsprintf@npm:1.3.0":
   version: 1.3.0
   resolution: "extsprintf@npm:1.3.0"
   checksum: 26967d6c7ecbfb5bc5b7a6c43503dc5fafd9454802037e9fa1665e41f615da4ff5918bd6cb871a3beabed01a31eca1ccd0bdfb41231f50ad50d405a430f78377
+  languageName: node
+  linkType: hard
+
+"extsprintf@npm:^1.2.0":
+  version: 1.4.1
+  resolution: "extsprintf@npm:1.4.1"
+  checksum: bfd6d55f3c0c04d826fe0213264b383c03f32825af6b1ff777f3f2dc49467e599361993568d75b7b19a8ea1bb08c8e7cd8c3d87d179ced91bb0dcf81ca6938e0
   languageName: node
   linkType: hard
 

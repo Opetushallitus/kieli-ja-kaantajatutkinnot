@@ -5,12 +5,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 import { ChangeEvent, useCallback } from 'react';
-import {
-  AutocompleteValue,
-  LabeledComboBox,
-  LabeledTextField,
-  Text,
-} from 'shared/components';
+import { LabeledComboBox, LabeledTextField, Text } from 'shared/components';
 import {
   InputAutoComplete,
   TextFieldTypes,
@@ -153,10 +148,8 @@ export const EmailRegistrationDetails = () => {
                 ? genderToComboBoxOption(registration.gender)
                 : null
             }
-            onChange={(_, v: AutocompleteValue) => {
-              dispatch(
-                updatePublicRegistration({ gender: v?.value as GenderEnum }),
-              );
+            onChange={(v?: string) => {
+              dispatch(updatePublicRegistration({ gender: v as GenderEnum }));
             }}
             showError={showErrors && !!registrationErrors['gender']}
             helperText={
@@ -183,8 +176,8 @@ export const EmailRegistrationDetails = () => {
                   )
                 : null
             }
-            onChange={(_, v: AutocompleteValue) => {
-              dispatch(updatePublicRegistration({ nationality: v?.value }));
+            onChange={(v?: string) => {
+              dispatch(updatePublicRegistration({ nationality: v }));
             }}
             showError={showErrors && !!registrationErrors['nationality']}
             helperText={

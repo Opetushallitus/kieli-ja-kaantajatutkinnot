@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomDatePicker,
   CustomSwitch,
@@ -29,8 +28,8 @@ export const ClerkExamEventDetailsFields = ({
   examEvent: ClerkExamEvent;
   editDisabled: boolean;
   onComboBoxChange: (
-    field: keyof ClerkExamEventBasicInformation,
-  ) => ({}, autocompleteValue?: AutocompleteValue) => void;
+    field: keyof ClerkExamEventBasicInformation
+  ) => (value?: string) => void;
   onDateChange: (
     field: keyof Pick<
       ClerkExamEventBasicInformation,
@@ -79,7 +78,11 @@ export const ClerkExamEventDetailsFields = ({
             values={Object.keys(ExamLanguage)
               .filter((l) => l !== ExamLanguage.ALL)
               .map(languageCodeToLabel)}
-            value={languageCodeToLabel(examEvent.language)}
+            value={
+              examEvent.language
+                ? languageCodeToLabel(examEvent.language)
+                : null
+            }
             onChange={onComboBoxChange('language')}
           />
         </div>
@@ -91,7 +94,7 @@ export const ClerkExamEventDetailsFields = ({
             disabled={editDisabled}
             variant={TextFieldVariant.Outlined}
             values={Object.keys(ExamLevel).map(examLevelToLabel)}
-            value={examLevelToLabel(examEvent.level)}
+            value={examEvent.level ? examLevelToLabel(examEvent.level) : null}
             onChange={onComboBoxChange('level')}
           />
         </div>

@@ -21,7 +21,8 @@ beforeEach(() => {
       cy.openPublicHomePage();
     },
   );
-  onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
+  const isPhone = true;
+  onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
   onPublicTranslatorsListing.selectTranslatorRows(TEST_TRANSLATOR_IDS);
   onPublicTranslatorsListing.openContactRequest();
 });

@@ -66,7 +66,6 @@ export class SerializationUtils {
       registration_end_date: SerializationUtils.deserializeEndTime(
         examSessionResponse.registration_end_date,
       ) as Dayjs,
-      exam_fee: parseInt(examSessionResponse.exam_fee as string),
     };
   }
 

@@ -816,4 +816,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="2023-11-16-remove-not-null-and-unique-constraints" author="msevalnev">
+        <dropNotNullConstraint tableName="translator" columnName="first_name"/>
+        <dropNotNullConstraint tableName="translator" columnName="last_name"/>
+        <dropUniqueConstraint tableName="translator" constraintName="uk_translator_email" />
+        <dropUniqueConstraint tableName="translator" constraintName="uk_translator_identity_number" />
+        <addNotNullConstraint tableName="translator" columnName="onr_id" />
+    </changeSet>
+
 </databaseChangeLog>

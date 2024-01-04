@@ -28,14 +28,12 @@ export interface ExamSessionResponse
     | 'post_admission_end_date'
     | 'registration_start_date'
     | 'registration_end_date'
-    | 'exam_fee'
   > {
   session_date: string;
   post_admission_start_date?: string;
   post_admission_end_date?: string;
   registration_start_date?: string;
   registration_end_date?: string;
-  exam_fee?: string;
 }
 
 export interface ExamSessionLocation {

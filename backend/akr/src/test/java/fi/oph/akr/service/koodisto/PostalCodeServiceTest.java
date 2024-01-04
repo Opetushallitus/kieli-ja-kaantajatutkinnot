@@ -43,5 +43,6 @@ class PostalCodeServiceTest {
     assertEquals(Pair.of("Smartpost", "Smartpost"), postalCodeService.translateTown("Smartpost"));
     assertEquals(Pair.of("Vastauslähetys", "Vastauslähetys"), postalCodeService.translateTown("Vastauslähetys"));
     assertEquals(Pair.of("Noutopiste", "Noutopiste"), postalCodeService.translateTown("Noutopiste"));
+    assertEquals(Pair.of("Malaga", "Malaga"), postalCodeService.translateTown("Malaga"));
   }
 }

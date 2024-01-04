@@ -27,4 +27,20 @@ class CountryServiceTest {
     assertTrue(countryService.containsKoodistoCode("FIN"));
     assertFalse(countryService.containsKoodistoCode("x"));
   }
+
+  @Test
+  public void testTranslateCountries() {
+    assertEquals(null, countryService.getCountryCode(null));
+    assertEquals(null, countryService.getCountryCode(""));
+    assertEquals(null, countryService.getCountryCode("  "));
+    assertEquals("Some unknown country", countryService.getCountryCode("Some unknown country"));
+    assertEquals("FIN", countryService.getCountryCode("FIN"));
+    assertEquals("FIN", countryService.getCountryCode("Suomi"));
+    assertEquals("FIN", countryService.getCountryCode("SUOMI"));
+    assertEquals("FIN", countryService.getCountryCode("Finland"));
+    assertEquals("ESP", countryService.getCountryCode("Spanien"));
+    assertEquals("ESP", countryService.getCountryCode("SPANIEN"));
+    assertEquals("ESP", countryService.getCountryCode("Spain"));
+    assertEquals("ESP", countryService.getCountryCode("SPAIN"));
+  }
 }

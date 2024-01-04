@@ -6,7 +6,7 @@
       "appTitle": "Yleiset kielitutkinnot - Opetushallitus",
       "back": "Takaisin",
       "backToHomePage": "Takaisin aloitussivulle",
-      "cancel": "Peruuta",
+      "cancel": "Keskeytä",
       "component": {
         "table": {
           "header": {
@@ -17,7 +17,8 @@
           },
           "pagination": {
             "backButtonLabel": "Edelliset hakutulokset",
-            "displayedRowsLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "displayedRowsAriaLabel": "Näytetään {{from}}-{{to}} / {{count}} tulosta",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Seuraavat hakutulokset",
             "rowsPerPage": "Tulokset per sivu"
           }
@@ -70,6 +71,9 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
+          "activeRegistrations_one": "Sinulla on 1 ilmoittautuminen kesken.",
+          "activeRegistrations_other": "Sinulla on {{count}} ilmoittautumista kesken.",
+          "continueToRegistration": "Siirry takaisin ilmoittautumislomakkeelle.",
           "logOut": "Kirjaudu ulos"
         },
         "lang": {

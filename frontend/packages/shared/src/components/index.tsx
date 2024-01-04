@@ -33,8 +33,9 @@ export { DropDownMenuButton } from './DropDownMenuButton/DropDownMenuButton';
 export { SkipLink } from './SkipLink/SkipLink';
 export { Svg } from './Svg/Svg';
 export { CustomTable } from './Table/CustomTable';
-export { PaginatedTable } from './Table/PaginatedTable';
 export { ManagedPaginatedTable } from './Table/ManagedPaginatedTable';
+export { PaginatedTable } from './Table/PaginatedTable';
+export { Pagination } from './Table/Pagination';
 export { ToggleFilterGroup } from './ToggleFilterGroup/ToggleFilterGroup';
 export { LangSelector } from './LangSelector/LangSelector';
 export { InfoText } from './InfoText/InfoText';
@@ -46,3 +47,7 @@ export { StyleCacheProvider } from './StyleCacheProvider/StyleCacheProvider';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 export { StackableMobileAppBar } from './StackableMobileAppBar/StackableMobileAppBar';
 export { WebLink } from './WebLink/WebLink';
+export {
+  NativeSelect,
+  NativeSelectWithLabel,
+} from './NativeSelect/NativeSelect';

@@ -1,8 +1,9 @@
 import { OpenInNew as OpenInNewIcon } from '@mui/icons-material';
 import { FC, PropsWithChildren } from 'react';
 
-import { ExtLink } from '../ExtLink/ExtLink';
 import { H2, H3, Text } from '../Text/Text';
+import { WebLink } from '../WebLink/WebLink';
+
 import './AccessibilityStatement.scss';
 
 type AccessibilityStatementContentProps = {
@@ -18,22 +19,6 @@ export const AccessibilityStatementContent: FC<
   feedbackEmail,
   translateAccessibility,
 }: AccessibilityStatementContentProps) => {
-  const sharedLinkCss = {
-    fontSize: '1.6rem',
-    textTransform: 'none',
-  };
-
-  const agencyDescriptionLinkCss = {
-    ...sharedLinkCss,
-    paddingRight: 0,
-  };
-
-  const contactLinkCss = {
-    ...sharedLinkCss,
-    alignSelf: 'flex-start',
-    padding: 0,
-  };
-
   return (
     <div className="accessibility-statement">
       <div className="accessibility-statement-content rows gapped-xxl">
@@ -82,9 +67,8 @@ export const AccessibilityStatementContent: FC<
           <H2>{translateAccessibility('content.feedback.title')}</H2>
           <Text>{translateAccessibility('content.feedback.subtitle')}</Text>
           <Text>
-            {`${translateAccessibility(
-              'content.feedback.description',
-            )}: ${feedbackEmail}`}
+            {`${translateAccessibility('content.feedback.description')}: `}
+            <WebLink href={`mailto:${feedbackEmail}`} label={feedbackEmail} />
           </Text>
         </div>
         <div className="rows gapped-xxs">
@@ -97,15 +81,18 @@ export const AccessibilityStatementContent: FC<
                 'content.administrativeAgency.description',
               )}
             </Text>
-            <ExtLink
-              sx={agencyDescriptionLinkCss}
-              text={translateAccessibility(
-                'content.administrativeAgency.links.title',
-              )}
-              href={translateAccessibility(
-                'content.administrativeAgency.links.link',
-              )}
-            />
+            <Text>
+              <WebLink
+                href={translateAccessibility(
+                  'content.administrativeAgency.links.link'
+                )}
+                label={translateAccessibility(
+                  'content.administrativeAgency.links.title'
+                )}
+                endIcon={<OpenInNewIcon />}
+              />
+              {'.'}
+            </Text>
             <Text>
               {translateAccessibility(
                 'content.administrativeAgency.extraDescription',
@@ -125,30 +112,30 @@ export const AccessibilityStatementContent: FC<
           <Text>
             {translateAccessibility('content.contactAdministrativeAgency.unit')}
           </Text>
-          <ExtLink
-            sx={contactLinkCss}
-            className="accessibility-statement__content__link"
-            text={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.title`,
-            )}
-            href={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.link`,
-            )}
-            aria-label={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.ariaLabel`,
-            )}
-            endIcon={<OpenInNewIcon />}
-          />
-          <ExtLink
-            sx={contactLinkCss}
-            className="accessibility-statement__content__link"
-            text={translateAccessibility(
-              `content.contactAdministrativeAgency.links.email.title`,
-            )}
-            href={`mailto:${translateAccessibility(
-              `content.contactAdministrativeAgency.links.email.link`,
-            )}`}
-          />
+          <Text>
+            <WebLink
+              href={translateAccessibility(
+                'content.contactAdministrativeAgency.links.website.link'
+              )}
+              label={translateAccessibility(
+                'content.contactAdministrativeAgency.links.website.title'
+              )}
+              aria-label={translateAccessibility(
+                'content.contactAdministrativeAgency.links.website.ariaLabel'
+              )}
+              endIcon={<OpenInNewIcon />}
+            />
+          </Text>
+          <Text>
+            <WebLink
+              href={`mailto:${translateAccessibility(
+                'content.contactAdministrativeAgency.links.email.link'
+              )}`}
+              label={translateAccessibility(
+                'content.contactAdministrativeAgency.links.email.title'
+              )}
+            />
+          </Text>
           <Text>
             {translateAccessibility(
               'content.contactAdministrativeAgency.phone',

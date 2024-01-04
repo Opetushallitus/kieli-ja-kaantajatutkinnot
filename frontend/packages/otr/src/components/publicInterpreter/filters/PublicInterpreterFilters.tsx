@@ -10,7 +10,6 @@ import {
   useState,
 } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   H3,
@@ -68,13 +67,10 @@ export const PublicInterpreterFilters = ({
   };
 
   const defaultValuesState: PublicInterpreterFilterValues = {
-    fromLang: languageToComboBoxOption(
-      translateLanguage,
-      QualificationUtils.defaultFromLang,
-    ),
-    toLang: null,
+    fromLang: '',
+    toLang: '',
     name: '',
-    region: null,
+    region: '',
   };
 
   // State
@@ -136,28 +132,29 @@ export const PublicInterpreterFilters = ({
       setSearchButtonDisabled(false);
     };
 
-  const handleComboboxFilterChange =
-    (filterName: SearchFilter) =>
-    (
-      {},
-      value: AutocompleteValue,
-      reason:
-        | 'selectOption'
-        | 'createOption'
-        | 'removeOption'
-        | 'blur'
-        | 'clear',
-    ) => {
-      if (reason === 'clear') {
-        setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
-        setValues((prevState) => ({ ...prevState, [filterName]: null }));
-      } else {
-        setFilters((prevState) => ({
-          ...prevState,
-          [filterName]: value?.value || '',
-        }));
-        setValues((prevState) => ({ ...prevState, [filterName]: value }));
-      }
+  const handleRegionChange = (region?: string) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [SearchFilter.Region]: region || '',
+    }));
+    setValues((prevState) => ({
+      ...prevState,
+      [SearchFilter.Region]: region || '',
+    }));
+    setSearchButtonDisabled(false);
+  };
+
+  const handleLanguageChange =
+    (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
+    (language?: string) => {
+      setFilters((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      setValues((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
       setSearchButtonDisabled(false);
     };
 
@@ -178,10 +175,8 @@ export const PublicInterpreterFilters = ({
   const getComboBoxAttributes = (fieldName: SearchFilter) => ({
     onInputChange: handleComboboxInputChange(fieldName),
     inputValue: inputValues[fieldName],
-    value: values[fieldName] as AutocompleteValue,
     autoHighlight: true,
     variant: TextFieldVariant.Outlined,
-    onChange: handleComboboxFilterChange(fieldName),
   });
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -223,6 +218,12 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
+              onLanguageChange={handleLanguageChange(SearchFilter.FromLang)}
+              value={
+                values.fromLang
+                  ? languageToComboBoxOption(translateLanguage, values.fromLang)
+                  : null
+              }
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
               id="filters-from-lang"
@@ -236,6 +237,12 @@ export const PublicInterpreterFilters = ({
             <LanguageSelect
               data-testid="public-interpreter-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
+              value={
+                values.toLang
+                  ? languageToComboBoxOption(translateLanguage, values.toLang)
+                  : null
+              }
+              onLanguageChange={handleLanguageChange(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
               id="filters-to-lang"
@@ -264,6 +271,17 @@ export const PublicInterpreterFilters = ({
           <ComboBox
             data-testid="public-interpreter-filters__region-combobox"
             {...getComboBoxAttributes(SearchFilter.Region)}
+            value={
+              values[SearchFilter.Region]
+                ? {
+                    label: RegionUtils.translateRegion(
+                      values[SearchFilter.Region]
+                    ),
+                    value: values[SearchFilter.Region],
+                  }
+                : null
+            }
+            onChange={handleRegionChange}
             placeholder={t('region.placeholder')}
             label={t('region.placeholder')}
             id="filters-region"

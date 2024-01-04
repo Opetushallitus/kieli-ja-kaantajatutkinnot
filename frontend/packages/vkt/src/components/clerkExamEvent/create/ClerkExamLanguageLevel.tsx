@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ComboBox, H3 } from 'shared/components';
 import { TextFieldVariant } from 'shared/enums';
-import { AutocompleteValue } from 'shared/interfaces';
 
 import { useClerkTranslation, useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
@@ -29,8 +28,8 @@ export const ClerkExamLanguageLevel = ({
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
 
-  const onLangLevelChange = ({}, value: AutocompleteValue) => {
-    const [language, level] = (value?.value.split('-') as [
+  const onLangLevelChange = (languageAndLevel?: string) => {
+    const [language, level] = (languageAndLevel?.split('-') as [
       Exclude<ExamLanguage, ExamLanguage.ALL>,
       ExamLevel,
     ]) || [undefined, undefined];

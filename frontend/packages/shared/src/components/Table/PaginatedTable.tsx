@@ -3,21 +3,13 @@ import {
   LabelDisplayedRowsArgs,
   Table,
   TableBody,
-  TablePagination,
 } from '@mui/material';
-import { ChangeEvent, Fragment, useRef, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 
 import { CustomTableProps } from './CustomTable';
+import { Pagination } from './Pagination';
 import { WithId } from '../../interfaces/with';
 import './Table.scss';
-
-export const defaultDisplayedRowsLabel = ({
-  from,
-  to,
-  count,
-}: LabelDisplayedRowsArgs) => {
-  return `${from} - ${to} / ${count}`;
-};
 
 export interface PaginatedTableProps<T extends WithId>
   extends CustomTableProps<T> {
@@ -48,17 +40,13 @@ export function PaginatedTable<T extends WithId>({
   data,
   getRowDetails,
   initialRowsPerPage,
-  rowsPerPageOptions,
   className,
   stickyHeader,
   showBottomPagination = true,
-  rowsPerPageLabel,
   headerContent,
   size = 'medium',
-  labelDisplayedRows,
-  backIconButtonProps,
-  nextIconButtonProps,
   controlledPaging,
+  ...paginationOnlyProps
 }: PaginatedTableProps<T>): JSX.Element {
   const headerRef = useRef<HTMLDivElement>(null);
   const [internalPage, setInternalPage] = useState(0);
@@ -67,29 +55,23 @@ export function PaginatedTable<T extends WithId>({
     setPage(page);
     headerRef.current?.scrollIntoView();
   };
-  const handleRowsPerPageChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleRowsPerPageChange = (rowsPerPage: number) => {
     handlePageChange(0);
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(rowsPerPage);
   };
 
   const page = controlledPaging?.page ?? internalPage;
   const setPage = controlledPaging?.setPage ?? setInternalPage;
   const count = data.length;
 
-  const Pagination = ({ page }: { page: number }) => (
-    <TablePagination
-      className="table__head-box__pagination"
-      count={count}
-      component="div"
-      onPageChange={(_event, newPage) => handlePageChange(newPage)}
+  const paginationControls = (
+    <Pagination
       page={page}
-      onRowsPerPageChange={handleRowsPerPageChange}
+      count={count}
+      handlePageChange={handlePageChange}
+      handleRowsPerPageChange={handleRowsPerPageChange}
       rowsPerPage={rowsPerPage}
-      rowsPerPageOptions={rowsPerPageOptions}
-      labelRowsPerPage={rowsPerPageLabel}
-      labelDisplayedRows={labelDisplayedRows ?? defaultDisplayedRowsLabel}
-      backIconButtonProps={backIconButtonProps}
-      nextIconButtonProps={nextIconButtonProps}
+      {...paginationOnlyProps}
     />
   );
 
@@ -97,7 +79,7 @@ export function PaginatedTable<T extends WithId>({
     <>
       <div ref={headerRef} className="table__head-box">
         {headerContent}
-        <Pagination page={page} />
+        {paginationControls}
       </div>
 
       <Table
@@ -114,7 +96,7 @@ export function PaginatedTable<T extends WithId>({
             })}
         </TableBody>
       </Table>
-      {showBottomPagination && <Pagination page={page} />}
+      {showBottomPagination && paginationControls}
     </>
   );
 }

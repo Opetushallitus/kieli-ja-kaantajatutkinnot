@@ -20,7 +20,7 @@ beforeEach(() => {
     { fixture: 'public_translators_50.json' },
     () => cy.openPublicHomePage(),
   );
-  onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
+  onPublicTranslatorFilters.filterByLanguagePair(false, 'suomi', 'ruotsi');
   onPublicTranslatorsListing.selectTranslatorRows(TEST_TRANSLATOR_IDS);
   onPublicTranslatorsListing.openContactRequest();
 });

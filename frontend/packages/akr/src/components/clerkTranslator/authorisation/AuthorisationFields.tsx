@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomButton,
   CustomSwitch,
@@ -80,20 +79,19 @@ export const AuthorisationFields = ({
   }, [setAuthorisation]);
 
   const handleLanguageSelectChange =
-    (fieldName: string) =>
-    ({}, value: AutocompleteValue) => {
+    (fieldName: string) => (language?: string) => {
       setAuthorisation({
         ...authorisation,
         languagePair: {
           ...authorisation.languagePair,
-          [fieldName]: value?.value,
+          [fieldName]: language,
         },
       });
       setIsAuthorisationDataChanged(true);
     };
 
-  const handleBasisChange = ({}, value: AutocompleteValue) => {
-    const basis = value?.value as AuthorisationBasis;
+  const handleBasisChange = (value?: string) => {
+    const basis = value as AuthorisationBasis;
     const examinationDate =
       basis === AuthorisationBasisEnum.AUT
         ? authorisation.examinationDate
@@ -109,8 +107,8 @@ export const AuthorisationFields = ({
     setIsAuthorisationDataChanged(true);
   };
 
-  const handleTermBeginDateChange = ({}, value: AutocompleteValue) => {
-    const termBeginDate = value?.value ? dayjs(value?.value) : undefined;
+  const handleTermBeginDateChange = (value?: string) => {
+    const termBeginDate = value ? dayjs(value) : undefined;
     const termEndDate = getNewTermEndDate(authorisation.basis, termBeginDate);
 
     setAuthorisation({
@@ -132,10 +130,10 @@ export const AuthorisationFields = ({
       : undefined;
   };
 
-  const handleExaminationDateChange = ({}, value: AutocompleteValue) => {
+  const handleExaminationDateChange = (value?: string) => {
     setAuthorisation({
       ...authorisation,
-      examinationDate: value?.value ? dayjs(value?.value) : undefined,
+      examinationDate: value ? dayjs(value) : undefined,
     });
     setIsAuthorisationDataChanged(true);
   };
@@ -207,7 +205,7 @@ export const AuthorisationFields = ({
               label={t('fieldPlaceholders.from')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(authorisation.languagePair.from)}
-              onChange={handleLanguageSelectChange('from')}
+              onLanguageChange={handleLanguageSelectChange('from')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
                 authorisation.languagePair.to,
@@ -226,7 +224,7 @@ export const AuthorisationFields = ({
               label={t('fieldPlaceholders.to')}
               variant={TextFieldVariant.Outlined}
               value={getLanguageSelectValue(authorisation.languagePair.to)}
-              onChange={handleLanguageSelectChange('to')}
+              onLanguageChange={handleLanguageSelectChange('to')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
                 authorisation.languagePair.from,

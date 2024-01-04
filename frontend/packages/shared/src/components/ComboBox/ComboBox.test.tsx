@@ -18,7 +18,8 @@ describe('ComboBox', () => {
           variant={TextFieldVariant.Outlined}
           values={values}
           value={null}
-        />,
+          onChange={jest.fn()}
+        />
       )
       .toJSON();
 

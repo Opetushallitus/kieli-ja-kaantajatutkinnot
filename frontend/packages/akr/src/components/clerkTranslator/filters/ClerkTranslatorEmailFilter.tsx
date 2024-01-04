@@ -1,4 +1,4 @@
-import { AutocompleteValue, ComboBox, H3 } from 'shared/components';
+import { ComboBox, H3 } from 'shared/components';
 import { TextFieldVariant } from 'shared/enums';
 
 import { useAppTranslation } from 'configs/i18n';
@@ -19,9 +19,8 @@ export const ClerkTranslatorEmailFilter = () => {
   const dispatch = useAppDispatch();
 
   const handleFilterChange =
-    (filter: keyof ClerkTranslatorFilter) =>
-    ({}, value: AutocompleteValue) => {
-      dispatch(addClerkTranslatorFilter({ [filter]: value?.value }));
+    (filter: keyof ClerkTranslatorFilter) => (value?: string) => {
+      dispatch(addClerkTranslatorFilter({ [filter]: value }));
       dispatch(setPage(0));
     };
 

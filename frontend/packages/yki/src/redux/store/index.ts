@@ -16,6 +16,7 @@ import { publicIdentificationReducer } from 'redux/reducers/publicIdentification
 import { registrationReducer } from 'redux/reducers/registration';
 import { reservationReducer } from 'redux/reducers/reservation';
 import { sessionReducer } from 'redux/reducers/session';
+import { userOpenRegistrationsReducer } from 'redux/reducers/userOpenRegistrations';
 import rootSaga from 'redux/sagas/index';
 
 const saga = createSagaMiddleware();
@@ -31,6 +32,7 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   reservation: reservationReducer,
   session: sessionReducer,
+  userOpenRegistrations: userOpenRegistrationsReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {

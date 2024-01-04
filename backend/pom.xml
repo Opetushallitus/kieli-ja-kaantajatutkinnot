@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.0</version>
+    <version>3.1.5</version>
     <relativePath/>
   </parent>
   <!-- lookup parent from repository -->
@@ -30,9 +30,12 @@
 
     <plugin.prettier.goal>write</plugin.prettier.goal>
 
-    <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
+    <!-- openai v2 https://springdoc.org/#migrating-from-springdoc-v1 -->
+    <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
+    <!-- latest version for Java 17 https://github.com/lukas-krecan/ShedLock#versions -->
     <shedlock.version>4.44.0</shedlock.version>
-    <poi.version>5.2.3</poi.version>
+    <poi.version>5.2.4</poi.version>
+    <liquibase.version>4.24.0</liquibase.version>
   </properties>
 
   <dependencies>
@@ -67,6 +70,7 @@
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
+      <version>${liquibase.version}</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -86,21 +90,6 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-webmvc-core</artifactId>
-      <version>${springdoc-openapi.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-security</artifactId>
-      <version>${springdoc-openapi.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-data-rest</artifactId>
       <version>${springdoc-openapi.version}</version>
     </dependency>
 

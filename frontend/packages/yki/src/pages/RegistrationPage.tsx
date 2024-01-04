@@ -56,33 +56,26 @@ export const RegistrationPage: FC = () => {
           item
           className="public-registration-page__grid-container__item-header"
         >
-          <Alert
-            className="public-registration-page__link-to-old-ui"
-            severity={Severity.Info}
-          >
-            {t('oldUILink.text')}{' '}
-            <Link href={t('oldUILink.link')}>{t('oldUILink.linkText')}</Link>
-          </Alert>
           <H1 data-testid="public-registration-page__title-heading">
             {t('title')}
           </H1>
           <HeaderSeparator />
           <div className="rows gapped">
+            <Text>{t('description.part1.text')}</Text>
             <div>
-              <Text>{t('description.part1.text')}</Text>
+              <Text>{t('description.part2.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part1.link.url')} target="_blank">
-                  <Text>{t('description.part1.link.label')}</Text>
+                <Link href={t('description.part2.link.url')} target="_blank">
+                  <Text>{t('description.part2.link.label')}</Text>
                 </Link>
                 <OpenInNewIcon />
               </div>
             </div>
-            <Text>{t('description.part2.general')}</Text>
             <div>
-              <Text>{t('description.part2.languages')}</Text>
+              <Text>{t('description.part3.text')}</Text>
               <div className="columns gapped-xxs">
-                <Link href={t('description.part2.link.url')} target="_blank">
-                  <Text>{t('description.part2.link.label')}</Text>
+                <Link href={t('description.part3.link.url')} target="_blank">
+                  <Text>{t('description.part3.link.label')}</Text>
                 </Link>
                 <OpenInNewIcon />
               </div>

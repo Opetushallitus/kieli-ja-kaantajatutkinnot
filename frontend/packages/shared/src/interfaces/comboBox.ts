@@ -5,6 +5,7 @@ import { TextFieldVariant } from '../enums/common';
 export type ComboBoxOption = { label: string; value: string };
 export type AutocompleteValue = ComboBoxOption | null;
 export interface ComboBoxProps {
+  'data-testid'?: string;
   label?: string;
   showInputLabel?: boolean;
   helperText?: string;

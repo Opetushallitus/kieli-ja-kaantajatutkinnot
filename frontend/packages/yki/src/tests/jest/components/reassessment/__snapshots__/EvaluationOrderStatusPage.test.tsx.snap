@@ -107,7 +107,7 @@ exports[`EvaluationOrderStatusPage should render view correctly on successful pa
     <h1
       className="MuiTypography-root MuiTypography-h1 css-o2w69a-MuiTypography-root"
     >
-      Olet lähettänyt tarkistusarviointipyynnön!
+      Olet pyytänyt tarkistusarviointia!
     </h1>
     <div
       className="header-separator MuiBox-root css-0"

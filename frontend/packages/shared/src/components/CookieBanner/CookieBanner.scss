@@ -14,6 +14,11 @@
       min-width: 96px;
     }
 
+    & &__dialog-container {
+      padding: 20px 24px;
+      padding-top: 0px;
+    }
+
     & &__dialog-content {
       height: calc(100% - map.get(maps.$spacing, 'lg'));
       padding-bottom: map.get(maps.$spacing, 'lg');
@@ -21,6 +26,15 @@
       @include mixins.desktop-and-up {
         padding-bottom: 0;
       }
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: 500;
+      font-size: 2rem;
+      line-height: 1.6;
+      letter-spacing: 0.0075em;
+      padding: 16px 24px;
     }
   }
 }

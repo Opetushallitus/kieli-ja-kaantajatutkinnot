@@ -13,9 +13,10 @@ beforeEach(() => {
 });
 
 describe('PublicTranslatorFilters', () => {
+  const isPhone = false;
   it('should allow filtering results by language pair, name and town', () => {
     onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (50)');
-    onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
+    onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
     onPublicTranslatorsListing.expectTranslatorsCount(25);
 
     onPublicTranslatorFilters.filterByTown('Helsinki');
@@ -48,7 +49,7 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('should clear filters and listed translators when the reset button is clicked', () => {
-    onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
+    onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
     onPublicTranslatorFilters.expectSearchButtonText('Näytä tulokset (25)');
     onPublicTranslatorsListing.expectTranslatorsCount(25);
 
@@ -57,7 +58,7 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('it should provide all other languages under langs.to as toLang options if fromLang is a primary language', () => {
-    onPublicTranslatorFilters.selectFromLangByName('ruotsi');
+    onPublicTranslatorFilters.selectFromLangByName(isPhone, 'ruotsi');
 
     const selectableLangs = [
       'suomi',
@@ -72,14 +73,14 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('it should provide only primary languages under langs.to as toLang options if fromLang is a secondary language', () => {
-    onPublicTranslatorFilters.selectFromLangByName('saksa');
+    onPublicTranslatorFilters.selectFromLangByName(isPhone, 'saksa');
 
     const selectableLangs = ['suomi', 'ruotsi', 'koltansaame'];
     onPublicTranslatorFilters.expectToLangSelectValues(selectableLangs);
   });
 
   it('it should provide all other languages under langs.from as fromLang options if toLang is a primary language', () => {
-    onPublicTranslatorFilters.selectToLangByName('suomi');
+    onPublicTranslatorFilters.selectToLangByName(isPhone, 'suomi');
 
     const selectableLangs = [
       'ruotsi',
@@ -94,7 +95,7 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('it should provide only primary languages under langs.from as fromLang options if toLang is a secondary language', () => {
-    onPublicTranslatorFilters.selectToLangByName('viro');
+    onPublicTranslatorFilters.selectToLangByName(isPhone, 'viro');
 
     const selectableLangs = ['suomi', 'ruotsi', 'inarinsaame', 'pohjoissaame'];
     onPublicTranslatorFilters.expectFromLangSelectValues(selectableLangs);
@@ -108,7 +109,7 @@ describe('PublicTranslatorFilters', () => {
   });
 
   it('it should show a toast notification when language pair is defined, a translator is selected, and user tries to change from lang', () => {
-    onPublicTranslatorFilters.filterByLanguagePair('suomi', 'ruotsi');
+    onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
     onPublicTranslatorsListing.clickTranslatorRow('1940');
     onPublicTranslatorFilters.clickFromLang();
 
@@ -117,7 +118,7 @@ describe('PublicTranslatorFilters', () => {
 
   it('it should enable / disable search button correctly', () => {
     onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
-    onPublicTranslatorFilters.selectFromLangByName('suomi');
+    onPublicTranslatorFilters.selectFromLangByName(isPhone, 'suomi');
     onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');
     onPublicTranslatorFilters.emptySearch();
     onPublicTranslatorFilters.expectSearchButtonTo('be.enabled');

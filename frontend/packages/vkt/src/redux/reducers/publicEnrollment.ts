@@ -14,6 +14,7 @@ export interface PublicEnrollmentState {
   enrollmentInitialisationStatus: APIResponseStatus;
   renewReservationStatus: APIResponseStatus;
   enrollmentSubmitStatus: APIResponseStatus;
+  paymentLoadingStatus: APIResponseStatus;
   cancelStatus: APIResponseStatus;
   enrollment: PublicEnrollment;
   examEvent?: PublicExamEvent;
@@ -26,6 +27,7 @@ export const initialState: PublicEnrollmentState = {
   enrollmentInitialisationStatus: APIResponseStatus.NotStarted,
   renewReservationStatus: APIResponseStatus.NotStarted,
   enrollmentSubmitStatus: APIResponseStatus.NotStarted,
+  paymentLoadingStatus: APIResponseStatus.NotStarted,
   cancelStatus: APIResponseStatus.NotStarted,
   enrollment: {
     email: '',
@@ -174,6 +176,9 @@ const publicEnrollmentSlice = createSlice({
         state.enrollment.examEventId = action.payload;
       }
     },
+    setLoadingPayment(state) {
+      state.paymentLoadingStatus = APIResponseStatus.InProgress;
+    },
   },
 });
 
@@ -196,4 +201,5 @@ export const {
   rejectPublicEnrollmentSave,
   storePublicEnrollmentSave,
   setPublicEnrollmentExamEventIdIfNotSet,
+  setLoadingPayment,
 } = publicEnrollmentSlice.actions;

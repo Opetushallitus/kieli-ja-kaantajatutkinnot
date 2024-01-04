@@ -1,18 +1,18 @@
 import { Typography } from '@mui/material';
-import { LabelDisplayedRowsArgs } from '@mui/material/TablePagination';
 import { Box } from '@mui/system';
 import { useEffect, useRef } from 'react';
 import {
   CustomCircularProgress,
   H3,
   ManagedPaginatedTable,
+  Text,
 } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
 import { PublicExamSessionListingHeader } from 'components/registration/examSession/PublicExamSessionListingHeader';
 import { PublicExamSessionListingRow } from 'components/registration/examSession/PublicExamSessionListingRow';
-import { useCommonTranslation } from 'configs/i18n';
+import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppSelector } from 'configs/redux';
 import { ExamSession } from 'interfaces/examSessions';
 import { examSessionsSelector } from 'redux/selectors/examSessions';
@@ -22,16 +22,42 @@ const getRowDetails = (examSession: ExamSession) => {
   return <PublicExamSessionListingRow examSession={examSession} />;
 };
 
-const getDisplayedRowsLabel = (
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  t: any,
-  { from, to, count }: LabelDisplayedRowsArgs,
-) => {
-  return t('component.table.pagination.displayedRowsLabel', {
-    from,
-    to,
-    count,
-  });
+const DisplayedRowsLabel = ({
+  from,
+  to,
+  count,
+}: {
+  from: number;
+  to: number;
+  count: number;
+}) => {
+  const translateCommon = useCommonTranslation();
+  const { isPhone } = useWindowProperties();
+  const fullLabelText = translateCommon(
+    'component.table.pagination.displayedRowsAriaLabel',
+    {
+      from,
+      to,
+      count,
+    }
+  );
+
+  if (isPhone) {
+    return (
+      <>
+        <p className="display-none">{fullLabelText}</p>
+        <p aria-hidden="true">
+          {translateCommon('component.table.pagination.displayedRowsLabel', {
+            from,
+            to,
+            count,
+          })}
+        </p>
+      </>
+    );
+  } else {
+    return fullLabelText;
+  }
 };
 
 export const PublicExamSessionsTable = ({
@@ -65,9 +91,9 @@ export const PublicExamSessionsTable = ({
       rowsPerPageLabel={translateCommon(
         'component.table.pagination.rowsPerPage',
       )}
-      labelDisplayedRows={(args) =>
-        getDisplayedRowsLabel(translateCommon, args)
-      }
+      labelDisplayedRows={({ from, to, count }) => (
+        <DisplayedRowsLabel from={from} to={to} count={count} />
+      )}
       backIconButtonProps={TableUtils.getPaginationBackButtonProps()}
       nextIconButtonProps={TableUtils.getPaginationNextButtonProps()}
       stickyHeader
@@ -90,6 +116,9 @@ export const PublicExamSessionListing = ({
   rowsPerPage: number;
   rowsPerPageOptions: Array<number>;
 }) => {
+  const { t } = usePublicTranslation({
+    keyPrefix: 'yki.pages.registrationPage.examSessionListing',
+  });
   const translateCommon = useCommonTranslation();
   const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
@@ -139,14 +168,18 @@ export const PublicExamSessionListing = ({
               })}
             </Typography>
           </div>
-          <PublicExamSessionsTable
-            examSessions={examSessions}
-            onPageChange={onPageChange}
-            onRowsPerPageChange={onRowsPerPageChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={rowsPerPageOptions}
-          />
+          {examSessions.length > 0 ? (
+            <PublicExamSessionsTable
+              examSessions={examSessions}
+              onPageChange={onPageChange}
+              onRowsPerPageChange={onRowsPerPageChange}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
+          ) : (
+            <Text className="margin-top-lg">{t('noResults')}</Text>
+          )}
         </>
       );
   }

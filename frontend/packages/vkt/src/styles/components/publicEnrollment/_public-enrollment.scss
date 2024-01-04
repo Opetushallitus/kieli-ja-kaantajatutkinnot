@@ -73,6 +73,10 @@
       &__privacy-statement-checkbox-label {
         margin-right: 0;
         padding-left: 1rem;
+
+        & span:last-child {
+          margin-bottom: -0.5rem;
+        }
       }
     }
 

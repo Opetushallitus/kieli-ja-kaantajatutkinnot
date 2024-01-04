@@ -5,12 +5,12 @@ import {
   KeyboardEvent,
   SetStateAction,
   SyntheticEvent,
+  useCallback,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import {
-  AutocompleteValue,
   Caption,
   ComboBox,
   CustomButton,
@@ -80,10 +80,10 @@ export const PublicTranslatorFilters = ({
   const [filters, setFilters] = useState(defaultFiltersState);
   const [searchButtonDisabled, setSearchButtonDisabled] = useState(false);
   const defaultValuesState: PublicTranslatorFilterValues = {
-    fromLang: null,
-    toLang: null,
+    fromLang: '',
+    toLang: '',
     name: '',
-    town: null,
+    town: '',
   };
   const debounce = useDebounce(300);
 
@@ -161,29 +161,31 @@ export const PublicTranslatorFilters = ({
       setSearchButtonDisabled(false);
     };
 
-  const handleComboboxFilterChange =
-    (filterName: SearchFilter) =>
-    (
-      {},
-      value: AutocompleteValue,
-      reason:
-        | 'selectOption'
-        | 'createOption'
-        | 'removeOption'
-        | 'blur'
-        | 'clear',
-    ) => {
-      if (reason === 'clear') {
-        setFilters((prevState) => ({ ...prevState, [filterName]: '' }));
-        setValues((prevState) => ({ ...prevState, [filterName]: null }));
-      } else {
-        setFilters((prevState) => ({
-          ...prevState,
-          [filterName]: value?.value || '',
-        }));
-        setValues((prevState) => ({ ...prevState, [filterName]: value }));
-      }
-      dispatch(removePublicTranslatorFilterError(filterName));
+  const handleTownChange = (value?: string) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      [SearchFilter.Town]: value || '',
+    }));
+    setValues((prevState) => ({
+      ...prevState,
+      [SearchFilter.Town]: value || '',
+    }));
+    dispatch(removePublicTranslatorFilterError(SearchFilter.Town));
+    setSearchButtonDisabled(false);
+  };
+
+  const onLanguageChange =
+    (languageField: SearchFilter.FromLang | SearchFilter.ToLang) =>
+    (language?: string) => {
+      setFilters((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      setValues((prevState) => ({
+        ...prevState,
+        [languageField]: language || '',
+      }));
+      dispatch(removePublicTranslatorFilterError(languageField));
       setSearchButtonDisabled(false);
     };
 
@@ -204,10 +206,8 @@ export const PublicTranslatorFilters = ({
   const getComboBoxAttributes = (fieldName: SearchFilter) => ({
     onInputChange: handleComboboxInputChange(fieldName),
     inputValue: inputValues[fieldName],
-    value: values[fieldName] as AutocompleteValue,
     autoHighlight: true,
     variant: TextFieldVariant.Outlined,
-    onChange: handleComboboxFilterChange(fieldName),
   });
 
   const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -227,16 +227,24 @@ export const PublicTranslatorFilters = ({
     }
   };
 
-  const townAsComboboxOption = (publicTown: PublicTown) => {
-    const country = publicTown.country
-      ? translateCountry(publicTown.country)
-      : '';
-    const value = `${publicTown.name}::${publicTown.country ?? ''}`;
-    const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
-    const label = country ? `${townName} (${country})` : townName;
+  const townAsComboboxOption = useCallback(
+    (publicTown: PublicTown) => {
+      const country = publicTown.country
+        ? translateCountry(publicTown.country)
+        : '';
+      const value = `${publicTown.name}::${publicTown.country ?? ''}`;
+      const townName = isCurrentLangSv() ? publicTown.nameSv : publicTown.name;
+      const label = country ? `${townName} (${country})` : townName;
 
-    return { value, label };
-  };
+      return { value, label };
+    },
+    [translateCountry]
+  );
+
+  const memoizedTownOptions = useMemo(
+    () => towns.map(townAsComboboxOption),
+    [townAsComboboxOption, towns]
+  );
 
   const renderPhoneBottomAppBar = () =>
     isPhone &&
@@ -276,6 +284,14 @@ export const PublicTranslatorFilters = ({
             <LanguageSelect
               data-testid="public-translator-filters__from-language-select"
               {...getComboBoxAttributes(SearchFilter.FromLang)}
+              value={
+                values.fromLang
+                  ? {
+                      label: translateLanguage(values.fromLang),
+                      value: values.fromLang,
+                    }
+                  : null
+              }
               showError={hasError(SearchFilter.FromLang)}
               label={t('languagePair.fromPlaceholder')}
               placeholder={t('languagePair.fromPlaceholder')}
@@ -290,10 +306,19 @@ export const PublicTranslatorFilters = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.toLang}
               translateLanguage={translateLanguage}
+              onLanguageChange={onLanguageChange(SearchFilter.FromLang)}
             />
             <LanguageSelect
               data-testid="public-translator-filters__to-language-select"
               {...getComboBoxAttributes(SearchFilter.ToLang)}
+              value={
+                values.toLang
+                  ? {
+                      label: translateLanguage(values.toLang),
+                      value: values.toLang,
+                    }
+                  : null
+              }
               showError={hasError(SearchFilter.ToLang)}
               label={t('languagePair.toPlaceholder')}
               placeholder={t('languagePair.toPlaceholder')}
@@ -308,6 +333,7 @@ export const PublicTranslatorFilters = ({
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.fromLang}
               translateLanguage={translateLanguage}
+              onLanguageChange={onLanguageChange(SearchFilter.ToLang)}
             />
           </Box>
         </div>
@@ -328,11 +354,19 @@ export const PublicTranslatorFilters = ({
           <ComboBox
             data-testid="public-translator-filters__town-combobox"
             {...getComboBoxAttributes(SearchFilter.Town)}
+            value={
+              values.town
+                ? memoizedTownOptions.filter(
+                    ({ value }) => values.town === value
+                  )[0]
+                : null
+            }
             placeholder={t('town.placeholder')}
             label={t('town.placeholder')}
             id="filters-town"
-            values={towns.map(townAsComboboxOption)}
+            values={memoizedTownOptions}
             onKeyUp={handleKeyUp}
+            onChange={handleTownChange}
           />
         </div>
       </div>

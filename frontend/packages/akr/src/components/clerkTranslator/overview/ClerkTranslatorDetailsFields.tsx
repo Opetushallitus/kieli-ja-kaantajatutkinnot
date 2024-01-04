@@ -1,7 +1,6 @@
 import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
-  //AutocompleteValue,
   //ComboBox,
   CustomSwitch,
   CustomTextField,
@@ -134,9 +133,11 @@ export const ClerkTranslatorDetailsFields = ({
   onTextFieldChange: (
     field: keyof ClerkTranslatorTextFields,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  // onComboBoxChange: (
-  //   field: keyof ClerkTranslatorBasicInformation
-  // ) => ({}, autocompleteValue?: AutocompleteValue) => void;
+  /*
+  onComboBoxChange: (
+    field: keyof ClerkTranslatorBasicInformation
+  ) => (value?: string) => void;
+  */
   onCheckBoxChange: (
     field: keyof ClerkTranslatorBasicInformation,
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;

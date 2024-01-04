@@ -5,7 +5,7 @@
       "appNameAbbreviation": "YKI",
       "appTitle": "Allmänna språkexamina - Utbildningsstyrelsen",
       "back": "Tillbaka",
-      "backToHomePage": "Tillbaka till framsidan",
+      "backToHomePage": "Tillbaka till startsidan",
       "cancel": "Avbryt",
       "component": {
         "table": {
@@ -17,7 +17,8 @@
           },
           "pagination": {
             "backButtonLabel": "Tidigare sökresultat",
-            "displayedRowsLabel": "Visas {{from}}-{{to}} / {{count}} resultat",
+            "displayedRowsAriaLabel": "Visar {{from}}-{{to}} / {{count}} resultat",
+            "displayedRowsLabel": "{{from}}-{{to}} / {{count}}",
             "nextButtonLabel": "Följande sökresultat",
             "rowsPerPage": "Resultat per sida"
           }
@@ -33,19 +34,19 @@
           "dateFormat": "Ange datum i formatet dd.mm.åååå",
           "emailFormat": "E-postadressen är felaktig",
           "maxLength": "Texten är för lång",
-          "required": "Uppgiften är oblikatorisk",
-          "personalIdentityCodeFormat": "Personbeteckningensform kunde inte identifieras",
-          "telFormat": "Telefonummret är felaktigt"
+          "required": "Uppgiften är obligatorisk",
+          "personalIdentityCodeFormat": "Personbeteckningens format kunde inte identifieras",
+          "telFormat": "Telefonnummret är felaktigt"
         },
         "loadingFailed": "Det gick inte att ladda uppgifterna.",
         "mismatchingEmails": "Innehållet i fälten för e-postadress motsvarar inte varandra",
         "registration": {
-          "alreadyRegistered": "Du kan anmäla dig endast till ett YKI-test.",
-          "examSessionFull": "Testet är fullbokat.",
-          "formExpired": "Tidsfrist för änmälningsblanketten har gått ut.",
-          "paymentCreationFailed": "Det gick inte att skicka anmälningsblankett.",
-          "personCreationFailed": "Det gick inte att skicka anmälningsblankett.",
-          "registrationPeriodClosed": "Anmälningstiden har slutat."
+          "alreadyRegistered": "Du kan endast anmäla dig till ett YKI-test.",
+          "examSessionFull": "Examenstillfället är fullbokat.",
+          "formExpired": "Tidsfristen för anmälningsblanketten har gått ut.",
+          "paymentCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
+          "personCreationFailed": "Det gick inte att skicka anmälningsblanketten.",
+          "registrationPeriodClosed": "Anmälningstiden har upphört."
         }
       },
       "examDate": "Testdag",
@@ -55,8 +56,8 @@
         "speechComprehension": "Talförståelse",
         "writing": "Skrivning"
       },
-      "examSession": "Test",
-      "examination": "Test",
+      "examSession": "Examen",
+      "examination": "Examen",
       "full": "Fullbokat",
       "gender": {
         "female": "Kvinna",
@@ -70,6 +71,9 @@
           "langSelectorAriaLabel": "Kieli / Språk / Language"
         },
         "sessionState": {
+          "activeRegistrations_one": "Du har redan påbörjat 1 anmälan.",
+          "activeRegistrations_other": "Du har redan påbörjat {{count}} anmälningar.",
+          "continueToRegistration": "Gå tillbaka till anmälningsblanketten.",
           "logOut": "Logga ut"
         },
         "lang": {
@@ -78,7 +82,7 @@
           "sv": "På svenska"
         }
       },
-      "institution": "Testställe",
+      "institution": "Testplats",
       "language": "Språk",
       "languageLevel": {
         "ALL": "alla nivåer",
@@ -98,9 +102,9 @@
         "spa": "spanska",
         "swe": "svenska"
       },
-      "level": "Nivå",
-      "loadingContent": "Sidan laddas om",
-      "loadingDone": "Sidan omladdad",
+      "level": "Färdighetsnivå",
+      "loadingContent": "Innehållet laddas",
+      "loadingDone": "Innehållet har laddats",
       "municipality": "Ort",
       "navigationProtection": {
         "description": "Du kommer att förlora dina ändringar.",
@@ -114,17 +118,17 @@
       "postAdmission": "Efterhandsanmälan",
       "price": "Pris",
       "privacyStatement": {
-        "description": "Vi följer EUs allmänna dataskyddsförordningen i behandling av personuppgifter.",
-        "grantApproval": "Jag godkänner villkoren för anmälan. *",
+        "description": "Vi följer EU:s allmänna dataskyddsförordning vid behandlingen av personuppgifter.",
+        "grantApproval": "Jag godkänner villkoren för behandlingen av personuppgifter *",
         "link": {
           "label": "Information om behandlingen av personuppgifter (oph.fi)",
           "url": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-information-om-behandlingen-av-personuppgifter"
         },
-        "readConditions": "Läs villkoren för behandling av personuppgifter på Utbildningsstyrelsens webbsidor:",
-        "title": "Villkoren för behandling av personuppgifter"
+        "readConditions": "Läs villkoren för behandling av personuppgifter på Utbildningsstyrelsens webbplats:",
+        "title": "Villkor för behandlingen av personuppgifter"
       },
       "reassessment": "Kontrollbedömning",
-      "registration": "Anmälning",
+      "registration": "Anmälan",
       "registrationPeriod": "Anmälningstid",
       "specialArrangementsLink": "https://www.oph.fi/sv/utbildning-och-examina/anmalan-till-yki-test#anchor-behover-du-specialarrangemang",
       "yes": "Ja",

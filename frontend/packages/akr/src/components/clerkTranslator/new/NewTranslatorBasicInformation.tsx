@@ -1,5 +1,4 @@
 import { ChangeEvent } from 'react';
-//import { AutocompleteValue } from 'shared/components';
 
 import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overview/ClerkTranslatorDetailsFields';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -26,11 +25,12 @@ export const NewTranslatorBasicInformation = ({
       handleFieldChange(field, event.target.value);
     };
 
-  // const handleComboBoxChange =
-  //   (field: keyof ClerkTranslatorBasicInformation) =>
-  //   ({}, autocompleteValue?: AutocompleteValue) => {
-  //     handleFieldChange(field, autocompleteValue?.value);
-  //   };
+  /*
+  const handleComboBoxChange =
+    (field: keyof ClerkTranslatorBasicInformation) => (value?: string) => {
+      handleFieldChange(field, value);
+    };
+  */
 
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>

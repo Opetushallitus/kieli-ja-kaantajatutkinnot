@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import { CustomButton, H2, LabeledTextField, Text } from 'shared/components';
 import {
   APIResponseStatus,
@@ -214,7 +215,7 @@ export const EnrollToQueue = () => {
         <>
           <H2>{t('success.heading')}</H2>
           <Text>
-            {t('success.info')}: <b>{email}</b>
+            <Trans t={t} i18nKey="success.info" values={{ email }} />
           </Text>
         </>
       );

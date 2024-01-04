@@ -10,7 +10,7 @@ import {
   PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
 } from 'interfaces/publicRegistration';
-import { storeExamSession } from 'redux/reducers/examSession';
+import { resetExamSession, storeExamSession } from 'redux/reducers/examSession';
 import {
   acceptCancelRegistration,
   acceptPublicRegistrationInit,
@@ -24,6 +24,7 @@ import {
   resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
+import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
 import { SerializationUtils } from 'utils/serialization';
@@ -74,11 +75,11 @@ function* submitRegistrationFormSaga() {
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
-          'use-yki-ui': true,
         },
       },
     );
     yield put(acceptPublicRegistrationSubmission());
+    yield put(resetUserOpenRegistrations());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('caught error!', error);
@@ -110,6 +111,8 @@ function* cancelRegistrationSaga() {
     );
     yield put(acceptCancelRegistration());
     yield put(resetPublicRegistration());
+    yield put(resetExamSession());
+    yield put(resetUserOpenRegistrations());
   } catch (error) {
     yield put(rejectCancelRegistration());
   }

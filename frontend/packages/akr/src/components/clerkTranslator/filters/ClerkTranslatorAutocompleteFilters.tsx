@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  AutocompleteValue,
   ComboBox,
   CustomTextField,
   H3,
@@ -62,11 +61,18 @@ export const ClerkTranslatorAutocompleteFilters = () => {
   };
 
   const handleFilterChange =
-    (filter: keyof ClerkTranslatorFilter) =>
-    ({}, value: AutocompleteValue) => {
-      dispatch(addClerkTranslatorFilter({ [filter]: value?.value }));
+    (filter: keyof ClerkTranslatorFilter) => (value?: string) => {
+      dispatch(addClerkTranslatorFilter({ [filter]: value }));
       dispatch(setPage(0));
     };
+  const handleFromLanguageChange = (language?: string) => {
+    dispatch(addClerkTranslatorFilter({ fromLang: language }));
+    dispatch(setPage(0));
+  };
+  const handleToLanguageChange = (language?: string) => {
+    dispatch(addClerkTranslatorFilter({ toLang: language }));
+    dispatch(setPage(0));
+  };
 
   const getPermissionToPublishSelectValues = () =>
     Object.values(PermissionToPublish).map((v) => ({
@@ -93,7 +99,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             label={t('languagePair.fromPlaceholder')}
             value={getLanguageSelectValue(filters.fromLang)}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('fromLang')}
+            onLanguageChange={handleFromLanguageChange}
             languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
               langs.from,
               filters.toLang,
@@ -108,7 +114,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             label={t('languagePair.toPlaceholder')}
             value={getLanguageSelectValue(filters.toLang)}
             variant={TextFieldVariant.Outlined}
-            onChange={handleFilterChange('toLang')}
+            onLanguageChange={handleToLanguageChange}
             languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
               langs.to,
               filters.fromLang,
