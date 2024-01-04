@@ -1,35 +1,44 @@
-import { useEffect, useCallback } from 'react';
-import { flushSync } from "react-dom";
-
-import { unstable_useBlocker as useBlocker } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
+import { Location, unstable_useBlocker as useBlocker } from 'react-router-dom';
 
 export const useNavigationProtection = (
   when: boolean,
   showConfirmationDialog: (
     confirmNavigation: () => void,
-    cancelNavigation: () => void
+    cancelNavigation: () => void,
   ) => void,
-  baseUrl?: string
+  baseUrl?: string,
 ) => {
-
-  const shouldBlock =
-    ({ currentLocation, nextLocation, historyAction }) =>
+  const shouldBlock = ({
+    currentLocation,
+    nextLocation,
+  }: {
+    currentLocation: Location;
+    nextLocation: Location;
+  }): boolean =>
+    !!(
       when &&
+      baseUrl &&
       !nextLocation.pathname.includes(baseUrl) &&
-      currentLocation.pathname !== nextLocation.pathname;
+      currentLocation.pathname !== nextLocation.pathname
+    );
 
   const blocker = useBlocker(shouldBlock);
 
   const confirmNavigation = useCallback(() => {
-    blocker.proceed();
+    if (blocker.state === 'blocked') {
+      blocker.proceed();
+    }
   }, [blocker]);
 
   const cancelNavigation = useCallback(() => {
-    blocker.reset();
+    if (blocker.state === 'blocked') {
+      blocker.reset();
+    }
   }, [blocker]);
 
   useEffect(() => {
-    if (blocker.state === "blocked") {
+    if (blocker.state === 'blocked') {
       showConfirmationDialog(confirmNavigation, cancelNavigation);
     }
   }, [blocker, confirmNavigation, cancelNavigation, showConfirmationDialog]);

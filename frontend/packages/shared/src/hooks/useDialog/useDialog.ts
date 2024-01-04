@@ -40,7 +40,7 @@ export const useDialog = () => {
 
       onDialogShow(dialog);
     },
-    [onDialogShow]
+    [onDialogShow],
   );
 
   const removeDialog = useCallback(() => {

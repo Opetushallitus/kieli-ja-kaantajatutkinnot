@@ -17,7 +17,7 @@ describe('LanguageSelect', () => {
           excludedLanguage="FI"
           primaryLanguages={['SV']}
           translateLanguage={jest.fn((l: string) => l)}
-        />
+        />,
       )
       .toJSON();
 

@@ -36,7 +36,7 @@ export const StackableMobileAppBar = ({
       const rect = target.getBoundingClientRect();
       setState(order, rect.height);
     },
-    [order, setState]
+    [order, setState],
   );
 
   const ref = useResizeObserver(onResize);

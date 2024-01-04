@@ -9,7 +9,7 @@ describe('SkipLink', () => {
         <SkipLink
           text="Link that looks like text"
           href="http://example.invalid"
-        />
+        />,
       )
       .toJSON();
 

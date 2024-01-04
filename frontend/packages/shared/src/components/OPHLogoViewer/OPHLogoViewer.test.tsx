@@ -11,7 +11,7 @@ describe('OPHLogoViewer', () => {
           direction={Direction.Horizontal}
           alt="Opetushallituksen logo"
           currentLang={AppLanguage.Finnish}
-        />
+        />,
       )
       .toJSON();
 

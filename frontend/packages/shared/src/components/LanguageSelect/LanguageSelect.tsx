@@ -7,7 +7,7 @@ import { ComboBox, sortOptionsByLabels } from '../ComboBox/ComboBox';
 
 export const languageToComboBoxOption = (
   translate: (l: string) => string,
-  lang: string
+  lang: string,
 ): ComboBoxOption => ({
   label: translate(lang),
   value: lang,
@@ -51,7 +51,7 @@ export const LanguageSelect = ({
     primaryLanguages
       ?.filter((language) => includedLanguages.includes(language))
       .map((language) =>
-        languageToComboBoxOption(translateLanguage, language)
+        languageToComboBoxOption(translateLanguage, language),
       ) || [];
 
   const secondaryOptions: Array<ComboBoxOption> = includedLanguages

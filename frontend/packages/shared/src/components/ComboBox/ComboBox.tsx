@@ -42,7 +42,7 @@ export const sortOptionsByLabels = (options: Array<ComboBoxOption>) => {
 
 const isOptionEqualToValue = (
   option: AutocompleteValue,
-  value: AutocompleteValue
+  value: AutocompleteValue,
 ) => {
   if (option === null && value === null) {
     return true;
@@ -55,7 +55,7 @@ const isOptionEqualToValue = (
 
 const filterOptions: (
   options: Array<AutocompleteValue>,
-  state: FilterOptionsState<AutocompleteValue>
+  state: FilterOptionsState<AutocompleteValue>,
 ) => Array<AutocompleteValue> = createFilterOptions({
   matchFrom: 'start',
   trim: true,

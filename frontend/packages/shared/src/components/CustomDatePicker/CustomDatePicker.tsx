@@ -56,7 +56,7 @@ export const CustomDatePicker = ({
             };
 
             return <CustomTextField {...textFieldParams} />;
-          }
+          },
         }}
       />
     </LocalizationProvider>

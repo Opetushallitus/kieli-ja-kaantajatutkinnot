@@ -9,7 +9,7 @@ describe('CustomButtonLink', () => {
       .create(
         <BrowserRouter>
           <CustomButtonLink to="/" />
-        </BrowserRouter>
+        </BrowserRouter>,
       )
       .toJSON();
 

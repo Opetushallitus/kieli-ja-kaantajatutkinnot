@@ -27,7 +27,7 @@ export interface PaginatedTableProps<T extends WithId>
   headerContent?: JSX.Element;
   showBottomPagination?: boolean;
   labelDisplayedRows?: (
-    labelDisplayedRowsArgs: LabelDisplayedRowsArgs
+    labelDisplayedRowsArgs: LabelDisplayedRowsArgs,
   ) => React.ReactNode;
   backIconButtonProps?: Partial<IconButtonProps>;
   nextIconButtonProps?: Partial<IconButtonProps>;

@@ -14,10 +14,10 @@ export const useDebounce = (delay: number) => {
       setTimerId(
         window.setTimeout(() => {
           functionToBeDebounced();
-        }, delay)
+        }, delay),
       );
     },
-    [delay]
+    [delay],
   );
 
   return debounce;

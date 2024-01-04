@@ -51,14 +51,14 @@ export const AccessibilityStatementContent: FC<
           {caveats.map(({}, i) => (
             <div className="rows gapped-xs" key={i}>
               <H3>{`${translateAccessibility(
-                `content.caveats.items.${i}.title`
+                `content.caveats.items.${i}.title`,
               )}`}</H3>
               <Text>
                 {translateAccessibility('content.caveats.description')}
               </Text>
               <Text>
                 {translateAccessibility(
-                  `content.caveats.items.${i}.description`
+                  `content.caveats.items.${i}.description`,
                 )}
               </Text>
               <div>
@@ -69,7 +69,7 @@ export const AccessibilityStatementContent: FC<
                   <Text>
                     <li>
                       {translateAccessibility(
-                        `content.caveats.items.${i}.claim`
+                        `content.caveats.items.${i}.claim`,
                       )}
                     </li>
                   </Text>
@@ -83,7 +83,7 @@ export const AccessibilityStatementContent: FC<
           <Text>{translateAccessibility('content.feedback.subtitle')}</Text>
           <Text>
             {`${translateAccessibility(
-              'content.feedback.description'
+              'content.feedback.description',
             )}: ${feedbackEmail}`}
           </Text>
         </div>
@@ -94,21 +94,21 @@ export const AccessibilityStatementContent: FC<
           <div className="inline-text-box">
             <Text>
               {translateAccessibility(
-                'content.administrativeAgency.description'
+                'content.administrativeAgency.description',
               )}
             </Text>
             <ExtLink
               sx={agencyDescriptionLinkCss}
               text={translateAccessibility(
-                'content.administrativeAgency.links.title'
+                'content.administrativeAgency.links.title',
               )}
               href={translateAccessibility(
-                'content.administrativeAgency.links.link'
+                'content.administrativeAgency.links.link',
               )}
             />
             <Text>
               {translateAccessibility(
-                'content.administrativeAgency.extraDescription'
+                'content.administrativeAgency.extraDescription',
               )}
             </Text>
           </div>
@@ -116,7 +116,7 @@ export const AccessibilityStatementContent: FC<
         <div className="rows gapped-xxs">
           <H3>
             {translateAccessibility(
-              'content.contactAdministrativeAgency.title'
+              'content.contactAdministrativeAgency.title',
             )}
           </H3>
           <Text>
@@ -129,13 +129,13 @@ export const AccessibilityStatementContent: FC<
             sx={contactLinkCss}
             className="accessibility-statement__content__link"
             text={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.title`
+              `content.contactAdministrativeAgency.links.website.title`,
             )}
             href={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.link`
+              `content.contactAdministrativeAgency.links.website.link`,
             )}
             aria-label={translateAccessibility(
-              `content.contactAdministrativeAgency.links.website.ariaLabel`
+              `content.contactAdministrativeAgency.links.website.ariaLabel`,
             )}
             endIcon={<OpenInNewIcon />}
           />
@@ -143,15 +143,15 @@ export const AccessibilityStatementContent: FC<
             sx={contactLinkCss}
             className="accessibility-statement__content__link"
             text={translateAccessibility(
-              `content.contactAdministrativeAgency.links.email.title`
+              `content.contactAdministrativeAgency.links.email.title`,
             )}
             href={`mailto:${translateAccessibility(
-              `content.contactAdministrativeAgency.links.email.link`
+              `content.contactAdministrativeAgency.links.email.link`,
             )}`}
           />
           <Text>
             {translateAccessibility(
-              'content.contactAdministrativeAgency.phone'
+              'content.contactAdministrativeAgency.phone',
             )}
           </Text>
         </div>

@@ -1,10 +1,11 @@
+@use 'sass:map';
 @use '../../styles/abstracts/colors';
 @use '../../styles/abstracts/maps';
 
 .custom-modal {
   background: colors.$color-primary;
   left: 50%;
-  padding: map-get(maps.$spacing, 'lg');
+  padding: map.get(maps.$spacing, 'lg');
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);

@@ -16,7 +16,7 @@ describe('CustomModal', () => {
         aria-labelledby="test-modal-title"
       >
         <div>Sisältöä tarvitaan</div>
-      </CustomModal>
+      </CustomModal>,
     );
     expect(baseElement).toMatchSnapshot();
   });
@@ -32,7 +32,7 @@ describe('CustomModal', () => {
         aria-labelledby="test-modal-title"
       >
         <div>Lisää tekstiä</div>
-      </CustomModal>
+      </CustomModal>,
     );
     expect(baseElement).toMatchSnapshot();
   });

@@ -11,7 +11,7 @@ describe('DatePicker', () => {
           label="test label"
           value={dayjs('2022-04-21')}
           setValue={jest.fn()}
-        />
+        />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

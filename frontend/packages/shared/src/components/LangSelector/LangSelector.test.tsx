@@ -14,7 +14,7 @@ describe('LangSelector', () => {
           changeLang={changeLang}
           langSelectorAriaLabel="aria-label"
           getCurrentLang={getCurrentLang}
-        />
+        />,
       )
       .toJSON();
 
@@ -30,7 +30,7 @@ describe('LangSelector', () => {
         changeLang={changeLang}
         langSelectorAriaLabel="aria-label"
         getCurrentLang={getCurrentLang}
-      />
+      />,
     );
 
     expect(screen.getByText('lang.fi')).toBeInTheDocument();

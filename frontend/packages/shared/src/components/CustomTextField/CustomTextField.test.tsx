@@ -17,7 +17,7 @@ describe('CustomTextField', () => {
           label="test label"
           value="wrong test value"
           error={true}
-        />
+        />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

@@ -21,7 +21,7 @@ describe('WebLink', () => {
           target=""
           startIcon={<DownloadIcon />}
           endIcon={<OpenInNewIcon />}
-        />
+        />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

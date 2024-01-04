@@ -14,7 +14,7 @@ describe('CustomIconButton', () => {
       .create(
         <CustomIconButton>
           <HelpOutlineIcon />
-        </CustomIconButton>
+        </CustomIconButton>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

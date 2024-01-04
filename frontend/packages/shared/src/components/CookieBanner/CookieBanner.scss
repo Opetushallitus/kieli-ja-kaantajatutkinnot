@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../styles/abstracts/maps';
 @use '../../styles/abstracts/mixins';
 
@@ -5,17 +6,17 @@
   &__content {
     margin-left: auto;
     margin-right: auto;
-    max-width: map-get(maps.$breakpoints, 'desktop-md');
-    padding: 0 map-get(maps.$spacing, 'lg');
-    width: calc(100% - 2 * map-get(maps.$spacing, 'lg'));
+    max-width: map.get(maps.$breakpoints, 'desktop-md');
+    padding: 0 map.get(maps.$spacing, 'lg');
+    width: calc(100% - 2 * map.get(maps.$spacing, 'lg'));
 
     & &__accept-button {
       min-width: 96px;
     }
 
     & &__dialog-content {
-      height: calc(100% - map-get(maps.$spacing, 'lg'));
-      padding-bottom: map-get(maps.$spacing, 'lg');
+      height: calc(100% - map.get(maps.$spacing, 'lg'));
+      padding-bottom: map.get(maps.$spacing, 'lg');
 
       @include mixins.desktop-and-up {
         padding-bottom: 0;
