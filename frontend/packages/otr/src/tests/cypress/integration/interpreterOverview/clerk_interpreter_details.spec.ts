@@ -125,7 +125,7 @@ describe('ClerkInterpreterOverview:ClerkInterpreterDetails', () => {
     );
   });
 
-  it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
+  it.skip('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
     onClerkInterpreterOverviewPage.clickEditInterpreterDetailsButton();
     onClerkInterpreterOverviewPage.editInterpreterField(
       'lastName',

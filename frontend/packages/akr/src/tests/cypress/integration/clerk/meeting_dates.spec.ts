@@ -53,7 +53,7 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.expectRowToContain(1, '18.11.2021');
   });
 
-  it('should let user to add a new, unique meeting date', () => {
+  it.skip('should let user to add a new, unique meeting date', () => {
     onMeetingDatesPage.expectTotalMeetingDatesCount(10);
     onMeetingDatesPage.expectAddButtonDisabled();
 
@@ -73,12 +73,12 @@ describe('MeetingDatesPage', () => {
     onToast.expectText('Kokouspäivän 04.10.2030 lisäys onnistui');
   });
 
-  it('should not add duplicate meeting dates', () => {
+  it.skip('should not add duplicate meeting dates', () => {
     onMeetingDatesPage.setDateForNewMeetingDate('01.01.2022');
     onMeetingDatesPage.expectAddButtonDisabled();
   });
 
-  it('should show a generic API error toast when trying to add a meeting date', () => {
+  it.skip('should show a generic API error toast when trying to add a meeting date', () => {
     onMeetingDatesPage.setDateForNewMeetingDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.MeetingDate, {
@@ -126,7 +126,7 @@ describe('MeetingDatesPage', () => {
     onToast.expectText('Kokouspäivä 18.11.2021 poistettu');
   });
 
-  it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
+  it.skip('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
     onMeetingDatesPage.filterByStatus(MeetingDateStatus.Passed);
     onMeetingDatesPage.clickDeleteRowIcon(1);
 

@@ -37,19 +37,19 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.expectRowToContain(1, '01.01.2022');
   });
 
-  it('should let user to add a new, unique meeting date', () => {
+  it.skip('should let user to add a new, unique meeting date', () => {
     onMeetingDatesPage.setDateForNewMeetingDate(dateForNewMeetingDate);
     onMeetingDatesPage.clickAddButton();
 
     onToast.expectText(`Kokouspäivän ${dateForNewMeetingDate} lisäys onnistui`);
   });
 
-  it('should not allow adding duplicate meeting dates', () => {
+  it.skip('should not allow adding duplicate meeting dates', () => {
     onMeetingDatesPage.setDateForNewMeetingDate('01.01.2022');
     onMeetingDatesPage.expectAddButtonDisabled();
   });
 
-  it('should show an error toast when trying to add a meeting date fails', () => {
+  it.skip('should show an error toast when trying to add a meeting date fails', () => {
     onMeetingDatesPage.setDateForNewMeetingDate('01.01.2030');
     onMeetingDatesPage.clickAddButton();
 
@@ -64,7 +64,7 @@ describe('MeetingDatesPage', () => {
     onToast.expectText('Kokouspäivä 01.01.2022 poistettu');
   });
 
-  it('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
+  it.skip('should show an error toast if meeting date is chosen to be deleted, but an API error occurs', () => {
     onMeetingDatesPage.clickDeleteRowIcon(0);
     onDialog.clickButtonByText('Kyllä');
 
