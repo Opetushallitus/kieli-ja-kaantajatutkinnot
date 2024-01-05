@@ -47,6 +47,8 @@ describe('ExamSessionUtils', () => {
     post_admission_active: false,
     registration_start_date: dayjs('2020-01-01'),
     registration_end_date: dayjs('2090-06-15'),
+    upcoming_admission: true,
+    upcoming_post_admission: false,
   };
 
   describe('compareExamSessions', () => {
@@ -143,25 +145,6 @@ describe('ExamSessionUtils', () => {
       ).toEqual(1);
     });
 
-    it('should prioritise exam sessions without ended registration period', () => {
-      expect(
-        ExamSessionUtils.compareExamSessions(baseExamSession, {
-          ...baseExamSession,
-          registration_end_date: dayjs('2021-01-01'),
-        })
-      ).toEqual(-1);
-
-      expect(
-        ExamSessionUtils.compareExamSessions(
-          {
-            ...baseExamSession,
-            registration_end_date: dayjs('2021-01-01'),
-          },
-          baseExamSession
-        )
-      ).toEqual(1);
-    });
-
     it('should prioritise comparators', () => {
       // room > queue fullness
       expect(
@@ -198,6 +181,7 @@ describe('ExamSessionUtils', () => {
             participants: baseExamSession.max_participants,
             session_date: dayjs('2098-12-31'),
             registration_end_date: dayjs('2021-01-01'),
+            open: false,
           },
           {
             ...baseExamSession,
@@ -230,6 +214,8 @@ describe('ExamSessionUtils', () => {
         post_admission_end_date: dayjs('2090-03-03'),
         post_admission_quota: 5,
         pa_participants: 3,
+        upcoming_post_admission: true,
+        upcoming_admission: false,
       };
 
       expect(
@@ -254,6 +240,7 @@ describe('ExamSessionUtils', () => {
           {
             ...postAdmissionSession,
             post_admission_end_date: dayjs('2021-03-03'),
+            upcoming_post_admission: false,
           },
           baseExamSession
         )
@@ -280,7 +267,9 @@ describe('ExamSessionUtils', () => {
       expectEffectiveRegistrationDetails(
         {
           ...baseExamSession,
-          registration_end_date: testDay.subtract(1, 'day'),
+          open: false,
+          upcoming_admission: false,
+          upcoming_post_admission: false
         },
         {
           kind: RegistrationKind.Admission,
@@ -293,14 +282,11 @@ describe('ExamSessionUtils', () => {
       expectEffectiveRegistrationDetails(
         {
           ...baseExamSession,
-          registration_end_date: testDay.subtract(1, 'day'),
-          post_admission_active: true,
-          post_admission_start_date: testDay.add(1, 'day'),
-          post_admission_end_date: testDay.add(2, 'day'),
+          upcoming_admission: false,
+          upcoming_post_admission: true
         },
         {
           kind: RegistrationKind.PostAdmission,
-          open: false,
           availableQueue: false,
         }
       );
@@ -308,10 +294,9 @@ describe('ExamSessionUtils', () => {
       expectEffectiveRegistrationDetails(
         {
           ...baseExamSession,
-          registration_end_date: testDay.subtract(2, 'day'),
+          upcoming_admission: false,
+          upcoming_post_admission: true,
           post_admission_active: true,
-          post_admission_start_date: testDay.subtract(1, 'day'),
-          post_admission_end_date: testDay.add(2, 'day'),
           pa_participants: 3,
           post_admission_quota: 10,
         },
@@ -328,26 +313,12 @@ describe('ExamSessionUtils', () => {
       expectEffectiveRegistrationDetails(
         {
           ...baseExamSession,
-          registration_end_date: testDay.subtract(1, 'day'),
+          open: false,
+          upcoming_admission: false,
+          upcoming_post_admission: false,
         },
         {
           kind: RegistrationKind.Admission,
-          open: false,
-          availablePlaces: 0,
-        }
-      );
-
-      expectEffectiveRegistrationDetails(
-        {
-          ...baseExamSession,
-          registration_end_date: testDay.subtract(3, 'day'),
-          post_admission_active: true,
-          post_admission_start_date: testDay.subtract(2, 'day'),
-          post_admission_end_date: testDay.subtract(1, 'day'),
-          post_admission_quota: 9,
-        },
-        {
-          kind: RegistrationKind.PostAdmission,
           open: false,
           availablePlaces: 0,
         }
