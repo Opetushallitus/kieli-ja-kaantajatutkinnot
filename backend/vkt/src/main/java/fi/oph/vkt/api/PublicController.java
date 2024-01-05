@@ -88,6 +88,18 @@ public class PublicController {
     return publicEnrollmentService.createEnrollment(dto, reservationId, person);
   }
 
+  @PostMapping(path = "/enrollment/update")
+  @ResponseStatus(HttpStatus.CREATED)
+  public PublicEnrollmentDTO updateEnrollment(
+    @RequestBody @Valid final PublicEnrollmentCreateDTO dto,
+    @RequestParam final long examEventId,
+    final HttpSession session
+  ) {
+    final Person person = publicPersonService.getPerson(SessionUtil.getPersonId(session));
+
+    return publicEnrollmentService.updateEnrollmentForPayment(dto, examEventId, person);
+  }
+
   @PostMapping(path = "/enrollment/queue")
   @ResponseStatus(HttpStatus.CREATED)
   public PublicEnrollmentDTO createEnrollmentToQueue(

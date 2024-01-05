@@ -20,6 +20,7 @@ import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
+  loadPublicEnrollmentUpdate,
   setLoadingPayment,
 } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
@@ -138,13 +139,20 @@ export const PublicEnrollmentControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      if (isPaymentLinkPreviewView || enrollment.id) {
+      if (isPaymentLinkPreviewView) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
             enrollment.id
           );
         }, 200);
+      } else if (enrollment.id) {
+        dispatch(
+          loadPublicEnrollmentUpdate({
+            enrollment,
+            examEventId,
+          })
+        );
       } else {
         dispatch(
           loadPublicEnrollmentSave({
