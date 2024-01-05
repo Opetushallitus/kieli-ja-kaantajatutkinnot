@@ -10,6 +10,7 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -97,7 +98,7 @@ export const PublicEnrollmentControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      if (reservation) {
+      if (enrollment.status != EnrollmentStatus.QUEUED) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
@@ -117,7 +118,7 @@ export const PublicEnrollmentControlButtons = ({
     dispatch,
     examEventId,
     enrollment.id,
-    reservation,
+    enrollment.status,
   ]);
 
   const handleBackBtnClick = () => {
