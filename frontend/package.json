@@ -1,7 +1,7 @@
 {
   "name": "@opetushallitus/kieli-ja-kaantajatutkinnot.root",
   "engines": {
-    "node": "16.16.0"
+    "node": "v20.9.0"
   },
   "packageManager": "yarn@4.0.1",
   "private": true,
@@ -31,7 +31,7 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "@mui/system": "^5.14.17",
-    "@mui/x-date-pickers": "^6.18.0",
+    "@mui/x-date-pickers": "^5.0.20",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/js-cookie": "^3.0.5",
     "axios": "^1.6.0",

@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 describe('ClerkTranslatorOverview:Page', () => {
-  it.skip('should display a "not found" message if no translator exists with the id given as the route parameter', () => {
+  it('should display a "not found" message if no translator exists with the id given as the route parameter', () => {
     onClerkTranslatorOverviewPage.navigateById(1234567890);
     onClerkTranslatorOverviewPage.expectTranslatorNotFoundText();
     cy.isOnPage(AppRoutes.ClerkHomePage);

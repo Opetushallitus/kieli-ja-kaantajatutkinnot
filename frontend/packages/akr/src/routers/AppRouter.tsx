@@ -33,10 +33,17 @@ import { StatisticsPage } from 'pages/StatisticsPage';
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
 
+  const ErrorToast = () => {
+    useAPIErrorToast();
+
+    return <></>;
+  };
+
   const Root = (
     <div className="app">
       <NotifierContextProvider>
         <Header />
+        <ErrorToast />
         <Notifier />
         <ScrollToTop />
         <main className="content" id="main-content">
@@ -52,7 +59,6 @@ export const AppRouter: FC = () => {
   useEffect(() => {
     document.title = translateCommon('appTitle');
   }, [translateCommon]);
-  useAPIErrorToast();
 
   const router = createBrowserRouter(
     createRoutesFromElements(

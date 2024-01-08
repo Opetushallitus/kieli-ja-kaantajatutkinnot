@@ -54,7 +54,7 @@ describe('ExaminationDatesPage', () => {
     onExaminationDatesPage.expectRowToContain(1, '18.11.2021');
   });
 
-  it.skip('should let user to add a new, unique examination date', () => {
+  it('should let user to add a new, unique examination date', () => {
     onExaminationDatesPage.expectTotalExaminationDatesCount(10);
     onExaminationDatesPage.expectAddButtonDisabled();
 
@@ -74,12 +74,12 @@ describe('ExaminationDatesPage', () => {
     onToast.expectText('Tutkintopäivän 04.10.2030 lisäys onnistui');
   });
 
-  it.skip('should not add duplicate examination dates', () => {
+  it('should not add duplicate examination dates', () => {
     onExaminationDatesPage.setDateForNewExaminationDate('01.01.2022');
     onExaminationDatesPage.expectAddButtonDisabled();
   });
 
-  it.skip('should show a generic API error toast when trying to add a examination date', () => {
+  it('should show a generic API error toast when trying to add a examination date', () => {
     onExaminationDatesPage.setDateForNewExaminationDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.ExaminationDate, {
@@ -128,7 +128,7 @@ describe('ExaminationDatesPage', () => {
     onToast.expectText('Tutkintopäivä 18.11.2021 poistettu');
   });
 
-  it.skip('should show an error toast if examination date is chosen to be deleted, but an API error occurs', () => {
+  it('should show an error toast if examination date is chosen to be deleted, but an API error occurs', () => {
     onExaminationDatesPage.filterByStatus(ExaminationDateStatus.Passed);
     onExaminationDatesPage.clickDeleteRowIcon(1);
 

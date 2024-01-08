@@ -36,15 +36,20 @@ export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
   const appTitle = translateCommon('appTitle');
 
-  useAPIErrorToast();
-
   const createTitle = (title: string) =>
     translateCommon('pageTitle.' + title) + ' - ' + appTitle;
+
+  const ErrorToast = () => {
+    useAPIErrorToast();
+
+    return <></>;
+  };
 
   const Root = (
     <div className="app">
       <NotifierContextProvider>
         <Header />
+        <ErrorToast />
         <Notifier />
         <ScrollToTop />
         <PersistGate persistor={persistor} />

@@ -46,17 +46,15 @@ export const CustomDatePicker = ({
         disabled={disabled}
         minDate={minDate ?? dayjs(MIN_DATE)}
         maxDate={maxDate ?? dayjs(MAX_DATE)}
-        slots={{
-          textField: (params) => {
-            const textFieldParams = {
-              ...params,
-              error,
-              helperText,
-              showHelperText,
-            };
+        renderInput={(params) => {
+          const textFieldParams = {
+            ...params,
+            error,
+            helperText,
+            showHelperText,
+          };
 
-            return <CustomTextField {...textFieldParams} />;
-          },
+          return <CustomTextField {...textFieldParams} />;
         }}
       />
     </LocalizationProvider>

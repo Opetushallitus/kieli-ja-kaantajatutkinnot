@@ -48,12 +48,17 @@ export const AppRouter: FC = () => {
     }
   }, [dispatch, sessionStatus]);
 
-  useAPIErrorToast();
+  const ErrorToast = () => {
+    useAPIErrorToast();
+
+    return <></>;
+  };
 
   const Root = (
     <div className="app">
       <NotifierContextProvider>
         <Header />
+        <ErrorToast />
         <Notifier />
         <ScrollToTop />
         <main className="content" id="main-content">

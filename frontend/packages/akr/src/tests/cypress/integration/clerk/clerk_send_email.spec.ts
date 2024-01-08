@@ -61,7 +61,7 @@ describe('ClerkSendEmailPage', () => {
     onToast.expectText('Sähköpostisi lähetettiin kääntäjille');
   });
 
-  it.skip('should display an error toast if there was an error when sending the email', () => {
+  it('should display an error toast if there was an error when sending the email', () => {
     fillAndSendMessage();
 
     runWithIntercept(
