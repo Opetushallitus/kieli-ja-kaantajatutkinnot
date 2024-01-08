@@ -2,9 +2,7 @@
 
 exports[`DatePicker should render correctly 1`] = `
 <div
-  className="MuiFormControl-root MuiTextField-root custom-date-picker css-z3c6am-MuiFormControl-root-MuiTextField-root"
-  onClick={[Function]}
-  onMouseUp={[Function]}
+  className="MuiFormControl-root MuiTextField-root custom-date-picker css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
 >
   <label
     className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
@@ -20,22 +18,17 @@ exports[`DatePicker should render correctly 1`] = `
   >
     <input
       aria-invalid={false}
-      autoComplete="off"
       autoFocus={false}
       className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
       disabled={false}
       id=":r0:"
-      inputMode="text"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      placeholder="MM/DD/YYYY"
-      readOnly={false}
+      placeholder="mm/dd/yyyy"
       required={false}
-      type="text"
+      type="tel"
       value="04/21/2022"
     />
     <div
