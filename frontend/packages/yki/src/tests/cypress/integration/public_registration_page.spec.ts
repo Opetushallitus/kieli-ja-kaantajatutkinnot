@@ -1,3 +1,4 @@
+import { onInitRegistrationPage } from 'tests/cypress/support/page-objects/initRegistrationPage';
 import { onPublicRegistrationPage } from 'tests/cypress/support/page-objects/publicRegistrationPage';
 import { findDialogByText } from 'tests/cypress/support/utils/dialog';
 
@@ -47,6 +48,37 @@ describe('PublicRegistrationPage', () => {
 
       onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultRowsCount(3);
+    });
+  });
+
+  describe('allows starting the exam registration process', () => {
+    it('by selecting an identification method', () => {
+      onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
+      onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.showResults();
+
+      onPublicRegistrationPage
+        .getResultRows()
+        .findByRole('button', { name: /Ilmoittaudu/ })
+        .click();
+
+      onInitRegistrationPage.expectTitle('Tunnistaudu ilmoittautumista varten');
+    });
+
+    it('or by subscribing to notifications of available seats', () => {
+      onPublicRegistrationPage.selectExamLanguage('suomi');
+      onPublicRegistrationPage.selectExamLevel('perustaso');
+      onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.showResults();
+
+      onPublicRegistrationPage
+        .getResultRows()
+        .findByRole('button', { name: /Tilaa ilmoitus peruutuspaikoista/ })
+        .click();
+
+      onInitRegistrationPage.expectTitle('Tilaa ilmoitus peruutuspaikoista');
     });
   });
 });
