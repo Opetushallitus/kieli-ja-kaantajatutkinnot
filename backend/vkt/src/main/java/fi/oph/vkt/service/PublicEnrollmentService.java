@@ -255,4 +255,21 @@ public class PublicEnrollmentService extends AbstractEnrollmentService {
 
     return enrollment;
   }
+
+  @Transactional
+  public PublicEnrollmentDTO updateEnrollmentForPayment(
+    final PublicEnrollmentCreateDTO dto,
+    final long examEventId,
+    final Person person
+  ) {
+    final ExamEvent examEvent = examEventRepository.getReferenceById(examEventId);
+    final Enrollment enrollment = createOrUpdateExistingEnrollment(
+      dto,
+      examEvent,
+      person,
+      EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT
+    );
+
+    return createEnrollmentDTO(enrollment);
+  }
 }

@@ -138,6 +138,22 @@ public class PublicEnrollmentServiceTest {
   }
 
   @Test
+  public void testUpdateCanceledEnrollment() {
+    final ExamEvent examEvent = createExamEvent(2);
+    final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
+    final Person person = enrollment.getPerson();
+
+    publicEnrollmentService.initialiseEnrollment(examEvent.getId(), person);
+    assertEquals(EnrollmentStatus.CANCELED_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+
+    final PublicEnrollmentCreateDTO dto = createDTOBuilder().oralSkill(false).digitalCertificateConsent(false).build();
+    publicEnrollmentService.updateEnrollmentForPayment(dto, examEvent.getId(), person);
+
+    assertEquals(EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT, enrollment.getStatus());
+    assertFalse(enrollment.isOralSkill());
+  }
+
+  @Test
   public void testInitialiseEnrollmentWithUnfinishedPayment() {
     final ExamEvent examEvent = createExamEvent(2);
     final Enrollment enrollment = createEnrollment(examEvent, EnrollmentStatus.EXPECTING_PAYMENT_UNFINISHED_ENROLLMENT);
