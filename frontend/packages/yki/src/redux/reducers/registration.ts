@@ -34,7 +34,7 @@ export interface RegistrationState {
   showErrors: boolean;
 }
 
-const initialState: RegistrationState = {
+export const initialState: RegistrationState = {
   activeStep: PublicRegistrationFormStep.Identify,
   initRegistration: {
     status: APIResponseStatus.NotStarted,

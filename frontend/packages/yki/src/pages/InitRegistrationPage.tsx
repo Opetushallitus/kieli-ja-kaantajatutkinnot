@@ -18,7 +18,7 @@ import { examSessionSelector } from 'redux/selectors/examSession';
 import { registrationSelector } from 'redux/selectors/registration';
 import { ExamSessionUtils } from 'utils/examSession';
 
-const ContentSelector = () => {
+export const ContentSelector = () => {
   const examSession = useAppSelector(examSessionSelector).examSession;
   if (!examSession) {
     return null;
