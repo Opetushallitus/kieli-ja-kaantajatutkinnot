@@ -162,7 +162,7 @@ export class ExamSessionUtils {
         participants: examSession.participants,
         quota: examSession.max_participants,
         availablePlaces: ExamSessionUtils.getAvailablePlaces(examSession),
-        availableQueue: !examSession.queue_full,
+        availableQueue: examSession.open && !examSession.queue_full,
         open: examSession.open,
       };
     } else {

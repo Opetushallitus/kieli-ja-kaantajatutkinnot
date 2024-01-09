@@ -269,7 +269,7 @@ describe('ExamSessionUtils', () => {
           ...baseExamSession,
           open: false,
           upcoming_admission: false,
-          upcoming_post_admission: false
+          upcoming_post_admission: false,
         },
         {
           kind: RegistrationKind.Admission,
@@ -283,7 +283,7 @@ describe('ExamSessionUtils', () => {
         {
           ...baseExamSession,
           upcoming_admission: false,
-          upcoming_post_admission: true
+          upcoming_post_admission: true,
         },
         {
           kind: RegistrationKind.PostAdmission,
@@ -321,6 +321,63 @@ describe('ExamSessionUtils', () => {
           kind: RegistrationKind.Admission,
           open: false,
           availablePlaces: 0,
+        }
+      );
+    });
+
+    it('should allow subscribing for notifications only within regular admission period', () => {
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          open: true,
+          upcoming_admission: true,
+          upcoming_post_admission: true,
+          queue_full: false,
+        },
+        {
+          availableQueue: true,
+        }
+      );
+
+      // Queue full -> availableQueue: false
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          open: true,
+          upcoming_admission: true,
+          upcoming_post_admission: true,
+          queue_full: true,
+        },
+        {
+          availableQueue: false,
+        }
+      );
+
+      // Regular admission over -> availableQueue: false
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          open: true,
+          upcoming_admission: false,
+          upcoming_post_admission: true,
+          queue_full: true,
+        },
+        {
+          availableQueue: false,
+        }
+      );
+
+      // Admission not yet started -> availableQueue: false
+      expectEffectiveRegistrationDetails(
+        {
+          ...baseExamSession,
+          open: false,
+          upcoming_admission: true,
+          upcoming_post_admission: true,
+          queue_full: true,
+        },
+        {
+          availableQueue: false,
         }
       );
     });
