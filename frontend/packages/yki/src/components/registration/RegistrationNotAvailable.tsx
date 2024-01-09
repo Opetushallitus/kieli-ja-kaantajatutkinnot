@@ -1,5 +1,4 @@
 import { Grid, Paper } from '@mui/material';
-import dayjs from 'dayjs';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -29,17 +28,16 @@ const DescribeUnavailability = ({
   );
 };
 
-const getReasonForUnavailability = (examSession: ExamSession) => {
-  const { open, start } =
-    ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  const now = dayjs();
-  const reasonForUnavailability = !open
-    ? now.isBefore(start)
-      ? 'upcoming'
-      : 'past'
-    : 'full';
-
-  return reasonForUnavailability;
+const getReasonForUnavailability = ({
+  open,
+  upcoming_admission,
+  upcoming_post_admission,
+}: ExamSession) => {
+  if (open) {
+    return 'full';
+  } else if (upcoming_admission || upcoming_post_admission) {
+    return 'upcoming';
+  } else return 'past';
 };
 
 const RegistrationUnavailableHeader = () => {
