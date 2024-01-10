@@ -22,7 +22,7 @@
     "yki:stylelint": "yarn g:stylelint --fix \"./src/**/*.scss\"",
     "yki:test:cypress": "TZ=Europe/Helsinki yarn g:cypress run",
     "yki:test:cypress:open": "TZ=Europe/Helsinki yarn g:cypress open",
-    "yki:test:jest": "yarn g:jest --verbose --runInBand --detectOpenHandles --forceExit",
+    "yki:test:jest": "yarn g:jest",
     "yki:tslint": "yarn g:tsc --pretty --noEmit"
   },
   "dependencies": {

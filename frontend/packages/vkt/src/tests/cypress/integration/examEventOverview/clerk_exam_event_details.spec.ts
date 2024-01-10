@@ -62,8 +62,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
         fieldName,
         fieldValue,
       );
-      // FIXME manual input for dates is not working
-      //onClerkExamEventOverviewPage.expectEnabledSaveExamEventDetailsButton();
+      onClerkExamEventOverviewPage.expectEnabledSaveExamEventDetailsButton();
     });
   });
 
