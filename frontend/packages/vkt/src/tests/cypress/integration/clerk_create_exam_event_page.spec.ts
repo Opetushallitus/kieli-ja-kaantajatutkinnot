@@ -23,8 +23,7 @@ describe('ClerkCreateExamEventPage', () => {
     onClerkExamEventCreatePage.saveButtonEnabledIs(false);
     onClerkExamEventCreatePage.inputMaxParticipants(20);
     onClerkExamEventCreatePage.clickIsHiddenToggle();
-    // FIXME manual date inputting is broken
-    //onClerkExamEventCreatePage.saveButtonEnabledIs(true);
+    onClerkExamEventCreatePage.saveButtonEnabledIs(true);
   });
 
   it('should allow navigating back to clerk homepage', () => {
