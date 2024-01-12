@@ -13,7 +13,7 @@ describe('PublicRegistrationPage', () => {
   describe('allows filtering exams', () => {
     it('but filter criteria must be selected first', () => {
       onPublicRegistrationPage.showResults();
-      const dialogHeading = 'Valitse tutkinnon kieli ja taitotaso';
+      const dialogHeading = 'Valitse tutkinnon kieli ja taso';
       findDialogByText(dialogHeading).should('be.visible');
       findDialogByText(dialogHeading)
         .findByText('takaisin', { exact: false })

@@ -5,7 +5,7 @@ class PublicRegistrationPage {
     filterByLanguage: () =>
       cy.findByRole('combobox', { name: /Valitse kieli/ }),
     filterByLevel: () =>
-      cy.findByRole('combobox', { name: /Valitse taitotaso/ }),
+      cy.findByRole('combobox', { name: /Valitse taso/ }),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>
