@@ -394,7 +394,7 @@
         "info": {
           "general": {
             "body1": "Vid kontrollbedömning bedöms din examensprestation på nytt. Kontrollbedömningen utförs av andra bedömare än de som utförde den första bedömningen.",
-            "body2": "Kontrollbedömningen förändrar sällan vitsordet för delprovet. Läs mer på Utbildningsstyrelsens webbplats: ",
+            "body2": "Kontrollbedömningen förändrar sällan bedömningen av delprovet. Läs mer på Utbildningsstyrelsens webbplats: ",
             "body3": "Vid kontrollbedömningen bedöms endast din prestation i testet, inga andra faktorer tas i beaktande. Beslut som gäller kontrollbedömningen får inte överklagas genom besvär.",
             "heading": "Vad innebär kontrollbedömning?",
             "link": "https://www.oph.fi/sv/utbildning-och-examina/efter-yki-testet#anchor-kontrollbedomning",
@@ -450,14 +450,14 @@
             "showResults": "Visa resultat ({{count}})"
           },
           "errorDialog": {
-            "description": "Välj först testets språk och färdighetsnivå. Tryck på VISA RESULTAT-knappen.",
-            "title": "Välj språk och färdighetsnivå"
+            "description": "Välj först testets språk och nivå. Tryck på VISA RESULTAT-knappen.",
+            "title": "Välj språk och nivå"
           },
           "errors": {
             "required": "Obligatoriskt att välja"
           },
           "heading": "Sök allmänna språkexamina (YKI)",
-          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och färdighetsnivå. Tryck på VISA RESULTAT-knappen.",
+          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på VISA RESULTAT-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
             "required": "(obligatorisk)"
@@ -468,7 +468,7 @@
           "excludeNonOpenSessions": "Visa endast examenstillfällen vars anmälan har börjat",
           "filterExamSessions": "Filtrera resultaten",
           "selectLanguage": "Välj språk",
-          "selectLevel": "Välj färdighetsnivå",
+          "selectLevel": "Välj nivå",
           "selectMunicipality": "Välj ort"
         },
         "register": "Anmäl dig",
