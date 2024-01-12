@@ -109,7 +109,7 @@
               "title": "Ilmoituksen tilaaminen ei onnistunut"
             },
             "fullQueue": {
-              "description": "Kaikki peruutuspaikat ovat juuri nyt varattuja. Voit yrittää myöhemmin uudelleen.",
+              "description": "Et voi enää tilata ilmoituksia tästä tutkinnosta. Tilaajia voi olla enintään 50.",
               "title": "Ilmoituksen tilaaminen ei onnistunut"
             },
             "inputError": {
