@@ -275,7 +275,7 @@
               },
               "success": "Ilmoittautumislinkki on lähetetty osoitteeseen:"
             },
-            "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja taitotason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
+            "registrationIsBindingAdvisory": "Tarkista, että olet valinnut oikean kielen ja tason YKI-testin. Ilmoittautuminen YKI-testiin on sitova. Et voi muuttaa ilmoittautumista vahvistamisen jälkeen.",
             "selectIdentificationMethod": "Valitse tunnistautumistapasi",
             "suomiFiButtonText": "Tunnistaudu Suomi.fi:n kautta",
             "title": "Tunnistaudu ilmoittautumista varten",
@@ -450,14 +450,14 @@
             "showResults": "Näytä tulokset ({{count}})"
           },
           "errorDialog": {
-            "description": "Valitse ensin tutkinnon kieli ja taitotaso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
-            "title": "Valitse tutkinnon kieli ja taitotaso"
+            "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
+            "title": "Valitse tutkinnon kieli ja taso"
           },
           "errors": {
             "required": "Valinta on pakollinen"
           },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
-          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taitotaso. Paina NÄYTÄ TULOKSET -painiketta.",
+          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina NÄYTÄ TULOKSET -painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
             "required": "(pakollinen)"
@@ -468,7 +468,7 @@
           "excludeNonOpenSessions": "Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt",
           "filterExamSessions": "Rajaa tuloksia",
           "selectLanguage": "Valitse kieli",
-          "selectLevel": "Valitse taitotaso",
+          "selectLevel": "Valitse taso",
           "selectMunicipality": "Valitse paikkakunta"
         },
         "register": "Ilmoittaudu",
