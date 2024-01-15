@@ -28,7 +28,7 @@ describe('EvaluationOrderPage', () => {
     },
   };
 
-  it.skip('should look as expected', () => {
+  it('should look as expected', () => {
     const tree = renderer
       .create(
         <DefaultProviders preloadedState={preloadedState}>
