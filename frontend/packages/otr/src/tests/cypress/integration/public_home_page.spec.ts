@@ -12,7 +12,7 @@ describe('PublicHomePage', () => {
     );
   });
 
-  it.skip('should allow combining different options to filter interpreters', () => {
+  it('should allow combining different options to filter interpreters', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
       publicInterpreters10.length,
     );
