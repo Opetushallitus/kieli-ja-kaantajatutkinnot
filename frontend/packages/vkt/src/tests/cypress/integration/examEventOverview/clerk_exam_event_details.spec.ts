@@ -129,7 +129,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     cy.isOnPage(AppRoutes.ClerkHomePage);
   });
 
-  it.skip('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
+  it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
     onClerkExamEventOverviewPage.clickEditExamEventDetailsButton();
     onClerkExamEventOverviewPage.editExamEventField(
       'level',

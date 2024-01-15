@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Location, unstable_useBlocker as useBlocker } from 'react-router-dom';
+import { Location, unstable_useBlocker as useBlocker, unstable_usePrompt as usePrompt } from 'react-router-dom';
 
 export const useNavigationProtection = (
   when: boolean,
@@ -15,13 +15,22 @@ export const useNavigationProtection = (
   }: {
     currentLocation: Location;
     nextLocation: Location;
-  }): boolean =>
-    !!(
-      when &&
-      baseUrl &&
-      !nextLocation.pathname.includes(baseUrl) &&
-      currentLocation.pathname !== nextLocation.pathname
-    );
+  }): boolean => {
+
+    if (baseUrl) {
+      return !!(
+        when &&
+        baseUrl &&
+        !nextLocation.pathname.includes(baseUrl) &&
+        currentLocation.pathname !== nextLocation.pathname
+      );
+    } else {
+      return !!(
+        when &&
+        currentLocation.pathname !== nextLocation.pathname
+      );
+    }
+  }
 
   const blocker = useBlocker(shouldBlock);
 

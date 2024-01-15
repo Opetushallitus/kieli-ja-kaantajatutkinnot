@@ -18,6 +18,9 @@ export const handlers = [
   http.get(APIEndpoints.PublicExamEvent, () => {
     return new Response(JSON.stringify(publicExamEvents11));
   }),
+  http.get(APIEndpoints.PublicUser, () => {
+    return new Response(JSON.stringify(null));
+  }),
   http.put(`${APIEndpoints.PublicReservation}/1/renew`, () => {
     const response: PublicReservationResponse = {
       id: 1,

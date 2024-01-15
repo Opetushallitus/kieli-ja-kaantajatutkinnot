@@ -303,7 +303,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonDisabled();
   });
 
-  it.skip('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
+  it('should display a confirmation dialog if the back button is clicked and there are unsaved changes', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
     cy.wait('@getClerkTranslatorOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
