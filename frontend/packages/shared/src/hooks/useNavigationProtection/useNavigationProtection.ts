@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Location, unstable_useBlocker as useBlocker, unstable_usePrompt as usePrompt } from 'react-router-dom';
+import { Location, unstable_useBlocker as useBlocker } from 'react-router-dom';
 
 export const useNavigationProtection = (
   when: boolean,
