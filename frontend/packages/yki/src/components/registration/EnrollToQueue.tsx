@@ -163,7 +163,11 @@ export const EnrollToQueue = () => {
   );
 
   useEffect(() => {
-    dispatch(resetReservationRequest());
+    const cleanUp = () => {
+      dispatch(resetReservationRequest());
+    };
+
+    return cleanUp;
   }, [dispatch]);
 
   useDialogOnError();
