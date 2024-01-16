@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
