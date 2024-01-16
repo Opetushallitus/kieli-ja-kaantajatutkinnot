@@ -78,6 +78,7 @@
         "stepper": {
           "active": "Aktiv",
           "completed": "Utfört",
+          "label": "Anmälningens faser",
           "phase": "Fas",
           "phaseNumber": "{{current}} av {{total}}",
           "phases": "Anmälningens faser",

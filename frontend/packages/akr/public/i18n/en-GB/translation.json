@@ -196,6 +196,8 @@
         "steps": {
           "active": "Active",
           "completed": "Completed",
+          "ariaLabel": "Contact request steps",
+          "phaseNumber": "{{current}} of {{total}}",
           "Done": "Complete!",
           "FillContactDetails": "Fill in contact details",
           "PreviewAndSend": "Preview and send",
