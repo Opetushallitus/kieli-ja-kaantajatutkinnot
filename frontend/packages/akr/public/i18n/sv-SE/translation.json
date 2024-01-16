@@ -196,6 +196,8 @@
         "steps": {
           "active": "Aktiv",
           "completed": "Utfört",
+          "ariaLabel": "Kontaktförfrågans faser",
+          "phaseNumber": "{{current}} av {{total}}",
           "Done": "Klart!",
           "FillContactDetails": "Fyll i kontaktuppgifter",
           "PreviewAndSend": "Förhandsgranska och sänd",

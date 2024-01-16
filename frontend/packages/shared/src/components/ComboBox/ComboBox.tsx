@@ -23,6 +23,7 @@ interface ComboBoxProps {
   showInputLabel?: boolean;
   helperText?: string;
   showError?: boolean;
+  useNativeSelect?: boolean;
   variant: 'filled' | 'outlined' | 'standard';
   getOptionLabel?: (option: AutocompleteValue) => string;
   values: Array<ComboBoxOption>;
@@ -81,6 +82,7 @@ const NativeSelectOrComboBox = ({
   helperText,
   showError,
   onChange,
+  useNativeSelect,
   ...rest
 }: ComboBoxProps & AutoCompleteComboBox) => {
   const { isPhone } = useWindowProperties();
@@ -90,7 +92,7 @@ const NativeSelectOrComboBox = ({
     return activeOption ? activeOption.label : '';
   };
 
-  if (isPhone) {
+  if (useNativeSelect || isPhone) {
     const nativeSelectProps: CustomNativeSelectProps = {
       placeholder: label || '',
       values,
@@ -117,14 +119,18 @@ const NativeSelectOrComboBox = ({
         isOptionEqualToValue={isOptionEqualToValue}
         options={values}
         filterOptions={filterOptions}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            variant={variant}
-            error={showError}
-          />
-        )}
+        closeText=""
+        openText=""
+        renderInput={(params) => {
+          console.log(params);
+          return (
+            <TextField
+              {...params}
+              label={label}
+              variant={variant}
+              error={showError}
+            />
+          )}}
         onChange={(_, v: AutocompleteValue) => {
           onChange(v?.value);
         }}

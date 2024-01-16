@@ -186,6 +186,7 @@ const SelectExamLevel = ({
         aria-label={t('labels.selectLevel')}
         showError={showError && !level}
         helperText={showError && !level ? t('filters.errors.required') : ''}
+        useNativeSelect={true}
       />
     </FormControl>
   );

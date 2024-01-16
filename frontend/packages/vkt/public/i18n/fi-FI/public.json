@@ -75,6 +75,7 @@
         "stepper": {
           "active": "Aktiivinen",
           "completed": "Suoritettu",
+          "label": "Ilmoittautumisen vaiheet",
           "phase": "Vaihe",
           "phaseNumber": "{{current}} kautta {{total}}",
           "phases": "Ilmoittautumisen vaiheet",

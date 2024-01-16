@@ -1,4 +1,5 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { useEffect } from 'react';
 import { CircularStepper } from 'shared/components';
 import { Color } from 'shared/enums';
@@ -34,15 +35,16 @@ export const PublicEnrollmentStepper = ({
     return t(`step.${PublicEnrollmentFormStep[step]}`);
   };
 
-  const getStepAriaLabel = (stepNumber: number, stepIndex: number) => {
+  const getPhaseDescription = (stepNumber: number) => {
     const part = t('phaseNumber', {
-      current: stepIndex + 1,
-      total: steps.length,
+      current: stepNumber,
+      total: doneStepNumber,
     });
+
     const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
-    return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
+    return `${t('phase')} ${partStatus}`;
   };
 
   const getDesktopActiveStep = () => {
@@ -66,29 +68,42 @@ export const PublicEnrollmentStepper = ({
 
   const stepValue = Math.min(activeStep, doneStepNumber);
 
+  const currentStep = `${t('currentStep')}: ${getDescription(stepValue)}.`;
+  const nextStep =
+    stepValue + 1 <= doneStepNumber
+      ? `${t('nextStep')}: ${getDescription(stepValue + 1)}.`
+      : '';
+
   const mobileStepValue = stepValue * (100 / doneStepNumber);
   const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${t(
-    `step.${PublicEnrollmentFormStep[activeStep]}`,
-  )}`;
+  const mobileAriaLabel = `${getPhaseDescription(stepValue)}
+  ${currentStep}
+  ${nextStep}`;
 
   return isPhone ? (
-    <CircularStepper
-      value={mobileStepValue}
-      ariaLabel={mobileAriaLabel}
-      phaseText={mobilePhaseText}
-      color={
-        activeStep === PublicEnrollmentFormStep.Payment
-          ? Color.Error
-          : Color.Secondary
-      }
-      size={90}
-    />
+    <div role="group" aria-label={t('phases')}>
+      <CircularStepper
+        value={mobileStepValue}
+        aria-hidden={true}
+        ariaLabel={mobileAriaLabel}
+        phaseText={mobilePhaseText}
+        color={
+          activeStep === PublicEnrollmentFormStep.Payment
+            ? Color.Error
+            : Color.Secondary
+        }
+        size={90}
+      />
+      <Typography sx={visuallyHidden}>
+        {getPhaseDescription(stepValue)}
+      </Typography>
+    </div>
   ) : (
     <Stepper
       className="public-enrollment__grid__stepper"
       activeStep={getDesktopActiveStep()}
       aria-label={t('phases')}
+      role="group"
     >
       {steps.map((step, index) => (
         <Step
@@ -96,18 +111,18 @@ export const PublicEnrollmentStepper = ({
           key={step}
           completed={isStepCompleted(step)}
         >
-          {/* eslint-disable jsx-a11y/aria-role */}
           <StepLabel
             error={hasError(step)}
-            aria-label={getStepAriaLabel(step, index)}
-            role="text"
+            aria-current={getDesktopActiveStep() === step - 1 && 'step'}
             className={
               activeStep < step
                 ? 'public-enrollment__grid__stepper__step-disabled'
                 : undefined
             }
           >
-            {/* eslint-enable */}
+            <Typography sx={visuallyHidden}>
+              {getPhaseDescription(step)}
+            </Typography>
             {getDescription(step)}
           </StepLabel>
         </Step>

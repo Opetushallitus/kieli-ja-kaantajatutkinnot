@@ -1,4 +1,4 @@
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { H1, HeaderSeparator, Text } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
@@ -64,7 +64,9 @@ export const ContactRequestPage = () => {
       <div className="contact-request-page__grid__stepper-container columns gapped">
         <ContactRequestStepper />
         <div className="rows">
-          <H1>{t(`steps.${ContactRequestFormStep[activeStep]}`)}</H1>
+          <Typography component="p" variant="h2">
+            {t(`steps.${ContactRequestFormStep[activeStep]}`)}
+          </Typography>
           {ContactRequestFormStep[nextStep] && (
             <Text>
               {translateCommon('next')}:{' '}

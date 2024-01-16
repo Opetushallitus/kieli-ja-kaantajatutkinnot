@@ -252,13 +252,15 @@
         "stepper": {
           "active": "Active",
           "completed": "Completed",
+          "label": "Registration steps",
           "paymentAborted": "Payment was cancelled",
           "phase": "Phase",
+          "phaseNumber": "{{current}} of {{total}}",
           "step": {
             "Done": "Done",
             "Identify": "Identify",
             "Payment": "Payment",
-            "Register": "Register"
+            "Register": "Registebir"
           },
           "welcomeToExam": "Welcome to the YKI test!"
         },

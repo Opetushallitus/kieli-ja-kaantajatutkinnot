@@ -1,4 +1,5 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { CircularStepper } from 'shared/components';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -22,40 +23,49 @@ export const ContactRequestStepper = () => {
   const value = activeStep * (100 / maxStep);
   const stepAriaLabel = (step: number) => {
     const phaseDescription = t(ContactRequestFormStep[step]);
-    const phaseNumberPart = `${step}/${maxStep}`;
+    const phaseNumberPart = t('phaseNumber', {
+      current: step,
+      total: maxStep,
+    });
     if (step < activeStep) {
       return `${phasePrefix} ${phaseNumberPart}, ${t(
         'completed',
-      )}: ${phaseDescription}`;
-    } else if (step == activeStep) {
-      return `${phasePrefix} ${phaseNumberPart}, ${t(
-        'active',
       )}: ${phaseDescription}`;
     } else {
       return `${phasePrefix} ${phaseNumberPart}: ${phaseDescription}`;
     }
   };
-  const text = `${activeStep}/${maxStep}`;
 
-  const ariaLabel = `${translateCommon('phase')} ${text}: ${t(
-    ContactRequestFormStep[activeStep],
-  )}`;
+  const text = `${activeStep}/${maxStep}`;
+  const ariaText = t('phaseNumber', {
+    current: activeStep,
+    total: maxStep,
+  });
+
+  const ariaLabel = `${translateCommon('phase')} ${ariaText}`;
 
   return isPhone ? (
-    <CircularStepper
-      value={value}
-      ariaLabel={ariaLabel}
-      phaseText={text}
-      size={90}
-    />
+    <div aria-label={t('ariaLabel')} role="group">
+      <CircularStepper
+        value={value}
+        aria-hidden={true}
+        ariaLabel={ariaLabel}
+        phaseText={text}
+        size={90}
+      />
+      <Typography sx={visuallyHidden}>{ariaLabel}</Typography>
+    </div>
   ) : (
     <Stepper
+      aria-label={t('ariaLabel')}
+      role="group"
       className="contact-request-page__stepper"
       activeStep={activeStep - 1}
     >
       {stepNumbers.map((v) => (
         <Step key={v}>
           <StepLabel
+            aria-current={activeStep === v && 'step'}
             aria-label={stepAriaLabel(v)}
             className={
               activeStep < v
