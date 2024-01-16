@@ -12,11 +12,11 @@ import { APIResponseStatus } from 'shared/enums';
 import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
-const renderPageWithSession = (es: ExamSession) => {
+const renderPageWithSession = (examSession: ExamSession) => {
   const preloadedState: PreloadedState<RootState> = {
     examSession: {
       status: APIResponseStatus.Success,
-      examSession: es,
+      examSession,
     },
     registration: initialRegistrationState,
   };
