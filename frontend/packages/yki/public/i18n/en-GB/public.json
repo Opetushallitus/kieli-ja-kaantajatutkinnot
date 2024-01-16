@@ -108,13 +108,17 @@
               "description": "You have already subscribed for notifications of available seats.",
               "title": "Subscription failed"
             },
-            "genericError": {
-              "description": "An unexpected error occurred. Please try again.",
+            "fullQueue": {
+              "description": "You can no longer subscribe for notifications for this test. The maximum number of subscribers is 50.",
               "title": "Subscription failed"
             },
             "inputError": {
               "description": "Verify your email address",
               "title": "Invalid information!"
+            },
+            "unknown": {
+              "description": "An unexpected error occurred. Please try again.",
+              "title": "Subscription failed"
             }
           },
           "header": "Subscribe to notifications of available seats",

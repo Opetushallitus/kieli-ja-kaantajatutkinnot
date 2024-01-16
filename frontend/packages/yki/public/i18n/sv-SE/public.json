@@ -108,13 +108,17 @@
               "description": "Du har redan tidigare beställt en notifiering om lediga platser vid examenstillfället till din e-post.",
               "title": "Beställningen misslyckades"
             },
-            "genericError": {
-              "description": "Ett oväntat fel har uppstått. Vänligen försök på nytt.",
+            "fullQueue": {
+              "description": "Du kan inte längre beställa en notifiering om det här examenstillfället. Högst 50 personer kan beställa en notifiering.",
               "title": "Beställningen misslyckades"
             },
             "inputError": {
               "description": "Kontrollera din e-postadress",
               "title": "Felaktiga uppgifter!"
+            },
+            "unknown": {
+              "description": "Ett oväntat fel har uppstått. Vänligen försök på nytt.",
+              "title": "Beställningen misslyckades"
             }
           },
           "header": "Beställ en notifiering om lediga platser",
