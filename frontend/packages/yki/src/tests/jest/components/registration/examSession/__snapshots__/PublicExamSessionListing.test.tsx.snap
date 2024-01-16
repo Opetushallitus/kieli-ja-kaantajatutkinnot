@@ -231,20 +231,15 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          postAdmission
-          :
-          <br
-            aria-hidden={true}
-          />
           <span
-            aria-label="6/1/2023 klo 10.00 — 8/1/2023 klo 16.00"
+            aria-label="1/1/2023 klo 10.00 — 12/31/2030 klo 16.00"
           >
-            6/1/2023 klo 10.00
+            1/1/2023 klo 10.00
              —
             <br
               aria-hidden={true}
             />
-            8/1/2023 klo 16.00
+            12/31/2030 klo 16.00
           </span>
         </td>
         <td
@@ -264,7 +259,33 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          admissionPeriodIsClosed
+          <a
+            className="custom-button-link"
+            href="/yki/tutkintotilaisuus/999"
+            onClick={[Function]}
+          >
+            <button
+              className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedSecondary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1l9sosn-MuiButtonBase-root-MuiButton-root"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onContextMenu={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              orderCancellationNotification
+            </button>
+          </a>
         </td>
       </tr>
       <tr
@@ -302,14 +323,14 @@ Array [
             aria-hidden={true}
           />
           <span
-            aria-label="8/1/2023 klo 10.00 — 9/1/2024 klo 16.00"
+            aria-label="8/1/2023 klo 10.00 — 9/1/2030 klo 16.00"
           >
             8/1/2023 klo 10.00
              —
             <br
               aria-hidden={true}
             />
-            9/1/2024 klo 16.00
+            9/1/2030 klo 16.00
           </span>
         </td>
         <td
@@ -665,7 +686,7 @@ Array [
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
         >
-          4/6/2019
+          4/6/2039
         </td>
         <td
           aria-sort={null}

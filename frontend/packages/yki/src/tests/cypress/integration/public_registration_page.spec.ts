@@ -32,9 +32,9 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.expectResultsCount(3);
+      onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.expectResultsCount(2);
+      onPublicRegistrationPage.expectResultsCount(3);
     });
 
     it('can filter by exam language and level', () => {
