@@ -4,8 +4,8 @@ import { APIEndpoints } from 'enums/api';
 import { evaluationOrderPostResponse } from 'tests/msw/fixtures/evaluationOrder';
 import { evaluationPeriods } from 'tests/msw/fixtures/evaluationPeriods';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { maatJaValtiot2Response } from './fixtures/maatjavaltiot2';
-import { SuomiFiAuthenticatedSessionResponse } from './fixtures/identity';
+import { SuomiFiAuthenticatedSessionResponse } from 'tests/msw/fixtures/identity';
+import { maatJaValtiot2Response } from 'tests/msw/fixtures/maatjavaltiot2';
 
 const notFound = () => new HttpResponse(null, { status: 404 });
 
@@ -39,15 +39,15 @@ export const handlers = [
       return notFound();
     }
   }),
-  http.get(APIEndpoints.User, () => {
-    return HttpResponse.json(SuomiFiAuthenticatedSessionResponse);
-  }),
-  http.post(APIEndpoints.EvaluationOrder, () => {
-    return HttpResponse.json(evaluationOrderPostResponse);
-  }),
-  http.get(APIEndpoints.CountryCodes, () => {
-    return HttpResponse.json(maatJaValtiot2Response);
-  }),
+  http.get(APIEndpoints.User, () =>
+    HttpResponse.json(SuomiFiAuthenticatedSessionResponse)
+  ),
+  http.post(APIEndpoints.EvaluationOrder, () =>
+    HttpResponse.json(evaluationOrderPostResponse)
+  ),
+  http.get(APIEndpoints.CountryCodes, () =>
+    HttpResponse.json(maatJaValtiot2Response)
+  ),
   http.post(APIEndpoints.SubmitRegistration, () => {
     return HttpResponse.json({ success: true });
   }),

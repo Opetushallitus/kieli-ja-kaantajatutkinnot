@@ -1,5 +1,6 @@
-import { create } from 'react-test-renderer';
 import { PreloadedState } from '@reduxjs/toolkit';
+import { create } from 'react-test-renderer';
+import { APIResponseStatus } from 'shared/enums';
 
 import { RootState } from 'configs/redux';
 import { RegistrationKind } from 'enums/app';
@@ -8,7 +9,6 @@ import { ContentSelector } from 'pages/InitRegistrationPage';
 import { initialState as initialRegistrationState } from 'redux/reducers/registration';
 import { DefaultProviders } from 'tests/jest/utils/DefaultProviders';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { APIResponseStatus } from 'shared/enums';
 import { ExamSessionUtils } from 'utils/examSession';
 import { SerializationUtils } from 'utils/serialization';
 
@@ -25,6 +25,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
       <ContentSelector />
     </DefaultProviders>
   ).toJSON();
+
   return tree;
 };
 
@@ -39,6 +40,7 @@ describe('InitRegistrationPage', () => {
       const examSession = sessions.find((es) => {
         const { open, kind, availablePlaces } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+
         return (
           open && kind === RegistrationKind.Admission && availablePlaces > 0
         );
@@ -51,6 +53,7 @@ describe('InitRegistrationPage', () => {
       const examSession = sessions.find((es) => {
         const { open, kind, availablePlaces } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+
         return (
           open && kind === RegistrationKind.PostAdmission && availablePlaces > 0
         );
@@ -65,6 +68,7 @@ describe('InitRegistrationPage', () => {
       const examSession = sessions.find((es) => {
         const { open, availablePlaces, availableQueue } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+
         return open && availablePlaces === 0 && availableQueue;
       }) as ExamSession;
       const tree = renderPageWithSession(examSession);
@@ -77,6 +81,7 @@ describe('InitRegistrationPage', () => {
       const examSession = sessions.find((es) => {
         const { open, availablePlaces, availableQueue } =
           ExamSessionUtils.getEffectiveRegistrationPeriodDetails(es);
+
         return open && availablePlaces === 0 && !availableQueue;
       }) as ExamSession;
       const tree = renderPageWithSession(examSession);

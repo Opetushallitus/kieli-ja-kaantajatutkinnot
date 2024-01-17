@@ -1,6 +1,6 @@
 import { APIEndpoints } from 'enums/api';
+import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetailsPage';
 import { examSessions } from 'tests/msw/fixtures/examSession';
-import { onExamDetailsPage } from '../support/page-objects/examDetailsPage';
 
 const examSessionResponse = examSessions.exam_sessions.find(
   (es) => es.id === 999
@@ -19,6 +19,7 @@ const getInitRegistrationResponse = (is_strongly_identified: boolean) => {
   if (is_strongly_identified) {
     const { first_name, last_name, ssn, post_office, zip, street_address } =
       expectedSuomiFiRegistrationDetails;
+
     return {
       is_strongly_identified,
       exam_session: examSessionResponse,
