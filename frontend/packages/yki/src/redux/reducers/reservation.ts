@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { APIResponseStatus } from 'shared/enums';
 
-import { ReservationRequest } from 'interfaces/reservation';
+import {
+  ReservationErrorCause,
+  ReservationRequest,
+} from 'interfaces/reservation';
 
 interface ReservationState extends Partial<ReservationRequest> {
   status: APIResponseStatus;
-  emailAlreadyQueued: boolean;
+  errorCause?: ReservationErrorCause;
 }
 
 const initialState: ReservationState = {
   status: APIResponseStatus.NotStarted,
-  emailAlreadyQueued: false,
 };
 
 const reservationSlice = createSlice({
@@ -20,15 +22,19 @@ const reservationSlice = createSlice({
     acceptReservationRequest(state) {
       state.status = APIResponseStatus.Success;
     },
-    rejectReservationRequest(state, action: PayloadAction<boolean>) {
+    rejectReservationRequest(
+      state,
+      action: PayloadAction<ReservationErrorCause>
+    ) {
       state.status = APIResponseStatus.Error;
-      state.emailAlreadyQueued = action.payload;
+      state.errorCause = action.payload;
     },
     resetReservationRequest(_) {
       return initialState;
     },
     sendReservationRequest(state, action: PayloadAction<ReservationRequest>) {
       state.status = APIResponseStatus.InProgress;
+      state.errorCause = undefined;
       state.email = action.payload.email;
       state.examSessionId = action.payload.examSessionId;
     },

@@ -5,7 +5,11 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import axiosInstance from 'configs/axios';
 import { getCurrentLang } from 'configs/i18n';
 import { APIEndpoints } from 'enums/api';
-import { ReservationRequest } from 'interfaces/reservation';
+import {
+  ReservationErrorCause,
+  ReservationErrorResponse,
+  ReservationRequest,
+} from 'interfaces/reservation';
 import {
   acceptReservationRequest,
   rejectReservationRequest,
@@ -32,9 +36,15 @@ function* sendReservationRequestSaga(
     yield put(acceptReservationRequest());
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      yield put(rejectReservationRequest(!!error.response.data));
+      const errorResponse = error.response.data as ReservationErrorResponse;
+      const errorCause = errorResponse.exists
+        ? ReservationErrorCause.EmailAlreadyQueued
+        : errorResponse.full
+        ? ReservationErrorCause.FullQueue
+        : ReservationErrorCause.Unknown;
+      yield put(rejectReservationRequest(errorCause));
     } else {
-      yield put(rejectReservationRequest(false));
+      yield put(rejectReservationRequest(ReservationErrorCause.Unknown));
     }
   }
 }

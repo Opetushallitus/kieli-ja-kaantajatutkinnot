@@ -32,19 +32,13 @@ import { EvaluationOrderState } from 'redux/reducers/evaluationOrder';
 export class SerializationUtils {
   static deserializeStartTime(date?: string) {
     if (date) {
-      return dayjs(date, 'YYYY-MM-DD')
-        .tz('Europe/Helsinki')
-        .hour(10)
-        .tz(dayjs.tz.guess());
+      return dayjs(date, 'YYYY-MM-DD').hour(10);
     }
   }
 
   static deserializeEndTime(date?: string) {
     if (date) {
-      return dayjs(date, 'YYYY-MM-DD')
-        .tz('Europe/Helsinki')
-        .hour(16)
-        .tz(dayjs.tz.guess());
+      return dayjs(date, 'YYYY-MM-DD').hour(16);
     }
   }
 
@@ -206,7 +200,7 @@ export class SerializationUtils {
       ),
       ssn: registration.ssn,
       zip: registration.postNumber,
-      post_office: registration.postNumber,
+      post_office: registration.postOffice,
       street_address: registration.address,
       phone_number: registration.phoneNumber,
       email: registration.email,

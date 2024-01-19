@@ -16,6 +16,7 @@ import {
   cancelPublicEnrollmentAndRemoveReservation,
   loadEnrollmentInitialisation,
   loadPublicEnrollmentSave,
+  loadPublicEnrollmentUpdate,
   loadPublicExamEvent,
   rejectEnrollmentInitialisation,
   rejectPublicEnrollmentSave,
@@ -117,6 +118,40 @@ function* cancelPublicEnrollmentAndRemoveReservationSaga(
   }
 }
 
+function* loadPublicEnrollmentUpdateSaga(
+  action: PayloadAction<{
+    enrollment: PublicEnrollment;
+    examEventId: number;
+  }>
+) {
+  const { enrollment, examEventId } = action.payload;
+
+  try {
+    const {
+      emailConfirmation: _unused1,
+      id: _unused2,
+      hasPreviousEnrollment: _unused3,
+      privacyStatementConfirmation: _unused4,
+      status: _unused5,
+      examEventId: _unused6,
+      ...body
+    } = enrollment;
+
+    const updateUrl = `${APIEndpoints.PublicEnrollment}/update?examEventId=${examEventId}`;
+
+    const response: AxiosResponse<PublicEnrollment> = yield call(
+      axiosInstance.post,
+      updateUrl,
+      body
+    );
+    yield put(storePublicEnrollmentSave(response.data));
+  } catch (error) {
+    const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
+    yield put(setAPIError(errorMessage));
+    yield put(rejectPublicEnrollmentSave());
+  }
+}
+
 function* loadPublicEnrollmentSaveSaga(
   action: PayloadAction<{
     enrollment: PublicEnrollment;
@@ -166,4 +201,5 @@ export function* watchPublicEnrollments() {
     cancelPublicEnrollmentAndRemoveReservationSaga,
   );
   yield takeLatest(loadPublicEnrollmentSave, loadPublicEnrollmentSaveSaga);
+  yield takeLatest(loadPublicEnrollmentUpdate, loadPublicEnrollmentUpdateSaga);
 }

@@ -43,7 +43,7 @@ const getConfirmEmailError = (email: string, confirmEmail: string) => {
 
 const useDialogOnError = () => {
   const { showDialog } = useDialog();
-  const { status, emailAlreadyQueued } = useAppSelector(reservationSelector);
+  const { status, errorCause } = useAppSelector(reservationSelector);
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.enrollToQueue.dialog',
   });
@@ -51,27 +51,16 @@ const useDialogOnError = () => {
 
   useEffect(() => {
     if (status === APIResponseStatus.Error) {
-      if (emailAlreadyQueued) {
-        showDialog({
-          title: t('emailAlreadyQueued.title'),
-          description: t('emailAlreadyQueued.description'),
-          severity: Severity.Info,
-          actions: [
-            { title: translateCommon('back'), variant: Variant.Contained },
-          ],
-        });
-      } else {
-        showDialog({
-          title: t('genericError.title'),
-          description: t('genericError.description'),
-          severity: Severity.Error,
-          actions: [
-            { title: translateCommon('back'), variant: Variant.Contained },
-          ],
-        });
-      }
+      showDialog({
+        title: t(`${errorCause}.title`),
+        description: t(`${errorCause}.description`),
+        severity: Severity.Info,
+        actions: [
+          { title: translateCommon('back'), variant: Variant.Contained },
+        ],
+      });
     }
-  }, [emailAlreadyQueued, showDialog, status, t, translateCommon]);
+  }, [errorCause, showDialog, status, t, translateCommon]);
 };
 
 export const EnrollToQueue = () => {
@@ -174,7 +163,11 @@ export const EnrollToQueue = () => {
   );
 
   useEffect(() => {
-    dispatch(resetReservationRequest());
+    const cleanUp = () => {
+      dispatch(resetReservationRequest());
+    };
+
+    return cleanUp;
   }, [dispatch]);
 
   useDialogOnError();

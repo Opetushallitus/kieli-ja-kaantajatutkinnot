@@ -99,8 +99,8 @@ public class PaymentServiceTest {
     );
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
-      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
+      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
+      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.ORAL.toString()).build(),
       Item
         .builder()
         .units(1)
@@ -119,13 +119,13 @@ public class PaymentServiceTest {
 
     assertEquals(url, redirectUrl);
     verify(paymentProvider, times(1))
-      .createPayment(eq(items), any(Long.class), eq(customer), eq(45400), eq(AppLocale.FI));
+      .createPayment(eq(items), any(Long.class), eq(customer), eq(51400), eq(AppLocale.FI));
 
     final List<Payment> payments = paymentRepository.findAll();
     assertEquals(1, payments.size());
 
     final Payment payment = payments.get(0);
-    assertEquals(45400, payment.getAmount());
+    assertEquals(51400, payment.getAmount());
     assertEquals("test", payment.getTransactionId());
     assertEquals("foo", payment.getReference());
     assertEquals(url, payment.getPaymentUrl());
@@ -166,7 +166,7 @@ public class PaymentServiceTest {
     final String redirectUrl = paymentService.createPaymentForEnrollment(enrollment.getId(), person, AppLocale.FI);
 
     final List<Item> items = List.of(
-      Item.builder().units(1).unitPrice(22700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
+      Item.builder().units(1).unitPrice(25700).vatPercentage(0).productCode(EnrollmentSkill.TEXTUAL.toString()).build(),
       Item
         .builder()
         .units(1)
@@ -178,7 +178,7 @@ public class PaymentServiceTest {
 
     assertEquals(url, redirectUrl);
     verify(paymentProvider, times(1))
-      .createPayment(eq(items), any(Long.class), any(Customer.class), eq(22700), eq(AppLocale.FI));
+      .createPayment(eq(items), any(Long.class), any(Customer.class), eq(25700), eq(AppLocale.FI));
   }
 
   @Test
@@ -277,7 +277,7 @@ public class PaymentServiceTest {
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
-    paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-amount", "51400");
     paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
@@ -305,7 +305,7 @@ public class PaymentServiceTest {
     final Enrollment enrollment = pair.getSecond();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.FAIL.toString());
-    paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-amount", "51400");
     paymentParams.put("checkout-reference", String.valueOf(payment.getId()));
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
@@ -439,7 +439,7 @@ public class PaymentServiceTest {
     final Payment payment = pair.getFirst();
     final Map<String, String> paymentParams = new LinkedHashMap<>();
     paymentParams.put("checkout-status", PaymentStatus.OK.toString());
-    paymentParams.put("checkout-amount", "45400");
+    paymentParams.put("checkout-amount", "51400");
     paymentParams.put("checkout-reference", "-1");
     final PaytrailPaymentProvider paymentProvider = mock(PaytrailPaymentProvider.class);
     final PublicEnrollmentEmailService publicEnrollmentEmailService = mock(PublicEnrollmentEmailService.class);
@@ -487,7 +487,7 @@ public class PaymentServiceTest {
     final Person person = createPerson();
     final Enrollment enrollment = createEnrollment(person);
 
-    payment.setAmount(45400);
+    payment.setAmount(51400);
     payment.setEnrollment(enrollment);
 
     entityManager.persist(payment);

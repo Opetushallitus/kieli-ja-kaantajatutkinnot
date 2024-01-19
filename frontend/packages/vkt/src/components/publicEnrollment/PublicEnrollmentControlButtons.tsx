@@ -10,6 +10,7 @@ import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch } from 'configs/redux';
+import { EnrollmentStatus } from 'enums/app';
 import { PublicEnrollmentFormStep } from 'enums/publicEnrollment';
 import {
   PublicEnrollment,
@@ -20,6 +21,7 @@ import {
   cancelPublicEnrollment,
   cancelPublicEnrollmentAndRemoveReservation,
   loadPublicEnrollmentSave,
+  loadPublicEnrollmentUpdate,
   setLoadingPayment,
 } from 'redux/reducers/publicEnrollment';
 import { RouteUtils } from 'utils/routes';
@@ -96,7 +98,7 @@ export const PublicEnrollmentControlButtons = ({
 
   useEffect(() => {
     if (submitStatus === APIResponseStatus.Success) {
-      if (reservation) {
+      if (enrollment.status != EnrollmentStatus.QUEUED) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
@@ -116,7 +118,7 @@ export const PublicEnrollmentControlButtons = ({
     dispatch,
     examEventId,
     enrollment.id,
-    reservation,
+    enrollment.status,
   ]);
 
   const handleBackBtnClick = () => {
@@ -138,13 +140,20 @@ export const PublicEnrollmentControlButtons = ({
     if (isStepValid) {
       setIsPaymentLoading(true);
       setShowValidation(false);
-      if (isPaymentLinkPreviewView || enrollment.id) {
+      if (isPaymentLinkPreviewView) {
         // Safari needs time to re-render loading indicator
         setTimeout(() => {
           window.location.href = RouteUtils.getPaymentCreateApiRoute(
             enrollment.id,
           );
         }, 200);
+      } else if (enrollment.id) {
+        dispatch(
+          loadPublicEnrollmentUpdate({
+            enrollment,
+            examEventId,
+          })
+        );
       } else {
         dispatch(
           loadPublicEnrollmentSave({

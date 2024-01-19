@@ -195,11 +195,6 @@
             "url": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
           }
         },
-        "examinationDates": {
-          "title": "Examensavgifter"
-        },
-        "noSearchResults": "Inga sökresultat",
-        "note": "Du kan avlägga examina som gäller förmåga att använda språket i tal och skrift antingen vid ett och samma tillfälle eller i delar under olika tillfällen. Om du avlägger examen i delar, ska du avlägga hela examen inom tre års tid från och med det datum när du avlade den första examen.\nAnmälan och examensavgiften\nDu ska identifiera dig via suomi.fi -tjänsten.\nI samband med anmälan betalas även examensavgiften.\n•\tExamensavgiften är 454 euro om muntlig och skriftlig examen avläggs samtidigt \n•\tExamensavgiften är 227 euro om examina avläggs i delar (muntlig förmåga, skriftlig förmåga eller ett av delproven)",
         "title": "Språkexamina för statsförvaltningen (VKT) - anmälan till examina som gäller utmärkta språkkunskaper"
       },
       "publicExamEventListing": {

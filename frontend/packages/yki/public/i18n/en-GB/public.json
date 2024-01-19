@@ -108,13 +108,17 @@
               "description": "You have already subscribed for notifications of available seats.",
               "title": "Subscription failed"
             },
-            "genericError": {
-              "description": "An unexpected error occurred. Please try again.",
+            "fullQueue": {
+              "description": "You can no longer subscribe for notifications for this test. The maximum number of subscribers is 50.",
               "title": "Subscription failed"
             },
             "inputError": {
               "description": "Verify your email address",
               "title": "Invalid information!"
+            },
+            "unknown": {
+              "description": "An unexpected error occurred. Please try again.",
+              "title": "Subscription failed"
             }
           },
           "header": "Subscribe to notifications of available seats",
@@ -275,7 +279,7 @@
               },
               "success": "Registration link has been sent to:"
             },
-            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and proficiency level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
+            "registrationIsBindingAdvisory": "Check that you are registering for the correct YKI test (including language and level). Registration for YKI test is binding. Once you have confirmed your registration, you can no longer change it.",
             "selectIdentificationMethod": "Select your identification method",
             "suomiFiButtonText": "Identify via Suomi.fi",
             "title": "Identify yourself for registration",
@@ -394,7 +398,7 @@
         "info": {
           "general": {
             "body1": "In the reassessment, your test answers will be evaluated again. The reassessment will be conducted by different assessors than those who assessed your YKI test the first time.",
-            "body2": "The reassessment rarely changes the grade of a subtest. See previous statistics on the website of the Finnish National Agency for Education: ",
+            "body2": "The reassessment rarely changes the proficiency level assessment of a subtest. See previous statistics on the website of the Finnish National Agency for Education: ",
             "body3": "The reassessment only concerns your YKI test answers. It will not take into account any other factors that may have affected the test results. The decision on a reassessment may not be appealed.",
             "heading": "What is a reassessment?",
             "link": "https://www.oph.fi/en/education-and-qualifications/after-yki-test#anchor-reassessment",
@@ -450,14 +454,14 @@
             "showResults": "Show results ({{count}})"
           },
           "errorDialog": {
-            "description": "Select first the language and proficiency level. Click on the SHOW RESULTS button.",
-            "title": "Select the language and proficiency level"
+            "description": "Select first the language and level. Click on the SHOW RESULTS button.",
+            "title": "Select the language and level"
           },
           "errors": {
             "required": "Selection is required"
           },
           "heading": "Search for tests",
-          "information": "Search for a suitable YKI test by selecting the language and proficiency level. Click on the SHOW RESULTS button to see the results.",
+          "information": "Search for a suitable YKI test by selecting the language and level. Click on the SHOW RESULTS button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
             "required": "(required)"
@@ -468,7 +472,7 @@
           "excludeNonOpenSessions": "Show only the tests that are open for registration at the moment",
           "filterExamSessions": "Filter results",
           "selectLanguage": "Choose language",
-          "selectLevel": "Choose proficiency level",
+          "selectLevel": "Choose level",
           "selectMunicipality": "Choose municipality"
         },
         "register": "Register",

@@ -151,6 +151,15 @@ const publicEnrollmentSlice = createSlice({
         },
       };
     },
+    loadPublicEnrollmentUpdate(
+      state,
+      _action: PayloadAction<{
+        enrollment: PublicEnrollment;
+        examEventId: number;
+      }>
+    ) {
+      state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
+    },
     loadPublicEnrollmentSave(
       state,
       _action: PayloadAction<{
@@ -198,6 +207,7 @@ export const {
   resetPublicEnrollment,
   updatePublicEnrollment,
   loadPublicEnrollmentSave,
+  loadPublicEnrollmentUpdate,
   rejectPublicEnrollmentSave,
   storePublicEnrollmentSave,
   setPublicEnrollmentExamEventIdIfNotSet,
