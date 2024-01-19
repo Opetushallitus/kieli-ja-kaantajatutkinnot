@@ -17,10 +17,10 @@ Cypress.Commands.add(
     cy.visit(
       RouteUtils.replaceExamEventId(
         AppRoutes.PublicEnrollmentContactDetails,
-        examEventId
-      )
+        examEventId,
+      ),
     );
-  }
+  },
 );
 
 Cypress.Commands.add('openClerkHomePage', () => {
@@ -33,8 +33,8 @@ Cypress.Commands.add('openClerkExamEventPage', (examEventId: number) => {
   cy.visit(
     RouteUtils.replaceExamEventId(
       AppRoutes.ClerkExamEventOverviewPage,
-      examEventId
-    )
+      examEventId,
+    ),
   );
 });
 

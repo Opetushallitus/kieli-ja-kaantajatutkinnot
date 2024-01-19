@@ -21,7 +21,7 @@ export const ClerkExamMaxParticipants = ({
   const dispatch = useAppDispatch();
 
   const onParticipantsChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const value = Number(event.target.value);
 
@@ -41,7 +41,7 @@ export const ClerkExamMaxParticipants = ({
 
   const showError = ExamCreateEventUtils.maxParticipantsHasError(
     isDirty,
-    examForm.maxParticipants
+    examForm.maxParticipants,
   );
 
   return (

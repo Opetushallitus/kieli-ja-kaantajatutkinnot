@@ -17,7 +17,7 @@ export const selectFilteredPublicTranslators = createSelector(
     const filteredArray = filterPublicTranslators(translators, filters);
 
     return filteredArray;
-  }
+  },
 );
 
 export const selectFilteredPublicSelectedIds = createSelector(
@@ -27,7 +27,7 @@ export const selectFilteredPublicSelectedIds = createSelector(
     const filteredIds = new Set(filteredTranslators.map((t) => t.id));
 
     return selectedTranslators.filter((id) => filteredIds.has(id));
-  }
+  },
 );
 
 export const selectedPublicTranslatorsForLanguagePair = createSelector(
@@ -41,13 +41,13 @@ export const selectedPublicTranslatorsForLanguagePair = createSelector(
       .filter((t) => filterByLanguagePair(t, filters));
 
     return filtered;
-  }
+  },
 );
 
 // Helpers
 export const filterPublicTranslators = (
   translators: Array<PublicTranslator>,
-  filters: PublicTranslatorFilter
+  filters: PublicTranslatorFilter,
 ) => {
   const isNotBlank = (v: string) => !StringUtils.isBlankString(v);
   let filteredData = translators;
@@ -67,29 +67,29 @@ export const filterPublicTranslators = (
 
 const filterByLanguagePair = (
   publicTranslator: PublicTranslator,
-  filters: PublicTranslatorFilter
+  filters: PublicTranslatorFilter,
 ) => {
   return publicTranslator.languagePairs.find(
     (l) =>
       l.from.toLowerCase() === filters.fromLang.toLowerCase() &&
-      l.to.toLowerCase() === filters.toLang.toLowerCase()
+      l.to.toLowerCase() === filters.toLang.toLowerCase(),
   );
 };
 
 const filterByName = (
   { firstName, lastName }: PublicTranslator,
-  filters: PublicTranslatorFilter
+  filters: PublicTranslatorFilter,
 ) => {
   const nameCombs = [`${firstName} ${lastName}`, `${lastName} ${firstName}`];
 
   return nameCombs.some((comb) =>
-    comb.toLowerCase().includes(filters.name.toLowerCase().trim())
+    comb.toLowerCase().includes(filters.name.toLowerCase().trim()),
   );
 };
 
 const filterByTown = (
   publicTranslator: PublicTranslator,
-  filters: PublicTranslatorFilter
+  filters: PublicTranslatorFilter,
 ) => {
   const [town, country] = filters.town.split('::');
 

@@ -38,26 +38,26 @@ const clerkInterpreterOverviewSlice = createSlice({
     },
     setClerkInterpreterOverview(
       state,
-      action: PayloadAction<ClerkInterpreter>
+      action: PayloadAction<ClerkInterpreter>,
     ) {
       state.interpreter = action.payload;
     },
     storeClerkInterpreterOverview(
       state,
-      action: PayloadAction<ClerkInterpreter>
+      action: PayloadAction<ClerkInterpreter>,
     ) {
       state.overviewStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;
     },
     updateClerkInterpreterDetails(
       state,
-      _action: PayloadAction<ClerkInterpreter>
+      _action: PayloadAction<ClerkInterpreter>,
     ) {
       state.interpreterDetailsStatus = APIResponseStatus.InProgress;
     },
     updatingClerkInterpreterDetailsSucceeded(
       state,
-      action: PayloadAction<ClerkInterpreter>
+      action: PayloadAction<ClerkInterpreter>,
     ) {
       state.interpreterDetailsStatus = APIResponseStatus.Success;
       state.interpreter = action.payload;

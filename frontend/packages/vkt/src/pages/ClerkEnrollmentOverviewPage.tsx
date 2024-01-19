@@ -28,8 +28,8 @@ export const ClerkEnrollmentOverviewPage: FC = () => {
       navigate(
         AppRoutes.ClerkExamEventOverviewPage.replace(
           /:examEventId$/,
-          `${params.examEventId}`
-        )
+          `${params.examEventId}`,
+        ),
       );
     }
   }, [examEvent, navigate, params.examEventId]);
@@ -41,7 +41,7 @@ export const ClerkEnrollmentOverviewPage: FC = () => {
   const pageHeader = `${ExamEventUtils.languageAndLevelText(
     examEvent.language,
     examEvent.level,
-    translateCommon
+    translateCommon,
   )} ${DateUtils.formatOptionalDate(examEvent.date)}`;
 
   return (

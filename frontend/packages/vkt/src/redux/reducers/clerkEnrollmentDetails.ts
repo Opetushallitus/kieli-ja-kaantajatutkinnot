@@ -42,13 +42,13 @@ const clerkEnrollmentDetailsSlice = createSlice({
       _action: PayloadAction<{
         enrollment: ClerkEnrollment;
         examEvent?: ClerkExamEvent;
-      }>
+      }>,
     ) {
       state.status = APIResponseStatus.InProgress;
     },
     storeClerkEnrollmentDetailsUpdate(
       state,
-      action: PayloadAction<ClerkEnrollment>
+      action: PayloadAction<ClerkEnrollment>,
     ) {
       state.status = APIResponseStatus.Success;
       state.enrollment = action.payload;
@@ -61,7 +61,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
     },
     storeClerkEnrollmentPaymentLink(
       state,
-      action: PayloadAction<ClerkPaymentLink>
+      action: PayloadAction<ClerkPaymentLink>,
     ) {
       state.paymentLinkStatus = APIResponseStatus.Success;
       state.paymentLink = action.payload;
@@ -93,7 +93,7 @@ const clerkEnrollmentDetailsSlice = createSlice({
           ...enrollment,
           ...{
             payments: enrollment.payments.map((payment: ClerkPayment) =>
-              payment.id === action.payload.id ? action.payload : payment
+              payment.id === action.payload.id ? action.payload : payment,
             ),
           },
         };

@@ -29,13 +29,13 @@ function* loadEvaluationPeriodSaga(action: PayloadAction<number>) {
     }
     const response: AxiosResponse<EvaluationPeriodResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.Evaluation.replace(/:evaluationId/, `${action.payload}`)
+      APIEndpoints.Evaluation.replace(/:evaluationId/, `${action.payload}`),
     );
 
     yield put(
       storeEvaluationPeriod(
-        SerializationUtils.deserializeEvaluationPeriodResponse(response.data)
-      )
+        SerializationUtils.deserializeEvaluationPeriodResponse(response.data),
+      ),
     );
   } catch (error) {
     yield put(rejectEvaluationPeriod());
@@ -47,13 +47,13 @@ function* loadEvaluationPeriodsSaga() {
   try {
     const response: AxiosResponse<EvaluationPeriodsResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.Evaluations
+      APIEndpoints.Evaluations,
     );
 
     yield put(
       storeEvaluationPeriods(
-        SerializationUtils.deserializeEvaluationPeriodsResponse(response.data)
-      )
+        SerializationUtils.deserializeEvaluationPeriodsResponse(response.data),
+      ),
     );
   } catch (error) {
     yield put(rejectEvaluationPeriods());

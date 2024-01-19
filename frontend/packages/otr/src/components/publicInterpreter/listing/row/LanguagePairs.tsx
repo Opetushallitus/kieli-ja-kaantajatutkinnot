@@ -23,11 +23,11 @@ export const LanguagePairs = ({
       languagePairs: Array<LanguagePair>,
       classes: string,
       indexingStart: number,
-      ariaHidden?: boolean
+      ariaHidden?: boolean,
     ) => {
       return languagePairs
         .map((lp) =>
-          QualificationUtils.getLanguagePairLocalisation(lp, translateLanguage)
+          QualificationUtils.getLanguagePairLocalisation(lp, translateLanguage),
         )
         .sort()
         .map((localisation, i) => (
@@ -40,13 +40,13 @@ export const LanguagePairs = ({
           </Text>
         ));
     },
-    [translateLanguage]
+    [translateLanguage],
   );
 
   const groupLanguagePairsByFilters = () => {
     if (fromLang && toLang) {
       const matches = languagePairs.filter((lp) =>
-        QualificationUtils.languagePairMatchesLangFilters(lp, fromLang, toLang)
+        QualificationUtils.languagePairMatchesLangFilters(lp, fromLang, toLang),
       );
       const rest = languagePairs.filter((lp) => !matches.includes(lp));
 
@@ -67,7 +67,7 @@ export const LanguagePairs = ({
               rest,
               'color-grey-600',
               matches.length,
-              true
+              true,
             ),
           ]
         : [...sortAndRenderLanguagePairs(rest, '', 0)]}

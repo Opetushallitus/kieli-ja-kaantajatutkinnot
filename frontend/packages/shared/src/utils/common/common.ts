@@ -15,7 +15,7 @@ export class CommonUtils {
   static createMapFromArray(
     array: Array<string>,
     t: TFunction | undefined = undefined,
-    prefix: string | undefined = undefined
+    prefix: string | undefined = undefined,
   ) {
     const prfxKey = prefix ? `${prefix}.` : '';
 

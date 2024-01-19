@@ -75,7 +75,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
   const { showDialog } = useDialog();
   const dispatch = useAppDispatch();
   const refundLoadingStatus = useAppSelector(
-    clerkEnrollmentDetailsSelector
+    clerkEnrollmentDetailsSelector,
   ).paymentRefundStatus;
 
   const formatAmount = (amount: number) => {
@@ -145,7 +145,7 @@ const PaymentDetails = ({ payment }: { payment: ClerkPayment }) => {
 
 const getTextValue = (
   enrollment: ClerkEnrollment,
-  field: ClerkEnrollmentTextFieldEnum
+  field: ClerkEnrollmentTextFieldEnum,
 ) => {
   if (
     field === ClerkEnrollmentTextFieldEnum.FirstName ||
@@ -171,7 +171,7 @@ const getTextFieldType = (field: ClerkEnrollmentTextFieldEnum) => {
 const getFieldError = (
   enrollment: ClerkEnrollment,
   field: ClerkEnrollmentTextFieldEnum,
-  required: boolean
+  required: boolean,
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
@@ -181,7 +181,7 @@ const getFieldError = (
     type,
     value,
     required,
-    255
+    255,
   );
 
   return error ? t(`vkt.common.${error}`) : '';
@@ -235,13 +235,13 @@ export const ClerkEnrollmentDetailsFields = ({
   topControlButtons: JSX.Element;
   showFieldErrorBeforeChange: boolean;
   onTextFieldChange: (
-    field: ClerkEnrollmentTextFieldEnum
+    field: ClerkEnrollmentTextFieldEnum,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onCheckboxFieldChange: (
     field:
       | keyof PartialExamsAndSkills
       | keyof Pick<ClerkEnrollment, 'digitalCertificateConsent'>,
-    fieldValue: boolean
+    fieldValue: boolean,
   ) => void;
 }) => {
   // I18n
@@ -251,7 +251,7 @@ export const ClerkEnrollmentDetailsFields = ({
   const translateCommon = useCommonTranslation();
   const dispatch = useAppDispatch();
   const paymentLink = useAppSelector(
-    clerkEnrollmentDetailsSelector
+    clerkEnrollmentDetailsSelector,
   ).paymentLink;
 
   const [paymentLinkModalOpen, setPaymentLinkModalOpen] = useState(false);
@@ -260,7 +260,7 @@ export const ClerkEnrollmentDetailsFields = ({
     (acc, val) => {
       return { ...acc, [val]: showFieldErrorBeforeChange };
     },
-    {}
+    {},
   ) as Record<ClerkEnrollmentTextFieldEnum, boolean>;
 
   const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
@@ -274,7 +274,7 @@ export const ClerkEnrollmentDetailsFields = ({
 
   const getCommonTextFieldProps = (
     field: ClerkEnrollmentTextFieldEnum,
-    disabled: boolean
+    disabled: boolean,
   ) => {
     return {
       field,
@@ -352,13 +352,13 @@ export const ClerkEnrollmentDetailsFields = ({
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.LastName,
-              true
+              true,
             )}
           />
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.FirstName,
-              true
+              true,
             )}
           />
         </div>
@@ -369,13 +369,13 @@ export const ClerkEnrollmentDetailsFields = ({
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.Email,
-              editDisabled
+              editDisabled,
             )}
           />
           <ClerkEnrollmentDetailsTextField
             {...getCommonTextFieldProps(
               ClerkEnrollmentTextFieldEnum.PhoneNumber,
-              editDisabled
+              editDisabled,
             )}
           />
         </div>
@@ -386,7 +386,7 @@ export const ClerkEnrollmentDetailsFields = ({
           className="previous-enrollment"
           {...getCommonTextFieldProps(
             ClerkEnrollmentTextFieldEnum.PreviousEnrollment,
-            editDisabled
+            editDisabled,
           )}
         />
         <div className="columns align-items-start clerk-enrollment-details-fields__skills">
@@ -502,7 +502,7 @@ export const ClerkEnrollmentDetailsFields = ({
                   onClick={() =>
                     onCheckboxFieldChange(
                       'digitalCertificateConsent',
-                      !enrollment.digitalCertificateConsent
+                      !enrollment.digitalCertificateConsent,
                     )
                   }
                   color={Color.Secondary}
@@ -524,25 +524,25 @@ export const ClerkEnrollmentDetailsFields = ({
               <ClerkEnrollmentDetailsTextField
                 {...getCommonTextFieldProps(
                   ClerkEnrollmentTextFieldEnum.Street,
-                  editDisabled
+                  editDisabled,
                 )}
               />
               <ClerkEnrollmentDetailsTextField
                 {...getCommonTextFieldProps(
                   ClerkEnrollmentTextFieldEnum.PostalCode,
-                  editDisabled
+                  editDisabled,
                 )}
               />
               <ClerkEnrollmentDetailsTextField
                 {...getCommonTextFieldProps(
                   ClerkEnrollmentTextFieldEnum.Town,
-                  editDisabled
+                  editDisabled,
                 )}
               />
               <ClerkEnrollmentDetailsTextField
                 {...getCommonTextFieldProps(
                   ClerkEnrollmentTextFieldEnum.Country,
-                  editDisabled
+                  editDisabled,
                 )}
               />
             </div>

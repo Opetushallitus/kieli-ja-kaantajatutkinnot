@@ -27,24 +27,24 @@ describe('ClerkAddNewTranslator', () => {
       APIEndpoints.ClerkPersonSearch +
         '?identityNumber=' +
         NEW_PERSON_SSN_NOT_IN_ONR,
-      ''
+      '',
     ).as('searchByIdentityNumber');
     cy.intercept(
       'POST',
       APIEndpoints.ClerkTranslator,
-      newTranslatorResponse
+      newTranslatorResponse,
     ).as('createTranslatorResponse');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
     onClerkNewTranslatorPage.typeSocialSecurityNumber(
-      NEW_PERSON_SSN_NOT_IN_ONR
+      NEW_PERSON_SSN_NOT_IN_ONR,
     );
     onClerkNewTranslatorPage.clickSearchButton();
     cy.wait('@searchByIdentityNumber');
     onClerkNewTranslatorPage.clickProceedButton();
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationFields();
     onClerkNewTranslatorPage.fillOutNewTranslatorBasicInformationExtraInformation(
-      'Lisätiedot'
+      'Lisätiedot',
     );
     onClerkNewTranslatorPage.clickNewTranslatorAssuranceSwitch();
     onClerkNewTranslatorPage.clickAddAuthorisationButton();
@@ -58,7 +58,7 @@ describe('ClerkAddNewTranslator', () => {
     const expectedTranslatorPage =
       AppRoutes.ClerkTranslatorOverviewPage.replace(
         /:translatorId$/,
-        `${newTranslatorResponse.id}`
+        `${newTranslatorResponse.id}`,
       );
     cy.wait('@getClerkTranslators');
 
@@ -71,12 +71,12 @@ describe('ClerkAddNewTranslator', () => {
       APIEndpoints.ClerkPersonSearch +
         '?identityNumber=' +
         NEW_PERSON_SSN_EXISTS_IN_ONR,
-      newTranslatorResponse
+      newTranslatorResponse,
     ).as('searchByIdentityNumber');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
     onClerkNewTranslatorPage.typeSocialSecurityNumber(
-      NEW_PERSON_SSN_EXISTS_IN_ONR
+      NEW_PERSON_SSN_EXISTS_IN_ONR,
     );
     onClerkNewTranslatorPage.clickSearchButton();
     cy.wait('@searchByIdentityNumber');
@@ -95,17 +95,17 @@ describe('ClerkAddNewTranslator', () => {
       APIEndpoints.ClerkPersonSearch +
         '?identityNumber=' +
         NEW_PERSON_SSN_NOT_IN_ONR,
-      ''
+      '',
     ).as('searchByIdentityNumber');
     cy.intercept(
       'POST',
       APIEndpoints.ClerkTranslator,
-      createAPIErrorResponse()
+      createAPIErrorResponse(),
     ).as('createTranslatorResponse');
 
     onClerkNewTranslatorPage.clickAddNewTranslatorButton();
     onClerkNewTranslatorPage.typeSocialSecurityNumber(
-      NEW_PERSON_SSN_NOT_IN_ONR
+      NEW_PERSON_SSN_NOT_IN_ONR,
     );
     onClerkNewTranslatorPage.clickSearchButton();
     cy.wait('@searchByIdentityNumber');

@@ -23,7 +23,7 @@ function* saveClerkNewExamDateSaga(action: PayloadAction<ClerkExamEvent>) {
     const apiResponse: AxiosResponse<ClerkExamEventResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.ClerkExamEvent,
-      SerializationUtils.serializeNewClerkExamEvent(action.payload)
+      SerializationUtils.serializeNewClerkExamEvent(action.payload),
     );
 
     const examEvent: ClerkExamEvent =

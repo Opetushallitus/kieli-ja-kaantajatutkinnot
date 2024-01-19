@@ -6,7 +6,7 @@ describe('LabeledTextField', () => {
   it('should render correctly with text', () => {
     const tree = renderer
       .create(
-        <LabeledTextField id="test-id" label="test label" value="test value" />
+        <LabeledTextField id="test-id" label="test label" value="test value" />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -21,7 +21,7 @@ describe('LabeledTextField', () => {
           placeholder="placeholder expected to appear between label and field"
           value="wrong test value"
           error={true}
-        />
+        />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

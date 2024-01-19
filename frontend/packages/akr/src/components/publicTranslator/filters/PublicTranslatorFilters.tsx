@@ -238,12 +238,12 @@ export const PublicTranslatorFilters = ({
 
       return { value, label };
     },
-    [translateCountry]
+    [translateCountry],
   );
 
   const memoizedTownOptions = useMemo(
     () => towns.map(townAsComboboxOption),
-    [townAsComboboxOption, towns]
+    [townAsComboboxOption, towns],
   );
 
   const renderPhoneBottomAppBar = () =>
@@ -301,7 +301,7 @@ export const PublicTranslatorFilters = ({
               onKeyUp={handleKeyUp}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 langs.from,
-                filters.toLang
+                filters.toLang,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.toLang}
@@ -328,7 +328,7 @@ export const PublicTranslatorFilters = ({
               onKeyUp={handleKeyUp}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 langs.to,
-                filters.fromLang
+                filters.fromLang,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={filters.fromLang}
@@ -357,7 +357,7 @@ export const PublicTranslatorFilters = ({
             value={
               values.town
                 ? memoizedTownOptions.filter(
-                    ({ value }) => values.town === value
+                    ({ value }) => values.town === value,
                   )[0]
                 : null
             }

@@ -40,7 +40,7 @@ const SelectMunicipality = () => {
     (municipality?: string) => {
       dispatch(setPublicExamSessionFilters({ municipality }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const { t } = usePublicTranslation({

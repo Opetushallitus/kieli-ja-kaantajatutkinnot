@@ -237,7 +237,7 @@ export const PublicExamSessionListingRow = ({
 
   const locationInfo = ExamSessionUtils.getLocationInfo(
     examSession,
-    getCurrentLang()
+    getCurrentLang(),
   );
 
   const { open, availablePlaces, availableQueue } =

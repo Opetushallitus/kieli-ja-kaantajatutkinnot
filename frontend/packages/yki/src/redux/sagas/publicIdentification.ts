@@ -25,7 +25,7 @@ function* sendEmailLinkOrderSaga(action: PayloadAction<EmailLinkOrder>) {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
         },
-      }
+      },
     );
     yield put(acceptEmailLinkOrder());
   } catch (error) {

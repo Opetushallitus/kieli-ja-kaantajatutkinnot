@@ -14,7 +14,7 @@ function* loadSessionSaga() {
   try {
     const response: AxiosResponse<SessionResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.User
+      APIEndpoints.User,
     );
     yield put(acceptSession(response.data));
   } catch (error) {

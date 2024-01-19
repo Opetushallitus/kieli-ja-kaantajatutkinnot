@@ -14,7 +14,7 @@ class ClerkExamEventCreatePage {
       cy.findByTestId('clerk-exam__event-information__show-public-dates'),
     saveButton: () =>
       cy.findByTestId(
-        'clerk-translator-overview__translator-details__save-btn'
+        'clerk-translator-overview__translator-details__save-btn',
       ),
     backButton: () => cy.findByTestId('clerk-create-exam__back-btn'),
   };

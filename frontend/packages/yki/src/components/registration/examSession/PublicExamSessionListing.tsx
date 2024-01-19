@@ -39,7 +39,7 @@ const DisplayedRowsLabel = ({
       from,
       to,
       count,
-    }
+    },
   );
 
   if (isPhone) {
@@ -89,7 +89,7 @@ export const PublicExamSessionsTable = ({
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={onRowsPerPageChange}
       rowsPerPageLabel={translateCommon(
-        'component.table.pagination.rowsPerPage'
+        'component.table.pagination.rowsPerPage',
       )}
       labelDisplayedRows={({ from, to, count }) => (
         <DisplayedRowsLabel from={from} to={to} count={count} />
@@ -160,7 +160,7 @@ export const PublicExamSessionListing = ({
                 'component.table.header.searchResultsAriaLabel',
                 {
                   count: examSessions.length,
-                }
+                },
               )}
             >
               {translateCommon('component.table.header.searchResults', {

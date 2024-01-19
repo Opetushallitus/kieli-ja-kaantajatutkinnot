@@ -19,7 +19,7 @@ function* loadUserOpenRegistrationsSaga() {
   try {
     const response: AxiosResponse<UserOpenRegistrationsResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.OpenRegistrations
+      APIEndpoints.OpenRegistrations,
     );
     yield put(acceptUserOpenRegistrations(response.data));
 
@@ -32,7 +32,7 @@ function* loadUserOpenRegistrationsSaga() {
 
         return expires_at < min ? expires_at : min;
       },
-      maxPossibleExpiry
+      maxPossibleExpiry,
     );
 
     // When expiry is very close or in the past, check every minute
@@ -51,6 +51,6 @@ function* loadUserOpenRegistrationsSaga() {
 export function* watchUserOpenRegistrations() {
   yield takeLatest(
     loadUserOpenRegistrations.type,
-    loadUserOpenRegistrationsSaga
+    loadUserOpenRegistrationsSaga,
   );
 }

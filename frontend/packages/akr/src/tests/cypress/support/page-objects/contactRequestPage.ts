@@ -82,7 +82,7 @@ class ContactRequestPage {
 
   expectRequestToBeSent() {
     cy.findByText(
-      /Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä./i
+      /Yhteydenottopyyntösi on lähetetty ja sinuun ollaan yhteydessä./i,
     ).should('be.visible');
   }
 
@@ -112,15 +112,15 @@ export const fillContactDetailsStep = () => {
 
   onContactRequestPage.fillFieldByLabel(
     /etunimi/i,
-    TEST_CONTACT_DETAILS.firstName
+    TEST_CONTACT_DETAILS.firstName,
   );
   onContactRequestPage.fillFieldByLabel(
     /sukunimi/i,
-    TEST_CONTACT_DETAILS.lastName
+    TEST_CONTACT_DETAILS.lastName,
   );
   onContactRequestPage.fillFieldByLabel(
     /sähköposti/i,
-    TEST_CONTACT_DETAILS.email
+    TEST_CONTACT_DETAILS.email,
   );
 
   onContactRequestPage.isNextEnabled();
@@ -138,15 +138,15 @@ export const writeMessageStep = () => {
 const assertContactDetails = () => {
   onContactRequestPage.expectContactDetailText(
     'firstName',
-    TEST_CONTACT_DETAILS.firstName
+    TEST_CONTACT_DETAILS.firstName,
   );
   onContactRequestPage.expectContactDetailText(
     'lastName',
-    TEST_CONTACT_DETAILS.lastName
+    TEST_CONTACT_DETAILS.lastName,
   );
   onContactRequestPage.expectContactDetailText(
     'email',
-    TEST_CONTACT_DETAILS.email
+    TEST_CONTACT_DETAILS.email,
   );
 };
 

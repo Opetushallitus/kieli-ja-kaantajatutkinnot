@@ -5,7 +5,7 @@ import { APIEndpoints, APIError } from 'enums/api';
 export const runWithIntercept = (
   endpoint: APIEndpoints,
   response: unknown,
-  effect: () => void
+  effect: () => void,
 ) => {
   const alias = `intercepted-${endpoint}`;
   cy.intercept(endpoint, response).as(alias);

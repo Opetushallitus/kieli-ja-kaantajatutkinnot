@@ -35,7 +35,7 @@ const getDistinctToLangs = (interpreters: Array<ClerkInterpreter>) => {
   interpreters.forEach(({ qualifications }) => {
     const distinctQualifications =
       QualificationUtils.getQualificationsVisibleInClerkHomePage(
-        qualifications
+        qualifications,
       );
 
     distinctQualifications.forEach(({ toLang }) => {
@@ -52,7 +52,7 @@ const clerkInterpreterSlice = createSlice({
   reducers: {
     addClerkInterpreterFilter(
       state,
-      action: PayloadAction<Partial<ClerkInterpreterFilters>>
+      action: PayloadAction<Partial<ClerkInterpreterFilters>>,
     ) {
       state.filters = { ...state.filters, ...action.payload };
     },
@@ -67,7 +67,7 @@ const clerkInterpreterSlice = createSlice({
     },
     storeClerkInterpreters(
       state,
-      action: PayloadAction<Array<ClerkInterpreter>>
+      action: PayloadAction<Array<ClerkInterpreter>>,
     ) {
       state.status = APIResponseStatus.Success;
       state.interpreters = action.payload;
@@ -77,7 +77,7 @@ const clerkInterpreterSlice = createSlice({
       const updatedInterpreters = [...state.interpreters];
       const interpreter = action.payload;
       const idx = updatedInterpreters.findIndex(
-        (t: ClerkInterpreter) => t.id === interpreter.id
+        (t: ClerkInterpreter) => t.id === interpreter.id,
       );
       const spliceIndex = idx >= 0 ? idx : updatedInterpreters.length;
 

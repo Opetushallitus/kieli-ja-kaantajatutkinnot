@@ -61,7 +61,7 @@ const registrationSlice = createSlice({
     },
     rejectPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationInitErrorResponse>
+      action: PayloadAction<PublicRegistrationInitErrorResponse>,
     ) {
       state.initRegistration.status = APIResponseStatus.Error;
       const { closed, full, registered } = action.payload.error;
@@ -82,7 +82,7 @@ const registrationSlice = createSlice({
     },
     acceptPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationInitResponse>
+      action: PayloadAction<PublicRegistrationInitResponse>,
     ) {
       state.initRegistration.status = APIResponseStatus.Success;
       const { registration_id, is_strongly_identified, user } = action.payload;
@@ -122,7 +122,7 @@ const registrationSlice = createSlice({
     },
     rejectPublicRegistrationSubmission(
       state,
-      action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>
+      action: PayloadAction<PublicRegistrationFormSubmitErrorResponse>,
     ) {
       state.submitRegistration.status = APIResponseStatus.Error;
       const { closed, create_payment, expired, person_creation } =
@@ -145,7 +145,7 @@ const registrationSlice = createSlice({
       state,
       action: PayloadAction<
         Partial<PublicSuomiFiRegistration | PublicEmailRegistration>
-      >
+      >,
     ) {
       state.registration = { ...state.registration, ...action.payload };
     },

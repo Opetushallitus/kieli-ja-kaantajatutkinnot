@@ -15,7 +15,7 @@ describe('LoadingProgressIndicator', () => {
   it('should show a spinner when component is in loading state', () => {
     const { container } = render(<LoadingProgressIndicator isLoading={true} />);
     const circularProgressElement = container.getElementsByClassName(
-      'custom-circular-progress'
+      'custom-circular-progress',
     );
 
     expect(circularProgressElement.length).toBe(1);

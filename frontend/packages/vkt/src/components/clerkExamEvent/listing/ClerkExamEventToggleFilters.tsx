@@ -13,7 +13,7 @@ export const ClerkExamEventToggleFilters = () => {
   });
 
   const { examEvents, toggleFilter } = useAppSelector(
-    clerkListExamEventsSelector
+    clerkListExamEventsSelector,
   );
   const dispatch = useAppDispatch();
 

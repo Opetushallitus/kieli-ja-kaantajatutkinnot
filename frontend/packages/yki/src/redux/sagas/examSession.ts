@@ -31,13 +31,13 @@ function* loadExamSessionsSaga() {
     const response: AxiosResponse<ExamSessionsResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.ExamSessions,
-      { params: { from } }
+      { params: { from } },
     );
 
     yield put(
       storeExamSessions(
-        SerializationUtils.deserializeExamSessionsResponse(response.data)
-      )
+        SerializationUtils.deserializeExamSessionsResponse(response.data),
+      ),
     );
   } catch (error) {
     yield put(rejectExamSessions());
@@ -50,13 +50,13 @@ function* loadExamSessionSaga(action: PayloadAction<number>) {
   try {
     const response: AxiosResponse<ExamSessionResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.ExamSession.replace(/:examSessionId$/, `${action.payload}`)
+      APIEndpoints.ExamSession.replace(/:examSessionId$/, `${action.payload}`),
     );
 
     yield put(
       storeExamSession(
-        SerializationUtils.deserializeExamSessionResponse(response.data)
-      )
+        SerializationUtils.deserializeExamSessionResponse(response.data),
+      ),
     );
   } catch (error) {
     yield put(rejectExamSession());

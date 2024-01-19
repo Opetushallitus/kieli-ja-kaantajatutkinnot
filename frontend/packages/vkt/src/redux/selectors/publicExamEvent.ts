@@ -16,7 +16,7 @@ export const selectFilteredPublicExamEvents = createSelector(
     }
 
     return publicExamEvents.filter(
-      (e: PublicExamEvent) => e.language === languageFilter
+      (e: PublicExamEvent) => e.language === languageFilter,
     );
-  }
+  },
 );

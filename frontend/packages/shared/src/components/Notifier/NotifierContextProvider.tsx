@@ -16,7 +16,7 @@ interface NotifierContextProps {
 }
 
 export const NotifierContext = createContext<NotifierContextProps>(
-  {} as NotifierContextProps
+  {} as NotifierContextProps,
 );
 
 export const NotifierContextProvider = ({

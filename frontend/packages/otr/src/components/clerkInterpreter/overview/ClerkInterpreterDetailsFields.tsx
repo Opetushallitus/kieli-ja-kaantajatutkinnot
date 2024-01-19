@@ -79,7 +79,7 @@ const getTextFieldType = (field: ClerkInterpreterTextFieldEnum) => {
 const getFieldError = (
   field: ClerkInterpreterTextFieldEnum,
   required: boolean,
-  interpreterTextFields?: ClerkInterpreterTextFields
+  interpreterTextFields?: ClerkInterpreterTextFields,
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
@@ -90,7 +90,7 @@ const getFieldError = (
     type,
     value,
     required,
-    maxLength
+    maxLength,
   );
 
   return error ? t(`otr.${error}`) : '';
@@ -159,11 +159,11 @@ const ClerkInterpreterDetailsRegions = ({
 
   const memoizedKoodistoRegions = useMemo(
     () => Object.keys(koodistoRegionsFI.otr.koodisto.regions),
-    []
+    [],
   );
 
   const handleRadioButtonChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setAreaOfOperation(event.target.value as AreaOfOperation);
     if (event.target.value === AreaOfOperation.All) {
@@ -176,7 +176,7 @@ const ClerkInterpreterDetailsRegions = ({
   };
 
   const options = RegionUtils.getRegionAutocompleteValues(
-    memoizedKoodistoRegions
+    memoizedKoodistoRegions,
   );
 
   return (
@@ -241,11 +241,11 @@ export const ClerkInterpreterDetailsFields = ({
   isPersonalInformationIndividualised?: boolean;
   isAddressIndividualised?: boolean;
   onFieldChange: (
-    field: keyof ClerkInterpreterBasicInformation
+    field: keyof ClerkInterpreterBasicInformation,
   ) => (
     eventOrValue:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | ComboBoxOption[]
+      | ComboBoxOption[],
   ) => void;
   areaOfOperation: AreaOfOperation;
   setAreaOfOperation: React.Dispatch<React.SetStateAction<AreaOfOperation>>;
@@ -263,7 +263,7 @@ export const ClerkInterpreterDetailsFields = ({
     (acc, val) => {
       return { ...acc, [val]: showFieldErrorBeforeChange };
     },
-    {}
+    {},
   ) as Record<ClerkInterpreterTextFieldEnum, boolean>;
 
   const [fieldErrors, setFieldErrors] = useState(initialErrors);
@@ -339,7 +339,7 @@ export const ClerkInterpreterDetailsFields = ({
         />
         <ClerkInterpreterDetailsTextField
           {...getCommonTextFieldProps(
-            ClerkInterpreterTextFieldEnum.IdentityNumber
+            ClerkInterpreterTextFieldEnum.IdentityNumber,
           )}
         />
       </div>
@@ -383,7 +383,7 @@ export const ClerkInterpreterDetailsFields = ({
         <div className="columns">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(
-              ClerkInterpreterTextFieldEnum.PhoneNumber
+              ClerkInterpreterTextFieldEnum.PhoneNumber,
             )}
             fullWidth
           />
@@ -398,7 +398,7 @@ export const ClerkInterpreterDetailsFields = ({
         <div className="columns">
           <ClerkInterpreterDetailsTextField
             {...getCommonTextFieldProps(
-              ClerkInterpreterTextFieldEnum.OtherContactInfo
+              ClerkInterpreterTextFieldEnum.OtherContactInfo,
             )}
             fullWidth
           />
@@ -416,7 +416,7 @@ export const ClerkInterpreterDetailsFields = ({
       <H3>{t('header.extraInformation')}</H3>
       <ClerkInterpreterDetailsTextField
         {...getCommonTextFieldProps(
-          ClerkInterpreterTextFieldEnum.ExtraInformation
+          ClerkInterpreterTextFieldEnum.ExtraInformation,
         )}
         multiline
         fullWidth

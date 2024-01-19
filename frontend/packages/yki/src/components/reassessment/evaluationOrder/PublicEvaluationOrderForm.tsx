@@ -94,11 +94,11 @@ const SelectExaminationParts = () => {
     keyPrefix: 'yki.component.evaluationOrderForm.selectExaminationParts',
   });
   const { examinationParts, showErrors } = useAppSelector(
-    evaluationOrderSelector
+    evaluationOrderSelector,
   );
   const sumTotal = Object.values(examinationParts).reduce(
     (acc, val) => (val ? acc + 50 : acc),
-    0
+    0,
   );
 
   return (
@@ -157,7 +157,7 @@ const ParticipantDetailsTextField = ({
       const error = InputFieldUtils.inspectCustomTextFieldErrors(
         fieldType,
         value,
-        true
+        true,
       );
 
       if (!error) {
@@ -166,7 +166,7 @@ const ParticipantDetailsTextField = ({
 
       return translateCommon(error);
     },
-    [value, showErrors, translateCommon]
+    [value, showErrors, translateCommon],
   );
 
   return (
@@ -206,7 +206,7 @@ const FillParticipantDetails = () => {
 const AcceptConditions = () => {
   const translateCommon = useCommonTranslation();
   const { acceptConditions, showErrors } = useAppSelector(
-    evaluationOrderSelector
+    evaluationOrderSelector,
   );
   const dispatch = useAppDispatch();
 

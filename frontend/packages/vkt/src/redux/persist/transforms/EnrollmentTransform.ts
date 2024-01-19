@@ -22,5 +22,5 @@ export const EnrollmentTransform = createTransform(
     };
   },
   // define which reducers this transform gets called for.
-  { whitelist: ['publicEnrollment'] }
+  { whitelist: ['publicEnrollment'] },
 );

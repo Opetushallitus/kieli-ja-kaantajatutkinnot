@@ -15,7 +15,7 @@ export const MeetingDatesToggleFilters = () => {
   });
 
   const { upcoming, passed } = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   );
 
   const dispatch = useAppDispatch();

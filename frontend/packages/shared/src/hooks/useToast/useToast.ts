@@ -30,7 +30,7 @@ export const useToast = () => {
       };
       onToastShow(toast);
     },
-    [onToastShow]
+    [onToastShow],
   );
 
   const removeToast = useCallback(() => {

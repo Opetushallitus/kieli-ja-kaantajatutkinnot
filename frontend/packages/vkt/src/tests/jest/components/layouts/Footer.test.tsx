@@ -9,7 +9,7 @@ describe('Footer', () => {
       .create(
         <BrowserRouter>
           <Footer />
-        </BrowserRouter>
+        </BrowserRouter>,
       )
       .toJSON();
 

@@ -159,7 +159,7 @@ export const EnrollToQueue = () => {
       isPhone,
       t,
       translateCommon,
-    ]
+    ],
   );
 
   useEffect(() => {

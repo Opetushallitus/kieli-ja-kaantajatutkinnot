@@ -31,7 +31,7 @@ class ClerkEnrollmentOverviewPage {
 
   expectTextFieldNotToExist(fieldName: string) {
     cy.get(`clerk-enrollment__details-fields__${fieldName}`).should(
-      'not.exist'
+      'not.exist',
     );
   }
 

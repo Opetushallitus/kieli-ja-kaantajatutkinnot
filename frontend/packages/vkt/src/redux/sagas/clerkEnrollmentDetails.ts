@@ -36,10 +36,10 @@ function* createClerkEnrollmentPaymentLinkSaga(action: PayloadAction<number>) {
     const apiResponse: AxiosResponse<ClerkPaymentLinkResponse> = yield call(
       axiosInstance.post,
       `${APIEndpoints.ClerkEnrollment}/${action.payload}/paymentLink`,
-      {}
+      {},
     );
     const paymentLink = SerializationUtils.deserializeClerkPaymentLink(
-      apiResponse.data
+      apiResponse.data,
     );
 
     yield put(storeClerkEnrollmentPaymentLink(paymentLink));
@@ -54,7 +54,7 @@ function* updateClerkEnrollmentDetailsSaga(
   action: PayloadAction<{
     enrollment: ClerkEnrollment;
     examEvent: ClerkExamEvent;
-  }>
+  }>,
 ) {
   const { enrollment, examEvent } = action.payload;
 
@@ -62,10 +62,10 @@ function* updateClerkEnrollmentDetailsSaga(
     const apiResponse: AxiosResponse<ClerkEnrollmentResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.ClerkEnrollment,
-      SerializationUtils.serializeClerkEnrollment(enrollment)
+      SerializationUtils.serializeClerkEnrollment(enrollment),
     );
     const updatedEnrollment = SerializationUtils.deserializeClerkEnrollment(
-      apiResponse.data
+      apiResponse.data,
     );
 
     const updatedEnrollments = [...examEvent.enrollments];
@@ -91,7 +91,7 @@ function* moveEnrollmentSaga(action: PayloadAction<ClerkEnrollmentMove>) {
     yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkEnrollment}/move`,
-      action.payload
+      action.payload,
     );
 
     yield put(moveEnrollmentSucceeded());
@@ -107,10 +107,10 @@ function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
     const apiResponse: AxiosResponse<ClerkPaymentResponse> = yield call(
       axiosInstance.put,
       `${APIEndpoints.ClerkPayment}/${action.payload}/refunded`,
-      {}
+      {},
     );
     const payment = SerializationUtils.deserializeClerkPayment(
-      apiResponse.data
+      apiResponse.data,
     );
 
     yield put(storeClerkPaymentRefunded(payment));
@@ -124,11 +124,11 @@ function* setClerkPaymentRefundedSaga(action: PayloadAction<number>) {
 export function* watchClerkEnrollmentDetails() {
   yield takeLatest(
     createClerkEnrollmentPaymentLink,
-    createClerkEnrollmentPaymentLinkSaga
+    createClerkEnrollmentPaymentLinkSaga,
   );
   yield takeLatest(
     updateClerkEnrollmentDetails.type,
-    updateClerkEnrollmentDetailsSaga
+    updateClerkEnrollmentDetailsSaga,
   );
   yield takeLatest(moveEnrollment, moveEnrollmentSaga);
   yield takeLatest(setClerkPaymentRefunded, setClerkPaymentRefundedSaga);

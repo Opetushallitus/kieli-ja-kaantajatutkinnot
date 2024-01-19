@@ -47,7 +47,7 @@ class ClerkNewInterpreterPage {
     street: string,
     postalCode: string,
     town: string,
-    country: string
+    country: string,
   ) {
     this.expectInterpreterFieldValue('street', 'input', street);
     this.expectInterpreterFieldValue('postalCode', 'input', postalCode);
@@ -76,7 +76,7 @@ class ClerkNewInterpreterPage {
   fillOutQualificationField(
     fieldName: string,
     fieldType: string,
-    newValue: string
+    newValue: string,
   ) {
     this.elements
       .qualificationField(fieldName, fieldType)

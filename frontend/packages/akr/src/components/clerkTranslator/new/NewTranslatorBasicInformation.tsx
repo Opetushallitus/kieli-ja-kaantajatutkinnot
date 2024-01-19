@@ -40,7 +40,7 @@ export const NewTranslatorBasicInformation = ({
 
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined
+    fieldValue: string | boolean | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translator,
@@ -48,7 +48,7 @@ export const NewTranslatorBasicInformation = ({
     };
     onDetailsChange();
     dispatch(
-      updateClerkNewTranslator(updatedTranslatorDetails as ClerkNewTranslator)
+      updateClerkNewTranslator(updatedTranslatorDetails as ClerkNewTranslator),
     );
   };
 

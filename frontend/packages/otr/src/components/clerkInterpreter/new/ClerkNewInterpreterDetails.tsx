@@ -22,7 +22,7 @@ export const ClerkNewInterpreterDetails = ({
 
   // Local state
   const [areaOfOperation, setAreaOfOperation] = useState(
-    RegionUtils.getAreaOfOperation(interpreter.regions)
+    RegionUtils.getAreaOfOperation(interpreter.regions),
   );
 
   const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ export const ClerkNewInterpreterDetails = ({
     (
       eventOrValue:
         | ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-        | ComboBoxOption[]
+        | ComboBoxOption[],
     ) => {
       let fieldValue;
       let updatedInterpreterDetails;

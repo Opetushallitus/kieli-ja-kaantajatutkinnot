@@ -43,61 +43,61 @@ export class SerializationUtils {
   }
 
   static deserializeExamSessionResponse(
-    examSessionResponse: ExamSessionResponse
+    examSessionResponse: ExamSessionResponse,
   ): ExamSession {
     return {
       ...examSessionResponse,
       session_date: dayjs(examSessionResponse.session_date),
       post_admission_start_date: SerializationUtils.deserializeStartTime(
-        examSessionResponse.post_admission_start_date
+        examSessionResponse.post_admission_start_date,
       ),
       post_admission_end_date: SerializationUtils.deserializeEndTime(
-        examSessionResponse.post_admission_end_date
+        examSessionResponse.post_admission_end_date,
       ),
       registration_start_date: SerializationUtils.deserializeStartTime(
-        examSessionResponse.registration_start_date
+        examSessionResponse.registration_start_date,
       ) as Dayjs,
       registration_end_date: SerializationUtils.deserializeEndTime(
-        examSessionResponse.registration_end_date
+        examSessionResponse.registration_end_date,
       ) as Dayjs,
     };
   }
 
   static deserializeExamSessionsResponse(
-    examSessionsResponse: ExamSessionsResponse
+    examSessionsResponse: ExamSessionsResponse,
   ): ExamSessions {
     const exam_sessions = examSessionsResponse.exam_sessions.map(
-      SerializationUtils.deserializeExamSessionResponse
+      SerializationUtils.deserializeExamSessionResponse,
     );
 
     return { exam_sessions };
   }
 
   static deserializeEvaluationPeriodResponse(
-    evaluationPeriodResponse: EvaluationPeriodResponse
+    evaluationPeriodResponse: EvaluationPeriodResponse,
   ): EvaluationPeriod {
     return {
       ...evaluationPeriodResponse,
       exam_date: dayjs(evaluationPeriodResponse.exam_date),
       evaluation_start_date: dayjs(
-        evaluationPeriodResponse.evaluation_start_date
+        evaluationPeriodResponse.evaluation_start_date,
       ),
       evaluation_end_date: dayjs(evaluationPeriodResponse.evaluation_end_date),
     };
   }
 
   static deserializeEvaluationPeriodsResponse(
-    evaluationPeriodsResponse: EvaluationPeriodsResponse
+    evaluationPeriodsResponse: EvaluationPeriodsResponse,
   ): EvaluationPeriods {
     const evaluation_periods = evaluationPeriodsResponse.evaluation_periods.map(
-      SerializationUtils.deserializeEvaluationPeriodResponse
+      SerializationUtils.deserializeEvaluationPeriodResponse,
     );
 
     return { evaluation_periods };
   }
 
   static serializeEvaluationSubtests(
-    examinationParts: ExaminationParts
+    examinationParts: ExaminationParts,
   ): Array<Subtest> {
     const subtests: Array<Subtest> = [];
     if (examinationParts.readingComprehension) {
@@ -124,7 +124,7 @@ export class SerializationUtils {
       first_names: participantDetails.firstNames as string,
       last_name: participantDetails.lastName as string,
       birthdate: DateUtils.serializeDate(
-        DateUtils.parseDateString(participantDetails.birthdate)
+        DateUtils.parseDateString(participantDetails.birthdate),
       ) as string,
       email: participantDetails.email as string,
       subtests:
@@ -133,7 +133,7 @@ export class SerializationUtils {
   }
 
   static deserializeEvaluationOrderDetailsResponse(
-    response: EvaluationOrderDetailsResponse
+    response: EvaluationOrderDetailsResponse,
   ): EvaluationOrderDetails {
     return { ...response, exam_date: dayjs(response.exam_date) };
   }
@@ -161,7 +161,7 @@ export class SerializationUtils {
   }
 
   static deserializeNationalitiesResponse(
-    response: NationalitiesResponse
+    response: NationalitiesResponse,
   ): Array<Nationality> {
     return response
       .map((v) =>
@@ -174,18 +174,18 @@ export class SerializationUtils {
               : metadata.kieli === 'SV'
               ? AppLanguage.Swedish
               : AppLanguage.Finnish,
-        }))
+        })),
       )
       .flat();
   }
 
   static serializeRegistrationForm(
     registration: Partial<PublicSuomiFiRegistration & PublicEmailRegistration>,
-    nationalities: Array<Nationality>
+    nationalities: Array<Nationality>,
   ) {
     const nationality = registration.nationality;
     const nationality_desc = nationalities.find(
-      (v) => v.code === nationality && v.language === AppLanguage.Finnish
+      (v) => v.code === nationality && v.language === AppLanguage.Finnish,
     )?.name;
 
     return {
@@ -196,7 +196,7 @@ export class SerializationUtils {
       certificate_lang: registration.certificateLanguage,
       exam_lang: registration.instructionLanguage,
       birthdate: DateUtils.serializeDate(
-        DateUtils.parseDateString(registration.dateOfBirth)
+        DateUtils.parseDateString(registration.dateOfBirth),
       ),
       ssn: registration.ssn,
       zip: registration.postNumber,

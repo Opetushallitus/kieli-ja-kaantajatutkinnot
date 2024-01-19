@@ -43,13 +43,13 @@ const clerkNewInterpreterSlice = createSlice({
   reducers: {
     initialiseClerkNewInterpreterByIdentityNumber(
       state,
-      action: PayloadAction<string>
+      action: PayloadAction<string>,
     ) {
       state.interpreter.identityNumber = action.payload;
     },
     initialiseClerkNewInterpreterByPerson(
       state,
-      action: PayloadAction<ClerkPerson>
+      action: PayloadAction<ClerkPerson>,
     ) {
       const person = action.payload;
 
@@ -76,7 +76,7 @@ const clerkNewInterpreterSlice = createSlice({
     },
     saveClerkNewInterpreter(
       state,
-      _action: PayloadAction<ClerkNewInterpreter>
+      _action: PayloadAction<ClerkNewInterpreter>,
     ) {
       state.status = APIResponseStatus.InProgress;
     },
@@ -86,7 +86,7 @@ const clerkNewInterpreterSlice = createSlice({
     },
     updateClerkNewInterpreter(
       state,
-      action: PayloadAction<ClerkNewInterpreter>
+      action: PayloadAction<ClerkNewInterpreter>,
     ) {
       state.interpreter = action.payload;
     },

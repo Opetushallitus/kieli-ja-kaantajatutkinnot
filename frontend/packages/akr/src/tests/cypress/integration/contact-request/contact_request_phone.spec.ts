@@ -19,7 +19,7 @@ beforeEach(() => {
     () => {
       cy.usePhoneViewport();
       cy.openPublicHomePage();
-    }
+    },
   );
   const isPhone = true;
   onPublicTranslatorFilters.filterByLanguagePair(isPhone, 'suomi', 'ruotsi');
@@ -35,7 +35,7 @@ describe('ContactRequestPage:Phone', () => {
     previewAndSendStep();
 
     runWithIntercept(APIEndpoints.ContactRequest, { statusCode: 200 }, () =>
-      onContactRequestPage.submit()
+      onContactRequestPage.submit(),
     );
 
     onContactRequestPage.expectRequestToBeSent();

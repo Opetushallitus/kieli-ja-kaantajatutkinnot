@@ -7,7 +7,7 @@ import { SerializationUtils } from 'utils/serialization';
 
 const evaluationPeriod: EvaluationPeriod =
   SerializationUtils.deserializeEvaluationPeriodResponse(
-    evaluationPeriods.evaluation_periods[0]
+    evaluationPeriods.evaluation_periods[0],
   );
 
 const assertDialogWithError = (error: string) =>

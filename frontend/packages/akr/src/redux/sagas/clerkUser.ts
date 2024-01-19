@@ -15,7 +15,7 @@ function* loadClerkUserSaga() {
   try {
     const response: AxiosResponse<ClerkUser> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkUser
+      APIEndpoints.ClerkUser,
     );
 
     if (response.status === HTTPStatusCode.Ok) {

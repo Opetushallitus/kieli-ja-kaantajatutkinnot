@@ -41,7 +41,7 @@ export const SelectExam = ({
     setIsStepValid(
       isValidPreviousEnrollment &&
         isValidPartialExamsSelection &&
-        isValidCertificateShipping
+        isValidCertificateShipping,
     );
   }, [
     setIsStepValid,

@@ -26,17 +26,17 @@ function* loadClerkTranslatorOverviewSaga(action: PayloadAction<number>) {
   try {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.get,
-      `${APIEndpoints.ClerkTranslator}/${action.payload}`
+      `${APIEndpoints.ClerkTranslator}/${action.payload}`,
     );
 
     const translator = SerializationUtils.deserializeClerkTranslator(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(storeClerkTranslatorOverview(translator));
   } catch (error) {
     const t = translateOutsideComponent();
     yield put(
-      setAPIError(t('akr.component.clerkTranslatorOverview.toasts.notFound'))
+      setAPIError(t('akr.component.clerkTranslatorOverview.toasts.notFound')),
     );
     yield put(rejectClerkTranslatorOverview());
   }
@@ -47,10 +47,10 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
     const apiResponse: AxiosResponse<ClerkTranslatorResponse> = yield call(
       axiosInstance.put,
       APIEndpoints.ClerkTranslator,
-      SerializationUtils.serializeClerkTranslator(action.payload)
+      SerializationUtils.serializeClerkTranslator(action.payload),
     );
     const translator = SerializationUtils.deserializeClerkTranslator(
-      apiResponse.data
+      apiResponse.data,
     );
 
     yield put(upsertClerkTranslator(translator));
@@ -65,7 +65,7 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
 export function* watchClerkTranslatorOverview() {
   yield takeLatest(
     loadClerkTranslatorOverview.type,
-    loadClerkTranslatorOverviewSaga
+    loadClerkTranslatorOverviewSaga,
   );
   yield takeLatest(updateClerkTranslatorDetails.type, updateTranslatorDetails);
 }

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 /* Positioning */
 .centered {
   &#{&} {
@@ -23,7 +25,7 @@ thead.heading-text th {
     }
 
     & > *:not(:first-child) {
-      padding-left: map-get($spacing, 'xxs');
+      padding-left: map.get($spacing, 'xxs');
     }
   }
 }

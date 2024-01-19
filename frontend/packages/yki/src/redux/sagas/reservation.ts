@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import axiosInstance from 'configs/axios';
@@ -18,7 +18,7 @@ import {
 import { SerializationUtils } from 'utils/serialization';
 
 function* sendReservationRequestSaga(
-  action: PayloadAction<ReservationRequest>
+  action: PayloadAction<ReservationRequest>,
 ) {
   try {
     const { email, examSessionId } = action.payload;
@@ -28,14 +28,14 @@ function* sendReservationRequestSaga(
       axiosInstance.post,
       APIEndpoints.ExamSessionQueue.replace(
         /:examSessionId/,
-        `${examSessionId}`
+        `${examSessionId}`,
       ),
       JSON.stringify({ email }),
-      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } }
+      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } },
     );
     yield put(acceptReservationRequest());
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
+    if (isAxiosError(error) && error.response) {
       const errorResponse = error.response.data as ReservationErrorResponse;
       const errorCause = errorResponse.exists
         ? ReservationErrorCause.EmailAlreadyQueued

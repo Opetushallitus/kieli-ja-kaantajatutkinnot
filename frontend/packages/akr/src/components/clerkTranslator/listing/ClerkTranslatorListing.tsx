@@ -62,7 +62,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
 
   const overviewUrl = AppRoutes.ClerkTranslatorOverviewPage.replace(
     /:translatorId$/,
-    `${id}`
+    `${id}`,
   );
 
   const handleRowClick = () => dispatch(setClerkTranslatorOverview(translator));
@@ -90,7 +90,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
         case AuthorisationColumn.LanguagePair:
           return AuthorisationUtils.getLanguagePairLocalisation(
             languagePair,
-            translateLanguage
+            translateLanguage,
           );
         case AuthorisationColumn.Basis:
           return basis;
@@ -104,7 +104,7 @@ const ListingRow = ({ translator }: { translator: ClerkTranslator }) => {
             : translateCommon('no');
       }
     },
-    [translateCommon, translateLanguage]
+    [translateCommon, translateLanguage],
   );
 
   const getAuthorisationCellClassName = (authorisation: Authorisation) => {
@@ -192,7 +192,7 @@ const ListingHeader: FC = () => {
 export const ClerkTranslatorListing: FC = () => {
   const { t } = useAppTranslation({ keyPrefix: 'akr' });
   const { status, selectedTranslators, pagination } = useAppSelector(
-    clerkTranslatorsSelector
+    clerkTranslatorsSelector,
   );
   const dispatch = useAppDispatch();
   const filteredTranslators = useAppSelector(selectFilteredClerkTranslators);

@@ -79,7 +79,7 @@ export const ClerkExamEventCreatePage: FC = () => {
         description: t('toasts.addingSucceeded'),
       });
       navigate(
-        AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId/, `${id}`)
+        AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId/, `${id}`),
       );
       dispatch(resetClerkNewExamDate());
     }

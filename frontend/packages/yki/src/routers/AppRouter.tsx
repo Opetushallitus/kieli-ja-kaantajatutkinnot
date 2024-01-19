@@ -1,6 +1,16 @@
 import { FC, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Notifier, ScrollToTop } from 'shared/components';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
+import {
+  Notifier,
+  NotifierContextProvider,
+  ScrollToTop,
+} from 'shared/components';
 import { APIResponseStatus } from 'shared/enums';
 import { TitlePage } from 'shared/utils';
 
@@ -38,102 +48,115 @@ export const AppRouter: FC = () => {
     }
   }, [dispatch, sessionStatus]);
 
-  useAPIErrorToast();
+  const ErrorToast = () => {
+    useAPIErrorToast();
 
-  return (
-    <BrowserRouter>
-      <div className="app">
+    return <></>;
+  };
+
+  const Root = (
+    <div className="app">
+      <NotifierContextProvider>
         <Header />
+        <ErrorToast />
         <Notifier />
         <ScrollToTop />
         <main className="content" id="main-content">
           <div className="content__container">
-            <Routes>
-              <Route
-                path={AppRoutes.Registration}
-                element={
-                  <TitlePage title={createTitle('registration')}>
-                    <RegistrationPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ExamSession}
-                element={
-                  <TitlePage title={createTitle('initRegistration')}>
-                    <InitRegistrationPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ExamSessionRegistration}
-                element={
-                  <TitlePage title={createTitle('examDetails')}>
-                    <ExamDetailsPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.RegistrationPaymentStatus}
-                element={
-                  <TitlePage title={createTitle('registrationPaymentStatus')}>
-                    <RegistrationPaymentStatusPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.Reassessment}
-                element={
-                  <TitlePage title={createTitle('reassessment')}>
-                    <ReassessmentPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ReassessmentOrder}
-                element={
-                  <TitlePage title={createTitle('evaluationOrder')}>
-                    <EvaluationOrderPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.ReassessmentOrderStatus}
-                element={
-                  <TitlePage title={createTitle('evaluationOrderStatus')}>
-                    <EvaluationOrderStatusPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.AccessibilityStatementPage}
-                element={
-                  <TitlePage title={createTitle('accessibilityStatement')}>
-                    <AccessibilityStatementPage />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.LogoutSuccess}
-                element={
-                  <TitlePage title={createTitle('logoutSuccess')}>
-                    <LogoutSuccess />
-                  </TitlePage>
-                }
-              />
-              <Route
-                path={AppRoutes.NotFoundPage}
-                element={
-                  <TitlePage title={createTitle('notFound')}>
-                    <NotFoundPage />
-                  </TitlePage>
-                }
-              />
-            </Routes>
+            <Outlet />
           </div>
         </main>
         <Footer />
-      </div>
-    </BrowserRouter>
+      </NotifierContextProvider>
+    </div>
   );
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path={AppRoutes.PublicRoot} element={Root}>
+        <Route
+          path={AppRoutes.Registration}
+          element={
+            <TitlePage title={createTitle('registration')}>
+              <RegistrationPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSession}
+          element={
+            <TitlePage title={createTitle('initRegistration')}>
+              <InitRegistrationPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ExamSessionRegistration}
+          element={
+            <TitlePage title={createTitle('examDetails')}>
+              <ExamDetailsPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.RegistrationPaymentStatus}
+          element={
+            <TitlePage title={createTitle('registrationPaymentStatus')}>
+              <RegistrationPaymentStatusPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.Reassessment}
+          element={
+            <TitlePage title={createTitle('reassessment')}>
+              <ReassessmentPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ReassessmentOrder}
+          element={
+            <TitlePage title={createTitle('evaluationOrder')}>
+              <EvaluationOrderPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.ReassessmentOrderStatus}
+          element={
+            <TitlePage title={createTitle('evaluationOrderStatus')}>
+              <EvaluationOrderStatusPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.AccessibilityStatementPage}
+          element={
+            <TitlePage title={createTitle('accessibilityStatement')}>
+              <AccessibilityStatementPage />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.LogoutSuccess}
+          element={
+            <TitlePage title={createTitle('logoutSuccess')}>
+              <LogoutSuccess />
+            </TitlePage>
+          }
+        />
+        <Route
+          path={AppRoutes.NotFoundPage}
+          element={
+            <TitlePage title={createTitle('notFound')}>
+              <NotFoundPage />
+            </TitlePage>
+          }
+        />
+      </Route>,
+    ),
+  );
+
+  return <RouterProvider router={router} />;
 };

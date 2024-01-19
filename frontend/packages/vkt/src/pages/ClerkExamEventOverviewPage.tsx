@@ -26,7 +26,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, examEvent } = useAppSelector(
-    clerkExamEventOverviewSelector
+    clerkExamEventOverviewSelector,
   );
 
   // React Router
@@ -71,7 +71,7 @@ export const ClerkExamEventOverviewPage: FC = () => {
     ? `${ExamEventUtils.languageAndLevelText(
         examEvent.language,
         examEvent.level,
-        translateCommon
+        translateCommon,
       )} ${DateUtils.formatOptionalDate(examEvent.date)}`
     : '';
 

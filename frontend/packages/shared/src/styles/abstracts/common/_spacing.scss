@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 /* Widths */
 .full-max-width {
   &#{&} {
@@ -29,63 +31,63 @@
 /* Margins */
 .margin-top-sm {
   &#{&} {
-    margin-top: map-get($spacing, 'sm');
+    margin-top: map.get($spacing, 'sm');
   }
 }
 
 .margin-top-lg {
   &#{&} {
-    margin-top: map-get($spacing, 'lg');
+    margin-top: map.get($spacing, 'lg');
   }
 }
 
 .margin-top-xxl {
   &#{&} {
-    margin-top: map-get($spacing, 'xxl');
+    margin-top: map.get($spacing, 'xxl');
   }
 }
 
 .margin-right-xs {
   &#{&} {
-    margin-right: map-get($spacing, 'xs');
+    margin-right: map.get($spacing, 'xs');
   }
 }
 
 .margin-left-sm {
   &#{&} {
-    margin-left: map-get($spacing, 'sm');
+    margin-left: map.get($spacing, 'sm');
   }
 }
 
 .margin-left-lg {
   &#{&} {
-    margin-left: map-get($spacing, 'lg');
+    margin-left: map.get($spacing, 'lg');
   }
 }
 
 /* Gaps */
 .gapped {
-  gap: map-get($spacing, 'lg');
+  gap: map.get($spacing, 'lg');
 }
 
 .gapped-xl {
-  gap: map-get($spacing, 'xl');
+  gap: map.get($spacing, 'xl');
 }
 
 .gapped-xxl {
-  gap: map-get($spacing, 'xxl');
+  gap: map.get($spacing, 'xxl');
 }
 
 .gapped-sm {
-  gap: map-get($spacing, 'sm');
+  gap: map.get($spacing, 'sm');
 }
 
 .gapped-xs {
-  gap: map-get($spacing, 'xs');
+  gap: map.get($spacing, 'xs');
 }
 
 .gapped-xxs {
-  gap: map-get($spacing, 'xxs');
+  gap: map.get($spacing, 'xxs');
 }
 
 /* Padding */

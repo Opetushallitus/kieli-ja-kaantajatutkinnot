@@ -45,7 +45,7 @@ export const AddExaminationDate = () => {
       const date = dayjs(value);
 
       return dates.some((examinationDate) =>
-        DateUtils.isDatePartEqual(examinationDate.date, date)
+        DateUtils.isDatePartEqual(examinationDate.date, date),
       );
     }
 

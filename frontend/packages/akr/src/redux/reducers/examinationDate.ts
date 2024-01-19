@@ -93,13 +93,13 @@ const examinationDateSlice = createSlice({
     },
     setExaminationDateFilters(
       state,
-      action: PayloadAction<ExaminationDateFilter>
+      action: PayloadAction<ExaminationDateFilter>,
     ) {
       state.filter = action.payload;
     },
     storeExaminationDates(
       state,
-      action: PayloadAction<Array<ExaminationDate>>
+      action: PayloadAction<Array<ExaminationDate>>,
     ) {
       state.examinationDates.dates = action.payload;
       state.examinationDates.status = APIResponseStatus.Success;

@@ -36,7 +36,7 @@ class ClerkHomePage {
 
   expectSelectedTranslatorsCount(
     totalCount: number,
-    selectedTranslatorsCount = 0
+    selectedTranslatorsCount = 0,
   ) {
     this.elements
       .selectedTranslatorsCountHeading()

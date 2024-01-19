@@ -21,11 +21,11 @@ export const PublicTranslatorListingRowLanguagePairs = ({
       languagePairs: Array<LanguagePair>,
       classes: string,
       indexingStart: number,
-      ariaHidden?: boolean
+      ariaHidden?: boolean,
     ) => {
       return languagePairs
         .map((lp) =>
-          AuthorisationUtils.getLanguagePairLocalisation(lp, translateLanguage)
+          AuthorisationUtils.getLanguagePairLocalisation(lp, translateLanguage),
         )
         .sort()
         .map((localisation, i) => (
@@ -38,16 +38,16 @@ export const PublicTranslatorListingRowLanguagePairs = ({
           </Text>
         ));
     },
-    [translateLanguage]
+    [translateLanguage],
   );
 
   const groupLanguagePairsByFilters = () => {
     if (fromLang && toLang) {
       const matches = languagePairs.filter(
-        ({ from, to }) => from === fromLang && to === toLang
+        ({ from, to }) => from === fromLang && to === toLang,
       );
       const rest = languagePairs.filter(
-        ({ from, to }) => from !== fromLang || to !== toLang
+        ({ from, to }) => from !== fromLang || to !== toLang,
       );
 
       return { matches, rest };
@@ -67,7 +67,7 @@ export const PublicTranslatorListingRowLanguagePairs = ({
               rest,
               'color-grey-600',
               matches.length,
-              true
+              true,
             ),
           ]
         : [...sortAndRenderLanguagePairs(rest, '', 0)]}

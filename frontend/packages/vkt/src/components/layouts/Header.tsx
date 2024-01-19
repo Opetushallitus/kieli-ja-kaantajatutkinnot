@@ -50,7 +50,7 @@ export const Header = (): JSX.Element => {
               getCurrentLang={getCurrentLang}
               langDict={langDict}
               langSelectorAriaLabel={translateCommon(
-                'header.accessibility.langSelectorAriaLabel'
+                'header.accessibility.langSelectorAriaLabel',
               )}
             />
           </Toolbar>
@@ -92,7 +92,7 @@ export const Header = (): JSX.Element => {
                 getCurrentLang={getCurrentLang}
                 langDict={langDict}
                 langSelectorAriaLabel={translateCommon(
-                  'header.accessibility.langSelectorAriaLabel'
+                  'header.accessibility.langSelectorAriaLabel',
                 )}
               />
             )}

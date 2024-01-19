@@ -28,19 +28,19 @@ export const ClerkExamEventDetailsFields = ({
   examEvent: ClerkExamEvent;
   editDisabled: boolean;
   onComboBoxChange: (
-    field: keyof ClerkExamEventBasicInformation
+    field: keyof ClerkExamEventBasicInformation,
   ) => (value?: string) => void;
   onDateChange: (
     field: keyof Pick<
       ClerkExamEventBasicInformation,
       'date' | 'registrationCloses'
-    >
+    >,
   ) => (date: Dayjs | null) => void;
   onCheckBoxChange: (
-    field: keyof ClerkExamEventBasicInformation
+    field: keyof ClerkExamEventBasicInformation,
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   onMaxParticipantsChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
 }) => {
   // I18n

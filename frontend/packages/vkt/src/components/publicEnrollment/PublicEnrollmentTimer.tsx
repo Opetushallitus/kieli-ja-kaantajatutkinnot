@@ -48,18 +48,18 @@ export const PublicEnrollmentTimer = ({
   const expirationStart = reservation.renewedAt ?? reservation.createdAt;
   const expirationTime = Math.max(
     0,
-    reservation.expiresAt.diff(expirationStart, 'second')
+    reservation.expiresAt.diff(expirationStart, 'second'),
   );
 
   const [progress, setProgress] = useState(
-    calcProgress(reservation.expiresAt, expirationTime)
+    calcProgress(reservation.expiresAt, expirationTime),
   );
   const [timerWarningClosed, setTimerWarningClosed] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(
       () => setProgress(calcProgress(reservation.expiresAt, expirationTime)),
-      1000
+      1000,
     );
 
     return () => {

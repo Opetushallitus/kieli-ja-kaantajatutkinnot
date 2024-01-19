@@ -82,7 +82,7 @@ export class DateUtils {
     const date = dayjs(
       dateString,
       ['D.M.YYYY', 'D.MM.YYYY', 'DD.M.YYYY', 'DD.MM.YYYY'],
-      true
+      true,
     );
     if (date.isValid()) {
       return date;

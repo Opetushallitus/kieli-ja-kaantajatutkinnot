@@ -62,7 +62,7 @@ const evaluationOrderSlice = createSlice({
     },
     setExaminationParts(
       state,
-      action: PayloadAction<Partial<ExaminationParts>>
+      action: PayloadAction<Partial<ExaminationParts>>,
     ) {
       state.examinationParts = { ...state.examinationParts, ...action.payload };
     },
@@ -71,7 +71,7 @@ const evaluationOrderSlice = createSlice({
     },
     setParticipantDetails(
       state,
-      action: PayloadAction<Partial<ParticipantDetails>>
+      action: PayloadAction<Partial<ParticipantDetails>>,
     ) {
       state.participantDetails = {
         ...state.participantDetails,
@@ -86,7 +86,7 @@ const evaluationOrderSlice = createSlice({
     },
     acceptEvaluationOrderDetails(
       state,
-      action: PayloadAction<EvaluationOrderDetails>
+      action: PayloadAction<EvaluationOrderDetails>,
     ) {
       state.loadEvaluationOrderDetailsState = APIResponseStatus.Success;
       state.evaluationOrderDetails = action.payload;

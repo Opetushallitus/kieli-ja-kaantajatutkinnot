@@ -17,7 +17,7 @@ function* loadClerkTranslatorsSaga() {
   try {
     const apiResponse: AxiosResponse<ClerkStateResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.ClerkTranslator
+      APIEndpoints.ClerkTranslator,
     );
     const { translators, langs, meetingDates, examinationDates } =
       SerializationUtils.deserializeClerkTranslators(apiResponse.data);

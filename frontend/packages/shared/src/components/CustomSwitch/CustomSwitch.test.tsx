@@ -13,7 +13,7 @@ describe('CustomSwitch', () => {
           errorLabel="test-error-label"
           value={true}
           disabled={true}
-        ></CustomSwitch>
+        ></CustomSwitch>,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe('CustomSwitch', () => {
         <CustomSwitch
           leftLabel="anotherLeftLabel"
           rightLabel="anotherRightLabel"
-        />
+        />,
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

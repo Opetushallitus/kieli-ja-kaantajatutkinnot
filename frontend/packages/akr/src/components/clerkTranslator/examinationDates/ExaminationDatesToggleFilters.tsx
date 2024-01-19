@@ -27,7 +27,7 @@ export const ExaminationDatesToggleFilters = () => {
     dispatch(
       setExaminationDateFilters({
         examinationDateStatus: status,
-      })
+      }),
     );
     dispatch(setPage(0));
   };

@@ -1,18 +1,19 @@
+@use 'sass:map';
 @use '../../styles/abstracts/mixins';
 @use '../../styles/abstracts/maps';
 
 .accessibility-statement {
   & &-content {
     @include mixins.phone {
-      gap: map-get(maps.$spacing, 'md');
+      gap: map.get(maps.$spacing, 'md');
     }
 
     &__caveats {
       @include mixins.phone {
-        gap: map-get(maps.$spacing, 'md');
+        gap: map.get(maps.$spacing, 'md');
 
         > div {
-          margin-top: map-get(maps.$spacing, 'md');
+          margin-top: map.get(maps.$spacing, 'md');
         }
       }
     }

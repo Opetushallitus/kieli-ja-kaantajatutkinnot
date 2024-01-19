@@ -13,17 +13,17 @@ describe('ClerkHomePage', () => {
 
   it('should split listed exam events under upcoming and passed tabs', () => {
     onClerkHomePage.expectFilteredExamEventsCount(
-      examEventCounts[ExamEventToggleFilter.Upcoming]
+      examEventCounts[ExamEventToggleFilter.Upcoming],
     );
 
     onClerkHomePage.clickToggleFilter(ExamEventToggleFilter.Passed);
     onClerkHomePage.expectFilteredExamEventsCount(
-      examEventCounts[ExamEventToggleFilter.Passed]
+      examEventCounts[ExamEventToggleFilter.Passed],
     );
 
     onClerkHomePage.clickToggleFilter(ExamEventToggleFilter.Upcoming);
     onClerkHomePage.expectFilteredExamEventsCount(
-      examEventCounts[ExamEventToggleFilter.Upcoming]
+      examEventCounts[ExamEventToggleFilter.Upcoming],
     );
 
     onClerkHomePage.expectUnusedSeatsNotification();
@@ -38,14 +38,14 @@ describe('ClerkHomePage', () => {
 
     onClerkHomePage.filterByLanguage(ExamLanguage.ALL);
     onClerkHomePage.expectFilteredExamEventsCount(
-      examEventCounts[ExamEventToggleFilter.Upcoming]
+      examEventCounts[ExamEventToggleFilter.Upcoming],
     );
   });
 
   it('should allow navigating to exam event page by clicking related row', () => {
     onClerkHomePage.clickExamEventRow(1);
     cy.isOnPage(
-      AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId$/, '1')
+      AppRoutes.ClerkExamEventOverviewPage.replace(/:examEventId$/, '1'),
     );
   });
 

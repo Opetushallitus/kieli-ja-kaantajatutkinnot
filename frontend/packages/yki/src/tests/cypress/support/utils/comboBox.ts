@@ -1,6 +1,6 @@
 export const selectComboBoxOptionByName = (
   comboBox: Cypress.Chainable,
-  name: string
+  name: string,
 ) => {
   comboBox.click();
   cy.findByRole('option', { name }).scrollIntoView();

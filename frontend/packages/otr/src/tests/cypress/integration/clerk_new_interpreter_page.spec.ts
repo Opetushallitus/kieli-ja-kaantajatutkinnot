@@ -21,7 +21,7 @@ describe('ClerkNewInterpreterPage', () => {
 
     it('title should indicate a new person is created in ONR', () => {
       onClerkNewInterpreterPage.expectTitle(
-        'Tiedot lisätään oppijanumerorekisteriin'
+        'Tiedot lisätään oppijanumerorekisteriin',
       );
     });
 
@@ -29,11 +29,11 @@ describe('ClerkNewInterpreterPage', () => {
       onClerkNewInterpreterPage.expectInterpreterFieldValue(
         'identityNumber',
         'input',
-        NEW_PERSON_SSN
+        NEW_PERSON_SSN,
       );
       onClerkNewInterpreterPage.expectDisabledInterpreterField(
         'identityNumber',
-        'input'
+        'input',
       );
 
       [
@@ -51,7 +51,7 @@ describe('ClerkNewInterpreterPage', () => {
         onClerkNewInterpreterPage.expectInterpreterFieldValue(
           field,
           'input',
-          ''
+          '',
         );
         onClerkNewInterpreterPage.expectEnabledInterpreterField(field, 'input');
       });
@@ -60,26 +60,26 @@ describe('ClerkNewInterpreterPage', () => {
     it('saving should be disabled if fields are not properly set', () => {
       const expectEmptyingToDisableSaveInterpreterButton = (
         fieldName,
-        reset
+        reset,
       ) => {
         onClerkNewInterpreterPage.editInterpreterField(fieldName, 'input', ' ');
         onClerkNewInterpreterPage.expectDisabledSaveInterpreterButton();
         onClerkNewInterpreterPage.editInterpreterField(
           fieldName,
           'input',
-          reset
+          reset,
         );
       };
 
       onClerkNewInterpreterPage.setNameFieldValues(
         'Tester',
         'Test Name',
-        'Test'
+        'Test',
       );
       onClerkNewInterpreterPage.editInterpreterField(
         'email',
         'input',
-        'test@tester'
+        'test@tester',
       );
       onClerkNewInterpreterPage.clickAddQualificationButton();
       onClerkNewInterpreterPage.fillOutQualificationFields();
@@ -99,12 +99,12 @@ describe('ClerkNewInterpreterPage', () => {
       onClerkNewInterpreterPage.setNameFieldValues(
         'Tester',
         'Test Name',
-        'Test'
+        'Test',
       );
       onClerkNewInterpreterPage.editInterpreterField(
         'email',
         'input',
-        'test@tester'
+        'test@tester',
       );
       onClerkNewInterpreterPage.clickAddQualificationButton();
       onClerkNewInterpreterPage.fillOutQualificationFields();
@@ -116,7 +116,7 @@ describe('ClerkNewInterpreterPage', () => {
       const expectedInterpreterPage =
         AppRoutes.ClerkInterpreterOverviewPage.replace(
           /:interpreterId$/,
-          `${clerkInterpreter.id}`
+          `${clerkInterpreter.id}`,
         );
       cy.isOnPage(expectedInterpreterPage);
     });
@@ -130,7 +130,7 @@ describe('ClerkNewInterpreterPage', () => {
 
     it('title should indicate interpreter is created for an existing person', () => {
       onClerkNewInterpreterPage.expectTitle(
-        'Tiedot lisätään olemassa olevalle oppijalle'
+        'Tiedot lisätään olemassa olevalle oppijalle',
       );
     });
 
@@ -138,21 +138,21 @@ describe('ClerkNewInterpreterPage', () => {
       onClerkNewInterpreterPage.expectNameFieldValues(
         person1.lastName,
         person1.firstName,
-        person1.nickName
+        person1.nickName,
       );
       onClerkNewInterpreterPage.expectInterpreterFieldValue(
         'identityNumber',
         'input',
-        person1.identityNumber
+        person1.identityNumber,
       );
 
       ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach(
         (field) => {
           onClerkNewInterpreterPage.expectDisabledInterpreterField(
             field,
-            'input'
+            'input',
           );
-        }
+        },
       );
     });
   });
@@ -168,13 +168,13 @@ describe('ClerkNewInterpreterPage', () => {
         person2.street,
         person2.postalCode,
         person2.town,
-        person2.country
+        person2.country,
       );
 
       ['street', 'postalCode', 'town', 'country'].forEach((field) => {
         onClerkNewInterpreterPage.expectDisabledInterpreterField(
           field,
-          'input'
+          'input',
         );
       });
     });

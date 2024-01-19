@@ -21,7 +21,7 @@ const userOpenRegistrationsSlice = createSlice({
   reducers: {
     acceptUserOpenRegistrations(
       state,
-      action: PayloadAction<UserOpenRegistrationsResponse>
+      action: PayloadAction<UserOpenRegistrationsResponse>,
     ) {
       state.status = APIResponseStatus.Success;
       state.openRegistrations = action.payload.open_registrations;

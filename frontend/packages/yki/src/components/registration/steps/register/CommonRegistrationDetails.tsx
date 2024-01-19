@@ -48,12 +48,12 @@ export const CommonRegistrationDetails = () => {
     .examSession as ExamSession;
   const dispatch = useAppDispatch();
   const handleCheckboxClick = (
-    fieldName: keyof RegistrationCheckboxDetails
+    fieldName: keyof RegistrationCheckboxDetails,
   ) => {
     dispatch(
       updatePublicRegistration({
         [fieldName]: !registration[fieldName],
-      })
+      }),
     );
   };
   const handleChange = (fieldname: keyof PersonFillOutDetails) => {

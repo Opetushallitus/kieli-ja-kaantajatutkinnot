@@ -39,10 +39,10 @@ export const QualificationDetails = () => {
 
   // State
   const [selectedToggleFilter, setSelectedToggleFilter] = useState(
-    QualificationStatus.Effective
+    QualificationStatus.Effective,
   );
   const [qualification, setQualification] = useState<NewQualification>(
-    QualificationUtils.newQualification
+    QualificationUtils.newQualification,
   );
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => setOpen(true);
@@ -57,10 +57,10 @@ export const QualificationDetails = () => {
   const dispatch = useAppDispatch();
   const { interpreter } = useAppSelector(clerkInterpreterOverviewSelector);
   const { addStatus, updateStatus, removeStatus } = useAppSelector(
-    qualificationSelector
+    qualificationSelector,
   );
   const passedMeetingDates = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   ).passed;
 
   const { showDialog } = useDialog();

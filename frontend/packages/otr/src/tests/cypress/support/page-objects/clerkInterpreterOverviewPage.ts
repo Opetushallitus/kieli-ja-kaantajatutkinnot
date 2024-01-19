@@ -5,20 +5,20 @@ class ClerkInterpreterOverviewPage {
   elements = {
     addQualificationButton: () =>
       cy.findByTestId(
-        'clerk-interpreter-overview__qualification-details__add-button'
+        'clerk-interpreter-overview__qualification-details__add-button',
       ),
     backButton: () => cy.findByTestId('back-button'),
     editInterpreterDetailsButton: () =>
       cy.findByTestId(
-        'clerk-interpreter-overview__interpreter-details__edit-button'
+        'clerk-interpreter-overview__interpreter-details__edit-button',
       ),
     cancelInterpreterDetailsButton: () =>
       cy.findByTestId(
-        'clerk-interpreter-overview__interpreter-details__cancel-button'
+        'clerk-interpreter-overview__interpreter-details__cancel-button',
       ),
     saveInterpreterDetailsButton: () =>
       cy.findByTestId(
-        'clerk-interpreter-overview__interpreter-details__save-button'
+        'clerk-interpreter-overview__interpreter-details__save-button',
       ),
     interpreterDetailsField: (field: string, fieldType: string) =>
       cy
@@ -37,7 +37,10 @@ class ClerkInterpreterOverviewPage {
 
   navigateById(id: number) {
     cy.visit(
-      AppRoutes.ClerkInterpreterOverviewPage.replace(/:interpreterId$/, `${id}`)
+      AppRoutes.ClerkInterpreterOverviewPage.replace(
+        /:interpreterId$/,
+        `${id}`,
+      ),
     );
   }
 
@@ -94,7 +97,7 @@ class ClerkInterpreterOverviewPage {
   fillOutQualificationField(
     fieldName: string,
     fieldType: string,
-    newValue: string
+    newValue: string,
   ) {
     this.elements
       .qualificationField(fieldName, fieldType)
@@ -107,7 +110,7 @@ class ClerkInterpreterOverviewPage {
       onClerkInterpreterOverviewPage.fillOutQualificationField(
         fieldName,
         fieldType,
-        value
+        value,
       );
     });
   }

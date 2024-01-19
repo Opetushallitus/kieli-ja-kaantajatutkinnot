@@ -14,7 +14,7 @@ function* loadNationalitiesSaga() {
   try {
     const response: AxiosResponse<NationalitiesResponse> = yield call(
       axiosInstance.get,
-      APIEndpoints.CountryCodes
+      APIEndpoints.CountryCodes,
     );
     yield put(acceptNationalities(response.data));
   } catch (error) {

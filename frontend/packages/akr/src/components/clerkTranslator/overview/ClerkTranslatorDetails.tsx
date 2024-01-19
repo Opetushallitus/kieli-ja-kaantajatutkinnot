@@ -25,7 +25,7 @@ export const ClerkTranslatorDetails = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { translator, translatorDetailsStatus } = useAppSelector(
-    clerkTranslatorOverviewSelector
+    clerkTranslatorOverviewSelector,
   );
 
   const { showToast } = useToast();
@@ -100,7 +100,7 @@ export const ClerkTranslatorDetails = () => {
 
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined
+    fieldValue: string | boolean | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translatorDetails,
@@ -112,7 +112,7 @@ export const ClerkTranslatorDetails = () => {
 
   const onSave = () => {
     dispatch(
-      updateClerkTranslatorDetails(translatorDetails as ClerkTranslator)
+      updateClerkTranslatorDetails(translatorDetails as ClerkTranslator),
     );
   };
 

@@ -39,7 +39,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
+    index: number,
   ) => {
     setSelectedIndex(index);
     setOpen(false);
@@ -110,7 +110,7 @@ export const DropDownMenuButton: FC<DropDownMenuButtonProps> = ({
                         <ListItemIcon>{option.icon}</ListItemIcon>
                         <ListItemText>{option.label}</ListItemText>
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </MenuList>
               </ClickAwayListener>

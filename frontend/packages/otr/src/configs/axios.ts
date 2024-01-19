@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 
 import { AppConstants } from 'enums/app';
 
@@ -6,16 +6,15 @@ const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
   const CSRF_NAME = 'CSRF';
+  const customHeaders = { ...config.headers } as AxiosHeaders;
+
+  customHeaders['Caller-Id'] = AppConstants.CallerID;
+  customHeaders['Content-Type'] = 'application/json';
 
   config.xsrfCookieName = CSRF_NAME;
   config.xsrfHeaderName = CSRF_NAME;
   config.withCredentials = true;
-
-  config.headers = {
-    ...config.headers,
-    'Caller-Id': AppConstants.CallerID,
-    'Content-Type': 'application/json',
-  };
+  config.headers = customHeaders;
 
   return config;
 });

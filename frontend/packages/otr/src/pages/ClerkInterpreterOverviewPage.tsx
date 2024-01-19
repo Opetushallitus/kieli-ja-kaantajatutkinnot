@@ -26,7 +26,7 @@ export const ClerkInterpreterOverviewPage = () => {
   // Redux
   const dispatch = useAppDispatch();
   const { overviewStatus, interpreter } = useAppSelector(
-    clerkInterpreterOverviewSelector
+    clerkInterpreterOverviewSelector,
   );
 
   const { showToast } = useToast();

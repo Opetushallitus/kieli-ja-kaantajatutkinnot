@@ -9,7 +9,7 @@ const CustomIconButton: FC<IconButtonProps> = forwardRef(
         {props.children ?? <QuestionMark />}
       </IconButton>
     );
-  }
+  },
 );
 
 CustomIconButton.displayName = 'CustomIconButton';

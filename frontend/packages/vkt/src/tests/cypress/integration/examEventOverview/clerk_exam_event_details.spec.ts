@@ -28,7 +28,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
   it('should show full exam when all partial exams are selected', () => {
     onClerkExamEventOverviewPage.expectEnrollmentRowToHaveText(
       3,
-      'Koko tutkinto'
+      'Koko tutkinto',
     );
   });
 
@@ -46,7 +46,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
       onClerkExamEventOverviewPage.editExamEventField(
         fieldName,
         'input',
-        fieldValue
+        fieldValue,
       );
       onClerkExamEventOverviewPage.expectEnabledSaveExamEventDetailsButton();
     });
@@ -60,7 +60,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
 
       onClerkExamEventOverviewPage.editExamEventDateField(
         fieldName,
-        fieldValue
+        fieldValue,
       );
       onClerkExamEventOverviewPage.expectEnabledSaveExamEventDetailsButton();
     });
@@ -71,7 +71,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.editExamEventField(
       'language',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkExamEventOverviewPage.clickCancelExamEventDetailsButton();
 
@@ -86,7 +86,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.editExamEventField(
       'language',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkExamEventOverviewPage.clickCancelExamEventDetailsButton();
 
@@ -105,10 +105,10 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.editExamEventField(
       fieldName,
       fieldType,
-      newLanguage
+      newLanguage,
     );
     onClerkExamEventOverviewPage.expectPageHeader(
-      'Suomi, erinomainen taito 22.10.2022'
+      'Suomi, erinomainen taito 22.10.2022',
     );
 
     onClerkExamEventOverviewPage.clickSaveExamEventDetailsButton();
@@ -117,10 +117,10 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.expectExamEventFieldValue(
       fieldName,
       fieldType,
-      newLanguage
+      newLanguage,
     );
     onClerkExamEventOverviewPage.expectPageHeader(
-      'Ruotsi, erinomainen taito 22.10.2022'
+      'Ruotsi, erinomainen taito 22.10.2022',
     );
     onToast.expectText('Tiedot tallennettiin');
 
@@ -134,7 +134,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.editExamEventField(
       'level',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkExamEventOverviewPage.navigateBackToRegister();
 
@@ -146,59 +146,59 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
   it('should display headings for enrollment status lists', () => {
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.PAID,
-      'Ilmoittautuneet: 6'
+      'Ilmoittautuneet: 6',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.SHIFTED_FROM_QUEUE,
-      'Jonosta siirretyt / maksu puuttuu: 1'
+      'Jonosta siirretyt / maksu puuttuu: 1',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.QUEUED,
-      'Jonoon ilmoittautuneet: 1'
+      'Jonoon ilmoittautuneet: 1',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.CANCELED,
-      'Peruutetut: 1'
+      'Peruutetut: 1',
     );
   });
 
   it('should allow changing status for queued and payment expecting enrollments', () => {
     onClerkExamEventOverviewPage.expectEnrollmentStatusChangeButtonToHaveText(
       7,
-      'Siirrä takaisin jonoon'
+      'Siirrä takaisin jonoon',
     );
     onClerkExamEventOverviewPage.clickChangeEnrollmentStatusButton(7);
     onToast.expectText('Siirto onnistui');
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderNotToExist(
-      EnrollmentStatus.SHIFTED_FROM_QUEUE
+      EnrollmentStatus.SHIFTED_FROM_QUEUE,
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.QUEUED,
-      'Jonoon ilmoittautuneet: 2'
+      'Jonoon ilmoittautuneet: 2',
     );
 
     onClerkExamEventOverviewPage.expectEnrollmentStatusChangeButtonToHaveText(
       7,
-      'Siirrä tutkintoon'
+      'Siirrä tutkintoon',
     );
     onClerkExamEventOverviewPage.clickChangeEnrollmentStatusButton(7);
     onToast.expectText('Siirto onnistui');
 
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.SHIFTED_FROM_QUEUE,
-      'Jonosta siirretyt / maksu puuttuu: 1'
+      'Jonosta siirretyt / maksu puuttuu: 1',
     );
     onClerkExamEventOverviewPage.expectEnrollmentListHeaderToHaveText(
       EnrollmentStatus.QUEUED,
-      'Jonoon ilmoittautuneet: 1'
+      'Jonoon ilmoittautuneet: 1',
     );
   });
 
   it('should copy emails to clipboard', () => {
     onClerkExamEventOverviewPage.clickCopyEmailsButton();
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
-      'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid\nperson7@example.invalid\nperson8@example.invalid\nperson9@example.invalid'
+      'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid\nperson7@example.invalid\nperson8@example.invalid\nperson9@example.invalid',
     );
     onToast.expectText('9 sähköpostiosoitetta kopioitu leikepöydälle');
   });
@@ -208,7 +208,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.clickCopyEmailsMenuItem(1);
     onClerkExamEventOverviewPage.clickCopyEmailsButton();
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
-      'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid'
+      'person1@example.invalid\nperson2@example.invalid\nperson3@example.invalid\nperson4@example.invalid\nperson5@example.invalid\nperson6@example.invalid',
     );
     onToast.expectText('6 sähköpostiosoitetta kopioitu leikepöydälle');
   });
@@ -218,7 +218,7 @@ describe('ClerkExamEventOverview:ClerkExamEventDetails', () => {
     onClerkExamEventOverviewPage.clickCopyEmailsMenuItem(2);
     onClerkExamEventOverviewPage.clickCopyEmailsButton();
     onClerkExamEventOverviewPage.expectClipboardToHaveText(
-      'person8@example.invalid'
+      'person8@example.invalid',
     );
     onToast.expectText('1 sähköpostiosoite kopioitu leikepöydälle');
   });

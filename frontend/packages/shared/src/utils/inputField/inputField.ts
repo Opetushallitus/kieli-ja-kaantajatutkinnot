@@ -1,5 +1,4 @@
 import { isValid as isValidFinnishPIC } from 'finnish-personal-identity-code-validator';
-import { TFunction } from 'i18next';
 
 import { CustomTextFieldErrors, TextFieldTypes } from '../../enums';
 import { TextField } from '../../interfaces';
@@ -20,7 +19,8 @@ interface ValidateErrorsParams {
 interface GetErrorsParams<T> {
   fields: Array<TextField<T>>;
   values: T;
-  t: TFunction;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  t: any;
   dirtyFields?: Array<keyof T>;
   extraValidation?: ValidationFn<T>;
 }
@@ -30,7 +30,7 @@ type HasErrorsParams<T> = Omit<GetErrorsParams<T>, 'dirtyFields'>;
 type ValidationFn<T> = (
   errors: FieldErrors<T>,
   values: T,
-  dirtyFields?: Array<keyof T>
+  dirtyFields?: Array<keyof T>,
 ) => FieldErrors<T>;
 
 export function hasErrors<T>({
@@ -47,7 +47,7 @@ export function hasErrors<T>({
   });
 
   return Object.keys(errors).some(
-    (field: string) => errors[field as keyof T] !== null
+    (field: string) => errors[field as keyof T] !== null,
   );
 }
 
@@ -101,7 +101,7 @@ export class InputFieldUtils {
       value,
       required,
       maxLength,
-      minLength
+      minLength,
     );
   }
 
@@ -110,7 +110,7 @@ export class InputFieldUtils {
     value?: string,
     required = true,
     maxTextLength?: number,
-    minLength?: number
+    minLength?: number,
   ) {
     const trimmedValue = value?.trim() || '';
     const textAreaMaxLength =
@@ -195,11 +195,11 @@ export class InputFieldUtils {
 
   private static EMAIL_LOCAL_PART_REGEX = new RegExp(
     /^[\p{Letter}0-9!#$%&'+\-\/=\?\^_`\.\{|\}~]{1,64}$/,
-    'u'
+    'u',
   );
   private static EMAIL_SUBDOMAIN_REGEX = new RegExp(
     /^[\p{Letter}0-9\-]{1,63}$/,
-    'u'
+    'u',
   );
   private static TEL_REG_EXR = /\d{7,14}$/;
 }

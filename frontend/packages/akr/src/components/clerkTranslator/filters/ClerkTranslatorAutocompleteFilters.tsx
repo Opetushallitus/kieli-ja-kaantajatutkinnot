@@ -47,14 +47,14 @@ export const ClerkTranslatorAutocompleteFilters = () => {
   }, [filters.name]);
 
   const handleNameChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     setName(event.target.value);
     debounce(() => {
       dispatch(
         addClerkTranslatorFilter({
           name: event.target.value,
-        })
+        }),
       );
       dispatch(setPage(0));
     });
@@ -102,7 +102,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             onLanguageChange={handleFromLanguageChange}
             languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
               langs.from,
-              filters.toLang
+              filters.toLang,
             )}
             primaryLanguages={AuthorisationUtils.primaryLangs}
             excludedLanguage={filters.toLang}
@@ -117,7 +117,7 @@ export const ClerkTranslatorAutocompleteFilters = () => {
             onLanguageChange={handleToLanguageChange}
             languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
               langs.to,
-              filters.fromLang
+              filters.fromLang,
             )}
             primaryLanguages={AuthorisationUtils.primaryLangs}
             excludedLanguage={filters.fromLang}

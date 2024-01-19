@@ -19,7 +19,7 @@ describe('ComboBox', () => {
           values={values}
           value={null}
           onChange={jest.fn()}
-        />
+        />,
       )
       .toJSON();
 

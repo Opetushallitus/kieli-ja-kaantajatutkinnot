@@ -26,7 +26,7 @@ function* removeMeetingDateSaga(action: PayloadAction<MeetingDate>) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.MeetingDate}/${action.payload.id}`
+      `${APIEndpoints.MeetingDate}/${action.payload.id}`,
     );
     yield put(removingMeetingDateSucceeded());
     yield put(loadMeetingDates());
@@ -55,11 +55,11 @@ function* loadMeetingDatesSaga() {
   try {
     const apiResponse: AxiosResponse<Array<MeetingDateResponse>> = yield call(
       axiosInstance.get,
-      APIEndpoints.MeetingDate
+      APIEndpoints.MeetingDate,
     );
 
     const deserializedResponse = SerializationUtils.deserializeMeetingDates(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(storeMeetingDates(deserializedResponse.meetingDates));
   } catch (error) {

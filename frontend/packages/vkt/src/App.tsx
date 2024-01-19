@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
-import { NotifierContextProvider, StyleCacheProvider } from 'shared/components';
+import { StyleCacheProvider } from 'shared/components';
 import { theme } from 'shared/configs';
 
 import { initI18n } from 'configs/i18n';
@@ -16,9 +16,7 @@ export const App = () => (
   <Provider store={store}>
     <StyleCacheProvider appName="vkt">
       <ThemeProvider theme={theme}>
-        <NotifierContextProvider>
-          <AppRouter />
-        </NotifierContextProvider>
+        <AppRouter />
       </ThemeProvider>
     </StyleCacheProvider>
   </Provider>

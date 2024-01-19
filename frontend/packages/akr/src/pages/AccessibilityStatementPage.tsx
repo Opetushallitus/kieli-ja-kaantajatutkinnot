@@ -40,7 +40,7 @@ export const AccessibilityStatementPage = () => {
   const { pathname } = useLocation();
 
   const caveats = Object.keys(
-    accessibilityFI.akr.accessibility.content.caveats.items
+    accessibilityFI.akr.accessibility.content.caveats.items,
   );
   const feedbackEmail = translateCommon('contactEmail');
 

@@ -106,7 +106,7 @@ export const MeetingDatesListing: FC = () => {
   const dispatch = useAppDispatch();
 
   const { upcoming, passed } = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   );
 
   const onPageChange = (page: number) => dispatch(setPage(page));

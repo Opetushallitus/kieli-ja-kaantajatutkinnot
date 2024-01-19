@@ -30,7 +30,7 @@ import { AuthorisationUtils } from 'utils/authorisation';
 interface AuthorisationFieldsProps {
   authorisation: Authorisation;
   setAuthorisation: (
-    a: ((prevState: Authorisation) => Authorisation) | Authorisation
+    a: ((prevState: Authorisation) => Authorisation) | Authorisation,
   ) => void;
   meetingDates: Array<MeetingDate>;
   examinationDates: Array<ExaminationDate>;
@@ -121,7 +121,7 @@ export const AuthorisationFields = ({
 
   const getNewTermEndDate = (
     basis: AuthorisationBasis,
-    termBeginDate: Dayjs | undefined
+    termBeginDate: Dayjs | undefined,
   ) => {
     const PERIOD_OF_VALIDITY = 5;
 
@@ -147,7 +147,7 @@ export const AuthorisationFields = ({
   };
 
   const handleDiaryNumberChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setAuthorisation({
       ...authorisation,
@@ -172,7 +172,7 @@ export const AuthorisationFields = ({
       (!examinationDate || !dayjs(examinationDate).isValid());
 
     const isRequiredPropsEmpty = [fromLang, toLang, basis, termBeginDate].some(
-      (p) => !p
+      (p) => !p,
     );
 
     return (
@@ -208,7 +208,7 @@ export const AuthorisationFields = ({
               onLanguageChange={handleLanguageSelectChange('from')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
-                authorisation.languagePair.to
+                authorisation.languagePair.to,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={authorisation.languagePair.to}
@@ -227,7 +227,7 @@ export const AuthorisationFields = ({
               onLanguageChange={handleLanguageSelectChange('to')}
               languages={AuthorisationUtils.selectableLanguagesForLanguageFilter(
                 AuthorisationUtils.getKoodistoLangKeys(),
-                authorisation.languagePair.from
+                authorisation.languagePair.from,
               )}
               primaryLanguages={AuthorisationUtils.primaryLangs}
               excludedLanguage={authorisation.languagePair.from}

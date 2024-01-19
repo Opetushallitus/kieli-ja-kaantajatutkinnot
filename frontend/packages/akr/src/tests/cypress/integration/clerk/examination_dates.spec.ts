@@ -65,7 +65,7 @@ describe('ExaminationDatesPage', () => {
     onExaminationDatesPage.setDateForNewExaminationDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.ExaminationDate, examinationDateToAdd).as(
-      'create'
+      'create',
     );
     onExaminationDatesPage.clickAddButton();
     cy.wait('@create');
@@ -104,7 +104,7 @@ describe('ExaminationDatesPage', () => {
 
   it('should open a confirmation dialog when row delete icon is clicked, and delete the selected examination date if user confirms', () => {
     const newExaminationDates = examinationDates.filter(
-      (m) => m.id !== examinationDateToDelete
+      (m) => m.id !== examinationDateToDelete,
     );
 
     cy.intercept('GET', APIEndpoints.ExaminationDate, [...newExaminationDates]);
@@ -114,7 +114,7 @@ describe('ExaminationDatesPage', () => {
     cy.intercept(
       'DELETE',
       `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
-      {}
+      {},
     ).as('delete');
 
     onDialog.clickButtonByText('Kyllä');
@@ -135,14 +135,14 @@ describe('ExaminationDatesPage', () => {
     cy.intercept(
       'DELETE',
       `${APIEndpoints.ExaminationDate}/${examinationDateToDelete}`,
-      createAPIErrorResponse(APIError.ExaminationDateDeleteHasAuthorisations)
+      createAPIErrorResponse(APIError.ExaminationDateDeleteHasAuthorisations),
     ).as('deleteWithError');
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@deleteWithError');
 
     onExaminationDatesPage.expectTotalExaminationDatesCount(10);
     onToast.expectText(
-      'Tutkintopäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja'
+      'Tutkintopäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja',
     );
   });
 });

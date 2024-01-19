@@ -38,7 +38,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
 
   const dispatch = useAppDispatch();
   const { filters, distinctToLangs } = useAppSelector(
-    clerkInterpretersSelector
+    clerkInterpretersSelector,
   );
 
   const [name, setName] = useState(() => filters.name ?? '');
@@ -50,7 +50,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
   }, [filters.name]);
 
   const handleNameChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     setPage(0);
     setName(event.target.value);
@@ -58,7 +58,7 @@ export const ClerkInterpreterAutocompleteFilters = ({
       dispatch(
         addClerkInterpreterFilter({
           name: event.target.value,
-        })
+        }),
       );
     });
   };

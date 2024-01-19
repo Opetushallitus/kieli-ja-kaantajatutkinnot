@@ -17,12 +17,12 @@ beforeEach(() => {
 
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
-    translatorResponse
+    translatorResponse,
   ).as('getClerkTranslatorOverview');
 
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponse.id}`,
-    translatorFromOnrResponse
+    translatorFromOnrResponse,
   ).as('getClerkTranslatorFromOnrOverview');
 
   const updatedExistingTranslator = {
@@ -33,7 +33,7 @@ beforeEach(() => {
   cy.intercept(
     'PUT',
     APIEndpoints.ClerkTranslator,
-    updatedExistingTranslator
+    updatedExistingTranslator,
   ).as('updateClerkTranslatorOverview');
 });
 
@@ -72,21 +72,21 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     ].forEach((fieldName) => {
       onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
         fieldName,
-        'input'
+        'input',
       );
     });
 
     ['email', 'phoneNumber'].forEach((fieldName) => {
       onClerkTranslatorOverviewPage.expectEnabledTranslatorField(
         fieldName,
-        'input'
+        'input',
       );
     });
 
     onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
     cy.findAllByText('Tiedot haettu väestötietojärjestelmästä').should(
       'have.length',
-      2
+      2,
     );
   });
 
@@ -99,14 +99,14 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       onClerkTranslatorOverviewPage.editTranslatorField(
         fieldName,
         'input',
-        ' '
+        ' ',
       );
       onClerkTranslatorOverviewPage.expectDisabledSaveTranslatorDetailsButton();
 
       onClerkTranslatorOverviewPage.editTranslatorField(
         fieldName,
         'input',
-        'test'
+        'test',
       );
       onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
     });
@@ -119,7 +119,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkTranslatorOverviewPage.clickCancelTranslatorDetailsButton();
 
@@ -136,7 +136,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkTranslatorOverviewPage.clickCancelTranslatorDetailsButton();
 
@@ -158,7 +158,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.editTranslatorField(
       fieldName,
       fieldType,
-      newLastName
+      newLastName,
     );
     onClerkTranslatorOverviewPage.expectAssuranceErrorLabel('not.exist');
     onClerkTranslatorOverviewPage.toggleAssuranceSwitch();
@@ -170,7 +170,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectTranslatorDetailsFieldValue(
       fieldName,
       fieldType,
-      newLastName
+      newLastName,
     );
     onToast.expectText('Tiedot tallennettiin');
 
@@ -208,7 +208,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.intercept(
       'POST',
       `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}/authorisation`,
-      responseBody
+      responseBody,
     );
 
     onClerkTranslatorOverviewPage.saveAuthorisation();
@@ -225,29 +225,29 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
 
     onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'examinationDate',
-      'input'
+      'input',
     );
     onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'termEndDate',
-      'input'
+      'input',
     );
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
-      'kkt'
+      'kkt',
     );
     onClerkTranslatorOverviewPage.expectDisabledAuthorisationField(
       'examinationDate',
-      'input'
+      'input',
     );
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
-      'aut'
+      'aut',
     );
     onClerkTranslatorOverviewPage.expectEnabledAuthorisationField(
       'examinationDate',
-      'input'
+      'input',
     );
   });
 
@@ -266,7 +266,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'from',
       'input',
-      'suomi'
+      'suomi',
     );
 
     onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonDisabled();
@@ -274,22 +274,22 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'to',
       'input',
-      'ruotsi'
+      'ruotsi',
     );
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
-      'kkt'
+      'kkt',
     );
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'termBeginDate',
       'input',
-      '01.01.2022'
+      '01.01.2022',
     );
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'diaryNumber',
       'input',
-      '1337'
+      '1337',
     );
 
     onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonEnabled();
@@ -297,7 +297,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.fillOutAuthorisationField(
       'basis',
       'input',
-      'aut'
+      'aut',
     );
 
     onClerkTranslatorOverviewPage.expectSaveAuthorisationButtonDisabled();
@@ -310,7 +310,7 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.editTranslatorField(
       'lastName',
       'input',
-      'testiTesti123'
+      'testiTesti123',
     );
     onClerkTranslatorOverviewPage.navigateBackToRegister();
 
@@ -328,21 +328,21 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.editTranslatorField(
       'firstName',
       'input',
-      ' '
+      ' ',
     );
     onClerkTranslatorOverviewPage.editTranslatorField('nickName', 'input', ' ');
     onClerkTranslatorOverviewPage.editTranslatorField('email', 'input', 'mail');
     onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
       'identityNumber',
-      'input'
+      'input',
     );
 
     cy.findAllByText('Tieto on pakollinen').should('have.length', 3);
     onClerkTranslatorOverviewPage.expectText(
-      'Henkilötunnuksen muotoa ei tunnistettu'
+      'Henkilötunnuksen muotoa ei tunnistettu',
     );
     onClerkTranslatorOverviewPage.expectText(
-      'Sähköpostiosoite on virheellinen'
+      'Sähköpostiosoite on virheellinen',
     );
   });
 });

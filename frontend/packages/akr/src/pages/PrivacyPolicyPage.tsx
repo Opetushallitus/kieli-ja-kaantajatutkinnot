@@ -213,7 +213,7 @@ export const PrivacyPolicyPage = () => {
             </div>
             <Text>
               {translatePrivacy(
-                'dataContents.group3.details.otherDetails.description'
+                'dataContents.group3.details.otherDetails.description',
               )}
               :
               <BulletList

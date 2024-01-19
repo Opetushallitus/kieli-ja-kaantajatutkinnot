@@ -16,7 +16,7 @@ function* loadExamEventsSaga() {
     const response: AxiosResponse<Array<ClerkListExamEventResponse>> =
       yield call(axiosInstance.get, APIEndpoints.ClerkExamEvent);
     const examEvents = response.data.map(
-      SerializationUtils.deserializeClerkListExamEvent
+      SerializationUtils.deserializeClerkListExamEvent,
     );
 
     yield put(storeExamEvents(examEvents));

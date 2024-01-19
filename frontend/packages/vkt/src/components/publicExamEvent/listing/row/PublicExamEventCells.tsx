@@ -18,7 +18,7 @@ import { ExamEventUtils } from 'utils/examEvent';
 
 const getOpeningsText = (
   examEvent: PublicExamEvent,
-  t: (key: string) => string
+  t: (key: string) => string,
 ) => {
   if (examEvent.hasCongestion) {
     return (
@@ -45,7 +45,7 @@ const renderEnrollmentButton = (
   isDisabled: boolean,
   onClick: () => void,
   t: (key: string) => string,
-  translateCommon: (t: string) => string
+  translateCommon: (t: string) => string,
 ) => {
   return (
     <LoadingProgressIndicator
@@ -93,7 +93,7 @@ export const PublicExamEventPhoneCells = ({
   const handleOnClick = () => {
     dispatch(storePublicExamEvent(examEvent));
     navigate(
-      AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString())
+      AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString()),
     );
   };
 
@@ -106,7 +106,7 @@ export const PublicExamEventPhoneCells = ({
             {ExamEventUtils.languageAndLevelText(
               language,
               ExamLevel.EXCELLENT,
-              translateCommon
+              translateCommon,
             )}
           </Text>
         </div>
@@ -128,7 +128,7 @@ export const PublicExamEventPhoneCells = ({
           examEvent.hasCongestion || isInitialisationInProgress,
           handleOnClick,
           t,
-          translateCommon
+          translateCommon,
         )}
       </div>
     </TableCell>
@@ -159,7 +159,7 @@ export const PublicExamEventDesktopCells = ({
   const handleOnClick = () => {
     dispatch(storePublicExamEvent(examEvent));
     navigate(
-      AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString())
+      AppRoutes.PublicAuth.replace(':examEventId', examEvent.id.toString()),
     );
   };
 
@@ -170,7 +170,7 @@ export const PublicExamEventDesktopCells = ({
           {ExamEventUtils.languageAndLevelText(
             language,
             ExamLevel.EXCELLENT,
-            translateCommon
+            translateCommon,
           )}
         </Text>
       </TableCell>
@@ -188,7 +188,7 @@ export const PublicExamEventDesktopCells = ({
           examEvent.hasCongestion || isInitialisationInProgress,
           handleOnClick,
           t,
-          translateCommon
+          translateCommon,
         )}
       </TableCell>
     </>

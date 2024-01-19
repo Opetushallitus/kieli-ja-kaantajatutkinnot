@@ -14,7 +14,7 @@ const authorisationId = translatorResponse.authorisations.effective[0].id;
 beforeEach(() => {
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorResponse.id}`,
-    translatorResponse
+    translatorResponse,
   ).as('getClerkTranslatorOverview');
   onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
   cy.wait('@getClerkTranslatorOverview');
@@ -32,17 +32,17 @@ const authorisationsByStatus = {
 describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   it('should display correct details for authorisations', () => {
     onAuthorisationDetails.expectVisibleAuthorisations(
-      authorisationsByStatus[AuthorisationStatus.Effective]
+      authorisationsByStatus[AuthorisationStatus.Effective],
     );
 
     onAuthorisationDetails.clickExpiredToggleBtn();
     onAuthorisationDetails.expectVisibleAuthorisations(
-      authorisationsByStatus[AuthorisationStatus.Expired]
+      authorisationsByStatus[AuthorisationStatus.Expired],
     );
 
     onAuthorisationDetails.clickformerVirToggleBtn();
     onAuthorisationDetails.expectVisibleAuthorisations(
-      authorisationsByStatus[AuthorisationStatus.FormerVir]
+      authorisationsByStatus[AuthorisationStatus.FormerVir],
     );
   });
 
@@ -57,12 +57,12 @@ describe('ClerkTranslatorOverview:AuthorisationDetails', () => {
   it('should open a confirmation dialog when a delete icon is clicked, and delete authorisation if user confirms', () => {
     const deletionResponse = authorisationDeletionResponse(
       translatorResponse,
-      authorisationId
+      authorisationId,
     );
     cy.intercept(
       'DELETE',
       `${APIEndpoints.Authorisation}/${authorisationId}`,
-      deletionResponse
+      deletionResponse,
     ).as('deleteAuthorisation');
 
     onAuthorisationDetails.clickDeleteButton(authorisationId);

@@ -8,13 +8,13 @@ describe('PublicHomePage', () => {
 
   it('should show the initial number of interpreters on the search button', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
-      publicInterpreters10.length
+      publicInterpreters10.length,
     );
   });
 
   it('should allow combining different options to filter interpreters', () => {
     onPublicHomePage.expectFilteredInterpretersCount(
-      publicInterpreters10.length
+      publicInterpreters10.length,
     );
     onPublicHomePage.filterByToLang('ruotsi');
     onPublicHomePage.expectFilteredInterpretersCount(2);

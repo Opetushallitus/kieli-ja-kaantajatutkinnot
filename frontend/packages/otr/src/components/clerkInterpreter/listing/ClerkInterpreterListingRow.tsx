@@ -38,7 +38,7 @@ export const ClerkInterpreterListingRow = ({
 
   const overviewUrl = AppRoutes.ClerkInterpreterOverviewPage.replace(
     /:interpreterId$/,
-    `${id}`
+    `${id}`,
   );
 
   const dispatch = useAppDispatch();
@@ -67,7 +67,7 @@ export const ClerkInterpreterListingRow = ({
         case QualificationColumn.LanguagePair:
           return QualificationUtils.getLanguagePairLocalisation(
             { from: fromLang, to: toLang },
-            translateLanguage
+            translateLanguage,
           );
         case QualificationColumn.ExaminationType:
           return examinationType;
@@ -81,7 +81,7 @@ export const ClerkInterpreterListingRow = ({
             : translateCommon('no');
       }
     },
-    [translateCommon, translateLanguage]
+    [translateCommon, translateLanguage],
   );
 
   const getQualificationCellClassName = (qualification: Qualification) => {

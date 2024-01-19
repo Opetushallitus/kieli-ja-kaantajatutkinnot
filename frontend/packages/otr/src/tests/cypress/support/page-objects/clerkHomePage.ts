@@ -15,7 +15,7 @@ class ClerkHomePage {
     permissionToPublish: () =>
       cy.findByTestId('clerk-interpreter-filters__permission-to-publish-basis'),
     qualificationStatusToggleFilter: (
-      qualificationStatus: QualificationStatus
+      qualificationStatus: QualificationStatus,
     ) =>
       cy.findByTestId(`clerk-interpreter-filters__btn--${qualificationStatus}`),
     resetFiltersButton: () =>

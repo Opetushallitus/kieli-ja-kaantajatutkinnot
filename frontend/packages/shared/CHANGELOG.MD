@@ -9,7 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.3] - 2023-11-24
+
+### Changed
+
+- Version bumps all over
+
 ## [1.10.2] - 2023-11-24
+
 ### Changed
 
 - Change CookieBanner from modal dialog to a banner

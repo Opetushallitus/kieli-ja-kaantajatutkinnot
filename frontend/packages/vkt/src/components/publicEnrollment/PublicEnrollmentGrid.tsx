@@ -100,7 +100,7 @@ export const PublicEnrollmentGrid = ({
     isAuthenticatePassed &&
       activeStep < PublicEnrollmentFormStep.Preview &&
       cancelStatus === APIResponseStatus.NotStarted,
-    AppRoutes.PublicEnrollment
+    AppRoutes.PublicEnrollment,
   );
 
   const isViewLoading =

@@ -51,7 +51,7 @@ const contactRequestSlice = createSlice({
     },
     updateContactRequest(
       state,
-      action: PayloadAction<Partial<ContactRequest>>
+      action: PayloadAction<Partial<ContactRequest>>,
     ) {
       state.request = { ...state.request, ...action.payload };
     },

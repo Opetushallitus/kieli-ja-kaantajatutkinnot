@@ -18,7 +18,7 @@ describe('ClerkCreateExamEventPage', () => {
     onClerkExamEventCreatePage.inputLanguageAndLevel('Suomi, Erinomainen');
     onClerkExamEventCreatePage.inputExamDate(examDate.format(dayFormat));
     onClerkExamEventCreatePage.inputRegistrationClosesDate(
-      closesDate.format(dayFormat)
+      closesDate.format(dayFormat),
     );
     onClerkExamEventCreatePage.saveButtonEnabledIs(false);
     onClerkExamEventCreatePage.inputMaxParticipants(20);

@@ -60,7 +60,7 @@ const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
 const getFieldError = (
   translator: ClerkTranslatorBasicInformation | undefined,
   field: ClerkTranslatorTextFieldEnum,
-  required: boolean
+  required: boolean,
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
@@ -71,7 +71,7 @@ const getFieldError = (
     type,
     value,
     required,
-    maxLength
+    maxLength,
   );
 
   return error ? t(`akr.${error}`) : '';
@@ -131,7 +131,7 @@ export const ClerkTranslatorDetailsFields = ({
   isPersonalInformationIndividualised?: boolean;
   isAddressIndividualised?: boolean;
   onTextFieldChange: (
-    field: keyof ClerkTranslatorTextFields
+    field: keyof ClerkTranslatorTextFields,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
   /*
   onComboBoxChange: (
@@ -139,7 +139,7 @@ export const ClerkTranslatorDetailsFields = ({
   ) => (value?: string) => void;
   */
   onCheckBoxChange: (
-    field: keyof ClerkTranslatorBasicInformation
+    field: keyof ClerkTranslatorBasicInformation,
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   editDisabled: boolean;
   topControlButtons?: JSX.Element;
@@ -157,7 +157,7 @@ export const ClerkTranslatorDetailsFields = ({
     (acc, val) => {
       return { ...acc, [val]: showFieldErrorBeforeChange };
     },
-    {}
+    {},
   ) as Record<ClerkTranslatorTextFieldEnum, boolean>;
 
   const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
@@ -250,7 +250,7 @@ export const ClerkTranslatorDetailsFields = ({
         />
         <ClerkTranslatorDetailsTextField
           {...getCommonTextFieldProps(
-            ClerkTranslatorTextFieldEnum.IdentityNumber
+            ClerkTranslatorTextFieldEnum.IdentityNumber,
           )}
         />
       </div>
@@ -298,7 +298,7 @@ export const ClerkTranslatorDetailsFields = ({
       <H3>{t('header.extraInformation')}</H3>
       <ClerkTranslatorDetailsTextField
         {...getCommonTextFieldProps(
-          ClerkTranslatorTextFieldEnum.ExtraInformation
+          ClerkTranslatorTextFieldEnum.ExtraInformation,
         )}
         multiline
         fullWidth

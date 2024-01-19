@@ -27,16 +27,16 @@ export const ClerkTranslatorToggleFilters = () => {
   };
 
   const effectiveCount = translators.filter(
-    (t) => t.authorisations.effective.length > 0
+    (t) => t.authorisations.effective.length > 0,
   ).length;
   const expiringCount = translators.filter(
-    (t) => t.authorisations.expiring.length > 0
+    (t) => t.authorisations.expiring.length > 0,
   ).length;
   const expiredDeduplicatedCount = translators.filter(
-    (t) => t.authorisations.expiredDeduplicated.length > 0
+    (t) => t.authorisations.expiredDeduplicated.length > 0,
   ).length;
   const formerVirCount = translators.filter(
-    (t) => t.authorisations.formerVir.length > 0
+    (t) => t.authorisations.formerVir.length > 0,
   ).length;
 
   const filterData = [

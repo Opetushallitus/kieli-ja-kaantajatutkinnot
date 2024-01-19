@@ -24,7 +24,7 @@ const authorisationSlice = createSlice({
       _action: PayloadAction<{
         authorisation: Authorisation;
         translatorId: number;
-      }>
+      }>,
     ) {
       state.addStatus = APIResponseStatus.InProgress;
     },

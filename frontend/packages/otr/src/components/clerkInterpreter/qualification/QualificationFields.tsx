@@ -29,7 +29,7 @@ import { QualificationUtils } from 'utils/qualifications';
 interface QualificationFieldsProps {
   qualification: NewQualification;
   setQualification: (
-    q: ((prevState: NewQualification) => NewQualification) | NewQualification
+    q: ((prevState: NewQualification) => NewQualification) | NewQualification,
   ) => void;
   meetingDates: Array<MeetingDate>;
   onSave: () => void;
@@ -117,7 +117,7 @@ export const QualificationFields = ({
   };
 
   const handleDiaryNumberChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setQualification({
       ...qualification,

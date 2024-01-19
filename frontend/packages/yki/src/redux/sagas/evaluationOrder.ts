@@ -26,23 +26,23 @@ function* submitEvaluationOrderSaga() {
   const t = translateOutsideComponent();
   try {
     const evaluationOrder: EvaluationOrderState = yield select(
-      evaluationOrderSelector
+      evaluationOrderSelector,
     );
     const lang = getCurrentLang();
     const response: AxiosResponse<EvaluationOrderResponse> = yield call(
       axiosInstance.post,
       APIEndpoints.EvaluationOrder.replace(
         /:evaluationId/,
-        `${evaluationOrder.evaluationPeriod?.id}`
+        `${evaluationOrder.evaluationPeriod?.id}`,
       ),
       JSON.stringify(
-        SerializationUtils.serializeEvaluationOrder(evaluationOrder)
+        SerializationUtils.serializeEvaluationOrder(evaluationOrder),
       ),
       {
         params: {
           lang: SerializationUtils.serializeAppLanguage(lang),
         },
-      }
+      },
     );
 
     yield put(acceptEvaluationOrder(response.data.redirect));
@@ -60,16 +60,16 @@ function* loadEvaluationOrderDetailsSaga(action: PayloadAction<number>) {
       axiosInstance.get,
       APIEndpoints.EvaluationOrderDetails.replace(
         /:evaluationOrderId/,
-        `${id}`
+        `${id}`,
       ),
-      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } }
+      { params: { lang: SerializationUtils.serializeAppLanguage(lang) } },
     );
     yield put(
       acceptEvaluationOrderDetails(
         SerializationUtils.deserializeEvaluationOrderDetailsResponse(
-          response.data
-        )
-      )
+          response.data,
+        ),
+      ),
     );
   } catch (error) {
     yield put(rejectEvaluationOrderDetails());
@@ -80,6 +80,6 @@ export function* watchEvaluationOrder() {
   yield takeLatest(submitEvaluationOrder.type, submitEvaluationOrderSaga);
   yield takeLatest(
     loadEvaluationOrderDetails.type,
-    loadEvaluationOrderDetailsSaga
+    loadEvaluationOrderDetailsSaga,
   );
 }

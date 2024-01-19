@@ -43,26 +43,26 @@ const clerkTranslatorOverviewSlice = createSlice({
     },
     setClerkTranslatorOverviewTranslator(
       state,
-      action: PayloadAction<ClerkTranslator>
+      action: PayloadAction<ClerkTranslator>,
     ) {
       state.translator = action.payload;
     },
     storeClerkTranslatorOverview(
       state,
-      action: PayloadAction<ClerkTranslator>
+      action: PayloadAction<ClerkTranslator>,
     ) {
       state.overviewStatus = APIResponseStatus.Success;
       state.translator = action.payload;
     },
     updateClerkTranslatorDetails(
       state,
-      _action: PayloadAction<ClerkTranslator>
+      _action: PayloadAction<ClerkTranslator>,
     ) {
       state.translatorDetailsStatus = APIResponseStatus.InProgress;
     },
     updatingClerkTranslatorDetailsSucceeded(
       state,
-      action: PayloadAction<ClerkTranslator>
+      action: PayloadAction<ClerkTranslator>,
     ) {
       state.overviewStatus = APIResponseStatus.Success;
       state.translatorDetailsStatus = APIResponseStatus.Success;

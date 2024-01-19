@@ -12,21 +12,21 @@ import { Qualification, QualificationResponse } from 'interfaces/qualification';
 
 export class SerializationUtils {
   static deserializeClerkInterpreter(
-    interpreter: ClerkInterpreterResponse
+    interpreter: ClerkInterpreterResponse,
   ): ClerkInterpreter {
     const { qualifications } = interpreter;
 
     const effective = qualifications.effective.map(
-      SerializationUtils.deserializeQualification
+      SerializationUtils.deserializeQualification,
     );
     const expiring = qualifications.expiring.map(
-      SerializationUtils.deserializeQualification
+      SerializationUtils.deserializeQualification,
     );
     const expired = qualifications.expired.map(
-      SerializationUtils.deserializeQualification
+      SerializationUtils.deserializeQualification,
     );
     const expiredDeduplicated = qualifications.expiredDeduplicated.map(
-      SerializationUtils.deserializeQualification
+      SerializationUtils.deserializeQualification,
     );
 
     return {
@@ -65,7 +65,7 @@ export class SerializationUtils {
       permissionToPublishOtherContactInfo,
       regions,
       qualifications: qualifications.map(
-        SerializationUtils.serializeQualification
+        SerializationUtils.serializeQualification,
       ),
     };
   }
@@ -112,7 +112,7 @@ export class SerializationUtils {
   }
 
   static deserializeQualification(
-    qualification: QualificationResponse
+    qualification: QualificationResponse,
   ): Qualification {
     const beginDate = dayjs(qualification.beginDate);
     const endDate = dayjs(qualification.endDate);
@@ -123,7 +123,7 @@ export class SerializationUtils {
 
   static deserializeMeetingDates(response: Array<MeetingDateResponse>) {
     const meetingDates = response.map(
-      SerializationUtils.deserializeMeetingDate
+      SerializationUtils.deserializeMeetingDate,
     );
 
     return { meetingDates };
@@ -137,7 +137,7 @@ export class SerializationUtils {
   }
 
   private static getNonBlankClerkInterpreterTextFields(
-    textFields: ClerkInterpreterTextFields
+    textFields: ClerkInterpreterTextFields,
   ) {
     Object.keys(textFields).forEach((key) => {
       const field = key as keyof ClerkInterpreterTextFields;

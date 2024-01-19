@@ -16,13 +16,13 @@ export const selectMeetingDatesByMeetingStatus = createSelector(
     const now = dayjs();
     const upcoming = meetingDates.meetingDates
       .filter(({ date }) =>
-        filterMeetingDateByStatus(date, MeetingDateStatus.Upcoming, now)
+        filterMeetingDateByStatus(date, MeetingDateStatus.Upcoming, now),
       )
       .sort((a, b) => a.date.valueOf() - b.date.valueOf());
 
     const passed = meetingDates.meetingDates
       .filter(({ date }) =>
-        filterMeetingDateByStatus(date, MeetingDateStatus.Passed, now)
+        filterMeetingDateByStatus(date, MeetingDateStatus.Passed, now),
       )
       .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
@@ -30,13 +30,13 @@ export const selectMeetingDatesByMeetingStatus = createSelector(
       upcoming,
       passed,
     };
-  }
+  },
 );
 
 const filterMeetingDateByStatus = (
   date: Dayjs,
   status: MeetingDateStatus,
-  currentDate: Dayjs
+  currentDate: Dayjs,
 ) => {
   const isBefore = DateUtils.isDatePartBeforeOrEqual(date, currentDate);
 

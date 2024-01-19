@@ -51,10 +51,10 @@ class AuthorisationDetails {
 
 export const authorisationDeletionResponse = (
   translatorResponse: ClerkTranslatorResponse,
-  effectiveAuthorisationId: number
+  effectiveAuthorisationId: number,
 ) => {
   const effective = translatorResponse.authorisations.effective.filter(
-    (a) => a.id !== effectiveAuthorisationId
+    (a) => a.id !== effectiveAuthorisationId,
   );
 
   return {

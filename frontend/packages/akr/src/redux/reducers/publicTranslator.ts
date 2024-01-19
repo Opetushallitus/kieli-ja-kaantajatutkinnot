@@ -46,7 +46,7 @@ const publicTranslatorSlice = createSlice({
     },
     deselectPublicTranslator(state, action: PayloadAction<number>) {
       state.selectedTranslators = state.selectedTranslators.filter(
-        (id) => id !== action.payload
+        (id) => id !== action.payload,
       );
     },
     emptyPublicTranslatorFilters(state) {
@@ -60,10 +60,10 @@ const publicTranslatorSlice = createSlice({
     },
     removePublicTranslatorFilterError(
       state,
-      action: PayloadAction<SearchFilter>
+      action: PayloadAction<SearchFilter>,
     ) {
       state.filters.errors = state.filters.errors.filter(
-        (f) => f !== action.payload
+        (f) => f !== action.payload,
       );
     },
     selectPublicTranslator(state, action: PayloadAction<number>) {
@@ -71,13 +71,13 @@ const publicTranslatorSlice = createSlice({
     },
     setPublicTranslatorFilters(
       state,
-      action: PayloadAction<PublicTranslatorFilter>
+      action: PayloadAction<PublicTranslatorFilter>,
     ) {
       state.filters = action.payload;
     },
     storePublicTranslators(
       state,
-      action: PayloadAction<PublicTranslatorResponse>
+      action: PayloadAction<PublicTranslatorResponse>,
     ) {
       state.status = APIResponseStatus.Success;
       state.translators = action.payload.translators;

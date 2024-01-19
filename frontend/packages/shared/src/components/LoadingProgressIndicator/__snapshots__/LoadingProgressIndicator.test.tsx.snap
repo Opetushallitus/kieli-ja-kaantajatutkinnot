@@ -18,7 +18,7 @@ exports[`LoadingProgressIndicator should render LoadingProgressIndicator correct
           className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorSecondary css-1szo49z-MuiCircularProgress-root"
           role="progressbar"
           style={
-            Object {
+            {
               "height": "3rem",
               "width": "3rem",
             }
@@ -35,7 +35,7 @@ exports[`LoadingProgressIndicator should render LoadingProgressIndicator correct
               fill="none"
               r={20.2}
               strokeWidth={3.6}
-              style={Object {}}
+              style={{}}
             />
           </svg>
         </span>

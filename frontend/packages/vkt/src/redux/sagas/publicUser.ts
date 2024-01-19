@@ -15,7 +15,7 @@ function* loadPublicUserSaga() {
   try {
     const response: AxiosResponse<PublicPerson> = yield call(
       axiosInstance.get,
-      APIEndpoints.PublicUser
+      APIEndpoints.PublicUser,
     );
 
     if (response.status === HTTPStatusCode.Ok) {

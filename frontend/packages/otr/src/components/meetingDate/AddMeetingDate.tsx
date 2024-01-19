@@ -45,7 +45,7 @@ export const AddMeetingDate = () => {
       const date = dayjs(value);
 
       return meetingDates.some((meetingDate) =>
-        DateUtils.isDatePartEqual(meetingDate.date, date)
+        DateUtils.isDatePartEqual(meetingDate.date, date),
       );
     }
 

@@ -10,19 +10,19 @@ export const examSessionsSelector = (state: RootState) => state.examSessions;
 export const selectFilteredPublicExamSessions = createSelector(
   (state: RootState) => state.examSessions.exam_sessions,
   (state: RootState) => state.examSessions.filters,
-  (examSessions, filters) => filterExamSessions(examSessions, filters)
+  (examSessions, filters) => filterExamSessions(examSessions, filters),
 );
 
 // Helpers
 const filterExamSessions = (
   examSessions: Array<ExamSession>,
-  filters: ExamSessionFilters
+  filters: ExamSessionFilters,
 ) => {
   let filteredData = examSessions;
   // Filter data only if the criteria are defined
   if (filters.language && filters.language !== ExamLanguage.ALL) {
     filteredData = filteredData.filter(
-      (es) => es.language_code === filters.language
+      (es) => es.language_code === filters.language,
     );
   }
 
@@ -34,7 +34,7 @@ const filterExamSessions = (
     filteredData = filteredData.filter(
       (es) =>
         ExamSessionUtils.getMunicipality(es.location[0]) ===
-        filters.municipality
+        filters.municipality,
     );
   }
 

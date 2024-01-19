@@ -92,7 +92,7 @@ export const MeetingDatesListing: FC = () => {
     meetingDates: { status, filters },
   } = useAppSelector(meetingDatesSelector);
   const { upcoming, passed } = useAppSelector(
-    selectMeetingDatesByMeetingStatus
+    selectMeetingDatesByMeetingStatus,
   );
 
   switch (status) {

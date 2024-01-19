@@ -6,7 +6,7 @@ describe('OPHClerkLogo', () => {
   it('should render OPHClerkLogo correctly', () => {
     const tree = renderer
       .create(
-        <OPHClerkLogo mainLabel="MainLabel" subLabel="SubLabel" alt="ImgAlt" />
+        <OPHClerkLogo mainLabel="MainLabel" subLabel="SubLabel" alt="ImgAlt" />,
       )
       .toJSON();
 

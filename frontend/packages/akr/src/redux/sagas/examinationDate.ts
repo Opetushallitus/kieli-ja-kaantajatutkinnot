@@ -43,7 +43,7 @@ function* removeExaminationDateSaga(action: PayloadAction<ExaminationDate>) {
   try {
     yield call(
       axiosInstance.delete,
-      `${APIEndpoints.ExaminationDate}/${action.payload.id}`
+      `${APIEndpoints.ExaminationDate}/${action.payload.id}`,
     );
     yield put(removingExaminationDateSucceeded());
     yield put(loadExaminationDates());
@@ -60,7 +60,7 @@ function* loadExaminationDatesSaga() {
       yield call(axiosInstance.get, APIEndpoints.ExaminationDate);
 
     const deserializedResponse = SerializationUtils.deserializeExaminationDates(
-      apiResponse.data
+      apiResponse.data,
     );
     yield put(storeExaminationDates(deserializedResponse.dates));
   } catch (error) {

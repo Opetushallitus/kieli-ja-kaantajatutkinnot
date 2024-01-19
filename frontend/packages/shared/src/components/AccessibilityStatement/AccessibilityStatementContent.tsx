@@ -36,14 +36,14 @@ export const AccessibilityStatementContent: FC<
           {caveats.map(({}, i) => (
             <div className="rows gapped-xs" key={i}>
               <H3>{`${translateAccessibility(
-                `content.caveats.items.${i}.title`
+                `content.caveats.items.${i}.title`,
               )}`}</H3>
               <Text>
                 {translateAccessibility('content.caveats.description')}
               </Text>
               <Text>
                 {translateAccessibility(
-                  `content.caveats.items.${i}.description`
+                  `content.caveats.items.${i}.description`,
                 )}
               </Text>
               <div>
@@ -54,7 +54,7 @@ export const AccessibilityStatementContent: FC<
                   <Text>
                     <li>
                       {translateAccessibility(
-                        `content.caveats.items.${i}.claim`
+                        `content.caveats.items.${i}.claim`,
                       )}
                     </li>
                   </Text>
@@ -78,16 +78,16 @@ export const AccessibilityStatementContent: FC<
           <div className="inline-text-box">
             <Text>
               {translateAccessibility(
-                'content.administrativeAgency.description'
+                'content.administrativeAgency.description',
               )}
             </Text>
             <Text>
               <WebLink
                 href={translateAccessibility(
-                  'content.administrativeAgency.links.link'
+                  'content.administrativeAgency.links.link',
                 )}
                 label={translateAccessibility(
-                  'content.administrativeAgency.links.title'
+                  'content.administrativeAgency.links.title',
                 )}
                 endIcon={<OpenInNewIcon />}
               />
@@ -95,7 +95,7 @@ export const AccessibilityStatementContent: FC<
             </Text>
             <Text>
               {translateAccessibility(
-                'content.administrativeAgency.extraDescription'
+                'content.administrativeAgency.extraDescription',
               )}
             </Text>
           </div>
@@ -103,7 +103,7 @@ export const AccessibilityStatementContent: FC<
         <div className="rows gapped-xxs">
           <H3>
             {translateAccessibility(
-              'content.contactAdministrativeAgency.title'
+              'content.contactAdministrativeAgency.title',
             )}
           </H3>
           <Text>
@@ -115,13 +115,13 @@ export const AccessibilityStatementContent: FC<
           <Text>
             <WebLink
               href={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.link'
+                'content.contactAdministrativeAgency.links.website.link',
               )}
               label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.title'
+                'content.contactAdministrativeAgency.links.website.title',
               )}
               aria-label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.website.ariaLabel'
+                'content.contactAdministrativeAgency.links.website.ariaLabel',
               )}
               endIcon={<OpenInNewIcon />}
             />
@@ -129,16 +129,16 @@ export const AccessibilityStatementContent: FC<
           <Text>
             <WebLink
               href={`mailto:${translateAccessibility(
-                'content.contactAdministrativeAgency.links.email.link'
+                'content.contactAdministrativeAgency.links.email.link',
               )}`}
               label={translateAccessibility(
-                'content.contactAdministrativeAgency.links.email.title'
+                'content.contactAdministrativeAgency.links.email.title',
               )}
             />
           </Text>
           <Text>
             {translateAccessibility(
-              'content.contactAdministrativeAgency.phone'
+              'content.contactAdministrativeAgency.phone',
             )}
           </Text>
         </div>

@@ -23,7 +23,7 @@ export class PublicEnrollmentUtils {
 
   static getEnrollmentNextStep(
     activeStep: PublicEnrollmentFormStep,
-    includePaymentStep: boolean
+    includePaymentStep: boolean,
   ) {
     const steps = PublicEnrollmentUtils.getEnrollmentSteps(includePaymentStep);
     const currentIndex = steps.findIndex((step) => step === activeStep);

@@ -24,7 +24,7 @@ const getErrorForMessage = (message?: string) => {
     TextFieldTypes.Textarea,
     message,
     true,
-    6000
+    6000,
   );
 
   return error ? t(`akr.${error}`) : '';
@@ -54,7 +54,7 @@ export const WriteMessage = ({
   }, [disableNext, messageError, request]);
 
   const handleMessageFieldChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
     const message = e.target.value;
     dispatch(updateContactRequest({ message }));
@@ -63,7 +63,7 @@ export const WriteMessage = ({
 
   const handleMessageFieldErrors = () => {
     dispatch(
-      setContactRequestMessageError(getErrorForMessage(request?.message))
+      setContactRequestMessageError(getErrorForMessage(request?.message)),
     );
   };
 

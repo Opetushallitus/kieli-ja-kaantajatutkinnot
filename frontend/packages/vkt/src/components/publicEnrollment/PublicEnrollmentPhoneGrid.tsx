@@ -79,7 +79,7 @@ export const PublicEnrollmentPhoneGrid = ({
         ...prev,
         [order]: height,
       })),
-    []
+    [],
   );
 
   const getMobileStepperHeading = () => {
@@ -98,7 +98,7 @@ export const PublicEnrollmentPhoneGrid = ({
 
     const nextStepIndex = PublicEnrollmentUtils.getEnrollmentNextStep(
       activeStep,
-      ExamEventUtils.hasOpenings(examEvent)
+      ExamEventUtils.hasOpenings(examEvent),
     );
 
     return (

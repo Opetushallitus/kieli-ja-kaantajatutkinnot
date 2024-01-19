@@ -19,7 +19,7 @@ export const ClerkExamEventListingRow = ({
 
   const examEventUrl = AppRoutes.ClerkExamEventOverviewPage.replace(
     /:examEventId$/,
-    `${examEvent.id}`
+    `${examEvent.id}`,
   );
 
   return (
@@ -37,7 +37,7 @@ export const ClerkExamEventListingRow = ({
               {ExamEventUtils.languageAndLevelText(
                 examEvent.language,
                 examEvent.level,
-                translateCommon
+                translateCommon,
               )}
             </Text>
           </Link>

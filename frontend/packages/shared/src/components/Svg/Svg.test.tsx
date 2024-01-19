@@ -11,7 +11,7 @@ describe('Svg', () => {
           className="foo"
           src={OPHLogoENHorizontal}
           alt="alternate text goes here"
-        />
+        />,
       )
       .toJSON();
 

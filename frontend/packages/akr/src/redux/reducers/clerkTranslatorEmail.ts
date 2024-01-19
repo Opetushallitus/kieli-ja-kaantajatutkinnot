@@ -41,13 +41,13 @@ const clerkTranslatorEmailSlice = createSlice({
     },
     setClerkTranslatorEmail(
       state,
-      action: PayloadAction<Partial<ClerkTranslatorEmail>>
+      action: PayloadAction<Partial<ClerkTranslatorEmail>>,
     ) {
       state.email = { ...state.email, ...action.payload };
     },
     setClerkTranslatorEmailRecipients(
       state,
-      action: PayloadAction<Array<number>>
+      action: PayloadAction<Array<number>>,
     ) {
       state.recipients = action.payload;
     },

@@ -76,7 +76,7 @@ export const PreviousEnrollment = ({
         fields,
         values: enrollment,
         t: translateCommon,
-      })
+      }),
     );
   }, [setValid, enrollment, translateCommon]);
 
@@ -89,7 +89,7 @@ export const PreviousEnrollment = ({
   });
 
   const handleRadioButtonChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const hasPreviousEnrollment = event.target.value === PreviouslyEnrolled.Yes;
     const previousEnrollment = '';
@@ -98,7 +98,7 @@ export const PreviousEnrollment = ({
       updatePublicEnrollment({
         hasPreviousEnrollment,
         previousEnrollment,
-      })
+      }),
     );
   };
 
@@ -106,7 +106,7 @@ export const PreviousEnrollment = ({
     showValidation && enrollment.hasPreviousEnrollment === undefined;
 
   const showCustomTextFieldError = (
-    fieldName: keyof PreviousEnrollmentField
+    fieldName: keyof PreviousEnrollmentField,
   ) => {
     return !!errors[fieldName];
   };
@@ -121,7 +121,7 @@ export const PreviousEnrollment = ({
     dispatch(
       updatePublicEnrollment({
         previousEnrollment: event.target.value,
-      })
+      }),
     );
   };
 

@@ -32,57 +32,57 @@ describe('Public enrollment', () => {
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
-        'Sukunimi:TestiläEtunimet:Tessa'
+        'Sukunimi:TestiläEtunimet:Tessa',
       );
       onPublicEnrollmentPage.fillOutContactDetails(
         'email',
-        'test@test.invalid'
+        'test@test.invalid',
       );
       onPublicEnrollmentPage.fillOutContactDetails(
         'emailConfirmation',
-        'test@test.invalid'
+        'test@test.invalid',
       );
       onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
-        'previously-enrolled-no'
+        'previously-enrolled-no',
       );
       onPublicEnrollmentPage.enrollmentFullExamCheckbox();
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'street',
-        'Katu'
+        'Katu',
       );
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'postalCode',
-        '99800'
+        '99800',
       );
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'town',
-        'Kaupunki'
+        'Kaupunki',
       );
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'country',
-        'Suomi'
+        'Suomi',
       );
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectEnrollmentDetails(
-        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022Paikkoja vapaana: 6'
+        'Tutkinto: Ruotsi, erinomainen taitoTutkintopäivä: 22.3.2022Ilmoittautuminen sulkeutuu: 15.3.2022Paikkoja vapaana: 6',
       );
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
-        'Sukunimi:TestiläEtunimet:Tessa'
+        'Sukunimi:TestiläEtunimet:Tessa',
       );
       onPublicEnrollmentPage.expectPreviewDetails('email', 'test@test.invalid');
       onPublicEnrollmentPage.expectPreviewDetails('phoneNumber', '040112233');
       onPublicEnrollmentPage.expectPreviewBulletList(
         0,
-        'Kirjallinen taitoSuullinen taitoYmmärtämisen taito'
+        'Kirjallinen taitoSuullinen taitoYmmärtämisen taito',
       );
       onPublicEnrollmentPage.expectPreviewBulletList(
         1,
-        'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen'
+        'KirjoittaminenTekstin ymmärtäminenPuhuminenPuheen ymmärtäminen',
       );
       onPublicEnrollmentPage.expectPreviewCertificateShippingDetails(
-        'Katu, 99800, Kaupunki, Suomi'
+        'Katu, 99800, Kaupunki, Suomi',
       );
     });
 
@@ -91,30 +91,30 @@ describe('Public enrollment', () => {
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectContactDetailsError(
         'email',
-        'Tieto on pakollinen'
+        'Tieto on pakollinen',
       );
       onPublicEnrollmentPage.expectContactDetailsError(
         'emailConfirmation',
-        'Tieto on pakollinen'
+        'Tieto on pakollinen',
       );
       onPublicEnrollmentPage.expectContactDetailsError(
         'phoneNumber',
-        'Tieto on pakollinen'
+        'Tieto on pakollinen',
       );
       onPublicEnrollmentPage.fillOutContactDetails(
         'email',
-        'test@test.invalid'
+        'test@test.invalid',
       );
       onPublicEnrollmentPage.expectContactDetailsErrorNotExist('email');
       onPublicEnrollmentPage.fillOutContactDetails(
         'emailConfirmation',
-        'test@test.invalid'
+        'test@test.invalid',
       );
       onPublicEnrollmentPage.expectContactDetailsErrorNotExist(
-        'emailConfirmation'
+        'emailConfirmation',
       );
       onPublicEnrollmentPage.expectContactDetailsErrorNotExist(
-        'emailConfirmation'
+        'emailConfirmation',
       );
       onPublicEnrollmentPage.fillOutContactDetails('phoneNumber', '040112233');
       onPublicEnrollmentPage.expectContactDetailsErrorNotExist('phoneNumber');
@@ -122,43 +122,43 @@ describe('Public enrollment', () => {
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectPreviuoslyEnrolledError();
       onPublicEnrollmentPage.checkEnrollmentPreviouslyEnrolledCheckbox(
-        'previously-enrolled-no'
+        'previously-enrolled-no',
       );
       onPublicEnrollmentPage.expectPreviouslyEnrolledErrorNotExist();
 
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('street');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'street',
-        'Katu'
+        'Katu',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
-        'street'
+        'street',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsError(
-        'postalCode'
+        'postalCode',
       );
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'postalCode',
-        '99800'
+        '99800',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
-        'postalCode'
+        'postalCode',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('town');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'town',
-        'Kaupunki'
+        'Kaupunki',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
-        'town'
+        'town',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsError('country');
       onPublicEnrollmentPage.fillOutCertificateShippingDetails(
         'country',
-        'Suomi'
+        'Suomi',
       );
       onPublicEnrollmentPage.expectCertificateShippingDetailsErrorNotExist(
-        'country'
+        'country',
       );
       onPublicEnrollmentPage.clickNext();
 
@@ -184,7 +184,7 @@ describe('Public enrollment', () => {
       onPublicHomePage.clickEnrollButton(11);
 
       onToast.expectText(
-        'Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut'
+        'Tutkintotilaisuuteen ilmoittautuminen on sulkeutunut',
       );
     });
   });

@@ -64,7 +64,7 @@ describe('MeetingDatesPage', () => {
     onMeetingDatesPage.setDateForNewMeetingDate('04.10.2030');
 
     cy.intercept('POST', APIEndpoints.MeetingDate, meetingDateToAdd).as(
-      'create'
+      'create',
     );
     onMeetingDatesPage.clickAddButton();
     cy.wait('@create');
@@ -103,7 +103,7 @@ describe('MeetingDatesPage', () => {
 
   it('should open a confirmation dialog when row delete icon is clicked, and delete the selected meeting date if user confirms', () => {
     const newMeetingDates = meetingDates.filter(
-      (m) => m.id !== meetingDateToBeDeleted
+      (m) => m.id !== meetingDateToBeDeleted,
     );
 
     cy.intercept('GET', APIEndpoints.MeetingDate, [...newMeetingDates]);
@@ -113,7 +113,7 @@ describe('MeetingDatesPage', () => {
     cy.intercept(
       'DELETE',
       `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
-      {}
+      {},
     ).as('delete');
 
     onDialog.clickButtonByText('Kyllä');
@@ -133,14 +133,14 @@ describe('MeetingDatesPage', () => {
     cy.intercept(
       'DELETE',
       `${APIEndpoints.MeetingDate}/${meetingDateToBeDeleted}`,
-      createAPIErrorResponse(APIError.MeetingDateDeleteHasAuthorisations)
+      createAPIErrorResponse(APIError.MeetingDateDeleteHasAuthorisations),
     ).as('deleteWithError');
     onDialog.clickButtonByText('Kyllä');
     cy.wait('@deleteWithError');
 
     onMeetingDatesPage.expectTotalMeetingDatesCount(10);
     onToast.expectText(
-      'Kokouspäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja'
+      'Kokouspäivän poisto epäonnistui, koska sille on kirjattu auktorisointeja',
     );
   });
 });

@@ -147,7 +147,7 @@ export const PrivacyPolicyPage = () => {
                   <WebLink
                     href={translatePrivacy('handlingPurpose.law.part1.link')}
                     label={translatePrivacy(
-                      'handlingPurpose.law.part1.content'
+                      'handlingPurpose.law.part1.content',
                     )}
                     endIcon={<OpenInNewIcon />}
                   />
@@ -166,7 +166,7 @@ export const PrivacyPolicyPage = () => {
               </Text>
               <Text>
                 {translatePrivacy(
-                  'dataContents.group1.givenDetails.description'
+                  'dataContents.group1.givenDetails.description',
                 )}
               </Text>
             </div>
@@ -184,17 +184,17 @@ export const PrivacyPolicyPage = () => {
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description1'
+                'dataContents.group1.dataProcessing.description1',
               )}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description2'
+                'dataContents.group1.dataProcessing.description2',
               )}
             </Text>
             <Text>
               {translatePrivacy(
-                'dataContents.group1.dataProcessing.description3'
+                'dataContents.group1.dataProcessing.description3',
               )}
             </Text>
           </div>

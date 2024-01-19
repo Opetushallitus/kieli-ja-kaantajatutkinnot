@@ -42,7 +42,7 @@ const clerkExamEventOverviewSlice = createSlice({
     },
     updatingClerkExamEventDetailsSucceeded(
       state,
-      action: PayloadAction<ClerkExamEvent>
+      action: PayloadAction<ClerkExamEvent>,
     ) {
       state.overviewStatus = APIResponseStatus.Success;
       state.examEventDetailsStatus = APIResponseStatus.Success;
@@ -59,7 +59,7 @@ const clerkExamEventOverviewSlice = createSlice({
       _action: PayloadAction<{
         statusChange: ClerkEnrollmentStatusChange;
         examEvent: ClerkExamEvent;
-      }>
+      }>,
     ) {
       state.clerkEnrollmentChangeStatus = APIResponseStatus.InProgress;
     },

@@ -2,10 +2,10 @@ import { ClerkInterpreterResponse } from 'interfaces/clerkInterpreter';
 
 export const qualificationRemoveResponse = (
   interpreterResponse: ClerkInterpreterResponse,
-  effectiveQualificationId: number
+  effectiveQualificationId: number,
 ) => {
   const effective = interpreterResponse.qualifications.effective.filter(
-    (q) => q.id !== effectiveQualificationId
+    (q) => q.id !== effectiveQualificationId,
   );
 
   return {
