@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.github.jhonnymertz</groupId>
       <artifactId>java-wkhtmltopdf-wrapper</artifactId>
-      <version>1.1.14-RELEASE</version>
+      <version>1.2.0-RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.session</groupId>
@@ -30,7 +30,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-xml</artifactId>
-      <version>2.14.2</version>
+      <version>2.15.3</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.woodstox</groupId>
@@ -40,7 +40,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-resolver-dns-native-macos</artifactId>
-      <version>4.1.92.Final</version>
+      <version>4.1.100.Final</version>
       <classifier>osx-aarch_64</classifier>
       <scope>runtime</scope>
     </dependency>
