@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.4] - 2024-01-23
+
+### Changed
+
+- Cookie banner z-index fix
+
 ## [1.10.3] - 2023-11-24
 
 ### Changed

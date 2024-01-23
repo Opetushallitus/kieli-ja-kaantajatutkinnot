@@ -156,7 +156,7 @@ const publicEnrollmentSlice = createSlice({
       _action: PayloadAction<{
         enrollment: PublicEnrollment;
         examEventId: number;
-      }>
+      }>,
     ) {
       state.enrollmentSubmitStatus = APIResponseStatus.InProgress;
     },

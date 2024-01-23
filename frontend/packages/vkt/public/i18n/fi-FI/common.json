@@ -164,6 +164,12 @@
         "ariaLabel": "Valtiohallinnon kielitutkinnot (oph.fi), avaa uudessa välilehdessä",
         "link": "https://www.oph.fi/fi/koulutus-ja-tutkinnot/kieli-ja-kaantajatutkinnot/valtionhallinnon-kielitutkinnot-vkt"
       },
+      "cookieBanner": {
+        "buttonAriaLabel": "Sulje evästetiedot",
+        "buttonText": "Sulje",
+        "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
+        "title": "Tietoa sivuston evästeistä"
+      },
       "yes": "Kyllä"
     }
   }

@@ -122,7 +122,7 @@ function* loadPublicEnrollmentUpdateSaga(
   action: PayloadAction<{
     enrollment: PublicEnrollment;
     examEventId: number;
-  }>
+  }>,
 ) {
   const { enrollment, examEventId } = action.payload;
 
@@ -142,7 +142,7 @@ function* loadPublicEnrollmentUpdateSaga(
     const response: AxiosResponse<PublicEnrollment> = yield call(
       axiosInstance.post,
       updateUrl,
-      body
+      body,
     );
     yield put(storePublicEnrollmentSave(response.data));
   } catch (error) {

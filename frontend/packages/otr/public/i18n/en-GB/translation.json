@@ -322,6 +322,12 @@
         "title": null
       },
       "homepage": {
+        "cookieBanner": {
+          "buttonAriaLabel": "Close the notification about cookies",
+          "buttonText": "Close",
+          "description": "This web site uses mandatory cookies to be functional.",
+          "title": "Information about cookies"
+        },
         "description": "The Finnish National Agency for Education maintains a register of legal interpreters, into which the legal interpreters approved by the Legal Interpreters’ Registration Board are entered. You can use the search engine to find an interpreter by name, language pair or operating area. The public register of legal interpreters contains only the details of those interpreters who have given the permission to publish their details online.",
         "filters": {
           "title": "Search for a legal interpreter"
