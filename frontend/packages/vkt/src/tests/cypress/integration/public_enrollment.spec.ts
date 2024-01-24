@@ -1,6 +1,7 @@
 import { onPublicEnrollmentPage } from 'tests/cypress/support/page-objects/publicEnrollmentPage';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { onToast } from 'tests/cypress/support/page-objects/toast';
+import { onCookieBanner } from 'tests/cypress/support/page-objects/cookieBanner';
 
 beforeEach(() => {
   cy.openPublicEnrollmentPage(2);
@@ -9,6 +10,8 @@ beforeEach(() => {
 describe('Public enrollment', () => {
   describe('to exam event with room', () => {
     it('reservation should have timer', () => {
+      onCookieBanner.closeBanner();
+
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(3000);
       onPublicHomePage.expectReservationTimeLeft('29', '57');
@@ -17,6 +20,8 @@ describe('Public enrollment', () => {
     });
 
     it('reservation should allow renewal', () => {
+      onCookieBanner.closeBanner();
+
       onPublicHomePage.expectReservationTimeLeft('30', '00');
       cy.tick(29 * 60 * 1000);
       onPublicHomePage.clickReservationRenewButton();
@@ -31,6 +36,8 @@ describe('Public enrollment', () => {
 
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
+
+      onCookieBanner.closeBanner();
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa',
       );
@@ -88,6 +95,7 @@ describe('Public enrollment', () => {
 
     it('should display errors if mandatory info is missing', () => {
       cy.tick(3000);
+      onCookieBanner.closeBanner();
       onPublicEnrollmentPage.clickNext();
       onPublicEnrollmentPage.expectContactDetailsError(
         'email',
