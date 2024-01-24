@@ -81,7 +81,7 @@ const ExaminationPartCheckbox = ({
           }
         />
       }
-      label={`${translateCommon('examParts.' + examinationPart)} 50 €`}
+      label={`${translateCommon('examParts.' + examinationPart)} 100 €`}
       sx={{
         '&.Mui-error .MuiFormControlLabel-label': { color: 'error.main' },
       }}
@@ -97,7 +97,7 @@ const SelectExaminationParts = () => {
     evaluationOrderSelector
   );
   const sumTotal = Object.values(examinationParts).reduce(
-    (acc, val) => (val ? acc + 50 : acc),
+    (acc, val) => (val ? acc + 100 : acc),
     0
   );
 

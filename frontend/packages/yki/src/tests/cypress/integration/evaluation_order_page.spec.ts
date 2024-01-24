@@ -35,9 +35,9 @@ describe('EvaluationOrderPage', () => {
 
   it('allows submitting a reassessment order', () => {
     expectErrorOnSubmit('Valitse vähintään yksi osakoe');
-    onEvaluationOrderPage.toggleExaminationPart('Tekstin ymmärtäminen 50 €');
-    onEvaluationOrderPage.toggleExaminationPart('Puhuminen 50 €');
-    onEvaluationOrderPage.expectReassessmentFee(100);
+    onEvaluationOrderPage.toggleExaminationPart('Tekstin ymmärtäminen 100 €');
+    onEvaluationOrderPage.toggleExaminationPart('Puhuminen 100 €');
+    onEvaluationOrderPage.expectReassessmentFee(200);
 
     const participantDetails = [
       ['Etunimet', 'Tero Teuvo'],
