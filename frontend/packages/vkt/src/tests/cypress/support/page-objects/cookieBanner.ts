@@ -1,6 +1,9 @@
 class CookieBanner {
+  getBanner() {
+    return cy.findByTestId('cookie-banner-accept-button');
+  }
   closeBanner() {
-    cy.findByTestId('cookie-banner-accept-button').click();
+    this.getBanner().click();
   }
 }
 

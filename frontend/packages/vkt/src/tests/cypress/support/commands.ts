@@ -13,6 +13,7 @@ Cypress.Commands.add(
   (examEventId: number, persistedState = '{}') => {
     cy.window().then((win) => {
       win.sessionStorage.setItem('persist:root', persistedState);
+      cy.setCookie('cookie-consent-vkt', 'true');
     });
     cy.visit(
       RouteUtils.replaceExamEventId(
