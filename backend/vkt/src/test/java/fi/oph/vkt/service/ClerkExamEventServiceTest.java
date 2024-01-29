@@ -28,15 +28,25 @@ import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.util.ExamEventUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
+import fi.oph.vkt.view.ExamEventXlsxData;
+import fi.oph.vkt.view.ExamEventXlsxDataRowUtil;
+import fi.oph.vkt.view.ExamEventXlsxView;
 import jakarta.annotation.Resource;
+import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
@@ -122,7 +132,7 @@ public class ClerkExamEventServiceTest {
 
         assertExamEventListDTODetails(expected, dto);
         assertEquals(expected == futureEvent ? 2 : 0, dto.participants());
-        assertEquals(expected == futureEvent ? true : false, dto.isUnusedSeats());
+        assertEquals(expected == futureEvent, dto.isUnusedSeats());
         assertEquals(expected == hiddenEvent, dto.isHidden());
       });
 
@@ -404,5 +414,33 @@ public class ClerkExamEventServiceTest {
     assertNotNull(excel);
 
     verify(auditService).logById(VktOperation.GET_EXAM_EVENT_EXCEL, examEvent.getId());
+  }
+
+  @Test
+  void testExcelRender() throws Exception {
+    final ExamEvent examEvent = Factory.examEvent();
+    final Person person = Factory.person();
+    final Enrollment enrollment = Factory.enrollment(examEvent, person);
+
+    entityManager.persist(examEvent);
+    entityManager.persist(person);
+    entityManager.persist(enrollment);
+
+    final ExamEventXlsxData data = ExamEventXlsxDataRowUtil.createExcelData(examEvent, examEvent.getEnrollments());
+    final ExamEventXlsxView excelView = new ExamEventXlsxView(data);
+
+    final MockHttpServletResponse response = new MockHttpServletResponse();
+    final MockHttpServletRequest request = new MockHttpServletRequest();
+
+    excelView.render(new HashMap<>(), request, response);
+
+    try (final Workbook workbook = WorkbookFactory.create(new ByteArrayInputStream(response.getContentAsByteArray()))) {
+      assertEquals(1, workbook.getNumberOfSheets());
+
+      final Sheet sheet = workbook.getSheetAt(0);
+      assertEquals(2, sheet.getPhysicalNumberOfRows());
+      assertEquals(21, sheet.getRow(1).getPhysicalNumberOfCells());
+      assertEquals("Tester", sheet.getRow(1).getCell(3).getStringCellValue());
+    }
   }
 }
