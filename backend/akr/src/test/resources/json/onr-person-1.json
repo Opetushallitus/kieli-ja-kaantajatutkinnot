@@ -1,0 +1,120 @@
+{
+  "id": 211713663,
+  "etunimet": "",
+  "syntymaaika": "1999-01-14",
+  "kuolinpaiva": null,
+  "hetu": "111111-1111",
+  "kaikkiHetut": [
+    "111111-1111"
+  ],
+  "kutsumanimi": "Foo Bar",
+  "oidHenkilo": "1.2.246.562.24.51995895120",
+  "oppijanumero": "1.2.246.562.24.51995895120",
+  "sukunimi": "Foobar",
+  "sukupuoli": "2",
+  "kotikunta": "200",
+  "turvakielto": false,
+  "eiSuomalaistaHetua": false,
+  "passivoitu": false,
+  "yksiloity": false,
+  "yksiloityVTJ": true,
+  "yksilointiYritetty": true,
+  "duplicate": false,
+  "created": 1698660436316,
+  "modified": 1698714159220,
+  "vtjsynced": 1698662232798,
+  "kasittelijaOid": "1.2.246.562.24.66631583590",
+  "asiointiKieli": null,
+  "aidinkieli": {
+    "id": 2,
+    "kieliKoodi": "en",
+    "kieliTyyppi": "English"
+  },
+  "kansalaisuus": [
+    {
+      "id": 1,
+      "kansalaisuusKoodi": "246"
+    }
+  ],
+  "yhteystiedotRyhma": [
+    {
+      "id": 211784648,
+      "ryhmaKuvaus": "yhteystietotyyppi4",
+      "ryhmaAlkuperaTieto": "alkupera1",
+      "readOnly": true,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": ""
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": ""
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "Suomi"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": ""
+        }
+      ]
+    },
+    {
+      "id": 211784641,
+      "ryhmaKuvaus": "yhteystietotyyppi14",
+      "ryhmaAlkuperaTieto": "alkupera8",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "ESP"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "Comte Borrell 00 A"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "+34611111111"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "08830"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "Sant Boi"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar"
+        }
+      ]
+    },
+    {
+      "id": 211784637,
+      "ryhmaKuvaus": "yhteystietotyyppi5",
+      "ryhmaAlkuperaTieto": "alkupera1",
+      "readOnly": true,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": "08830 SANT BOI"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "C/ MossÃ¨n Jacint, Verdaguer 96 3r"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "Espanja"
+        }
+      ]
+    }
+  ],
+  "passinumerot": [],
+  "kielisyys": [],
+  "henkiloTyyppi": "OPPIJA"
+}

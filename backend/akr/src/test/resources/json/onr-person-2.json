@@ -1,0 +1,120 @@
+{
+  "id": 64942929,
+  "etunimet": "Bar",
+  "syntymaaika": "1180-11-11",
+  "kuolinpaiva": null,
+  "hetu": "222222-222J2",
+  "kaikkiHetut": [
+    "222222-2222"
+  ],
+  "kutsumanimi": "Test",
+  "oidHenkilo": "1.2.246.562.24.17957554663",
+  "oppijanumero": "1.2.246.562.24.17957554663",
+  "sukunimi": "Bar",
+  "sukupuoli": "1",
+  "kotikunta": "297",
+  "turvakielto": false,
+  "eiSuomalaistaHetua": false,
+  "passivoitu": false,
+  "yksiloity": false,
+  "yksiloityVTJ": true,
+  "yksilointiYritetty": true,
+  "duplicate": false,
+  "created": 1518093323683,
+  "modified": 1698660422234,
+  "vtjsynced": null,
+  "kasittelijaOid": "1.2.246.562.24.90433796328",
+  "asiointiKieli": null,
+  "aidinkieli": {
+    "id": 412087,
+    "kieliKoodi": "ru",
+    "kieliTyyppi": "venäjä"
+  },
+  "kansalaisuus": [
+    {
+      "id": 570020,
+      "kansalaisuusKoodi": "643"
+    },
+    {
+      "id": 1,
+      "kansalaisuusKoodi": "246"
+    }
+  ],
+  "yhteystiedotRyhma": [
+    {
+      "id": 200557904,
+      "ryhmaKuvaus": "yhteystietotyyppi10",
+      "ryhmaAlkuperaTieto": "alkupera1",
+      "readOnly": true,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "Avenue Marcel Thiry 00 B0"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KUNTA",
+          "yhteystietoArvo": "1200 WOLUWE-SAINT-LAMBERT"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "Belgia"
+        }
+      ]
+    },
+    {
+      "id": 200557899,
+      "ryhmaKuvaus": "yhteystietotyyppi4",
+      "ryhmaAlkuperaTieto": "alkupera1",
+      "readOnly": true,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_POSTINUMERO",
+          "yhteystietoArvo": "70280"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KAUPUNKI",
+          "yhteystietoArvo": "KUOPIO"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_KATUOSOITE",
+          "yhteystietoArvo": "Pursutie 00 A 00"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_MAA",
+          "yhteystietoArvo": "Suomi"
+        }
+      ]
+    },
+    {
+      "id": 211712961,
+      "ryhmaKuvaus": "yhteystietotyyppi14",
+      "ryhmaAlkuperaTieto": "alkupera8",
+      "readOnly": false,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "foo@bar"
+        },
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_PUHELINNUMERO",
+          "yhteystietoArvo": "011-111 1111"
+        }
+      ]
+    },
+    {
+      "id": 200557908,
+      "ryhmaKuvaus": "yhteystietotyyppi8",
+      "ryhmaAlkuperaTieto": "alkupera1",
+      "readOnly": true,
+      "yhteystieto": [
+        {
+          "yhteystietoTyyppi": "YHTEYSTIETO_SAHKOPOSTI",
+          "yhteystietoArvo": "ba@foo.com"
+        }
+      ]
+    }
+  ],
+  "passinumerot": [],
+  "kielisyys": [],
+  "henkiloTyyppi": "OPPIJA"
+}
