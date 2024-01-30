@@ -103,7 +103,7 @@ export const Header = (): JSX.Element => {
           buttonText={cookieTranslation('buttonText')}
           cookieTag="cookie-consent-otr"
           buttonAriaLabel={cookieTranslation('buttonAriaLabel')}
-          path="/akr"
+          path="/otr"
         >
           <Text data-testid="cookie-banner-description">
             {cookieTranslation('description')}
