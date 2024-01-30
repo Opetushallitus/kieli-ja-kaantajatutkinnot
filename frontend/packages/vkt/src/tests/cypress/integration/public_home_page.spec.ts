@@ -1,10 +1,17 @@
 import { ExamLanguage } from 'enums/app';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
+import { onCookieBanner } from 'tests/cypress/support/page-objects/cookieBanner';
 
 describe('PublicHomePage', () => {
   beforeEach(() => {
     cy.openPublicHomePage();
+  });
+
+  it('should close cookie banner', () => {
+    onCookieBanner.closeBanner();
+
+    onCookieBanner.getBanner().should('not.exist');
   });
 
   it('should show the filtered amount of exam events in table pagination', () => {

@@ -31,6 +31,7 @@ describe('Public enrollment', () => {
 
     it('should be able to fill out enrollment info', () => {
       cy.tick(3000);
+
       onPublicEnrollmentPage.expectEnrollmentPersonDetails(
         'Sukunimi:TestiläEtunimet:Tessa',
       );

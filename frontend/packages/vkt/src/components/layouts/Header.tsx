@@ -1,10 +1,12 @@
 import { AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {
+  CookieBanner,
   LangSelector,
   OPHClerkLogo,
   OPHLogoViewer,
   SkipLink,
+  Text,
 } from 'shared/components';
 import { AppLanguage, Direction } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
@@ -99,6 +101,19 @@ export const Header = (): JSX.Element => {
           </div>
         </Toolbar>
       </AppBar>
+      {!isClerkUI && (
+        <CookieBanner
+          title={translateCommon('cookieBanner.title')}
+          buttonText={translateCommon('cookieBanner.buttonText')}
+          cookieTag="cookie-consent-vkt"
+          buttonAriaLabel={translateCommon('cookieBanner.buttonAriaLabel')}
+          path="/vkt"
+        >
+          <Text data-testid="cookie-banner-description">
+            {translateCommon('cookieBanner.description')}
+          </Text>
+        </CookieBanner>
+      )}
     </>
   );
 };

@@ -152,7 +152,7 @@ export const PublicEnrollmentControlButtons = ({
           loadPublicEnrollmentUpdate({
             enrollment,
             examEventId,
-          })
+          }),
         );
       } else {
         dispatch(

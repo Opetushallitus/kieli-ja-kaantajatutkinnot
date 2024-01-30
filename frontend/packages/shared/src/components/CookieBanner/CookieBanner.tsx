@@ -56,7 +56,7 @@ export const CookieBanner: FC<PropsWithChildren<CookieBannerProps>> = ({
         maxWidth: '100%',
         margin: 0,
         borderRadius: 0,
-        zIndex: 2,
+        zIndex: 3,
       }}
     >
       <section

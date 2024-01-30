@@ -322,6 +322,12 @@
         "title": null
       },
       "homepage": {
+        "cookieBanner": {
+          "buttonAriaLabel": "Stäng informationrutan om kakor",
+          "buttonText": "Stäng",
+          "description": "Den här webbplatsen använder nödvändiga kakor för att fungera",
+          "title": "Information om kakor"
+        },
         "description": "Utbildningsstyrelsen upprätthåller ett register över rättstolkar, där rättstolkar som har godkänts av Nämnden för registret över rättstolkar registreras. Med sökmotorn kan du söka en tolk på namn eller enligt språkpar eller verksamhetsområde. I det offentliga registret över rättstolkar finns endast uppgifter om de tolkar som har gett sitt samtycke till att deras uppgifter publiceras på webben.",
         "filters": {
           "title": "Sök en rättstolk"

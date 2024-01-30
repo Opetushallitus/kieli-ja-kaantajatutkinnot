@@ -323,6 +323,12 @@
         "title": "Lisää oikeustulkki"
       },
       "homepage": {
+        "cookieBanner": {
+          "buttonAriaLabel": "Sulje evästetiedot",
+          "buttonText": "Sulje",
+          "description": "Tämä sivusto käyttää välttämättömiä evästeitä toimiakseen.",
+          "title": "Tietoa sivuston evästeistä"
+        },
         "description": "Opetushallitus ylläpitää oikeustulkkirekisteriä, johon Oikeustulkkirekisterilautakunnan hyväksymät oikeustulkit merkitään. Hakukoneella voit hakea tulkkia joko nimen, kieliparin tai toiminta-alueen mukaan. Julkinen oikeustulkkirekisteri sisältää tiedot vain niistä tulkeista, jotka ovat antaneet luvan tietojensa julkaisemiseen verkossa.",
         "filters": {
           "title": "Etsi oikeustulkkia"

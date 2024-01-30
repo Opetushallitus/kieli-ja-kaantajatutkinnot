@@ -156,6 +156,12 @@
         "ariaLabel": "Språkexamina för statsförvaltningen (oph.fi), öppnas i en ny flik",
         "link": "https://www.oph.fi/sv/sprakexamina-statsforvaltningen-vkt"
       },
+      "cookieBanner": {
+        "buttonAriaLabel": "Stäng informationrutan om kakor",
+        "buttonText": "Stäng",
+        "description": "Den här webbplatsen använder nödvändiga kakor för att fungera",
+        "title": "Information om kakor"
+      },
       "yes": "Ja"
     }
   }
