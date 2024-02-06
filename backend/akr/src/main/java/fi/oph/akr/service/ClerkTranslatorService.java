@@ -3,6 +3,7 @@ package fi.oph.akr.service;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAuthorisationsDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorResponseDTO;
@@ -23,6 +24,8 @@ import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationProjection;
 import fi.oph.akr.repository.AuthorisationRepository;
@@ -114,6 +117,7 @@ public class ClerkTranslatorService {
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(personalData);
 
         if (personalData == null) {
           LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
@@ -132,16 +136,27 @@ public class ClerkTranslatorService {
           .identityNumber(personalData.getIdentityNumber())
           .email(personalData.getEmail())
           .phoneNumber(personalData.getPhoneNumber())
-          .street(personalData.getStreet())
-          .postalCode(personalData.getPostalCode())
-          .town(personalData.getTown())
-          .country(personalData.getCountry())
+          .address(clerkTranslatorAddressDTO)
           .extraInformation(translator.getExtraInformation())
           .isAssuranceGiven(translator.isAssuranceGiven())
           .authorisations(translatorAuthorisationsDTO)
           .build();
       })
       .toList();
+  }
+
+  private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(final PersonalData personalData) {
+    return List.of(
+      ClerkTranslatorAddressDTO
+        .builder()
+        .street(personalData.getStreet())
+        .town(personalData.getTown())
+        .country(personalData.getCountry())
+        .selected(false)
+        .type(ContactDetailsGroupType.VAKINAINEN_KOTIMAAN_OSOITE)
+        .source(ContactDetailsGroupSource.VTJ)
+        .build()
+    );
   }
 
   private List<AuthorisationDTO> createAuthorisationDTOs(final List<AuthorisationProjection> authorisationProjections) {

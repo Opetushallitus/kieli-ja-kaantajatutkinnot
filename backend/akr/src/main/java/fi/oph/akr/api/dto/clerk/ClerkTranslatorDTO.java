@@ -3,6 +3,8 @@ package fi.oph.akr.api.dto.clerk;
 import lombok.Builder;
 import lombok.NonNull;
 
+import java.util.List;
+
 @Builder
 public record ClerkTranslatorDTO(
   @NonNull Long id,
@@ -15,10 +17,7 @@ public record ClerkTranslatorDTO(
   String identityNumber,
   String email,
   String phoneNumber,
-  String street,
-  String postalCode,
-  String town,
-  String country,
+  @NonNull List<ClerkTranslatorAddressDTO> address,
   String extraInformation,
   @NonNull Boolean isAssuranceGiven,
   @NonNull ClerkTranslatorAuthorisationsDTO authorisations

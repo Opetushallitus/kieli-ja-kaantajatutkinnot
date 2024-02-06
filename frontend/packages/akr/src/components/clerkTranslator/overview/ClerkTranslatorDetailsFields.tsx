@@ -1,8 +1,17 @@
-import { FormHelperTextProps } from '@mui/material';
+import {
+  FormControlLabel,
+  FormHelperTextProps,
+  Radio,
+  RadioGroup,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
   //ComboBox,
   CustomSwitch,
+  CustomTable,
   CustomTextField,
   H3,
   InfoText,
@@ -18,6 +27,7 @@ import {
 } from 'configs/i18n';
 import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import {
+  ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
@@ -116,12 +126,90 @@ const ClerkTranslatorDetailsTextField = ({
   );
 };
 
+const ClerkTranslatorAddressFields = ({
+  addresses,
+  onAddressChange,
+  editDisabled,
+}: {
+  addresses: Array<ClerkTranslatorAddress>;
+  onAddressChange: (addresses: Array<ClerkTranslatorAddress>) => void;
+  editDisabled: boolean;
+}) => {
+  const { t } = useAppTranslation({
+    keyPrefix:
+      'akr.component.clerkTranslatorOverview.translatorDetails.address',
+  });
+  const AddressHeader = () => (
+    <TableHead className="heading-text">
+      <TableRow>
+        <TableCell>Katu</TableCell>
+        <TableCell>Postinumero </TableCell>
+        <TableCell>Kaupunki</TableCell>
+        <TableCell>Maa</TableCell>
+        <TableCell>Osoitteen lähde</TableCell>
+        <TableCell>Valitse osoitelähde</TableCell>
+      </TableRow>
+    </TableHead>
+  );
+
+  const getRowDetails = (address: ClerkTranslatorAddress) => (
+    <TableRow>
+      <TableCell>{address[ClerkTranslatorTextFieldEnum.Street]}</TableCell>
+      <TableCell>{address[ClerkTranslatorTextFieldEnum.PostalCode]}</TableCell>
+      <TableCell>{address[ClerkTranslatorTextFieldEnum.Town]}</TableCell>
+      <TableCell>{address[ClerkTranslatorTextFieldEnum.Country]}</TableCell>
+      <TableCell>
+        {t(address.source)}
+        <br /> ({t(address.type)})
+      </TableCell>
+      <TableCell>
+        <RadioGroup
+          className="rows gapped-xxs"
+          name="full-exam-group"
+          onChange={() => {
+            onAddressChange(
+              addresses.map((addr) => ({
+                ...addr,
+                selected:
+                  addr.source === address.source && addr.type === address.type,
+              })),
+            );
+          }}
+        >
+          <FormControlLabel
+            disabled={editDisabled}
+            data-testid="enrollment-checkbox-full-exam"
+            control={<Radio aria-describedby="full-exam-error" />}
+            checked={address.selected}
+            label={'Käytä lähdettä'}
+          />
+        </RadioGroup>
+      </TableCell>
+    </TableRow>
+  );
+
+  const addIdToData = (address: ClerkTranslatorAddress) => ({
+    id: address.source + '-' + address.type,
+    ...address,
+  });
+
+  return (
+    <CustomTable
+      className=""
+      header={<AddressHeader />}
+      data={addresses.map(addIdToData)}
+      getRowDetails={getRowDetails}
+      stickyHeader
+    />
+  );
+};
+
 export const ClerkTranslatorDetailsFields = ({
   translator,
   isPersonalInformationIndividualised,
   isAddressIndividualised,
   onTextFieldChange,
-  //onComboBoxChange,
+  onAddressChange,
   onCheckBoxChange,
   editDisabled,
   topControlButtons,
@@ -133,11 +221,7 @@ export const ClerkTranslatorDetailsFields = ({
   onTextFieldChange: (
     field: keyof ClerkTranslatorTextFields,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  /*
-  onComboBoxChange: (
-    field: keyof ClerkTranslatorBasicInformation
-  ) => (value?: string) => void;
-  */
+  onAddressChange: (addresses: Array<ClerkTranslatorAddress>) => void;
   onCheckBoxChange: (
     field: keyof ClerkTranslatorBasicInformation,
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
@@ -261,17 +345,10 @@ export const ClerkTranslatorDetailsFields = ({
         </div>
       )}
       <div className="columns align-items-start gapped">
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Street)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.PostalCode)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Town)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Country)}
+        <ClerkTranslatorAddressFields
+          addresses={translator?.address || []}
+          onAddressChange={onAddressChange}
+          editDisabled={editDisabled}
         />
         {/* <ComboBox
           data-testid="clerk-translator__basic-information__country"

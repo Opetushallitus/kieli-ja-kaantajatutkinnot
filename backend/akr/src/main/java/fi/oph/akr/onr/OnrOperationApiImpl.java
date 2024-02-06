@@ -99,8 +99,8 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     assert personalDataDTO.getOnrId() != null;
     assert personalDataDTO.getIndividualised() != null;
 
-    final List<ContactDetailsGroupDTO> groups = personalDataDTO.getContactDetailsGroups();
-    final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(groups);
+    final List<ContactDetailsGroupDTO> primaryGroup = ContactDetailsUtil.getPrimaryDetailsGroup(personalDataDTO);
+    final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(primaryGroup);
 
     // If person in ONR is marked passive, it's lacking an identity number.
     // The passive person might however be linked to another "master" person which does have identity number. In this
@@ -116,12 +116,12 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
       .identityNumber(identityNumber.orElse("ei tiedossa"))
-      .email(ContactDetailsUtil.getPrimaryEmail(groups))
-      .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(groups))
-      .street(ContactDetailsUtil.getPrimaryStreet(groups))
-      .postalCode(ContactDetailsUtil.getPrimaryPostalCode(groups))
-      .town(ContactDetailsUtil.getPrimaryTown(groups))
-      .country(ContactDetailsUtil.getPrimaryCountry(groups))
+      .email(ContactDetailsUtil.getPrimaryEmail(primaryGroup))
+      .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(primaryGroup))
+      .street(ContactDetailsUtil.getPrimaryStreet(primaryGroup))
+      .postalCode(ContactDetailsUtil.getPrimaryPostalCode(primaryGroup))
+      .town(ContactDetailsUtil.getPrimaryTown(primaryGroup))
+      .country(ContactDetailsUtil.getPrimaryCountry(primaryGroup))
       .build();
   }
 

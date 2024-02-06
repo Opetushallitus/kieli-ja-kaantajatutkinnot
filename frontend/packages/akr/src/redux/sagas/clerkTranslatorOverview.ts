@@ -56,6 +56,7 @@ function* updateTranslatorDetails(action: PayloadAction<ClerkTranslator>) {
     yield put(upsertClerkTranslator(translator));
     yield put(updatingClerkTranslatorDetailsSucceeded(translator));
   } catch (error) {
+    console.log('error', error);
     const errorMessage = NotifierUtils.getAPIErrorMessage(error as AxiosError);
     yield put(setAPIError(errorMessage));
     yield put(rejectClerkTranslatorDetailsUpdate());

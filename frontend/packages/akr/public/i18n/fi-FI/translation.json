@@ -117,6 +117,10 @@
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
           },
+          "address": {
+            "alkupera1": "VTJ",
+            "yhteystietotyyppi4": "Vakinainen, kotimaa"
+          },
           "caveats": {
             "isNotAssuranceGiven": "Auktorisoinnit eivät ole näkyvissä julkisessa listauksessa!"
           },

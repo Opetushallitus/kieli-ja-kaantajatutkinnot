@@ -147,7 +147,7 @@ public class ContactDetailsUtil {
   ) {
     return latestContactDetails
       .stream()
-      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR && cd.getIsReadOnly() != true)
+      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR && !cd.getIsReadOnly())
       .collect(Collectors.toList());
   }
 
@@ -164,5 +164,9 @@ public class ContactDetailsUtil {
       .collect(Collectors.toList());
     personalDataDTO.setContactDetailsGroups(combinedContactDetails);
     return personalDataDTO;
+  }
+
+  public static List<ContactDetailsGroupDTO> getPrimaryDetailsGroup(final PersonalDataDTO personalDataDTO) {
+    return personalDataDTO.getContactDetailsGroups();
   }
 }
