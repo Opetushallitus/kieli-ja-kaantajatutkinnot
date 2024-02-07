@@ -336,7 +336,7 @@ describe('ExamSessionUtils', () => {
         },
         {
           availableQueue: true,
-        }
+        },
       );
 
       // Queue full -> availableQueue: false
@@ -350,7 +350,7 @@ describe('ExamSessionUtils', () => {
         },
         {
           availableQueue: false,
-        }
+        },
       );
 
       // Regular admission over -> availableQueue: false
@@ -364,7 +364,7 @@ describe('ExamSessionUtils', () => {
         },
         {
           availableQueue: false,
-        }
+        },
       );
 
       // Admission not yet started -> availableQueue: false
@@ -378,7 +378,7 @@ describe('ExamSessionUtils', () => {
         },
         {
           availableQueue: false,
-        }
+        },
       );
     });
 

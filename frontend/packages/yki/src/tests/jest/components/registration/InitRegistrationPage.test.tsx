@@ -23,7 +23,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
   const tree = create(
     <DefaultProviders preloadedState={preloadedState}>
       <ContentSelector />
-    </DefaultProviders>
+    </DefaultProviders>,
   ).toJSON();
 
   return tree;
@@ -32,7 +32,7 @@ const renderPageWithSession = (examSession: ExamSession) => {
 describe('InitRegistrationPage', () => {
   const { exam_sessions } = examSessions as ExamSessionsResponse;
   const sessions = exam_sessions.map(
-    SerializationUtils.deserializeExamSessionResponse
+    SerializationUtils.deserializeExamSessionResponse,
   );
 
   describe('should prompt user to first identify', () => {

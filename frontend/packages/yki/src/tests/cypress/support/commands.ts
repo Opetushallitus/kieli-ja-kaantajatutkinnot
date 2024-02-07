@@ -14,6 +14,6 @@ Cypress.Commands.add('isOnPage', (page: string) => {
 
 Cypress.Commands.add('openExamSessionRegistrationForm', (id: number) => {
   cy.visit(
-    AppRoutes.ExamSessionRegistration.replace(/:examSessionId/, `${id}`)
+    AppRoutes.ExamSessionRegistration.replace(/:examSessionId/, `${id}`),
   );
 });

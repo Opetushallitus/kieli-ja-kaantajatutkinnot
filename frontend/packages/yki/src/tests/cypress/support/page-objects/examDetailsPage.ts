@@ -42,7 +42,6 @@ class ExamDetailsPage {
   }
 
   selectCertificateLanguage(language: string) {
-    // TODO Feels wrong to match just by role. Perhaps refactor code so that the heading is a proper label for the radiogroup?
     cy.findByRole('radiogroup').findByRole('radio', { name: language }).click();
   }
 

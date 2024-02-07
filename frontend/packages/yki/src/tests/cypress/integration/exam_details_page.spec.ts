@@ -3,7 +3,7 @@ import { onExamDetailsPage } from 'tests/cypress/support/page-objects/examDetail
 import { examSessions } from 'tests/msw/fixtures/examSession';
 
 const examSessionResponse = examSessions.exam_sessions.find(
-  (es) => es.id === 999
+  (es) => es.id === 999,
 );
 
 const expectedSuomiFiRegistrationDetails = {
@@ -64,25 +64,16 @@ describe('ExamDetailsPage', () => {
       onExamDetailsPage.acceptTermsOfRegistration();
       onExamDetailsPage.acceptPrivacyPolicy();
 
-      // TODO Intercepting form submit request doesn't currently seem to work.
-      // TODO Test should ensure the correct data is sent over the wire.
-      cy.intercept({ url: /.*\submit/, method: 'POST' }, (req) => {
-        expect(req.body).to.equal({ ...expectedSuomiFiRegistrationDetails });
-      });
-
       // When browser attempts to logout, send browser instead directly to
       // successful submission page.
       // Note that mocking the response with msw doesn't currently work,
       // as the request to logout is sent to an absolute URL (including hostname).
-      cy.intercept(
-        { url: /^.*\/yki\/auth\/logout\?redirect=/, method: 'GET' },
-        (req) => {
-          const { redirect } = req.query;
-          req.continue((res) => {
-            res.send(301, {}, { location: redirect as string });
-          });
-        }
-      );
+      cy.intercept({ url: '/yki/auth/logout', method: 'GET' }, (req) => {
+        const { redirect } = req.query;
+        req.continue((res) => {
+          res.send(301, {}, { location: redirect as string });
+        });
+      });
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
     });

@@ -11,12 +11,12 @@ const notFound = () => new HttpResponse(null, { status: 404 });
 
 export const handlers = [
   http.get(APIEndpoints.Evaluations, () =>
-    HttpResponse.json(evaluationPeriods)
+    HttpResponse.json(evaluationPeriods),
   ),
   http.get(APIEndpoints.Evaluation, ({ params }) => {
     const { evaluationId } = params;
     const evaluationPeriod = evaluationPeriods.evaluation_periods.filter(
-      (ep) => ep.id === Number(evaluationId)
+      (ep) => ep.id === Number(evaluationId),
     )[0];
     if (evaluationPeriod) {
       return HttpResponse.json(evaluationPeriod);
@@ -26,12 +26,12 @@ export const handlers = [
   }),
   http.get(
     APIEndpoints.ExamSessions,
-    () => new Response(JSON.stringify(examSessions), { status: 200 })
+    () => new Response(JSON.stringify(examSessions), { status: 200 }),
   ),
   http.get(APIEndpoints.ExamSession, ({ params }) => {
     const { examSessionId } = params;
     const examSession = examSessions.exam_sessions.find(
-      (es) => es.id === Number(examSessionId)
+      (es) => es.id === Number(examSessionId),
     );
     if (examSession) {
       return HttpResponse.json(examSession);
@@ -40,22 +40,20 @@ export const handlers = [
     }
   }),
   http.get(APIEndpoints.User, () =>
-    HttpResponse.json(SuomiFiAuthenticatedSessionResponse)
+    HttpResponse.json(SuomiFiAuthenticatedSessionResponse),
   ),
   http.post(APIEndpoints.EvaluationOrder, () =>
-    HttpResponse.json(evaluationOrderPostResponse)
+    HttpResponse.json(evaluationOrderPostResponse),
   ),
   http.get(APIEndpoints.CountryCodes, () =>
-    HttpResponse.json(maatJaValtiot2Response)
+    HttpResponse.json(maatJaValtiot2Response),
   ),
-  http.post(APIEndpoints.SubmitRegistration, () => {
-    return HttpResponse.json({ success: true });
-  }),
   http.get(APIEndpoints.Logout, ({ params }) => {
-    const redirect = params.redirect as string;
-    return new HttpResponse(null, {
+    const { redirect } = params;
+
+    return HttpResponse.json(null, {
       status: 301,
-      headers: { Location: redirect },
+      headers: { Location: redirect as string },
     });
   }),
 ];
