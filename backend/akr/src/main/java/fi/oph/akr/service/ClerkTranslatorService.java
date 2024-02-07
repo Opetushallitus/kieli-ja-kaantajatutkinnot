@@ -117,7 +117,10 @@ public class ClerkTranslatorService {
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
-        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(personalData);
+        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(
+          personalData,
+          translator
+        );
 
         if (personalData == null) {
           LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
@@ -145,18 +148,29 @@ public class ClerkTranslatorService {
       .toList();
   }
 
-  private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(final PersonalData personalData) {
-    return List.of(
-      ClerkTranslatorAddressDTO
-        .builder()
-        .street(personalData.getStreet())
-        .town(personalData.getTown())
-        .country(personalData.getCountry())
-        .selected(false)
-        .type(ContactDetailsGroupType.VAKINAINEN_KOTIMAAN_OSOITE)
-        .source(ContactDetailsGroupSource.VTJ)
-        .build()
-    );
+  private boolean isAddressSelected(final Translator translator, final ClerkTranslatorAddressDTO address) {
+    return translator.getSelectedAddress().equals(address.source().toString());
+  }
+
+  private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(
+    final PersonalData personalData,
+    final Translator translator
+  ) {
+    return personalData
+      .getAddress()
+      .stream()
+      .map(addr ->
+        ClerkTranslatorAddressDTO
+          .builder()
+          .town(addr.town())
+          .postalCode(addr.postalCode())
+          .country(addr.country())
+          .source(addr.source())
+          .type(addr.type())
+          .selected(isAddressSelected(translator, addr))
+          .build()
+      )
+      .toList();
   }
 
   private List<AuthorisationDTO> createAuthorisationDTOs(final List<AuthorisationProjection> authorisationProjections) {
@@ -307,10 +321,7 @@ public class ClerkTranslatorService {
       .identityNumber(dto.identityNumber())
       .email(dto.email())
       .phoneNumber(dto.phoneNumber())
-      .street(dto.street())
-      .postalCode(dto.postalCode())
-      .town(dto.town())
-      .country(dto.country())
+      .address(dto.address())
       .build();
   }
 

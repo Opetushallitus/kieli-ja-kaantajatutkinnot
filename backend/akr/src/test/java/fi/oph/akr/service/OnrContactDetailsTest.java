@@ -41,8 +41,12 @@ public class OnrContactDetailsTest {
         final Response response = mock(Response.class);
         final String mockJson =
           switch (request.getUrl()) {
-            case "http://localhost/henkilo/hetu=111111-1111" -> new String(onrMockRequest1.getInputStream().readAllBytes());
-            case "http://localhost/henkilo/hetu=222222-2222" -> new String(onrMockRequest2.getInputStream().readAllBytes());
+            case "http://localhost/henkilo/hetu=111111-1111" -> new String(
+              onrMockRequest1.getInputStream().readAllBytes()
+            );
+            case "http://localhost/henkilo/hetu=222222-2222" -> new String(
+              onrMockRequest2.getInputStream().readAllBytes()
+            );
             default -> "";
           };
 

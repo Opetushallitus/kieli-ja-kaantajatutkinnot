@@ -37,6 +37,9 @@ public class Translator extends BaseEntity {
   @Column(name = "extra_information")
   private String extraInformation;
 
+  @Column(name = "selected_address")
+  private String selectedAddress;
+
   @Column(name = "is_assurance_given", nullable = false)
   private boolean isAssuranceGiven;
 }

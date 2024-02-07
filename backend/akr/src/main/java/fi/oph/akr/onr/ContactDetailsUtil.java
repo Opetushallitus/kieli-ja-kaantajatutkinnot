@@ -14,6 +14,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.onr.dto.ContactDetailsDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
@@ -116,14 +117,15 @@ public class ContactDetailsUtil {
       ContactDetailsType.PHONE_NUMBER
     );
 
+    final ClerkTranslatorAddressDTO address = findAkrAddressDetails(personalData);
     final Set<ContactDetailsDTO> contactDetailsSet = Stream
       .of(
         createContactDetailsDTO(ContactDetailsType.EMAIL, personalData.getEmail()),
         createContactDetailsDTO(ContactDetailsType.PHONE_NUMBER, personalData.getPhoneNumber()),
-        createContactDetailsDTO(ContactDetailsType.STREET, personalData.getStreet()),
-        createContactDetailsDTO(ContactDetailsType.POSTAL_CODE, personalData.getPostalCode()),
-        createContactDetailsDTO(ContactDetailsType.TOWN, personalData.getTown()),
-        createContactDetailsDTO(ContactDetailsType.COUNTRY, personalData.getCountry())
+        createContactDetailsDTO(ContactDetailsType.STREET, address.street()),
+        createContactDetailsDTO(ContactDetailsType.POSTAL_CODE, address.postalCode()),
+        createContactDetailsDTO(ContactDetailsType.TOWN, address.town()),
+        createContactDetailsDTO(ContactDetailsType.COUNTRY, address.country())
       )
       .filter(dto -> !personalData.getHasIndividualisedAddress() || akrContactDetailsTypes.contains(dto.getType()))
       .collect(Collectors.toSet());
@@ -133,6 +135,17 @@ public class ContactDetailsUtil {
     contactDetailsGroupDTO.setSource(ContactDetailsGroupSource.AKR);
     contactDetailsGroupDTO.setContactDetailsSet(contactDetailsSet);
     return contactDetailsGroupDTO;
+  }
+
+  private static ClerkTranslatorAddressDTO findAkrAddressDetails(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .filter(addr ->
+        addr.source().equals(ContactDetailsGroupSource.AKR) && addr.type().equals(ContactDetailsGroupType.AKR_OSOITE)
+      )
+      .findFirst()
+      .orElse(null);
   }
 
   private static ContactDetailsDTO createContactDetailsDTO(final ContactDetailsType type, final String value) {

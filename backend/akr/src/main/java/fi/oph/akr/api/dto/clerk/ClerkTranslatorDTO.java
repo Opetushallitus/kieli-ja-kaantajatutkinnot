@@ -1,9 +1,8 @@
 package fi.oph.akr.api.dto.clerk;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
-
-import java.util.List;
 
 @Builder
 public record ClerkTranslatorDTO(
