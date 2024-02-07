@@ -68,12 +68,13 @@ describe('ExamDetailsPage', () => {
       // successful submission page.
       // Note that mocking the response with msw doesn't currently work,
       // as the request to logout is sent to an absolute URL (including hostname).
-      cy.intercept({ url: '/yki/auth/logout', method: 'GET' }, (req) => {
+      cy.intercept({ url: /^.*\/yki\/auth\/logout\?redirect=/, method: 'GET' }, (req) => {
         const { redirect } = req.query;
         req.continue((res) => {
           res.send(301, {}, { location: redirect as string });
         });
       });
+
       onExamDetailsPage.submitForm();
       onExamDetailsPage.isFormSubmitted();
     });
