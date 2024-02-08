@@ -1051,9 +1051,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
-      .address(
-        createAddress("st", "pstl", "tw", country)
-      )
+      .address(createAddress("st", "pstl", "tw", country))
       .extraInformation("extra")
       .isAssuranceGiven(false);
   }

@@ -1,5 +1,6 @@
 package fi.oph.akr.onr.mock;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.onr.OnrOperationApi;
 import fi.oph.akr.onr.model.PersonalData;
 import java.util.List;
@@ -35,10 +36,17 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Matti Tauno")
           .nickName("Matti")
           .identityNumber(identityNumber)
-          .street("Kajaanintie 123")
-          .postalCode("93600")
-          .town("Kuusamo")
-          .country("FINLAND")
+          .address(
+            List.of(
+              ClerkTranslatorAddressDTO
+                .builder()
+                .street("Kajaanintie 123")
+                .postalCode("93600")
+                .town("Kuusamo")
+                .country("FINLAND")
+                .build()
+            )
+          )
           .build();
         case individualised2 -> PersonalData
           .builder()
@@ -49,10 +57,17 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Anna Maria")
           .nickName("Anna")
           .identityNumber(identityNumber)
-          .street("Tampereentie 234")
-          .postalCode("20100")
-          .town("Turku")
-          .country("SUOMI")
+          .address(
+            List.of(
+              ClerkTranslatorAddressDTO
+                .builder()
+                .street("Tampereentie 234")
+                .postalCode("20100")
+                .town("Turku")
+                .country("SUOMI")
+                .build()
+            )
+          )
           .build();
         case manuallyCreated1 -> PersonalData
           .builder()
@@ -63,8 +78,15 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Oona Inkeri")
           .nickName("Oona")
           .identityNumber(identityNumber)
-          .street("Ristikontie 333")
-          .town("Helsinki")
+          .address(
+            List.of(
+              ClerkTranslatorAddressDTO
+                .builder()
+                .street("Ristikontie 333")
+                .town("Helsinki")
+                .build()
+            )
+          )
           .build();
         case manuallyCreated2 -> PersonalData
           .builder()

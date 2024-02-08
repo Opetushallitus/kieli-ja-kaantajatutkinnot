@@ -1,9 +1,11 @@
 package fi.oph.akr.onr.mock;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.util.CyclicIterable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonalDataFactory {
@@ -31,10 +33,17 @@ public class PersonalDataFactory {
       .identityNumber(identityNumbers.next())
       .email(nickName.toLowerCase() + "." + lastName.toLowerCase() + "@example.invalid")
       .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)
-      .street(streets.next())
-      .postalCode(postalCodes.next())
-      .town(towns.next())
-      .country(countries.next())
+      .address(
+        List.of(
+          ClerkTranslatorAddressDTO
+            .builder()
+            .street(streets.next())
+            .postalCode(postalCodes.next())
+            .town(towns.next())
+            .country(countries.next())
+            .build()
+        )
+      )
       .build();
   }
 

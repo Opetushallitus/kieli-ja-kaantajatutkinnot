@@ -94,6 +94,20 @@ public class ContactDetailsUtil {
     return getPrimaryValue(groups, ContactDetailsType.COUNTRY, AKR_LAST);
   }
 
+  private static String getValue(
+    final ContactDetailsGroupDTO contactDetailsGroup,
+    final ContactDetailsType contactDetailsType
+  ) {
+    return contactDetailsGroup
+      .getContactDetailsSet()
+      .stream()
+      .filter(details -> details.getType().equals(contactDetailsType))
+      .filter(details -> details.getValue() != null && !details.getValue().isBlank())
+      .map(ContactDetailsDTO::getValue)
+      .findFirst()
+      .orElse(null);
+  }
+
   private static String getPrimaryValue(
     final List<ContactDetailsGroupDTO> contactDetailsGroups,
     final ContactDetailsType contactDetailsType,
@@ -179,7 +193,24 @@ public class ContactDetailsUtil {
     return personalDataDTO;
   }
 
-  public static List<ContactDetailsGroupDTO> getPrimaryDetailsGroup(final PersonalDataDTO personalDataDTO) {
-    return personalDataDTO.getContactDetailsGroups();
+  public static ClerkTranslatorAddressDTO getPrimaryAddress(final PersonalData personalData) {
+    return personalData.getAddress().get(0);
+  }
+
+  public static List<ClerkTranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {
+    return contactDetailGroups
+      .stream()
+      .map(group ->
+        ClerkTranslatorAddressDTO
+          .builder()
+          .street(getValue(group, ContactDetailsType.STREET))
+          .postalCode(getValue(group, ContactDetailsType.POSTAL_CODE))
+          .town(getValue(group, ContactDetailsType.TOWN))
+          .country(getValue(group, ContactDetailsType.COUNTRY))
+          .source(group.getSource())
+          .type(group.getType())
+          .build()
+      )
+      .toList();
   }
 }

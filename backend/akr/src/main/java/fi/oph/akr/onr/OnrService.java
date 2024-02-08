@@ -52,10 +52,7 @@ public class OnrService {
       .identityNumber(data.getIdentityNumber())
       .email(data.getEmail())
       .phoneNumber(data.getPhoneNumber())
-      .street(data.getStreet())
-      .postalCode(data.getPostalCode())
-      .town(data.getTown())
-      .country(data.getCountry())
+      .address(data.getAddress())
       .build();
 
     try {

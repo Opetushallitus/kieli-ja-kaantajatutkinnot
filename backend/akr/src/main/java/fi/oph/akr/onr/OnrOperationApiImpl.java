@@ -3,6 +3,7 @@ package fi.oph.akr.onr;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.config.Constants;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.PersonalDataDTO;
@@ -99,8 +100,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     assert personalDataDTO.getOnrId() != null;
     assert personalDataDTO.getIndividualised() != null;
 
-    final List<ContactDetailsGroupDTO> primaryGroup = ContactDetailsUtil.getPrimaryDetailsGroup(personalDataDTO);
-    final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(primaryGroup);
+    final List<ContactDetailsGroupDTO> contactDetailGroups = personalDataDTO.getContactDetailsGroups();
+    final List<ClerkTranslatorAddressDTO> addresses = ContactDetailsUtil.getAddresses(contactDetailGroups);
+    final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(contactDetailGroups);
 
     // If person in ONR is marked passive, it's lacking an identity number.
     // The passive person might however be linked to another "master" person which does have identity number. In this
@@ -116,12 +118,9 @@ public class OnrOperationApiImpl implements OnrOperationApi {
       .firstName(personalDataDTO.getFirstName())
       .nickName(personalDataDTO.getNickName())
       .identityNumber(identityNumber.orElse("ei tiedossa"))
-      .email(ContactDetailsUtil.getPrimaryEmail(primaryGroup))
-      .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(primaryGroup))
-      .street(ContactDetailsUtil.getPrimaryStreet(primaryGroup))
-      .postalCode(ContactDetailsUtil.getPrimaryPostalCode(primaryGroup))
-      .town(ContactDetailsUtil.getPrimaryTown(primaryGroup))
-      .country(ContactDetailsUtil.getPrimaryCountry(primaryGroup))
+      .email(ContactDetailsUtil.getPrimaryEmail(contactDetailGroups))
+      .phoneNumber(ContactDetailsUtil.getPrimaryPhoneNumber(contactDetailGroups))
+      .address(addresses)
       .build();
   }
 
@@ -155,11 +154,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     final Response response = onrClient.executeBlocking(request);
 
     if (response.getStatusCode() == HttpStatus.OK.value()) {
-      final PersonalDataDTO personalDataDTO = OBJECT_MAPPER.readValue(
-        response.getResponseBody(),
-        new TypeReference<>() {}
-      );
-      return personalDataDTO;
+      return OBJECT_MAPPER.readValue(response.getResponseBody(), new TypeReference<>() {});
     } else {
       throw new RuntimeException("ONR service returned unexpected status code: " + response.getStatusCode());
     }

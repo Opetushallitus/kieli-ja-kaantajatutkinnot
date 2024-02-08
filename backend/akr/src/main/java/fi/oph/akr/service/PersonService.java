@@ -31,10 +31,7 @@ public class PersonService {
           .lastName(personalData.getLastName())
           .firstName(personalData.getFirstName())
           .nickName(personalData.getNickName())
-          .street(personalData.getStreet())
-          .postalCode(personalData.getPostalCode())
-          .town(personalData.getTown())
-          .country(personalData.getCountry())
+          // TODO Addresses
           .build()
       );
     auditService.logPersonSearchByIdentityNumber(identityNumber);
