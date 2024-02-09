@@ -151,8 +151,8 @@ public class ClerkTranslatorService {
 
   private boolean isAddressSelected(final Translator translator, final TranslatorAddressDTO address) {
     return (
-      translator.getSelectedSource().equals(address.source().toString()) &&
-      translator.getSelectedType().equals(address.type().toString())
+      address.source().toString().equals(translator.getSelectedSource()) &&
+      address.type().toString().equals(translator.getSelectedType())
     );
   }
 
@@ -166,6 +166,7 @@ public class ClerkTranslatorService {
       .map(addr ->
         ClerkTranslatorAddressDTO
           .builder()
+          .street(addr.street())
           .town(addr.town())
           .postalCode(addr.postalCode())
           .country(addr.country())
@@ -326,15 +327,18 @@ public class ClerkTranslatorService {
       .email(dto.email())
       .phoneNumber(dto.phoneNumber())
       .address(
-        dto.address().stream().map(addr ->
-          TranslatorAddressDTO
-            .builder()
-            .town(addr.town())
-            .country(addr.country())
-            .street(addr.street())
-            .source(addr.source())
-            .type(addr.type())
-            .build()
+        dto
+          .address()
+          .stream()
+          .map(addr ->
+            TranslatorAddressDTO
+              .builder()
+              .town(addr.town())
+              .country(addr.country())
+              .street(addr.street())
+              .source(addr.source())
+              .type(addr.type())
+              .build()
           )
           .toList()
       )

@@ -109,7 +109,7 @@ public class PublicTranslatorService {
     final PersonalData personalData,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
+    final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
     final String country = getNonFinlandCountryCode(primaryAddress);
     final Pair<String, String> townTranslated = postalCodeService.translateTown(primaryAddress.town());
     return PublicTranslatorDTO
@@ -138,7 +138,7 @@ public class PublicTranslatorService {
       .stream()
       .map(translator -> {
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
-        final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
+        final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
 
         if (personalData == null || !StringUtils.hasText(primaryAddress.town())) {
           return null;

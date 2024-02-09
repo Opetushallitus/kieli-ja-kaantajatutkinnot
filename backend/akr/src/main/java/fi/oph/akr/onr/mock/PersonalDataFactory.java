@@ -46,6 +46,15 @@ public class PersonalDataFactory {
             .country(countries.next())
             .source(ContactDetailsGroupSource.AKR)
             .type(ContactDetailsGroupType.AKR_OSOITE)
+            .build(),
+          TranslatorAddressDTO
+            .builder()
+            .street(streetsVTJ.next())
+            .postalCode(postalCodesVTJ.next())
+            .town(townsVTJ.next())
+            .country(countriesVTJ.next())
+            .source(ContactDetailsGroupSource.VTJ)
+            .type(ContactDetailsGroupType.VAKINAINEN_ULKOMAAN_OSOITE)
             .build()
         )
       )
@@ -252,4 +261,21 @@ public class PersonalDataFactory {
   );
 
   private final Iterator<String> countries = cyclicIterator("Suomi", "suomi", "SUOMI", "Finland", "", null);
+
+  private final Iterator<String> streetsVTJ = cyclicIterator(
+          "Downing Street 1",
+          null
+  );
+
+  private final Iterator<String> postalCodesVTJ = cyclicIterator(
+          "00100",
+          null
+  );
+
+  private final Iterator<String> townsVTJ = cyclicIterator(
+          "London",
+          null
+  );
+
+  private final Iterator<String> countriesVTJ = cyclicIterator("UK", "DEU", "", null);
 }

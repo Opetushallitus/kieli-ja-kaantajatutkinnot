@@ -15,6 +15,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
+import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.dto.ContactDetailsDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
@@ -26,6 +27,7 @@ import fi.oph.akr.util.CustomOrderComparator;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -193,8 +195,16 @@ public class ContactDetailsUtil {
     return personalDataDTO;
   }
 
-  public static TranslatorAddressDTO getPrimaryAddress(final PersonalData personalData) {
-    return personalData.getAddress().get(0);
+  public static TranslatorAddressDTO getPrimaryAddress(final PersonalData personalData, final Translator translator) {
+    return personalData
+      .getAddress()
+      .stream()
+      .filter(addr ->
+        addr.source().toString().equals(translator.getSelectedSource()) &&
+        addr.type().toString().equals(translator.getSelectedType())
+      )
+      .findFirst()
+      .orElse(personalData.getAddress().get(0));
   }
 
   public static List<TranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {
