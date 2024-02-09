@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.config.Constants;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.PersonalDataDTO;
@@ -101,7 +102,7 @@ public class OnrOperationApiImpl implements OnrOperationApi {
     assert personalDataDTO.getIndividualised() != null;
 
     final List<ContactDetailsGroupDTO> contactDetailGroups = personalDataDTO.getContactDetailsGroups();
-    final List<ClerkTranslatorAddressDTO> addresses = ContactDetailsUtil.getAddresses(contactDetailGroups);
+    final List<TranslatorAddressDTO> addresses = ContactDetailsUtil.getAddresses(contactDetailGroups);
     final boolean hasIndividualisedAddress = ContactDetailsUtil.containsCivilRegistryAddressField(contactDetailGroups);
 
     // If person in ONR is marked passive, it's lacking an identity number.

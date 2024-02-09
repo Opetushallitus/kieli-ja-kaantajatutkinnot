@@ -1,6 +1,6 @@
 package fi.oph.akr.onr.model;
 
-import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class PersonalData {
 
   private String phoneNumber;
 
-  private List<ClerkTranslatorAddressDTO> address;
+  private List<TranslatorAddressDTO> address;
 
   public boolean isOnrIdAndIndividualisedInformationConsistent() {
     return (

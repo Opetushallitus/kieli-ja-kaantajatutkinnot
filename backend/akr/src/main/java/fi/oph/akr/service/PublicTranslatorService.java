@@ -6,6 +6,7 @@ import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.ContactDetailsUtil;
@@ -108,7 +109,7 @@ public class PublicTranslatorService {
     final PersonalData personalData,
     final List<LanguagePairDTO> languagePairDTOS
   ) {
-    final ClerkTranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
+    final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
     final String country = getNonFinlandCountryCode(primaryAddress);
     final Pair<String, String> townTranslated = postalCodeService.translateTown(primaryAddress.town());
     return PublicTranslatorDTO
@@ -137,7 +138,7 @@ public class PublicTranslatorService {
       .stream()
       .map(translator -> {
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
-        final ClerkTranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
+        final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData);
 
         if (personalData == null || !StringUtils.hasText(primaryAddress.town())) {
           return null;
@@ -157,7 +158,7 @@ public class PublicTranslatorService {
       .toList();
   }
 
-  private String getNonFinlandCountryCode(final ClerkTranslatorAddressDTO address) {
+  private String getNonFinlandCountryCode(final TranslatorAddressDTO address) {
     final String countryCode = countryCodeService.getCountryCode(address.country());
     if (countryCode == null || countryCode.equals("FIN")) {
       return null;

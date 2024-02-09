@@ -1,6 +1,7 @@
 package fi.oph.akr.onr.mock;
 
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.onr.OnrOperationApi;
 import fi.oph.akr.onr.model.PersonalData;
 import java.util.List;
@@ -38,7 +39,7 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .identityNumber(identityNumber)
           .address(
             List.of(
-              ClerkTranslatorAddressDTO
+              TranslatorAddressDTO
                 .builder()
                 .street("Kajaanintie 123")
                 .postalCode("93600")
@@ -59,7 +60,7 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .identityNumber(identityNumber)
           .address(
             List.of(
-              ClerkTranslatorAddressDTO
+              TranslatorAddressDTO
                 .builder()
                 .street("Tampereentie 234")
                 .postalCode("20100")
@@ -78,15 +79,7 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Oona Inkeri")
           .nickName("Oona")
           .identityNumber(identityNumber)
-          .address(
-            List.of(
-              ClerkTranslatorAddressDTO
-                .builder()
-                .street("Ristikontie 333")
-                .town("Helsinki")
-                .build()
-            )
-          )
+          .address(List.of(TranslatorAddressDTO.builder().street("Ristikontie 333").town("Helsinki").build()))
           .build();
         case manuallyCreated2 -> PersonalData
           .builder()

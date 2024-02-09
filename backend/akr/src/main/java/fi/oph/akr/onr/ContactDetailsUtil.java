@@ -14,7 +14,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 
-import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.onr.dto.ContactDetailsDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
@@ -131,7 +131,7 @@ public class ContactDetailsUtil {
       ContactDetailsType.PHONE_NUMBER
     );
 
-    final ClerkTranslatorAddressDTO address = findAkrAddressDetails(personalData);
+    final TranslatorAddressDTO address = findAkrAddressDetails(personalData);
     final Set<ContactDetailsDTO> contactDetailsSet = Stream
       .of(
         createContactDetailsDTO(ContactDetailsType.EMAIL, personalData.getEmail()),
@@ -151,7 +151,7 @@ public class ContactDetailsUtil {
     return contactDetailsGroupDTO;
   }
 
-  private static ClerkTranslatorAddressDTO findAkrAddressDetails(final PersonalData personalData) {
+  private static TranslatorAddressDTO findAkrAddressDetails(final PersonalData personalData) {
     return personalData
       .getAddress()
       .stream()
@@ -193,15 +193,15 @@ public class ContactDetailsUtil {
     return personalDataDTO;
   }
 
-  public static ClerkTranslatorAddressDTO getPrimaryAddress(final PersonalData personalData) {
+  public static TranslatorAddressDTO getPrimaryAddress(final PersonalData personalData) {
     return personalData.getAddress().get(0);
   }
 
-  public static List<ClerkTranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {
+  public static List<TranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {
     return contactDetailGroups
       .stream()
       .map(group ->
-        ClerkTranslatorAddressDTO
+        TranslatorAddressDTO
           .builder()
           .street(getValue(group, ContactDetailsType.STREET))
           .postalCode(getValue(group, ContactDetailsType.POSTAL_CODE))

@@ -24,6 +24,7 @@ import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
 import fi.oph.akr.model.Authorisation;
@@ -307,14 +308,32 @@ class ClerkTranslatorServiceTest {
     assertEquals(assurances, translators.stream().map(ClerkTranslatorDTO::isAssuranceGiven).toList());
   }
 
-  private List<ClerkTranslatorAddressDTO> createAddress(
+  private List<TranslatorAddressDTO> createAddress(
     final String street,
     final String postalCode,
     final String town,
     final String country
   ) {
     return List.of(
-      ClerkTranslatorAddressDTO.builder().street(street).postalCode(postalCode).town(town).country(country).build()
+      TranslatorAddressDTO.builder().street(street).postalCode(postalCode).town(town).country(country).build()
+    );
+  }
+
+  private List<ClerkTranslatorAddressDTO> createClerkAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country
+  ) {
+    return List.of(
+      ClerkTranslatorAddressDTO
+        .builder()
+        .street(street)
+        .postalCode(postalCode)
+        .town(town)
+        .country(country)
+        .selected(true)
+        .build()
     );
   }
 
@@ -516,7 +535,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, null).build();
 
     final PersonalData personalData = defaultPersonalData(createDTO);
     final String onrId = personalData.getOnrId();
@@ -543,7 +562,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).country("DEU").build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, "DEU").build();
 
     final PersonalData personalData = defaultPersonalData(createDTO);
     final String onrId = personalData.getOnrId();
@@ -570,7 +589,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, null)
       .onrId(UUID.randomUUID().toString())
       .isIndividualised(null)
       .build();
@@ -1016,7 +1035,8 @@ class ClerkTranslatorServiceTest {
   }
 
   private TranslatorCreateDTO.TranslatorCreateDTOBuilder defaultTranslatorCreateDTOBuilder(
-    final AuthorisationCreateDTO authorisation
+    final AuthorisationCreateDTO authorisation,
+    final String country
   ) {
     return TranslatorCreateDTO
       .builder()
@@ -1026,10 +1046,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country(null)
+      .address(createClerkAddress("st", "pstl", "tw", country))
       .extraInformation("extra")
       .isAssuranceGiven(true)
       .authorisations(List.of(authorisation));
@@ -1051,7 +1068,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
-      .address(createAddress("st", "pstl", "tw", country))
+      .address(createClerkAddress("st", "pstl", "tw", country))
       .extraInformation("extra")
       .isAssuranceGiven(false);
   }

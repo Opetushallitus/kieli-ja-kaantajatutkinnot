@@ -1,6 +1,9 @@
 package fi.oph.akr.onr.mock;
 
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.util.CyclicIterable;
 import java.util.Arrays;
@@ -35,12 +38,14 @@ public class PersonalDataFactory {
       .phoneNumber(counterValue % 10 != 0 ? "+35840" + (1000000 + counterValue) : null)
       .address(
         List.of(
-          ClerkTranslatorAddressDTO
+          TranslatorAddressDTO
             .builder()
             .street(streets.next())
             .postalCode(postalCodes.next())
             .town(towns.next())
             .country(countries.next())
+            .source(ContactDetailsGroupSource.AKR)
+            .type(ContactDetailsGroupType.AKR_OSOITE)
             .build()
         )
       )

@@ -193,7 +193,6 @@ export class SerializationUtils {
       const field = key as keyof ClerkTranslatorTextFields;
 
       if (field === 'address') {
-
       } else if (textFields[field]) {
         textFields[field] = (textFields[field] as string).trim();
       }

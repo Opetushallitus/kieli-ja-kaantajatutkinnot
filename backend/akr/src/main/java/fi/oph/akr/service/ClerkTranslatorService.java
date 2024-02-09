@@ -15,6 +15,7 @@ import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
 import fi.oph.akr.config.CacheConfig;
@@ -148,8 +149,11 @@ public class ClerkTranslatorService {
       .toList();
   }
 
-  private boolean isAddressSelected(final Translator translator, final ClerkTranslatorAddressDTO address) {
-    return translator.getSelectedAddress().equals(address.source().toString());
+  private boolean isAddressSelected(final Translator translator, final TranslatorAddressDTO address) {
+    return (
+      translator.getSelectedSource().equals(address.source().toString()) &&
+      translator.getSelectedType().equals(address.type().toString())
+    );
   }
 
   private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(
@@ -321,7 +325,19 @@ public class ClerkTranslatorService {
       .identityNumber(dto.identityNumber())
       .email(dto.email())
       .phoneNumber(dto.phoneNumber())
-      .address(dto.address())
+      .address(
+        dto.address().stream().map(addr ->
+          TranslatorAddressDTO
+            .builder()
+            .town(addr.town())
+            .country(addr.country())
+            .street(addr.street())
+            .source(addr.source())
+            .type(addr.type())
+            .build()
+          )
+          .toList()
+      )
       .build();
   }
 

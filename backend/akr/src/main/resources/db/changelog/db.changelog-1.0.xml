@@ -836,4 +836,11 @@
         <dropColumn tableName="translator" columnName="country"/>
     </changeSet>
 
+    <changeSet id="2024-02-09-drop-personal-data" author="jrkkp">
+        <addColumn tableName="translator">
+            <column name="selected_source" type="VARCHAR(255)" />
+            <column name="selected_type" type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
