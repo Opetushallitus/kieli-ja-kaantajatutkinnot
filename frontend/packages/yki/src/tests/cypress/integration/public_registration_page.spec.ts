@@ -23,15 +23,16 @@ describe('PublicRegistrationPage', () => {
     });
 
     it('all results are available initially', () => {
-      onPublicRegistrationPage.expectResultsCount(10);
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultsCount(10);
     });
 
     it('can filter by current availability', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
@@ -41,12 +42,11 @@ describe('PublicRegistrationPage', () => {
     it('can filter by exam language and level', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultsCount(9);
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
       onPublicRegistrationPage.expectResultsCount(3);
-
-      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultRowsCount(3);
     });
   });

@@ -18,9 +18,16 @@ class PublicRegistrationPage {
   };
 
   expectResultsCount(count: number) {
+    const resultsLabelSuffix =
+      count === 0
+        ? 'ei tuloksia'
+        : count === 1
+        ? '1 tulos'
+        : `${count} tulosta`;
     this.elements
-      .showResultsButton()
-      .should('have.text', `Näytä tulokset (${count})`);
+      .resultBox()
+      .findByRole('heading', { name: `Tulokset (${resultsLabelSuffix})` })
+      .should('exist');
   }
 
   expectResultRowsCount(count: number) {
