@@ -17,6 +17,7 @@ class ExamDetailsPage {
       cy.findByRole('checkbox', {
         name: 'Hyväksyn henkilötietojeni käsittelyn *',
       }),
+    genderSelect: () => cy.findByRole('combobox', { name: 'Sukupuoli *' }),
     nationalitySelect: () =>
       cy.findByRole('combobox', { name: 'Kansalaisuus *' }),
   };
@@ -29,26 +30,34 @@ class ExamDetailsPage {
     this.elements.submittedFormTitle().should('be.visible');
   }
 
-  fillEmail(email: string) {
-    this.elements.textboxByLabel('Sähköpostiosoite *').type(email);
-  }
-
-  fillEmailConfirmation(email: string) {
-    this.elements.textboxByLabel('Vahvista sähköpostiosoite *').type(email);
-  }
-
-  fillTelephoneNumber(telephone: string) {
-    this.elements.textboxByLabel('Puhelinnumero *').type(telephone);
+  fillFieldByLabel(label: string, value: string) {
+    this.elements.textboxByLabel(label).type(value);
   }
 
   selectCertificateLanguage(language: string) {
-    cy.findByRole('radiogroup').findByRole('radio', { name: language }).click();
+    cy.findByRole('group', { name: 'Millä kielellä haluat todistuksesi? *' })
+      .findByRole('radio', { name: language })
+      .click();
+  }
+
+  selectGender(name: string) {
+    this.elements.genderSelect().click();
+    cy.findByRole('option', { name }).scrollIntoView();
+    cy.findByRole('option', { name }).should('be.visible').click();
   }
 
   selectNationality(name: string) {
     this.elements.nationalitySelect().click();
     cy.findByRole('option', { name }).scrollIntoView();
     cy.findByRole('option', { name }).should('be.visible').click();
+  }
+
+  selectHasSSN(hasSSN: boolean) {
+    cy.findByRole('group', {
+      name: 'Onko sinulla suomalainen henkilötunnus? *',
+    })
+      .findByRole('radio', { name: hasSSN ? 'Kyllä' : 'Ei' })
+      .click();
   }
 
   acceptTermsOfRegistration() {
