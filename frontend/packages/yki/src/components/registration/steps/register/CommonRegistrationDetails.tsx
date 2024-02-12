@@ -82,10 +82,12 @@ export const CommonRegistrationDetails = () => {
 
   return (
     <>
-      <div>
-        <Text>
-          <b>{t('certificateLanguage')}</b>
-        </Text>
+      <fieldset style={{ border: 0, padding: 0 }}>
+        <legend>
+          <Text>
+            <b>{t('certificateLanguage')}</b>
+          </Text>
+        </legend>
         <FormControl error={!!registrationErrors['certificateLanguage']}>
           <RadioGroup
             row={!isPhone}
@@ -114,12 +116,14 @@ export const CommonRegistrationDetails = () => {
             />
           </RadioGroup>
         </FormControl>
-      </div>
+      </fieldset>
       {hideInstructionLanguageSelection ? null : (
-        <div>
-          <Text>
-            <b>{t('instructionLanguage')}</b>
-          </Text>
+        <fieldset style={{ border: 0, padding: 0 }}>
+          <legend>
+            <Text>
+              <b>{t('instructionLanguage')}</b>
+            </Text>
+          </legend>
           <FormControl error={!!registrationErrors['instructionLanguage']}>
             <RadioGroup
               row={!isPhone}
@@ -141,7 +145,7 @@ export const CommonRegistrationDetails = () => {
               />
             </RadioGroup>
           </FormControl>
-        </div>
+        </fieldset>
       )}
       <H2 className="public-registration__grid__form-container__terms-and-conditions">
         {t('termsAndConditions.title')}

@@ -198,10 +198,12 @@ export const EmailRegistrationDetails = () => {
           />
         </div>
       </div>
-      <div>
-        <Text>
-          <b>{t('finnishSSN')}</b>
-        </Text>
+      <fieldset style={{ border: 0, padding: 0 }}>
+        <legend>
+          <Text>
+            <b>{t('finnishSSN')}</b>
+          </Text>
+        </legend>
         <FormControl error={showErrors && !!registrationErrors['hasSSN']}>
           <RadioGroup
             row={!isPhone}
@@ -248,7 +250,7 @@ export const EmailRegistrationDetails = () => {
             />
           )}
         </FormControl>
-      </div>
+      </fieldset>
     </>
   );
 };
