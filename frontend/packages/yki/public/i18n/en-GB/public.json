@@ -451,7 +451,7 @@
         },
         "filters": {
           "buttons": {
-            "showResults": "Show results ({{count}})"
+            "showResults": "Show results"
           },
           "errorDialog": {
             "description": "Select first the language and level. Click on the SHOW RESULTS button.",

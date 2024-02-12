@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import dayjs from 'dayjs';
 
 import axiosInstance from 'configs/axios';
 import { translateOutsideComponent } from 'configs/i18n';
@@ -26,12 +25,9 @@ import { SerializationUtils } from 'utils/serialization';
 function* loadExamSessionsSaga() {
   const t = translateOutsideComponent();
   try {
-    // TODO Allow passing desired date through redux actions?
-    const from = dayjs().format('YYYY-MM-DD');
     const response: AxiosResponse<ExamSessionsResponse> = yield call(
       axiosInstance.get,
       APIEndpoints.ExamSessions,
-      { params: { from } },
     );
 
     yield put(

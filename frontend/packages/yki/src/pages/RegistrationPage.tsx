@@ -21,12 +21,12 @@ export const RegistrationPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status, exam_sessions } = useAppSelector(examSessionsSelector);
+  const { status } = useAppSelector(examSessionsSelector);
   const [results, setResults] = useState<Array<ExamSession>>([]);
   const [showResults, setShowResults] = useState(false);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const onApplyFilters = () => {
-    setResults(filteredExamSessions);
+    dispatch(loadExamSessions());
     setShowResults(true);
     setPage(0);
   };
@@ -40,9 +40,13 @@ export const RegistrationPage: FC = () => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamSessions());
     } else if (status === APIResponseStatus.Success) {
-      setResults(exam_sessions);
+      setResults(filteredExamSessions);
     }
-  }, [dispatch, status, exam_sessions]);
+  }, [dispatch, status, filteredExamSessions]);
+
+  // TODO Once results have been displayed once, all changes to filters now change the filtered
+  // results passed on to PublicExamSessionListing component.
+  // Discuss if this is a good user experience or not.
 
   return (
     <Box className="public-registration-page">

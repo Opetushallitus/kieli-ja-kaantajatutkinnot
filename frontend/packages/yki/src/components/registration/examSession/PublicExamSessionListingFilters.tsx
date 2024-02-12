@@ -22,10 +22,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSessionFilters } from 'interfaces/examSessions';
 import { setPublicExamSessionFilters } from 'redux/reducers/examSessions';
-import {
-  examSessionsSelector,
-  selectFilteredPublicExamSessions,
-} from 'redux/selectors/examSessions';
+import { examSessionsSelector } from 'redux/selectors/examSessions';
 
 const municipalityToComboBoxOption = (m: string) => ({
   value: m,
@@ -200,7 +197,6 @@ export const PublicExamSessionFilters = ({
 
   const { showDialog } = useDialog();
 
-  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const { language, level, excludeFullSessions, excludeNonOpenSessions } =
     useAppSelector(examSessionsSelector).filters;
 
@@ -293,9 +289,7 @@ export const PublicExamSessionFilters = ({
           onClick={handleSubmitBtnClick}
           startIcon={<SearchIcon />}
         >
-          {`${t('filters.buttons.showResults', {
-            count: filteredExamSessions.length,
-          })}`}
+          {t('filters.buttons.showResults')}
         </CustomButton>
       </div>
     </div>

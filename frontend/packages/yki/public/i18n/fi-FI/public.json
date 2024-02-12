@@ -451,7 +451,7 @@
         },
         "filters": {
           "buttons": {
-            "showResults": "Näytä tulokset ({{count}})"
+            "showResults": "Näytä tulokset"
           },
           "errorDialog": {
             "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
