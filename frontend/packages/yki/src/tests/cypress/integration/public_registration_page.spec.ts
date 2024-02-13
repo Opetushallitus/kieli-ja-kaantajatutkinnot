@@ -32,10 +32,11 @@ describe('PublicRegistrationPage', () => {
     it('can filter by current availability', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultsCount(3);
     });
 
@@ -46,6 +47,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.expectResultsCount(9);
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
+      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultsCount(3);
       onPublicRegistrationPage.expectResultRowsCount(3);
     });
