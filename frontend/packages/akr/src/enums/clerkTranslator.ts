@@ -12,6 +12,13 @@ export enum AuthorisationBasisEnum {
   VIR = 'VIR',
 }
 
+export enum ClerkTranslatorAddressFieldEnum {
+  Street = 'street',
+  PostalCode = 'postalCode',
+  Town = 'town',
+  Country = 'country',
+}
+
 export enum ClerkTranslatorTextFieldEnum {
   FirstName = 'firstName',
   LastName = 'lastName',
@@ -19,10 +26,6 @@ export enum ClerkTranslatorTextFieldEnum {
   IdentityNumber = 'identityNumber',
   Email = 'email',
   PhoneNumber = 'phoneNumber',
-  Street = 'street',
-  PostalCode = 'postalCode',
-  Town = 'town',
-  Country = 'country',
   ExtraInformation = 'extraInformation',
 }
 

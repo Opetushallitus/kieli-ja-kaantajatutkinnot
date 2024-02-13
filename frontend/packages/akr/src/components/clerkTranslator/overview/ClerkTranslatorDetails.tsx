@@ -98,7 +98,7 @@ export const ClerkTranslatorDetails = () => {
 
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined,
+    fieldValue: string | boolean | Array<ClerkTranslatorAddress> | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translatorDetails,

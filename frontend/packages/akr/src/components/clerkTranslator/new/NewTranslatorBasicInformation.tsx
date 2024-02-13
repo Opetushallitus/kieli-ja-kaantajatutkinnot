@@ -4,6 +4,7 @@ import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overvie
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
 import {
+  ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
@@ -38,9 +39,13 @@ export const NewTranslatorBasicInformation = ({
       handleFieldChange(field, checked);
     };
 
+  const handleAddressChange = (addresses: Array<ClerkTranslatorAddress>) => {
+    handleFieldChange('address', addresses);
+  };
+
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined,
+    fieldValue: string | boolean | Array<ClerkTranslatorAddress> | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translator,
@@ -60,6 +65,7 @@ export const NewTranslatorBasicInformation = ({
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }
+      onAddressChange={handleAddressChange}
       // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
       //   handleComboBoxChange(field)
       // }

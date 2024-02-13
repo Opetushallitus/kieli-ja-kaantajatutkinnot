@@ -1,8 +1,5 @@
 import {
-  FormControlLabel,
   FormHelperTextProps,
-  Radio,
-  RadioGroup,
   TableCell,
   TableHead,
   TableRow,
@@ -10,13 +7,19 @@ import {
 import { ChangeEvent, useState } from 'react';
 import {
   //ComboBox,
+  CustomButton,
   CustomSwitch,
   CustomTable,
   CustomTextField,
   H3,
   InfoText,
+  Text,
 } from 'shared/components';
-import { TextFieldTypes /*TextFieldVariant*/ } from 'shared/enums';
+import {
+  Color,
+  TextFieldTypes /*TextFieldVariant*/,
+  Variant,
+} from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
@@ -25,14 +28,20 @@ import {
   useCommonTranslation,
   //useKoodistoCountriesTranslation,
 } from 'configs/i18n';
-import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
+import {
+  ClerkTranslatorAddressFieldEnum,
+  ClerkTranslatorTextFieldEnum,
+} from 'enums/clerkTranslator';
 import {
   ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
+import { WithId } from 'interfaces/with';
 //import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
+
+type ClerkTranslatorAddressRow = ClerkTranslatorAddress & WithId;
 
 const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
@@ -41,10 +50,6 @@ const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.NickName]: 255,
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
-  [ClerkTranslatorTextFieldEnum.Street]: 255,
-  [ClerkTranslatorTextFieldEnum.PostalCode]: 255,
-  [ClerkTranslatorTextFieldEnum.Town]: 255,
-  [ClerkTranslatorTextFieldEnum.Country]: 255,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
 };
 
@@ -126,6 +131,38 @@ const ClerkTranslatorDetailsTextField = ({
   );
 };
 
+const ClerkTranslatorPrimaryAddress = ({
+  addresses,
+}: {
+  addresses: Array<ClerkTranslatorAddress>;
+}) => {
+  const { t } = useAppTranslation({
+    keyPrefix:
+      'akr.component.clerkTranslatorOverview.translatorDetails.address',
+  });
+  const address = addresses.filter((address) => address.selected);
+
+  if (address.length <= 0) {
+    return <></>;
+  }
+
+  const selectedAddress = address[0];
+
+  return (
+    <div>
+      <Text>{selectedAddress.street}</Text>
+      <Text>
+        {selectedAddress.postalCode} {selectedAddress.town}
+      </Text>
+      <Text>{selectedAddress.country}</Text>
+      <br />
+      <Text>
+        Osoitteen lähde: {t(selectedAddress.source)} ({t(selectedAddress.type)})
+      </Text>
+    </div>
+  );
+};
+
 const ClerkTranslatorAddressFields = ({
   addresses,
   onAddressChange,
@@ -147,49 +184,52 @@ const ClerkTranslatorAddressFields = ({
         <TableCell>Kaupunki</TableCell>
         <TableCell>Maa</TableCell>
         <TableCell>Osoitteen lähde</TableCell>
-        <TableCell>Valitse osoitelähde</TableCell>
+        <TableCell>Toiminnot</TableCell>
       </TableRow>
     </TableHead>
   );
 
+  const handleSelectAsPrimary = (address: ClerkTranslatorAddress) => () =>
+    onAddressChange(
+      addresses.map((addr) => ({
+        ...addr,
+        selected: addr.type === address.type && addr.source === address.source,
+      })),
+    );
+
   const getRowDetails = (address: ClerkTranslatorAddress) => (
     <TableRow>
-      <TableCell>{address[ClerkTranslatorTextFieldEnum.Street]}</TableCell>
-      <TableCell>{address[ClerkTranslatorTextFieldEnum.PostalCode]}</TableCell>
-      <TableCell>{address[ClerkTranslatorTextFieldEnum.Town]}</TableCell>
-      <TableCell>{address[ClerkTranslatorTextFieldEnum.Country]}</TableCell>
+      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Street]}</TableCell>
+      <TableCell>
+        {address[ClerkTranslatorAddressFieldEnum.PostalCode]}
+      </TableCell>
+      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Town]}</TableCell>
+      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Country]}</TableCell>
       <TableCell>
         {t(address.source)}
         <br /> ({t(address.type)})
       </TableCell>
       <TableCell>
-        <RadioGroup
-          className="rows gapped-xxs"
-          name="full-exam-group"
-          onChange={() => {
-            onAddressChange(
-              addresses.map((addr) => ({
-                ...addr,
-                selected:
-                  addr.source === address.source && addr.type === address.type,
-              })),
-            );
-          }}
+        <CustomButton
+          data-testid="meeting-dates-page__add-btn"
+          variant={Variant.Outlined}
+          color={Color.Secondary}
+          disabled={editDisabled}
+          onClick={handleSelectAsPrimary(address)}
         >
-          <FormControlLabel
-            disabled={editDisabled}
-            data-testid="enrollment-checkbox-full-exam"
-            control={<Radio aria-describedby="full-exam-error" />}
-            checked={address.selected}
-            label={'Käytä lähdettä'}
-          />
-        </RadioGroup>
+          Vaihda lähteeksi
+        </CustomButton>
       </TableCell>
     </TableRow>
   );
 
-  const addIdToData = (address: ClerkTranslatorAddress) => ({
-    id: address.source + '-' + address.type,
+  const filterNonSelected = (address: ClerkTranslatorAddress) =>
+    !address.selected;
+  const addIdToData = (
+    address: ClerkTranslatorAddress,
+    idx: number,
+  ): ClerkTranslatorAddressRow => ({
+    id: idx,
     ...address,
   });
 
@@ -197,7 +237,7 @@ const ClerkTranslatorAddressFields = ({
     <CustomTable
       className=""
       header={<AddressHeader />}
-      data={addresses.map(addIdToData)}
+      data={addresses.filter(filterNonSelected).map(addIdToData)}
       getRowDetails={getRowDetails}
       stickyHeader
     />
@@ -264,20 +304,7 @@ export const ClerkTranslatorDetailsFields = ({
         ClerkTranslatorTextFieldEnum.NickName,
       ].includes(field);
 
-    const isIndividualisedAddressField =
-      isAddressIndividualised &&
-      [
-        ClerkTranslatorTextFieldEnum.Street,
-        ClerkTranslatorTextFieldEnum.PostalCode,
-        ClerkTranslatorTextFieldEnum.Town,
-        ClerkTranslatorTextFieldEnum.Country,
-      ].includes(field);
-
-    return (
-      isIdentityNumberField ||
-      isIndividualisedPersonalInformationField ||
-      isIndividualisedAddressField
-    );
+    return isIdentityNumberField || isIndividualisedPersonalInformationField;
   };
 
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
@@ -344,6 +371,10 @@ export const ClerkTranslatorDetailsFields = ({
           <InfoText>{t('individualisedInformation')}</InfoText>
         </div>
       )}
+      <div className="columns align-items-start gapped">
+        <ClerkTranslatorPrimaryAddress addresses={translator?.address || []} />
+      </div>
+      <H3>Muut osoitteet</H3>
       <div className="columns align-items-start gapped">
         <ClerkTranslatorAddressFields
           addresses={translator?.address || []}

@@ -262,20 +262,11 @@ public class PersonalDataFactory {
 
   private final Iterator<String> countries = cyclicIterator("Suomi", "suomi", "SUOMI", "Finland", "", null);
 
-  private final Iterator<String> streetsVTJ = cyclicIterator(
-          "Downing Street 1",
-          null
-  );
+  private final Iterator<String> streetsVTJ = cyclicIterator("Downing Street 1", null);
 
-  private final Iterator<String> postalCodesVTJ = cyclicIterator(
-          "00100",
-          null
-  );
+  private final Iterator<String> postalCodesVTJ = cyclicIterator("00100", null);
 
-  private final Iterator<String> townsVTJ = cyclicIterator(
-          "London",
-          null
-  );
+  private final Iterator<String> townsVTJ = cyclicIterator("London", null);
 
   private final Iterator<String> countriesVTJ = cyclicIterator("UK", "DEU", "", null);
 }

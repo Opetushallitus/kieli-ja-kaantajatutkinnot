@@ -19,10 +19,7 @@ const initialState: ClerkNewTranslatorState = {
     firstName: '',
     nickName: '',
     identityNumber: '',
-    street: '',
-    postalCode: '',
-    town: '',
-    country: '',
+    address: [],
     email: '',
     phoneNumber: '',
     extraInformation: '',
@@ -57,10 +54,6 @@ const clerkNewTranslatorSlice = createSlice({
       state.translator.lastName = person.lastName;
       state.translator.firstName = person.firstName;
       state.translator.nickName = person.nickName;
-      state.translator.street = person.street;
-      state.translator.postalCode = person.postalCode;
-      state.translator.town = person.town;
-      state.translator.country = person.country;
     },
     rejectClerkNewTranslator(state) {
       state.status = APIResponseStatus.Error;

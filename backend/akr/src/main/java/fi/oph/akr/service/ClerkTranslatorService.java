@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -336,6 +337,7 @@ public class ClerkTranslatorService {
               .town(addr.town())
               .country(addr.country())
               .street(addr.street())
+              .postalCode(addr.postalCode())
               .source(addr.source())
               .type(addr.type())
               .build()
@@ -348,6 +350,19 @@ public class ClerkTranslatorService {
   private void copyDtoFieldsToTranslator(final TranslatorDTOCommonFields dto, final Translator translator) {
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
+
+    final Optional<ClerkTranslatorAddressDTO> selectedAddress = dto
+      .address()
+      .stream()
+      .filter(ClerkTranslatorAddressDTO::selected)
+      .findFirst();
+
+    selectedAddress.ifPresent(clerkTranslatorAddressDTO ->
+      translator.setSelectedSource(clerkTranslatorAddressDTO.source().toString())
+    );
+    selectedAddress.ifPresent(clerkTranslatorAddressDTO ->
+      translator.setSelectedType(clerkTranslatorAddressDTO.type().toString())
+    );
   }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
