@@ -1,21 +1,13 @@
 import { Add as AddIcon } from '@mui/icons-material';
-import {
-  FormHelperTextProps,
-  TableCell,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
   //ComboBox,
   CustomButton,
-  CustomModal,
   CustomSwitch,
-  CustomTable,
   CustomTextField,
   H3,
   InfoText,
-  Text,
 } from 'shared/components';
 import {
   Color,
@@ -24,6 +16,11 @@ import {
 } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
+import {
+  ClerkTranslatorAddressFields,
+  ClerkTranslatorAddressModal,
+  ClerkTranslatorPrimaryAddress,
+} from 'components/clerkTranslator/overview/ClerkTranslatorAddressFields';
 import {
   translateOutsideComponent,
   useAppTranslation,
@@ -40,10 +37,7 @@ import {
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorTextFieldProps } from 'interfaces/clerkTranslatorTextField';
-import { WithId } from 'interfaces/with';
 //import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
-
-type ClerkTranslatorAddressRow = ClerkTranslatorAddress & WithId;
 
 const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.IdentityNumber]: 255,
@@ -53,21 +47,13 @@ const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
-  [ClerkTranslatorAddressFieldEnum.Street]: 4096,
-  [ClerkTranslatorAddressFieldEnum.PostalCode]: 4096,
-  [ClerkTranslatorAddressFieldEnum.Town]: 4096,
-  [ClerkTranslatorAddressFieldEnum.Country]: 4096,
 };
 
-const getTextFieldMaxLength = (
-  field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
-) => {
+const getTextFieldMaxLength = (field: ClerkTranslatorTextFieldEnum) => {
   return textFieldMaxLengths[field] ?? null;
 };
 
-const getTextFieldType = (
-  field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
-) => {
+const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
   switch (field) {
     case ClerkTranslatorTextFieldEnum.PhoneNumber:
       return TextFieldTypes.PhoneNumber;
@@ -80,26 +66,6 @@ const getTextFieldType = (
     default:
       return TextFieldTypes.Text;
   }
-};
-
-const getAddressFieldError = (
-  translator: ClerkTranslatorBasicInformation | undefined,
-  field: ClerkTranslatorAddressFieldEnum,
-  required: boolean,
-) => {
-  const t = translateOutsideComponent();
-  const type = getTextFieldType(field);
-  const maxLength = getTextFieldMaxLength(field);
-  const value = '';
-
-  const error = InputFieldUtils.inspectCustomTextFieldErrors(
-    type,
-    value,
-    required,
-    maxLength,
-  );
-
-  return error ? t(`akr.${error}`) : '';
 };
 
 const getFieldError = (
@@ -131,7 +97,7 @@ const ClerkTranslatorDetailsTextField = ({
   onChange,
   showFieldError,
   ...rest
-}: ClerkTranslatorTextFieldProps<ClerkTranslatorTextFieldEnum>) => {
+}: ClerkTranslatorTextFieldProps) => {
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
@@ -157,151 +123,6 @@ const ClerkTranslatorDetailsTextField = ({
       showHelperText={showHelperText}
       helperText={getHelperText(showRequiredFieldError, fieldError)}
       {...rest}
-    />
-  );
-};
-
-const ClerkTranslatorAddressTextField = ({
-  translator,
-  field,
-  onChange,
-  showFieldError,
-  ...rest
-}: ClerkTranslatorTextFieldProps<ClerkTranslatorAddressFieldEnum>) => {
-  // I18n
-  const { t } = useAppTranslation({
-    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
-  });
-  const required = field == ClerkTranslatorAddressFieldEnum.Street;
-  const fieldError = getAddressFieldError(translator, field, required);
-  const showRequiredFieldError =
-    showFieldError && fieldError?.length > 0 && required;
-  const showHelperText =
-    (showFieldError || !required) && fieldError?.length > 0;
-
-  return (
-    <CustomTextField
-      label={t(field)}
-      onChange={onChange}
-      type={getTextFieldType(field)}
-      FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
-      error={showRequiredFieldError}
-      showHelperText={showHelperText}
-      helperText={getHelperText(showRequiredFieldError, fieldError)}
-      {...rest}
-    />
-  );
-};
-
-const ClerkTranslatorPrimaryAddress = ({
-  addresses,
-}: {
-  addresses: Array<ClerkTranslatorAddress>;
-}) => {
-  const { t } = useAppTranslation({
-    keyPrefix:
-      'akr.component.clerkTranslatorOverview.translatorDetails.address',
-  });
-  const address = addresses.filter((address) => address.selected);
-
-  if (address.length <= 0) {
-    return <></>;
-  }
-
-  const selectedAddress = address[0];
-
-  return (
-    <div>
-      <Text>{selectedAddress.street}</Text>
-      <Text>
-        {selectedAddress.postalCode} {selectedAddress.town}
-      </Text>
-      <Text>{selectedAddress.country}</Text>
-      <br />
-      <Text>
-        Osoitteen lähde: {t(selectedAddress.source)} ({t(selectedAddress.type)})
-      </Text>
-    </div>
-  );
-};
-
-const ClerkTranslatorAddressFields = ({
-  addresses,
-  onAddressChange,
-  editDisabled,
-}: {
-  addresses: Array<ClerkTranslatorAddress>;
-  onAddressChange: (addresses: Array<ClerkTranslatorAddress>) => void;
-  editDisabled: boolean;
-}) => {
-  const { t } = useAppTranslation({
-    keyPrefix:
-      'akr.component.clerkTranslatorOverview.translatorDetails.address',
-  });
-  const AddressHeader = () => (
-    <TableHead className="heading-text">
-      <TableRow>
-        <TableCell>Katu</TableCell>
-        <TableCell>Postinumero </TableCell>
-        <TableCell>Kaupunki</TableCell>
-        <TableCell>Maa</TableCell>
-        <TableCell>Osoitteen lähde</TableCell>
-        <TableCell>Toiminnot</TableCell>
-      </TableRow>
-    </TableHead>
-  );
-
-  const handleSelectAsPrimary = (address: ClerkTranslatorAddress) => () =>
-    onAddressChange(
-      addresses.map((addr) => ({
-        ...addr,
-        selected: addr.type === address.type && addr.source === address.source,
-      })),
-    );
-
-  const getRowDetails = (address: ClerkTranslatorAddress) => (
-    <TableRow>
-      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Street]}</TableCell>
-      <TableCell>
-        {address[ClerkTranslatorAddressFieldEnum.PostalCode]}
-      </TableCell>
-      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Town]}</TableCell>
-      <TableCell>{address[ClerkTranslatorAddressFieldEnum.Country]}</TableCell>
-      <TableCell>
-        {t(address.source)}
-        <br /> ({t(address.type)})
-      </TableCell>
-      <TableCell>
-        <CustomButton
-          data-testid="meeting-dates-page__add-btn"
-          variant={Variant.Outlined}
-          color={Color.Secondary}
-          disabled={editDisabled}
-          onClick={handleSelectAsPrimary(address)}
-        >
-          Vaihda lähteeksi
-        </CustomButton>
-      </TableCell>
-    </TableRow>
-  );
-
-  const filterNonSelected = (address: ClerkTranslatorAddress) =>
-    !address.selected;
-  const addIdToData = (
-    address: ClerkTranslatorAddress,
-    idx: number,
-  ): ClerkTranslatorAddressRow => ({
-    id: idx,
-    ...address,
-  });
-
-  return (
-    <CustomTable
-      className=""
-      header={<AddressHeader />}
-      data={addresses.filter(filterNonSelected).map(addIdToData)}
-      getRowDetails={getRowDetails}
-      stickyHeader
     />
   );
 };
@@ -376,20 +197,6 @@ export const ClerkTranslatorDetailsFields = ({
   };
 
   const onAddressFieldChange = (e: ChangeEvent<HTMLTextAreaElement>) => {};
-
-  const getCommonAddressFieldProps = (
-    field: ClerkTranslatorAddressFieldEnum,
-  ) => {
-    return {
-      field,
-      translator,
-      onChange: onAddressFieldChange,
-      showFieldError: fieldErrors[field],
-      onBlur: setFieldErrorOnBlur(field),
-      fullWidth: true,
-      'data-testid': `clerk-translator__address-information__${field}`,
-    };
-  };
 
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
     return {
@@ -472,55 +279,12 @@ export const ClerkTranslatorDetailsFields = ({
         >
           Lisää uusi osoite
         </CustomButton>
-        <CustomModal
+        <ClerkTranslatorAddressModal
           open={open}
-          onCloseModal={() => setOpen(false)}
-          aria-labelledby="modal-title"
-          modalTitle="Lisää osoite"
-        >
-          <div>
-            <div className="columns align-items-start gapped">
-              <ClerkTranslatorAddressTextField
-                {...getCommonAddressFieldProps(
-                  ClerkTranslatorAddressFieldEnum.Street,
-                )}
-              />
-              <ClerkTranslatorAddressTextField
-                {...getCommonAddressFieldProps(
-                  ClerkTranslatorAddressFieldEnum.PostalCode,
-                )}
-              />
-              <ClerkTranslatorAddressTextField
-                {...getCommonAddressFieldProps(
-                  ClerkTranslatorAddressFieldEnum.Town,
-                )}
-              />
-              <ClerkTranslatorAddressTextField
-                {...getCommonAddressFieldProps(
-                  ClerkTranslatorAddressFieldEnum.Country,
-                )}
-              />
-            </div>
-            <div className="columns flex-end margin-top-lg gapped">
-              <CustomButton
-                className="margin-right-xs"
-                onClick={() => setOpen(false)}
-                variant={Variant.Text}
-                color={Color.Secondary}
-              >
-                {translateCommon('cancel')}
-              </CustomButton>
-              <CustomButton
-                className="margin-right-xs"
-                onClick={() => setOpen(false)}
-                variant={Variant.Contained}
-                color={Color.Secondary}
-              >
-                Lisää
-              </CustomButton>
-            </div>
-          </div>
-        </CustomModal>
+          onSave={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+          showFieldErrorBeforeChange={showFieldErrorBeforeChange}
+        />
       </div>
       <div className="columns align-items-start gapped">
         <ClerkTranslatorAddressFields
