@@ -1,3 +1,4 @@
+import { Add as AddIcon } from '@mui/icons-material';
 import {
   FormHelperTextProps,
   TableCell,
@@ -8,6 +9,7 @@ import { ChangeEvent, useState } from 'react';
 import {
   //ComboBox,
   CustomButton,
+  CustomModal,
   CustomSwitch,
   CustomTable,
   CustomTextField,
@@ -51,13 +53,21 @@ const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
+  [ClerkTranslatorAddressFieldEnum.Street]: 4096,
+  [ClerkTranslatorAddressFieldEnum.PostalCode]: 4096,
+  [ClerkTranslatorAddressFieldEnum.Town]: 4096,
+  [ClerkTranslatorAddressFieldEnum.Country]: 4096,
 };
 
-const getTextFieldMaxLength = (field: ClerkTranslatorTextFieldEnum) => {
+const getTextFieldMaxLength = (
+  field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
+) => {
   return textFieldMaxLengths[field] ?? null;
 };
 
-const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
+const getTextFieldType = (
+  field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
+) => {
   switch (field) {
     case ClerkTranslatorTextFieldEnum.PhoneNumber:
       return TextFieldTypes.PhoneNumber;
@@ -72,6 +82,26 @@ const getTextFieldType = (field: ClerkTranslatorTextFieldEnum) => {
   }
 };
 
+const getAddressFieldError = (
+  translator: ClerkTranslatorBasicInformation | undefined,
+  field: ClerkTranslatorAddressFieldEnum,
+  required: boolean,
+) => {
+  const t = translateOutsideComponent();
+  const type = getTextFieldType(field);
+  const maxLength = getTextFieldMaxLength(field);
+  const value = '';
+
+  const error = InputFieldUtils.inspectCustomTextFieldErrors(
+    type,
+    value,
+    required,
+    maxLength,
+  );
+
+  return error ? t(`akr.${error}`) : '';
+};
+
 const getFieldError = (
   translator: ClerkTranslatorBasicInformation | undefined,
   field: ClerkTranslatorTextFieldEnum,
@@ -79,8 +109,8 @@ const getFieldError = (
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
-  const value = (translator && translator[field]) || '';
   const maxLength = getTextFieldMaxLength(field);
+  const value = (translator && translator[field]) || '';
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -101,7 +131,7 @@ const ClerkTranslatorDetailsTextField = ({
   onChange,
   showFieldError,
   ...rest
-}: ClerkTranslatorTextFieldProps) => {
+}: ClerkTranslatorTextFieldProps<ClerkTranslatorTextFieldEnum>) => {
   // I18n
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
@@ -119,6 +149,38 @@ const ClerkTranslatorDetailsTextField = ({
   return (
     <CustomTextField
       value={translator ? translator[field] : undefined}
+      label={t(field)}
+      onChange={onChange}
+      type={getTextFieldType(field)}
+      FormHelperTextProps={{ component: 'div' } as FormHelperTextProps}
+      error={showRequiredFieldError}
+      showHelperText={showHelperText}
+      helperText={getHelperText(showRequiredFieldError, fieldError)}
+      {...rest}
+    />
+  );
+};
+
+const ClerkTranslatorAddressTextField = ({
+  translator,
+  field,
+  onChange,
+  showFieldError,
+  ...rest
+}: ClerkTranslatorTextFieldProps<ClerkTranslatorAddressFieldEnum>) => {
+  // I18n
+  const { t } = useAppTranslation({
+    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
+  });
+  const required = field == ClerkTranslatorAddressFieldEnum.Street;
+  const fieldError = getAddressFieldError(translator, field, required);
+  const showRequiredFieldError =
+    showFieldError && fieldError?.length > 0 && required;
+  const showHelperText =
+    (showFieldError || !required) && fieldError?.length > 0;
+
+  return (
+    <CustomTextField
       label={t(field)}
       onChange={onChange}
       type={getTextFieldType(field)}
@@ -277,20 +339,26 @@ export const ClerkTranslatorDetailsFields = ({
   // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
   //const translateCountry = useKoodistoCountriesTranslation();
 
-  const initialFieldErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
-    (acc, val) => {
-      return { ...acc, [val]: showFieldErrorBeforeChange };
-    },
-    {},
-  ) as Record<ClerkTranslatorTextFieldEnum, boolean>;
+  const [open, setOpen] = useState(false);
+  const initialFieldErrors = Object.assign(
+    Object.values(ClerkTranslatorTextFieldEnum),
+    Object.values(ClerkTranslatorAddressFieldEnum),
+  ).reduce((acc, val) => {
+    return { ...acc, [val]: showFieldErrorBeforeChange };
+  }, {}) as Record<
+    ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
+    boolean
+  >;
 
   const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
-  const setFieldErrorOnBlur = (field: ClerkTranslatorTextFieldEnum) => () => {
-    setFieldErrors((prevFieldErrors) => ({
-      ...prevFieldErrors,
-      [field]: true,
-    }));
-  };
+  const setFieldErrorOnBlur =
+    (field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum) =>
+    () => {
+      setFieldErrors((prevFieldErrors) => ({
+        ...prevFieldErrors,
+        [field]: true,
+      }));
+    };
 
   const isIndividualisedValue = (field: ClerkTranslatorTextFieldEnum) => {
     const isIdentityNumberField =
@@ -305,6 +373,22 @@ export const ClerkTranslatorDetailsFields = ({
       ].includes(field);
 
     return isIdentityNumberField || isIndividualisedPersonalInformationField;
+  };
+
+  const onAddressFieldChange = (e: ChangeEvent<HTMLTextAreaElement>) => {};
+
+  const getCommonAddressFieldProps = (
+    field: ClerkTranslatorAddressFieldEnum,
+  ) => {
+    return {
+      field,
+      translator,
+      onChange: onAddressFieldChange,
+      showFieldError: fieldErrors[field],
+      onBlur: setFieldErrorOnBlur(field),
+      fullWidth: true,
+      'data-testid': `clerk-translator__address-information__${field}`,
+    };
   };
 
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
@@ -374,7 +458,70 @@ export const ClerkTranslatorDetailsFields = ({
       <div className="columns align-items-start gapped">
         <ClerkTranslatorPrimaryAddress addresses={translator?.address || []} />
       </div>
-      <H3>Muut osoitteet</H3>
+      <div className="columns margin-top-lg">
+        <div className="columns margin-top-lg grow">
+          <H3>Muut osoitteet</H3>
+        </div>
+        <CustomButton
+          data-testid="clerk-translator-overview__translator-details__edit-btn"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          startIcon={<AddIcon />}
+          disabled={editDisabled}
+          onClick={() => setOpen(true)}
+        >
+          Lisää uusi osoite
+        </CustomButton>
+        <CustomModal
+          open={open}
+          onCloseModal={() => setOpen(false)}
+          aria-labelledby="modal-title"
+          modalTitle="Lisää osoite"
+        >
+          <div>
+            <div className="columns align-items-start gapped">
+              <ClerkTranslatorAddressTextField
+                {...getCommonAddressFieldProps(
+                  ClerkTranslatorAddressFieldEnum.Street,
+                )}
+              />
+              <ClerkTranslatorAddressTextField
+                {...getCommonAddressFieldProps(
+                  ClerkTranslatorAddressFieldEnum.PostalCode,
+                )}
+              />
+              <ClerkTranslatorAddressTextField
+                {...getCommonAddressFieldProps(
+                  ClerkTranslatorAddressFieldEnum.Town,
+                )}
+              />
+              <ClerkTranslatorAddressTextField
+                {...getCommonAddressFieldProps(
+                  ClerkTranslatorAddressFieldEnum.Country,
+                )}
+              />
+            </div>
+            <div className="columns flex-end margin-top-lg gapped">
+              <CustomButton
+                className="margin-right-xs"
+                onClick={() => setOpen(false)}
+                variant={Variant.Text}
+                color={Color.Secondary}
+              >
+                {translateCommon('cancel')}
+              </CustomButton>
+              <CustomButton
+                className="margin-right-xs"
+                onClick={() => setOpen(false)}
+                variant={Variant.Contained}
+                color={Color.Secondary}
+              >
+                Lisää
+              </CustomButton>
+            </div>
+          </div>
+        </CustomModal>
+      </div>
       <div className="columns align-items-start gapped">
         <ClerkTranslatorAddressFields
           addresses={translator?.address || []}
