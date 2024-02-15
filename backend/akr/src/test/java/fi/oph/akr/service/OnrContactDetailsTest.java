@@ -21,12 +21,12 @@ import org.asynchttpclient.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
 
 @WithMockUser
-@SpringBootTest
+@DataJpaTest
 public class OnrContactDetailsTest {
 
   private OnrOperationApi onrOperationApi;
