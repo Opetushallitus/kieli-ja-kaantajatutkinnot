@@ -61,20 +61,14 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.wait('@getClerkTranslatorFromOnrOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
-    [
-      'lastName',
-      'firstName',
-      'nickName',
-      'identityNumber',
-      'street',
-      'town',
-      'country',
-    ].forEach((fieldName) => {
-      onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
-        fieldName,
-        'input',
-      );
-    });
+    ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach(
+      (fieldName) => {
+        onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
+          fieldName,
+          'input',
+        );
+      },
+    );
 
     ['email', 'phoneNumber'].forEach((fieldName) => {
       onClerkTranslatorOverviewPage.expectEnabledTranslatorField(

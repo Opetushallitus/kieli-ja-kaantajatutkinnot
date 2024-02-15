@@ -196,8 +196,6 @@ export const ClerkTranslatorDetailsFields = ({
     return isIdentityNumberField || isIndividualisedPersonalInformationField;
   };
 
-  const onAddressFieldChange = (e: ChangeEvent<HTMLTextAreaElement>) => {};
-
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
     return {
       field,
@@ -270,7 +268,7 @@ export const ClerkTranslatorDetailsFields = ({
           <H3>Muut osoitteet</H3>
         </div>
         <CustomButton
-          data-testid="clerk-translator-overview__translator-details__edit-btn"
+          data-testid="clerk-translator-overview__translator-address__add-btn"
           variant={Variant.Contained}
           color={Color.Secondary}
           startIcon={<AddIcon />}
@@ -279,12 +277,26 @@ export const ClerkTranslatorDetailsFields = ({
         >
           Lisää uusi osoite
         </CustomButton>
-        <ClerkTranslatorAddressModal
-          open={open}
-          onSave={() => setOpen(false)}
-          onCancel={() => setOpen(false)}
-          showFieldErrorBeforeChange={showFieldErrorBeforeChange}
-        />
+        {open && (
+          <ClerkTranslatorAddressModal
+            open={open}
+            akrAddress={translator?.address[0]}
+            onSave={(address) => {
+              setOpen(false);
+              if (translator) {
+                onAddressChange(
+                  translator.address.map((addr) =>
+                    addr.source === address.source && addr.type === address.type
+                      ? address
+                      : addr,
+                  ),
+                );
+              }
+            }}
+            onCancel={() => setOpen(false)}
+            showFieldErrorBeforeChange={false}
+          />
+        )}
       </div>
       <div className="columns align-items-start gapped">
         <ClerkTranslatorAddressFields

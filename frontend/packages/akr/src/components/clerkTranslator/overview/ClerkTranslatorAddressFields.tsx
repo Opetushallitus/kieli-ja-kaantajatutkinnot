@@ -47,14 +47,14 @@ const getTextFieldMaxLength = (field: ClerkTranslatorAddressFieldEnum) => {
 };
 
 const getAddressFieldError = (
-  translator: ClerkTranslatorAddress | undefined,
+  address: ClerkTranslatorAddress | undefined,
   field: ClerkTranslatorAddressFieldEnum,
   required: boolean,
 ) => {
   const t = translateOutsideComponent();
   const type = TextFieldTypes.Text;
   const maxLength = getTextFieldMaxLength(field);
-  const value = '';
+  const value = (address && address[field]) || '';
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -80,7 +80,12 @@ const ClerkTranslatorAddressTextField = ({
   const { t } = useAppTranslation({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails.fields',
   });
-  const required = field == ClerkTranslatorAddressFieldEnum.Street;
+  const required =
+    field == ClerkTranslatorAddressFieldEnum.Street ||
+    field == ClerkTranslatorAddressFieldEnum.Town ||
+    field == ClerkTranslatorAddressFieldEnum.PostalCode ||
+    field == ClerkTranslatorAddressFieldEnum.Country;
+
   const fieldError = getAddressFieldError(translator, field, required);
   const showRequiredFieldError =
     showFieldError && fieldError?.length > 0 && required;
@@ -89,6 +94,7 @@ const ClerkTranslatorAddressTextField = ({
 
   return (
     <CustomTextField
+      value={translator ? translator[field] : undefined}
       label={t(field)}
       onChange={onChange}
       type={TextFieldTypes.Text}
@@ -216,12 +222,14 @@ export const ClerkTranslatorAddressFields = ({
 
 export const ClerkTranslatorAddressModal = ({
   open,
+  akrAddress,
   onSave,
   onCancel,
   showFieldErrorBeforeChange,
 }: {
   open: boolean;
-  onSave: () => void;
+  akrAddress?: ClerkTranslatorAddress;
+  onSave: (address: ClerkTranslatorAddress) => void;
   onCancel: () => void;
   showFieldErrorBeforeChange: boolean;
 }) => {
@@ -230,15 +238,17 @@ export const ClerkTranslatorAddressModal = ({
   // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
   //const translateCountry = useKoodistoCountriesTranslation();
 
-  const [address, setAddress] = useState<ClerkTranslatorAddress>({
-    street: '',
-    postalCode: '',
-    town: '',
-    country: '',
-    source: '',
-    type: '',
-    selected: false,
-  });
+  const [address, setAddress] = useState<ClerkTranslatorAddress>(
+    akrAddress || {
+      street: '',
+      postalCode: '',
+      town: '',
+      country: '',
+      source: '',
+      type: '',
+      selected: false,
+    },
+  );
   const initialFieldErrors = Object.values(
     ClerkTranslatorAddressFieldEnum,
   ).reduce((acc, val) => {
@@ -254,15 +264,17 @@ export const ClerkTranslatorAddressModal = ({
       }));
     };
 
-  const onAddressFieldChange = (e: ChangeEvent<HTMLTextAreaElement>) => {};
-
   const getCommonAddressFieldProps = (
     field: ClerkTranslatorAddressFieldEnum,
   ) => {
     return {
       field,
-      address,
-      onChange: onAddressFieldChange,
+      translator: address,
+      onChange: (event: ChangeEvent<HTMLTextAreaElement>) =>
+        setAddress({
+          ...address,
+          [field]: event.target.value,
+        }),
       showFieldError: fieldErrors[field],
       onBlur: setFieldErrorOnBlur(field),
       fullWidth: true,
@@ -311,7 +323,7 @@ export const ClerkTranslatorAddressModal = ({
           </CustomButton>
           <CustomButton
             className="margin-right-xs"
-            onClick={onSave}
+            onClick={() => onSave(address)}
             variant={Variant.Contained}
             color={Color.Secondary}
           >
