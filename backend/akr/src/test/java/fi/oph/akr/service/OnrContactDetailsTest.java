@@ -5,8 +5,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import fi.oph.akr.Factory;
+import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.ContactDetailsUtil;
 import fi.oph.akr.onr.OnrOperationApi;
 import fi.oph.akr.onr.OnrOperationApiImpl;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.vm.sade.javautils.nio.cas.CasClient;
 import java.io.IOException;
@@ -61,14 +66,20 @@ public class OnrContactDetailsTest {
   @Test
   public void fetchShouldPickCorrectCorrectContactDetails() throws Exception {
     final PersonalData personalData = onrOperationApi.findPersonalDataByIdentityNumber("111111-1111").orElseThrow();
+    final Translator translator = Factory.translator();
+    translator.setSelectedType(ContactDetailsGroupType.AKR_OSOITE.toString());
+    translator.setSelectedSource(ContactDetailsGroupSource.AKR.toString());
 
-    assertEquals("Espanja", personalData.getCountry());
+    assertEquals("ESP", ContactDetailsUtil.getPrimaryAddress(personalData, translator).country());
   }
 
   @Test
   public void fetchShouldPickCorrectCorrectContactDetails2() throws Exception {
     final PersonalData personalData = onrOperationApi.findPersonalDataByIdentityNumber("222222-2222").orElseThrow();
+    final Translator translator = Factory.translator();
+    translator.setSelectedType(ContactDetailsGroupType.VAKINAINEN_KOTIMAAN_OSOITE.toString());
+    translator.setSelectedSource(ContactDetailsGroupSource.VTJ.toString());
 
-    assertEquals("Espanja", personalData.getCountry());
+    assertEquals("Suomi", ContactDetailsUtil.getPrimaryAddress(personalData, translator).country());
   }
 }

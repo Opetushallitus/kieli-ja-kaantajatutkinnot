@@ -36,6 +36,8 @@ import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
@@ -308,17 +310,6 @@ class ClerkTranslatorServiceTest {
     assertEquals(assurances, translators.stream().map(ClerkTranslatorDTO::isAssuranceGiven).toList());
   }
 
-  private List<TranslatorAddressDTO> createAddress(
-    final String street,
-    final String postalCode,
-    final String town,
-    final String country
-  ) {
-    return List.of(
-      TranslatorAddressDTO.builder().street(street).postalCode(postalCode).town(town).country(country).build()
-    );
-  }
-
   private List<ClerkTranslatorAddressDTO> createClerkAddress(
     final String street,
     final String postalCode,
@@ -332,7 +323,28 @@ class ClerkTranslatorServiceTest {
         .postalCode(postalCode)
         .town(town)
         .country(country)
+        .source(ContactDetailsGroupSource.AKR)
+        .type(ContactDetailsGroupType.AKR_OSOITE)
         .selected(true)
+        .build()
+    );
+  }
+
+  private List<TranslatorAddressDTO> createAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country
+  ) {
+    return List.of(
+      TranslatorAddressDTO
+        .builder()
+        .street(street)
+        .postalCode(postalCode)
+        .town(town)
+        .country(country)
+        .source(ContactDetailsGroupSource.AKR)
+        .type(ContactDetailsGroupType.AKR_OSOITE)
         .build()
     );
   }
@@ -1008,6 +1020,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Suku")
       .firstName("Etu")
       .nickName("Etu")
+      .address(createAddress("st", "pstl", "tw", "FI"))
       .identityNumber("112233")
       .individualised(true)
       .hasIndividualisedAddress(false)
@@ -1016,6 +1029,25 @@ class ClerkTranslatorServiceTest {
 
   private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO) {
     return defaultPersonalData(translatorDTO, UUID.randomUUID().toString());
+  }
+
+  private List<TranslatorAddressDTO> convertTranslatorAddressDTO(
+    final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO
+  ) {
+    return clerkTranslatorAddressDTO
+      .stream()
+      .map(addr ->
+        TranslatorAddressDTO
+          .builder()
+          .street(addr.street())
+          .town(addr.town())
+          .country(addr.country())
+          .postalCode(addr.postalCode())
+          .source(addr.source())
+          .type(addr.type())
+          .build()
+      )
+      .toList();
   }
 
   private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO, final String onrId) {
@@ -1030,7 +1062,7 @@ class ClerkTranslatorServiceTest {
       .lastName(translatorDTO.lastName())
       .email(translatorDTO.email())
       .phoneNumber(translatorDTO.phoneNumber())
-      .address(translatorDTO.address())
+      .address(convertTranslatorAddressDTO(translatorDTO.address()))
       .build();
   }
 

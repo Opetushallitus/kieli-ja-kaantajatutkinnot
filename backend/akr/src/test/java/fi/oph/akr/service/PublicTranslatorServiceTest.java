@@ -11,11 +11,14 @@ import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.PublicTownDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorDTO;
 import fi.oph.akr.api.dto.translator.PublicTranslatorResponseDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.TranslatorRepository;
@@ -176,7 +179,24 @@ class PublicTranslatorServiceTest {
       .thenReturn(
         Map.of(
           translator.getOnrId(),
-          PersonalData.builder().lastName("Suku").firstName("Etu").nickName("Etu").identityNumber("112233").build()
+          PersonalData
+            .builder()
+            .lastName("Suku")
+            .firstName("Etu")
+            .nickName("Etu")
+            .identityNumber("112233")
+            .address(
+              List.of(
+                TranslatorAddressDTO
+                  .builder()
+                  .town("town")
+                  .country("country")
+                  .source(ContactDetailsGroupSource.AKR)
+                  .type(ContactDetailsGroupType.AKR_OSOITE)
+                  .build()
+              )
+            )
+            .build()
         )
       );
 
@@ -249,8 +269,17 @@ class PublicTranslatorServiceTest {
             .nickName("Baz")
             .lastName("Bar" + StringUtils.leftPad(String.valueOf(i), 2, '0'))
             .identityNumber("112233")
-            .town(townsAndCountries.get(i).getLeft())
-            .country(townsAndCountries.get(i).getRight())
+            .address(
+              List.of(
+                TranslatorAddressDTO
+                  .builder()
+                  .town(townsAndCountries.get(i).getLeft())
+                  .country(townsAndCountries.get(i).getRight())
+                  .source(ContactDetailsGroupSource.AKR)
+                  .type(ContactDetailsGroupType.AKR_OSOITE)
+                  .build()
+              )
+            )
             .build()
         );
 
@@ -395,8 +424,17 @@ class PublicTranslatorServiceTest {
               .nickName("Etu" + i)
               .lastName("Suku" + i)
               .identityNumber("112233")
-              .town("Kaupunki" + i)
-              .country(i == 0 ? "FIN" : "Maa" + i)
+              .address(
+                List.of(
+                  TranslatorAddressDTO
+                    .builder()
+                    .town("Kaupunki" + i)
+                    .country(i == 0 ? "FIN" : "Maa" + i)
+                    .source(ContactDetailsGroupSource.AKR)
+                    .type(ContactDetailsGroupType.AKR_OSOITE)
+                    .build()
+                )
+              )
               .email(i % 2 == 0 ? null : "foo" + i + "@foo.invalid")
               .build();
           }
