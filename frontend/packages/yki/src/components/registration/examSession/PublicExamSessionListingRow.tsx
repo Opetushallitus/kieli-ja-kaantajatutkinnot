@@ -1,5 +1,5 @@
 import { TableCell, TableRow, Typography } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
 import { CustomButtonLink, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
@@ -61,21 +61,22 @@ const RegistrationUnavailableText = ({
   const { t } = usePublicTranslation({
     keyPrefix: 'yki.component.registration.registrationUnavailable',
   });
-  const now = dayjs();
-  const { start, end } =
+  const { start } =
     ExamSessionUtils.getEffectiveRegistrationPeriodDetails(examSession);
-  if (now.isBefore(start)) {
-    return (
-      <>
-        {t('admissionOpensOn', {
-          startDate: DateUtils.formatOptionalDate(start),
-        })}
-      </>
-    );
-  } else if (now.isAfter(end)) {
-    return <>{t('admissionPeriodIsClosed')}</>;
-  } else {
+  if (examSession.open) {
     return <>{t('examSessionIsFull')}</>;
+  } else {
+    if (examSession.upcoming_admission || examSession.upcoming_post_admission) {
+      return (
+        <>
+          {t('admissionOpensOn', {
+            startDate: DateUtils.formatOptionalDate(start),
+          })}
+        </>
+      );
+    } else {
+      return <>{t('admissionPeriodIsClosed')}</>;
+    }
   }
 };
 
