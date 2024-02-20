@@ -29,6 +29,7 @@ import {
 } from 'configs/i18n';
 import {
   ClerkTranslatorAddressFieldEnum,
+  ClerkTranslatorAddressSource,
   ClerkTranslatorTextFieldEnum,
 } from 'enums/clerkTranslator';
 import {
@@ -90,6 +91,21 @@ const getFieldError = (
 
 const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
   isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+
+const emptyAddress = {
+  street: '',
+  postalCode: '',
+  town: '',
+  country: '',
+  source: '',
+  type: '',
+  selected: false,
+};
+
+const findAkrAddress = (addresses: Array<ClerkTranslatorAddress>) =>
+  addresses
+    .filter((addr) => addr.source === ClerkTranslatorAddressSource.AKR)
+    .shift();
 
 const ClerkTranslatorDetailsTextField = ({
   translator,
@@ -209,6 +225,9 @@ export const ClerkTranslatorDetailsFields = ({
     };
   };
 
+  const hasAkrAddress =
+    translator?.address && !!findAkrAddress(translator.address);
+
   // const countryCodeToLabel = (code: string) => {
   //   const label = translateCountry(code);
 
@@ -261,7 +280,11 @@ export const ClerkTranslatorDetailsFields = ({
         </div>
       )}
       <div className="columns align-items-start gapped">
-        <ClerkTranslatorPrimaryAddress addresses={translator?.address || []} />
+        <ClerkTranslatorPrimaryAddress
+          addresses={translator?.address || []}
+          editDisabled={editDisabled}
+          onEditAddress={() => setOpen(true)}
+        />
       </div>
       <div className="columns margin-top-lg">
         <div className="columns margin-top-lg grow">
@@ -272,7 +295,7 @@ export const ClerkTranslatorDetailsFields = ({
           variant={Variant.Contained}
           color={Color.Secondary}
           startIcon={<AddIcon />}
-          disabled={editDisabled}
+          disabled={editDisabled || hasAkrAddress}
           onClick={() => setOpen(true)}
         >
           Lisää uusi osoite
@@ -280,7 +303,10 @@ export const ClerkTranslatorDetailsFields = ({
         {open && (
           <ClerkTranslatorAddressModal
             open={open}
-            akrAddress={translator?.address[0]}
+            akrAddress={
+              (translator?.address && findAkrAddress(translator.address)) ||
+              emptyAddress
+            }
             onSave={(address) => {
               setOpen(false);
               if (translator) {
@@ -303,6 +329,7 @@ export const ClerkTranslatorDetailsFields = ({
           addresses={translator?.address || []}
           onAddressChange={onAddressChange}
           editDisabled={editDisabled}
+          onEditAddress={() => setOpen(true)}
         />
         {/* <ComboBox
           data-testid="clerk-translator__basic-information__country"

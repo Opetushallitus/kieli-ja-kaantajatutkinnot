@@ -27,7 +27,10 @@ import {
   useCommonTranslation,
   //useKoodistoCountriesTranslation,
 } from 'configs/i18n';
-import { ClerkTranslatorAddressFieldEnum } from 'enums/clerkTranslator';
+import {
+  ClerkTranslatorAddressFieldEnum,
+  ClerkTranslatorAddressSource,
+} from 'enums/clerkTranslator';
 import { ClerkTranslatorAddress } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorAddressFieldProps } from 'interfaces/clerkTranslatorTextField';
 import { WithId } from 'interfaces/with';
@@ -109,8 +112,12 @@ const ClerkTranslatorAddressTextField = ({
 
 export const ClerkTranslatorPrimaryAddress = ({
   addresses,
+  onEditAddress,
+  editDisabled,
 }: {
   addresses: Array<ClerkTranslatorAddress>;
+  onEditAddress: () => void;
+  editDisabled: boolean;
 }) => {
   const { t } = useAppTranslation({
     keyPrefix:
@@ -135,6 +142,17 @@ export const ClerkTranslatorPrimaryAddress = ({
       <Text>
         Osoitteen lähde: {t(selectedAddress.source)} ({t(selectedAddress.type)})
       </Text>
+      {selectedAddress.source === ClerkTranslatorAddressSource.AKR && (
+        <CustomButton
+          data-testid="clerk-translator-address__add-address"
+          variant={Variant.Outlined}
+          color={Color.Secondary}
+          disabled={editDisabled}
+          onClick={onEditAddress}
+        >
+          Muokkaa
+        </CustomButton>
+      )}
     </div>
   );
 };
@@ -142,10 +160,12 @@ export const ClerkTranslatorPrimaryAddress = ({
 export const ClerkTranslatorAddressFields = ({
   addresses,
   onAddressChange,
+  onEditAddress,
   editDisabled,
 }: {
   addresses: Array<ClerkTranslatorAddress>;
   onAddressChange: (addresses: Array<ClerkTranslatorAddress>) => void;
+  onEditAddress: () => void;
   editDisabled: boolean;
 }) => {
   const { t } = useAppTranslation({
@@ -187,7 +207,7 @@ export const ClerkTranslatorAddressFields = ({
       </TableCell>
       <TableCell>
         <CustomButton
-          data-testid="meeting-dates-page__add-btn"
+          data-testid="clerk-translator-address__add-address"
           variant={Variant.Outlined}
           color={Color.Secondary}
           disabled={editDisabled}
@@ -195,6 +215,17 @@ export const ClerkTranslatorAddressFields = ({
         >
           Vaihda lähteeksi
         </CustomButton>
+        {address.source === ClerkTranslatorAddressSource.AKR && (
+          <CustomButton
+            data-testid="clerk-translator-address__add-address"
+            variant={Variant.Outlined}
+            color={Color.Secondary}
+            disabled={editDisabled}
+            onClick={onEditAddress}
+          >
+            Muokkaa
+          </CustomButton>
+        )}
       </TableCell>
     </TableRow>
   );
@@ -228,7 +259,7 @@ export const ClerkTranslatorAddressModal = ({
   showFieldErrorBeforeChange,
 }: {
   open: boolean;
-  akrAddress?: ClerkTranslatorAddress;
+  akrAddress: ClerkTranslatorAddress;
   onSave: (address: ClerkTranslatorAddress) => void;
   onCancel: () => void;
   showFieldErrorBeforeChange: boolean;
@@ -238,17 +269,7 @@ export const ClerkTranslatorAddressModal = ({
   // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
   //const translateCountry = useKoodistoCountriesTranslation();
 
-  const [address, setAddress] = useState<ClerkTranslatorAddress>(
-    akrAddress || {
-      street: '',
-      postalCode: '',
-      town: '',
-      country: '',
-      source: '',
-      type: '',
-      selected: false,
-    },
-  );
+  const [address, setAddress] = useState<ClerkTranslatorAddress>(akrAddress);
   const initialFieldErrors = Object.values(
     ClerkTranslatorAddressFieldEnum,
   ).reduce((acc, val) => {

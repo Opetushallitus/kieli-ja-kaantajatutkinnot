@@ -12,6 +12,11 @@ export enum AuthorisationBasisEnum {
   VIR = 'VIR',
 }
 
+export enum ClerkTranslatorAddressSource {
+  AKR = 'alkupera8',
+  VTJ = 'alkupera1',
+}
+
 export enum ClerkTranslatorAddressFieldEnum {
   Street = 'street',
   PostalCode = 'postalCode',
