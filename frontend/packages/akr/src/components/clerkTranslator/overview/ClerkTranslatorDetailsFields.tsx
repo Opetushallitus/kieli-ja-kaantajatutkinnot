@@ -146,7 +146,6 @@ const ClerkTranslatorDetailsTextField = ({
 export const ClerkTranslatorDetailsFields = ({
   translator,
   isPersonalInformationIndividualised,
-  isAddressIndividualised,
   onTextFieldChange,
   onAddressChange,
   onCheckBoxChange,
@@ -156,7 +155,6 @@ export const ClerkTranslatorDetailsFields = ({
 }: {
   translator?: ClerkTranslatorBasicInformation;
   isPersonalInformationIndividualised?: boolean;
-  isAddressIndividualised?: boolean;
   onTextFieldChange: (
     field: keyof ClerkTranslatorTextFields,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -274,12 +272,7 @@ export const ClerkTranslatorDetailsFields = ({
         />
       </div>
       <H3>{t('header.address')}</H3>
-      {isAddressIndividualised && (
-        <div className="individualised">
-          <InfoText>{t('individualisedInformation')}</InfoText>
-        </div>
-      )}
-      <div className="columns align-items-start gapped">
+      <div>
         <ClerkTranslatorPrimaryAddress
           addresses={translator?.address || []}
           editDisabled={editDisabled}
@@ -288,7 +281,7 @@ export const ClerkTranslatorDetailsFields = ({
       </div>
       <div className="columns margin-top-lg">
         <div className="columns margin-top-lg grow">
-          <H3>Muut osoitteet</H3>
+          <H3>{t('header.addressOther')}</H3>
         </div>
         <CustomButton
           data-testid="clerk-translator-overview__translator-address__add-btn"
@@ -298,7 +291,7 @@ export const ClerkTranslatorDetailsFields = ({
           disabled={editDisabled || hasAkrAddress}
           onClick={() => setOpen(true)}
         >
-          Lisää uusi osoite
+          {t('addAddress')}
         </CustomButton>
         {open && (
           <ClerkTranslatorAddressModal

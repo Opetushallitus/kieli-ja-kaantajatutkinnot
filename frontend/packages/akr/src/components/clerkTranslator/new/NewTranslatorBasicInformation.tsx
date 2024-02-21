@@ -61,7 +61,6 @@ export const NewTranslatorBasicInformation = ({
     <ClerkTranslatorDetailsFields
       translator={translator}
       isPersonalInformationIndividualised={translator.isIndividualised}
-      isAddressIndividualised={translator.hasIndividualisedAddress}
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }

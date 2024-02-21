@@ -120,8 +120,7 @@ export const ClerkTranslatorPrimaryAddress = ({
   editDisabled: boolean;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix:
-      'akr.component.clerkTranslatorOverview.translatorDetails.address',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails',
   });
   const address = addresses.filter((address) => address.selected);
 
@@ -140,19 +139,25 @@ export const ClerkTranslatorPrimaryAddress = ({
       <Text>{selectedAddress.country}</Text>
       <br />
       <Text>
-        Osoitteen lähde: {t(selectedAddress.source)} ({t(selectedAddress.type)})
+        {t('fields.source')}: {t('address.' + selectedAddress.source)} (
+        {t('address.' + selectedAddress.type)})
       </Text>
-      {selectedAddress.source === ClerkTranslatorAddressSource.AKR && (
-        <CustomButton
-          data-testid="clerk-translator-address__add-address"
-          variant={Variant.Outlined}
-          color={Color.Secondary}
-          disabled={editDisabled}
-          onClick={onEditAddress}
-        >
-          Muokkaa
-        </CustomButton>
-      )}
+      {!editDisabled &&
+        ((selectedAddress.source === ClerkTranslatorAddressSource.AKR && (
+          <CustomButton
+            data-testid="clerk-translator-address__edit-akr-address"
+            className="margin-top-sm"
+            variant={Variant.Outlined}
+            color={Color.Secondary}
+            onClick={onEditAddress}
+          >
+            {t('edit')}
+          </CustomButton>
+        )) || (
+          <div className="individualised margin-top-lg">
+            <InfoText>{t('readOnlyAddress')}</InfoText>
+          </div>
+        ))}
     </div>
   );
 };
@@ -169,18 +174,17 @@ export const ClerkTranslatorAddressFields = ({
   editDisabled: boolean;
 }) => {
   const { t } = useAppTranslation({
-    keyPrefix:
-      'akr.component.clerkTranslatorOverview.translatorDetails.address',
+    keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails',
   });
   const AddressHeader = () => (
     <TableHead className="heading-text">
       <TableRow>
-        <TableCell>Katu</TableCell>
-        <TableCell>Postinumero </TableCell>
-        <TableCell>Kaupunki</TableCell>
-        <TableCell>Maa</TableCell>
-        <TableCell>Osoitteen lähde</TableCell>
-        <TableCell>Toiminnot</TableCell>
+        <TableCell>{t('fields.street')}</TableCell>
+        <TableCell>{t('fields.postalCode')}</TableCell>
+        <TableCell>{t('fields.town')}</TableCell>
+        <TableCell>{t('fields.country')}</TableCell>
+        <TableCell>{t('fields.source')}</TableCell>
+        <TableCell>{t('fields.actions')}</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -202,8 +206,8 @@ export const ClerkTranslatorAddressFields = ({
       <TableCell>{address[ClerkTranslatorAddressFieldEnum.Town]}</TableCell>
       <TableCell>{address[ClerkTranslatorAddressFieldEnum.Country]}</TableCell>
       <TableCell>
-        {t(address.source)}
-        <br /> ({t(address.type)})
+        {t('address.' + address.source)}
+        <br /> ({t('address.' + address.type)})
       </TableCell>
       <TableCell>
         <CustomButton
@@ -213,17 +217,18 @@ export const ClerkTranslatorAddressFields = ({
           disabled={editDisabled}
           onClick={handleSelectAsPrimary(address)}
         >
-          Vaihda lähteeksi
+          {t('switchSource')}
         </CustomButton>
         {address.source === ClerkTranslatorAddressSource.AKR && (
           <CustomButton
             data-testid="clerk-translator-address__add-address"
+            className="margin-top-sm"
             variant={Variant.Outlined}
             color={Color.Secondary}
             disabled={editDisabled}
             onClick={onEditAddress}
           >
-            Muokkaa
+            {t('edit')}
           </CustomButton>
         )}
       </TableCell>
@@ -307,7 +312,7 @@ export const ClerkTranslatorAddressModal = ({
     <CustomModal
       open={open}
       aria-labelledby="modal-title"
-      modalTitle="Lisää osoite"
+      modalTitle={translateCommon('edit')}
       onCloseModal={onCancel}
     >
       <div>
@@ -348,7 +353,7 @@ export const ClerkTranslatorAddressModal = ({
             variant={Variant.Contained}
             color={Color.Secondary}
           >
-            Lisää
+            {translateCommon('yes')}
           </CustomButton>
         </div>
       </div>

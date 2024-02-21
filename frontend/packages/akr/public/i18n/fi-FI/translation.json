@@ -138,16 +138,23 @@
             "phoneNumber": "Puhelinnumero",
             "postalCode": "Postinumero",
             "street": "Katuosoite",
-            "town": "Postitoimipaikka"
+            "town": "Postitoimipaikka",
+            "source": "Osoitteen lähde",
+            "actions": "Toiminnot"
           },
           "header": {
             "address": "Osoite",
+            "addressOther": "Muut osoitteet",
             "contactInformation": "Yhteystiedot",
             "extraInformation": "Lisätiedot",
             "isAssuranceGiven": "Vakuutus annettu",
             "personalInformation": "Henkilötiedot"
           },
-          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä"
+          "addAddress": "Lisää uusi AKR-osoite",
+          "edit": "Muokkaa",
+          "switchSource": "Vaihde lähteeksi",
+          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä",
+          "readOnlyAddress": "Tästä lähteestä haettua osoitetta ei voi muokata"
         }
       },
       "contactRequestForm": {
