@@ -8,7 +8,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4001',
     video: false,
-    defaultCommandTimeout: 15000,
+    defaultCommandTimeout: 3000,
     chromeWebSecurity: false,
     retries: 1,
     fixturesFolder: './src/tests/cypress/fixtures/json',
