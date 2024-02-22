@@ -131,7 +131,7 @@ export const ClerkTranslatorPrimaryAddress = ({
   const selectedAddress = address[0];
 
   return (
-    <div>
+    <div data-testid="clerk-translator-address__primary-akr-address">
       <Text>{selectedAddress.street}</Text>
       <Text>
         {selectedAddress.postalCode} {selectedAddress.town}
@@ -145,7 +145,7 @@ export const ClerkTranslatorPrimaryAddress = ({
       {!editDisabled &&
         ((selectedAddress.source === ClerkTranslatorAddressSource.AKR && (
           <CustomButton
-            data-testid="clerk-translator-address__edit-akr-address"
+            data-testid="clerk-translator-address__edit-primary-akr-address"
             className="margin-top-sm"
             variant={Variant.Outlined}
             color={Color.Secondary}
@@ -221,7 +221,7 @@ export const ClerkTranslatorAddressFields = ({
         </CustomButton>
         {address.source === ClerkTranslatorAddressSource.AKR && (
           <CustomButton
-            data-testid="clerk-translator-address__add-address"
+            data-testid="clerk-translator-address__edit-akr-address"
             className="margin-top-sm"
             variant={Variant.Outlined}
             color={Color.Secondary}
@@ -246,13 +246,15 @@ export const ClerkTranslatorAddressFields = ({
   });
 
   return (
-    <CustomTable
-      className=""
-      header={<AddressHeader />}
-      data={addresses.filter(filterNonSelected).map(addIdToData)}
-      getRowDetails={getRowDetails}
-      stickyHeader
-    />
+    <div data-testid="clerk-translator-address__other-akr-address">
+      <CustomTable
+        className=""
+        header={<AddressHeader />}
+        data={addresses.filter(filterNonSelected).map(addIdToData)}
+        getRowDetails={getRowDetails}
+        stickyHeader
+      />
+    </div>
   );
 };
 
@@ -311,6 +313,7 @@ export const ClerkTranslatorAddressModal = ({
   return (
     <CustomModal
       open={open}
+      role="dialog"
       aria-labelledby="modal-title"
       modalTitle={translateCommon('edit')}
       onCloseModal={onCancel}

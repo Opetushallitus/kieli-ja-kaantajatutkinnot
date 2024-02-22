@@ -28,6 +28,19 @@ class ClerkTranslatorOverviewPage {
         .findByTestId(`clerk-translator__basic-information__${field}`)
         .should('be.visible')
         .find(`div>${fieldType}`),
+    translatorAddressField: (field: string, fieldType: string) =>
+      cy
+        .findByTestId(`clerk-translator__address-information__${field}`)
+        .should('be.visible')
+        .find(`div>${fieldType}`),
+    translatorPrimaryAddress: () =>
+      cy
+        .findByTestId('clerk-translator-address__primary-akr-address')
+        .should('be.visible'),
+    translatorOtherAddress: () =>
+      cy
+        .findByTestId('clerk-translator-address__other-akr-address')
+        .should('be.visible'),
     authorisationField: (field: string, fieldType: string) =>
       cy.findByTestId(`authorisation-field-${field}`).find(`div>${fieldType}`),
     permissionToPublishSwitch: () =>
@@ -41,6 +54,10 @@ class ClerkTranslatorOverviewPage {
       cy.findByTestId(
         'clerk-translator__basic-information__assurance-switch__error-label',
       ),
+    editPrimaryAddressButton: () =>
+      cy.findByTestId('clerk-translator-address__edit-primary-akr-address'),
+    editOtherAddressButton: () =>
+      cy.findByTestId('clerk-translator-address__edit-akr-address'),
   };
 
   navigateById(id: number) {
@@ -69,11 +86,27 @@ class ClerkTranslatorOverviewPage {
     this.elements.saveTranslatorDetailsButton().should('be.visible').click();
   }
 
+  clickEditOtherAddressButton() {
+    this.elements.editOtherAddressButton().should('be.visible').click();
+  }
+
+  clickEditPrimaryAddressButton() {
+    this.elements.editPrimaryAddressButton().should('be.visible').click();
+  }
+
   editTranslatorField(fieldName: string, fieldType: string, newValue) {
     this.elements
       .translatorDetailsField(fieldName, fieldType)
       .clear()
       .should('have.text', '')
+      .type(newValue);
+  }
+
+  editAddressField(fieldName: string, fieldType: string, oldValue, newValue) {
+    this.elements
+      .translatorAddressField(fieldName, fieldType)
+      .should('have.value', oldValue)
+      .clear()
       .type(newValue);
   }
 
@@ -179,8 +212,28 @@ class ClerkTranslatorOverviewPage {
     this.elements.saveTranslatorDetailsButton().should('be.enabled');
   }
 
+  expectEditPrimaryAddressButton(visible: boolean) {
+    this.elements
+      .editPrimaryAddressButton()
+      .should(visible ? 'be.visible' : 'not.exist');
+  }
+
+  expectEditOtherAddressButton(visible: boolean) {
+    this.elements
+      .editOtherAddressButton()
+      .should(visible ? 'be.visible' : 'not.exist');
+  }
+
   expectedEnabledAddAuthorisationButton() {
     this.elements.addAuthorisationBtn().should('be.enabled');
+  }
+
+  expectTranslatorPrimaryAddressText(text: string) {
+    this.elements.translatorPrimaryAddress().contains(text);
+  }
+
+  expectTranslatorOtherAddressText(text: string) {
+    this.elements.translatorOtherAddress().contains(text);
   }
 
   expectTranslatorNotFoundText() {

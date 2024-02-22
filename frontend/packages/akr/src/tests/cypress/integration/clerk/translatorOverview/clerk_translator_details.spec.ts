@@ -45,6 +45,8 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
     onClerkTranslatorOverviewPage.expectMode(UIMode.EditTranslatorDetails);
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(true);
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(false);
   });
 
   it('should return from edit mode when cancel is clicked and no changes were made', () => {
@@ -60,6 +62,9 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.navigateById(translatorFromOnrResponse.id);
     cy.wait('@getClerkTranslatorFromOnrOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(false);
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(true);
 
     ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach(
       (fieldName) => {
@@ -80,8 +85,72 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
     cy.findAllByText('Tiedot haettu väestötietojärjestelmästä').should(
       'have.length',
-      2,
+      1,
     );
+  });
+
+  it('should edit primary address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(false);
+    onClerkTranslatorOverviewPage.clickEditPrimaryAddressButton();
+
+    [
+      ['street', 'Sibeliuksenkuja 3', 'Kuja 1'],
+      ['postalCode', '06100', '90100'],
+      ['town', 'Hämeenlinna', 'Linnahämeen'],
+      ['country', 'FIN', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('SWE');
+  });
+
+  it('should edit other address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorFromOnrResponse.id);
+    cy.wait('@getClerkTranslatorFromOnrOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(false);
+    onClerkTranslatorOverviewPage.clickEditOtherAddressButton();
+
+    [
+      ['street', 'Sibeliuksenkuja 3', 'Kuja 1'],
+      ['postalCode', '06100', '90100'],
+      ['town', 'Hämeenlinna', 'Linnahämeen'],
+      ['country', 'FIN', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('SWE');
   });
 
   it('should disable details save button when the required fields are not filled out', () => {
