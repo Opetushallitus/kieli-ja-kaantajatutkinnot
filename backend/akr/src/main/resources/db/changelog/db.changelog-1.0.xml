@@ -824,18 +824,6 @@
         <addNotNullConstraint tableName="translator" columnName="onr_id" />
     </changeSet>
 
-    <changeSet id="2023-12-20-drop-personal-data" author="lket">
-        <dropColumn tableName="translator" columnName="identity_number"/>
-        <dropColumn tableName="translator" columnName="first_name"/>
-        <dropColumn tableName="translator" columnName="last_name"/>
-        <dropColumn tableName="translator" columnName="email"/>
-        <dropColumn tableName="translator" columnName="phone_number"/>
-        <dropColumn tableName="translator" columnName="street"/>
-        <dropColumn tableName="translator" columnName="town"/>
-        <dropColumn tableName="translator" columnName="postal_code"/>
-        <dropColumn tableName="translator" columnName="country"/>
-    </changeSet>
-
     <changeSet id="2024-02-09-drop-personal-data" author="jrkkp">
         <addColumn tableName="translator">
             <column name="selected_source" type="VARCHAR(255)" />
