@@ -152,7 +152,7 @@
           },
           "addAddress": "Lisää uusi AKR-osoite",
           "edit": "Muokkaa",
-          "switchSource": "Vaihde lähteeksi",
+          "switchSource": "Vaihda lähteeksi",
           "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä",
           "readOnlyAddress": "Tästä lähteestä haettua osoitetta ei voi muokata"
         }
