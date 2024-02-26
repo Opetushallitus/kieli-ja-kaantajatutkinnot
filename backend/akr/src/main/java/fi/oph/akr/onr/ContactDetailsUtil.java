@@ -194,6 +194,33 @@ public class ContactDetailsUtil {
     return personalDataDTO;
   }
 
+  private static TranslatorAddressDTO findAnyAddress(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .min(comparing(TranslatorAddressDTO::type, nullsLast(AKR_FIRST.thenComparing(naturalOrder()))))
+      .orElse(null);
+  }
+
+  private static TranslatorAddressDTO findMostSuitableAddress(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .sorted(comparing(TranslatorAddressDTO::type, nullsLast(AKR_LAST.thenComparing(naturalOrder()))))
+      .filter(ContactDetailsUtil::isSuitable)
+      .findFirst()
+      .orElse(findAnyAddress(personalData));
+  }
+
+  private static boolean isSuitable(final TranslatorAddressDTO translatorAddressDTO) {
+    return (
+      translatorAddressDTO.country() != null &&
+      !translatorAddressDTO.country().isBlank() &&
+      translatorAddressDTO.town() != null &&
+      !translatorAddressDTO.town().isBlank()
+    );
+  }
+
   public static TranslatorAddressDTO getPrimaryAddress(final PersonalData personalData, final Translator translator) {
     return personalData
       .getAddress()
@@ -203,7 +230,7 @@ public class ContactDetailsUtil {
         addr.type().toString().equals(translator.getSelectedType())
       )
       .findFirst()
-      .orElse(personalData.getAddress().get(0));
+      .orElse(findMostSuitableAddress(personalData));
   }
 
   public static List<TranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {

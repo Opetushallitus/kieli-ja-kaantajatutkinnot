@@ -1,8 +1,9 @@
 package fi.oph.akr.onr.mock;
 
-import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.onr.OnrOperationApi;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
                 .postalCode("93600")
                 .town("Kuusamo")
                 .country("FINLAND")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
                 .build()
             )
           )
@@ -66,6 +69,8 @@ public class OnrOperationApiMock implements OnrOperationApi {
                 .postalCode("20100")
                 .town("Turku")
                 .country("SUOMI")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
                 .build()
             )
           )
@@ -79,7 +84,17 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Oona Inkeri")
           .nickName("Oona")
           .identityNumber(identityNumber)
-          .address(List.of(TranslatorAddressDTO.builder().street("Ristikontie 333").town("Helsinki").build()))
+          .address(
+            List.of(
+              TranslatorAddressDTO
+                .builder()
+                .street("Ristikontie 333")
+                .town("Helsinki")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
+                .build()
+            )
+          )
           .build();
         case manuallyCreated2 -> PersonalData
           .builder()
