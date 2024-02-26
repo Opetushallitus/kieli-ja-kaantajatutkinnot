@@ -79,22 +79,6 @@ public class ContactDetailsUtil {
     return getPrimaryValue(groups, ContactDetailsType.PHONE_NUMBER, AKR_FIRST);
   }
 
-  public static String getPrimaryStreet(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.STREET, AKR_LAST);
-  }
-
-  public static String getPrimaryPostalCode(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.POSTAL_CODE, AKR_LAST);
-  }
-
-  public static String getPrimaryTown(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.TOWN, AKR_LAST);
-  }
-
-  public static String getPrimaryCountry(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.COUNTRY, AKR_LAST);
-  }
-
   private static String getValue(
     final ContactDetailsGroupDTO contactDetailsGroup,
     final ContactDetailsType contactDetailsType
