@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { call, delay, put, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
@@ -29,6 +29,8 @@ function* loadExamSessionsSaga() {
       axiosInstance.get,
       APIEndpoints.ExamSessions,
     );
+    // Add temporary delay for easier testing of loading indicator
+    yield delay(5000);
 
     yield put(
       storeExamSessions(
