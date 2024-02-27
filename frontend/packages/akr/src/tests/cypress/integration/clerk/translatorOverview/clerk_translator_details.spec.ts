@@ -3,6 +3,7 @@ import { AppRoutes, UIMode } from 'enums/app';
 import {
   newAuthorisation,
   translatorFromOnrResponse,
+  translatorFromOnrResponseNoAkrAddress,
   translatorResponse,
 } from 'tests/cypress/fixtures/ts/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
@@ -23,6 +24,11 @@ beforeEach(() => {
   cy.intercept(
     `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponse.id}`,
     translatorFromOnrResponse,
+  ).as('getClerkTranslatorFromOnrOverview');
+
+  cy.intercept(
+    `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponseNoAkrAddress.id}`,
+    translatorFromOnrResponseNoAkrAddress,
   ).as('getClerkTranslatorFromOnrOverview');
 
   const updatedExistingTranslator = {
@@ -87,6 +93,48 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'have.length',
       1,
     );
+  });
+
+  it('should disable add address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectAddAddressButton(false);
+  });
+
+  it('should add address', () => {
+    onClerkTranslatorOverviewPage.navigateById(
+      translatorFromOnrResponseNoAkrAddress.id,
+    );
+    cy.wait('@getClerkTranslatorFromOnrOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectAddAddressButton(true);
+    onClerkTranslatorOverviewPage.clickAddAddressButton();
+
+    [
+      ['street', '', 'Kuja 1'],
+      ['postalCode', '', '90100'],
+      ['town', '', 'Linnahämeen'],
+      ['country', '', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('SWE');
   });
 
   it('should edit primary address', () => {

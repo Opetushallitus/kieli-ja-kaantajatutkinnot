@@ -97,8 +97,8 @@ const emptyAddress = {
   postalCode: '',
   town: '',
   country: '',
-  source: '',
-  type: '',
+  source: 'alkupera8',
+  type: 'yhteystietotyyppi14',
   selected: false,
 };
 
@@ -226,6 +226,18 @@ export const ClerkTranslatorDetailsFields = ({
   const hasAkrAddress =
     translator?.address && !!findAkrAddress(translator.address);
 
+  const modifyOrAppend = (
+    address: ClerkTranslatorAddress,
+    addresses: Array<ClerkTranslatorAddress>,
+  ) =>
+    hasAkrAddress
+      ? addresses.map((addr) =>
+          addr.source === address.source && addr.type === address.type
+            ? address
+            : addr,
+        )
+      : [...addresses, address];
+
   // const countryCodeToLabel = (code: string) => {
   //   const label = translateCountry(code);
 
@@ -303,13 +315,7 @@ export const ClerkTranslatorDetailsFields = ({
             onSave={(address) => {
               setOpen(false);
               if (translator) {
-                onAddressChange(
-                  translator.address.map((addr) =>
-                    addr.source === address.source && addr.type === address.type
-                      ? address
-                      : addr,
-                  ),
-                );
+                onAddressChange(modifyOrAppend(address, translator.address));
               }
             }}
             onCancel={() => setOpen(false)}

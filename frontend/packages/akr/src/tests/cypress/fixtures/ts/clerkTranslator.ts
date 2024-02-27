@@ -160,6 +160,76 @@ export const translatorFromOnrResponse = {
   },
 };
 
+export const translatorFromOnrResponseNoAkrAddress = {
+  id: 4,
+  version: 0,
+  isIndividualised: true,
+  hasIndividualisedAddress: true,
+  firstName: 'Antti Kalle',
+  lastName: 'Alanen',
+  nickName: 'Antti',
+  identityNumber: '260875-9507',
+  email: 'antti.alanen@example.invalid',
+  phoneNumber: '+358401000002',
+  address: [
+    {
+      street: 'Sibeliuksenkuja 3',
+      postalCode: '06100',
+      town: 'Hämeenlinna',
+      country: 'FIN',
+      source: 'alkupera1',
+      type: 'yhteystietotyyppi5',
+      selected: false,
+    },
+    {
+      street: 'Runebergintie 2',
+      postalCode: '01200',
+      town: 'Turku',
+      country: 'suomi',
+      source: 'alkupera1',
+      type: 'yhteystietotyyppi4',
+      selected: true,
+    },
+  ],
+  extraInformation:
+    'Osoitetietoja muokattu 1.5.1999. Osoitetietoja muutettu uudelleen 2.5.1999. Uusi auktorisointi lisätty kääntäjälle 12.10.2000. Auktorisointi päivitetty julkiseksi 1.1.2001. Viimeisen muutoksen tekijä: Testi Testinen',
+  isAssuranceGiven: true,
+  authorisations: {
+    effective: [
+      {
+        id: 10001,
+        version: 0,
+        languagePair: {
+          from: 'CS',
+          to: 'SEKO',
+        },
+        basis: AuthorisationBasisEnum.AUT,
+        permissionToPublish: true,
+        diaryNumber: '10001',
+        termBeginDate: '2022-01-01',
+        termEndDate: '2022-07-01',
+        examinationDate: '2022-03-03',
+      },
+    ],
+    expiring: [],
+    expired: expiredAuthorisations,
+    expiredDeduplicated: expiredAuthorisations,
+    formerVir: [
+      {
+        id: 10003,
+        version: 0,
+        languagePair: {
+          from: 'CS',
+          to: 'SEKO',
+        },
+        basis: AuthorisationBasisEnum.VIR,
+        permissionToPublish: true,
+        diaryNumber: '10003',
+      },
+    ],
+  },
+};
+
 export const newAuthorisation = {
   id: 10004,
   version: 0,

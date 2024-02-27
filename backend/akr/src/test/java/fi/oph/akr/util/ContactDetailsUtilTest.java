@@ -33,6 +33,17 @@ public class ContactDetailsUtilTest {
     assertEquals("Kuusamo", translatorAddressDTO.town());
   }
 
+  @Test
+  public void shouldReturnAddressWhenSelectedNotFound() {
+    final Translator translator = new Translator();
+    translator.setSelectedSource(ContactDetailsGroupSource.OTR.toString());
+    translator.setSelectedType(ContactDetailsGroupType.OTR_OSOITE.toString());
+    final PersonalData personalData = defaultPersonalData();
+
+    final TranslatorAddressDTO translatorAddressDTO = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
+    assertEquals("Oulu", translatorAddressDTO.town());
+  }
+
   private PersonalData defaultPersonalData() {
     return PersonalData
       .builder()

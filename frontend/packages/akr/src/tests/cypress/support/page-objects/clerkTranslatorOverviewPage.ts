@@ -54,6 +54,8 @@ class ClerkTranslatorOverviewPage {
       cy.findByTestId(
         'clerk-translator__basic-information__assurance-switch__error-label',
       ),
+    addAddressButton: () =>
+      cy.findByTestId('clerk-translator-overview__translator-address__add-btn'),
     editPrimaryAddressButton: () =>
       cy.findByTestId('clerk-translator-address__edit-primary-akr-address'),
     editOtherAddressButton: () =>
@@ -68,6 +70,10 @@ class ClerkTranslatorOverviewPage {
 
   navigateBackToRegister() {
     this.elements.backToRegisterBtn().should('be.visible').click();
+  }
+
+  clickAddAddressButton() {
+    this.elements.addAddressButton().should('be.visible').click();
   }
 
   clickEditTranslatorDetailsButton() {
@@ -210,6 +216,12 @@ class ClerkTranslatorOverviewPage {
 
   expectEnabledSaveTranslatorDetailsButton() {
     this.elements.saveTranslatorDetailsButton().should('be.enabled');
+  }
+
+  expectAddAddressButton(enabled: boolean) {
+    this.elements
+      .addAddressButton()
+      .should(enabled ? 'be.enabled' : 'be.disabled');
   }
 
   expectEditPrimaryAddressButton(visible: boolean) {
