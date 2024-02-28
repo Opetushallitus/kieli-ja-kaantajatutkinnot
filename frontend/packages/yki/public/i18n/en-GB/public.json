@@ -451,17 +451,17 @@
         },
         "filters": {
           "buttons": {
-            "showResults": "Show results"
+            "search": "Search"
           },
           "errorDialog": {
-            "description": "Select first the language and level. Click on the SHOW RESULTS button.",
+            "description": "Select first the language and level. Click on the SEARCH button.",
             "title": "Select the language and level"
           },
           "errors": {
             "required": "Selection is required"
           },
           "heading": "Search for tests",
-          "information": "Search for a suitable YKI test by selecting the language and level. Click on the SHOW RESULTS button to see the results.",
+          "information": "Search for a suitable YKI test by selecting the language and level. Click on the SEARCH button to see the results.",
           "selectExamDetails": {
             "prompt": "Choose test",
             "required": "(required)"

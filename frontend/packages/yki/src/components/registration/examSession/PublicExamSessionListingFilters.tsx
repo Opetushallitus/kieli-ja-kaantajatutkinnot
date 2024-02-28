@@ -302,7 +302,7 @@ export const PublicExamSessionFilters = ({
             onClick={handleSubmitBtnClick}
             startIcon={<SearchIcon />}
           >
-            {t('filters.buttons.showResults')}
+            {t('filters.buttons.search')}
           </CustomButton>
         </LoadingProgressIndicator>
       </div>

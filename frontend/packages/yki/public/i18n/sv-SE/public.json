@@ -451,17 +451,17 @@
         },
         "filters": {
           "buttons": {
-            "showResults": "Visa resultat"
+            "search": "Sök"
           },
           "errorDialog": {
-            "description": "Välj först testets språk och nivå. Tryck på VISA RESULTAT-knappen.",
+            "description": "Välj först testets språk och nivå. Tryck på SÖK-knappen.",
             "title": "Välj språk och nivå"
           },
           "errors": {
             "required": "Obligatoriskt att välja"
           },
           "heading": "Sök allmänna språkexamina (YKI)",
-          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på VISA RESULTAT-knappen.",
+          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på SÖK-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
             "required": "(obligatorisk)"

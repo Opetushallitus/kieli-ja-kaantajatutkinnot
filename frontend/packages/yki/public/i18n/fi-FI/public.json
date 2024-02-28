@@ -451,17 +451,17 @@
         },
         "filters": {
           "buttons": {
-            "showResults": "Näytä tulokset"
+            "search": "Hae"
           },
           "errorDialog": {
-            "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan NÄYTÄ TULOKSET -painiketta.",
+            "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan HAE -painiketta.",
             "title": "Valitse tutkinnon kieli ja taso"
           },
           "errors": {
             "required": "Valinta on pakollinen"
           },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
-          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina NÄYTÄ TULOKSET -painiketta.",
+          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina HAE -painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
             "required": "(pakollinen)"
