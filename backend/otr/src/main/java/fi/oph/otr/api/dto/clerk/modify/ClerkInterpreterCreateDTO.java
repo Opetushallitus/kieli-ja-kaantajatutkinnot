@@ -32,7 +32,8 @@ public record ClerkInterpreterCreateDTO(
   @Size(max = 255) String country,
   @Size(max = 4096) String extraInformation,
   @NonNull @NotNull List<String> regions,
-  @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications
+  @NonNull @NotEmpty @Valid List<ClerkQualificationCreateDTO> qualifications,
+  @NonNull @NotNull Boolean isAssuranceGiven
 )
   implements ClerkInterpreterDTOCommonFields {
   public ClerkInterpreterCreateDTO {

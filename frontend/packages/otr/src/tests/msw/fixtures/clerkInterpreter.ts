@@ -11,6 +11,7 @@ export const clerkInterpreter = {
   firstName: 'Anneli Anna',
   nickName: 'Anneli',
   email: 'anneli.aaltonen@example.invalid',
+  isAssuranceGiven: true,
   permissionToPublishEmail: true,
   phoneNumber: '+358401000011',
   permissionToPublishPhone: true,

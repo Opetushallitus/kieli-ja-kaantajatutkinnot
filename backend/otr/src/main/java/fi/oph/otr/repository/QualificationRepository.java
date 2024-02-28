@@ -20,6 +20,7 @@ public interface QualificationRepository extends BaseRepository<Qualification> {
     " WHERE q.beginDate <= CURRENT_DATE" +
     " AND CURRENT_DATE <= q.endDate" +
     " AND q.permissionToPublish = true" +
+    " AND i.isAssuranceGiven = true" +
     " AND q.deletedAt IS NULL" +
     " AND i.deletedAt IS NULL" +
     " GROUP BY i.id, q.fromLang, q.toLang"

@@ -57,6 +57,9 @@
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
           },
+          "caveats": {
+            "isNotAssuranceGiven": "Auktorisoinnit eivät ole näkyvissä julkisessa listauksessa!"
+          },
           "fields": {
             "country": "Maa",
             "email": "Sähköpostiosoite",
@@ -75,6 +78,7 @@
             "address": "Osoite",
             "contactInformation": "Yhteystiedot",
             "extraInformation": "Lisätiedot",
+            "isAssuranceGiven": "Vakuutus annettu",
             "personalInformation": "Henkilötiedot",
             "regions": "Toiminta-alue"
           },

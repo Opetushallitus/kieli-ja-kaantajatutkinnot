@@ -48,4 +48,7 @@ public class Interpreter extends BaseEntity {
 
   @OneToMany(mappedBy = "interpreter")
   private List<Region> regions = new ArrayList<>();
+
+  @Column(name = "is_assurance_given", nullable = false)
+  private boolean isAssuranceGiven;
 }

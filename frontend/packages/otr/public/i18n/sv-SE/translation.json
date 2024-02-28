@@ -57,6 +57,9 @@
             "description": "Du kommer att förlora dina ändringar.",
             "title": "Vill du lämna redigeringsvyn?"
           },
+          "caveats": {
+            "isNotAssuranceGiven": "Auktoriseringarna syns inte i den offentliga listan!"
+          },
           "fields": {
             "country": "Land",
             "email": "E-postadress",
@@ -75,6 +78,7 @@
             "address": "Adress",
             "contactInformation": "Kontaktuppgifter",
             "extraInformation": "Ytterligare information",
+            "isAssuranceGiven": "Försäkran har getts",
             "personalInformation": "Personuppgifter",
             "regions": "Verksamhetsområde"
           },

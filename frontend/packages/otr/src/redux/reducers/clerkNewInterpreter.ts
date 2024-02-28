@@ -27,6 +27,7 @@ const initialState: ClerkNewInterpreterState = {
     town: '',
     country: '',
     extraInformation: '',
+    isAssuranceGiven: false,
     permissionToPublishEmail: false,
     permissionToPublishPhone: false,
     permissionToPublishOtherContactInfo: false,
