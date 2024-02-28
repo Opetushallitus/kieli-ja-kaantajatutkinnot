@@ -358,12 +358,10 @@ public class ClerkTranslatorService {
       .filter(ClerkTranslatorAddressDTO::selected)
       .findFirst();
 
-    selectedAddress.ifPresent(clerkTranslatorAddressDTO ->
-      translator.setSelectedSource(clerkTranslatorAddressDTO.source().toString())
-    );
-    selectedAddress.ifPresent(clerkTranslatorAddressDTO ->
-      translator.setSelectedType(clerkTranslatorAddressDTO.type().toString())
-    );
+    selectedAddress.ifPresent(clerkTranslatorAddressDTO -> {
+      translator.setSelectedSource(clerkTranslatorAddressDTO.source().toString());
+      translator.setSelectedType(clerkTranslatorAddressDTO.type().toString());
+    });
   }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
