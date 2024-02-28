@@ -63,7 +63,14 @@
     display: flex;
     gap: 2rem;
 
-    & > button {
+    // Allow container for loading progress indicator to grow
+    > div {
+      @include phone {
+        flex-grow: 1;
+      }
+    }
+
+    & button {
       @include phone {
         flex-grow: 1;
         padding: 0.8rem 3rem;
