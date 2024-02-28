@@ -27,7 +27,7 @@ export interface ClerkTranslatorTextFields {
   identityNumber?: string;
   email?: string;
   phoneNumber?: string;
-  address: ClerkTranslatorAddress[];
+  address: Array<ClerkTranslatorAddress>;
   extraInformation?: string;
 }
 

@@ -54,6 +54,7 @@ const clerkNewTranslatorSlice = createSlice({
       state.translator.lastName = person.lastName;
       state.translator.firstName = person.firstName;
       state.translator.nickName = person.nickName;
+      state.translator.address = person.address;
     },
     rejectClerkNewTranslator(state) {
       state.status = APIResponseStatus.Error;
