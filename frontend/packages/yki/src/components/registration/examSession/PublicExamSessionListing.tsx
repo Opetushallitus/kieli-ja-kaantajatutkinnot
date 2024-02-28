@@ -161,6 +161,7 @@ export const PublicExamSessionListing = ({
                   count: examSessions.length,
                 },
               )}
+              aria-live="assertive"
             >
               {translateCommon('component.table.header.searchResults', {
                 count: examSessions.length,
