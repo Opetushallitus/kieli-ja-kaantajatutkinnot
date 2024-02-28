@@ -13,11 +13,7 @@ import {
   InfoText,
   Text,
 } from 'shared/components';
-import {
-  Color,
-  TextFieldTypes,
-  Variant,
-} from 'shared/enums';
+import { Color, TextFieldTypes, Variant } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
 import {
