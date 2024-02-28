@@ -120,18 +120,17 @@ export const PublicExamSessionListing = ({
     keyPrefix: 'yki.pages.registrationPage.examSessionListing',
   });
   const translateCommon = useCommonTranslation();
-  const { isPhone } = useWindowProperties();
   const { status } = useAppSelector(examSessionsSelector);
 
   const listingHeaderRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (isPhone) {
+    if (status === APIResponseStatus.Success) {
       listingHeaderRef.current?.scrollIntoView({
         behavior: 'smooth',
         inline: 'nearest',
       });
     }
-  }, [isPhone]);
+  }, [status]);
 
   switch (status) {
     case APIResponseStatus.NotStarted:
