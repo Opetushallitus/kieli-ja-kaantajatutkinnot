@@ -24,9 +24,9 @@ import fi.oph.akr.model.AuthorisationTermReminder;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.ContactDetailsUtil;
 import fi.oph.akr.onr.OnrService;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
-import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationProjection;
 import fi.oph.akr.repository.AuthorisationRepository;
@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -495,5 +496,58 @@ public class ClerkTranslatorService {
       .findAll()
       .stream()
       .collect(Collectors.toMap(ExaminationDate::getDate, Function.identity()));
+  }
+
+  public List<ClerkTranslatorDTO> listTranslatorsBySource(final ContactDetailsGroupSource source) {
+    final List<Translator> translators = translatorRepository.findExistingTranslators();
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+    return translators
+      .stream()
+      .map(translator -> {
+        final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(
+          personalData,
+          translator
+        );
+        final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
+
+        if (!primaryAddress.source().equals(source)) {
+          return null;
+        }
+
+        if (personalData == null) {
+          LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
+          throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_NOT_FOUND);
+        }
+
+        return ClerkTranslatorDTO
+          .builder()
+          .id(translator.getId())
+          .version(translator.getVersion())
+          .isIndividualised(personalData.getIndividualised())
+          .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
+          .firstName(personalData.getFirstName())
+          .lastName(personalData.getLastName())
+          .nickName(personalData.getNickName())
+          .identityNumber(personalData.getIdentityNumber())
+          .email(personalData.getEmail())
+          .phoneNumber(personalData.getPhoneNumber())
+          .address(clerkTranslatorAddressDTO)
+          .extraInformation(translator.getExtraInformation())
+          .isAssuranceGiven(translator.isAssuranceGiven())
+          .authorisations(
+            ClerkTranslatorAuthorisationsDTO
+              .builder()
+              .effective(List.of())
+              .expired(List.of())
+              .expiring(List.of())
+              .expiredDeduplicated(List.of())
+              .formerVir(List.of())
+              .build()
+          )
+          .build();
+      })
+      .filter(Objects::nonNull)
+      .toList();
   }
 }

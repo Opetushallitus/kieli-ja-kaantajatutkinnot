@@ -8,10 +8,12 @@ import fi.oph.akr.api.dto.clerk.modify.AuthorisationCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.service.ClerkTranslatorService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +46,16 @@ public class ClerkTranslatorController {
   )
   public ClerkTranslatorResponseDTO listTranslators() {
     return clerkTranslatorService.listTranslators();
+  }
+
+  @GetMapping(path = "/filter")
+  @Operation(
+    tags = TAG_TRANSLATOR,
+    operationId = "list_translator_by_source",
+    summary = "List all translators by source, with all their data"
+  )
+  public List<ClerkTranslatorDTO> listTranslatorsBySource(@RequestParam final ContactDetailsGroupSource source) {
+    return clerkTranslatorService.listTranslatorsBySource(source);
   }
 
   @Operation(

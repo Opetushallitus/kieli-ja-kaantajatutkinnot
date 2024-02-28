@@ -303,8 +303,10 @@ class ClerkTranslatorServiceTest {
     assertTranslatorTextField(identityNumbers, translators, ClerkTranslatorDTO::identityNumber);
     assertTranslatorTextField(emails, translators, ClerkTranslatorDTO::email);
     assertTranslatorTextField(phoneNumbers, translators, ClerkTranslatorDTO::phoneNumber);
-    // TODO
-    // assertTranslatorTextField(streets, translators, ClerkTranslatorDTO::street);
+    assertTranslatorAddressField(streets, translators, ClerkTranslatorAddressDTO::street);
+    assertTranslatorAddressField(postalCodes, translators, ClerkTranslatorAddressDTO::postalCode);
+    assertTranslatorAddressField(towns, translators, ClerkTranslatorAddressDTO::town);
+    assertTranslatorAddressField(countries, translators, ClerkTranslatorAddressDTO::country);
     assertTranslatorTextField(extraInformations, translators, ClerkTranslatorDTO::extraInformation);
 
     assertEquals(assurances, translators.stream().map(ClerkTranslatorDTO::isAssuranceGiven).toList());
@@ -346,6 +348,21 @@ class ClerkTranslatorServiceTest {
         .source(ContactDetailsGroupSource.AKR)
         .type(ContactDetailsGroupType.AKR_OSOITE)
         .build()
+    );
+  }
+
+  private void assertTranslatorAddressField(
+    final List<String> expected,
+    final List<ClerkTranslatorDTO> translators,
+    final Function<ClerkTranslatorAddressDTO, String> getter
+  ) {
+    assertEquals(
+      expected,
+      translators
+        .stream()
+        .map(translator -> translator.address().stream().map(getter).toList())
+        .flatMap(List::stream)
+        .toList()
     );
   }
 
@@ -708,11 +725,10 @@ class ClerkTranslatorServiceTest {
     assertEquals(expected.lastName(), dto.lastName());
     assertEquals(expected.email(), dto.email());
     assertEquals(expected.phoneNumber(), dto.phoneNumber());
-    // TODO
-    // assertEquals(expected.street(), dto.street());
-    // assertEquals(expected.town(), dto.town());
-    // assertEquals(expected.postalCode(), dto.postalCode());
-    // assertEquals(expected.country(), dto.country());
+    assertEquals(expected.address().get(0).street(), dto.address().get(0).street());
+    assertEquals(expected.address().get(0).town(), dto.address().get(0).town());
+    assertEquals(expected.address().get(0).postalCode(), dto.address().get(0).postalCode());
+    assertEquals(expected.address().get(0).country(), dto.address().get(0).country());
     assertEquals(expected.extraInformation(), dto.extraInformation());
     assertEquals(expected.isAssuranceGiven(), dto.isAssuranceGiven());
   }

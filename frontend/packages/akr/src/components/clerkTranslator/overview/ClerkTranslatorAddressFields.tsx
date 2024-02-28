@@ -6,7 +6,6 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
-  //ComboBox,
   CustomButton,
   CustomModal,
   CustomTable,
@@ -16,7 +15,7 @@ import {
 } from 'shared/components';
 import {
   Color,
-  TextFieldTypes /*TextFieldVariant*/,
+  TextFieldTypes,
   Variant,
 } from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
@@ -25,7 +24,6 @@ import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
-  //useKoodistoCountriesTranslation,
 } from 'configs/i18n';
 import {
   ClerkTranslatorAddressFieldEnum,
@@ -34,7 +32,6 @@ import {
 import { ClerkTranslatorAddress } from 'interfaces/clerkTranslator';
 import { ClerkTranslatorAddressFieldProps } from 'interfaces/clerkTranslatorTextField';
 import { WithId } from 'interfaces/with';
-//import koodistoCountriesFI from 'public/i18n/koodisto/countries/koodisto_countries_fi-FI.json';
 
 type ClerkTranslatorAddressRow = ClerkTranslatorAddress & WithId;
 
@@ -273,8 +270,6 @@ export const ClerkTranslatorAddressModal = ({
 }) => {
   // I18n
   const translateCommon = useCommonTranslation();
-  // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
-  //const translateCountry = useKoodistoCountriesTranslation();
 
   const [address, setAddress] = useState<ClerkTranslatorAddress>(akrAddress);
   const initialFieldErrors = Object.values(
