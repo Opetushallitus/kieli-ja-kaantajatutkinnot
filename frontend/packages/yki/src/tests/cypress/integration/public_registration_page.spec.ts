@@ -12,7 +12,7 @@ describe('PublicRegistrationPage', () => {
   });
 
   describe('allows filtering exams', () => {
-    it.skip('but filter criteria must be selected first', () => {
+    it('but filter criteria must be selected first', () => {
       onPublicRegistrationPage.search();
       const dialogHeading = 'Valitse tutkinnon kieli ja taso';
       findDialogByText(dialogHeading).should('be.visible');
@@ -22,14 +22,14 @@ describe('PublicRegistrationPage', () => {
       cy.findByRole('dialog').should('not.exist');
     });
 
-    it.skip('all results are available initially', () => {
+    it('all results are available initially', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(10);
     });
 
-    it.skip('can filter by current availability', () => {
+    it('can filter by current availability', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
@@ -40,7 +40,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.expectResultsCount(3);
     });
 
-    it.skip('can filter by exam language and level', () => {
+    it('can filter by exam language and level', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.search();

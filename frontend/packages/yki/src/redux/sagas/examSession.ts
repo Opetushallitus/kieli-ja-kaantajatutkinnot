@@ -29,8 +29,6 @@ function* loadExamSessionsSaga() {
       axiosInstance.get,
       APIEndpoints.ExamSessions,
     );
-    // Add temporary delay for easier testing of loading indicator
-    yield delay(5000);
 
     yield put(
       storeExamSessions(
