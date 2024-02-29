@@ -13,7 +13,7 @@ describe('PublicRegistrationPage', () => {
 
   describe('allows filtering exams', () => {
     it.skip('but filter criteria must be selected first', () => {
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       const dialogHeading = 'Valitse tutkinnon kieli ja taso';
       findDialogByText(dialogHeading).should('be.visible');
       findDialogByText(dialogHeading)
@@ -25,7 +25,7 @@ describe('PublicRegistrationPage', () => {
     it.skip('all results are available initially', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(10);
     });
 
@@ -33,21 +33,21 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(3);
     });
 
     it.skip('can filter by exam language and level', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(9);
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(3);
       onPublicRegistrationPage.expectResultRowsCount(3);
     });

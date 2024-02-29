@@ -13,7 +13,7 @@ class PublicRegistrationPage {
       cy.findByLabelText(
         'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt',
       ),
-    showResultsButton: () => cy.contains('Näytä tulokset'),
+    searchButton: () => cy.contains('Hae'),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
 
@@ -50,8 +50,8 @@ class PublicRegistrationPage {
     selectComboBoxOptionByName(this.elements.filterByLevel(), level);
   }
 
-  showResults() {
-    this.elements.showResultsButton().click();
+  search() {
+    this.elements.searchButton().click();
   }
 
   toggleShowOnlyIfAvailablePlaces() {
