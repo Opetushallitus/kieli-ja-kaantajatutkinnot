@@ -13,7 +13,7 @@ class PublicRegistrationPage {
       cy.findByLabelText(
         'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt',
       ),
-    searchButton: () => cy.contains('Hae'),
+    searchButton: () => cy.findByRole('button', { name: /Hae/ }),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
 
@@ -51,6 +51,7 @@ class PublicRegistrationPage {
   }
 
   search() {
+    this.elements.searchButton().should('not.be.disabled');
     this.elements.searchButton().click();
   }
 

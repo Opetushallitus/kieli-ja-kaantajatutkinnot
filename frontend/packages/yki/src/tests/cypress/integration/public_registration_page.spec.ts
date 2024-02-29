@@ -59,7 +59,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
         .getResultRows()
@@ -73,7 +73,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('perustaso');
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
         .getResultRows()
