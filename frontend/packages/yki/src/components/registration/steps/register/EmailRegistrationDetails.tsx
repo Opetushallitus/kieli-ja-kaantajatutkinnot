@@ -198,7 +198,7 @@ export const EmailRegistrationDetails = () => {
           />
         </div>
       </div>
-      <fieldset style={{ border: 0, padding: 0 }}>
+      <fieldset className="registration-details__radio-group">
         <legend>
           <Text>
             <b>{t('finnishSSN')}</b>

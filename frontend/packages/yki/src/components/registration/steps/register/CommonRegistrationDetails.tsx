@@ -82,7 +82,7 @@ export const CommonRegistrationDetails = () => {
 
   return (
     <>
-      <fieldset style={{ border: 0, padding: 0 }}>
+      <fieldset className="registration-details__radio-group">
         <legend>
           <Text>
             <b>{t('certificateLanguage')}</b>
@@ -118,7 +118,7 @@ export const CommonRegistrationDetails = () => {
         </FormControl>
       </fieldset>
       {hideInstructionLanguageSelection ? null : (
-        <fieldset style={{ border: 0, padding: 0 }}>
+        <fieldset className="registration-details__radio-group">
           <legend>
             <Text>
               <b>{t('instructionLanguage')}</b>
