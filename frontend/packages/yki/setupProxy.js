@@ -1355,6 +1355,19 @@ module.exports = function (app) {
     useLocalProxy ? proxyGetCall(req, res) : mockCall();
   });
 
+  app.get('/yki/auth/logout', (req, res) => {
+    const mockCall = () => {
+      try {
+        const { redirect } = req.query;
+        res.redirect(redirect);
+      } catch (err) {
+        printError(req, err);
+        res.status(404).send(err.message);
+      }
+    };
+    useLocalProxy ? proxyGetCall(req, res) : mockCall();
+  })
+
   app.delete('/yki/api/registration/:id', (req, res) => {
     const mockCall = () => {
       try {

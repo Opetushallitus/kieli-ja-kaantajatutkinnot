@@ -24,7 +24,7 @@ const reservationSlice = createSlice({
     },
     rejectReservationRequest(
       state,
-      action: PayloadAction<ReservationErrorCause>
+      action: PayloadAction<ReservationErrorCause>,
     ) {
       state.status = APIResponseStatus.Error;
       state.errorCause = action.payload;

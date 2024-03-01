@@ -4,8 +4,7 @@ class PublicRegistrationPage {
   elements = {
     filterByLanguage: () =>
       cy.findByRole('combobox', { name: /Valitse kieli/ }),
-    filterByLevel: () =>
-      cy.findByRole('combobox', { name: /Valitse taso/ }),
+    filterByLevel: () => cy.findByRole('combobox', { name: /Valitse taso/ }),
     resultBox: () =>
       cy.findByTestId('public-registration-page__grid-container__result-box'),
     showOnlyIfAvailablePlaces: () =>
@@ -25,11 +24,11 @@ class PublicRegistrationPage {
   }
 
   expectResultRowsCount(count: number) {
-    return this.elements
-      .resultBox()
-      .find('tbody')
-      .findAllByRole('row')
-      .should('have.length', count);
+    return this.getResultRows().should('have.length', count);
+  }
+
+  getResultRows() {
+    return this.elements.resultBox().find('tbody').findAllByRole('row');
   }
 
   isVisible() {

@@ -11,3 +11,9 @@ Cypress.Commands.add('openEvaluationOrderPage', (id: number) => {
 Cypress.Commands.add('isOnPage', (page: string) => {
   cy.url().should('include', page);
 });
+
+Cypress.Commands.add('openExamSessionRegistrationForm', (id: number) => {
+  cy.visit(
+    AppRoutes.ExamSessionRegistration.replace(/:examSessionId/, `${id}`),
+  );
+});
