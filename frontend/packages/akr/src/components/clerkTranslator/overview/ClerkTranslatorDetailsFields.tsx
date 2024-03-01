@@ -97,15 +97,13 @@ const emptyAddress = {
   postalCode: '',
   town: '',
   country: '',
-  source: 'alkupera8',
+  source: ClerkTranslatorAddressSource.AKR,
   type: 'yhteystietotyyppi14',
   selected: false,
 };
 
 const findAkrAddress = (addresses: Array<ClerkTranslatorAddress>) =>
-  addresses
-    .filter((addr) => addr.source === ClerkTranslatorAddressSource.AKR)
-    .shift();
+  addresses.find((addr) => addr.source === ClerkTranslatorAddressSource.AKR);
 
 const ClerkTranslatorDetailsTextField = ({
   translator,
@@ -237,22 +235,6 @@ export const ClerkTranslatorDetailsFields = ({
             : addr,
         )
       : [...addresses, address];
-
-  // const countryCodeToLabel = (code: string) => {
-  //   const label = translateCountry(code);
-
-  //   const labelKosovoFixedDuplicate =
-  //     code === 'XKK' || code === 'XKX' ? `${label} ${code}` : label;
-
-  //   return {
-  //     label: labelKosovoFixedDuplicate,
-  //     value: code,
-  //   };
-  // };
-
-  // const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
-  //   koodistoCountriesFI?.akr?.koodisto?.countries
-  // ).map(countryCodeToLabel);
 
   return (
     <>

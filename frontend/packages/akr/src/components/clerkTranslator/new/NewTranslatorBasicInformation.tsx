@@ -26,13 +26,6 @@ export const NewTranslatorBasicInformation = ({
       handleFieldChange(field, event.target.value);
     };
 
-  /*
-  const handleComboBoxChange =
-    (field: keyof ClerkTranslatorBasicInformation) => (value?: string) => {
-      handleFieldChange(field, value);
-    };
-  */
-
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>
     (_event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
@@ -65,9 +58,6 @@ export const NewTranslatorBasicInformation = ({
         handleTextFieldChange(field)
       }
       onAddressChange={handleAddressChange}
-      // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
-      //   handleComboBoxChange(field)
-      // }
       onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
         handleCheckBoxChange(field)
       }

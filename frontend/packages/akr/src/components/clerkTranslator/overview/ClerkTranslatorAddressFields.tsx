@@ -32,10 +32,10 @@ import { WithId } from 'interfaces/with';
 type ClerkTranslatorAddressRow = ClerkTranslatorAddress & WithId;
 
 const textFieldMaxLengths = {
-  [ClerkTranslatorAddressFieldEnum.Street]: 4096,
-  [ClerkTranslatorAddressFieldEnum.PostalCode]: 4096,
-  [ClerkTranslatorAddressFieldEnum.Town]: 4096,
-  [ClerkTranslatorAddressFieldEnum.Country]: 4096,
+  [ClerkTranslatorAddressFieldEnum.Street]: 255,
+  [ClerkTranslatorAddressFieldEnum.PostalCode]: 255,
+  [ClerkTranslatorAddressFieldEnum.Town]: 255,
+  [ClerkTranslatorAddressFieldEnum.Country]: 255,
 };
 
 const getTextFieldMaxLength = (field: ClerkTranslatorAddressFieldEnum) => {

@@ -1,6 +1,4 @@
-import {
-  ClerkTranslatorAddress,
-} from 'interfaces/clerkTranslator';
+import { ClerkTranslatorAddress } from 'interfaces/clerkTranslator';
 
 export interface ClerkPerson {
   onrId: string;
