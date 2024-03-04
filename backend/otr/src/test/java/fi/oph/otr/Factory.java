@@ -27,6 +27,7 @@ public class Factory {
   public static Interpreter interpreter() {
     final Interpreter interpreter = new Interpreter();
     interpreter.setOnrId(UUID.randomUUID().toString());
+    interpreter.setAssuranceGiven(true);
     interpreter.setPermissionToPublishEmail(true);
     interpreter.setPermissionToPublishPhone(true);
     interpreter.setPermissionToPublishOtherContactInfo(false);

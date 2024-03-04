@@ -90,6 +90,16 @@ class PublicInterpreterServiceTest {
             .identityNumber("3")
             .email("urho.heinanen@example.invalid")
             .phoneNumber("+3583456789")
+            .build(),
+          "7",
+          PersonalData
+            .builder()
+            .lastName("Ilmarinen")
+            .firstName("Seppo")
+            .nickName("Seppo")
+            .identityNumber("7")
+            .email("seppo.ilmarinen@example.invalid")
+            .phoneNumber("+358121234")
             .build()
         )
       );
@@ -109,6 +119,7 @@ class PublicInterpreterServiceTest {
     final Interpreter interpreter4 = createInterpreter("4");
     final Interpreter interpreter5 = createInterpreterDeleted();
     final Interpreter interpreter6 = createInterpreter("6");
+    final Interpreter interpreter7 = createInterpreter("7");
 
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
@@ -117,6 +128,9 @@ class PublicInterpreterServiceTest {
     interpreter1.setPermissionToPublishOtherContactInfo(true);
     interpreter1.setOtherContactInformation("oikeustulkki.company@invalid");
     interpreter2.setPermissionToPublishPhone(false);
+
+    // Should be missing from public listing
+    interpreter7.setAssuranceGiven(false);
 
     createRegion(interpreter2, "01");
     createRegion(interpreter2, "02");
@@ -147,6 +161,15 @@ class PublicInterpreterServiceTest {
       "SE",
       yesterday,
       nextWeek,
+      true
+    );
+    final Qualification qualification71 = createQualification(
+      interpreter7,
+      meetingDate,
+      "FI",
+      "EN",
+      today,
+      tomorrow,
       true
     );
 

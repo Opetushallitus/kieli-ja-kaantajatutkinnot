@@ -336,6 +336,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishPhone(true)
       .otherContactInfo("other")
       .permissionToPublishOtherContactInfo(false)
+      .isAssuranceGiven(true)
       .street("Tulkintie 44")
       .postalCode("00100")
       .town("Helsinki")
@@ -459,6 +460,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishEmail(false)
       .permissionToPublishPhone(true)
       .permissionToPublishOtherContactInfo(false)
+      .isAssuranceGiven(true)
       .regions(List.of("01"))
       .qualifications(
         List.of(
@@ -526,6 +528,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishEmail(false)
       .permissionToPublishPhone(true)
       .permissionToPublishOtherContactInfo(false)
+      .isAssuranceGiven(true)
       .regions(List.of("01", "This region does not exist"))
       .qualifications(
         List.of(
@@ -569,6 +572,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishEmail(false)
       .permissionToPublishPhone(true)
       .permissionToPublishOtherContactInfo(false)
+      .isAssuranceGiven(true)
       .regions(List.of("01"))
       .qualifications(
         List.of(
@@ -674,6 +678,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishPhone(false)
       .otherContactInfo("interpreter@test.invalid")
       .permissionToPublishOtherContactInfo(true)
+      .isAssuranceGiven(true)
       .extraInformation("extra")
       .regions(List.of("01"))
       .build();
@@ -742,6 +747,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishPhone(false)
       .otherContactInfo("interpreter@test.invalid")
       .permissionToPublishOtherContactInfo(true)
+      .isAssuranceGiven(true)
       .extraInformation("extra")
       .regions(List.of("01", "01", "02"))
       .build();
@@ -803,6 +809,7 @@ class ClerkInterpreterServiceTest {
       .permissionToPublishPhone(false)
       .otherContactInfo("interpreter@test.invalid")
       .permissionToPublishOtherContactInfo(true)
+      .isAssuranceGiven(true)
       .extraInformation("extra")
       .regions(List.of("This region code does not exist"))
       .build();
