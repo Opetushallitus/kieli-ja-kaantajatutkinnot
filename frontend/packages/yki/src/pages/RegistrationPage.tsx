@@ -21,12 +21,14 @@ export const RegistrationPage: FC = () => {
   });
 
   const dispatch = useAppDispatch();
-  const { status, exam_sessions } = useAppSelector(examSessionsSelector);
+  const { status } = useAppSelector(examSessionsSelector);
   const [results, setResults] = useState<Array<ExamSession>>([]);
+  const [updateResults, setUpdateResults] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const onApplyFilters = () => {
-    setResults(filteredExamSessions);
+    dispatch(loadExamSessions());
+    setUpdateResults(true);
     setShowResults(true);
     setPage(0);
   };
@@ -39,10 +41,11 @@ export const RegistrationPage: FC = () => {
   useEffect(() => {
     if (status === APIResponseStatus.NotStarted) {
       dispatch(loadExamSessions());
-    } else if (status === APIResponseStatus.Success) {
-      setResults(exam_sessions);
+    } else if (status === APIResponseStatus.Success && updateResults) {
+      setResults(filteredExamSessions);
+      setUpdateResults(false);
     }
-  }, [dispatch, status, exam_sessions]);
+  }, [dispatch, updateResults, status, filteredExamSessions]);
 
   return (
     <Box className="public-registration-page">

@@ -12,9 +12,16 @@ import {
   ComboBox,
   CustomButton,
   LanguageSelect,
+  LoadingProgressIndicator,
   Text,
 } from 'shared/components';
-import { Color, Severity, TextFieldVariant, Variant } from 'shared/enums';
+import {
+  APIResponseStatus,
+  Color,
+  Severity,
+  TextFieldVariant,
+  Variant,
+} from 'shared/enums';
 import { useDialog } from 'shared/hooks';
 
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
@@ -22,10 +29,7 @@ import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ExamLanguage, ExamLevel } from 'enums/app';
 import { ExamSessionFilters } from 'interfaces/examSessions';
 import { setPublicExamSessionFilters } from 'redux/reducers/examSessions';
-import {
-  examSessionsSelector,
-  selectFilteredPublicExamSessions,
-} from 'redux/selectors/examSessions';
+import { examSessionsSelector } from 'redux/selectors/examSessions';
 
 const municipalityToComboBoxOption = (m: string) => ({
   value: m,
@@ -200,9 +204,10 @@ export const PublicExamSessionFilters = ({
 
   const { showDialog } = useDialog();
 
-  const filteredExamSessions = useAppSelector(selectFilteredPublicExamSessions);
   const { language, level, excludeFullSessions, excludeNonOpenSessions } =
     useAppSelector(examSessionsSelector).filters;
+  const { status } = useAppSelector(examSessionsSelector);
+  const isLoading = status === APIResponseStatus.InProgress;
 
   const dispatch = useAppDispatch();
   const onFilterChange = (filter: Partial<ExamSessionFilters>) => {
@@ -285,18 +290,21 @@ export const PublicExamSessionFilters = ({
         </FormControl>
       </Box>
       <div className="public-exam-session-filters__btn-box">
-        <CustomButton
-          disabled={false}
-          data-testid="public-exam-session-filters__filter__search-btn"
-          color={Color.Secondary}
-          variant={Variant.Contained}
-          onClick={handleSubmitBtnClick}
-          startIcon={<SearchIcon />}
+        <LoadingProgressIndicator
+          isLoading={isLoading}
+          translateCommon={translateCommon}
         >
-          {`${t('filters.buttons.showResults', {
-            count: filteredExamSessions.length,
-          })}`}
-        </CustomButton>
+          <CustomButton
+            disabled={isLoading}
+            data-testid="public-exam-session-filters__filter__search-btn"
+            color={Color.Secondary}
+            variant={Variant.Contained}
+            onClick={handleSubmitBtnClick}
+            startIcon={<SearchIcon />}
+          >
+            {t('filters.buttons.search')}
+          </CustomButton>
+        </LoadingProgressIndicator>
       </div>
     </div>
   );

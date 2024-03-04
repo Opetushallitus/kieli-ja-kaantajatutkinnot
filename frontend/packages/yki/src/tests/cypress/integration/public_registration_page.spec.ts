@@ -13,7 +13,7 @@ describe('PublicRegistrationPage', () => {
 
   describe('allows filtering exams', () => {
     it('but filter criteria must be selected first', () => {
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
       const dialogHeading = 'Valitse tutkinnon kieli ja taso';
       findDialogByText(dialogHeading).should('be.visible');
       findDialogByText(dialogHeading)
@@ -23,9 +23,9 @@ describe('PublicRegistrationPage', () => {
     });
 
     it('all results are available initially', () => {
-      onPublicRegistrationPage.expectResultsCount(10);
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(10);
     });
 
@@ -33,20 +33,22 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('kaikki kielet');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(4);
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(3);
     });
 
     it('can filter by exam language and level', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(9);
 
       onPublicRegistrationPage.selectExamLevel('ylin taso');
+      onPublicRegistrationPage.search();
       onPublicRegistrationPage.expectResultsCount(3);
-
-      onPublicRegistrationPage.showResults();
       onPublicRegistrationPage.expectResultRowsCount(3);
     });
   });
@@ -57,7 +59,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLevel('kaikki tasot');
       onPublicRegistrationPage.toggleShowOnlyIfAvailablePlaces();
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
         .getResultRows()
@@ -71,7 +73,7 @@ describe('PublicRegistrationPage', () => {
       onPublicRegistrationPage.selectExamLanguage('suomi');
       onPublicRegistrationPage.selectExamLevel('perustaso');
       onPublicRegistrationPage.toggleShowOnlyIfOngoingAdmission();
-      onPublicRegistrationPage.showResults();
+      onPublicRegistrationPage.search();
 
       onPublicRegistrationPage
         .getResultRows()

@@ -13,14 +13,21 @@ class PublicRegistrationPage {
       cy.findByLabelText(
         'Näytä vain kielitutkinnot, joihin voi ilmoittautua nyt',
       ),
-    showResultsButton: () => cy.contains('Näytä tulokset'),
+    searchButton: () => cy.findByRole('button', { name: /Hae/ }),
     title: () => cy.findByTestId('public-registration-page__title-heading'),
   };
 
   expectResultsCount(count: number) {
+    const resultsLabelSuffix =
+      count === 0
+        ? 'ei tuloksia'
+        : count === 1
+        ? '1 tulos'
+        : `${count} tulosta`;
     this.elements
-      .showResultsButton()
-      .should('have.text', `Näytä tulokset (${count})`);
+      .resultBox()
+      .findByRole('heading', { name: `Tulokset (${resultsLabelSuffix})` })
+      .should('exist');
   }
 
   expectResultRowsCount(count: number) {
@@ -43,8 +50,9 @@ class PublicRegistrationPage {
     selectComboBoxOptionByName(this.elements.filterByLevel(), level);
   }
 
-  showResults() {
-    this.elements.showResultsButton().click();
+  search() {
+    this.elements.searchButton().should('not.be.disabled');
+    this.elements.searchButton().click();
   }
 
   toggleShowOnlyIfAvailablePlaces() {
