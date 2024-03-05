@@ -33,7 +33,7 @@ export function ToggleFilterGroup<T>({
         >
           <div className="columns gapped">
             <div className="grow">{label}</div>
-            {typeof count === "number" && <div>{`(${count})`}</div>}
+            {typeof count === "number" && !isNaN(count) && <div>{`(${count})`}</div>}
           </div>
         </CustomButton>
       ))}
