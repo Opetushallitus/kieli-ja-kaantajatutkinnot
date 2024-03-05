@@ -12,7 +12,7 @@ spring:
       static-locations: classpath:static/
       cache:
         cachecontrol:
-          max-age: 1d
+          max-age: 30d
       chain:
         cache: true
   thymeleaf:
