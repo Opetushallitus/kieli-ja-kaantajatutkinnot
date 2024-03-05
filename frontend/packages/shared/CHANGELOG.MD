@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Released]
 
+## [1.10.5] - 2024-02-28
+
+### Fixed
+
+- ToggleFilterGroup buttons should render zero counts properly
+
 ## [1.10.4] - 2024-01-23
 
 ### Changed
