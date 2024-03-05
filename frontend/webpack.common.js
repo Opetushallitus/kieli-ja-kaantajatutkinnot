@@ -14,7 +14,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
   const getEntry = () => ({ entry: path.join(dirName, "src", "index.tsx") });
   const getOutput = () => ({
     output: {
-      filename: `${STATIC_PATH}/js/bundle.js`,
+      filename: `${STATIC_PATH}/js/[name].[contenthash].js`,
       path: path.join(
         dirName,
         "..",
@@ -36,7 +36,7 @@ module.exports = (appName, env, dirName, port, entryPage = "etusivu") => {
         algorithm: "gzip",
       }),
       new MiniCssExtractPlugin({
-        filename: `${STATIC_PATH}/css/[name].css`,
+        filename: `${STATIC_PATH}/css/[name].[contenthash].css`,
       }),
       new CopyPlugin({
         patterns: [

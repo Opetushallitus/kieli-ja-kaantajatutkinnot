@@ -10,6 +10,11 @@ spring:
   web:
     resources:
       static-locations: classpath:static/
+      cache:
+        cachecontrol:
+          max-age: 30d
+      chain:
+        cache: true
   thymeleaf:
     prefix: classpath:static/
     templateResolverOrder: 1
