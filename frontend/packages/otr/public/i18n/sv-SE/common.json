@@ -3,7 +3,7 @@
     "common": {
       "allRegions": "Hela Finland",
       "appNameAbbreviation": "OTR",
-      "appTitle": "Registret över rättstolkar | Utbildningsstyrelsen",
+      "appTitle": "Registret över rättstolkar - Utbildningsstyrelsen",
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till framsidan",
       "cancel": "Avbryt",
@@ -31,7 +31,14 @@
       "rowsPerPageLabel": "Resultat per sida",
       "save": "Spara",
       "searchResults": "Sökresultat",
-      "yes": "Ja"
+      "yes": "Ja",
+      "pageTitle": {
+        "frontPage": "Framsida",
+        "notFound": "Sidan hittades inte",
+        "clerkHomepage": "Administratör",
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "privacyPolicy": "Dataskyddsbeskrivning"
+      }
     }
   }
 }

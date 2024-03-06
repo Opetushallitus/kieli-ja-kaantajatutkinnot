@@ -101,7 +101,8 @@ describe('ExamDetailsPage', () => {
       cy.wait('@initRegistration');
       onExamDetailsPage.isVisible();
 
-      const { first_name, last_name, street_address, zip, post_office, ssn } = expectedSuomiFiRegistrationDetails;
+      const { first_name, last_name, street_address, zip, post_office, ssn } =
+        expectedSuomiFiRegistrationDetails;
 
       onExamDetailsPage.fillFieldByLabel('Etunimet *', first_name);
       onExamDetailsPage.fillFieldByLabel('Sukunimi *', last_name);

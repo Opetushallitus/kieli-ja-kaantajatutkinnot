@@ -72,6 +72,7 @@ export const AppRouter: FC = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
+        <Route index={true} element={FrontPage} />
         <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
         <Route path={AppRoutes.PublicEnrollment}>
           <Route

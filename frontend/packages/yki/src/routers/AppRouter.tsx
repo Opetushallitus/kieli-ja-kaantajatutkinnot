@@ -71,17 +71,17 @@ export const AppRouter: FC = () => {
     </div>
   );
 
+  const FrontPage = (
+    <TitlePage title={createTitle('registration')}>
+      <RegistrationPage />
+    </TitlePage>
+  );
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
-        <Route
-          path={AppRoutes.Registration}
-          element={
-            <TitlePage title={createTitle('registration')}>
-              <RegistrationPage />
-            </TitlePage>
-          }
-        />
+        <Route index={true} element={FrontPage} />
+        <Route path={AppRoutes.Registration} element={FrontPage} />
         <Route
           path={AppRoutes.ExamSession}
           element={

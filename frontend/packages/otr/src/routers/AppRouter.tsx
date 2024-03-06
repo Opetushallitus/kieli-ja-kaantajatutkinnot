@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -11,6 +11,7 @@ import {
   NotifierContextProvider,
   ScrollToTop,
 } from 'shared/components';
+import { TitlePage } from 'shared/utils';
 
 import { Footer } from 'components/layouts/Footer';
 import { Header } from 'components/layouts/Header';
@@ -29,6 +30,10 @@ import { PublicHomePage } from 'pages/PublicHomePage';
 
 export const AppRouter: FC = () => {
   const translateCommon = useCommonTranslation();
+  const appTitle = translateCommon('appTitle');
+
+  const createTitle = (title: string) =>
+    translateCommon('pageTitle.' + title) + ' - ' + appTitle;
 
   const ErrorToast = () => {
     useAPIErrorToast();
@@ -53,40 +58,81 @@ export const AppRouter: FC = () => {
     </div>
   );
 
-  useEffect(() => {
-    document.title = translateCommon('appTitle');
-  }, [translateCommon]);
+  const FrontPage = (
+    <TitlePage title={createTitle('frontPage')}>
+      <PublicHomePage />
+    </TitlePage>
+  );
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={AppRoutes.PublicRoot} element={Root}>
-        <Route path={AppRoutes.PublicHomePage} element={<PublicHomePage />} />
-        <Route path={AppRoutes.ClerkHomePage} element={<ClerkHomePage />} />
+        <Route index={true} element={FrontPage} />
+        <Route path={AppRoutes.PublicHomePage} element={FrontPage} />
+        <Route
+          path={AppRoutes.ClerkHomePage}
+          element={
+            <TitlePage title={createTitle('clerkHomepage')}>
+              <ClerkHomePage />
+            </TitlePage>
+          }
+        />
         <Route
           path={AppRoutes.MeetingDatesPage}
-          element={<MeetingDatesPage />}
+          element={
+            <TitlePage title={createTitle('clerkHomepage')}>
+              <MeetingDatesPage />
+            </TitlePage>
+          }
         />
         <Route
           path={AppRoutes.ClerkInterpreterOverviewPage}
-          element={<ClerkInterpreterOverviewPage />}
+          element={
+            <TitlePage title={createTitle('clerkHomepage')}>
+              <ClerkInterpreterOverviewPage />
+            </TitlePage>
+          }
         />
         <Route
           path={AppRoutes.ClerkPersonSearchPage}
-          element={<ClerkPersonSearchPage />}
+          element={
+            <TitlePage title={createTitle('clerkHomepage')}>
+              <ClerkPersonSearchPage />
+            </TitlePage>
+          }
         />
         <Route
           path={AppRoutes.ClerkNewInterpreterPage}
-          element={<ClerkNewInterpreterPage />}
+          element={
+            <TitlePage title={createTitle('clerkHomepage')}>
+              <ClerkNewInterpreterPage />
+            </TitlePage>
+          }
         />
         <Route
           path={AppRoutes.AccessibilityStatementPage}
-          element={<AccessibilityStatementPage />}
+          element={
+            <TitlePage title={createTitle('accessibilityStatement')}>
+              <AccessibilityStatementPage />
+            </TitlePage>
+          }
         />
         <Route
           path={AppRoutes.PrivacyPolicyPage}
-          element={<PrivacyPolicyPage />}
+          element={
+            <TitlePage title={createTitle('privacyPolicy')}>
+              <PrivacyPolicyPage />
+            </TitlePage>
+          }
         />
-        <Route path={AppRoutes.NotFoundPage} element={<NotFoundPage />} />
+        <Route
+          path={AppRoutes.NotFoundPage}
+          element={
+            <TitlePage title={createTitle('notFound')}>
+              <NotFoundPage />
+            </TitlePage>
+          }
+        />
       </Route>,
     ),
   );

@@ -3,7 +3,7 @@
     "common": {
       "allRegions": "Whole Finland",
       "appNameAbbreviation": "OTR",
-      "appTitle": "Register of legal interpreters | Finnish National Agency for Education",
+      "appTitle": "Register of legal interpreters - Finnish National Agency for Education",
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Cancel",
@@ -31,7 +31,14 @@
       "rowsPerPageLabel": "Results per page",
       "save": "Save",
       "searchResults": "Search results",
-      "yes": "Yes"
+      "yes": "Yes",
+      "pageTitle": {
+        "frontPage": "Front page",
+        "notFound": "Page not found",
+        "clerkHomepage": "Administrator",
+        "accessibilityStatement": "Accessibility statement",
+        "privacyPolicy": "Privacy policy statement"
+      }
     }
   }
 }
