@@ -1,7 +1,7 @@
 import { ExamLanguage } from 'enums/app';
+import { onCookieBanner } from 'tests/cypress/support/page-objects/cookieBanner';
 import { onPublicHomePage } from 'tests/cypress/support/page-objects/publicHomePage';
 import { publicExamEvents11 } from 'tests/msw/fixtures/publicExamEvents11';
-import { onCookieBanner } from 'tests/cypress/support/page-objects/cookieBanner';
 
 describe('PublicHomePage', () => {
   beforeEach(() => {

@@ -4,7 +4,7 @@
       "acceptTerms": "Acceptera villkoren",
       "akrLogoAlt": "Logo: Examenssystemet för auktoriserade translatorer.",
       "appNameAbbreviation": "AKR",
-      "appTitle": "Register över auktoriserade translatorer | Utbildningsstyrelsen",
+      "appTitle": "Register över auktoriserade translatorer - Utbildningsstyrelsen",
       "back": "Tillbaka",
       "backToHomePage": "Tillbaka till framsidan",
       "cancel": "Avbryt",
@@ -31,7 +31,14 @@
       "requiredFieldsInfo": "Fält markerade med en stjärna (*) är obligatoriska.",
       "save": "Spara",
       "send": "Sänd",
-      "yes": "Ja"
+      "yes": "Ja",
+      "pageTitle": {
+        "frontPage": "Framsida",
+        "notFound": "Sidan hittades inte",
+        "clerkHomepage": "Administratör",
+        "accessibilityStatement": "Tillgänglighetsutlåtande",
+        "privacyPolicy": "Dataskyddsbeskrivning"
+      }
     }
   }
 }

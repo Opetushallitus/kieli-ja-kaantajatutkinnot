@@ -2,7 +2,7 @@ import { selectComboBoxOptionByName } from 'tests/cypress/support/utils/comboBox
 
 class PublicHomePage {
   elements = {
-    nameFilter: () => cy.findByRole('searchbox', { name: "Nimi" }),
+    nameFilter: () => cy.findByRole('searchbox', { name: 'Nimi' }),
     regionFilter: () =>
       cy.findByTestId('public-interpreter-filters__region-combobox'),
     searchButton: () =>

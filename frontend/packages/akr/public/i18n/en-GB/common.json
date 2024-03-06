@@ -4,7 +4,7 @@
       "acceptTerms": "Accept conditions",
       "akrLogoAlt": "Logo: Authorised translator’s examination system.",
       "appNameAbbreviation": "AKR",
-      "appTitle": "Register of authorised translators | Finnish National Agency for Education",
+      "appTitle": "Register of authorised translators - Finnish National Agency for Education",
       "back": "Back",
       "backToHomePage": "Back to front page",
       "cancel": "Cancel",
@@ -31,7 +31,14 @@
       "requiredFieldsInfo": "Fields marked with a star (*) are mandatory.",
       "save": "Save",
       "send": "Send",
-      "yes": "Yes"
+      "yes": "Yes",
+      "pageTitle": {
+        "frontPage": "Front page",
+        "notFound": "Page not found",
+        "clerkHomepage": "Administrator",
+        "accessibilityStatement": "Accessibility statement",
+        "privacyPolicy": "Privacy policy statement"
+      }
     }
   }
 }

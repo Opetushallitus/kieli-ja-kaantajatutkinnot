@@ -3,7 +3,7 @@
     "common": {
       "allRegions": "Koko Suomi",
       "appNameAbbreviation": "OTR",
-      "appTitle": "Oikeustulkkirekisteri | Opetushallitus",
+      "appTitle": "Oikeustulkkirekisteri - Opetushallitus",
       "back": "Takaisin",
       "backToHomePage": "Takaisin etusivulle",
       "cancel": "Peruuta",
@@ -31,7 +31,14 @@
       "rowsPerPageLabel": "Tulokset per sivu",
       "save": "Tallenna",
       "searchResults": "Hakutulokset",
-      "yes": "Kyllä"
+      "yes": "Kyllä",
+      "pageTitle": {
+        "frontPage": "Etusivu",
+        "notFound": "Etsimääsi sivua ei löytynyt",
+        "clerkHomepage": "Virkailija",
+        "accessibilityStatement": "Saavutettavuusseloste",
+        "privacyPolicy": "Tietosuojaseloste"
+      }
     }
   }
 }
