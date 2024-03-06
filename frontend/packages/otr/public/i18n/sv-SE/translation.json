@@ -58,7 +58,7 @@
             "title": "Vill du lämna redigeringsvyn?"
           },
           "caveats": {
-            "isNotAssuranceGiven": "Auktoriseringarna syns inte i den offentliga listan!"
+            "isNotAssuranceGiven": "Registreringarna syns inte i den offentliga listan!"
           },
           "fields": {
             "country": "Land",

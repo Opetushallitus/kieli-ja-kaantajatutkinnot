@@ -58,7 +58,7 @@
             "title": "Haluatko poistua muokkausnäkymästä?"
           },
           "caveats": {
-            "isNotAssuranceGiven": "Auktorisoinnit eivät ole näkyvissä julkisessa listauksessa!"
+            "isNotAssuranceGiven": "Rekisteröinnit eivät ole näkyvissä julkisessa listauksessa!"
           },
           "fields": {
             "country": "Maa",

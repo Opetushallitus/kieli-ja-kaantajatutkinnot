@@ -58,7 +58,7 @@
             "title": "Do you want to exit the modification view?"
           },
           "caveats": {
-            "isNotAssuranceGiven": "The authorisations are not visible in the public list!"
+            "isNotAssuranceGiven": "The registrations are not visible in the public list!"
           },
           "fields": {
             "country": "Country",

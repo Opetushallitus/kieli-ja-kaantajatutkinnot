@@ -433,7 +433,7 @@ export const ClerkInterpreterDetailsFields = ({
       <div className="rows gapped-xs">
         <H3>{t('header.isAssuranceGiven')}</H3>
         <CustomSwitch
-          dataTestId="clerk-translator__basic-information__assurance-switch"
+          dataTestId="clerk-interpreter__basic-information__assurance-switch"
           disabled={isViewMode}
           onChange={onFieldChange('isAssuranceGiven')}
           value={interpreterBasicInformation?.isAssuranceGiven}
