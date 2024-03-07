@@ -447,21 +447,21 @@
           }
         },
         "examSessionListing": {
-          "noResults": "YKI-testejä ei löytynyt. Voit yrittää hakua uudelleen."
+          "noResults": "YKI-testejä ei löytynyt. Jos haluat yrittää uudelleen, paina Hae-painiketta. Voit myös valita esimerkiksi jonkin toisen kielen, tason tai paikkakunnan."
         },
         "filters": {
           "buttons": {
             "search": "Hae"
           },
           "errorDialog": {
-            "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan HAE -painiketta.",
+            "description": "Valitse ensin tutkinnon kieli ja taso. Paina sen jälkeen uudestaan Hae-painiketta.",
             "title": "Valitse tutkinnon kieli ja taso"
           },
           "errors": {
             "required": "Valinta on pakollinen"
           },
           "heading": "Etsi yleisiä kielitutkintoja (YKI)",
-          "information": "Hae tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina HAE -painiketta.",
+          "information": "Etsi tästä sopivaa YKI-testiä. Valitse kieli ja taso. Paina Hae-painiketta.",
           "selectExamDetails": {
             "prompt": "Valitse tutkinto",
             "required": "(pakollinen)"
