@@ -264,6 +264,17 @@
         },
         "steps": {
           "identify": {
+            "alreadyLoggedIn": {
+              "caption": "Olet jo tunnistautunut seuraavin tiedoin:",
+              "labels": {
+                "abort": "Keskeytä ilmoittautuminen",
+                "continueToRegistration": "Jatka ilmoittautumiseen",
+                "email": "Sähköpostiosoite",
+                "name": "Nimi"
+              },
+              "reauthenticate": "Mikäli tämä et ole sinä tai haluat tunnistautua jollain toisella tavalla, paina Kirjaudu ulos -painiketta sivun yläosassa ja tunnistaudu uudelleen ilmoittautumisen yhteydessä.",
+              "title": "Jatka tunnistautuneena"
+            },
             "caption": "Sinun täytyy tunnistautua YKI-testiin ilmoittautumista varten. Käytä tunnistautumiseen osallistujan henkilötietoja.",
             "emailButtonText": "tunnistaudu sähköpostilla",
             "emailError": "Virheellinen sähköpostiosoite",
