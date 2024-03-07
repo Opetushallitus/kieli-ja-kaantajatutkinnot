@@ -13,19 +13,18 @@ const DescribeInitError = () => {
     keyPrefix: 'yki.component.registration.unavailable',
   });
 
-  const error = useAppSelector(registrationSelector).initRegistration
-    .error as PublicRegistrationInitError;
+  const error = useAppSelector(registrationSelector).initRegistration.error;
 
   switch (error) {
-    // TODO The designs for the "already registered" case are much more complex
-    //  than the current implementation.
     case PublicRegistrationInitError.AlreadyRegistered:
       return <Text>{t('alreadyRegistered.description')}</Text>;
     case PublicRegistrationInitError.ExamSessionFull:
     case PublicRegistrationInitError.Past:
+    case PublicRegistrationInitError.Unauthorized:
     case PublicRegistrationInitError.Upcoming:
-    default:
       return <Text>{t(error + '.description')}</Text>;
+    default:
+      return <Text>{t('generic.description')}</Text>;
   }
 };
 

@@ -24,6 +24,7 @@ import {
   resetPublicRegistration,
   submitPublicRegistration,
 } from 'redux/reducers/registration';
+import { resetSession } from 'redux/reducers/session';
 import { resetUserOpenRegistrations } from 'redux/reducers/userOpenRegistrations';
 import { nationalitiesSelector } from 'redux/selectors/nationalities';
 import { registrationSelector } from 'redux/selectors/registration';
@@ -47,9 +48,12 @@ function* initRegistrationSaga(action: PayloadAction<number>) {
     if (isAxiosError(error) && error.response) {
       const response =
         error.response as AxiosResponse<PublicRegistrationInitErrorResponse>;
-      yield put(rejectPublicRegistrationInit(response.data));
+      yield put(rejectPublicRegistrationInit(response));
+      if (response.status === 401) {
+        yield put(resetSession());
+      }
     } else {
-      yield put(rejectPublicRegistrationInit({ error: {} }));
+      yield put(rejectPublicRegistrationInit());
     }
   }
 }

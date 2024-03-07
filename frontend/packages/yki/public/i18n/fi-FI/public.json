@@ -358,6 +358,10 @@
             "description": "Tilaisuuteen ilmoittautuminen ei ole enää mahdollista. Ilmoittautumisaika on päättynyt.",
             "title": "Ilmoittautumisaika on päättynyt"
           },
+          "unauthorized": {
+            "description": "Voimassaolevia tunnistautumistietoja ei löytynyt. Jos olit aiemmin tunnistautunut, tunnistautumistietosi ovat voineet vanhentua. Sinun täytyy tunnistautua ennen kuin voit ilmoittautua tutkintoon.",
+            "title": "Et ole tunnistautunut"
+          },
           "upcoming": {
             "description": "Ilmoittautuminen ei ole vielä mahdollista. Ilmoittautumisaika ei ole alkanut.",
             "title": "Ilmoittautumisaika ei ole alkanut"

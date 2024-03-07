@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 import { APIResponseStatus } from 'shared/enums';
 
 import {
@@ -7,9 +8,9 @@ import {
   PublicRegistrationInitError,
 } from 'enums/publicRegistration';
 import {
+  isRegistrationInitErrorResponse,
   PublicEmailRegistration,
   PublicRegistrationFormSubmitErrorResponse,
-  PublicRegistrationInitErrorResponse,
   PublicRegistrationInitResponse,
   PublicSuomiFiRegistration,
 } from 'interfaces/publicRegistration';
@@ -61,20 +62,31 @@ const registrationSlice = createSlice({
     },
     rejectPublicRegistrationInit(
       state,
-      action: PayloadAction<PublicRegistrationInitErrorResponse>,
+      action: PayloadAction<AxiosResponse | undefined>,
     ) {
       state.initRegistration.status = APIResponseStatus.Error;
-      const { closed, full, registered } = action.payload.error;
-      if (closed) {
-        state.initRegistration.error = PublicRegistrationInitError.Past;
-      } else if (full) {
-        state.initRegistration.error =
-          PublicRegistrationInitError.ExamSessionFull;
-      } else if (registered) {
-        state.initRegistration.error =
-          PublicRegistrationInitError.AlreadyRegistered;
-      } else {
+      if (!action.payload) {
         state.initRegistration.error = PublicRegistrationInitError.Generic;
+      } else {
+        if (isRegistrationInitErrorResponse(action.payload)) {
+          const { closed, full, registered } = action.payload.data.error;
+          if (closed) {
+            state.initRegistration.error = PublicRegistrationInitError.Past;
+          } else if (full) {
+            state.initRegistration.error =
+              PublicRegistrationInitError.ExamSessionFull;
+          } else if (registered) {
+            state.initRegistration.error =
+              PublicRegistrationInitError.AlreadyRegistered;
+          } else {
+            state.initRegistration.error = PublicRegistrationInitError.Generic;
+          }
+        } else if (action.payload.status === 401) {
+          state.initRegistration.error =
+            PublicRegistrationInitError.Unauthorized;
+        } else {
+          state.initRegistration.error = PublicRegistrationInitError.Generic;
+        }
       }
     },
     resetPublicRegistration() {
