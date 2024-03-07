@@ -45,14 +45,14 @@ const DisplayedRowsLabel = ({
   if (isPhone) {
     return (
       <>
-        <p className="display-none">{fullLabelText}</p>
-        <p aria-hidden="true">
+        <span className="display-none">{fullLabelText}</span>
+        <span aria-hidden="true">
           {translateCommon('component.table.pagination.displayedRowsLabel', {
             from,
             to,
             count,
           })}
-        </p>
+        </span>
       </>
     );
   } else {
