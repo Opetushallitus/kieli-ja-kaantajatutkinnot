@@ -38,4 +38,6 @@ public interface ClerkInterpreterDTOCommonFields {
   String extraInformation();
 
   List<String> regions();
+
+  Boolean isAssuranceGiven();
 }

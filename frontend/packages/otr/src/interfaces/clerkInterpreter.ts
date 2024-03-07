@@ -22,6 +22,7 @@ export interface ClerkInterpreterTextFields {
 
 export interface ClerkInterpreterBasicInformation
   extends ClerkInterpreterTextFields {
+  isAssuranceGiven: boolean;
   permissionToPublishEmail: boolean;
   permissionToPublishPhone: boolean;
   permissionToPublishOtherContactInfo: boolean;

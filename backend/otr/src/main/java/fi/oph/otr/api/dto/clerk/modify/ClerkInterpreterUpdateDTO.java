@@ -30,7 +30,8 @@ public record ClerkInterpreterUpdateDTO(
   @Size(max = 255) String town,
   @Size(max = 255) String country,
   @Size(max = 4096) String extraInformation,
-  @NonNull @NotNull List<String> regions
+  @NonNull @NotNull List<String> regions,
+  @NonNull @NotNull Boolean isAssuranceGiven
 )
   implements ClerkInterpreterDTOCommonFields {
   public ClerkInterpreterUpdateDTO {

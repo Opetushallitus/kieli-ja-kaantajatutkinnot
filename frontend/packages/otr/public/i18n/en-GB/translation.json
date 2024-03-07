@@ -57,6 +57,9 @@
             "description": "You will lose the changes you have made.",
             "title": "Do you want to exit the modification view?"
           },
+          "caveats": {
+            "isNotAssuranceGiven": "The registrations are not visible in the public list!"
+          },
           "fields": {
             "country": "Country",
             "email": "Email",
@@ -75,6 +78,7 @@
             "address": "Address",
             "contactInformation": "Contact details",
             "extraInformation": "Additional information",
+            "isAssuranceGiven": "Declaration given",
             "personalInformation": "Personal data",
             "regions": "Operating area"
           },

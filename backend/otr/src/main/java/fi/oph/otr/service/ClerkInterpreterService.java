@@ -171,6 +171,7 @@ public class ClerkInterpreterService {
         .extraInformation(interpreter.getExtraInformation())
         .regions(regions)
         .qualifications(interpreterQualificationsDTO)
+        .isAssuranceGiven(interpreter.isAssuranceGiven())
         .build()
     );
   }
@@ -308,6 +309,7 @@ public class ClerkInterpreterService {
     interpreter.setOtherContactInformation(dto.otherContactInfo());
     interpreter.setPermissionToPublishOtherContactInfo(dto.permissionToPublishOtherContactInfo());
     interpreter.setExtraInformation(dto.extraInformation());
+    interpreter.setAssuranceGiven(dto.isAssuranceGiven());
 
     final List<Region> regions = dto
       .regions()

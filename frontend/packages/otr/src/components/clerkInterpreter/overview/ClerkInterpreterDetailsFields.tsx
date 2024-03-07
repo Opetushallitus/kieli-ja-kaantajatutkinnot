@@ -7,6 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import { ChangeEvent, useMemo, useState } from 'react';
 import {
+  CustomSwitch,
   CustomTextField,
   CustomTextFieldProps,
   H2,
@@ -429,6 +430,22 @@ export const ClerkInterpreterDetailsFields = ({
         onChange={onFieldChange('regions')}
         disabled={isViewMode}
       />
+      <div className="rows gapped-xs">
+        <H3>{t('header.isAssuranceGiven')}</H3>
+        <CustomSwitch
+          dataTestId="clerk-interpreter__basic-information__assurance-switch"
+          disabled={isViewMode}
+          onChange={onFieldChange('isAssuranceGiven')}
+          value={interpreterBasicInformation?.isAssuranceGiven}
+          leftLabel={translateCommon('no')}
+          rightLabel={translateCommon('yes')}
+          errorLabel={
+            !interpreterBasicInformation?.isAssuranceGiven && (
+              <InfoText>{t('caveats.isNotAssuranceGiven')}</InfoText>
+            )
+          }
+        />
+      </div>
     </>
   );
 };

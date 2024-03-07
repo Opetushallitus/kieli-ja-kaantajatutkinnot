@@ -43,6 +43,7 @@ export class SerializationUtils {
   static serializeClerkNewInterpreter(interpreter: ClerkNewInterpreter) {
     const {
       onrId,
+      isAssuranceGiven,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,
@@ -58,6 +59,7 @@ export class SerializationUtils {
     return {
       ...textFields,
       onrId,
+      isAssuranceGiven,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,
@@ -74,6 +76,7 @@ export class SerializationUtils {
     const {
       id,
       version,
+      isAssuranceGiven,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,
@@ -90,6 +93,7 @@ export class SerializationUtils {
       ...textFields,
       id,
       version,
+      isAssuranceGiven,
       isIndividualised,
       hasIndividualisedAddress,
       permissionToPublishEmail,
