@@ -1,5 +1,5 @@
 import { Grid, Paper } from '@mui/material';
-import { CustomButton, H1, HeaderSeparator, Text } from 'shared/components';
+import { CustomButton, H1, H2, HeaderSeparator, Text } from 'shared/components';
 import { Color, Variant } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -28,9 +28,8 @@ const AlreadyLoggedIn = () => {
 
   return (
     <>
+      <H2>{t('caption')}</H2>
       <Text>
-        {t('caption')}
-        <br />
         {isSuomiFiAuthenticatedSession && (
           <>
             <strong>{t('labels.name') + ':'}</strong>
