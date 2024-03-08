@@ -447,21 +447,21 @@
           }
         },
         "examSessionListing": {
-          "noResults": "Inga YKI-test hittades. Du kan försöka på nytt."
+          "noResults": "Inga YKI-test hittades. Om du vill försöka på nytt, tryck på Sök-knappen. Du kan också välja till exempel ett annat språk, en annan nivå eller ort."
         },
         "filters": {
           "buttons": {
             "search": "Sök"
           },
           "errorDialog": {
-            "description": "Välj först testets språk och nivå. Tryck på SÖK-knappen.",
+            "description": "Välj först testets språk och nivå. Tryck på Sök-knappen.",
             "title": "Välj språk och nivå"
           },
           "errors": {
             "required": "Obligatoriskt att välja"
           },
           "heading": "Sök allmänna språkexamina (YKI)",
-          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på SÖK-knappen.",
+          "information": "Sök här för att hitta ett lämpligt YKI-test. Välj språk och nivå. Tryck på Sök-knappen.",
           "selectExamDetails": {
             "prompt": "Välj examen",
             "required": "(obligatorisk)"
