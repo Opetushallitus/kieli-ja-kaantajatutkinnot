@@ -441,6 +441,7 @@
             "confirm": "Kyllä, keskeytän ilmoittautumisen"
           },
           "description": "Haluatko keskeyttää ilmoittautumisen? Menetät täyttämäsi tiedot.",
+          "notice": "<strong>Huomio!</strong> Jos olet tunnistautunut, tunnistautumisesi säilyy edelleen voimassa. Voit kirjautua ulos painamalla Kirjaudu ulos -painiketta ruudun yläosassa.",
           "title": "Keskeytä ilmoittautuminen"
         },
         "description": {
