@@ -359,6 +359,7 @@
             "title": "Ilmoittautumisaika on päättynyt"
           },
           "unauthorized": {
+            "backToIdentification": "Siirry tunnistautumisen valintaan",
             "description": "Voimassaolevia tunnistautumistietoja ei löytynyt. Jos olit aiemmin tunnistautunut, tunnistautumistietosi ovat voineet vanhentua. Sinun täytyy tunnistautua ennen kuin voit ilmoittautua tutkintoon.",
             "title": "Et ole tunnistautunut"
           },
