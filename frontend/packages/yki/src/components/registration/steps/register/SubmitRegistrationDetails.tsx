@@ -5,6 +5,7 @@ import { APIResponseStatus } from 'shared/enums';
 
 import { CommonRegistrationDetails } from 'components/registration/steps/register/CommonRegistrationDetails';
 import { EmailRegistrationDetails } from 'components/registration/steps/register/EmailRegistrationDetails';
+import { DialogContents } from 'components/registration/steps/register/RegistrationNavigationProtectionDialog';
 import { SuomiFiRegistrationDetails } from 'components/registration/steps/register/SuomiFiRegistrationDetails';
 import { useCommonTranslation, usePublicTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -35,6 +36,7 @@ const FillRegistrationDetails = () => {
   useRegistrationNavigationProtection(
     submitRegistrationStatus === APIResponseStatus.NotStarted ||
       submitRegistrationStatus === APIResponseStatus.InProgress,
+    <DialogContents />,
   );
 
   return (
