@@ -338,7 +338,7 @@
           "title": "Etsi oikeustulkkia"
         },
         "noSearchResults": "Ei hakutuloksia",
-        "note": "Oikeustulkeilla on aina molemman suuntainen pätevyys esim. suomi <-> englanti, englanti <-> suomi. Yhdenvertaisen näkyvyyden turvaamiseksi tulkit arvotaan hakukoneessa satunnaisjärjestykseen.",
+        "note": "Oikeustulkeilla on aina molemminsuuntainen pätevyys, esim. suomesta englantiin ja englannista suomeen. Yhdenvertaisen näkyvyyden turvaamiseksi tulkit arvotaan hakukoneessa satunnaisjärjestykseen.",
         "title": "Oikeustulkkirekisteri"
       },
       "meetingDatesPage": {
