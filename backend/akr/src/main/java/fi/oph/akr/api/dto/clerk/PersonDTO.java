@@ -1,5 +1,6 @@
 package fi.oph.akr.api.dto.clerk;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -12,8 +13,5 @@ public record PersonDTO(
   @NonNull String lastName,
   @NonNull String firstName,
   @NonNull String nickName,
-  String street,
-  String postalCode,
-  String town,
-  String country
+  @NonNull List<ClerkTranslatorAddressDTO> address
 ) {}

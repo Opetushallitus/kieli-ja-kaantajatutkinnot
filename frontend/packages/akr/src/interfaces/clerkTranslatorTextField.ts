@@ -1,8 +1,21 @@
 import { ChangeEvent } from 'react';
 import { CustomTextFieldProps } from 'shared/components';
 
-import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
-import { ClerkTranslatorBasicInformation } from 'interfaces/clerkTranslator';
+import {
+  ClerkTranslatorAddressFieldEnum,
+  ClerkTranslatorTextFieldEnum,
+} from 'enums/clerkTranslator';
+import {
+  ClerkTranslatorAddress,
+  ClerkTranslatorBasicInformation,
+} from 'interfaces/clerkTranslator';
+
+export type ClerkTranslatorAddressFieldProps = {
+  translator?: ClerkTranslatorAddress;
+  field: ClerkTranslatorAddressFieldEnum;
+  showFieldError: boolean;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+} & CustomTextFieldProps;
 
 export type ClerkTranslatorTextFieldProps = {
   translator?: ClerkTranslatorBasicInformation;

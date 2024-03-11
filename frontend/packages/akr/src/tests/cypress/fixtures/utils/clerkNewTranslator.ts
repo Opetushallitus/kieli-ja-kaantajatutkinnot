@@ -15,26 +15,6 @@ export const newTranslatorBasicInformationFields = [
     value: 'John',
   },
   {
-    fieldName: 'street',
-    fieldType: 'input',
-    value: 'Tuntemattomankatu 1',
-  },
-  {
-    fieldName: 'postalCode',
-    fieldType: 'input',
-    value: '99800',
-  },
-  {
-    fieldName: 'town',
-    fieldType: 'input',
-    value: 'Ivalo',
-  },
-  {
-    fieldName: 'country',
-    fieldType: 'input',
-    value: 'Suomi',
-  },
-  {
     fieldName: 'email',
     fieldType: 'input',
     value: 'john.doeline@tuntematon.fi',

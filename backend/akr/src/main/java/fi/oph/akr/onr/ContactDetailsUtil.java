@@ -14,6 +14,8 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsLast;
 
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
+import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.dto.ContactDetailsDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
@@ -77,20 +79,18 @@ public class ContactDetailsUtil {
     return getPrimaryValue(groups, ContactDetailsType.PHONE_NUMBER, AKR_FIRST);
   }
 
-  public static String getPrimaryStreet(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.STREET, AKR_LAST);
-  }
-
-  public static String getPrimaryPostalCode(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.POSTAL_CODE, AKR_LAST);
-  }
-
-  public static String getPrimaryTown(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.TOWN, AKR_LAST);
-  }
-
-  public static String getPrimaryCountry(final List<ContactDetailsGroupDTO> groups) {
-    return getPrimaryValue(groups, ContactDetailsType.COUNTRY, AKR_LAST);
+  private static String getValue(
+    final ContactDetailsGroupDTO contactDetailsGroup,
+    final ContactDetailsType contactDetailsType
+  ) {
+    return contactDetailsGroup
+      .getContactDetailsSet()
+      .stream()
+      .filter(details -> details.getType().equals(contactDetailsType))
+      .filter(details -> details.getValue() != null && !details.getValue().isBlank())
+      .map(ContactDetailsDTO::getValue)
+      .findFirst()
+      .orElse(null);
   }
 
   private static String getPrimaryValue(
@@ -116,14 +116,15 @@ public class ContactDetailsUtil {
       ContactDetailsType.PHONE_NUMBER
     );
 
+    final TranslatorAddressDTO address = findAkrAddressDetails(personalData);
     final Set<ContactDetailsDTO> contactDetailsSet = Stream
       .of(
         createContactDetailsDTO(ContactDetailsType.EMAIL, personalData.getEmail()),
         createContactDetailsDTO(ContactDetailsType.PHONE_NUMBER, personalData.getPhoneNumber()),
-        createContactDetailsDTO(ContactDetailsType.STREET, personalData.getStreet()),
-        createContactDetailsDTO(ContactDetailsType.POSTAL_CODE, personalData.getPostalCode()),
-        createContactDetailsDTO(ContactDetailsType.TOWN, personalData.getTown()),
-        createContactDetailsDTO(ContactDetailsType.COUNTRY, personalData.getCountry())
+        createContactDetailsDTO(ContactDetailsType.STREET, address.street()),
+        createContactDetailsDTO(ContactDetailsType.POSTAL_CODE, address.postalCode()),
+        createContactDetailsDTO(ContactDetailsType.TOWN, address.town()),
+        createContactDetailsDTO(ContactDetailsType.COUNTRY, address.country())
       )
       .filter(dto -> !personalData.getHasIndividualisedAddress() || akrContactDetailsTypes.contains(dto.getType()))
       .collect(Collectors.toSet());
@@ -133,6 +134,17 @@ public class ContactDetailsUtil {
     contactDetailsGroupDTO.setSource(ContactDetailsGroupSource.AKR);
     contactDetailsGroupDTO.setContactDetailsSet(contactDetailsSet);
     return contactDetailsGroupDTO;
+  }
+
+  private static TranslatorAddressDTO findAkrAddressDetails(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .filter(addr ->
+        addr.source().equals(ContactDetailsGroupSource.AKR) && addr.type().equals(ContactDetailsGroupType.AKR_OSOITE)
+      )
+      .findFirst()
+      .orElse(null);
   }
 
   private static ContactDetailsDTO createContactDetailsDTO(final ContactDetailsType type, final String value) {
@@ -147,7 +159,7 @@ public class ContactDetailsUtil {
   ) {
     return latestContactDetails
       .stream()
-      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR && cd.getIsReadOnly() != true)
+      .filter(cd -> cd.getSource() != ContactDetailsGroupSource.AKR && !cd.getIsReadOnly())
       .collect(Collectors.toList());
   }
 
@@ -164,5 +176,61 @@ public class ContactDetailsUtil {
       .collect(Collectors.toList());
     personalDataDTO.setContactDetailsGroups(combinedContactDetails);
     return personalDataDTO;
+  }
+
+  private static TranslatorAddressDTO findAnyAddress(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .min(comparing(TranslatorAddressDTO::type, nullsLast(AKR_FIRST.thenComparing(naturalOrder()))))
+      .orElse(null);
+  }
+
+  private static TranslatorAddressDTO findMostSuitableAddress(final PersonalData personalData) {
+    return personalData
+      .getAddress()
+      .stream()
+      .sorted(comparing(TranslatorAddressDTO::type, nullsLast(AKR_LAST.thenComparing(naturalOrder()))))
+      .filter(ContactDetailsUtil::isSuitable)
+      .findFirst()
+      .orElse(findAnyAddress(personalData));
+  }
+
+  private static boolean isSuitable(final TranslatorAddressDTO translatorAddressDTO) {
+    return (
+      translatorAddressDTO.country() != null &&
+      !translatorAddressDTO.country().isBlank() &&
+      translatorAddressDTO.town() != null &&
+      !translatorAddressDTO.town().isBlank()
+    );
+  }
+
+  public static TranslatorAddressDTO getPrimaryAddress(final PersonalData personalData, final Translator translator) {
+    return personalData
+      .getAddress()
+      .stream()
+      .filter(addr ->
+        addr.source().toString().equals(translator.getSelectedSource()) &&
+        addr.type().toString().equals(translator.getSelectedType())
+      )
+      .findFirst()
+      .orElse(findMostSuitableAddress(personalData));
+  }
+
+  public static List<TranslatorAddressDTO> getAddresses(final List<ContactDetailsGroupDTO> contactDetailGroups) {
+    return contactDetailGroups
+      .stream()
+      .map(group ->
+        TranslatorAddressDTO
+          .builder()
+          .street(getValue(group, ContactDetailsType.STREET))
+          .postalCode(getValue(group, ContactDetailsType.POSTAL_CODE))
+          .town(getValue(group, ContactDetailsType.TOWN))
+          .country(getValue(group, ContactDetailsType.COUNTRY))
+          .source(group.getSource())
+          .type(group.getType())
+          .build()
+      )
+      .toList();
   }
 }

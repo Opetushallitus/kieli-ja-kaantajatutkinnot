@@ -10,6 +10,16 @@ import {
 } from 'interfaces/authorisation';
 import { WithId, WithVersion } from 'interfaces/with';
 
+export interface ClerkTranslatorAddress {
+  street?: string;
+  postalCode?: string;
+  town?: string;
+  country?: string;
+  source: string;
+  type: string;
+  selected?: boolean;
+}
+
 export interface ClerkTranslatorTextFields {
   firstName: string;
   lastName: string;
@@ -17,10 +27,7 @@ export interface ClerkTranslatorTextFields {
   identityNumber?: string;
   email?: string;
   phoneNumber?: string;
-  street?: string;
-  postalCode?: string;
-  town?: string;
-  country?: string;
+  address: Array<ClerkTranslatorAddress>;
   extraInformation?: string;
 }
 

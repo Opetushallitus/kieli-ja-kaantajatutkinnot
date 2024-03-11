@@ -1,23 +1,39 @@
+import { Add as AddIcon } from '@mui/icons-material';
 import { FormHelperTextProps } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import {
   //ComboBox,
+  CustomButton,
   CustomSwitch,
   CustomTextField,
   H3,
   InfoText,
 } from 'shared/components';
-import { TextFieldTypes /*TextFieldVariant*/ } from 'shared/enums';
+import {
+  Color,
+  TextFieldTypes /*TextFieldVariant*/,
+  Variant,
+} from 'shared/enums';
 import { InputFieldUtils } from 'shared/utils';
 
+import {
+  ClerkTranslatorAddressFields,
+  ClerkTranslatorAddressModal,
+  ClerkTranslatorPrimaryAddress,
+} from 'components/clerkTranslator/overview/ClerkTranslatorAddressFields';
 import {
   translateOutsideComponent,
   useAppTranslation,
   useCommonTranslation,
   //useKoodistoCountriesTranslation,
 } from 'configs/i18n';
-import { ClerkTranslatorTextFieldEnum } from 'enums/clerkTranslator';
 import {
+  ClerkTranslatorAddressFieldEnum,
+  ClerkTranslatorAddressSource,
+  ClerkTranslatorTextFieldEnum,
+} from 'enums/clerkTranslator';
+import {
+  ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
@@ -31,10 +47,6 @@ const textFieldMaxLengths = {
   [ClerkTranslatorTextFieldEnum.NickName]: 255,
   [ClerkTranslatorTextFieldEnum.Email]: 255,
   [ClerkTranslatorTextFieldEnum.PhoneNumber]: 255,
-  [ClerkTranslatorTextFieldEnum.Street]: 255,
-  [ClerkTranslatorTextFieldEnum.PostalCode]: 255,
-  [ClerkTranslatorTextFieldEnum.Town]: 255,
-  [ClerkTranslatorTextFieldEnum.Country]: 255,
   [ClerkTranslatorTextFieldEnum.ExtraInformation]: 4096,
 };
 
@@ -64,8 +76,8 @@ const getFieldError = (
 ) => {
   const t = translateOutsideComponent();
   const type = getTextFieldType(field);
-  const value = (translator && translator[field]) || '';
   const maxLength = getTextFieldMaxLength(field);
+  const value = (translator && translator[field]) || '';
 
   const error = InputFieldUtils.inspectCustomTextFieldErrors(
     type,
@@ -79,6 +91,19 @@ const getFieldError = (
 
 const getHelperText = (isRequiredFieldError: boolean, fieldError: string) =>
   isRequiredFieldError ? fieldError : <InfoText>{fieldError}</InfoText>;
+
+const emptyAddress = {
+  street: '',
+  postalCode: '',
+  town: '',
+  country: '',
+  source: ClerkTranslatorAddressSource.AKR,
+  type: 'yhteystietotyyppi14',
+  selected: false,
+};
+
+const findAkrAddress = (addresses: Array<ClerkTranslatorAddress>) =>
+  addresses.find((addr) => addr.source === ClerkTranslatorAddressSource.AKR);
 
 const ClerkTranslatorDetailsTextField = ({
   translator,
@@ -119,9 +144,8 @@ const ClerkTranslatorDetailsTextField = ({
 export const ClerkTranslatorDetailsFields = ({
   translator,
   isPersonalInformationIndividualised,
-  isAddressIndividualised,
   onTextFieldChange,
-  //onComboBoxChange,
+  onAddressChange,
   onCheckBoxChange,
   editDisabled,
   topControlButtons,
@@ -129,15 +153,10 @@ export const ClerkTranslatorDetailsFields = ({
 }: {
   translator?: ClerkTranslatorBasicInformation;
   isPersonalInformationIndividualised?: boolean;
-  isAddressIndividualised?: boolean;
   onTextFieldChange: (
     field: keyof ClerkTranslatorTextFields,
   ) => (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  /*
-  onComboBoxChange: (
-    field: keyof ClerkTranslatorBasicInformation
-  ) => (value?: string) => void;
-  */
+  onAddressChange: (addresses: Array<ClerkTranslatorAddress>) => void;
   onCheckBoxChange: (
     field: keyof ClerkTranslatorBasicInformation,
   ) => (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
@@ -153,20 +172,26 @@ export const ClerkTranslatorDetailsFields = ({
   // TODO: M.S. poista tarpeettomiksi jääneet useKoodistoCountriesTranslation()
   //const translateCountry = useKoodistoCountriesTranslation();
 
-  const initialFieldErrors = Object.values(ClerkTranslatorTextFieldEnum).reduce(
-    (acc, val) => {
-      return { ...acc, [val]: showFieldErrorBeforeChange };
-    },
-    {},
-  ) as Record<ClerkTranslatorTextFieldEnum, boolean>;
+  const [open, setOpen] = useState(false);
+  const initialFieldErrors = Object.assign(
+    Object.values(ClerkTranslatorTextFieldEnum),
+    Object.values(ClerkTranslatorAddressFieldEnum),
+  ).reduce((acc, val) => {
+    return { ...acc, [val]: showFieldErrorBeforeChange };
+  }, {}) as Record<
+    ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum,
+    boolean
+  >;
 
   const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
-  const setFieldErrorOnBlur = (field: ClerkTranslatorTextFieldEnum) => () => {
-    setFieldErrors((prevFieldErrors) => ({
-      ...prevFieldErrors,
-      [field]: true,
-    }));
-  };
+  const setFieldErrorOnBlur =
+    (field: ClerkTranslatorTextFieldEnum | ClerkTranslatorAddressFieldEnum) =>
+    () => {
+      setFieldErrors((prevFieldErrors) => ({
+        ...prevFieldErrors,
+        [field]: true,
+      }));
+    };
 
   const isIndividualisedValue = (field: ClerkTranslatorTextFieldEnum) => {
     const isIdentityNumberField =
@@ -180,20 +205,7 @@ export const ClerkTranslatorDetailsFields = ({
         ClerkTranslatorTextFieldEnum.NickName,
       ].includes(field);
 
-    const isIndividualisedAddressField =
-      isAddressIndividualised &&
-      [
-        ClerkTranslatorTextFieldEnum.Street,
-        ClerkTranslatorTextFieldEnum.PostalCode,
-        ClerkTranslatorTextFieldEnum.Town,
-        ClerkTranslatorTextFieldEnum.Country,
-      ].includes(field);
-
-    return (
-      isIdentityNumberField ||
-      isIndividualisedPersonalInformationField ||
-      isIndividualisedAddressField
-    );
+    return isIdentityNumberField || isIndividualisedPersonalInformationField;
   };
 
   const getCommonTextFieldProps = (field: ClerkTranslatorTextFieldEnum) => {
@@ -209,21 +221,20 @@ export const ClerkTranslatorDetailsFields = ({
     };
   };
 
-  // const countryCodeToLabel = (code: string) => {
-  //   const label = translateCountry(code);
+  const hasAkrAddress =
+    translator?.address && !!findAkrAddress(translator.address);
 
-  //   const labelKosovoFixedDuplicate =
-  //     code === 'XKK' || code === 'XKX' ? `${label} ${code}` : label;
-
-  //   return {
-  //     label: labelKosovoFixedDuplicate,
-  //     value: code,
-  //   };
-  // };
-
-  // const comboBoxCountryValues: { label: string; value: string }[] = Object.keys(
-  //   koodistoCountriesFI?.akr?.koodisto?.countries
-  // ).map(countryCodeToLabel);
+  const modifyOrAppend = (
+    address: ClerkTranslatorAddress,
+    addresses: Array<ClerkTranslatorAddress>,
+  ) =>
+    hasAkrAddress
+      ? addresses.map((addr) =>
+          addr.source === address.source && addr.type === address.type
+            ? address
+            : addr,
+        )
+      : [...addresses, address];
 
   return (
     <>
@@ -255,23 +266,51 @@ export const ClerkTranslatorDetailsFields = ({
         />
       </div>
       <H3>{t('header.address')}</H3>
-      {isAddressIndividualised && (
-        <div className="individualised">
-          <InfoText>{t('individualisedInformation')}</InfoText>
+      <div>
+        <ClerkTranslatorPrimaryAddress
+          addresses={translator?.address || []}
+          editDisabled={editDisabled}
+          onEditAddress={() => setOpen(true)}
+        />
+      </div>
+      <div className="columns margin-top-lg">
+        <div className="columns margin-top-lg grow">
+          <H3>{t('header.addressOther')}</H3>
         </div>
-      )}
+        <CustomButton
+          data-testid="clerk-translator-overview__translator-address__add-btn"
+          variant={Variant.Contained}
+          color={Color.Secondary}
+          startIcon={<AddIcon />}
+          disabled={editDisabled || hasAkrAddress}
+          onClick={() => setOpen(true)}
+        >
+          {t('addAddress')}
+        </CustomButton>
+        {open && (
+          <ClerkTranslatorAddressModal
+            open={open}
+            akrAddress={
+              (translator?.address && findAkrAddress(translator.address)) ||
+              emptyAddress
+            }
+            onSave={(address) => {
+              setOpen(false);
+              if (translator) {
+                onAddressChange(modifyOrAppend(address, translator.address));
+              }
+            }}
+            onCancel={() => setOpen(false)}
+            showFieldErrorBeforeChange={false}
+          />
+        )}
+      </div>
       <div className="columns align-items-start gapped">
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Street)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.PostalCode)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Town)}
-        />
-        <ClerkTranslatorDetailsTextField
-          {...getCommonTextFieldProps(ClerkTranslatorTextFieldEnum.Country)}
+        <ClerkTranslatorAddressFields
+          addresses={translator?.address || []}
+          onAddressChange={onAddressChange}
+          editDisabled={editDisabled}
+          onEditAddress={() => setOpen(true)}
         />
         {/* <ComboBox
           data-testid="clerk-translator__basic-information__country"

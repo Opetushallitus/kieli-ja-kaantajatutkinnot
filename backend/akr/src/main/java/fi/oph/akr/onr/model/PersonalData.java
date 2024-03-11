@@ -1,5 +1,7 @@
 package fi.oph.akr.onr.model;
 
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,13 +37,7 @@ public class PersonalData {
 
   private String phoneNumber;
 
-  private String street;
-
-  private String postalCode;
-
-  private String town;
-
-  private String country;
+  private List<TranslatorAddressDTO> address;
 
   public boolean isOnrIdAndIndividualisedInformationConsistent() {
     return (

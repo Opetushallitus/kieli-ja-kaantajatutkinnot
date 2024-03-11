@@ -4,15 +4,19 @@ import { FC } from 'react';
 import { H2 } from '../Text/Text';
 import './CustomModal.scss';
 
+type Role = 'dialog' | 'alertdialog';
+
 type CustomModalProps = ModalProps & {
   modalTitle?: string;
   onCloseModal: () => void;
+  role?: Role;
 };
 
 export const CustomModal: FC<CustomModalProps> = ({
   open,
   children,
   modalTitle,
+  role,
   onCloseModal,
   ...props
 }) => {
@@ -26,7 +30,7 @@ export const CustomModal: FC<CustomModalProps> = ({
   return (
     <Modal
       {...props}
-      role="alertdialog"
+      role={role || 'alertdialog'}
       aria-modal={true}
       open={open}
       onClose={handleOnClose}

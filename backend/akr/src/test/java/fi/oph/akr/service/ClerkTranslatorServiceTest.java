@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import fi.oph.akr.Factory;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAuthorisationsDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorResponseDTO;
@@ -23,6 +24,7 @@ import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
 import fi.oph.akr.model.Authorisation;
@@ -34,6 +36,8 @@ import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationRepository;
 import fi.oph.akr.repository.AuthorisationTermReminderRepository;
@@ -275,10 +279,7 @@ class ClerkTranslatorServiceTest {
             .lastName(lastNames.get(i))
             .email(emails.get(i))
             .phoneNumber(phoneNumbers.get(i))
-            .street(streets.get(i))
-            .postalCode(postalCodes.get(i))
-            .town(towns.get(i))
-            .country(countries.get(i))
+            .address(createAddress(streets.get(i), postalCodes.get(i), towns.get(i), countries.get(i)))
             .individualised(false)
             .hasIndividualisedAddress(false)
             .build()
@@ -302,13 +303,67 @@ class ClerkTranslatorServiceTest {
     assertTranslatorTextField(identityNumbers, translators, ClerkTranslatorDTO::identityNumber);
     assertTranslatorTextField(emails, translators, ClerkTranslatorDTO::email);
     assertTranslatorTextField(phoneNumbers, translators, ClerkTranslatorDTO::phoneNumber);
-    assertTranslatorTextField(streets, translators, ClerkTranslatorDTO::street);
-    assertTranslatorTextField(postalCodes, translators, ClerkTranslatorDTO::postalCode);
-    assertTranslatorTextField(towns, translators, ClerkTranslatorDTO::town);
-    assertTranslatorTextField(countries, translators, ClerkTranslatorDTO::country);
+    assertTranslatorAddressField(streets, translators, ClerkTranslatorAddressDTO::street);
+    assertTranslatorAddressField(postalCodes, translators, ClerkTranslatorAddressDTO::postalCode);
+    assertTranslatorAddressField(towns, translators, ClerkTranslatorAddressDTO::town);
+    assertTranslatorAddressField(countries, translators, ClerkTranslatorAddressDTO::country);
     assertTranslatorTextField(extraInformations, translators, ClerkTranslatorDTO::extraInformation);
 
     assertEquals(assurances, translators.stream().map(ClerkTranslatorDTO::isAssuranceGiven).toList());
+  }
+
+  private List<ClerkTranslatorAddressDTO> createClerkAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country
+  ) {
+    return List.of(
+      ClerkTranslatorAddressDTO
+        .builder()
+        .street(street)
+        .postalCode(postalCode)
+        .town(town)
+        .country(country)
+        .source(ContactDetailsGroupSource.AKR)
+        .type(ContactDetailsGroupType.AKR_OSOITE)
+        .selected(true)
+        .build()
+    );
+  }
+
+  private List<TranslatorAddressDTO> createAddress(
+    final String street,
+    final String postalCode,
+    final String town,
+    final String country
+  ) {
+    return List.of(
+      TranslatorAddressDTO
+        .builder()
+        .street(street)
+        .postalCode(postalCode)
+        .town(town)
+        .country(country)
+        .source(ContactDetailsGroupSource.AKR)
+        .type(ContactDetailsGroupType.AKR_OSOITE)
+        .build()
+    );
+  }
+
+  private void assertTranslatorAddressField(
+    final List<String> expected,
+    final List<ClerkTranslatorDTO> translators,
+    final Function<ClerkTranslatorAddressDTO, String> getter
+  ) {
+    assertEquals(
+      expected,
+      translators
+        .stream()
+        .map(translator -> translator.address().stream().map(getter).toList())
+        .flatMap(List::stream)
+        .toList()
+    );
   }
 
   private void assertTranslatorTextField(
@@ -509,7 +564,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, null).build();
 
     final PersonalData personalData = defaultPersonalData(createDTO);
     final String onrId = personalData.getOnrId();
@@ -536,7 +591,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth).country("DEU").build();
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, "DEU").build();
 
     final PersonalData personalData = defaultPersonalData(createDTO);
     final String onrId = personalData.getOnrId();
@@ -563,7 +618,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(meetingDate);
 
     final AuthorisationCreateDTO expectedAuth = defaultAuthorisationCreateDTOBuilder(meetingDate.getDate()).build();
-    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth)
+    final TranslatorCreateDTO createDTO = defaultTranslatorCreateDTOBuilder(expectedAuth, null)
       .onrId(UUID.randomUUID().toString())
       .isIndividualised(null)
       .build();
@@ -619,7 +674,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).build();
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator, null).build();
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
@@ -646,7 +701,7 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
-    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator).country("DEU").build();
+    final TranslatorUpdateDTO updateDTO = defaultTranslatorUpdateDTOBuilder(translator, "DEU").build();
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
@@ -670,10 +725,10 @@ class ClerkTranslatorServiceTest {
     assertEquals(expected.lastName(), dto.lastName());
     assertEquals(expected.email(), dto.email());
     assertEquals(expected.phoneNumber(), dto.phoneNumber());
-    assertEquals(expected.street(), dto.street());
-    assertEquals(expected.town(), dto.town());
-    assertEquals(expected.postalCode(), dto.postalCode());
-    assertEquals(expected.country(), dto.country());
+    assertEquals(expected.address().get(0).street(), dto.address().get(0).street());
+    assertEquals(expected.address().get(0).town(), dto.address().get(0).town());
+    assertEquals(expected.address().get(0).postalCode(), dto.address().get(0).postalCode());
+    assertEquals(expected.address().get(0).country(), dto.address().get(0).country());
     assertEquals(expected.extraInformation(), dto.extraInformation());
     assertEquals(expected.isAssuranceGiven(), dto.isAssuranceGiven());
   }
@@ -981,6 +1036,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Suku")
       .firstName("Etu")
       .nickName("Etu")
+      .address(createAddress("st", "pstl", "tw", "FI"))
       .identityNumber("112233")
       .individualised(true)
       .hasIndividualisedAddress(false)
@@ -989,6 +1045,25 @@ class ClerkTranslatorServiceTest {
 
   private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO) {
     return defaultPersonalData(translatorDTO, UUID.randomUUID().toString());
+  }
+
+  private List<TranslatorAddressDTO> convertTranslatorAddressDTO(
+    final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO
+  ) {
+    return clerkTranslatorAddressDTO
+      .stream()
+      .map(addr ->
+        TranslatorAddressDTO
+          .builder()
+          .street(addr.street())
+          .town(addr.town())
+          .country(addr.country())
+          .postalCode(addr.postalCode())
+          .source(addr.source())
+          .type(addr.type())
+          .build()
+      )
+      .toList();
   }
 
   private PersonalData defaultPersonalData(final TranslatorDTOCommonFields translatorDTO, final String onrId) {
@@ -1003,15 +1078,13 @@ class ClerkTranslatorServiceTest {
       .lastName(translatorDTO.lastName())
       .email(translatorDTO.email())
       .phoneNumber(translatorDTO.phoneNumber())
-      .street(translatorDTO.street())
-      .town(translatorDTO.town())
-      .postalCode(translatorDTO.postalCode())
-      .country(translatorDTO.country())
+      .address(convertTranslatorAddressDTO(translatorDTO.address()))
       .build();
   }
 
   private TranslatorCreateDTO.TranslatorCreateDTOBuilder defaultTranslatorCreateDTOBuilder(
-    final AuthorisationCreateDTO authorisation
+    final AuthorisationCreateDTO authorisation,
+    final String country
   ) {
     return TranslatorCreateDTO
       .builder()
@@ -1021,17 +1094,15 @@ class ClerkTranslatorServiceTest {
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country(null)
+      .address(createClerkAddress("st", "pstl", "tw", country))
       .extraInformation("extra")
       .isAssuranceGiven(true)
       .authorisations(List.of(authorisation));
   }
 
   private TranslatorUpdateDTO.TranslatorUpdateDTOBuilder defaultTranslatorUpdateDTOBuilder(
-    final Translator translator
+    final Translator translator,
+    final String country
   ) {
     return TranslatorUpdateDTO
       .builder()
@@ -1045,10 +1116,7 @@ class ClerkTranslatorServiceTest {
       .lastName("Aardvark")
       .email("anne@aardvark.invalid")
       .phoneNumber("555")
-      .street("st")
-      .town("tw")
-      .postalCode("pstl")
-      .country(null)
+      .address(createClerkAddress("st", "pstl", "tw", country))
       .extraInformation("extra")
       .isAssuranceGiven(false);
   }

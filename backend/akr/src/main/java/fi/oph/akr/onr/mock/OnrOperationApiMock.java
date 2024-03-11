@@ -1,6 +1,9 @@
 package fi.oph.akr.onr.mock;
 
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.onr.OnrOperationApi;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
+import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import fi.oph.akr.onr.model.PersonalData;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +38,19 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Matti Tauno")
           .nickName("Matti")
           .identityNumber(identityNumber)
-          .street("Kajaanintie 123")
-          .postalCode("93600")
-          .town("Kuusamo")
-          .country("FINLAND")
+          .address(
+            List.of(
+              TranslatorAddressDTO
+                .builder()
+                .street("Kajaanintie 123")
+                .postalCode("93600")
+                .town("Kuusamo")
+                .country("FINLAND")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
+                .build()
+            )
+          )
           .build();
         case individualised2 -> PersonalData
           .builder()
@@ -49,10 +61,19 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Anna Maria")
           .nickName("Anna")
           .identityNumber(identityNumber)
-          .street("Tampereentie 234")
-          .postalCode("20100")
-          .town("Turku")
-          .country("SUOMI")
+          .address(
+            List.of(
+              TranslatorAddressDTO
+                .builder()
+                .street("Tampereentie 234")
+                .postalCode("20100")
+                .town("Turku")
+                .country("SUOMI")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
+                .build()
+            )
+          )
           .build();
         case manuallyCreated1 -> PersonalData
           .builder()
@@ -63,8 +84,17 @@ public class OnrOperationApiMock implements OnrOperationApi {
           .firstName("Oona Inkeri")
           .nickName("Oona")
           .identityNumber(identityNumber)
-          .street("Ristikontie 333")
-          .town("Helsinki")
+          .address(
+            List.of(
+              TranslatorAddressDTO
+                .builder()
+                .street("Ristikontie 333")
+                .town("Helsinki")
+                .source(ContactDetailsGroupSource.AKR)
+                .type(ContactDetailsGroupType.AKR_OSOITE)
+                .build()
+            )
+          )
           .build();
         case manuallyCreated2 -> PersonalData
           .builder()

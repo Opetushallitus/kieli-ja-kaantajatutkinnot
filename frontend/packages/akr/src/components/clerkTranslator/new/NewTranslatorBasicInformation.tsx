@@ -4,6 +4,7 @@ import { ClerkTranslatorDetailsFields } from 'components/clerkTranslator/overvie
 import { useAppDispatch, useAppSelector } from 'configs/redux';
 import { ClerkNewTranslator } from 'interfaces/clerkNewTranslator';
 import {
+  ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
@@ -25,22 +26,19 @@ export const NewTranslatorBasicInformation = ({
       handleFieldChange(field, event.target.value);
     };
 
-  /*
-  const handleComboBoxChange =
-    (field: keyof ClerkTranslatorBasicInformation) => (value?: string) => {
-      handleFieldChange(field, value);
-    };
-  */
-
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>
     (_event: ChangeEvent<HTMLInputElement>, checked: boolean) => {
       handleFieldChange(field, checked);
     };
 
+  const handleAddressChange = (addresses: Array<ClerkTranslatorAddress>) => {
+    handleFieldChange('address', addresses);
+  };
+
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined,
+    fieldValue: string | boolean | Array<ClerkTranslatorAddress> | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translator,
@@ -56,13 +54,10 @@ export const NewTranslatorBasicInformation = ({
     <ClerkTranslatorDetailsFields
       translator={translator}
       isPersonalInformationIndividualised={translator.isIndividualised}
-      isAddressIndividualised={translator.hasIndividualisedAddress}
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }
-      // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
-      //   handleComboBoxChange(field)
-      // }
+      onAddressChange={handleAddressChange}
       onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
         handleCheckBoxChange(field)
       }

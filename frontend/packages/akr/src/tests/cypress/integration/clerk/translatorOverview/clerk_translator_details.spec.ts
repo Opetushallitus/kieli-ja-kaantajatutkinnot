@@ -3,6 +3,7 @@ import { AppRoutes, UIMode } from 'enums/app';
 import {
   newAuthorisation,
   translatorFromOnrResponse,
+  translatorFromOnrResponseNoAkrAddress,
   translatorResponse,
 } from 'tests/cypress/fixtures/ts/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
@@ -25,6 +26,11 @@ beforeEach(() => {
     translatorFromOnrResponse,
   ).as('getClerkTranslatorFromOnrOverview');
 
+  cy.intercept(
+    `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponseNoAkrAddress.id}`,
+    translatorFromOnrResponseNoAkrAddress,
+  ).as('getClerkTranslatorFromOnrOverview');
+
   const updatedExistingTranslator = {
     ...translatorResponse,
     version: 1,
@@ -45,6 +51,8 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
     onClerkTranslatorOverviewPage.expectMode(UIMode.EditTranslatorDetails);
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(true);
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(false);
   });
 
   it('should return from edit mode when cancel is clicked and no changes were made', () => {
@@ -61,20 +69,17 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     cy.wait('@getClerkTranslatorFromOnrOverview');
     onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
 
-    [
-      'lastName',
-      'firstName',
-      'nickName',
-      'identityNumber',
-      'street',
-      'town',
-      'country',
-    ].forEach((fieldName) => {
-      onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
-        fieldName,
-        'input',
-      );
-    });
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(false);
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(true);
+
+    ['lastName', 'firstName', 'nickName', 'identityNumber'].forEach(
+      (fieldName) => {
+        onClerkTranslatorOverviewPage.expectDisabledTranslatorField(
+          fieldName,
+          'input',
+        );
+      },
+    );
 
     ['email', 'phoneNumber'].forEach((fieldName) => {
       onClerkTranslatorOverviewPage.expectEnabledTranslatorField(
@@ -86,8 +91,114 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
     onClerkTranslatorOverviewPage.expectEnabledSaveTranslatorDetailsButton();
     cy.findAllByText('Tiedot haettu väestötietojärjestelmästä').should(
       'have.length',
-      2,
+      1,
     );
+  });
+
+  it('should disable add address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectAddAddressButton(false);
+  });
+
+  it('should add address', () => {
+    onClerkTranslatorOverviewPage.navigateById(
+      translatorFromOnrResponseNoAkrAddress.id,
+    );
+    cy.wait('@getClerkTranslatorFromOnrOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectAddAddressButton(true);
+    onClerkTranslatorOverviewPage.clickAddAddressButton();
+
+    [
+      ['street', '', 'Kuja 1'],
+      ['postalCode', '', '90100'],
+      ['town', '', 'Linnahämeen'],
+      ['country', '', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('SWE');
+  });
+
+  it('should edit primary address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorResponse.id);
+    cy.wait('@getClerkTranslatorOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectEditOtherAddressButton(false);
+    onClerkTranslatorOverviewPage.clickEditPrimaryAddressButton();
+
+    [
+      ['street', 'Sibeliuksenkuja 3', 'Kuja 1'],
+      ['postalCode', '06100', '90100'],
+      ['town', 'Hämeenlinna', 'Linnahämeen'],
+      ['country', 'FIN', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('SWE');
+  });
+
+  it('should edit other address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorFromOnrResponse.id);
+    cy.wait('@getClerkTranslatorFromOnrOverview');
+    onClerkTranslatorOverviewPage.clickEditTranslatorDetailsButton();
+
+    onClerkTranslatorOverviewPage.expectEditPrimaryAddressButton(false);
+    onClerkTranslatorOverviewPage.clickEditOtherAddressButton();
+
+    [
+      ['street', 'Sibeliuksenkuja 3', 'Kuja 1'],
+      ['postalCode', '06100', '90100'],
+      ['town', 'Hämeenlinna', 'Linnahämeen'],
+      ['country', 'FIN', 'SWE'],
+    ].forEach(([fieldName, oldValue, newValue]) => {
+      onClerkTranslatorOverviewPage.editAddressField(
+        fieldName,
+        'input',
+        oldValue,
+        newValue,
+      );
+    });
+
+    onDialog.clickButtonByText('Kyllä');
+
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('Kuja 1');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('90100');
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText(
+      'Linnahämeen',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('SWE');
   });
 
   it('should disable details save button when the required fields are not filled out', () => {

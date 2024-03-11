@@ -3,6 +3,7 @@ package fi.oph.akr.service;
 import fi.oph.akr.api.dto.LanguagePairDTO;
 import fi.oph.akr.api.dto.LanguagePairsDictDTO;
 import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorAuthorisationsDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.clerk.ClerkTranslatorResponseDTO;
@@ -14,6 +15,7 @@ import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorDTOCommonFields;
 import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
 import fi.oph.akr.config.CacheConfig;
@@ -22,7 +24,9 @@ import fi.oph.akr.model.AuthorisationTermReminder;
 import fi.oph.akr.model.ExaminationDate;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.model.Translator;
+import fi.oph.akr.onr.ContactDetailsUtil;
 import fi.oph.akr.onr.OnrService;
+import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.model.PersonalData;
 import fi.oph.akr.repository.AuthorisationProjection;
 import fi.oph.akr.repository.AuthorisationRepository;
@@ -39,6 +43,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -114,6 +120,10 @@ public class ClerkTranslatorService {
         );
         final ClerkTranslatorAuthorisationsDTO translatorAuthorisationsDTO = splitAuthorisationDTOs(authorisationDTOS);
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(
+          personalData,
+          translator
+        );
 
         if (personalData == null) {
           LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
@@ -132,15 +142,41 @@ public class ClerkTranslatorService {
           .identityNumber(personalData.getIdentityNumber())
           .email(personalData.getEmail())
           .phoneNumber(personalData.getPhoneNumber())
-          .street(personalData.getStreet())
-          .postalCode(personalData.getPostalCode())
-          .town(personalData.getTown())
-          .country(personalData.getCountry())
+          .address(clerkTranslatorAddressDTO)
           .extraInformation(translator.getExtraInformation())
           .isAssuranceGiven(translator.isAssuranceGiven())
           .authorisations(translatorAuthorisationsDTO)
           .build();
       })
+      .toList();
+  }
+
+  private boolean isAddressSelected(final Translator translator, final TranslatorAddressDTO address) {
+    return (
+      address.source().toString().equals(translator.getSelectedSource()) &&
+      address.type().toString().equals(translator.getSelectedType())
+    );
+  }
+
+  private List<ClerkTranslatorAddressDTO> createTranslatorAddressDTO(
+    final PersonalData personalData,
+    final Translator translator
+  ) {
+    return personalData
+      .getAddress()
+      .stream()
+      .map(addr ->
+        ClerkTranslatorAddressDTO
+          .builder()
+          .street(addr.street())
+          .town(addr.town())
+          .postalCode(addr.postalCode())
+          .country(addr.country())
+          .source(addr.source())
+          .type(addr.type())
+          .selected(isAddressSelected(translator, addr))
+          .build()
+      )
       .toList();
   }
 
@@ -292,16 +328,40 @@ public class ClerkTranslatorService {
       .identityNumber(dto.identityNumber())
       .email(dto.email())
       .phoneNumber(dto.phoneNumber())
-      .street(dto.street())
-      .postalCode(dto.postalCode())
-      .town(dto.town())
-      .country(dto.country())
+      .address(
+        dto
+          .address()
+          .stream()
+          .map(addr ->
+            TranslatorAddressDTO
+              .builder()
+              .town(addr.town())
+              .country(addr.country())
+              .street(addr.street())
+              .postalCode(addr.postalCode())
+              .source(addr.source())
+              .type(addr.type())
+              .build()
+          )
+          .toList()
+      )
       .build();
   }
 
   private void copyDtoFieldsToTranslator(final TranslatorDTOCommonFields dto, final Translator translator) {
     translator.setExtraInformation(dto.extraInformation());
     translator.setAssuranceGiven(dto.isAssuranceGiven());
+
+    final Optional<ClerkTranslatorAddressDTO> selectedAddress = dto
+      .address()
+      .stream()
+      .filter(ClerkTranslatorAddressDTO::selected)
+      .findFirst();
+
+    selectedAddress.ifPresent(clerkTranslatorAddressDTO -> {
+      translator.setSelectedSource(clerkTranslatorAddressDTO.source().toString());
+      translator.setSelectedType(clerkTranslatorAddressDTO.type().toString());
+    });
   }
 
   @CacheEvict(cacheNames = CacheConfig.CACHE_NAME_PUBLIC_TRANSLATORS, allEntries = true)
@@ -434,5 +494,58 @@ public class ClerkTranslatorService {
       .findAll()
       .stream()
       .collect(Collectors.toMap(ExaminationDate::getDate, Function.identity()));
+  }
+
+  public List<ClerkTranslatorDTO> listTranslatorsBySource(final ContactDetailsGroupSource source) {
+    final List<Translator> translators = translatorRepository.findExistingTranslators();
+    final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
+    return translators
+      .stream()
+      .map(translator -> {
+        final PersonalData personalData = personalDatas.get(translator.getOnrId());
+        final List<ClerkTranslatorAddressDTO> clerkTranslatorAddressDTO = createTranslatorAddressDTO(
+          personalData,
+          translator
+        );
+        final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
+
+        if (!primaryAddress.source().equals(source)) {
+          return null;
+        }
+
+        if (personalData == null) {
+          LOG.error("Error fetching the translator from onr with oid {}", translator.getOnrId());
+          throw new APIException(APIExceptionType.TRANSLATOR_ONR_ID_NOT_FOUND);
+        }
+
+        return ClerkTranslatorDTO
+          .builder()
+          .id(translator.getId())
+          .version(translator.getVersion())
+          .isIndividualised(personalData.getIndividualised())
+          .hasIndividualisedAddress(personalData.getHasIndividualisedAddress())
+          .firstName(personalData.getFirstName())
+          .lastName(personalData.getLastName())
+          .nickName(personalData.getNickName())
+          .identityNumber(personalData.getIdentityNumber())
+          .email(personalData.getEmail())
+          .phoneNumber(personalData.getPhoneNumber())
+          .address(clerkTranslatorAddressDTO)
+          .extraInformation(translator.getExtraInformation())
+          .isAssuranceGiven(translator.isAssuranceGiven())
+          .authorisations(
+            ClerkTranslatorAuthorisationsDTO
+              .builder()
+              .effective(List.of())
+              .expired(List.of())
+              .expiring(List.of())
+              .expiredDeduplicated(List.of())
+              .formerVir(List.of())
+              .build()
+          )
+          .build();
+      })
+      .filter(Objects::nonNull)
+      .toList();
   }
 }

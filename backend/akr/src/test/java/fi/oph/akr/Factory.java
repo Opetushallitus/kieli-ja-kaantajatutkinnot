@@ -41,6 +41,8 @@ public class Factory {
 
   public static Translator translator() {
     final Translator translator = new Translator();
+    translator.setFirstName("Foo");
+    translator.setLastName("Bar");
     translator.setOnrId(UUID.randomUUID().toString());
     translator.setAssuranceGiven(true);
 

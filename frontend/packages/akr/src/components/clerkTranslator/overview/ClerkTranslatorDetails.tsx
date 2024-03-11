@@ -11,6 +11,7 @@ import { UIMode } from 'enums/app';
 import { useNavigationProtection } from 'hooks/useNavigationProtection';
 import {
   ClerkTranslator,
+  ClerkTranslatorAddress,
   ClerkTranslatorBasicInformation,
   ClerkTranslatorTextFields,
 } from 'interfaces/clerkTranslator';
@@ -85,12 +86,9 @@ export const ClerkTranslatorDetails = () => {
       handleFieldChange(field, event.target.value);
     };
 
-  /*
-  const handleComboBoxChange =
-    (field: keyof ClerkTranslatorBasicInformation) => (value?: string) => {
-      handleFieldChange(field, value);
-    };
-  */
+  const handleAddressChange = (addresses: Array<ClerkTranslatorAddress>) => {
+    handleFieldChange('address', addresses);
+  };
 
   const handleCheckBoxChange =
     (field: keyof ClerkTranslatorBasicInformation) =>
@@ -100,7 +98,7 @@ export const ClerkTranslatorDetails = () => {
 
   const handleFieldChange = (
     field: keyof ClerkTranslatorBasicInformation,
-    fieldValue: string | boolean | undefined,
+    fieldValue: string | boolean | Array<ClerkTranslatorAddress> | undefined,
   ) => {
     const updatedTranslatorDetails = {
       ...translatorDetails,
@@ -158,13 +156,10 @@ export const ClerkTranslatorDetails = () => {
     <ClerkTranslatorDetailsFields
       translator={translatorDetails}
       isPersonalInformationIndividualised={translator?.isIndividualised}
-      isAddressIndividualised={translator?.hasIndividualisedAddress}
       onTextFieldChange={(field: keyof ClerkTranslatorTextFields) =>
         handleTextFieldChange(field)
       }
-      // onComboBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
-      //   handleComboBoxChange(field)
-      // }
+      onAddressChange={handleAddressChange}
       onCheckBoxChange={(field: keyof ClerkTranslatorBasicInformation) =>
         handleCheckBoxChange(field)
       }

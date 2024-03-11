@@ -117,6 +117,13 @@
             "description": "Menetät tekemäsi muutokset.",
             "title": "Haluatko poistua muokkausnäkymästä?"
           },
+          "address": {
+            "alkupera1": "VTJ",
+            "yhteystietotyyppi4": "Vakinainen, kotimaa",
+            "yhteystietotyyppi5": "Vakinainen, ulkomaa",
+            "alkupera8": "AKR",
+            "yhteystietotyyppi14": "AKR"
+          },
           "caveats": {
             "isNotAssuranceGiven": "Auktorisoinnit eivät ole näkyvissä julkisessa listauksessa!"
           },
@@ -131,16 +138,23 @@
             "phoneNumber": "Puhelinnumero",
             "postalCode": "Postinumero",
             "street": "Katuosoite",
-            "town": "Postitoimipaikka"
+            "town": "Postitoimipaikka",
+            "source": "Osoitteen lähde",
+            "actions": "Toiminnot"
           },
           "header": {
             "address": "Osoite",
+            "addressOther": "Muut osoitteet",
             "contactInformation": "Yhteystiedot",
             "extraInformation": "Lisätiedot",
             "isAssuranceGiven": "Vakuutus annettu",
             "personalInformation": "Henkilötiedot"
           },
-          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä"
+          "addAddress": "Lisää uusi AKR-osoite",
+          "edit": "Muokkaa",
+          "switchSource": "Vaihda lähteeksi",
+          "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä",
+          "readOnlyAddress": "Tästä lähteestä haettua osoitetta ei voi muokata"
         }
       },
       "contactRequestForm": {

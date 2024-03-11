@@ -34,8 +34,48 @@ public class Translator extends BaseEntity {
   @OneToMany(mappedBy = "translator")
   private Collection<ContactRequestTranslator> contactRequestTranslators = new ArrayList<>();
 
+  // TODO: after old AKR data deletion is done remove the below code
+  @Size(max = 255)
+  @Column(name = "identity_number")
+  private String identityNumber;
+
+  @Size(max = 255)
+  @Column(name = "first_name")
+  private String firstName;
+
+  @Size(max = 255)
+  @Column(name = "last_name")
+  private String lastName;
+
+  @Size(max = 255)
+  @Column(name = "email")
+  private String email;
+
+  @Column(name = "phone_number")
+  private String phone;
+
+  @Column(name = "street")
+  private String street;
+
+  @Column(name = "town")
+  private String town;
+
+  @Column(name = "postal_code")
+  private String postalCode;
+
+  @Column(name = "country")
+  private String country;
+
+  //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
   @Column(name = "extra_information")
   private String extraInformation;
+
+  @Column(name = "selected_source")
+  private String selectedSource;
+
+  @Column(name = "selected_type")
+  private String selectedType;
 
   @Column(name = "is_assurance_given", nullable = false)
   private boolean isAssuranceGiven;

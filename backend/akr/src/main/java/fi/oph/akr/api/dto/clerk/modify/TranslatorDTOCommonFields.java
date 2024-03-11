@@ -1,5 +1,10 @@
 package fi.oph.akr.api.dto.clerk.modify;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.CommonTranslatorAddressDTO;
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
+import java.util.List;
+
 public interface TranslatorDTOCommonFields {
   Boolean isIndividualised();
 
@@ -17,13 +22,7 @@ public interface TranslatorDTOCommonFields {
 
   String phoneNumber();
 
-  String street();
-
-  String postalCode();
-
-  String town();
-
-  String country();
+  List<ClerkTranslatorAddressDTO> address();
 
   String extraInformation();
 
