@@ -73,25 +73,8 @@ export function isRegistrationInitErrorResponse(
   if (!error) {
     return false;
   }
-  const { closed, full, registered } = error;
-  if (typeof closed !== 'boolean' || typeof closed !== 'undefined') {
-    return false;
-  }
-  if (typeof full !== 'boolean' || typeof full !== 'undefined') {
-    return false;
-  }
-  if (typeof registered !== 'boolean' || typeof registered !== 'undefined') {
-    return false;
-  }
-  if (
-    typeof closed === 'undefined' &&
-    typeof full === 'undefined' &&
-    typeof registered === 'undefined'
-  ) {
-    return false;
-  }
 
-  return true;
+  return 'closed' in error || 'full' in error || 'exists' in error;
 }
 
 export interface PublicRegistrationFormSubmitErrorResponse {
