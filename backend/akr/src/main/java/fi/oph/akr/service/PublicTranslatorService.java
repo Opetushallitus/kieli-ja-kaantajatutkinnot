@@ -140,7 +140,7 @@ public class PublicTranslatorService {
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
         final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
 
-        if (personalData == null || !StringUtils.hasText(primaryAddress.town())) {
+        if (personalData == null || primaryAddress == null || !StringUtils.hasText(primaryAddress.town())) {
           return null;
         }
         final String country = getNonFinlandCountryCode(primaryAddress);
