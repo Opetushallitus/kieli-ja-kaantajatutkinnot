@@ -1,5 +1,3 @@
-import { ClerkTranslatorAddress } from 'interfaces/clerkTranslator';
-
 export interface ClerkPerson {
   onrId: string;
   isIndividualised: boolean;
@@ -9,5 +7,8 @@ export interface ClerkPerson {
   firstName: string;
   nickName: string;
   // Optional fields
-  address: Array<ClerkTranslatorAddress>;
+  street?: string;
+  postalCode?: string;
+  town?: string;
+  country?: string;
 }
