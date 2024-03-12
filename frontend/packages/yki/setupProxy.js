@@ -1065,6 +1065,8 @@ module.exports = function (app) {
           // This error case shouldn't ordinarily happen
           case 14:
             res.status(409).send({ error: { full: false, registered: false } });
+          case 16:
+            res.status(401).send("Unauthorized");
           default:
             req.body.exam_session_id % 2 === 0
               ? res.send(initRegistrationEmailAuth)
