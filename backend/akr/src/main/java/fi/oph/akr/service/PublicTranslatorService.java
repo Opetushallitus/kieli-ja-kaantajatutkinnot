@@ -111,7 +111,7 @@ public class PublicTranslatorService {
   ) {
     final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
     final String country = getNonFinlandCountryCode(primaryAddress);
-    final Pair<String, String> townTranslated = postalCodeService.translateTown(primaryAddress.town());
+    final Pair<String, String> townTranslated = translateTown(primaryAddress);
     return PublicTranslatorDTO
       .builder()
       .id(translator.getId())
@@ -140,11 +140,11 @@ public class PublicTranslatorService {
         final PersonalData personalData = personalDatas.get(translator.getOnrId());
         final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
 
-        if (personalData == null || !StringUtils.hasText(primaryAddress.town())) {
+        if (personalData == null || primaryAddress == null || !StringUtils.hasText(primaryAddress.town())) {
           return null;
         }
         final String country = getNonFinlandCountryCode(primaryAddress);
-        final Pair<String, String> townTranslated = postalCodeService.translateTown(primaryAddress.town());
+        final Pair<String, String> townTranslated = translateTown(primaryAddress);
         return PublicTownDTO
           .builder()
           .name(townTranslated.getLeft())
@@ -158,7 +158,19 @@ public class PublicTranslatorService {
       .toList();
   }
 
+  private Pair<String, String> translateTown(final TranslatorAddressDTO primaryAddress) {
+    if (primaryAddress == null) {
+      return Pair.of("", "");
+    }
+
+    return postalCodeService.translateTown(primaryAddress.town());
+  }
+
   private String getNonFinlandCountryCode(final TranslatorAddressDTO address) {
+    if (address == null) {
+      return null;
+    }
+
     final String countryCode = countryCodeService.getCountryCode(address.country());
     if (countryCode == null || countryCode.equals("FIN")) {
       return null;

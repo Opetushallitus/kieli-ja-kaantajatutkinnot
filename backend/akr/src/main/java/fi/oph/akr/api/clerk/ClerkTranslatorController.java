@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +55,9 @@ public class ClerkTranslatorController {
     operationId = "list_translator_by_source",
     summary = "List all translators by source, with all their data"
   )
-  public List<ClerkTranslatorDTO> listTranslatorsBySource(@RequestParam final ContactDetailsGroupSource source) {
+  public List<ClerkTranslatorDTO> listTranslatorsBySource(
+    @RequestParam final Optional<ContactDetailsGroupSource> source
+  ) {
     return clerkTranslatorService.listTranslatorsBySource(source);
   }
 
