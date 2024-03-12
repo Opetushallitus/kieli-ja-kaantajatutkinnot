@@ -5,7 +5,7 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
-import fi.oph.vkt.util.UIRouteUtil;
+import fi.oph.vkt.util.StringUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
@@ -70,9 +70,13 @@ public class PublicAuthService {
       }
     }
 
+    final String salt = environment.getRequiredProperty("salt");
+    final String hashedOtherIdentifier = StringUtil.getHash(otherIdentifier, salt);
     final Optional<Person> optionalExistingPerson = oid != null && !oid.isEmpty()
       ? personRepository.findByOid(oid)
-      : personRepository.findByOtherIdentifier(otherIdentifier);
+      : personRepository
+        .findByOtherIdentifier(otherIdentifier)
+        .or(() -> personRepository.findByOtherIdentifier(hashedOtherIdentifier));
 
     final Person person = optionalExistingPerson.orElse(new Person());
     person.setLastName(lastName);

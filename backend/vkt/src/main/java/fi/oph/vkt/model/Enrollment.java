@@ -87,6 +87,9 @@ public class Enrollment extends BaseEntity {
   @Column(name = "payment_link_expires_at")
   private LocalDateTime paymentLinkExpiresAt;
 
+  @Column(name = "is_anonymized", nullable = false)
+  private boolean isAnonymized;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "exam_event_id", referencedColumnName = "exam_event_id", nullable = false)
   private ExamEvent examEvent;

@@ -57,6 +57,7 @@ public class Factory {
     enrollment.setDigitalCertificateConsent(true);
     enrollment.setEmail("foo.tester@invalid");
     enrollment.setPhoneNumber("+10001234567");
+    enrollment.setAnonymized(false);
 
     enrollment.setExamEvent(examEvent);
     enrollment.setPerson(person);

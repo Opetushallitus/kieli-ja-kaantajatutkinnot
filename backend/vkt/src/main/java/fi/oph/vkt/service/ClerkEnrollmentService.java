@@ -11,12 +11,15 @@ import fi.oph.vkt.audit.dto.ClerkEnrollmentAuditDTO;
 import fi.oph.vkt.model.Enrollment;
 import fi.oph.vkt.model.ExamEvent;
 import fi.oph.vkt.model.Payment;
+import fi.oph.vkt.model.Person;
 import fi.oph.vkt.model.type.EnrollmentStatus;
 import fi.oph.vkt.model.type.PaymentStatus;
 import fi.oph.vkt.repository.EnrollmentRepository;
 import fi.oph.vkt.repository.ExamEventRepository;
 import fi.oph.vkt.repository.PaymentRepository;
+import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.util.ClerkEnrollmentUtil;
+import fi.oph.vkt.util.StringUtil;
 import fi.oph.vkt.util.UUIDSource;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
@@ -41,6 +44,7 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
   private final EnrollmentRepository enrollmentRepository;
   private final ExamEventRepository examEventRepository;
   private final PaymentRepository paymentRepository;
+  private final PersonRepository personRepository;
   private final AuditService auditService;
   private final Environment environment;
   private final UUIDSource uuidSource;
@@ -153,5 +157,53 @@ public class ClerkEnrollmentService extends AbstractEnrollmentService {
           enrollmentRepository.deleteById(enrollment.getId());
         }
       });
+  }
+
+  @Transactional(isolation = Isolation.SERIALIZABLE)
+  public void anonymizeEnrollments() {
+    final LocalDateTime expirationDate = LocalDateTime.now().minusDays(180);
+    enrollmentRepository
+      .findAllToAnonymize(expirationDate.toLocalDate())
+      .forEach(enrollment -> {
+        anonymizeEnrollment(enrollment);
+
+        final Person person = enrollment.getPerson();
+        if (person.getLatestIdentifiedAt().isBefore(expirationDate)) {
+          anonymizePerson(person);
+        }
+      });
+  }
+
+  private void anonymizeEnrollment(final Enrollment enrollment) {
+    enrollment.setEmail("anonymisoitu.ilmoittautuja@vkt.vkt");
+    enrollment.setPhoneNumber("+0000000");
+
+    if (enrollment.getStreet() != null) {
+      enrollment.setStreet("Testitie 1");
+    }
+    if (enrollment.getPostalCode() != null) {
+      enrollment.setPostalCode("00000");
+    }
+    if (enrollment.getTown() != null) {
+      enrollment.setTown("Kaupunki");
+    }
+    if (enrollment.getCountry() != null) {
+      enrollment.setCountry("Maa");
+    }
+
+    enrollment.setAnonymized(true);
+    enrollmentRepository.saveAndFlush(enrollment);
+  }
+
+  private void anonymizePerson(final Person person) {
+    final String salt = environment.getRequiredProperty("salt");
+    person.setLastName("Ilmoittautuja");
+    person.setFirstName("Anonymisoitu");
+
+    if (person.getOtherIdentifier() != null && !person.getOtherIdentifier().isEmpty()) {
+      person.setOtherIdentifier(StringUtil.getHash(person.getOtherIdentifier(), salt));
+    }
+
+    personRepository.saveAndFlush(person);
   }
 }

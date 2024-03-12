@@ -191,7 +191,7 @@ FROM generate_series(1, 22) i,
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 1), person_id,
        true, true, true,
        true, true, true, true,
@@ -209,7 +209,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+       false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -221,7 +222,7 @@ ORDER BY person_id LIMIT (SELECT max_participants FROM exam_event ORDER BY exam_
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 2), person_id,
        true, true, true,
        true, true, true, true,
@@ -239,7 +240,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+       false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -249,7 +251,7 @@ ORDER BY person_id LIMIT (SELECT max_participants FROM exam_event ORDER BY exam_
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 2), person_id,
        true, true, true,
        true, true, true, true,
@@ -267,7 +269,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+       false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -281,7 +284,7 @@ ORDER BY person_id
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3), person_id,
        true, true, true,
        true, true, true, true,
@@ -299,7 +302,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+      false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -308,7 +312,7 @@ FROM person,
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 3), person_id,
        true, true, true,
        true, true, true, true,
@@ -326,7 +330,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+       false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -339,7 +344,7 @@ FROM person,
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1 OFFSET 4), person_id,
        true, true, true,
        true, true, true, true,
@@ -357,7 +362,8 @@ SELECT (SELECT exam_event_id FROM exam_event ORDER BY exam_event_id DESC LIMIT 1
            END,
        CASE mod(person_id, 5)
            WHEN 0 THEN countries[mod(person_id / 5 - 1, array_length(countries, 1)) + 1]
-           END
+           END,
+       false
 FROM person,
      (SELECT ('{Erottajankatu 1, Mäkelänkatu 70, Postikatu 2, Hamngatan 4}')::text[] AS streets) AS street_table,
      (SELECT ('{00130, 00610, 33100, 111 47}')::text[] AS postal_codes) AS postal_code_table,
@@ -368,10 +374,10 @@ FROM person,
 INSERT INTO enrollment(exam_event_id, person_id,
                        skill_oral, skill_textual, skill_understanding,
                        partial_exam_speaking, partial_exam_speech_comprehension, partial_exam_writing, partial_exam_reading_comprehension,
-                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country)
+                       status, digital_certificate_consent, email, phone_number, street, postal_code, town, country, is_anonymized)
 SELECT exam_event_id, (SELECT max(person_id) FROM person),
        true, true, true,
        true, true, true, true,
        'CANCELED', true,
-       'foo@bar.invalid', '0404040404', null, null, null, null
+       'foo@bar.invalid', '0404040404', null, null, null, null, false
 FROM exam_event;
