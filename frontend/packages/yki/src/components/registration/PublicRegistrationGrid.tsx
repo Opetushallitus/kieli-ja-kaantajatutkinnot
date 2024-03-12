@@ -1,6 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
   H1,
   H2,
@@ -26,13 +26,14 @@ import { registrationSelector } from 'redux/selectors/registration';
 
 const RegistrationForm = () => {
   const dispatch = useAppDispatch();
-  const { status: initRegistrationStatus, examSessionId } =
+  const { status: initRegistrationStatus } =
     useAppSelector(registrationSelector).initRegistration;
   const { status: submitFormStatus } =
     useAppSelector(registrationSelector).submitRegistration;
   const { examSession, status: examSessionStatus } =
     useAppSelector(examSessionSelector);
   const [searchParams] = useSearchParams();
+  const params = useParams();
 
   useEffect(() => {
     if (
@@ -44,10 +45,15 @@ const RegistrationForm = () => {
     }
   });
   useEffect(() => {
-    if (!examSession && examSessionStatus === APIResponseStatus.NotStarted) {
-      dispatch(loadExamSession(examSessionId as number));
+    if (
+      !examSession &&
+      examSessionStatus === APIResponseStatus.NotStarted &&
+      params.examSessionId &&
+      !isNaN(Number(params.examSessionId))
+    ) {
+      dispatch(loadExamSession(+params.examSessionId));
     }
-  }, [dispatch, examSession, examSessionId, examSessionStatus]);
+  }, [dispatch, examSession, params.examSessionId, examSessionStatus]);
 
   if (submitFormStatus === APIResponseStatus.Success) {
     return (
@@ -117,8 +123,14 @@ const ShowPaymentStatus = () => {
 
 const StepContentSelector = () => {
   const { activeStep } = useAppSelector(registrationSelector);
+  const { status: initRegistrationStatus } =
+    useAppSelector(registrationSelector).initRegistration;
 
   switch (activeStep) {
+    case PublicRegistrationFormStep.Identify:
+      if (initRegistrationStatus === APIResponseStatus.Error) {
+        return <PublicRegistrationInitErrorView />;
+      }
     case PublicRegistrationFormStep.Register:
       return <RegistrationForm />;
     case PublicRegistrationFormStep.Done:
@@ -142,13 +154,16 @@ const Heading = () => {
   });
 
   if (activeStep === PublicRegistrationFormStep.Register) {
-    if (initRegistrationError) {
-      return t(`unavailable.${initRegistrationError}.title`);
-    } else if (submitFormStatus === APIResponseStatus.Success) {
+    if (submitFormStatus === APIResponseStatus.Success) {
       return t('steps.register.success.heading');
     } else {
       return t('steps.register.inProgress.heading');
     }
+  } else if (
+    activeStep === PublicRegistrationFormStep.Identify &&
+    initRegistrationError
+  ) {
+    return t(`unavailable.${initRegistrationError}.title`);
   } else {
     switch (paymentStatus) {
       case PaymentStatus.Success:

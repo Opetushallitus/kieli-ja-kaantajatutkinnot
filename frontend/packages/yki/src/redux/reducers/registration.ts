@@ -84,6 +84,7 @@ const registrationSlice = createSlice({
         } else if (action.payload.status === 401) {
           state.initRegistration.error =
             PublicRegistrationInitError.Unauthorized;
+          state.activeStep = PublicRegistrationFormStep.Identify;
         } else {
           state.initRegistration.error = PublicRegistrationInitError.Generic;
         }
