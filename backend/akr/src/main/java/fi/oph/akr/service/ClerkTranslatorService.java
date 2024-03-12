@@ -496,7 +496,7 @@ public class ClerkTranslatorService {
       .collect(Collectors.toMap(ExaminationDate::getDate, Function.identity()));
   }
 
-  public List<ClerkTranslatorDTO> listTranslatorsBySource(final ContactDetailsGroupSource source) {
+  public List<ClerkTranslatorDTO> listTranslatorsBySource(final Optional<ContactDetailsGroupSource> source) {
     final List<Translator> translators = translatorRepository.findExistingTranslators();
     final Map<String, PersonalData> personalDatas = onrService.getCachedPersonalDatas();
     return translators
@@ -509,7 +509,11 @@ public class ClerkTranslatorService {
         );
         final TranslatorAddressDTO primaryAddress = ContactDetailsUtil.getPrimaryAddress(personalData, translator);
 
-        if (!primaryAddress.source().equals(source)) {
+        if (source.isEmpty() && primaryAddress != null) {
+          return null;
+        }
+
+        if (source.isPresent() && (primaryAddress == null || !primaryAddress.source().equals(source.get()))) {
           return null;
         }
 
