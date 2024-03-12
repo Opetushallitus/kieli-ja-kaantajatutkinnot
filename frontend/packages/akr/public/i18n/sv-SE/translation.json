@@ -109,6 +109,30 @@
             "description": "Du kommer att förlora dina ändringar.",
             "title": "Vill du lämna redigeringsvyn?"
           },
+          "address": {
+            "alkupera1": "VTJ",
+            "alkupera2": "Virkailijan UI",
+            "alkupera3": "Omat tiedot UI",
+            "alkupera4": "Hakulomake",
+            "alkupera5": "Tiedonsiirrot",
+            "alkupera6": "Muu",
+            "alkupera7": "OTR",
+            "alkupera8": "AKR",
+            "yhteystietotyyppi1": "Kotiosoite",
+            "yhteystietotyyppi2": "Työosoite",
+            "yhteystietotyyppi3": "Vapaa-ajan osoite",
+            "yhteystietotyyppi4": "Vakinainen, kotimaa",
+            "yhteystietotyyppi5": "Vakinainen, ulkomaa",
+            "yhteystietotyyppi6": "Hakemukselta tuleva osoite",
+            "yhteystietotyyppi7": "Muu osoite",
+            "yhteystietotyyppi8": "Sähköinen osoite",
+            "yhteystietotyyppi9": "Tilapäinen, kotimaa",
+            "yhteystietotyyppi10": "Tilapäinen, ulkomaa",
+            "yhteystietotyyppi11": "Postiosoite, kotimaa",
+            "yhteystietotyyppi12": "Postiosoite, ulkomaa",
+            "yhteystietotyyppi13": "OTR",
+            "yhteystietotyyppi14": "AKR"
+          },
           "caveats": {
             "isNotAssuranceGiven": "Auktoriseringarna syns inte i den offentliga listan!"
           },
