@@ -6,8 +6,8 @@ import Button from '@mui/material/Button';
 import { FC, useEffect } from 'react';
 import { generatePath, Link, matchPath, useLocation } from 'react-router-dom';
 import { Text } from 'shared/components';
-import { APIResponseStatus, Color, Variant } from 'shared/enums';
-import { useWindowProperties } from 'shared/hooks';
+import { APIResponseStatus, Color, Severity, Variant } from 'shared/enums';
+import { useDialog, useWindowProperties } from 'shared/hooks';
 
 import { useCommonTranslation } from 'configs/i18n';
 import { useAppDispatch, useAppSelector } from 'configs/redux';
@@ -69,6 +69,18 @@ const OpenRegistrationsContent = ({
   );
 };
 
+const LogoutDialogContents = () => {
+  const translateCommon = useCommonTranslation();
+
+  return (
+    <Text>
+      {translateCommon('header.sessionState.logOutDialog.description1')}
+      <br />
+      {translateCommon('header.sessionState.logOutDialog.description2')}
+    </Text>
+  );
+};
+
 export const SessionStateHeader: FC = () => {
   const location = useLocation();
   const translateCommon = useCommonTranslation();
@@ -86,6 +98,30 @@ export const SessionStateHeader: FC = () => {
     0;
   const exampleOpenRegistration =
     notOnRegistrationPage && openRegistrations && openRegistrations[0];
+
+  const { showDialog } = useDialog();
+  const handleLogout = () => {
+    showDialog({
+      severity: Severity.Info,
+      title: translateCommon('header.sessionState.logOutDialog.title'),
+      content: <LogoutDialogContents />,
+      actions: [
+        {
+          title: translateCommon(
+            'header.sessionState.logOutDialog.confirmButton',
+          ),
+          variant: Variant.Outlined,
+          action: () => (document.location = generateLogoutURL()),
+        },
+        {
+          title: translateCommon(
+            'header.sessionState.logOutDialog.cancelButton',
+          ),
+          variant: Variant.Contained,
+        },
+      ],
+    });
+  };
 
   useEffect(() => {
     const needsUserOpenRegistrations =
@@ -113,16 +149,15 @@ export const SessionStateHeader: FC = () => {
             <PersonIcon className="session-header__user-icon" />
             {getUserName(session)}
           </Text>
-          <a href={generateLogoutURL()}>
-            <Button
-              className="session-header__logout-button"
-              color={Color.Secondary}
-              variant={Variant.Outlined}
-            >
-              <LogoutIcon />
-              {translateCommon('header.sessionState.logOut')}
-            </Button>
-          </a>
+          <Button
+            className="session-header__logout-button"
+            color={Color.Secondary}
+            variant={Variant.Outlined}
+            onClick={handleLogout}
+          >
+            <LogoutIcon />
+            {translateCommon('header.sessionState.logOut')}
+          </Button>
         </div>
         {exampleOpenRegistration && (
           <div className="session-header__open-registrations rows">
@@ -153,6 +188,7 @@ export const SessionStateHeader: FC = () => {
           className="session-header__logout-button"
           color={Color.Secondary}
           variant={Variant.Outlined}
+          onClick={handleLogout}
         >
           <LogoutIcon />
           {translateCommon('header.sessionState.logOut')}
