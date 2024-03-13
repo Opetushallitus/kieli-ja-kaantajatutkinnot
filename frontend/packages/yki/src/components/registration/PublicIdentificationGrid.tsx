@@ -16,7 +16,7 @@ import { sessionSelector } from 'redux/selectors/session';
 
 const AlreadyLoggedIn = () => {
   const { t } = usePublicTranslation({
-    keyPrefix: 'yki.component.registration.steps.identify.alreadyLoggedIn',
+    keyPrefix: 'yki.component.registration.steps.identify',
   });
   const { loggedInSession } = useAppSelector(sessionSelector);
   const examSession = useAppSelector(examSessionSelector)
@@ -28,27 +28,28 @@ const AlreadyLoggedIn = () => {
 
   return (
     <>
-      <H2>{t('caption')}</H2>
+      <Text>{t('registrationIsBindingAdvisory')}</Text>
+      <H2>{t('alreadyLoggedIn.caption')}</H2>
       <Text>
         {isSuomiFiAuthenticatedSession && (
           <>
-            <strong>{t('labels.name') + ':'}</strong>
+            <strong>{t('alreadyLoggedIn.labels.name') + ':'}</strong>
             &nbsp;
             {`${loggedInSession.identity.first_name} ${loggedInSession.identity.last_name}`}
           </>
         )}
         {isEmailAuthenticatedSession && (
           <>
-            <strong>{t('labels.email') + ':'}</strong>
+            <strong>{t('alreadyLoggedIn.labels.email') + ':'}</strong>
             &nbsp;
             {`${loggedInSession.identity['external-user-id']}`}
           </>
         )}
       </Text>
-      <Text>{t('reauthenticate')}</Text>
+      <Text>{t('alreadyLoggedIn.reauthenticate')}</Text>
       <div className="rows gapped-xs align-items-center">
         <CustomButton
-          aria-label={t('labels.continueToRegistration')}
+          aria-label={t('alreadyLoggedIn.labels.continueToRegistration')}
           variant={Variant.Contained}
           color={Color.Secondary}
           className="fit-content-max-width"
@@ -58,17 +59,17 @@ const AlreadyLoggedIn = () => {
             `${examSession.id}`,
           )}
         >
-          {t('labels.continueToRegistration')}
+          {t('alreadyLoggedIn.labels.continueToRegistration')}
         </CustomButton>
         <CustomButton
-          aria-label={t('labels.abort')}
+          aria-label={t('alreadyLoggedIn.labels.abort')}
           variant={Variant.Text}
           color={Color.Secondary}
           className="fit-content-max-width"
           size="large"
           href={AppRoutes.Registration}
         >
-          {t('labels.abort')}
+          {t('alreadyLoggedIn.labels.abort')}
         </CustomButton>
       </div>
     </>
