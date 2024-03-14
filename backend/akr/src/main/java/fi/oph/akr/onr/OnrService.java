@@ -73,7 +73,7 @@ public class OnrService {
     try {
       api.updatePersonalData(personalData);
     } catch (final Exception e) {
-      LOG.info("Error updating personal data to onr for oid {}", personalData.getOnrId(), e);
+      LOG.error("Error updating personal data to onr for oid {}", personalData.getOnrId(), e);
       throw new APIException(APIExceptionType.ONR_SAVE_EXCEPTION);
     }
 
