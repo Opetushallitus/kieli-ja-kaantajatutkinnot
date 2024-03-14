@@ -62,7 +62,7 @@ public class OnrService {
       personalDataCache.put(onrId, personalData);
       return onrId;
     } catch (final Exception e) {
-      LOG.info("Error inserting personal data to onr");
+      LOG.error("Error inserting personal data to onr", e);
       throw new APIException(APIExceptionType.ONR_SAVE_EXCEPTION);
     }
   }
@@ -73,7 +73,7 @@ public class OnrService {
     try {
       api.updatePersonalData(personalData);
     } catch (final Exception e) {
-      LOG.info("Error updating personal data to onr for oid {}", personalData.getOnrId());
+      LOG.info("Error updating personal data to onr for oid {}", personalData.getOnrId(), e);
       throw new APIException(APIExceptionType.ONR_SAVE_EXCEPTION);
     }
 
