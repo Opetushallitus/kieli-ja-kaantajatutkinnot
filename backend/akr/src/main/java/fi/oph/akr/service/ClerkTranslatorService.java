@@ -18,6 +18,8 @@ import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
+import fi.oph.akr.audit.dto.AuthorisationAuditDTO;
+import fi.oph.akr.audit.dto.ClerkTranslatorAuditDTO;
 import fi.oph.akr.config.CacheConfig;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationTermReminder;
@@ -297,7 +299,10 @@ public class ClerkTranslatorService {
     final Translator translator = translatorRepository.getReferenceById(dto.id());
     translator.assertVersion(dto.version());
 
+    final PersonalData oldPersonalData = onrService.getCachedPersonalDatas().get(translator.getOnrId());
     final PersonalData personalData = createPersonalData(translator.getOnrId(), dto);
+    ClerkTranslatorAuditDTO oldTranslatorDTO = new ClerkTranslatorAuditDTO(translator, oldPersonalData);
+
     validatePersonalData(personalData);
     onrService.updatePersonalData(personalData);
 
@@ -306,7 +311,8 @@ public class ClerkTranslatorService {
     translatorRepository.flush();
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    auditService.logById(AkrOperation.UPDATE_TRANSLATOR, translator.getId());
+    ClerkTranslatorAuditDTO newTranslator = new ClerkTranslatorAuditDTO(translator, personalData);
+    auditService.logUpdate(AkrOperation.UPDATE_TRANSLATOR, translator.getId(), oldTranslatorDTO, newTranslator);
     return result;
   }
 
@@ -417,16 +423,25 @@ public class ClerkTranslatorService {
     final Authorisation authorisation = authorisationRepository.getReferenceById(dto.id());
     authorisation.assertVersion(dto.version());
 
+    final AuthorisationAuditDTO oldAuthorisation = new AuthorisationAuditDTO(authorisation);
+
     final Map<LocalDate, MeetingDate> meetingDates = getLocalDateMeetingDateMap();
     final Map<LocalDate, ExaminationDate> examinationDates = getLocalDateExaminationDateMap();
 
     copyDtoFieldsToAuthorisation(dto, authorisation, meetingDates, examinationDates);
     authorisationRepository.flush();
+    final AuthorisationAuditDTO newAuthorisation = new AuthorisationAuditDTO(authorisation);
 
     final Translator translator = authorisation.getTranslator();
 
     final ClerkTranslatorDTO result = getTranslatorWithoutAudit(translator.getId());
-    auditService.logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisation.getId());
+    auditService.logAuthorisation(
+      AkrOperation.UPDATE_AUTHORISATION,
+      translator,
+      authorisation.getId(),
+      oldAuthorisation,
+      newAuthorisation
+    );
     return result;
   }
 
