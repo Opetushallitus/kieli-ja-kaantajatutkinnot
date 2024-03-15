@@ -1,7 +1,11 @@
 package fi.oph.akr.audit.dto;
 
+import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.model.PersonalData;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -17,12 +21,11 @@ public record ClerkTranslatorAuditDTO(
   String identityNumber,
   String email,
   String phoneNumber,
-  String street,
-  String postalCode,
-  String town,
-  String country,
+  Map<String, TranslatorAddressDTO> address,
   String extraInformation,
-  @NonNull Boolean isAssuranceGiven
+  @NonNull Boolean isAssuranceGiven,
+  String selectedSource,
+  String selectedType
 )
   implements AuditEntityDTO {
   public ClerkTranslatorAuditDTO(Translator translator, PersonalData personalData) {
@@ -37,12 +40,14 @@ public record ClerkTranslatorAuditDTO(
       personalData.getIdentityNumber(),
       personalData.getEmail(),
       personalData.getPhoneNumber(),
-      personalData.getStreet(),
-      personalData.getPostalCode(),
-      personalData.getTown(),
-      personalData.getTown(),
+      personalData
+        .getAddress()
+        .stream()
+        .collect(Collectors.toMap(address -> address.source() + ":" + address.type(), Function.identity())),
       translator.getExtraInformation(),
-      translator.isAssuranceGiven()
+      translator.isAssuranceGiven(),
+      translator.getSelectedSource(),
+      translator.getSelectedType()
     );
   }
 }
