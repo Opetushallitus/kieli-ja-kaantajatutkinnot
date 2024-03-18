@@ -5,7 +5,6 @@ import fi.oph.vkt.model.type.AppLocale;
 import fi.oph.vkt.model.type.EnrollmentType;
 import fi.oph.vkt.repository.PersonRepository;
 import fi.oph.vkt.service.auth.CasTicketValidationService;
-import fi.oph.vkt.util.UIRouteUtil;
 import fi.oph.vkt.util.exception.APIException;
 import fi.oph.vkt.util.exception.APIExceptionType;
 import java.net.URLEncoder;
@@ -13,10 +12,13 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+
+import fi.vm.sade.javautils.nio.cas.CasLogout;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class PublicAuthService {
   private final CasTicketValidationService casTicketValidationService;
   private final PersonRepository personRepository;
   private final Environment environment;
+  private final SessionRegistry sessionRegistry;
 
   public String createCasLoginUrl(final long examEventId, final EnrollmentType type, final AppLocale appLocale) {
     final String casLoginUrl = environment.getRequiredProperty("app.cas-oppija.login-url");
@@ -82,5 +85,11 @@ public class PublicAuthService {
     person.setLatestIdentifiedAt(LocalDateTime.now());
 
     return personRepository.saveAndFlush(person);
+  }
+
+  public void logoutSession(final String logoutRequest) {
+    final CasLogout casLogout = new CasLogout();
+    final Optional<String> ticket = casLogout.parseTicketFromLogoutRequest(logoutRequest);
+
   }
 }

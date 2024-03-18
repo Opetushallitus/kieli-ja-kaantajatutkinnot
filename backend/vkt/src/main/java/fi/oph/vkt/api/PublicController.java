@@ -239,6 +239,13 @@ public class PublicController {
     httpResponse.sendRedirect(publicAuthService.createCasLogoutUrl());
   }
 
+  @PostMapping(path = "/auth/logout/callback")
+  public void logoutCasCallback(
+      @RequestBody final String logoutRequest
+  ) throws IOException {
+    publicAuthService.logoutSession(logoutRequest);
+  }
+
   @GetMapping(path = "/payment/create/{enrollmentId:\\d+}/redirect")
   public void createPaymentAndRedirect(
     @PathVariable final Long enrollmentId,
