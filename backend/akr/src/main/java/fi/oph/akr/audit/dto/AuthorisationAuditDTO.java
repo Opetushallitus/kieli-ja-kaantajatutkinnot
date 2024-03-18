@@ -1,5 +1,6 @@
 package fi.oph.akr.audit.dto;
 
+import fi.oph.akr.api.dto.clerk.AuthorisationDTO;
 import fi.oph.akr.api.dto.clerk.modify.AuthorisationUpdateDTO;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
@@ -22,6 +23,20 @@ public record AuthorisationAuditDTO(
   String examinationDate
 )
   implements AuditEntityDTO {
+  public AuthorisationAuditDTO(AuthorisationDTO update) {
+    this(
+      update.id(),
+      update.version(),
+      update.basis(),
+      update.languagePair().from(),
+      update.languagePair().to(),
+      DateUtil.formatOptionalDate(update.termBeginDate()),
+      DateUtil.formatOptionalDate(update.termEndDate()),
+      update.permissionToPublish(),
+      update.diaryNumber(),
+      DateUtil.formatOptionalDate(update.examinationDate())
+    );
+  }
   public AuthorisationAuditDTO(AuthorisationUpdateDTO update) {
     this(
       update.id(),
@@ -48,7 +63,9 @@ public record AuthorisationAuditDTO(
       DateUtil.formatOptionalDate(authorisation.getTermEndDate()),
       authorisation.isPermissionToPublish(),
       authorisation.getDiaryNumber(),
-      DateUtil.formatOptionalDate(authorisation.getExaminationDate().getDate())
+      DateUtil.formatOptionalDate(
+        authorisation.getExaminationDate() != null ? authorisation.getExaminationDate().getDate() : null
+      )
     );
   }
 }

@@ -1,6 +1,7 @@
 package fi.oph.akr.audit.dto;
 
 import fi.oph.akr.api.dto.clerk.MeetingDateDTO;
+import fi.oph.akr.api.dto.clerk.modify.MeetingDateUpdateDTO;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.util.DateUtil;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,9 @@ public record MeetingDateAuditDTO(
   @NonNull @NotNull String date
 )
   implements AuditEntityDTO {
+  public MeetingDateAuditDTO(MeetingDateUpdateDTO date) {
+    this(date.id(), date.version(), DateUtil.formatOptionalDate(date.date()));
+  }
   public MeetingDateAuditDTO(MeetingDateDTO date) {
     this(date.id(), date.version(), DateUtil.formatOptionalDate(date.date()));
   }

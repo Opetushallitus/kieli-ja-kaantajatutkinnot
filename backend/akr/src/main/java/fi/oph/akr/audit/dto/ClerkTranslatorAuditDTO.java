@@ -1,5 +1,6 @@
 package fi.oph.akr.audit.dto;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.model.Translator;
 import fi.oph.akr.onr.model.PersonalData;
@@ -28,6 +29,34 @@ public record ClerkTranslatorAuditDTO(
   String selectedType
 )
   implements AuditEntityDTO {
+  public ClerkTranslatorAuditDTO(ClerkTranslatorDTO translator) {
+    this(
+      translator.id(),
+      translator.version(),
+      translator.isIndividualised(),
+      translator.hasIndividualisedAddress(),
+      translator.firstName(),
+      translator.lastName(),
+      translator.nickName(),
+      translator.identityNumber(),
+      translator.email(),
+      translator.phoneNumber(),
+      translator
+        .address()
+        .stream()
+        .collect(
+          Collectors.toMap(
+            address -> address.source() + ":" + address.type(),
+            address -> new TranslatorAddressDTO(address)
+          )
+        ),
+      translator.extraInformation(),
+      translator.isAssuranceGiven(),
+      translator.address().stream().filter(addr -> addr.selected()).findAny().get().source().toString(),
+      translator.address().stream().filter(addr -> addr.selected()).findAny().get().type().toString()
+    );
+  }
+
   public ClerkTranslatorAuditDTO(Translator translator, PersonalData personalData) {
     this(
       translator.getId(),
