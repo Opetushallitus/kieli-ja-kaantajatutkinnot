@@ -65,7 +65,11 @@ const PublicEvaluationPeriodListingCellsForPhone = ({
         >
           {evaluationPeriod.open
             ? t('requestReassessment')
-            : t('evaluationPeriodNotYetOpen')}
+            : t('evaluationPeriodNotYetOpen', {
+                startDate: DateUtils.formatOptionalDate(
+                  evaluationPeriod.evaluation_start_date,
+                ),
+              })}
         </CustomButton>
       </div>
     </TableCell>
