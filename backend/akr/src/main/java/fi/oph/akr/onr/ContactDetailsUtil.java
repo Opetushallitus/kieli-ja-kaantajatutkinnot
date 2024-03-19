@@ -150,7 +150,7 @@ public class ContactDetailsUtil {
       .findFirst();
   }
 
-  private static ContactDetailsDTO createContactDetailsDTO(final ContactDetailsType type, final String value) {
+  public static ContactDetailsDTO createContactDetailsDTO(final ContactDetailsType type, final String value) {
     final ContactDetailsDTO contactDetailsDTO = new ContactDetailsDTO();
     contactDetailsDTO.setType(type);
     contactDetailsDTO.setValue(value);
