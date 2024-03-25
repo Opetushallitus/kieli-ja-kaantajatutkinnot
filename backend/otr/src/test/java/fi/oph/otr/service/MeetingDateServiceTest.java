@@ -12,6 +12,7 @@ import fi.oph.otr.api.dto.clerk.modify.MeetingDateCreateDTO;
 import fi.oph.otr.api.dto.clerk.modify.MeetingDateUpdateDTO;
 import fi.oph.otr.audit.AuditService;
 import fi.oph.otr.audit.OtrOperation;
+import fi.oph.otr.audit.dto.MeetingDateAuditDTO;
 import fi.oph.otr.model.Interpreter;
 import fi.oph.otr.model.MeetingDate;
 import fi.oph.otr.model.Qualification;
@@ -101,6 +102,7 @@ class MeetingDateServiceTest {
   public void testMeetingDateUpdate() {
     final MeetingDate meetingDate = Factory.meetingDate();
     entityManager.persist(meetingDate);
+    final MeetingDateAuditDTO oldAuditDto = new MeetingDateAuditDTO(meetingDate);
 
     final MeetingDateUpdateDTO updateDTO = MeetingDateUpdateDTO
       .builder()
@@ -110,12 +112,13 @@ class MeetingDateServiceTest {
       .build();
 
     final MeetingDateDTO response = meetingDateService.updateMeetingDate(updateDTO);
+    final MeetingDateAuditDTO newAuditDto = new MeetingDateAuditDTO(response);
 
     assertEquals(updateDTO.id(), response.id());
     assertEquals(updateDTO.version() + 1, response.version());
     assertEquals(updateDTO.date(), response.date());
 
-    verify(auditService).logById(OtrOperation.UPDATE_MEETING_DATE, response.id());
+    verify(auditService).logUpdate(OtrOperation.UPDATE_MEETING_DATE, response.id(), oldAuditDto, newAuditDto);
     verifyNoMoreInteractions(auditService);
   }
 
