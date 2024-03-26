@@ -116,12 +116,14 @@ export const ClerkTranslatorPrimaryAddress = ({
     keyPrefix: 'akr.component.clerkTranslatorOverview.translatorDetails',
   });
   const address = addresses.filter((address) => address.selected);
+  const autoAddress = addresses.filter((address) => address.autoSelected);
 
-  if (address.length <= 0) {
+  if (address.length <= 0 && autoAddress.length <= 0) {
     return <></>;
   }
 
-  const selectedAddress = address[0];
+  const selectedAddress = address[0] || autoAddress[0];
+  const isAddressAutoSelected = !address[0];
 
   return (
     <div data-testid="clerk-translator-address__primary-akr-address">
@@ -135,6 +137,15 @@ export const ClerkTranslatorPrimaryAddress = ({
         {t('fields.source')}: {t('address.' + selectedAddress.source)} (
         {t('address.' + selectedAddress.type)})
       </Text>
+      {isAddressAutoSelected && (
+        <div className="individualised margin-top-lg">
+          <InfoText>
+            Osoite on automaattisesti valittu. Valittua osoitetta käytetään
+            julkisessa listauksessa. Voit muuttaa lähdettä valitsemalla toisen
+            lähteen.
+          </InfoText>
+        </div>
+      )}
       {!editDisabled &&
         ((selectedAddress.source === ClerkTranslatorAddressSource.AKR && (
           <CustomButton
@@ -228,8 +239,15 @@ export const ClerkTranslatorAddressFields = ({
     </TableRow>
   );
 
+  const hasManuallySelectedAddress = addresses.some(
+    (address: ClerkTranslatorAddress) => address.selected,
+  );
+  const filterEmpty = (address: ClerkTranslatorAddress) =>
+    address.street || address.country || address.town || address.postalCode;
   const filterNonSelected = (address: ClerkTranslatorAddress) =>
-    !address.selected;
+    hasManuallySelectedAddress
+      ? !address.selected
+      : !address.selected && !address.autoSelected;
   const addIdToData = (
     address: ClerkTranslatorAddress,
     idx: number,
@@ -243,7 +261,10 @@ export const ClerkTranslatorAddressFields = ({
       <CustomTable
         className=""
         header={<AddressHeader />}
-        data={addresses.filter(filterNonSelected).map(addIdToData)}
+        data={addresses
+          .filter(filterNonSelected)
+          .filter(filterEmpty)
+          .map(addIdToData)}
         getRowDetails={getRowDetails}
         stickyHeader
       />
