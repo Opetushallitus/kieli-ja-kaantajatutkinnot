@@ -4,6 +4,7 @@ import {
   newAuthorisation,
   translatorFromOnrResponse,
   translatorFromOnrResponseNoAkrAddress,
+  translatorOnrAutoAddressResponse,
   translatorResponse,
 } from 'tests/cypress/fixtures/ts/clerkTranslator';
 import { onClerkHomePage } from 'tests/cypress/support/page-objects/clerkHomePage';
@@ -30,6 +31,11 @@ beforeEach(() => {
     `${APIEndpoints.ClerkTranslator}/${translatorFromOnrResponseNoAkrAddress.id}`,
     translatorFromOnrResponseNoAkrAddress,
   ).as('getClerkTranslatorFromOnrOverview');
+
+  cy.intercept(
+    `${APIEndpoints.ClerkTranslator}/${translatorOnrAutoAddressResponse.id}`,
+    translatorOnrAutoAddressResponse,
+  ).as('getClerkTranslatorFromOnrAutoAddressOverview');
 
   const updatedExistingTranslator = {
     ...translatorResponse,
@@ -199,6 +205,18 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
       'Linnahämeen',
     );
     onClerkTranslatorOverviewPage.expectTranslatorOtherAddressText('SWE');
+  });
+
+  it('should choose automatically selected address', () => {
+    onClerkTranslatorOverviewPage.navigateById(translatorOnrAutoAddressResponse.id);
+    cy.wait('@getClerkTranslatorFromOnrAutoAddressOverview');
+
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('Runebergintie 2');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('01200');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText(
+      'Turku',
+    );
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('suomi');
   });
 
   it('should disable details save button when the required fields are not filled out', () => {
