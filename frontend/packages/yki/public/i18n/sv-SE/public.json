@@ -254,6 +254,7 @@
           "completed": "Genomförd",
           "paymentAborted": "Betalningen kunde inte genomföras",
           "phase": "Skede",
+          "phaseNumber": "{{current}} av {{total}}",
           "step": {
             "Done": "Färdig",
             "Identify": "Identifiera dig",

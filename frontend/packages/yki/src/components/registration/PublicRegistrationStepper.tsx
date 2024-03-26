@@ -1,6 +1,7 @@
-import { Step, StepLabel, Stepper } from '@mui/material';
+import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { useSearchParams } from 'react-router-dom';
-import { CircularStepper, H2, Text } from 'shared/components';
+import { CircularStepper, Text } from 'shared/components';
 import { APIResponseStatus, Color } from 'shared/enums';
 import { useWindowProperties } from 'shared/hooks';
 
@@ -36,14 +37,6 @@ export const PublicRegistrationStepper = () => {
     .map(Number)
     .filter((i) => i <= doneStepNumber);
 
-  const getStatusText = (stepNumber: number) => {
-    if (stepNumber < activeStep) {
-      return t('completed');
-    } else if (stepNumber === activeStep) {
-      return t('active');
-    }
-  };
-
   const getDescription = (stepNumber: number) => {
     return t(`step.${PublicRegistrationFormStep[stepNumber]}`);
   };
@@ -58,12 +51,19 @@ export const PublicRegistrationStepper = () => {
     }
   };
 
-  const getStepAriaLabel = (stepNumber: number) => {
-    const part = `${stepNumber}/${stepNumbers.length}`;
-    const statusText = getStatusText(stepNumber);
+  const isStepCompleted = (step: number) => {
+    return step < activeStep;
+  };
+
+  const getPhaseDescription = (stepNumber: number) => {
+    const part = t('phaseNumber', {
+      current: stepNumber,
+      total: stepNumbers.length,
+    });
+    const statusText = isStepCompleted(stepNumber) ? t('completed') : '';
     const partStatus = statusText ? `${part}, ${statusText}` : part;
 
-    return `${t('phase')} ${partStatus}: ${getDescription(stepNumber)}`;
+    return `${t('phase')} ${partStatus}`;
   };
 
   const stepValue =
@@ -71,39 +71,57 @@ export const PublicRegistrationStepper = () => {
       ? PublicRegistrationFormStep.Payment
       : Math.min(activeStep, doneStepNumber);
 
+  // eslint-disable-next-line no-console
+  console.debug(stepValue, activeStep);
+
+  const currentStep = `${t('currentStep')}: ${getDescription(stepValue)}.`;
+  const nextStep =
+    stepValue + 1 <= doneStepNumber
+      ? `${t('nextStep')}: ${getDescription(stepValue + 1)}.`
+      : '';
+
   const mobileStepValue = stepValue * (100 / doneStepNumber);
-  const mobilePhaseText = `${stepValue}/${doneStepNumber}`;
-  const mobileAriaLabel = `${t('phase')} ${mobilePhaseText}: ${getDescription(
-    stepValue,
-  )}`;
+  const phaseText = `${stepValue}/${doneStepNumber}`;
+  const mobileAriaLabel = `${getPhaseDescription(stepValue)}
+  ${currentStep}
+  ${nextStep}`;
 
   if (isPhone) {
     return (
-      <div className="columns gapped-xxl public-registration__grid__circular-stepper-container">
-        <CircularStepper
-          value={mobileStepValue}
-          ariaLabel={mobileAriaLabel}
-          phaseText={mobilePhaseText}
-          color={isError ? Color.Error : Color.Secondary}
-          size={90}
-        />
-        <div className="rows">
-          <H2>{getDescription(stepValue)}</H2>
-          {!isError && <Text>{getNextInformation(stepValue)}</Text>}
+      <div
+        className="columns gapped-xxl public-registration__grid__circular-stepper-container"
+        aria-label={t('label')}
+        role="group"
+      >
+        <div aria-hidden={true}>
+          <CircularStepper
+            value={mobileStepValue}
+            ariaLabel={mobileAriaLabel}
+            phaseText={phaseText}
+            color={isError ? Color.Error : Color.Secondary}
+            size={90}
+          />
+          <div className="rows">
+            <Typography component="p" variant="h2">{getDescription(stepValue)} </Typography>
+            {!isError && <Text>{getNextInformation(stepValue)}</Text>}
+          </div>
         </div>
+        <Text sx={visuallyHidden}>{mobileAriaLabel}</Text>
       </div>
     );
   } else {
     return (
       <Stepper
         className="public-registration__grid__stepper"
+        aria-label={t('label')}
         activeStep={stepValue - 1}
+        role="group"
       >
         {stepNumbers.map((i) => (
           <Step key={i}>
             <StepLabel
-              aria-label={getStepAriaLabel(i)}
               error={isError && stepValue === i}
+              aria-current={stepValue === i && 'step'}
               className={
                 stepValue === i && isError
                   ? 'public-registration__grid__stepper__step-error'
@@ -112,6 +130,7 @@ export const PublicRegistrationStepper = () => {
                   : undefined
               }
             >
+              <Text sx={visuallyHidden}>{getPhaseDescription(i)}</Text>
               {getDescription(i)}
             </StepLabel>
           </Step>

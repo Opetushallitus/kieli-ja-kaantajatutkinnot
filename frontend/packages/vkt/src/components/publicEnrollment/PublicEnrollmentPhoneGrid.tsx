@@ -84,7 +84,7 @@ export const PublicEnrollmentPhoneGrid = ({
 
   const getMobileStepperHeading = () => {
     const heading = (
-      <Typography component="h1" variant="h2">
+      <Typography component="p" variant="h2">
         {t(`stepHeading.common.${PublicEnrollmentFormStep[activeStep]}`)}
       </Typography>
     );
