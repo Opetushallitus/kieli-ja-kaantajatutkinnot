@@ -171,7 +171,8 @@
           "edit": "Muokkaa",
           "switchSource": "Vaihda lähteeksi",
           "individualisedInformation": "Tiedot haettu väestötietojärjestelmästä",
-          "readOnlyAddress": "Tästä lähteestä haettua osoitetta ei voi muokata"
+          "readOnlyAddress": "Tästä lähteestä haettua osoitetta ei voi muokata",
+          "automaticallySelectedAddress": "Osoite on automaattisesti valittu. Valittua osoitetta käytetään julkisessa listauksessa. Voit muuttaa lähdettä valitsemalla toisen lähteen."
         }
       },
       "contactRequestForm": {

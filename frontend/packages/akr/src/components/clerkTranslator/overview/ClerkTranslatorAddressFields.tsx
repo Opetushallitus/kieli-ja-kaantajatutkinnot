@@ -139,11 +139,7 @@ export const ClerkTranslatorPrimaryAddress = ({
       </Text>
       {isAddressAutoSelected && (
         <div className="individualised margin-top-lg">
-          <InfoText>
-            Osoite on automaattisesti valittu. Valittua osoitetta käytetään
-            julkisessa listauksessa. Voit muuttaa lähdettä valitsemalla toisen
-            lähteen.
-          </InfoText>
+          <InfoText>{t('automaticallySelectedAddress')}</InfoText>
         </div>
       )}
       {!editDisabled &&

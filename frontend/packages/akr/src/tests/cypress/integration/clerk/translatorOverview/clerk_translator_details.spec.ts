@@ -208,14 +208,16 @@ describe('ClerkTranslatorOverview:ClerkTranslatorDetails', () => {
   });
 
   it('should choose automatically selected address', () => {
-    onClerkTranslatorOverviewPage.navigateById(translatorOnrAutoAddressResponse.id);
+    onClerkTranslatorOverviewPage.navigateById(
+      translatorOnrAutoAddressResponse.id,
+    );
     cy.wait('@getClerkTranslatorFromOnrAutoAddressOverview');
 
-    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('Runebergintie 2');
-    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('01200');
     onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText(
-      'Turku',
+      'Runebergintie 2',
     );
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('01200');
+    onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('Turku');
     onClerkTranslatorOverviewPage.expectTranslatorPrimaryAddressText('suomi');
   });
 
