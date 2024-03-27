@@ -27,6 +27,8 @@ import fi.oph.akr.api.dto.clerk.modify.TranslatorUpdateDTO;
 import fi.oph.akr.api.dto.translator.TranslatorAddressDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
+import fi.oph.akr.audit.dto.AuthorisationAuditDTO;
+import fi.oph.akr.audit.dto.ClerkTranslatorAuditDTO;
 import fi.oph.akr.model.Authorisation;
 import fi.oph.akr.model.AuthorisationBasis;
 import fi.oph.akr.model.AuthorisationTermReminder;
@@ -659,8 +661,10 @@ class ClerkTranslatorServiceTest {
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+    ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
 
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
+    ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -668,7 +672,7 @@ class ClerkTranslatorServiceTest {
     assertEquals(updateDTO.version() + 1, response.version());
     assertTranslatorCommonFields(updateDTO, response);
 
-    verify(auditService).logById(AkrOperation.UPDATE_TRANSLATOR, response.id());
+    verify(auditService).logUpdate(AkrOperation.UPDATE_TRANSLATOR, response.id(), oldDTO, newDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -686,8 +690,10 @@ class ClerkTranslatorServiceTest {
 
     final PersonalData personalData = defaultPersonalData(updateDTO, translator.getOnrId());
     when(onrService.getCachedPersonalDatas()).thenReturn(Map.of(translator.getOnrId(), personalData));
+    ClerkTranslatorAuditDTO oldDTO = new ClerkTranslatorAuditDTO(translator, personalData);
 
     final ClerkTranslatorDTO response = clerkTranslatorService.updateTranslator(updateDTO);
+    ClerkTranslatorAuditDTO newDTO = new ClerkTranslatorAuditDTO(response);
 
     assertResponseMatchesGet(response);
 
@@ -695,7 +701,7 @@ class ClerkTranslatorServiceTest {
     assertEquals(updateDTO.version() + 1, response.version());
     assertTranslatorCommonFields(updateDTO, response);
 
-    verify(auditService).logById(AkrOperation.UPDATE_TRANSLATOR, response.id());
+    verify(auditService).logUpdate(AkrOperation.UPDATE_TRANSLATOR, response.id(), oldDTO, newDTO);
     verifyNoMoreInteractions(auditService);
   }
 
@@ -799,6 +805,8 @@ class ClerkTranslatorServiceTest {
     entityManager.persist(translator);
     entityManager.persist(authorisation);
 
+    AuthorisationAuditDTO oldDTO = new AuthorisationAuditDTO(authorisation);
+
     final AuthorisationUpdateDTO updateDTO = AuthorisationUpdateDTO
       .builder()
       .id(authorisation.getId())
@@ -817,11 +825,13 @@ class ClerkTranslatorServiceTest {
     assertResponseMatchesGet(response);
 
     final AuthorisationDTO authorisationDTO = response.authorisations().effective().get(0);
+    AuthorisationAuditDTO newDTO = new AuthorisationAuditDTO(authorisationDTO);
     assertEquals(updateDTO.id(), authorisationDTO.id());
     assertEquals(updateDTO.version() + 1, authorisationDTO.version());
     assertAuthorisationCommonFields(updateDTO, authorisationDTO);
 
-    verify(auditService).logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisationDTO.id());
+    verify(auditService)
+      .logAuthorisation(AkrOperation.UPDATE_AUTHORISATION, translator, authorisationDTO.id(), oldDTO, newDTO);
     verifyNoMoreInteractions(auditService);
   }
 

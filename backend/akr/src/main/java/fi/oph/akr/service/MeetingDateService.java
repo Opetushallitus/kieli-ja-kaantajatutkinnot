@@ -5,6 +5,7 @@ import fi.oph.akr.api.dto.clerk.modify.MeetingDateCreateDTO;
 import fi.oph.akr.api.dto.clerk.modify.MeetingDateUpdateDTO;
 import fi.oph.akr.audit.AkrOperation;
 import fi.oph.akr.audit.AuditService;
+import fi.oph.akr.audit.dto.MeetingDateAuditDTO;
 import fi.oph.akr.model.MeetingDate;
 import fi.oph.akr.repository.MeetingDateRepository;
 import fi.oph.akr.util.exception.APIException;
@@ -47,6 +48,7 @@ public class MeetingDateService {
   public MeetingDateDTO updateMeetingDate(final MeetingDateUpdateDTO dto) {
     final MeetingDate meetingDate = meetingDateRepository.getReferenceById(dto.id());
     meetingDate.assertVersion(dto.version());
+    final MeetingDateAuditDTO oldDate = new MeetingDateAuditDTO(meetingDate);
 
     if (!meetingDate.getAuthorisations().isEmpty()) {
       throw new APIException(APIExceptionType.MEETING_DATE_UPDATE_HAS_AUTHORISATIONS);
@@ -59,8 +61,9 @@ public class MeetingDateService {
       throw new APIException(APIExceptionType.MEETING_DATE_UPDATE_DUPLICATE_DATE);
     }
 
+    final MeetingDateAuditDTO newDate = new MeetingDateAuditDTO(meetingDate);
     final MeetingDateDTO result = toDTO(meetingDate);
-    auditService.logById(AkrOperation.UPDATE_MEETING_DATE, meetingDate.getId());
+    auditService.logUpdate(AkrOperation.UPDATE_MEETING_DATE, meetingDate.getId(), oldDate, newDate);
     return result;
   }
 

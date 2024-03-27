@@ -40,7 +40,11 @@ public class AuditService {
     );
   }
 
-  public void logAuthorisation(final AkrOperation operation, final Translator translator, final long authorisationId) {
+  public <T> void logAuthorisation(
+    final AkrOperation operation,
+    final Translator translator,
+    final long authorisationId
+  ) {
     log(
       operation,
       new Target.Builder()
@@ -48,6 +52,31 @@ public class AuditService {
         .setField("authorisationId", Long.toString(authorisationId))
         .build(),
       Changes.EMPTY
+    );
+  }
+
+  public <T> void logAuthorisation(
+    final AkrOperation operation,
+    final Translator translator,
+    final long authorisationId,
+    final T dtoBefore,
+    final T dtoAfter
+  ) {
+    log(
+      operation,
+      new Target.Builder()
+        .setField("translatorId", Long.toString(translator.getId()))
+        .setField("authorisationId", Long.toString(authorisationId))
+        .build(),
+      Changes.updatedDto(dtoAfter, dtoBefore)
+    );
+  }
+
+  public <T> void logUpdate(final AkrOperation operation, final long id, final T dtoBefore, final T dtoAfter) {
+    log(
+      operation,
+      new Target.Builder().setField("id", Long.toString(id)).build(),
+      Changes.updatedDto(dtoAfter, dtoBefore)
     );
   }
 

@@ -1,5 +1,6 @@
 package fi.oph.akr.api.dto.translator;
 
+import fi.oph.akr.api.dto.clerk.ClerkTranslatorAddressDTO;
 import fi.oph.akr.onr.dto.ContactDetailsGroupSource;
 import fi.oph.akr.onr.dto.ContactDetailsGroupType;
 import lombok.Builder;
@@ -14,4 +15,8 @@ public record TranslatorAddressDTO(
   @NonNull ContactDetailsGroupSource source,
   @NonNull ContactDetailsGroupType type
 )
-  implements CommonTranslatorAddressDTO {}
+  implements CommonTranslatorAddressDTO {
+  public TranslatorAddressDTO(ClerkTranslatorAddressDTO address) {
+    this(address.street(), address.postalCode(), address.town(), address.country(), address.source(), address.type());
+  }
+}
